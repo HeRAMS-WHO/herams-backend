@@ -3,3 +3,4 @@
 /public/components
 /public/assets
 .idea/
+/protected/runtime/debug/
