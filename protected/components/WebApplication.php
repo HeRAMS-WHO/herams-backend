@@ -1,6 +1,13 @@
 <?php
+
 namespace app\components;
-    class WebApplication extends \Befound\Applications\WebApplication
-    {
-        
-    }
+
+/**
+ * Class WebApplication
+ * @property \app\components\Request $request
+ */
+
+class WebApplication extends \Befound\Applications\WebApplication
+{
+
+}

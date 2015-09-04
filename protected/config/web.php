@@ -5,6 +5,10 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false
         ],
+        'request' => [
+            'cookieValidationKey' => 'blasdf9832h238iwe',
+            'class' => \app\components\Request::class
+        ],
         'assetManager' => [
             // http://www.yiiframework.com/doc-2.0/guide-structure-assets.html#cache-busting
             'appendTimestamp' => true,

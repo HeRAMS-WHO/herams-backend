@@ -12,8 +12,6 @@
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['users/login']] :
                 ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
