@@ -1,0 +1,40 @@
+{
+    "name": "befound/yii-app",
+    "description": "Befound App Template",
+    "license": "proprietary",
+	"config" : {
+		"vendor-dir" : "protected/vendor",
+		"bin-dir" : "protected/bin"
+	},
+	"minimum-stability" : "dev",
+    "authors": [
+        {
+            "name": "Sam Mousa",
+            "email": "sam@mousa.nl"
+        }
+    ],
+    "require": {
+		"php" : ">=5.5.0",
+		"befound/yii-befound" : "dev-yii2",
+        "nizsheanez/yii2-asset-converter": "1.*"
+    },
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "http://packages.befound.nl"
+		}
+	],
+    "autoload" : {
+        "psr-4" : {
+            "app\\" : ["protected"]
+        }
+    },
+    "require-dev": {
+        "yiisoft/yii2-gii": "*"
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "bower-asset-library" : "protected/vendor/bower"
+        }
+    }
+}
