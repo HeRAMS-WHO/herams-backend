@@ -1,3 +1,23 @@
-a {
-  color: green;
+/* BEGIN Navbar styling */
+
+.navbar-nav > li > a, .navbar-brand {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+  .navbar-nav > li > a, .navbar-brand {
+    line-height: 96px;
+    height: 96px;
+  }
+}
+
+/* END Navbar styling */

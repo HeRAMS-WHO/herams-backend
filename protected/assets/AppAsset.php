@@ -8,6 +8,7 @@
 namespace app\assets;
 
 
+use yii\bootstrap\BootstrapAsset;
 use yii\web\AssetBundle;
 
 class AppAsset extends AssetBundle
@@ -15,6 +16,10 @@ class AppAsset extends AssetBundle
     public $sourcePath = __DIR__;
     public $css = [
         'scss/main.scss'
+    ];
+
+    public $depends = [
+        BootstrapAsset::class
     ];
 
 }

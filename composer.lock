@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "46516f9e9c72ef7a8fdf10ebbcb21a47",
+    "hash": "8966eb1a125d09a121e34bb52697afce",
     "packages": [
         {
             "name": "befound/yii-befound",

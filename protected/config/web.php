@@ -10,11 +10,12 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'appendTimestamp' => true,
             'converter' => [
                 'class' => \nizsheanez\assetConverter\Converter::class,
-
+                'force' => true,
                 'parsers' => [
                     'scss' => []
                 ]
-            ]
+            ],
+            'forceCopy' => YII_DEBUG
         ]
     ]
 ]);
