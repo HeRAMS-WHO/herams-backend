@@ -1,6 +1,6 @@
 {
-    "name": "befound/yii-app",
-    "description": "Befound App Template",
+    "name": "who/prime2",
+    "description": "WHO Prime 2",
     "license": "proprietary",
 	"config" : {
 		"vendor-dir" : "protected/vendor",
@@ -11,12 +11,17 @@
         {
             "name": "Sam Mousa",
             "email": "sam@mousa.nl"
+        },
+        {
+            "name": "Joey Claessen",
+            "email": "joey@ch-ict.nl"
         }
     ],
     "require": {
-		"php" : ">=5.5.0",
+		"php" : ">=5.6.0",
 		"befound/yii-befound" : "dev-yii2",
-        "nizsheanez/yii2-asset-converter": "1.*"
+        "nizsheanez/yii2-asset-converter": "1.*",
+        "kartik-v/yii2-widgets": "3.4.*"
     },
 	"repositories": [
 		{
@@ -30,7 +35,8 @@
         }
     },
     "require-dev": {
-        "yiisoft/yii2-gii": "*"
+        "yiisoft/yii2-gii": "*",
+        "yiisoft/yii2-debug": "~2.0@dev"
     },
     "extra": {
         "asset-installer-paths": {

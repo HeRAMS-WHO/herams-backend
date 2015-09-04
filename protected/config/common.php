@@ -1,7 +1,7 @@
 <?php
     return [
-        'id' => 'befound',
-        'name' => 'Befound Application Template',
+        'id' => 'prime',
+        'name' => 'Prime 2.0',
         'basePath' => realpath(__DIR__ . '/../'),
         'timeZone' => 'UTC',
         'sourceLanguage' => 'en',
