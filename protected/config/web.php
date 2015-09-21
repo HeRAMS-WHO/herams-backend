@@ -19,6 +19,13 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                     'scss' => []
                 ]
             ]
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@dektrium/user/views' => '@app/views/users'
+                ]
+            ]
         ]
     ]
 ]);

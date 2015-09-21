@@ -11,7 +11,10 @@ return [
 
     'components' => [
         'user' => [
-            'class' => \yii\web\User::class,
+            'class' => \dektrium\user\Module::class,
+            'modelMap' => [
+                'User' => \app\models\User::class
+            ],
             'identityClass' => \app\models\User::class
         ],
     ]
