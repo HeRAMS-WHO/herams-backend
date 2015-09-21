@@ -2,3 +2,9 @@
 /protected/bin
 /public/components
 /public/assets
+.idea/
+/protected/runtime/debug/
+/protected/config/env.php
+/protected/config/debug
+/protected/config/local.php
+/protected/controllers/DevController.php

@@ -1,20 +1,55 @@
 <?php
+// Add support for Yii aliases in LESS @import statements.
+Less_Parser::$default_options['import_callback'] = function(Less_Tree_Import $tree) {
+    if (null == $tree->PathAndUri()) {
+        $path = \Yii::getAlias($tree->getPath());
+        return [$path, $path];
+    }
+};
+
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'components' => [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false
         ],
+        'request' => [
+            'cookieValidationKey' => 'blasdf9832h238iwe',
+            'class' => \app\components\Request::class
+        ],
         'assetManager' => [
+            'class' => \yii\web\AssetManager::class,
             // http://www.yiiframework.com/doc-2.0/guide-structure-assets.html#cache-busting
             'appendTimestamp' => true,
             'converter' => [
-                'class' => \nizsheanez\assetConverter\Converter::class,
-
-                'parsers' => [
-                    'scss' => []
+                'class' => \yii\web\AssetConverter::class,
+                'commands' => [
+                    'sass' => ['css', 'sass {from} {to}'],
+                    'scss' => ['css', 'sass {from} {to}'],
+                ]
+                // Yii::getAlias not yet available.
+//                'destinationDir' => $compiledAssetDir,
+            ],
+            // Override bootstrap
+            'bundles' => [
+                \yii\bootstrap\BootstrapAsset::class => [
+//                    'sourcePath' =>  __DIR__ . '/../assets/less',
+                    'css' => [
+//                        'bootstrap.less'
+                    ]
                 ]
             ]
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@dektrium/user/views' => '@app/views/users'
+                ]
+            ],
+            'forceCopy' => YII_DEBUG
+        ],
+        'request' => [
+            'cookieValidationKey' => 'ag;haew;ugaihtuaet;erk;agjewhghufrai;c,avmbnt8s;ge9facwmierg;o9aut,mgs95ue;l6u5d'
         ]
     ]
 ]);
@@ -22,7 +57,12 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
 if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {
     $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/debug.php'));
 }
-if (defined('YII_ENV') && file_exists(__DIR__ . '/' . YII_ENV . '.php')) {
-    $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/' . YII_ENV . '.php'));
+if (defined('YII_ENV') && file_exists(__DIR__ . '/envs/' . YII_ENV . '.php')) {
+    $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/envs/' . YII_ENV . '.php'));
 }
+
+if (file_exists(__DIR__ . '/local.php')) {
+    $config = yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/local.php'));
+}
+
 return $config;
