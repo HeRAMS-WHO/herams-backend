@@ -28,8 +28,12 @@ class AppAsset extends AssetBundle
     public function publish($am)
     {
         list ($this->basePath, $this->baseUrl) = $am->publish($this->sourcePath, $this->publishOptions);
-
-        copy(__DIR__ . '/scss/main.scss', $this->basePath . '/stylesheets/main.scss');
+        $target = $this->basePath . '/stylesheets/main.scss';
+        $source = __DIR__ . '/scss/main.scss';
+        if (!file_exists($target)
+            || md5_file($source) != md5_file($target)) {
+           copy($source, $target);
+        }
         parent::publish($am);
 
 
