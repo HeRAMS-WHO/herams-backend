@@ -1,10 +1,8 @@
 <?php
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'components' => [
-        'components' => [
-            'user' => [
-                'identityClass' => \app\models\User::class
-            ],
+        'user' => [
+            'identityClass' => \app\models\User::class
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
