@@ -3,14 +3,23 @@
     use yii\bootstrap\NavBar;
     use yii\widgets\Menu;
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => \kartik\helpers\Html::img('@web/img/logo.svg'),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-fixed-top',
+            'class' => 'navbar-default navbar-fixed-top',
         ],
         'renderInnerContainer' => false
     ]);
     echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => [
+            ['label' => 'Tools', 'url' => ['users/login']],
+            ['label' => 'Projects', 'url' => ['users/login']],
+            ['label' => 'Marketplace', 'url' => ['users/login']]
+        ],
+    ]);
+
+echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             Yii::$app->user->isGuest ?

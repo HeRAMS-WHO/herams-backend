@@ -11,11 +11,15 @@ return [
 
     'components' => [
         'user' => [
-            'class' => \dektrium\user\Module::class,
-            'modelMap' => [
-                'User' => \app\models\User::class
-            ],
             'identityClass' => \app\models\User::class
         ],
+    ],
+
+    'modules' => [
+        'user' => \dektrium\user\Module::class,
+        'modelMap' => [
+            'User' => \app\models\User::class
+        ],
     ]
+
 ];
