@@ -3,9 +3,6 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerMap' => [
         'migrate' => \bariew\moduleMigration\ModuleMigrateController::class
     ],
-    'modules' => [
-        'user' => \dektrium\user\Module::class
-    ]
 ]);
     
 if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {

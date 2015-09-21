@@ -8,14 +8,18 @@ return [
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
-
     'components' => [
+        'user' => [
+            'identityClass' => \app\models\User::class
+        ],
+    ],
+    'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
             'modelMap' => [
                 'User' => \app\models\User::class
             ],
-            'identityClass' => \app\models\User::class
+
         ],
-    ]
+    ],
 ];

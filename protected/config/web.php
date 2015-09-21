@@ -1,12 +1,4 @@
 <?php
-// Add support for Yii aliases in LESS @import statements.
-Less_Parser::$default_options['import_callback'] = function(Less_Tree_Import $tree) {
-    if (null == $tree->PathAndUri()) {
-        $path = \Yii::getAlias($tree->getPath());
-        return [$path, $path];
-    }
-};
-
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'components' => [
         'urlManager' => [
@@ -46,7 +38,6 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                     '@dektrium/user/views' => '@app/views/users'
                 ]
             ],
-            'forceCopy' => YII_DEBUG
         ],
         'request' => [
             'cookieValidationKey' => 'ag;haew;ugaihtuaet;erk;agjewhghufrai;c,avmbnt8s;ge9facwmierg;o9aut,mgs95ue;l6u5d'
