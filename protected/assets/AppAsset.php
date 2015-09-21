@@ -17,7 +17,6 @@ class AppAsset extends AssetBundle
 {
     public $sourcePath = '@bower/bootstrap-sass/assets';
     public $css = [
-//        'less/bootstrap.less',
         'stylesheets/main.scss'
     ];
 

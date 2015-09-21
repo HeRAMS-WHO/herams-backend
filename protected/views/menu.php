@@ -9,7 +9,6 @@
         'options' => [
             'class' => 'navbar-default navbar-fixed-top',
         ],
-        'renderInnerContainer' => false
     ]);
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav'],
@@ -26,27 +25,46 @@ echo Nav::widget([
     'items' => [
         [
             'label' => Html::icon('search'),
+            'options' => [
+                'class' => 'icon',
+                'title' => 'Search'
+            ],
             'url' => ['users/account'],
             'visible' => Yii::$app->user->isGuest
 
         ],
-
         [
             'label' => Html::icon('user'),
+            'options' => [
+                'class' => 'icon',
+                'title' => 'User'
+            ],
+
             'url' => ['users/account'],
             'visible' => Yii::$app->user->isGuest
 
         ],
+        [
+            'label' => Html::icon('log-in'),
+            'options' => [
+                'class' => 'icon',
+                'title' => 'Log in'
+            ],
 
+            'url' => ['users/login'],
+            'visible' => Yii::$app->user->isGuest
+        ],
+        [
+            'label' => Html::icon('log-out'),
+            'options' => [
+                'class' => 'icon',
+                'title' => 'Log out'
+            ],
 
-        Yii::$app->user->isGuest ?
-            [
-                'label' => Html::icon('log-in'),
-                'url' => ['users/login']
-            ] :
-            ['label' => Html::icon('log-out'),
-                'url' => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']],
+            'url' => ['/site/logout'],
+            'linkOptions' => ['data-method' => 'post'],
+            'visible' => !Yii::$app->user->isGuest
+        ]
     ],
 ]);
 NavBar::end();
