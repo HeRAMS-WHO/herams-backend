@@ -23,7 +23,8 @@
         "nizsheanez/yii2-asset-converter": "1.*",
         "kartik-v/yii2-widgets": "3.4.*",
         "kartik-v/yii2-builder": "dev-master",
-        "kartik-v/yii2-helpers": "dev-master"
+        "kartik-v/yii2-helpers": "dev-master",
+        "dektrium/yii2-user": "0.9.*@dev"
     },
 	"repositories": [
 		{
