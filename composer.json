@@ -21,7 +21,11 @@
 		"php" : ">=5.6.0",
 		"befound/yii-befound" : "dev-yii2",
         "nizsheanez/yii2-asset-converter": "1.*",
-        "kartik-v/yii2-widgets": "3.4.*"
+        "kartik-v/yii2-widgets": "3.4.*",
+        "kartik-v/yii2-builder": "dev-master",
+        "kartik-v/yii2-helpers": "dev-master",
+        "dektrium/yii2-user": "0.9.*@dev",
+        "bariew/yii2-module-migration-controller": "*"
     },
 	"repositories": [
 		{

@@ -1,16 +1,11 @@
 <?php
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
-
-
-
-
-
-
-
-
-
-
-
+    'controllerMap' => [
+        'migrate' => \bariew\moduleMigration\ModuleMigrateController::class
+    ],
+    'modules' => [
+        'user' => \dektrium\user\Module::class
+    ]
 ]);
     
 if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {
@@ -18,5 +13,8 @@ if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {
 }
 if (defined('YII_ENV') && file_exists(__DIR__ . '/' . YII_ENV . '.php')) {
     $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/' . YII_ENV . '.php'));
+}
+if (file_exists(__DIR__ . '/local.php')) {
+    $config = yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/local.php'));
 }
 return $config;
