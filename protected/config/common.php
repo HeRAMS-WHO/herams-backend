@@ -8,6 +8,7 @@ return [
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
+
     'components' => [
         'user' => [
             'identityClass' => \app\models\User::class
@@ -21,5 +22,5 @@ return [
             ],
 
         ],
-    ],
+    ]
 ];
