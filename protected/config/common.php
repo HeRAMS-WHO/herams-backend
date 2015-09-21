@@ -9,11 +9,7 @@ return [
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
 
-    'components' => [
-        'user' => [
-            'identityClass' => \app\models\User::class
-        ],
-    ],
+
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,

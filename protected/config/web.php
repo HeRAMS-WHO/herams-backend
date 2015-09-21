@@ -1,6 +1,11 @@
 <?php
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'components' => [
+        'components' => [
+            'user' => [
+                'identityClass' => \app\models\User::class
+            ],
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false
@@ -25,10 +30,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             // Override bootstrap
             'bundles' => [
                 \yii\bootstrap\BootstrapAsset::class => [
-//                    'sourcePath' =>  __DIR__ . '/../assets/less',
-                    'css' => [
-//                        'bootstrap.less'
-                    ]
+                    'css' => []
                 ]
             ]
         ],
