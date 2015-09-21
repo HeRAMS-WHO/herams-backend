@@ -1,23 +1,32 @@
+$navbar-height: 70px;
+
+$navbar-default-link-color: #DB3C26;
+$navbar-default-link-active-color: darken(#DB3C26, 10%);
+
+@import 'bootstrap';
+
+body {
+  margin-top: $navbar-height;
+}
+
 /* BEGIN Navbar styling */
-
-.navbar-nav > li > a, .navbar-brand {
-  padding-top: 0px;
-  padding-bottom: 0px;
+.nav li.icon a > span {
+  vertical-align: middle;
+  font-size: 0.8 * $navbar-height;
+  line-height: 0.8 * $navbar-height;
+}
+.nav li.icon a {
+  padding: 0.1 * $navbar-height;
 }
 
-@media (min-width: 768px) {
-
+.nav li a {
+  padding: 0.3 * $navbar-height;
+  font-size: 0.4 * $navbar-height;
+  line-height: 0.4 * $navbar-height;
 }
 
-@media (min-width: 992px) {
 
+.navbar-brand img {
+  height: 0.9 * $navbar-height;
+  padding: 0.1 * $navbar-height;
 }
-
-@media (min-width: 1200px) {
-  .navbar-nav > li > a, .navbar-brand {
-    line-height: 96px;
-    height: 96px;
-  }
-}
-
-/* END Navbar styling */
