@@ -1,5 +1,5 @@
 <?php
-namespace app\components;
+    namespace prime\components;
     class Controller extends \Befound\Components\Controller
     {
         

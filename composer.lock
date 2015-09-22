@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8f9ddd88428b555918e5e7b614a5a657",
+    "hash": "12ec8cd9de9c520cbfd6af8fc4753a32",
     "packages": [
         {
             "name": "bariew/yii2-module-migration-controller",
@@ -73,6 +73,41 @@
             ],
             "description": "Befound tooling",
             "time": "2015-09-18 11:16:27"
+        },
+        {
+            "name": "befound/yii2-limesurvey",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@dev.befound.nl:yii2-limesurvey.git",
+                "reference": "6270e45a97ae5ff7ac732f273e650fde3dbcace7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "samit\\limesurvey\\models\\": [
+                        "models/"
+                    ],
+                    "samit\\rest\\": [
+                        "rest/"
+                    ]
+                },
+                "classmap": [
+                    "LimeSurvey.php",
+                    "libs"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Limesurvey RC Library",
+            "time": "2015-09-21 14:19:45"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -1380,12 +1415,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "e72880e7e8dfc845c112ed7df275bf1c929be6db"
+                "reference": "fa0175d936012eac3f7a382792cbb13948015c4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/e72880e7e8dfc845c112ed7df275bf1c929be6db",
-                "reference": "e72880e7e8dfc845c112ed7df275bf1c929be6db",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/fa0175d936012eac3f7a382792cbb13948015c4e",
+                "reference": "fa0175d936012eac3f7a382792cbb13948015c4e",
                 "shasum": ""
             },
             "require": {
@@ -1420,7 +1455,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-09-12 19:56:48"
+            "time": "2015-09-22 03:10:57"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -1888,12 +1923,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "e943b1c6725f9235f1939c6675feeb781a075244"
+                "reference": "d3c831024b7d7dba941f3944c8d9bac42aea4856"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/e943b1c6725f9235f1939c6675feeb781a075244",
-                "reference": "e943b1c6725f9235f1939c6675feeb781a075244",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d3c831024b7d7dba941f3944c8d9bac42aea4856",
+                "reference": "d3c831024b7d7dba941f3944c8d9bac42aea4856",
                 "shasum": ""
             },
             "require": {
@@ -1969,7 +2004,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-09-19 15:41:45"
+            "time": "2015-09-21 13:03:58"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2386,6 +2421,7 @@
         "befound/yii-befound": 20,
         "dektrium/yii2-user": 20,
         "psr/http-message": 20,
+        "befound/yii2-limesurvey": 20,
         "yiisoft/yii2-debug": 20
     },
     "prefer-stable": false,
