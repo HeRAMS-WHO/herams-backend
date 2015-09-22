@@ -41,7 +41,7 @@ echo Nav::widget([
                 'title' => 'User'
             ],
 
-            'url' => ['users/account'],
+            'url' => ['user/settings/account'],
             'visible' => !Yii::$app->user->isGuest
 
         ],
@@ -52,7 +52,7 @@ echo Nav::widget([
                 'title' => 'Log in'
             ],
 
-            'url' => ['users/login'],
+            'url' => ['user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
         [
@@ -62,7 +62,7 @@ echo Nav::widget([
                 'title' => 'Log out'
             ],
 
-            'url' => ['/site/logout'],
+            'url' => ['user/security/logout'],
             'linkOptions' => ['data-method' => 'post'],
             'visible' => !Yii::$app->user->isGuest
         ]

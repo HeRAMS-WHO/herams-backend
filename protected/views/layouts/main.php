@@ -22,7 +22,7 @@
     <body>
         <?php $this->beginBody(); ?>
         <?php
-            echo $this->render('/menu');
+            echo $this->render('//menu');
 //            echo Html::tag('div', $this->render('/leftMenu.php'), []);
             echo Html::tag('div', $content, ['class' => 'container']);
         ?>
