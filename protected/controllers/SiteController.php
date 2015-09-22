@@ -1,5 +1,5 @@
 <?php
-    namespace app\controllers;
+    namespace prime\controllers;
     use prime\components\Controller;
 
     class SiteController extends Controller
