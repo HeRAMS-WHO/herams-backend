@@ -1,6 +1,6 @@
 <?php
-    namespace app\controllers;
-    use app\components\Controller;
+    namespace prime\controllers;
+    use prime\components\Controller;
 
     class SiteController extends Controller
     {

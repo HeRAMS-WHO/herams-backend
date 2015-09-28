@@ -10,15 +10,16 @@
             'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
-echo Nav::widget([
-    'options' => ['class' => 'navbar-nav'],
-    'items' => [
-        ['label' => 'Tools', 'url' => ['users/login']],
-        ['label' => 'Projects', 'url' => ['users/login']],
-        ['label' => 'Marketplace', 'url' => ['users/login']]
-    ],
-]);
-
+if (!app()->user->isGuest) {
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => [
+            ['label' => 'Tools', 'url' => ['users/login']],
+            ['label' => 'Projects', 'url' => ['users/login']],
+            ['label' => 'Marketplace', 'url' => ['users/login']]
+        ],
+    ]);
+}
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'encodeLabels' => false,
@@ -30,7 +31,7 @@ echo Nav::widget([
                 'title' => 'Search'
             ],
             'url' => ['users/account'],
-            'visible' => Yii::$app->user->isGuest
+            'visible' => !Yii::$app->user->isGuest
 
         ],
         [
@@ -40,8 +41,8 @@ echo Nav::widget([
                 'title' => 'User'
             ],
 
-            'url' => ['users/account'],
-            'visible' => Yii::$app->user->isGuest
+            'url' => ['user/settings/account'],
+            'visible' => !Yii::$app->user->isGuest
 
         ],
         [
@@ -51,7 +52,7 @@ echo Nav::widget([
                 'title' => 'Log in'
             ],
 
-            'url' => ['users/login'],
+            'url' => ['user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
         [
@@ -61,7 +62,7 @@ echo Nav::widget([
                 'title' => 'Log out'
             ],
 
-            'url' => ['/site/logout'],
+            'url' => ['user/security/logout'],
             'linkOptions' => ['data-method' => 'post'],
             'visible' => !Yii::$app->user->isGuest
         ]

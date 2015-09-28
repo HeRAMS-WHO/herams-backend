@@ -9,6 +9,15 @@ return [
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
 
+    'components' => [
+        'limesurvey' => [
+            'class' => \Befound\ApplicationComponents\LimeSurvey::class,
+            'url' => 'http://demo.befound.nl/index.php?r=admin/remotecontrol',
+            'username' => 'admin',
+            'password' => 'test'
+
+        ]
+    ],
 
     'modules' => [
         'user' => [
