@@ -1,6 +1,7 @@
 <?php
     namespace prime\controllers;
     use prime\components\Controller;
+    use yii\captcha\CaptchaAction;
 
     class SiteController extends Controller
     {
@@ -17,5 +18,14 @@
         public function actionIndex()
         {
             return $this->render('index');
+        }
+
+        public function actions()
+        {
+            return [
+                'captcha' => [
+                    'class' => CaptchaAction::class
+                ]
+            ];
         }
     }

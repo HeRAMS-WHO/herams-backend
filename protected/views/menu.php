@@ -14,9 +14,9 @@ if (!app()->user->isGuest) {
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Tools', 'url' => ['users/login']],
-            ['label' => 'Projects', 'url' => ['users/login']],
-            ['label' => 'Marketplace', 'url' => ['users/login']]
+            ['label' => 'Tools', 'url' => ['/users/login']],
+            ['label' => 'Projects', 'url' => ['/users/login']],
+            ['label' => 'Marketplace', 'url' => ['/users/login']]
         ],
     ]);
 }
@@ -52,7 +52,7 @@ echo Nav::widget([
                 'title' => 'Log in'
             ],
 
-            'url' => ['user/security/login'],
+            'url' => ['/user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
         [
@@ -62,7 +62,7 @@ echo Nav::widget([
                 'title' => 'Log out'
             ],
 
-            'url' => ['user/security/logout'],
+            'url' => ['/user/security/logout'],
             'linkOptions' => ['data-method' => 'post'],
             'visible' => !Yii::$app->user->isGuest
         ]
