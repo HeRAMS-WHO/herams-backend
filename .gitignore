@@ -4,6 +4,8 @@
 /public/assets
 .idea/
 /protected/runtime/debug/
+/protected/runtime/HTML/
+/protected/runtime/URI/
 /protected/config/env.php
 /protected/config/debug
 /protected/config/local.php

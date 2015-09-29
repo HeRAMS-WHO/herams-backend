@@ -23,9 +23,22 @@ return [
         'user' => [
             'class' => \dektrium\user\Module::class,
             'modelMap' => [
-                'User' => \app\models\User::class
+                'User' => \prime\models\User::class,
+                'Profile' => \prime\models\Profile::class,
+                'RegistrationForm' => \prime\models\forms\user\Registration::class,
+                'RecoveryForm' => \prime\models\forms\user\Recovery::class,
+                'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
-
+            'controllerMap' => [
+                'registration' => \prime\controllers\RegistrationController::class,
+                'recovery' => \prime\controllers\RecoveryController::class
+            ],
+            'admins' => [
+                'joey_claessen@hotmail.com'
+            ]
         ],
+    ],
+    'params' => [
+        'system@prime.com'
     ]
 ];

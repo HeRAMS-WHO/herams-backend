@@ -8,9 +8,11 @@
 
     $this->registerAssetBundle(\app\assets\AppAsset::class);
 ?>
+
 <!DOCTYPE HTML>
 <html>
     <head>
+        <?= Html::csrfMetaTags() ?>
         <?=Html::tag('link', null, [
             'rel' => 'shortcut icon',
             'href' => \yii\helpers\Url::to('@web/img/prime_logo.png'),
@@ -23,6 +25,7 @@
         <?php $this->beginBody(); ?>
         <?php
             echo $this->render('//menu');
+            echo $this->render('//flash.php');
 //            echo Html::tag('div', $this->render('/leftMenu.php'), []);
             echo Html::tag('div', $content, ['class' => 'container']);
         ?>

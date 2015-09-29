@@ -3,7 +3,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'components' => [
         'user' => [
-            'identityClass' => \app\models\User::class
+            'identityClass' => \prime\models\User::class
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

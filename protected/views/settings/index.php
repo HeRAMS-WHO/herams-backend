@@ -1,6 +1,6 @@
 <?php
 /** @var \yii\web\View $this */
-/** @var \prime\models\forms\Settings $settings */
+/** @var \prime\models\forms\user\Settings $settings */
 
 $form = \kartik\form\ActiveForm::begin([
     'id' => 'settings',

@@ -9,9 +9,11 @@ namespace app\assets;
 
 
 use yii\bootstrap\BootstrapAsset;
+use yii\bootstrap\BootstrapPluginAsset;
 use yii\helpers\Url;
 use yii\web\AssetBundle;
 use yii\web\AssetManager;
+use yii\web\YiiAsset;
 
 class AppAsset extends AssetBundle
 {
@@ -21,7 +23,8 @@ class AppAsset extends AssetBundle
     ];
 
     public $depends = [
-        BootstrapAsset::class
+        BootstrapAsset::class,
+        YiiAsset::class
     ];
 
     public function publish($am)
