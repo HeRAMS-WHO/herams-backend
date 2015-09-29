@@ -62,7 +62,7 @@ echo Nav::widget([
                 'title' => 'Log out'
             ],
 
-            'url' => ['user/security/logout'],
+            'url' => ['/user/security/logout'],
             'linkOptions' => ['data-method' => 'post'],
             'visible' => !Yii::$app->user->isGuest
         ]

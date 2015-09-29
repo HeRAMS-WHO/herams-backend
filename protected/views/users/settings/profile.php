@@ -19,7 +19,7 @@ $this->title = Yii::t('user', 'Profile settings');
             'method' => 'POST',
             "type" => ActiveForm::TYPE_HORIZONTAL,
             'formConfig' => [
-                'showLabels' => false,
+                'showLabels' => true,
                 'defaultPlaceholder' => true
             ]
         ]);

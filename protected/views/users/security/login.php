@@ -47,7 +47,21 @@
                                 'class' => 'btn btn-default col-xs-12',
                                 'style' => 'margin-top: 10px'
                             ]
-                        )
+                        ) .
+                        ' ' .
+                        Html::a(
+                            \Yii::t('app', 'Sign up'),
+                            [
+                                '/user/registration/register'
+                            ],
+                            [
+                                'class' => 'btn btn-default col-xs-12',
+                                'style' => 'margin-top: 10px'
+                            ]
+                        ) .
+                        \dektrium\user\widgets\Connect::widget([
+                            'baseAuthUrl' => ['/user/security/auth'],
+                        ])
                 ]
             ],
             'options' => [

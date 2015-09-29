@@ -18,6 +18,10 @@ class User extends \dektrium\user\models\User {
 
     }
 
+    public function getGravatarUrl ($size = 24) {
+        return "http://gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size;
+    }
+
     public function scenarios()
     {
         $scenarios = parent::scenarios();
@@ -26,6 +30,4 @@ class User extends \dektrium\user\models\User {
         $scenarios['settings'] = ['email', 'password'];
         return $scenarios;
     }
-
-
 }

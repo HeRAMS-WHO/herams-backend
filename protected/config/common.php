@@ -16,6 +16,21 @@ return [
             'username' => 'admin',
             'password' => 'test'
 
+        ],
+        'authClientCollection' => [
+            'class' => \yii\authclient\Collection::class,
+            'clients' => [
+                'facebook' => [
+                    'class' => \dektrium\user\clients\Facebook::class,
+                    'clientId' => '674518435950722',
+                    'clientSecret' => '35ebd72128626fab6afe820321565583'
+                ],
+                'google' => [
+                    'class' => \dektrium\user\clients\Google::class,
+                    'clientId' => '550362619218-7eng5d4jjs9esfo4ddggkdd2jl31nt3u.apps.googleusercontent.com',
+                    'clientSecret' => 'Yo-fvZZ3b8D5VyzSI7VQ0TyF'
+                ]
+            ]
         ]
     ],
 
