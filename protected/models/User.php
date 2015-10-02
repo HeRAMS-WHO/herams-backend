@@ -30,4 +30,15 @@ class User extends \dektrium\user\models\User {
         $scenarios['settings'] = ['email', 'password'];
         return $scenarios;
     }
+
+    public function rules()
+    {
+        $rules = parent::rules();
+        unset($rules['usernameRequired']);
+        unset($rules['usernameMatch']);
+        unset($rules['usernameLength']);
+        unset($rules['usernameUnique']);
+        unset($rules['usernameTrim']);
+        return $rules;
+    }
 }

@@ -36,13 +36,23 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '@dektrium/user/views' => '@app/views/users'
+                    '@dektrium/user/views/mail' => '@app/mail',
+                    '@dektrium/user/views' => '@app/views/users',
+
                 ]
             ],
         ],
         'request' => [
             'cookieValidationKey' => 'ag;haew;ugaihtuaet;erk;agjewhghufrai;c,avmbnt8s;ge9facwmierg;o9aut,mgs95ue;l6u5d'
         ]
+    ],
+    'modules' => [
+        'user' => [
+            'controllerMap' => [
+                'registration' => \prime\controllers\RegistrationController::class,
+                'recovery' => \prime\controllers\RecoveryController::class
+            ]
+        ],
     ]
 ]);
 

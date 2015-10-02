@@ -8,7 +8,9 @@ return [
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
-
+    'aliases' => [
+        '@prime' => '@app'
+    ],
     'components' => [
         'limesurvey' => [
             'class' => \Befound\ApplicationComponents\LimeSurvey::class,
@@ -33,7 +35,6 @@ return [
             ]
         ]
     ],
-
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
@@ -44,12 +45,8 @@ return [
                 'RecoveryForm' => \prime\models\forms\user\Recovery::class,
                 'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
-            'controllerMap' => [
-                'registration' => \prime\controllers\RegistrationController::class,
-                'recovery' => \prime\controllers\RecoveryController::class
-            ],
             'admins' => [
-                'joey_claessen@hotmail.com'
+
             ]
         ],
     ],
