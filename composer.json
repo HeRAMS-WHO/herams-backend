@@ -29,7 +29,8 @@
         "bariew/yii2-module-migration-controller": "1.*",
         "psr/http-message": "^1.0@dev",
         "bower-asset/bootstrap-sass": "3.*",
-        "befound/yii2-limesurvey": "dev-master"
+        "befound/yii2-limesurvey": "dev-master",
+        "neomerx/json-api": "dev-master"
     },
 	"repositories": [
 		{

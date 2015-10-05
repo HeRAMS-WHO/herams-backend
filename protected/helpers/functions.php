@@ -30,7 +30,7 @@ function vd($arg, $depth = 10, $highlight = true) {
         }
         $class = \yii\helpers\ArrayHelper::getValue($details, 'class', 'Global function');
         $token = "{$class}::{$details['function']}, ({$file}:{$line})";
-        echo \kartik\helpers\Html::well("Dumped from: " . $token . '<br>'. \prime\components\VarDumper::dumpAsString($arg, $depth, $highlight), \kartik\helpers\Html::SIZE_LARGE,[
+        echo \kartik\helpers\Html::well("Dumped from: " . $token . '<br>'. \yii\helpers\VarDumper::dumpAsString($arg, $depth, $highlight), \kartik\helpers\Html::SIZE_LARGE,[
             'style' => 'text-align: left;'
         ]);
     }

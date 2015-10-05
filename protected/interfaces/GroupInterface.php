@@ -1,13 +1,13 @@
 <?php
 
-interface SurveyInterface {
+interface GroupInterface {
     /**
      * @return int The unique ID for this survey.
      */
     public function getId();
 
     /**
-     * @return GroupInterface[]
+     * @return QuestionInterface[]
      */
-    public function getGroups();
+    public function getQuestions();
 }

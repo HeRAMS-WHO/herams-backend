@@ -7,10 +7,16 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false
+            'showScriptName' => false,
+            'rules' => [
+                [
+                    'pattern' => 'rest/<model:\w+>',
+                    'route' => 'rest/show'
+                ]
+            ]
         ],
         'request' => [
-            'cookieValidationKey' => 'ag;haew;ugaihtuaet;erk;agjewhghufrai;c,avmbnt8s;ge9facwmierg;o9aut,mgs95ue;l6u5d',
+            'cookieValidationKey' => 'blasdf9832h238iwe',
             'class' => \app\components\Request::class
         ],
         'assetManager' => [
