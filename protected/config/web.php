@@ -10,7 +10,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'showScriptName' => false
         ],
         'request' => [
-            'cookieValidationKey' => 'blasdf9832h238iwe',
+            'cookieValidationKey' => 'ag;haew;ugaihtuaet;erk;agjewhghufrai;c,avmbnt8s;ge9facwmierg;o9aut,mgs95ue;l6u5d',
             'class' => \app\components\Request::class
         ],
         'assetManager' => [
@@ -42,9 +42,6 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                 ]
             ],
         ],
-        'request' => [
-            'cookieValidationKey' => 'ag;haew;ugaihtuaet;erk;agjewhghufrai;c,avmbnt8s;ge9facwmierg;o9aut,mgs95ue;l6u5d'
-        ]
     ],
     'modules' => [
         'user' => [
@@ -53,6 +50,9 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                 'recovery' => \prime\controllers\RecoveryController::class
             ]
         ],
+        'gridview' => [
+            'class' => \kartik\grid\Module::class
+        ]
     ]
 ]);
 

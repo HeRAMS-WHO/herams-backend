@@ -46,7 +46,7 @@ return [
                 'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
             'admins' => [
-
+                'joey_claessen@hotmail.com'
             ]
         ],
     ],

@@ -23,9 +23,10 @@
         "kartik-v/yii2-widgets": "3.4.*",
         "kartik-v/yii2-builder": "1.*",
         "kartik-v/yii2-helpers": "1.*",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-mpdf": "@dev",
         "dektrium/yii2-user": "dev-master",
         "bariew/yii2-module-migration-controller": "1.*",
-        "kartik-v/yii2-widgets": "3.4.*",
         "psr/http-message": "^1.0@dev",
         "bower-asset/bootstrap-sass": "3.*",
         "befound/yii2-limesurvey": "dev-master"

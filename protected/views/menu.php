@@ -14,7 +14,7 @@ if (!app()->user->isGuest) {
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Tools', 'url' => ['/users/login']],
+            ['label' => 'Tools', 'url' => ['/tools']],
             ['label' => 'Projects', 'url' => ['/users/login']],
             ['label' => 'Marketplace', 'url' => ['/users/login']]
         ],
