@@ -7,6 +7,10 @@
 interface ResponseInterface {
 
     /**
+     * @return SurveyInterface
+     */
+    public function getSurvey();
+    /**
      * @return int
      */
     public function getSurveyId();

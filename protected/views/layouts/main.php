@@ -27,6 +27,7 @@
             echo $this->render('//menu');
             echo $this->render('//flash.php');
 //            echo Html::tag('div', $this->render('/leftMenu.php'), []);
+
             echo Html::tag('div', $content, ['class' => 'container']);
         ?>
     <?php $this->endBody(); ?>
