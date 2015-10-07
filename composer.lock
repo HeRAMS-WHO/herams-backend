@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "22deff7f73385341b1237c5bb1be3a48",
-    "content-hash": "2a326fff25fdab0e83adebf5fbedd2c6",
+    "hash": "462d1eae07ee81179220656ef4b6053c",
     "packages": [
         {
             "name": "bariew/yii2-module-migration-controller",
@@ -452,12 +451,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dektrium/yii2-user.git",
-                "reference": "3fc501aa6cb4b70f026246fca7f6d07dc4c73d9c"
+                "reference": "4cce4f90905e9c692345f25dc093831cce6c860f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/3fc501aa6cb4b70f026246fca7f6d07dc4c73d9c",
-                "reference": "3fc501aa6cb4b70f026246fca7f6d07dc4c73d9c",
+                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/4cce4f90905e9c692345f25dc093831cce6c860f",
+                "reference": "4cce4f90905e9c692345f25dc093831cce6c860f",
                 "shasum": ""
             },
             "require": {
@@ -507,7 +506,7 @@
                 "yii2",
                 "yii2-user"
             ],
-            "time": "2015-09-28 14:26:03"
+            "time": "2015-10-06 18:25:33"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1906,6 +1905,58 @@
             "time": "2014-11-09 19:54:17"
         },
         {
+            "name": "neomerx/json-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neomerx/json-api.git",
+                "reference": "b88e395ed2c7baf576eda654c52ff0cb93ce9524"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neomerx/json-api/zipball/b88e395ed2c7baf576eda654c52ff0cb93ce9524",
+                "reference": "b88e395ed2c7baf576eda654c52ff0cb93ce9524",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.4",
+                "phpunit/phpunit": "~4.6",
+                "psr/http-message": "^1.0",
+                "scrutinizer/ocular": "~1.1",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Neomerx\\JsonApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "neomerx",
+                    "email": "info@neomerx.com"
+                }
+            ],
+            "description": "Framework agnostic JSON API (jsonapi.org) implementation",
+            "homepage": "https://github.com/neomerx/json-api",
+            "keywords": [
+                "JSON-API",
+                "api",
+                "json",
+                "jsonapi",
+                "jsonapi.org",
+                "neomerx"
+            ],
+            "time": "2015-10-04 16:30:21"
+        },
+        {
             "name": "psr/http-message",
             "version": "dev-master",
             "source": {
@@ -2150,12 +2201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "49c2d45951dd2e98c6217aa071f655016c706846"
+                "reference": "ebc7aff0572a2969fc1e9bfd30f61ece9448f5d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/49c2d45951dd2e98c6217aa071f655016c706846",
-                "reference": "49c2d45951dd2e98c6217aa071f655016c706846",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/ebc7aff0572a2969fc1e9bfd30f61ece9448f5d1",
+                "reference": "ebc7aff0572a2969fc1e9bfd30f61ece9448f5d1",
                 "shasum": ""
             },
             "require": {
@@ -2192,7 +2243,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2015-09-29 10:36:47"
+            "time": "2015-10-06 20:52:17"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -2457,12 +2508,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "fbd134b1cbc06fa149cc546cc98b4e701ba08cb0"
+                "reference": "011faf740a0a4e558a306b069e6fd50f8e36eb66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/fbd134b1cbc06fa149cc546cc98b4e701ba08cb0",
-                "reference": "fbd134b1cbc06fa149cc546cc98b4e701ba08cb0",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/011faf740a0a4e558a306b069e6fd50f8e36eb66",
+                "reference": "011faf740a0a4e558a306b069e6fd50f8e36eb66",
                 "shasum": ""
             },
             "require": {
@@ -2502,7 +2553,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2015-09-29 10:49:23"
+            "time": "2015-10-05 20:17:56"
         }
     ],
     "aliases": [],
@@ -2514,6 +2565,7 @@
         "dektrium/yii2-user": 20,
         "psr/http-message": 20,
         "befound/yii2-limesurvey": 20,
+        "neomerx/json-api": 20,
         "yiisoft/yii2-debug": 20
     },
     "prefer-stable": false,
