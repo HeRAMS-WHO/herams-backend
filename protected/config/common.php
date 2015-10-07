@@ -24,8 +24,8 @@ return [
             'clients' => [
                 'facebook' => [
                     'class' => \dektrium\user\clients\Facebook::class,
-                    'clientId' => '674518435950722',
-                    'clientSecret' => '35ebd72128626fab6afe820321565583'
+                    'clientId' => '1646368368981068',
+                    'clientSecret' => '616885b84a81d5abc203cfc7d462ea58'
                 ],
                 'google' => [
                     'class' => \dektrium\user\clients\Google::class,
