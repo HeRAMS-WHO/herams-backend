@@ -25,21 +25,21 @@ class ToolsController extends Controller
 
     public function actionCreate()
     {
-        $tool = new Tool();
-        $tool->scenario = 'create';
+        $model = new Tool();
+        $model->scenario = 'create';
 
         if(app()->request->isPost) {
             // use a transation for the case that the image could not be saved
             $transaction = app()->db->beginTransaction();
-            if($tool->load(app()->request->data()) && $tool->save())
+            if($model->load(app()->request->data()) && $model->save())
             {
-                if ($tool->saveTempImage()) {
+                if ($model->saveTempImage()) {
                     $transaction->commit();
                     app()->session->setFlash(
                         'toolCreated',
                         [
                             'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                            'text' => "Tool <strong>{$tool->title}</strong> is created.",
+                            'text' => "Tool <strong>{$model->title}</strong> is created.",
                             'icon' => 'glyphicon glyphicon-ok'
                         ]
                     );
@@ -47,7 +47,7 @@ class ToolsController extends Controller
                     return $this->redirect(
                         [
                             'tools/read/',
-                            'id' => $tool->id
+                            'id' => $model->id
                         ]
                     );
                 } else {
@@ -57,7 +57,7 @@ class ToolsController extends Controller
                         'toolNotCreated',
                         [
                             'type' => \kartik\widgets\Growl::TYPE_DANGER,
-                            'text' => "The image for <strong>{$tool->title}</strong> could not be saved.",
+                            'text' => "The image for <strong>{$model->title}</strong> could not be saved.",
                             'icon' => 'glyphicon glyphicon-ok'
                         ]
                     );
@@ -66,7 +66,7 @@ class ToolsController extends Controller
         }
 
         return $this->render('create', [
-            'model' => $tool
+            'model' => $model
         ]);
     }
 
@@ -83,9 +83,8 @@ class ToolsController extends Controller
 
     public function actionRead($id)
     {
-        $tool = Tool::findOne($id);
         return $this->render('read',[
-            'tool' => $tool
+            'model' => Tool::findOne($id)
         ]);
     }
 

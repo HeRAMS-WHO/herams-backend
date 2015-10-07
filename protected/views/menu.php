@@ -15,7 +15,7 @@ if (!app()->user->isGuest) {
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Tools', 'url' => ['/tools']],
-            ['label' => 'Projects', 'url' => ['/users/login']],
+            ['label' => 'Projects', 'url' => ['/projects']],
             ['label' => 'Marketplace', 'url' => ['/users/login']]
         ],
     ]);

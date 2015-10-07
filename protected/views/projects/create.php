@@ -4,21 +4,18 @@ use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;
 
-$this->title = Yii::t('app', 'Create tool');
+$this->title = Yii::t('app', 'Create project');
 ?>
 
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'create-tool',
+        'id' => 'create-project',
         'method' => 'POST',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
             'defaultPlaceholder' => false
-        ],
-        'options' => [
-            'enctype'=>'multipart/form-data'
         ]
     ]);
 
@@ -33,15 +30,17 @@ $this->title = Yii::t('app', 'Create tool');
             'description' => [
                 'type' => Form::INPUT_TEXTAREA
             ],
-            'tempImage' => [
-                'type' => Form::INPUT_WIDGET,
-                'widgetClass' => \kartik\file\FileInput::class
+            'owner_id' => [
+                'label' => \Yii::t('app', 'Owner'),
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => \yii\helpers\ArrayHelper::map(\prime\models\User::find()->all(), 'id', 'name')
             ],
-            'intake_survey_eid' => [
-                'type' => Form::INPUT_HTML5,
-                'html5type' => 'number'
+            'tool_id' => [
+                'label' => \Yii::t('app', 'Tool'),
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => \yii\helpers\ArrayHelper::map(\prime\models\Tool::find()->all(), 'id', 'title')
             ],
-            'base_survey_eid' => [
+            'data_survey_eid' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
             ],
@@ -50,9 +49,6 @@ $this->title = Yii::t('app', 'Create tool');
                 'value' =>
                     Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
             ]
-        ],
-        'options' => [
-
         ]
     ]);
 

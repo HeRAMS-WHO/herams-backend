@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var $tool \prime\models\Tool
+ * @var $model \prime\models\Tool
  */
-echo \app\components\Html::img($tool->imageUrl);
-vd($tool);
+echo \app\components\Html::img($model->imageUrl);
+vd($model);
