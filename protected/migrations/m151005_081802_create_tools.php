@@ -6,7 +6,7 @@ class m151005_081802_create_tools extends Migration
 {
     public function up()
     {
-        $this->createTable('tool', [
+        $this->createTable('{{%tool}}', [
             'id' => \yii\db\mysql\Schema::TYPE_PK,
             'title' => \yii\db\mysql\Schema::TYPE_STRING,
             'image' => \yii\db\mysql\Schema::TYPE_STRING,
@@ -19,6 +19,6 @@ class m151005_081802_create_tools extends Migration
 
     public function down()
     {
-        $this->dropTable('tool');
+        $this->dropTable('{{%tool}}');
     }
 }
