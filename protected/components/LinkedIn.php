@@ -4,22 +4,22 @@
 namespace app\components;
 
 
-use dektrium\user\clients\ClientInterface;
+        use dektrium\user\clients\ClientInterface;
 
-class LinkedIn extends \yii\authclient\clients\LinkedIn implements ClientInterface
-{
+        class LinkedIn extends \yii\authclient\clients\LinkedIn implements ClientInterface
+        {
 
-    /** @return string|null User's email */
-    public function getEmail()
-    {
-        return '@todo';
-        // TODO: Implement getEmail() method.
-    }
+            /** @inheritdoc */
+            public function getEmail()
+            {
+                return isset($this->getUserAttributes()['email-address'])
+                    ? $this->getUserAttributes()['email-address']
+                    : null;
+            }
 
-    /** @return string|null User's username */
-    public function getUsername()
-    {
-        return '@todo';
-        // TODO: Implement getUsername() method.
-    }
-}
+            /** @inheritdoc */
+            public function getUsername()
+            {
+                return $this->getEmail();
+            }
+        }
