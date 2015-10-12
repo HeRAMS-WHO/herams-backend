@@ -31,6 +31,11 @@ return [
                     'class' => \dektrium\user\clients\Google::class,
                     'clientId' => '550362619218-7eng5d4jjs9esfo4ddggkdd2jl31nt3u.apps.googleusercontent.com',
                     'clientSecret' => 'Yo-fvZZ3b8D5VyzSI7VQ0TyF'
+                ],
+                'linkedin' => [
+                    'class' => \app\components\LinkedIn::class,
+                    'clientId' => '77li9jqu82f1tx',
+                    'clientSecret' => 'jxeT5c6EcSlf7d8w'
                 ]
             ]
         ]
