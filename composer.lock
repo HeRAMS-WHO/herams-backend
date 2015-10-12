@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "20a4ca8bd88abe2b067343b9e4957d4f",
-    "content-hash": "76df6522e2012de3d52af27e20044813",
+    "hash": "82bd203422b4fc9093c4bc1930201b35",
+    "content-hash": "0386ddd03a4b9d22c399916275bc6ab3",
     "packages": [
         {
             "name": "bariew/yii2-module-migration-controller",
@@ -448,16 +448,16 @@
         },
         {
             "name": "dektrium/yii2-user",
-            "version": "dev-master",
+            "version": "v0.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dektrium/yii2-user.git",
-                "reference": "3fc501aa6cb4b70f026246fca7f6d07dc4c73d9c"
+                "reference": "891fe6c3957bde7f3a7893775fd304fc84140599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/3fc501aa6cb4b70f026246fca7f6d07dc4c73d9c",
-                "reference": "3fc501aa6cb4b70f026246fca7f6d07dc4c73d9c",
+                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/891fe6c3957bde7f3a7893775fd304fc84140599",
+                "reference": "891fe6c3957bde7f3a7893775fd304fc84140599",
                 "shasum": ""
             },
             "require": {
@@ -477,7 +477,8 @@
             "extra": {
                 "bootstrap": "dektrium\\user\\Bootstrap",
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "0.9.x-dev",
+                    "dev-develop": "1.0.x-dev"
                 },
                 "asset-installer-paths": {
                     "npm-asset-library": "vendor/npm",
@@ -507,7 +508,7 @@
                 "yii2",
                 "yii2-user"
             ],
-            "time": "2015-09-28 14:26:03"
+            "time": "2015-04-06 09:21:39"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -2202,12 +2203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "49c2d45951dd2e98c6217aa071f655016c706846"
+                "reference": "ebc7aff0572a2969fc1e9bfd30f61ece9448f5d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/49c2d45951dd2e98c6217aa071f655016c706846",
-                "reference": "49c2d45951dd2e98c6217aa071f655016c706846",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/ebc7aff0572a2969fc1e9bfd30f61ece9448f5d1",
+                "reference": "ebc7aff0572a2969fc1e9bfd30f61ece9448f5d1",
                 "shasum": ""
             },
             "require": {
@@ -2244,7 +2245,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2015-09-29 10:36:47"
+            "time": "2015-10-06 20:52:17"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -2509,12 +2510,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "fbd134b1cbc06fa149cc546cc98b4e701ba08cb0"
+                "reference": "011faf740a0a4e558a306b069e6fd50f8e36eb66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/fbd134b1cbc06fa149cc546cc98b4e701ba08cb0",
-                "reference": "fbd134b1cbc06fa149cc546cc98b4e701ba08cb0",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/011faf740a0a4e558a306b069e6fd50f8e36eb66",
+                "reference": "011faf740a0a4e558a306b069e6fd50f8e36eb66",
                 "shasum": ""
             },
             "require": {
@@ -2554,7 +2555,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2015-09-29 10:49:23"
+            "time": "2015-10-05 20:17:56"
         }
     ],
     "aliases": [],
@@ -2563,7 +2564,6 @@
         "befound/yii-befound": 20,
         "kartik-v/yii2-grid": 20,
         "kartik-v/yii2-mpdf": 20,
-        "dektrium/yii2-user": 20,
         "psr/http-message": 20,
         "befound/yii2-limesurvey": 20,
         "neomerx/json-api": 20,

@@ -30,13 +30,12 @@ class User extends \dektrium\user\models\User {
     }
 
     /**
-     * @todo add projects that a user is invited to
+     * The project find function only returns projects a user has at least read access to
      * @return $this
      */
     public function getProjects()
     {
-        return $this->hasMany(Project::class, ['owner_id' => 'id'])
-            ->inverseOf('owner');
+        return Project::find();
     }
 
     public function getUsername()
