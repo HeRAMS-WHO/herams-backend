@@ -1,15 +1,22 @@
 <?php
-    use yii\bootstrap\Nav;
-    use yii\bootstrap\NavBar;
-    use yii\widgets\Menu;
-    use kartik\helpers\Html;
-    NavBar::begin([
-        'brandLabel' => \kartik\helpers\Html::img('@web/img/logo.svg'),
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-default navbar-fixed-top',
-        ],
-    ]);
+
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Menu;
+use kartik\helpers\Html;
+
+/**
+ * @var \yii\web\View $this
+ */
+
+NavBar::begin([
+    'brandLabel' => \kartik\helpers\Html::img('@web/img/logo.svg'),
+    'brandUrl' => Yii::$app->homeUrl,
+    'options' => [
+        'class' => 'navbar-default navbar-fixed-top',
+    ],
+]);
+
 if (!app()->user->isGuest) {
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
@@ -20,6 +27,7 @@ if (!app()->user->isGuest) {
         ],
     ]);
 }
+
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'encodeLabels' => false,
@@ -32,7 +40,6 @@ echo Nav::widget([
             ],
             'url' => ['users/account'],
             'visible' => !Yii::$app->user->isGuest
-
         ],
         [
             'label' => Html::icon('user'),
@@ -69,3 +76,5 @@ echo Nav::widget([
     ],
 ]);
 NavBar::end();
+
+echo $this->render('subMenu');

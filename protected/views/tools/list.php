@@ -10,18 +10,42 @@ echo \kartik\grid\GridView::widget([
     'dataProvider' => $toolsDataProvider,
     'columns' => [
         'title',
-        'description',
+        [
+            'attribute' => 'description',
+            'format' => 'raw'
+        ],
+        [
+            'attribute' => 'imageUrl',
+            'label' => \Yii::t('app', 'Image'),
+            'format' => ['image',
+                [
+                    'height' => '100px',
+                ]
+            ]
+        ],
         'actions' => [
             'class' => \kartik\grid\ActionColumn::class,
-            'template' => '{read}',
+            'template' => '{read} {edit}',
             'buttons' => [
                 'read' => function($url, $model, $key) {
+                    /** @var \prime\models\Tool $model */
                     $result = Html::a(
                         Html::icon('eye-open'),
                         ['tools/read', 'id' => $model->id]
                     );
                     return $result;
-                }
+                },
+                'edit' => function($url, $model, $key) {
+                    /** @var \prime\models\Tool $model */
+                    $result = '';
+                    if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                        $result = Html::a(
+                            Html::icon('pencil'),
+                            ['tools/update', 'id' => $model->id]
+                        );
+                    }
+                    return $result;
+                },
             ]
         ]
     ]

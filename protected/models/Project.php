@@ -63,7 +63,8 @@ class Project extends ActiveRecord {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id']
+            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id'],
+            'update' => ['title', 'description']
         ];
     }
 

@@ -28,7 +28,7 @@ class ProjectsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-                $this->redirect(['projects/read', 'id' => $model->id]);
+                return $this->redirect(['projects/read', 'id' => $model->id]);
             }
         }
 
@@ -73,11 +73,35 @@ class ProjectsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-                $this->redirect(['projects/read', 'id' => $model->project->id]);
+                return $this->redirect(['projects/read', 'id' => $model->project->id]);
             }
         }
 
         return $this->render('share', [
+            'model' => $model
+        ]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
+        $model->scenario = 'update';
+
+        if(app()->request->isPost) {
+            if($model->load(app()->request->data()) && $model->save()) {
+                app()->session->setFlash(
+                    'projectUpdated',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => "Project <strong>{$model->title}</strong> has been updated.",
+                        'icon' => 'glyphicon glyphicon-ok'
+                    ]
+                );
+                return $this->redirect(['projects/read', 'id' => $model->id]);
+            }
+        }
+
+        return $this->render('update', [
             'model' => $model
         ]);
     }

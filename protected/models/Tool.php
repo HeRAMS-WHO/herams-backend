@@ -29,7 +29,8 @@ class Tool extends \prime\components\ActiveRecord {
     public function rules()
     {
         return [
-            [['title', 'description', 'intake_survey_eid', 'base_survey_eid', 'tempImage'], 'required'],
+            [['title', 'description', 'intake_survey_eid', 'base_survey_eid'], 'required'],
+            [['tempImage'], 'required', 'on' => ['create']],
             [['title', 'description'], 'string'],
             [['title'], 'unique'],
             [['tempImage'], 'image'],
@@ -40,7 +41,8 @@ class Tool extends \prime\components\ActiveRecord {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid']
+            'create' => ['title', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid'],
+            'update' => ['title', 'description', 'tempImage']
         ];
     }
 

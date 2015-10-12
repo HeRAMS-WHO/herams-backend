@@ -3,6 +3,7 @@
 namespace prime\controllers;
 
 use prime\components\Controller;
+use prime\models\permissions\Permission;
 use prime\models\Tool;
 use yii\data\ActiveDataProvider;
 use yii\helpers\FileHelper;
@@ -46,7 +47,7 @@ class ToolsController extends Controller
 
                     return $this->redirect(
                         [
-                            'tools/read/',
+                            'tools/read',
                             'id' => $model->id
                         ]
                     );
@@ -58,7 +59,7 @@ class ToolsController extends Controller
                         [
                             'type' => \kartik\widgets\Growl::TYPE_DANGER,
                             'text' => "The image for <strong>{$model->title}</strong> could not be saved.",
-                            'icon' => 'glyphicon glyphicon-ok'
+                            'icon' => 'glyphicon glyphicon-remove'
                         ]
                     );
                 }
@@ -73,7 +74,7 @@ class ToolsController extends Controller
     public function actionList()
     {
         $toolsDataProvider = new ActiveDataProvider([
-            'query' => Tool::find()
+            'query' => Tool::find()->userCan(Permission::PERMISSION_READ)
         ]);
 
         return $this->render('list', [
@@ -84,7 +85,37 @@ class ToolsController extends Controller
     public function actionRead($id)
     {
         return $this->render('read',[
-            'model' => Tool::findOne($id)
+            'model' => Tool::loadOne($id)
+        ]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = Tool::loadOne($id, Permission::PERMISSION_WRITE);
+        $model->scenario = 'update';
+
+        if(app()->request->isPut) {
+            if($model->load(app()->request->data()) && $model->save()) {
+                app()->session->setFlash(
+                    'toolUpdated',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => "Tool <strong>{$model->title}</strong> is updated.",
+                        'icon' => 'glyphicon glyphicon-ok'
+                    ]
+                );
+
+                return $this->redirect(
+                    [
+                        'tools/read',
+                        'id' => $model->id
+                    ]
+                );
+            }
+        }
+
+        return $this->render('update', [
+            'model' => $model
         ]);
     }
 

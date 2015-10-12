@@ -4,14 +4,23 @@ use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;
 
-$this->title = Yii::t('app', 'Create tool');
+$this->title = Yii::t('app', 'Update tool');
+
+$this->params['subMenu'] = [
+    'items' => [
+        [
+            'label' => Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-tool', 'class' => 'btn btn-primary'])
+        ],
+    ]
+];
+
 ?>
 
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'create-tool',
-        'method' => 'POST',
+        'id' => 'update-tool',
+        'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
@@ -40,23 +49,7 @@ $this->title = Yii::t('app', 'Create tool');
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
-            ],
-            'intake_survey_eid' => [
-                'type' => Form::INPUT_HTML5,
-                'html5type' => 'number'
-            ],
-            'base_survey_eid' => [
-                'type' => Form::INPUT_HTML5,
-                'html5type' => 'number'
-            ],
-            'actions' => [
-                'type' => Form::INPUT_RAW,
-                'value' =>
-                    Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
             ]
-        ],
-        'options' => [
-
         ]
     ]);
 
