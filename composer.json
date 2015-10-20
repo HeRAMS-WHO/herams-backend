@@ -31,7 +31,8 @@
         "bower-asset/bootstrap-sass": "3.*",
         "befound/yii2-limesurvey": "dev-master",
         "neomerx/json-api": "dev-master",
-        "2amigos/yii2-ckeditor-widget" : "~1.0"
+        "2amigos/yii2-ckeditor-widget" : "~1.0",
+        "miloschuman/yii2-highcharts-widget": "dev-master"
     },
 	"repositories": [
 		{

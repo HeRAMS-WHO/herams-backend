@@ -37,7 +37,11 @@ $this->params['subMenu'] = [
                 'type' => Form::INPUT_TEXT,
             ],
             'description' => [
-                'type' => Form::INPUT_TEXTAREA
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \dosamigos\ckeditor\CKEditor::class,
+                'options' => [
+                    'preset' => 'basic'
+                ]
             ],
 //            'actions' => [
 //                'type' => Form::INPUT_RAW,

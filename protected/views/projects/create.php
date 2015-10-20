@@ -28,7 +28,11 @@ $this->title = Yii::t('app', 'Create project');
                 'type' => Form::INPUT_TEXT,
             ],
             'description' => [
-                'type' => Form::INPUT_TEXTAREA
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \dosamigos\ckeditor\CKEditor::class,
+                'options' => [
+                    'preset' => 'basic'
+                ]
             ],
             'owner_id' => [
                 'label' => \Yii::t('app', 'Owner'),

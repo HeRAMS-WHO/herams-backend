@@ -5,6 +5,14 @@ use \app\components\ActiveForm;
 use app\components\Html;
 
 $this->title = Yii::t('app', 'Create tool');
+
+$this->params['subMenu'] = [
+    'items' => [
+        [
+            'label' => Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'create-tool', 'class' => 'btn btn-primary'])
+        ],
+    ]
+];
 ?>
 
 <div class="col-xs-12">
@@ -37,7 +45,12 @@ $this->title = Yii::t('app', 'Create tool');
                     'preset' => 'basic'
                 ]
             ],
+            'progress_type' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => \prime\models\Tool::getProgressOptions()
+            ],
             'tempImage' => [
+                'label' => \Yii::t('app', 'Image'),
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
             ],
@@ -48,11 +61,6 @@ $this->title = Yii::t('app', 'Create tool');
             'base_survey_eid' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
-            ],
-            'actions' => [
-                'type' => Form::INPUT_RAW,
-                'value' =>
-                    Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
             ]
         ],
         'options' => [

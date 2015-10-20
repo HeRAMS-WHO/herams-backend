@@ -44,6 +44,21 @@ class Project extends ActiveRecord {
             ->inverseOf('projects');
     }
 
+    /**
+     * @return Widget
+     */
+    public function getProgressWidget()
+    {
+        $widget = $this->tool->progressWidget;
+        $widget->project = $this;
+        return $widget;
+    }
+
+    public function getResponses()
+    {
+        return [];
+    }
+
     public function getTool()
     {
         return $this->hasOne(Tool::class, ['id' => 'tool_id']);

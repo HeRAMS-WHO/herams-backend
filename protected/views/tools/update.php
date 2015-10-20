@@ -47,6 +47,7 @@ $this->params['subMenu'] = [
                 ]
             ],
             'tempImage' => [
+                'label' => \Yii::t('app', 'Image'),
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
             ]

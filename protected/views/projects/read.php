@@ -5,6 +5,7 @@ use app\components\Html;
 /**
  * @var \prime\models\Project $model
  * @var \yii\web\View $this
+ * @var \yii\data\ArrayDataProvider $responsesDataProvider
  */
 
 $this->params['subMenu']['items'] = [];
@@ -21,6 +22,11 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
         'label' => \Yii::t('app', 'update'),
         'url' => ['projects/update', 'id' => $model->id]
     ];
+
+    $this->params['subMenu']['items'][] = [
+        'label' => \Yii::t('app', 'preview'),
+        'url' => ['report/preview', 'id' => $model->id]
+    ];
 }
 
 ?>
@@ -28,7 +34,7 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
 <div class="col-xs-12">
     <div class="row">
         <div class="col-xs-10">
-            <h2><?=$model->title?></h2>
+            <h1><?=$model->title?></h1>
         </div>
         <div class="col-xs-2">
             <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '100%']])?>
@@ -40,16 +46,21 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
             End Date:
         </div>
         <div class="col-xs-12 col-md-3">
-            Profile ofzo...
+            <?=\prime\widgets\User::widget([
+                'user' => $model->owner
+            ])?>
         </div>
     </div>
 </div>
 
-<div class="col-xs-12 col-md-9">
-
+<div class="col-xs-12">
+    <?=$model->progressWidget->run()?>
 </div>
 
-<div class="col-xs-12 col-md-3">
-    test 3
+<div class="col-xs-12">
+    <h1><?=\Yii::t('app', 'Responses')?></h1>
+    <?=\kartik\grid\GridView::widget([
+        'dataProvider' => $responsesDataProvider
+    ])?>
 </div>
 

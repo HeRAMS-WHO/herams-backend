@@ -6,6 +6,13 @@ namespace prime\models;
  * Class User
  * @package prime\models
  * @property Profile $profile
+ * @property string firstName
+ * @property string lastName
+ * @property string organization
+ * @property string office
+ * @property string country
+ * @property string gravatarUrl
+ * @property string name
  */
 class User extends \dektrium\user\models\User {
 
@@ -16,7 +23,7 @@ class User extends \dektrium\user\models\User {
 
     public function getName()
     {
-        if(!isset($this->profile)) {
+        if(!isset($this->profile) || (empty($this->firstName) && empty($this->lastName))) {
             return $this->email;
         } else {
             return implode(

@@ -8,6 +8,7 @@ use prime\models\permissions\Permission;
 use prime\models\permissions\UserProject;
 use prime\models\Project;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 class ProjectsController extends Controller
 {
@@ -50,8 +51,14 @@ class ProjectsController extends Controller
 
     public function actionRead($id)
     {
+        $project = Project::loadOne($id);
+        $responsesDataProvider = new ArrayDataProvider([
+            'allModels' => $project->getResponses()
+        ]);
+
         return $this->render('read', [
-            'model' => Project::loadOne($id)
+            'model' => $project,
+            'responsesDataProvider' => $responsesDataProvider
         ]);
     }
 
