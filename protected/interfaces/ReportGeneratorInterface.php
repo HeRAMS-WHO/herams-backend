@@ -6,12 +6,21 @@ use Psr\Http\Message\StreamInterface;
 
 interface ReportGeneratorInterface {
 
+    public function __construct();
+
+    /**
+     * Returns the title of the Report
+     * @return string
+     */
+    public function getTitle();
+
     /**
      * @param ResponseCollectionInterface $responses
+     * @param SignatureInterface $signature
      * @param UserDataInterface|null $userData
-     * @return mixed
+     * @return string
      */
-    public function renderPreview(ResponseCollectionInterface $responses, UserDataInterface $userData = null);
+    public function renderPreview(ResponseCollectionInterface $responses, SignatureInterface $signature, UserDataInterface $userData = null);
 
     /**
      * This function renders a report.

@@ -23,10 +23,16 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
         'url' => ['projects/update', 'id' => $model->id]
     ];
 
-    $this->params['subMenu']['items'][] = [
-        'label' => \Yii::t('app', 'preview'),
-        'url' => ['report/preview', 'id' => $model->id]
-    ];
+    foreach($model->tool->getGenerators() as $generator => $class) {
+        $this->params['subMenu']['items'][] = [
+            'label' => \Yii::t('app', 'generate {generator}', ['generator' => $generator]),
+            'url' => [
+                'reports/preview',
+                'projectId' => $model->id,
+                'reportGenerator' => $generator
+            ]
+        ];
+    }
 }
 
 ?>
@@ -60,7 +66,7 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
 <div class="col-xs-12">
     <h1><?=\Yii::t('app', 'Responses')?></h1>
     <?=\kartik\grid\GridView::widget([
-        'dataProvider' => $responsesDataProvider
+        'dataProvider' => $responseCollection
     ])?>
 </div>
 

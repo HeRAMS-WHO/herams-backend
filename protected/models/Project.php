@@ -4,6 +4,7 @@ namespace prime\models;
 
 use prime\components\ActiveRecord;
 use prime\models\permissions\Permission;
+use prime\objects\ResponseCollection;
 
 /**
  * Class Project
@@ -54,14 +55,23 @@ class Project extends ActiveRecord {
         return $widget;
     }
 
+    /**
+     * @return ResponseCollection
+     */
     public function getResponses()
     {
-        return [];
+        return new ResponseCollection(['allModels' => []]);
     }
 
     public function getTool()
     {
         return $this->hasOne(Tool::class, ['id' => 'tool_id']);
+    }
+
+    public function getUserData($reportGenerator)
+    {
+        return $this->hasOne(UserData::class, ['project_id' => 'id'])
+            ->andWhere(['generator' => $reportGenerator]);
     }
 
     public function rules()

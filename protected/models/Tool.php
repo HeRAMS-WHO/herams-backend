@@ -3,6 +3,7 @@
 namespace prime\models;
 
 use Befound\Components\UploadedFile;
+use prime\reports\generators\Test;
 use prime\widgets\progress\Absolute;
 use yii\base\Widget;
 use yii\helpers\FileHelper;
@@ -25,6 +26,18 @@ class Tool extends \prime\components\ActiveRecord {
      * @var UploadedFile
      */
     public $tempImage;
+
+    public static function generators()
+    {
+        return [
+            'test' => Test::class
+        ];
+    }
+
+    public function getGenerators()
+    {
+        return self::generators();
+    }
 
     public function getImageUrl()
     {

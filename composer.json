@@ -44,7 +44,10 @@
         "psr-4" : {
             "app\\" : ["protected"],
             "prime\\" : ["protected"]
-        }
+        },
+        "classmap" : [
+            "protected/reports/generators/"
+        ]
     },
     "require-dev": {
         "yiisoft/yii2-gii": "*",

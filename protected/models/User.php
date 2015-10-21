@@ -2,6 +2,8 @@
 
 namespace prime\models;
 
+use prime\objects\Signature;
+
 /**
  * Class User
  * @package prime\models
@@ -15,6 +17,15 @@ namespace prime\models;
  * @property string name
  */
 class User extends \dektrium\user\models\User {
+
+    public function createSignature(\DateTimeImmutable $time = null)
+    {
+        return new Signature(
+            $this->email,
+            $this->id,
+            $this->name
+        );
+    }
 
     public function getGravatarUrl ($size = 24)
     {

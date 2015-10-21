@@ -52,13 +52,11 @@ class ProjectsController extends Controller
     public function actionRead($id)
     {
         $project = Project::loadOne($id);
-        $responsesDataProvider = new ArrayDataProvider([
-            'allModels' => $project->getResponses()
-        ]);
+        $responseCollection = $project->getResponses();
 
         return $this->render('read', [
             'model' => $project,
-            'responsesDataProvider' => $responsesDataProvider
+            'responseCollection' => $responseCollection
         ]);
     }
 

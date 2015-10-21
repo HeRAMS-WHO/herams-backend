@@ -12,9 +12,10 @@ interface SignatureInterface
 
     /**
      * Cryptographic signature
+     * created by using responses, user data and signature fields
      * @return string
      */
-    public function getHash();
+    //public function getHash();
 
     /**
      * Id of the user

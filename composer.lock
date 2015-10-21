@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f4127b0ba67fd26545122dd1bcd9ef2c",
+    "hash": "cf014c2f38ddbb94e53d466b8c40b269",
     "content-hash": "28366c228f29242e2a67d865f6dc90b2",
     "packages": [
         {
@@ -110,7 +110,7 @@
             "source": {
                 "type": "git",
                 "url": "git@dev.befound.nl:befound/yii-befound.git",
-                "reference": "343ee739ebd65a0363d351d6d8a263b4331c710d"
+                "reference": "2ea63c8d15c8dba97b7c49b77e21f121d27f51ea"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-10-15 12:33:37"
+            "time": "2015-10-21 13:12:45"
         },
         {
             "name": "befound/yii2-limesurvey",
@@ -2179,12 +2179,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "ffcd52017ab9ff327e50cd9c72a9962b2d16c65f"
+                "reference": "4294f505696c1eaff5c3bd40ac90a8274e0771a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ffcd52017ab9ff327e50cd9c72a9962b2d16c65f",
-                "reference": "ffcd52017ab9ff327e50cd9c72a9962b2d16c65f",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/4294f505696c1eaff5c3bd40ac90a8274e0771a8",
+                "reference": "4294f505696c1eaff5c3bd40ac90a8274e0771a8",
                 "shasum": ""
             },
             "require": {
@@ -2260,7 +2260,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-10-20 07:39:18"
+            "time": "2015-10-20 21:37:59"
         },
         {
             "name": "yiisoft/yii2-authclient",
