@@ -51,6 +51,9 @@ echo \kartik\grid\GridView::widget([
     ]
 ]);
 
+vd(app()->user->identity->isAdmin);
+vd(app()->getModule('user')->admins);
+
 if(app()->user->identity->isAdmin)
     echo \app\components\Html::a(\Yii::t('app', 'Create'), ['tools/create'], ['class' => 'btn btn-primary']);
 ?>
