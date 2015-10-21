@@ -98,6 +98,9 @@ class Tool extends \prime\components\ActiveRecord {
             }
 
             $saveImageUrl = self::IMAGE_PATH . $this->id . '.' . $this->tempImage->extension;
+            if(!is_writable($saveImageUrl)) {
+                throw new \Exception('Unwritable image url');
+            }
             if($this->tempImage->saveAs($saveImageUrl)) {
                 $this->image = $this->id . '.' . $this->tempImage->extension;
                 $this->save(false);

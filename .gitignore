@@ -2,6 +2,7 @@
 /protected/bin
 /public/components
 /public/assets
+/public/img/tools/*
 .idea/
 /protected/runtime/debug/
 /protected/runtime/HTML/
