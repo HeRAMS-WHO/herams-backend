@@ -3,10 +3,7 @@ return [
     'bootstrap' => ['gii'],
     'modules' => [
         'gii' => yii\gii\Module::class
-    ]
-];
-<?php
-return [
+    ],
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
@@ -18,9 +15,8 @@ return [
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
             'queryCache' => 'cache',
-			'tablePrefix' => 'prime2_'
+            'tablePrefix' => 'prime2_'
         ]
     ]
 ];
-
 
