@@ -28,7 +28,14 @@
                     'access' => [
                         'class' => AccessControl::class,
                         'rules' => [
-
+                            [
+                                'allow' => 'true',
+                                'actions' => ['captcha']
+                            ],
+                            [
+                                'allow' => 'true',
+                                'roles' => ['@']
+                            ]
                         ]
                     ]
                 ]

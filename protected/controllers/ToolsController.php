@@ -103,7 +103,7 @@ class ToolsController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'read'],
+                            'actions' => ['list', 'read'],
                             'roles' => ['@'],
                         ],
                     ]

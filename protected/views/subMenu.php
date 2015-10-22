@@ -9,7 +9,16 @@ use kartik\helpers\Html;
  * @var \yii\web\View $this
  */
 
-if(isset($this->params['subMenu'], $this->params['subMenu']['items']) && !empty($this->params['subMenu']['items'])) {
+$visible = false;
+
+if (isset($this->params['subMenu'], $this->params['subMenu']['items'])) {
+    foreach($this->params['subMenu']['items'] as $item) {
+        $visible = $visible || !isset($item['visible']) || $item['visible'];
+    }
+}
+
+
+if($visible) {
     NavBar::begin(
         [
             'options' => [

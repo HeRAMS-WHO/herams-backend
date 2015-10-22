@@ -10,24 +10,22 @@ use app\components\Html;
 
 $this->params['subMenu']['items'] = [];
 
-if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
-    $this->params['subMenu']['items'][] = [
-        'label' => \Yii::t('app', 'share'),
-        'url' => ['projects/share', 'id' => $model->id]
-    ];
-}
+$this->params['subMenu']['items'][] = [
+    'label' => \Yii::t('app', 'share'),
+    'url' => ['projects/share', 'id' => $model->id],
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)
+];
 
-if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
-    foreach($model->tool->getGenerators() as $generator => $class) {
-        $this->params['subMenu']['items'][] = [
-            'label' => \Yii::t('app', 'generate {generator}', ['generator' => $generator]),
-            'url' => [
-                'reports/preview',
-                'projectId' => $model->id,
-                'reportGenerator' => $generator
-            ]
-        ];
-    }
+foreach($model->tool->getGenerators() as $generator => $class) {
+    $this->params['subMenu']['items'][] = [
+        'label' => \Yii::t('app', 'generate {generator}', ['generator' => $generator]),
+        'url' => [
+            'reports/preview',
+            'projectId' => $model->id,
+            'reportGenerator' => $generator
+        ],
+        'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
+    ];
 }
 
 ?>
@@ -35,7 +33,7 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
 <div class="col-xs-12">
     <div class="row">
         <div class="col-xs-9">
-            <h1><?=$model->title?><?=Html::a(Html::icon('pencil'), ['projects/update', 'id' => $model->id])?></h1>
+            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) ? Html::a(Html::icon('pencil'), ['projects/update', 'id' => $model->id]) : ''?></h1>
         </div>
         <div class="col-xs-3">
             <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '100%']])?>

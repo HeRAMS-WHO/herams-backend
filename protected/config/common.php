@@ -52,7 +52,9 @@ return [
                 'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
             'admins' => [
-                'joey_claessen@hotmail.com'
+                'joey_claessen@hotmail.com',
+                'sam@mousa.nl',
+                'petragallos@who.int'
             ]
         ],
     ],

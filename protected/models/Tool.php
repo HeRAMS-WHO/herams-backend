@@ -3,6 +3,7 @@
 namespace prime\models;
 
 use Befound\Components\UploadedFile;
+use prime\models\permissions\Permission;
 use prime\reports\generators\Test;
 use prime\widgets\progress\Absolute;
 use prime\widgets\progress\Percentage;
@@ -132,4 +133,12 @@ class Tool extends \prime\components\ActiveRecord {
         }
         return $result;
     }
+
+    public function userCan($operation, User $user = null)
+    {
+        return $operation == Permission::PERMISSION_READ ||
+            parent::userCan($operation, $user);
+    }
+
+
 }
