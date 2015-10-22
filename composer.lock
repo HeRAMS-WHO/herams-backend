@@ -110,7 +110,7 @@
             "source": {
                 "type": "git",
                 "url": "git@dev.befound.nl:befound/yii-befound.git",
-                "reference": "2ea63c8d15c8dba97b7c49b77e21f121d27f51ea"
+                "reference": "ee7f5b2726c90f24568c7fb46df78652ac0b4489"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-10-21 13:12:45"
+            "time": "2015-10-22 09:17:34"
         },
         {
             "name": "befound/yii2-limesurvey",
@@ -2179,12 +2179,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "4294f505696c1eaff5c3bd40ac90a8274e0771a8"
+                "reference": "16e71b7b2359e2feb76d58d3a7223bbf4dc78b45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/4294f505696c1eaff5c3bd40ac90a8274e0771a8",
-                "reference": "4294f505696c1eaff5c3bd40ac90a8274e0771a8",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/16e71b7b2359e2feb76d58d3a7223bbf4dc78b45",
+                "reference": "16e71b7b2359e2feb76d58d3a7223bbf4dc78b45",
                 "shasum": ""
             },
             "require": {
@@ -2260,7 +2260,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-10-20 21:37:59"
+            "time": "2015-10-21 14:10:35"
         },
         {
             "name": "yiisoft/yii2-authclient",

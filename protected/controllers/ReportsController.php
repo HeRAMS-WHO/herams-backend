@@ -9,6 +9,8 @@ use prime\models\Project;
 use prime\models\Tool;
 use prime\models\UserData;
 use prime\reports\generators\Test;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -69,5 +71,18 @@ class ReportsController extends Controller
         } else {
             throw new NotFoundHttpException(\Yii::t('app', '{reportGenerator} does not exist', ['reportGenerator' => $reportGenerator]));
         }
+    }
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(),
+            [
+                'access' => [
+                    'rules' => [
+
+                    ]
+                ]
+            ]
+        );
     }
 }

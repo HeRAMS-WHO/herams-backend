@@ -25,7 +25,7 @@ class UserData extends ActiveRecord implements UserDataInterface
 
     public function getData()
     {
-        return $this->data;
+        return $this->data->asArray();
     }
 
     public function getProject()

@@ -9,6 +9,8 @@ use prime\models\permissions\UserProject;
 use prime\models\Project;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 class ProjectsController extends Controller
 {
@@ -111,4 +113,19 @@ class ProjectsController extends Controller
         ]);
     }
 
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(),
+            [
+                'access' => [
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ]
+                ]
+            ]
+        );
+    }
 }

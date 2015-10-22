@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Html;
+use yii\helpers\ArrayHelper;
 
 /**
  * @var \prime\models\UserData $userData
@@ -8,5 +9,5 @@ use app\components\Html;
  */
 new \Befound\Components\Map();
 
-echo Html::textarea('description', $userData->getData()['description']);
-echo Html::checkboxList('checkboxTest', $userData->getData()->asArray()['checkboxTest'], ['test1' => 'test1', 'test2' => 'test2']);
+echo Html::textarea('description', ArrayHelper::getValue($userData->getData(), 'description'));
+echo Html::checkboxList('checkboxTest', ArrayHelper::getValue($userData->getData(), 'checkboxTest'), ['test1' => 'test1', 'test2' => 'test2']);
