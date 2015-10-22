@@ -41,7 +41,8 @@ class User extends \dektrium\user\models\User {
                 ' ',
                 [
                     $this->profile->first_name,
-                    $this->profile->last_name
+                    $this->profile->last_name,
+                    '(' . $this->email . ')'
                 ]
             );
         }

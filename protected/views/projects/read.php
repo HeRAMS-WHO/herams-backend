@@ -18,11 +18,6 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
 }
 
 if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
-    $this->params['subMenu']['items'][] = [
-        'label' => \Yii::t('app', 'update'),
-        'url' => ['projects/update', 'id' => $model->id]
-    ];
-
     foreach($model->tool->getGenerators() as $generator => $class) {
         $this->params['subMenu']['items'][] = [
             'label' => \Yii::t('app', 'generate {generator}', ['generator' => $generator]),
@@ -39,10 +34,10 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
 
 <div class="col-xs-12">
     <div class="row">
-        <div class="col-xs-10">
-            <h1><?=$model->title?></h1>
+        <div class="col-xs-9">
+            <h1><?=$model->title?><?=Html::a(Html::icon('pencil'), ['projects/update', 'id' => $model->id])?></h1>
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-3">
             <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '100%']])?>
         </div>
     </div>

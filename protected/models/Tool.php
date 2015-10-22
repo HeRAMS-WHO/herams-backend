@@ -5,6 +5,7 @@ namespace prime\models;
 use Befound\Components\UploadedFile;
 use prime\reports\generators\Test;
 use prime\widgets\progress\Absolute;
+use prime\widgets\progress\Percentage;
 use yii\base\Widget;
 use yii\helpers\FileHelper;
 
@@ -20,6 +21,7 @@ class Tool extends \prime\components\ActiveRecord {
     const IMAGE_PATH = 'img/tools/';
 
     const PROGRESS_ABSOLUTE = 'absolute';
+    const PROGRESS_PERCENTAGE = 'percentage';
 
     /**
      * variable for uploading tool image
@@ -62,7 +64,7 @@ class Tool extends \prime\components\ActiveRecord {
     public static function getProgressOptions()
     {
         return [
-            self::PROGRESS_ABSOLUTE => \Yii::t('app', 'Absolute')
+            self::PROGRESS_PERCENTAGE => \Yii::t('app', 'Percentage')
         ];
     }
 
@@ -73,8 +75,8 @@ class Tool extends \prime\components\ActiveRecord {
     {
         switch($this->progress_type)
         {
-            case self::PROGRESS_ABSOLUTE:
-                return new Absolute();
+            case self::PROGRESS_PERCENTAGE:
+                return new Percentage();
         }
     }
 

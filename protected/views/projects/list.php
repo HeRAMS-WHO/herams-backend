@@ -10,7 +10,10 @@ echo \kartik\grid\GridView::widget([
     'dataProvider' => $projectsDataProvider,
     'columns' => [
         'title',
-        'description',
+        [
+            'attribute' => 'description',
+            'format' => 'raw'
+        ],
         'tool.title',
         'actions' => [
             'class' => \kartik\grid\ActionColumn::class,
