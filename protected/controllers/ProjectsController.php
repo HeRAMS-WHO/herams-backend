@@ -54,11 +54,9 @@ class ProjectsController extends Controller
     public function actionRead($id)
     {
         $project = Project::loadOne($id);
-        $responseCollection = $project->getResponses();
 
         return $this->render('read', [
             'model' => $project,
-            'responseCollection' => $responseCollection
         ]);
     }
 

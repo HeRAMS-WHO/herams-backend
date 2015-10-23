@@ -57,9 +57,19 @@ foreach($model->tool->getGenerators() as $generator => $class) {
 </div>
 
 <div class="col-xs-12">
-    <h1><?=\Yii::t('app', 'Responses')?></h1>
-    <?=\kartik\grid\GridView::widget([
-        'dataProvider' => $responseCollection
-    ])?>
+    <?php
+    echo \yii\bootstrap\Tabs::widget([
+         'items' => [
+             [
+                 'label' => \Yii::t('app', 'Reports'),
+                 'content' => $this->render('read/reports.php', ['model' => $model])
+             ],
+             [
+                 'label' => \Yii::t('app', 'Responses'),
+                 'content' => $this->render('read/responses.php', ['model' => $model])
+             ]
+         ]
+    ]);
+    ?>
 </div>
 

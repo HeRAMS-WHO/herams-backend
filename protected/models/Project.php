@@ -60,6 +60,14 @@ class Project extends ActiveRecord {
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReports()
+    {
+        return $this->hasMany(Report::class, ['project_id' => 'id']);
+    }
+
+    /**
      * @return ResponseCollection
      */
     public function getResponses()
