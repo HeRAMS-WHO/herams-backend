@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f72255758a186359d1e17efa935c201d",
-    "content-hash": "2b1906fb6d5c937b1b112e93bea908fc",
+    "hash": "15036ee6c7c1aee7d7ae9958bfa9ce20",
+    "content-hash": "468328cb9747894edca4f94e1e83ce84",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -170,6 +170,37 @@
             "time": "2015-09-21 14:19:45"
         },
         {
+            "name": "bower-asset/bootbox",
+            "version": "v4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/makeusabrew/bootbox.git",
+                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/makeusabrew/bootbox/zipball/cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
+                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=3.0.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./bootbox.js",
+                "bower-asset-ignore": [
+                    "CHANGELOG.md",
+                    "CONTRIBUTING",
+                    "Gruntfile.js",
+                    "header.txt",
+                    "karma*.js",
+                    "build",
+                    "tests"
+                ]
+            }
+        },
+        {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.5",
             "source": {
@@ -260,6 +291,37 @@
                 "bootstrap",
                 "sass",
                 "twbs"
+            ]
+        },
+        {
+            "name": "bower-asset/is-loading",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hekigan/is-loading.git",
+                "reference": "546f802d2bff5965606e588f5793685f859d2f2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hekigan/is-loading/zipball/546f802d2bff5965606e588f5793685f859d2f2b",
+                "reference": "546f802d2bff5965606e588f5793685f859d2f2b",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">1.7.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "jquery.isloading.js"
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple jQuery plugin to show visual feedback when loading data or any action that would take time",
+            "keywords": [
+                "isloading",
+                "loader",
+                "loading"
             ]
         },
         {
@@ -2740,6 +2802,8 @@
         "befound/yii2-limesurvey": 20,
         "neomerx/json-api": 20,
         "miloschuman/yii2-highcharts-widget": 20,
+        "bower-asset/is-loading": 20,
+        "bower-asset/bootbox": 20,
         "yiisoft/yii2-debug": 20
     },
     "prefer-stable": false,
