@@ -5,6 +5,8 @@ use app\components\Html;
 /**
  * @var string $previewUrl
  * @var \yii\web\View $this
+ * @var string $reportGenerator
+ * @var int $projectId
  */
 
 $this->params['subMenu']['items'] = [
@@ -17,16 +19,21 @@ $this->params['subMenu']['items'] = [
     ],
     [
         'label' => \Yii::t('app', 'Publish'),
-        'url' => '#',
+        'url' => [
+            'reports/publish',
+            'reportGenerator' => $reportGenerator,
+            'projectId' => $projectId
+        ],
         'linkOptions' => [
-            'id' => 'publish_preview'
+            'id' => 'publish_preview',
+
         ]
     ]
 ];
 
 $js = <<<EOL
+var \$iframe = $('iframe#preview');
 $('#save_preview').click(function(){
-    var \$iframe = $('iframe#preview');
     $.post(
         '',
         \$iframe.contents().find(':input').serialize()
@@ -37,6 +44,24 @@ $('#save_preview').click(function(){
     .error(function(data, response) {
         $('#response').html(data);
     })
+    ;
+});
+
+$('#publish_preview').click(function(e){
+    \$button = $(this);
+    e.preventDefault();
+
+    $.post(
+        '',
+        \$iframe.contents().find(':input').serialize()
+    )
+    .success(function(data, response){
+        window.location = \$button.attr('href');
+    })
+    .error(function(data, response) {
+        $('#response').html(data);
+    })
+
     ;
 });
 EOL;

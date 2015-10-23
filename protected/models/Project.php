@@ -12,6 +12,8 @@ use prime\objects\ResponseCollection;
  *
  * @property User $user
  * @property Tool $tool
+ * @property string $title
+ * @property string $description
  */
 class Project extends ActiveRecord {
 
@@ -70,6 +72,10 @@ class Project extends ActiveRecord {
         return $this->hasOne(Tool::class, ['id' => 'tool_id']);
     }
 
+    /**
+     * @param $reportGenerator
+     * @return $this
+     */
     public function getUserData($reportGenerator)
     {
         return $this->hasOne(UserData::class, ['project_id' => 'id'])

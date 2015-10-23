@@ -4,8 +4,6 @@ namespace prime\models;
 
 use Befound\Components\UploadedFile;
 use prime\models\permissions\Permission;
-use prime\reports\generators\Test;
-use prime\widgets\progress\Absolute;
 use prime\widgets\progress\Percentage;
 use yii\base\Widget;
 use yii\helpers\FileHelper;
@@ -48,7 +46,7 @@ class Tool extends \prime\components\ActiveRecord {
     public static function generators()
     {
         return [
-            'test' => Test::class
+            'test' => \prime\reportGenerators\test\Generator::class
         ];
     }
 
