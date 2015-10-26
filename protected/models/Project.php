@@ -12,6 +12,8 @@ use prime\objects\ResponseCollection;
  *
  * @property User $user
  * @property Tool $tool
+ * @property string $title
+ * @property string $description
  */
 class Project extends ActiveRecord {
 
@@ -31,10 +33,12 @@ class Project extends ActiveRecord {
                         'target' => Project::class,
                     ]
                 )
-                ->select('target_id')
-                ->column();
-            $ids = array_merge($ids, $ids2);
-            $query->andWhere(['id' => $ids]);
+                ->select('target_id');
+            $query->andWhere([
+                'or',
+                ['id' => $ids],
+                ['id' => $ids2]
+            ]);
         }
         return $query;
     }
@@ -56,6 +60,14 @@ class Project extends ActiveRecord {
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReports()
+    {
+        return $this->hasMany(Report::class, ['project_id' => 'id']);
+    }
+
+    /**
      * @return ResponseCollection
      */
     public function getResponses()
@@ -68,6 +80,10 @@ class Project extends ActiveRecord {
         return $this->hasOne(Tool::class, ['id' => 'tool_id']);
     }
 
+    /**
+     * @param $reportGenerator
+     * @return $this
+     */
     public function getUserData($reportGenerator)
     {
         return $this->hasOne(UserData::class, ['project_id' => 'id'])

@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\reports\generators;
+namespace prime\reportGenerators\test;
 
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
@@ -10,7 +10,7 @@ use prime\interfaces\UserDataInterface;
 use yii\base\Component;
 use yii\web\View;
 
-class Test extends Component implements ReportGeneratorInterface
+class Generator extends Component implements ReportGeneratorInterface
 {
 
     /**
@@ -33,7 +33,7 @@ class Test extends Component implements ReportGeneratorInterface
         SignatureInterface $signature,
         UserDataInterface $userData = null
     ) {
-        return app()->getView()->render('@app/reports/generators/test/views/preview', ['userData' => $userData]);
+        return app()->getView()->render('@app/reportGenerators/test/views/preview', ['userData' => $userData]);
     }
 
     /**
@@ -49,6 +49,6 @@ class Test extends Component implements ReportGeneratorInterface
         SignatureInterface $signature,
         UserDataInterface $userData = null
     ) {
-        // TODO: Implement render() method.
+        return new Report($userData, $signature);
     }
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cf014c2f38ddbb94e53d466b8c40b269",
-    "content-hash": "28366c228f29242e2a67d865f6dc90b2",
+    "hash": "15036ee6c7c1aee7d7ae9958bfa9ce20",
+    "content-hash": "468328cb9747894edca4f94e1e83ce84",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -110,7 +110,7 @@
             "source": {
                 "type": "git",
                 "url": "git@dev.befound.nl:befound/yii-befound.git",
-                "reference": "2ea63c8d15c8dba97b7c49b77e21f121d27f51ea"
+                "reference": "ee7f5b2726c90f24568c7fb46df78652ac0b4489"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-10-21 13:12:45"
+            "time": "2015-10-22 09:17:34"
         },
         {
             "name": "befound/yii2-limesurvey",
@@ -168,6 +168,37 @@
             ],
             "description": "Limesurvey RC Library",
             "time": "2015-09-21 14:19:45"
+        },
+        {
+            "name": "bower-asset/bootbox",
+            "version": "v4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/makeusabrew/bootbox.git",
+                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/makeusabrew/bootbox/zipball/cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
+                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=3.0.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./bootbox.js",
+                "bower-asset-ignore": [
+                    "CHANGELOG.md",
+                    "CONTRIBUTING",
+                    "Gruntfile.js",
+                    "header.txt",
+                    "karma*.js",
+                    "build",
+                    "tests"
+                ]
+            }
         },
         {
             "name": "bower-asset/bootstrap",
@@ -260,6 +291,37 @@
                 "bootstrap",
                 "sass",
                 "twbs"
+            ]
+        },
+        {
+            "name": "bower-asset/is-loading",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hekigan/is-loading.git",
+                "reference": "546f802d2bff5965606e588f5793685f859d2f2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hekigan/is-loading/zipball/546f802d2bff5965606e588f5793685f859d2f2b",
+                "reference": "546f802d2bff5965606e588f5793685f859d2f2b",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">1.7.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "jquery.isloading.js"
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple jQuery plugin to show visual feedback when loading data or any action that would take time",
+            "keywords": [
+                "isloading",
+                "loader",
+                "loading"
             ]
         },
         {
@@ -624,6 +686,64 @@
             "time": "2013-11-30 08:25:19"
         },
         {
+            "name": "guzzlehttp/psr7",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "4ef919b0cf3b1989523138b60163bbcb7ba1ff7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4ef919b0cf3b1989523138b60163bbcb7ba1ff7e",
+                "reference": "4ef919b0cf3b1989523138b60163bbcb7ba1ff7e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "PSR-7 message implementation",
+            "keywords": [
+                "http",
+                "message",
+                "stream",
+                "uri"
+            ],
+            "time": "2015-08-15 19:32:36"
+        },
+        {
             "name": "kartik-v/bootstrap-fileinput",
             "version": "v4.2.7",
             "source": {
@@ -890,16 +1010,16 @@
         },
         {
             "name": "kartik-v/yii2-helpers",
-            "version": "v1.3.2",
+            "version": "v1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-helpers.git",
-                "reference": "cfbb7d20c629cbae980669d8b8294ccd2fa796e6"
+                "reference": "84b9e77aad937d2662934e2664d0190a7c332dd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-helpers/zipball/cfbb7d20c629cbae980669d8b8294ccd2fa796e6",
-                "reference": "cfbb7d20c629cbae980669d8b8294ccd2fa796e6",
+                "url": "https://api.github.com/repos/kartik-v/yii2-helpers/zipball/84b9e77aad937d2662934e2664d0190a7c332dd3",
+                "reference": "84b9e77aad937d2662934e2664d0190a7c332dd3",
                 "shasum": ""
             },
             "require": {
@@ -932,7 +1052,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2015-09-11 16:35:09"
+            "time": "2015-10-22 14:01:06"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1029,16 +1149,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
-            "version": "v1.4.4",
+            "version": "v1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-activeform.git",
-                "reference": "c62c8b92e8ee38892cc4e2b29851864a7a20ee01"
+                "reference": "076f49747309f30658085eb008276ecd3370b151"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/c62c8b92e8ee38892cc4e2b29851864a7a20ee01",
-                "reference": "c62c8b92e8ee38892cc4e2b29851864a7a20ee01",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/076f49747309f30658085eb008276ecd3370b151",
+                "reference": "076f49747309f30658085eb008276ecd3370b151",
                 "shasum": ""
             },
             "require": {
@@ -1072,7 +1192,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-07-08 11:36:38"
+            "time": "2015-10-22 14:36:24"
         },
         {
             "name": "kartik-v/yii2-widget-affix",
@@ -2179,12 +2299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "4294f505696c1eaff5c3bd40ac90a8274e0771a8"
+                "reference": "40519796ca6421ecf5d314edede26d196adc5d16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/4294f505696c1eaff5c3bd40ac90a8274e0771a8",
-                "reference": "4294f505696c1eaff5c3bd40ac90a8274e0771a8",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/40519796ca6421ecf5d314edede26d196adc5d16",
+                "reference": "40519796ca6421ecf5d314edede26d196adc5d16",
                 "shasum": ""
             },
             "require": {
@@ -2260,7 +2380,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-10-20 21:37:59"
+            "time": "2015-10-22 12:23:04"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2682,6 +2802,8 @@
         "befound/yii2-limesurvey": 20,
         "neomerx/json-api": 20,
         "miloschuman/yii2-highcharts-widget": 20,
+        "bower-asset/is-loading": 20,
+        "bower-asset/bootbox": 20,
         "yiisoft/yii2-debug": 20
     },
     "prefer-stable": false,

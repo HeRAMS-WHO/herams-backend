@@ -32,7 +32,10 @@
         "befound/yii2-limesurvey": "dev-master",
         "neomerx/json-api": "dev-master",
         "2amigos/yii2-ckeditor-widget" : "~1.0",
-        "miloschuman/yii2-highcharts-widget": "dev-master"
+        "miloschuman/yii2-highcharts-widget": "dev-master",
+        "guzzlehttp/psr7": "1.2.*",
+        "bower-asset/is-loading": "^1.0@dev",
+        "bower-asset/bootbox": "^4.4@dev"
     },
 	"repositories": [
 		{
@@ -46,7 +49,7 @@
             "prime\\" : ["protected"]
         },
         "classmap" : [
-            "protected/reports/generators/"
+            "protected/reportGenerators/"
         ]
     },
     "require-dev": {

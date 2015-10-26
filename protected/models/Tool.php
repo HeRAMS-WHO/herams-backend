@@ -3,8 +3,8 @@
 namespace prime\models;
 
 use Befound\Components\UploadedFile;
-use prime\reports\generators\Test;
-use prime\widgets\progress\Absolute;
+use prime\models\permissions\Permission;
+use prime\widgets\progress\Percentage;
 use yii\base\Widget;
 use yii\helpers\FileHelper;
 
@@ -20,17 +20,55 @@ class Tool extends \prime\components\ActiveRecord {
     const IMAGE_PATH = 'img/tools/';
 
     const PROGRESS_ABSOLUTE = 'absolute';
+    const PROGRESS_PERCENTAGE = 'percentage';
 
     /**
      * variable for uploading tool image
      * @var UploadedFile
      */
     public $tempImage;
+    public $thumbTempImage;
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        /**
+         * Save image and thumbnail if set
+         * This has to be done in the after save because the id of the record is needed
+         * Only save if one of both is set
+         */
+        $save = false;
+
+        if(isset($this->tempImage)) {
+            $this->image = $this->saveImage($this->tempImage);
+            unset($this->tempImage);
+            $save = true;
+        }
+
+        if(isset($this->thumbTempImage)) {
+            $this->thumbnail = $this->saveImage($this->thumbTempImage, '_thumbnail');
+            unset($this->thumbTempImage);
+            $save = true;
+        }
+
+        if($save) {
+            $this->save(false);
+        }
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'tempImage' => \Yii::t('app', 'Image'),
+            'thumbTempImage' => \Yii::t('app', 'Thumbnail'),
+        ];
+    }
 
     public static function generators()
     {
         return [
-            'test' => Test::class
+            'test' => \prime\reportGenerators\test\Generator::class
         ];
     }
 
@@ -47,7 +85,7 @@ class Tool extends \prime\components\ActiveRecord {
     public static function getProgressOptions()
     {
         return [
-            self::PROGRESS_ABSOLUTE => \Yii::t('app', 'Absolute')
+            self::PROGRESS_PERCENTAGE => \Yii::t('app', 'Percentage')
         ];
     }
 
@@ -58,16 +96,29 @@ class Tool extends \prime\components\ActiveRecord {
     {
         switch($this->progress_type)
         {
-            case self::PROGRESS_ABSOLUTE:
-                return new Absolute();
+            case self::PROGRESS_PERCENTAGE:
+                return new Percentage();
         }
+    }
+
+    public function getThumbnailUrl() {
+        if(isset($this->thumbnail)) {
+            return '/' . self::IMAGE_PATH . $this->thumbnail;
+        } else {
+            return $this->getImageUrl();
+        }
+    }
+
+    public function isTransactional($operation)
+    {
+        return true;
     }
 
     public function rules()
     {
         return [
             [['title', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type'], 'required'],
-            [['tempImage'], 'required', 'on' => ['create']],
+            [['tempImage', 'thumbTempImage'], 'required', 'on' => ['create']],
             [['title', 'description'], 'string'],
             [['title'], 'unique'],
             [['tempImage'], 'image'],
@@ -80,30 +131,44 @@ class Tool extends \prime\components\ActiveRecord {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type'],
-            'update' => ['title', 'description', 'tempImage']
+            'create' => ['title', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage'],
+            'update' => ['title', 'description', 'tempImage', 'thumbTempImage']
         ];
     }
 
     /**
-     * Saves the temporary image and sets the new filename
-     * @return bool
+     * Saves an image for this record using the id
+     * @param UploadedFile $image
+     * @param string $postfix
+     * @return null|string
+     * @throws \Exception
      */
-    public function saveTempImage()
+    public function saveImage(UploadedFile $image, $postfix = '')
     {
-        $result = false;
-        if (isset($this->tempImage) && $this->tempImage instanceof UploadedFile) {
-            if($this->isNewRecord) {
-                throw new \Exception('Cannot save an image for a unsaved tool');
-            }
-
-            $saveImageUrl = self::IMAGE_PATH . $this->id . '.' . $this->tempImage->extension;
-            if($this->tempImage->saveAs($saveImageUrl)) {
-                $this->image = $this->id . '.' . $this->tempImage->extension;
-                $this->save(false);
-                $result = true;
-            }
+        if($this->isNewRecord) {
+            throw new \Exception('Cannot save an image for a unsaved tool');
         }
-        return $result;
+
+        $fileNameWithExtension = $this->id . $postfix . '.' . $image->extension;
+        $filePath = self::IMAGE_PATH;
+
+        if(!is_writable($filePath)) {
+            throw new \Exception('Unwritable image path');
+        }
+
+        if($image->saveAs($filePath . $fileNameWithExtension)) {
+            return $fileNameWithExtension;
+        } else {
+            return null;
+        }
+
     }
+
+    public function userCan($operation, User $user = null)
+    {
+        return $operation == Permission::PERMISSION_READ ||
+            parent::userCan($operation, $user);
+    }
+
+
 }

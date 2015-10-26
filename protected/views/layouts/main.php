@@ -5,8 +5,7 @@
     /* @var $content string */
     $this->beginPage();
 
-
-    $this->registerAssetBundle(\app\assets\AppAsset::class);
+    $this->registerAssetBundle(\prime\assets\AppAsset::class);
 ?>
 
 <!DOCTYPE HTML>

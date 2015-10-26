@@ -6,7 +6,7 @@ use app\components\Html;
 use prime\models\Project;
 use yii\base\Widget;
 
-class Absolute extends Widget
+class Percentage extends Widget
 {
     /**
      * @var Project
@@ -40,7 +40,7 @@ class Absolute extends Widget
     public function run()
     {
         parent::run();
-        return $this->render('absolute', [
+        return $this->render('percentage', [
             'widget' => $this
         ]);
     }

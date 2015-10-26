@@ -50,7 +50,10 @@ $this->params['subMenu'] = [
                 'items' => \prime\models\Tool::getProgressOptions()
             ],
             'tempImage' => [
-                'label' => \Yii::t('app', 'Image'),
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\file\FileInput::class
+            ],
+            'thumbTempImage' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
             ],

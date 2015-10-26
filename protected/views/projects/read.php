@@ -10,39 +10,32 @@ use app\components\Html;
 
 $this->params['subMenu']['items'] = [];
 
-if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
-    $this->params['subMenu']['items'][] = [
-        'label' => \Yii::t('app', 'share'),
-        'url' => ['projects/share', 'id' => $model->id]
-    ];
-}
+$this->params['subMenu']['items'][] = [
+    'label' => \Yii::t('app', 'share'),
+    'url' => ['projects/share', 'id' => $model->id],
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)
+];
 
-if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+foreach($model->tool->getGenerators() as $generator => $class) {
     $this->params['subMenu']['items'][] = [
-        'label' => \Yii::t('app', 'update'),
-        'url' => ['projects/update', 'id' => $model->id]
+        'label' => \Yii::t('app', 'generate {generator}', ['generator' => $generator]),
+        'url' => [
+            'reports/preview',
+            'projectId' => $model->id,
+            'reportGenerator' => $generator
+        ],
+        'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
     ];
-
-    foreach($model->tool->getGenerators() as $generator => $class) {
-        $this->params['subMenu']['items'][] = [
-            'label' => \Yii::t('app', 'generate {generator}', ['generator' => $generator]),
-            'url' => [
-                'reports/preview',
-                'projectId' => $model->id,
-                'reportGenerator' => $generator
-            ]
-        ];
-    }
 }
 
 ?>
 
 <div class="col-xs-12">
     <div class="row">
-        <div class="col-xs-10">
-            <h1><?=$model->title?></h1>
+        <div class="col-xs-9">
+            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) ? Html::a(Html::icon('pencil'), ['projects/update', 'id' => $model->id]) : ''?></h1>
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-3">
             <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '100%']])?>
         </div>
     </div>
@@ -64,9 +57,19 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
 </div>
 
 <div class="col-xs-12">
-    <h1><?=\Yii::t('app', 'Responses')?></h1>
-    <?=\kartik\grid\GridView::widget([
-        'dataProvider' => $responseCollection
-    ])?>
+    <?php
+    echo \yii\bootstrap\Tabs::widget([
+         'items' => [
+             [
+                 'label' => \Yii::t('app', 'Reports'),
+                 'content' => $this->render('read/reports.php', ['model' => $model])
+             ],
+             [
+                 'label' => \Yii::t('app', 'Responses'),
+                 'content' => $this->render('read/responses.php', ['model' => $model])
+             ]
+         ]
+    ]);
+    ?>
 </div>
 

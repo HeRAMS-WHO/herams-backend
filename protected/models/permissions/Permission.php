@@ -10,6 +10,10 @@ use prime\models\User;
  * Class Permission
  * @package app\models
  * @property string $permission
+ * @property string $source
+ * @property int $source_id
+ * @property string $target
+ * @property int $target_id
  */
 class Permission extends ActiveRecord
 {

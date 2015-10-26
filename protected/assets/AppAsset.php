@@ -1,12 +1,6 @@
 <?php
-/**
- * User: Sam}
- * Date: 9/4/15
- * Time: 12:24 PM
- */
 
-namespace app\assets;
-
+namespace prime\assets;
 
 use yii\bootstrap\BootstrapAsset;
 use yii\bootstrap\BootstrapPluginAsset;
@@ -17,29 +11,20 @@ use yii\web\YiiAsset;
 
 class AppAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/bootstrap-sass/assets';
+    public $basePath = '@webroot';
+    public $baseUrl = '@web';
+
     public $css = [
-        'stylesheets/main.scss'
+
+    ];
+
+    public $js = [
+        '/js/main.js'
     ];
 
     public $depends = [
-        BootstrapAsset::class,
-        YiiAsset::class
+        SassAsset::class,
+        AjaxLoadersAsset::class,
+        BootBoxAsset::class
     ];
-
-    public function publish($am)
-    {
-        list ($this->basePath, $this->baseUrl) = $am->publish($this->sourcePath, $this->publishOptions);
-        $target = $this->basePath . '/stylesheets/main.scss';
-        $source = __DIR__ . '/scss/main.scss';
-        if (!file_exists($target)
-            || md5_file($source) != md5_file($target)) {
-           copy($source, $target);
-        }
-        parent::publish($am);
-
-
-    }
-
-
 }
