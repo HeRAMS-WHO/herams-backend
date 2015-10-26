@@ -53,6 +53,10 @@ $this->params['subMenu'] = [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
             ],
+            'thumbTempImage' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\file\FileInput::class
+            ],
             'intake_survey_eid' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'

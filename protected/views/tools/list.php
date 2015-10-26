@@ -23,6 +23,15 @@ echo \kartik\grid\GridView::widget([
                 ]
             ]
         ],
+        [
+            'attribute' => 'thumbnailUrl',
+            'label' => \Yii::t('app', 'Thumbnail'),
+            'format' => ['image',
+                [
+                    'height' => '100px',
+                ]
+            ]
+        ],
         'actions' => [
             'class' => \kartik\grid\ActionColumn::class,
             'template' => '{read} {edit}',
