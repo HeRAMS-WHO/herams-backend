@@ -12,6 +12,14 @@ use app\components\Html;
 $this->title = \Yii::t('app', 'Share {projectTitle} with:', [
     'projectTitle' => $model->project->title
 ]);
+
+$this->params['subMenu'] = [
+    'items' => [
+        [
+            'label' => Html::submitButton(\Yii::t('app', 'Share'), ['form' => 'share-project', 'class' => 'btn btn-primary'])
+        ],
+    ]
+];
 ?>
 
 <div class="col-xs-12">
@@ -41,15 +49,20 @@ $this->title = \Yii::t('app', 'Share {projectTitle} with:', [
                         ]
                 ]
             ],
+            'userListIds' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\widgets\Select2::class,
+                'options' => [
+                    'data' => $model->userListOptions,
+                    'options' => [
+                        'multiple' => true
+                    ]
+                ]
+            ],
             'permission' => [
                 'label' => \Yii::t('app', 'Permission'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->permissionOptions
-            ],
-            'actions' => [
-                'type' => Form::INPUT_RAW,
-                'value' =>
-                    Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
             ]
         ]
     ]);

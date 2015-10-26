@@ -60,10 +60,16 @@ class Permission extends ActiveRecord
         ]);
         $p = $p->loadFromAttributeData();
 
-        if($p->isNewRecord || $strict || static::permissionLevels()[$permission] > $p->permission) {
+        if($p->isNewRecord || $strict || static::permissionLevels()[$permission] > static::permissionLevels()[$p->permission]) {
             $p->permission = $permission;
+            vd($p);
+            vd($p->validate());
+            vd($p->errors);
             return $p->save();
+        } elseif (static::permissionLevels()[$permission] <= $p->permission) {
+            return true;
         }
+
         return false;
     }
 

@@ -3,6 +3,7 @@
 namespace prime\models;
 
 use prime\components\ActiveRecord;
+use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
 use yii\validators\StringValidator;
 
@@ -13,6 +14,9 @@ class UserList extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
+    /**
+     * @return ActiveQuery
+     */
     public function getUsers()
     {
         return $this->hasMany(User::class, ['id' => 'user_id'])

@@ -79,14 +79,13 @@ class ProjectsController extends Controller
                             "Project <strong>{title}</strong> has been shared with: <strong>{users}</strong>",
                             [
                                 'title' => $model->project->title,
-                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->users))
+                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
                             ]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
                 return $this->redirect(['projects/read', 'id' => $model->project->id]);
             }
-            vd($model->errors);
         }
 
         return $this->render('share', [
