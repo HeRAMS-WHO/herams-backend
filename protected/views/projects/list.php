@@ -13,28 +13,32 @@ $this->params['subMenu']['items'][] = [
     'url' => ['projects/create'],
     'visible' => app()->user->identity->isAdmin
 ];
-
-echo \kartik\grid\GridView::widget([
-    'dataProvider' => $projectsDataProvider,
-    'columns' => [
-        'title',
-        [
-            'attribute' => 'description',
-            'format' => 'raw'
-        ],
-        'tool.title',
-        'actions' => [
-            'class' => \kartik\grid\ActionColumn::class,
-            'template' => '{read}',
-            'buttons' => [
-                'read' => function($url, $model, $key) {
-                    $result = Html::a(
-                        Html::icon('eye-open'),
-                        ['projects/read', 'id' => $model->id]
-                    );
-                    return $result;
-                }
+?>
+<div class="col-xs-12">
+    <?php
+    echo \kartik\grid\GridView::widget([
+        'dataProvider' => $projectsDataProvider,
+        'columns' => [
+            'title',
+            [
+                'attribute' => 'description',
+                'format' => 'raw'
+            ],
+            'tool.title',
+            'actions' => [
+                'class' => \kartik\grid\ActionColumn::class,
+                'template' => '{read}',
+                'buttons' => [
+                    'read' => function($url, $model, $key) {
+                        $result = Html::a(
+                            Html::icon('eye-open'),
+                            ['projects/read', 'id' => $model->id]
+                        );
+                        return $result;
+                    }
+                ]
             ]
         ]
-    ]
-]);
+    ]);
+    ?>
+</div>

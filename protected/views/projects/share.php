@@ -69,5 +69,22 @@ $this->params['subMenu'] = [
 
     $form->end();
     ?>
+    <h2><?=\Yii::t('app', 'Already shared with')?></h2>
+    <?php
+    echo \kartik\grid\GridView::widget([
+        'dataProvider' => new \yii\data\ActiveDataProvider([
+            'query' => $model->getProject()->getPermissions()
+        ]),
+        'columns' => [
+            [
+                'label' => \Yii::t('app', 'User'),
+                'value' => function($model){
+                    return $model->sourceObject->name;
+                }
+            ],
+            'permissionLabel'
+        ]
+    ])
+    ?>
 </div>
 

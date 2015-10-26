@@ -53,6 +53,9 @@ class Share extends Model {
         return Permission::permissionLabels();
     }
 
+    /**
+     * @return null|Project
+     */
     public function getProject()
     {
         return Project::findOne($this->projectId);

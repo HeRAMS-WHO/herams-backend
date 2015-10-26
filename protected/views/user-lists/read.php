@@ -25,22 +25,25 @@ $this->params['subMenu'] = [
 ];
 
 ?>
-<h2><?=$this->title?></h2>
-<?php
+<div class="col-xs-12">
+    <h2><?=$this->title?></h2>
+    <?php
 
-echo \yii\grid\GridView::widget([
-    'dataProvider' => new \yii\data\ArrayDataProvider([
-        'allModels' => $model->getUsers()->all(),
-        'sort' => [
-            'attributes' => [
-                'name',
-                'email'
+    echo \yii\grid\GridView::widget([
+        'dataProvider' => new \yii\data\ArrayDataProvider([
+            'allModels' => $model->getUsers()->all(),
+            'sort' => [
+                'attributes' => [
+                    'name',
+                    'email'
+                ]
             ]
-        ]
 
-    ]),
-    'columns' => [
-        'name',
-        'email'
-    ]
-]);
+        ]),
+        'columns' => [
+            'name',
+            'email'
+        ]
+    ]);
+    ?>
+</div>

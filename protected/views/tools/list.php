@@ -6,60 +6,69 @@
 
 use \app\components\Html;
 
-echo \kartik\grid\GridView::widget([
-    'dataProvider' => $toolsDataProvider,
-    'columns' => [
-        'title',
-        [
-            'attribute' => 'description',
-            'format' => 'raw'
-        ],
-        [
-            'attribute' => 'imageUrl',
-            'label' => \Yii::t('app', 'Image'),
-            'format' => ['image',
-                [
-                    'height' => '100px',
+$this->params['subMenu']['items'] = [
+    [
+        'label' => \Yii::t('app', 'Create'),
+        'url' => ['tools/create'],
+        'visible' => app()->user->identity->isAdmin
+    ]
+];
+
+?>
+<div class="col-xs-12">
+    <?php
+    echo \kartik\grid\GridView::widget([
+        'dataProvider' => $toolsDataProvider,
+        'columns' => [
+            'title',
+            [
+                'attribute' => 'description',
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'imageUrl',
+                'label' => \Yii::t('app', 'Image'),
+                'format' => ['image',
+                    [
+                        'height' => '100px',
+                    ]
                 ]
-            ]
-        ],
-        [
-            'attribute' => 'thumbnailUrl',
-            'label' => \Yii::t('app', 'Thumbnail'),
-            'format' => ['image',
-                [
-                    'height' => '100px',
+            ],
+            [
+                'attribute' => 'thumbnailUrl',
+                'label' => \Yii::t('app', 'Thumbnail'),
+                'format' => ['image',
+                    [
+                        'height' => '100px',
+                    ]
                 ]
-            ]
-        ],
-        'actions' => [
-            'class' => \kartik\grid\ActionColumn::class,
-            'template' => '{read} {edit}',
-            'buttons' => [
-                'read' => function($url, $model, $key) {
-                    /** @var \prime\models\Tool $model */
-                    $result = Html::a(
-                        Html::icon('eye-open'),
-                        ['tools/read', 'id' => $model->id]
-                    );
-                    return $result;
-                },
-                'edit' => function($url, $model, $key) {
-                    /** @var \prime\models\Tool $model */
-                    $result = '';
-                    if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+            ],
+            'actions' => [
+                'class' => \kartik\grid\ActionColumn::class,
+                'template' => '{read} {edit}',
+                'buttons' => [
+                    'read' => function($url, $model, $key) {
+                        /** @var \prime\models\Tool $model */
                         $result = Html::a(
-                            Html::icon('pencil'),
-                            ['tools/update', 'id' => $model->id]
+                            Html::icon('eye-open'),
+                            ['tools/read', 'id' => $model->id]
                         );
-                    }
-                    return $result;
-                },
+                        return $result;
+                    },
+                    'edit' => function($url, $model, $key) {
+                        /** @var \prime\models\Tool $model */
+                        $result = '';
+                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                            $result = Html::a(
+                                Html::icon('pencil'),
+                                ['tools/update', 'id' => $model->id]
+                            );
+                        }
+                        return $result;
+                    },
+                ]
             ]
         ]
-    ]
-]);
-
-if(app()->user->identity->isAdmin)
-    echo \app\components\Html::a(\Yii::t('app', 'Create'), ['tools/create'], ['class' => 'btn btn-primary']);
-?>
+    ]);
+    ?>
+</div>

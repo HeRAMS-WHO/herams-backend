@@ -49,6 +49,12 @@ class Project extends ActiveRecord {
             ->inverseOf('projects');
     }
 
+    public function getPermissions()
+    {
+        return $this->hasMany(Permission::class, ['target_id' => 'id'])
+            ->andWhere(['target' => self::class]);
+    }
+
     /**
      * @return Widget
      */
