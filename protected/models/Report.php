@@ -12,6 +12,11 @@ use prime\interfaces\UserDataInterface;
 use prime\objects\Signature;
 use Psr\Http\Message\StreamInterface;
 
+/**
+ * Class Report
+ * @package prime\models
+ * @property Project $project
+ */
 class Report extends ActiveRecord implements ReportInterface
 {
     public function beforeSave($insert)
@@ -46,6 +51,14 @@ class Report extends ActiveRecord implements ReportInterface
     public function getMimeType()
     {
         return $this->mime_type;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProject()
+    {
+        return $this->hasOne(Project::class, ['id', 'project_id']);
     }
 
     /**
@@ -112,4 +125,15 @@ class Report extends ActiveRecord implements ReportInterface
             return null;
         }
     }
+
+    public function userCan($operation, User $user = null)
+    {
+        $result = parent::userCan($operation, $user);
+        if(!$result) {
+            $result = $this->project->userCan($operation, $user);
+        }
+        return $result;
+    }
+
+
 }

@@ -66,6 +66,14 @@ class ReportsController extends Controller
         }
     }
 
+    public function actionRead($id)
+    {
+        $report = Report::loadOne($id);
+        app()->response->setContentType($report->getMimeType());
+        app()->response->content = $report->getStream();
+        return app()->response;
+    }
+
     public function actionRenderFinal($projectId, $reportGenerator)
     {
         /* @todo set correct privilege */
