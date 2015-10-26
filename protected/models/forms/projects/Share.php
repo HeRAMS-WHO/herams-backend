@@ -7,6 +7,7 @@ use prime\models\permissions\UserProject;
 use prime\models\Project;
 use prime\models\User;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
 
@@ -22,7 +23,6 @@ class Share extends Model {
             'userIds' => \Yii::t('app', 'Users')
         ];
     }
-
 
     public function createRecords()
     {
@@ -45,14 +45,19 @@ class Share extends Model {
         return $result;
     }
 
+    public function getPermissionOptions()
+    {
+        return Permission::permissionLabels();
+    }
+
     public function getProject()
     {
         return Project::findOne($this->projectId);
     }
 
-    public function getUsers()
+    public function getUserOptions()
     {
-        return User::findAll(['id' => $this->userIds]);
+        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', 'name');
     }
 
     public function rules() {

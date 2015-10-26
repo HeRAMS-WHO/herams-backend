@@ -1,10 +1,18 @@
 <?php
 
+use \app\components\Html;
+
 /**
  * @var $projectsDataProvider \yii\data\ActiveDataProvider
  */
 
-use \app\components\Html;
+$this->params['subMenu']['items'] = [];
+
+$this->params['subMenu']['items'][] = [
+    'label' => \Yii::t('app', 'Create'),
+    'url' => ['projects/create'],
+    'visible' => app()->user->identity->isAdmin
+];
 
 echo \kartik\grid\GridView::widget([
     'dataProvider' => $projectsDataProvider,
@@ -30,7 +38,3 @@ echo \kartik\grid\GridView::widget([
         ]
     ]
 ]);
-
-if(app()->user->identity->isAdmin)
-    echo \app\components\Html::a(\Yii::t('app', 'Create'), ['projects/create'], ['class' => 'btn btn-primary']);
-?>

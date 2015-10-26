@@ -5,19 +5,25 @@ use \app\components\ActiveForm;
 use app\components\Html;
 
 /**
- * @var \prime\models\Project $project
- * @var \prime\models\forms\projects\Share $model
+ * @var \yii\web\View $this
+ * @var \prime\models\forms\UserList $model
  */
 
-$this->title = \Yii::t('app', 'Share {projectTitle} with:', [
-    'projectTitle' => $model->project->title
-]);
+$this->title = Yii::t('app', 'Create user list');
+
+$this->params['subMenu'] = [
+    'items' => [
+        [
+            'label' => Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'create-user-list', 'class' => 'btn btn-primary'])
+        ],
+    ]
+];
 ?>
 
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'share-project',
+        'id' => 'create-user-list',
         'method' => 'POST',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -31,30 +37,23 @@ $this->title = \Yii::t('app', 'Share {projectTitle} with:', [
         'model' => $model,
         'columns' => 1,
         "attributes" => [
+            'name' => [
+                'type' => Form::INPUT_TEXT,
+            ],
             'userIds' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::class,
                 'options' => [
                     'data' => $model->userOptions,
                     'options' => [
-                    'multiple' => true
-                        ]
+                        'multiple' => true
+                    ]
                 ]
-            ],
-            'permission' => [
-                'label' => \Yii::t('app', 'Permission'),
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->permissionOptions
-            ],
-            'actions' => [
-                'type' => Form::INPUT_RAW,
-                'value' =>
-                    Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
             ]
+
         ]
     ]);
 
     $form->end();
     ?>
 </div>
-

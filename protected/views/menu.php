@@ -23,7 +23,8 @@ if (!app()->user->isGuest) {
         'items' => [
             ['label' => 'Tools', 'url' => ['/tools']],
             ['label' => 'Projects', 'url' => ['/projects']],
-            ['label' => 'Marketplace', 'url' => ['/users/login']]
+            ['label' => 'Marketplace', 'url' => ['/users/login']],
+            ['label' => 'User lists', 'url' => ['/user-lists/list']]
         ],
     ]);
 }

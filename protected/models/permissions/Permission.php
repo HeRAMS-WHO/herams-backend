@@ -100,9 +100,9 @@ class Permission extends ActiveRecord
     public static function permissionLabels()
     {
         return [
-            self::PERMISSION_READ => 'Read',
-            self::PERMISSION_WRITE => 'Write',
-            self::PERMISSION_SHARE => 'Share'
+            self::PERMISSION_READ => \Yii::t('app', 'Read'),
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write'),
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share')
         ];
     }
 
