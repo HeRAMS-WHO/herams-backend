@@ -16,6 +16,14 @@ class Share extends Model {
     public $permission;
     public $projectId;
 
+    public function attributeLabels()
+    {
+        return [
+            'userIds' => \Yii::t('app', 'Users')
+        ];
+    }
+
+
     public function createRecords()
     {
         $result = false;
@@ -25,12 +33,7 @@ class Share extends Model {
 
             foreach($this->userIds as $userId)
             {
-                $userProject = new UserProject([
-                    'projectId' => $this->projectId,
-                    'userId' => $userId,
-                    'permission' => $this->permission
-                ]);
-                $result = $result && $userProject->save();
+                $result = $result && UserProject::grant(User::findOne($userId), $this->getProject(), $this->permission);
             }
 
             if($result) {

@@ -31,7 +31,6 @@ $this->title = \Yii::t('app', 'Share {projectTitle} with:', [
         'columns' => 1,
         "attributes" => [
             'userIds' => [
-                'label' => \Yii::t('app', 'User'),
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::class,
                 'options' => [

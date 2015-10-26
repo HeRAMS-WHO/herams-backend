@@ -42,7 +42,7 @@ class Permission extends ActiveRecord
         return $this->hasOne($this->target, ['id' => 'target_id']);
     }
 
-    public static function grand(ActiveRecord $source,ActiveRecord $target, $permission, $strict = false)
+    public static function grant(\yii\db\ActiveRecord $source,\yii\db\ActiveRecord $target, $permission, $strict = false)
     {
         if($source->isNewRecord) {
             throw new \Exception('Source is new record');
@@ -62,10 +62,9 @@ class Permission extends ActiveRecord
 
         if($p->isNewRecord || $strict || static::permissionLevels()[$permission] > $p->permission) {
             $p->permission = $permission;
-            $p->save();
+            return $p->save();
         }
-
-        return $p;
+        return false;
     }
 
     public static function instantiate($row)

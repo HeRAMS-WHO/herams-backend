@@ -109,22 +109,6 @@ class Project extends ActiveRecord {
         ];
     }
 
-    /**
-     * Shares this project with user, returns whether the project sharing was successfull
-     * @param User $user
-     * @param string $permission
-     * @return bool
-     * @throws \Exception
-     */
-    public function shareWith(User $user, $permission = Permission::PERMISSION_READ)
-    {
-        if($user->id != $this->owner_id)
-            return true;
-
-        return !Permission::grand($this, $user, $permission)->isNewRecord;
-
-    }
-
     public function userCan($operation, User $user = null)
     {
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
