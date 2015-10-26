@@ -10,8 +10,20 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'showScriptName' => false,
             'rules' => [
                 [
-                    'pattern' => 'rest/<model:\w+>',
-                    'route' => 'rest/show'
+                    'class' => \yii\web\GroupUrlRule::class,
+                    'prefix' => 'rest',
+                    'routePrefix' => '',
+                    'rules' => [
+                        [
+                            'pattern' => '<model:\w+>',
+                            'route' => 'rest/list'
+                        ],
+                        [
+                            'pattern' => '<model:\w+>/<id:\w+>',
+                            'route' => 'rest/read'
+                        ],
+
+                    ]
                 ]
             ]
         ],
