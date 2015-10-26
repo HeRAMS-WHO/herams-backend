@@ -19,11 +19,36 @@ class UserListsController extends Controller
 
         if(app()->request->isPost) {
             if($model->load(app()->request->data()) && $model->save()) {
-                return $this->redirect(['user-lists/read', 'id' => $model->id]);
+                app()->session->setFlash(
+                    'userListCreated',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => "User list <strong>{$model->name}</strong> is created.",
+                        'icon' => 'glyphicon glyphicon-ok'
+                    ]
+                );
+                return $this->redirect(['/user-lists/read', 'id' => $model->id]);
             }
         }
 
         return $this->render('create', ['model' => $model]);
+    }
+
+    public function actionDelete($id)
+    {
+        $model = UserList::loadOne($id, Permission::PERMISSION_WRITE);
+        if(app()->request->isDelete) {
+            $model->delete();
+            app()->session->setFlash(
+                'userListDeleted',
+                [
+                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                    'text' => "User list <strong>{$model->name}</strong> is deleted.",
+                    'icon' => 'glyphicon glyphicon-trash'
+                ]
+            );
+        }
+        return $this->redirect(['/user-lists/list']);
     }
 
     public function actionList()
@@ -43,6 +68,14 @@ class UserListsController extends Controller
 
         if(app()->request->isPost) {
             if($model->load(app()->request->data()) && $model->save()) {
+                app()->session->setFlash(
+                    'userListUpdated',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => "User list <strong>{$model->name}</strong> is updated.",
+                        'icon' => 'glyphicon glyphicon-ok'
+                    ]
+                );
                 return $this->redirect(['user-lists/read', 'id' => $model->id]);
             }
         }

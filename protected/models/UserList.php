@@ -9,6 +9,12 @@ use yii\validators\StringValidator;
 
 class UserList extends ActiveRecord
 {
+    public function delete()
+    {
+        $this->unlinkAll('users', true);
+        return parent::delete();
+    }
+
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);

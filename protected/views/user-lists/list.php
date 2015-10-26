@@ -21,7 +21,7 @@ echo \kartik\grid\GridView::widget([
         'name',
         'actions' => [
             'class' => \kartik\grid\ActionColumn::class,
-            'template' => '{read} {update}',
+            'template' => '{read} {update} {remove}',
             'buttons' => [
                 'read' => function($url, $model, $key) {
                     return Html::a(
@@ -34,7 +34,19 @@ echo \kartik\grid\GridView::widget([
                         Html::icon('pencil'),
                         ['/user-lists/update', 'id' => $model->id]
                     );
+                },
+                'remove' => function($url, $model, $key) {
+                    return Html::a(
+                        Html::icon('trash'),
+                        ['/user-lists/delete', 'id' => $model->id],
+                        [
+                            'class' => 'text-danger',
+                            'data-confirm' => \Yii::t('app', 'Are you sure you want to delete list <strong>{name}</strong>?', ['name' => $model->name]),
+                            'data-method' => 'delete'
+                        ]
+                    );
                 }
+
             ]
         ]
     ]

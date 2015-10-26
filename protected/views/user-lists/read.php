@@ -10,9 +10,17 @@ $this->title = Yii::t('app', 'User list {name}', ['name' => $model->name]);
 $this->params['subMenu'] = [
     'items' => [
         [
-            'label' => \Yii::t('app', 'Edit'),
-            'url' => ['user-lists/update', 'id' => $model->id]
+            'label' => \Yii::t('app', 'Delete'),
+            'url' => ['/user-lists/delete', 'id' => $model->id],
+            'linkOptions' => [
+                'data-confirm' => \Yii::t('app', 'Are you sure you want to delete list <strong>{name}</strong>?', ['name' => $model->name]),
+                'data-method' => 'delete'
+            ]
         ],
+        [
+            'label' => \Yii::t('app', 'Edit'),
+            'url' => ['/user-lists/update', 'id' => $model->id]
+        ]
     ]
 ];
 
