@@ -7,6 +7,14 @@ use prime\models\Project;
 use prime\models\User;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class UserProject
+ * @package prime\models\permissions
+ * @property Project $project
+ * @property int $projectId
+ * @property User $user
+ * @property int $userId
+ */
 class UserProject extends Permission
 {
     public function init()
@@ -34,9 +42,19 @@ class UserProject extends Permission
         return $this->hasOne(Project::class, ['id' => 'target_id']);
     }
 
+    public function getProjectId()
+    {
+        return $this->target_id;
+    }
+
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'source_id']);
+    }
+
+    public function getUserId()
+    {
+        return $this->source_id;
     }
 
     public function rules()
@@ -49,5 +67,15 @@ class UserProject extends Permission
                 [['source_id'], 'in', 'not' => true, 'range' => [$this->project->owner_id]]
             ]
         );
+    }
+
+    public function setProjectId($value)
+    {
+        $this->target_id = $value;
+    }
+
+    public function setUserId($value)
+    {
+        $this->source_id = $value;
     }
 }

@@ -3,6 +3,7 @@
 namespace prime\controllers;
 
 use prime\components\Controller;
+use prime\models\forms\projects\Share;
 use prime\models\forms\ShareProject;
 use prime\models\permissions\Permission;
 use prime\models\permissions\UserProject;
@@ -64,22 +65,28 @@ class ProjectsController extends Controller
     {
         $project = Project::loadOne($id, Permission::PERMISSION_SHARE);
 
-        $model = new UserProject([
-            'target_id' => $project->id
+        $model = new Share([
+            'projectId' => $project->id
         ]);
 
         if(app()->request->isPost) {
-            if($model->load(app()->request->data()) && $model->save()) {
+            if($model->load(app()->request->data()) && $model->createRecords()) {
                 app()->session->setFlash(
                     'projectShared',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => "Project <strong>{$model->project->title}</strong> has been shared with <strong>{$model->user->name}</strong>.",
+                        'text' => \Yii::t('app',
+                            "Project <strong>{title}</strong> has been shared with: <strong>{users}</strong>",
+                            [
+                                'title' => $model->project->title,
+                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->users))
+                            ]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
                 return $this->redirect(['projects/read', 'id' => $model->project->id]);
             }
+            vd($model->errors);
         }
 
         return $this->render('share', [

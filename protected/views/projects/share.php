@@ -30,7 +30,7 @@ $this->title = \Yii::t('app', 'Share {projectTitle} with:', [
         'model' => $model,
         'columns' => 1,
         "attributes" => [
-            'source_id' => [
+            'userIds' => [
                 'label' => \Yii::t('app', 'User'),
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::class,
@@ -41,14 +41,16 @@ $this->title = \Yii::t('app', 'Share {projectTitle} with:', [
                                 'not',
                                 [
                                     'id' => \prime\models\permissions\UserProject::find()
-                                        ->andWhere(['target_id' => $model->target_id])
+                                        ->andWhere(['target_id' => $model->projectId])
                                         ->select('source_id')
                                 ]
                             ])
                             ->all(), 'id', 'name'),
                         [$model->project->owner_id => true]
-                    )
-
+                    ),
+                    'options' => [
+                    'multiple' => true
+                        ]
                 ]
             ],
             'permission' => [
