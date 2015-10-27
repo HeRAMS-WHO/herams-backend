@@ -2,11 +2,14 @@
 
 namespace prime\models;
 
+use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use Befound\Components\UploadedFile;
 use prime\models\permissions\Permission;
 use prime\widgets\progress\Percentage;
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
+use yii\validators\RangeValidator;
 
 /**
  * Class Tool
@@ -65,7 +68,20 @@ class Tool extends \prime\components\ActiveRecord {
         ];
     }
 
-    public static function generators()
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(),
+            [
+                JsonBehavior::class => [
+                    'class' => JsonBehavior::class,
+                    'jsonAttributes' => ['generators']
+                ]
+            ]
+        );
+    }
+
+
+    public static function generatorOptions()
     {
         return [
             'test' => \prime\reportGenerators\test\Generator::class
@@ -74,7 +90,7 @@ class Tool extends \prime\components\ActiveRecord {
 
     public function getGenerators()
     {
-        return self::generators();
+        return self::generatorOptions();
     }
 
     public function getImageUrl()
@@ -117,22 +133,23 @@ class Tool extends \prime\components\ActiveRecord {
     public function rules()
     {
         return [
-            [['title', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type'], 'required'],
-            [['tempImage', 'thumbTempImage'], 'required', 'on' => ['create']],
+            [['title', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generators'], 'required'],
+            [['tempImage'], 'required', 'on' => ['create']],
             [['title', 'description'], 'string'],
             [['title'], 'unique'],
-            [['tempImage'], 'image'],
+            [['tempImage', 'thumbTempImage'], 'image'],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], 'string'],
-            [['progress_type'], 'in', 'range' => array_keys(self::getProgressOptions())]
+            [['progress_type'], 'in', 'range' => array_keys(self::getProgressOptions())],
+            [['generators'], RangeValidator::class, 'range' => array_keys(self::generatorOptions()), 'allowArray' => true]
         ];
     }
 
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage'],
-            'update' => ['title', 'description', 'tempImage', 'thumbTempImage']
+            'create' => ['title', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generators'],
+            'update' => ['title', 'description', 'tempImage', 'thumbTempImage', 'generators']
         ];
     }
 

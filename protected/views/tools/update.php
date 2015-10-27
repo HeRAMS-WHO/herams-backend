@@ -31,6 +31,7 @@ $this->params['subMenu'] = [
         ]
     ]);
 
+
     echo \app\components\Form::widget([
         'form' => $form,
         'model' => $model,
@@ -49,7 +50,25 @@ $this->params['subMenu'] = [
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
-            ]
+            ],
+            'thumbTempImage' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\file\FileInput::class
+            ],
+            'generators' => [
+                'type' => Form::INPUT_CHECKBOX_LIST,
+                'items' => \yii\helpers\ArrayHelper::map(
+                    array_flip(\prime\models\Tool::generatorOptions()),
+                    function ($key) {
+                        return $key;
+                    },
+                    function ($key) {
+                        $class = \prime\models\Tool::generatorOptions()[$key];
+                        return (new $class)->title;
+                    }
+                ),
+                'value' => $model->generators->asArray()
+            ],
         ]
     ]);
 
