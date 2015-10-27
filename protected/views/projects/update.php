@@ -4,6 +4,11 @@ use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;
 
+/**
+ * @var \yii\web\View $this
+ * @var \prime\models\Project $model
+ */
+
 $this->title = Yii::t('app', 'Update project');
 
 $this->params['subMenu'] = [
@@ -43,11 +48,22 @@ $this->params['subMenu'] = [
                     'preset' => 'basic'
                 ]
             ],
-//            'actions' => [
-//                'type' => Form::INPUT_RAW,
-//                'value' =>
-//                    Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
-//            ]
+            'default_generator' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => \yii\helpers\ArrayHelper::map(
+                    array_flip($model->tool->getGenerators()),
+                    function ($key) {
+                        return $key;
+                    },
+                    function ($key) {
+                        $class = \prime\models\Tool::generatorOptions()[$key];
+                        return (new $class)->title;
+                    }
+                ),
+                'options' => [
+                    'prompt' => ''
+                ]
+            ]
         ]
     ]);
 

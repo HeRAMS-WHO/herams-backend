@@ -90,7 +90,7 @@ class Tool extends \prime\components\ActiveRecord {
 
     public function getGenerators()
     {
-        return self::generatorOptions();
+        return array_intersect_key(self::generatorOptions(), array_flip($this->generators->asArray()));
     }
 
     public function getImageUrl()

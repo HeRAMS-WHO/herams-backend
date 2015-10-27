@@ -7,6 +7,36 @@ use \app\components\Html;
  * @var \prime\models\Project $model
  */
 
+$items = [];
+foreach($model->tool->getGenerators() as $generator => $class) {
+    $items[] = [
+        'label' => \Yii::t('app', '{generator}', ['generator' => ucfirst($generator)]),
+        'url' => [
+            'reports/preview',
+            'projectId' => $model->id,
+            'reportGenerator' => $generator
+        ]
+    ];
+}
+
+if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && !empty($items)) {
+    ?>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <?=\Yii::t('app', 'Preview report using')?>
+            <span class="caret"></span>
+        </button>
+        <?php
+            echo \yii\bootstrap\Dropdown::widget(
+            [
+                'items' => $items
+            ]
+        );
+    ?>
+    </div>
+    <?php
+}
+
 echo \kartik\grid\GridView::widget([
     'dataProvider' =>
         new \yii\data\ActiveDataProvider([

@@ -27,13 +27,24 @@ $this->params['subMenu']['items'][] = [
             'tool.title',
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
-                'template' => '{read}',
+                'template' => '{read} {update}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         $result = Html::a(
                             Html::icon('eye-open'),
-                            ['projects/read', 'id' => $model->id]
+                            ['/projects/read', 'id' => $model->id]
                         );
+                        return $result;
+                    },
+                    'update' => function($url, $model, $key) {
+                        $result = '';
+                        /** @var \prime\models\Project $model */
+                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                            $result = Html::a(
+                                Html::icon('pencil'),
+                                ['/projects/update', 'id' => $model->id]
+                            );
+                        }
                         return $result;
                     }
                 ]

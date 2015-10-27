@@ -42,11 +42,22 @@ $this->title = Yii::t('app', 'Create project');
             'tool_id' => [
                 'label' => \Yii::t('app', 'Tool'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(\prime\models\Tool::find()->all(), 'id', 'title')
+                'items' => \yii\helpers\ArrayHelper::map(\prime\models\Tool::find()->all(), 'id', 'title'),
             ],
             'data_survey_eid' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
+            ],
+            'default_generator' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\widgets\DepDrop::class,
+                'options' => [
+                    'pluginOptions' => [
+                        'url' => ['/tools/dep-drop-generators'],
+                        'depends' => ['project-tool_id']
+                    ],
+                ],
+                'enableClientValidation' => false
             ],
             'actions' => [
                 'type' => Form::INPUT_RAW,

@@ -5,6 +5,7 @@ namespace prime\models;
 use prime\components\ActiveRecord;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
+use yii\validators\RangeValidator;
 
 /**
  * Class Project
@@ -41,6 +42,16 @@ class Project extends ActiveRecord {
             ]);
         }
         return $query;
+    }
+
+    public function getDefaultGenerator()
+    {
+        if(isset(Tool::generatorOptions()[$this->default_generator])) {
+            $generatorClass = Tool::generatorOptions()[$this->default_generator];
+            return new $generatorClass();
+        } else {
+            return null;
+        }
     }
 
     public function getOwner()
@@ -103,15 +114,16 @@ class Project extends ActiveRecord {
             [['title', 'description'], 'string'],
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
-            [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id']
+            [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
+            [['default_generator'], RangeValidator::class, 'range' => function($model, $attribute) {return isset($model->tool) ? array_keys($this->tool->getGenerators()) : [];}]
         ];
     }
 
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id'],
-            'update' => ['title', 'description']
+            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator'],
+            'update' => ['title', 'description', 'default_generator']
         ];
     }
 

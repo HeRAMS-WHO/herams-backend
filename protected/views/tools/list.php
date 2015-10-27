@@ -43,6 +43,13 @@ $this->params['subMenu']['items'] = [
                     ]
                 ]
             ],
+            [
+                'attribute' => 'generators',
+                'value'=>function ($model, $key, $index, $widget) {
+                    return Html::ul($model->generators);
+                },
+                'format' => 'raw'
+            ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
                 'template' => '{read} {edit}',
