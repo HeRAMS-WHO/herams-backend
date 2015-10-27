@@ -47,7 +47,16 @@ $this->params['subMenu'] = [
             ],
             'progress_type' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \prime\models\Tool::getProgressOptions()
+                'items' => \yii\helpers\ArrayHelper::map(
+                    array_flip(\prime\models\Tool::progressOptions()),
+                    function ($key) {
+                        return $key;
+                    },
+                    function ($key) {
+                        $class = \prime\models\Tool::progressOptions()[$key];
+                        return (new $class)->title;
+                    }
+                )
             ],
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,

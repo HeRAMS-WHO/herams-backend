@@ -52,6 +52,16 @@ class ProjectsController extends Controller
         ]);
     }
 
+    public function actionProgress($id)
+    {
+        $project = Project::loadOne($id);
+        $report = $project->getProgressReport();
+
+        app()->response->setContentType($report->getMimeType());
+        app()->response->content = $report->getStream();
+        return app()->response;
+    }
+
     public function actionRead($id)
     {
         $project = Project::loadOne($id);

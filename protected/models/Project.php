@@ -3,6 +3,7 @@
 namespace prime\models;
 
 use prime\components\ActiveRecord;
+use prime\interfaces\ReportGeneratorInterface;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use yii\validators\RangeValidator;
@@ -74,6 +75,14 @@ class Project extends ActiveRecord {
         $widget = $this->tool->progressWidget;
         $widget->project = $this;
         return $widget;
+    }
+
+    public function getProgressReport()
+    {
+        $generatorClass = $this->tool->progressOptions()[$this->tool->progress_type];
+        /** @var ReportGeneratorInterface $generator */
+        $generator = new $generatorClass();
+        return $generator->render($this->getResponses(), app()->user->identity->createSignature());
     }
 
     /**

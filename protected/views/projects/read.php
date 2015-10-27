@@ -53,7 +53,7 @@ if(isset($model->defaultGenerator)) {
 </div>
 
 <div class="col-xs-12">
-    <?=$model->progressWidget->run()?>
+    <iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" seamless="seamless"></iframe>
 </div>
 
 <div class="col-xs-12">
