@@ -14,9 +14,9 @@ return [
     'components' => [
         'limesurvey' => [
             'class' => \Befound\ApplicationComponents\LimeSurvey::class,
-            'url' => 'http://demo.befound.nl/index.php?r=admin/remotecontrol',
-            'username' => 'admin',
-            'password' => 'test'
+            'url' => 'http://whols2.befound.nl/index.php?r=admin/remotecontrol',
+            'username' => 'prime',
+            'password' => 'H9y43n4X'
 
         ],
         'authClientCollection' => [
