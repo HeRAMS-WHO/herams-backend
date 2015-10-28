@@ -3,6 +3,7 @@
 namespace prime\models\permissions;
 
 use prime\components\ActiveQuery;
+use prime\components\ActiveRecord;
 use prime\models\Project;
 use prime\models\User;
 use yii\helpers\ArrayHelper;
@@ -36,6 +37,18 @@ class UserProject extends Permission
         return $result;
     }
 
+    public static function grant(\yii\db\ActiveRecord $source, \yii\db\ActiveRecord $target, $permission, $strict = false)
+    {
+        if(!($source instanceOf User)) {
+            throw new \DomainException('Source should be instance of ' . User::class);
+        }
+
+        if(!($target instanceOf Project)) {
+            throw new \DomainException('Target should be instance of ' . Project::class);
+        }
+
+        return parent::grant($source, $target, $permission, $strict);
+    }
 
     public function getProject()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\reportGenerators\test;
+namespace prime\reportGenerators\progressPercentage;
 
 use prime\interfaces\ReportInterface;
 use prime\interfaces\ResponseCollectionInterface;
@@ -11,13 +11,15 @@ use yii\base\Component;
 
 class Report extends Component implements ReportInterface
 {
-    protected $userData;
+    protected $responseCollection;
     protected $signature;
+    protected $userData;
 
-    public function __construct(ResponseCollectionInterface $responseCollection, UserDataInterface $userData, SignatureInterface $signature)
+    public function __construct(ResponseCollectionInterface $responseCollection, SignatureInterface $signature, UserDataInterface $userData = null)
     {
-        $this->userData = $userData;
+        $this->responseCollection = $responseCollection;
         $this->signature = $signature;
+        $this->userData = $userData;
     }
 
     /**
@@ -26,7 +28,7 @@ class Report extends Component implements ReportInterface
      */
     public function getStream()
     {
-        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('@app/reportGenerators/test/views/publish', ['userData' => $this->userData, 'signature' => $this->getSignature()]));
+        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('@app/reportGenerators/progressPercentage/views/publish', ['report' => $this, 'userData' => $this->getUserData(), 'signature' => $this->getSignature()]));
     }
 
     /**
@@ -36,6 +38,25 @@ class Report extends Component implements ReportInterface
     public function getMimeType()
     {
         return 'text/html';
+    }
+
+    public function getPartners()
+    {
+        /* @todo implement stub */
+        return 17;
+    }
+
+    public function getPartnersResponding()
+    {
+        /* @todo implement stub */
+        return 10;
+    }
+
+    public function getResponseRate()
+    {
+        return $this->getPartners() > 0 ?
+            round(($this->getPartnersResponding() * 100) / $this->getPartners()) :
+            0;
     }
 
     /**

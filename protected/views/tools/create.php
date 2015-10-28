@@ -47,7 +47,16 @@ $this->params['subMenu'] = [
             ],
             'progress_type' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \prime\models\Tool::getProgressOptions()
+                'items' => \yii\helpers\ArrayHelper::map(
+                    array_flip(\prime\models\Tool::progressOptions()),
+                    function ($key) {
+                        return $key;
+                    },
+                    function ($key) {
+                        $class = \prime\models\Tool::progressOptions()[$key];
+                        return (new $class)->title;
+                    }
+                )
             ],
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,
@@ -64,7 +73,20 @@ $this->params['subMenu'] = [
             'base_survey_eid' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
-            ]
+            ],
+            'generators' => [
+                'type' => Form::INPUT_CHECKBOX_LIST,
+                'items' => \yii\helpers\ArrayHelper::map(
+                    array_flip(\prime\models\Tool::generatorOptions()),
+                    function ($key) {
+                        return $key;
+                    },
+                    function ($key) {
+                        $class = \prime\models\Tool::generatorOptions()[$key];
+                        return (new $class)->title;
+                    }
+                )
+            ],
         ],
         'options' => [
 

@@ -16,13 +16,13 @@ $this->params['subMenu']['items'][] = [
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)
 ];
 
-foreach($model->tool->getGenerators() as $generator => $class) {
+if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
-        'label' => \Yii::t('app', 'generate {generator}', ['generator' => $generator]),
+        'label' => \Yii::t('app', 'preview report'),
         'url' => [
             'reports/preview',
             'projectId' => $model->id,
-            'reportGenerator' => $generator
+            'reportGenerator' => $model->default_generator
         ],
         'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
     ];
@@ -53,7 +53,7 @@ foreach($model->tool->getGenerators() as $generator => $class) {
 </div>
 
 <div class="col-xs-12">
-    <?=$model->progressWidget->run()?>
+    <iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" seamless="seamless"></iframe>
 </div>
 
 <div class="col-xs-12">

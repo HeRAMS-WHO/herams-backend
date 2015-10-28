@@ -59,7 +59,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
 
                 ]
             ],
-        ],
+        ]
     ],
     'modules' => [
         'user' => [

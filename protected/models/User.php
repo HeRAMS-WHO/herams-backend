@@ -59,6 +59,11 @@ class User extends \dektrium\user\models\User {
         return Project::find();
     }
 
+    public function getUserLists()
+    {
+        return $this->hasMany(UserList::class, ['user_id' => 'id']);
+    }
+
     public function getUsername()
     {
         return $this->email;

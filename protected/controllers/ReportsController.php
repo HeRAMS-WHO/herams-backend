@@ -34,7 +34,7 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
-        if(isset(Tool::generators()[$reportGenerator])) {
+        if(isset(Tool::generatorOptions()[$reportGenerator])) {
             if(app()->request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
                 if(!isset($userData)) {
@@ -78,12 +78,12 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
-        if(isset(Tool::generators()[$reportGenerator])) {
+        if(isset(Tool::generatorOptions()[$reportGenerator])) {
             $userData = $project->getUserData($reportGenerator)->one();
             if(!isset($userData)) {
                 $userData = new UserData();
             }
-            $generator = Tool::generators()[$reportGenerator];
+            $generator = Tool::generatorOptions()[$reportGenerator];
             /** @var ReportGeneratorInterface $generator */
             $generator = new $generator;
             /** @var ReportInterface $report */
@@ -105,12 +105,12 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
-        if(isset(Tool::generators()[$reportGenerator])) {
+        if(isset(Tool::generatorOptions()[$reportGenerator])) {
             $userData = $project->getUserData($reportGenerator)->one();
             if(!isset($userData)) {
                 $userData = new UserData();
             }
-            $generator = Tool::generators()[$reportGenerator];
+            $generator = Tool::generatorOptions()[$reportGenerator];
             /** @var ReportGeneratorInterface $generator */
             $generator = new $generator;
             return $generator->renderPreview(
@@ -127,13 +127,13 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
-        if(isset(Tool::generators()[$reportGenerator])) {
+        if(isset(Tool::generatorOptions()[$reportGenerator])) {
             if(app()->request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
                 if (!isset($userData)) {
                     $userData = new UserData();
                 }
-                $generator = Tool::generators()[$reportGenerator];
+                $generator = Tool::generatorOptions()[$reportGenerator];
                 /** @var ReportGeneratorInterface $generator */
                 $generator = new $generator;
                 $report = Report::saveReport(

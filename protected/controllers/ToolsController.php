@@ -10,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
+use yii\web\Response;
 
 class ToolsController extends Controller
 {
@@ -45,6 +46,33 @@ class ToolsController extends Controller
         return $this->render('create', [
             'model' => $model
         ]);
+    }
+
+    public function actionDepDropGenerators()
+    {
+        app()->response->format = Response::FORMAT_JSON;
+        if(app()->request->isPost) {
+            $parents = app()->request->data()['depdrop_parents'];
+            $generators = [];
+            $tools = Tool::findAll($parents);
+            foreach($tools as $tool) {
+                foreach($tool->getGenerators() as $key => $value) {
+                    $generator = new $value();
+                    $generators[] = [
+                        'id' => $key,
+                        'name' => $generator->title
+                    ];
+                }
+            }
+            return [
+                'output' => $generators,
+                'selected' => ''
+            ];
+        }
+        return [
+            'output' => '',
+            'selected' => ''
+        ];
     }
 
     public function actionList()
@@ -103,7 +131,7 @@ class ToolsController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['list', 'read'],
+                            'actions' => ['list', 'read', 'generators'],
                             'roles' => ['@'],
                         ],
                     ]

@@ -21,6 +21,13 @@ class Permission extends ActiveRecord
     const PERMISSION_WRITE = 'write';
     const PERMISSION_SHARE = 'share';
 
+    public function attributeLabels()
+    {
+        return [
+            'permissionLabel' => \Yii::t('app', 'Permission')
+        ];
+    }
+
     public function getPermissionLabel()
     {
         return $this->permissionLabels()[$this->permission];
@@ -42,7 +49,7 @@ class Permission extends ActiveRecord
         return $this->hasOne($this->target, ['id' => 'target_id']);
     }
 
-    public static function grand(ActiveRecord $source,ActiveRecord $target, $permission, $strict = false)
+    public static function grant(\yii\db\ActiveRecord $source,\yii\db\ActiveRecord $target, $permission, $strict = false)
     {
         if($source->isNewRecord) {
             throw new \Exception('Source is new record');
@@ -60,12 +67,14 @@ class Permission extends ActiveRecord
         ]);
         $p = $p->loadFromAttributeData();
 
-        if($p->isNewRecord || $strict || static::permissionLevels()[$permission] > $p->permission) {
+        if($p->isNewRecord || $strict || static::permissionLevels()[$permission] > static::permissionLevels()[$p->permission]) {
             $p->permission = $permission;
-            $p->save();
+            return $p->save();
+        } elseif (static::permissionLevels()[$permission] <= $p->permission) {
+            return true;
         }
 
-        return $p;
+        return false;
     }
 
     public static function instantiate($row)
@@ -101,9 +110,9 @@ class Permission extends ActiveRecord
     public static function permissionLabels()
     {
         return [
-            self::PERMISSION_READ => 'Read',
-            self::PERMISSION_WRITE => 'Write',
-            self::PERMISSION_SHARE => 'Share'
+            self::PERMISSION_READ => \Yii::t('app', 'Read'),
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write'),
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share')
         ];
     }
 
