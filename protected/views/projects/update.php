@@ -63,7 +63,17 @@ $this->params['subMenu'] = [
                 'options' => [
                     'prompt' => ''
                 ]
-            ]
+            ],
+            'countriesIds' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\widgets\Select2::class,
+                'options' => [
+                    'data' => $model->countriesOptions,
+                    'options' => [
+                        'multiple' => true
+                    ]
+                ]
+            ],
         ]
     ]);
 

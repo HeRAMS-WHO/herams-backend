@@ -36,9 +36,8 @@ class m151028_120616_create_response_table extends Migration
 
     public function down()
     {
-        echo "m151028_120616_create_response_table cannot be reverted.\n";
-
-        return false;
+        $this->dropTable(\prime\models\Response::tableName());
+        $this->dropTable(\prime\models\Survey::tableName());
     }
 
     /*

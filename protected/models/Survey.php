@@ -44,4 +44,19 @@ class Survey extends ActiveRecord implements SurveyInterface
     }
 
 
+    /**
+     * @return array Languages in which the survey is available
+     */
+    public function  getLanguages()
+    {
+        // TODO: Implement getLanguages() method.
+    }
+
+    /**
+     * @return string The default language of the survey.
+     */
+    public function getDefaultLanguage()
+    {
+        // TODO: Implement getDefaultLanguage() method.
+    }
 }

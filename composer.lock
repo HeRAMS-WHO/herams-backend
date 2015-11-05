@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "676f989132f4af2eb5661bcc56f37577",
+    "hash": "13a3715ba946f4bc37fee0c106c55054",
     "content-hash": "31d9fcd9fe6e83ce79755a4f42803055",
     "packages": [
         {
@@ -109,8 +109,8 @@
             "version": "dev-yii2",
             "source": {
                 "type": "git",
-                "url": "git@dev.befound.nl:befound/yii-befound.git",
-                "reference": "05a65f298885363f95852bd8bb4e2b501c421dda"
+                "url": "git@gitlab.befound.nl:befound/yii-befound.git",
+                "reference": "c89be5beacf710561d97dfe3d013c9e8e2cb8834"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-10-26 10:57:40"
+            "time": "2015-11-02 10:18:10"
         },
         {
             "name": "befound/yii2-limesurvey",
@@ -140,7 +140,7 @@
             "source": {
                 "type": "git",
                 "url": "git@dev.befound.nl:yii2-limesurvey.git",
-                "reference": "6270e45a97ae5ff7ac732f273e650fde3dbcace7"
+                "reference": "fcc0bd7feec0667e77dcc4234d0ad19457e51f16"
             },
             "type": "library",
             "autoload": {
@@ -167,7 +167,7 @@
                 }
             ],
             "description": "Limesurvey RC Library",
-            "time": "2015-09-21 14:19:45"
+            "time": "2015-10-28 15:33:25"
         },
         {
             "name": "bower-asset/bootbox",
@@ -689,16 +689,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "4ef919b0cf3b1989523138b60163bbcb7ba1ff7e"
+                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4ef919b0cf3b1989523138b60163bbcb7ba1ff7e",
-                "reference": "4ef919b0cf3b1989523138b60163bbcb7ba1ff7e",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4d0bdbe1206df7440219ce14c972aa57cc5e4982",
+                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982",
                 "shasum": ""
             },
             "require": {
@@ -743,7 +743,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2015-08-15 19:32:36"
+            "time": "2015-11-03 01:34:55"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -1399,12 +1399,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datetimepicker.git",
-                "reference": "4225026470784805e4750a4dc1a29cf720a4691c"
+                "reference": "2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/4225026470784805e4750a4dc1a29cf720a4691c",
-                "reference": "4225026470784805e4750a4dc1a29cf720a4691c",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe",
+                "reference": "2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe",
                 "shasum": ""
             },
             "require": {
@@ -1440,7 +1440,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-10-24 11:53:19"
+            "time": "2015-11-04 18:46:05"
         },
         {
             "name": "kartik-v/yii2-widget-depdrop",
@@ -2248,12 +2248,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls-interfaces.git",
-                "reference": "0bd8448904f008790e090e818223eb016c20930a"
+                "reference": "a5b0ca5678f8d4fd3b6c236b98f72d39888f78ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls-interfaces/zipball/0bd8448904f008790e090e818223eb016c20930a",
-                "reference": "0bd8448904f008790e090e818223eb016c20930a",
+                "url": "https://api.github.com/repos/SAM-IT/ls-interfaces/zipball/a5b0ca5678f8d4fd3b6c236b98f72d39888f78ec",
+                "reference": "a5b0ca5678f8d4fd3b6c236b98f72d39888f78ec",
                 "shasum": ""
             },
             "type": "library",
@@ -2275,7 +2275,7 @@
                 }
             ],
             "description": "Interfaces for Limesurvey entities: Survey, Group, Question, Answer",
-            "time": "2015-10-26 09:40:06"
+            "time": "2015-11-03 16:35:43"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2336,12 +2336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "9297de8f550267ad4eac90517d4863c3d2448330"
+                "reference": "7fb941436f5969cd278608f4a07518b430c7fde3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/9297de8f550267ad4eac90517d4863c3d2448330",
-                "reference": "9297de8f550267ad4eac90517d4863c3d2448330",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7fb941436f5969cd278608f4a07518b430c7fde3",
+                "reference": "7fb941436f5969cd278608f4a07518b430c7fde3",
                 "shasum": ""
             },
             "require": {
@@ -2417,7 +2417,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-10-28 11:08:56"
+            "time": "2015-11-04 20:01:43"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2672,12 +2672,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "a8eba1bb9a7163df5120fb07c0c000e298a8bcf0"
+                "reference": "7ba01f0049f691bd76259e10bdede0709323ffc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/a8eba1bb9a7163df5120fb07c0c000e298a8bcf0",
-                "reference": "a8eba1bb9a7163df5120fb07c0c000e298a8bcf0",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/7ba01f0049f691bd76259e10bdede0709323ffc2",
+                "reference": "7ba01f0049f691bd76259e10bdede0709323ffc2",
                 "shasum": ""
             },
             "require": {
@@ -2711,7 +2711,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2015-09-29 10:36:38"
+            "time": "2015-10-30 19:44:49"
         }
     ],
     "aliases": [],

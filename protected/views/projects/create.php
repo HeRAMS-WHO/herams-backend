@@ -59,6 +59,16 @@ $this->title = Yii::t('app', 'Create project');
                 ],
                 'enableClientValidation' => false
             ],
+            'countriesIds' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\widgets\Select2::class,
+                'options' => [
+                    'data' => $model->countriesOptions,
+                    'options' => [
+                        'multiple' => true
+                    ]
+                ]
+            ],
             'actions' => [
                 'type' => Form::INPUT_RAW,
                 'value' =>

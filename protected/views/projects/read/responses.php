@@ -6,5 +6,5 @@
  */
 
 echo \kartik\grid\GridView::widget([
-    'dataProvider' => $model->getResponses()
+    'dataProvider' => new \yii\data\ArrayDataProvider(['allModels' => iterator_to_array($model->getResponses())])
 ]);

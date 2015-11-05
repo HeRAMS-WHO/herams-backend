@@ -2,6 +2,7 @@
 
 namespace prime\models;
 
+use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use prime\components\ActiveRecord;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\permissions\Permission;
@@ -18,6 +19,24 @@ use yii\validators\RangeValidator;
  * @property string $description
  */
 class Project extends ActiveRecord {
+
+    public function behaviors()
+    {
+        return [
+            LinkTableBehavior::class => [
+                'class' => LinkTableBehavior::class,
+                'relations' => [
+                    'countries' => [
+                        'displayAttribute' => 'name',
+                        'optionsCallback' => function($query) {
+                            /** @var \yii\db\ActiveQuery $query */
+                            return $query->andWhere(['id' => 1]);
+                        }
+                    ]
+                ]
+            ]
+        ];
+    }
 
     public static function find()
     {
@@ -43,6 +62,12 @@ class Project extends ActiveRecord {
             ]);
         }
         return $query;
+    }
+
+    public function getCountries()
+    {
+        return $this->hasMany(Country::class, ['id' => 'country_id'])
+            ->viaTable('project_country', ['project_id' => 'id']);
     }
 
     public function getDefaultGenerator()
@@ -98,7 +123,7 @@ class Project extends ActiveRecord {
      */
     public function getResponses()
     {
-        return new ResponseCollection(['allModels' => []]);
+        return new ResponseCollection();
     }
 
     public function getTool()
@@ -116,6 +141,11 @@ class Project extends ActiveRecord {
             ->andWhere(['generator' => $reportGenerator]);
     }
 
+    public function isTransactional($operation)
+    {
+        return true;
+    }
+
     public function rules()
     {
         return [
@@ -131,7 +161,7 @@ class Project extends ActiveRecord {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator'],
+            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator', 'countriesIds'],
             'update' => ['title', 'description', 'default_generator']
         ];
     }
