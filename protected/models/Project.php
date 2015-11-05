@@ -7,6 +7,9 @@ use prime\components\ActiveRecord;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
+use Treffynnon\Navigator;
+use Treffynnon\Navigator\Coordinate;
+use Treffynnon\Navigator\LatLong;
 use yii\validators\RangeValidator;
 
 /**
@@ -74,6 +77,34 @@ class Project extends ActiveRecord {
         } else {
             return null;
         }
+    }
+
+    /**
+     * @return LatLong
+     * TODO: calculate center taking globe curves into account
+     */
+    public function getLatLong()
+    {
+        if(isset($this->latitude, $this->longitude)) {
+            $latitude = $this->latitude;
+            $longitude = $this->longitude;
+        } else {
+            $latitude = 0;
+            $longitude = 0;
+            if(count($this->countries) > 0) {
+                /** @var Country $country */
+                foreach ($this->countries as $country) {
+                    $latitude += $country->latitude;
+                    $longitude += $country->longitude;
+                }
+                $latitude = $latitude / count($this->countries);
+                $longitude = $longitude / count($this->countries);
+            }
+        }
+        return new LatLong(
+            new Coordinate($latitude),
+            new Coordinate($longitude)
+        );
     }
 
     public function getOwner()

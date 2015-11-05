@@ -37,7 +37,8 @@
         "bower-asset/bootbox": "^4.4@dev",
         "miloschuman/yii2-highcharts-widget": "dev-master",
         "sam-it/ls-interfaces": "dev-master",
-        "yiisoft/yii2": "^2.0.6"
+        "yiisoft/yii2": "^2.0.6",
+        "treffynnon/navigator": "~1.0"
     },
 	"repositories": [
 		{

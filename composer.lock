@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "13a3715ba946f4bc37fee0c106c55054",
-    "content-hash": "31d9fcd9fe6e83ce79755a4f42803055",
+    "hash": "985dfb676a5c2039784d74b4231dd92a",
+    "content-hash": "093694747eb849a218a95bf1b04f7787",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -2248,12 +2248,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls-interfaces.git",
-                "reference": "a5b0ca5678f8d4fd3b6c236b98f72d39888f78ec"
+                "reference": "a673815f1ad5c0f910544f33d3e5361695ad2064"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls-interfaces/zipball/a5b0ca5678f8d4fd3b6c236b98f72d39888f78ec",
-                "reference": "a5b0ca5678f8d4fd3b6c236b98f72d39888f78ec",
+                "url": "https://api.github.com/repos/SAM-IT/ls-interfaces/zipball/a673815f1ad5c0f910544f33d3e5361695ad2064",
+                "reference": "a673815f1ad5c0f910544f33d3e5361695ad2064",
                 "shasum": ""
             },
             "type": "library",
@@ -2275,7 +2275,7 @@
                 }
             ],
             "description": "Interfaces for Limesurvey entities: Survey, Group, Question, Answer",
-            "time": "2015-11-03 16:35:43"
+            "time": "2015-11-05 11:10:19"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2329,6 +2329,50 @@
                 "mailer"
             ],
             "time": "2015-09-04 05:47:20"
+        },
+        {
+            "name": "treffynnon/navigator",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/treffynnon/Navigator.git",
+                "reference": "60b9c19277f9453403e0a583c2abacd85404bf0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/treffynnon/Navigator/zipball/60b9c19277f9453403e0a583c2abacd85404bf0f",
+                "reference": "60b9c19277f9453403e0a583c2abacd85404bf0f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Treffynnon\\Navigator": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Holywell",
+                    "email": "treffynnon@php.net",
+                    "homepage": "http://simonholywell.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Geographic calculations for PHP",
+            "homepage": "http://github.com/treffynnon/Navigator",
+            "keywords": [
+                "distance",
+                "geography",
+                "navigaton"
+            ],
+            "time": "2013-02-21 12:04:53"
         },
         {
             "name": "yiisoft/yii2",

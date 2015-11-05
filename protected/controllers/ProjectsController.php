@@ -114,7 +114,7 @@ class ProjectsController extends Controller
                     'projectUpdated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been updated.", ['modelName' => $model->name]),
+                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been updated.", ['modelName' => $model->title]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
