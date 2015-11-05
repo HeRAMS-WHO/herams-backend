@@ -24,7 +24,8 @@ if (!app()->user->isGuest) {
             ['label' => 'Tools', 'url' => ['/tools']],
             ['label' => 'Projects', 'url' => ['/projects']],
             ['label' => 'Marketplace', 'url' => ['/users/login']],
-            ['label' => 'User lists', 'url' => ['/user-lists/list']]
+            ['label' => 'User lists', 'url' => ['/user-lists/list']],
+            ['label' => 'Cou', 'url' => ['/countries/list'], 'visible' => app()->user->identity->isAdmin]
         ],
     ]);
 }

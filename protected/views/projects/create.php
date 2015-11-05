@@ -66,7 +66,7 @@ $this->title = Yii::t('app', 'Create project');
                     'data' => $model->countriesOptions,
                     'options' => [
                         'multiple' => true
-                    ]
+                    ],
                 ]
             ],
             'actions' => [

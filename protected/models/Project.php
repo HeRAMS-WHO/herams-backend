@@ -27,11 +27,7 @@ class Project extends ActiveRecord {
                 'class' => LinkTableBehavior::class,
                 'relations' => [
                     'countries' => [
-                        'displayAttribute' => 'name',
-                        'optionsCallback' => function($query) {
-                            /** @var \yii\db\ActiveQuery $query */
-                            return $query->andWhere(['id' => 1]);
-                        }
+                        'displayAttribute' => 'name'
                     ]
                 ]
             ]
@@ -154,7 +150,7 @@ class Project extends ActiveRecord {
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
-            [['default_generator'], RangeValidator::class, 'range' => function($model, $attribute) {return isset($model->tool) ? array_keys($this->tool->getGenerators()) : [];}]
+            [['default_generator'], RangeValidator::class, 'range' => function($model, $attribute) {return isset($model->tool) ? array_keys($this->tool->getGenerators()) : array_keys(Tool::generatorOptions());}]
         ];
     }
 
