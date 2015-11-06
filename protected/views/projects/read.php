@@ -64,7 +64,7 @@ if(isset($model->defaultGenerator)) {
 </div>
 
 <div class="col-xs-12">
-    <iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" seamless="seamless"></iframe>
+    <iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" class="container" style="height: 500px; border: 0px; margin-left: -15px; padding-left: 0px; margin-right: -15px; padding-right: 0px;"></iframe>
 </div>
 
 <div class="col-xs-12">

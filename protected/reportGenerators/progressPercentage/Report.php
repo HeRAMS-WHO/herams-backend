@@ -28,7 +28,25 @@ class Report extends Component implements ReportInterface
      */
     public function getStream()
     {
-        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('@app/reportGenerators/progressPercentage/views/publish', ['report' => $this, 'userData' => $this->getUserData(), 'signature' => $this->getSignature()]));
+        $content =
+            app()->getView()->render(
+                '@app/reportGenerators/progressPercentage/views/publish',
+                [
+                    'report' => $this,
+                    'userData' => $this->getUserData(),
+                    'signature' => $this->getSignature()
+                ]
+            );
+
+        return \GuzzleHttp\Psr7\stream_for(
+            app()->getView()->render(
+                '@app/views/layouts/progressReport',
+                [
+                    'content' => $content
+                ]
+            )
+
+        );
     }
 
     /**

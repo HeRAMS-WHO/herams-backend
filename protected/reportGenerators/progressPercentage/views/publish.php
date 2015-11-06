@@ -2,8 +2,8 @@
 
 /**
  * @var \prime\reportGenerators\progressPercentage\Report $report
+ * @var \yii\web\View $this
  */
-
 ?>
 <div class="row">
     <div class="col-xs-12">
