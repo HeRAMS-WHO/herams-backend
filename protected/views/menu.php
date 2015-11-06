@@ -23,7 +23,7 @@ if (!app()->user->isGuest) {
         'items' => [
             ['label' => 'Tools', 'url' => ['/tools']],
             ['label' => 'Projects', 'url' => ['/projects']],
-            ['label' => 'Marketplace', 'url' => ['/users/login']],
+            ['label' => 'Marketplace', 'url' => ['/marketplace/map']],
             ['label' => 'User lists', 'url' => ['/user-lists/list']],
             ['label' => 'Cou', 'url' => ['/countries/list'], 'visible' => app()->user->identity->isAdmin]
         ],
