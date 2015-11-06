@@ -2,20 +2,42 @@
 
 namespace prime\controllers;
 
+use Befound\Components\DateTime;
 use prime\components\Controller;
 use prime\models\forms\projects\Share;
-use prime\models\forms\ShareProject;
 use prime\models\permissions\Permission;
-use prime\models\permissions\UserProject;
 use prime\models\Project;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
-use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
 class ProjectsController extends Controller
 {
     public $defaultAction = 'list';
+
+    public function actionClose($id)
+    {
+        $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
+        $model->scenario = 'close';
+        if(app()->request->isDelete) {
+            $model->closed = (new DateTime())->format(DateTime::MYSQL_DATETIME);
+            if($model->save()) {
+                app()->session->setFlash(
+                    'projectClosed',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been closed.", ['modelName' => $model->title]),
+                        'icon' => 'glyphicon glyphicon-trash'
+                    ]
+                );
+                return $this->redirect(['/projects/list']);
+            }
+        }
+        if(isset($model)) {
+            return $this->redirect(['/projects/read', 'id' => $model->id]);
+        } else {
+            return $this->redirect(['/projects/list']);
+        }
+    }
 
     public function actionCreate()
     {
@@ -28,7 +50,7 @@ class ProjectsController extends Controller
                     'projectCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => "Project <strong>{$model->title}</strong> has been created.",
+                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been created.", ['modelName' => $model->title]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
@@ -86,9 +108,9 @@ class ProjectsController extends Controller
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
                         'text' => \Yii::t('app',
-                            "Project <strong>{title}</strong> has been shared with: <strong>{users}</strong>",
+                            "Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
                             [
-                                'title' => $model->project->title,
+                                'modelName' => $model->project->title,
                                 'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
                             ]),
                         'icon' => 'glyphicon glyphicon-ok'

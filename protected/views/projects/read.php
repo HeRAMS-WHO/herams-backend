@@ -11,16 +11,27 @@ use app\components\Html;
 $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
+    'label' => \Yii::t('app', 'close'),
+    'url' => ['/projects/close', 'id' => $model->id],
+    'linkOptions' => [
+        'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
+        'data-method' => 'delete'
+    ],
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
+];
+
+$this->params['subMenu']['items'][] = [
     'label' => \Yii::t('app', 'share'),
-    'url' => ['projects/share', 'id' => $model->id],
+    'url' => ['/projects/share', 'id' => $model->id],
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)
 ];
+
 
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
         'label' => \Yii::t('app', 'preview report'),
         'url' => [
-            'reports/preview',
+            '/reports/preview',
             'projectId' => $model->id,
             'reportGenerator' => $model->default_generator
         ],

@@ -2,7 +2,9 @@
 
 namespace prime\models;
 
+use app\queries\ProjectQuery;
 use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
+use Befound\Components\DateTime;
 use prime\components\ActiveRecord;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\permissions\Permission;
@@ -10,6 +12,7 @@ use prime\objects\ResponseCollection;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
+use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
 
 /**
@@ -37,6 +40,10 @@ class Project extends ActiveRecord {
         ];
     }
 
+    /**
+     * @return ProjectQuery
+     * @throws \Exception
+     */
     public static function find()
     {
         $query = parent::find();
@@ -176,12 +183,13 @@ class Project extends ActiveRecord {
     public function rules()
     {
         return [
-            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id'], 'required'],
+            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'closed'], 'required'],
             [['title', 'description'], 'string'],
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
-            [['default_generator'], RangeValidator::class, 'range' => function($model, $attribute) {return isset($model->tool) ? array_keys($this->tool->getGenerators()) : array_keys(Tool::generatorOptions());}]
+            [['default_generator'], RangeValidator::class, 'range' => function($model, $attribute) {return isset($model->tool) ? array_keys($this->tool->getGenerators()) : array_keys(Tool::generatorOptions());}],
+            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME]
         ];
     }
 
@@ -189,7 +197,8 @@ class Project extends ActiveRecord {
     {
         return [
             'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator', 'countriesIds'],
-            'update' => ['title', 'description', 'default_generator']
+            'update' => ['title', 'description', 'default_generator'],
+            'close' => ['closed']
         ];
     }
 

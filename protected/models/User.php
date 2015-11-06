@@ -56,7 +56,7 @@ class User extends \dektrium\user\models\User {
      */
     public function getProjects()
     {
-        return Project::find();
+        return Project::find()->notClosed();
     }
 
     public function getUserLists()
