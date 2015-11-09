@@ -7,10 +7,16 @@ namespace prime\models;
 use prime\components\ActiveRecord;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use yii\validators\UniqueValidator;
 
 class Survey extends ActiveRecord implements SurveyInterface
 {
-
+    /**
+     * @return \Befound\ApplicationComponents\LimeSurvey
+     */
+    protected function api() {
+        return app()->limesurvey;
+    }
     /**
      * @return int The unique ID for this survey.
      */
@@ -24,6 +30,9 @@ class Survey extends ActiveRecord implements SurveyInterface
      */
     public function getGroups()
     {
+        foreach ($this->api()->listGroups($this->id) as $group) {
+            vdd($group);
+        }
         throw new \Exception('todo');
     }
 
@@ -32,7 +41,7 @@ class Survey extends ActiveRecord implements SurveyInterface
      */
     public function getDescription()
     {
-        throw new \Exception('todo');
+        return $this->api()->getLanguageProperties($this->id, ['description'])['description'];
     }
 
     /**
@@ -43,6 +52,13 @@ class Survey extends ActiveRecord implements SurveyInterface
         return $this->getAttribute('title');
     }
 
+
+    public function rules()
+    {
+        return [
+            ['id', UniqueValidator::class]
+        ];
+    }
 
     /**
      * @return array Languages in which the survey is available

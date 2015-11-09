@@ -4,11 +4,16 @@ defined('CONSOLE') or define('CONSOLE', false);
 defined('YII_ENV') or define('YII_ENV', require(__DIR__ . '/config/env.php'));
 define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 
-require_once __DIR__ . '/vendor/autoload.php';
+$loader = require_once __DIR__ . '/vendor/autoload.php';
 
 
 // Define Yii class.
-class Yii extends \app\components\Yii {}
+class Yii extends \app\components\Yii {
+    public static $loader;
+}
+
+Yii::$loader = $loader;
+unset($loader);
 
 // Set webroot so we can use it in config.
 

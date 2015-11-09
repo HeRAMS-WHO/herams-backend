@@ -4,41 +4,50 @@ $navbar-margin-bottom: 20px;
 $navbar-default-link-color: #DB3C26;
 $navbar-default-link-active-color: darken(#DB3C26, 10%);
 
+$font-family-base: "Calibre";
 @import 'bootstrap';
 
-body {
-  margin-top: $navbar-height + $navbar-margin-bottom;
-}
-
-/* BEGIN Navbar styling */
-.nav li.icon a > span {
-  vertical-align: middle;
-  font-size: 0.8 * $navbar-height;
-  line-height: 0.8 * $navbar-height;
-}
-.nav li.icon a {
-  padding: 0.1 * $navbar-height;
-}
-
-.nav li a {
-  padding: 0.3 * $navbar-height;
-  font-size: 0.4 * $navbar-height;
-  line-height: 0.4 * $navbar-height;
-}
-
-.navbar-brand {
-  padding: 0;
-}
-
-.navbar-brand img {
-  height: $navbar-height;
-  padding: 0.1 * $navbar-height;
-}
-
-h1 {
-  a {
-    float: right;
-    color: lightgrey;
+@at-root {
+  @font-face {
+    font-family: "Calibre";
+    src: url("../fonts/prime/Calibre-Regular.otf") format("opentype");
   }
 }
+
+
+  body {
+    margin-top: $navbar-height + $navbar-margin-bottom;
+  }
+
+  /* BEGIN Navbar styling */
+  .nav li.icon a > span {
+    vertical-align: middle;
+    font-size: 0.8 * $navbar-height;
+    line-height: 0.8 * $navbar-height;
+  }
+  .nav li.icon a {
+    padding: 0.1 * $navbar-height;
+  }
+
+  .nav li a {
+    padding: 0.3 * $navbar-height;
+    font-size: 0.4 * $navbar-height;
+    line-height: 0.4 * $navbar-height;
+  }
+
+  .navbar-brand {
+    padding: 0;
+  }
+
+  .navbar-brand img {
+    height: $navbar-height;
+    padding: 0.1 * $navbar-height;
+  }
+
+  h1 {
+    a {
+      float: right;
+      color: lightgrey;
+    }
+  }
 

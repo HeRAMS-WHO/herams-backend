@@ -8,24 +8,24 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-                [
-                    'class' => \yii\web\GroupUrlRule::class,
-                    'prefix' => 'rest',
-                    'routePrefix' => '',
-                    'rules' => [
-                        [
-                            'pattern' => '<model:\w+>',
-                            'route' => 'rest/list'
-                        ],
-                        [
-                            'pattern' => '<model:\w+>/<id:\w+>',
-                            'route' => 'rest/read'
-                        ],
-
-                    ]
-                ]
-            ]
+//            'rules' => [
+//                [
+//                    'class' => \yii\web\GroupUrlRule::class,
+//                    'prefix' => 'rest',
+//                    'routePrefix' => '',
+//                    'rules' => [
+//                        [
+//                            'pattern' => '<model:\w+>',
+//                            'route' => 'rest/list'
+//                        ],
+//                        [
+//                            'pattern' => '<model:\w+>/<id:\w+>',
+//                            'route' => 'rest/read'
+//                        ],
+//
+//                    ]
+//                ]
+//            ]
         ],
         'request' => [
             'cookieValidationKey' => 'blasdf9832h238iwe',
