@@ -25,7 +25,7 @@ class AuthController extends Controller
         if (null === $role = $authManager->getRole('admin')) {
             $role = $authManager->createRole('admin');
             $role->description = "Default admin role, users with this role can do anything.";
-            $authManager->update('admin', $role);
+            $authManager->add('admin', $role);
         }
 
 
@@ -118,12 +118,12 @@ class AuthController extends Controller
     /**
      * List all roles
      */
-    public function actionRoles()
+    public function actionRoles(ManagerInterface $authManager)
     {
         $rows = [];
         $columns = [];
         /** @var \yii\rbac\Role $role */
-        foreach (app()->authManager->getRoles() as $role) {
+        foreach ($authManager->getRoles() as $role) {
             if (empty($columns)) {
                 foreach(['name', 'description'] as $name) {
                     $columns[$name] = strlen($name);
