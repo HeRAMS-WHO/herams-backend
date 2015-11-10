@@ -23,6 +23,7 @@ if($visible) {
         [
             'options' => [
                 'class' => 'navbar-default',
+                'style' => 'margin-top: -20px;'
             ],
         ]
     );
@@ -36,3 +37,4 @@ if($visible) {
     );
     NavBar::end();
 }
+?>

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0cac896ebe94529da0131167a0c32800",
-    "content-hash": "093694747eb849a218a95bf1b04f7787",
+    "hash": "677188e8735a31a90cc5cfb704921178",
+    "content-hash": "0809873570a71a7725aedd52b9b61f3f",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -106,7 +106,7 @@
         },
         {
             "name": "befound/yii-befound",
-            "version": "dev-yii2",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.befound.nl:befound/yii-befound.git",
@@ -139,7 +139,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@dev.befound.nl:yii2-limesurvey.git",
+                "url": "git@gitlab.befound.nl:sam/yii2-limesurvey.git",
                 "reference": "fcc0bd7feec0667e77dcc4234d0ad19457e51f16"
             },
             "type": "library",
@@ -395,16 +395,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.2.2",
+            "version": "3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "ebceb88a131e1fbc159733a88a6778ffc02debab"
+                "reference": "85b94d8c8158d610b148317608bf67b678b40659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/ebceb88a131e1fbc159733a88a6778ffc02debab",
-                "reference": "ebceb88a131e1fbc159733a88a6778ffc02debab",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/85b94d8c8158d610b148317608bf67b678b40659",
+                "reference": "85b94d8c8158d610b148317608bf67b678b40659",
                 "shasum": ""
             },
             "require": {
@@ -413,33 +413,12 @@
             "type": "bower-asset-library",
             "extra": {
                 "bower-asset-main": [
-                    "./dist/inputmask/inputmask.dependencyLib.jquery.js",
-                    "./dist/inputmask/inputmask.js",
-                    "./dist/inputmask/inputmask.extensions.js",
-                    "./dist/inputmask/inputmask.date.extensions.js",
-                    "./dist/inputmask/inputmask.numeric.extensions.js",
-                    "./dist/inputmask/inputmask.phone.extensions.js",
-                    "./dist/inputmask/inputmask.regex.extensions.js",
-                    "./dist/inputmask/jquery.inputmask.js",
-                    "./dist/jquery.inputmask.bundle.js",
-                    "./extra/dependencyLibs/inputmask.dependencyLib.jqlite.js",
-                    "./extra/dependencyLibs/inputmask.dependencyLib.js",
-                    "./extra/phone-codes/phone-be.js",
-                    "./extra/phone-codes/phone-codes.js",
-                    "./extra/phone-codes/phone-nl.js",
-                    "./extra/phone-codes/phone-ru.js",
-                    "./extra/phone-codes/phone-uk.js"
+                    "./dist/inputmask/inputmask.js"
                 ],
                 "bower-asset-ignore": [
-                    "**/.*",
-                    "qunit/",
-                    "nuget/",
-                    "tools/",
-                    "js/",
-                    "*.md",
-                    "build.properties",
-                    "build.xml",
-                    "jquery.inputmask.jquery.json"
+                    "*",
+                    "!dist/*",
+                    "!extra/*"
                 ]
             },
             "license": [
@@ -579,6 +558,56 @@
                 "markdown-extra"
             ],
             "time": "2015-03-20 11:07:08"
+        },
+        {
+            "name": "dektrium/yii2-rbac",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dektrium/yii2-rbac.git",
+                "reference": "4387c72b89d952e13a1856dc7f995898ad7d96a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dektrium/yii2-rbac/zipball/4387c72b89d952e13a1856dc7f995898ad7d96a7",
+                "reference": "4387c72b89d952e13a1856dc7f995898ad7d96a7",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-widget-select2": "*",
+                "yiisoft/yii2": "2.0.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "dektrium\\rbac\\Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "dektrium\\rbac\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Erofeev",
+                    "email": "dmeroff@gmail.com",
+                    "homepage": "http://dmeroff.ru"
+                }
+            ],
+            "description": "RBAC management module for Yii2",
+            "keywords": [
+                "dektrium",
+                "rbac gui",
+                "rbac management",
+                "rbac module",
+                "yii rbac",
+                "yii2",
+                "yii2-rbac"
+            ],
+            "time": "2015-06-14 09:54:53"
         },
         {
             "name": "dektrium/yii2-user",
@@ -2244,7 +2273,7 @@
         },
         {
             "name": "sam-it/ls-interfaces",
-            "version": "dev-master",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls-interfaces.git",
@@ -2276,6 +2305,44 @@
             ],
             "description": "Interfaces for Limesurvey entities: Survey, Group, Question, Answer",
             "time": "2015-11-05 11:10:19"
+        },
+        {
+            "name": "sam-it/ls2-jsonrpc-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
+                "reference": "10b56b5942e1e2d5ff19422518627e482eb54249"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/10b56b5942e1e2d5ff19422518627e482eb54249",
+                "reference": "10b56b5942e1e2d5ff19422518627e482eb54249",
+                "shasum": ""
+            },
+            "require": {
+                "sam-it/ls-interfaces": "^0.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SamIT\\LimeSurvey\\JsonRpc\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
+            "time": "2015-11-05 11:11:28"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2380,12 +2447,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "7f2fe7317a11e8fb2c1b414f6e11cdb35b9e44d5"
+                "reference": "87d209b35dd18dcfa40b782753b106570e2dede7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7f2fe7317a11e8fb2c1b414f6e11cdb35b9e44d5",
-                "reference": "7f2fe7317a11e8fb2c1b414f6e11cdb35b9e44d5",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/87d209b35dd18dcfa40b782753b106570e2dede7",
+                "reference": "87d209b35dd18dcfa40b782753b106570e2dede7",
                 "shasum": ""
             },
             "require": {
@@ -2461,7 +2528,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-07 15:59:24"
+            "time": "2015-11-09 17:22:51"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2761,7 +2828,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "befound/yii-befound": 20,
         "kartik-v/yii2-grid": 20,
         "kartik-v/yii2-mpdf": 20,
         "dektrium/yii2-user": 20,
@@ -2770,7 +2836,7 @@
         "bower-asset/is-loading": 20,
         "bower-asset/bootbox": 20,
         "miloschuman/yii2-highcharts-widget": 20,
-        "sam-it/ls-interfaces": 20
+        "sam-it/ls2-jsonrpc-client": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -1,7 +1,5 @@
 <?php
-
 include __DIR__ . '/../helpers/functions.php';
-
 return [
     'id' => 'prime',
     'name' => 'Prime 2.0',
@@ -12,13 +10,7 @@ return [
         '@prime' => '@app'
     ],
     'components' => [
-        'limesurvey' => [
-            'class' => \Befound\ApplicationComponents\LimeSurvey::class,
-            'url' => 'http://whols2.befound.nl/index.php?r=admin/remotecontrol',
-            'username' => 'prime',
-            'password' => 'H9y43n4X'
 
-        ],
         'authClientCollection' => [
             'class' => \yii\authclient\Collection::class,
             'clients' => [
@@ -38,7 +30,18 @@ return [
                     'clientSecret' => 'jxeT5c6EcSlf7d8w'
                 ]
             ]
-        ]
+        ],
+        'authManager' => [
+            'class' => \dektrium\rbac\components\DbManager::class
+        ],
+        'limesurvey' => function (){
+            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient('http://whols2.befound.nl/index.php?r=admin/remotecontrol');
+            return new \SamIT\LimeSurvey\JsonRpc\Client($json, 'prime', 'H9y43n4X');
+        },
+        'user' => [
+            'class' => \yii\web\User::class,
+            'identityClass' => \prime\models\User::class
+        ],
     ],
     'modules' => [
         'user' => [
@@ -55,6 +58,9 @@ return [
                 'sam@mousa.nl',
                 'petragallos@who.int'
             ]
+        ],
+        'rbac' => [
+            'class' => dektrium\rbac\Module::class,
         ],
     ],
     'params' => [

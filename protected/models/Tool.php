@@ -67,6 +67,7 @@ class Tool extends \prime\components\ActiveRecord {
         return [
             'tempImage' => \Yii::t('app', 'Image'),
             'thumbTempImage' => \Yii::t('app', 'Thumbnail'),
+            'intake_survey_eid' => \Yii::t('app', 'Intake survey'),
         ];
     }
 
@@ -114,6 +115,32 @@ class Tool extends \prime\components\ActiveRecord {
             return $this->getImageUrl();
         }
     }
+
+    public function intakeSurveyOptions()
+    {
+        return array_filter(ArrayHelper::map(app()->limesurvey->listSurveys(), 'sid', function($details) {
+            if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) === 0) {
+                return trim(substr($details['surveyls_title'], 8)) . (($details['active'] == 'N') ? " (INACTIVE)" : "");
+            }
+            return false;
+        }));
+    }
+
+    public function dataSurveyOptions()
+    {
+        return array_filter(ArrayHelper::map(app()->limesurvey->listSurveys(), 'sid', function($details) {
+            if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) != 0
+                && strpos($details['surveyls_title'], '_') === false
+            ) {
+                return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
+            }
+            return false;
+        }));
+    }
+
+
+
+
 
     public function isTransactional($operation)
     {
@@ -176,6 +203,5 @@ class Tool extends \prime\components\ActiveRecord {
         return $operation == Permission::PERMISSION_READ ||
             parent::userCan($operation, $user);
     }
-
 
 }

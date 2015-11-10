@@ -8,7 +8,6 @@ use kartik\helpers\Html;
 /**
  * @var \yii\web\View $this
  */
-
 NavBar::begin([
     'brandLabel' => \kartik\helpers\Html::img('@web/img/logo.svg'),
     'brandUrl' => Yii::$app->homeUrl,
@@ -21,11 +20,9 @@ if (!app()->user->isGuest) {
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Tools', 'url' => ['/tools']],
             ['label' => 'Projects', 'url' => ['/projects']],
             ['label' => 'Marketplace', 'url' => ['/marketplace/map']],
             ['label' => 'User lists', 'url' => ['/user-lists/list']],
-            ['label' => 'Cou', 'url' => ['/countries/list'], 'visible' => app()->user->identity->isAdmin]
         ],
     ]);
 }
@@ -51,6 +48,25 @@ echo Nav::widget([
             ],
 
             'url' => ['user/settings/account'],
+            'visible' => !Yii::$app->user->isGuest
+
+        ],
+        [
+            'label' => Html::icon('wrench'),
+            'options' => [
+                'class' => 'icon',
+                'title' => 'Admin'
+            ],
+            'items' => [
+                ['label' => 'Tools', 'url' => ['/tools']],
+                [
+                    'label' => 'Countries',
+                    'url' => ['/countries/list'],
+                    'visible' => app()->user->can('admin')
+                ]
+            ],
+
+//            'url' => ['user/settings/account'],
             'visible' => !Yii::$app->user->isGuest
 
         ],

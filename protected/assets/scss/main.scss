@@ -4,13 +4,13 @@ $navbar-margin-bottom: 20px;
 $navbar-default-link-color: #DB3C26;
 $navbar-default-link-active-color: darken(#DB3C26, 10%);
 
-$font-family-base: "Calibre";
+$font-family-base: "Open Sans";
 @import 'bootstrap';
 
 @at-root {
   @font-face {
-    font-family: "Calibre";
-    src: url("../fonts/prime/Calibre-Regular.otf") format("opentype");
+    font-family: "Open Sans";
+    src: url("../fonts/prime/OpenSans-Regular.ttf") format("truetype");
   }
 }
 

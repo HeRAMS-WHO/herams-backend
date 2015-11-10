@@ -11,7 +11,7 @@ $this->params['subMenu']['items'] = [];
 $this->params['subMenu']['items'][] = [
     'label' => \Yii::t('app', 'Create'),
     'url' => ['projects/create'],
-    'visible' => app()->user->identity->isAdmin
+    'visible' => app()->user->can('admin')
 ];
 ?>
 <div class="col-xs-12">

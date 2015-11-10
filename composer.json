@@ -19,7 +19,7 @@
     ],
     "require": {
 		"php" : ">=5.6.0",
-		"befound/yii-befound" : "dev-yii2",
+		"befound/yii-befound" : "^1.0.0",
         "kartik-v/yii2-widgets": "3.4.*",
         "kartik-v/yii2-builder": "1.*",
         "kartik-v/yii2-helpers": "1.*",
@@ -36,9 +36,11 @@
         "bower-asset/is-loading": "^1.0@dev",
         "bower-asset/bootbox": "^4.4@dev",
         "miloschuman/yii2-highcharts-widget": "dev-master",
-        "sam-it/ls-interfaces": "dev-master",
+        "sam-it/ls-interfaces": "^0.3.0",
         "yiisoft/yii2": "^2.0.6",
-        "treffynnon/navigator": "~1.0"
+        "treffynnon/navigator": "~1.0",
+        "sam-it/ls2-jsonrpc-client": "dev-master",
+        "dektrium/yii2-rbac": "^0.1.0"
     },
 	"repositories": [
 		{

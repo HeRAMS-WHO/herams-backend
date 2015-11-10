@@ -1,5 +1,5 @@
 <?php
-
+/** @var \prime\models\Tool $model */
 use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;
@@ -48,12 +48,12 @@ $this->params['subMenu'] = [
             'progress_type' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => \yii\helpers\ArrayHelper::map(
-                    array_flip(\prime\models\Tool::progressOptions()),
+                    array_flip($model->progressOptions()),
                     function ($key) {
                         return $key;
                     },
-                    function ($key) {
-                        $class = \prime\models\Tool::progressOptions()[$key];
+                    function ($key) use ($model) {
+                        $class = $model->progressOptions()[$key];
                         return (new $class)->title;
                     }
                 )
@@ -67,22 +67,22 @@ $this->params['subMenu'] = [
                 'widgetClass' => \kartik\file\FileInput::class
             ],
             'intake_survey_eid' => [
-                'type' => Form::INPUT_HTML5,
-                'html5type' => 'number'
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->intakeSurveyOptions()
             ],
             'base_survey_eid' => [
-                'type' => Form::INPUT_HTML5,
-                'html5type' => 'number'
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->dataSurveyOptions()
             ],
             'generators' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => \yii\helpers\ArrayHelper::map(
-                    array_flip(\prime\models\Tool::generatorOptions()),
+                    array_flip($model->generatorOptions()),
                     function ($key) {
                         return $key;
                     },
-                    function ($key) {
-                        $class = \prime\models\Tool::generatorOptions()[$key];
+                    function ($key) use ($model) {
+                        $class = $model->generatorOptions()[$key];
                         return (new $class)->title;
                     }
                 )
