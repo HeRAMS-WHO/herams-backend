@@ -20,13 +20,15 @@ $font-family-base: "Open Sans";
   }
 
   /* BEGIN Navbar styling */
+  $icon-part: 0.6;
   .nav li.icon a > span {
     vertical-align: middle;
-    font-size: 0.8 * $navbar-height;
-    line-height: 0.8 * $navbar-height;
+    // Can use hardcoded value here:
+    font-size: $icon-part * $navbar-height;
+    line-height: $icon-part * $navbar-height;
   }
   .nav li.icon a {
-    padding: 0.1 * $navbar-height;
+    padding: (1- $icon-part) / 2 * $navbar-height;
   }
 
   .nav li a {

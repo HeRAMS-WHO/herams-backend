@@ -53,7 +53,6 @@ class SassAsset extends AssetBundle
                 copy($source, $target);
             }
 
-
         }
         parent::publish($am);
 
