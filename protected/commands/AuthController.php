@@ -25,7 +25,7 @@ class AuthController extends Controller
         if (null === $role = $authManager->getRole('admin')) {
             $role = $authManager->createRole('admin');
             $role->description = "Default admin role, users with this role can do anything.";
-            $authManager->add('admin', $role);
+            $authManager->add($role);
         }
 
 
