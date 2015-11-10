@@ -10,32 +10,66 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\rbac\ManagerInterface;
+use yii\rbac\Permission;
 use yii\rbac\Role;
 use yii\web\IdentityInterface;
 
 class AuthController extends Controller
 {
+    protected function createRelation(ManagerInterface $authManager, $parent, $child) {
+        $parentItem = $authManager->getRole($parent);
+        $childItem = $authManager->getPermission($child);
+        if ($authManager->hasChild($parentItem, $childItem)) {
+            $this->stdout("Skipped relation: $parent ==> $child \n", Console::FG_YELLOW);
+        } elseif ($authManager->addChild($parentItem, $childItem)) {
+            $this->stdout("Created relation: $parent ==> $child \n", Console::FG_GREEN);
+        } else {
+            $this->stdout("Failed to create relation: $parent ==> $child \n", Console::FG_RED);
+        }
 
+    }
+    protected function create(ManagerInterface $authManager, $type, $name, $description)
+    {
+        $get = "get" . ucfirst($type);
+        $create = "create" . ucfirst($type);
+        /** @var Role $role */
+        if (null === $item = $authManager->$get($name)) {
+            $item = $authManager->$create($name);
+            $item->description = $description;
+            if ($authManager->add($item)) {
+                $this->stdout("Created $type: '{$item->name}', {$item->description}\n", Console::FG_GREEN);
+            } else {
+                $this->stdout("Failed to create $type: '{$item->name}', {$item->description}\n", Console::FG_RED);
+            }
+        } else {
+            $this->stdout("Skipped $type: '{$item->name}', {$item->description}\n", Console::FG_YELLOW);
+        }
+    }
     /**
      * Create the default admin role if it does not exist.
      */
     public function actionInit(ManagerInterface $authManager)
     {
-        /** @var Role $role */
-        if (null === $role = $authManager->getRole('admin')) {
-            $role = $authManager->createRole('admin');
-            $role->description = "Default admin role, users with this role can do anything.";
-            $authManager->add($role);
+        $this->create($authManager, 'role', 'admin', "Default admin role, users with this role can do anything.");
+
+        // Define default permissions.
+        foreach([
+            'tools' => 'Allow a user to manage tool configuration / creation.'
+        ] as $permission => $description) {
+            $this->create($authManager, 'permission', $permission, $description);
+        }
+
+        // Default rights.
+        foreach([
+            'admin' => ['tools']
+        ] as $parent => $children) {
+            foreach ($children as $child) {
+                $this->createRelation($authManager, $parent, $child);
+            }
+
         }
 
 
-
-        if(isset($role)) {
-            $this->stdout("Created role: '{$role->name}', {$role->description}\n", Console::FG_YELLOW);
-            $this->stdout("OK\n", Console::FG_GREEN);
-        } else {
-            $this->stdout("NOT OK\n", Console::FG_RED);
-        }
     }
     /**
      * Grants specified role to the user.

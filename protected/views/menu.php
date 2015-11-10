@@ -59,15 +59,13 @@ echo Nav::widget([
             ],
             'items' => [
                 ['label' => 'Tools', 'url' => ['/tools']],
-                [
-                    'label' => 'Countries',
-                    'url' => ['/countries/list'],
-                    'visible' => app()->user->can('admin')
-                ]
+                ['label' => 'Users & Permissions', 'url' => ['/rbac'], 'visible' => app()->user->can('admin')],
+                ['label' => 'Countries', 'url' => ['/countries/list'], 'visible' => app()->user->can('admin')],
+
             ],
 
 //            'url' => ['user/settings/account'],
-            'visible' => !Yii::$app->user->isGuest
+            'visible' => app()->user->can('tools')
 
         ],
         [

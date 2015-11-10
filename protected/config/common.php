@@ -55,6 +55,7 @@ return [
             ],
             'admins' => [
                 'joey_claessen@hotmail.com',
+                'sam@mousa.nl',
                 'petragallos@who.int'
             ]
         ],
