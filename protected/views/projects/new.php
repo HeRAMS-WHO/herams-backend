@@ -10,12 +10,9 @@ foreach($dataProvider->models as $tool) {
         ]
     ]);
     echo Html::a(Html::img($tool->imageUrl, [
-        'style' => [
-            'border' => '1px solid grey;',
-            'width' => '100%',
-            'padding' => '0px'
-        ]
-    ]), \yii\helpers\Url::to(['tools/read', 'id' => $tool->id]));
+    ]), \yii\helpers\Url::to(['tools/read', 'id' => $tool->id]), [
+        'class' => 'button-grid',
+    ]);
     echo Html::endTag('div');
 }
 
