@@ -73,7 +73,7 @@ class Project extends ActiveRecord {
     public function getCountries()
     {
         return $this->hasMany(Country::class, ['id' => 'country_id'])
-            ->viaTable('project_country', ['project_id' => 'id']);
+            ->viaTable('{{%project_country}}', ['project_id' => 'id']);
     }
 
     public function getDefaultGenerator()
