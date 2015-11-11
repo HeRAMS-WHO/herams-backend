@@ -53,3 +53,24 @@ $font-family-base: "Open Sans";
     }
   }
 
+
+// Sign in with facebook / google / linkedin cleanup.
+.auth-clients {
+  .auth-client {
+    .auth-title {
+      display: none;
+    }
+
+    float: none;
+    display: inline-block;
+  }
+
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  clear: both;
+}
+
+// Add squares.

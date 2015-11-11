@@ -5,7 +5,11 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-//            'rules' => [
+            'rules' => [
+                [
+                    'pattern' => '<controller>/<id:\d+>',
+                    'route' => '<controller>/read'
+                ]
 //                [
 //                    'class' => \yii\web\GroupUrlRule::class,
 //                    'prefix' => 'rest',
@@ -22,7 +26,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
 //
 //                    ]
 //                ]
-//            ]
+            ]
         ],
         'request' => [
             'cookieValidationKey' => 'blasdf9832h238iwe',

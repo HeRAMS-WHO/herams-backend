@@ -17,6 +17,8 @@ use yii\validators\RangeValidator;
  *
  * @property string $imageUrl
  * @property Widget progressWidget
+ * @property int $base_survey_eid
+ * @property int $intake_survey_eid
  */
 class Tool extends \prime\components\ActiveRecord {
 
@@ -99,6 +101,11 @@ class Tool extends \prime\components\ActiveRecord {
     public function getImageUrl()
     {
         return '/' . self::IMAGE_PATH . $this->image;
+    }
+
+    public function getIntakeUrl()
+    {
+        return app()->limesurvey->getUrl($this->intake_survey_eid);
     }
 
     public static function progressOptions()

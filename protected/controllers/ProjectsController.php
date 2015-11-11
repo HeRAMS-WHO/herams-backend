@@ -7,8 +7,12 @@ use prime\components\Controller;
 use prime\models\forms\projects\Share;
 use prime\models\permissions\Permission;
 use prime\models\Project;
+use prime\models\Tool;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\web\Request;
+use yii\web\Session;
+use yii\web\User;
 
 class ProjectsController extends Controller
 {
@@ -39,14 +43,14 @@ class ProjectsController extends Controller
         }
     }
 
-    public function actionCreate()
+    public function actionCreate(Request $request, Session $session)
     {
         $model = new Project();
         $model->scenario = 'create';
 
-        if (app()->request->isPost) {
-            if($model->load(app()->request->data()) && $model->save()) {
-                app()->session->setFlash(
+        if ($request->isPost) {
+            if($model->load($request->data()) && $model->save()) {
+                $session->setFlash(
                     'projectCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -63,10 +67,26 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionList()
+
+    /**
+     * Shows the available tools in a large grid.
+     */
+    public function actionNew()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Tool::find()
+        ]);
+
+        return $this->render('new', ['dataProvider' => $dataProvider]);
+    }
+    /**
+     * Shows a list of project the user has access to.
+     * @return string
+     */
+    public function actionList(User $user)
     {
         $projectsDataProvider = new ActiveDataProvider([
-            'query' => app()->user->identity->getProjects()
+            'query' => $user->identity->getProjects()
         ]);
 
         return $this->render('list', [
@@ -74,14 +94,14 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionProgress($id)
+    public function actionProgress(Response $response, $id)
     {
         $project = Project::loadOne($id);
         $report = $project->getProgressReport();
 
-        app()->response->setContentType($report->getMimeType());
-        app()->response->content = $report->getStream();
-        return app()->response;
+        $response->setContentType($report->getMimeType());
+        $response->content = $report->getStream();
+        return $response;
     }
 
     public function actionRead($id)

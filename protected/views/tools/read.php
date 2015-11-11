@@ -9,8 +9,9 @@ use \app\components\Html;
 $this->params['subMenu'] = [
     'items' => [
         [
-            'label' => \Yii::t('app', 'request for activation'),
-            'url' => '#'
+            'label' => \Yii::t('app', 'Request'),
+            'url' => $model->intakeUrl,
+            'target' => '_blank'
         ]
     ]
 ];

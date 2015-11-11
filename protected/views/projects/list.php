@@ -6,12 +6,16 @@ use \app\components\Html;
  * @var $projectsDataProvider \yii\data\ActiveDataProvider
  */
 
-$this->params['subMenu']['items'] = [];
-
-$this->params['subMenu']['items'][] = [
-    'label' => \Yii::t('app', 'Create'),
-    'url' => ['projects/create'],
-    'visible' => app()->user->can('admin')
+$this->params['subMenu']['items'] = [
+    [
+        'label' => \Yii::t('app', 'Create'),
+        'url' => ['projects/create'],
+        'visible' => app()->user->can('admin')
+    ],
+    [
+        'label' => \Yii::t('app', 'New'),
+        'url' => ['projects/new'],
+    ]
 ];
 ?>
 <div class="col-xs-12">

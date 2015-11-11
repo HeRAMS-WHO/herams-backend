@@ -60,8 +60,12 @@
                             ]
                         ) .
                         \dektrium\user\widgets\Connect::widget([
+                            'options' => [
+                                'style' => 'clear: both;'
+                            ],
                             'baseAuthUrl' => ['/user/security/auth'],
                         ])
+
                 ]
             ],
             'options' => [
