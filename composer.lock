@@ -106,7 +106,7 @@
         },
         {
             "name": "befound/yii-befound",
-            "version": "v1.1.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.befound.nl:befound/yii-befound.git",
