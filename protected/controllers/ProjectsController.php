@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
+use yii\web\Response;
 
 class ProjectsController extends Controller
 {

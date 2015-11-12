@@ -6,27 +6,29 @@ use prime\components\Controller;
 use prime\models\permissions\Permission;
 use prime\models\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use yii\web\Request;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use yii\web\Response;
+use yii\web\Session;
 
 class ToolsController extends Controller
 {
     public $defaultAction = 'list';
 
-    public function actionCreate()
+    public function actionCreate(Request $request, Session $session)
     {
         $model = new Tool();
         $model->scenario = 'create';
 
-        if(app()->request->isPost) {
-            $model->load(app()->request->data());
-            if($model->load(app()->request->data()) && $model->save())
+        if($request->isPost) {
+            $model->load($request->data());
+            if($model->load($request->data()) && $model->save())
             {
-                app()->session->setFlash(
+                $session->setFlash(
                     'toolCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -49,11 +51,14 @@ class ToolsController extends Controller
         ]);
     }
 
-    public function actionDepDropGenerators()
+    public function actionDepDropGenerators(
+        Response $response,
+        Request $request
+    )
     {
-        app()->response->format = Response::FORMAT_JSON;
-        if(app()->request->isPost) {
-            $parents = app()->request->data()['depdrop_parents'];
+        $response->format = Response::FORMAT_JSON;
+        if($request->isPost) {
+            $parents = $request->data()['depdrop_parents'];
             $generators = [];
             $tools = Tool::findAll($parents);
             foreach($tools as $tool) {
@@ -94,14 +99,14 @@ class ToolsController extends Controller
         ]);
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate(Request $request, Session $session, $id)
     {
         $model = Tool::loadOne($id, Permission::PERMISSION_WRITE);
         $model->scenario = 'update';
 
-        if(app()->request->isPut) {
-            if($model->load(app()->request->data()) && $model->save()) {
-                app()->session->setFlash(
+        if($request->isPut) {
+            if($model->load($request->data()) && $model->save()) {
+                $session->setFlash(
                     'toolUpdated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -124,6 +129,15 @@ class ToolsController extends Controller
         ]);
     }
 
+    /**
+     * Deletes a tool.
+     * @todo Implement this.
+     * @param $id
+     */
+    public function actionDelete($id)
+    {
+
+    }
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),

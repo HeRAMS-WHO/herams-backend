@@ -6,20 +6,23 @@ use prime\components\Controller;
 use prime\models\permissions\Permission;
 use prime\models\UserList;
 use yii\helpers\ArrayHelper;
+use yii\web\Request;
+use yii\web\Session;
+use yii\web\User;
 
 class UserListsController extends Controller
 {
     public $defaultAction = 'list';
 
-    public function actionCreate()
+    public function actionCreate(Request $request, Session $session, User $user)
     {
         $model = new \prime\models\forms\UserList([
-            'user_id' => app()->user->id
+            'user_id' => $user->id
         ]);
 
-        if(app()->request->isPost) {
-            if($model->load(app()->request->data()) && $model->save()) {
-                app()->session->setFlash(
+        if($request->isPost) {
+            if($model->load($request->data()) && $model->save()) {
+                $session->setFlash(
                     'userListCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -34,12 +37,12 @@ class UserListsController extends Controller
         return $this->render('create', ['model' => $model]);
     }
 
-    public function actionDelete($id)
+    public function actionDelete(Request $request, Session $session, $id)
     {
         $model = UserList::loadOne($id, Permission::PERMISSION_WRITE);
-        if(app()->request->isDelete) {
+        if($request->isDelete) {
             $model->delete();
-            app()->session->setFlash(
+            $session->setFlash(
                 'userListDeleted',
                 [
                     'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -62,13 +65,13 @@ class UserListsController extends Controller
         return $this->render('read', ['model' => $model]);
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate(Request $request, Session $session, $id)
     {
         $model = \prime\models\forms\UserList::loadOne($id, Permission::PERMISSION_WRITE);
 
-        if(app()->request->isPost) {
-            if($model->load(app()->request->data()) && $model->save()) {
-                app()->session->setFlash(
+        if($request->isPost) {
+            if($model->load($request->data()) && $model->save()) {
+                $session->setFlash(
                     'userListUpdated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,

@@ -13,6 +13,19 @@ $this->params['subMenu']['items'] = [];
 <div class="col-xs-12">
     <?php
     echo \kartik\grid\GridView::widget([
+        'caption' => \yii\bootstrap\ButtonGroup::widget([
+            'options' => [
+                'class' => 'pull-right'
+            ],
+            'buttons' => [
+                [
+                    'label' => 'Add new country',
+                    'options' => [
+                        'class' => 'btn-primary'
+                    ]
+                ],
+            ]
+        ]),
         'dataProvider' => $countriesDataProvider,
         'columns' => [
             'name',
