@@ -12,6 +12,7 @@ use prime\objects\ResponseCollection;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
+use yii\helpers\ArrayHelper;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
 
@@ -29,14 +30,7 @@ class Project extends ActiveRecord {
     public function behaviors()
     {
         return [
-            LinkTableBehavior::class => [
-                'class' => LinkTableBehavior::class,
-                'relations' => [
-                    'countries' => [
-                        'displayAttribute' => 'name'
-                    ]
-                ]
-            ]
+
         ];
     }
 
@@ -72,8 +66,19 @@ class Project extends ActiveRecord {
 
     public function getCountries()
     {
-        return $this->hasMany(Country::class, ['id' => 'country_id'])
-            ->viaTable('{{%project_country}}', ['project_id' => 'id']);
+        return array_map(function($projectCountry) {
+            /** @var ProjectCountry $projectCountry */
+            return $projectCountry->country;
+        }, $this->projectCountries);
+    }
+
+    public function getCountriesOptions()
+    {
+        return ArrayHelper::map(
+            Country::findAll(),
+            'iso_3',
+            'name'
+        );
     }
 
     public function getDefaultGenerator()
@@ -124,6 +129,11 @@ class Project extends ActiveRecord {
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
+    }
+
+    public function getProjectCountries()
+    {
+        return $this->hasMany(ProjectCountry::class, ['project_id' => 'id']);
     }
 
     /**
@@ -196,8 +206,6 @@ class Project extends ActiveRecord {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator', 'countriesIds'],
-            'update' => ['title', 'description', 'default_generator'],
             'close' => ['closed']
         ];
     }

@@ -7,9 +7,7 @@ use yii\web\JsExpression;
  * @var \yii\web\View $this
  */
 
-$this->registerJsFile('http://code.highcharts.com/mapdata/custom/world.js', [
-    'depends' => 'miloschuman\highcharts\HighchartsAsset'
-]);
+$this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::getAlias('@webroot/json/WHO_CountryPolygons.json')));
 
 $map = Highmaps::begin([
     'options' => [
@@ -28,11 +26,11 @@ $map = Highmaps::begin([
         'series' => [
             [
                 'data' => [
-                    ['iso-a3' => 'DEU', 'value' => 0],
-                    ['iso-a3' => 'NLD', 'value' => 1]
+                    ['ISO_3_CODE' => 'DEU', 'value' => 0],
+                    ['ISO_3_CODE' => 'NLD', 'value' => 1]
                 ],
-                'mapData' => new JsExpression('Highcharts.maps["custom/world"]'),
-                'joinBy' => ['iso-a3'],
+                'mapData' => new JsExpression('Highcharts.maps["who/world"]'),
+                'joinBy' => ['ISO_3_CODE'],
                 'name' => 'Random data',
                 'states' => [
                     'hover' => [
@@ -41,7 +39,7 @@ $map = Highmaps::begin([
                 ],
                 'dataLabels' => [
                     'enabled' => false,
-                    'format' => '{point.name}',
+                    //'format' => '{point.properties.CNTRY_TERR}',
                 ],
                 'showInLegend' => false,
                 'allowPointSelect' => true,
@@ -54,13 +52,16 @@ $map = Highmaps::begin([
         ],
         'credits' => [
             'enabled' => false
+        ],
+        'tooltip' => [
+            'enabled' => false
         ]
     ]
 ]);
 $map->end();
 $js = "
 function select(point) {
-    bootbox.alert(\"You selected \" + point.name + \"!\");
+    bootbox.alert(\"You selected \" + point.properties.CNTRY_TERR + \"!\");
 }
 ";
 $this->registerJs($js, $this::POS_BEGIN);

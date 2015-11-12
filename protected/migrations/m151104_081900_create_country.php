@@ -6,7 +6,7 @@ class m151104_081900_create_country extends Migration
 {
     public function up()
     {
-        $this->createTable(\prime\models\Country::tableName(),[
+        $this->createTable('{{%country}}',[
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'iso_code' => $this->string(3)->notNull(),
@@ -32,7 +32,7 @@ class m151104_081900_create_country extends Migration
             'country_id',
             $projectCountryTableName,
             ['country_id'],
-            \prime\models\Country::tableName(),
+            '{{%country}}',
             ['id']
         );
     }

@@ -4,6 +4,7 @@ namespace prime\controllers;
 
 use Befound\Components\DateTime;
 use prime\components\Controller;
+use prime\models\forms\projects\CreateUpdate;
 use prime\models\forms\projects\Share;
 use prime\models\permissions\Permission;
 use prime\models\Project;
@@ -18,14 +19,14 @@ class ProjectsController extends Controller
 {
     public $defaultAction = 'list';
 
-    public function actionClose($id)
+    public function actionClose(Session $session, Request $request, $id)
     {
         $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
         $model->scenario = 'close';
-        if(app()->request->isDelete) {
+        if($request->isDelete) {
             $model->closed = (new DateTime())->format(DateTime::MYSQL_DATETIME);
             if($model->save()) {
-                app()->session->setFlash(
+                $session->setFlash(
                     'projectClosed',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -45,7 +46,7 @@ class ProjectsController extends Controller
 
     public function actionCreate(Request $request, Session $session)
     {
-        $model = new Project();
+        $model = new CreateUpdate();
         $model->scenario = 'create';
 
         if ($request->isPost) {
@@ -113,7 +114,7 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionShare($id)
+    public function actionShare(Session $session, Request $request, $id)
     {
         $project = Project::loadOne($id, Permission::PERMISSION_SHARE);
 
@@ -121,9 +122,9 @@ class ProjectsController extends Controller
             'projectId' => $project->id
         ]);
 
-        if(app()->request->isPost) {
-            if($model->load(app()->request->data()) && $model->createRecords()) {
-                app()->session->setFlash(
+        if($request->isPost) {
+            if($model->load($request->data()) && $model->createRecords()) {
+                $session->setFlash(
                     'projectShared',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -145,14 +146,15 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate(Request $request, Session $session, $id)
     {
-        $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
+        $model = CreateUpdate::loadOne($id, Permission::PERMISSION_WRITE);
         $model->scenario = 'update';
 
-        if(app()->request->isPost) {
-            if($model->load(app()->request->data()) && $model->save()) {
-                app()->session->setFlash(
+
+        if($request->isPost) {
+            if($model->load($request->data()) && $model->save()) {
+                $session->setFlash(
                     'projectUpdated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,

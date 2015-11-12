@@ -5,6 +5,14 @@ use \app\components\ActiveForm;
 use app\components\Html;
 
 $this->title = Yii::t('app', 'Create project');
+
+$this->params['subMenu'] = [
+    'items' => [
+        [
+            'label' => Html::submitButton(\Yii::t('app', 'save'), ['form' => 'create-project', 'class' => 'btn btn-primary'])
+        ],
+    ]
+];
 ?>
 
 <div class="col-xs-12">
@@ -54,7 +62,7 @@ $this->title = Yii::t('app', 'Create project');
                 'options' => [
                     'pluginOptions' => [
                         'url' => ['/tools/dep-drop-generators'],
-                        'depends' => ['project-tool_id']
+                        'depends' => ['createupdate-tool_id']
                     ],
                 ],
                 'enableClientValidation' => false
@@ -68,11 +76,6 @@ $this->title = Yii::t('app', 'Create project');
                         'multiple' => true
                     ],
                 ]
-            ],
-            'actions' => [
-                'type' => Form::INPUT_RAW,
-                'value' =>
-                    Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
             ]
         ]
     ]);
