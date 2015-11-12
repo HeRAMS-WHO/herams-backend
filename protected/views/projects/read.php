@@ -90,8 +90,9 @@ if(isset($model->defaultGenerator)) {
             var $body = $iframe.contents().find("body");
             $body.on("mresize", resizer);
             console.log($body);
-
+            $body.trigger("mresize");
         });
+
     ', $this::POS_READY);
     echo \yii\bootstrap\Tabs::widget([
          'items' => [
