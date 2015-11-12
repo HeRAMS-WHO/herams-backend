@@ -40,12 +40,7 @@
         ])
         ?>
     </div>
-    <style>
-        #stats:hover {
-            height: 800px;
-        }
-    </style>
-    <div class="col-xs-12 col-md-6" id="stats">
+    <div class="col-xs-12 col-md-6">
         <h2><?=\Yii::t('app', 'Total response rate')?></h2>
         <?=$report->getResponseRate()?>%
         <h2><?=\Yii::t('app', 'Number partners responding')?></h2>
