@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b0c0bd6acadb34da179a9c60c7338ce9",
-    "content-hash": "e639bfba6dc870203e0de1b6978f6253",
+    "hash": "5d2eb89a62141eb694e849e3ca85e58c",
+    "content-hash": "555bc873ac4bf3942244528df25e2c0e",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -2188,6 +2188,48 @@
             "time": "2015-11-08 08:17:49"
         },
         {
+            "name": "npm-asset/mresize",
+            "version": "1.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "http://registry.npmjs.org/mresize/-/mresize-1.0.1.tgz",
+                "reference": null,
+                "shasum": "9a09ed337b1bfdc9b8d833160d94d66b656d7f47"
+            },
+            "type": "npm-asset-library",
+            "extra": {
+                "npm-asset-bugs": {
+                    "url": "https://github.com/malihu/mresize/issues"
+                },
+                "npm-asset-files": [
+                    "mresize.js",
+                    "README.md"
+                ],
+                "npm-asset-main": "./mresize.js",
+                "npm-asset-directories": [],
+                "npm-asset-repository": {
+                    "type": "git",
+                    "url": "https://github.com/malihu/mresize.git"
+                },
+                "npm-asset-scripts": []
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "malihu",
+                    "url": "http://manos.malihu.gr"
+                }
+            ],
+            "description": "Event based jQuery element resize ",
+            "homepage": "http://manos.malihu.gr/event-based-jquery-element-resize",
+            "keywords": [
+                "element-resize",
+                "jquery-plugin"
+            ]
+        },
+        {
             "name": "psr/http-message",
             "version": "dev-master",
             "source": {
@@ -2412,12 +2454,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "7206eaf089f06aa462e96e1939eb53d0eb7312fb"
+                "reference": "6837b0c0bd3fd47dbc01530056e8a177e4c3a213"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7206eaf089f06aa462e96e1939eb53d0eb7312fb",
-                "reference": "7206eaf089f06aa462e96e1939eb53d0eb7312fb",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/6837b0c0bd3fd47dbc01530056e8a177e4c3a213",
+                "reference": "6837b0c0bd3fd47dbc01530056e8a177e4c3a213",
                 "shasum": ""
             },
             "require": {
@@ -2493,7 +2535,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-11 18:14:23"
+            "time": "2015-11-12 10:20:41"
         },
         {
             "name": "yiisoft/yii2-authclient",
