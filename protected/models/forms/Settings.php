@@ -2,8 +2,13 @@
 
 namespace prime\models\forms;
 
+use Befound\Components\DateTime;
 use prime\models\ar\Setting;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
+use yii\validators\ExistValidator;
+use yii\validators\RangeValidator;
 
 /**
  * Class Settings
@@ -25,7 +30,8 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['limesurvey.host', 'url']
+            ['limesurvey.host', 'url'],
+            ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->getCountryPolygonsFileOptions())]
         ];
     }
 
@@ -50,6 +56,29 @@ class Settings extends Model
         } else {
             parent::__get($name, $value);
         }
+    }
+
+    public function getCountryPolygonsFileOptions()
+    {
+        return
+            ArrayHelper::map(
+                FileHelper::findFiles(
+                    \Yii::getAlias('@app/data/countryPolygons/'),
+                    [
+                        'recursive' => false,
+                        'only' => ['*.json']
+                    ]
+                ),
+                function ($file) {
+                    return basename($file);
+                },
+                function ($file) {
+                    return app()->formatter->asDatetime(
+                        DateTime::createFromFormat(DateTime::FILE, basename($file, '.json')),
+                        'full'
+                    );
+                }
+            );
     }
 
     public function save() {
