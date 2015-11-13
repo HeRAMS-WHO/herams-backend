@@ -88,17 +88,24 @@ class Tool extends ActiveRecord {
         );
     }
 
-
-    public static function generatorOptions()
+    /**
+     * Returns a list of all known generator classes.
+     *
+     * @return array
+     */
+    public static function generators()
     {
         return [
             self::TOOL_TEST => \prime\reportGenerators\test\Generator::class
         ];
+
     }
 
-    public function getGenerators()
+    public function getGeneratorOptions()
     {
-        return array_intersect_key(self::generatorOptions(), array_flip($this->generators->asArray()));
+        return array_map(function($className) {
+           return $className::title();
+        }, self::generators());
     }
 
     public function getImageUrl()
@@ -168,7 +175,7 @@ class Tool extends ActiveRecord {
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], 'string'],
             [['progress_type'], 'in', 'range' => array_keys(self::progressOptions())],
-            [['generators'], RangeValidator::class, 'range' => array_keys(self::generatorOptions()), 'allowArray' => true]
+            [['generators'], RangeValidator::class, 'range' => array_keys(self::generators()), 'allowArray' => true]
         ];
     }
 

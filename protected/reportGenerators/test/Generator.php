@@ -17,9 +17,9 @@ class Generator extends Component implements ReportGeneratorInterface
      * Returns the title of the Report
      * @return string
      */
-    public function getTitle()
+    public static function title()
     {
-        return \Yii::t('app', 'Test generator');
+        return \Yii::t('app', 'Example report');
     }
 
     /**
@@ -49,6 +49,6 @@ class Generator extends Component implements ReportGeneratorInterface
         SignatureInterface $signature,
         UserDataInterface $userData = null
     ) {
-        return new Report($userData, $signature);
+        return new Report($responses, $userData, $signature);
     }
 }

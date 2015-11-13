@@ -65,21 +65,11 @@ $this->params['subMenu'] = [
             ],
             'generators' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(
-                    array_flip(\prime\models\ar\Tool::generatorOptions()),
-                    function ($key) {
-                        return $key;
-                    },
-                    function ($key) {
-                        $class = \prime\models\ar\Tool::generatorOptions()[$key];
-                        return (new $class)->title;
-                    }
-                ),
-                'value' => $model->generators->asArray()
+                'items' => $model->generatorOptions,
+                'value' => $model->generators
             ],
         ]
     ]);
-
     $form->end();
     ?>
 </div>

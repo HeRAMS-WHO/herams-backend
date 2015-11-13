@@ -17,7 +17,7 @@ class Generator extends Component implements ReportGeneratorInterface
      * Returns the title of the Report
      * @return string
      */
-    public function getTitle()
+    public static function title()
     {
         return \Yii::t('app', 'Percentage');
     }

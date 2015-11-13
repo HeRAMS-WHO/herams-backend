@@ -29,6 +29,14 @@ class CreateUpdate extends Project
         }
     }
 
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'countriesIds' => \Yii::t('app', 'Countries')
+        ]);
+    }
+
+
 
     public function getCountriesIds()
     {

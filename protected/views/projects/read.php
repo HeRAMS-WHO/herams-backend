@@ -11,8 +11,12 @@ use app\components\Html;
 $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
-    'label' => \Yii::t('app', 'close'),
+    'label' => Html::icon('stop'),
     'url' => ['/projects/close', 'id' => $model->id],
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Stop'),
+    ],
     'linkOptions' => [
         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
         'data-method' => 'delete'
@@ -21,9 +25,14 @@ $this->params['subMenu']['items'][] = [
 ];
 
 $this->params['subMenu']['items'][] = [
-    'label' => \Yii::t('app', 'share'),
+    'label' => Html::icon('share'),
     'url' => ['/projects/share', 'id' => $model->id],
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE),
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Share'),
+    ],
+
 ];
 
 

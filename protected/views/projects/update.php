@@ -50,18 +50,9 @@ $this->params['subMenu'] = [
             ],
             'default_generator' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(
-                    array_flip($model->tool->getGenerators()),
-                    function ($key) {
-                        return $key;
-                    },
-                    function ($key) {
-                        $class = \prime\models\ar\Tool::generatorOptions()[$key];
-                        return (new $class)->title;
-                    }
-                ),
+                'items' => $model->generatorOptions,
                 'options' => [
-                    'prompt' => ''
+                    'prompt' => \Yii::t('app', "None")
                 ]
             ],
             'countriesIds' => [
@@ -76,7 +67,6 @@ $this->params['subMenu'] = [
             ],
         ]
     ]);
-
     $form->end();
     ?>
 </div>

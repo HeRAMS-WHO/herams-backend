@@ -56,25 +56,25 @@ class ToolsController extends Controller
         Request $request
     )
     {
-        $response->format = Response::FORMAT_JSON;
-        if($request->isPost) {
-            $parents = $request->data()['depdrop_parents'];
-            $generators = [];
-            $tools = Tool::findAll($parents);
-            foreach($tools as $tool) {
-                foreach($tool->getGenerators() as $key => $value) {
-                    $generator = new $value();
-                    $generators[] = [
-                        'id' => $key,
-                        'name' => $generator->title
-                    ];
-                }
-            }
-            return [
-                'output' => $generators,
-                'selected' => ''
-            ];
-        }
+//        $response->format = Response::FORMAT_JSON;
+//        if($request->isPost) {
+//            $parents = $request->data()['depdrop_parents'];
+//            $generators = [];
+//            $tools = Tool::findAll($parents);
+//            foreach($tools as $tool) {
+//                foreach($tool->getGenerators() as $key => $value) {
+//                    $generator = new $value();
+//                    $generators[] = [
+//                        'id' => $key,
+//                        'name' => $generator->title
+//                    ];
+//                }
+//            }
+//            return [
+//                'output' => $generators,
+//                'selected' => ''
+//            ];
+//        }
         return [
             'output' => '',
             'selected' => ''

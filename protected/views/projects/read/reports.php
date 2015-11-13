@@ -8,7 +8,7 @@ use \app\components\Html;
  */
 
 $items = [];
-foreach($model->tool->getGenerators() as $generator => $class) {
+foreach($model->tool->generators as $generator) {
     $items[] = [
         'label' => \Yii::t('app', '{generator}', ['generator' => ucfirst($generator)]),
         'url' => [
@@ -27,12 +27,10 @@ if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && !e
             <span class="caret"></span>
         </button>
         <?php
-            echo \yii\bootstrap\Dropdown::widget(
-            [
+            echo \yii\bootstrap\Dropdown::widget([
                 'items' => $items
-            ]
-        );
-    ?>
+            ]);
+        ?>
     </div>
     <?php
 }

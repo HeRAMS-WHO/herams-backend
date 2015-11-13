@@ -41,7 +41,7 @@ class UserData extends ActiveRecord implements UserDataInterface
             [['data'], 'safe'],
             [['project_id', 'generator'], 'required'],
             [['project_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
-            [['generator'], 'in', 'range' => array_keys(Tool::generatorOptions())],
+            [['generator'], 'in', 'range' => array_keys(Tool::generators())],
             [['project_id', 'generator'], UniqueValidator::class, 'targetAttribute' => ['project_id', 'generator']]
         ];
     }

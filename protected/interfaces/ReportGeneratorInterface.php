@@ -12,7 +12,7 @@ interface ReportGeneratorInterface {
      * Returns the title of the Report
      * @return string
      */
-    public function getTitle();
+    public static function title();
 
     /**
      * @param ResponseCollectionInterface $responses

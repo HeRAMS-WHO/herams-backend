@@ -21,6 +21,7 @@ use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\helpers\ArrayHelper;
 use yii\validators\DateValidator;
+use yii\validators\DefaultValueValidator;
 use yii\validators\RangeValidator;
 
 /**
@@ -31,8 +32,17 @@ use yii\validators\RangeValidator;
  * @property Tool $tool
  * @property string $title
  * @property string $description
+ * @property string $default_generator
+ * @property
  */
-class Project extends ActiveRecord {
+class Project extends ActiveRecord
+{
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'default_generator' => 'Default report'
+        ]);
+    }
 
     public function behaviors()
     {
@@ -90,8 +100,8 @@ class Project extends ActiveRecord {
 
     public function getDefaultGenerator()
     {
-        if(isset(Tool::generatorOptions()[$this->default_generator])) {
-            $generatorClass = Tool::generatorOptions()[$this->default_generator];
+        if(isset(Tool::generators()[$this->default_generator])) {
+            $generatorClass = Tool::generators()[$this->default_generator];
             return new $generatorClass();
         } else {
             return null;
@@ -205,8 +215,11 @@ class Project extends ActiveRecord {
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
-            [['default_generator'], RangeValidator::class, 'range' => function($model, $attribute) {return isset($model->tool) ? array_keys($this->tool->getGenerators()) : array_keys(Tool::generatorOptions());}],
-            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME]
+            [['default_generator'], RangeValidator::class, 'range' => function(self $model, $attribute) {return array_keys($model->generatorOptions);}],
+            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
+
+            // Save NULL instead of "" when no default report is selected.
+            [['default_generator'], DefaultValueValidator::class]
         ];
     }
 
@@ -229,5 +242,8 @@ class Project extends ActiveRecord {
         return $result;
     }
 
-
+    public function getGeneratorOptions()
+    {
+        return $this->tool->generatorOptions;
+    }
 }
