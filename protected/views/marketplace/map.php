@@ -33,7 +33,7 @@ $map = Highmaps::begin([
             ]
         ],
         'series' => [
-            (new \prime\models\MapLayer(['allAreas' => true]))->toArray(),
+            (new \prime\models\MapLayer(['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"]))->toArray(),
             (new \prime\models\mapLayers\Reports())->toArray()
         ],
         'credits' => [
@@ -43,7 +43,8 @@ $map = Highmaps::begin([
             'enabled' => false
         ],
         'chart' => [
-            'height' => 600
+            'height' => 600,
+            'backgroundColor' => null
         ]
     ],
     'htmlOptions' => [

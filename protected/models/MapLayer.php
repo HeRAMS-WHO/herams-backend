@@ -11,6 +11,7 @@ class MapLayer extends Model{
     public $allAreas = false;
     public $allowPointSelect;
     public $data;
+    public $nullColor;
     public $point = [
         'events' => [
 
