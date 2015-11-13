@@ -19,14 +19,20 @@ if (isset($this->params['subMenu'], $this->params['subMenu']['items'])) {
 
 
 if($visible) {
-    NavBar::begin(
-        [
-            'options' => [
-                'class' => 'navbar-default',
-                'style' => 'margin-top: -20px;'
-            ],
-        ]
-    );
+    NavBar::begin([
+        'renderInnerContainer' => true,
+//        'innerContainerOptions' => [
+//            'class' => 'container-fluid'
+//        ],
+        'options' => [
+            'class' => 'navbar-default navbar-static-top',
+            'style' => [
+                'margin-top' => '-20px',
+//                    'top' => '70px',
+//                'z-index' => 2000
+            ]
+        ],
+    ]);
 
     echo Nav::widget(
         [
