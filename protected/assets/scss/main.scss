@@ -89,17 +89,19 @@ $font-family-base: "Open Sans";
   background-color: rgba(51, 51, 51, 0.3);
   content: "";
 }
-
-ul.nav > li:not(.dropdown) {
-  a:hover::after {
-    content: " " attr(title);
-    display: block;
-    font-size: 0.4em;
-  }
-  a:hover {
-    text-align: center;
-    padding-bottom: 0px;
-  }
-
-
-}
+//
+//ul.nav > li:not(.dropdown) {
+//  a:hover::after {
+//    content: " " attr(title);
+//    display: block;
+//    position: absolute;
+//    left: 0;
+//    bottom: -10%;
+//    font-size: 0.4em;
+//  }
+//  a {
+//    text-align: center;
+//  }
+//
+//
+//}

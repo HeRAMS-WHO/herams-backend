@@ -33,42 +33,37 @@ echo Nav::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => Html::icon('list'),
-            'linkOptions' => [
+            'label' => Html::icon('list', [
                 'title' => 'Projects'
-            ],
+            ]),
             'url' => ['/projects']
         ],
 
         [
-            'label' => Html::icon('globe'),
-            'linkOptions' => [
+            'label' => Html::icon('globe', [
                 'title' => 'Marketplace'
-            ],
+            ]),
             'url' => ['/marketplace/map']
 
         ],
         [
-            'label' => Html::icon('heart-empty'),
-            'linkOptions' => [
+            'label' => Html::icon('heart-empty', [
                 'title' => \Yii::t('app', 'User lists')
-            ],
+            ]),
             'url' => ['/user-lists/list']
         ],
         [
 
-            'label' => Html::icon('search') . " " . Html::tag('span', \Yii::t('app', 'Search'), ['class' => 'visible-xs-inline-block']),
-            'linkOptions' => [
-                'title' => \Yii::t('app', 'Search')
-            ],
+            'label' => Html::icon('search', [
+                    'title' => \Yii::t('app', 'Search')
+            ]),
             'url' => ['users/account'],
             'visible' => !Yii::$app->user->isGuest
         ],
         [
-            'label' => Html::icon('user'),
-            'linkOptions' => [
+            'label' => Html::icon('user', [
                 'title' => 'User'
-            ],
+            ]),
 
             'url' => ['user/settings/account'],
             'visible' => !Yii::$app->user->isGuest
@@ -84,28 +79,25 @@ echo Nav::widget([
 
             ],
 
-//            'url' => ['user/settings/account'],
+            'url' => ['user/settings/account'],
             'visible' => app()->user->can('tools')
 
         ],
         [
-            'label' => Html::icon('log-in'),
-            'linkOptions' => [
+            'label' => Html::icon('log-in', [
                 'title' => 'Log in'
-            ],
+            ]),
 
             'url' => ['/user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
         [
-            'label' => Html::icon('log-out'),
-            'linkOptions' => [
+            'label' => Html::icon('log-out', [
                 'title' => 'Log out'
-            ],
+            ]),
 
             'url' => ['/user/security/logout'],
             'linkOptions' => [
-                'title' => Yii::t('app', 'Log out'),
                 'data-method' => 'post'
             ],
             'visible' => !Yii::$app->user->isGuest
@@ -113,5 +105,12 @@ echo Nav::widget([
     ],
 ]);
 NavBar::end();
+/**
+ * Register tooltips.
+ */
+$this->registerJs('$(\'nav [title]\').tooltip({
+    placement: "bottom",
+    trigger: "hover",
 
+ });');
 echo $this->render('subMenu');
