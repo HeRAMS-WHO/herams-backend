@@ -24,11 +24,14 @@
     <body>
         <?php $this->beginBody(); ?>
         <?php
+//            echo Html::tag('div', $this->render('/leftMenu.php'), []);
             echo $this->render('//menu');
             echo $this->render('//flash.php');
-//            echo Html::tag('div', $this->render('/leftMenu.php'), []);
 
-            echo Html::tag('div', $content, ['class' => isset($this->params['containerClass']) ? $this->params['containerClass'] : 'container']);
+            echo Html::beginTag('div', ['class' => isset($this->params['containerClass']) ? $this->params['containerClass'] : 'container']);
+            echo $content;
+            echo Html::endTag('div');
+
         ?>
     <?php $this->endBody(); ?>
     </body>

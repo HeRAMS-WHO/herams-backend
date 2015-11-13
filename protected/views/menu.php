@@ -11,6 +11,7 @@ use kartik\helpers\Html;
 NavBar::begin([
     'brandLabel' => \kartik\helpers\Html::img('@web/img/logo.svg'),
     'brandUrl' => Yii::$app->homeUrl,
+    'renderInnerContainer' => true,
     'options' => [
         'class' => 'navbar-default navbar-fixed-top',
     ],
@@ -19,10 +20,10 @@ NavBar::begin([
 if (!app()->user->isGuest) {
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
+        'encodeLabels' => false,
         'items' => [
-            ['label' => 'Projects', 'url' => ['/projects']],
-            ['label' => 'Marketplace', 'url' => ['/marketplace/map']],
-            ['label' => 'User lists', 'url' => ['/user-lists/list']],
+
+
         ],
     ]);
 }
@@ -32,18 +33,40 @@ echo Nav::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => Html::icon('search'),
-            'options' => [
-                'class' => 'icon',
-                'title' => 'Search'
+            'label' => Html::icon('list'),
+            'linkOptions' => [
+                'title' => 'Projects'
+            ],
+            'url' => ['/projects']
+        ],
+
+        [
+            'label' => Html::icon('globe'),
+            'linkOptions' => [
+                'title' => 'Marketplace'
+            ],
+            'url' => ['/marketplace/map']
+
+        ],
+        [
+            'label' => Html::icon('heart-empty'),
+            'linkOptions' => [
+                'title' => \Yii::t('app', 'User lists')
+            ],
+            'url' => ['/user-lists/list']
+        ],
+        [
+
+            'label' => Html::icon('search') . " " . Html::tag('span', \Yii::t('app', 'Search'), ['class' => 'visible-xs-inline-block']),
+            'linkOptions' => [
+                'title' => \Yii::t('app', 'Search')
             ],
             'url' => ['users/account'],
             'visible' => !Yii::$app->user->isGuest
         ],
         [
             'label' => Html::icon('user'),
-            'options' => [
-                'class' => 'icon',
+            'linkOptions' => [
                 'title' => 'User'
             ],
 
@@ -53,10 +76,6 @@ echo Nav::widget([
         ],
         [
             'label' => Html::icon('wrench'),
-            'options' => [
-                'class' => 'icon',
-                'title' => 'Admin'
-            ],
             'items' => [
                 ['label' => 'Tools', 'url' => ['/tools']],
                 ['label' => 'Users & Permissions', 'url' => ['/rbac'], 'visible' => app()->user->can('admin')],
@@ -70,8 +89,7 @@ echo Nav::widget([
         ],
         [
             'label' => Html::icon('log-in'),
-            'options' => [
-                'class' => 'icon',
+            'linkOptions' => [
                 'title' => 'Log in'
             ],
 
@@ -80,13 +98,15 @@ echo Nav::widget([
         ],
         [
             'label' => Html::icon('log-out'),
-            'options' => [
-                'class' => 'icon',
+            'linkOptions' => [
                 'title' => 'Log out'
             ],
 
             'url' => ['/user/security/logout'],
-            'linkOptions' => ['data-method' => 'post'],
+            'linkOptions' => [
+                'title' => Yii::t('app', 'Log out'),
+                'data-method' => 'post'
+            ],
             'visible' => !Yii::$app->user->isGuest
         ]
     ],

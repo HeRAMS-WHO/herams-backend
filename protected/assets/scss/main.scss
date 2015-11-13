@@ -19,22 +19,16 @@ $font-family-base: "Open Sans";
     margin-top: $navbar-height + $navbar-margin-bottom;
   }
 
-  /* BEGIN Navbar styling */
-  $icon-part: 0.6;
-  .nav li.icon a > span {
+  ///* BEGIN Navbar styling */
+  $link-part: 0.5;
+  .nav li a > span {
     vertical-align: middle;
-    // Can use hardcoded value here:
-    font-size: $icon-part * $navbar-height;
-    line-height: $icon-part * $navbar-height;
-  }
-  .nav li.icon a {
-    padding: (1- $icon-part) / 2 * $navbar-height;
   }
 
   .nav li a {
-    padding: 0.3 * $navbar-height;
-    font-size: 0.4 * $navbar-height;
-    line-height: 0.4 * $navbar-height;
+    padding: (1- $link-part) / 2 * $navbar-height;
+    font-size: $link-part * $navbar-height;
+    line-height: $link-part * $navbar-height;
   }
 
   .navbar-brand {
@@ -94,4 +88,8 @@ $font-family-base: "Open Sans";
   position: absolute;
   background-color: rgba(51, 51, 51, 0.3);
   content: "";
+}
+
+ul.nav a:hover::after {
+  content: " " attr(title);
 }
