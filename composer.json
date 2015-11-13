@@ -40,7 +40,8 @@
         "treffynnon/navigator": "~1.0",
         "sam-it/ls2-jsonrpc-client": "dev-master",
         "dektrium/yii2-rbac": "^0.1.0",
-        "npm-asset/mresize": "^1.0"
+        "npm-asset/mresize": "^1.0",
+        "bower-asset/bootstrap-social": "^4.10"
     },
 	"repositories": [
 		{

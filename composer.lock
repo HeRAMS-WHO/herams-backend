@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "603797a35c3af0dccca0a3e253998cc6",
-    "content-hash": "555bc873ac4bf3942244528df25e2c0e",
+    "hash": "f8dc05cd55f184938ce9e191bcaa4e0a",
+    "content-hash": "eb05983c0d15138ef1c61d4e4927fae3",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -106,11 +106,11 @@
         },
         {
             "name": "befound/yii-befound",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.befound.nl:befound/yii-befound.git",
-                "reference": "5d0d0df6ef506b3ba800666cc4c0d59f2bdceb97"
+                "reference": "4030a823c0f0724580c41e2e0f853ea4aa41274a"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-11-10 11:39:08"
+            "time": "2015-11-13 12:59:04"
         },
         {
             "name": "bower-asset/bootbox",
@@ -257,6 +257,74 @@
                 "sass",
                 "twbs"
             ]
+        },
+        {
+            "name": "bower-asset/bootstrap-social",
+            "version": "v4.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lipis/bootstrap-social.git",
+                "reference": "4559545dfac6398660593fda4dd30a4f4655f8dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lipis/bootstrap-social/zipball/4559545dfac6398660593fda4dd30a4f4655f8dd",
+                "reference": "4559545dfac6398660593fda4dd30a4f4655f8dd",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": "~3",
+                "bower-asset/font-awesome": "~4.4"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "bootstrap-social.css",
+                "bower-asset-ignore": [
+                    "assets",
+                    "index.html",
+                    "LICENCE"
+                ]
+            },
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/font-awesome",
+            "version": "v4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "e554555d73a44e0a7d11b0361ad7a5325a5f551c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e554555d73a44e0a7d11b0361ad7a5325a5f551c",
+                "reference": "e554555d73a44e0a7d11b0361ad7a5325a5f551c",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "less/font-awesome.less",
+                    "scss/font-awesome.scss"
+                ],
+                "bower-asset-ignore": [
+                    "*/.*",
+                    "*.json",
+                    "src",
+                    "*.yml",
+                    "Gemfile",
+                    "Gemfile.lock",
+                    "*.md"
+                ]
+            },
+            "license": [
+                "OFL-1.1",
+                "MIT",
+                "CC-BY-3.0"
+            ],
+            "description": "Font Awesome"
         },
         {
             "name": "bower-asset/is-loading",

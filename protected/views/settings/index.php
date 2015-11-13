@@ -12,6 +12,7 @@ $this->params['subMenu'] = [
 
 $form = \kartik\form\ActiveForm::begin([
     'id' => 'settings',
+    'method' => 'post',
     'type' => \kartik\form\ActiveForm::TYPE_HORIZONTAL
 ]);
 
