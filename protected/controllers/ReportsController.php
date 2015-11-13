@@ -13,7 +13,10 @@ use prime\reportGenerators\Test;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
+use yii\web\Request;
 use yii\web\Response;
+use yii\web\Session;
+use yii\web\User;
 
 class ReportsController extends Controller
 {
@@ -30,12 +33,15 @@ class ReportsController extends Controller
         );
     }
 
-    public function actionPreview($projectId, $reportGenerator)
+    public function actionPreview(
+        Request $request,
+        Response $response,
+        $projectId, $reportGenerator)
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
         if(isset(Tool::generatorOptions()[$reportGenerator])) {
-            if(app()->request->isPost) {
+            if($request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
                 if(!isset($userData)) {
                     $userData = new UserData();
@@ -43,15 +49,15 @@ class ReportsController extends Controller
                 $requestData = [
                     'project_id' => $projectId,
                     'generator' => $reportGenerator,
-                    'data' => app()->request->post()
+                    'data' => $request->post()
                 ];
                 $userData->setAttributes($requestData);
 
-                app()->response->format = Response::FORMAT_JSON;
+                $response->format = Response::FORMAT_JSON;
                 if($userData->save()) {
                     return [];
                 } else {
-                    app()->response->setStatusCode(422);
+                    $response->setStatusCode(422);
                     return $userData->errors;
                 }
             }
@@ -66,15 +72,18 @@ class ReportsController extends Controller
         }
     }
 
-    public function actionRead($id)
+    public function actionRead(Response $response, $id)
     {
         $report = Report::loadOne($id);
-        app()->response->setContentType($report->getMimeType());
-        app()->response->content = $report->getStream();
-        return app()->response;
+        $response->setContentType($report->getMimeType());
+        $response->content = $report->getStream();
+        return $response;
     }
 
-    public function actionRenderFinal($projectId, $reportGenerator)
+    public function actionRenderFinal(
+        User $user,
+        Response $response,
+        $projectId, $reportGenerator)
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
@@ -89,19 +98,21 @@ class ReportsController extends Controller
             /** @var ReportInterface $report */
             $report = $generator->render(
                 $project->getResponses(),
-                app()->user->identity->createSignature(),
+                $user->identity->createSignature(),
                 $userData
             );
 
-            app()->response->setContentType($report->getMimeType());
-            app()->response->content = $report->getStream();
-            return app()->response;
+            $response->setContentType($report->getMimeType());
+            $response->content = $report->getStream();
+            return $response;
         } else {
             throw new NotFoundHttpException(\Yii::t('app', '{reportGenerator} does not exist', ['reportGenerator' => $reportGenerator]));
         }
     }
 
-    public function actionRenderPreview($projectId, $reportGenerator)
+    public function actionRenderPreview(
+        User $user,
+        $projectId, $reportGenerator)
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
@@ -115,7 +126,7 @@ class ReportsController extends Controller
             $generator = new $generator;
             return $generator->renderPreview(
                 $project->getResponses(),
-                app()->user->identity->createSignature(),
+                $user->identity->createSignature(),
                 $userData
             );
         } else {
@@ -123,12 +134,16 @@ class ReportsController extends Controller
         }
     }
 
-    public function actionPublish($projectId, $reportGenerator)
+    public function actionPublish(
+        User $user,
+        Session $session,
+        Request $request,
+        $projectId, $reportGenerator)
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
         if(isset(Tool::generatorOptions()[$reportGenerator])) {
-            if(app()->request->isPost) {
+            if($request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
                 if (!isset($userData)) {
                     $userData = new UserData();
@@ -139,7 +154,7 @@ class ReportsController extends Controller
                 $report = Report::saveReport(
                     $generator->render(
                         $project->getResponses(),
-                        app()->user->identity->createSignature(),
+                        $user->identity->createSignature(),
                         $userData
                     ),
                     $projectId,
@@ -147,7 +162,7 @@ class ReportsController extends Controller
                 );
 
                 if(isset($report)) {
-                    app()->session->setFlash(
+                    $session->setFlash(
                         'reportPublished',
                         [
                             'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
@@ -156,7 +171,7 @@ class ReportsController extends Controller
                         ]
                     );
                 } else {
-                    app()->session->setFlash(
+                    $session->setFlash(
                         'reportPublished',
                         [
                             'type' => \kartik\widgets\Growl::TYPE_DANGER,

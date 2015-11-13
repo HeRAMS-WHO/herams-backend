@@ -63,12 +63,37 @@ if(isset($model->defaultGenerator)) {
     </div>
 </div>
 
-<div class="col-xs-12">
-    <iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" class="container" style="height: 500px; border: 0px; margin-left: -15px; padding-left: 0px; margin-right: -15px; padding-right: 0px;"></iframe>
-</div>
+<!--<div class="">-->
+    <iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" class="col-xs-12" style="
+    height: 500px;
+    border: 0px;
+    /*margin-left: -15px; */
+    padding-left: 0px;
+    /*margin-right: -15px; */
+    padding-right: 0px;
+    padding-bottom: 10px;
+    "></iframe>
+<!--</div>-->
 
 <div class="col-xs-12">
     <?php
+
+    // Dynamically resize iframe.
+    $this->registerAssetBundle(\prime\assets\ResizeAsset::class);
+    $this->registerJs('
+        var $iframe = $("iframe");
+        var resizer = function(e) {
+            console.log("resizer");
+            console.log(e);
+        $iframe.height($iframe.contents().find("body").height()); };
+        $iframe.on("load", function() {
+            var $body = $iframe.contents().find("body");
+            $body.on("mresize", resizer);
+            console.log($body);
+            $body.trigger("mresize");
+        });
+
+    ', $this::POS_READY);
     echo \yii\bootstrap\Tabs::widget([
          'items' => [
              [

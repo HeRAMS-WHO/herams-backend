@@ -18,6 +18,7 @@
             'type' => 'img/x-icon'
         ]); ?>
         <title><?= Html::encode($this->title); ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php $this->head(); ?>
     </head>
     <body>

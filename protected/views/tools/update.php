@@ -55,6 +55,14 @@ $this->params['subMenu'] = [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
             ],
+            'intake_survey_eid' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->intakeSurveyOptions()
+            ],
+            'base_survey_eid' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->dataSurveyOptions()
+            ],
             'generators' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => \yii\helpers\ArrayHelper::map(
