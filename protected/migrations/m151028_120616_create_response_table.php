@@ -6,7 +6,7 @@ class m151028_120616_create_response_table extends Migration
 {
     public function up()
     {
-        $responseTable = \prime\models\ar\Response::tableName();
+        $responseTable = '{{%response}}';
         $this->createTable($responseTable, [
             'id' => $this->string(36)->notNull(),
             'created' => $this->dateTime(),
@@ -17,7 +17,7 @@ class m151028_120616_create_response_table extends Migration
         ]);
 
 
-        $surveyTable = \prime\models\ar\Survey::tableName();
+        $surveyTable = '{{%survey}}';
         $this->createTable($surveyTable, [
             'id' => $this->primaryKey(),
             'title' => $this->string(),
@@ -36,8 +36,7 @@ class m151028_120616_create_response_table extends Migration
 
     public function down()
     {
-        $this->dropTable(\prime\models\ar\Response::tableName());
-        $this->dropTable(\prime\models\ar\Survey::tableName());
+        return false;
     }
 
     /*

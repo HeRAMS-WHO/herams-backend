@@ -17,36 +17,15 @@ class Report extends Component implements ReportInterface
 
     public function __construct(ResponseCollectionInterface $responseCollection, SignatureInterface $signature, UserDataInterface $userData = null)
     {
+        parent::__construct();
         $this->responseCollection = $responseCollection;
         $this->signature = $signature;
         $this->userData = $userData;
     }
 
-    /**
-     * Returns the body of the report (ie pdf or html)
-     * @return StreamInterface
-     */
-    public function getStream()
+    public function getGenerator()
     {
-        $content =
-            app()->getView()->render(
-                '@app/reportGenerators/progressPercentage/views/publish',
-                [
-                    'report' => $this,
-                    'userData' => $this->getUserData(),
-                    'signature' => $this->getSignature()
-                ]
-            );
-
-        return \GuzzleHttp\Psr7\stream_for(
-            app()->getView()->render(
-                '@app/views/layouts/progressReport',
-                [
-                    'content' => $content
-                ]
-            )
-
-        );
+        return 'progressPercentage';
     }
 
     /**
@@ -84,6 +63,38 @@ class Report extends Component implements ReportInterface
     public function getSignature()
     {
         return $this->signature;
+    }
+
+    /**
+     * Returns the body of the report (ie pdf or html)
+     * @return StreamInterface
+     */
+    public function getStream()
+    {
+        $content =
+            app()->getView()->render(
+                '@app/reportGenerators/progressPercentage/views/publish',
+                [
+                    'report' => $this,
+                    'userData' => $this->getUserData(),
+                    'signature' => $this->getSignature()
+                ]
+            );
+
+        return \GuzzleHttp\Psr7\stream_for(
+            app()->getView()->render(
+                '@app/views/layouts/progressReport',
+                [
+                    'content' => $content
+                ]
+            )
+
+        );
+    }
+
+    public function getTitle()
+    {
+        return 'Progress: Percentage';
     }
 
     /**

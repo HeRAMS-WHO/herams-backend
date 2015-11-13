@@ -96,12 +96,14 @@ class Report extends ActiveRecord implements ReportInterface
         return \GuzzleHttp\Psr7\stream_for($this->data);
     }
 
+
     /**
-     * TODO: temporary implementation of title, should be AR field and added to report interface
+     * returns attribute title as required by interface
+     * @return string
      */
     public function getTitle()
     {
-        return $this->project->title . ': '. $this->getGenerator();
+        return $this->getAttribute('title');
     }
 
     /**
@@ -120,7 +122,7 @@ class Report extends ActiveRecord implements ReportInterface
     public function rules()
     {
         return [
-            [['data', 'mime_type', 'email', 'user_id', 'name', 'time', 'published', 'user_data', 'project_id', 'generator'], 'required']
+            [['data', 'mime_type', 'email', 'user_id', 'name', 'time', 'published', 'user_data', 'project_id', 'generator', 'title'], 'required']
         ];
     }
 
@@ -136,7 +138,8 @@ class Report extends ActiveRecord implements ReportInterface
             'published' => new DateTime(),
             'user_data' => $report->getUserData()->getData(),
             'project_id' => $projectId,
-            'generator' => $generator
+            'generator' => $generator,
+            'title' => $report->getTitle()
         ]);
 
         if($report->save()) {

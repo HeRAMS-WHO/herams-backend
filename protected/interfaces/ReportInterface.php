@@ -12,12 +12,6 @@ interface ReportInterface {
     public function getGenerator();
 
     /**
-     * Returns the body of the report (ie pdf or html)
-     * @return StreamInterface
-     */
-    public function getStream();
-
-    /**
      * Returns the Mime type of the body
      * @return string
      */
@@ -28,6 +22,18 @@ interface ReportInterface {
      * @return SignatureInterface
      */
     public function getSignature();
+
+    /**
+     * Returns the body of the report (ie pdf or html)
+     * @return StreamInterface
+     */
+    public function getStream();
+
+    /**
+     * Returns the title of the report
+     * @return string
+     */
+    public function getTitle();
 
     /**
      * Returns all other (with respect to getSignatureData) the data the user entered when generating the report

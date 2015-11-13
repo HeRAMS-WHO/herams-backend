@@ -7,7 +7,7 @@ class m150921_110227_create_settings_table extends Migration
     public function up()
     {
         $this->createTable(
-            \prime\models\ar\Setting::tableName(), [
+            '{{%setting}}', [
             'key' => 'string(32) NOT NULL',
             'value' => 'TEXT NOT NULL'
         ]);

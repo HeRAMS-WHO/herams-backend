@@ -16,17 +16,14 @@ class Report extends Component implements ReportInterface
 
     public function __construct(ResponseCollectionInterface $responseCollection, UserDataInterface $userData, SignatureInterface $signature)
     {
+        parent::__construct();
         $this->userData = $userData;
         $this->signature = $signature;
     }
 
-    /**
-     * Returns the body of the report (ie pdf or html)
-     * @return StreamInterface
-     */
-    public function getStream()
+    public function getGenerator()
     {
-        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('@app/reportGenerators/test/views/publish', ['userData' => $this->userData, 'signature' => $this->getSignature()]));
+        return 'test';
     }
 
     /**
@@ -48,6 +45,15 @@ class Report extends Component implements ReportInterface
     }
 
     /**
+     * Returns the body of the report (ie pdf or html)
+     * @return StreamInterface
+     */
+    public function getStream()
+    {
+        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('@app/reportGenerators/test/views/publish', ['userData' => $this->userData, 'signature' => $this->getSignature()]));
+    }
+
+    /**
      * Returns all other (with respect to getSignatureData) the data the user entered when generating the report
      * @return UserDataInterface
      */
@@ -55,4 +61,15 @@ class Report extends Component implements ReportInterface
     {
         return $this->userData;
     }
+
+    /**
+     * Returns the title of the report
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->userData->data['test']['title'];
+    }
+
+
 }

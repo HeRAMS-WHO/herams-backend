@@ -6,22 +6,22 @@ class m151112_092421_update_country extends Migration
 {
     public function up()
     {
-        $this->dropForeignKey('project_id', \prime\models\ar\ProjectCountry::tableName());
-        $this->dropForeignKey('country_id', \prime\models\ar\ProjectCountry::tableName());
+        $this->dropForeignKey('project_id', '{{%project_country}}');
+        $this->dropForeignKey('country_id', '{{%project_country}}');
         $this->dropTable('{{%country}}');
-        $this->dropTable(\prime\models\ar\ProjectCountry::tableName());
+        $this->dropTable('{{%project_country}}');
 
         $this->createTable(
-            \prime\models\ar\ProjectCountry::tableName(),[
+            '{{%project_country}}',[
             'project_id' => $this->integer()->notNull(),
             'country_iso_3' => $this->string(3)->notNull()
         ]);
 
         $this->addForeignKey(
             'project_id',
-            \prime\models\ar\ProjectCountry::tableName(),
+            '{{%project_country}}',
             ['project_id'],
-            \prime\models\ar\Project::tableName(),
+            '{{%project}}',
             ['id']
         );
 
@@ -37,7 +37,8 @@ class m151112_092421_update_country extends Migration
 
     public function down()
     {
-        $this->dropTable(\prime\models\ar\ProjectCountry::tableName());
+        return false;
+        $this->dropTable('{{%project_country}}');
         $this->createTable('{{%country}}',[
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
@@ -56,7 +57,7 @@ class m151112_092421_update_country extends Migration
             'project_id',
             $projectCountryTableName,
             ['project_id'],
-            \prime\models\ar\Project::tableName(),
+            '{{%project}}',
             ['id']
         );
 
