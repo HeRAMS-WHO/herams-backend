@@ -49,7 +49,7 @@ class Project extends ActiveRecord {
     {
         $query = parent::find();
         //if the logged in user is admin, access to all projects is allowed
-        if(!app()->user->identity->isAdmin) {
+        if(!app()->user->can('admin')) {
             //Select all project ids where the logged in user is owner of
             $ids = parent::find()->andWhere(['owner_id' => app()->user->id])->select('id')->column();
             //Select all project ids where the logged in user is invited to
