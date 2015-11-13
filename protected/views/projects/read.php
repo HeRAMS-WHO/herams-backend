@@ -3,7 +3,7 @@
 use app\components\Html;
 
 /**
- * @var \prime\models\Project $model
+ * @var \prime\models\ar\Project $model
  * @var \yii\web\View $this
  * @var \yii\data\ArrayDataProvider $responsesDataProvider
  */

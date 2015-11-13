@@ -2,7 +2,7 @@
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\UserList $model
+ * @var \prime\models\ar\UserList $model
  */
 
 $this->title = Yii::t('app', 'User list {name}', ['name' => $model->name]);

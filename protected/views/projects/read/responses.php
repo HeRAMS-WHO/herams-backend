@@ -2,7 +2,7 @@
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\Project $model
+ * @var \prime\models\ar\Project $model
  */
 
 echo \kartik\grid\GridView::widget([

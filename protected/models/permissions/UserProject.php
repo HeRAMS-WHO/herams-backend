@@ -4,8 +4,8 @@ namespace prime\models\permissions;
 
 use prime\components\ActiveQuery;
 use prime\components\ActiveRecord;
-use prime\models\Project;
-use prime\models\User;
+use prime\models\ar\Project;
+use prime\models\ar\User;
 use yii\helpers\ArrayHelper;
 
 /**

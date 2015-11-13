@@ -4,7 +4,7 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\models\permissions\Permission;
-use prime\models\UserList;
+use prime\models\ar\UserList;
 use yii\helpers\ArrayHelper;
 
 class UserListsController extends Controller

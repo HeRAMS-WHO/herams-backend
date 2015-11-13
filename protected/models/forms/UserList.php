@@ -2,11 +2,11 @@
 
 namespace prime\models\forms;
 
-use prime\models\User;
+use prime\models\ar\User;
 use yii\helpers\ArrayHelper;
 use yii\validators\ExistValidator;
 
-class UserList extends \prime\models\UserList
+class UserList extends \prime\models\ar\UserList
 {
     public $userIds;
 

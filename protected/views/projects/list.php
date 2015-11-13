@@ -42,7 +42,7 @@ $this->params['subMenu']['items'] = [
                     },
                     'update' => function($url, $model, $key) {
                         $result = '';
-                        /** @var \prime\models\Project $model */
+                        /** @var \prime\models\ar\Project $model */
                         if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
                             $result = Html::a(
                                 Html::icon('pencil'),

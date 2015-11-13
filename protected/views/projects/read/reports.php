@@ -4,7 +4,7 @@ use \app\components\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\Project $model
+ * @var \prime\models\ar\Project $model
  */
 
 $items = [];

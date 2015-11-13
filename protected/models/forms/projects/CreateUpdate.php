@@ -3,8 +3,8 @@
 namespace prime\models\forms\projects;
 
 use prime\models\Country;
-use prime\models\Project;
-use prime\models\ProjectCountry;
+use prime\models\ar\Project;
+use prime\models\ar\ProjectCountry;
 use yii\helpers\ArrayHelper;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;

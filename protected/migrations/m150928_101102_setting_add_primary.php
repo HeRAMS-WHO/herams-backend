@@ -6,7 +6,7 @@ class m150928_101102_setting_add_primary extends Migration
 {
     public function up()
     {
-        $this->addPrimaryKey('key', \prime\models\Setting::tableName(), ['key']);
+        $this->addPrimaryKey('key', \prime\models\ar\Setting::tableName(), ['key']);
     }
 
     public function down()

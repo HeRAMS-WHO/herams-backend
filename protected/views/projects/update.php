@@ -6,7 +6,7 @@ use app\components\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\Project $model
+ * @var \prime\models\ar\Project $model
  */
 
 $this->title = Yii::t('app', 'Update project');
@@ -56,7 +56,7 @@ $this->params['subMenu'] = [
                         return $key;
                     },
                     function ($key) {
-                        $class = \prime\models\Tool::generatorOptions()[$key];
+                        $class = \prime\models\ar\Tool::generatorOptions()[$key];
                         return (new $class)->title;
                     }
                 ),

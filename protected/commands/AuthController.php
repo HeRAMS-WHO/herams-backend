@@ -4,7 +4,7 @@
 namespace prime\commands;
 
 
-use prime\models\User;
+use prime\models\ar\User;
 use yii\console\Controller;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;

@@ -1,8 +1,9 @@
 <?php
 
-namespace prime\models;
+namespace prime\models\ar;
 
 use prime\components\ActiveRecord;
+use prime\models\ar\User;
 use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
 use yii\validators\StringValidator;

@@ -45,12 +45,12 @@ $this->params['subMenu'] = [
             'owner_id' => [
                 'label' => \Yii::t('app', 'Owner'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(\prime\models\User::find()->all(), 'id', 'name')
+                'items' => \yii\helpers\ArrayHelper::map(\prime\models\ar\User::find()->all(), 'id', 'name')
             ],
             'tool_id' => [
                 'label' => \Yii::t('app', 'Tool'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(\prime\models\Tool::find()->all(), 'id', 'title'),
+                'items' => \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->all(), 'id', 'title'),
             ],
             'data_survey_eid' => [
                 'type' => Form::INPUT_HTML5,

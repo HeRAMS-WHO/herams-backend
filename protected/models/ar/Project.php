@@ -1,13 +1,20 @@
 <?php
 
-namespace prime\models;
+namespace prime\models\ar;
 
 use app\queries\ProjectQuery;
 use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use Befound\Components\DateTime;
 use prime\components\ActiveRecord;
 use prime\interfaces\ReportGeneratorInterface;
+use prime\models\Country;
 use prime\models\permissions\Permission;
+use prime\models\ar\ProjectCountry;
+use prime\models\ar\Report;
+use prime\models\ar\Tool;
+use prime\models\ar\User;
+use prime\models\ar\UserData;
+use prime\models\Widget;
 use prime\objects\ResponseCollection;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;

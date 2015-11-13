@@ -1,11 +1,13 @@
 <?php
 
-namespace prime\models;
+namespace prime\models\ar;
 
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use Befound\Components\UploadedFile;
+use prime\components\ActiveRecord;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\permissions\Permission;
+use prime\models\ar\User;
 use prime\widgets\progress\Percentage;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
@@ -20,7 +22,7 @@ use yii\validators\RangeValidator;
  * @property int $base_survey_eid
  * @property int $intake_survey_eid
  */
-class Tool extends \prime\components\ActiveRecord {
+class Tool extends ActiveRecord {
 
     const IMAGE_PATH = 'img/tools/';
 

@@ -24,7 +24,7 @@ class m151104_081900_create_country extends Migration
             'project_id',
             $projectCountryTableName,
             ['project_id'],
-            \prime\models\Project::tableName(),
+            \prime\models\ar\Project::tableName(),
             ['id']
         );
 

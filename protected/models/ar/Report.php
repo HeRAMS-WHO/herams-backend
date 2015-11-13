@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\models;
+namespace prime\models\ar;
 
 use Befound\ActiveRecord\Behaviors\DateTimeBehavior;
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
@@ -9,6 +9,9 @@ use prime\components\ActiveRecord;
 use prime\interfaces\ReportInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\UserDataInterface;
+use prime\models\ar\Project;
+use prime\models\ar\User;
+use prime\models\ar\UserData;
 use prime\objects\Signature;
 use Psr\Http\Message\StreamInterface;
 

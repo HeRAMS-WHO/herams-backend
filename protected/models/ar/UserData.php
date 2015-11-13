@@ -1,10 +1,12 @@
 <?php
 
-namespace prime\models;
+namespace prime\models\ar;
 
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use prime\components\ActiveRecord;
 use prime\interfaces\UserDataInterface;
+use prime\models\ar\Project;
+use prime\models\ar\Tool;
 use yii\validators\ExistValidator;
 use yii\validators\UniqueValidator;
 

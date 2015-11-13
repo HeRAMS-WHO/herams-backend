@@ -55,7 +55,7 @@ $this->params['subMenu']['items'] = [
                 'template' => '{read} {edit}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
-                        /** @var \prime\models\Tool $model */
+                        /** @var \prime\models\ar\Tool $model */
                         $result = Html::a(
                             Html::icon('eye-open'),
                             ['tools/read', 'id' => $model->id]
@@ -63,7 +63,7 @@ $this->params['subMenu']['items'] = [
                         return $result;
                     },
                     'edit' => function($url, $model, $key) {
-                        /** @var \prime\models\Tool $model */
+                        /** @var \prime\models\ar\Tool $model */
                         $result = '';
                         if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
                             $result = Html::a(

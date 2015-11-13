@@ -5,7 +5,7 @@ use yii\helpers\ArrayHelper;
 use app\components\Form;
 
 /**
- * @var \prime\models\UserData $userData
+ * @var \prime\models\ar\UserData $userData
  * @var \yii\web\View $this
  */
 echo \app\components\Form::widget([

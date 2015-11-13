@@ -40,15 +40,15 @@ return [
         },
         'user' => [
             'class' => \yii\web\User::class,
-            'identityClass' => \prime\models\User::class
+            'identityClass' => \prime\models\ar\User::class
         ],
     ],
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
             'modelMap' => [
-                'User' => \prime\models\User::class,
-                'Profile' => \prime\models\Profile::class,
+                'User' => \prime\models\ar\User::class,
+                'Profile' => \prime\models\ar\Profile::class,
                 'RegistrationForm' => \prime\models\forms\user\Registration::class,
                 'RecoveryForm' => \prime\models\forms\user\Recovery::class,
                 'SettingsForm' => \prime\models\forms\user\Settings::class

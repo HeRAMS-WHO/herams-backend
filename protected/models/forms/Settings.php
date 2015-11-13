@@ -2,7 +2,7 @@
 
 namespace prime\models\forms;
 
-use prime\models\Setting;
+use prime\models\ar\Setting;
 use yii\base\Model;
 
 /**

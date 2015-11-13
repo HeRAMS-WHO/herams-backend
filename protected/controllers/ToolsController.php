@@ -4,7 +4,7 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\models\permissions\Permission;
-use prime\models\Tool;
+use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;

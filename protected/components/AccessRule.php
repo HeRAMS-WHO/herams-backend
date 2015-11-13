@@ -2,7 +2,7 @@
 
 namespace prime\components;
 
-use prime\models\User;
+use prime\models\ar\User;
 
 class AccessRule extends \yii\filters\AccessRule
 {

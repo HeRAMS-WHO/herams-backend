@@ -5,7 +5,7 @@ use \app\components\ActiveForm;
 use app\components\Html;
 
 /**
- * @var \prime\models\Project $project
+ * @var \prime\models\ar\Project $project
  * @var \prime\models\forms\projects\Share $model
  */
 

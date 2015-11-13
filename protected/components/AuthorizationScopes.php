@@ -2,7 +2,7 @@
 
 namespace prime\components;
 
-use prime\models\User;
+use prime\models\ar\User;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 

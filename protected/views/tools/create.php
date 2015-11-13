@@ -1,5 +1,5 @@
 <?php
-/** @var \prime\models\Tool $model */
+/** @var \prime\models\ar\Tool $model */
 use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;

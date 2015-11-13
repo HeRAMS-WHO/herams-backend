@@ -7,8 +7,10 @@ use yii\web\JsExpression;
  * @var \yii\web\View $this
  */
 
-$this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::getAlias('@webroot/json/WHO_CountryPolygons.json')));
+$this->params['containerClass'] = 'container-fluid';
 
+$this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::getAlias('@app/data/countryPolygons/' . \prime\models\ar\Setting::get('countryPolygonsFile'))));
+//vdd((new \prime\models\mapLayers\Projects())->toArray());
 $map = Highmaps::begin([
     'options' => [
         'title' => [
@@ -20,42 +22,29 @@ $map = Highmaps::begin([
                 'verticalAlign' => 'bottom',
             ]
         ],
-//        'colorAxis' => [
-//            'min' => 0,
-//        ],
-        'series' => [
-            [
-                'data' => [
-                    ['ISO_3_CODE' => 'DEU', 'value' => 0],
-                    ['ISO_3_CODE' => 'NLD', 'value' => 1]
-                ],
+        'legend' => [
+            'enabled' => true
+        ],
+        'plotOptions' => [
+            'map' => [
+                'allAreas' => false,
                 'mapData' => new JsExpression('Highcharts.maps["who/world"]'),
-                'joinBy' => ['ISO_3_CODE'],
-                'name' => 'Random data',
-                'states' => [
-                    'hover' => [
-                        'color' => '#BADA55',
-                    ]
-                ],
-                'dataLabels' => [
-                    'enabled' => false,
-                    //'format' => '{point.properties.CNTRY_TERR}',
-                ],
-                'showInLegend' => false,
-                'allowPointSelect' => true,
-                'point' => [
-                    'events' => [
-                        'select' => new JsExpression('function(e){select(this); return false;}')
-                    ]
-                ]
             ]
+        ],
+        'series' => [
+            (new \prime\models\MapLayer(['allAreas' => true]))->toArray(),
+            (new \prime\models\mapLayers\Projects())->toArray()
         ],
         'credits' => [
             'enabled' => false
         ],
         'tooltip' => [
             'enabled' => false
-        ]
+        ],
+        'height' => '600px'
+    ],
+    'setupOptions' => [
+        'height' => '100%'
     ]
 ]);
 $map->end();

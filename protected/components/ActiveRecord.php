@@ -3,7 +3,7 @@
 namespace prime\components;
 
 use prime\models\permissions\Permission;
-use prime\models\User;
+use prime\models\ar\User;
 use yii\web\HttpException;
 
 class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord

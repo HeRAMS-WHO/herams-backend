@@ -3,7 +3,7 @@
 use \app\components\Html;
 
 /**
- * @var $model \prime\models\Tool
+ * @var $model \prime\models\ar\Tool
  */
 
 $this->params['subMenu'] = [

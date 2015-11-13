@@ -7,7 +7,7 @@ use yii\base\Widget;
 class User extends Widget
 {
     /**
-     * @var \prime\models\User
+     * @var \prime\models\ar\User
      */
     public $user;
 

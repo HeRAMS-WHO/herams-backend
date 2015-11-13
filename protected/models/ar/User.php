@@ -1,7 +1,10 @@
 <?php 
 
-namespace prime\models;
+namespace prime\models\ar;
 
+use prime\models\ar\Profile;
+use prime\models\ar\Project;
+use prime\models\ar\UserList;
 use prime\objects\Signature;
 
 /**

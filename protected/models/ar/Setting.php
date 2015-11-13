@@ -1,5 +1,5 @@
 <?php
-namespace prime\models;
+namespace prime\models\ar;
 
 
 use Befound\ActiveRecord\ActiveRecord;

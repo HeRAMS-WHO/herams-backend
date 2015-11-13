@@ -3,8 +3,8 @@
 namespace prime\models\permissions;
 
 use prime\components\ActiveRecord;
-use prime\models\Project;
-use prime\models\User;
+use prime\models\ar\Project;
+use prime\models\ar\User;
 
 /**
  * Class Permission

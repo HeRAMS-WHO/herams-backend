@@ -4,9 +4,9 @@ namespace prime\models\forms\projects;
 
 use prime\models\permissions\Permission;
 use prime\models\permissions\UserProject;
-use prime\models\Project;
-use prime\models\User;
-use prime\models\UserList;
+use prime\models\ar\Project;
+use prime\models\ar\User;
+use prime\models\ar\UserList;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;

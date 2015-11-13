@@ -3,7 +3,7 @@
 namespace prime\interfaces;
 
 use Befound\Components\Map;
-use prime\models\Project;
+use prime\models\ar\Project;
 
 interface UserDataInterface extends \JsonSerializable, \ArrayAccess {
 

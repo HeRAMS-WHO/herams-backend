@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\models;
+namespace prime\models\ar;
 
 class Profile extends \dektrium\user\models\Profile
 {
