@@ -47,6 +47,14 @@ class Report extends ActiveRecord implements ReportInterface
         );
     }
 
+    /**
+     * Required by ReportInterface
+     * @return string
+     */
+    public function getGenerator()
+    {
+        return $this->getAttribute('generator');
+    }
 
     /**
      * Returns the Mime type of the body
@@ -62,7 +70,7 @@ class Report extends ActiveRecord implements ReportInterface
      */
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id', 'project_id']);
+        return $this->hasOne(Project::class, ['id' => 'project_id']);
     }
 
     /**
@@ -86,6 +94,14 @@ class Report extends ActiveRecord implements ReportInterface
     public function getStream()
     {
         return \GuzzleHttp\Psr7\stream_for($this->data);
+    }
+
+    /**
+     * TODO: temporary implementation of title, should be AR field and added to report interface
+     */
+    public function getTitle()
+    {
+        return $this->project->title . ': '. $this->getGenerator();
     }
 
     /**

@@ -7,7 +7,8 @@ use yii\web\JsExpression;
  * @var \yii\web\View $this
  */
 
-$this->params['containerClass'] = 'container-fluid';
+$this->params['containerOptions'] = ['class' => 'container-fluid'];
+$this->params['rowOptions'] = ['class' => 'row'];
 
 $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::getAlias('@app/data/countryPolygons/' . \prime\models\ar\Setting::get('countryPolygonsFile'))));
 //vdd((new \prime\models\mapLayers\Projects())->toArray());
@@ -33,7 +34,7 @@ $map = Highmaps::begin([
         ],
         'series' => [
             (new \prime\models\MapLayer(['allAreas' => true]))->toArray(),
-            (new \prime\models\mapLayers\Projects())->toArray()
+            (new \prime\models\mapLayers\Reports())->toArray()
         ],
         'credits' => [
             'enabled' => false
@@ -41,16 +42,38 @@ $map = Highmaps::begin([
         'tooltip' => [
             'enabled' => false
         ],
-        'height' => '600px'
+        'chart' => [
+            'height' => 600
+        ]
     ],
-    'setupOptions' => [
-        'height' => '100%'
+    'htmlOptions' => [
+        'style' => [
+            'bottom' => '0px'
+        ],
+        'class' => [
+            'col-xs-12',
+            'col-md-12'
+        ]
     ]
 ]);
+
 $map->end();
+echo \app\components\Html::tag('div', '', ['id' => 'map-details', 'class' => 'col-xs-0 col-md-0']);
 $js = "
-function select(point) {
-    bootbox.alert(\"You selected \" + point.properties.CNTRY_TERR + \"!\");
+function select(point, layer) {
+    $('#{$map->getId()}').removeClass('col-md-12').addClass('col-md-9');
+    $('#{$map->getId()}').highcharts().reflow();
+    $('#map-details').removeClass('col-xs-0').removeClass('col-md-0').addClass('col-md-3').addClass('col-xs-12');
+    var iso_3 = point.properties.ISO_3_CODE;
+    $.ajax({
+        url: '/marketplace/summary',
+        data: {iso_3: iso_3, layer: layer}
+    })
+    .success(function(data) {
+        $('#map-details').html(data);
+    });
+
+    //bootbox.alert(\"You selected \" + point.properties.CNTRY_TERR + \"!\");
 }
 ";
 $this->registerJs($js, $this::POS_BEGIN);

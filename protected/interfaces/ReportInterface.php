@@ -6,6 +6,12 @@ use Psr\Http\Message\StreamInterface;
 interface ReportInterface {
 
     /**
+     * Returns a string describing the generator
+     * @return string
+     */
+    public function getGenerator();
+
+    /**
      * Returns the body of the report (ie pdf or html)
      * @return StreamInterface
      */

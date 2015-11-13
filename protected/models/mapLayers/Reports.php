@@ -3,26 +3,27 @@
 namespace prime\models\mapLayers;
 
 use prime\models\ar\ProjectCountry;
+use prime\models\ar\Report;
 use prime\models\MapLayer;
 use yii\web\JsExpression;
 
-class Projects extends MapLayer
+class Reports extends MapLayer
 {
     public function init()
     {
         parent::init();
         $this->allowPointSelect = true;
         $this->joinBy = ['ISO_3_CODE', 'iso_3'];
-        $this->name = \Yii::t('app', 'Projects');
+        $this->name = \Yii::t('app', 'Reports');
         $this->showInLegend = true;
-        $this->addPointEventHandler('select', new JsExpression('function(e){console.debug(this);select(this); return false;}'));
+        $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'Reports'); return false;}"));
     }
 
     protected function prepareData()
     {
         $this->data = array_map(function($country) {
              return ['iso_3' => $country];
-        }, ProjectCountry::find()->select('country_iso_3')->distinct()->column());
+        }, ProjectCountry::find()->innerJoinWith(['project', 'project.reports'])->select('country_iso_3')->column());
     }
 
 

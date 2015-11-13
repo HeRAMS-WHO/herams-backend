@@ -11,4 +11,9 @@ class ProjectCountry extends ActiveRecord
     {
         return Country::findOne($this->country_iso_3);
     }
+
+    public function getProject()
+    {
+        return $this->hasOne(Project::class, ['id' => 'project_id']);
+    }
 }

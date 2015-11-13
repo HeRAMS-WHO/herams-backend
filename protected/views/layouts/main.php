@@ -28,7 +28,15 @@
             echo $this->render('//flash.php');
 //            echo Html::tag('div', $this->render('/leftMenu.php'), []);
 
-            echo Html::tag('div', $content, ['class' => isset($this->params['containerClass']) ? $this->params['containerClass'] : 'container']);
+            $defaultContainerOptions = ['class' => 'container'];
+
+            echo Html::tag(
+                'div',
+                $content,
+                isset($this->params['containerOptions'])
+                    ? \yii\helpers\ArrayHelper::merge($defaultContainerOptions, $this->params['containerOptions'])
+                    : $defaultContainerOptions
+            );
         ?>
     <?php $this->endBody(); ?>
     </body>

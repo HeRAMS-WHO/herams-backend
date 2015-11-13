@@ -3,10 +3,15 @@
 namespace prime\models;
 
 use prime\components\ActiveRecord;
+use prime\models\ar\Project;
+use prime\models\ar\ProjectCountry;
+use prime\models\ar\Report;
 use prime\traits\JsonMemoryDataSourceTrait;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\base\Model;
+use yii\db\ActiveQueryInterface;
+use yii\helpers\ArrayHelper;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
@@ -24,11 +29,53 @@ class Country extends Model
     public $latitude;
     public $longitude;
 
+    private $_related = [];
+
+    public function __get($name)
+    {
+        if (isset($this->_related[$name]) || array_key_exists($name, $this->_related)) {
+            return $this->_related[$name];
+        }
+        $value = parent::__get($name);
+        if ($value instanceof ActiveQueryInterface) {
+            return $this->_related[$name] = $value->findFor($name, $this);
+        } else {
+            return $value;
+        }
+    }
+
+
     public function getLatLong()
     {
         return new LatLong(
             new Coordinate($this->latitude),
             new Coordinate($this->longitude)
+        );
+    }
+
+    public function getProjects()
+    {
+        return Project::find()->joinWith('projectCountries')->andWhere([ProjectCountry::tableName() . '.country_iso_3' => $this->iso_3]);
+    }
+
+    public function getReports()
+    {
+        $result = Report::find()->joinWith(['project', 'project.projectCountries'])->andWhere([ProjectCountry::tableName() . '.country_iso_3' => $this->iso_3]);
+        $result->multiple = true;
+        return $result;
+    }
+
+    public function getReportsGroupedByTool()
+    {
+        return \yii\helpers\ArrayHelper::map(
+            $this->reports,
+            'id',
+            function($model) {
+                return $model;
+            },
+            function(\prime\models\ar\Report $model) {
+                return $model->project->tool_id;
+            }
         );
     }
 

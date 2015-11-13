@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5d2eb89a62141eb694e849e3ca85e58c",
+    "hash": "603797a35c3af0dccca0a3e253998cc6",
     "content-hash": "555bc873ac4bf3942244528df25e2c0e",
     "packages": [
         {
@@ -2454,12 +2454,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "6837b0c0bd3fd47dbc01530056e8a177e4c3a213"
+                "reference": "d8c260d9fcd6a656a585291d27c1a0a36cd43512"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/6837b0c0bd3fd47dbc01530056e8a177e4c3a213",
-                "reference": "6837b0c0bd3fd47dbc01530056e8a177e4c3a213",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d8c260d9fcd6a656a585291d27c1a0a36cd43512",
+                "reference": "d8c260d9fcd6a656a585291d27c1a0a36cd43512",
                 "shasum": ""
             },
             "require": {
@@ -2535,7 +2535,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-12 10:20:41"
+            "time": "2015-11-12 12:25:07"
         },
         {
             "name": "yiisoft/yii2-authclient",
