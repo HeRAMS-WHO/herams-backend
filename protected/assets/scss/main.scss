@@ -90,6 +90,16 @@ $font-family-base: "Open Sans";
   content: "";
 }
 
-ul.nav a:hover::after {
-  content: " " attr(title);
+ul.nav > li:not(.dropdown) {
+  a:hover::after {
+    content: " " attr(title);
+    display: block;
+    font-size: 0.4em;
+  }
+  a:hover {
+    text-align: center;
+    padding-bottom: 0px;
+  }
+
+
 }

@@ -20,7 +20,10 @@ $this->params['subMenu']['items'] = [
 ?>
 <div class="col-xs-12">
     <?php
+    
     echo \kartik\grid\GridView::widget([
+        'caption' => Yii::t('app', 'Your projects'),
+        'layout' => "{items}\n{pager}",
         'dataProvider' => $projectsDataProvider,
         'columns' => [
             'title',
