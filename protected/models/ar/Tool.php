@@ -14,6 +14,7 @@ use prime\widgets\progress\Percentage;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\validators\RangeValidator;
+use yii\validators\SafeValidator;
 
 /**
  * Class Tool
@@ -156,7 +157,9 @@ class Tool extends ActiveRecord {
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], 'string'],
 //            [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
-            [['generators'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes()), 'allowArray' => true]
+        // Validation disabled until this is merged: https://github.com/yiisoft/yii2/pull/10162
+            [['generators'], SafeValidator::class],
+//            [['generators'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes()), 'allowArray' => true]
         ];
     }
 
