@@ -3,6 +3,7 @@
 namespace prime\controllers;
 
 use prime\components\Controller;
+use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
 use prime\models\ar\Project;
@@ -40,7 +41,7 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
-        if(isset(Tool::generators()[$reportGenerator])) {
+        if(isset(GeneratorFactory::classes()[$reportGenerator])) {
             if($request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
                 if(!isset($userData)) {
@@ -87,7 +88,7 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
-        if(isset(Tool::generators()[$reportGenerator])) {
+        if(isset(GeneratorFactory::classes()[$reportGenerator])) {
             $userData = $project->getUserData($reportGenerator)->one();
             if(!isset($userData)) {
                 $userData = new UserData();
@@ -116,12 +117,12 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
-        if(isset(Tool::generators()[$reportGenerator])) {
+        if(isset(GeneratorFactory::classes()[$reportGenerator])) {
             $userData = $project->getUserData($reportGenerator)->one();
             if(!isset($userData)) {
                 $userData = new UserData();
             }
-            $generator = Tool::generators()[$reportGenerator];
+            $generator = GeneratorFactory::classes()[$reportGenerator];
             /** @var ReportGeneratorInterface $generator */
             $generator = new $generator;
             return $generator->renderPreview(
