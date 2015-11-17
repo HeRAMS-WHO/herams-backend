@@ -18,24 +18,26 @@ foreach($model->tool->generators as $generator) {
         ]
     ];
 }
-
+//
 if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && !empty($items)) {
-    ?>
-    <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <?=\Yii::t('app', 'Preview report using')?>
-            <span class="caret"></span>
-        </button>
-        <?php
-            echo \yii\bootstrap\Dropdown::widget([
-                'items' => $items
-            ]);
-        ?>
-    </div>
-    <?php
+    $caption = \yii\bootstrap\ButtonDropdown::widget([
+        'label' => \Yii::t('app', 'Preview report using'),
+        'containerOptions' => [
+            'class' => 'pull-right'
+        ],
+        'options' => [
+            'class' => 'btn-primary'
+        ],
+        'dropdown' => [
+            'items' => $items
+
+        ]
+
+    ]);
 }
 
 echo \kartik\grid\GridView::widget([
+    'caption' => Yii::t('app', "Published reports") . (isset($caption) ? $caption : ''),
     'dataProvider' =>
         new \yii\data\ActiveDataProvider([
             'query' => $model->getReports()

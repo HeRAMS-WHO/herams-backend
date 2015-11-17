@@ -21,11 +21,11 @@ $font-family-base: "Open Sans";
 
   ///* BEGIN Navbar styling */
   $link-part: 0.5;
-  .nav li a > span {
+  nav .nav > li > a > span {
     vertical-align: middle;
   }
 
-  .nav li a {
+  nav .nav > li > a {
     padding: (1- $link-part) / 2 * $navbar-height;
     font-size: $link-part * $navbar-height;
     line-height: $link-part * $navbar-height;
