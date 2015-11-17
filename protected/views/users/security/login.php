@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12">
         <?php
-
+        /** @var \yii\web\View $this */
         /**
          * @var \app\models\User $model
          */
@@ -36,43 +36,40 @@
                 'actions' => [
                     'type' => Form::INPUT_RAW,
                     'value' =>
-                        Html::submitButton(\Yii::t('app', 'Login'), ['class' => 'btn btn-primary col-xs-12']) .
-                        ' ' .
+                        Html::submitButton(\Yii::t('app', 'Login'), ['class' => 'btn btn-primary btn-block']) .
                         Html::a(
                             \Yii::t('app', 'Can\'t access your account?'),
                             [
                                 '/user/recovery/request'
                             ],
                             [
-                                'class' => 'btn btn-default col-xs-12',
+                                'class' => 'btn btn-default btn-block',
                                 'style' => 'margin-top: 10px'
                             ]
                         ) .
-                        ' ' .
                         Html::a(
                             \Yii::t('app', 'Sign up'),
                             [
                                 '/user/registration/register'
                             ],
                             [
-                                'class' => 'btn btn-default col-xs-12',
+                                'class' => 'btn btn-default btn-block',
                                 'style' => 'margin-top: 10px'
                             ]
                         ) .
                         \dektrium\user\widgets\Connect::widget([
                             'options' => [
-                                'style' => 'clear: both;'
+//                                'class' => ''
                             ],
                             'baseAuthUrl' => ['/user/security/auth'],
+
                         ])
 
                 ]
             ],
-            'options' => [
-
-            ]
         ]);
 
+        $this->registerAssetBundle(\prime\assets\SocialAsset::class);
         $form->end();
         ?>
     </div>

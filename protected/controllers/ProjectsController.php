@@ -51,7 +51,7 @@ class ProjectsController extends Controller
         $model->scenario = 'create';
 
         if ($request->isPost) {
-            if($model->load($request->data()) && $model->save()) {
+            if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
                     'projectCreated',
                     [
@@ -124,7 +124,7 @@ class ProjectsController extends Controller
         ]);
 
         if($request->isPost) {
-            if($model->load($request->data()) && $model->createRecords()) {
+            if($model->load($request->bodyParams) && $model->createRecords()) {
                 $session->setFlash(
                     'projectShared',
                     [
@@ -154,7 +154,7 @@ class ProjectsController extends Controller
 
 
         if($request->isPost) {
-            if($model->load($request->data()) && $model->save()) {
+            if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
                     'projectUpdated',
                     [

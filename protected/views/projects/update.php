@@ -50,7 +50,7 @@ $this->params['subMenu'] = [
             ],
             'default_generator' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->generatorOptions,
+                'items' => $model->generatorOptions(),
                 'options' => [
                     'prompt' => \Yii::t('app', "None")
                 ]

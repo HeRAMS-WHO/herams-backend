@@ -6,23 +6,37 @@ use \app\components\Html;
  * @var $projectsDataProvider \yii\data\ActiveDataProvider
  */
 
-$this->params['subMenu']['items'] = [
-    [
-        'label' => \Yii::t('app', 'Create'),
-        'url' => ['projects/create'],
-        'visible' => app()->user->can('admin')
-    ],
-    [
-        'label' => \Yii::t('app', 'New'),
-        'url' => ['projects/new'],
-    ]
-];
 ?>
 <div class="col-xs-12">
     <?php
-    
+
+//    \yii\bootstrap\Button::class
+    $header = Yii::t('app', 'Your projects') . \yii\bootstrap\ButtonGroup::widget([
+        'options' => [
+            'class' => 'pull-right'
+        ],
+        'buttons' => [
+            [
+                'label' => 'New project',
+                'tagName' => 'a',
+                'options' => [
+                    'href' => \yii\helpers\Url::to(['projects/new']),
+                    'class' => 'btn-primary'
+                ]
+            ],
+            [
+                'label' => \Yii::t('app', 'Create'),
+                'tagName' => 'a',
+                'options' => [
+                    'href' => \yii\helpers\Url::to(['projects/create']),
+                    'class' => 'btn-default'
+                ],
+                'visible' => app()->user->can('admin')
+            ],
+        ]
+    ]);
     echo \kartik\grid\GridView::widget([
-        'caption' => Yii::t('app', 'Your projects'),
+        'caption' => $header,
         'layout' => "{items}\n{pager}",
         'dataProvider' => $projectsDataProvider,
         'columns' => [
