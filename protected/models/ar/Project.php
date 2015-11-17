@@ -92,11 +92,13 @@ class Project extends ActiveRecord
 
     public function getCountriesOptions()
     {
-        return ArrayHelper::map(
+        $options = ArrayHelper::map(
             Country::findAll(),
             'iso_3',
             'name'
         );
+        sort($options);
+        return $options;
     }
 
     public function getDefaultGenerator()
