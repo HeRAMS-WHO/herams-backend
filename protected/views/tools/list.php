@@ -39,7 +39,7 @@ $this->params['subMenu']['items'] = [
                 'label' => \Yii::t('app', 'Thumbnail'),
                 'format' => ['image',
                     [
-                        'height' => '100px',
+                        'height' => '32px',
                     ]
                 ]
             ],
