@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "296f554dbb75d09377da13728c79eb65",
-    "content-hash": "eb05983c0d15138ef1c61d4e4927fae3",
+    "hash": "55a3d766706f2e5f6abcf68b3e184521",
+    "content-hash": "3dce4fedccce3d9a6929fde7e79a9075",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -106,11 +106,11 @@
         },
         {
             "name": "befound/yii-befound",
-            "version": "v1.3.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.befound.nl:befound/yii-befound.git",
-                "reference": "4030a823c0f0724580c41e2e0f853ea4aa41274a"
+                "reference": "308b85bad0d69d26b66e9f940fe6477e63b62326"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-11-13 12:59:04"
+            "time": "2015-11-16 15:16:21"
         },
         {
             "name": "bower-asset/bootbox",
@@ -1412,12 +1412,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "f9ee0fda46ec4188d42b1187053c4536e03b1c5f"
+                "reference": "520ba281f592d6bbbf2be33386a03423bccc8cd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/f9ee0fda46ec4188d42b1187053c4536e03b1c5f",
-                "reference": "f9ee0fda46ec4188d42b1187053c4536e03b1c5f",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/520ba281f592d6bbbf2be33386a03423bccc8cd0",
+                "reference": "520ba281f592d6bbbf2be33386a03423bccc8cd0",
                 "shasum": ""
             },
             "require": {
@@ -1453,7 +1453,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-08-14 13:47:10"
+            "time": "2015-11-14 12:47:50"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
@@ -1903,12 +1903,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-switchinput.git",
-                "reference": "c3bc211ed6c7ee64d9c7403c8c92f567abc80924"
+                "reference": "cb80052e1fb0e2800b294eebdbad0ad54a9b4d0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-switchinput/zipball/c3bc211ed6c7ee64d9c7403c8c92f567abc80924",
-                "reference": "c3bc211ed6c7ee64d9c7403c8c92f567abc80924",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-switchinput/zipball/cb80052e1fb0e2800b294eebdbad0ad54a9b4d0e",
+                "reference": "cb80052e1fb0e2800b294eebdbad0ad54a9b4d0e",
                 "shasum": ""
             },
             "require": {
@@ -1945,7 +1945,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-04-21 15:39:34"
+            "time": "2015-11-14 12:56:15"
         },
         {
             "name": "kartik-v/yii2-widget-timepicker",
@@ -2522,12 +2522,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "d8c260d9fcd6a656a585291d27c1a0a36cd43512"
+                "reference": "c7c407ba8fffd6f9967437b14f090126a6f6d5eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d8c260d9fcd6a656a585291d27c1a0a36cd43512",
-                "reference": "d8c260d9fcd6a656a585291d27c1a0a36cd43512",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/c7c407ba8fffd6f9967437b14f090126a6f6d5eb",
+                "reference": "c7c407ba8fffd6f9967437b14f090126a6f6d5eb",
                 "shasum": ""
             },
             "require": {
@@ -2603,7 +2603,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-12 12:25:07"
+            "time": "2015-11-17 10:10:52"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2659,12 +2659,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "09a5bfe72c0141ad26281848f1ae9c3f42541f20"
+                "reference": "6fd96d4bf965625a29090e43fcc2870e279ae20d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/09a5bfe72c0141ad26281848f1ae9c3f42541f20",
-                "reference": "09a5bfe72c0141ad26281848f1ae9c3f42541f20",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/6fd96d4bf965625a29090e43fcc2870e279ae20d",
+                "reference": "6fd96d4bf965625a29090e43fcc2870e279ae20d",
                 "shasum": ""
             },
             "require": {
@@ -2701,7 +2701,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2015-10-25 21:18:48"
+            "time": "2015-11-15 12:20:29"
         },
         {
             "name": "yiisoft/yii2-composer",
