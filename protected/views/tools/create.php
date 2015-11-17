@@ -47,16 +47,7 @@ $this->params['subMenu'] = [
             ],
             'progress_type' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(
-                    array_flip($model->progressOptions()),
-                    function ($key) {
-                        return $key;
-                    },
-                    function ($key) use ($model) {
-                        $class = $model->progressOptions()[$key];
-                        return (new $class)->title;
-                    }
-                )
+                'items' => \prime\factories\GeneratorFactory::options()
             ],
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,
