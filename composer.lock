@@ -106,11 +106,11 @@
         },
         {
             "name": "befound/yii-befound",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.befound.nl:befound/yii-befound.git",
-                "reference": "308b85bad0d69d26b66e9f940fe6477e63b62326"
+                "reference": "10efb8c1833207d28a5708ad4de2f046ac75e6f8"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-11-16 15:16:21"
+            "time": "2015-11-17 14:40:15"
         },
         {
             "name": "bower-asset/bootbox",
@@ -2522,12 +2522,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "c7c407ba8fffd6f9967437b14f090126a6f6d5eb"
+                "reference": "0df296d99ea488ddc419d47d13fe5c2acd97c8c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/c7c407ba8fffd6f9967437b14f090126a6f6d5eb",
-                "reference": "c7c407ba8fffd6f9967437b14f090126a6f6d5eb",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/0df296d99ea488ddc419d47d13fe5c2acd97c8c9",
+                "reference": "0df296d99ea488ddc419d47d13fe5c2acd97c8c9",
                 "shasum": ""
             },
             "require": {
@@ -2603,7 +2603,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-17 10:10:52"
+            "time": "2015-11-17 12:18:26"
         },
         {
             "name": "yiisoft/yii2-authclient",

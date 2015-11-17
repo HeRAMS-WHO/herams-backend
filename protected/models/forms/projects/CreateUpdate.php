@@ -12,7 +12,7 @@ use yii\validators\SafeValidator;
 
 class CreateUpdate extends Project
 {
-    private $_countriesIds;
+    private $_countriesIds = [];
 
     public function afterSave($insert, $changedAttributes)
     {
@@ -67,7 +67,7 @@ class CreateUpdate extends Project
 
     public function setCountriesIds($value)
     {
-        $this->_countriesIds = $value;
+        $this->_countriesIds = !empty($value) ? $value : [];
     }
 
     public static function tableName()
