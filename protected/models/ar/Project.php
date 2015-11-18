@@ -90,14 +90,14 @@ class Project extends ActiveRecord
         }, $this->projectCountries);
     }
 
-    public function getCountriesOptions()
+    public function countriesOptions()
     {
         $options = ArrayHelper::map(
             Country::findAll(),
             'iso_3',
             'name'
         );
-        sort($options);
+        asort($options);
         return $options;
     }
 
@@ -132,6 +132,20 @@ class Project extends ActiveRecord
             new Coordinate($latitude),
             new Coordinate($longitude)
         );
+    }
+
+    /**
+     * Return the name of the locality. If locality_name isn't set, return implode of countries
+     * @return string
+     */
+    public function getLocality()
+    {
+        if(isset($this->locality_name)) {
+            $result = $this->locality_name;
+        } else {
+            $result = implode(', ', ArrayHelper::getColumn($this->countries, 'name'));
+        }
+        return $result;
     }
 
     public function getOwner()
@@ -204,6 +218,11 @@ class Project extends ActiveRecord
         return true;
     }
 
+    public function ownerOptions()
+    {
+        return \yii\helpers\ArrayHelper::map(\prime\models\ar\User::find()->all(), 'id', 'name');
+    }
+
     public function rules()
     {
         return [
@@ -225,6 +244,11 @@ class Project extends ActiveRecord
         return [
             'close' => ['closed']
         ];
+    }
+
+    public function toolOptions()
+    {
+        return \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->all(), 'id', 'title');
     }
 
     public function userCan($operation, User $user = null)

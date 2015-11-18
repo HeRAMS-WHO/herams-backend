@@ -51,7 +51,6 @@ class CreateUpdate extends Project
     {
         return ArrayHelper::merge(parent::rules(),
             [
-                ['countriesIds', SafeValidator::class],
                 ['countriesIds', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3'), 'allowArray' => true]
             ]
         );
@@ -74,6 +73,4 @@ class CreateUpdate extends Project
     {
         return Project::tableName();
     }
-
-
 }

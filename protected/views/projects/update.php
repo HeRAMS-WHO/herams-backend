@@ -18,7 +18,6 @@ $this->params['subMenu'] = [
         ],
     ]
 ];
-
 ?>
 
 <div class="col-xs-12">
@@ -59,7 +58,7 @@ $this->params['subMenu'] = [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::class,
                 'options' => [
-                    'data' => $model->countriesOptions,
+                    'data' => $model->countriesOptions(),
                     'options' => [
                         'multiple' => true
                     ]

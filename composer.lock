@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "55a3d766706f2e5f6abcf68b3e184521",
-    "content-hash": "3dce4fedccce3d9a6929fde7e79a9075",
+    "hash": "1896c3f78fea25a147ab490a41c1edd7",
+    "content-hash": "484691661cf3b3185c3314d1ec401213",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -106,11 +106,11 @@
         },
         {
             "name": "befound/yii-befound",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.befound.nl:befound/yii-befound.git",
-                "reference": "10efb8c1833207d28a5708ad4de2f046ac75e6f8"
+                "reference": "ffff78ed2dd2efc5913c3fe65d4fa1963a3f1317"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2015-11-17 14:40:15"
+            "time": "2015-11-17 20:48:57"
         },
         {
             "name": "bower-asset/bootbox",
@@ -861,12 +861,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "16c3b50b75e19033d0a1b0b46117d11b5ea652cb"
+                "reference": "e78f3288aaa592cc868a6625970c74b973e815fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/16c3b50b75e19033d0a1b0b46117d11b5ea652cb",
-                "reference": "16c3b50b75e19033d0a1b0b46117d11b5ea652cb",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/e78f3288aaa592cc868a6625970c74b973e815fc",
+                "reference": "e78f3288aaa592cc868a6625970c74b973e815fc",
                 "shasum": ""
             },
             "type": "library",
@@ -894,7 +894,7 @@
                 "jquery",
                 "star"
             ],
-            "time": "2015-09-29 08:12:22"
+            "time": "2015-11-17 17:22:37"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -1027,6 +1027,55 @@
                 "yii2"
             ],
             "time": "2015-06-17 17:58:21"
+        },
+        {
+            "name": "kartik-v/yii2-date-range",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-date-range.git",
+                "reference": "c6cb19d1d4808db8f1a64ca86093724e0a0f93fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/c6cb19d1d4808db8f1a64ca86093724e0a0f93fd",
+                "reference": "c6cb19d1d4808db8f1a64ca86093724e0a0f93fd",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\daterange\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An advanced Yii 2 date range picker input for based on bootstrap-daterangepicker plugin.",
+            "homepage": "https://github.com/kartik-v/yii2-date-range",
+            "keywords": [
+                "bootstrap",
+                "bootstrap 3",
+                "date",
+                "date-range",
+                "extension",
+                "range",
+                "time",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-10-22 06:11:39"
         },
         {
             "name": "kartik-v/yii2-grid",
@@ -2522,12 +2571,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "0df296d99ea488ddc419d47d13fe5c2acd97c8c9"
+                "reference": "f311914e7d98f3895c6f00293eb6885819067ae6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/0df296d99ea488ddc419d47d13fe5c2acd97c8c9",
-                "reference": "0df296d99ea488ddc419d47d13fe5c2acd97c8c9",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f311914e7d98f3895c6f00293eb6885819067ae6",
+                "reference": "f311914e7d98f3895c6f00293eb6885819067ae6",
                 "shasum": ""
             },
             "require": {
@@ -2603,7 +2652,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-17 12:18:26"
+            "time": "2015-11-18 10:32:06"
         },
         {
             "name": "yiisoft/yii2-authclient",
