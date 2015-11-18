@@ -21,7 +21,7 @@ class UserListsController extends Controller
         ]);
 
         if($request->isPost) {
-            if($model->load($request->data()) && $model->save()) {
+            if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
                     'userListCreated',
                     [
@@ -70,7 +70,7 @@ class UserListsController extends Controller
         $model = \prime\models\forms\UserList::loadOne($id, Permission::PERMISSION_WRITE);
 
         if($request->isPost) {
-            if($model->load($request->data()) && $model->save()) {
+            if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
                     'userListUpdated',
                     [

@@ -47,6 +47,11 @@ $this->params['subMenu'] = [
                     'preset' => 'basic'
                 ]
             ],
+            'progress_type' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => \prime\factories\GeneratorFactory::options()
+            ],
+
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
@@ -65,7 +70,7 @@ $this->params['subMenu'] = [
             ],
             'generators' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,
-                'items' => $model->generatorOptions,
+                'items' => \prime\factories\GeneratorFactory::options(),
                 'value' => $model->generators
             ],
         ]

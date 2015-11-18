@@ -53,16 +53,25 @@ $this->params['subMenu'] = [
                 'items' => \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->all(), 'id', 'title'),
             ],
             'data_survey_eid' => [
-                'type' => Form::INPUT_HTML5,
-                'html5type' => 'number'
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\widgets\DepDrop::class,
+                'options' => [
+                    'pluginOptions' => [
+                        'url' => ['/tools/dependent-surveys'],
+                        'depends' => ['createupdate-tool_id'],
+                        'initialize' => true,
+                    ],
+                ],
+                'enableClientValidation' => false
             ],
             'default_generator' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\DepDrop::class,
                 'options' => [
                     'pluginOptions' => [
-                        'url' => ['/tools/dep-drop-generators'],
-                        'depends' => ['createupdate-tool_id']
+                        'url' => ['/tools/dependent-generators'],
+                        'depends' => ['createupdate-tool_id'],
+                        'initialize' => true,
                     ],
                 ],
                 'enableClientValidation' => false

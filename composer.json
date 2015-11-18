@@ -19,7 +19,7 @@
     ],
     "require": {
 	"php" : ">=5.6.0",
-	"befound/yii-befound" : "^1.0.0",
+	"befound/yii-befound" : "^2.0.0",
         "kartik-v/yii2-widgets": "3.4.*",
         "kartik-v/yii2-builder": "1.*",
         "kartik-v/yii2-helpers": "1.*",

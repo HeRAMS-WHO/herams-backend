@@ -3,8 +3,10 @@
 namespace prime\models\ar;
 
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
+use Befound\Components\Map;
 use Befound\Components\UploadedFile;
 use prime\components\ActiveRecord;
+use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\permissions\Permission;
 use prime\models\ar\User;
@@ -12,6 +14,7 @@ use prime\widgets\progress\Percentage;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\validators\RangeValidator;
+use yii\validators\SafeValidator;
 
 /**
  * Class Tool
@@ -21,6 +24,7 @@ use yii\validators\RangeValidator;
  * @property Widget progressWidget
  * @property int $base_survey_eid
  * @property int $intake_survey_eid
+ * @property Map $generators
  */
 class Tool extends ActiveRecord {
 
@@ -29,8 +33,6 @@ class Tool extends ActiveRecord {
     const PROGRESS_ABSOLUTE = 'absolute';
     const PROGRESS_PERCENTAGE = 'percentage';
 
-    const TOOL_TEST = 'test';
-
     /**
      * variable for uploading tool image
      * @var UploadedFile
@@ -38,6 +40,12 @@ class Tool extends ActiveRecord {
     public $tempImage;
     public $thumbTempImage;
 
+    /**
+     * Save images after saving record to database.
+     * @param bool $insert
+     * @param array $changedAttributes
+     * @throws \Exception
+     */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
@@ -73,6 +81,7 @@ class Tool extends ActiveRecord {
             'thumbTempImage' => \Yii::t('app', 'Thumbnail'),
             'intake_survey_eid' => \Yii::t('app', 'Intake survey'),
             'base_survey_eid' => \Yii::t('app', 'Base data survey'),
+            'progress_type' => \Yii::t('app', "Progress report")
         ];
     }
 
@@ -88,26 +97,6 @@ class Tool extends ActiveRecord {
         );
     }
 
-    /**
-     * Returns a list of all known generator classes.
-     *
-     * @return array
-     */
-    public static function generators()
-    {
-        return [
-            self::TOOL_TEST => \prime\reportGenerators\test\Generator::class
-        ];
-
-    }
-
-    public function getGeneratorOptions()
-    {
-        return array_map(function($className) {
-           return $className::title();
-        }, self::generators());
-    }
-
     public function getImageUrl()
     {
         return '/' . self::IMAGE_PATH . $this->image;
@@ -116,13 +105,6 @@ class Tool extends ActiveRecord {
     public function getIntakeUrl()
     {
         return app()->limesurvey->getUrl($this->intake_survey_eid);
-    }
-
-    public static function progressOptions()
-    {
-        return [
-            self::PROGRESS_PERCENTAGE => \prime\reportGenerators\progressPercentage\Generator::class
-        ];
     }
 
     public function getThumbnailUrl() {
@@ -174,8 +156,10 @@ class Tool extends ActiveRecord {
             [['tempImage', 'thumbTempImage'], 'image'],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], 'string'],
-            [['progress_type'], 'in', 'range' => array_keys(self::progressOptions())],
-            [['generators'], RangeValidator::class, 'range' => array_keys(self::generators()), 'allowArray' => true]
+//            [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
+        // Validation disabled until this is merged: https://github.com/yiisoft/yii2/pull/10162
+            [['generators'], SafeValidator::class],
+//            [['generators'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes()), 'allowArray' => true]
         ];
     }
 

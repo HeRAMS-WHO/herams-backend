@@ -33,49 +33,36 @@ echo Nav::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => Html::icon('list'),
-            'linkOptions' => [
-                'title' => 'Projects'
-            ],
-            'url' => ['/projects']
-        ],
-
-        [
-            'label' => Html::icon('globe'),
-            'linkOptions' => [
-                'title' => 'Marketplace'
-            ],
-            'url' => ['/marketplace/map']
-
-        ],
-        [
-            'label' => Html::icon('heart-empty'),
-            'linkOptions' => [
-                'title' => \Yii::t('app', 'User lists')
-            ],
-            'url' => ['/user-lists/list']
-        ],
-        [
-
-            'label' => Html::icon('search') . " " . Html::tag('span', \Yii::t('app', 'Search'), ['class' => 'visible-xs-inline-block']),
-            'linkOptions' => [
-                'title' => \Yii::t('app', 'Search')
-            ],
-            'url' => ['users/account'],
+            'label' => Html::icon('list', ['title' => 'Projects']),
+            'url' => ['/projects'],
             'visible' => !Yii::$app->user->isGuest
         ],
-        [
-            'label' => Html::icon('user'),
-            'linkOptions' => [
-                'title' => 'User'
-            ],
 
-            'url' => ['user/settings/account'],
+        [
+            'label' => Html::icon('globe', ['title' => 'Marketplace']),
+            'url' => ['/marketplace/map'],
             'visible' => !Yii::$app->user->isGuest
 
         ],
         [
-            'label' => Html::icon('wrench'),
+            'label' => Html::icon('heart-empty', ['title' => \Yii::t('app', 'User lists')]),
+            'url' => ['/user-lists/list'],
+            'visible' => !Yii::$app->user->isGuest
+        ],
+        [
+
+            'label' => Html::icon('search', ['title' => \Yii::t('app', 'Search')]),
+            'url' => ['/search'],
+            'visible' => false && !Yii::$app->user->isGuest // @todo Implement this.
+        ],
+        [
+            'label' => Html::icon('user', ['title' => 'User']),
+            'url' => ['/user/settings/account'],
+            'visible' => !Yii::$app->user->isGuest
+
+        ],
+        [
+            'label' => Html::icon('wrench', ['title' => Yii::t('app', 'Configuration')]),
             'items' => [
                 ['label' => 'Tools', 'url' => ['/tools']],
                 ['label' => 'Users & Permissions', 'url' => ['/rbac'], 'visible' => app()->user->can('admin')],
@@ -83,29 +70,18 @@ echo Nav::widget([
                 ['label' => 'Site configuration', 'url' => ['/settings/index'], 'visible' => app()->user->can('admin')],
 
             ],
-
-//            'url' => ['user/settings/account'],
             'visible' => app()->user->can('tools')
 
         ],
         [
-            'label' => Html::icon('log-in'),
-            'linkOptions' => [
-                'title' => 'Log in'
-            ],
-
+            'label' => Html::icon('log-in', ['title' => 'Log in']),
             'url' => ['/user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
         [
-            'label' => Html::icon('log-out'),
-            'linkOptions' => [
-                'title' => 'Log out'
-            ],
-
+            'label' => Html::icon('log-out', ['title' => 'Log out']),
             'url' => ['/user/security/logout'],
             'linkOptions' => [
-                'title' => Yii::t('app', 'Log out'),
                 'data-method' => 'post'
             ],
             'visible' => !Yii::$app->user->isGuest
@@ -113,5 +89,12 @@ echo Nav::widget([
     ],
 ]);
 NavBar::end();
+/**
+ * Register tooltips.
+ */
+$this->registerJs('$(\'nav [title]\').tooltip({
+    placement: "bottom",
+    trigger: "hover",
 
+ });');
 echo $this->render('subMenu');

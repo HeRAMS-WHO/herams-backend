@@ -21,11 +21,11 @@ $font-family-base: "Open Sans";
 
   ///* BEGIN Navbar styling */
   $link-part: 0.5;
-  .nav li a > span {
+  nav .nav > li > a > span {
     vertical-align: middle;
   }
 
-  .nav li a {
+  nav .nav > li > a {
     padding: (1- $link-part) / 2 * $navbar-height;
     font-size: $link-part * $navbar-height;
     line-height: $link-part * $navbar-height;
@@ -52,11 +52,11 @@ $font-family-base: "Open Sans";
 .auth-clients {
   .auth-client {
     .auth-title {
-      display: none;
+      //display: none;
     }
 
-    float: none;
-    display: inline-block;
+    //float: none;
+    //display: inline-block;
   }
 
   text-align: center;
@@ -89,17 +89,19 @@ $font-family-base: "Open Sans";
   background-color: rgba(51, 51, 51, 0.3);
   content: "";
 }
-
-ul.nav > li:not(.dropdown) {
-  a:hover::after {
-    content: " " attr(title);
-    display: block;
-    font-size: 0.4em;
-  }
-  a:hover {
-    text-align: center;
-    padding-bottom: 0px;
-  }
-
-
-}
+//
+//ul.nav > li:not(.dropdown) {
+//  a:hover::after {
+//    content: " " attr(title);
+//    display: block;
+//    position: absolute;
+//    left: 0;
+//    bottom: -10%;
+//    font-size: 0.4em;
+//  }
+//  a {
+//    text-align: center;
+//  }
+//
+//
+//}

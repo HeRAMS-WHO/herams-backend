@@ -6,6 +6,7 @@ use app\queries\ProjectQuery;
 use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use Befound\Components\DateTime;
 use prime\components\ActiveRecord;
+use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\Country;
 use prime\models\permissions\Permission;
@@ -91,21 +92,18 @@ class Project extends ActiveRecord
 
     public function getCountriesOptions()
     {
-        return ArrayHelper::map(
+        $options = ArrayHelper::map(
             Country::findAll(),
             'iso_3',
             'name'
         );
+        sort($options);
+        return $options;
     }
 
     public function getDefaultGenerator()
     {
-        if(isset(Tool::generators()[$this->default_generator])) {
-            $generatorClass = Tool::generators()[$this->default_generator];
-            return new $generatorClass();
-        } else {
-            return null;
-        }
+        return GeneratorFactory::get($this->default_generator);
     }
 
     /**
@@ -165,9 +163,8 @@ class Project extends ActiveRecord
 
     public function getProgressReport()
     {
-        $generatorClass = $this->tool->progressOptions()[$this->tool->progress_type];
         /** @var ReportGeneratorInterface $generator */
-        $generator = new $generatorClass();
+        $generator = GeneratorFactory::get($this->tool->progress_type);
         return $generator->render($this->getResponses(), app()->user->identity->createSignature());
     }
 
@@ -215,7 +212,7 @@ class Project extends ActiveRecord
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
-            [['default_generator'], RangeValidator::class, 'range' => function(self $model, $attribute) {return array_keys($model->generatorOptions);}],
+            [['default_generator'], RangeValidator::class, 'range' => function(self $model, $attribute) {return array_keys($model->generatorOptions());}],
             [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
 
             // Save NULL instead of "" when no default report is selected.
@@ -242,8 +239,13 @@ class Project extends ActiveRecord
         return $result;
     }
 
-    public function getGeneratorOptions()
+    public function generatorOptions()
     {
-        return $this->tool->generatorOptions;
+        return isset($this->tool) ? array_intersect_key(GeneratorFactory::options(), array_flip($this->tool->generators->asArray())) : [];
+    }
+
+    public function dataSurveyOptions()
+    {
+        return $this->tool->dataSurveyOptions();
     }
 }

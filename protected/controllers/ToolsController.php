@@ -25,8 +25,7 @@ class ToolsController extends Controller
         $model->scenario = 'create';
 
         if($request->isPost) {
-            $model->load($request->data());
-            if($model->load($request->data()) && $model->save())
+            if($model->load($request->bodyParams) && $model->save())
             {
                 $session->setFlash(
                     'toolCreated',
@@ -51,32 +50,64 @@ class ToolsController extends Controller
         ]);
     }
 
-    public function actionDepDropGenerators(
+    /**
+     * Get a list of generators for use in dependent dropdowns.
+     * @param Response $response
+     * @param Request $request
+     * @param array $depdrop_parents
+     * @return array
+     */
+    public function actionDependentGenerators(
         Response $response,
-        Request $request
+        Request $request,
+        array $depdrop_parents
     )
     {
-//        $response->format = Response::FORMAT_JSON;
-//        if($request->isPost) {
-//            $parents = $request->data()['depdrop_parents'];
-//            $generators = [];
-//            $tools = Tool::findAll($parents);
-//            foreach($tools as $tool) {
-//                foreach($tool->getGenerators() as $key => $value) {
-//                    $generator = new $value();
-//                    $generators[] = [
-//                        'id' => $key,
-//                        'name' => $generator->title
-//                    ];
-//                }
-//            }
-//            return [
-//                'output' => $generators,
-//                'selected' => ''
-//            ];
-//        }
+        $response->format = Response::FORMAT_JSON;
+        $generators = [];
+        foreach(Tool::findAll($depdrop_parents) as $tool) {
+            foreach ($tool->generators as $key => $value) {
+                $generators[] = [
+                    'id' => $key,
+                    'name' => $value
+                ];
+
+            }
+        }
+
         return [
-            'output' => '',
+            'output' => $generators,
+            'selected' => ''
+        ];
+    }
+
+    /**
+     * Get a list of generators for use in dependent dropdowns.
+     * @param Response $response
+     * @param Request $request
+     * @param array $depdrop_parents
+     * @return array
+     */
+    public function actionDependentSurveys(
+        Response $response,
+        Request $request,
+        array $depdrop_parents
+    )
+    {
+        $response->format = Response::FORMAT_JSON;
+        $generators = [];
+        foreach(Tool::findAll($depdrop_parents) as $tool) {
+            foreach ($tool->dataSurveyOptions() as $key => $value) {
+                $generators[] = [
+                    'id' => $key,
+                    'name' => $value
+                ];
+
+            }
+        }
+
+        return [
+            'output' => $generators,
             'selected' => ''
         ];
     }
@@ -105,7 +136,7 @@ class ToolsController extends Controller
         $model->scenario = 'update';
 
         if($request->isPut) {
-            if($model->load($request->data()) && $model->save()) {
+            if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
                     'toolUpdated',
                     [
