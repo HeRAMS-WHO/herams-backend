@@ -129,8 +129,8 @@ class Project extends ActiveRecord
             }
         }
         return new LatLong(
-            new Coordinate($latitude),
-            new Coordinate($longitude)
+            new Coordinate(rad2deg($latitude)),
+            new Coordinate(rad2deg($longitude))
         );
     }
 

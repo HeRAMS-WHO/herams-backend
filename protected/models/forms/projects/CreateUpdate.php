@@ -12,7 +12,7 @@ use yii\validators\SafeValidator;
 
 class CreateUpdate extends Project
 {
-    private $_countriesIds = [];
+    private $_countriesIds;
 
     public function afterSave($insert, $changedAttributes)
     {
@@ -35,8 +35,6 @@ class CreateUpdate extends Project
             'countriesIds' => \Yii::t('app', 'Countries')
         ]);
     }
-
-
 
     public function getCountriesIds()
     {

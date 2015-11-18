@@ -4,6 +4,7 @@ namespace prime\controllers;
 
 use app\components\Request;
 use prime\components\Controller;
+use prime\models\ar\Project;
 use prime\models\Country;
 use prime\models\search\Report;
 
@@ -25,13 +26,19 @@ class MarketplaceController extends Controller
         ]);
     }
 
-    public function actionSummary($iso_3, $layer)
+    public function actionSummary($id, $layer)
     {
-        $country = Country::findOne($iso_3);
         switch($layer) {
-            case 'Reports':
+            case 'reports':
+                $country = Country::findOne($id);
                 return $this->render('summaries/reports', [
                     'country' => $country
+                ]);
+                break;
+            case 'projects':
+                $project = Project::findOne($id);
+                return $this->render('summaries/projects', [
+                    'project' => $project
                 ]);
                 break;
         }
