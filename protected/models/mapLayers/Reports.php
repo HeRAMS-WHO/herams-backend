@@ -16,13 +16,13 @@ class Reports extends MapLayer
         $this->joinBy = ['ISO_3_CODE', 'iso_3'];
         $this->name = \Yii::t('app', 'Reports');
         $this->showInLegend = true;
-        $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'Reports'); return false;}"));
+        $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'reports'); return false;}"));
     }
 
     protected function prepareData()
     {
         $this->data = array_map(function($country) {
-             return ['iso_3' => $country];
+             return ['iso_3' => $country, 'id' => $country];
         }, ProjectCountry::find()->innerJoinWith(['project', 'project.reports'])->select('country_iso_3')->column());
     }
 

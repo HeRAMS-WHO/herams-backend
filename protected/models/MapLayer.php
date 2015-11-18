@@ -26,6 +26,7 @@ class MapLayer extends Model{
      * @var array
      */
     public $joinBy = ['ISO_3_CODE'];
+    public $type;
 
     public function addPointEventHandler($event, JsExpression $expression)
     {
