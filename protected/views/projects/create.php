@@ -4,6 +4,10 @@ use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;
 
+/**
+ * @var \prime\models\ar\Project $model
+ */
+
 $this->title = Yii::t('app', 'Create project');
 
 $this->params['subMenu'] = [
@@ -45,12 +49,12 @@ $this->params['subMenu'] = [
             'owner_id' => [
                 'label' => \Yii::t('app', 'Owner'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(\prime\models\ar\User::find()->all(), 'id', 'name')
+                'items' => $model->ownerOptions()
             ],
             'tool_id' => [
                 'label' => \Yii::t('app', 'Tool'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->all(), 'id', 'title'),
+                'items' => $model->toolOptions()
             ],
             'data_survey_eid' => [
                 'type' => Form::INPUT_WIDGET,
@@ -80,7 +84,7 @@ $this->params['subMenu'] = [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::class,
                 'options' => [
-                    'data' => $model->countriesOptions,
+                    'data' => $model->countriesOptions(),
                     'options' => [
                         'multiple' => true
                     ],

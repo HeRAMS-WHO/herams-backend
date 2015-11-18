@@ -106,6 +106,12 @@ class Report extends ActiveRecord implements ReportInterface
         return $this->getAttribute('title');
     }
 
+    public function getTool()
+    {
+        return $this->hasOne(Tool::class, ['id' => 'tool_id'])
+            ->via('project');
+    }
+
     /**
      * Returns all other (with respect to getSignatureData) the data the user entered when generating the report
      * @return UserDataInterface

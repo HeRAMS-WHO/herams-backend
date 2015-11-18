@@ -25,6 +25,7 @@
         "kartik-v/yii2-helpers": "1.*",
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-mpdf": "@dev",
+        "kartik-v/yii2-date-range" : "*",
         "dektrium/yii2-user": "dev-master",
         "bariew/yii2-module-migration-controller": "1.*",
         "psr/http-message": "1.*",

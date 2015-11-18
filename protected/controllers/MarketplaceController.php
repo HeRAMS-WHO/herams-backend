@@ -17,7 +17,7 @@ class MarketplaceController extends Controller
     public function actionList(Request $request)
     {
         $reportSearch = new Report();
-        $reportsDataProvider = $reportSearch->search($request->data());
+        $reportsDataProvider = $reportSearch->search($request->queryParams);
 
         return $this->render('list', [
             'reportsDataProvider' => $reportsDataProvider,
