@@ -20,21 +20,12 @@ use yii\helpers\Html;
 
 ?>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
-    <?= Yii::t('user', 'Hello') ?>,
-</p>
-
-<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
-    <?= Yii::t('user', 'Your account on {0} has been created', Yii::$app->name) ?>.
-    <?php if ($showPassword || $module->enableGeneratingPassword): ?>
-        <?= Yii::t('user', 'We have generated a password for you') ?>:
-        <strong><?= $user->password ?></strong>
-    <?php endif ?>
-
+    <?= Yii::t('user', 'You have successfully registered to {0}, the Public Health Risk Information Marketplace for Emergencies', Yii::$app->name) ?>.
 </p>
 
 <?php if ($token !== null): ?>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
-    <?= Yii::t('user', 'In order to complete your registration, please click the link below') ?>.
+    <?= Yii::t('user', 'To get started please activate your account following this link') ?>.
 </p>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
     <?= Html::a(Html::encode($token->url), $token->url); ?>
@@ -43,7 +34,7 @@ use yii\helpers\Html;
     <?= Yii::t('user', 'If you cannot click the link, please try pasting the text into your browser') ?>.
     <?php endif ?>
 </p>
-
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
-    <?= Yii::t('user', 'If you did not make this request you can ignore this email') ?>.
+    <?= Yii::t('user', 'The Prime Team') ?>.
 </p>
+

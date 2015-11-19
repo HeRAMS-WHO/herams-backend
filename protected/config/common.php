@@ -72,6 +72,11 @@ return [
                 'joey_claessen@hotmail.com',
                 'sam@mousa.nl',
                 'petragallos@who.int'
+            ],
+            'mailer' => [
+                'sender' => [new \prime\objects\Deferred(function() {return \prime\models\ar\Setting::get('systemEmail', 'default-sender@befound.nl');})],
+                'confirmationSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Your account is now active!', ['0' => app()->name]);}),
+                'recoverySubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);})
             ]
         ],
         'rbac' => [
@@ -79,6 +84,6 @@ return [
         ],
     ],
     'params' => [
-        'system@prime.com'
+
     ]
 ];

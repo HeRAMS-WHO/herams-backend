@@ -7,6 +7,7 @@ use prime\components\Controller;
 use prime\models\ar\Project;
 use prime\models\Country;
 use prime\models\search\Report;
+use yii\helpers\ArrayHelper;
 
 class MarketplaceController extends Controller
 {
@@ -42,5 +43,21 @@ class MarketplaceController extends Controller
                 ]);
                 break;
         }
+    }
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(),
+            [
+                'access' => [
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@']
+                        ],
+                    ]
+                ]
+            ]
+        );
     }
 }

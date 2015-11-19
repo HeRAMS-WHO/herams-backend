@@ -75,8 +75,8 @@ class Project extends ActiveRecord
                 ->select('target_id');
             $query->andWhere([
                 'or',
-                ['id' => $ids],
-                ['id' => $ids2]
+                [self::tableName() . '.id' => $ids],
+                [self::tableName() . '.id' => $ids2]
             ]);
         }
         return $query;
