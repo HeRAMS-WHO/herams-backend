@@ -15,6 +15,9 @@ use dektrium\user\models\RegistrationForm;
 use dektrium\user\Module;
 use prime\models\ar\Profile;
 use prime\models\ar\User;
+use prime\models\Country;
+use yii\helpers\ArrayHelper;
+use yii\validators\RangeValidator;
 
 class Registration extends RegistrationForm
 {
@@ -32,6 +35,49 @@ class Registration extends RegistrationForm
     public $office;
     public $country;
     public $captcha;
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        $result = parent::attributeLabels();
+        return array_merge($result,
+            [
+                'confirmPassword' => \Yii::t('app', 'Confirmation')
+            ]
+        );
+    }
+
+    public function countryOptions()
+    {
+        $countries = Country::findAll();
+        $countries = ArrayHelper::map($countries, 'iso_3', 'name');
+        asort($countries);
+        return $countries;
+    }
+
+    /**
+     * Loads attributes to the user model. You should override this method if you are going to add new fields to the
+     * registration form. You can read more in special guide.
+     *
+     * By default this method set all attributes of this model to the attributes of User model, so you should properly
+     * configure safe attributes of your User model.
+     *
+     * @param User $user
+     */
+    protected function loadAttributes(\dektrium\user\models\User $user)
+    {
+        /**
+         * @todo load profile!
+         */
+        $attributes = $this->attributes;
+        unset($attributes['username']);
+        $user->setAttributes($attributes);
+        $profile = new Profile();
+        $profile->setAttributes($this->attributes);
+        $user->setProfile($profile);
+    }
 
     /**
      * @inheritdoc
@@ -57,43 +103,9 @@ class Registration extends RegistrationForm
             ['confirmPassword', 'compare', 'compareAttribute' => 'password'],
             // profile rules
             [['first_name', 'last_name', 'organization', 'office', 'country', 'captcha'], 'required'],
-            [['first_name', 'last_name', 'organization', 'office', 'country'], 'string'],
+            [['first_name', 'last_name', 'organization', 'office'], 'string'],
+            [['country'], RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
             [['captcha'], 'captcha']
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        $result = parent::attributeLabels();
-        return array_merge($result,
-            [
-                'confirmPassword' => \Yii::t('app', 'Confirmation')
-            ]
-        );
-    }
-
-    /**
-     * Loads attributes to the user model. You should override this method if you are going to add new fields to the
-     * registration form. You can read more in special guide.
-     *
-     * By default this method set all attributes of this model to the attributes of User model, so you should properly
-     * configure safe attributes of your User model.
-     *
-     * @param User $user
-     */
-    protected function loadAttributes(\dektrium\user\models\User $user)
-    {
-        /**
-         * @todo load profile!
-         */
-        $attributes = $this->attributes;
-        unset($attributes['username']);
-        $user->setAttributes($attributes);
-        $profile = new Profile();
-        $profile->setAttributes($this->attributes);
-        $user->setProfile($profile);
     }
 }

@@ -2,9 +2,6 @@
 
 namespace prime\models\ar;
 
-use prime\models\ar\Profile;
-use prime\models\ar\Project;
-use prime\models\ar\UserList;
 use prime\models\permissions\Permission;
 use prime\objects\Signature;
 

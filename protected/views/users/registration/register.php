@@ -46,7 +46,14 @@ echo Form::widget([
             'type' => Form::INPUT_TEXT,
         ],
         'country' => [
-            'type' => Form::INPUT_TEXT,
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => \kartik\select2\Select2::class,
+            'options' => [
+                'data' => $model->countryOptions(),
+                'options' => [
+                    'placeholder' => \Yii::t('app', 'Country')
+                ]
+            ]
         ],
         'captcha' => [
             'type' => Form::INPUT_WIDGET,
