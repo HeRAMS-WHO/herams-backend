@@ -2,6 +2,7 @@
 
 namespace prime\controllers;
 
+use app\components\Html;
 use Befound\Components\DateTime;
 use prime\components\Controller;
 use prime\models\forms\projects\CreateUpdate;
@@ -172,6 +173,26 @@ class ProjectsController extends Controller
         ]);
     }
 
+
+    public function actionExplore()
+    {
+        return $this->renderContent(Html::tag('div', Html::tag('iframe', '', [
+            'src' => 'https://internal.shinyapps.io/prime/herams_proto/?initialWidth=1920&childId=shinyapp',
+            'style' => [
+                'width' => '100%',
+                'height' => '100%',
+                'border' => 'none'
+            ]
+        ]), [
+            'style' => [
+                'position' => 'fixed',
+                'left' => '0px',
+                'right' => '0px',
+                'bottom' => '0px',
+                'top' => '70px',
+            ]
+        ]));
+    }
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
