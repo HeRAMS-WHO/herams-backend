@@ -5,6 +5,7 @@ namespace prime\models\ar;
 use app\queries\ProjectQuery;
 use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use Befound\Components\DateTime;
+use prime\components\ActiveQuery;
 use prime\components\ActiveRecord;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
@@ -52,35 +53,19 @@ class Project extends ActiveRecord
         ];
     }
 
+    public function dataSurveyOptions()
+    {
+        return $this->tool->dataSurveyOptions();
+    }
+
     /**
      * @return ProjectQuery
-     * @throws \Exception
      */
     public static function find()
     {
-        $query = parent::find();
-        //if the logged in user is admin, access to all projects is allowed
-        if(!app()->user->can('admin')) {
-            //Select all project ids where the logged in user is owner of
-            $ids = parent::find()->andWhere(['owner_id' => app()->user->id])->select('id')->column();
-            //Select all project ids where the logged in user is invited to
-            $ids2 = Permission::find()
-                ->andWhere(
-                    [
-                        'source' => User::class,
-                        'source_id' => app()->user->id,
-                        'target' => Project::class,
-                    ]
-                )
-                ->select('target_id');
-            $query->andWhere([
-                'or',
-                [self::tableName() . '.id' => $ids],
-                [self::tableName() . '.id' => $ids2]
-            ]);
-        }
-        return $query;
+        return parent::find();
     }
+
 
     public function getCountries()
     {
@@ -99,6 +84,11 @@ class Project extends ActiveRecord
         );
         asort($options);
         return $options;
+    }
+
+    public function generatorOptions()
+    {
+        return isset($this->tool) ? array_intersect_key(GeneratorFactory::options(), array_flip($this->tool->generators->asArray())) : [];
     }
 
     public function getDefaultGenerator()
@@ -263,13 +253,32 @@ class Project extends ActiveRecord
         return $result;
     }
 
-    public function generatorOptions()
-    {
-        return isset($this->tool) ? array_intersect_key(GeneratorFactory::options(), array_flip($this->tool->generators->asArray())) : [];
-    }
-
-    public function dataSurveyOptions()
-    {
-        return $this->tool->dataSurveyOptions();
-    }
+//    public static function userCanScope(ActiveQuery $query, $operation, $userId = null)
+//    {
+//        //Select all project ids where the logged in user is owner of
+//        $ids = parent::find()->andWhere(['owner_id' => app()->user->id])->select('id')->column();
+//        //Select all project ids where the logged in user is invited to
+//        $ids2 = Permission::find()
+//            ->andWhere(
+//                [
+//                    'source' => User::class,
+//                    'source_id' => app()->user->id,
+//                    'target' => Project::class,
+//                ]
+//            )
+//            ->select('target_id');
+//        $query->andWhere([
+//            'or',
+//            [self::tableName() . '.id' => $ids],
+//            [self::tableName() . '.id' => $ids2]
+//        ]);
+//
+//        switch ($operation) {
+//            case 'administer':
+//                return $query->andWhere(['id' => User::findOne($userId ?: \Yii::$app->user->id)->customer_id]);
+//                break;
+//            default:
+//                return false;
+//        }
+//    }
 }
