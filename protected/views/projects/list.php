@@ -62,7 +62,7 @@ use \app\components\Html;
             [
                 'attribute' => 'toolIds',
                 'value' => 'tool.acronym',
-                'label' => \Yii::t('app', 'Tool'),
+                //'label' => \Yii::t('app', 'Tool'),
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $projectSearch->toolsOptions(),
                 'filterWidgetOptions' => [

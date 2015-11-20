@@ -69,6 +69,19 @@ class Project extends \prime\models\ar\Project
             'id' => 'project-data-provider'
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'title',
+                'description',
+                'toolIds' => [
+                    'asc' => ['tool.acronym' => SORT_ASC],
+                    'desc' => ['tool.acronym' => SORT_DESC],
+                    'default' => 'asc'
+                ],
+                'created'
+            ]
+        ]);
+
         if(!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
