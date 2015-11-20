@@ -40,6 +40,9 @@ $this->params['subMenu'] = [
             'title' => [
                 'type' => Form::INPUT_TEXT,
             ],
+            'acronym' => [
+                'type' => Form::INPUT_TEXT,
+            ],
             'description' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \dosamigos\ckeditor\CKEditor::class,

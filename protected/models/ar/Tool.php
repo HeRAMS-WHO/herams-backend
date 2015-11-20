@@ -97,6 +97,18 @@ class Tool extends ActiveRecord {
         );
     }
 
+    public function dataSurveyOptions()
+    {
+        return array_filter(ArrayHelper::map(app()->limesurvey->listSurveys(), 'sid', function($details) {
+            if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) != 0
+                && strpos($details['surveyls_title'], '_') === false
+            ) {
+                return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
+            }
+            return false;
+        }));
+    }
+
     public function getImageUrl()
     {
         return '/' . self::IMAGE_PATH . $this->image;
@@ -125,22 +137,6 @@ class Tool extends ActiveRecord {
         }));
     }
 
-    public function dataSurveyOptions()
-    {
-        return array_filter(ArrayHelper::map(app()->limesurvey->listSurveys(), 'sid', function($details) {
-            if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) != 0
-                && strpos($details['surveyls_title'], '_') === false
-            ) {
-                return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
-            }
-            return false;
-        }));
-    }
-
-
-
-
-
     public function isTransactional($operation)
     {
         return true;
@@ -149,9 +145,9 @@ class Tool extends ActiveRecord {
     public function rules()
     {
         return [
-            [['title', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generators'], 'required'],
+            [['title', 'acronym', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generators'], 'required'],
             [['tempImage'], 'required', 'on' => ['create']],
-            [['title', 'description'], 'string'],
+            [['title', 'acronym', 'description'], 'string'],
             [['title'], 'unique'],
             [['tempImage', 'thumbTempImage'], 'image'],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
@@ -166,8 +162,8 @@ class Tool extends ActiveRecord {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generators'],
-            'update' => ['title', 'description', 'tempImage', 'thumbTempImage', 'generators']
+            'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generators'],
+            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generators']
         ];
     }
 
