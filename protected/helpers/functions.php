@@ -40,3 +40,19 @@ function vdd($var, $message = '', $depth = 10, $highlight = true) {
     vd($var, $depth = 10, $highlight = true);
     die($message);
 }
+
+function toSql(\yii\db\Query $query)
+{
+    return $query->prepare(app()->db->queryBuilder)->createCommand()->rawSql;
+}
+
+function vdSql(\yii\db\Query $query, $depth = 10, $highlight = true)
+{
+    vd(toSql($query), $depth, $highlight);
+}
+
+function vddSql(\yii\db\Query $query, $mesage = '', $depth = 10, $highlight = true)
+{
+    vdSql($query, $depth, $highlight);
+    die($mesage);
+}

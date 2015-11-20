@@ -94,6 +94,9 @@ $this->params['subMenu'] = [
                 ],
                 'hint' => \Yii::t('app', 'When latitude and longitude are not set, center of countries is used as project location')
             ],
+            'locality_name' => [
+                'type' => Form::INPUT_TEXT
+            ],
             'latitude' => [
                 'type' => Form::INPUT_TEXT
             ],

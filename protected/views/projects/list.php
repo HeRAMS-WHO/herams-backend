@@ -3,7 +3,8 @@
 use \app\components\Html;
 
 /**
- * @var $projectsDataProvider \yii\data\ActiveDataProvider
+ * @var \yii\data\ActiveDataProvider $projectsDataProvider
+ * @var \prime\models\search\Project $projectSearch
  */
 
 ?>
@@ -38,6 +39,7 @@ use \app\components\Html;
     echo \kartik\grid\GridView::widget([
         'caption' => $header,
         'layout' => "{items}\n{pager}",
+        'filterModel' => $projectSearch,
         'dataProvider' => $projectsDataProvider,
         'columns' => [
             'title',
@@ -45,7 +47,47 @@ use \app\components\Html;
                 'attribute' => 'description',
                 'format' => 'raw'
             ],
-            'tool.title',
+            [
+                'attribute' => 'countriesIds',
+                'value' => 'locality',
+                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+                'filter' => $projectSearch->countriesOptions(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'placeholder' => \Yii::t('app', 'Select countries')
+                    ]
+                ]
+            ],
+            [
+                'attribute' => 'toolIds',
+                'value' => 'tool.acronym',
+                'label' => \Yii::t('app', 'Tool'),
+                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+                'filter' => $projectSearch->toolsOptions(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'placeholder' => \Yii::t('app', 'Select tools')
+                    ]
+                ]
+            ],
+            [
+                'attribute' => 'created',
+                'format' => 'date',
+                'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'locale' => [
+                            'format' => 'YYYY-MM-DD',
+                        ],
+                        'allowClear'=>true,
+                    ],
+                    'pluginEvents' => [
+                        "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
+                    ]
+                ],
+            ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
                 'template' => '{read} {update}',

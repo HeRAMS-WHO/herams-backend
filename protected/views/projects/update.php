@@ -64,6 +64,9 @@ $this->params['subMenu'] = [
                     ]
                 ]
             ],
+            'locality_name' => [
+                'type' => Form::INPUT_TEXT
+            ],
             'latitude' => [
                 'type' => Form::INPUT_TEXT
             ],

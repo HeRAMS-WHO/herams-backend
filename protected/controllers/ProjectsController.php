@@ -86,13 +86,13 @@ class ProjectsController extends Controller
      * Shows a list of project the user has access to.
      * @return string
      */
-    public function actionList(User $user)
+    public function actionList(User $user, Request $request)
     {
-        $projectsDataProvider = new ActiveDataProvider([
-            'query' => $user->identity->getProjects()
-        ]);
+        $projectSearch = new \prime\models\search\Project();
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
 
         return $this->render('list', [
+            'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider
         ]);
     }

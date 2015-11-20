@@ -26,6 +26,9 @@ use yii\validators\DateValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
+use yii\validators\RequiredValidator;
+use yii\validators\StringValidator;
+use yii\web\JsExpression;
 
 /**
  * Class Project
@@ -217,8 +220,8 @@ class Project extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'closed'], 'required'],
-            [['title', 'description'], 'string'],
+            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'closed'], RequiredValidator::class],
+            [['title', 'description', 'locality_name'], StringValidator::class],
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
@@ -226,7 +229,7 @@ class Project extends ActiveRecord
             [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
             [['latitude', 'longitude'], NumberValidator::class],
             // Save NULL instead of "" when no default report is selected.
-            [['default_generator', 'latitude', 'longitude'], DefaultValueValidator::class]
+            [['default_generator', 'latitude', 'longitude'], DefaultValueValidator::class],
         ];
     }
 
