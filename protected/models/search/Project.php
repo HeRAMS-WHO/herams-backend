@@ -110,7 +110,7 @@ class Project extends \prime\models\ar\Project
         return ArrayHelper::map(
             $this->query->copy()->orderBy(Tool::tableName() . '.title')->all(),
             'tool.id',
-            'tool.title'
+            'tool.acronym'
         );
     }
 
