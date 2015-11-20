@@ -34,7 +34,7 @@ class Projects extends MapLayer
                 'lon' => $latLong->getLongitude()->get(),
                 'id' => $project->id
             ];
-        }, Project::find()->all());
+        }, Project::find()->notClosed()->all());
     }
 
 

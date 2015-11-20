@@ -39,14 +39,16 @@ use yii\web\JsExpression;
  * @property string $title
  * @property string $description
  * @property string $default_generator
- * @property
+ * @property string $country_iso_3
+ * @property Country $country
  */
 class Project extends ActiveRecord
 {
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'default_generator' => 'Default report'
+            'default_generator' => \Yii::t('app', 'Default report'),
+            'country_iso_3' => \Yii::t('app', 'Country')
         ]);
     }
 
@@ -70,16 +72,15 @@ class Project extends ActiveRecord
         return parent::find();
     }
 
-
-    public function getCountries()
+    /**
+     * @return Country
+     */
+    public function getCountry()
     {
-        return array_map(function($projectCountry) {
-            /** @var ProjectCountry $projectCountry */
-            return $projectCountry->country;
-        }, $this->projectCountries);
+        return Country::findOne($this->country_iso_3);
     }
 
-    public function countriesOptions()
+    public function countryOptions()
     {
         $options = ArrayHelper::map(
             Country::findAll(),
@@ -102,7 +103,6 @@ class Project extends ActiveRecord
 
     /**
      * @return LatLong
-     * TODO: calculate center taking globe curves into account
      */
     public function getLatLong()
     {
@@ -110,17 +110,8 @@ class Project extends ActiveRecord
             $latitude = $this->latitude;
             $longitude = $this->longitude;
         } else {
-            $latitude = 0;
-            $longitude = 0;
-            if(count($this->countries) > 0) {
-                /** @var Country $country */
-                foreach ($this->countries as $country) {
-                    $latitude += $country->latitude;
-                    $longitude += $country->longitude;
-                }
-                $latitude = $latitude / count($this->countries);
-                $longitude = $longitude / count($this->countries);
-            }
+            $latitude = $this->country->latitude;
+            $longitude = $this->country->longitude;
         }
         return new LatLong(
             new Coordinate(rad2deg($latitude)),
@@ -129,7 +120,7 @@ class Project extends ActiveRecord
     }
 
     /**
-     * Return the name of the locality. If locality_name isn't set, return implode of countries
+     * Return the name of the locality. If locality_name isn't set, return name of the country
      * @return string
      */
     public function getLocality()
@@ -137,7 +128,7 @@ class Project extends ActiveRecord
         if(isset($this->locality_name)) {
             $result = $this->locality_name;
         } else {
-            $result = implode(', ', ArrayHelper::getColumn($this->countries, 'name'));
+            $result = $this->country->name;
         }
         return $result;
     }
@@ -152,11 +143,6 @@ class Project extends ActiveRecord
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
-    }
-
-    public function getProjectCountries()
-    {
-        return $this->hasMany(ProjectCountry::class, ['project_id' => 'id']);
     }
 
     /**
@@ -220,7 +206,7 @@ class Project extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'closed'], RequiredValidator::class],
+            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'closed', 'country_iso_3'], RequiredValidator::class],
             [['title', 'description', 'locality_name'], StringValidator::class],
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
@@ -229,7 +215,8 @@ class Project extends ActiveRecord
             [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
             [['latitude', 'longitude'], NumberValidator::class],
             // Save NULL instead of "" when no default report is selected.
-            [['default_generator', 'latitude', 'longitude'], DefaultValueValidator::class],
+            [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
+            ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
         ];
     }
 
@@ -256,33 +243,4 @@ class Project extends ActiveRecord
         }
         return $result;
     }
-
-//    public static function userCanScope(ActiveQuery $query, $operation, $userId = null)
-//    {
-//        //Select all project ids where the logged in user is owner of
-//        $ids = parent::find()->andWhere(['owner_id' => app()->user->id])->select('id')->column();
-//        //Select all project ids where the logged in user is invited to
-//        $ids2 = Permission::find()
-//            ->andWhere(
-//                [
-//                    'source' => User::class,
-//                    'source_id' => app()->user->id,
-//                    'target' => Project::class,
-//                ]
-//            )
-//            ->select('target_id');
-//        $query->andWhere([
-//            'or',
-//            [self::tableName() . '.id' => $ids],
-//            [self::tableName() . '.id' => $ids2]
-//        ]);
-//
-//        switch ($operation) {
-//            case 'administer':
-//                return $query->andWhere(['id' => User::findOne($userId ?: \Yii::$app->user->id)->customer_id]);
-//                break;
-//            default:
-//                return false;
-//        }
-//    }
 }

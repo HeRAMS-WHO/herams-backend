@@ -83,14 +83,14 @@ $this->params['subMenu'] = [
                 ],
                 'enableClientValidation' => false
             ],
-            'countriesIds' => [
+            'country_iso_3' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::class,
                 'options' => [
-                    'data' => $model->countriesOptions(),
-                    'options' => [
-                        'multiple' => true
-                    ],
+                    'data' => $model->countryOptions(),
+                    'pluginOptions' => [
+                        'placeholder' => \Yii::t('app', 'Select country')
+                    ]
                 ],
                 'hint' => \Yii::t('app', "All projects will be located in their respective countries. Set latitude and longitude only if you want this project to be specifically located at the subnational level (in a particular region or area).
 To set latitude and longitude either enter them manually (decimal degrees) or drag and drop the placemarker on the map")

@@ -22,13 +22,15 @@ class Project extends \prime\models\ar\Project
 
     public function countriesOptions()
     {
-        $result = [];
-        foreach(ArrayHelper::getColumn($this->query->copy()->asArray()->all(), 'projectCountries') as $projectCountries) {
-            foreach($projectCountries as $projectCountry) {
-                $result[$projectCountry['country_iso_3']] = Country::findOne($projectCountry['country_iso_3'])->name;
+        return ArrayHelper::map(
+            array_filter($this->query->copy()->select('country_iso_3')->distinct()->column()),
+            function($model) {
+                return $model;
+            },
+            function($model) {
+                return Country::findOne($model)->name;
             }
-        }
-        return $result;
+        );
     }
 
     public function init()
@@ -37,7 +39,7 @@ class Project extends \prime\models\ar\Project
         $this->scenario = 'search';
 
         $this->query = \prime\models\ar\Project::find()->notClosed();
-        $this->query->joinWith(['tool', 'projectCountries']);
+        $this->query->joinWith(['tool']);
     }
 
     public function rules()

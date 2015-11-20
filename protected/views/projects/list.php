@@ -50,25 +50,26 @@ use \app\components\Html;
             [
                 'attribute' => 'countriesIds',
                 'value' => 'locality',
+                'label' => \Yii::t('app', 'Country'),
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $projectSearch->countriesOptions(),
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
                         'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select countries')
+                        'placeholder' => \Yii::t('app', 'Select country')
                     ]
                 ]
             ],
             [
                 'attribute' => 'toolIds',
                 'value' => 'tool.acronym',
-                //'label' => \Yii::t('app', 'Tool'),
+                'label' => \Yii::t('app', 'Tool'),
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $projectSearch->toolsOptions(),
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
                         'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select tools')
+                        'placeholder' => \Yii::t('app', 'Select tool')
                     ]
                 ]
             ],

@@ -39,7 +39,7 @@ class Report extends \prime\models\ar\Report
         $this->scenario = 'search';
 
         $this->query = \prime\models\ar\Report::find();
-        $this->query->joinWith(['tool', 'project', 'project.projectCountries']);
+        $this->query->joinWith(['tool', 'project']);
     }
 
     public function rules()
