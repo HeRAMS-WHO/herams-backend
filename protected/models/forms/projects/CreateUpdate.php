@@ -57,8 +57,8 @@ class CreateUpdate extends Project
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator', 'countriesIds'],
-            'update' => ['title', 'description', 'default_generator', 'countriesIds'],
+            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator', 'countriesIds', 'latitude', 'longitude'],
+            'update' => ['title', 'description', 'default_generator', 'countriesIds', 'latitude', 'longitude'],
         ];
     }
 

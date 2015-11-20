@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1896c3f78fea25a147ab490a41c1edd7",
-    "content-hash": "484691661cf3b3185c3314d1ec401213",
+    "hash": "6dc4aa6ba135110a280f8d1c3e0f44eb",
+    "content-hash": "f72ac7b2157dac93a25dd3f29a2ecc1a",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -402,6 +402,22 @@
             ]
         },
         {
+            "name": "bower-asset/jquery-locationpicker-plugin",
+            "version": "0.1.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Logicify/jquery-locationpicker-plugin.git",
+                "reference": "9a79df79b7860d5efae5b94942e3e4444bf7b31f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Logicify/jquery-locationpicker-plugin/zipball/9a79df79b7860d5efae5b94942e3e4444bf7b31f",
+                "reference": "9a79df79b7860d5efae5b94942e3e4444bf7b31f",
+                "shasum": ""
+            },
+            "type": "bower-asset-library"
+        },
+        {
             "name": "bower-asset/jquery-ui",
             "version": "1.11.4",
             "source": {
@@ -648,12 +664,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dektrium/yii2-user.git",
-                "reference": "eebbce8195c5fa15eedb2a00f7248d60bff4fe93"
+                "reference": "4ba2abca7091522c458b9275842170c2700bb4e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/eebbce8195c5fa15eedb2a00f7248d60bff4fe93",
-                "reference": "eebbce8195c5fa15eedb2a00f7248d60bff4fe93",
+                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/4ba2abca7091522c458b9275842170c2700bb4e9",
+                "reference": "4ba2abca7091522c458b9275842170c2700bb4e9",
                 "shasum": ""
             },
             "require": {
@@ -703,7 +719,7 @@
                 "yii2",
                 "yii2-user"
             ],
-            "time": "2015-10-23 21:59:48"
+            "time": "2015-11-19 15:21:47"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -809,16 +825,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "0468bbba9c28c1250aca83eba9b33e32ec135f78"
+                "reference": "6ba4295298ee3abe26171b4e2078c27a2f3b35b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/0468bbba9c28c1250aca83eba9b33e32ec135f78",
-                "reference": "0468bbba9c28c1250aca83eba9b33e32ec135f78",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/6ba4295298ee3abe26171b4e2078c27a2f3b35b0",
+                "reference": "6ba4295298ee3abe26171b4e2078c27a2f3b35b0",
                 "shasum": ""
             },
             "type": "library",
@@ -853,7 +869,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2015-09-13 17:39:44"
+            "time": "2015-11-18 17:56:04"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -2571,12 +2587,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "f311914e7d98f3895c6f00293eb6885819067ae6"
+                "reference": "7c1ab6eb4cbe7c4a40903c7dafca6e86a8cc3607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f311914e7d98f3895c6f00293eb6885819067ae6",
-                "reference": "f311914e7d98f3895c6f00293eb6885819067ae6",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7c1ab6eb4cbe7c4a40903c7dafca6e86a8cc3607",
+                "reference": "7c1ab6eb4cbe7c4a40903c7dafca6e86a8cc3607",
                 "shasum": ""
             },
             "require": {
@@ -2652,7 +2668,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-18 10:32:06"
+            "time": "2015-11-19 23:26:15"
         },
         {
             "name": "yiisoft/yii2-authclient",

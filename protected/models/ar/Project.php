@@ -24,6 +24,7 @@ use Treffynnon\Navigator\LatLong;
 use yii\helpers\ArrayHelper;
 use yii\validators\DateValidator;
 use yii\validators\DefaultValueValidator;
+use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 
 /**
@@ -223,9 +224,9 @@ class Project extends ActiveRecord
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
             [['default_generator'], RangeValidator::class, 'range' => function(self $model, $attribute) {return array_keys($model->generatorOptions());}],
             [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
-
+            [['latitude', 'longitude'], NumberValidator::class],
             // Save NULL instead of "" when no default report is selected.
-            [['default_generator'], DefaultValueValidator::class]
+            [['default_generator', 'latitude', 'longitude'], DefaultValueValidator::class]
         ];
     }
 

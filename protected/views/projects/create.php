@@ -5,6 +5,7 @@ use \app\components\ActiveForm;
 use app\components\Html;
 
 /**
+ * @var \yii\web\View $this
  * @var \prime\models\ar\Project $model
  */
 
@@ -30,6 +31,8 @@ $this->params['subMenu'] = [
             'defaultPlaceholder' => false
         ]
     ]);
+
+
 
     echo \app\components\Form::widget([
         'form' => $form,
@@ -88,7 +91,44 @@ $this->params['subMenu'] = [
                     'options' => [
                         'multiple' => true
                     ],
-                ]
+                ],
+                'hint' => \Yii::t('app', 'When latitude and longitude are not set, center of countries is used as project location')
+            ],
+            'latitude' => [
+                'type' => Form::INPUT_TEXT
+            ],
+            'longitude' => [
+                'type' => Form::INPUT_TEXT
+            ],
+            'map' => [
+                'type' => Form::INPUT_RAW,
+                'value' => function(\prime\models\forms\projects\CreateUpdate $model, $index, Form $form) {
+                    $this->registerAssetBundle(\prime\assets\LocationPickerAsset::class);
+                    $this->registerJs("$('#{$form->getId()} .location-picker').locationpicker({
+                        zoom: 2,
+                        radius: false,
+                        inputBinding: {
+                            latitudeInput: $('#{$form->getId()} [name=\'" . Html::getInputName($model, 'latitude') . "\']'),
+                            longitudeInput: $('#{$form->getId()} [name=\'" . Html::getInputName($model, 'longitude') . "\']')
+                        },
+                        oninitialized: function(component) {
+                            var e = $.Event('change');
+                            e.originalEvent = true;
+                            this.inputBinding.latitudeInput.val(this.inputBinding.latitudeInput.attr('value')).trigger(e);
+                            this.inputBinding.longitudeInput.val(this.inputBinding.longitudeInput.attr('value')).trigger(e);
+                        }
+                    });
+                    ");
+                    return Html::beginTag('div', ['class' => 'form-group']) .
+                    Html::beginTag('div', ['class' => 'col-md-offset-2 col-md-10']) .
+                    Html::tag('div', '', ['style' => ['height' => '400px'], 'class' => ['form-control', 'location-picker']]) .
+                    Html::endTag('div') .
+                    Html::tag('div', '', ['class' => 'col-md-offset-2 col-md-10']) .
+                    Html::beginTag('div', ['class' => 'col-md-offset-2 col-md-10']) .
+                    Html::tag('div', '', ['class' => 'help-block']) .
+                    Html::endTag('div') .
+                    Html::endTag('div');
+                }
             ]
         ]
     ]);

@@ -51,7 +51,7 @@ $map = Highmaps::begin([
             'enabled' => false
         ],
         'tooltip' => [
-            'enabled' => false
+            'enabled' => false,
         ],
         'chart' => [
             'height' => 600,

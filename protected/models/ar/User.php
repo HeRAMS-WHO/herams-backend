@@ -90,6 +90,7 @@ class User extends \dektrium\user\models\User {
     public function scenarios()
     {
         $scenarios = parent::scenarios();
+        $scenarios['connect'] = ['email'];
         $scenarios['create'] = ['email', 'password'];
         $scenarios['register'] = ['email', 'password'];
         $scenarios['settings'] = ['email', 'password'];
