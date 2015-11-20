@@ -91,12 +91,16 @@ use \app\components\Html;
             ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
-                'template' => '{read} {update}',
+                'width' => '100px',
+                'template' => '{read} {update} {share} {close}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         $result = Html::a(
                             Html::icon('eye-open'),
-                            ['/projects/read', 'id' => $model->id]
+                            ['/projects/read', 'id' => $model->id],
+                            [
+                                'title' => \Yii::t('app', 'Read')
+                            ]
                         );
                         return $result;
                     },
@@ -106,7 +110,41 @@ use \app\components\Html;
                         if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
                             $result = Html::a(
                                 Html::icon('pencil'),
-                                ['/projects/update', 'id' => $model->id]
+                                ['/projects/update', 'id' => $model->id],
+                                [
+                                    'title' => \Yii::t('app', 'Update')
+                                ]
+                            );
+                        }
+                        return $result;
+                    },
+                    'share' => function($url, $model, $key) {
+                        $result = '';
+                        /** @var \prime\models\ar\Project $model */
+                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
+                            $result = Html::a(
+                                Html::icon('share'),
+                                ['/projects/share', 'id' => $model->id],
+                                [
+                                    'title' => \Yii::t('app', 'Share')
+                                ]
+                            );
+                        }
+                        return $result;
+                    },
+                    'close' => function($url, $model, $key) {
+                        $result = '';
+                        /** @var \prime\models\ar\Project $model */
+                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                            $result = Html::a(
+                                Html::icon('stop'),
+                                ['/projects/close', 'id' => $model->id],
+                                [
+                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
+                                    'data-method' => 'delete',
+                                    'class' => 'text-danger',
+                                    'title' => \Yii::t('app', 'Close')
+                                ]
                             );
                         }
                         return $result;

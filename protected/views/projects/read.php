@@ -15,7 +15,7 @@ $this->params['subMenu']['items'][] = [
     'url' => ['/projects/close', 'id' => $model->id],
     'options' => [
         'class' => 'icon',
-        'title' => \Yii::t('app', 'Stop'),
+        'title' => \Yii::t('app', 'Close'),
     ],
     'linkOptions' => [
         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
