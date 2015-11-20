@@ -35,7 +35,14 @@ $this->params['subMenu']['items'][] = [
 
 ];
 
-
+$this->params['subMenu']['items'][] = [
+    'label' => Html::icon('zoom-in'),
+    'url' => ['/projects/explore', 'id' => $model->id],
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Explore'),
+    ],
+];
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
         'label' => Html::icon('eye-open'),
