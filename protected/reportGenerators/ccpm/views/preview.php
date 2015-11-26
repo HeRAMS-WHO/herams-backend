@@ -8,6 +8,8 @@ use app\components\Form;
  * @var \prime\models\ar\UserData $userData
  * @var \yii\web\View $this
  * @var \prime\reportGenerators\ccpm\Generator $generator
+ * @var \prime\interfaces\ProjectInterface $project
+ * @var \prime\interfaces\SignatureInterface $signature
  */
 
 $generator = $this->context;
@@ -125,19 +127,19 @@ $generator = $this->context;
 <div class="container-fluid">
     <?=$generator->renderHeader()?>
     <div class="row">
-        <h1 class="col-xs-12">Central African Republic</h1>
+        <h1 class="col-xs-12"><?=$project->getLocality()?></h1>
     </div>
     <?php
     echo \prime\widgets\report\Columns::widget([
         'items' => [
-            'Level: National<br>Completed on: 25 July - 2014',
+            \Yii::t('ccpm', 'Level : {level}', ['level' => 'National']) . '<br>' . \Yii::t('ccpm', 'Completed on: {completedOn}', ['completedOn' => $signature->getTime()->format('d F - Y')]),
         ],
         'columnsInRow' => 2
     ]);
     ?>
     <hr>
     <div class="row">
-        <h1 style="margin-top: 300px; margin-bottom: 300px; text-align: center;">Final report</h1>
+        <h1 style="margin-top: 300px; margin-bottom: 300px; text-align: center;"><?=\Yii::t('ccpm', 'Final report')?></h1>
     </div>
 </div>
 
@@ -145,7 +147,7 @@ $generator = $this->context;
     <?=$generator->renderHeader()?>
     <div class="row">
         <div class="col-xs-12">
-        <h2>Overall response rate<span style="font-size: 0.5em; margin-left: 50px;">(Based on the number of organizations tat are part of the cluster)</span></h2>
+        <h2><?=\Yii::t('ccpm', 'Overall response rate')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations tat are part of the cluster')?></span></h2>
         </div>
     </div>
     <?=\prime\widgets\report\GraphWithNumbers::widget(['total' => 72, 'part' => 20])?>
@@ -153,12 +155,12 @@ $generator = $this->context;
     $graphWidth = 3;
     echo \prime\widgets\report\Columns::widget([
         'items' => [
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 27, 'part' => 6, 'title' => 'International NGOs', 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 30, 'part' => 11, 'title' => 'National NGOs', 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => 'UN Agencies', 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 2, 'part' => 1, 'title' => 'National Authorities', 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => 'Donors', 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 1, 'part' => 0, 'title' => 'Other', 'graphWidth' => $graphWidth]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 27, 'part' => 6, 'title' => Yii::t('ccpm', 'International NGOs'), 'graphWidth' => $graphWidth]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 30, 'part' => 11, 'title' => Yii::t('ccpm', 'National NGOs'), 'graphWidth' => $graphWidth]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => Yii::t('ccpm', 'UN Agencies'), 'graphWidth' => $graphWidth]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 2, 'part' => 1, 'title' => Yii::t('ccpm', 'National Authorities'), 'graphWidth' => $graphWidth]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => Yii::t('ccpm', 'Donors'), 'graphWidth' => $graphWidth]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 1, 'part' => 0, 'title' => Yii::t('ccpm', 'Other'), 'graphWidth' => $graphWidth]),
         ],
         'columnsInRow' => 2
     ]);
@@ -176,12 +178,12 @@ $generator = $this->context;
     $performanceStatusBlockColumns = [
         'items' => [
             [
-                'content' => 'Score<hr>> 75 %<br>51 % - 75 %<br>26 % - 50 %<br>< 26 %',
-                'width' => 5
+                'content' => \Yii::t('ccpm', 'Score') . '<hr>> 75 %<br>51 % - 75 %<br>26 % - 50 %<br>< 26 %',
+                'width' => 6
             ],
             [
-                'content' => 'Performance status<hr><span class="text-good">Good</span><br><span class="text-satisfactory">Satisfactory</span><br><span class="text-unsatisfactory">Unsatisfactory</span><br><span class="text-weak">Weak</span>',
-                'width' => 7
+                'content' => \Yii::t('Performance status') . '<hr><span class="text-good">Good</span><br><span class="text-satisfactory">Satisfactory</span><br><span class="text-unsatisfactory">Unsatisfactory</span><br><span class="text-weak">Weak</span>',
+                'width' => 6
             ]
         ],
         'columnsInRow' => 12

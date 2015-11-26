@@ -49,7 +49,9 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
         ProjectInterface $project,
         UserDataInterface $userData = null
     ) {
-        return $this->view->render('preview', ['userData' => $userData], $this);
+
+        vdd($this->getQuestionValue($responses, 'q111', 67825));
+        return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
     }
 
     /**
@@ -80,6 +82,25 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
                     foreach ($group->getQuestions() as $question) {
                         if ($question->getTitle() == $title) {
                             return $question->getText();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function getQuestionValue(ResponseCollectionInterface $responses, $title, $surveyId = null)
+    {
+        /** @var ResponseCollectionInterface $survey */
+        foreach($responses as $response) {
+            vdd($response);
+            if($survey->getId() == $surveyId) {
+                /** @var GroupInterface $group */
+                foreach ($survey->getGroups() as $group) {
+                    /** @var QuestionInterface $question */
+                    foreach ($group->getQuestions() as $question) {
+                        if ($question->getTitle() == $title) {
+                            return $question;
                         }
                     }
                 }
