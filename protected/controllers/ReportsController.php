@@ -10,7 +10,9 @@ use prime\models\ar\Project;
 use prime\models\ar\Report;
 use prime\models\ar\Tool;
 use prime\models\ar\UserData;
+use prime\objects\SurveyCollection;
 use prime\reportGenerators\Test;
+use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -37,7 +39,9 @@ class ReportsController extends Controller
     public function actionPreview(
         Request $request,
         Response $response,
-        $projectId, $reportGenerator)
+        $projectId,
+        $reportGenerator
+    )
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
@@ -65,7 +69,7 @@ class ReportsController extends Controller
 
             return $this->render('preview', [
                 'previewUrl' => Url::toRoute(['reports/render-preview', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator]),
-                'projectId' => $projectId,
+                'project' => $project,
                 'reportGenerator' => $reportGenerator
             ]);
         } else {
@@ -113,7 +117,10 @@ class ReportsController extends Controller
 
     public function actionRenderPreview(
         User $user,
-        $projectId, $reportGenerator)
+        $projectId,
+        $reportGenerator,
+        Client $limesurvey
+    )
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
@@ -122,12 +129,18 @@ class ReportsController extends Controller
             if(!isset($userData)) {
                 $userData = new UserData();
             }
-            $generator = GeneratorFactory::classes()[$reportGenerator];
             /** @var ReportGeneratorInterface $generator */
-            $generator = new $generator;
+            $generator = GeneratorFactory::get($reportGenerator);
+
+            $surveys = new SurveyCollection();
+            $surveys->append($limesurvey->getSurvey(22814, 'en'));
+            $surveys->append($limesurvey->getSurvey(67825, 'en'));
+
             return $generator->renderPreview(
                 $project->getResponses(),
+                $surveys,
                 $user->identity->createSignature(),
+                $project,
                 $userData
             );
         } else {

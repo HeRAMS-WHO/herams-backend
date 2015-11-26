@@ -6,8 +6,6 @@ use Psr\Http\Message\StreamInterface;
 
 interface ReportGeneratorInterface {
 
-    public function __construct();
-
     /**
      * Returns the title of the Report
      * @return string
@@ -16,19 +14,21 @@ interface ReportGeneratorInterface {
 
     /**
      * @param ResponseCollectionInterface $responses
+     * @param SurveyCollectionInterface $surveys
      * @param SignatureInterface $signature
+     * @param ProjectInterface $project
      * @param UserDataInterface|null $userData
      * @return string
      */
-    public function renderPreview(ResponseCollectionInterface $responses, SignatureInterface $signature, UserDataInterface $userData = null);
+    public function renderPreview(ResponseCollectionInterface $responses, SurveyCollectionInterface $surveys, SignatureInterface $signature, ProjectInterface $project, UserDataInterface $userData = null);
 
     /**
      * This function renders a report.
-     * All responses to be used are given as 1 array of Response objects.
      * @param ResponseCollectionInterface $responses
+     * @param SurveyCollectionInterface $surveys
      * @param SignatureInterface $signature
      * @param UserDataInterface|null $userData
      * @return ReportInterface
      */
-    public function render(ResponseCollectionInterface $responses, SignatureInterface $signature, UserDataInterface $userData = null);
+    public function render(ResponseCollectionInterface $responses, SurveyCollectionInterface $surveys, SignatureInterface $signature, UserDataInterface $userData = null);
 }

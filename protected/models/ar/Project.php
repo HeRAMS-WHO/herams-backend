@@ -8,6 +8,7 @@ use Befound\Components\DateTime;
 use prime\components\ActiveQuery;
 use prime\components\ActiveRecord;
 use prime\factories\GeneratorFactory;
+use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\Country;
 use prime\models\permissions\Permission;
@@ -42,7 +43,7 @@ use yii\web\JsExpression;
  * @property string $country_iso_3
  * @property Country $country
  */
-class Project extends ActiveRecord
+class Project extends ActiveRecord implements ProjectInterface
 {
     public function attributeLabels()
     {
