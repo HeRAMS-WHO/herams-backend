@@ -322,11 +322,15 @@ $scores = [
 
     <?=\prime\widgets\report\Comments::widget([
         'comments' => [
-            'General' => [
-                'pour la Croix rouge FranÃ§aise, membre du Cluster santÃ©',
-                'RAS',
-                'Nous avons constatÃ© que les projets CHF soumis par les ONG nationales n\'attirent pas l\'attention des diffÃ©rentes coordinations de clusters .Nous'
-            ]
+            \Yii::t('ccpm', 'General') => $generator->getQuestionValues($responses, [67825 => [], 22814 => ['q014']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Supporting service delivery') => $generator->getQuestionValues($responses, [67825 => ['q124'], 22814 => ['q124']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Informing strategic decision-making of the Humanitarian Coordinator/Humanitarian Country Team') => $generator->getQuestionValues($responses, [67825 => ['q232'], 22814 => ['q232']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Planning and strategy development') => $generator->getQuestionValues($responses, [67825 => ['q335'], 22814 => ['q334']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Advocacy') => $generator->getQuestionValues($responses, [67825 => ['q422'], 22814 => ['q422']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Monitoring and reporting on implementation of cluster strategy and results') => $generator->getQuestionValues($responses, [67825 => ['q57'], 22814 => ['q54']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Preparedness for recurrent disasters') => $generator->getQuestionValues($responses, [67825 => ['q66'], 22814 => ['q63']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Accountability to affected populations') => $generator->getQuestionValues($responses, [67825 => ['q73'], 22814 => ['q73']], function($value){return !empty($value);}),
+            \Yii::t('ccpm', 'Others') => $generator->getQuestionValues($responses, [67825 => ['q81'], 22814 => ['q81']], function($value){return !empty($value);})
         ]
     ])?>
 </div>

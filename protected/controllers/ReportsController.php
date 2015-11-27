@@ -144,7 +144,9 @@ class ReportsController extends Controller
             foreach($surveys as $survey) {
                 /** @var ResponseInterface $response */
                 foreach ($limesurvey->getResponses($survey->getId()) as $response) {
-                    $responses->append($response);
+                    if($response->getData()['token'] == '3zhvuud5f88hkui') {
+                        $responses->append($response);
+                    }
                 }
             }
 
