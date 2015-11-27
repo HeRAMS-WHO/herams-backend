@@ -98,7 +98,6 @@ $scores = [
     '7.1.1' => $generator->calculateScore($responses, [67825 => ['q71'], 22814 => ['q71']]),
     '7.1.2' => $generator->calculateScore($responses, [67825 => ['q72'], 22814 => ['q72']]),
 ];
-vdd($scores);
 
 ?>
 <style>
@@ -137,21 +136,40 @@ vdd($scores);
         font-size: 1.5em;
     }
 
+    .background-good, .background-satisfactory, .background-unsatisfactory, .background-weak {
+        font-weight: 600;
+    }
+
     .background-good {
-        background-color: green;
+        background-color: #1fc63c;
+        color: white;
+    }
+
+    .background-satisfactory {
+        background-color: #ffe003;
+        color: white;
+    }
+
+    .background-unsatisfactory {
+        background-color: #ff9400;
+        color: white;
+    }
+
+    .background-weak {
+        background-color: red;
         color: white;
     }
 
     .text-good {
-        color: green;
+        color: #1fc63c;
     }
 
     .text-satisfactory {
-        color: yellow;
+        color: #ffe003;
     }
 
     .text-unsatisfactory {
-        color: orange;
+        color: #ff9400;
     }
 
     .text-weak {
@@ -285,7 +303,7 @@ vdd($scores);
                 'width' => 4
             ],
             [
-                'content' => $this->render('performanceStatusTable', ['generator' => $generator, 'responses' => $responses]),
+                'content' => $this->render('performanceStatusTable', ['generator' => $generator, 'scores' => $scores]),
                 'width' => 8
             ],
         ],
@@ -294,37 +312,7 @@ vdd($scores);
     ?>
 </div>
 
-<div class="container-fluid">
-    <?=$this->render('header', ['project' => $project])?>
-
-    <!--BEGIN Only on first page of function...-->
-    <div class="row">
-        <h2 class="col-xs-12"><?=\Yii::t('ccpm', 'Performance per function and review')?></h2>
-    </div>
-    <!--END Only on first page of function...-->
-
-    <div class="row">
-        <h3 class="col-xs-12">1. Supporting service delivery</h3>
-    </div>
-    <?=\prime\widgets\report\FunctionAndReview::widget([
-        'number' => '1.1.',
-        'score' => 'good',
-        'title' => 'Provide a platform to ensure that service delivery is driven by the agreed strategic priorities',
-        'scores' => [
-            'List of partners regularly updated' => '100%',
-            'Support/engagement of cluster with national coordination mechanisms' => '75%',
-            'Regular cluster meetings organised' => '100%',
-            'Attendance of cluster partners to cluster meetings' => '100%',
-            'Level of decision making power of staff attending cluster meetings' => '100%',
-            'Conditions for optimal participation of national and international stakeholders' => '75%',
-        ],
-        'notes' => [
-            'Indicative characteristics of functions' => 'Established, relevant coordination mechanism recognising national systems, subnational and co-lead aspects; stakeholders participating regularly and effectively; cluster coordinator active in inter-cluster and related meetings.',
-            'Constraints, unexpected circumstances and/or success factors and/or good practice identified' => '',
-            'Follow-up actions, with timeline and/or support required (when status is orange or red)' => ''
-        ]
-    ])?>
-</div>
+<?=$this->render('functionsAndReview', ['generator' => $generator, 'scores' => $scores, 'project' => $project])?>
 
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>
