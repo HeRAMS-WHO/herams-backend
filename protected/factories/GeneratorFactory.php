@@ -22,7 +22,6 @@ class GeneratorFactory
     public static function classes()
     {
         return [
-            'test' => \prime\reportGenerators\test\Generator::class,
             'ccpm' => \prime\reportGenerators\ccpm\Generator::class,
             'percentage' => \prime\reportGenerators\progressPercentage\Generator::class
         ];

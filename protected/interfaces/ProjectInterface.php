@@ -8,4 +8,10 @@ interface ProjectInterface {
      * @return string
      */
     public function getLocality();
+
+    /**
+     * Return the url to the tool image
+     * @return string
+     */
+    public function getToolImagePath();
 }

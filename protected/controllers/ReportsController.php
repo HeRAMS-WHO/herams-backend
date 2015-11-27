@@ -10,8 +10,11 @@ use prime\models\ar\Project;
 use prime\models\ar\Report;
 use prime\models\ar\Tool;
 use prime\models\ar\UserData;
+use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use prime\reportGenerators\Test;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -136,8 +139,17 @@ class ReportsController extends Controller
             $surveys->append($limesurvey->getSurvey(22814, 'en'));
             $surveys->append($limesurvey->getSurvey(67825, 'en'));
 
+            $responses = new ResponseCollection();
+            /** @var SurveyInterface $survey */
+            foreach($surveys as $survey) {
+                /** @var ResponseInterface $response */
+                foreach ($limesurvey->getResponses($survey->getId()) as $response) {
+                    $responses->append($response);
+                }
+            }
+
             return $generator->renderPreview(
-                $project->getResponses(),
+                $responses,
                 $surveys,
                 $user->identity->createSignature(),
                 $project,

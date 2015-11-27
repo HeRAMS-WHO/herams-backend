@@ -27,8 +27,9 @@ interface ReportGeneratorInterface {
      * @param ResponseCollectionInterface $responses
      * @param SurveyCollectionInterface $surveys
      * @param SignatureInterface $signature
+     * @param ProjectInterface $project
      * @param UserDataInterface|null $userData
      * @return ReportInterface
      */
-    public function render(ResponseCollectionInterface $responses, SurveyCollectionInterface $surveys, SignatureInterface $signature, UserDataInterface $userData = null);
+    public function render(ResponseCollectionInterface $responses, SurveyCollectionInterface $surveys, SignatureInterface $signature, ProjectInterface $project, UserDataInterface $userData = null);
 }

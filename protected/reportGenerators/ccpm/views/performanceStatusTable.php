@@ -4,6 +4,8 @@ use app\components\Html;
 
 /**
  * @var \yii\web\View $this
+ * @var \prime\reportGenerators\ccpm\Generator $generator
+ * @var \prime\interfaces\ResponseCollectionInterface $responses
  */
 
 ?>
@@ -51,7 +53,7 @@ use app\components\Html;
             [
                 'cells' => [
                     '1.',
-                    'Supporting service delivery',
+                    \Yii::t('ccpm', 'Supporting service delivery'),
                     ''
                 ],
                 'options' => [
@@ -61,8 +63,8 @@ use app\components\Html;
             [
                 'cells' => [
                     '1.1',
-                    'Provide a platform to ensure that service delivery is driven by the agreed strategic priorities',
-                    '<span class="background-good">Good</span>'
+                    \Yii::t('ccpm', 'Provide a platform to ensure that service delivery is driven by the agreed strategic priorities'),
+                    '<span class="background-">Good</span>'
                 ]
             ]
         ],
