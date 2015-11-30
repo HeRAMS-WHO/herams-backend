@@ -15,6 +15,7 @@ use prime\models\ar\UserData;
 use prime\objects\Signature;
 
 use Psr\Http\Message\StreamInterface;
+use yii\validators\ExistValidator;
 
 /**
  * Class Report
@@ -47,6 +48,11 @@ class Report extends ActiveRecord implements ReportInterface
         );
     }
 
+    public function getFile()
+    {
+        return $this->hasOne(File::class, ['id' => 'file_id']);
+    }
+
     /**
      * Required by ReportInterface
      * @return string
@@ -62,7 +68,7 @@ class Report extends ActiveRecord implements ReportInterface
      */
     public function getMimeType()
     {
-        return $this->mime_type;
+        return $this->file->mime_type;
     }
 
     /**
@@ -93,7 +99,7 @@ class Report extends ActiveRecord implements ReportInterface
      */
     public function getStream()
     {
-        return \GuzzleHttp\Psr7\stream_for($this->data);
+        return \GuzzleHttp\Psr7\stream_for($this->file->data);
     }
 
 
@@ -128,15 +134,23 @@ class Report extends ActiveRecord implements ReportInterface
     public function rules()
     {
         return [
-            [['data', 'mime_type', 'email', 'user_id', 'name', 'time', 'published', 'user_data', 'project_id', 'generator', 'title'], 'required']
+            [['email', 'user_id', 'name', 'time', 'published', 'user_data', 'project_id', 'generator', 'title', 'file_id'], 'required'],
+            [['file_id'], ExistValidator::class, 'targetClass' => File::class, 'targetAttribute' => 'id']
         ];
     }
 
     public static function saveReport(ReportInterface $report, $projectId, $generator)
     {
-        $report = new self([
-            'data' => $report->getStream(),
+        $transaction = app()->db->beginTransaction();
+
+        $file = new File([
             'mime_type' => $report->getMimeType(),
+            'data' => $report->getStream()
+        ]);
+
+        $save = $file->save();
+
+        $report = new self([
             'email' => $report->getSignature()->getEmail(),
             'user_id' => $report->getSignature()->getId(),
             'name' => $report->getSignature()->getName(),
@@ -145,12 +159,15 @@ class Report extends ActiveRecord implements ReportInterface
             'user_data' => $report->getUserData()->getData(),
             'project_id' => $projectId,
             'generator' => $generator,
-            'title' => $report->getTitle()
+            'title' => $report->getTitle(),
+            'file_id' => $file->id
         ]);
 
-        if($report->save()) {
+        if($save && $report->save()) {
+            $transaction->commit();
             return $report;
         } else {
+            $transaction->rollBack();
             return null;
         }
     }

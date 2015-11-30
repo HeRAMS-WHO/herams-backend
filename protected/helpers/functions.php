@@ -56,3 +56,23 @@ function vddSql(\yii\db\Query $query, $mesage = '', $depth = 10, $highlight = tr
     vdSql($query, $depth, $highlight);
     die($mesage);
 }
+
+function median($array)
+{
+    if(!is_array($array)) {
+        throw new \Exception("Array should be an array");
+    }
+
+    rsort($array);
+    $middle = round(count($array) / 2);
+    return $array[$middle - 1];
+}
+
+function average($array)
+{
+    if(!is_array($array)) {
+        throw new \Exception("Array should be an array");
+    }
+
+    return array_sum($array) / count($array);
+}

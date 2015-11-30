@@ -8,7 +8,10 @@ use Befound\Components\DateTime;
 use prime\components\ActiveQuery;
 use prime\components\ActiveRecord;
 use prime\factories\GeneratorFactory;
+use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
+use prime\interfaces\ResponseCollectionInterface;
+use prime\interfaces\SurveyCollectionInterface;
 use prime\models\Country;
 use prime\models\permissions\Permission;
 use prime\models\ar\ProjectCountry;
@@ -18,10 +21,12 @@ use prime\models\ar\User;
 use prime\models\ar\UserData;
 use prime\models\Widget;
 use prime\objects\ResponseCollection;
+use prime\objects\SurveyCollection;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
@@ -42,7 +47,7 @@ use yii\web\JsExpression;
  * @property string $country_iso_3
  * @property Country $country
  */
-class Project extends ActiveRecord
+class Project extends ActiveRecord implements ProjectInterface
 {
     public function attributeLabels()
     {
@@ -159,7 +164,7 @@ class Project extends ActiveRecord
     {
         /** @var ReportGeneratorInterface $generator */
         $generator = GeneratorFactory::get($this->tool->progress_type);
-        return $generator->render($this->getResponses(), app()->user->identity->createSignature());
+        return $generator->render($this->getResponses(), $this->getSurvey(), app()->user->identity->createSignature(), $this);
     }
 
     /**
@@ -171,16 +176,35 @@ class Project extends ActiveRecord
     }
 
     /**
-     * @return ResponseCollection
+     * @return ResponseCollectionInterface
+     * TODO: Implement correct function
      */
     public function getResponses()
     {
         return new ResponseCollection();
     }
 
+    /**
+     * @return SurveyCollectionInterface
+     * TODO: Implement correct function
+     */
+    public function getSurvey()
+    {
+        $surveys = new SurveyCollection();
+        return $surveys;
+    }
+
     public function getTool()
     {
         return $this->hasOne(Tool::class, ['id' => 'tool_id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getToolImagePath()
+    {
+        return app()->urlManager->createAbsoluteUrl($this->tool->imageUrl);
     }
 
     /**

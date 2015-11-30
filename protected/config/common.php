@@ -57,6 +57,14 @@ return [
             'class' => \yii\web\User::class,
             'identityClass' => \prime\models\ar\User::class
         ],
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => \yii\i18n\DbMessageSource::class
+                ]
+            ]
+        ]
+
     ],
     'modules' => [
         'user' => [

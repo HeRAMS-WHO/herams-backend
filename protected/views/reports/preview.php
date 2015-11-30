@@ -6,7 +6,7 @@ use app\components\Html;
  * @var string $previewUrl
  * @var \yii\web\View $this
  * @var string $reportGenerator
- * @var int $projectId
+ * @var \prime\models\ar\Project $project
  */
 
 $this->params['subMenu']['items'] = [
@@ -26,7 +26,7 @@ $this->params['subMenu']['items'] = [
         'url' => [
             'reports/publish',
             'reportGenerator' => $reportGenerator,
-            'projectId' => $projectId
+            'projectId' => $project->id
         ],
         'linkOptions' => [
             'id' => 'publish_preview',

@@ -55,12 +55,12 @@ class Country extends Model
 
     public function getProjects()
     {
-        return Project::find()->joinWith('projectCountries')->andWhere([ProjectCountry::tableName() . '.country_iso_3' => $this->iso_3]);
+        return Project::find()->andWhere([Project::tableName() . '.country_iso_3' => $this->iso_3]);
     }
 
     public function getReports()
     {
-        $result = Report::find()->joinWith(['project', 'project.projectCountries'])->andWhere([ProjectCountry::tableName() . '.country_iso_3' => $this->iso_3]);
+        $result = Report::find()->joinWith(['project'])->andWhere([Project::tableName() . '.country_iso_3' => $this->iso_3]);
         $result->multiple = true;
         return $result;
     }
