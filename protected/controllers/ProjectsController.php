@@ -5,11 +5,14 @@ namespace prime\controllers;
 use app\components\Html;
 use Befound\Components\DateTime;
 use prime\components\Controller;
+use prime\models\Country;
 use prime\models\forms\projects\CreateUpdate;
 use prime\models\forms\projects\Share;
+use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
+use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
@@ -46,13 +49,56 @@ class ProjectsController extends Controller
         }
     }
 
-    public function actionCreate(Request $request, Session $session)
+    public function actionConfigure(Client $limesurvey, $id)
+    {
+        /** @var Project $model */
+        $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
+        $ad = $limesurvey->getSurveyProperties($model->data_survey_eid, [
+            'attributedescriptions'
+        ])['attributedescriptions'];
+
+        // Always attempt creation.
+        $limesurvey->createToken($model->data_survey_eid, ['token' => $model->token]);
+        $data = $limesurvey->getToken($model->data_survey_eid, $model->token);
+        // Try json_decode first.
+        if (null === $descriptions = json_decode($ad, true)) {
+            $descriptions = unserialize($ad);
+        }
+        $token = new Token();
+        $token->loadAttributesFromDescriptions($descriptions);
+        $token->setAttributes($data, false);
+        foreach([
+            'firstname' => $model->getLocality(),
+            'lastname' => $model->owner->lastName,
+            'Country' => $model->getCountry()->name,
+            'SubNational' => $model->getLocality(),
+            'validfrom' => $model->created
+
+        ] as $attribute => $value) {
+            if ($token->canSetProperty($attribute)) {
+                $token->$attribute = $value;
+            }
+
+        }
+
+        foreach(ArrayHelper::getColumn($descriptions, 'description') as $description) {
+//            vdd($mode)
+        }
+
+//        $this->render('configure')
+        vd($token->attributes);
+        vdd($descriptions);
+    }
+
+    public function actionCreate(Request $request, Session $session, Client $limesurvey)
     {
         $model = new CreateUpdate();
         $model->scenario = 'create';
 
         if ($request->isPost) {
-            if($model->load($request->bodyParams) && $model->save()) {
+            if($model->load($request->bodyParams) && $model->validate()) {
+
+
                 $session->setFlash(
                     'projectCreated',
                     [
@@ -61,6 +107,18 @@ class ProjectsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
+
+                $ad = $limesurvey->getSurveyProperties($model->data_survey_eid, [
+                    'attributedescriptions'
+                ])['attributedescriptions'];
+
+                // Try json_decode first.
+                if (null === $descriptions = json_decode($ad, true)) {
+                    $descriptions = unserialize($ad);
+                }
+                if (!empty($descriptions)) {
+                    return $this->redirect(['projects/configure', 'id' => $model->id]);
+                }
                 return $this->redirect(['projects/read', 'id' => $model->id]);
             }
         }

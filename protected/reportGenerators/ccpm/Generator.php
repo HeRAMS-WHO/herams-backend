@@ -48,8 +48,8 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
     public function renderPreview(
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
-        SignatureInterface $signature,
         ProjectInterface $project,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
         //vdd($this->mapStatus($this->map04(median($this->getQuestionValues($responses, [67825 => ['q112'], 22814 => ['q111']], [$this, 'rangeValidator04'])))));
@@ -69,8 +69,8 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
     public function render(
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
-        SignatureInterface $signature,
         ProjectInterface $project,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
         return new Report($responses, $userData, $signature, $this, $project);

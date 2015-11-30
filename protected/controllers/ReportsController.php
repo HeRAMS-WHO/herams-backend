@@ -126,8 +126,8 @@ class ReportsController extends Controller
             $report = $generator->render(
                 $responses,
                 $surveys,
-                $user->identity->createSignature(),
                 $project,
+                $user->identity->createSignature(),
                 $userData
             );
 
@@ -177,8 +177,8 @@ class ReportsController extends Controller
             return $generator->renderPreview(
                 $responses,
                 $surveys,
-                $user->identity->createSignature(),
                 $project,
+                $user->identity->createSignature(),
                 $userData
             );
         } else {
@@ -227,8 +227,8 @@ class ReportsController extends Controller
                     $report = $generator->render(
                         $responses,
                         $surveys,
-                        $user->identity->createSignature(),
                         $project,
+                        $user->identity->createSignature(),
                         $userData
                     ),
                     $projectId,

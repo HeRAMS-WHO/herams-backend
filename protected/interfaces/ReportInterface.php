@@ -19,7 +19,7 @@ interface ReportInterface {
 
     /**
      * Returns all the data that the user entered to "sign" the report when publishing.
-     * @return SignatureInterface
+     * @return SignatureInterface|null
      */
     public function getSignature();
 

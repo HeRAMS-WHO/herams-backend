@@ -164,7 +164,7 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         /** @var ReportGeneratorInterface $generator */
         $generator = GeneratorFactory::get($this->tool->progress_type);
-        return $generator->render($this->getResponses(), $this->getSurvey(), app()->user->identity->createSignature(), $this);
+        return $generator->render($this->getResponses(), $this->getSurvey(), $this, app()->user->identity->createSignature());
     }
 
     /**

@@ -34,11 +34,11 @@ class Generator extends Component implements ReportGeneratorInterface
     public function renderPreview(
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
-        SignatureInterface $signature,
         ProjectInterface $project,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
-        return $this->render($responses, $surveys, $signature, $project, $userData);
+        return $this->render($responses, $surveys, $project, $signature, $userData);
     }
 
     /**
@@ -53,8 +53,8 @@ class Generator extends Component implements ReportGeneratorInterface
     public function render(
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
-        SignatureInterface $signature,
         ProjectInterface $project,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
         return new Report($responses, $signature, $userData);

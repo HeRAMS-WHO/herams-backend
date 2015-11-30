@@ -3,6 +3,7 @@
 namespace prime\controllers;
 
 use prime\components\Controller;
+use prime\factories\GeneratorFactory;
 use prime\models\permissions\Permission;
 use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
@@ -65,11 +66,12 @@ class ToolsController extends Controller
     {
         $response->format = Response::FORMAT_JSON;
         $generators = [];
+        $options = GeneratorFactory::options();
         foreach(Tool::findAll($depdrop_parents) as $tool) {
-            foreach ($tool->generators as $key => $value) {
+            foreach ($tool->generators as $value) {
                 $generators[] = [
-                    'id' => $key,
-                    'name' => $value
+                    'id' => $value,
+                    'name' => $options[$value]
                 ];
 
             }

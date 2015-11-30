@@ -63,7 +63,8 @@
         ]
     },
     "require-dev": {
-        "yiisoft/yii2-debug" : "*"
+        "yiisoft/yii2-debug" : "*",
+        "codeception/codeception": "^2.1"
     },
     "extra": {
         "asset-installer-paths": {

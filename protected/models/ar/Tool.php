@@ -21,7 +21,6 @@ use yii\validators\SafeValidator;
  * @package prime\models
  *
  * @property string $imageUrl
- * @property Widget progressWidget
  * @property int $base_survey_eid
  * @property int $intake_survey_eid
  * @property Map $generators
