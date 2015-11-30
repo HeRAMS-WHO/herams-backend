@@ -9,13 +9,13 @@ use prime\objects\Signature;
  * Class User
  * @package prime\models
  * @property Profile $profile
- * @property string firstName
- * @property string lastName
- * @property string organization
- * @property string office
- * @property string country
- * @property string gravatarUrl
- * @property string name
+ * @property string $firstName
+ * @property string $lastName
+ * @property string $organization
+ * @property string $office
+ * @property string $country
+ * @property string $gravatarUrl
+ * @property string $name
  */
 class User extends \dektrium\user\models\User {
 
@@ -35,16 +35,24 @@ class User extends \dektrium\user\models\User {
         return "http://gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size;
     }
 
+    public function getFirstName()
+    {
+        return isset($this->profile) ? $this->profile->first_name : null;
+    }
+
+    public function getLastName() {
+        return isset($this->profile) ? $this->profile->last_name : null;
+    }
     public function getName()
     {
-        if(!isset($this->profile) || (empty($this->firstName) && empty($this->lastName))) {
+        if(!isset($this->profile)) {
             return $this->email;
         } else {
             return implode(
                 ' ',
                 [
-                    $this->profile->first_name,
-                    $this->profile->last_name,
+                    $this->firstName,
+                    $this->lastName,
                     '(' . $this->email . ')'
                 ]
             );

@@ -37,7 +37,7 @@ function vd($arg, $depth = 10, $highlight = true) {
 }
 
 function vdd($var, $message = '', $depth = 10, $highlight = true) {
-    vd($var, $depth = 10, $highlight = true);
+    vd($var, $depth, $highlight = true);
     die($message);
 }
 

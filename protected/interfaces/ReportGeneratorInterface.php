@@ -20,15 +20,15 @@ interface ReportGeneratorInterface {
      * @param UserDataInterface|null $userData
      * @return string
      */
-    public function renderPreview(ResponseCollectionInterface $responses, SignatureInterface $signature, UserDataInterface $userData = null);
+    public function renderPreview(ResponseCollectionInterface $responses, SignatureInterface $signature = null, UserDataInterface $userData = null);
 
     /**
      * This function renders a report.
      * All responses to be used are given as 1 array of Response objects.
      * @param ResponseCollectionInterface $responses
-     * @param SignatureInterface $signature
+     * @param SignatureInterface $signature The signature to apply, null if a signature is not available or does not need to be applied.
      * @param UserDataInterface|null $userData
      * @return ReportInterface
      */
-    public function render(ResponseCollectionInterface $responses, SignatureInterface $signature, UserDataInterface $userData = null);
+    public function render(ResponseCollectionInterface $responses, SignatureInterface $signature = null, UserDataInterface $userData = null);
 }

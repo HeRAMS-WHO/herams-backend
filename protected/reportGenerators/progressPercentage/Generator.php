@@ -30,7 +30,7 @@ class Generator extends Component implements ReportGeneratorInterface
      */
     public function renderPreview(
         ResponseCollectionInterface $responses,
-        SignatureInterface $signature,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
         return $this->render($responses, $signature, $userData);
@@ -46,7 +46,7 @@ class Generator extends Component implements ReportGeneratorInterface
      */
     public function render(
         ResponseCollectionInterface $responseCollection,
-        SignatureInterface $signature,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
         return new Report($responseCollection, $signature, $userData);

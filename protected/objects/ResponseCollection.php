@@ -11,7 +11,8 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 /**
  * Class ResponseCollection
  * @package prime\objects
- * @method ResponseInterface get($key)
+ * @method ResponseInterface get($key);
+ * @method append(ResponseInterface $object);
  */
 class ResponseCollection extends Collection implements ResponseCollectionInterface
 {
