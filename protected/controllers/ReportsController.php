@@ -89,7 +89,10 @@ class ReportsController extends Controller
     public function actionRenderFinal(
         User $user,
         Response $response,
-        $projectId, $reportGenerator)
+        $projectId,
+        $reportGenerator,
+        Client $limesurvey
+    )
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
@@ -98,13 +101,33 @@ class ReportsController extends Controller
             if(!isset($userData)) {
                 $userData = new UserData();
             }
-            $generator = GeneratorFactory::classes()[$reportGenerator];
             /** @var ReportGeneratorInterface $generator */
-            $generator = new $generator;
+            $generator = GeneratorFactory::get($reportGenerator);
+
+            //TODO: UPDATE TO CORRECT SURVEYS AND RESPONSES
+            //BEGIN
+            $surveys = new SurveyCollection();
+            $surveys->append($limesurvey->getSurvey(22814, 'en'));
+            $surveys->append($limesurvey->getSurvey(67825, 'en'));
+
+            $responses = new ResponseCollection();
+            /** @var SurveyInterface $survey */
+            foreach($surveys as $survey) {
+                /** @var ResponseInterface $response */
+                foreach ($limesurvey->getResponses($survey->getId()) as $sResponse) {
+                    if($sResponse->getData()['token'] == '3zhvuud5f88hkui') {
+                        $responses->append($sResponse);
+                    }
+                }
+            }
+            //END
+
             /** @var ReportInterface $report */
             $report = $generator->render(
-                $project->getResponses(),
+                $responses,
+                $surveys,
                 $user->identity->createSignature(),
+                $project,
                 $userData
             );
 
@@ -133,6 +156,8 @@ class ReportsController extends Controller
             /** @var ReportGeneratorInterface $generator */
             $generator = GeneratorFactory::get($reportGenerator);
 
+            //TODO: UPDATE TO CORRECT SURVEYS AND RESPONSES
+            //BEGIN
             $surveys = new SurveyCollection();
             $surveys->append($limesurvey->getSurvey(22814, 'en'));
             $surveys->append($limesurvey->getSurvey(67825, 'en'));
@@ -147,6 +172,7 @@ class ReportsController extends Controller
                     }
                 }
             }
+            //END
 
             return $generator->renderPreview(
                 $responses,
@@ -164,7 +190,10 @@ class ReportsController extends Controller
         User $user,
         Session $session,
         Request $request,
-        $projectId, $reportGenerator)
+        $projectId,
+        $reportGenerator,
+        Client $limesurvey
+    )
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
@@ -174,13 +203,32 @@ class ReportsController extends Controller
                 if (!isset($userData)) {
                     $userData = new UserData();
                 }
-                $generator = GeneratorFactory::classes()[$reportGenerator];
                 /** @var ReportGeneratorInterface $generator */
-                $generator = new $generator;
+                $generator = GeneratorFactory::get($reportGenerator);
+
+                //TODO: UPDATE TO CORRECT SURVEYS AND RESPONSES
+                //BEGIN
+                $surveys = new SurveyCollection();
+                $surveys->append($limesurvey->getSurvey(22814, 'en'));
+                $surveys->append($limesurvey->getSurvey(67825, 'en'));
+
+                $responses = new ResponseCollection();
+                /** @var SurveyInterface $survey */
+                foreach($surveys as $survey) {
+                    /** @var ResponseInterface $response */
+                    foreach ($limesurvey->getResponses($survey->getId()) as $response) {
+                        if($response->getData()['token'] == '3zhvuud5f88hkui') {
+                            $responses->append($response);
+                        }
+                    }
+                }
+                //END
                 $report = Report::saveReport(
-                    $generator->render(
-                        $project->getResponses(),
+                    $report = $generator->render(
+                        $responses,
+                        $surveys,
                         $user->identity->createSignature(),
+                        $project,
                         $userData
                     ),
                     $projectId,

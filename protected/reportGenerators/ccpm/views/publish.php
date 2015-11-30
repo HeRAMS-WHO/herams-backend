@@ -1,28 +1,20 @@
 <?php
-use yii\helpers\ArrayHelper;
-?>
-<table>
-    <tr>
-        <td>Title</td>
-        <td><?=ArrayHelper::getValue($userData->getData(), 'test.title')?></td>
-    </tr>
-    <tr>
-        <td>Description</td>
-        <td><?=ArrayHelper::getValue($userData->getData(), 'test.description')?></td>
-    </tr>
-    <tr>
-        <td>Chosen options</td>
-        <td><ul>
-        <?php foreach(ArrayHelper::getValue($userData->getData(), 'test.options', []) as $option) {
-            echo '<li>' . $option . '</li>';
-        } ?>
-        </ul></td>
-    </tr>
-</table>
 
-<table>
-    <tr>
-        <td>User</td>
-        <td><?=$signature->getName()?></td>
-    </tr>
-</table>
+/**
+ * @var \yii\web\View $this
+ */
+
+//vdd($userData);
+
+$report = $this->render('preview', [
+    'userData' => $userData,
+    'signature' => $signature,
+    'responses' => $responses,
+    'project' => $project
+]);
+
+foreach($userData->data as $key => $value) {
+    $report = str_replace('<textarea name="' . $key . '"></textarea>', $value, $report);
+}
+
+echo $report;

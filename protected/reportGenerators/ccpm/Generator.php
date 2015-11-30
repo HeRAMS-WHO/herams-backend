@@ -73,7 +73,7 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
         ProjectInterface $project,
         UserDataInterface $userData = null
     ) {
-        return new Report($responses, $userData, $signature);
+        return new Report($responses, $userData, $signature, $this, $project);
     }
 
     public function getQuestionText(SurveyCollectionInterface $surveys, $title, $surveyId)

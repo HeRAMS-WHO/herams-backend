@@ -2,6 +2,7 @@
 
 namespace prime\reportGenerators\ccpm;
 
+use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
@@ -11,14 +12,20 @@ use yii\base\Component;
 
 class Report extends Component implements ReportInterface
 {
+    protected $responses;
     protected $userData;
     protected $signature;
+    protected $generator;
+    protected $project;
 
-    public function __construct(ResponseCollectionInterface $responseCollection, UserDataInterface $userData, SignatureInterface $signature)
+    public function __construct(ResponseCollectionInterface $responses, UserDataInterface $userData, SignatureInterface $signature, Generator $generator, ProjectInterface $project)
     {
         parent::__construct();
         $this->userData = $userData;
         $this->signature = $signature;
+        $this->generator = $generator;
+        $this->responses = $responses;
+        $this->project = $project;
     }
 
     public function getGenerator()
@@ -50,7 +57,12 @@ class Report extends Component implements ReportInterface
      */
     public function getStream()
     {
-        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('@app/reportGenerators/ccpm/views/publish', ['userData' => $this->userData, 'signature' => $this->getSignature()]));
+        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('publish', [
+            'userData' => $this->userData,
+            'signature' => $this->getSignature(),
+            'responses' => $this->responses,
+            'project' => $this->project
+        ], $this->generator));
     }
 
     /**
@@ -68,7 +80,7 @@ class Report extends Component implements ReportInterface
      */
     public function getTitle()
     {
-        return $this->userData->data['test']['title'];
+        return 'CCPM';
     }
 
 

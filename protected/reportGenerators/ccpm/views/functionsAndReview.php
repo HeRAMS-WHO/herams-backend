@@ -1,3 +1,9 @@
+<?php
+
+use app\components\Html;
+
+?>
+
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>
 
@@ -32,8 +38,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Established, relevant coordination mechanism recognising national systems, subnational and co-lead aspects; stakeholders participating regularly and effectively; cluster coordinator active in inter-cluster and related meetings.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_1_1_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_1_1_3')
         ]
     ])?>
 </div>
@@ -53,8 +59,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Cluster partner engagement in dynamic mapping of presence and capacity (4W); information sharing across clusters in line with joint Strategic Objectives.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_1_2_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_1_2_3')
         ]
     ])?>
 </div>
@@ -77,8 +83,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Use of assessment tools in accordance with agreed minimum standards, individual assessment / survey results shared and/or carried out jointly as appropriate.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_2_1_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_2_1_3')
         ]
     ])?>
 </div>
@@ -108,8 +114,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Joint analysis for current and anticipated risks, needs, gaps and constraints; cross cutting issues addressed from outset.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_2_2_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_2_2_3')
         ]
     ])?>
 </div>
@@ -126,8 +132,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Joint analysis supporting response planning and prioritisation in short and medium term.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_2_3_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_2_3_3')
         ]
     ])?>
 </div>
@@ -162,8 +168,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Strategic plan based on identified priorities, shows synergies with other sectors against strategic objectives, addresses cross cutting issues, incorporates exit strategy discussion and is developed jointly with partners. Plan is updated regularly and guides response.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_3_1_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_3_1_3')
         ]
     ])?>
 </div>
@@ -181,8 +187,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Use of existing national standards and guidelines where possible. Standards and guidance are agreed to, adhered to and reported against.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_3_2_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_3_2_3')
         ]
     ])?>
 </div>
@@ -202,8 +208,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Funding requirements determined with partners, allocation under jointly agreed criteria and prioritisation, status tracked and information shared.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_3_3_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_3_3_3')
         ]
     ])?>
 </div>
@@ -224,8 +230,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Concerns for advocacy identified with partners, including gaps, access, resource needs.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_4_1_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_4_1_3')
         ]
     ])?>
 </div>
@@ -242,8 +248,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Common advocacy campaign agreed and delivered across partners.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_4_2_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_4_2_3')
         ]
     ])?>
 </div>
@@ -269,8 +275,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Use of monitoring tools in accordance with agreed minimum standards, regular report sharing, progress mapped against agreed strategic plan, any necessary corrections identified.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_5_1_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_5_1_3')
         ]
     ])?>
 </div>
@@ -295,8 +301,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'National contingency plans identified and shared; risk assessment and analysis carried out, multisectoral where appropriate; readiness status enhanced; regular distribution of early warning reports.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_6_1_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_6_1_3')
         ]
     ])?>
 </div>
@@ -318,8 +324,8 @@
         ],
         'notes' => [
             \Yii::t('ccpm', 'Indicative characteristics of functions') => \Yii::t('ccpm', 'Accountability to affected population; agencies have investigated and, as appropriate, acted upon feedback received about the assistance provided.'),
-            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => '',
-            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => ''
+            \Yii::t('ccpm', 'Constraints, unexpected circumstances and/or success factors and/or good practice identified') => Html::textarea('functions_7_1_2'),
+            \Yii::t('ccpm', 'Follow-up actions, with timeline and/or support required (when status is orange or red)') => Html::textarea('functions_7_1_3')
         ]
     ])?>
 </div>

@@ -13,7 +13,7 @@ $chart = \miloschuman\highcharts\Highcharts::widget([
     'options' => [
         'chart' => [
             'type' => 'pie',
-            'backgroundColor' => 'transparent',
+            'backgroundColor' => 'transparent'
         ],
         'title' => [
             false
@@ -32,7 +32,8 @@ $chart = \miloschuman\highcharts\Highcharts::widget([
                 ],
                 'dataLabels' => [
                     'enabled' => false
-                ]
+                ],
+                'animation' => false
             ]
         ],
         'credits' => ['enabled' => false],

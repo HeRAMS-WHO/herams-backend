@@ -124,6 +124,14 @@ $this->beginContent('@app/views/layouts/report.php');
         font-weight: 900;
     }
 
+    .header {
+        background-image: url(data:image/jpg;base64,<?=base64_encode(file_get_contents($project->getToolImagePath()))?>);
+        background-position: right;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 70px;
+    }
+
     body {
         font-family: "Open Sans";
         color: #666;
@@ -223,8 +231,10 @@ $this->beginContent('@app/views/layouts/report.php');
         }
     }
 
-    .container-fluid:before {
-        content: ;
+    textarea {
+        width: 100%;
+        height: 80px;
+        border: 2px solid red;
     }
 </style>
 
