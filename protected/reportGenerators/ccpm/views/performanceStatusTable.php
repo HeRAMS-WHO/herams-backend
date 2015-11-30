@@ -30,6 +30,8 @@ use app\components\Html;
 
     .pst .pst-header > td{
         border-bottom: 1px solid;
+        padding-bottom: 1px;
+        vertical-align: bottom;
     }
 
     .pst tr td:first-child {
@@ -185,6 +187,9 @@ use app\components\Html;
                     '7',
                     \Yii::t('ccpm', 'Accountability to affected populations'),
                     "<span class='background-{$generator->mapStatus($scores['7'])}'>" . ucfirst($generator->mapStatus($scores['7'])) . "</span>"
+                ],
+                'options' => [
+                    'class' => ['pst-header']
                 ]
             ],
         ],

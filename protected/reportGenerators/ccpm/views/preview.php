@@ -99,6 +99,7 @@ $scores = [
     '7.1.2' => $generator->calculateScore($responses, [67825 => ['q72'], 22814 => ['q72']]),
 ];
 
+$this->beginContent('@app/views/layouts/report.php');
 ?>
 <style>
     <?=file_get_contents(__DIR__ . '/../assets/css/grid.css')?>
@@ -225,7 +226,6 @@ $scores = [
     .container-fluid:before {
         content: ;
     }
-
 </style>
 
 <div class="container-fluid">
@@ -254,17 +254,17 @@ $scores = [
         <h2><?=\Yii::t('ccpm', 'Overall response rate')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations tat are part of the cluster')?></span></h2>
         </div>
     </div>
-    <?=\prime\widgets\report\GraphWithNumbers::widget(['total' => 72, 'part' => 20])?>
+    <?=\prime\widgets\report\GraphWithNumbers::widget(['total' => 72, 'part' => 20, 'view' => $this])?>
     <?php
     $graphWidth = 3;
     echo \prime\widgets\report\Columns::widget([
         'items' => [
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 27, 'part' => 6, 'title' => Yii::t('ccpm', 'International NGOs'), 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 30, 'part' => 11, 'title' => Yii::t('ccpm', 'National NGOs'), 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => Yii::t('ccpm', 'UN Agencies'), 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 2, 'part' => 1, 'title' => Yii::t('ccpm', 'National Authorities'), 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => Yii::t('ccpm', 'Donors'), 'graphWidth' => $graphWidth]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => 1, 'part' => 0, 'title' => Yii::t('ccpm', 'Other'), 'graphWidth' => $graphWidth]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 27, 'part' => 6, 'title' => Yii::t('ccpm', 'International NGOs'), 'graphWidth' => $graphWidth, 'view' => $this]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 30, 'part' => 11, 'title' => Yii::t('ccpm', 'National NGOs'), 'graphWidth' => $graphWidth, 'view' => $this]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => Yii::t('ccpm', 'UN Agencies'), 'graphWidth' => $graphWidth, 'view' => $this]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 2, 'part' => 1, 'title' => Yii::t('ccpm', 'National Authorities'), 'graphWidth' => $graphWidth, 'view' => $this]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 6, 'part' => 1, 'title' => Yii::t('ccpm', 'Donors'), 'graphWidth' => $graphWidth, 'view' => $this]),
+            \prime\widgets\report\GraphWithNumbers::widget(['total' => 1, 'part' => 0, 'title' => Yii::t('ccpm', 'Other'), 'graphWidth' => $graphWidth, 'view' => $this]),
         ],
         'columnsInRow' => 2
     ]);
@@ -334,3 +334,4 @@ $scores = [
         ]
     ])?>
 </div>
+<?php $this->endContent(); ?>

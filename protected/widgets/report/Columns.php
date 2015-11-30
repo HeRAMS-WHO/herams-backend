@@ -13,7 +13,7 @@ class Columns extends Widget
 
     public function run()
     {
-        $result = Html::beginTag('div', ['class' => 'row']);
+        $result = Html::beginTag('div', ['class' => 'row', 'id' => $this->getId()]);
         foreach($this->items as $column) {
             if(is_string($column)) {
                 $column = ['content' => $column];

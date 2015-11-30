@@ -52,7 +52,6 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
         ProjectInterface $project,
         UserDataInterface $userData = null
     ) {
-
         //vdd($this->mapStatus($this->map04(median($this->getQuestionValues($responses, [67825 => ['q112'], 22814 => ['q111']], [$this, 'rangeValidator04'])))));
         return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature, 'responses' => $responses], $this);
     }
