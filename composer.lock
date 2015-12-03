@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fce12d63900c6f65a75c0d8f1f551bdf",
+    "hash": "49fddac6c60624399cedc3ae24ea5386",
     "content-hash": "4317dd6f3c7166754e9b339c7e14fe9b",
     "packages": [
         {
@@ -1531,12 +1531,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datetimepicker.git",
-                "reference": "2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe"
+                "reference": "6592dda80f016b0f609eace6956a660b2c72e98b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe",
-                "reference": "2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/6592dda80f016b0f609eace6956a660b2c72e98b",
+                "reference": "6592dda80f016b0f609eace6956a660b2c72e98b",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1572,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-11-04 18:46:05"
+            "time": "2015-12-03 09:02:24"
         },
         {
             "name": "kartik-v/yii2-widget-depdrop",
@@ -2279,12 +2279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/neomerx/json-api.git",
-                "reference": "da050d2f47f58d28cdb9b2ff4bcacc3e42ac024e"
+                "reference": "5365a5d315aa7e0c57cf79b044cfbbcd70b8dd97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neomerx/json-api/zipball/da050d2f47f58d28cdb9b2ff4bcacc3e42ac024e",
-                "reference": "da050d2f47f58d28cdb9b2ff4bcacc3e42ac024e",
+                "url": "https://api.github.com/repos/neomerx/json-api/zipball/5365a5d315aa7e0c57cf79b044cfbbcd70b8dd97",
+                "reference": "5365a5d315aa7e0c57cf79b044cfbbcd70b8dd97",
                 "shasum": ""
             },
             "require": {
@@ -2292,7 +2292,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "~0.9.4",
-                "phpunit/phpunit": "~4.6",
+                "phpunit/phpunit": "~4.6 || ^5.0",
                 "psr/http-message": "^1.0",
                 "scrutinizer/ocular": "~1.1",
                 "squizlabs/php_codesniffer": "2.*"
@@ -2323,7 +2323,7 @@
                 "jsonapi.org",
                 "neomerx"
             ],
-            "time": "2015-11-08 08:17:49"
+            "time": "2015-12-01 11:32:18"
         },
         {
             "name": "nesbot/carbon",
@@ -2465,16 +2465,16 @@
         },
         {
             "name": "sam-it/ls-interfaces",
-            "version": "v0.3.4",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls-interfaces.git",
-                "reference": "95d690ff4cc6df650130bc358d0db43e5274278b"
+                "reference": "f962be742b6d0cde192cee2b432457ab83582fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls-interfaces/zipball/95d690ff4cc6df650130bc358d0db43e5274278b",
-                "reference": "95d690ff4cc6df650130bc358d0db43e5274278b",
+                "url": "https://api.github.com/repos/SAM-IT/ls-interfaces/zipball/f962be742b6d0cde192cee2b432457ab83582fd1",
+                "reference": "f962be742b6d0cde192cee2b432457ab83582fd1",
                 "shasum": ""
             },
             "type": "library",
@@ -2496,7 +2496,7 @@
                 }
             ],
             "description": "Interfaces for Limesurvey entities: Survey, Group, Question, Answer",
-            "time": "2015-11-27 09:28:18"
+            "time": "2015-12-03 09:30:43"
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
@@ -2657,12 +2657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "7f14717150a7445f8475864d1235875dd04061fb"
+                "reference": "7d17ba36acba7d990dfd5a203c93f5f90a84516d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/7f14717150a7445f8475864d1235875dd04061fb",
-                "reference": "7f14717150a7445f8475864d1235875dd04061fb",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/7d17ba36acba7d990dfd5a203c93f5f90a84516d",
+                "reference": "7d17ba36acba7d990dfd5a203c93f5f90a84516d",
                 "shasum": ""
             },
             "require": {
@@ -2686,7 +2686,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -2713,7 +2713,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-18 13:48:51"
+            "time": "2015-11-30 21:39:17"
         },
         {
             "name": "treffynnon/navigator",
@@ -2765,12 +2765,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "5f92caab2065846764712276e7e6ff2013aed4c4"
+                "reference": "975ebef52d33ee7746d17118714ade3a1426b3a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5f92caab2065846764712276e7e6ff2013aed4c4",
-                "reference": "5f92caab2065846764712276e7e6ff2013aed4c4",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/975ebef52d33ee7746d17118714ade3a1426b3a3",
+                "reference": "975ebef52d33ee7746d17118714ade3a1426b3a3",
                 "shasum": ""
             },
             "require": {
@@ -2851,7 +2851,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-11-30 13:11:46"
+            "time": "2015-12-02 23:10:35"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2957,12 +2957,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-composer.git",
-                "reference": "87cd1f2e0dd454a837607de612b1057840effe8b"
+                "reference": "574dcb1d101ae55be230e0c00a2428af6ec4c5c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/87cd1f2e0dd454a837607de612b1057840effe8b",
-                "reference": "87cd1f2e0dd454a837607de612b1057840effe8b",
+                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/574dcb1d101ae55be230e0c00a2428af6ec4c5c1",
+                "reference": "574dcb1d101ae55be230e0c00a2428af6ec4c5c1",
                 "shasum": ""
             },
             "require": {
@@ -2996,7 +2996,7 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2015-09-25 10:48:24"
+            "time": "2015-12-01 20:06:03"
         },
         {
             "name": "yiisoft/yii2-jui",
@@ -3106,12 +3106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "688026547e293a9d3f238218b281f5fc82abd6b3"
+                "reference": "28dd2b5472a8b16441f9d00e8abfdfbf9c1e0aed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/688026547e293a9d3f238218b281f5fc82abd6b3",
-                "reference": "688026547e293a9d3f238218b281f5fc82abd6b3",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/28dd2b5472a8b16441f9d00e8abfdfbf9c1e0aed",
+                "reference": "28dd2b5472a8b16441f9d00e8abfdfbf9c1e0aed",
                 "shasum": ""
             },
             "require": {
@@ -3178,7 +3178,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2015-11-29 12:22:06"
+            "time": "2015-12-02 14:22:37"
         },
         {
             "name": "doctrine/instantiator",
@@ -3281,12 +3281,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "14c8c76919e28ea74ef1ecf267d6ff22c45270d8"
+                "reference": "2e5c595512de4885435eaff24b67066769b64b34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/14c8c76919e28ea74ef1ecf267d6ff22c45270d8",
-                "reference": "14c8c76919e28ea74ef1ecf267d6ff22c45270d8",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/2e5c595512de4885435eaff24b67066769b64b34",
+                "reference": "2e5c595512de4885435eaff24b67066769b64b34",
                 "shasum": ""
             },
             "require": {
@@ -3335,7 +3335,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-11-23 01:17:16"
+            "time": "2015-12-01 02:41:23"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3987,12 +3987,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44"
+                "reference": "6e7133793a8e5a5714a551a8324337374be209df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6324c907ce7a52478eeeaede764f48733ef5ae44",
-                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6e7133793a8e5a5714a551a8324337374be209df",
+                "reference": "6e7133793a8e5a5714a551a8324337374be209df",
                 "shasum": ""
             },
             "require": {
@@ -4029,7 +4029,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2015-08-03 06:14:51"
+            "time": "2015-12-02 08:37:27"
         },
         {
             "name": "sebastian/exporter",

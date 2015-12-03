@@ -19,6 +19,8 @@ use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
 use yii\web\Response;
+use yii\widgets\ActiveField;
+use yii\widgets\ActiveForm;
 
 class ProjectsController extends Controller
 {
@@ -49,45 +51,21 @@ class ProjectsController extends Controller
         }
     }
 
-    public function actionConfigure(Client $limesurvey, $id)
+    public function actionConfigure(Request $request, Session $session, $id)
     {
         /** @var Project $model */
         $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
-        $ad = $limesurvey->getSurveyProperties($model->data_survey_eid, [
-            'attributedescriptions'
-        ])['attributedescriptions'];
+        // Form model.
+        $token = new Token($model->getToken());
 
-        // Always attempt creation.
-        $limesurvey->createToken($model->data_survey_eid, ['token' => $model->token]);
-        $data = $limesurvey->getToken($model->data_survey_eid, $model->token);
-        // Try json_decode first.
-        if (null === $descriptions = json_decode($ad, true)) {
-            $descriptions = unserialize($ad);
+        if ($request->isPut && $token->load($request->bodyParams) && $token->save(true)) {
+            $session->setFlash('success', \Yii::t('app', "Token updated."));
+            $this->refresh();
         }
-        $token = new Token();
-        $token->loadAttributesFromDescriptions($descriptions);
-        $token->setAttributes($data, false);
-        foreach([
-            'firstname' => $model->getLocality(),
-            'lastname' => $model->owner->lastName,
-            'Country' => $model->getCountry()->name,
-            'SubNational' => $model->getLocality(),
-            'validfrom' => $model->created
+        return $this->render('configure', [
+            'token' => $token
+        ]);
 
-        ] as $attribute => $value) {
-            if ($token->canSetProperty($attribute)) {
-                $token->$attribute = $value;
-            }
-
-        }
-
-        foreach(ArrayHelper::getColumn($descriptions, 'description') as $description) {
-//            vdd($mode)
-        }
-
-//        $this->render('configure')
-        vd($token->attributes);
-        vdd($descriptions);
     }
 
     public function actionCreate(Request $request, Session $session, Client $limesurvey)
@@ -108,15 +86,8 @@ class ProjectsController extends Controller
                     ]
                 );
 
-                $ad = $limesurvey->getSurveyProperties($model->data_survey_eid, [
-                    'attributedescriptions'
-                ])['attributedescriptions'];
 
-                // Try json_decode first.
-                if (null === $descriptions = json_decode($ad, true)) {
-                    $descriptions = unserialize($ad);
-                }
-                if (!empty($descriptions)) {
+                if (!empty($model->getToken()->getCustomAttributes())) {
                     return $this->redirect(['projects/configure', 'id' => $model->id]);
                 }
                 return $this->redirect(['projects/read', 'id' => $model->id]);

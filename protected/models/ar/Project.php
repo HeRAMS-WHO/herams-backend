@@ -5,6 +5,7 @@ namespace prime\models\ar;
 use app\queries\ProjectQuery;
 use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use Befound\Components\DateTime;
+use Carbon\Carbon;
 use prime\components\ActiveQuery;
 use prime\components\ActiveRecord;
 use prime\factories\GeneratorFactory;
@@ -13,6 +14,7 @@ use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\models\Country;
+use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\ProjectCountry;
 use prime\models\ar\Report;
@@ -22,6 +24,9 @@ use prime\models\ar\UserData;
 use prime\models\Widget;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
+use Prophecy\Argument\Token\TokenInterface;
+use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
+use SamIT\LimeSurvey\JsonRpc\Client;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
@@ -46,35 +51,33 @@ use yii\web\JsExpression;
  * @property string $default_generator
  * @property string $country_iso_3
  * @property Country $country
+ *
+ * @method static ProjectQuery find()
  */
 class Project extends ActiveRecord implements ProjectInterface
 {
+    /**
+     * @var WritableTokenInterface
+     */
+    protected $_token;
+    /**
+     * @var Client
+     */
+    protected $limeSurvey;
+
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
             'default_generator' => \Yii::t('app', 'Default report'),
-            'country_iso_3' => \Yii::t('app', 'Country')
+            'country_iso_3' => \Yii::t('app', 'Country'),
+            'tool_id' => \Yii::t('app', 'Tool'),
+
         ]);
-    }
-
-    public function behaviors()
-    {
-        return [
-
-        ];
     }
 
     public function dataSurveyOptions()
     {
         return $this->tool->dataSurveyOptions();
-    }
-
-    /**
-     * @return ProjectQuery
-     */
-    public static function find()
-    {
-        return parent::find();
     }
 
     /**
@@ -130,8 +133,8 @@ class Project extends ActiveRecord implements ProjectInterface
      */
     public function getLocality()
     {
-        if(isset($this->locality_name)) {
-            $result = $this->locality_name;
+        if(!empty($this->locality_name)) {
+            $result = "{$this->locality_name} ({$this->country->name})";
         } else {
             $result = $this->country->name;
         }
@@ -267,4 +270,40 @@ class Project extends ActiveRecord implements ProjectInterface
         }
         return $result;
     }
+
+    /**
+     * @return WritableTokenInterface
+     */
+    public function getToken()
+    {
+        if (!isset($this->_token)) {
+            // Always attempt creation.
+            $this->limeSurvey->createToken($this->data_survey_eid, ['token' => $this->token]);
+
+            $token = $this->limeSurvey->getToken($this->data_survey_eid, $this->token);
+
+            $token->setFirstName($this->getLocality());
+            $token->setLastName($this->owner->lastName);
+            $token->setValidFrom(new Carbon($this->created));
+
+            $this->_token = $token;
+        }
+        return $this->_token;
+    }
+
+    public static function listDependencies()
+    {
+        return [
+            'setLimeSurvey' => Client::class
+        ];
+    }
+
+    /**
+     * @param Client $limeSurvey
+     */
+    public function setLimeSurvey(Client $limeSurvey) {
+        $this->limeSurvey = $limeSurvey;
+    }
+
+
 }
