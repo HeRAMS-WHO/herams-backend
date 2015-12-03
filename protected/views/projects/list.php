@@ -42,10 +42,18 @@ use \app\components\Html;
         'filterModel' => $projectSearch,
         'dataProvider' => $projectsDataProvider,
         'columns' => [
-            'title',
             [
-                'attribute' => 'description',
-                'format' => 'raw'
+                'attribute' => 'toolIds',
+                'value' => 'tool.acronym',
+                'label' => \Yii::t('app', 'Tool'),
+                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+                'filter' => $projectSearch->toolsOptions(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'placeholder' => \Yii::t('app', 'Select tool')
+                    ]
+                ]
             ],
             [
                 'attribute' => 'countriesIds',
@@ -60,19 +68,7 @@ use \app\components\Html;
                     ]
                 ]
             ],
-            [
-                'attribute' => 'toolIds',
-                'value' => 'tool.acronym',
-                'label' => \Yii::t('app', 'Tool'),
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $projectSearch->toolsOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select tool')
-                    ]
-                ]
-            ],
+            'title',
             [
                 'attribute' => 'created',
                 'format' => 'date',

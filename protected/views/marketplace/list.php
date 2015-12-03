@@ -25,19 +25,21 @@ $this->params['subMenu']['items'] = [
         'columns' => [
             [
                 'attribute' => 'toolIds',
-                'value' => 'project.tool.imageUrl',
+                'value' => 'tool.acronym',
                 'label' => \Yii::t('app', 'Tool'),
-                'format' => ['image',
-                    [
-                        'height' => '100px',
-                    ]
-                ],
+//                'value' => 'project.tool.imageUrl',
+//                'label' => \Yii::t('app', 'Tool'),
+//                'format' => ['image',
+//                    [
+//                        'height' => '100px',
+//                    ]
+//                ],
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $reportSearch->toolsOptions(),
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
                         'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select tools')
+                        'placeholder' => \Yii::t('app', 'Select tool')
                     ]
                 ]
             ],
@@ -50,7 +52,7 @@ $this->params['subMenu']['items'] = [
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
                         'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select countries')
+                        'placeholder' => \Yii::t('app', 'Select country')
                     ]
                 ]
             ],
@@ -65,7 +67,7 @@ $this->params['subMenu']['items'] = [
             ],
             [
                 'attribute' => 'published',
-                //'format' => ['date'],
+                'format' => 'date',
                 'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
@@ -80,8 +82,25 @@ $this->params['subMenu']['items'] = [
                 ],
             ],
             [
-                'attribute' => 'mime_type',
-                'label' => \Yii::t('app', 'Type')
+                'label' => \Yii::t('app', 'Type'),
+                'attribute' => 'file.mime_type'
+            ],
+            'actions' => [
+                'class' => \kartik\grid\ActionColumn::class,
+                'width' => '100px',
+                'template' => '{read}',
+                'buttons' => [
+                    'read' => function($url, $model, $key) {
+                        $result = Html::a(
+                            Html::icon('eye-open'),
+                            ['/reports/read', 'id' => $model->id],
+                            [
+                                'title' => \Yii::t('app', 'Read')
+                            ]
+                        );
+                        return $result;
+                    }
+                ]
             ]
         ]
     ]);

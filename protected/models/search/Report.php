@@ -71,6 +71,18 @@ class Report extends \prime\models\ar\Report
             'id' => 'report-data-provider'
         ]);
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'toolIds' => [
+                    'asc' => ['tool.acronym' => SORT_ASC],
+                    'desc' => ['tool.acronym' => SORT_DESC],
+                    'default' => 'asc'
+                ],
+                'title',
+                'published'
+            ]
+        ]);
+
         if(!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
