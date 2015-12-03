@@ -70,6 +70,6 @@ $map = Highmaps::begin([
         ]
     ]
 ]);
-
 $map->end();
+echo \app\components\Html::tag('div', '', ['id' => 'legends', 'class' => 'col-xs-12', 'style' => ['text-align' => 'center']]);
 $this->registerJsFile('/js/marketplace.js', ['depends' => [\yii\web\JqueryAsset::class, \prime\assets\BootBoxAsset::class]]);

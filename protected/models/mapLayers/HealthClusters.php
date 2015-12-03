@@ -5,18 +5,19 @@ namespace prime\models\mapLayers;
 use prime\models\MapLayer;
 use yii\web\Controller;
 use yii\web\JsExpression;
+use yii\web\View;
 
 class HealthClusters extends MapLayer
 {
     public function init()
     {
-        parent::init();
         $this->allowPointSelect = true;
         $this->joinBy = null;
         $this->name = \Yii::t('app', 'Health Clusters');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'healthClusters'); return false;}"));
         $this->type = 'mappoint';
+        parent::init();
     }
 
     protected function prepareData()
@@ -53,8 +54,8 @@ class HealthClusters extends MapLayer
         ];
     }
 
-    public function renderSummary(Controller $controller, $id)
+    public function renderSummary(View $view, $id)
     {
-        return parent::renderSummary($controller, $id);
+        return parent::renderSummary($view, $id);
     }
 }

@@ -6,6 +6,7 @@ use prime\models\Country;
 use prime\models\MapLayer;
 use yii\web\Controller;
 use yii\web\JsExpression;
+use yii\web\View;
 
 class CountryGrades extends MapLayer
 {
@@ -33,12 +34,12 @@ class CountryGrades extends MapLayer
 
     public function init()
     {
-        parent::init();
         $this->allowPointSelect = true;
         $this->joinBy = ['ISO_3_CODE', 'id'];
         $this->name = \Yii::t('app', 'Country Grades');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'countryGrades'); return false;}"));
+        parent::init();
     }
 
     protected function prepareData()
@@ -68,10 +69,22 @@ class CountryGrades extends MapLayer
         $this->addColorsToData();
     }
 
-    public function renderSummary(Controller $controller, $id)
+    public function renderLegend(View $view)
+    {
+        return "<table>" .
+            "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Country Grades') . "</th></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold;'>" . \Yii::t('app', 'Ungraded') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->colorScale[1] . "'>" . \Yii::t('app', 'Grade 1') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale[2] . "'>" . \Yii::t('app', 'Grade 2') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale[3] . "'>" . \Yii::t('app', 'Grade 3') . "</td></tr>" .
+        "</table>";
+    }
+
+
+    public function renderSummary(View $view, $id)
     {
         $country = Country::findOne($id);
-        return $controller->render('summaries/reports', [
+        return $view->render('summaries/reports', [
             'country' => $country
         ]);
     }

@@ -25,7 +25,6 @@ class MapLayerFactory
             'reports' => \prime\models\mapLayers\Reports::class,
             'base' => \prime\models\MapLayer::class
         ];
-
     }
 
     /**
@@ -33,8 +32,13 @@ class MapLayerFactory
      * @return MapLayer
      * @throws \yii\base\InvalidConfigException
      */
-    public static function get($name) {
+    public static function get($name)
+    {
         return \Yii::$container->get(ArrayHelper::getValue(self::classes(), $name, $name));
+    }
 
+    public static function getKey($class)
+    {
+        return array_flip(static::classes())[$class];
     }
 }

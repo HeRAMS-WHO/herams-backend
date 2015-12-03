@@ -5,6 +5,7 @@ namespace prime\models\mapLayers;
 use prime\models\MapLayer;
 use yii\web\Controller;
 use yii\web\JsExpression;
+use yii\web\View;
 
 class EventGrades extends MapLayer
 {
@@ -26,13 +27,13 @@ class EventGrades extends MapLayer
 
     public function init()
     {
-        parent::init();
         $this->allowPointSelect = true;
         $this->joinBy = null;
         $this->name = \Yii::t('app', 'Event Grades');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'eventGrades'); return false;}"));
         $this->type = 'mappoint';
+        parent::init();
     }
 
     protected function prepareData()
@@ -70,8 +71,19 @@ class EventGrades extends MapLayer
         $this->addColorsToData();
     }
 
-    public function renderSummary(Controller $controller, $id)
+    public function renderLegend(View $view)
     {
-        return parent::renderSummary($controller, $id);
+        return "<table>" .
+        "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Event Grades') . "</th></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale[1] . "'>" . \Yii::t('app', 'Event grade 1') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale[2] . "'>" . \Yii::t('app', 'Event grade 2') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale[3] . "'>" . \Yii::t('app', 'Event grade 3') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->colorScale[4] . "'>" . \Yii::t('app', 'Event grade 4') . "</td></tr>" .
+        "</table>";
+    }
+
+    public function renderSummary(View $view, $id)
+    {
+        return parent::renderSummary($view, $id);
     }
 }
