@@ -44,7 +44,6 @@ $map = Highmaps::begin([
         ],
         'series' => [
             (new \prime\models\MapLayer(['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"]))->toArray(),
-            (new \prime\models\mapLayers\Reports())->toArray(),
             (new \prime\models\mapLayers\Projects())->toArray()
         ],
         'credits' => [
@@ -64,28 +63,9 @@ $map = Highmaps::begin([
         ],
         'class' => [
             'col-xs-12',
-            'col-md-12'
         ]
     ]
 ]);
 
 $map->end();
-echo \app\components\Html::tag('div', '', ['id' => 'map-details', 'class' => 'col-xs-0 col-md-0']);
-$js = "
-function select(point, layer) {
-    $('#{$map->getId()}').removeClass('col-md-12').addClass('col-md-9');
-    $('#{$map->getId()}').highcharts().reflow();
-    $('#map-details').removeClass('col-xs-0').removeClass('col-md-0').addClass('col-md-3').addClass('col-xs-12');
-    var id = point.id;
-    $.ajax({
-        url: '/marketplace/summary',
-        data: {id: id, layer: layer}
-    })
-    .success(function(data) {
-        $('#map-details').html(data);
-    });
-
-    //bootbox.alert(\"You selected \" + point.properties.CNTRY_TERR + \"!\");
-}
-";
-$this->registerJs($js, $this::POS_BEGIN);
+$this->registerJsFile('/js/marketplace.js', ['depends' => [\yii\web\JqueryAsset::class, \prime\assets\BootBoxAsset::class]]);
