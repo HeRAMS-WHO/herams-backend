@@ -8,6 +8,7 @@ use prime\models\ar\Report;
 use prime\models\Country;
 use prime\models\MapLayer;
 use yii\helpers\ArrayHelper;
+use yii\web\Controller;
 use yii\web\JsExpression;
 
 class Projects extends MapLayer
@@ -35,6 +36,14 @@ class Projects extends MapLayer
                 'id' => $project->id
             ];
         }, Project::find()->notClosed()->all());
+    }
+
+    public function renderSummary(Controller $controller, $id)
+    {
+        $project = Project::findOne($id);
+        return $controller->render('summaries/projects', [
+            'project' => $project
+        ]);
     }
 
 

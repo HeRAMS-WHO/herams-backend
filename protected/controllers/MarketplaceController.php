@@ -4,6 +4,7 @@ namespace prime\controllers;
 
 use app\components\Request;
 use prime\components\Controller;
+use prime\factories\MapLayerFactory;
 use prime\models\ar\Project;
 use prime\models\Country;
 use prime\models\search\Report;
@@ -29,20 +30,8 @@ class MarketplaceController extends Controller
 
     public function actionSummary($id, $layer)
     {
-        switch($layer) {
-            case 'reports':
-                $country = Country::findOne($id);
-                return $this->render('summaries/reports', [
-                    'country' => $country
-                ]);
-                break;
-            case 'projects':
-                $project = Project::findOne($id);
-                return $this->render('summaries/projects', [
-                    'project' => $project
-                ]);
-                break;
-        }
+        $mapLayer = MapLayerFactory::get($layer);
+        return $mapLayer->renderSummary($this, $id);
     }
 
     public function behaviors()

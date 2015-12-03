@@ -34,7 +34,8 @@ $map = Highmaps::begin([
             ]
         ],
         'legend' => [
-            'enabled' => true
+            'enabled' => true,
+            'symbolHeight' => '0px'
         ],
         'plotOptions' => [
             'map' => [
@@ -44,7 +45,10 @@ $map = Highmaps::begin([
         ],
         'series' => [
             (new \prime\models\MapLayer(['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"]))->toArray(),
-            (new \prime\models\mapLayers\Projects())->toArray()
+            (new \prime\models\mapLayers\Projects())->toArray(),
+            (new \prime\models\mapLayers\CountryGrades())->toArray(),
+            (new \prime\models\mapLayers\EventGrades())->toArray(),
+            (new \prime\models\mapLayers\HealthClusters())->toArray(),
         ],
         'credits' => [
             'enabled' => false
