@@ -2,12 +2,15 @@
 
 namespace prime\components;
 
+use prime\injection\SetterInjectionTrait;
+use prime\injection\SetterInjectionInterface;
 use prime\models\permissions\Permission;
 use prime\models\ar\User;
 use yii\web\HttpException;
 
-class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord
+class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord implements SetterInjectionInterface
 {
+    use SetterInjectionTrait;
     /**
      * @return ActiveQuery
      * @throws \yii\base\InvalidConfigException
@@ -61,4 +64,27 @@ class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
         return $user->isAdmin;
     }
+
+
+
+
+
+    /**
+     * This static function is responsible for creation in Yii.
+     * It therefore requires \Yii.
+     * @param array $row
+     * @return static
+     */
+    public static function instantiate($row)
+    {
+        $result = parent::instantiate($row);
+        if ($result instanceof SetterInjectionInterface) {
+            // Inject required dependencies.
+            foreach($result::listDependencies() as $setter => $class) {
+                $result->$setter(\Yii::$container->get($class));
+            }
+        }
+        return $result;
+    }
+
 }

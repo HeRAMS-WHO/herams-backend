@@ -46,7 +46,7 @@ class Report extends \prime\models\ar\Report
     {
         return [
             [['toolIds'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
-            [['countriesIds'], RangeValidator::class, 'range' => array_keys($this->countriesOptions()), 'allowArray' => true],
+            [['countryId'], RangeValidator::class, 'range' => array_keys($this->countriesOptions()), 'allowArray' => true],
             [['title'], StringValidator::class],
             [['published'], 'safe']
         ];
@@ -60,7 +60,7 @@ class Report extends \prime\models\ar\Report
     public function scenarios()
     {
         return [
-            'search' => ['toolIds', 'countriesIds', 'title', 'published']
+            'search' => ['toolIds', 'countryId', 'title', 'published']
         ];
     }
 

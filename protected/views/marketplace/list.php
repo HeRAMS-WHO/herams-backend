@@ -44,7 +44,7 @@ $this->params['subMenu']['items'] = [
                 ]
             ],
             [
-                'attribute' => 'countriesIds',
+                'attribute' => 'countryId',
                 'value' => 'project.locality',
                 'label' => \Yii::t('app', 'Country'),
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,

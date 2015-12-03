@@ -30,7 +30,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['limesurvey.host', 'url'],
+            ['limeSurvey.host', 'url'],
             ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->getCountryPolygonsFileOptions())]
         ];
     }

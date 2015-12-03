@@ -98,7 +98,7 @@ class Tool extends ActiveRecord {
 
     public function dataSurveyOptions()
     {
-        return array_filter(ArrayHelper::map(app()->limesurvey->listSurveys(), 'sid', function($details) {
+        return array_filter(ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function($details) {
             if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) != 0
                 && strpos($details['surveyls_title'], '_') === false
             ) {
@@ -115,7 +115,7 @@ class Tool extends ActiveRecord {
 
     public function getIntakeUrl()
     {
-        return app()->limesurvey->getUrl($this->intake_survey_eid);
+        return app()->limeSurvey->getUrl($this->intake_survey_eid);
     }
 
     public function getThumbnailUrl() {
@@ -128,7 +128,7 @@ class Tool extends ActiveRecord {
 
     public function intakeSurveyOptions()
     {
-        return array_filter(ArrayHelper::map(app()->limesurvey->listSurveys(), 'sid', function($details) {
+        return array_filter(ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function($details) {
             if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) === 0) {
                 return trim(substr($details['surveyls_title'], 8)) . (($details['active'] == 'N') ? " (INACTIVE)" : "");
             }

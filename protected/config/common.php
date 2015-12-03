@@ -49,7 +49,7 @@ return [
         'authManager' => [
             'class' => \dektrium\rbac\components\DbManager::class
         ],
-        'limesurvey' => function (){
+        'limeSurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient('http://whols2.befound.nl/index.php?r=admin/remotecontrol');
             return new \SamIT\LimeSurvey\JsonRpc\Client($json, 'prime', 'H9y43n4X');
         },

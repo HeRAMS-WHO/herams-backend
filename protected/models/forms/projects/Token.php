@@ -1,89 +1,145 @@
 <?php
 namespace prime\models\forms\projects;
 
+use Befound\Components\DateTime;
+use Carbon\Carbon;
+use prime\injection\SetterInjectionInterface;
+use prime\injection\SetterInjectionTrait;
+use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
+use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\base\Model;
+use yii\debug\components\search\matchers\SameAs;
+use yii\validators\DateValidator;
+use yii\validators\SafeValidator;
+use yii\validators\Validator;
 
-
+/**
+ * Class Token
+ * This model wraps a WritableTokenInterface object in a Yii2 form model.
+ * @package prime\models\forms\projects
+ */
 class Token extends Model
 {
     /**
-     * @var string The token
+     * @var WritableTokenInterface
      */
-    public $token;
-    /**
-     * @var string The firstname, we store the project title here.
-     */
-    public $firstname;
+    protected $_token;
 
-    /**
-     * @var string The lastname, we don't use this.
-     */
-    public $lastname;
+    public function __construct(WritableTokenInterface $token, array $config = [])
+    {
+        parent::__construct($config);
+        $this->_token = $token;
+    }
 
-    /**
-     * @var string The email, we don't use this.
-     */
-    public $email;
-
-    /**
-     * @var string validfrom
-     */
-    public $validfrom;
-
-    protected $_labels = [];
-
-    protected $_attributes = [];
 
     public function __get($name)
     {
-        if (array_key_exists($name, $this->_attributes)) {
-            return $this->_attributes[$name];
-        } else {
+        $getter = 'get' . ucfirst($name);
+        if (method_exists($this->_token, $getter)) {
+            return $this->_token->$getter();
+        } elseif (array_key_exists(ucfirst($name), $this->_token->getCustomAttributes())) {
+            return $this->_token->getCustomAttributes()[ucfirst($name)];
+        }
+
+        else {
             return parent::__get($name);
         }
     }
 
     public function __isset($name)
     {
-        return isset($this->_attributes[$name]) || parent::__isset($name);
-    }
-
-    public function __set($name, $value)
-    {
-        if (array_key_exists($name, $this->_attributes)) {
-            $this->_attributes[$name] = $value;
+        $getter = 'get' . ucfirst($name);
+        if (method_exists($this->_token, $getter)) {
+            return $this->$getter() !== null;
         } else {
-            parent::__set($name, $value);
+            return parent::__isset($name);
         }
     }
 
+    public function setValidFrom($string) {
+        $this->_token->setValidFrom(!empty($string) ? new Carbon($string) : null);
+    }
 
-    public function attributeLabels()
+    public function setValidUntil($string) {
+        $this->_token->setValidUntil(!empty($string) ? new Carbon($string) : null);
+    }
+    public function __set($name, $value)
     {
-        return array_merge(parent::attributeLabels(), $this->_labels);
+        $setter = 'set' . ucfirst($name);
+        // Check local setters first.
+        if (method_exists($this, $setter)) {
+            $this->$setter($value);
+        } elseif (method_exists($this->_token, $setter)) {
+            return $this->_token->$setter($name, $value);
+        } elseif (array_key_exists(ucfirst($name), $this->_token->getCustomAttributes())) {
+            return $this->_token->setCustomAttribute(ucfirst($name), $value);
+        } else {
+            return parent::__set($name, $value);
+        }
+
     }
 
     public function attributes()
     {
-        return array_merge(array_keys($this->_attributes), parent::attributes());
+        $attributes = $this->_token->getCustomAttributes();
+        foreach(get_class_methods(WritableTokenInterface::class) as $method) {
+            if (preg_match('/(get|set)Custom.*/', $method)) {
+                continue;
+            } elseif (strncmp('set',$method, 3) === 0) {
+                $attributes[substr($method, 3)] = true;
+            } elseif (strncmp('get',$method, 3) === 0) {
+                $attributes[substr($method, 3)] = true;
+            }
+        };
+        return array_map('lcfirst', array_keys($attributes));
     }
 
-    public function canGetProperty($name, $checkVars = true, $checkBehaviors = true)
-    {
-        return array_key_exists($name, $this->_attributes) || parent::canGetProperty($name, $checkVars, $checkBehaviors);
+    public function isCustomAttribute($name) {
+        return array_key_exists($name, $this->_token->getCustomAttributes());
     }
 
-    public function canSetProperty($name, $checkVars = true, $checkBehaviors = true)
+//    public function canGetProperty($name, $checkVars = true, $checkBehaviors = true)
+//    {
+//        return array_key_exists($name, $this->_attributes) || parent::canGetProperty($name, $checkVars, $checkBehaviors);
+//    }
+//
+//    public function canSetProperty($name, $checkVars = true, $checkBehaviors = true)
+//    {
+//        return array_key_exists($name, $this->_attributes) || parent::canSetProperty($name, $checkVars, $checkBehaviors);
+//    }
+
+
+
+    public function rules()
     {
-        return array_key_exists($name, $this->_attributes) || parent::canSetProperty($name, $checkVars, $checkBehaviors);
+        return [
+            [array_map('lcfirst', array_keys($this->_token->getCustomAttributes())), SafeValidator::class],
+            [['validFrom', 'validUntil'], DateValidator::class, 'format' => 'php:Y-m-d H:i:s'],
+        ];
+
+    }
+    /**
+     * Save the token to limesurvey.
+     */
+    public function save($runValidation = true)
+    {
+        return (!$runValidation || $this->validate()) && $this->_token->save();
     }
 
-    public function loadAttributesFromDescriptions(array $descriptions)
-    {
-        foreach($descriptions as $key => $description) {
-            $this->_labels[$key] = $description['description'];
-            $this->_attributes[$key] = null;
-        }
+    /**
+     * @return WritableTokenInterface The token object that this form model wraps.
+     */
+    public function getToken() {
+        return $this->_token;
     }
+
+    public function attributeHints()
+    {
+        return [
+            'firstName' => \Yii::t('app', 'We use this field to store the country for the project.'),
+            'lastName' => \Yii::t('app', 'We use this field to store the last name of the project owner.')
+        ];
+    }
+
 
 }
