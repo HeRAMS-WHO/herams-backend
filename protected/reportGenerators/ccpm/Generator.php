@@ -20,7 +20,7 @@ use yii\console\Exception;
 use yii\helpers\ArrayHelper;
 use yii\web\View;
 
-class Generator extends Component implements ReportGeneratorInterface, ViewContextInterface
+class Generator extends \prime\reportGenerators\base\Generator
 {
     protected $view;
 

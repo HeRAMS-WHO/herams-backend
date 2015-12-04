@@ -353,7 +353,7 @@ $this->beginContent('@app/views/layouts/report.php');
     ?>
 </div>
 
-<?=$this->render('functionsAndReview', ['generator' => $generator, 'scores' => $scores, 'project' => $project])?>
+<?=$this->render('functionsAndReview', ['generator' => $generator, 'scores' => $scores, 'project' => $project, 'userData' => $userData])?>
 
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>
