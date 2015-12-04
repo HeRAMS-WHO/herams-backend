@@ -16,6 +16,9 @@ trait JsonMemoryDataSourceTrait
     public static function findOne($key)
     {
         self::loadData();
+        if(!isset(self::$_jsonMemoryData[$key])) {
+            return null;
+        }
         $result = static::instantiate(self::$_jsonMemoryData[$key]);
         static::populateRecord($result, self::$_jsonMemoryData[$key]);
         return $result;
