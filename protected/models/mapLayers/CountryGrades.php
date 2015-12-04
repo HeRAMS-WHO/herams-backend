@@ -81,10 +81,10 @@ class CountryGrades extends MapLayer
     }
 
 
-    public function renderSummary(View $view, $id)
+    public function renderSummary(Controller $controller, $id)
     {
         $country = Country::findOne($id);
-        return $view->render('summaries/reports', [
+        return $controller->render('summaries/reports', [
             'country' => $country
         ]);
     }

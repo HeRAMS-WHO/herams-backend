@@ -31,7 +31,7 @@ class MarketplaceController extends Controller
     public function actionSummary($id, $layer)
     {
         $mapLayer = MapLayerFactory::get($layer);
-        return $mapLayer->renderSummary($this->getView(), $id);
+        return $mapLayer->renderSummary($this, $id);
     }
 
     public function behaviors()

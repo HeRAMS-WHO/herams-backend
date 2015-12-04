@@ -30,10 +30,10 @@ class Reports extends MapLayer
         }, Project::find()->innerJoinWith(['reports'])->select('country_iso_3')->column());
     }
 
-    public function renderSummary(View $view, $id)
+    public function renderSummary(Controller $controller, $id)
     {
         $country = Country::findOne($id);
-        return $view->render('summaries/reports', [
+        return $controller->render('summaries/reports', [
             'country' => $country
         ]);
     }

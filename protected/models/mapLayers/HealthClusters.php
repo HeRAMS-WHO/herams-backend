@@ -54,8 +54,8 @@ class HealthClusters extends MapLayer
         ];
     }
 
-    public function renderSummary(View $view, $id)
+    public function renderSummary(Controller $controller, $id)
     {
-        return parent::renderSummary($view, $id);
+        return parent::renderSummary($controller, $id);
     }
 }

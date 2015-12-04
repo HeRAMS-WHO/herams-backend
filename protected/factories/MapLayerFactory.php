@@ -32,9 +32,9 @@ class MapLayerFactory
      * @return MapLayer
      * @throws \yii\base\InvalidConfigException
      */
-    public static function get($name)
+    public static function get($name, $params = [], $config = [])
     {
-        return \Yii::$container->get(ArrayHelper::getValue(self::classes(), $name, $name));
+        return \Yii::$container->get(ArrayHelper::getValue(self::classes(), $name, $name), $params, $config);
     }
 
     public static function getKey($class)

@@ -21,6 +21,7 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/pro
 $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::getAlias('@app/data/countryPolygons/' . \prime\models\ar\Setting::get('countryPolygonsFile'))) . ';' .
     'Highcharts.maps["who/world"]["hc-transform"] = {default: {crs: "WGS84"}};'
 );
+
 //vdd((new \prime\models\mapLayers\Projects())->toArray());
 $map = Highmaps::begin([
     'options' => [
@@ -44,7 +45,7 @@ $map = Highmaps::begin([
             ]
         ],
         'series' => [
-            (new \prime\models\MapLayer(['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"]))->toArray(),
+            \prime\factories\MapLayerFactory::get('base', [], ['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"])->toArray(),
             (new \prime\models\mapLayers\Projects())->toArray(),
             (new \prime\models\mapLayers\CountryGrades())->toArray(),
             (new \prime\models\mapLayers\EventGrades())->toArray(),

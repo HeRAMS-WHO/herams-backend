@@ -39,10 +39,10 @@ class Projects extends MapLayer
         }, Project::find()->notClosed()->all());
     }
 
-    public function renderSummary(View $view, $id)
+    public function renderSummary(Controller $controller, $id)
     {
         $project = Project::findOne($id);
-        return $view->render('summaries/projects', [
+        return $controller->render('summaries/projects', [
             'project' => $project
         ]);
     }

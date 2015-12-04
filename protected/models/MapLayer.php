@@ -64,13 +64,15 @@ class MapLayer extends Model{
         }
     }
 
-    public function renderSummary(View $view, $id)
+    public function renderSummary(Controller $controller, $id)
     {
         return 'You selected: ' . $id;
     }
 
     public function toArray(array $fields = [], array $expand = [], $recursive = true)
     {
-        return array_filter($this->getAttributes(), function($value){return isset($value);});
+        $attributes = $this->getAttributes();
+
+        return array_filter($attributes, function($value){return isset($value);});
     }
 }
