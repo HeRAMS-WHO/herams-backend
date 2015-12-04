@@ -65,7 +65,7 @@ $chart = \miloschuman\highcharts\Highcharts::widget([
                     'columns' => [
                         'items' => [
                             [
-                                'content' => \prime\widgets\report\Block::widget(['items' => [$widget->texts['top'], ['content' => round(($widget->part / $widget->total) * 100) . ' %', 'htmlOptions' => ['class' => 'text-medium']]]]),
+                                'content' => \prime\widgets\report\Block::widget(['items' => [$widget->texts['top'], ['content' => (($widget->total > 0) ? round(($widget->part / $widget->total) * 100) : 0) . ' %', 'htmlOptions' => ['class' => 'text-medium']]]]),
                                 'width' => 2
                             ],
                             \prime\widgets\report\Block::widget(['items' => [$widget->texts['left'], ['content' => $widget->total, 'htmlOptions' => ['class' => '']]]]),
