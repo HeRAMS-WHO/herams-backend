@@ -71,7 +71,7 @@ class Project extends ActiveRecord implements ProjectInterface
             'default_generator' => \Yii::t('app', 'Default report'),
             'country_iso_3' => \Yii::t('app', 'Country'),
             'tool_id' => \Yii::t('app', 'Tool'),
-
+            'locality_name' => \Yii::t('app', 'Locality')
         ]);
     }
 
@@ -134,7 +134,7 @@ class Project extends ActiveRecord implements ProjectInterface
     public function getLocality()
     {
         if(!empty($this->locality_name)) {
-            $result = "{$this->locality_name} ({$this->country->name})";
+            $result = "{$this->country->name} ({$this->locality_name})";
         } else {
             $result = $this->country->name;
         }

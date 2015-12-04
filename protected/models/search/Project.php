@@ -53,8 +53,7 @@ class Project extends \prime\models\ar\Project
         return [
             [['created'], 'safe'],
             [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
-            [['title', 'description', 'tool_id'], StringValidator::class],
-
+            [['title', 'description', 'tool_id', 'locality_name'], StringValidator::class],
         ];
     }
 
@@ -71,7 +70,8 @@ class Project extends \prime\models\ar\Project
                 'country_iso_3',
                 'title',
                 'description',
-                'created'
+                'created',
+                'locality_name'
             ]
         ];
     }
@@ -83,19 +83,7 @@ class Project extends \prime\models\ar\Project
             'id' => 'project-data-provider'
         ]);
 
-
-        /**
-         * To allow sorting by country (countries are not in the database) we construct a case statement.
-         * This is not ideal from a database perspective, but for this case (there won't be many projects), it's ok.
-         */
-        $countries = Country::findAll();
-        ArrayHelper::multisort($countries, 'name');
-        $case = '(case ';
-        foreach ($countries as $key => $value) {
-            $case .= "when country_iso_3 = '{$value->iso_3}' then $key ";
-        }
-        $case .= ' end)';
-
+        $case = Country::searchCaseStatement('country_iso_3');
 
         $dataProvider->setSort([
             'attributes' => [
@@ -111,7 +99,8 @@ class Project extends \prime\models\ar\Project
                     'desc' => [$case => SORT_DESC],
                     'default' => 'asc'
                 ],
-                'created'
+                'created',
+                'locality_name'
             ]
         ]);
 
@@ -124,14 +113,14 @@ class Project extends \prime\models\ar\Project
             $this->query->andFilterWhere([
                 'and',
                 ['>=', 'created', $interval[0]],
-                ['<=', 'created', $interval[1]]
+                ['<=', 'created', $interval[1] . ' 23:59:59']
             ]);
         }
 
         $this->query->andFilterWhere(['tool_id' => $this->tool_id]);
         $this->query->andFilterWhere(['country_iso_3' => $this->country_iso_3]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.title', $this->title]);
-        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.description', $this->description]);
+        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.locality_name', $this->locality_name]);
 
         return $dataProvider;
     }

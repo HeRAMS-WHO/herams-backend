@@ -24,35 +24,15 @@ $this->params['subMenu']['items'] = [
         'dataProvider' => $reportsDataProvider,
         'columns' => [
             [
-                'attribute' => 'toolIds',
+                'attribute' => 'toolId',
                 'value' => 'tool.acronym',
                 'label' => \Yii::t('app', 'Tool'),
-//                'value' => 'project.tool.imageUrl',
-//                'label' => \Yii::t('app', 'Tool'),
-//                'format' => ['image',
-//                    [
-//                        'height' => '100px',
-//                    ]
-//                ],
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $reportSearch->toolsOptions(),
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
                         'allowClear' => true,
                         'placeholder' => \Yii::t('app', 'Select tool')
-                    ]
-                ]
-            ],
-            [
-                'attribute' => 'countryId',
-                'value' => 'project.locality',
-                'label' => \Yii::t('app', 'Country'),
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $reportSearch->countriesOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select country')
                     ]
                 ]
             ],
@@ -64,6 +44,24 @@ $this->params['subMenu']['items'] = [
                         'allowClear'=>true,
                     ],
                 ]
+            ],
+            [
+                'attribute' => 'countryId',
+                'value' => 'project.country.name',
+                'label' => \Yii::t('app', 'Country'),
+                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+                'filter' => $reportSearch->countriesOptions(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'placeholder' => \Yii::t('app', 'Select country')
+                    ]
+                ]
+            ],
+            [
+                'attribute' => 'localityName',
+                'value' => 'project.locality_name',
+                'label' => \Yii::t('app', 'Locality')
             ],
             [
                 'attribute' => 'published',
