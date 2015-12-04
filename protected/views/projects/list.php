@@ -49,7 +49,7 @@ use \app\components\Html;
             ],
             [
                 'attribute' => 'country_iso_3',
-                'value' => 'country.name',
+                'value' => 'locality',
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $projectSearch->countriesOptions(),
                 'filterWidgetOptions' => [
