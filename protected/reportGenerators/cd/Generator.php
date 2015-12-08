@@ -22,21 +22,43 @@ use yii\web\View;
 
 class Generator extends \prime\reportGenerators\base\Generator
 {
-    protected $view;
+    /** @var ResponseInterface */
+    protected $response;
+    public $dateFormat = 'd F - Y';
 
-    public function __construct(View $view, array $config = [])
+    public function getQuestionValue($title)
     {
-        parent::__construct($config);
-        $this->view = $view;
+//        $responses = new ResponseCollection();
+//        $responses->append($this->response);
+//        $values = $this->getQuestionValues($responses, [$this->response->getSurveyId() => $title]);
+        return isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
     }
 
     /**
-     * Returns the title of the Report
-     * @return string
+     * @return string the view path that may be prefixed to a relative view name.
      */
-    public static function title()
+    public function getViewPath()
     {
-        return \Yii::t('app', 'CD');
+        return __DIR__ . '/views/';
+    }
+
+    public function mapWorkingModalities($value)
+    {
+        $map = [
+            1 => \Yii::t('cd', 'Full-time')
+        ];
+        //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
+        return $map[$value];
+    }
+
+    public function mapYesNo($value)
+    {
+        $map = [
+            1 => \Yii::t('cd', 'Yes'),
+            2 => \Yii::t('cd', 'No')
+        ];
+        //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
+        return $map[$value];
     }
 
     /**
@@ -54,7 +76,8 @@ class Generator extends \prime\reportGenerators\base\Generator
         UserDataInterface $userData = null
     ) {
         //vdd($this->mapStatus($this->map04(median($this->getQuestionValues($responses, [67825 => ['q112'], 22814 => ['q111']], [$this, 'rangeValidator04'])))));
-        return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature, 'responses' => $responses], $this);
+        $this->response = $responses[0];
+        return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
     }
 
     /**
@@ -78,10 +101,11 @@ class Generator extends \prime\reportGenerators\base\Generator
     }
 
     /**
-     * @return string the view path that may be prefixed to a relative view name.
+     * Returns the title of the Report
+     * @return string
      */
-    public function getViewPath()
+    public static function title()
     {
-        return __DIR__ . '/views/';
+        return \Yii::t('cd', 'CD');
     }
 }

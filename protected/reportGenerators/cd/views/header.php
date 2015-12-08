@@ -9,6 +9,6 @@ use app\components\Html;
 ?>
 <div class="row header">
     <div class="col-xs-12 text-medium">
-        <?=\Yii::t('ccpm', 'Cluster Description')?>
+        <?=\Yii::t('cd', 'Cluster Description')?>
     </div>
 </div>

@@ -23,6 +23,7 @@ class GeneratorFactory
     {
         return [
             'ccpm' => \prime\reportGenerators\ccpm\Generator::class,
+            'cd' => \prime\reportGenerators\cd\Generator::class,
             'percentage' => \prime\reportGenerators\progressPercentage\Generator::class
         ];
 
@@ -40,6 +41,5 @@ class GeneratorFactory
 
     public static function get($name) {
         return \Yii::$container->get(ArrayHelper::getValue(self::classes(), $name, $name));
-
     }
 }

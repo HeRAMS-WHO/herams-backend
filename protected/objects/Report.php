@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\reportGenerators\ccpm;
+namespace prime\objects;
 
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportInterface;
@@ -10,27 +10,28 @@ use prime\interfaces\UserDataInterface;
 use Psr\Http\Message\StreamInterface;
 use yii\base\Component;
 
-class Report extends Component implements ReportInterface
+class Report implements ReportInterface
 {
-    protected $responses;
     protected $userData;
     protected $signature;
     protected $generator;
-    protected $project;
+    protected $mimeType;
+    protected $stream;
+    protected $title;
 
-    public function __construct(ResponseCollectionInterface $responses, UserDataInterface $userData, SignatureInterface $signature, Generator $generator, ProjectInterface $project)
+    public function __construct(UserDataInterface $userData, SignatureInterface $signature, StreamInterface $stream, $generator, $title, $mimeType = 'text/html')
     {
-        parent::__construct();
         $this->userData = $userData;
         $this->signature = $signature;
         $this->generator = $generator;
-        $this->responses = $responses;
-        $this->project = $project;
+        $this->stream = $stream;
+        $this->mimeType = $mimeType;
+        $this->title = $title;
     }
 
     public function getGenerator()
     {
-        return 'ccpm';
+        return $this->generator;
     }
 
     /**
@@ -39,7 +40,7 @@ class Report extends Component implements ReportInterface
      */
     public function getMimeType()
     {
-        return 'text/html';
+        return $this->mimeType;
     }
 
     /**
@@ -57,12 +58,7 @@ class Report extends Component implements ReportInterface
      */
     public function getStream()
     {
-        return \GuzzleHttp\Psr7\stream_for(app()->getView()->render('publish', [
-            'userData' => $this->userData,
-            'signature' => $this->getSignature(),
-            'responses' => $this->responses,
-            'project' => $this->project
-        ], $this->generator));
+        return $this->stream;
     }
 
     /**
@@ -80,7 +76,7 @@ class Report extends Component implements ReportInterface
      */
     public function getTitle()
     {
-        return 'CCPM ' . $this->project->getLocality() . ' ' . $this->signature->getTime()->format('Y-m-d');
+        return $this->title;
     }
 
 

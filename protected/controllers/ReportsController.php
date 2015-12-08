@@ -159,15 +159,25 @@ class ReportsController extends Controller
             //TODO: UPDATE TO CORRECT SURVEYS AND RESPONSES
             //BEGIN
             $surveys = new SurveyCollection();
-            $surveys->append($limesurvey->getSurvey(22814, 'en'));
-            $surveys->append($limesurvey->getSurvey(67825, 'en'));
-
             $responses = new ResponseCollection();
-            /** @var SurveyInterface $survey */
-            foreach($surveys as $survey) {
-                /** @var ResponseInterface $response */
-                foreach ($limesurvey->getResponses($survey->getId()) as $response) {
-                    if($response->getData()['token'] == '3zhvuud5f88hkui') {
+            if($reportGenerator == 'ccpm') {
+
+                $surveys->append($limesurvey->getSurvey(22814, 'en'));
+                $surveys->append($limesurvey->getSurvey(67825, 'en'));
+
+                /** @var SurveyInterface $survey */
+                foreach ($surveys as $survey) {
+                    /** @var ResponseInterface $response */
+                    foreach ($limesurvey->getResponses($survey->getId()) as $response) {
+                        if ($response->getData()['token'] == '3zhvuud5f88hkui') {
+                            $responses->append($response);
+                        }
+                    }
+                }
+            } elseif ($reportGenerator == 'cd') {
+                $surveys->append($limesurvey->getSurvey(37964, 'en'));
+                foreach ($limesurvey->getResponses(37964) as $response) {
+                    if ($response->getData()['token'] == 't4dechn5wd9paun') {
                         $responses->append($response);
                     }
                 }

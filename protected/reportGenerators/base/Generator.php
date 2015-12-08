@@ -9,6 +9,7 @@ use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
+use prime\models\search\Project;
 use prime\objects\ResponseCollection;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -21,8 +22,16 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 
-class Generator extends Component implements ReportGeneratorInterface, ViewContextInterface
+abstract class Generator extends Component implements ReportGeneratorInterface, ViewContextInterface
 {
+    protected $view;
+
+    public function __construct(View $view, array $config = [])
+    {
+        parent::__construct($config);
+        $this->view = $view;
+    }
+
     /**
      * Returns the title of the Report
      * @return string
@@ -67,6 +76,15 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
         UserDataInterface $userData = null
     ) {
         return '';
+    }
+
+    /**
+     * Returns the title of the report
+     * @return string
+     */
+    public function getReportTitle(ProjectInterface $project, SignatureInterface $signature)
+    {
+        return $this->title() . ' ' . $project->getLocality() . ' ' . $signature->getTime()->format('Y-m-d');
     }
 
     public function getQuestionText(SurveyCollectionInterface $surveys, $title, $surveyId)
@@ -115,14 +133,6 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
             }
         }
         return $result;
-    }
-
-    /**
-     * @return string the view path that may be prefixed to a relative view name.
-     */
-    public function getViewPath()
-    {
-        return __DIR__ . '/views/';
     }
 
     public static function textarea(UserDataInterface $userData, $attribute, $options = [])

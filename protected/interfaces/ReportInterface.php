@@ -6,7 +6,7 @@ use Psr\Http\Message\StreamInterface;
 interface ReportInterface {
 
     /**
-     * Returns a string describing the generator
+     * Returns the fully qualified class identifying the generator
      * @return string
      */
     public function getGenerator();

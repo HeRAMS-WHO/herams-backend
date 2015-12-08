@@ -15,11 +15,26 @@ use app\components\Form;
 
 $generator = $this->context;
 
+$surveyId = 37964;
+
+/** @var \SamIT\LimeSurvey\Interfaces\ResponseInterface $response */
+
 $this->beginContent('@app/views/layouts/report.php');
 ?>
 <style>
-    <?=file_get_contents(__DIR__ . '../../base/assets/css/grid.css')?>
+    <?=file_get_contents(__DIR__ . '/../../base/assets/css/grid.css')?>
     <?php include __DIR__ . '/../../base/assets/css/style.php'; ?>
+    .spacer {
+        height: 50px;
+    }
+
+    .spacer-small {
+        height: 8px;
+    }
+
+    .block-widget div {
+        white-space: pre-wrap;
+    }
 </style>
 
 <div class="container-fluid">
@@ -30,133 +45,184 @@ $this->beginContent('@app/views/layouts/report.php');
     <?php
     echo \prime\widgets\report\Columns::widget([
         'items' => [
-            \Yii::t('ccpm', 'Level : {level}', ['level' => 'National']) . '<br>' . \Yii::t('ccpm', 'Completed on: {completedOn}', ['completedOn' => $signature->getTime()->format('d F - Y')]),
+            \Yii::t('cd', 'Level : {level}', ['level' => 'National']) . '<br>' . \Yii::t('cd', 'Completed on: {completedOn}', ['completedOn' => $signature->getTime()->format($generator->dateFormat)]),
         ],
         'columnsInRow' => 2
     ]);
     ?>
     <hr>
     <div class="row">
-        <h1 style="margin-top: 300px; margin-bottom: 300px; text-align: center;"><?=\Yii::t('ccpm', 'Final report')?></h1>
+        <h1 style="margin-top: 300px; margin-bottom: 300px; text-align: center;"><?=\Yii::t('cd', 'Final report')?></h1>
     </div>
 </div>
 
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>
     <div class="row">
-        <div class="col-xs-12">
-        <h2><?=\Yii::t('ccpm', 'Overall response rate')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations tat are part of the cluster')?></span></h2>
-        </div>
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Establishment of the Cluster')?></h2>
     </div>
     <?php
-    $responseRates = $generator->getResponseRates($responses);
-    ?>
-    <?=\prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates['total']['total1'], 'part' => $responseRates['total']['responses'], 'view' => $this])?>
-    <?php
-    $graphWidth = 3;
     echo \prime\widgets\report\Columns::widget([
         'items' => [
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[1]['total1'], 'part' => $responseRates[1]['responses'], 'title' => Yii::t('ccpm', 'International NGOs'), 'graphWidth' => $graphWidth, 'view' => $this]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[2]['total1'], 'part' => $responseRates[2]['responses'], 'title' => Yii::t('ccpm', 'National NGOs'), 'graphWidth' => $graphWidth, 'view' => $this]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[3]['total1'], 'part' => $responseRates[3]['responses'], 'title' => Yii::t('ccpm', 'UN Agencies'), 'graphWidth' => $graphWidth, 'view' => $this]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[4]['total1'], 'part' => $responseRates[4]['responses'], 'title' => Yii::t('ccpm', 'National Authorities'), 'graphWidth' => $graphWidth, 'view' => $this]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[5]['total1'], 'part' => $responseRates[5]['responses'], 'title' => Yii::t('ccpm', 'Donors'), 'graphWidth' => $graphWidth, 'view' => $this]),
-            \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[6]['total1'], 'part' => $responseRates[6]['responses'], 'title' => Yii::t('ccpm', 'Other'), 'graphWidth' => $graphWidth, 'view' => $this]),
-        ],
-        'columnsInRow' => 2
-    ]);
-
-    ?>
-</div>
-
-    <div class="container-fluid">
-        <?=$this->render('header', ['project' => $project])?>
-        <div class="row">
-            <div class="col-xs-12">
-                <h2><?=\Yii::t('ccpm', 'Overall response rate 2')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations tat are part of the cluster')?></span></h2>
-            </div>
-        </div>
-        <?php
-        $responseRates = $generator->getResponseRates($responses);
-        ?>
-        <?=\prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates['total']['total2'], 'part' => $responseRates['total']['responses'], 'view' => $this])?>
-        <?php
-        $graphWidth = 3;
-        echo \prime\widgets\report\Columns::widget([
-            'items' => [
-                \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[1]['total2'], 'part' => $responseRates[1]['responses'], 'title' => Yii::t('ccpm', 'International NGOs'), 'graphWidth' => $graphWidth, 'view' => $this]),
-                \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[2]['total2'], 'part' => $responseRates[2]['responses'], 'title' => Yii::t('ccpm', 'National NGOs'), 'graphWidth' => $graphWidth, 'view' => $this]),
-                \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[3]['total2'], 'part' => $responseRates[3]['responses'], 'title' => Yii::t('ccpm', 'UN Agencies'), 'graphWidth' => $graphWidth, 'view' => $this]),
-                \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[4]['total2'], 'part' => $responseRates[4]['responses'], 'title' => Yii::t('ccpm', 'National Authorities'), 'graphWidth' => $graphWidth, 'view' => $this]),
-                \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[5]['total2'], 'part' => $responseRates[5]['responses'], 'title' => Yii::t('ccpm', 'Donors'), 'graphWidth' => $graphWidth, 'view' => $this]),
-                \prime\widgets\report\GraphWithNumbers::widget(['total' => $responseRates[6]['total2'], 'part' => $responseRates[6]['responses'], 'title' => Yii::t('ccpm', 'Other'), 'graphWidth' => $graphWidth, 'view' => $this]),
-            ],
-            'columnsInRow' => 2
-        ]);
-
-        ?>
-    </div>
-
-<div class="container-fluid">
-    <?=$this->render('header', ['project' => $project])?>
-    <div class="row">
-        <h2 class="col-xs-12"><?=\Yii::t('ccpm', 'Overall Performance')?></h2>
-    </div>
-    <?php
-
-    $performanceStatusBlockColumns = [
-        'items' => [
             [
-                'content' => \Yii::t('ccpm', 'Score') . '<hr>> 75 %<br>51 % - 75 %<br>26 % - 50 %<br>< 26 %',
+                'columns' => [
+                    'items' => [
+                        [
+                            'content' => \prime\widgets\report\Block::widget([
+                                'items' => [
+                                    \Yii::t('cd', 'Cluster formally activated'),
+                                    '<span class="unknown">' . \Yii::t('cd', 'Formally activated') . '</span>'
+                                ]
+                            ]),
+                            'width' => 3
+                        ],
+                        [
+                            'content' => \prime\widgets\report\Block::widget([
+                                'items' => [
+                                    \Yii::t('cd', 'Date of activation'),
+                                    \Carbon\Carbon::createFromTimestamp(strtotime($generator->getQuestionValue('q01')))->format($generator->dateFormat)
+                                ]
+                            ]),
+                            'width' => 3
+                        ]
+                    ]
+                ],
                 'width' => 6
             ],
             [
-                'content' => \Yii::t('ccpm', 'Performance status') . '<hr><span class="text-good">' . \Yii::t('ccpm', 'Good') . '</span><br><span class="text-satisfactory">' . \Yii::t('ccpm', 'Satisfactory') . '</span><br><span class="text-unsatisfactory">' . \Yii::t('ccpm', 'Unsatisfactory') . '</span><br><span class="text-weak">' . \Yii::t('ccpm', 'Weak') . '</span>',
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Cluster integrated into national coordination structure'),
+                        $generator->mapYesNo($generator->getQuestionValue('q11'))
+                    ]
+                ]),
+                'width' => 6
+            ],
+        ],
+        'columnsInRow' => 12
+    ]);
+    echo Html::tag('div', '', ['class' => 'spacer']);
+    echo \prime\widgets\report\Columns::widget([
+        'items' => [
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Organisation appointed to lead the cluster'),
+                        $generator->getQuestionValue('q14')
+                    ]
+                ]),
+                'width' => 6
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Organisation appointed to co-lead the cluster'),
+                        $generator->getQuestionValue('q16')
+                    ]
+                ]),
+                'width' => 6
+            ],
+        ],
+        'columnsInRow' => 12
+    ]);
+    echo Html::tag('div', '', ['class' => 'spacer']);
+    ?>
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Working arrangement for cluster coordinators')?></h2>
+    </div>
+    <?php
+    echo \prime\widgets\report\Columns::widget([
+        'items' => [
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Number of Coordinators'),
+                        Html::tag('span', $generator->getQuestionValue('q21'), ['class' => 'text-large'])
+                    ]
+                ]),
+                'width' => 6
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Coordinator'),
+                        Html::tag('i', \Yii::t('cd', 'Employed by')) . ':<br>' .
+                        $generator->getQuestionValue('q22') . '<div class="spacer-small"></div>' .
+                        Html::tag('i', \Yii::t('cd', 'Working modalities')) . ':<br>' .
+                        $generator->mapWorkingModalities($generator->getQuestionValue('q23')) . '<div class="spacer-small"></div>' .
+                        Html::tag('i', \Yii::t('cd', 'Other duties')) . ':<br>' .
+                        $generator->getQuestionValue('q24') . '<div class="spacer-small"></div>' .
+                        Html::tag('i', \Yii::t('cd', 'Attended training')) . ':<br>' .
+                        $generator->mapYesNo($generator->getQuestionValue('q25')) . '<div class="spacer-small"></div>'
+                    ]
+                ]),
                 'width' => 6
             ]
         ],
         'columnsInRow' => 12
-    ];
+    ]);
+    ?>
+</div>
 
-    $performanceStatusBlock =
-        '<div class="col-xs-12" style="border: 1px solid black; padding-top: 15px; padding-bottom: 15px;">' . \prime\widgets\report\Columns::widget($performanceStatusBlockColumns) . '</div>';
+<div class="container-fluid">
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Working arrangement for staff supporting the coordination')?></h2>
+    </div>
+    <?php
+    $count = (int) $generator->getQuestionValue('q31');
+    $contentRight = '';
+    $i = 0;
+    while ($i < $count - 1) {
+        if($i % 2 == 0) {
+            if($i > 0) {
+                $contentRight .= '</div>';
+            }
+            $contentRight .= '<div class="row">';
+        }
+
+        $contentRight .= '<div class="col-xs-6">' .
+            \prime\widgets\report\Block::widget([
+                'items' => [
+                    \Yii::t('cd', 'Support Staff {0}', [$i + 1]),
+                    Html::tag('i', \Yii::t('cd', 'Employed by')) . ':<br>' .
+                    $generator->getQuestionValue('q' . (310 + $i * 3 + 1)) . '<div class="spacer-small"></div>' .
+                    Html::tag('i', \Yii::t('cd', 'Working modalities')) . ':<br>' .
+                    $generator->getQuestionValue('q' . (310 + $i * 3 + 2)) . '<div class="spacer-small"></div>' .
+                    Html::tag('i', \Yii::t('cd', 'Support provided')) . ':<br>' .
+                    $generator->mapWorkingModalities($generator->getQuestionValue('q' . (310 + $i * 3 + 3))) . '<div class="spacer-small"></div>'
+                ]
+            ]) . '</div>';
+        $i++;
+    }
+    $contentRight .= '</div>';
+
 
     echo \prime\widgets\report\Columns::widget([
         'items' => [
             [
-                'content' => $performanceStatusBlock,
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Number of Coordinators'),
+                        Html::tag('span', $generator->getQuestionValue('q31') - 1, ['class' => 'text-large'])
+                    ]
+                ]),
                 'width' => 4
             ],
             [
-                'content' => $this->render('performanceStatusTable', ['generator' => $generator, 'scores' => $scores]),
+                'content' => $contentRight,
                 'width' => 8
-            ],
+            ]
         ],
         'columnsInRow' => 12
     ]);
     ?>
 </div>
 
-<?=$this->render('functionsAndReview', ['generator' => $generator, 'scores' => $scores, 'project' => $project, 'userData' => $userData])?>
-
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>
     <div class="row">
-        <h2 class="col-xs-12"><?=\Yii::t('ccpm', 'Comments')?></h2>
+        <h2 class="col-xs-12"><?=\Yii::t('cd', '')?></h2>
     </div>
-
-    <?=\prime\widgets\report\Comments::widget([
-        'comments' => [
-            \Yii::t('ccpm', 'General') => $generator->getQuestionValues($responses, [67825 => [], 22814 => ['q014']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Supporting service delivery') => $generator->getQuestionValues($responses, [67825 => ['q124'], 22814 => ['q124']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Informing strategic decision-making of the Humanitarian Coordinator/Humanitarian Country Team') => $generator->getQuestionValues($responses, [67825 => ['q232'], 22814 => ['q232']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Planning and strategy development') => $generator->getQuestionValues($responses, [67825 => ['q335'], 22814 => ['q334']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Advocacy') => $generator->getQuestionValues($responses, [67825 => ['q422'], 22814 => ['q422']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Monitoring and reporting on implementation of cluster strategy and results') => $generator->getQuestionValues($responses, [67825 => ['q57'], 22814 => ['q54']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Preparedness for recurrent disasters') => $generator->getQuestionValues($responses, [67825 => ['q66'], 22814 => ['q63']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Accountability to affected populations') => $generator->getQuestionValues($responses, [67825 => ['q73'], 22814 => ['q73']], function($value){return !empty($value);}),
-            \Yii::t('ccpm', 'Others') => $generator->getQuestionValues($responses, [67825 => ['q81'], 22814 => ['q81']], function($value){return !empty($value);})
-        ]
-    ])?>
 </div>
+
 <?php $this->endContent(); ?>
