@@ -15,8 +15,6 @@ use app\components\Form;
 
 $generator = $this->context;
 
-$surveyId = 37964;
-
 /** @var \SamIT\LimeSurvey\Interfaces\ResponseInterface $response */
 
 $this->beginContent('@app/views/layouts/report.php');
@@ -34,6 +32,20 @@ $this->beginContent('@app/views/layouts/report.php');
 
     .block-widget div {
         white-space: pre-wrap;
+    }
+
+    .blocks-same-title-height .block-widget div:first-child{
+        height: 40px;
+    }
+
+    .block-widget .row:before {
+        content: "";
+    }
+
+    h4 {
+        margin-top: 5px;
+        margin-bottom: 8px;
+        font-size: 1.1em;
     }
 </style>
 
@@ -221,8 +233,558 @@ $this->beginContent('@app/views/layouts/report.php');
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>
     <div class="row">
-        <h2 class="col-xs-12"><?=\Yii::t('cd', '')?></h2>
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Strategic and Technical Advisory Groups')?></h2>
     </div>
+    <div class="row">
+        <h3 class="col-xs-12"><?=\Yii::t('cd', 'Strategic Advisory Group')?></h3>
+    </div>
+    <?php
+    echo \prime\widgets\report\Columns::widget([
+        'items' => [
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Name'),
+                        $generator->mapYesNo($generator->getQuestionValue('q326'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Topics'),
+                        $generator->getQuestionValue('q327')
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Organisations belonging to this group'),
+                        $generator->getQuestionValue('q328')
+                    ]
+                ])
+            ]
+        ],
+        'columnsInRow' => 3
+    ]);
+    ?>
+    <div class="spacer"></div>
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Participation in the cluster of identified focal points for cross-cutting issues')?></h2>
+    </div>
+    <?php
+    echo \prime\widgets\report\Columns::widget([
+        'items' => [
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Age'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[1]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Gender'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[2]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Diversity (other than age and gender)'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[3]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Human Rights'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[4]'))
+                    ]
+                ])
+            ],
+        ],
+        'columnsInRow' => 4,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height']
+        ]
+    ]);
+
+    echo \prime\widgets\report\Columns::widget([
+        'items' => [
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Protection, including sexual and gender based violence'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[5]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Environment'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[6]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'HIV/AIDS'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[7]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Disability'),
+                        $generator->mapYesNo($generator->getQuestionValue('q345[8]'))
+                    ]
+                ])
+            ],
+        ],
+        'columnsInRow' => 4,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height']
+        ]
+    ]);
+    ?>
+    <div class="spacer"></div>
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Organisations chairing or co-chairing the meetings')?></h2>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <?=$this->render('header', ['project' => $project])?>
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Number of cluster participants')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'including observers')?>)</span></h2>
+    </div>
+
+    <?php
+    echo \prime\widgets\report\Columns::widget([
+        'items' => [
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'International NGOs'),
+                        (string) round($generator->getQuestionValue('q41[1]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'National NGOs'),
+                        (string) round($generator->getQuestionValue('q41[2]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'UN Agencies'),
+                        (string) round($generator->getQuestionValue('q41[3]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'National Authorities'),
+                        (string) round($generator->getQuestionValue('q41[4]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Donors'),
+                        (string) round($generator->getQuestionValue('q41[5]'))
+                    ]
+                ])
+            ],
+            [
+                'content' => \prime\widgets\report\Block::widget([
+                    'items' => [
+                        \Yii::t('cd', 'Other'),
+                        (string) round($generator->getQuestionValue('q41[6]'))
+                    ]
+                ])
+            ],
+        ],
+        'columnsInRow' => 6,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height']
+        ]
+    ]);
+    ?>
+
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Organisations participating in the cluster')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'observers identified by an *')?>)</span></h2>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="white-space: pre-wrap"><?=$generator->getQuestionValue('q42')?></div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <?=$this->render('header', ['project' => $project])?>
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Deliverables')?></h2>
+        <h3 class="col-xs-12">1. <?=\Yii::t('cd', 'Supporting service delivery')?></h3>
+        <h4 class="col-xs-12">1.1. <?=\Yii::t('cd', 'Provide a platform to ensure that service delivery is driven by the agreed strategic priorities')?></h4>
+        <div class="col-xs-12">
+        <?php
+        echo \prime\widgets\report\Columns::widget([
+            'items' => [
+                [
+                    'content' => \prime\widgets\report\DeliverableBlock::widget([
+                        'title' => \Yii::t('cd', 'Up-to-date lists of partners'),
+                        'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[1]')),
+                        'link' => $generator->getQuestionValue('q51[1comment]')
+                    ])
+                ],
+                [
+                    'content' => \prime\widgets\report\DeliverableBlock::widget([
+                        'title' => \Yii::t('cd', 'Meeting minutes'),
+                        'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[2]')),
+                        'link' => $generator->getQuestionValue('q51[2comment]')
+                    ])
+                ]
+            ],
+            'columnsInRow' => 2,
+        ]);
+        ?>
+        </div>
+        <h4 class="col-xs-12">1.2. <?=\Yii::t('cd', 'Develop mechanisms to eliminate duplication of service delivery')?></h4>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Mapping of partner geographic presence and programme activities (e.g.3W)'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[3]')),
+                            'link' => $generator->getQuestionValue('q51[3comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Analysis of gaps and overlaps derived from the mapping of partner geographic presence and programme activities'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[4]')),
+                            'link' => $generator->getQuestionValue('q51[4comment]')
+                        ])
+                    ]
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="row">
+        <h3 class="col-xs-12">2. <?=\Yii::t('cd', 'Informing strategic decision-making of the HC/HCT for the humanitarian response')?></h3>
+        <h4 class="col-xs-12">2.1. <?=\Yii::t('cd', 'Needs assessment and gap analysis (across other sectors and within the sector)')?></h4>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Needs assessment tools and guidance'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[6]')),
+                            'link' => $generator->getQuestionValue('q51[6comment]')
+                        ])
+                    ],
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+        <h4 class="col-xs-12">2.2. <?=\Yii::t('cd', 'Analysis to identify and address (emerging) gaps, obstacles, duplication, and cross-cutting issues')?></h4>
+        <h4 class="col-xs-12">2.3. <?=\Yii::t('cd', 'Prioritization, grounded in response analysis')?></h4>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Joint sectoral analyses of situations'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[7]')),
+                            'link' => $generator->getQuestionValue('q51[7comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Inter-cluster strategic intervention matrices'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[5]')),
+                            'link' => $generator->getQuestionValue('q51[5comment]')
+                        ])
+                    ],
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <?=$this->render('header', ['project' => $project])?>
+    <div class="row">
+        <h3 class="col-xs-12">3. <?=\Yii::t('cd', 'Planning and strategy development')?></h3>
+        <h4 class="col-xs-12">3.1. <?=\Yii::t('cd', 'Develop sectoral plans, objectives and indicators directly supporting realization of the HC/HCT strategic priorities')?></h4>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Cluster Strategic plan'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[8]')),
+                            'link' => $generator->getQuestionValue('q51[8comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Cluster deactivation criteria and phasing out strategy'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[9]')),
+                            'link' => $generator->getQuestionValue('q51[9comment]')
+                        ])
+                    ]
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+        <h4 class="col-xs-12">3.2. <?=\Yii::t('cd', 'Application and adherence to existing standards and guidelines')?></h4>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Technical standards and guidance'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[10]')),
+                            'link' => $generator->getQuestionValue('q51[10comment]')
+                        ])
+                    ]
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+        <h4 class="col-xs-12">3.3. <?=\Yii::t('cd', 'Clarify funding requirements, prioritization, and cluster contributions to HC’s overall humanitarian funding considerations')?></h4>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Report on funding status of cluster against needs'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[11]')),
+                            'link' => $generator->getQuestionValue('q51[11comment]')
+                        ])
+                    ]
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="row">
+        <h3 class="col-xs-12">4. <?=\Yii::t('cd', 'Planning and strategy development')?></h3>
+        <h4 class="col-xs-12">4.1. <?=\Yii::t('cd', 'Identify advocacy concerns to contribute to HC and HCT messaging and action')?></h4>
+        <h4 class="col-xs-12">4.2. <?=\Yii::t('cd', 'Undertaking advocacy activities on behalf of cluster participants and the affected population')?></h4>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Press releases on behalf of cluster'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[12]')),
+                            'link' => $generator->getQuestionValue('q51[12comment]')
+                        ])
+                    ],
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <?=$this->render('header', ['project' => $project])?>
+    <div class="row">
+        <h3 class="col-xs-12">5. <?=\Yii::t('cd', 'Monitoring and reporting')?></h3>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Programme monitoring tools with indicators'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[13]')),
+                            'link' => $generator->getQuestionValue('q51[13comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Progress/monitoring reports against strategic plan'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[14]')),
+                            'link' => $generator->getQuestionValue('q51[14comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Progress/monitoring reports against work plan'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[15]')),
+                            'link' => $generator->getQuestionValue('q51[15comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Cluster bulletins'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[16]')),
+                            'link' => $generator->getQuestionValue('q51[16comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Sectoral situation reports'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[17]')),
+                            'link' => $generator->getQuestionValue('q51[17comment]')
+                        ])
+                    ],
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="row">
+        <h3 class="col-xs-12">6. <?=\Yii::t('cd', 'Contingency planning/preparedness')?></h3>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Risk assessment analysis'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[18]')),
+                            'link' => $generator->getQuestionValue('q51[18comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Preparedness Plans'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[19]')),
+                            'link' => $generator->getQuestionValue('q51[19comment]')
+                        ])
+                    ]
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="row">
+        <h3 class="col-xs-12">7. <?=\Yii::t('cd', 'Accountability to affected population')?></h3>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Review of cluster accountability to affected population'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[20]')),
+                            'link' => $generator->getQuestionValue('q51[20comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Framework of cluster accountability to affected population'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q51[21]')),
+                            'link' => $generator->getQuestionValue('q51[21comment]')
+                        ])
+                    ]
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <?=$this->render('header', ['project' => $project])?>
+    <div class="row">
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Communication')?></h2>
+        <div class="col-xs-12">
+            <?php
+            echo \prime\widgets\report\Columns::widget([
+                'items' => [
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Cluster information available on a cluster specific website'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q61[1]')),
+                            'link' => $generator->getQuestionValue('q61[1comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Cluster information available on a cluster specific webpage on an inter-agency website'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q61[2]')),
+                            'link' => $generator->getQuestionValue('q61[2comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'Other'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q61[3]')),
+                            'link' => $generator->getQuestionValue('q61[3comment]')
+                        ])
+                    ],
+                    [
+                        'content' => \prime\widgets\report\DeliverableBlock::widget([
+                            'title' => \Yii::t('cd', 'None of the above'),
+                            'available' =>$generator->mapYesNo($generator->getQuestionValue('q61[4]')),
+                            'link' => $generator->getQuestionValue('q61[4comment]')
+                        ])
+                    ]
+                ],
+                'columnsInRow' => 2,
+            ]);
+            ?>
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <?php
+    echo \prime\widgets\report\Columns::widget([
+        'items' => [
+            [
+                'content' => \Yii::t('cd', 'Comments'),
+            ],
+            [
+                'content' => Html::tag('span', $generator->getQuestionValue('q71'), ['style' => ['white-space' => 'pre-wrap']]),
+                'width' => 5
+            ]
+        ]
+    ]);
+    ?>
 </div>
 
 <?php $this->endContent(); ?>
