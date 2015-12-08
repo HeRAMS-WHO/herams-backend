@@ -15,7 +15,7 @@ class Block extends Widget
     {
         parent::init();
         $this->htmlOptions = ArrayHelper::merge([
-            'style' => 'height: 90px; width: 100%;'
+            'style' => 'width: 100%; margin-bottom: 5px;'
         ], $this->htmlOptions);
     }
 
