@@ -4,8 +4,6 @@
 namespace prime\injection;
 
 
-use yii\di\Container;
-
 trait SetterInjectionTrait
 {
     private $locked = false;
