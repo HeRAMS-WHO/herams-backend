@@ -13,8 +13,7 @@ $report = $this->render('preview', [
     'project' => $project
 ]);
 
-foreach($userData->data as $key => $value) {
-    $report = str_replace('<textarea name="' . $key . '"></textarea>', $value, $report);
-}
+$report = str_replace('<textarea', '<div', $report);
+$report = str_replace('</textarea>', '</div>', $report);
 
 echo $report;

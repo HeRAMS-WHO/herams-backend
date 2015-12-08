@@ -80,7 +80,7 @@ class Report extends Component implements ReportInterface
      */
     public function getTitle()
     {
-        return 'CCPM';
+        return 'CCPM ' . $this->project->getLocality() . ' ' . $this->signature->getTime()->format('Y-m-d');
     }
 
 

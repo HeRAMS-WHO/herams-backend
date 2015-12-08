@@ -18,8 +18,9 @@ unset($loader);
 // Set webroot so we can use it in config.
 
 Yii::setAlias('@webroot', realpath(__DIR__ . '/../public/'));
-$config = require __DIR__ . '/config/web.php';
-spl_autoload_register(['Yii', 'autoload'], true, false);
 Yii::$classMap = include(__DIR__ . '/vendor/yiisoft/yii2/classes.php');
 Yii::$container = new yii\di\Container;
+
+$config = require __DIR__ . '/config/web.php';
+spl_autoload_register(['Yii', 'autoload'], true, false);
 (new \app\components\WebApplication($config))->run();

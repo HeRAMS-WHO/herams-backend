@@ -5,6 +5,7 @@ namespace prime\models\search;
 use prime\components\ActiveQuery;
 use prime\models\ar\Tool;
 use prime\models\Country;
+use yii\db\Expression;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\validators\ExistValidator;
@@ -17,8 +18,13 @@ class Project extends \prime\models\ar\Project
     /** @var ActiveQuery */
     public $query;
 
-    public $countriesIds;
-    public $toolIds;
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'countryIds' => \Yii::t('app', 'Tool'),
+        ]);
+    }
+
 
     public function countriesOptions()
     {
@@ -45,10 +51,9 @@ class Project extends \prime\models\ar\Project
     public function rules()
     {
         return [
-            [['toolIds'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
-            [['countriesIds'], RangeValidator::class, 'range' => array_keys($this->countriesOptions()), 'allowArray' => true],
-            [['title', 'description'], StringValidator::class],
-            [['created'], 'safe']
+            [['created'], 'safe'],
+            [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
+            [['title', 'description', 'tool_id', 'locality_name'], StringValidator::class],
         ];
     }
 
@@ -60,7 +65,14 @@ class Project extends \prime\models\ar\Project
     public function scenarios()
     {
         return [
-            'search' => ['toolIds', 'countriesIds', 'title', 'description', 'created']
+            'search' => [
+                'tool_id',
+                'country_iso_3',
+                'title',
+                'description',
+                'created',
+                'locality_name'
+            ]
         ];
     }
 
@@ -71,16 +83,24 @@ class Project extends \prime\models\ar\Project
             'id' => 'project-data-provider'
         ]);
 
+        $case = Country::searchCaseStatement('country_iso_3');
+
         $dataProvider->setSort([
             'attributes' => [
                 'title',
                 'description',
-                'toolIds' => [
+                'tool_id' => [
                     'asc' => ['tool.acronym' => SORT_ASC],
                     'desc' => ['tool.acronym' => SORT_DESC],
                     'default' => 'asc'
                 ],
-                'created'
+                'country_iso_3' => [
+                    'asc' => [$case => SORT_ASC],
+                    'desc' => [$case => SORT_DESC],
+                    'default' => 'asc'
+                ],
+                'created',
+                'locality_name'
             ]
         ]);
 
@@ -93,14 +113,14 @@ class Project extends \prime\models\ar\Project
             $this->query->andFilterWhere([
                 'and',
                 ['>=', 'created', $interval[0]],
-                ['<=', 'created', $interval[1]]
+                ['<=', 'created', $interval[1] . ' 23:59:59']
             ]);
         }
 
-        $this->query->andFilterWhere(['tool_id' => $this->toolIds]);
-        $this->query->andFilterWhere(['country_iso_3' => $this->countriesIds]);
+        $this->query->andFilterWhere(['tool_id' => $this->tool_id]);
+        $this->query->andFilterWhere(['country_iso_3' => $this->country_iso_3]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.title', $this->title]);
-        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.description', $this->description]);
+        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.locality_name', $this->locality_name]);
 
         return $dataProvider;
     }

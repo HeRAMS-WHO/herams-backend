@@ -17,9 +17,10 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Component;
 use yii\base\ViewContextInterface;
 use yii\console\Exception;
+use yii\helpers\ArrayHelper;
 use yii\web\View;
 
-class Generator extends Component implements ReportGeneratorInterface, ViewContextInterface
+class Generator extends \prime\reportGenerators\base\Generator
 {
     protected $view;
 
@@ -48,8 +49,8 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
     public function renderPreview(
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
-        SignatureInterface $signature,
         ProjectInterface $project,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
         //vdd($this->mapStatus($this->map04(median($this->getQuestionValues($responses, [67825 => ['q112'], 22814 => ['q111']], [$this, 'rangeValidator04'])))));
@@ -69,8 +70,8 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
     public function render(
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
-        SignatureInterface $signature,
         ProjectInterface $project,
+        SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
         return new Report($responses, $userData, $signature, $this, $project);
@@ -121,6 +122,40 @@ class Generator extends Component implements ReportGeneratorInterface, ViewConte
                 }
             }
         }
+        return $result;
+    }
+
+    public function getResponseRates(ResponseCollectionInterface $responses)
+    {
+        $result = [];
+        $responsesPerType = array_count_values($this->getQuestionValues($responses, [22814 => ['q012']]));
+        $responsesPerType['total'] = array_sum($responsesPerType);
+        $totalsPerType = [
+            1 => (int)$this->getQuestionValues($responses, [67825 => ['q012[1]']])[0],
+            2 => (int)$this->getQuestionValues($responses, [67825 => ['q012[2]']])[0],
+            3 => (int)$this->getQuestionValues($responses, [67825 => ['q012[3]']])[0],
+            4 => (int)$this->getQuestionValues($responses, [67825 => ['q012[4]']])[0],
+            5 => (int)$this->getQuestionValues($responses, [67825 => ['q012[5]']])[0],
+            6 => (int)$this->getQuestionValues($responses, [67825 => ['q012[6]']])[0],
+        ];
+        $totalsPerType['total'] = array_sum($totalsPerType);
+
+        $totalsPerType2 = [
+            1 => (int)$this->getQuestionValues($responses, [67825 => ['q013[1]']])[0],
+            2 => (int)$this->getQuestionValues($responses, [67825 => ['q013[2]']])[0],
+            3 => (int)$this->getQuestionValues($responses, [67825 => ['q013[3]']])[0],
+            4 => (int)$this->getQuestionValues($responses, [67825 => ['q013[4]']])[0],
+            5 => (int)$this->getQuestionValues($responses, [67825 => ['q013[5]']])[0],
+            6 => (int)$this->getQuestionValues($responses, [67825 => ['q013[6]']])[0],
+        ];
+        $totalsPerType2['total'] = array_sum($totalsPerType2);
+
+        foreach ($totalsPerType as $number => $value) {
+            $result[$number]['responses'] = ArrayHelper::getValue($responsesPerType, $number, 0);
+            $result[$number]['total1'] = $totalsPerType[$number];
+            $result[$number]['total2'] = $totalsPerType2[$number];
+        }
+
         return $result;
     }
 

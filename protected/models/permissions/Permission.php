@@ -111,8 +111,8 @@ class Permission extends ActiveRecord
     {
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read'),
-            self::PERMISSION_WRITE => \Yii::t('app', 'Write'),
-            self::PERMISSION_SHARE => \Yii::t('app', 'Share')
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write/Read'),
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share/Write/Read')
         ];
     }
 

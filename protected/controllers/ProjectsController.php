@@ -5,17 +5,22 @@ namespace prime\controllers;
 use app\components\Html;
 use Befound\Components\DateTime;
 use prime\components\Controller;
+use prime\models\Country;
 use prime\models\forms\projects\CreateUpdate;
 use prime\models\forms\projects\Share;
+use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
+use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
 use yii\web\Response;
+use yii\widgets\ActiveField;
+use yii\widgets\ActiveForm;
 
 class ProjectsController extends Controller
 {
@@ -46,13 +51,32 @@ class ProjectsController extends Controller
         }
     }
 
-    public function actionCreate(Request $request, Session $session)
+    public function actionConfigure(Request $request, Session $session, $id)
+    {
+        /** @var Project $model */
+        $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
+        // Form model.
+        $token = new Token($model->getToken());
+
+        if ($request->isPut && $token->load($request->bodyParams) && $token->save(true)) {
+            $session->setFlash('success', \Yii::t('app', "Token updated."));
+            $this->refresh();
+        }
+        return $this->render('configure', [
+            'token' => $token
+        ]);
+
+    }
+
+    public function actionCreate(Request $request, Session $session, Client $limesurvey)
     {
         $model = new CreateUpdate();
         $model->scenario = 'create';
 
         if ($request->isPost) {
-            if($model->load($request->bodyParams) && $model->save()) {
+            if($model->load($request->bodyParams) && $model->validate()) {
+
+
                 $session->setFlash(
                     'projectCreated',
                     [
@@ -61,6 +85,11 @@ class ProjectsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
+
+
+                if (!empty($model->getToken()->getCustomAttributes())) {
+                    return $this->redirect(['projects/configure', 'id' => $model->id]);
+                }
                 return $this->redirect(['projects/read', 'id' => $model->id]);
             }
         }

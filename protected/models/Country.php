@@ -102,4 +102,19 @@ class Country extends Model
             ]
         ];
     }
+
+    /**
+     * To allow sorting by country (countries are not in the database) we construct a case statement.
+     * This is not ideal from a database perspective, but for this case (there won't be many projects), it's ok.
+     */
+    public static function searchCaseStatement($attribute) {
+        $countries = static::findAll();
+        ArrayHelper::multisort($countries, 'name');
+        $case = '(case ';
+        foreach ($countries as $key => $value) {
+            $case .= "when country_iso_3 = '{$value->iso_3}' then $key ";
+        }
+        $case .= ' end)';
+        return $case;
+    }
 }

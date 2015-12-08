@@ -18,7 +18,9 @@ use yii\helpers\Html;
 ?>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
     <?= Yii::t('user', 'We have received a request to reset your {0} password', Yii::$app->name) ?>.
-    <?= Yii::t('user', 'If that was you, you can set a new password clicking the following link') ?>.
+</p>
+<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
+    <?= Yii::t('user', 'To reset your password please follow this link:') ?>
 </p>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
     <?= Html::a(Html::encode($token->url), $token->url); ?>

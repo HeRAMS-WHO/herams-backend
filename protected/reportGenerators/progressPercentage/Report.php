@@ -7,6 +7,7 @@ use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\UserDataInterface;
 use Psr\Http\Message\StreamInterface;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use yii\base\Component;
 
 class Report extends Component implements ReportInterface
@@ -15,7 +16,7 @@ class Report extends Component implements ReportInterface
     protected $signature;
     protected $userData;
 
-    public function __construct(ResponseCollectionInterface $responseCollection, SignatureInterface $signature, UserDataInterface $userData = null)
+    public function __construct(ResponseCollectionInterface $responseCollection, SignatureInterface $signature = null, UserDataInterface $userData = null)
     {
         parent::__construct();
         $this->responseCollection = $responseCollection;
@@ -39,14 +40,19 @@ class Report extends Component implements ReportInterface
 
     public function getPartners()
     {
-        /* @todo implement stub */
-        return 17;
+        return $this->responseCollection->size();
     }
 
     public function getPartnersResponding()
     {
-        /* @todo implement stub */
-        return 10;
+        $result = 0;
+        /** @var ResponseInterface $response */
+        foreach($this->responseCollection as $response) {
+            if (null !== $response->getSubmitDate()) {
+                $result++;
+            }
+        }
+        return $result;
     }
 
     public function getResponseRate()

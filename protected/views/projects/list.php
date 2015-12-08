@@ -42,15 +42,25 @@ use \app\components\Html;
         'filterModel' => $projectSearch,
         'dataProvider' => $projectsDataProvider,
         'columns' => [
+            [
+                'attribute' => 'tool_id',
+                'value' => 'tool.acronym',
+                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+                'filter' => $projectSearch->toolsOptions(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+
+                ],
+                'filterInputOptions' => [
+                    'placeholder' => \Yii::t('app', 'Select tool')
+                ]
+            ],
             'title',
             [
-                'attribute' => 'description',
-                'format' => 'raw'
-            ],
-            [
-                'attribute' => 'countriesIds',
-                'value' => 'locality',
-                'label' => \Yii::t('app', 'Country'),
+                'attribute' => 'country_iso_3',
+                'value' => 'country.name',
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $projectSearch->countriesOptions(),
                 'filterWidgetOptions' => [
@@ -60,19 +70,7 @@ use \app\components\Html;
                     ]
                 ]
             ],
-            [
-                'attribute' => 'toolIds',
-                'value' => 'tool.acronym',
-                'label' => \Yii::t('app', 'Tool'),
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $projectSearch->toolsOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select tool')
-                    ]
-                ]
-            ],
+            'locality_name',
             [
                 'attribute' => 'created',
                 'format' => 'date',

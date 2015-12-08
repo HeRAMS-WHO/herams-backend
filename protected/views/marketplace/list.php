@@ -24,33 +24,15 @@ $this->params['subMenu']['items'] = [
         'dataProvider' => $reportsDataProvider,
         'columns' => [
             [
-                'attribute' => 'toolIds',
-                'value' => 'project.tool.imageUrl',
+                'attribute' => 'toolId',
+                'value' => 'tool.acronym',
                 'label' => \Yii::t('app', 'Tool'),
-                'format' => ['image',
-                    [
-                        'height' => '100px',
-                    ]
-                ],
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $reportSearch->toolsOptions(),
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
                         'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select tools')
-                    ]
-                ]
-            ],
-            [
-                'attribute' => 'countriesIds',
-                'value' => 'project.locality',
-                'label' => \Yii::t('app', 'Country'),
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $reportSearch->countriesOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select countries')
+                        'placeholder' => \Yii::t('app', 'Select tool')
                     ]
                 ]
             ],
@@ -64,8 +46,26 @@ $this->params['subMenu']['items'] = [
                 ]
             ],
             [
+                'attribute' => 'countryId',
+                'value' => 'project.country.name',
+                'label' => \Yii::t('app', 'Country'),
+                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+                'filter' => $reportSearch->countriesOptions(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'placeholder' => \Yii::t('app', 'Select country')
+                    ]
+                ]
+            ],
+            [
+                'attribute' => 'localityName',
+                'value' => 'project.locality_name',
+                'label' => \Yii::t('app', 'Locality')
+            ],
+            [
                 'attribute' => 'published',
-                //'format' => ['date'],
+                'format' => 'date',
                 'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
@@ -80,8 +80,25 @@ $this->params['subMenu']['items'] = [
                 ],
             ],
             [
-                'attribute' => 'mime_type',
-                'label' => \Yii::t('app', 'Type')
+                'label' => \Yii::t('app', 'Type'),
+                'attribute' => 'file.mime_type'
+            ],
+            'actions' => [
+                'class' => \kartik\grid\ActionColumn::class,
+                'width' => '100px',
+                'template' => '{read}',
+                'buttons' => [
+                    'read' => function($url, $model, $key) {
+                        $result = Html::a(
+                            Html::icon('eye-open'),
+                            ['/reports/read', 'id' => $model->id],
+                            [
+                                'title' => \Yii::t('app', 'Read')
+                            ]
+                        );
+                        return $result;
+                    }
+                ]
             ]
         ]
     ]);

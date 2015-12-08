@@ -8,19 +8,21 @@ use prime\models\ar\Report;
 use prime\models\Country;
 use prime\models\MapLayer;
 use yii\helpers\ArrayHelper;
+use yii\web\Controller;
 use yii\web\JsExpression;
+use yii\web\View;
 
 class Projects extends MapLayer
 {
     public function init()
     {
-        parent::init();
         $this->allowPointSelect = true;
         $this->joinBy = null;
         $this->name = \Yii::t('app', 'Projects');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'projects'); return false;}"));
         $this->type = 'mappoint';
+        parent::init();
     }
 
     protected function prepareData()
@@ -35,6 +37,14 @@ class Projects extends MapLayer
                 'id' => $project->id
             ];
         }, Project::find()->notClosed()->all());
+    }
+
+    public function renderSummary(Controller $controller, $id)
+    {
+        $project = Project::findOne($id);
+        return $controller->render('summaries/projects', [
+            'project' => $project
+        ]);
     }
 
 

@@ -1,8 +1,9 @@
 <?php
+include __DIR__ . '/dependencies.php';
 include __DIR__ . '/../helpers/functions.php';
 return [
     'id' => 'prime',
-    'name' => 'Prime 2.0',
+    'name' => 'Prime',
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
@@ -10,7 +11,6 @@ return [
         '@prime' => '@app'
     ],
     'components' => [
-
         'authClientCollection' => [
             'class' => \yii\authclient\Collection::class,
             'clients' => [
@@ -49,7 +49,7 @@ return [
         'authManager' => [
             'class' => \dektrium\rbac\components\DbManager::class
         ],
-        'limesurvey' => function (){
+        'limeSurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient('http://whols2.befound.nl/index.php?r=admin/remotecontrol');
             return new \SamIT\LimeSurvey\JsonRpc\Client($json, 'prime', 'H9y43n4X');
         },
@@ -83,8 +83,9 @@ return [
             ],
             'mailer' => [
                 'sender' => 'default-sender@befound.nl', //[new \prime\objects\Deferred(function() {return \prime\models\ar\Setting::get('systemEmail', 'default-sender@befound.nl');})],
-                'confirmationSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Your account is now active!', ['0' => app()->name]);}),
-                'recoverySubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);})
+                'confirmationSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
+                'recoverySubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
+                'welcomeSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Public Health Risks Information Marketplace!', ['0' => app()->name]);}),
             ]
         ],
         'rbac' => [

@@ -17,8 +17,9 @@ class Report extends \prime\models\ar\Report
     /** @var ActiveQuery */
     public $query;
 
-    public $toolIds;
-    public $countriesIds;
+    public $countryId;
+    public $localityName;
+    public $toolId;
 
     public function countriesOptions()
     {
@@ -39,15 +40,15 @@ class Report extends \prime\models\ar\Report
         $this->scenario = 'search';
 
         $this->query = \prime\models\ar\Report::find();
-        $this->query->joinWith(['tool', 'project']);
+        $this->query->joinWith(['tool', 'project', 'file']);
     }
 
     public function rules()
     {
         return [
-            [['toolIds'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
-            [['countriesIds'], RangeValidator::class, 'range' => array_keys($this->countriesOptions()), 'allowArray' => true],
-            [['title'], StringValidator::class],
+            [['toolId'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
+            [['countryId'], RangeValidator::class, 'range' => array_keys($this->countriesOptions()), 'allowArray' => true],
+            [['title', 'localityName'], StringValidator::class],
             [['published'], 'safe']
         ];
     }
@@ -60,7 +61,7 @@ class Report extends \prime\models\ar\Report
     public function scenarios()
     {
         return [
-            'search' => ['toolIds', 'countriesIds', 'title', 'published']
+            'search' => ['toolId', 'countryId', 'title', 'published', 'localityName']
         ];
     }
 
@@ -69,6 +70,31 @@ class Report extends \prime\models\ar\Report
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
             'id' => 'report-data-provider'
+        ]);
+
+        $case = Country::searchCaseStatement('country_iso_3');
+
+        $dataProvider->setSort([
+            'attributes' => [
+                'toolId' => [
+                    'asc' => ['tool.acronym' => SORT_ASC],
+                    'desc' => ['tool.acronym' => SORT_DESC],
+                    'default' => 'asc'
+                ],
+                'title',
+                'published',
+                'countryId' => [
+                    'asc' => [$case => SORT_ASC],
+                    'desc' => [$case => SORT_DESC],
+                    'default' => 'asc'
+                ],
+                'localityName' => [
+                    'asc' => ['project.locality_name' => SORT_ASC],
+                    'desc' => ['project.locality_name' => SORT_DESC],
+                    'default' => 'asc'
+                ],
+                'file.mime_type'
+            ]
         ]);
 
         if(!$this->load($params) || !$this->validate()) {
@@ -80,13 +106,14 @@ class Report extends \prime\models\ar\Report
             $this->query->andFilterWhere([
                 'and',
                 ['>=', 'published', $interval[0]],
-                ['<=', 'published', $interval[1]]
+                ['<=', 'published', $interval[1] . ' 23:59:59']
             ]);
         }
 
-        $this->query->andFilterWhere(['tool_id' => $this->toolIds]);
-        $this->query->andFilterWhere(['country_iso_3' => $this->countriesIds]);
+        $this->query->andFilterWhere(['tool_id' => $this->toolId]);
+        $this->query->andFilterWhere(['country_iso_3' => $this->countryId]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Report::tableName() . '.title', $this->title]);
+        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.locality_name', $this->localityName]);
 
         return $dataProvider;
     }
@@ -96,7 +123,7 @@ class Report extends \prime\models\ar\Report
         return ArrayHelper::map(
             $this->query->copy()->orderBy(Tool::tableName() . '.title')->all(),
             'tool.id',
-            'tool.title'
+            'tool.acronym'
         );
     }
 
