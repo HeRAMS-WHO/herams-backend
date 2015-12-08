@@ -1,51 +1,63 @@
 <?php
 
 /**
- * @var \prime\reportGenerators\progressPercentage\Report $report
  * @var \yii\web\View $this
  */
+
+$this->registerAssetBundle(\prime\assets\SassAsset::class);
+$this->beginContent('@app/views/layouts/report.php');
 ?>
-<div class="row">
-    <div class="col-xs-12">
-        <h1><?=\Yii::t('app', 'Progress')?></h1>
-    </div>
-    <div class="col-xs-12 col-md-6">
-        <?php
-        echo \miloschuman\highcharts\Highcharts::widget([
-            'options' => [
-                'chart' => [
-                    'type' => 'pie',
-                    'backgroundColor' => 'transparent',
+<style>
+    body {
+        margin-top:0px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1><?=\Yii::t('app', 'Progress')?></h1>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <?php
+            echo \miloschuman\highcharts\Highcharts::widget([
+                'options' => [
+                    'chart' => [
+                        'type' => 'pie',
+                        'backgroundColor' => 'transparent',
+                    ],
+                    'title' => [
+                        false
+                    ],
+                    'yAxis' => ['title' => false],
+                    'series' => [
+                        [
+                            'name' => \Yii::t('app', 'Statuses'),
+                            'data' => [
+                                13,
+                                20
+                            ],
+                            'dataLabels' => [
+                                'enabled' => false
+                            ]
+                        ]],
+                    'credits' => ['enabled' => false],
+                    'tooltip' => [
+                        'enabled' => false
+                    ]
                 ],
-                'title' => [
-                    false
-                ],
-                'yAxis' => ['title' => false],
-                'series' => [
-                    [
-                        'name' => \Yii::t('app', 'Statuses'),
-                        'data' => [
-                            $report->getPartnersResponding(),
-                            $report->getPartners() - $report->getPartnersResponding()
-                        ],
-                        'dataLabels' => [
-                            'enabled' => false
-                        ]
-                    ]],
-                'credits' => ['enabled' => false],
-                'tooltip' => [
-                    'enabled' => false
-                ]
-            ]
-        ])
-        ?>
-    </div>
-    <div class="col-xs-12 col-md-6">
-        <h2><?=\Yii::t('app', 'Total response rate')?></h2>
-        <?=$report->getResponseRate()?>%
-        <h2><?=\Yii::t('app', 'Number partners responding')?></h2>
-        <?=$report->getPartnersResponding()?>
-        <h2><?=\Yii::t('app', 'Total number of partners')?></h2>
-        <?=$report->getPartners()?>
+
+                'view' => $this
+            ])
+            ?>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <h2><?=\Yii::t('app', 'Total response rate')?></h2>
+            <?=app()->formatter->asPercent(13/20); ?>
+            <h2><?=\Yii::t('app', 'Number partners responding')?></h2>
+            <?=13 ?>
+            <h2><?=\Yii::t('app', 'Total number of partners')?></h2>
+            <?=20 ?>
+        </div>
     </div>
 </div>
+<?php $this->endContent(); ?>

@@ -59,5 +59,5 @@ $this->beginContent('@app/views/layouts/report.php');
         <?=$responseRates['total']['total1']?>
     </div>
 </div>
-<?php $this->endContent(); ?>
 </div>
+<?php $this->endContent(); ?>
