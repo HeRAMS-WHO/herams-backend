@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\reportGenerators\ccpm;
+namespace prime\reportGenerators\cd;
 
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportInterface;
@@ -30,7 +30,7 @@ class Report extends Component implements ReportInterface
 
     public function getGenerator()
     {
-        return 'ccpm';
+        return 'cd';
     }
 
     /**
@@ -80,7 +80,7 @@ class Report extends Component implements ReportInterface
      */
     public function getTitle()
     {
-        return 'CCPM ' . $this->project->getLocality() . ' ' . $this->signature->getTime()->format('Y-m-d');
+        return 'CD ' . $this->project->getLocality() . ' ' . $this->signature->getTime()->format('Y-m-d');
     }
 
 
