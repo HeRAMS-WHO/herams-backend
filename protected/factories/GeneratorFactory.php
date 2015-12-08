@@ -3,6 +3,7 @@
 
 namespace prime\factories;
 
+
 use yii\helpers\ArrayHelper;
 
 
@@ -24,7 +25,8 @@ class GeneratorFactory
         return [
             'ccpm' => \prime\reportGenerators\ccpm\Generator::class,
             'cd' => \prime\reportGenerators\cd\Generator::class,
-            'percentage' => \prime\reportGenerators\progressPercentage\Generator::class
+            'percentage' => \prime\reportGenerators\progressPercentage\Generator::class,
+            'ccpmPercentage' => \prime\reportGenerators\ccpmProgressPercentage\Generator::class
         ];
 
     }

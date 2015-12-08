@@ -16,7 +16,8 @@
         {
             return [
                 'captcha' => [
-                    'class' => CaptchaAction::class
+                    'class' => CaptchaAction::class,
+                    'fixedVerifyCode' => php_sapi_name() == 'cli-server' ? 'test' : null
                 ]
             ];
         }

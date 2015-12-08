@@ -14,7 +14,7 @@ $this->title = Yii::t('app', 'Create project');
 $this->params['subMenu'] = [
     'items' => [
         [
-            'label' => Html::submitButton(\Yii::t('app', 'save'), ['form' => 'create-project', 'class' => 'btn btn-primary'])
+            'label' => Html::submitButton(\Yii::t('app', 'Create project'), ['form' => 'create-project', 'class' => 'btn btn-primary'])
         ],
     ]
 ];

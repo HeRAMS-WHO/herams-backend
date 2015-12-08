@@ -30,8 +30,15 @@ echo \kartik\grid\GridView::widget([
         [
             'attribute' => 'q02[SQ001]',
             'value' => $getter,
-            'label' => 'Name'
-        ]
+            'label' => 'Name',
+            'visible' => isset($model->getResponses()[0]->getData()['q02[SQ001'])
+        ],
+//        [
+//            'attribute' => 'q011',
+//            'value' => $getter,
+//            'label' => 'Name',
+//            'visible' => isset($model->getResponses()[0]->getData()['q011'])
+//        ]
     ],
     'dataProvider' => new \yii\data\ArrayDataProvider([
         'allModels' => iterator_to_array($model->getResponses())

@@ -6,6 +6,7 @@ use prime\models\Country;
 use prime\models\ar\Project;
 use prime\models\ar\ProjectCountry;
 use yii\helpers\ArrayHelper;
+use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -18,6 +19,7 @@ class CreateUpdate extends Project
     {
         return ArrayHelper::merge(parent::rules(),
             [
+                ['token', DefaultValueValidator::class, 'value' => app()->security->generateRandomString(35)]
 
             ]
         );
@@ -26,7 +28,19 @@ class CreateUpdate extends Project
     public function scenarios()
     {
         return [
-            'create' => ['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'default_generator', 'country_iso_3', 'latitude', 'longitude', 'locality_name'],
+            'create' => [
+                'title',
+                'description',
+                'owner_id',
+                'data_survey_eid',
+                'tool_id',
+                'default_generator',
+                'country_iso_3',
+                'latitude',
+                'longitude',
+                'locality_name',
+                'token'
+            ],
             'update' => ['title', 'description', 'default_generator', 'country_iso_3', 'latitude', 'longitude', 'locality_name'],
         ];
     }

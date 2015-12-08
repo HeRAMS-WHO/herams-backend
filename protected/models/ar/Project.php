@@ -30,6 +30,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
+use yii\base\Security;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\validators\DateValidator;
@@ -50,6 +51,7 @@ use yii\web\JsExpression;
  * @property string $description
  * @property string $default_generator
  * @property string $country_iso_3
+ * @property int $data_survey_eid The associated data survey.
  * @property Country $country
  *
  * @method static ProjectQuery find()
@@ -87,6 +89,7 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         return Country::findOne($this->country_iso_3);
     }
+
 
     public function countryOptions()
     {
@@ -180,11 +183,23 @@ class Project extends ActiveRecord implements ProjectInterface
 
     /**
      * @return ResponseCollectionInterface
-     * TODO: Implement correct function
      */
     public function getResponses()
     {
-        return new ResponseCollection();
+        $result = new ResponseCollection();
+        foreach ($this->limeSurvey->getResponsesByToken($this->data_survey_eid, $this->token) as $response) {
+            $result->append($response);
+        }
+        /**
+         * @todo Refactor this to be somewhere else.
+         * Special handling for CCPM.
+         */
+        if ($this->tool->acronym == 'CCPM') {
+            foreach ($this->limeSurvey->getResponsesByToken(67825, $this->token) as $response) {
+                $result->append($response);
+            }
+        }
+        return $result;
     }
 
     /**
@@ -238,7 +253,12 @@ class Project extends ActiveRecord implements ProjectInterface
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
-            [['default_generator'], RangeValidator::class, 'range' => function(self $model, $attribute) {return array_keys($model->generatorOptions());}],
+            [
+                ['default_generator'],
+                RangeValidator::class,
+                'range' => function(self $model, $attribute) { return array_keys($model->generatorOptions()); },
+                'enableClientValidation'=> false
+            ],
             [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
             [['latitude', 'longitude'], NumberValidator::class],
             // Save NULL instead of "" when no default report is selected.
@@ -279,7 +299,6 @@ class Project extends ActiveRecord implements ProjectInterface
         if (!isset($this->_token)) {
             // Always attempt creation.
             $this->limeSurvey->createToken($this->data_survey_eid, ['token' => $this->token]);
-
             $token = $this->limeSurvey->getToken($this->data_survey_eid, $this->token);
 
             $token->setFirstName($this->getLocality());

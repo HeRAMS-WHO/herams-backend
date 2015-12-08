@@ -19,7 +19,7 @@ unset($loader);
 
 Yii::setAlias('@webroot', realpath(__DIR__ . '/../public/'));
 Yii::$classMap = include(__DIR__ . '/vendor/yiisoft/yii2/classes.php');
-Yii::$container = new yii\di\Container;
+Yii::$container = new prime\injection\Container();
 
 $config = require __DIR__ . '/config/web.php';
 spl_autoload_register(['Yii', 'autoload'], true, false);

@@ -23,6 +23,7 @@ use yii\validators\SafeValidator;
  * @property string $imageUrl
  * @property int $base_survey_eid
  * @property int $intake_survey_eid
+ * @property string $acronym
  * @property Map $generators
  */
 class Tool extends ActiveRecord {
@@ -150,8 +151,7 @@ class Tool extends ActiveRecord {
             [['title'], 'unique'],
             [['tempImage', 'thumbTempImage'], 'image'],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
-            [['progress_type'], 'string'],
-//            [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
+            [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
         // Validation disabled until this is merged: https://github.com/yiisoft/yii2/pull/10162
             [['generators'], SafeValidator::class],
 //            [['generators'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes()), 'allowArray' => true]
@@ -162,7 +162,7 @@ class Tool extends ActiveRecord {
     {
         return [
             'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generators'],
-            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generators']
+            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generators', 'progress_type']
         ];
     }
 

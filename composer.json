@@ -65,7 +65,8 @@
     "require-dev": {
         "yiisoft/yii2-debug" : "*",
         "codeception/codeception": "^2.1",
-        "yiisoft/yii2-codeception": "^2.0"
+        "yiisoft/yii2-codeception": "^2.0",
+        "codeception/phpbuiltinserver": "^1.2"
     },
     "extra": {
         "asset-installer-paths": {

@@ -67,15 +67,24 @@ class ToolsController extends Controller
         $response->format = Response::FORMAT_JSON;
         $generators = [];
         $options = GeneratorFactory::options();
-        foreach(Tool::findAll($depdrop_parents) as $tool) {
-            foreach ($tool->generators as $value) {
-                $generators[] = [
-                    'id' => $value,
-                    'name' => $options[$value]
-                ];
 
+        foreach(Tool::findAll(['id' => $depdrop_parents]) as $tool) {
+            $generatorCount = count($tool->generators);
+            foreach ($tool->generators as $key => $value) {
+                if (isset($options[$value])) {
+                    $generators[] = [
+                        'id' => $value,
+                        'name' => $options[$value]
+                    ];
+                } else {
+                    unset($tool->generators[$key]);
+                }
+            }
+            if ($generatorCount > count($tool->generators)) {
+                $tool->save();
             }
         }
+
 
         return [
             'output' => $generators,

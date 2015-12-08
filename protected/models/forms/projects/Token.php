@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use yii\base\Model;
 use yii\validators\DateValidator;
+use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
 use yii\validators\Validator;
 
@@ -110,6 +111,7 @@ class Token extends Model
         return [
             [array_map('lcfirst', array_keys($this->_token->getCustomAttributes())), SafeValidator::class],
             [['validFrom', 'validUntil'], DateValidator::class, 'format' => 'php:Y-m-d H:i:s'],
+            [['usesLeft'], NumberValidator::class, 'min' => 1]
         ];
 
     }
