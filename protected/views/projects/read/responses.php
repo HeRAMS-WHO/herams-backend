@@ -31,7 +31,7 @@ echo \kartik\grid\GridView::widget([
             'attribute' => 'q02[SQ001]',
             'value' => $getter,
             'label' => 'Name',
-            'visible' => isset($model->getResponses()[0]->getData()['q02[SQ001'])
+            'visible' => $model->getResponses()->size() > 0 && isset($model->getResponses()[0]->getData()['q02[SQ001'])
         ],
 //        [
 //            'attribute' => 'q011',
