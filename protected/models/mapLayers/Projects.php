@@ -2,6 +2,7 @@
 
 namespace prime\models\mapLayers;
 
+use app\queries\ProjectQuery;
 use prime\models\ar\Project;
 use prime\models\ar\ProjectCountry;
 use prime\models\ar\Report;
@@ -14,6 +15,15 @@ use yii\web\View;
 
 class Projects extends MapLayer
 {
+    /** @var ProjectQuery */
+    protected $projectQuery;
+
+    public function __construct(ProjectQuery $projectQuery, $config = [])
+    {
+        $this->projectQuery = $projectQuery;
+        parent::__construct($config);
+    }
+
     public function init()
     {
         $this->allowPointSelect = true;
@@ -36,15 +46,16 @@ class Projects extends MapLayer
                 'lon' => $latLong->getLongitude()->get(),
                 'id' => $project->id
             ];
-        }, Project::find()->notClosed()->all());
+        //}, Project::find()->notClosed()->all());
+        }, $this->projectQuery->all());
     }
 
-    public function renderSummary(Controller $controller, $id)
+    public function renderSummary(View $view, $id)
     {
         $project = Project::findOne($id);
-        return $controller->render('summaries/projects', [
+        return $view->render('summaries/projects', [
             'project' => $project
-        ]);
+        ], $this);
     }
 
 

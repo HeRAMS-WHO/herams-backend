@@ -2,8 +2,12 @@
 
 namespace prime\models\mapLayers;
 
+use Befound\Components\DateTime;
+use Carbon\Carbon;
+use prime\interfaces\ResponseCollectionInterface;
 use prime\models\Country;
 use prime\models\MapLayer;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use yii\web\Controller;
 use yii\web\JsExpression;
 use yii\web\View;
@@ -18,10 +22,15 @@ class CountryGrades extends MapLayer
     ];
 
     protected $colorScale = [
-        1 => 'rgba(255, 255, 0, 1)',
-        2 => 'rgba(255, 127, 0, 1)',
-        3 => 'rgba(255, 0, 0, 1)'
+        'A00' => 'rgba(100, 100, 100, 0.8)',
+        'A0' => 'rgba(255, 255, 255, 0)',
+        'A1' => 'rgba(255, 255, 0, 1)',
+        'A2' => 'rgba(255, 127, 0, 1)',
+        'A3' => 'rgba(255, 0, 0, 1)'
     ];
+
+    /** @var ResponseCollectionInterface */
+    protected $responses;
 
     protected function addColorsToData()
     {
@@ -30,6 +39,12 @@ class CountryGrades extends MapLayer
                 $data['color'] = $this->colorScale[$data['value']];
             }
         }
+    }
+
+    public function __construct(ResponseCollectionInterface $responses, $config = [])
+    {
+        $this->responses = $responses;
+        parent::__construct($config);
     }
 
     public function init()
@@ -42,30 +57,37 @@ class CountryGrades extends MapLayer
         parent::init();
     }
 
-    protected function prepareData()
+    protected function prepareData(Carbon $date = null)
     {
-        $this->data = [
-            [
-                'id' => 'NLD',
-                'value' => 1,
-            ],
-            [
-                'id' => 'ISR',
-                'value' => 3
-            ],
-            [
-                'id' => 'ROU',
-                'value' => 3
-            ],
-            [
-                'id' => 'TUN',
-                'value' => 2
-            ],
-            [
-                'id' => 'AFG',
-                'value' => 1
-            ]
-        ];
+        if(!isset($date)) {
+            $date = new Carbon();
+        }
+
+        //$tempData will be of shape $tempData[country_iso_3]['value' => ..., 'date' => ...]
+        $tempData = [];
+        /** @var ResponseInterface $response */
+        foreach($this->responses as $response) {
+            $responseData = $response->getData();
+            if($responseData['PRIMEID'] != '' && isset($responseData['GM02'])) {
+                $responseDate = new Carbon($responseData['GM01']);
+                if (!isset($tempData[$responseData['PRIMEID']]) && $responseDate->lte($date)) {
+                    $tempData[$responseData['PRIMEID']] = ['date' => $responseDate, 'value' => $responseData['GM02']];
+                } else {
+                    if($responseDate->lte($date) && $responseDate->gt($tempData[$responseData['PRIMEID']]['date'])) {
+                        $tempData[$responseData['PRIMEID']] = ['date' => $responseDate, 'value' => $responseData['GM02']];
+                    }
+                }
+            }
+        }
+
+        $this->data = [];
+        foreach($tempData as $id => $data) {
+            $this->data[] = [
+                'id' => $id,
+                'value' => $data['value']
+            ];
+        }
+
         $this->addColorsToData();
     }
 
@@ -73,20 +95,21 @@ class CountryGrades extends MapLayer
     {
         return "<table>" .
             "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Country Grades') . "</th></tr>" .
-            "<tr><td style='padding: 5px; font-weight: bold;'>" . \Yii::t('app', 'Ungraded') . "</td></tr>" .
-            "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->colorScale[1] . "'>" . \Yii::t('app', 'Grade 1') . "</td></tr>" .
-            "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale[2] . "'>" . \Yii::t('app', 'Grade 2') . "</td></tr>" .
-            "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale[3] . "'>" . \Yii::t('app', 'Grade 3') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->colorScale['A00'] . "'>" . \Yii::t('app', 'Preparedness') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->colorScale['A0'] . "'>" . \Yii::t('app', 'Ungraded') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->colorScale['A1'] . "'>" . \Yii::t('app', 'Grade 1') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale['A2'] . "'>" . \Yii::t('app', 'Grade 2') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale['A3'] . "'>" . \Yii::t('app', 'Grade 3') . "</td></tr>" .
         "</table>";
     }
 
 
-    public function renderSummary(Controller $controller, $id)
+    public function renderSummary(View $view, $id)
     {
         $country = Country::findOne($id);
-        return $controller->render('summaries/reports', [
+        return $view->render('summaries/reports', [
             'country' => $country
-        ]);
+        ], $this);
     }
 
 

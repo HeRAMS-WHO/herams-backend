@@ -8,13 +8,21 @@ use prime\factories\MapLayerFactory;
 use prime\models\ar\Project;
 use prime\models\Country;
 use prime\models\search\Report;
+use prime\objects\ResponseCollection;
+use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\helpers\ArrayHelper;
 
 class MarketplaceController extends Controller
 {
-    public function actionMap()
+    public function actionMap(Client $limesurvey)
     {
-        return $this->render('map');
+        $mapLayerData = [
+            'projects' => Project::find()->notClosed(),
+            'countryGrades' => new ResponseCollection(), //$limesurvey->getResponses(486496),
+            'eventGrades' => new ResponseCollection(), //$limesurvey->getResponses(473297),
+            'healthClusters' => new ResponseCollection()
+        ];
+        return $this->render('map', ['mapLayerData' => $mapLayerData]);
     }
 
     public function actionList(Request $request)
@@ -31,7 +39,7 @@ class MarketplaceController extends Controller
     public function actionSummary($id, $layer)
     {
         $mapLayer = MapLayerFactory::get($layer);
-        return $mapLayer->renderSummary($this, $id);
+        return $mapLayer->renderSummary($this->getView(), $id);
     }
 
     public function behaviors()

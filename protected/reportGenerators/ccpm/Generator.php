@@ -15,6 +15,8 @@ use yii\helpers\ArrayHelper;
 
 class Generator extends \prime\reportGenerators\base\Generator
 {
+    public $CPASurveyId = 67825;
+    public $PPASurveyId = 22814;
 
     public function calculateScore(ResponseCollectionInterface $responses, $map, $method = 'median')
     {
@@ -36,25 +38,25 @@ class Generator extends \prime\reportGenerators\base\Generator
     public function getResponseRates(ResponseCollectionInterface $responses)
     {
         $result = [];
-        $responsesPerType = array_count_values($this->getQuestionValues($responses, [22814 => ['q012']]));
+        $responsesPerType = array_count_values($this->getQuestionValues($responses, [$this->PPASurveyId => ['q012']]));
         $responsesPerType['total'] = array_sum($responsesPerType);
         $totalsPerType = [
-            1 => (int)$this->getQuestionValues($responses, [67825 => ['q012[1]']])[0],
-            2 => (int)$this->getQuestionValues($responses, [67825 => ['q012[2]']])[0],
-            3 => (int)$this->getQuestionValues($responses, [67825 => ['q012[3]']])[0],
-            4 => (int)$this->getQuestionValues($responses, [67825 => ['q012[4]']])[0],
-            5 => (int)$this->getQuestionValues($responses, [67825 => ['q012[5]']])[0],
-            6 => (int)$this->getQuestionValues($responses, [67825 => ['q012[6]']])[0],
+            1 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[1]']])[0],
+            2 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[2]']])[0],
+            3 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[3]']])[0],
+            4 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[4]']])[0],
+            5 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[5]']])[0],
+            6 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[6]']])[0],
         ];
         $totalsPerType['total'] = array_sum($totalsPerType);
 
         $totalsPerType2 = [
-            1 => (int)$this->getQuestionValues($responses, [67825 => ['q013[1]']])[0],
-            2 => (int)$this->getQuestionValues($responses, [67825 => ['q013[2]']])[0],
-            3 => (int)$this->getQuestionValues($responses, [67825 => ['q013[3]']])[0],
-            4 => (int)$this->getQuestionValues($responses, [67825 => ['q013[4]']])[0],
-            5 => (int)$this->getQuestionValues($responses, [67825 => ['q013[5]']])[0],
-            6 => (int)$this->getQuestionValues($responses, [67825 => ['q013[6]']])[0],
+            1 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[1]']])[0],
+            2 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[2]']])[0],
+            3 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[3]']])[0],
+            4 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[4]']])[0],
+            5 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[5]']])[0],
+            6 => (int)$this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[6]']])[0],
         ];
         $totalsPerType2['total'] = array_sum($totalsPerType2);
 

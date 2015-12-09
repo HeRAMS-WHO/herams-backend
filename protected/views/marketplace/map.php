@@ -4,6 +4,7 @@ use miloschuman\highcharts\Highmaps;
 use yii\web\JsExpression;
 
 /**
+ * @var array $mapLayerData
  * @var \yii\web\View $this
  */
 
@@ -22,7 +23,6 @@ $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::ge
     'Highcharts.maps["who/world"]["hc-transform"] = {default: {crs: "WGS84"}};'
 );
 
-//vdd((new \prime\models\mapLayers\Projects())->toArray());
 $map = Highmaps::begin([
     'options' => [
         'title' => [
@@ -46,10 +46,10 @@ $map = Highmaps::begin([
         ],
         'series' => [
             \prime\factories\MapLayerFactory::get('base', [], ['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"])->toArray(),
-            (new \prime\models\mapLayers\Projects())->toArray(),
-            (new \prime\models\mapLayers\CountryGrades())->toArray(),
-            (new \prime\models\mapLayers\EventGrades())->toArray(),
-            (new \prime\models\mapLayers\HealthClusters())->toArray(),
+            \prime\factories\MapLayerFactory::get('projects', [$mapLayerData['projects']])->toArray(),
+            \prime\factories\MapLayerFactory::get('countryGrades', [$mapLayerData['countryGrades']])->toArray(),
+            \prime\factories\MapLayerFactory::get('eventGrades', [$mapLayerData['eventGrades']])->toArray(),
+            \prime\factories\MapLayerFactory::get('healthClusters', [$mapLayerData['healthClusters']])->toArray(),
         ],
         'credits' => [
             'enabled' => false
