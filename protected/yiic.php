@@ -13,7 +13,7 @@ class Yii extends \app\components\Yii {}
 
 spl_autoload_register(['Yii', 'autoload'], true, true);
 Yii::$classMap = include(__DIR__ . '/vendor/yiisoft/yii2/classes.php');
-Yii::$container = new yii\di\Container;
+Yii::$container = new prime\injection\Container();
 
 $config = require __DIR__ . '/config/console.php';
 

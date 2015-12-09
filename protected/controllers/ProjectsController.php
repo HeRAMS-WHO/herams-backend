@@ -68,13 +68,12 @@ class ProjectsController extends Controller
 
     }
 
-    public function actionCreate(Request $request, Session $session, Client $limesurvey)
+    public function actionCreate(CreateUpdate $model, Request $request, Session $session, Client $limesurvey)
     {
-        $model = new CreateUpdate();
         $model->scenario = 'create';
 
         if ($request->isPost) {
-            if($model->load($request->bodyParams) && $model->validate()) {
+            if($model->load($request->bodyParams) && $model->save()) {
 
 
                 $session->setFlash(

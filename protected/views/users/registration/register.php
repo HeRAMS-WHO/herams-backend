@@ -13,7 +13,8 @@ $form = ActiveForm::begin([
     'method' => 'POST',
     "type" => ActiveForm::TYPE_HORIZONTAL,
     'formConfig' => [
-        'showLabels' => false,
+        'labelSpan' => 0,
+        'showLabels' => ActiveForm::SCREEN_READER,
         'defaultPlaceholder' => true
     ]
 ]);
@@ -69,7 +70,7 @@ echo Form::widget([
         'actions' => [
             'type' => Form::INPUT_RAW,
             'value' =>
-                Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary col-xs-12'])
+                Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-block'])
         ]
     ],
     'options' => [

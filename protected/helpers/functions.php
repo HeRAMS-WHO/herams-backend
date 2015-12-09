@@ -57,10 +57,10 @@ function vddSql(\yii\db\Query $query, $mesage = '', $depth = 10, $highlight = tr
     die($mesage);
 }
 
-function median($array)
+function median(array $array)
 {
-    if(!is_array($array)) {
-        throw new \Exception("Array should be an array");
+    if(empty($array)) {
+        throw new \Exception("Array must not be empty");
     }
 
     rsort($array);
@@ -68,11 +68,10 @@ function median($array)
     return $array[$middle - 1];
 }
 
-function average($array)
+function average(array $array)
 {
-    if(!is_array($array)) {
-        throw new \Exception("Array should be an array");
+    if(empty($array)) {
+        throw new \Exception("Array must not be empty");
     }
-
     return array_sum($array) / count($array);
 }

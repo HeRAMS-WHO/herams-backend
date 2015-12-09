@@ -11,31 +11,26 @@ use prime\interfaces\SignatureInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
 use prime\objects\Report;
-use prime\objects\ResponseCollection;
-use SamIT\LimeSurvey\Interfaces\GroupInterface;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
-use SamIT\LimeSurvey\Interfaces\ResponseInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\base\Component;
-use yii\base\ViewContextInterface;
-use yii\console\Exception;
 use yii\helpers\ArrayHelper;
-use yii\web\View;
 
 class Generator extends \prime\reportGenerators\base\Generator
 {
+
     public function calculateScore(ResponseCollectionInterface $responses, $map, $method = 'median')
     {
         $result = $this->getQuestionValues($responses, $map, [$this, 'rangeValidator04']);
-        switch($method) {
-            case 'average':
-                $result = average($result);
-                break;
-            case 'median':
-                $result = median($result);
-                break;
+        if (!empty($result)) {
+            switch ($method) {
+                case 'average':
+                    $result = average($result);
+                    break;
+                case 'median':
+                    $result = median($result);
+                    break;
+            }
+
+            return $this->map04($result);
         }
-        return $this->map04($result);
     }
 
     public function getResponseRates(ResponseCollectionInterface $responses)
@@ -108,6 +103,7 @@ class Generator extends \prime\reportGenerators\base\Generator
 
     /**
      * @param ResponseCollectionInterface $responses
+     * @param SurveyCollectionInterface $surveys,
      * @param SignatureInterface $signature
      * @param ProjectInterface $project
      * @param UserDataInterface|null $userData
@@ -120,8 +116,12 @@ class Generator extends \prime\reportGenerators\base\Generator
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
-        //vdd($this->mapStatus($this->map04(median($this->getQuestionValues($responses, [67825 => ['q112'], 22814 => ['q111']], [$this, 'rangeValidator04'])))));
-        return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature, 'responses' => $responses], $this);
+        return $this->view->render('preview', [
+            'userData' => $userData,
+            'project' => $project,
+            'signature' => $signature,
+            'responses' => $responses
+        ], $this);
     }
 
     /**
@@ -148,7 +148,7 @@ class Generator extends \prime\reportGenerators\base\Generator
             'project' => $project
         ], $this));
 
-        return new Report($userData, $signature, $stream, $this->className(), $this->getReportTitle($project, $signature));
+        return new Report($userData, $signature, $stream, __CLASS__, $this->getReportTitle($project, $signature));
     }
 
     /**

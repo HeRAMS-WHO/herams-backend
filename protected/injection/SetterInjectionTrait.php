@@ -4,8 +4,6 @@
 namespace prime\injection;
 
 
-use yii\di\Container;
-
 trait SetterInjectionTrait
 {
     private $locked = false;
@@ -60,6 +58,5 @@ trait SetterInjectionTrait
             $this->$setter($container->get($class));
         }
     }
-
 
 }

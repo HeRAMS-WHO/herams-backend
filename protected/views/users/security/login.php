@@ -15,7 +15,8 @@
             'method' => 'POST',
             "type" => ActiveForm::TYPE_HORIZONTAL,
             'formConfig' => [
-                'showLabels' => false
+                'labelSpan' => 0,
+                'showLabels' => ActiveForm::SCREEN_READER
             ]
         ]);
 

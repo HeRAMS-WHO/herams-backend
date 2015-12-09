@@ -4,8 +4,6 @@
  * @var \yii\web\View $this
  */
 
-//vdd($userData);
-
 $report = $this->render('preview', [
     'userData' => $userData,
     'signature' => $signature,

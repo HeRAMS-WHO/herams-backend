@@ -39,7 +39,7 @@
         "sam-it/ls-interfaces": "^0.3.0",
         "yiisoft/yii2": "^2.0.6",
         "treffynnon/navigator": "~1.0",
-        "sam-it/ls2-jsonrpc-client": "dev-master",
+        "sam-it/ls2-jsonrpc-client": "^0.5.0",
         "dektrium/yii2-rbac": "^0.1.0",
         "npm-asset/mresize": "^1.0",
         "bower-asset/bootstrap-social": "^4.10",
@@ -65,7 +65,8 @@
     "require-dev": {
         "yiisoft/yii2-debug" : "*",
         "codeception/codeception": "^2.1",
-        "yiisoft/yii2-codeception": "^2.0"
+        "yiisoft/yii2-codeception": "^2.0",
+        "codeception/phpbuiltinserver": "^1.2"
     },
     "extra": {
         "asset-installer-paths": {

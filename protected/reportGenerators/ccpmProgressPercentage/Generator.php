@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\reportGenerators\progressPercentage;
+namespace prime\reportGenerators\ccpmProgressPercentage;
 
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
@@ -13,7 +13,7 @@ use prime\models\ar\UserData;
 use prime\objects\Report;
 use yii\base\Component;
 
-class Generator extends \prime\reportGenerators\base\Generator implements ReportGeneratorInterface
+class Generator extends \prime\reportGenerators\ccpm\Generator implements ReportGeneratorInterface
 {
     /**
      * @return string the view path that may be prefixed to a relative view name.
@@ -45,6 +45,7 @@ class Generator extends \prime\reportGenerators\base\Generator implements Report
             'signature' => $signature,
             'responses' => $responses,
             'project' => $project,
+            'responseRates' => $this->getResponseRates($responses)
         ], $this));
 
         $userData = new UserData();
@@ -67,7 +68,7 @@ class Generator extends \prime\reportGenerators\base\Generator implements Report
         UserDataInterface $userData = null
     ) {
         return $this->view->render('publish', [
-
+            'responseRates' => $this->getResponseRates($responses)
         ], $this);
     }
 
@@ -77,7 +78,7 @@ class Generator extends \prime\reportGenerators\base\Generator implements Report
      */
     public static function title()
     {
-        return \Yii::t('app', 'Percentage');
+        return \Yii::t('app', 'CCPM Percentage');
     }
 
 

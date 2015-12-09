@@ -168,7 +168,7 @@ $this->beginContent('@app/views/layouts/report.php');
     <?=$this->render('header', ['project' => $project])?>
     <div class="row">
         <div class="col-xs-12">
-        <h2><?=\Yii::t('ccpm', 'Overall response rate')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations tat are part of the cluster')?></span></h2>
+        <h2><?=\Yii::t('ccpm', 'Overall response rate')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations that are part of the cluster')?></span></h2>
         </div>
     </div>
     <?php
@@ -196,7 +196,7 @@ $this->beginContent('@app/views/layouts/report.php');
         <?=$this->render('header', ['project' => $project])?>
         <div class="row">
             <div class="col-xs-12">
-                <h2><?=\Yii::t('ccpm', 'Overall response rate 2')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations tat are part of the cluster')?></span></h2>
+                <h2><?=\Yii::t('ccpm', 'Overall response rate 2')?><span style="font-size: 0.5em; margin-left: 50px;">(<?=Yii::t('ccpm', 'Based on the number of organizations that are part of the cluster')?></span></h2>
             </div>
         </div>
         <?php
