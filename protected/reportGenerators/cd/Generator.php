@@ -9,6 +9,7 @@ use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
+use prime\objects\Report;
 use prime\objects\ResponseCollection;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -26,6 +27,11 @@ class Generator extends \prime\reportGenerators\base\Generator
     protected $response;
     public $dateFormat = 'd F - Y';
 
+    /**
+     * Return answer to the question title in the response
+     * @param $title
+     * @return string|null
+     */
     public function getQuestionValue($title)
     {
 //        $responses = new ResponseCollection();
@@ -45,7 +51,9 @@ class Generator extends \prime\reportGenerators\base\Generator
     public function mapWorkingModalities($value)
     {
         $map = [
-            1 => \Yii::t('cd', 'Full-time')
+            1 => \Yii::t('cd', 'Full-time'),
+            2 => \Yii::t('cd', 'Part-time'),
+            3 => \Yii::t('cd', 'Do not know'),
         ];
         //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
         return $map[$value];
@@ -53,9 +61,17 @@ class Generator extends \prime\reportGenerators\base\Generator
 
     public function mapYesNo($value)
     {
+        //there are also some string mappings
+        if($value == '') {
+            $value = 2;
+        } elseif ($value == 'Y') {
+            $value = 1;
+        }
+
         $map = [
             1 => \Yii::t('cd', 'Yes'),
-            2 => \Yii::t('cd', 'No')
+            2 => \Yii::t('cd', 'No'),
+            3 => \Yii::t('cd', 'Do not know')
         ];
         //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
         return $map[$value];
@@ -97,7 +113,14 @@ class Generator extends \prime\reportGenerators\base\Generator
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
-        return new Report($responses, $userData, $signature, $this, $project);
+        $stream = \GuzzleHttp\Psr7\stream_for($this->view->render('publish', [
+            'userData' => $userData,
+            'signature' => $signature,
+            'responses' => $responses,
+            'project' => $project
+        ], $this));
+
+        return new Report($userData, $signature, $stream, __CLASS__, $this->getReportTitle($project, $signature));
     }
 
     /**

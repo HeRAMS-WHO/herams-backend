@@ -10,10 +10,17 @@ class Columns extends Widget
 {
     public $items = [];
     public $columnsInRow = 6;
+    public $rowOptions = [];
+
+    public function init()
+    {
+        $this->rowOptions = ArrayHelper::merge(['class' => ['row'], 'id' => $this->getId()], $this->rowOptions);
+    }
+
 
     public function run()
     {
-        $result = Html::beginTag('div', ['class' => 'row', 'id' => $this->getId()]);
+        $result = Html::beginTag('div', $this->rowOptions);
         foreach($this->items as $column) {
             if(is_string($column)) {
                 $column = ['content' => $column];

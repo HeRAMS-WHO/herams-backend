@@ -176,7 +176,7 @@ class ReportsController extends Controller
                 }
             } elseif ($reportGenerator == 'cd') {
                 $surveys->append($limesurvey->getSurvey(37964, 'en'));
-                foreach ($limesurvey->getResponses(37964) as $response) {
+                foreach ($limesurvey->getResponses(37964) as $key => $response) {
                     if ($response->getData()['token'] == 't4dechn5wd9paun') {
                         $responses->append($response);
                     }
