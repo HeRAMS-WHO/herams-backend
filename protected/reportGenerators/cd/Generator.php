@@ -70,7 +70,8 @@ class Generator extends \prime\reportGenerators\base\Generator
 
         $map = [
             1 => \Yii::t('cd', 'Yes'),
-            2 => \Yii::t('cd', 'No')
+            2 => \Yii::t('cd', 'No'),
+            3 => \Yii::t('cd', 'Do not know')
         ];
         //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
         return $map[$value];

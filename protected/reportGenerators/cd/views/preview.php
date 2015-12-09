@@ -83,7 +83,7 @@ $this->beginContent('@app/views/layouts/report.php');
                             'content' => \prime\widgets\report\Block::widget([
                                 'items' => [
                                     \Yii::t('cd', 'Cluster formally activated'),
-                                    '<span class="unknown">' . \Yii::t('cd', 'Formally activated') . '</span>'
+                                    ($generator->getQuestionValue('q11') == '1') ? \Yii::t('cd', 'Not formally activated') : ($generator->getQuestionValue('q11') == '2' ? \Yii::t('cd', 'Formally activated') : \Yii::t('cd', 'Do not know'))
                                 ]
                             ]),
                             'width' => 3
@@ -105,7 +105,7 @@ $this->beginContent('@app/views/layouts/report.php');
                 'content' => \prime\widgets\report\Block::widget([
                     'items' => [
                         \Yii::t('cd', 'Cluster integrated into national coordination structure'),
-                        $generator->mapYesNo($generator->getQuestionValue('q11'))
+                        $generator->mapYesNo($generator->getQuestionValue('q13'))
                     ]
                 ]),
                 'width' => 6
@@ -155,19 +155,44 @@ $this->beginContent('@app/views/layouts/report.php');
                 'width' => 6
             ],
             [
-                'content' => \prime\widgets\report\Block::widget([
+                'columns' => [
                     'items' => [
-                        \Yii::t('cd', 'Coordinator'),
-                        Html::tag('i', \Yii::t('cd', 'Employed by')) . ':<br>' .
-                        $generator->getQuestionValue('q22') . '<div class="spacer-small"></div>' .
-                        Html::tag('i', \Yii::t('cd', 'Working modalities')) . ':<br>' .
-                        $generator->mapWorkingModalities($generator->getQuestionValue('q23')) . '<div class="spacer-small"></div>' .
-                        Html::tag('i', \Yii::t('cd', 'Other duties')) . ':<br>' .
-                        $generator->getQuestionValue('q24') . '<div class="spacer-small"></div>' .
-                        Html::tag('i', \Yii::t('cd', 'Attended training')) . ':<br>' .
-                        $generator->mapYesNo($generator->getQuestionValue('q25')) . '<div class="spacer-small"></div>'
+                        [
+                            'content' => \prime\widgets\report\Block::widget([
+                                'items' => [
+                                    \Yii::t('cd', 'Coordinator {0}', [$generator->getQuestionValue('q21') == 2 ? '1' : '']),
+                                    Html::tag('i', \Yii::t('cd', 'Employed by')) . ':<br>' .
+                                    $generator->getQuestionValue('q22') . '<div class="spacer-small"></div>' .
+                                    Html::tag('i', \Yii::t('cd', 'Working modalities')) . ':<br>' .
+                                    $generator->mapWorkingModalities($generator->getQuestionValue('q23')) . '<div class="spacer-small"></div>' .
+                                    Html::tag('i', \Yii::t('cd', 'Other duties')) . ':<br>' .
+                                    $generator->getQuestionValue('q24') . '<div class="spacer-small"></div>' .
+                                    Html::tag('i', \Yii::t('cd', 'Attended training')) . ':<br>' .
+                                    $generator->mapYesNo($generator->getQuestionValue('q25')) . '<div class="spacer-small"></div>'
+                                ]
+                            ]),
+                            'width' => 6
+                        ],
+                        [
+                            'content' => ($generator->getQuestionValue('q21') == 2) ?
+                                \prime\widgets\report\Block::widget([
+                                    'items' => [
+                                        \Yii::t('cd', 'Coordinator 2'),
+                                        Html::tag('i', \Yii::t('cd', 'Employed by')) . ':<br>' .
+                                        $generator->getQuestionValue('q26') . '<div class="spacer-small"></div>' .
+                                        Html::tag('i', \Yii::t('cd', 'Working modalities')) . ':<br>' .
+                                        $generator->mapWorkingModalities($generator->getQuestionValue('q27')) . '<div class="spacer-small"></div>' .
+                                        Html::tag('i', \Yii::t('cd', 'Other duties')) . ':<br>' .
+                                        $generator->getQuestionValue('q28') . '<div class="spacer-small"></div>' .
+                                        Html::tag('i', \Yii::t('cd', 'Attended training')) . ':<br>' .
+                                        $generator->mapYesNo($generator->getQuestionValue('q29')) . '<div class="spacer-small"></div>'
+                                    ]
+                                ]) : ''
+                            ,
+                            'width' => 6
+                        ],
                     ]
-                ]),
+                ],
                 'width' => 6
             ]
         ],
@@ -177,6 +202,7 @@ $this->beginContent('@app/views/layouts/report.php');
 </div>
 
 <div class="container-fluid">
+    <?=$this->render('header', ['project' => $project])?>
     <div class="row">
         <h2 class="col-xs-12"><?=\Yii::t('cd', 'Working arrangement for staff supporting the coordination')?></h2>
     </div>
@@ -359,6 +385,13 @@ $this->beginContent('@app/views/layouts/report.php');
     <div class="spacer"></div>
     <div class="row">
         <h2 class="col-xs-12"><?=\Yii::t('cd', 'Organisations chairing or co-chairing the meetings')?></h2>
+        <div class="col-xs-12">
+            <?=$generator->getQuestionValue('q346[1]') == 'Y' ? \Yii::t('cd', 'Cluster lead organization') . '<br>' : ''?>
+            <?=$generator->getQuestionValue('q346[2]') == 'Y' ? \Yii::t('cd', 'Co-lead organization') . '<br>' : ''?>
+            <?=$generator->getQuestionValue('q346[3]') == 'Y' ? \Yii::t('cd', 'Government') . '<br>' : ''?>
+            <?=$generator->getQuestionValue('q346[4]') == 'Y' ? \Yii::t('cd', 'Other partners') . '<br>' : ''?>
+            <?=$generator->getQuestionValue('q346[5]') == 'Y' ? \Yii::t('cd', 'Do not know') . '<br>' : ''?>
+        </div>
     </div>
 </div>
 
