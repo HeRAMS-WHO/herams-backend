@@ -16,7 +16,7 @@ class GoogleMapsAsset extends AssetBundle {
     ];
 
     public $js = [
-        'http://maps.google.com/maps/api/js?sensor=false&libraries=places'
+        '//maps.google.com/maps/api/js?sensor=false&libraries=places'
     ];
 
     public $sourcePath = false;

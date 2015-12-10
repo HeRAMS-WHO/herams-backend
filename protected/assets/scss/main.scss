@@ -21,23 +21,22 @@ $font-family-base: "Open Sans";
 
   ///* BEGIN Navbar styling */
   $link-part: 0.5;
-  nav .nav > li > a > span {
-    vertical-align: middle;
-  }
+  //nav .nav > li > a > span {
+  //  vertical-align: middle;
+  //}
 
   nav .nav > li > a {
     padding: (1- $link-part) / 2 * $navbar-height;
     font-size: $link-part * $navbar-height;
-    line-height: $link-part * $navbar-height;
   }
 
   .navbar-brand {
-    padding: 0;
+    padding-top: 0.1 * $navbar-height;
+    padding-bottom: 0.1 * $navbar-height;
   }
 
   .navbar-brand img {
-    height: $navbar-height;
-    padding: 0.1 * $navbar-height;
+    height: 0.8 * $navbar-height;
   }
 
   h1 {
