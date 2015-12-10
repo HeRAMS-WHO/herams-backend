@@ -2,17 +2,28 @@
 
 namespace prime\models\mapLayers;
 
+use app\queries\ProjectQuery;
 use prime\models\ar\ProjectCountry;
 use prime\models\ar\Report;
 use prime\models\Country;
 use prime\models\MapLayer;
 use prime\models\search\Project;
+use prime\objects\ProjectCollection;
 use yii\web\Controller;
 use yii\web\JsExpression;
 use yii\web\View;
 
 class Reports extends MapLayer
 {
+    protected $projectQuery;
+
+    public function __construct(ProjectQuery $projectQuery, $config = [])
+    {
+        $this->projectQuery = $projectQuery;
+        parent::__construct($config);
+    }
+
+
     public function init()
     {
         $this->allowPointSelect = true;
@@ -27,15 +38,16 @@ class Reports extends MapLayer
     {
         $this->data = array_map(function($country) {
              return ['iso_3' => $country, 'id' => $country];
-        }, Project::find()->innerJoinWith(['reports'])->select('country_iso_3')->column());
+        //}, Project::find()->innerJoinWith(['reports'])->select('country_iso_3')->column());
+        }, $this->projectQuery->select('country_iso_3')->column());
     }
 
-    public function renderSummary(Controller $controller, $id)
+    public function renderSummary(View $view, $id)
     {
         $country = Country::findOne($id);
-        return $controller->render('summaries/reports', [
+        return $view->render('reports', [
             'country' => $country
-        ]);
+        ], $this);
     }
 
 

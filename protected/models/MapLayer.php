@@ -5,12 +5,14 @@ namespace prime\models;
 use app\components\Html;
 use prime\factories\MapLayerFactory;
 use yii\base\Model;
+use yii\base\ViewContextInterface;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\JsExpression;
 use yii\web\View;
 
-class MapLayer extends Model{
+class MapLayer extends Model implements ViewContextInterface
+{
 
     public $allAreas = false;
     public $allowPointSelect;
@@ -39,6 +41,14 @@ class MapLayer extends Model{
         $this->point['events'][$event] = $expression;
     }
 
+    /**
+     * @return string the view path that may be prefixed to a relative view name.
+     */
+    public function getViewPath()
+    {
+        return __DIR__ . '/mapLayers/views/';
+    }
+
     public function init()
     {
         parent::init();
@@ -64,7 +74,7 @@ class MapLayer extends Model{
         }
     }
 
-    public function renderSummary(Controller $controller, $id)
+    public function renderSummary(View $view, $id)
     {
         return 'You selected: ' . $id;
     }

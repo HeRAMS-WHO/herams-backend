@@ -6,6 +6,7 @@ use prime\components\Controller;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
+use prime\interfaces\ResponseCollectionInterface;
 use prime\models\ar\Project;
 use prime\models\ar\Report;
 use prime\models\ar\UserData;
@@ -104,28 +105,10 @@ class ReportsController extends Controller
             /** @var ReportGeneratorInterface $generator */
             $generator = GeneratorFactory::get($reportGenerator);
 
-            //TODO: UPDATE TO CORRECT SURVEYS AND RESPONSES
-            //BEGIN
-            $surveys = new SurveyCollection();
-            $surveys->append($limesurvey->getSurvey(22814, 'en'));
-            $surveys->append($limesurvey->getSurvey(67825, 'en'));
-
-            $responses = new ResponseCollection();
-            /** @var SurveyInterface $survey */
-            foreach($surveys as $survey) {
-                /** @var ResponseInterface $response */
-                foreach ($limesurvey->getResponses($survey->getId()) as $sResponse) {
-                    if($sResponse->getData()['token'] == '3zhvuud5f88hkui') {
-                        $responses->append($sResponse);
-                    }
-                }
-            }
-            //END
-
             /** @var ReportInterface $report */
             $report = $generator->render(
-                $responses,
-                $surveys,
+                $project->getResponses(),
+                $project->getSurvey(),
                 $project,
                 $user->identity->createSignature(),
                 $userData
@@ -156,15 +139,9 @@ class ReportsController extends Controller
             /** @var ReportGeneratorInterface $generator */
             $generator = GeneratorFactory::get($reportGenerator);
 
-            //TODO: UPDATE TO CORRECT SURVEYS AND RESPONSES
-            //BEGIN
-            $surveys = new SurveyCollection();
-            $surveys->append($limesurvey->getSurvey(22814, 'en'));
-            $surveys->append($limesurvey->getSurvey(67825, 'en'));
-            //END
             return $generator->renderPreview(
                 $project->getResponses(),
-                $surveys,
+                $project->getSurvey(),
                 $project,
                 $user->identity->createSignature(),
                 $userData
@@ -194,27 +171,10 @@ class ReportsController extends Controller
                 /** @var ReportGeneratorInterface $generator */
                 $generator = GeneratorFactory::get($reportGenerator);
 
-                //TODO: UPDATE TO CORRECT SURVEYS AND RESPONSES
-                //BEGIN
-                $surveys = new SurveyCollection();
-                $surveys->append($limesurvey->getSurvey(22814, 'en'));
-                $surveys->append($limesurvey->getSurvey(67825, 'en'));
-
-                $responses = new ResponseCollection();
-                /** @var SurveyInterface $survey */
-                foreach($surveys as $survey) {
-                    /** @var ResponseInterface $response */
-                    foreach ($limesurvey->getResponses($survey->getId()) as $response) {
-                        if($response->getData()['token'] == '3zhvuud5f88hkui') {
-                            $responses->append($response);
-                        }
-                    }
-                }
-                //END
                 $report = Report::saveReport(
                     $report = $generator->render(
-                        $responses,
-                        $surveys,
+                        $project->getResponses(),
+                        $project->getSurvey(),
                         $project,
                         $user->identity->createSignature(),
                         $userData

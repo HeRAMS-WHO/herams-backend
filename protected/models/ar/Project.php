@@ -209,6 +209,13 @@ class Project extends ActiveRecord implements ProjectInterface
     public function getSurvey()
     {
         $surveys = new SurveyCollection();
+        /** @var ResponseInterface $response */
+        foreach($this->responses as $response) {
+            if(!$surveys->offsetExists($response->getSurveyId())) {
+                $survey = $this->limeSurvey->getSurvey($response->getSurveyId());
+                $surveys->add($survey->getId(), $survey);
+            }
+        }
         return $surveys;
     }
 
