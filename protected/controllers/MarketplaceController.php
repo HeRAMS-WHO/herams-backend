@@ -16,12 +16,14 @@ class MarketplaceController extends Controller
 {
     public function actionMap(Client $limesurvey)
     {
+        //TODO: Survey ids in settings
         $mapLayerData = [
             'projects' => Project::find()->notClosed(),
-            'countryGrades' => new ResponseCollection(), //$limesurvey->getResponses(486496),
-            'eventGrades' => new ResponseCollection(), //$limesurvey->getResponses(473297),
+            'countryGrades' => new ResponseCollection($limesurvey->getResponses(486496)),
+            'eventGrades' => new ResponseCollection($limesurvey->getResponses(473297)),
             'healthClusters' => new ResponseCollection()
         ];
+
         return $this->render('map', ['mapLayerData' => $mapLayerData]);
     }
 

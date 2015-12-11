@@ -11,6 +11,18 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
      */
     protected $dataType;
     protected $data = [];
+
+    public function __construct($items = [], $keepKeys = false)
+    {
+        foreach($items as $key => $item) {
+            if($keepKeys) {
+                $this->add($key, $item);
+            } else {
+                $this->append($item);
+            }
+        }
+    }
+
     /**
      * Specify data which should be serialized to JSON
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
