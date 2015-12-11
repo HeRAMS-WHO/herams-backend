@@ -37,6 +37,7 @@
                 'actions' => [
                     'type' => Form::INPUT_RAW,
                     'value' =>
+                        Html::beginTag('div', ['class' => 'form-group']) .
                         Html::submitButton(\Yii::t('app', 'Login'), ['class' => 'btn btn-primary btn-block']) .
                         Html::a(
                             \Yii::t('app', 'Can\'t access your account?'),
@@ -58,9 +59,10 @@
                                 'style' => 'margin-top: 10px'
                             ]
                         ) .
+                        Html::endTag('div') .
                         \dektrium\user\widgets\Connect::widget([
                             'options' => [
-//                                'class' => ''
+                                'class' => 'form-group '
                             ],
                             'baseAuthUrl' => ['/user/security/auth'],
 

@@ -20,6 +20,7 @@ $this->params['subMenu']['items'] = [
     echo \kartik\grid\GridView::widget([
         'dataProvider' => $toolsDataProvider,
         'columns' => [
+            'acronym',
             'title',
             [
                 'attribute' => 'description',
