@@ -8,14 +8,26 @@ use app\components\Html;
 
 $this->params['subMenu']['items'] = [];
 
-$this->params['subMenu']['items'][] = [
-    'label' => \Yii::t('app', 'Create'),
-    'url' => ['/user-lists/create']
-];
 ?>
 <div class="col-xs-12">
     <?php
+    $header = \Yii::t('app', 'Your user lists') . \yii\bootstrap\ButtonGroup::widget([
+            'options' => [
+                'class' => 'pull-right'
+            ],
+            'buttons' => [
+                [
+                    'label' => 'New user list',
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => \yii\helpers\Url::to(['/user-lists/create']),
+                        'class' => 'btn-primary'
+                    ]
+                ]
+            ]
+        ]);
     echo \kartik\grid\GridView::widget([
+        'caption' => $header,
         'dataProvider' => new \yii\data\ActiveDataProvider([
             'query' => app()->user->identity->getUserLists()
         ]),

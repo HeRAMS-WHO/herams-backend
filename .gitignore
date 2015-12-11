@@ -11,3 +11,5 @@
 /protected/config/debug
 /protected/config/local.php
 /protected/controllers/DevController.php
+/protected/tests/codeception/_support/_generated/
+/protected/tests/codeception/_output/

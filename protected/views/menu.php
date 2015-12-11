@@ -40,13 +40,13 @@ echo Nav::widget([
 
         [
             'label' => Html::icon('globe', ['title' => 'Marketplace']),
-            'url' => ['/marketplace/map'],
+            'url' => ['/marketplace'],
             'visible' => !Yii::$app->user->isGuest
 
         ],
         [
             'label' => Html::icon('heart-empty', ['title' => \Yii::t('app', 'User lists')]),
-            'url' => ['/user-lists/list'],
+            'url' => ['/user-lists'],
             'visible' => !Yii::$app->user->isGuest
         ],
         [

@@ -10,10 +10,17 @@ use prime\models\Country;
 use prime\models\search\Report;
 use prime\objects\ResponseCollection;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 
 class MarketplaceController extends Controller
 {
+    public function actionIndex()
+    {
+        return $this->redirect(['/marketplace/map']);
+    }
+
     public function actionMap(Client $limesurvey)
     {
         //TODO: Survey ids in settings

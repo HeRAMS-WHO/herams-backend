@@ -2,7 +2,7 @@
 
 defined('CONSOLE') or define('CONSOLE', false);
 defined('YII_ENV') or define('YII_ENV', require(__DIR__ . '/config/env.php'));
-define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
+define('YII_DEBUG', file_exists(__DIR__ . '/config/debug') && YII_ENV != 'codeception');
 
 $loader = require_once __DIR__ . '/vendor/autoload.php';
 

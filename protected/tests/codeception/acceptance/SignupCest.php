@@ -3,9 +3,6 @@
 class SignupCest
 {
 
-    protected $password = 'Test123';
-    protected $email = 'john.doe@test.com';
-
     public function _before(AcceptanceTester $I)
     {
     }
@@ -17,12 +14,10 @@ class SignupCest
     // tests
     public function testDifferentPasswords(AcceptanceTester $I)
     {
-        $I->wantTo('Sign up');
         $I->amOnPage('/');
         $I->see('Sign up');
         $I->click('Sign up');
         $I->seeCurrentUrlEquals('/user/register');
-
 
         $I->fillField('Password', 'Test');
         $I->fillField('Confirmation', 'Test1');
@@ -34,12 +29,14 @@ class SignupCest
     }
 
     public function testRegistration(AcceptanceTester $I) {
+        $email = 'john.doe@test.com';
+        $password = 'Test123';
         $I->amOnPage('/user/register');
-        $I->fillField('Password', $this->password);
-        $I->fillField('Confirmation', $this->password);
+        $I->fillField('Password', $password);
+        $I->fillField('Confirmation', $password);
         $I->fillField('First Name', 'John');
         $I->fillField('Last Name', 'Doe');
-        $I->fillField('Email', $this->email);
+        $I->fillField('Email', $email);
         $I->fillField('Organization', 'Tester');
         $I->selectOption('Country', 'Belgium');
         $I->fillField('Office', 'Corner');
@@ -49,33 +46,36 @@ class SignupCest
         // Check source since this is a javascript popup.
         $I->seeInSource('Your account has been created');
         $I->seeInDatabase('user', [
-            'email' => $this->email
+            'email' => $email
         ]);
-
-
     }
 
     public function testUnconfirmed(AcceptanceTester $I)
     {
+        $email = 'test@localhost.net';
+        $password = 'test123';
+        $I->seeInDatabase('user', [
+            'email' => $email,
+            'confirmed_at' => null
+        ]);
         $I->amOnPage('/user/login');
-        $I->fillField('Login', 'test@localhost.net');
-        $I->fillField('Password', 'test123');
+        $I->fillField('Login', $email);
+        $I->fillField('Password', $password);
         $I->click('Login');
         $I->see('You need to confirm your email address');
-
     }
 
     public function testLogin(AcceptanceTester $I)
     {
-
-        $I->amOnPage('/user/login');
-        $I->fillField('Login', 'test2@localhost.net');
-        $I->fillField('Password', 'test123');
-        $I->click('Login');
-        $I->seeCurrentUrlEquals('/');
+        $I->amOnPage('/');
+        $I->dontSeeInSource('Logout');
+        $I->login();
     }
 
-
-
-
+    public function testAdminLogin(\Step\Acceptance\AdminTester $I)
+    {
+        $I->amOnPage('/');
+        $I->dontSeeInSource('Logout');
+        $I->login();
+    }
 }
