@@ -16,6 +16,11 @@ use yii\web\HttpException;
 
 class MarketplaceController extends Controller
 {
+    public static $surveyIds = [
+        'countryGrades' => 486496,
+        'eventGrades' => 473297
+    ];
+
     public function actionIndex()
     {
         return $this->redirect(['/marketplace/map']);
@@ -26,8 +31,8 @@ class MarketplaceController extends Controller
         //TODO: Survey ids in settings
         $mapLayerData = [
             'projects' => Project::find()->notClosed(),
-            'countryGrades' => new ResponseCollection($limesurvey->getResponses(486496)),
-            'eventGrades' => new ResponseCollection($limesurvey->getResponses(473297)),
+            'countryGrades' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['countryGrades'])),
+            'eventGrades' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['eventGrades'])),
             'healthClusters' => new ResponseCollection()
         ];
 
@@ -45,9 +50,25 @@ class MarketplaceController extends Controller
         ]);
     }
 
-    public function actionSummary($id, $layer)
+    public function actionSummary(Client $limesurvey, $id, $layer)
     {
-        $mapLayer = MapLayerFactory::get($layer);
+
+        switch($layer) {
+            case 'countryGrades':
+                $responses = new ResponseCollection( array_merge(
+                    $limesurvey->getResponses(self::$surveyIds['countryGrades']),
+                    $limesurvey->getResponses(self::$surveyIds['eventGrades'])
+                ));
+                break;
+            case 'eventGrades':
+                $responses = new ResponseCollection($limesurvey->getResponses(self::$surveyIds[$layer]));
+                break;
+            default:
+                $responses = new ResponseCollection();
+                break;
+        }
+        $mapLayer = MapLayerFactory::get($layer, [$responses]);
+
         return $mapLayer->renderSummary($this->getView(), $id);
     }
 

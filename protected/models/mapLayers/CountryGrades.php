@@ -4,6 +4,7 @@ namespace prime\models\mapLayers;
 
 use Befound\Components\DateTime;
 use Carbon\Carbon;
+use prime\controllers\MarketplaceController;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\Country;
 use prime\models\MapLayer;
@@ -36,7 +37,7 @@ class CountryGrades extends MapLayer
     {
         foreach($this->data as &$data) {
             if(!isset($data['color'])) {
-                $data['color'] = $this->colorScale[$data['value']];
+                $data['color'] = $this->mapToColor($data['value']);
             }
         }
     }
@@ -55,6 +56,11 @@ class CountryGrades extends MapLayer
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'countryGrades'); return false;}"));
         parent::init();
+    }
+
+    public function mapToColor($value)
+    {
+        return $this->colorScale[$value];
     }
 
     protected function prepareData(Carbon $date = null)
@@ -107,8 +113,31 @@ class CountryGrades extends MapLayer
     public function renderSummary(View $view, $id)
     {
         $country = Country::findOne($id);
-        return $view->render('summaries/reports', [
-            'country' => $country
+
+        $countryResponses = [];
+        /** @var ResponseInterface $response */
+        foreach($this->responses as $response) {
+            $responseData = $response->getData();
+            if($responseData['PRIMEID'] != '' && $responseData['PRIMEID'] == $id) {
+                if($response->getSurveyId() == MarketplaceController::$surveyIds['countryGrades']) {
+                    $countryResponses[] = [
+                        'date' => new Carbon($responseData['GM01']),
+                        'response' => $response
+                    ];
+                }
+            }
+        }
+
+        usort($countryResponses, function($a, $b){
+            if($a['date']->eq($b['date'])) {
+                return ($a['response']->getId() > $b['response']->getId()) ? 1 : -1;
+            }
+            return ($a['date']->gt($b['date'])) ? 1 : -1;
+        });
+
+        return $view->render('countryGrades', [
+            'country' => $country,
+            'countryResponses' => $countryResponses
         ], $this);
     }
 

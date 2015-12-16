@@ -4,6 +4,7 @@ namespace prime\models;
 
 use app\components\Html;
 use prime\factories\MapLayerFactory;
+use prime\interfaces\ResponseCollectionInterface;
 use yii\base\Model;
 use yii\base\ViewContextInterface;
 use yii\helpers\ArrayHelper;
