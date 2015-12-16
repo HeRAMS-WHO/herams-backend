@@ -99,6 +99,77 @@ $scores = [
     '7.1.2' => $generator->calculateScore($responses, [$generator->CPASurveyId => ['q72'], $generator->PPASurveyId => ['q72']]),
 ];
 
+$distributions = [
+    '1.1.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q111'], $generator->PPASurveyId => []]),
+    '1.1.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q112'], $generator->PPASurveyId => ['q111']]),
+    '1.1.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q114'], $generator->PPASurveyId => ['q112']]),
+    '1.1.4' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => [], $generator->PPASurveyId => ['q113']]),
+    '1.1.5' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q118'], $generator->PPASurveyId => ['q114']]),
+    '1.1.6' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q113'], $generator->PPASurveyId => []]),
+    '1.1.7' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q115'], $generator->PPASurveyId => ['q115']]),
+    '1.1.8' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q119'], $generator->PPASurveyId => ['q116']]),
+    '1.1.9' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q116'], $generator->PPASurveyId => []]),
+    '1.1.10' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q117'], $generator->PPASurveyId => []]),
+    '1.2.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q121'], $generator->PPASurveyId => []]),
+    '1.2.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q122'], $generator->PPASurveyId => ['q121']]),
+    '1.2.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => [], $generator->PPASurveyId => ['q122']]),
+    '1.2.4' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q123'], $generator->PPASurveyId => ['q123']]),
+    '2.1.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q211'], $generator->PPASurveyId => ['q211']]),
+    '2.1.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q212'], $generator->PPASurveyId => ['q212']]),
+    '2.1.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q213'], $generator->PPASurveyId => ['q213']]),
+    '2.2.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q221'], $generator->PPASurveyId => ['q221']]),
+    '2.2.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q222[1]'], $generator->PPASurveyId => ['q222[1]']]),
+    '2.2.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q222[2]'], $generator->PPASurveyId => ['q222[2]']]),
+    '2.2.4' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q222[3]'], $generator->PPASurveyId => ['q222[3]']]),
+    '2.2.5' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q222[4]'], $generator->PPASurveyId => ['q222[4]']]),
+    '2.2.6' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q222[5]'], $generator->PPASurveyId => ['q222[5]']]),
+    '2.2.7' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[1]'], $generator->PPASurveyId => ['q223[1]']]),
+    '2.2.8' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[2]'], $generator->PPASurveyId => ['q223[2]']]),
+    '2.2.9' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[3]'], $generator->PPASurveyId => ['q223[3]']]),
+    '2.2.10' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[4]'], $generator->PPASurveyId => ['q223[4]']]),
+    '2.2.11' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[5]'], $generator->PPASurveyId => ['q223[5]']]),
+    '2.2.12' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[6]'], $generator->PPASurveyId => ['q223[6]']]),
+    '2.2.13' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[7]'], $generator->PPASurveyId => ['q223[7]']]),
+    '2.2.14' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q223[8]'], $generator->PPASurveyId => ['q223[8]']]),
+    '2.3.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q231'], $generator->PPASurveyId => ['q231']]),
+    '3.1.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q311'], $generator->PPASurveyId => []]),
+    '3.1.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q314'], $generator->PPASurveyId => ['q311']]),
+    '3.1.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q312'], $generator->PPASurveyId => []]),
+    '3.1.4' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q313'], $generator->PPASurveyId => []]),
+    '3.1.5' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[1]'], $generator->PPASurveyId => []]),
+    '3.1.6' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[2]'], $generator->PPASurveyId => []]),
+    '3.1.7' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[3]'], $generator->PPASurveyId => []]),
+    '3.1.8' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[4]'], $generator->PPASurveyId => []]),
+    '3.1.9' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[5]'], $generator->PPASurveyId => []]),
+    '3.1.10' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[6]'], $generator->PPASurveyId => []]),
+    '3.1.11' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[7]'], $generator->PPASurveyId => []]),
+    '3.1.12' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q315[8]'], $generator->PPASurveyId => []]),
+    '3.1.13' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q316'], $generator->PPASurveyId => []]),
+    '3.1.14' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q317'], $generator->PPASurveyId => ['q312']]),
+    '3.1.15' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q318'], $generator->PPASurveyId => []]),
+    '3.2.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q321'], $generator->PPASurveyId => []]),
+    '3.2.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q322'], $generator->PPASurveyId => ['q321']]),
+    '3.3.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q331'], $generator->PPASurveyId => ['q331']]),
+    '3.3.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q332'], $generator->PPASurveyId => ['q332']]),
+    '3.3.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q333'], $generator->PPASurveyId => []]),
+    '3.3.4' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q334'], $generator->PPASurveyId => ['q333']]),
+    '4.1.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q411'], $generator->PPASurveyId => ['q411']]),
+    '4.2.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q421'], $generator->PPASurveyId => ['q421']]),
+    '5.1.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q51'], $generator->PPASurveyId => ['q52']]),
+    '5.1.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q52'], $generator->PPASurveyId => []]),
+    '5.1.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q53'], $generator->PPASurveyId => []]),
+    '5.1.4' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q54'], $generator->PPASurveyId => []]),
+    '5.1.5' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q55'], $generator->PPASurveyId => ['q51']]),
+    '5.1.6' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q56'], $generator->PPASurveyId => ['q53']]),
+    '6.1.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q61'], $generator->PPASurveyId => []]),
+    '6.1.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q62'], $generator->PPASurveyId => []]),
+    '6.1.3' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q63'], $generator->PPASurveyId => ['q61']]),
+    '6.1.4' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q64'], $generator->PPASurveyId => ['q62']]),
+    '6.1.5' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q65'], $generator->PPASurveyId => []]),
+    '7.1.1' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q71'], $generator->PPASurveyId => ['q71']]),
+    '7.1.2' => $generator->calculateDistribution($responses, [$generator->CPASurveyId => ['q72'], $generator->PPASurveyId => ['q72']]),
+];
+
 $this->beginContent('@app/views/layouts/report.php');
 ?>
 <style>
@@ -261,6 +332,7 @@ $this->beginContent('@app/views/layouts/report.php');
 </div>
 
 <?=$this->render('functionsAndReview', ['generator' => $generator, 'scores' => $scores, 'project' => $project, 'userData' => $userData])?>
+<?=$this->render('distributions', ['generator' => $generator, 'distributions' => $distributions, 'project' => $project, 'userData' => $userData], $this)?>
 
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>

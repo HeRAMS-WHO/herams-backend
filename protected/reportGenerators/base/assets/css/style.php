@@ -91,6 +91,10 @@ hr {
     body {
         font-size: 1.1em;
     }
+
+    div.no-break {
+        page-break-inside: avoid;
+    }
 }
 
 textarea {

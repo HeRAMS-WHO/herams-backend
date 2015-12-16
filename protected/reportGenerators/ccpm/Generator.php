@@ -10,7 +10,9 @@ use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
+use prime\models\ar\Response;
 use prime\objects\Report;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use yii\helpers\ArrayHelper;
 
 class Generator extends \prime\reportGenerators\base\Generator
@@ -33,6 +35,35 @@ class Generator extends \prime\reportGenerators\base\Generator
 
             return $this->map04($result);
         }
+    }
+
+    public function calculateDistribution(ResponseCollectionInterface $responses, $map)
+    {
+        $tempResult = [];
+
+        foreach($map as $surveyId => $questionIds) {
+            if(!isset($tempResult[$surveyId])) {
+                $tempResult[$surveyId] = [];
+            }
+            $values = $this->getQuestionValues($responses, [$surveyId => $questionIds], [$this, 'rangeValidator04']);
+            foreach($values as $value)
+            {
+                if(!isset($tempResult[$surveyId][$value])) {
+                    $tempResult[$surveyId][$value] = 0;
+                }
+                $tempResult[$surveyId][$value]++;
+            }
+        }
+
+        $result = [];
+        foreach($tempResult as $surveyId => $values) {
+            $result[$surveyId] = [];
+            for($i = 0; $i <= 4; $i++) {
+                $result[$surveyId][$i] = array_sum($values) > 0 ? ArrayHelper::getValue($values, $i, 0) / array_sum($values) : 0;
+            }
+        }
+
+        return $result;
     }
 
     public function getResponseRates(ResponseCollectionInterface $responses)
@@ -100,7 +131,7 @@ class Generator extends \prime\reportGenerators\base\Generator
 
     protected function rangeValidator04($value)
     {
-        return $value >= 0 && $value <= 4;
+        return $value != '' && $value >= 0 && $value <= 4;
     }
 
     /**
