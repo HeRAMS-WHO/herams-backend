@@ -97,18 +97,36 @@ class Tool extends ActiveRecord {
         );
     }
 
+    /**
+     * @return \SamIT\LimeSurvey\JsonRpc\Client
+     */
+    protected function limeSurvey() {
+        return app()->limeSurvey;
+    }
+
+    /**
+     * @return \SamIT\LimeSurvey\Interfaces\SurveyInterface
+     */
+    public function getBaseSurvey()
+    {
+//        vdd($this->base_survey_eid);
+        return $this->limeSurvey()->getSurvey($this->base_survey_eid);
+    }
+
     public function dataSurveyOptions()
     {
-        return array_filter(ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function($details) {
+        $result = array_filter(ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function ($details) {
             if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) != 0
                 && strpos($details['surveyls_title'], '_') === false
             ) {
                 return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
             }
+
             return false;
         }));
-    }
 
+        return $result;
+    }
     public function getImageUrl()
     {
         return '/' . self::IMAGE_PATH . $this->image;
@@ -162,7 +180,7 @@ class Tool extends ActiveRecord {
     {
         return [
             'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generators'],
-            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generators', 'progress_type']
+            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generators', 'base_survey_eid', 'progress_type']
         ];
     }
 

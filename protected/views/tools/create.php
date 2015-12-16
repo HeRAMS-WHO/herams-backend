@@ -8,9 +8,10 @@ $this->title = Yii::t('app', 'Create tool');
 
 $this->params['subMenu'] = [
     'items' => [
-        [
-            'label' => Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'create-tool', 'class' => 'btn btn-primary'])
-        ],
+        '<li>' . Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'create-tool', 'class' => 'btn btn-primary']) . '</li>',
+//        [
+//            'label' => 'test'
+//        ]
     ]
 ];
 ?>
@@ -29,7 +30,6 @@ $this->params['subMenu'] = [
             'enctype'=>'multipart/form-data'
         ]
     ]);
-
     echo \app\components\Form::widget([
         'form' => $form,
         'model' => $model,

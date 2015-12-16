@@ -73,13 +73,32 @@ class Project extends ActiveRecord implements ProjectInterface
             'default_generator' => \Yii::t('app', 'Default report'),
             'country_iso_3' => \Yii::t('app', 'Country'),
             'tool_id' => \Yii::t('app', 'Tool'),
-            'locality_name' => \Yii::t('app', 'Locality')
+            'locality_name' => \Yii::t('app', 'Locality'),
+            'data_survey_eid' => \Yii::t('app', 'Data survey')
         ]);
     }
 
+    public function attributeHints()
+    {
+        return array_merge(parent::attributeHints(), [
+            'token' => 'Note that the first name and last name fields in the tokens will be overridden upon project creation!.'
+        ]);
+    }
+
+
     public function dataSurveyOptions()
     {
-        return $this->tool->dataSurveyOptions();
+        try {
+            // Get base survey.
+            $prefix = $this->tool->getBaseSurvey()->getTitle();
+            $result =  array_filter($this->tool->dataSurveyOptions(), function ($option) use ($prefix) {
+                return substr_compare($prefix, $option, 0, strlen($prefix)) === 0;
+            });
+            return $result;
+        } catch (\Exception $e) {
+
+        }
+        return [];
     }
 
     /**
@@ -276,9 +295,9 @@ class Project extends ActiveRecord implements ProjectInterface
 
     public function scenarios()
     {
-        return [
-            'close' => ['closed']
-        ];
+        return array_merge(parent::scenarios(),[
+            'close' => ['closed'],
+        ]);
     }
 
     public function toolOptions()

@@ -4,11 +4,21 @@
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
+    use yii\web\Session;
+    use yii\web\User;
 
     class SiteController extends Controller
     {
-        public function actionIndex()
+        public function actionIndex(User $user, Session $session)
         {
+            /** @var \prime\models\ar\User $identity */
+            $identity = $user->identity;
+            if ($identity->getProjects()->count() > 10) {
+                return $this->redirect('projects/list');
+            } else {
+                $session->setFlash('info', \Yii::t('app', "We noticed you do not have any projects yet. We redirected you to the new project page so you can get started ASAP!"));
+                return $this->redirect('projects/new');
+            }
             return $this->render('index');
         }
 
