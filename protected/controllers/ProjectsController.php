@@ -12,6 +12,7 @@ use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
+use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -235,5 +236,89 @@ class ProjectsController extends Controller
                 ]
             ]
         );
+    }
+
+
+    /**
+     * Get a list of generators for use in dependent dropdowns.
+     * @param Response $response
+     * @param Request $request
+     * @param array $depdrop_parents
+     * @return array
+     */
+    public function actionDependentSurveys(
+        Response $response,
+        Request $request,
+        Project $project,
+        array $depdrop_parents
+    )
+    {
+        $response->format = Response::FORMAT_JSON;
+        $project->tool_id = $depdrop_parents[0];
+        $result = [];
+        if ($project->validate(['tool_id'])) {
+            foreach ($project->dataSurveyOptions() as $key => $value) {
+                $result[] = [
+                    'id' => $key,
+                    'name' => $value
+                ];
+
+            }
+        }
+
+        return [
+            'output' => $result,
+            'selected' => ''
+        ];
+    }
+
+
+    /**
+     * Get a list of tokens for use in dependent dropdowns.
+     * @param Response $response
+     * @param Request $request
+     * @param array $depdrop_parents
+     * @return array
+     */
+    public function actionDependentTokens(
+        Response $response,
+        Request $request,
+        Client $limesurvey,
+        array $depdrop_parents
+    )
+    {
+        $response->format = Response::FORMAT_JSON;
+
+        $surveyId = intval($depdrop_parents[0]);
+
+        $result = [
+//            [
+//                'id' => 'new',
+//                'name' => \Yii::t('app', 'Create new token')
+//            ]
+        ];
+
+        if ($surveyId > 0) {
+            // Get all tokens for the selected survey.
+            $usedTokens = array_flip(Project::find()->select('token')->column());
+
+            $tokens = array_filter($limesurvey->getTokens($surveyId), function (TokenInterface $token) use ($usedTokens) {
+                return !isset($usedTokens[$token->getToken()]) && $token->getToken() != '';
+            });
+
+            // Filter these tokens by tokens that are in use.
+
+            /** @var TokenInterface $token */
+            foreach ($tokens as $token) {
+                $result[] = [
+                    'id' => $token->getToken(),
+                    'name' => "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(', ', array_filter($token->getCustomAttributes()))
+                ];
+            }
+        }
+        return [
+            'output' => $result,
+            'selected' => ''
+        ];
     }
 }

@@ -25,9 +25,18 @@ $font-family-base: "Open Sans";
   //  vertical-align: middle;
   //}
 
-  nav .nav > li > a {
+  nav .nav > li {
     padding: (1- $link-part) / 2 * $navbar-height;
-    font-size: $link-part * $navbar-height;
+
+    button {
+      font-size: ($link-part * $navbar-height - 14) / $line-height-base;
+    }
+
+    a {
+      font-size: $link-part * $navbar-height;
+      //line-height: $link-part * $navbar-height;
+      padding: 0px;
+    }
   }
 
   .navbar-brand {

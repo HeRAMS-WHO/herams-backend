@@ -13,9 +13,7 @@ $this->title = Yii::t('app', 'Create project');
 
 $this->params['subMenu'] = [
     'items' => [
-        [
-            'label' => Html::submitButton(\Yii::t('app', 'Create project'), ['form' => 'create-project', 'class' => 'btn btn-primary'])
-        ],
+        '<li>' . Html::submitButton(\Yii::t('app', 'Create project'), ['form' => 'create-project', 'class' => 'btn btn-primary']) . '</li>'
     ]
 ];
 ?>
@@ -64,13 +62,27 @@ $this->params['subMenu'] = [
                 'widgetClass' => \kartik\widgets\DepDrop::class,
                 'options' => [
                     'pluginOptions' => [
-                        'url' => ['/tools/dependent-surveys'],
+                        'url' => ['/projects/dependent-surveys'],
                         'depends' => ['createupdate-tool_id'],
                         'initialize' => true,
                     ],
                 ],
                 'enableClientValidation' => false
             ],
+            'token' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\widgets\DepDrop::class,
+                'options' => [
+                    'pluginOptions' => [
+                        'url' => ['/projects/dependent-tokens'],
+                        'depends' => ['createupdate-data_survey_eid'],
+                        'initialize' => false,
+                        'placeholder' => \Yii::t('app', 'Create new token')
+                    ],
+                ],
+                'enableClientValidation' => false
+            ],
+
             'default_generator' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\DepDrop::class,

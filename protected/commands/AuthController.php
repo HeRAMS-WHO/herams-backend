@@ -73,8 +73,10 @@ class AuthController extends Controller
     }
     /**
      * Grants specified role to the user.
-     * @param $user int The user ID
-     * @param $role string The role to grant
+     * @param \yii\web\User $user DI
+     * @param ManagerInterface $authManager DI
+     * @param int $userId The user ID
+     * @param string $roleName The role to grant
      */
     public function actionGrant(\yii\web\User $user, ManagerInterface $authManager, $userId, $roleName)
     {

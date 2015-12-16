@@ -92,37 +92,6 @@ class ToolsController extends Controller
         ];
     }
 
-    /**
-     * Get a list of generators for use in dependent dropdowns.
-     * @param Response $response
-     * @param Request $request
-     * @param array $depdrop_parents
-     * @return array
-     */
-    public function actionDependentSurveys(
-        Response $response,
-        Request $request,
-        array $depdrop_parents
-    )
-    {
-        $response->format = Response::FORMAT_JSON;
-        $generators = [];
-        foreach(Tool::findAll($depdrop_parents) as $tool) {
-            foreach ($tool->dataSurveyOptions() as $key => $value) {
-                $generators[] = [
-                    'id' => $key,
-                    'name' => $value
-                ];
-
-            }
-        }
-
-        return [
-            'output' => $generators,
-            'selected' => ''
-        ];
-    }
-
     public function actionList()
     {
         $toolsDataProvider = new ActiveDataProvider([
