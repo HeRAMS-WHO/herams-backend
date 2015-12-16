@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "06e43695c2f2fd035528d82575203523",
-    "content-hash": "a952e28660e943dc4abb6079d54f6d2a",
+    "hash": "68322b62cd309e33d466c38d91773ab6",
+    "content-hash": "10e82a09898399b7001d3d81cc9cd5d8",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -616,16 +616,16 @@
         },
         {
             "name": "dektrium/yii2-rbac",
-            "version": "0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dektrium/yii2-rbac.git",
-                "reference": "4387c72b89d952e13a1856dc7f995898ad7d96a7"
+                "reference": "c6d315a3c9652b3b1ced19fe105f65e6e09f375b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dektrium/yii2-rbac/zipball/4387c72b89d952e13a1856dc7f995898ad7d96a7",
-                "reference": "4387c72b89d952e13a1856dc7f995898ad7d96a7",
+                "url": "https://api.github.com/repos/dektrium/yii2-rbac/zipball/c6d315a3c9652b3b1ced19fe105f65e6e09f375b",
+                "reference": "c6d315a3c9652b3b1ced19fe105f65e6e09f375b",
                 "shasum": ""
             },
             "require": {
@@ -662,7 +662,7 @@
                 "yii2",
                 "yii2-rbac"
             ],
-            "time": "2015-06-14 09:54:53"
+            "time": "2015-12-04 21:55:40"
         },
         {
             "name": "dektrium/yii2-user",
@@ -1052,7 +1052,7 @@
         },
         {
             "name": "kartik-v/yii2-date-range",
-            "version": "dev-master",
+            "version": "v1.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-date-range.git",
@@ -1829,12 +1829,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "abb84cce09229cdb9fa7f1916d3162d3cba49918"
+                "reference": "83408cc8f6cf626963ef3e9db5967cc554c5cfc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/abb84cce09229cdb9fa7f1916d3162d3cba49918",
-                "reference": "abb84cce09229cdb9fa7f1916d3162d3cba49918",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/83408cc8f6cf626963ef3e9db5967cc554c5cfc6",
+                "reference": "83408cc8f6cf626963ef3e9db5967cc554c5cfc6",
                 "shasum": ""
             },
             "require": {
@@ -1869,7 +1869,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-12-14 14:14:40"
+            "time": "2015-12-16 13:40:54"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -2231,7 +2231,7 @@
         },
         {
             "name": "miloschuman/yii2-highcharts-widget",
-            "version": "dev-master",
+            "version": "v4.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/miloschuman/yii2-highcharts.git",
@@ -2506,16 +2506,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v0.6.0",
+            "version": "v0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "3d1bd588d418ebe75bc58aacf06aac52e3c3d819"
+                "reference": "10019d1bb1c093c56663d2979877b80ac6165a43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/3d1bd588d418ebe75bc58aacf06aac52e3c3d819",
-                "reference": "3d1bd588d418ebe75bc58aacf06aac52e3c3d819",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/10019d1bb1c093c56663d2979877b80ac6165a43",
+                "reference": "10019d1bb1c093c56663d2979877b80ac6165a43",
                 "shasum": ""
             },
             "require": {
@@ -2543,7 +2543,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2015-12-16 13:04:26"
+            "time": "2015-12-16 13:58:06"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3112,12 +3112,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "2cc192174c452373e24335f8b1f4fce2c9480f8e"
+                "reference": "56010646397dce138ca0e63ac8a5c4f7f2da9e51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/2cc192174c452373e24335f8b1f4fce2c9480f8e",
-                "reference": "2cc192174c452373e24335f8b1f4fce2c9480f8e",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/56010646397dce138ca0e63ac8a5c4f7f2da9e51",
+                "reference": "56010646397dce138ca0e63ac8a5c4f7f2da9e51",
                 "shasum": ""
             },
             "require": {
@@ -3184,7 +3184,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2015-12-16 12:57:46"
+            "time": "2015-12-16 13:44:31"
         },
         {
             "name": "codeception/phpbuiltinserver",
@@ -4764,13 +4764,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kartik-v/yii2-grid": 20,
         "kartik-v/yii2-mpdf": 20,
         "dektrium/yii2-user": 20,
-        "neomerx/json-api": 20,
-        "bower-asset/is-loading": 20,
-        "bower-asset/bootbox": 20,
-        "miloschuman/yii2-highcharts-widget": 20
+        "neomerx/json-api": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
