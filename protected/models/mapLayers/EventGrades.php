@@ -3,6 +3,7 @@
 namespace prime\models\mapLayers;
 
 use Carbon\Carbon;
+use prime\controllers\MarketplaceController;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\Country;
 use prime\models\MapLayer;
@@ -12,13 +13,6 @@ use yii\web\View;
 
 class EventGrades extends MapLayer
 {
-    protected $colorScale = [
-        'A00' => 'rgba(100, 100, 100, 0.8)',
-        'A0' => 'rgba(0, 0, 255, 1)',
-        'A1' => 'rgba(0, 105, 150, 1)',
-        'A2' => 'rgba(0, 150, 105, 1)',
-        'A3' => 'rgba(0, 255, 0, 1)'
-    ];
     /** @var ResponseCollectionInterface */
     protected $responses;
 
@@ -34,7 +28,7 @@ class EventGrades extends MapLayer
     {
         foreach($this->data as &$data) {
             if(!isset($data['color'])) {
-                $data['color'] = $this->colorScale[$data['value']];
+                $data['color'] = $this->mapColor($data['value']);
             }
         }
     }
@@ -50,6 +44,62 @@ class EventGrades extends MapLayer
         parent::init();
     }
 
+    public static function mapColor($value)
+    {
+        $map = [
+            'A00' => 'rgba(100, 100, 100, 0.8)',
+            'A0' => 'rgba(0, 0, 255, 1)',
+            'A1' => 'rgba(0, 105, 150, 1)',
+            'A2' => 'rgba(0, 150, 105, 1)',
+            'A3' => 'rgba(0, 255, 0, 1)'
+        ];
+        return $map[$value];
+    }
+
+    public function gradeMap()
+    {
+        return [
+            'A00' => \Yii::t('app' , 'Preparedness'),
+            'A0' => \Yii::t('app' , 'Ungraded'),
+            'A1' => \Yii::t('app' , 'Grade 1'),
+            'A2' => \Yii::t('app' , 'Grade 2'),
+            'A3' => \Yii::t('app' , 'Grade 3'),
+        ];
+    }
+
+    public function mapGrade($value)
+    {
+        return $this->gradeMap()[$value];
+    }
+
+    public static function mapGradingStage($value)
+    {
+        $map = [
+            'A1' => \Yii::t('app' , 'First grading'),
+            'A2' => \Yii::t('app' , 'Grade extension'),
+            'A3' => \Yii::t('app' , 'Grade increase'),
+            'A4' => \Yii::t('app' , 'Grade decrease'),
+            'A5' => \Yii::t('app' , 'Grade end'),
+        ];
+        return $map[$value];
+    }
+
+    public function valueMap()
+    {
+        return [
+            'A00' => 0,
+            'A0' => 1,
+            'A1' => 2,
+            'A2' => 3,
+            'A3' => 4,
+        ];
+    }
+
+    public function mapValue($value)
+    {
+        return $this->valueMap()[$value];
+    }
+
     protected function prepareData(Carbon $date = null)
     {
         if(!isset($date)) {
@@ -61,20 +111,22 @@ class EventGrades extends MapLayer
         //$responses = app()->limeSurvey->getResponses($this->surveyId);
         foreach($this->responses as $response) {
             $responseData = $response->getData();
-            if($responseData['PRIMEID'] != '' && isset($responseData['GM02'])) {
+            if($responseData['UOID'] != '' && isset($responseData['GM02'])) {
                 $responseDate = new Carbon($responseData['GM01']);
-                if (!isset($tempData[$responseData['PRIMEID']]) && $responseDate->lte($date)) {
-                    $tempData[$responseData['PRIMEID']] =
+                if (!isset($tempData[$responseData['UOID']]) && $responseDate->lte($date)) {
+                    $tempData[$responseData['UOID']] =
                         [
+                            'iso_3' => $responseData['PRIMEID'],
                             'date' => $responseDate,
                             'value' => $responseData['GM02'],
                             'localityGeo' => $responseData['LocalityGEO'],
                             'localityId' => $responseData['LocalityID']
                         ];
                 } else {
-                    if($responseDate->lte($date) && $responseDate->gt($tempData[$responseData['PRIMEID']]['date'])) {
-                        $tempData[$responseData['PRIMEID']] =
+                    if($responseDate->lte($date) && $responseDate->gt($tempData[$responseData['UOID']]['date'])) {
+                        $tempData[$responseData['UOID']] =
                             [
+                                'iso_3' => $responseData['PRIMEID'],
                                 'date' => $responseDate,
                                 'value' => $responseData['GM02'],
                                 'localityGeo' => $responseData['LocalityGEO'],
@@ -84,14 +136,14 @@ class EventGrades extends MapLayer
                 }
             }
         }
-
+        //TODO add correct lat/long if those are set in the response
         $this->data = [];
         foreach($tempData as $id => $data) {
             if(!empty($data['localityGeo'])) {
                 $latitude = 0;
                 $longitude = 0;
             } else {
-                $country = Country::findOne($id);
+                $country = Country::findOne($data['iso_3']);
                 $latitude = $country->latitude;
                 $longitude = $country->longitude;
             }
@@ -105,54 +157,48 @@ class EventGrades extends MapLayer
         }
 
         $this->addColorsToData();
-
-//        $this->data = [
-//            [
-//                'name' => 'Event 1',
-//                'lat' => 0,
-//                'lon' => -90,
-//                'id' => 'Event 1',
-//                'value' => 1
-//            ],
-//            [
-//                'name' => 'Event 2',
-//                'lat' => 0,
-//                'lon' => -30,
-//                'id' => 'Event 2',
-//                'value' => 2
-//            ],
-//            [
-//                'name' => 'Event 3',
-//                'lat' => 0,
-//                'lon' => 30,
-//                'id' => 'Event 3',
-//                'value' => 3
-//            ],
-//            [
-//                'name' => 'Event 4',
-//                'lat' => 0,
-//                'lon' => 90,
-//                'id' => 'Event 4',
-//                'value' => 4
-//            ],
-//        ];
-//        $this->addColorsToData();
     }
 
     public function renderLegend(View $view)
     {
         return "<table>" .
         "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Event Grades') . "</th></tr>" .
-        "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->colorScale['A00'] . "'>" . \Yii::t('app', 'Preparedness') . "</td></tr>" .
-        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale['A0'] . "'>" . \Yii::t('app', 'Ungraded') . "</td></tr>" .
-        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale['A1'] . "'>" . \Yii::t('app', 'Grade 1') . "</td></tr>" .
-        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale['A2'] . "'>" . \Yii::t('app', 'Grade 2') . "</td></tr>" .
-        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->colorScale['A3'] . "'>" . \Yii::t('app', 'Grade 3') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A00') . "'>" . $this->mapGrade('A00') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A0') . "'>" . $this->mapGrade('A0') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A1') . "'>" . $this->mapGrade('A1') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A2') . "'>" . $this->mapGrade('A2') . "</td></tr>" .
+        "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A3') . "'>" . $this->mapGrade('A3') . "</td></tr>" .
         "</table>";
     }
 
+    //TODO: fix that the right ID is used for an event (something that uniquely identifies an event)
     public function renderSummary(View $view, $id)
     {
-        return parent::renderSummary($view, $id);
+        /** @var ResponseInterface $response */
+        $eventResponses = [];
+        foreach($this->responses as $response) {
+            $responseData = $response->getData();
+            if($responseData['UOID'] != '' && $responseData['UOID'] == $id) {
+                if($response->getSurveyId() == MarketplaceController::$surveyIds['eventGrades']) {
+                    $eventResponses[] = $response;
+                }
+            }
+        }
+
+        usort($eventResponses, function($a, $b){
+            $aD = new Carbon($a->getData()['GM01']);
+            $bD = new Carbon($b->getData()['GM01']);
+            if($aD->eq($bD)) {
+                return ($aD->getId() > $bD->getId()) ? 1 : -1;
+            }
+            return ($aD->gt($bD)) ? 1 : -1;
+        });
+
+        $country = Country::findOne($eventResponses[0]->getData()['PRIMEID']);
+
+        return $view->render('eventGrades', [
+            'country' => $country,
+            'eventResponses' => $eventResponses
+        ], $this);
     }
 }

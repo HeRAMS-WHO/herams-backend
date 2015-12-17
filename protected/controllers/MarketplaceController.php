@@ -2,7 +2,6 @@
 
 namespace prime\controllers;
 
-use app\components\Request;
 use prime\components\Controller;
 use prime\factories\MapLayerFactory;
 use prime\models\ar\Project;
@@ -13,6 +12,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
+use yii\web\Request;
 
 class MarketplaceController extends Controller
 {
@@ -50,7 +50,7 @@ class MarketplaceController extends Controller
         ]);
     }
 
-    public function actionSummary(Client $limesurvey, $id, $layer)
+    public function actionSummary(Request $request, Client $limesurvey, $id, $layer, $noMenu = false)
     {
 
         switch($layer) {
@@ -69,7 +69,11 @@ class MarketplaceController extends Controller
         }
         $mapLayer = MapLayerFactory::get($layer, [$responses]);
 
-        return $mapLayer->renderSummary($this->getView(), $id);
+        if($noMenu) {
+            $this->view->params['hideMenu'] = true;
+        }
+        return $this->renderContent($mapLayer->renderSummary($this->getView(), $id));
+
     }
 
     public function behaviors()

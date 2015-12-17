@@ -3,12 +3,11 @@
 /**
  * @var \yii\web\View $this
  * @var \prime\models\Country $country
- * @var \SamIT\LimeSurvey\Interfaces\ResponseInterface[] $countryResponses
  * @var \SamIT\LimeSurvey\Interfaces\ResponseInterface[] $eventResponses
  * @var \prime\models\mapLayers\CountryGrades $mapLayer
  */
 
-$lastCountryResonse = $countryResponses[count($countryResponses) - 1];
+$lastEventResponse = $eventResponses[count($eventResponses) - 1];
 $mapLayer = $this->context;
 ?>
 
@@ -25,18 +24,18 @@ $mapLayer = $this->context;
 
 <div class="row">
     <div class="col-xs-8">
-        <h2 style="margin-top: 0px;"><?=$country->name?></h2>
+        <h2 style="margin-top: 0px;"><?=$country->name?> / <?=$lastEventResponse->getData()['CED01']?></h2>
     </div>
     <div class="col-xs-4">
         <div class="row">
             <div class="col-xs-12">
-                <div class="timeline-block pull-right" style="background-color: <?=$mapLayer->mapColor($lastCountryResonse->getData()['GM02'])?>;">
-                    <?=$mapLayer->mapGrade($lastCountryResonse->getData()['GM02'])?>
+                <div class="timeline-block pull-right" style="background-color: <?=$mapLayer->mapColor($lastEventResponse->getData()['GM02'])?>;">
+                    <?=$mapLayer->mapGrade($lastEventResponse->getData()['GM02'])?>
                 </div>
-                </div>
+            </div>
             <div class="col-xs-12" style="text-align: right">
-                <?=$mapLayer->mapGradingStage($lastCountryResonse->getData()['GM00'])?><br>
-                <?=(new \Carbon\Carbon($lastCountryResonse->getData()['GM01']))->format('d F Y')?>
+                <?=$mapLayer->mapGradingStage($lastEventResponse->getData()['GM00'])?><br>
+                <?=(new \Carbon\Carbon($lastEventResponse->getData()['GM01']))->format('d F Y')?>
             </div>
         </div>
     </div>
@@ -45,7 +44,7 @@ $mapLayer = $this->context;
         <?php
         $categories = [];
         $serie = [];
-        foreach($countryResponses as $response) {
+        foreach($eventResponses as $response) {
             $categories[] = (new \Carbon\Carbon($response->getData()['GM01']))->format('d/m/Y');
             $serie[] = [
                 'grade' => $mapLayer->mapGrade($response->getData()['GM02']),
@@ -108,24 +107,4 @@ $mapLayer = $this->context;
         ]);
         ?>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12"><h3><?=\Yii::t('app', 'Graded events')?></h3></div>
-    <?php
-        foreach($eventResponses as $response) {
-            ?>
-            <div class="col-xs-12" style="margin-bottom: 10px;">
-                <div class="row">
-                    <div class="col-xs-1">
-                        <div style="height: 34px; width: 34px; border: 2px solid darkgrey; border-radius: 50%; background-color: <?=\prime\models\mapLayers\EventGrades::mapColor($response->getData()['GM02'])?>;"></div>
-                    </div>
-                    <div class="col-xs-11" style="line-height: 34px">
-                        <?=$response->getData()['CED01']?> / <?=\prime\models\mapLayers\EventGrades::mapGradingStage($response->getData()['GM00'])?> (<?=(new \Carbon\Carbon($response->getData()['GM01']))->format('d F Y')?>)
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
-    ?>
-
 </div>

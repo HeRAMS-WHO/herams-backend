@@ -15,8 +15,12 @@ $font-family-base: "Open Sans";
 }
 
 
-  body {
+  nav:first-of-type + * {
     margin-top: $navbar-height + $navbar-margin-bottom;
+  }
+
+  nav:first-of-type + nav {
+    margin-top: $navbar-height;
   }
 
   ///* BEGIN Navbar styling */
