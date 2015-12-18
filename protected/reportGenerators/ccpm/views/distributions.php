@@ -5,10 +5,10 @@ use app\components\Html;
 /**
  * @var \prime\reportGenerators\ccpm\Generator $generator
  * @var \prime\interfaces\UserDataInterface $userData
+ * @var array $questionsAndAnswers
  */
 
 $view = $this->context;
-
 ?>
 
 <div class="container-fluid">
@@ -37,7 +37,11 @@ $view = $this->context;
             \Yii::t('ccpm', 'Attendance of cluster coordinator to HCT and ICC meetings') => $distributions['1.1.9'],
             \Yii::t('ccpm', 'Support/engagement of cluster with national coordination mechanisms') => $distributions['1.1.10'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -53,7 +57,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'Involvement of partners into analysis of gaps and overlaps based on mapping') => $distributions['1.2.3'],
             \Yii::t('ccpm', 'Analysis of gaps and overlaps based on mapping used by partners for decision-making') => $distributions['1.2.4'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -72,7 +78,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'Involvement of partners in joint needs assessments') => $distributions['2.1.2'],
             \Yii::t('ccpm', 'Sharing by partners of their assessment reports') => $distributions['2.1.3'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -98,7 +106,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'HIV/AIDS (cross-cutting issue) considered in analyses') => $distributions['2.2.13'],
             \Yii::t('ccpm', 'Disability (cross-cutting issue) considered in analyses') => $distributions['2.2.14'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -111,7 +121,9 @@ $view = $this->context;
         'distributions' => [
             \Yii::t('ccpm', 'Joint analyses supporting response planning') => $distributions['2.3.1'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -142,7 +154,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'Strategic plan used by partners for guiding response') => $distributions['3.1.14'],
             \Yii::t('ccpm', 'Deactivation criteria and phasing out strategy formulated together with partners') => $distributions['3.1.15'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -156,7 +170,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'National and international standards and guidance identified and adapted as required') => $distributions['3.2.1'],
             \Yii::t('ccpm', 'Technical standards and guidance agreed upon and used by partners') => $distributions['3.2.2'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -172,7 +188,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'Cluster supported and facilitated access to funding sources by partners') => $distributions['3.3.3'],
             \Yii::t('ccpm', 'Regular reporting on funding status') => $distributions['3.3.4'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -189,7 +207,9 @@ $view = $this->context;
         'distributions' => [
             \Yii::t('ccpm', 'Issues requiring advocacy identified and discussed together with partners') => $distributions['4.1.1']
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -202,7 +222,9 @@ $view = $this->context;
         'distributions' => [
             \Yii::t('ccpm', 'Advocacy activities agreed upon and undertaken with partners') => $distributions['4.2.1'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -224,7 +246,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'Changes in needs, risk and gaps highlighted in cluster reports and used for decision-making by partners') => $distributions['5.1.5'],
             \Yii::t('ccpm', 'Response  and monitoring of the cluster taking into account the needs, contributions and capacities of women, girls, men and boys') => $distributions['5.1.6'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -245,7 +269,9 @@ $view = $this->context;
             \Yii::t('ccpm', 'Partners committed staff and/or resources towards preparedness plan') => $distributions['6.1.4'],
             \Yii::t('ccpm', 'Early warning reports shared with partners') => $distributions['6.1.5']
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>
 
@@ -263,6 +289,8 @@ $view = $this->context;
             \Yii::t('ccpm', 'Mechanisms to consult and involve population in decision-making agreed upon and applied by partners') => $distributions['7.1.1'],
             \Yii::t('ccpm', 'Mechanisms to  receive, investigate and act upon complaints about assistance received agreed upon and applied by partners') => $distributions['7.1.2'],
         ],
-        'view' => $view
+        'view' => $view,
+        'questionsAndAnswers' => $questionsAndAnswers,
+        'sectionQuestionMap' => $generator->sectionQuestionMapping()
     ])?>
 </div>

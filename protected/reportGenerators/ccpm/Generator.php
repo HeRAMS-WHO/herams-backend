@@ -159,7 +159,8 @@ class Generator extends \prime\reportGenerators\base\Generator
             'userData' => $userData,
             'project' => $project,
             'signature' => $signature,
-            'responses' => $responses
+            'responses' => $responses,
+            'surveys' => $surveys
         ], $this);
     }
 
@@ -184,7 +185,8 @@ class Generator extends \prime\reportGenerators\base\Generator
             'userData' => $userData,
             'signature' => $signature,
             'responses' => $responses,
-            'project' => $project
+            'project' => $project,
+            'surveys' => $surveys
         ], $this));
 
         return new Report($userData, $signature, $stream, __CLASS__, $this->getReportTitle($project, $signature));
