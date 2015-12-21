@@ -15,9 +15,19 @@ $view = $this->context;
     <?=$this->render('header', ['project' => $project])?>
 
     <div class="row">
-        <h2 class="col-xs-12"><?=\Yii::t('ccpm', 'Answer distributions')?></h2>
+        <h2 class="col-xs-12"><?=\Yii::t('ccpm', 'Answer distributions and comments')?></h2>
     </div>
-    <p><?=\Yii::t('ccpm', 'Black line is the Coordinator response, blue line is the partner response distribution.')?></p>
+
+    <div class="row">
+        <h3 class="col-xs-12">0 <?=\Yii::t('ccpm', 'General')?></h3>
+    </div>
+
+    <?=\prime\widgets\report\Comments::widget([
+        'comments' => [
+            \Yii::t('ccpm', 'General') => $generator->getQuestionValues($responses, [$generator->CPASurveyId => [], $generator->PPASurveyId => ['q014']], function($value){return !empty($value);})
+        ]
+    ])?>
+
     <div class="row">
         <h3 class="col-xs-12">1 <?=\Yii::t('ccpm', 'Supporting service delivery')?></h3>
     </div>

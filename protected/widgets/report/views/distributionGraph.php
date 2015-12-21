@@ -52,8 +52,8 @@ if(!empty($series[0]['data'])) {
 
 ?>
 <div class="row no-break">
-    <?php if ($CQuestion != '') { ?>
     <div class="col-xs-12" style="height: 40px;"><strong><?=$title?></strong></div>
+    <?php if ($CQuestion != '') { ?>
     <div class="col-xs-12"><?=\Yii::t('ccpm', 'Coordinator question')?></div>
     <div class="col-xs-12"><p style="font-style: italic; margin-top: 3px; margin-left: 20px;"><?=$CQuestion?></p></div>
     <div class="col-xs-12"><?=\Yii::t('ccpm', 'Coordinator answer')?></div>
