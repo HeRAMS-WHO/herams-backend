@@ -15,7 +15,7 @@ $this->params['subMenu'] = [
     'items' => [
         [
             'label' => \Yii::t('app', 'Edit token'),
-            'url' => ['projects/configure', 'id' => 12]
+            'url' => ['projects/configure', 'id' => $model->id]
         ],
         [
             'label' => \Yii::t('app', 'Save'),
