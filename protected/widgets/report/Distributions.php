@@ -61,25 +61,37 @@ class Distributions extends Widget
         //Title
         $result .= Html::tag('h4', $this->number . ' ' . $this->title, ['class' => 'col-xs-12']);
 
-        //Find CPA answer
-        if(isset($this->distributions[$this->CPASurveyId])) {
-            //TODO: Zoek goede antwoord...
-        }
-        $CPAanswer = '';
-
         //Columns
         $items = [];
         foreach($this->distributions as $subTitle => $distribution)
         {
             $section = $this->number . '.' . (count($items) + 1);
             $title = $section . ' ' . $subTitle;
+
+            //Find CPA question and answer
+            $CQuestion = '';
+            $CAnswer = '';
+            if(isset($distribution[$this->CPASurveyId]) && !empty($distribution[$this->CPASurveyId])) {
+                $question = $this->sectionQuestionMap[$section][$this->CPASurveyId][0];
+                $CQuestion = $this->questionsAndAnswers[$this->CPASurveyId][$question]['text'];
+                $CAnswer = $this->questionsAndAnswers[$this->CPASurveyId][$question]['answers'][array_keys($distribution[$this->CPASurveyId])[0]];
+            }
+
+            $PQuestion = '';
+            if(isset($distribution[$this->PPASurveyId]) && !empty($distribution[$this->PPASurveyId])) {
+                $question = $this->sectionQuestionMap[$section][$this->PPASurveyId][0];
+                $PQuestion = $this->questionsAndAnswers[$this->CPASurveyId][$question]['text'];
+            }
+
             $items[] = [
                 'content' => $this->render('distributionGraph', [
                     'title' => $title,
                     'distribution' => $distribution,
                     'view' => $this->view,
                     'series' => $this->buildSeries($distribution, $section),
-                    'answer' => $CPAanswer
+                    'CAnswer' => $CAnswer,
+                    'CQuestion' => $CQuestion,
+                    'PQuestion' => $PQuestion
                 ])
             ];
         }

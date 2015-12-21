@@ -59,7 +59,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -80,7 +82,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -108,7 +112,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -123,7 +129,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -156,7 +164,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -172,7 +182,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -190,7 +202,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -209,7 +223,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -224,7 +240,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -248,7 +266,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -271,7 +291,9 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
 
@@ -291,6 +313,8 @@ $view = $this->context;
         ],
         'view' => $view,
         'questionsAndAnswers' => $questionsAndAnswers,
-        'sectionQuestionMap' => $generator->sectionQuestionMapping()
+        'sectionQuestionMap' => $generator->sectionQuestionMapping(),
+        'PPASurveyId' => $generator->PPASurveyId,
+        'CPASurveyId' => $generator->CPASurveyId
     ])?>
 </div>
