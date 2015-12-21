@@ -223,7 +223,7 @@ class Project extends ActiveRecord implements ProjectInterface
 
     /**
      * @return SurveyCollectionInterface
-     * TODO: Implement correct function
+     * TODO: Implement correct function, language of surveys should be correct!
      */
     public function getSurvey()
     {

@@ -57,15 +57,22 @@ function vddSql(\yii\db\Query $query, $mesage = '', $depth = 10, $highlight = tr
     die($mesage);
 }
 
-function median(array $array)
+function median(array $array, $precision = 0)
 {
     if(empty($array)) {
         throw new \Exception("Array must not be empty");
     }
 
     rsort($array);
-    $middle = round(count($array) / 2);
-    return $array[$middle - 1];
+    if(count($array) % 2 == 1) {
+        $middle = round(count($array) / 2);
+        return $array[$middle - 1];
+    } else {
+        $lMiddle = floor(count($array) / 2);
+        $rMiddle = ceil(count($array) / 2);
+        return round(($array[$lMiddle - 1] + $array[$rMiddle - 1]) / 2, $precision);
+    }
+
 }
 
 function average(array $array)

@@ -12,7 +12,7 @@ $middleColumn = Html::tag('h4', $widget->title) . '<hr>';
 
 $rows = [];
 foreach($widget->scores as $key => $value) {
-    $rows[] = ['cells' => [$key, $value . '%']];
+    $rows[] = ['cells' => [$key, (int) $value . '%']];
 }
 
 $middleColumn .= \prime\widgets\report\Table::widget([

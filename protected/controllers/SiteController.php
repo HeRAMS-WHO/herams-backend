@@ -13,7 +13,7 @@
         {
             /** @var \prime\models\ar\User $identity */
             $identity = $user->identity;
-            if ($identity->getProjects()->count() > 10) {
+            if ($identity->getProjects()->count() > 0) {
                 return $this->redirect('projects/list');
             } else {
                 $session->setFlash('info', \Yii::t('app', "We noticed you do not have any projects yet. We redirected you to the new project page so you can get started ASAP!"));

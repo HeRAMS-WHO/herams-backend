@@ -23,8 +23,11 @@
     <body>
         <?php $this->beginBody(); ?>
         <?php
-            echo $this->render('//menu');
+            if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
+                echo $this->render('//menu');
+            }
             echo $this->render('//flash.php');
+
 //            echo Html::tag('div', $this->render('/leftMenu.php'), []);
 
             $defaultContainerOptions = ['class' => 'container'];

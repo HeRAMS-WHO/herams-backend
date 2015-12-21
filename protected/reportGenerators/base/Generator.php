@@ -15,6 +15,7 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use SamIT\LimeSurvey\JsonRpc\Concrete\Question;
 use yii\base\Component;
 use yii\base\ViewContextInterface;
 use yii\console\Exception;
@@ -87,22 +88,58 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
         return $this->title() . ' ' . $project->getLocality() . ' ' . $signature->getTime()->format('Y-m-d');
     }
 
-    public function getQuestionText(SurveyCollectionInterface $surveys, $title, $surveyId)
+    public function getQuestionAndAnswerTexts(SurveyCollectionInterface $surveys, $map)
     {
+        $result = [];
+
         /** @var SurveyInterface $survey */
         foreach($surveys as $survey) {
-            if($survey->getId() == $surveyId) {
+            if(isset($map[$survey->getId()])) {
+                $result[$survey->getId()] = [];
+                $questionTitles = array_flip($map[$survey->getId()]);
                 /** @var GroupInterface $group */
                 foreach ($survey->getGroups() as $group) {
                     /** @var QuestionInterface $question */
+                    /** @var Question $question */
                     foreach ($group->getQuestions() as $question) {
-                        if ($question->getTitle() == $title) {
-                            return $question->getText();
+                        if(isset($questionTitles[$question->getTitle()])) {
+                            $result[$survey->getId()][$question->getTitle()] = [
+                                'text' => trim(html_entity_decode(strip_tags($question->getText()))),
+                                'answers' => []
+                            ];
+                            $answers = $question->getAnswers();
+                            if(isset($answers)) {
+                                foreach($answers as $answer) {
+                                    $result[$survey->getId()][$question->getTitle()]['answers'][$answer->getCode()] = $answer->getText();
+                                }
+                            }
+                        }
+
+                        if($question->getDimensions() == 1) {
+                            $subQuestions = $question->getQuestions(0);
+                            if (!empty($subQuestions)) {
+                                foreach ($subQuestions as $subQuestion) {
+                                    $key = $question->getTitle() . '[' . $subQuestion->getTitle() . ']';
+                                    $result[$survey->getId()][$key] = [
+                                        'text' => trim(html_entity_decode(strip_tags($question->getText()))),
+                                        'answers' => []
+                                    ];
+                                    $answers = $subQuestion->getAnswers();
+                                    if (isset($answers)) {
+                                        foreach ($answers as $answer) {
+                                            $result[$survey->getId()][$key]['answers'][$answer->getCode(
+                                            )] = $answer->getText();
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+
+        return $result;
     }
 
     /**

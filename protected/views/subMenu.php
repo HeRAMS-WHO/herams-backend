@@ -27,7 +27,7 @@ if($visible) {
         'options' => [
             'class' => 'navbar-default navbar-static-top',
             'style' => [
-                'margin-top' => '-20px',
+//                'margin-top' => '-20px',
 //                    'top' => '70px',
 //                'z-index' => 2000
             ]
