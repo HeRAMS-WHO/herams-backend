@@ -259,7 +259,7 @@ $this->beginContent('@app/views/layouts/report.php');
 <div class="container-fluid">
     <?=$this->render('header', ['project' => $project])?>
     <div class="row">
-        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Strategic and Technical Advisory Groups')?></h2>
+        <h2 class="col-xs-12"><?=\Yii::t('cd', 'Strategic Advisory and Technical Working Groups')?></h2>
     </div>
     <div class="row">
         <h3 class="col-xs-12"><?=\Yii::t('cd', 'Strategic Advisory Group')?></h3>
@@ -270,7 +270,7 @@ $this->beginContent('@app/views/layouts/report.php');
             [
                 'content' => \prime\widgets\report\Block::widget([
                     'items' => [
-                        \Yii::t('cd', 'Name'),
+                        \Yii::t('cd', 'Exists'),
                         $generator->mapYesNo($generator->getQuestionValue('q326'))
                     ]
                 ])
@@ -294,6 +294,44 @@ $this->beginContent('@app/views/layouts/report.php');
         ],
         'columnsInRow' => 3
     ]);
+    ?>
+    <div class="spacer"></div>
+    <div class="row">
+        <h3 class="col-xs-12"><?=\Yii::t('cd', 'Technical Working Groups')?></h3>
+    </div>
+    <?php
+    for ($i = 1; $i <= $generator->getQuestionValue('q329'); $i++) {
+        echo \prime\widgets\report\Columns::widget([
+            'items' => [
+                [
+                    'content' => \prime\widgets\report\Block::widget([
+                        'items' => [
+                            \Yii::t('cd', 'Name'),
+                            $generator->getQuestionValue('q' . (329 + ($i - 1) * 3 + 1))
+                        ]
+                    ])
+                ],
+                [
+                    'content' => \prime\widgets\report\Block::widget([
+                        'items' => [
+                            \Yii::t('cd', 'Topics'),
+                            $generator->getQuestionValue('q' . (329 + ($i - 1) * 3 + 2))
+                        ]
+                    ])
+                ],
+                [
+                    'content' => \prime\widgets\report\Block::widget([
+                        'items' => [
+                            \Yii::t('cd', 'Organisations belonging to this group'),
+                            $generator->getQuestionValue('q' . (329 + ($i - 1) * 3 + 3))
+                        ]
+                    ])
+                ]
+            ],
+            'columnsInRow' => 3
+        ]);
+        echo ' <div class="spacer-small"></div>';
+    }
     ?>
     <div class="spacer"></div>
     <div class="row">
