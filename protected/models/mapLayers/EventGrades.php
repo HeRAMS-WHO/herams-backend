@@ -56,7 +56,7 @@ class EventGrades extends MapLayer
         return $map[$value];
     }
 
-    public function gradeMap()
+    public static function gradeMap()
     {
         return [
             'A00' => \Yii::t('app' , 'Preparedness'),
@@ -67,9 +67,9 @@ class EventGrades extends MapLayer
         ];
     }
 
-    public function mapGrade($value)
+    public static function mapGrade($value)
     {
-        return $this->gradeMap()[$value];
+        return self::gradeMap()[$value];
     }
 
     public static function mapGradingStage($value)

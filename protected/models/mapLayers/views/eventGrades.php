@@ -17,8 +17,10 @@ $mapLayer = $this->context;
         border: 2px solid darkgrey;
         border-radius: 5px;
         height: 60px;
-        padding-top: 18px;
+        padding-top: 16px;
         width: 100px;
+        font-size: 1.3em;
+        font-weight: bold;
     }
 </style>
 
@@ -35,7 +37,7 @@ $mapLayer = $this->context;
             </div>
             <div class="col-xs-12" style="text-align: right">
                 <?=$mapLayer->mapGradingStage($lastEventResponse->getData()['GM00'])?><br>
-                <?=(new \Carbon\Carbon($lastEventResponse->getData()['GM01']))->format('d F Y')?>
+                <?=(new \Carbon\Carbon($lastEventResponse->getData()['GM01']))->format('d/m/Y')?>
             </div>
         </div>
     </div>
@@ -65,7 +67,7 @@ $mapLayer = $this->context;
                     'type' => 'category'
                 ],
                 'yAxis' => [
-                    'min' => 2,
+                    'min' => 1,
                     'max' => 4,
                     'title' => false,
                     'labels' => [
@@ -73,7 +75,7 @@ $mapLayer = $this->context;
                             'function(){' .
                             'var labelMap = ' . json_encode($mapLayer->gradeMap()) . ';' .
                             'var valueMap = ' . json_encode(array_flip($mapLayer->valueMap())) . ';' .
-                            'return labelMap[valueMap[this.value]];' .
+                            'return this.value > 1 ? labelMap[valueMap[this.value]] : "";' .
                             '}'
                         )
                     ],
