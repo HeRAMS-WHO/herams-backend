@@ -15,15 +15,9 @@ $this->params['subMenu'] = [
     'items' => [
         [
             'label' => \Yii::t('app', 'Edit token'),
-            'url' => ['projects/configure', 'id' => $model->id]
+            'url' => ['projects/configure', 'id' => $model->id],
         ],
-        [
-            'label' => \Yii::t('app', 'Save'),
-            'linkOptions' => [
-                'data-form' => 'update-project',
-//                'class' => 'btn btn-primary'
-            ]
-        ],
+        '<li>' . Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary']) . '</li>'
     ]
 ];
 ?>

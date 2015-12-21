@@ -36,7 +36,7 @@ $font-family-base: "Open Sans";
       font-size: ($link-part * $navbar-height - 14) / $line-height-base;
     }
 
-    a {
+    a:not(.btn) {
       font-size: $link-part * $navbar-height;
       //line-height: $link-part * $navbar-height;
       padding: 0px;

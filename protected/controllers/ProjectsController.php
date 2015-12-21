@@ -182,7 +182,6 @@ class ProjectsController extends Controller
         $model = CreateUpdate::loadOne($id, Permission::PERMISSION_WRITE);
         $model->scenario = 'update';
 
-
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
