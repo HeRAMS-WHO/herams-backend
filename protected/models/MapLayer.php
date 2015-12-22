@@ -25,6 +25,7 @@ class MapLayer extends Model implements ViewContextInterface
 
         ]
     ];
+    public $marker;
     public $name;
     public $showInLegend = false;
     public $legendsContainer = '#legends';

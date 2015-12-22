@@ -41,6 +41,11 @@ class EventGrades extends MapLayer
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'eventGrades'); return false;}"));
         $this->type = 'mappoint';
+        $this->marker = [
+            'lineWidth' => 1,
+            'radius' => 7,
+            'lineColor' => 'rgba(100, 100, 100, 1)'
+        ];
         parent::init();
     }
 
@@ -48,10 +53,10 @@ class EventGrades extends MapLayer
     {
         $map = [
             'A00' => 'rgba(100, 100, 100, 0.8)',
-            'A0' => 'rgba(0, 0, 255, 1)',
-            'A1' => 'rgba(0, 105, 150, 1)',
-            'A2' => 'rgba(0, 150, 105, 1)',
-            'A3' => 'rgba(0, 255, 0, 1)'
+            'A0' => 'rgba(255, 255, 255, 0)',
+            'A1' => 'rgba(150, 150, 0, 1)',
+            'A2' => 'rgba(150, 73, 0, 1)',
+            'A3' => 'rgba(150, 0, 0, 1)'
         ];
         return $map[$value];
     }
@@ -139,21 +144,23 @@ class EventGrades extends MapLayer
         //TODO add correct lat/long if those are set in the response
         $this->data = [];
         foreach($tempData as $id => $data) {
-            if(!empty($data['localityGeo'])) {
-                $latitude = 0;
-                $longitude = 0;
-            } else {
-                $country = Country::findOne($data['iso_3']);
-                $latitude = $country->latitude;
-                $longitude = $country->longitude;
+            if($data['value'] != 'A00' && $data['value'] != 'A0') {
+                if (!empty($data['localityGeo'])) {
+                    $latitude = 0;
+                    $longitude = 0;
+                } else {
+                    $country = Country::findOne($data['iso_3']);
+                    $latitude = $country->latitude;
+                    $longitude = $country->longitude;
+                }
+                $this->data[] = [
+                    //'name' => 'Event 1',
+                    'lat' => $latitude,
+                    'lon' => $longitude,
+                    'id' => $id,
+                    'value' => $data['value']
+                ];
             }
-            $this->data[] = [
-                //'name' => 'Event 1',
-                'lat' => $latitude,
-                'lon' => $longitude,
-                'id' => $id,
-                'value' => $data['value']
-            ];
         }
 
         $this->addColorsToData();

@@ -32,6 +32,9 @@ class Projects extends MapLayer
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'projects'); return false;}"));
         $this->type = 'mappoint';
+        $this->marker = [
+            'radius' => 7
+        ];
         parent::init();
     }
 
