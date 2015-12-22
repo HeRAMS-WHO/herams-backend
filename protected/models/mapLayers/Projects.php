@@ -56,7 +56,7 @@ class Projects extends MapLayer
     public function renderSummary(View $view, $id)
     {
         $project = Project::findOne($id);
-        return $view->render('summaries/projects', [
+        return $view->render('projects', [
             'project' => $project
         ], $this);
     }

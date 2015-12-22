@@ -63,6 +63,9 @@ class MarketplaceController extends Controller
             case 'eventGrades':
                 $responses = new ResponseCollection($limesurvey->getResponses(self::$surveyIds[$layer]));
                 break;
+            case 'projects':
+                $responses = Project::find()->andWhere(['id' => $id]);
+                break;
             default:
                 $responses = new ResponseCollection();
                 break;
