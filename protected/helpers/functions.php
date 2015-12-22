@@ -68,9 +68,8 @@ function median(array $array, $precision = 0)
         $middle = round(count($array) / 2);
         return $array[$middle - 1];
     } else {
-        $lMiddle = floor(count($array) / 2);
-        $rMiddle = ceil(count($array) / 2);
-        return round(($array[$lMiddle - 1] + $array[$rMiddle - 1]) / 2, $precision);
+        $middle = floor(count($array) / 2);
+        return round(($array[$middle - 1] + $array[$middle]) / 2, $precision);
     }
 
 }

@@ -153,8 +153,22 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
     public function getQuestionValues(ResponseCollectionInterface $responses, $map, $inRangeValidator = null)
     {
         $result = [];
+        foreach($this->getGroupedQuestionValues($responses, $map, $inRangeValidator) as $surveyId => $responses) {
+            foreach($responses as $rId => $rValues) {
+                foreach($rValues as $qTitle => $qValue) {
+                    $result[] = $qValue;
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function getGroupedQuestionValues(ResponseCollectionInterface $responses, $map, $inRangeValidator = null)
+    {
+        $result = [];
         /** @var ResponseInterface $response */
         foreach($responses as $response) {
+            $responseResult = [];
             //check if survey of response is in the requested map
             if(isset($map[$response->getSurveyId()])) {
                 //for each of the requested question titles of the survey
@@ -163,11 +177,15 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
                     if(isset($response->getData()[$title]) && null !== $response->getSubmitDate()) {
                         //Validate the result
                         if(!isset($inRangeValidator) || (isset($inRangeValidator) && is_callable($inRangeValidator) && $inRangeValidator($response->getData()[$title]))) {
-                            $result[] = $response->getData()[$title];
+                            $responseResult[$title] = $response->getData()[$title];
                         }
                     }
                 }
             }
+            if(!isset($result[$response->getSurveyId()])) {
+                $result[$response->getSurveyId()] = [];
+            }
+            $result[$response->getSurveyId()][$response->getId()] = $responseResult;
         }
         return $result;
     }

@@ -24,7 +24,7 @@ $chart = \miloschuman\highcharts\Highcharts::widget([
                 'name' => \Yii::t('app', 'Statuses'),
                 'data' => [
                     $widget->part,
-                    $widget->total - $widget->part
+                    max($widget->total - $widget->part, 0)
                 ],
                 'colors' => [
                     '#EC781C',

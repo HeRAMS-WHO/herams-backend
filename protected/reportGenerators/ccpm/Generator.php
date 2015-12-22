@@ -22,19 +22,18 @@ class Generator extends \prime\reportGenerators\base\Generator
 
     public function calculateScore(ResponseCollectionInterface $responses, $map, $method = 'median')
     {
-        $result = $this->getQuestionValues($responses, $map, [$this, 'rangeValidator04']);
-        if (!empty($result)) {
-            switch ($method) {
-                case 'average':
-                    $result = average($result);
-                    break;
-                case 'median':
-                    $result = median($result);
-                    break;
+        $values = $this->getGroupedQuestionValues($responses, $map, [$this, 'rangeValidator04']);
+        $subResult = [];
+        foreach($values as $sId => $rs) {
+            foreach($rs as $rId => $rValues) {
+                if(!empty($rValues)) {
+                    $subResult[] = average($rValues);
+                }
             }
-
-            return $this->map04($result);
         }
+
+        $result = !empty($subResult) ? median($subResult, 2) : 0;
+        return $this->map04($result);
     }
 
     public function calculateDistribution(ResponseCollectionInterface $responses, $map)
