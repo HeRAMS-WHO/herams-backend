@@ -184,7 +184,7 @@ class CountryGrades extends MapLayer
             $aD = new Carbon($a->getData()['GM01']);
             $bD = new Carbon($b->getData()['GM01']);
             if($aD->eq($bD)) {
-                return ($aD->getId() > $bD->getId()) ? 1 : -1;
+                return ($a->getId() > $b->getId()) ? 1 : -1;
             }
             return ($aD->gt($bD)) ? 1 : -1;
         });

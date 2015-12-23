@@ -7,7 +7,7 @@
  * @var \prime\models\mapLayers\CountryGrades $mapLayer
  */
 
-$lastEventResponse = $eventResponses[count($eventResponses) - 1];
+$lastHealthClusterResponse = $eventResponses[count($eventResponses) - 1];
 $mapLayer = $this->context;
 ?>
 
@@ -26,18 +26,18 @@ $mapLayer = $this->context;
 
 <div class="row">
     <div class="col-xs-8">
-        <h2 style="margin-top: 0px;"><?=$country->name?> / <?=$lastEventResponse->getData()['CED01']?></h2>
+        <h2 style="margin-top: 0px;"><?=$country->name?> / <?=$lastHealthClusterResponse->getData()['CED01']?></h2>
     </div>
     <div class="col-xs-4">
         <div class="row">
             <div class="col-xs-12">
-                <div class="timeline-block pull-right" style="background-color: <?=$mapLayer->mapColor($lastEventResponse->getData()['GM02'])?>;">
-                    <?=$mapLayer->mapGrade($lastEventResponse->getData()['GM02'])?>
+                <div class="timeline-block pull-right" style="background-color: <?=$mapLayer->mapColor($lastHealthClusterResponse->getData()['GM02'])?>;">
+                    <?=$mapLayer->mapGrade($lastHealthClusterResponse->getData()['GM02'])?>
                 </div>
             </div>
             <div class="col-xs-12" style="text-align: right">
-                <?=$mapLayer->mapGradingStage($lastEventResponse->getData()['GM00'])?><br>
-                <?=(new \Carbon\Carbon($lastEventResponse->getData()['GM01']))->format('d/m/Y')?>
+                <?=$mapLayer->mapGradingStage($lastHealthClusterResponse->getData()['GM00'])?><br>
+                <?=(new \Carbon\Carbon($lastHealthClusterResponse->getData()['GM01']))->format('d/m/Y')?>
             </div>
         </div>
     </div>

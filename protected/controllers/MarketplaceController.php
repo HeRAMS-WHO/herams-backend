@@ -18,7 +18,8 @@ class MarketplaceController extends Controller
 {
     public static $surveyIds = [
         'countryGrades' => 486496,
-        'eventGrades' => 473297
+        'eventGrades' => 473297,
+        'healthClusters' => 259688
     ];
 
     public function actionIndex()
@@ -33,7 +34,7 @@ class MarketplaceController extends Controller
             'projects' => Project::find()->notClosed(),
             'countryGrades' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['countryGrades'])),
             'eventGrades' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['eventGrades'])),
-            'healthClusters' => new ResponseCollection()
+            'healthClusters' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['healthClusters']))
         ];
 
         return $this->render('map', ['mapLayerData' => $mapLayerData]);
@@ -59,6 +60,9 @@ class MarketplaceController extends Controller
                     $limesurvey->getResponses(self::$surveyIds['countryGrades']),
                     $limesurvey->getResponses(self::$surveyIds['eventGrades'])
                 ));
+                break;
+            case 'healthClusters':
+                $responses = new ResponseCollection($limesurvey->getResponses(self::$surveyIds['healthClusters']));
                 break;
             case 'eventGrades':
                 $responses = new ResponseCollection($limesurvey->getResponses(self::$surveyIds[$layer]));
