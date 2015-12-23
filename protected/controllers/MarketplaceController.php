@@ -37,7 +37,9 @@ class MarketplaceController extends Controller
             'healthClusters' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['healthClusters']))
         ];
 
-        return $this->render('map', ['mapLayerData' => $mapLayerData]);
+        //Get active
+
+        return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => []]);
     }
 
     public function actionList(Request $request)

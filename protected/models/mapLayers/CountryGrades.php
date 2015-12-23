@@ -40,6 +40,15 @@ class CountryGrades extends MapLayer
         parent::__construct($config);
     }
 
+    public function getCountries()
+    {
+        $result = [];
+        foreach($this->data as $e) {
+            $result[$e['id']] = Country::findOne($e['id']);
+        }
+        return $result;
+    }
+
     public function init()
     {
         $this->allowPointSelect = true;
@@ -118,7 +127,7 @@ class CountryGrades extends MapLayer
         /** @var ResponseInterface $response */
         foreach($this->responses as $response) {
             $responseData = $response->getData();
-            if($responseData['PRIMEID'] != '' && isset($responseData['GM02'])) {
+            if($responseData['PRIMEID'] != '') {
                 $responseDate = new Carbon($responseData['GM01']);
                 if (!isset($tempData[$responseData['PRIMEID']]) && $responseDate->lte($date)) {
                     $tempData[$responseData['PRIMEID']] = ['date' => $responseDate, 'value' => $responseData['GM02']];

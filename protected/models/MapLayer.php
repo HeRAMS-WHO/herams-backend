@@ -12,12 +12,12 @@ use yii\web\Controller;
 use yii\web\JsExpression;
 use yii\web\View;
 
-class MapLayer extends Model implements ViewContextInterface
+class MapLayer extends Model implements ViewContextInterface, \JsonSerializable
 {
 
     public $allAreas = false;
     public $allowPointSelect;
-    public $data;
+    public $data = [];
     public $events;
     public $nullColor;
     public $point = [
@@ -44,6 +44,14 @@ class MapLayer extends Model implements ViewContextInterface
     }
 
     /**
+     * @return Country[]
+     */
+    public function getCountries()
+    {
+        return [];
+    }
+
+    /**
      * @return string the view path that may be prefixed to a relative view name.
      */
     public function getViewPath()
@@ -58,10 +66,7 @@ class MapLayer extends Model implements ViewContextInterface
         $this->renderLegendContainer(app()->getView());
     }
 
-    protected function prepareData()
-    {
-        $this->data = [];
-    }
+    protected function prepareData() {}
 
     public function renderLegend(View $view) {
         return '';
@@ -85,6 +90,23 @@ class MapLayer extends Model implements ViewContextInterface
     {
         $attributes = $this->getAttributes();
 
-        return array_filter($attributes, function($value){return isset($value);});
+        return array_filter(
+            $attributes,
+            function ($value) {
+                return isset($value);
+            }
+        );
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 }

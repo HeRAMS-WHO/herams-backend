@@ -45,11 +45,11 @@ $map = Highmaps::begin([
             ]
         ],
         'series' => [
-            \prime\factories\MapLayerFactory::get('base', [], ['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"])->toArray(),
-            \prime\factories\MapLayerFactory::get('projects', [$mapLayerData['projects']])->toArray(),
-            \prime\factories\MapLayerFactory::get('countryGrades', [$mapLayerData['countryGrades']])->toArray(),
-            \prime\factories\MapLayerFactory::get('eventGrades', [$mapLayerData['eventGrades']])->toArray(),
-            \prime\factories\MapLayerFactory::get('healthClusters', [$mapLayerData['healthClusters']])->toArray(),
+            \prime\factories\MapLayerFactory::get('base', [], ['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"]),
+            \prime\factories\MapLayerFactory::get('projects', [$mapLayerData['projects']]),
+            \prime\factories\MapLayerFactory::get('countryGrades', [$mapLayerData['countryGrades']]),
+            \prime\factories\MapLayerFactory::get('eventGrades', [$mapLayerData['eventGrades']]),
+            \prime\factories\MapLayerFactory::get('healthClusters', [$mapLayerData['healthClusters']]),
         ],
         'credits' => [
             'enabled' => false
@@ -67,10 +67,18 @@ $map = Highmaps::begin([
             'bottom' => '0px'
         ],
         'class' => [
-            'col-xs-12',
+            'col-xs-12 col-md-10',
         ]
     ]
 ]);
 $map->end();
+
+$countries = [];
+/** @var \prime\models\MapLayer $mapLayer */
+foreach($map->options['series'] as $mapLayer) {
+    $countries = array_merge($countries, $mapLayer->getCountries());
+}
+
+echo \app\components\Html::tag('div', $this->render('countries', ['countries' => $countries]), ['class' => 'col-xs-12 col-md-2']);
 echo \app\components\Html::tag('div', '', ['id' => 'legends', 'class' => 'col-xs-12', 'style' => ['text-align' => 'center']]);
 $this->registerJsFile('/js/marketplace.js', ['depends' => [\yii\web\JqueryAsset::class, \prime\assets\BootBoxAsset::class]]);

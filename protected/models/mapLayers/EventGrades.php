@@ -31,6 +31,15 @@ class EventGrades extends MapLayer
         }
     }
 
+    public function getCountries()
+    {
+        $result = [];
+        foreach($this->data as $e) {
+            $result[$e['iso_3']] = Country::findOne($e['iso_3']);
+        }
+        return $result;
+    }
+
     public function init()
     {
         $this->allowPointSelect = true;
@@ -156,7 +165,8 @@ class EventGrades extends MapLayer
                     'lat' => $latitude,
                     'lon' => $longitude,
                     'id' => $id,
-                    'value' => $data['value']
+                    'value' => $data['value'],
+                    'iso_3' => $data['iso_3']
                 ];
             }
         }

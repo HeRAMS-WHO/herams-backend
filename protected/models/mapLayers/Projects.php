@@ -24,6 +24,15 @@ class Projects extends MapLayer
         parent::__construct($config);
     }
 
+    public function getCountries()
+    {
+        $result = [];
+        foreach($this->data as $e) {
+            $result[$e['iso_3']] = Country::findOne($e['iso_3']);
+        }
+        return $result;
+    }
+
     public function init()
     {
         $this->allowPointSelect = true;
@@ -47,7 +56,8 @@ class Projects extends MapLayer
                 'name' => $project->title,
                 'lat' => $latLong->getLatitude()->get(),
                 'lon' => $latLong->getLongitude()->get(),
-                'id' => $project->id
+                'id' => $project->id,
+                'iso_3' => $project->country_iso_3
             ];
         //}, Project::find()->notClosed()->all());
         }, $this->projectQuery->all());
