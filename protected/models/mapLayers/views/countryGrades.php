@@ -8,7 +8,7 @@
  * @var \prime\models\mapLayers\CountryGrades $mapLayer
  */
 
-$lastCountryResonse = $countryResponses[count($countryResponses) - 1];
+$lastGradingResponse = $countryResponses[count($countryResponses) - 1];
 $mapLayer = $this->context;
 ?>
 
@@ -32,13 +32,13 @@ $mapLayer = $this->context;
     <div class="col-xs-4">
         <div class="row">
             <div class="col-xs-12">
-                <div class="timeline-block pull-right" style="background-color: <?=$mapLayer->mapColor($lastCountryResonse->getData()['GM02'])?>;">
-                    <?=$mapLayer->mapGrade($lastCountryResonse->getData()['GM02'])?>
+                <div class="timeline-block pull-right" style="background-color: <?=$mapLayer->mapColor($lastGradingResponse->getData()['GM02'])?>;">
+                    <?=$mapLayer->mapGrade($lastGradingResponse->getData()['GM02'])?>
                 </div>
                 </div>
             <div class="col-xs-12" style="text-align: right">
-                <?=$mapLayer->mapGradingStage($lastCountryResonse->getData()['GM00'])?><br>
-                <?=(new \Carbon\Carbon($lastCountryResonse->getData()['GM01']))->format('d/m/Y')?>
+                <?=$mapLayer->mapGradingStage($lastGradingResponse->getData()['GM00'])?><br>
+                <?=(new \Carbon\Carbon($lastGradingResponse->getData()['GM01']))->format('d/m/Y')?>
             </div>
         </div>
     </div>

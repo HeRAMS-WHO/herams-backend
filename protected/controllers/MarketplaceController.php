@@ -2,14 +2,17 @@
 
 namespace prime\controllers;
 
+use Carbon\Carbon;
 use prime\components\Controller;
 use prime\factories\MapLayerFactory;
 use prime\models\ar\Project;
 use prime\models\Country;
 use prime\models\search\Report;
 use prime\objects\ResponseCollection;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\Request;
@@ -55,8 +58,43 @@ class MarketplaceController extends Controller
 
     public function actionSummary(Request $request, Client $limesurvey, $id, $layer, $noMenu = false)
     {
+        if($noMenu) {
+            $this->view->params['hideMenu'] = true;
+        }
 
         switch($layer) {
+            case 'countries':
+                $country = Country::findOne($id);
+                //get projects data provider for projects tab
+                $projectsDataProvider = new ActiveDataProvider([
+                    'query' => Project::find()->notClosed()->andWhere(['country_iso_3' => $country->iso_3])
+                ]);
+
+                //retrieve reponses for country grading tab
+                $gradingResponses = [];
+                foreach($limesurvey->getResponses(self::$surveyIds['countryGrades']) as $response) {
+                    if ($response->getData()['PRIMEID'] == $country->iso_3) {
+                        $gradingResponses[] = $response;
+                    }
+                }
+                usort($gradingResponses, function($a, $b){
+                    /**
+                     * @var ResponseInterface $a
+                     * @var ResponseInterface $b
+                     */
+                    $aD = new Carbon($a->getData()['GM01']);
+                    $bD = new Carbon($b->getData()['GM01']);
+                    if($aD->eq($bD)) {
+                        return ($a->getId() > $b->getId()) ? 1 : -1;
+                    }
+                    return ($aD->gt($bD)) ? 1 : -1;
+                });
+
+                return $this->render('../dashboards/country', [
+                    'country' => $country,
+                    'projectsDataProvider' => $projectsDataProvider,
+                    'gradingResponses' => $gradingResponses
+                ]);
             case 'countryGrades':
                 $responses = new ResponseCollection( array_merge(
                     $limesurvey->getResponses(self::$surveyIds['countryGrades']),
@@ -78,9 +116,6 @@ class MarketplaceController extends Controller
         }
         $mapLayer = MapLayerFactory::get($layer, [$responses]);
 
-        if($noMenu) {
-            $this->view->params['hideMenu'] = true;
-        }
         return $this->renderContent($mapLayer->renderSummary($this->getView(), $id));
 
     }

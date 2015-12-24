@@ -59,7 +59,7 @@ class CountryGrades extends MapLayer
         parent::init();
     }
 
-    public function mapColor($value)
+    public static function mapColor($value)
     {
         $map = [
             'A00' => 'rgba(100, 100, 100, 0.8)',
@@ -72,7 +72,7 @@ class CountryGrades extends MapLayer
         return $map[$value];
     }
 
-    public function gradeMap()
+    public static function gradeMap()
     {
         return [
             'A00' => \Yii::t('app' , 'Preparedness'),
@@ -83,9 +83,9 @@ class CountryGrades extends MapLayer
         ];
     }
 
-    public function mapGrade($value)
+    public static function mapGrade($value)
     {
-        return $this->gradeMap()[$value];
+        return self::gradeMap()[$value];
     }
 
     public static function mapGradingStage($value)
@@ -100,7 +100,7 @@ class CountryGrades extends MapLayer
         return $map[$value];
     }
 
-    public function valueMap()
+    public static function valueMap()
     {
         return [
             'A00' => 0,
@@ -111,9 +111,9 @@ class CountryGrades extends MapLayer
         ];
     }
 
-    public function mapValue($value)
+    public static function mapValue($value)
     {
-        return $this->valueMap()[$value];
+        return self::valueMap()[$value];
     }
 
     protected function prepareData(Carbon $date = null)

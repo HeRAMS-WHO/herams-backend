@@ -2,6 +2,7 @@
 
 use miloschuman\highcharts\Highmaps;
 use yii\web\JsExpression;
+use app\components\Html;
 
 /**
  * @var array $mapLayerData
@@ -23,6 +24,7 @@ $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::ge
     'Highcharts.maps["who/world"]["hc-transform"] = {default: {crs: "WGS84"}};'
 );
 
+echo Html::beginTag('div', ['class' => 'col-xs-12 col-md-10']);
 $map = Highmaps::begin([
     'options' => [
         'title' => [
@@ -67,18 +69,21 @@ $map = Highmaps::begin([
             'bottom' => '0px'
         ],
         'class' => [
-            'col-xs-12 col-md-10',
+            'col-xs-12',
         ]
     ]
 ]);
 $map->end();
+
+echo Html::tag('div', '', ['id' => 'legends', 'class' => 'col-xs-12', 'style' => ['text-align' => 'center']]);
+echo Html::endTag('div');
 
 $countries = [];
 /** @var \prime\models\MapLayer $mapLayer */
 foreach($map->options['series'] as $mapLayer) {
     $countries = array_merge($countries, $mapLayer->getCountries());
 }
+echo Html::tag('div', $this->render('countries', ['countries' => $countries]), ['class' => 'col-xs-12 col-md-2', 'style' => ['max-height' => '100%', 'overflow-y' => 'scroll']]);
 
-echo \app\components\Html::tag('div', $this->render('countries', ['countries' => $countries]), ['class' => 'col-xs-12 col-md-2']);
-echo \app\components\Html::tag('div', '', ['id' => 'legends', 'class' => 'col-xs-12', 'style' => ['text-align' => 'center']]);
 $this->registerJsFile('/js/marketplace.js', ['depends' => [\yii\web\JqueryAsset::class, \prime\assets\BootBoxAsset::class]]);
+
