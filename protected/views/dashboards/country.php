@@ -5,13 +5,13 @@ use prime\models\mapLayers\CountryGrades;
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
- * @var array $gradingResponses
+ * @var array $countriesResponses
  * @var array $eventsResponses
  * @var array $healthClustersResponses
  * @var string $layer
  */
 
-$lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($gradingResponses) - 1] : null;
+$lastGradingResponse = !empty($countriesResponses) ? $countriesResponses[$country->iso_3][count($countriesResponses) - 1] : null;
 ?>
 
 <style>
@@ -53,7 +53,7 @@ $lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($grad
                     'label' => \Yii::t('app', 'Overview'),
                     'content' => $this->render('country/overview', [
                         'projectsDataProvider' => $projectsDataProvider,
-                        'gradingResponses' => $gradingResponses,
+                        'countryResponses' => $countriesResponses[$country->iso_3],
                         'eventsResponses' => $eventsResponses,
                         'healthClustersResponses' => $healthClustersResponses
                     ])
@@ -65,7 +65,7 @@ $lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($grad
                 ],
                 [
                     'label' => \Yii::t('app', 'Grading'),
-                    'content' => $this->render('country/grading', ['gradingResponses' => $gradingResponses]),
+                    'content' => $this->render('country/grading', ['countryResponses' => $countriesResponses[$country->iso_3]]),
                     'visible' => isset($lastGradingResponse),
                     'active' => $layer == 'countryGrades'
                 ],

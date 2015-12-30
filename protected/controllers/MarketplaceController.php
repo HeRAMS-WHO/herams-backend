@@ -54,33 +54,39 @@ class MarketplaceController extends Controller
         $country = Country::findOne($iso_3);
         //get projects data provider for projects tab
         $projectsDataProvider = new ActiveDataProvider([
-            'query' => Project::find()->notClosed()->andWhere(['country_iso_3' => $country->iso_3])
+            'query' => Project::find()->notClosed()->andWhere(isset($country) ? ['country_iso_3' => $country->iso_3] : [])
         ]);
 
         //retrieve reponses for country grading tab
-        $gradingResponses = [];
+        $countriesResponses = [];
         foreach($limesurvey->getResponses(self::$surveyIds['countryGrades']) as $response) {
-            if ($response->getData()['PRIMEID'] == $country->iso_3) {
-                $gradingResponses[] = $response;
+            if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
+                if(!isset($countriesResponses[$response->getData()['PRIMEID']])) {
+                    $countriesResponses[$response->getData()['PRIMEID']] = [];
+                }
+                $countriesResponses[$response->getData()['PRIMEID']][] = $response;
             }
         }
-        usort($gradingResponses, function($a, $b){
-            /**
-             * @var ResponseInterface $a
-             * @var ResponseInterface $b
-             */
-            $aD = new Carbon($a->getData()['GM01']);
-            $bD = new Carbon($b->getData()['GM01']);
-            if($aD->eq($bD)) {
-                return ($a->getId() > $b->getId()) ? 1 : -1;
-            }
-            return ($aD->gt($bD)) ? 1 : -1;
-        });
+
+        foreach($countriesResponses as &$countryResponses) {
+            usort($countryResponses, function($a, $b){
+                /**
+                 * @var ResponseInterface $a
+                 * @var ResponseInterface $b
+                 */
+                $aD = new Carbon($a->getData()['GM01']);
+                $bD = new Carbon($b->getData()['GM01']);
+                if($aD->eq($bD)) {
+                    return ($a->getId() > $b->getId()) ? 1 : -1;
+                }
+                return ($aD->gt($bD)) ? 1 : -1;
+            });
+        }
 
         //retrieve responses for events tab
         $eventsResponses = [];
         foreach($limesurvey->getResponses(self::$surveyIds['eventGrades']) as $response) {
-            if ($response->getData()['PRIMEID'] == $country->iso_3) {
+            if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 $eventId = $response->getData()['UOID'];
                 if(!isset($eventsResponses[$eventId])) {
                     $eventsResponses[$eventId] = [];
@@ -107,7 +113,7 @@ class MarketplaceController extends Controller
         //retrieve responses for health clusters tab
         $healthClustersResponses = [];
         foreach($limesurvey->getResponses(self::$surveyIds['healthClusters']) as $response) {
-            if ($response->getData()['PRIMEID'] == $country->iso_3) {
+            if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 $hcId = $response->getData()['UOID'];
                 if(!isset($eventsResponses[$hcId])) {
                     $healthClustersResponses[$hcId] = [];
@@ -131,14 +137,31 @@ class MarketplaceController extends Controller
             });
         }
 
-        return $this->render('../dashboards/country', [
-            'country' => $country,
-            'projectsDataProvider' => $projectsDataProvider,
-            'gradingResponses' => $gradingResponses,
-            'eventsResponses' => $eventsResponses,
-            'healthClustersResponses' => $healthClustersResponses,
-            'layer' => $layer
-        ]);
+        //render dashboard
+        if(isset($country)) {
+            return $this->render(
+                '../dashboards/country',
+                [
+                    'country' => $country,
+                    'projectsDataProvider' => $projectsDataProvider,
+                    'countriesResponses' => $countriesResponses,
+                    'eventsResponses' => $eventsResponses,
+                    'healthClustersResponses' => $healthClustersResponses,
+                    'layer' => $layer
+                ]
+            );
+        } else {
+            return $this->render(
+                '../dashboards/global',
+                [
+                    'projectsDataProvider' => $projectsDataProvider,
+                    'countriesResponses' => $countriesResponses,
+                    'eventsResponses' => $eventsResponses,
+                    'healthClustersResponses' => $healthClustersResponses,
+                    'layer' => $layer
+                ]
+            );
+        }
     }
 
     public function behaviors()

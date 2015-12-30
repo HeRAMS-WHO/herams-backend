@@ -4,7 +4,7 @@ use prime\models\mapLayers\CountryGrades;
 
 /**
  * @var \yii\web\View $this
- * @var \SamIT\LimeSurvey\Interfaces\ResponseInterface[] $gradingResponses
+ * @var \SamIT\LimeSurvey\Interfaces\ResponseInterface[] $countryResponses
  */
 
 ?>
@@ -12,7 +12,7 @@ use prime\models\mapLayers\CountryGrades;
 <div class="row">
         <?php
         $serie = [];
-        foreach($gradingResponses as $response) {
+        foreach($countryResponses as $response) {
             $serie[] = [
                 'grade' => CountryGrades::mapGrade($response->getData()['GM02']),
                 'y' => CountryGrades::mapValue($response->getData()['GM02']),
