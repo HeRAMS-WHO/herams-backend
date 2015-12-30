@@ -187,35 +187,4 @@ class EventGrades extends MapLayer
         "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A3') . "'>" . $this->mapGrade('A3') . "</td></tr>" .
         "</table>";
     }
-
-    //TODO: fix that the right ID is used for an event (something that uniquely identifies an event)
-    public function renderSummary(View $view, $id)
-    {
-        /** @var ResponseInterface $response */
-        $eventResponses = [];
-        foreach($this->responses as $response) {
-            $responseData = $response->getData();
-            if($responseData['UOID'] != '' && $responseData['UOID'] == $id) {
-                if($response->getSurveyId() == MarketplaceController::$surveyIds['eventGrades']) {
-                    $eventResponses[] = $response;
-                }
-            }
-        }
-
-        usort($eventResponses, function($a, $b){
-            $aD = new Carbon($a->getData()['GM01']);
-            $bD = new Carbon($b->getData()['GM01']);
-            if($aD->eq($bD)) {
-                return ($a->getId() > $b->getId()) ? 1 : -1;
-            }
-            return ($aD->gt($bD)) ? 1 : -1;
-        });
-
-        $country = Country::findOne($eventResponses[0]->getData()['PRIMEID']);
-
-        return $view->render('eventGrades', [
-            'country' => $country,
-            'eventResponses' => $eventResponses
-        ], $this);
-    }
 }

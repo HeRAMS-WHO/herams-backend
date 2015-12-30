@@ -41,14 +41,4 @@ class Reports extends MapLayer
         //}, Project::find()->innerJoinWith(['reports'])->select('country_iso_3')->column());
         }, $this->projectQuery->select('country_iso_3')->column());
     }
-
-    public function renderSummary(View $view, $id)
-    {
-        $country = Country::findOne($id);
-        return $view->render('reports', [
-            'country' => $country
-        ], $this);
-    }
-
-
 }

@@ -164,49 +164,4 @@ class CountryGrades extends MapLayer
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A3') . "'>" . $this->mapGrade('A3') . "</td></tr>" .
         "</table>";
     }
-
-
-    public function renderSummary(View $view, $id)
-    {
-        $country = Country::findOne($id);
-
-        /** @var ResponseInterface $response */
-        $countryResponses = [];
-        $eventResponses = [];
-        foreach($this->responses as $response) {
-            $responseData = $response->getData();
-            if($responseData['PRIMEID'] != '' && $responseData['PRIMEID'] == $id) {
-                if($response->getSurveyId() == MarketplaceController::$surveyIds['countryGrades']) {
-                    $countryResponses[] = $response;
-                } elseif($response->getSurveyId() == MarketplaceController::$surveyIds['eventGrades']) {
-                    $eventIdentifier = 'UOID';
-                    if(!isset($eventResponses[$responseData[$eventIdentifier]])) {
-                        $eventResponses[$responseData[$eventIdentifier]] = $response;
-                    } else {
-                        $date = new Carbon($responseData['GM01']);
-                        if($date->gt(new Carbon($eventResponses[$responseData[$eventIdentifier]]->getData()['GM01']))) {
-                            $eventResponses[$responseData[$eventIdentifier]] = $response;
-                        }
-                    }
-                }
-            }
-        }
-
-        usort($countryResponses, function($a, $b){
-            $aD = new Carbon($a->getData()['GM01']);
-            $bD = new Carbon($b->getData()['GM01']);
-            if($aD->eq($bD)) {
-                return ($a->getId() > $b->getId()) ? 1 : -1;
-            }
-            return ($aD->gt($bD)) ? 1 : -1;
-        });
-
-        return $view->render('countryGrades', [
-            'country' => $country,
-            'countryResponses' => $countryResponses,
-            'eventResponses' => $eventResponses
-        ], $this);
-    }
-
-
 }

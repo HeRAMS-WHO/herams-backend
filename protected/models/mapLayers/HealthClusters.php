@@ -90,14 +90,14 @@ class HealthClusters extends MapLayer
 
     protected function prepareData()
     {
-        if(!isset($date)) {
+        if (!isset($date)) {
             $date = new Carbon();
         }
 
         //$tempData will be of shape $tempData[country_iso_3]['value' => ..., 'date' => ...]
         $tempData = [];
-        foreach($this->responses as $response) {
-            if($response->getSurveyId() == MarketplaceController::$surveyIds['healthClusters']) {
+        foreach ($this->responses as $response) {
+            if ($response->getSurveyId() == MarketplaceController::$surveyIds['healthClusters']) {
                 $responseData = $response->getData();
                 if ($responseData['UOID'] != '') {
                     $responseDate = new Carbon($responseData['CM03']);
@@ -128,9 +128,9 @@ class HealthClusters extends MapLayer
 
         //TODO add correct lat/long if those are set in the response
         $this->data = [];
-        foreach($tempData as $id => $data) {
+        foreach ($tempData as $id => $data) {
             //Filter deactivated health clusters
-            if($data['value'] != 'A4') {
+            if ($data['value'] != 'A4') {
                 if (!empty($data['localityGeo'])) {
                     $latLong = explode(';', $data['localityGeo']);
                     $latitude = floatval($latLong[0]);
@@ -151,35 +151,5 @@ class HealthClusters extends MapLayer
                 ];
             }
         }
-    }
-
-    public function renderSummary(View $view, $id)
-    {
-        /** @var ResponseInterface $response */
-        $healthClusterResponses = [];
-        foreach($this->responses as $response) {
-            $responseData = $response->getData();
-            if($responseData['UOID'] != '' && $responseData['UOID'] == $id) {
-                if($response->getSurveyId() == MarketplaceController::$surveyIds['healthClusters']) {
-                    $healthClusterResponses[] = $response;
-                }
-            }
-        }
-
-        usort($healthClusterResponses, function($a, $b){
-            $aD = new Carbon($a->getData()['CM03']);
-            $bD = new Carbon($b->getData()['CM03']);
-            if($aD->eq($bD)) {
-                return ($a->getId() > $b->getId()) ? 1 : -1;
-            }
-            return ($aD->gt($bD)) ? 1 : -1;
-        });
-
-        $country = Country::findOne($healthClusterResponses[0]->getData()['PRIMEID']);
-
-        return $view->render('healthClusters', [
-            'country' => $country,
-            'healthClusterResponses' => $healthClusterResponses
-        ], $this);
     }
 }

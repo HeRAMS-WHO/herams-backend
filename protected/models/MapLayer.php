@@ -81,11 +81,6 @@ class MapLayer extends Model implements ViewContextInterface, \JsonSerializable
         }
     }
 
-    public function renderSummary(View $view, $id)
-    {
-        return 'You selected: ' . $id;
-    }
-
     public function toArray(array $fields = [], array $expand = [], $recursive = true)
     {
         $attributes = $this->getAttributes();
