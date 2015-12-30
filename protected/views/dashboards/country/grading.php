@@ -63,7 +63,8 @@ use prime\models\mapLayers\CountryGrades;
             ],
             'htmlOptions' => [
                 'class' => 'col-xs-12'
-            ]
+            ],
+            'id' => 'country-grading'
         ]);
         ?>
 </div>

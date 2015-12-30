@@ -90,10 +90,38 @@ class MarketplaceController extends Controller
                     return ($aD->gt($bD)) ? 1 : -1;
                 });
 
+                //retrieve responses for events tab
+                $eventsResponses = [];
+                foreach($limesurvey->getResponses(self::$surveyIds['eventGrades']) as $response) {
+                    if ($response->getData()['PRIMEID'] == $country->iso_3) {
+                        $eventId = $response->getData()['UOID'];
+                        if(!isset($eventsResponses[$eventId])) {
+                            $eventsResponses[$eventId] = [];
+                        }
+                        $eventsResponses[$eventId][] = $response;
+                    }
+                }
+
+                foreach($eventsResponses as &$eventResponses) {
+                    usort($eventResponses, function($a, $b){
+                        /**
+                         * @var ResponseInterface $a
+                         * @var ResponseInterface $b
+                         */
+                        $aD = new Carbon($a->getData()['GM01']);
+                        $bD = new Carbon($b->getData()['GM01']);
+                        if($aD->eq($bD)) {
+                            return ($a->getId() > $b->getId()) ? 1 : -1;
+                        }
+                        return ($aD->gt($bD)) ? 1 : -1;
+                    });
+                }
+
                 return $this->render('../dashboards/country', [
                     'country' => $country,
                     'projectsDataProvider' => $projectsDataProvider,
-                    'gradingResponses' => $gradingResponses
+                    'gradingResponses' => $gradingResponses,
+                    'eventsResponses' => $eventsResponses
                 ]);
             case 'countryGrades':
                 $responses = new ResponseCollection( array_merge(

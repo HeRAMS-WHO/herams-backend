@@ -4,6 +4,8 @@ use prime\models\mapLayers\CountryGrades;
 
 /**
  * @var \yii\web\View $this
+ * @var array $gradingResponses
+ * @var array $eventsResponses
  */
 
 $lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($gradingResponses) - 1] : null;
@@ -52,6 +54,16 @@ $lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($grad
                     'label' => \Yii::t('app', 'Grading'),
                     'content' => $this->render('country/grading', ['gradingResponses' => $gradingResponses]),
                     'visible' => isset($lastGradingResponse)
+                ],
+                [
+                    'label' => \Yii::t('app', 'Events'),
+                    'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses]),
+                    'visible' => !empty($eventsResponses)
+                ]
+            ],
+            'options' => [
+                'style' => [
+                    'margin-bottom' => '10px'
                 ]
             ]
         ])?>

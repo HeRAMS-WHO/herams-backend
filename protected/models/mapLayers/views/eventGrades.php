@@ -44,10 +44,8 @@ $mapLayer = $this->context;
     <div class="col-xs-12"><h3><?=\Yii::t('app' , 'Grade monitoring')?></h3></div>
     <div class="col-xs-12">
         <?php
-        $categories = [];
         $serie = [];
         foreach($eventResponses as $response) {
-            $categories[] = (new \Carbon\Carbon($response->getData()['GM01']))->format('d/m/Y');
             $serie[] = [
                 'grade' => $mapLayer->mapGrade($response->getData()['GM02']),
                 'y' => $mapLayer->mapValue($response->getData()['GM02']),

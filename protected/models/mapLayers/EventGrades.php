@@ -96,7 +96,7 @@ class EventGrades extends MapLayer
         return $map[$value];
     }
 
-    public function valueMap()
+    public static function valueMap()
     {
         return [
             'A00' => 0,
@@ -107,9 +107,9 @@ class EventGrades extends MapLayer
         ];
     }
 
-    public function mapValue($value)
+    public static function mapValue($value)
     {
-        return $this->valueMap()[$value];
+        return self::valueMap()[$value];
     }
 
     protected function prepareData(Carbon $date = null)
