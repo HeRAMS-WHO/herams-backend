@@ -4,6 +4,7 @@ use app\components\Html;
 
 /**
  * @var \yii\web\View $this
+ * @var \yii\data\ActiveDataProvider $projectsDataProvider
  */
 
 echo \kartik\grid\GridView::widget([

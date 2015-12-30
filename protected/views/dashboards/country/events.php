@@ -8,7 +8,7 @@ use prime\models\mapLayers\EventGrades;
  * @var array $eventsResponses
  */
 
-echo Html::beginTag('div', ['class' => 'row', 'style' => ['overflow-y' => 'scroll', 'max-height' => '340px']]);
+echo Html::beginTag('div', ['class' => 'row', 'style' => ['overflow-y' => 'auto', 'max-height' => '340px']]);
 foreach($eventsResponses as $eventResponses) {
     $lastEventResponse = $eventResponses[count($eventResponses) - 1];
     ?>

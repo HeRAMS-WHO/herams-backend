@@ -117,11 +117,40 @@ class MarketplaceController extends Controller
                     });
                 }
 
+                //retrieve responses for health clusters tab
+                $healthClustersResponses = [];
+                foreach($limesurvey->getResponses(self::$surveyIds['healthClusters']) as $response) {
+                    if ($response->getData()['PRIMEID'] == $country->iso_3) {
+                        $hcId = $response->getData()['UOID'];
+                        if(!isset($eventsResponses[$hcId])) {
+                            $healthClustersResponses[$hcId] = [];
+                        }
+                        $healthClustersResponses[$hcId][] = $response;
+                    }
+                }
+
+                foreach($healthClustersResponses as &$healthClusterResponses) {
+                    usort($healthClusterResponses, function($a, $b){
+                        /**
+                         * @var ResponseInterface $a
+                         * @var ResponseInterface $b
+                         */
+                        $aD = new Carbon($a->getData()['CM03']);
+                        $bD = new Carbon($b->getData()['CM03']);
+                        if($aD->eq($bD)) {
+                            return ($a->getId() > $b->getId()) ? 1 : -1;
+                        }
+                        return ($aD->gt($bD)) ? 1 : -1;
+                    });
+                }
+
                 return $this->render('../dashboards/country', [
                     'country' => $country,
                     'projectsDataProvider' => $projectsDataProvider,
                     'gradingResponses' => $gradingResponses,
-                    'eventsResponses' => $eventsResponses
+                    'eventsResponses' => $eventsResponses,
+                    'healthClustersResponses' => $healthClustersResponses,
+                    'layer' => $layer
                 ]);
             case 'countryGrades':
                 $responses = new ResponseCollection( array_merge(

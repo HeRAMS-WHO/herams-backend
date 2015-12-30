@@ -4,8 +4,11 @@ use prime\models\mapLayers\CountryGrades;
 
 /**
  * @var \yii\web\View $this
+ * @var \yii\data\ActiveDataProvider $projectsDataProvider
  * @var array $gradingResponses
  * @var array $eventsResponses
+ * @var array $healthClustersResponses
+ * @var string $layer
  */
 
 $lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($gradingResponses) - 1] : null;
@@ -26,7 +29,7 @@ $lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($grad
 
 <div class="row">
     <div class="col-xs-8">
-        <h2 style="margin-top: 0px;"><?=$country->name?></h2>
+        <h1 style="margin-top: 0px;"><?=$country->name?></h1>
     </div>
     <div class="col-xs-4">
         <?php if(isset($lastGradingResponse)) { ?>
@@ -47,18 +50,36 @@ $lastGradingResponse = !empty($gradingResponses) ? $gradingResponses[count($grad
         <?=\yii\bootstrap\Tabs::widget([
             'items' => [
                 [
+                    'label' => \Yii::t('app', 'Overview'),
+                    'content' => $this->render('country/overview', [
+                        'projectsDataProvider' => $projectsDataProvider,
+                        'gradingResponses' => $gradingResponses,
+                        'eventsResponses' => $eventsResponses,
+                        'healthClustersResponses' => $healthClustersResponses
+                    ])
+                ],
+                [
                     'label' => \Yii::t('app', 'Projects'),
-                    'content' => $this->render('country/projects', ['projectsDataProvider' => $projectsDataProvider])
+                    'content' => $this->render('country/projects', ['projectsDataProvider' => $projectsDataProvider]),
+                    'active' => $layer == 'projects'
                 ],
                 [
                     'label' => \Yii::t('app', 'Grading'),
                     'content' => $this->render('country/grading', ['gradingResponses' => $gradingResponses]),
-                    'visible' => isset($lastGradingResponse)
+                    'visible' => isset($lastGradingResponse),
+                    'active' => $layer == 'countryGrades'
                 ],
                 [
                     'label' => \Yii::t('app', 'Events'),
                     'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses]),
-                    'visible' => !empty($eventsResponses)
+                    'visible' => !empty($eventsResponses),
+                    'active' => $layer == 'eventGrades'
+                ],
+                [
+                    'label' => \Yii::t('app', 'Health Clusters'),
+                    'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses]),
+                    'visible' => !empty($healthClustersResponses),
+                    'active' => $layer == 'healthClusters'
                 ]
             ],
             'options' => [

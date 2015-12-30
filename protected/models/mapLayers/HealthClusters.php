@@ -49,7 +49,7 @@ class HealthClusters extends MapLayer
         parent::init();
     }
 
-    public function phaseMap()
+    public static function phaseMap()
     {
         return [
             'A1' => \Yii::t('app', 'Activation'),
@@ -58,12 +58,12 @@ class HealthClusters extends MapLayer
         ];
     }
 
-    public function mapPhase($value)
+    public static function mapPhase($value)
     {
-        return $this->phaseMap()[$value];
+        return self::phaseMap()[$value];
     }
 
-    public function mapType($value)
+    public static function mapType($value)
     {
         $map = [
             'A1' => \Yii::t('app', 'Formal Health Cluster'),
@@ -72,7 +72,7 @@ class HealthClusters extends MapLayer
         return $map[$value];
     }
 
-    public function valueMap()
+    public static function valueMap()
     {
         return [
             'A1' => 1,
@@ -81,9 +81,9 @@ class HealthClusters extends MapLayer
         ];
     }
 
-    public function mapValue($value)
+    public static function mapValue($value)
     {
-        return $this->valueMap()[$value];
+        return self::valueMap()[$value];
     }
 
     protected function prepareData()

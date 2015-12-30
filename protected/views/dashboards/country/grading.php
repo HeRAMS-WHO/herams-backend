@@ -2,6 +2,11 @@
 
 use prime\models\mapLayers\CountryGrades;
 
+/**
+ * @var \yii\web\View $this
+ * @var \SamIT\LimeSurvey\Interfaces\ResponseInterface[] $gradingResponses
+ */
+
 ?>
 
 <div class="row">
