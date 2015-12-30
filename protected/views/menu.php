@@ -37,9 +37,13 @@ echo Nav::widget([
             'url' => ['/projects'],
             'visible' => !Yii::$app->user->isGuest
         ],
-
         [
-            'label' => Html::icon('globe', ['title' => 'Marketplace']),
+            'label' => Html::icon('list-alt', ['title' => 'Reports']),
+            'url' => ['/reports'],
+            'visible' => !Yii::$app->user->isGuest
+        ],
+        [
+            'label' => Html::icon('globe', ['title' => 'Global monitor']),
             'url' => ['/marketplace'],
             'visible' => !Yii::$app->user->isGuest
 

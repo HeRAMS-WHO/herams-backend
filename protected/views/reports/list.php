@@ -7,12 +7,6 @@ use \app\components\Html;
  * @var \yii\data\ActiveDataProvider $reportsDataProvider
  */
 
-$this->params['subMenu']['items'] = [
-    [
-        'label' => \Yii::t('app', 'Map'),
-        'url' => ['/marketplace/map'],
-    ]
-];
 ?>
 <div class="col-xs-12">
     <?php

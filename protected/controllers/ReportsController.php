@@ -25,6 +25,8 @@ use yii\web\User;
 
 class ReportsController extends Controller
 {
+    public $defaultAction = 'list';
+
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
@@ -36,6 +38,17 @@ class ReportsController extends Controller
                 ]
             ]
         );
+    }
+
+    public function actionList(Request $request)
+    {
+        $reportSearch = new \prime\models\search\Report();
+        $reportsDataProvider = $reportSearch->search($request->queryParams);
+
+        return $this->render('list', [
+            'reportsDataProvider' => $reportsDataProvider,
+            'reportSearch' => $reportSearch
+        ]);
     }
 
     public function actionPreview(

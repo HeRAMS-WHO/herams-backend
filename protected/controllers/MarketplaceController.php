@@ -45,17 +45,6 @@ class MarketplaceController extends Controller
         return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => []]);
     }
 
-    public function actionList(Request $request)
-    {
-        $reportSearch = new Report();
-        $reportsDataProvider = $reportSearch->search($request->queryParams);
-
-        return $this->render('list', [
-            'reportsDataProvider' => $reportsDataProvider,
-            'reportSearch' => $reportSearch
-        ]);
-    }
-
     public function actionSummary(Request $request, Client $limesurvey, $iso_3, $layer, $id = null, $noMenu = false)
     {
         if($noMenu) {

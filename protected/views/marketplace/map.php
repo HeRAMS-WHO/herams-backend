@@ -9,13 +9,6 @@ use app\components\Html;
  * @var \yii\web\View $this
  */
 
-$this->params['subMenu']['items'] = [
-    [
-        'label' => \Yii::t('app', 'List'),
-        'url' => ['/marketplace/list'],
-    ]
-];
-
 $this->params['containerOptions'] = ['class' => 'container-fluid'];
 $this->params['rowOptions'] = ['class' => 'row'];
 
