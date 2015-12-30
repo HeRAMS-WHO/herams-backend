@@ -56,6 +56,8 @@ class CountryGrades extends MapLayer
         $this->name = \Yii::t('app', 'Country Grades');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'countryGrades'); return false;}"));
+        $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'countryGrades', true); return false;}"));
+        $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'countryGrades', false); return false;}"));
         parent::init();
     }
 
@@ -143,7 +145,8 @@ class CountryGrades extends MapLayer
         foreach($tempData as $id => $data) {
             $this->data[] = [
                 'id' => $id,
-                'value' => $data['value']
+                'value' => $data['value'],
+                'iso_3' => $id
             ];
         }
 

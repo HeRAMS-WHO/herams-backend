@@ -47,6 +47,8 @@ class EventGrades extends MapLayer
         $this->name = \Yii::t('app', 'Event Grades');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'eventGrades'); return false;}"));
+        $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'eventGrades', true); return false;}"));
+        $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'eventGrades', false); return false;}"));
         $this->type = 'mappoint';
         $this->marker = [
             'lineWidth' => 1,

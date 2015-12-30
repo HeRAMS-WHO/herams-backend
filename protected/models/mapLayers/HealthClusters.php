@@ -40,6 +40,8 @@ class HealthClusters extends MapLayer
         $this->name = \Yii::t('app', 'Health Clusters');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'healthClusters'); return false;}"));
+        $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'healthClusters', true); return false;}"));
+        $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'healthClusters', false); return false;}"));
         $this->type = 'mappoint';
         $this->marker = [
             'lineWidth' => 1,

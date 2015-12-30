@@ -1,6 +1,6 @@
 function select(point, layer) {
-    var id = point.id;
-    var url = '/marketplace/summary?layer=' + layer + '&id=' + id;
+    var iso_3 = point.iso_3;
+    var url = '/marketplace/summary?layer=' + layer + '&iso_3=' + iso_3;
     bootbox.dialog({
         message: '<iframe src="' + url + '&noMenu=1' + '" style="width: 100%; height: 500px; border: 0px;"></iframe>',
         buttons: [
@@ -21,8 +21,20 @@ function select(point, layer) {
     });
 }
 
+function hover(point, layer, eventIn) {
+    var iso_3 = point.iso_3;
+    eventIn = typeof(eventIn) == 'undefined' ? true : eventIn;
+
+    if(eventIn) {
+        $('.country-list-item[data-iso3="' + iso_3 + '"]').addClass('country-list-item-hover');
+    } else {
+        $('.country-list-item[data-iso3="' + iso_3 + '"]').removeClass('country-list-item-hover');
+    }
+
+}
+
 $(function(){
     $('.country-list-item').click(function(){
-        select({id: $(this).attr('data-iso3')}, 'countries');
+        select({iso_3: $(this).attr('data-iso3')}, 'countries');
     })
 });

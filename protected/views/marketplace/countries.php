@@ -9,7 +9,7 @@ use app\components\Html;
         border-radius: 2px;
     }
 
-    .country-list-item:hover {
+    .country-list-item:hover, .country-list-item-hover{
         background-color: rgb(220, 220, 220);
     }
 </style>

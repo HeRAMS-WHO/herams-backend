@@ -56,125 +56,100 @@ class MarketplaceController extends Controller
         ]);
     }
 
-    public function actionSummary(Request $request, Client $limesurvey, $id, $layer, $noMenu = false)
+    public function actionSummary(Request $request, Client $limesurvey, $iso_3, $layer, $id = null, $noMenu = false)
     {
         if($noMenu) {
             $this->view->params['hideMenu'] = true;
         }
 
-        switch($layer) {
-            case 'countries':
-                $country = Country::findOne($id);
-                //get projects data provider for projects tab
-                $projectsDataProvider = new ActiveDataProvider([
-                    'query' => Project::find()->notClosed()->andWhere(['country_iso_3' => $country->iso_3])
-                ]);
+        $country = Country::findOne($iso_3);
+        //get projects data provider for projects tab
+        $projectsDataProvider = new ActiveDataProvider([
+            'query' => Project::find()->notClosed()->andWhere(['country_iso_3' => $country->iso_3])
+        ]);
 
-                //retrieve reponses for country grading tab
-                $gradingResponses = [];
-                foreach($limesurvey->getResponses(self::$surveyIds['countryGrades']) as $response) {
-                    if ($response->getData()['PRIMEID'] == $country->iso_3) {
-                        $gradingResponses[] = $response;
-                    }
-                }
-                usort($gradingResponses, function($a, $b){
-                    /**
-                     * @var ResponseInterface $a
-                     * @var ResponseInterface $b
-                     */
-                    $aD = new Carbon($a->getData()['GM01']);
-                    $bD = new Carbon($b->getData()['GM01']);
-                    if($aD->eq($bD)) {
-                        return ($a->getId() > $b->getId()) ? 1 : -1;
-                    }
-                    return ($aD->gt($bD)) ? 1 : -1;
-                });
-
-                //retrieve responses for events tab
-                $eventsResponses = [];
-                foreach($limesurvey->getResponses(self::$surveyIds['eventGrades']) as $response) {
-                    if ($response->getData()['PRIMEID'] == $country->iso_3) {
-                        $eventId = $response->getData()['UOID'];
-                        if(!isset($eventsResponses[$eventId])) {
-                            $eventsResponses[$eventId] = [];
-                        }
-                        $eventsResponses[$eventId][] = $response;
-                    }
-                }
-
-                foreach($eventsResponses as &$eventResponses) {
-                    usort($eventResponses, function($a, $b){
-                        /**
-                         * @var ResponseInterface $a
-                         * @var ResponseInterface $b
-                         */
-                        $aD = new Carbon($a->getData()['GM01']);
-                        $bD = new Carbon($b->getData()['GM01']);
-                        if($aD->eq($bD)) {
-                            return ($a->getId() > $b->getId()) ? 1 : -1;
-                        }
-                        return ($aD->gt($bD)) ? 1 : -1;
-                    });
-                }
-
-                //retrieve responses for health clusters tab
-                $healthClustersResponses = [];
-                foreach($limesurvey->getResponses(self::$surveyIds['healthClusters']) as $response) {
-                    if ($response->getData()['PRIMEID'] == $country->iso_3) {
-                        $hcId = $response->getData()['UOID'];
-                        if(!isset($eventsResponses[$hcId])) {
-                            $healthClustersResponses[$hcId] = [];
-                        }
-                        $healthClustersResponses[$hcId][] = $response;
-                    }
-                }
-
-                foreach($healthClustersResponses as &$healthClusterResponses) {
-                    usort($healthClusterResponses, function($a, $b){
-                        /**
-                         * @var ResponseInterface $a
-                         * @var ResponseInterface $b
-                         */
-                        $aD = new Carbon($a->getData()['CM03']);
-                        $bD = new Carbon($b->getData()['CM03']);
-                        if($aD->eq($bD)) {
-                            return ($a->getId() > $b->getId()) ? 1 : -1;
-                        }
-                        return ($aD->gt($bD)) ? 1 : -1;
-                    });
-                }
-
-                return $this->render('../dashboards/country', [
-                    'country' => $country,
-                    'projectsDataProvider' => $projectsDataProvider,
-                    'gradingResponses' => $gradingResponses,
-                    'eventsResponses' => $eventsResponses,
-                    'healthClustersResponses' => $healthClustersResponses,
-                    'layer' => $layer
-                ]);
-            case 'countryGrades':
-                $responses = new ResponseCollection( array_merge(
-                    $limesurvey->getResponses(self::$surveyIds['countryGrades']),
-                    $limesurvey->getResponses(self::$surveyIds['eventGrades'])
-                ));
-                break;
-            case 'healthClusters':
-                $responses = new ResponseCollection($limesurvey->getResponses(self::$surveyIds['healthClusters']));
-                break;
-            case 'eventGrades':
-                $responses = new ResponseCollection($limesurvey->getResponses(self::$surveyIds[$layer]));
-                break;
-            case 'projects':
-                $responses = Project::find()->andWhere(['id' => $id]);
-                break;
-            default:
-                $responses = new ResponseCollection();
-                break;
+        //retrieve reponses for country grading tab
+        $gradingResponses = [];
+        foreach($limesurvey->getResponses(self::$surveyIds['countryGrades']) as $response) {
+            if ($response->getData()['PRIMEID'] == $country->iso_3) {
+                $gradingResponses[] = $response;
+            }
         }
-        $mapLayer = MapLayerFactory::get($layer, [$responses]);
+        usort($gradingResponses, function($a, $b){
+            /**
+             * @var ResponseInterface $a
+             * @var ResponseInterface $b
+             */
+            $aD = new Carbon($a->getData()['GM01']);
+            $bD = new Carbon($b->getData()['GM01']);
+            if($aD->eq($bD)) {
+                return ($a->getId() > $b->getId()) ? 1 : -1;
+            }
+            return ($aD->gt($bD)) ? 1 : -1;
+        });
 
-        return $this->renderContent($mapLayer->renderSummary($this->getView(), $id));
+        //retrieve responses for events tab
+        $eventsResponses = [];
+        foreach($limesurvey->getResponses(self::$surveyIds['eventGrades']) as $response) {
+            if ($response->getData()['PRIMEID'] == $country->iso_3) {
+                $eventId = $response->getData()['UOID'];
+                if(!isset($eventsResponses[$eventId])) {
+                    $eventsResponses[$eventId] = [];
+                }
+                $eventsResponses[$eventId][] = $response;
+            }
+        }
 
+        foreach($eventsResponses as &$eventResponses) {
+            usort($eventResponses, function($a, $b){
+                /**
+                 * @var ResponseInterface $a
+                 * @var ResponseInterface $b
+                 */
+                $aD = new Carbon($a->getData()['GM01']);
+                $bD = new Carbon($b->getData()['GM01']);
+                if($aD->eq($bD)) {
+                    return ($a->getId() > $b->getId()) ? 1 : -1;
+                }
+                return ($aD->gt($bD)) ? 1 : -1;
+            });
+        }
+
+        //retrieve responses for health clusters tab
+        $healthClustersResponses = [];
+        foreach($limesurvey->getResponses(self::$surveyIds['healthClusters']) as $response) {
+            if ($response->getData()['PRIMEID'] == $country->iso_3) {
+                $hcId = $response->getData()['UOID'];
+                if(!isset($eventsResponses[$hcId])) {
+                    $healthClustersResponses[$hcId] = [];
+                }
+                $healthClustersResponses[$hcId][] = $response;
+            }
+        }
+
+        foreach($healthClustersResponses as &$healthClusterResponses) {
+            usort($healthClusterResponses, function($a, $b){
+                /**
+                 * @var ResponseInterface $a
+                 * @var ResponseInterface $b
+                 */
+                $aD = new Carbon($a->getData()['CM03']);
+                $bD = new Carbon($b->getData()['CM03']);
+                if($aD->eq($bD)) {
+                    return ($a->getId() > $b->getId()) ? 1 : -1;
+                }
+                return ($aD->gt($bD)) ? 1 : -1;
+            });
+        }
+
+        return $this->render('../dashboards/country', [
+            'country' => $country,
+            'projectsDataProvider' => $projectsDataProvider,
+            'gradingResponses' => $gradingResponses,
+            'eventsResponses' => $eventsResponses,
+            'healthClustersResponses' => $healthClustersResponses,
+            'layer' => $layer
+        ]);
     }
 
     public function behaviors()
