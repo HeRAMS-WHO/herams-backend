@@ -13,6 +13,13 @@ use prime\models\mapLayers\CountryGrades;
 
 ?>
 
+<style>
+    h4.chart-head {
+        margin: 0px 0px 3px 0px;
+        text-align: center;
+    }
+</style>
+
 <div class="row">
     <div class="col-xs-12">
         <h1 style="margin-top: 0px; margin-bottom: 20px;"><?=\Yii::t('app', 'Global dashboard')?></h1>
@@ -30,18 +37,15 @@ use prime\models\mapLayers\CountryGrades;
                     'content' => $this->render('global/events', ['eventsResponses' => $eventsResponses]),
                     'active' => $layer == 'eventGrades'
                 ],
-//                [
-//                    'label' => \Yii::t('app', 'Events'),
-//                    'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses]),
-//                    'visible' => !empty($eventsResponses),
-//                    'active' => $layer == 'eventGrades'
-//                ],
-//                [
-//                    'label' => \Yii::t('app', 'Health Clusters'),
-//                    'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses]),
-//                    'visible' => !empty($healthClustersResponses),
-//                    'active' => $layer == 'healthClusters'
-//                ]
+                [
+                    'label' => \Yii::t('app', 'Health clusters'),
+                    'content' => $this->render('global/healthClusters', [
+                        'healthClustersResponses' => $healthClustersResponses,
+                        'eventsResponses' => $eventsResponses,
+                        'countriesResponses' => $countriesResponses
+                    ]),
+                    'active' => $layer == 'healthClusters'
+                ],
             ],
             'options' => [
                 'style' => [

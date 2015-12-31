@@ -2,6 +2,7 @@
 
 namespace prime\models\mapLayers;
 
+use app\components\Html;
 use Carbon\Carbon;
 use prime\controllers\MarketplaceController;
 use prime\interfaces\ResponseCollectionInterface;
@@ -151,5 +152,18 @@ class HealthClusters extends MapLayer
                 ];
             }
         }
+    }
+
+    public function renderLegend(View $view)
+    {
+        return "<table style='width: 100%; margin-bottom: 5px;'>" .
+        "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Health Clusters') . "</th></tr>" .
+        "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
+        "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
+        "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
+        "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
+        "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
+        "</table>" .
+        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("select({iso_3: null}, 'healthClusters');")]);
     }
 }

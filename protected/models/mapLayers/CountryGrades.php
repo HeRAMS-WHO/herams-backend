@@ -66,7 +66,7 @@ class CountryGrades extends MapLayer
     {
         $map = [
             'A00' => 'rgba(100, 100, 100, 0.8)',
-            'A0' => 'rgba(255, 255, 255, 0)',
+            'A0' => 'rgba(240, 240, 240, 1)',
             'A1' => 'rgba(255, 255, 0, 1)',
             'A2' => 'rgba(255, 127, 0, 1)',
             'A3' => 'rgba(255, 0, 0, 1)'

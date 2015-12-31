@@ -38,13 +38,15 @@ foreach($tempData as $value => $count) {
 <div class="row">
     <div class="col-xs-2 text-right"><h1><?=count($countriesResponses)?></h1></div>
     <div class="col-xs-10"><h3 style="line-height: 39px"><?=\Yii::t('app', 'Graded countries')?></h3></div>
+    <div class="col-sm-6 col-sm-offset-3"><h4 class="chart-head"><?=\Yii::t('app', 'grades')?></h4></div>
     <?php
     echo \miloschuman\highcharts\Highcharts::widget([
         'options' => [
             'chart' => [
                 'type' => 'pie',
-                'height' => 265,
-                'marginBottom' => 50
+                'height' => 295,
+                'marginBottom' => 100,
+                'spacingTop' => 0
             ],
             'title' => false,
             'series' => [
