@@ -23,7 +23,7 @@ foreach($countriesResponses as $iso3 => $countryResponses) {
     $tempData[$lastCountryResponse->getData()['GM02']]++;
 }
 
-arsort($tempData);
+ksort($tempData);
 $serie = [];
 foreach($tempData as $value => $count) {
     $serie[] = [
@@ -43,26 +43,28 @@ foreach($tempData as $value => $count) {
         'options' => [
             'chart' => [
                 'type' => 'pie',
-                'height' => 250
+                'height' => 265,
+                'marginBottom' => 50
             ],
             'title' => false,
             'series' => [
                 [
                     'data' => $serie,
+                    'dataLabels' => [
+                        'enabled' => false
+                    ],
                     'tooltip' => [
                         'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
-                    ]
+                    ],
+                    'showInLegend' => true
                 ]
-            ],
-            'legend' => [
-                'enabled' => false
             ],
             'credits' => [
                 'enabled' => false
             ]
         ],
         'htmlOptions' => [
-            'class' => 'col-xs-6 col-xs-offset-3'
+            'class' => 'col-sm-6 col-sm-offset-3'
         ],
         'id' => 'countries'
     ]);

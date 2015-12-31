@@ -25,6 +25,11 @@ use prime\models\mapLayers\CountryGrades;
                     'content' => $this->render('global/countries', ['countriesResponses' => $countriesResponses]),
                     'active' => $layer == 'countryGrades'
                 ],
+                [
+                    'label' => \Yii::t('app', 'Event grades'),
+                    'content' => $this->render('global/events', ['eventsResponses' => $eventsResponses]),
+                    'active' => $layer == 'eventGrades'
+                ],
 //                [
 //                    'label' => \Yii::t('app', 'Events'),
 //                    'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses]),

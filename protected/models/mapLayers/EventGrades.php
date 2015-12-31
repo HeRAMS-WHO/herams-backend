@@ -115,6 +115,24 @@ class EventGrades extends MapLayer
         return self::valueMap()[$value];
     }
 
+    public static function mapType($value)
+    {
+        $map = [
+            '02_1' => \Yii::t('app', 'Chemical/radiological incident/explosion'),
+            '02_2' => \Yii::t('app', 'Complex emergency'),
+            '02_3' => \Yii::t('app', 'Conflict/civil strife'),
+            '02_4' => \Yii::t('app', 'Displacement'),
+            '02_5' => \Yii::t('app', 'Drought/food insecurity'),
+            '02_6' => \Yii::t('app', 'Earthquake'),
+            '02_7' => \Yii::t('app', 'Floods'),
+            '02_8' => \Yii::t('app', 'Landslides/avalanche'),
+            '02_9' => \Yii::t('app', 'Public health event'),
+            '02_10' => \Yii::t('app', 'Storm'),
+            '02_11' => \Yii::t('app', 'Tsunami'),
+        ];
+        return $map[$value];
+    }
+
     protected function prepareData(Carbon $date = null)
     {
         if(!isset($date)) {
@@ -187,6 +205,6 @@ class EventGrades extends MapLayer
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A2') . "'>" . $this->mapGrade('A2') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A3') . "'>" . $this->mapGrade('A3') . "</td></tr>" .
         "</table>" .
-        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("select({iso_3: null}, 'countryGrades');")]);
+        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("select({iso_3: null}, 'eventGrades');")]);
     }
 }
