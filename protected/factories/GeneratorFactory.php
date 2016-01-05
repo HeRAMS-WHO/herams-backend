@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\factories;
 
 use yii\helpers\ArrayHelper;
@@ -24,7 +23,8 @@ class GeneratorFactory
             'cd' => \prime\reportGenerators\cd\Generator::class,
             'cdProgress' => \prime\reportGenerators\cdProgress\Generator::class,
             'percentage' => \prime\reportGenerators\progressPercentage\Generator::class,
-            'ccpmPercentage' => \prime\reportGenerators\ccpmProgressPercentage\Generator::class
+            'ccpmPercentage' => \prime\reportGenerators\ccpmProgressPercentage\Generator::class,
+            'oscar' => \prime\reportGenerators\oscar\Generator::class
         ];
 
     }
