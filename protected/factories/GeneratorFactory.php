@@ -3,7 +3,6 @@
 
 namespace prime\factories;
 
-
 use yii\helpers\ArrayHelper;
 
 
@@ -13,8 +12,6 @@ use yii\helpers\ArrayHelper;
  */
 class GeneratorFactory
 {
-
-
     /**
      * Returns a list of all known generator classes.
      *
@@ -25,6 +22,7 @@ class GeneratorFactory
         return [
             'ccpm' => \prime\reportGenerators\ccpm\Generator::class,
             'cd' => \prime\reportGenerators\cd\Generator::class,
+            'cdProgress' => \prime\reportGenerators\cdProgress\Generator::class,
             'percentage' => \prime\reportGenerators\progressPercentage\Generator::class,
             'ccpmPercentage' => \prime\reportGenerators\ccpmProgressPercentage\Generator::class
         ];
