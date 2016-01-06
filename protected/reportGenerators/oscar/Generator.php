@@ -25,7 +25,8 @@ class Generator extends \prime\reportGenerators\base\Generator
 {
     public $dateFormat = 'd F - Y';
     /** @var ResponseInterface */
-    protected $response;
+    //protected $response;
+    public $response;
 
     /**
      * Return answer to the question title in the response
