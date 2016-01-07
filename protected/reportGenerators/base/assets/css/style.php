@@ -29,6 +29,7 @@
 body {
     font-family: "Open Sans";
     color: #666;
+    background-color: transparent;
 }
 
 .header {
@@ -90,10 +91,26 @@ hr {
 
     body {
         font-size: 1.1em;
+        background-color: white;
     }
 
     div.no-break {
         page-break-inside: avoid;
+    }
+}
+
+@media screen {
+    .container-fluid {
+        background-color: white;
+        margin-top: 30px;
+        width: 210mm;
+        padding: 15mm;
+
+        box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+    }
+
+    .container-fluid:first-of-type {
+        margin-top: 0px;
     }
 }
 
