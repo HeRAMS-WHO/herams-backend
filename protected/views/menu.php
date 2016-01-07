@@ -70,7 +70,6 @@ echo Nav::widget([
             'items' => [
                 ['label' => 'Tools', 'url' => ['/tools']],
                 ['label' => 'Users & Permissions', 'url' => ['/rbac'], 'visible' => app()->user->can('admin')],
-                ['label' => 'Countries', 'url' => ['/countries/list'], 'visible' => app()->user->can('admin')],
                 ['label' => 'Site configuration', 'url' => ['/settings/index'], 'visible' => app()->user->can('admin')],
 
             ],
