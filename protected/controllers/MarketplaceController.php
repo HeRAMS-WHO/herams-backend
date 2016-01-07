@@ -49,6 +49,7 @@ class MarketplaceController extends Controller
     {
         if($noMenu) {
             $this->view->params['hideMenu'] = true;
+            $this->view->params['containerOptions']['class'][] = 'container-fluid';
         }
 
         $country = Country::findOne($iso_3);
@@ -136,11 +137,10 @@ class MarketplaceController extends Controller
                 return ($aD->gt($bD)) ? 1 : -1;
             });
         }
-
         //render dashboard
         if(isset($country)) {
             return $this->render(
-                '../dashboards/country',
+                '/dashboards/country',
                 [
                     'country' => $country,
                     'projectsDataProvider' => $projectsDataProvider,
@@ -152,7 +152,7 @@ class MarketplaceController extends Controller
             );
         } else {
             return $this->render(
-                '../dashboards/global',
+                '/dashboards/global',
                 [
                     'projectsDataProvider' => $projectsDataProvider,
                     'countriesResponses' => $countriesResponses,

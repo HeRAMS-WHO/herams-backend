@@ -27,66 +27,64 @@ $lastGradingResponse = !empty($countriesResponses) ? $countriesResponses[$countr
     }
 </style>
 
-<div class="row">
-    <div class="col-xs-8">
-        <h1 style="margin-top: 0px;"><?=$country->name?></h1>
-    </div>
-    <div class="col-xs-4">
-        <?php if(isset($lastGradingResponse)) { ?>
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="timeline-block pull-right" style="background-color: <?=CountryGrades::mapColor($lastGradingResponse->getData()['GM02'])?>;">
-                    <?=CountryGrades::mapGrade($lastGradingResponse->getData()['GM02'])?>
-                </div>
-            </div>
-            <div class="col-xs-12" style="text-align: right">
-                <?=CountryGrades::mapGradingStage($lastGradingResponse->getData()['GM00'])?><br>
-                <?=(new \Carbon\Carbon($lastGradingResponse->getData()['GM01']))->format('d/m/Y')?>
+<div class="col-xs-8">
+    <h1 style="margin-top: 0px;"><?=$country->name?></h1>
+</div>
+<div class="col-xs-4">
+    <?php if(isset($lastGradingResponse)) { ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="timeline-block pull-right" style="background-color: <?=CountryGrades::mapColor($lastGradingResponse->getData()['GM02'])?>;">
+                <?=CountryGrades::mapGrade($lastGradingResponse->getData()['GM02'])?>
             </div>
         </div>
-        <?php } ?>
+        <div class="col-xs-12" style="text-align: right">
+            <?=CountryGrades::mapGradingStage($lastGradingResponse->getData()['GM00'])?><br>
+            <?=(new \Carbon\Carbon($lastGradingResponse->getData()['GM01']))->format('d/m/Y')?>
+        </div>
     </div>
-    <div class="col-xs-12">
-        <?=\yii\bootstrap\Tabs::widget([
-            'items' => [
-                [
-                    'label' => \Yii::t('app', 'Overview'),
-                    'content' => $this->render('country/overview', [
-                        'projectsDataProvider' => $projectsDataProvider,
-                        'countryResponses' => $countriesResponses[$country->iso_3],
-                        'eventsResponses' => $eventsResponses,
-                        'healthClustersResponses' => $healthClustersResponses
-                    ])
-                ],
-                [
-                    'label' => \Yii::t('app', 'Projects'),
-                    'content' => $this->render('country/projects', ['projectsDataProvider' => $projectsDataProvider]),
-                    'active' => $layer == 'projects'
-                ],
-                [
-                    'label' => \Yii::t('app', 'Grading'),
-                    'content' => $this->render('country/grading', ['countryResponses' => $countriesResponses[$country->iso_3]]),
-                    'visible' => isset($lastGradingResponse),
-                    'active' => $layer == 'countryGrades'
-                ],
-                [
-                    'label' => \Yii::t('app', 'Events'),
-                    'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses]),
-                    'visible' => !empty($eventsResponses),
-                    'active' => $layer == 'eventGrades'
-                ],
-                [
-                    'label' => \Yii::t('app', 'Health Clusters'),
-                    'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses]),
-                    'visible' => !empty($healthClustersResponses),
-                    'active' => $layer == 'healthClusters'
-                ]
+    <?php } ?>
+</div>
+<div class="col-xs-12">
+    <?=\yii\bootstrap\Tabs::widget([
+        'items' => [
+            [
+                'label' => \Yii::t('app', 'Overview'),
+                'content' => $this->render('country/overview', [
+                    'projectsDataProvider' => $projectsDataProvider,
+                    'countryResponses' => $countriesResponses[$country->iso_3],
+                    'eventsResponses' => $eventsResponses,
+                    'healthClustersResponses' => $healthClustersResponses
+                ])
             ],
-            'options' => [
-                'style' => [
-                    'margin-bottom' => '10px'
-                ]
+            [
+                'label' => \Yii::t('app', 'Projects'),
+                'content' => $this->render('country/projects', ['projectsDataProvider' => $projectsDataProvider]),
+                'active' => $layer == 'projects'
+            ],
+            [
+                'label' => \Yii::t('app', 'Grading'),
+                'content' => $this->render('country/grading', ['countryResponses' => $countriesResponses[$country->iso_3]]),
+                'visible' => isset($lastGradingResponse),
+                'active' => $layer == 'countryGrades'
+            ],
+            [
+                'label' => \Yii::t('app', 'Events'),
+                'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses]),
+                'visible' => !empty($eventsResponses),
+                'active' => $layer == 'eventGrades'
+            ],
+            [
+                'label' => \Yii::t('app', 'Health Clusters'),
+                'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses]),
+                'visible' => !empty($healthClustersResponses),
+                'active' => $layer == 'healthClusters'
             ]
-        ])?>
-    </div>
+        ],
+        'options' => [
+            'style' => [
+                'margin-bottom' => '10px'
+            ]
+        ]
+    ])?>
 </div>
