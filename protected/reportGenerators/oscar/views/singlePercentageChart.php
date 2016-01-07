@@ -33,9 +33,14 @@ echo \miloschuman\highcharts\Highcharts::widget([
                 ],
                 'dataLabels' => [
                     'enabled' => true,
-                    'format' => '{y}%'
+                    'format' => '{y}%',
                 ],
                 'animation' => false
+            ]
+        ],
+        'plotOptions' => [
+            'pie' => [
+                'size' => 130
             ]
         ],
         'credits' => ['enabled' => false],
@@ -46,7 +51,7 @@ echo \miloschuman\highcharts\Highcharts::widget([
     'view' => $this,
     'htmlOptions' => [
         'style' => [
-            'height' => '250px'
+            'height' => '160px'
         ]
     ]
 ]);
