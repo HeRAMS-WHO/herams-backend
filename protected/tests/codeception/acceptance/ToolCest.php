@@ -4,7 +4,6 @@ use \Step\Acceptance\AdminTester;
 
 class ToolCest
 {
-
     public function _before(AdminTester $I)
     {
         $I->login();

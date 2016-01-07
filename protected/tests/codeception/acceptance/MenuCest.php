@@ -1,6 +1,6 @@
 <?php
 
-class ToolCest
+class MenuCest
 {
 
     public function _before(AcceptanceTester $I)
