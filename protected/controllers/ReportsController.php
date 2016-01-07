@@ -33,7 +33,10 @@ class ReportsController extends Controller
             [
                 'access' => [
                     'rules' => [
-
+                        [
+                            'allow' => 'true',
+                            'roles' => ['@']
+                        ]
                     ]
                 ]
             ]
