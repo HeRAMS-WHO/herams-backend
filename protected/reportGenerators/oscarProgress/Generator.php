@@ -18,26 +18,6 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
     /** @var ResponseInterface */
     protected $response;
 
-    public function getProgresses(ResponseCollectionInterface $responses)
-    {
-        $requiredAnswers = [
-
-        ];
-
-        $result = [];
-        $i = false;
-        foreach($requiredAnswers as $category => $qTitles) {
-            $result[$category] = $i;
-            $i = !$i;
-//            $result = [];
-//            foreach($qTitles as $qTitle) {
-//                $result[$qTitle] = $this->getQuestionValue($qTitle);
-//            }
-//            $requiredAnswers[$category] = $result;
-        }
-        return $result;
-    }
-
     /**
      * @return string the view path that may be prefixed to a relative view name.
      */
@@ -74,7 +54,6 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
             'signature' => $signature,
             'responses' => $responses,
             'project' => $project,
-            'progresses' => $this->getProgresses($responses)
         ], $this));
 
         $userData = new UserData();
@@ -107,7 +86,7 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
      */
     public static function title()
     {
-        return \Yii::t('app', 'CD Progress');
+        return \Yii::t('app', 'OSCAR Progress');
     }
 
 
