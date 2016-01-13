@@ -28,24 +28,29 @@ class Share extends Model {
         ];
     }
 
+    /**
+     * @return bool
+     */
     public function createRecords()
     {
-        $result = false;
         if($this->validate()) {
-            $result = true;
             $transaction = app()->db->beginTransaction();
+            try {
+                foreach ($this->getUsers()->all() as $user) {
+                    if (!UserProject::grant($user, $this->getProject(), $this->permission)) {
+                        throw new \Exception();
+                    }
+                }
 
-            foreach($this->getUsers()->all() as $user) {
-                $result = $result && UserProject::grant($user, $this->getProject(), $this->permission);
-            }
-
-            if($result) {
                 $transaction->commit();
-            } else {
+                return true;
+            } catch (\Exception $e) {
                 $transaction->rollBack();
+
             }
+
         }
-        return $result;
+        return false;
     }
 
     public function getPermissionOptions()
