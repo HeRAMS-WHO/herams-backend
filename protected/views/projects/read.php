@@ -118,11 +118,11 @@ if(isset($model->defaultGenerator)) {
          'items' => [
              [
                  'label' => \Yii::t('app', 'Reports'),
-                 'content' => $this->render('read/reports.php', ['model' => $model])
+                 'content' => $this->render('read/reports.php', ['tool' => $model->tool, 'model' => $model])
              ],
              [
                  'label' => \Yii::t('app', 'Responses'),
-                 'content' => $this->render('read/responses.php', ['model' => $model])
+                 'content' => $this->render('read/responses.php', ['responses' => $model->getResponses()])
              ]
          ]
     ]);

@@ -23,9 +23,6 @@ use \app\components\Html;
                 'options' => [
                     'href' => \yii\helpers\Url::to(['projects/new']),
                     'class' => 'btn-primary',
-                    'data' => [
-                        'pjax' => 0
-                    ]
                 ]
             ],
             [
@@ -34,9 +31,6 @@ use \app\components\Html;
                 'options' => [
                     'href' => \yii\helpers\Url::to(['projects/create']),
                     'class' => 'btn-default',
-                    'data' => [
-                        'pjax' => 0
-                    ]
                 ],
                 'visible' => app()->user->can('admin')
             ],
@@ -47,7 +41,8 @@ use \app\components\Html;
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [
-                'id' => 'pjax-projects'
+                // Just links in the header.
+                'linkSelector' => 'th a'
             ]
         ],
         'layout' => "{items}\n{pager}",

@@ -31,7 +31,7 @@ echo \kartik\grid\GridView::widget([
             'attribute' => 'q02[SQ001]',
             'value' => $getter,
             'label' => 'Name',
-            'visible' => $model->getResponses()->size() > 0 && isset($model->getResponses()[0]->getData()['q02[SQ001'])
+            'visible' => $responses->size() > 0 && isset($responses[0]->getData()['q02[SQ001'])
         ],
 //        [
 //            'attribute' => 'q011',
@@ -41,6 +41,6 @@ echo \kartik\grid\GridView::widget([
 //        ]
     ],
     'dataProvider' => new \yii\data\ArrayDataProvider([
-        'allModels' => iterator_to_array($model->getResponses())
+        'allModels' => iterator_to_array($responses)
     ])
 ]);

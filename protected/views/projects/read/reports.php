@@ -5,10 +5,11 @@ use \app\components\Html;
 /**
  * @var \yii\web\View $this
  * @var \prime\models\ar\Project $model
+ * @var \prime\models\ar\Tool $tool
  */
 
 $items = [];
-foreach($model->tool->generators as $generator) {
+foreach($tool->generators as $generator) {
     $items[] = [
         'label' => \Yii::t('app', '{generator}', ['generator' => ucfirst($generator)]),
         'url' => [

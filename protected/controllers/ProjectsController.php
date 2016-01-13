@@ -139,7 +139,6 @@ class ProjectsController extends Controller
     public function actionRead($id)
     {
         $project = Project::loadOne($id);
-
         return $this->render('read', [
             'model' => $project,
         ]);

@@ -13,6 +13,15 @@ use \app\components\Html;
 
     echo \kartik\grid\GridView::widget([
         'caption' => Yii::t('app', 'Reports'),
+        'pjax' => true,
+        'pjaxSettings' => [
+            'options' => [
+                // Just links in the header.
+                'linkSelector' => 'th a'
+
+            ]
+        ],
+
         'layout' => "{items}\n{pager}",
         'filterModel' => $reportSearch,
         'dataProvider' => $reportsDataProvider,
