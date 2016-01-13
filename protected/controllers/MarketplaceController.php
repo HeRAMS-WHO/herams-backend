@@ -30,14 +30,14 @@ class MarketplaceController extends Controller
         return $this->redirect(['/marketplace/map']);
     }
 
-    public function actionMap(Client $limesurvey)
+    public function actionMap(Client $limeSurvey)
     {
         //TODO: Survey ids in settings
         $mapLayerData = [
             'projects' => Project::find()->notClosed(),
-            'countryGrades' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['countryGrades'])),
-            'eventGrades' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['eventGrades'])),
-            'healthClusters' => new ResponseCollection($limesurvey->getResponses(self::$surveyIds['healthClusters']))
+            'countryGrades' => new ResponseCollection($limeSurvey->getResponses(self::$surveyIds['countryGrades'])),
+            'eventGrades' => new ResponseCollection($limeSurvey->getResponses(self::$surveyIds['eventGrades'])),
+            'healthClusters' => new ResponseCollection($limeSurvey->getResponses(self::$surveyIds['healthClusters']))
         ];
 
         //Get active
@@ -45,7 +45,7 @@ class MarketplaceController extends Controller
         return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => []]);
     }
 
-    public function actionSummary(Request $request, Client $limesurvey, $iso_3, $layer, $id = null, $noMenu = false)
+    public function actionSummary(Request $request, Client $limeSurvey, $iso_3, $layer, $id = null, $noMenu = false)
     {
         if($noMenu) {
             $this->view->params['hideMenu'] = true;
@@ -60,7 +60,7 @@ class MarketplaceController extends Controller
 
         //retrieve reponses for country grading tab
         $countriesResponses = [];
-        foreach($limesurvey->getResponses(self::$surveyIds['countryGrades']) as $response) {
+        foreach($limeSurvey->getResponses(self::$surveyIds['countryGrades']) as $response) {
             if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 if(!isset($countriesResponses[$response->getData()['PRIMEID']])) {
                     $countriesResponses[$response->getData()['PRIMEID']] = [];
@@ -86,7 +86,7 @@ class MarketplaceController extends Controller
 
         //retrieve responses for events tab
         $eventsResponses = [];
-        foreach($limesurvey->getResponses(self::$surveyIds['eventGrades']) as $response) {
+        foreach($limeSurvey->getResponses(self::$surveyIds['eventGrades']) as $response) {
             if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 $eventId = $response->getData()['UOID'];
                 if(!isset($eventsResponses[$eventId])) {
@@ -113,7 +113,7 @@ class MarketplaceController extends Controller
 
         //retrieve responses for health clusters tab
         $healthClustersResponses = [];
-        foreach($limesurvey->getResponses(self::$surveyIds['healthClusters']) as $response) {
+        foreach($limeSurvey->getResponses(self::$surveyIds['healthClusters']) as $response) {
             if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 $hcId = $response->getData()['UOID'];
                 if(!isset($eventsResponses[$hcId])) {

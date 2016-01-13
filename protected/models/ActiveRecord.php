@@ -1,7 +1,8 @@
 <?php
 
-namespace prime\components;
+namespace prime\models;
 
+use prime\components\ActiveQuery;
 use prime\injection\SetterInjectionTrait;
 use prime\injection\SetterInjectionInterface;
 use prime\models\permissions\Permission;

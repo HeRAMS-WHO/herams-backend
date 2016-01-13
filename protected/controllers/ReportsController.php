@@ -107,8 +107,7 @@ class ReportsController extends Controller
         User $user,
         Response $response,
         $projectId,
-        $reportGenerator,
-        Client $limesurvey
+        $reportGenerator
     )
     {
         /* @todo set correct privilege */
@@ -141,8 +140,7 @@ class ReportsController extends Controller
     public function actionRenderPreview(
         User $user,
         $projectId,
-        $reportGenerator,
-        Client $limesurvey
+        $reportGenerator
     )
     {
         /* @todo set correct privilege */

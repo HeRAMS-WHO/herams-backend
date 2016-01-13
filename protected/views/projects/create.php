@@ -91,6 +91,7 @@ $this->params['subMenu'] = [
                         'url' => ['/tools/dependent-generators'],
                         'depends' => ['createupdate-tool_id'],
                         'initialize' => true,
+                        'placeholder' => null
                     ],
                 ],
                 'enableClientValidation' => false

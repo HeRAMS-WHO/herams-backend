@@ -7,7 +7,7 @@ use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use Befound\Components\DateTime;
 use Carbon\Carbon;
 use prime\components\ActiveQuery;
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
@@ -62,11 +62,6 @@ class Project extends ActiveRecord implements ProjectInterface
      * @var WritableTokenInterface
      */
     protected $_token;
-    /**
-     * @var Client
-     */
-    protected $limeSurvey;
-
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
@@ -336,18 +331,12 @@ class Project extends ActiveRecord implements ProjectInterface
         return $this->_token;
     }
 
-    public static function listDependencies()
-    {
-        return [
-            'setLimeSurvey' => Client::class
-        ];
-    }
 
     /**
      * @param Client $limeSurvey
      */
-    public function setLimeSurvey(Client $limeSurvey) {
-        $this->limeSurvey = $limeSurvey;
+    public function getLimeSurvey() {
+        return \Yii::$app->get('limeSurvey');
     }
 
 

@@ -2,7 +2,7 @@
 
 namespace prime\models\ar;
 
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 

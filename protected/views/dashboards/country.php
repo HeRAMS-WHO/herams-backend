@@ -46,13 +46,15 @@ $lastGradingResponse = !empty($countriesResponses) ? $countriesResponses[$countr
     <?php } ?>
 </div>
 <div class="col-xs-12">
+    <?php
+//    vdd($countriesResponses);
+    ?>
     <?=\yii\bootstrap\Tabs::widget([
         'items' => [
             [
                 'label' => \Yii::t('app', 'Overview'),
                 'content' => $this->render('country/overview', [
                     'projectsDataProvider' => $projectsDataProvider,
-                    'countryResponses' => $countriesResponses[$country->iso_3],
                     'eventsResponses' => $eventsResponses,
                     'healthClustersResponses' => $healthClustersResponses
                 ])
@@ -64,7 +66,7 @@ $lastGradingResponse = !empty($countriesResponses) ? $countriesResponses[$countr
             ],
             [
                 'label' => \Yii::t('app', 'Grading'),
-                'content' => $this->render('country/grading', ['countryResponses' => $countriesResponses[$country->iso_3]]),
+                'content' => $this->render('country/grading', ['countryResponses' => \yii\helpers\ArrayHelper::getValue($countriesResponses, 'country.iso_3', [])]),
                 'visible' => isset($lastGradingResponse),
                 'active' => $layer == 'countryGrades'
             ],

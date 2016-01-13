@@ -69,7 +69,7 @@ class ProjectsController extends Controller
 
     }
 
-    public function actionCreate(CreateUpdate $model, Request $request, Session $session, Client $limesurvey)
+    public function actionCreate(CreateUpdate $model, Request $request, Session $session)
     {
         $model->scenario = 'create';
 
@@ -282,7 +282,7 @@ class ProjectsController extends Controller
     public function actionDependentTokens(
         Response $response,
         Request $request,
-        Client $limesurvey,
+        Client $limeSurvey,
         array $depdrop_parents
     )
     {
@@ -301,7 +301,7 @@ class ProjectsController extends Controller
             // Get all tokens for the selected survey.
             $usedTokens = array_flip(Project::find()->select('token')->column());
 
-            $tokens = array_filter($limesurvey->getTokens($surveyId), function (TokenInterface $token) use ($usedTokens) {
+            $tokens = array_filter($limeSurvey->getTokens($surveyId), function (TokenInterface $token) use ($usedTokens) {
                 return !isset($usedTokens[$token->getToken()]) && $token->getToken() != '';
             });
 

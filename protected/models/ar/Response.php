@@ -5,7 +5,7 @@ namespace prime\models\ar;
 
 
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
 class Response extends ActiveRecord implements ResponseInterface

@@ -3,7 +3,7 @@
 namespace prime\models\ar;
 
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\UserDataInterface;
 use prime\models\ar\Project;

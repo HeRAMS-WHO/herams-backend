@@ -2,7 +2,7 @@
 
 namespace prime\models\permissions;
 
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 

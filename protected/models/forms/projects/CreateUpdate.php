@@ -19,7 +19,9 @@ class CreateUpdate extends Project
     {
         return ArrayHelper::merge(parent::rules(),
             [
+                ['token', SafeValidator::class],
                 ['token', DefaultValueValidator::class, 'value' => app()->security->generateRandomString(35)]
+
 
             ]
         );

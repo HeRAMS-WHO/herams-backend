@@ -88,6 +88,26 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
         return $this->title() . ' ' . $project->getLocality() . ' ' . $signature->getTime()->format('Y-m-d');
     }
 
+    /**
+     * @param ResponseInterface $response
+     * @param string $code1 The question code containing the count.
+     * @param string $code2 The question code containing the total.
+     * @param mixed $default If not null then this is returned when total is 0, otherwise an exception is thrown.
+     */
+    public function getPercentage(ResponseInterface $response, $code1, $code2, $default = 0)
+    {
+        $val1 = $response->getData()[$code1] ?: null;
+        $val2 = $response->getData()[$code2] ?: null;
+
+        if ($val2 > 0) {
+            return round($val1 / $val2 * 100);
+        } elseif (isset($default)) {
+            return $default;
+        } else {
+            throw new \Exception("Can not calculate percentage when total is 0");
+        }
+    }
+
     public function getQuestionAndAnswerTexts(SurveyCollectionInterface $surveys, $map)
     {
         $result = [];
@@ -194,4 +214,6 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
     {
         return Html::textarea($attribute, ArrayHelper::getValue($userData, $attribute, null), $options);
     }
+
+
 }

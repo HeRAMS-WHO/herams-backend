@@ -4,7 +4,7 @@
 namespace prime\models\ar;
 
 
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\validators\UniqueValidator;

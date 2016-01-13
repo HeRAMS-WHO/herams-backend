@@ -225,15 +225,15 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
         <h3 class="col-xs-12"><?=\Yii::t('oscar', 'Funding')?></h3>
         <div class="col-xs-4">
             <h4><?=\Yii::t('oscar', 'WHO funded')?></h4>
-            <?=$this->render('singlePercentageChart', ['percentage' => round($generator->getQuestionValue('resmob2[rmwho_SQ002]') * 100 / $generator->getQuestionValue('resmob2[rmwho_SQ001]'))])?>
+            <?= $this->render('singlePercentageChart', ['percentage' => $generator->getPercentage($generator->response, 'resmob2[rmwho_SQ002]', 'resmob2[rmwho_SQ001]')]) ?>
         </div>
         <div class="col-xs-4">
             <h4><?=\Yii::t('oscar', 'Health Sector funded')?></h4>
-            <?=$this->render('singlePercentageChart', ['percentage' => round($generator->getQuestionValue('resmob2[rmhc_SQ002]') * 100 / $generator->getQuestionValue('resmob2[rmhc_SQ001]'))])?>
+            <?= $this->render('singlePercentageChart', ['percentage' => $generator->getPercentage($generator->response, 'resmob2[rmhc_SQ002]', 'resmob2[rmhc_SQ001]')]) ?>
         </div>
         <div class="col-xs-4">
             <h4><?=\Yii::t('oscar', 'Overall funded')?></h4>
-            <?=$this->render('singlePercentageChart', ['percentage' => round(($generator->getQuestionValue('resmob2[rmhc_SQ002]') + $generator->getQuestionValue('resmob2[rmwho_SQ002]')) * 100 / ($generator->getQuestionValue('resmob2[rmhc_SQ001]') + $generator->getQuestionValue('resmob2[rmwho_SQ001]')))])?>
+            <?= $this->render('singlePercentageChart', ['percentage' => round(($generator->getQuestionValue('resmob2[rmhc_SQ002]') + $generator->getQuestionValue('resmob2[rmwho_SQ002]')) * 100 / ($generator->getQuestionValue('resmob2[rmhc_SQ001]') + $generator->getQuestionValue('resmob2[rmwho_SQ001]')))]) ?>
         </div>
     </div>
 

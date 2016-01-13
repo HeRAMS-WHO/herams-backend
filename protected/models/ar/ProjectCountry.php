@@ -2,7 +2,7 @@
 
 namespace prime\models\ar;
 
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use prime\models\Country;
 
 class ProjectCountry extends ActiveRecord

@@ -13,6 +13,7 @@ extensions:
     enabled:
         - Codeception\Extension\RunFailed
         - Codeception\Extension\PhpBuiltinServer
+        - Codeception\Extension\Phantoman
     config:
         Codeception\Extension\PhpBuiltinServer:
             hostname: localhost
@@ -20,6 +21,10 @@ extensions:
             documentRoot: ../../public
             startDelay: 1
 #            phpIni: /etc/php5/fpm/php.ini
+        Codeception\Extension\Phantoman:
+            path: '/usr/bin/phantomjs'
+            port: 4444
+
 modules:
     config:
         Db:

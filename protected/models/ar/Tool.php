@@ -5,7 +5,7 @@ namespace prime\models\ar;
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use Befound\Components\Map;
 use Befound\Components\UploadedFile;
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\permissions\Permission;

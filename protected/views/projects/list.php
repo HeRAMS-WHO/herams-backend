@@ -22,7 +22,10 @@ use \app\components\Html;
                 'tagName' => 'a',
                 'options' => [
                     'href' => \yii\helpers\Url::to(['projects/new']),
-                    'class' => 'btn-primary'
+                    'class' => 'btn-primary',
+                    'data' => [
+                        'pjax' => 0
+                    ]
                 ]
             ],
             [
@@ -30,7 +33,10 @@ use \app\components\Html;
                 'tagName' => 'a',
                 'options' => [
                     'href' => \yii\helpers\Url::to(['projects/create']),
-                    'class' => 'btn-default'
+                    'class' => 'btn-default',
+                    'data' => [
+                        'pjax' => 0
+                    ]
                 ],
                 'visible' => app()->user->can('admin')
             ],
@@ -38,6 +44,12 @@ use \app\components\Html;
     ]);
     echo \kartik\grid\GridView::widget([
         'caption' => $header,
+        'pjax' => true,
+        'pjaxSettings' => [
+            'options' => [
+                'id' => 'pjax-projects'
+            ]
+        ],
         'layout' => "{items}\n{pager}",
         'filterModel' => $projectSearch,
         'dataProvider' => $projectsDataProvider,

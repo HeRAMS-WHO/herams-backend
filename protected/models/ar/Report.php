@@ -5,7 +5,7 @@ namespace prime\models\ar;
 use Befound\ActiveRecord\Behaviors\DateTimeBehavior;
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use Befound\Components\DateTime;
-use prime\components\ActiveRecord;
+use prime\models\ActiveRecord;
 use prime\interfaces\ReportInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\UserDataInterface;
