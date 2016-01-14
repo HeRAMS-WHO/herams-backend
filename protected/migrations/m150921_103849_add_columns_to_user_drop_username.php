@@ -5,7 +5,7 @@ use \yii\db\mysql\Schema;
 
 class m150921_103849_add_columns_to_user_drop_username extends Migration
 {
-    public function safeUp()
+    public function up()
     {
         $this->dropColumn('{{%user}}', 'username');
         $this->dropColumn('{{%profile}}', 'name');
@@ -16,7 +16,7 @@ class m150921_103849_add_columns_to_user_drop_username extends Migration
         $this->addColumn('{{%profile}}', 'country', Schema::TYPE_STRING . ' NOT NULL');
     }
 
-    public function safeDown()
+    public function down()
     {
         $this->addColumn('{{%user}}', 'username', Schema::TYPE_STRING);
         $this->addColumn('{{%profile}}', 'name', Schema::TYPE_STRING);
