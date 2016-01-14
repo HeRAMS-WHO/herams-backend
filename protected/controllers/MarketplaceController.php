@@ -45,7 +45,17 @@ class MarketplaceController extends Controller
         return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => []]);
     }
 
-    public function actionSummary(Request $request, Client $limeSurvey, $iso_3, $layer, $id = null, $noMenu = false)
+    /**
+     * @todo Refactor this; global dashboard(s) should have separate action.
+     * @param Request $request
+     * @param Client $limeSurvey
+     * @param null $iso_3
+     * @param $layer
+     * @param null $id
+     * @param bool|false $noMenu
+     * @return string
+     */
+    public function actionSummary(Request $request, Client $limeSurvey, $iso_3 = null, $layer, $id = null, $noMenu = false)
     {
         if($noMenu) {
             $this->view->params['hideMenu'] = true;
