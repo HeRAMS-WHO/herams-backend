@@ -35,12 +35,23 @@ $this->params['subMenu']['items'] = [];
             'name',
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
-                'template' => '{read} {update} {remove}',
+                'width' => '100px',
+                'template' => '{read} {mail} {update} {remove}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         return Html::a(
                             Html::icon('eye-open'),
                             ['/user-lists/read', 'id' => $model->id]
+                        );
+                    },
+                    'mail' => function($url, \prime\models\ar\UserList $model, $key) {
+                        $bcc = implode(';', \yii\helpers\ArrayHelper::getColumn($model->users, 'email'));
+                        return Html::a(
+                            Html::icon('envelope'),
+                            "mailto:" . app()->user->identity->email .  '?bcc=' . rawurlencode($bcc)
+                            , [
+                                'target' => '_blank'
+                            ]
                         );
                     },
                     'update' => function($url, $model, $key) {
