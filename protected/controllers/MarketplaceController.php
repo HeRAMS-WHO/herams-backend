@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use prime\components\Controller;
 use prime\factories\MapLayerFactory;
 use prime\models\ar\Project;
+use prime\models\ar\Setting;
 use prime\models\Country;
 use prime\models\search\Report;
 use prime\objects\ResponseCollection;
@@ -35,9 +36,9 @@ class MarketplaceController extends Controller
         //TODO: Survey ids in settings
         $mapLayerData = [
             'projects' => Project::find()->notClosed(),
-            'countryGrades' => new ResponseCollection($limeSurvey->getResponses(self::$surveyIds['countryGrades'])),
-            'eventGrades' => new ResponseCollection($limeSurvey->getResponses(self::$surveyIds['eventGrades'])),
-            'healthClusters' => new ResponseCollection($limeSurvey->getResponses(self::$surveyIds['healthClusters']))
+            'countryGrades' => new ResponseCollection($limeSurvey->getResponses(Setting::get('countryGradesSurvey'))),
+            'eventGrades' => new ResponseCollection($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))),
+            'healthClusters' => new ResponseCollection($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')))
         ];
 
         //Get active
@@ -70,7 +71,7 @@ class MarketplaceController extends Controller
 
         //retrieve reponses for country grading tab
         $countriesResponses = [];
-        foreach($limeSurvey->getResponses(self::$surveyIds['countryGrades']) as $response) {
+        foreach($limeSurvey->getResponses(Setting::get('countryGradesSurvey')) as $response) {
             if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 if(!isset($countriesResponses[$response->getData()['PRIMEID']])) {
                     $countriesResponses[$response->getData()['PRIMEID']] = [];
@@ -96,7 +97,7 @@ class MarketplaceController extends Controller
 
         //retrieve responses for events tab
         $eventsResponses = [];
-        foreach($limeSurvey->getResponses(self::$surveyIds['eventGrades']) as $response) {
+        foreach($limeSurvey->getResponses(Setting::get('eventGradesSurvey')) as $response) {
             if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 $eventId = $response->getData()['UOID'];
                 if(!isset($eventsResponses[$eventId])) {
@@ -123,7 +124,7 @@ class MarketplaceController extends Controller
 
         //retrieve responses for health clusters tab
         $healthClustersResponses = [];
-        foreach($limeSurvey->getResponses(self::$surveyIds['healthClusters']) as $response) {
+        foreach($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')) as $response) {
             if (!isset($country) || $response->getData()['PRIMEID'] == $country->iso_3) {
                 $hcId = $response->getData()['UOID'];
                 if(!isset($eventsResponses[$hcId])) {

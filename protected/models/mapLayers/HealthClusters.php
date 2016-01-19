@@ -6,6 +6,7 @@ use app\components\Html;
 use Carbon\Carbon;
 use prime\controllers\MarketplaceController;
 use prime\interfaces\ResponseCollectionInterface;
+use prime\models\ar\Setting;
 use prime\models\Country;
 use prime\models\MapLayer;
 use prime\objects\ResponseCollection;
@@ -98,7 +99,7 @@ class HealthClusters extends MapLayer
         //$tempData will be of shape $tempData[country_iso_3]['value' => ..., 'date' => ...]
         $tempData = [];
         foreach ($this->responses as $response) {
-            if ($response->getSurveyId() == MarketplaceController::$surveyIds['healthClusters']) {
+            if ($response->getSurveyId() == Setting::get('healthClusterMappingSurvey')) {
                 $responseData = $response->getData();
                 if ($responseData['UOID'] != '') {
                     $responseDate = new Carbon($responseData['CM03']);

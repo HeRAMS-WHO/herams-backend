@@ -17,7 +17,7 @@ $form = \kartik\form\ActiveForm::begin([
 ]);
 
 foreach ($settings->safeAttributes() as $setting) {
-    $options = 'get' . ucfirst($setting) . 'Options';
+    $options = lcfirst($setting) . 'Options';
     if(method_exists($settings, $options)) {
         echo $form->field($settings, $setting)->dropDownList($settings->$options());
     } else {

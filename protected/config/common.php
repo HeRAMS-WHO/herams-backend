@@ -1,5 +1,4 @@
 <?php
-include __DIR__ . '/dependencies.php';
 include __DIR__ . '/../helpers/functions.php';
 return [
     'id' => 'prime',
@@ -63,8 +62,7 @@ return [
                     'class' => \yii\i18n\DbMessageSource::class
                 ]
             ]
-        ]
-
+        ],
     ],
     'modules' => [
         'user' => [

@@ -31,7 +31,10 @@ class Settings extends Model
     {
         return [
             ['limeSurvey.host', 'url'],
-            ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->getCountryPolygonsFileOptions())]
+            ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->countryPolygonsFileOptions())],
+            ['countryGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
+            ['healthClusterMappingSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
+            ['eventGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
         ];
     }
 
@@ -58,7 +61,7 @@ class Settings extends Model
         }
     }
 
-    public function getCountryPolygonsFileOptions()
+    public function countryPolygonsFileOptions()
     {
         return
             ArrayHelper::map(
@@ -98,5 +101,27 @@ class Settings extends Model
 
     }
 
+    public function countryGradesSurveyOptions() {
+        return $this->surveyOptions();
+    }
 
+    public function healthClusterMappingSurveyOptions() {
+        return $this->surveyOptions();
+    }
+
+    public function eventGradesSurveyOptions() {
+        return $this->surveyOptions();
+    }
+    public function surveyOptions()
+    {
+        $result = array_filter(ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function ($details) {
+            if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) != 0) {
+                return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "") . " [{$details['sid']}]";
+            }
+
+            return false;
+        }));
+
+        return $result;
+    }
 }
