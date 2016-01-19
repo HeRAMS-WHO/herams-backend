@@ -20,12 +20,6 @@ use yii\web\Request;
 
 class MarketplaceController extends Controller
 {
-    public static $surveyIds = [
-        'countryGrades' => 486496,
-        'eventGrades' => 473297,
-        'healthClusters' => 259688
-    ];
-
     public function actionIndex()
     {
         return $this->redirect(['/marketplace/map']);
