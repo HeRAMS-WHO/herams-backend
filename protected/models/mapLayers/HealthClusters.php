@@ -67,6 +67,14 @@ class HealthClusters extends MapLayer
         return self::phaseMap()[$value];
     }
 
+    public static function structureMap()
+    {
+        return [
+            'A1' => \Yii::t('app', 'National'),
+            'A2' => \Yii::t('app', 'Subnational')
+        ];
+    }
+
     public static function mapType($value)
     {
         $map = [
