@@ -58,10 +58,15 @@ class ResponseFilter
         }
     }
 
-    public function sortGroups($sort)
+    public function sortGroupsInternally(\Closure $sort)
     {
         foreach($this->groupedResponses as $key => &$responses) {
             uasort($responses, $sort);
         }
+    }
+
+    public function sortGroups(\Closure $sort)
+    {
+        uasort($this->groupedResponses, $sort);
     }
 }

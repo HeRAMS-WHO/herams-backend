@@ -70,7 +70,7 @@ class MarketplaceController extends Controller
             }
         );
         $countryFilter->group('PRIMEID');
-        $countryFilter->sortGroups(function($a, $b){
+        $countryFilter->sortGroupsInternally(function($a, $b){
             /**
              * @var ResponseInterface $a
              * @var ResponseInterface $b
@@ -91,7 +91,7 @@ class MarketplaceController extends Controller
             }
         );
         $eventFilter->group('UOID');
-        $eventFilter->sortGroups(function($a, $b){
+        $eventFilter->sortGroupsInternally(function($a, $b){
             /**
              * @var ResponseInterface $a
              * @var ResponseInterface $b
@@ -112,7 +112,7 @@ class MarketplaceController extends Controller
             }
         );
         $healthClusterFilter->group('UOID');
-        $healthClusterFilter->sortGroups(function($a, $b){
+        $healthClusterFilter->sortGroupsInternally(function($a, $b){
             /**
              * @var ResponseInterface $a
              * @var ResponseInterface $b
@@ -166,7 +166,7 @@ class MarketplaceController extends Controller
             }
         );
         $countryFilter->group('PRIMEID');
-        $countryFilter->sortGroups(function($a, $b){
+        $countryFilter->sortGroupsInternally(function($a, $b){
             /**
              * @var ResponseInterface $a
              * @var ResponseInterface $b
@@ -187,7 +187,7 @@ class MarketplaceController extends Controller
             }
         );
         $eventFilter->group('UOID');
-        $eventFilter->sortGroups(function($a, $b){
+        $eventFilter->sortGroupsInternally(function($a, $b){
             /**
              * @var ResponseInterface $a
              * @var ResponseInterface $b
@@ -208,7 +208,7 @@ class MarketplaceController extends Controller
             }
         );
         $healthClusterFilter->group('UOID');
-        $healthClusterFilter->sortGroups(function($a, $b){
+        $healthClusterFilter->sortGroupsInternally(function($a, $b){
             /**
              * @var ResponseInterface $a
              * @var ResponseInterface $b
