@@ -56,7 +56,7 @@ class CountryGrades extends MapLayer
         $this->joinBy = ['ISO_3_CODE', 'id'];
         $this->name = \Yii::t('app', 'Country Grades');
         $this->showInLegend = true;
-        $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'countryGrades'); return false;}"));
+        $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'countryGrades'); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'countryGrades', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'countryGrades', false); return false;}"));
         parent::init();
@@ -164,6 +164,6 @@ class CountryGrades extends MapLayer
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A2') . "'>" . $this->mapGrade('A2') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A3') . "'>" . $this->mapGrade('A3') . "</td></tr>" .
         "</table>" .
-        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("select({iso_3: null}, 'countryGrades');")]);
+        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("selectGlobal('countryGrades');")]);
     }
 }
