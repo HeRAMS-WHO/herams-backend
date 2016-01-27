@@ -7,6 +7,7 @@ use app\components\Html;
 /**
  * @var array $mapLayerData
  * @var \yii\web\View $this
+ * @var \prime\models\MarketplaceFilter $filter
  */
 
 $this->params['containerOptions'] = ['class' => 'container-fluid'];
@@ -16,6 +17,8 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/pro
 $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::getAlias('@app/data/countryPolygons/' . \prime\models\ar\Setting::get('countryPolygonsFile'))) . ';' .
     'Highcharts.maps["who/world"]["hc-transform"] = {default: {crs: "WGS84"}};'
 );
+
+echo $this->render('filter', ['filter' => $filter]);
 
 echo Html::beginTag('div', ['class' => 'col-xs-12 col-md-10']);
 $map = Highmaps::begin([

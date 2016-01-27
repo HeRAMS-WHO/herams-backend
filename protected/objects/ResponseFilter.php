@@ -34,6 +34,11 @@ class ResponseFilter
         }
     }
 
+    public function getFilteredResponses()
+    {
+        return $this->filteredResponses;
+    }
+
     public function getGroups()
     {
         return $this->groupedResponses;

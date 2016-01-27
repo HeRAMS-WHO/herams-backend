@@ -73,12 +73,12 @@ class Country extends Model
     {
         return [
             'EURO' => \Yii::t('app', 'Europe'),
-//            'EMRO' => true,
-//            'SEARO' => true,
-//            'AMRO' => true,
-//            'AFRO' => true,
-//            'WPRO' => true,
-//            'SERAO' => true
+            'EMRO' => \Yii::t('app', 'EMRO'),
+            'SEARO' => \Yii::t('app', 'SEARO'),
+            'AMRO' => \Yii::t('app', 'AMRO'),
+            'AFRO' => \Yii::t('app', 'AFRO'),
+            'WPRO' => \Yii::t('app', 'WPRO'),
+            'SERAO' => \Yii::t('app', 'SERAO')
         ];
     }
 

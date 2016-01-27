@@ -8,6 +8,7 @@ use prime\factories\MapLayerFactory;
 use prime\models\ar\Project;
 use prime\models\ar\Setting;
 use prime\models\Country;
+use prime\models\forms\MarketplaceFilter;
 use prime\models\search\Report;
 use prime\objects\ResponseCollection;
 use prime\objects\ResponseFilter;
@@ -26,17 +27,21 @@ class MarketplaceController extends Controller
         return $this->redirect(['/marketplace/map']);
     }
 
-    public function actionMap(Client $limeSurvey)
+    public function actionMap(Request $request, Client $limeSurvey)
     {
+        $filter = new MarketplaceFilter();
+
+        $filter->load($request->queryParams);
+
         $mapLayerData = [
-            'projects' => Project::find()->notClosed(),
-            'countryGrades' => new ResponseCollection($limeSurvey->getResponses(Setting::get('countryGradesSurvey'))),
-            'eventGrades' => new ResponseCollection($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))),
-            'healthClusters' => new ResponseCollection($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')))
+            'projects' => $filter->applyToProjects(Project::find()),
+            'countryGrades' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('countryGradesSurvey')))),
+            'eventGrades' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey')))),
+            'healthClusters' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')))),
         ];
 
         //Get active
-        return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => []]);
+        return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => [], 'filter' => $filter]);
     }
 
     /**
