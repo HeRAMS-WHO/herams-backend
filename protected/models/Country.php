@@ -28,6 +28,7 @@ class Country extends Model
     public $iso_3;
     public $latitude;
     public $longitude;
+    public $region;
 
     private $_related = [];
 
@@ -44,6 +45,16 @@ class Country extends Model
         }
     }
 
+    public static function findAllInRegions($regions = []) {
+        $regions = array_flip($regions);
+        $result = [];
+        foreach(self::findAll() as $country) {
+            if(isset($regions[$country->region])) {
+                $result[] = $country;
+            }
+        }
+        return $result;
+    }
 
     public function getLatLong()
     {
@@ -56,6 +67,24 @@ class Country extends Model
     public function getProjects()
     {
         return Project::find()->andWhere([Project::tableName() . '.country_iso_3' => $this->iso_3]);
+    }
+
+    public static function regionOptions()
+    {
+        return [
+            'EURO' => \Yii::t('app', 'Europe'),
+            'EMRO' => \Yii::t('app', 'EMRO'),
+            'SEARO' => \Yii::t('app', 'SEARO'),
+            'AMRO' => \Yii::t('app', 'AMRO'),
+            'AFRO' => \Yii::t('app', 'AFRO'),
+            'WPRO' => \Yii::t('app', 'WPRO'),
+            'SERAO' => \Yii::t('app', 'SERAO')
+        ];
+    }
+
+    public function getRegionName()
+    {
+        return (isset($this->regionOptions()[$this->region]) ? $this->regionOptions()[$this->region] : $this->region);
     }
 
     public function getReports()
@@ -80,6 +109,7 @@ class Country extends Model
     }
 
     /**
+     * @todo refactor to use settings
      * @return array
      * [
      *  'file' => (string) full file path,
@@ -98,7 +128,8 @@ class Country extends Model
                 'latitude' => 'geometry.coordinates.1',
                 'longitude' => 'geometry.coordinates.0',
                 'name' => 'properties.CNTRY_TERR',
-                'iso_3' => 'properties.ISO_3_CODE'
+                'iso_3' => 'properties.ISO_3_CODE',
+                'region' => 'properties.WHO_REGION'
             ]
         ];
     }

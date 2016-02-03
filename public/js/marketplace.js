@@ -1,6 +1,15 @@
-function select(point, layer) {
+function selectCountry(point, layer) {
     var iso_3 = point.iso_3;
-    var url = '/marketplace/summary?layer=' + layer + '&iso_3=' + iso_3;
+    var url = '/marketplace/country-dashboard?layer=' + layer + '&iso_3=' + iso_3;
+    showBootbox(url);
+}
+
+function selectGlobal(layer) {
+    var url = '/marketplace/global-dashboard?layer=' + layer;
+    showBootbox(url);
+}
+
+function showBootbox(url) {
     bootbox.dialog({
         message: '<iframe src="' + url + '&noMenu=1' + '" style="width: 100%; height: 500px; border: 0px;"></iframe>',
         buttons: [
@@ -35,6 +44,6 @@ function hover(point, layer, eventIn) {
 
 $(function(){
     $('.country-list-item').click(function(){
-        select({iso_3: $(this).attr('data-iso3')}, 'countries');
+        selectCountry({iso_3: $(this).attr('data-iso3')}, 'countries');
     })
 });

@@ -41,7 +41,7 @@ class HealthClusters extends MapLayer
         $this->joinBy = null;
         $this->name = \Yii::t('app', 'Health Clusters');
         $this->showInLegend = true;
-        $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'healthClusters'); return false;}"));
+        $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'healthClusters'); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'healthClusters', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'healthClusters', false); return false;}"));
         $this->type = 'mappoint';
@@ -65,6 +65,14 @@ class HealthClusters extends MapLayer
     public static function mapPhase($value)
     {
         return self::phaseMap()[$value];
+    }
+
+    public static function structureMap()
+    {
+        return [
+            'A1' => \Yii::t('app', 'National'),
+            'A2' => \Yii::t('app', 'Subnational')
+        ];
     }
 
     public static function mapType($value)
@@ -165,6 +173,6 @@ class HealthClusters extends MapLayer
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "</table>" .
-        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("select({iso_3: null}, 'healthClusters');")]);
+        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("selectGlobal('healthClusters');")]);
     }
 }

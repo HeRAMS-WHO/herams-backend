@@ -39,7 +39,7 @@ class Projects extends MapLayer
         $this->joinBy = null;
         $this->name = \Yii::t('app', 'Projects');
         $this->showInLegend = true;
-        $this->addPointEventHandler('select', new JsExpression("function(e){select(this, 'projects'); return false;}"));
+        $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'projects'); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'projects', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'projects', false); return false;}"));
         $this->type = 'mappoint';
