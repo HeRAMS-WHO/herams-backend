@@ -81,7 +81,8 @@ class Tool extends ActiveRecord {
             'thumbTempImage' => \Yii::t('app', 'Thumbnail'),
             'intake_survey_eid' => \Yii::t('app', 'Intake survey'),
             'base_survey_eid' => \Yii::t('app', 'Base data survey'),
-            'progress_type' => \Yii::t('app', "Progress report")
+            'progress_type' => \Yii::t('app', "Project dashboard report"),
+            'generators' => \Yii::t('app', "Reports"),
         ];
     }
 
