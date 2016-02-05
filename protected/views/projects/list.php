@@ -50,6 +50,9 @@ use \app\components\Html;
         'dataProvider' => $projectsDataProvider,
         'columns' => [
             [
+                'attribute' => 'id'
+            ],
+            [
                 'attribute' => 'tool_id',
                 'value' => 'tool.acronym',
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,

@@ -6,7 +6,6 @@ use app\queries\ProjectQuery;
 use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use Befound\Components\DateTime;
 use Carbon\Carbon;
-use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ProjectInterface;
@@ -14,32 +13,23 @@ use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\models\Country;
-use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
-use prime\models\ar\ProjectCountry;
-use prime\models\ar\Report;
-use prime\models\ar\Tool;
-use prime\models\ar\User;
-use prime\models\ar\UserData;
 use prime\models\Widget;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
-use Prophecy\Argument\Token\TokenInterface;
+use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
-use yii\base\Security;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
-use yii\web\JsExpression;
 
 /**
  * Class Project
@@ -58,6 +48,7 @@ use yii\web\JsExpression;
  */
 class Project extends ActiveRecord implements ProjectInterface
 {
+    use LoadOneAuthTrait;
     /**
      * @var WritableTokenInterface
      */
@@ -338,6 +329,8 @@ class Project extends ActiveRecord implements ProjectInterface
     public function getLimeSurvey() {
         return \Yii::$app->get('limeSurvey');
     }
+
+
 
 
 }

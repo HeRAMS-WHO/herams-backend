@@ -29,9 +29,12 @@ class ProjectsController extends Controller
 
     public function actionClose(Session $session, Request $request, $id)
     {
-        $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
-        $model->scenario = 'close';
-        if($request->isDelete) {
+        if (!$request->isDelete) {
+            throw new HttpException(405);
+        } else {
+            $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+            $model->scenario = 'close';
+
             $model->closed = (new DateTime())->format(DateTime::MYSQL_DATETIME);
             if($model->save()) {
                 $session->setFlash(
@@ -55,7 +58,7 @@ class ProjectsController extends Controller
     public function actionConfigure(Request $request, Session $session, $id)
     {
         /** @var Project $model */
-        $model = Project::loadOne($id, Permission::PERMISSION_WRITE);
+        $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
         // Form model.
         $token = new Token($model->getToken());
 
@@ -146,7 +149,7 @@ class ProjectsController extends Controller
 
     public function actionShare(Session $session, Request $request, $id)
     {
-        $project = Project::loadOne($id, Permission::PERMISSION_SHARE);
+        $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
 
         $model = new Share([
             'projectId' => $project->id
@@ -178,7 +181,7 @@ class ProjectsController extends Controller
 
     public function actionUpdate(Request $request, Session $session, $id)
     {
-        $model = CreateUpdate::loadOne($id, Permission::PERMISSION_WRITE);
+        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_WRITE);
         $model->scenario = 'update';
 
         if($request->isPost) {

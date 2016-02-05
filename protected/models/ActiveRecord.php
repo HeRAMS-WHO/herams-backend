@@ -52,8 +52,8 @@ class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord implements SetterI
      * @return static ::class
      * @throws HttpException
      */
-    public static function loadOne($id, $priv = Permission::PERMISSION_READ, $with = []) {
-        $result = static::find()->where(['id' => $id])->with($with)->userCan($priv)->one();
+    public static function loadOne($id, array $with = []) {
+        $result = static::find()->where(['id' => $id])->with($with)->one();
         if (!isset($result)) {
             throw new HttpException(404, \yii\helpers\StringHelper::basename(static::class) . " not found.");
         }

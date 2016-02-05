@@ -39,7 +39,7 @@ class UserListsController extends Controller
 
     public function actionDelete(Request $request, Session $session, $id)
     {
-        $model = UserList::loadOne($id, Permission::PERMISSION_WRITE);
+        $model = UserList::loadOne($id, [], Permission::PERMISSION_WRITE);
         if($request->isDelete) {
             $model->delete();
             $session->setFlash(
@@ -67,7 +67,7 @@ class UserListsController extends Controller
 
     public function actionUpdate(Request $request, Session $session, $id)
     {
-        $model = \prime\models\forms\UserList::loadOne($id, Permission::PERMISSION_WRITE);
+        $model = \prime\models\forms\UserList::loadOne($id, [], Permission::PERMISSION_WRITE);
 
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->save()) {

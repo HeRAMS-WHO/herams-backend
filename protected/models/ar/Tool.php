@@ -24,11 +24,12 @@ use yii\validators\SafeValidator;
  * @property int $base_survey_eid
  * @property int $intake_survey_eid
  * @property string $acronym
+ * @property string $description
  * @property Map $generators
  */
 class Tool extends ActiveRecord {
 
-    const IMAGE_PATH = 'img/tools/';
+    const IMAGE_PATH = '/img/tools/';
 
     const PROGRESS_ABSOLUTE = 'absolute';
     const PROGRESS_PERCENTAGE = 'percentage';
@@ -128,9 +129,19 @@ class Tool extends ActiveRecord {
 
         return $result;
     }
+
+    public function beforeDelete()
+    {
+        return $this->getProjectCount() === 0;
+    }
+
+
     public function getImageUrl()
     {
-        return '/' . self::IMAGE_PATH . $this->image;
+        if (file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image)) {
+            return self::IMAGE_PATH . $this->image;
+        }
+        return '/img/logo_p1024.png' ;
     }
 
     public function getIntakeUrl()
@@ -138,9 +149,18 @@ class Tool extends ActiveRecord {
         return app()->limeSurvey->getUrl($this->intake_survey_eid);
     }
 
+    public function getProjects()
+    {
+        return $this->hasMany(Project::class, ['tool_id' => 'id']);
+    }
+    public function getProjectCount()
+    {
+        return $this->getProjects()->count();
+    }
+
     public function getThumbnailUrl() {
-        if(isset($this->thumbnail)) {
-            return '/' . self::IMAGE_PATH . $this->thumbnail;
+        if(isset($this->thumbnail) && file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->thumbnail)) {
+            return self::IMAGE_PATH . $this->thumbnail;
         } else {
             return $this->getImageUrl();
         }
@@ -199,7 +219,7 @@ class Tool extends ActiveRecord {
         }
 
         $fileNameWithExtension = $this->id . $postfix . '.' . $image->extension;
-        $filePath = self::IMAGE_PATH;
+        $filePath = \Yii::getAlias('@webroot') . self::IMAGE_PATH;
 
         if(!is_writable($filePath)) {
             throw new \Exception('Unwritable image path');
@@ -213,10 +233,5 @@ class Tool extends ActiveRecord {
 
     }
 
-    public function userCan($operation, User $user = null)
-    {
-        return $operation == Permission::PERMISSION_READ ||
-            parent::userCan($operation, $user);
-    }
 
 }

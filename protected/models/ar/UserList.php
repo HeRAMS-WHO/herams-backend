@@ -10,6 +10,8 @@ use yii\validators\StringValidator;
 
 class UserList extends ActiveRecord
 {
+    use LoadOneAuthTrait;
+
     public function delete()
     {
         $this->unlinkAll('users', true);

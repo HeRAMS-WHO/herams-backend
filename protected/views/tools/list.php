@@ -51,9 +51,13 @@ $this->params['subMenu']['items'] = [
                 },
                 'format' => 'raw'
             ],
+            [
+                'attribute' => 'projectCount',
+                'format' => 'integer'
+            ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
-                'template' => '{read} {edit}',
+                'template' => '{read} {edit} {remove}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         /** @var \prime\models\ar\Tool $model */
@@ -66,10 +70,41 @@ $this->params['subMenu']['items'] = [
                     'edit' => function($url, $model, $key) {
                         /** @var \prime\models\ar\Tool $model */
                         $result = '';
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                        if(app()->user->can('admin')) {
                             $result = Html::a(
                                 Html::icon('pencil'),
                                 ['tools/update', 'id' => $model->id]
+                            );
+                        }
+                        return $result;
+                    },
+
+                    'remove' => function($url, \prime\models\ar\Tool $model, $key) {
+                        /** @var \prime\models\ar\Tool $model */
+                        $result = '';
+                        if(app()->user->can('admin') && $model->getProjectCount() == 0) {
+                            $result = Html::a(
+                                Html::icon('trash'),
+                                ['tools/delete', 'id' => $model->id],
+                                [
+                                    'data-method' => 'delete',
+                                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this tool from the system?')
+                                ]
+                            );
+                        }
+                        return $result;
+                    },
+                    'deactivate' => function($url, \prime\models\ar\Tool $model, $key) {
+                        /** @var \prime\models\ar\Tool $model */
+                        $result = '';
+                        if(app()->user->can('admin') && $model->getProjectCount() > 0) {
+                            $result = Html::a(
+                                Html::icon('stop'),
+                                ['tools/delete', 'id' => $model->id],
+                                [
+                                    'data-method' => 'delete',
+                                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to disable this tool?')
+                                ]
                             );
                         }
                         return $result;

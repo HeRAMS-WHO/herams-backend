@@ -72,7 +72,7 @@ class Country extends Model
     public static function regionOptions()
     {
         return [
-            'EURO' => \Yii::t('app', 'Europe'),
+            'EURO' => \Yii::t('app', 'EURO'),
             'EMRO' => \Yii::t('app', 'EMRO'),
             'SEARO' => \Yii::t('app', 'SEARO'),
             'AMRO' => \Yii::t('app', 'AMRO'),

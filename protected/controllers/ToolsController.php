@@ -7,6 +7,7 @@ use prime\factories\GeneratorFactory;
 use prime\models\permissions\Permission;
 use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use yii\web\HttpException;
 use yii\web\Request;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -112,7 +113,7 @@ class ToolsController extends Controller
 
     public function actionUpdate(Request $request, Session $session, $id)
     {
-        $model = Tool::loadOne($id, Permission::PERMISSION_WRITE);
+        $model = Tool::loadOne($id);
         $model->scenario = 'update';
 
         if($request->isPut) {
@@ -142,12 +143,39 @@ class ToolsController extends Controller
 
     /**
      * Deletes a tool.
-     * @todo Implement this.
      * @param $id
+     * @throws HttpException Method not allowed if request is not a DELETE request
      */
-    public function actionDelete($id)
+    public function actionDelete(Request $request, Session $session,  $id)
     {
+        if (!$request->isDelete) {
+            throw new HttpException(405);
+        } else {
+            $tool = Tool::loadOne($id);
+            if ($tool->delete()) {
+                $session->setFlash(
+                    'toolDeleted',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> has been removed.",
+                            ['modelName' => $tool->title]),
+                        'icon' => 'glyphicon glyphicon-trash'
+                    ]
+                );
 
+            } else {
+                $session->setFlash(
+                    'toolDeleted',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_DANGER,
+                        'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> could not be removed.",
+                            ['modelName' => $tool->title]),
+                        'icon' => 'glyphicon glyphicon-trash'
+                    ]
+                );
+            }
+            $this->redirect($this->defaultAction);
+        }
     }
     public function behaviors()
     {
@@ -157,7 +185,7 @@ class ToolsController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['list', 'read', 'generators'],
+                            'actions' => ['read'],
                             'roles' => ['@'],
                         ],
                     ]
