@@ -79,7 +79,7 @@ class CountryGrades extends MapLayer
     {
         return [
             'A00' => \Yii::t('app' , 'Preparedness'),
-            'A0' => \Yii::t('app' , 'Grade 0'),
+            'A0' => \Yii::t('app' , 'Ungraded'),
             'A1' => \Yii::t('app' , 'Grade 1'),
             'A2' => \Yii::t('app' , 'Grade 2'),
             'A3' => \Yii::t('app' , 'Grade 3'),

@@ -20,7 +20,7 @@ class MarketplaceFilter extends Model{
     const DATE_FORMAT_PHP = 'd-m-Y';
     const DATE_FORMAT_JS = 'dd-mm-yyyy';
 
-    protected $countries;
+    public $countries;
     public $regions;
     public $endDate;
     public $structures;
@@ -29,7 +29,8 @@ class MarketplaceFilter extends Model{
      * @param ResponseInterface[] $responses
      * @return ResponseInterface[]
      */
-    public function applyToResponses(array $responses) {
+    public function applyToResponses(array $responses)
+    {
         $filter = new ResponseFilter($responses);
         $countries = array_flip($this->countries);
         $structures = array_flip($this->structures);
@@ -86,7 +87,14 @@ class MarketplaceFilter extends Model{
     {
         $this->countries = [];
         $result = parent::load($data, $formName);
-        $this->countries = array_unique(ArrayHelper::merge($this->countries, ArrayHelper::getColumn(Country::findAllInRegions($this->regions), 'iso_3')));
+        if($this->validate(['regions'])) {
+            $this->countries = array_unique(
+                ArrayHelper::merge(
+                    $this->countries,
+                    ArrayHelper::getColumn(Country::findAllInRegions($this->regions), 'iso_3')
+                )
+            );
+        }
         return $result;
     }
 

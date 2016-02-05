@@ -1,11 +1,13 @@
 function selectCountry(point, layer) {
     var iso_3 = point.iso_3;
-    var url = '/marketplace/country-dashboard?layer=' + layer + '&iso_3=' + iso_3;
+    var search = window.location.search.substr(0,1) == "?" ? "&" + window.location.search.substr(1) : "";
+    var url = '/marketplace/country-dashboard?layer=' + layer + '&iso_3=' + iso_3 + search;
     showBootbox(url);
 }
 
 function selectGlobal(layer) {
-    var url = '/marketplace/global-dashboard?layer=' + layer;
+    var search = window.location.search.substr(0,1) == "?" ? "&" + window.location.search.substr(1) : "";
+    var url = '/marketplace/global-dashboard?layer=' + layer + search;
     showBootbox(url);
 }
 

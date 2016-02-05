@@ -48,7 +48,7 @@ echo Form::widget([
             'type' => Form::INPUT_RAW,
             'value' => Html::tag('div',
                 Html::a(\Yii::t('app', 'Clear'), ['marketplace/map'], ['class' => 'btn btn-default']) . ' ' .
-                Html::submitButton(\Yii::t('app', 'Focus'), ['class' => 'btn btn-primary'])
+                Html::submitButton(\Yii::t('app', 'Filter'), ['class' => 'btn btn-primary'])
                 ,[
                     'class' => 'text-right'
                 ])

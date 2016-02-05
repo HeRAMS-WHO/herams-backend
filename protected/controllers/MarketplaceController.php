@@ -17,6 +17,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\HttpException;
 use yii\web\Request;
 
@@ -32,6 +33,10 @@ class MarketplaceController extends Controller
         $filter = new MarketplaceFilter();
 
         $filter->load($request->queryParams);
+
+        if(!$filter->validate()) {
+            throw new BadRequestHttpException("Invalid filter values");
+        }
 
         $mapLayerData = [
             'projects' => $filter->applyToProjects(Project::find()),
@@ -59,16 +64,23 @@ class MarketplaceController extends Controller
             $this->view->params['containerOptions']['class'][] = 'container-fluid';
         }
 
+        $filter = new MarketplaceFilter();
+        $filter->load($request->queryParams);
+
+        if(!$filter->validate()) {
+            throw new BadRequestHttpException("Invalid filter values");
+        }
+
         $country = Country::findOne($iso_3);
         //get projects data provider for projects tab
         $projectsDataProvider = new ActiveDataProvider(
             [
-                'query' => Project::find()->notClosed()->andWhere(['country_iso_3' => $country->iso_3])
+                'query' => $filter->applyToProjects(Project::find()->notClosed()->andWhere(['country_iso_3' => $country->iso_3]))
             ]
         );
 
         //get country responses
-        $countryFilter = new ResponseFilter($limeSurvey->getResponses(Setting::get('countryGradesSurvey')));
+        $countryFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('countryGradesSurvey'))));
         $countryFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;
@@ -89,7 +101,7 @@ class MarketplaceController extends Controller
         });
 
         //get event responses
-        $eventFilter = new ResponseFilter($limeSurvey->getResponses(Setting::get('eventGradesSurvey')));
+        $eventFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))));
         $eventFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;
@@ -110,7 +122,7 @@ class MarketplaceController extends Controller
         });
 
         //get health cluster responses
-        $healthClusterFilter = new ResponseFilter($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')));
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;
@@ -156,15 +168,22 @@ class MarketplaceController extends Controller
             $this->view->params['containerOptions']['class'][] = 'container-fluid';
         }
 
+        $filter = new MarketplaceFilter();
+        $filter->load($request->queryParams);
+
+        if(!$filter->validate()) {
+            throw new BadRequestHttpException("Invalid filter values");
+        }
+
         //get projects data provider for projects tab
         $projectsDataProvider = new ActiveDataProvider(
             [
-                'query' => Project::find()->notClosed()
+                'query' => $filter->applyToProjects(Project::find()->notClosed())
             ]
         );
 
         //get country responses
-        $countryFilter = new ResponseFilter($limeSurvey->getResponses(Setting::get('countryGradesSurvey')));
+        $countryFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('countryGradesSurvey'))));
         $countryFilter->filter(
             function (ResponseInterface $response) {
                 return true;
@@ -185,7 +204,7 @@ class MarketplaceController extends Controller
         });
 
         //get event responses
-        $eventFilter = new ResponseFilter($limeSurvey->getResponses(Setting::get('eventGradesSurvey')));
+        $eventFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))));
         $eventFilter->filter(
             function (ResponseInterface $response) {
                 return true;
@@ -206,7 +225,7 @@ class MarketplaceController extends Controller
         });
 
         //get health cluster responses
-        $healthClusterFilter = new ResponseFilter($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')));
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) {
                 return true;

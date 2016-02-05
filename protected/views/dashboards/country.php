@@ -11,7 +11,7 @@ use prime\models\mapLayers\CountryGrades;
  * @var string $layer
  */
 
-$lastGradingResponse = !empty($countriesResponses) ? $countriesResponses[$country->iso_3][count($countriesResponses) - 1] : null;
+$lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countriesResponses[$country->iso_3][count($countriesResponses[$country->iso_3]) - 1] : null;
 ?>
 
 <style>

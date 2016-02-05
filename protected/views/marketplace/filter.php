@@ -16,7 +16,7 @@
             'items' => [
                 // equivalent to the above
                 'filter' => [
-                    'label' => \Yii::t('app', 'Focus'),
+                    'label' => \Yii::t('app', 'Filter'),
                     'labelOptions' => [
                         'data-label' => 'filter'
                     ],
