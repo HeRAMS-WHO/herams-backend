@@ -74,6 +74,42 @@ class MarketplaceFilter extends Model{
         );
     }
 
+
+    public function getAppliedFiltersString($attributes = null, $separator = null, $prefix = null)
+    {
+        $result = [];
+
+        if(!isset($attributes)) {
+            $attributes = ['regions', 'endDate', 'structures'];
+        }
+
+        foreach($attributes as $attribute) {
+            if($attribute == 'regions') {
+                if(!empty(array_diff(array_flip($this->regionOptions()), $this->regions))) {
+                    $string = \Yii::t('app', 'Regions') . ': ';
+                    $string .= implode(', ', array_map(function($region){return $this->regionOptions()[$region];}, $this->regions));
+                    $result[] = $string;
+                }
+            }
+
+            if($attribute == 'endDate') {
+                if((new Carbon($this->endDate))->lt(new Carbon())) {
+                    $result[] = \Yii::t('app', 'Responses until: ') . (new Carbon($this->endDate))->format(self::DATE_FORMAT_PHP);
+                }
+            }
+
+            if($attribute == 'structures') {
+                if(!empty(array_diff(array_flip($this->structureOptions()), $this->structures))) {
+                    $string = \Yii::t('app', 'Structures') . ': ';
+                    $string .= implode(', ', array_map(function($structure){return $this->structureOptions()[$structure];}, $this->structures));
+                    $result[] = $string;
+                }
+            }
+        }
+
+        return (isset($prefix) ? $prefix : \Yii::t('app', '<br class="visible-xs">Applied filters: <br class="visible-xs">')) . implode(', <br class="visible-xs">', $result);
+    }
+
     public function init()
     {
         parent::init();
@@ -110,6 +146,14 @@ class MarketplaceFilter extends Model{
             [['countries'], RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3'), 'allowArray' => true],
             [['endDate'], DateValidator::class,'format' => self::DATE_FORMAT_JS],
             [['structures'], RangeValidator::class, 'range' => array_keys(self::structureOptions()), 'allowArray' => true]
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            'global' => ['regions', 'endDate', 'structures'],
+            'country' => ['endDate']
         ];
     }
 

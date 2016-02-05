@@ -9,6 +9,7 @@ use prime\models\mapLayers\CountryGrades;
  * @var array $eventsResponses
  * @var array $healthClustersResponses
  * @var string $layer
+ * @var \prime\models\forms\MarketplaceFilter $filter
  */
 
 $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countriesResponses[$country->iso_3][count($countriesResponses[$country->iso_3]) - 1] : null;
@@ -38,13 +39,14 @@ $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countries
                 <?=CountryGrades::mapGrade($lastGradingResponse->getData()['GM02'])?>
             </div>
         </div>
-        <div class="col-xs-12" style="text-align: right">
+        <div class="col-xs-12" style="text-align: right; margin-bottom: 10px;">
             <?=CountryGrades::mapGradingStage($lastGradingResponse->getData()['GM00'])?><br>
             <?=(new \Carbon\Carbon($lastGradingResponse->getData()['GM01']))->format('d/m/Y')?>
         </div>
     </div>
     <?php } ?>
 </div>
+<?=$this->render('/marketplace/filter', ['filter' => $filter])?>
 <div class="col-xs-12">
     <?php
 //    vdd($countriesResponses);

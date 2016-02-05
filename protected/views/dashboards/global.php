@@ -9,6 +9,7 @@ use prime\models\mapLayers\CountryGrades;
  * @var array $eventsResponses
  * @var array $healthClustersResponses
  * @var string $layer
+ * @var \prime\models\forms\MarketplaceFilter $filter
  */
 
 ?>
@@ -23,6 +24,7 @@ use prime\models\mapLayers\CountryGrades;
 <div class="col-xs-12">
     <h1 style="margin-top: 0px; margin-bottom: 20px;"><?=\Yii::t('app', 'Global dashboard')?></h1>
 </div>
+<?=$this->render('/marketplace/filter', ['filter' => $filter])?>
 <div class="col-xs-12">
     <?=\yii\bootstrap\Tabs::widget([
         'items' => [

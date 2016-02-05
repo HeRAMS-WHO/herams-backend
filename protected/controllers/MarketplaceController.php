@@ -31,7 +31,7 @@ class MarketplaceController extends Controller
     public function actionMap(Request $request, Client $limeSurvey)
     {
         $filter = new MarketplaceFilter();
-
+        $filter->scenario = 'global';
         $filter->load($request->queryParams);
 
         if(!$filter->validate()) {
@@ -54,17 +54,19 @@ class MarketplaceController extends Controller
      * @param Client $limeSurvey
      * @param string $iso_3
      * @param $layer
-     * @param bool|false $noMenu
+     * @param bool|false $popup
      * @return string
      */
-    public function actionCountryDashboard(Request $request, Client $limeSurvey, $iso_3, $layer, $noMenu = false)
+    public function actionCountryDashboard(Request $request, Client $limeSurvey, $iso_3, $layer, $popup = false)
     {
-        if ($noMenu) {
+        if ($popup) {
             $this->view->params['hideMenu'] = true;
+            $this->view->params['hideFilter'] = true;
             $this->view->params['containerOptions']['class'][] = 'container-fluid';
         }
 
         $filter = new MarketplaceFilter();
+        $filter->scenario = 'country';
         $filter->load($request->queryParams);
 
         if(!$filter->validate()) {
@@ -150,7 +152,8 @@ class MarketplaceController extends Controller
                 'countriesResponses' => $countryFilter->getGroups(),
                 'eventsResponses' => $eventFilter->getGroups(),
                 'healthClustersResponses' => $healthClusterFilter->getGroups(),
-                'layer' => $layer
+                'layer' => $layer,
+                'filter' => $filter
             ]
         );
     }
@@ -159,16 +162,18 @@ class MarketplaceController extends Controller
      * @param Request $request
      * @param Client $limeSurvey
      * @param $layer
-     * @param bool|false $noMenu
+     * @param bool|false $popup
      * @return string
      */
-    public function actionGlobalDashboard(Request $request, Client $limeSurvey, $layer, $noMenu = false) {
-        if($noMenu) {
+    public function actionGlobalDashboard(Request $request, Client $limeSurvey, $layer, $popup = false) {
+        if($popup) {
             $this->view->params['hideMenu'] = true;
+            $this->view->params['hideFilter'] = true;
             $this->view->params['containerOptions']['class'][] = 'container-fluid';
         }
 
         $filter = new MarketplaceFilter();
+        $filter->scenario = 'global';
         $filter->load($request->queryParams);
 
         if(!$filter->validate()) {
@@ -252,7 +257,8 @@ class MarketplaceController extends Controller
                 'countriesResponses' => $countryFilter->getGroups(),
                 'eventsResponses' => $eventFilter->getGroups(),
                 'healthClustersResponses' => $healthClusterFilter->getGroups(),
-                'layer' => $layer
+                'layer' => $layer,
+                'filter' => $filter
             ]
         );
     }

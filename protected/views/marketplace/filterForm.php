@@ -19,7 +19,7 @@ echo Form::widget([
     'form' => $form,
     'model' => $filter,
     'columns' => 3,
-    'attributes' => [
+    'attributes' => array_filter([
         'regions' => [
             'type' => Form::INPUT_CHECKBOX_LIST,
             'items' => $filter->regionOptions()
@@ -37,7 +37,7 @@ echo Form::widget([
             'type' => Form::INPUT_CHECKBOX_LIST,
             'items' => $filter->structureOptions()
         ]
-    ]
+    ],function($value, $key) use ($filter){/** @var \prime\models\forms\MarketplaceFilter $filter */return($filter->isAttributeActive($key));}, ARRAY_FILTER_USE_BOTH)
 ]);
 
 echo Form::widget([

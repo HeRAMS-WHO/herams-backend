@@ -13,7 +13,7 @@ function selectGlobal(layer) {
 
 function showBootbox(url) {
     bootbox.dialog({
-        message: '<iframe src="' + url + '&noMenu=1' + '" style="width: 100%; height: 500px; border: 0px;"></iframe>',
+        message: '<iframe src="' + url + '&popup=1' + '" style="width: 100%; height: 500px; border: 0px;"></iframe>',
         buttons: [
             {
                 label: '<span class="glyphicon glyphicon-new-window"></span>',
