@@ -73,6 +73,13 @@ return [
                 ]
             ]
         ],
+        'mailer' => [
+            'class' => \yii\swiftmailer\Mailer::class,
+            'transport' => [
+                'class' => Swift_SmtpTransport::class,
+                'constructArgs' => ['localhost', 25]
+            ]
+        ]
     ],
     'modules' => [
         'user' => [
