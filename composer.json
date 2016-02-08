@@ -59,8 +59,7 @@
             "prime\\" : ["protected"]
         },
         "classmap" : [
-            "protected/reportGenerators/",
-            "protected/overrides/"
+            "protected/reportGenerators/"
         ]
     },
     "require-dev": {

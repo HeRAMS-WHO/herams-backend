@@ -4,6 +4,7 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\models\forms\Settings;
+use yii\base\Module;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
@@ -20,21 +21,5 @@ class SettingsController extends Controller
             }
         }
         return $this->render('index', ['settings' => $settings]);
-    }
-
-    public function behaviors()
-    {
-        return ArrayHelper::merge(parent::behaviors(),
-            [
-                'access' => [
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['admin'],
-                        ],
-                    ]
-                ]
-            ]
-        );
     }
 }

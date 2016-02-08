@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
+use yii\validators\RequiredValidator;
 
 /**
  * Class Settings
@@ -31,6 +32,7 @@ class Settings extends Model
     {
         return [
             ['limeSurvey.host', 'url'],
+            [['limeSurvey.password', 'limeSurvey.username'], RequiredValidator::class],
             ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->countryPolygonsFileOptions())],
             ['countryGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
             ['healthClusterMappingSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],

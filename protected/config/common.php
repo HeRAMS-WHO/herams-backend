@@ -50,8 +50,8 @@ return [
             'class' => \dektrium\rbac\components\DbManager::class
         ],
         'limeSurvey' => function (){
-            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient('https://lsprime.projects.sam-it.eu/admin/remotecontrol');
-            return new \SamIT\LimeSurvey\JsonRpc\Client($json, 'prime', 'H9y43n4X');
+            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(\prime\models\ar\Setting::get('limeSurvey.host'));
+            return new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));
         },
         'log' => [
             'targets' => [
