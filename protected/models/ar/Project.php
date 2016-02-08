@@ -338,7 +338,8 @@ class Project extends ActiveRecord implements ProjectInterface
     public function getSurveyUrl()
     {
        return $this->getLimeSurvey()->getUrl($this->data_survey_eid, [
-           'token' => $this->getAttribute('token')
+           'token' => $this->getAttribute('token'),
+           'newtest' => 'Y'
        ]);
     }
 }
