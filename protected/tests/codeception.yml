@@ -28,7 +28,7 @@ extensions:
 modules:
     config:
         Db:
-            dsn: 'mysql:host=localhost;dbname=primetest'
+            dsn: 'mysql:host=localhost;dbname=test_prime'
             user: 'root'
             password: 'secret'
             populate: true

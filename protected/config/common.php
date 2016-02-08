@@ -9,6 +9,7 @@ return [
     'aliases' => [
         '@prime' => '@app'
     ],
+    'bootstrap' => ['log'],
     'components' => [
         'authClientCollection' => [
             'class' => \yii\authclient\Collection::class,
@@ -52,6 +53,15 @@ return [
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient('https://lsprime.projects.sam-it.eu/admin/remotecontrol');
             return new \SamIT\LimeSurvey\JsonRpc\Client($json, 'prime', 'H9y43n4X');
         },
+        'log' => [
+            'targets' => [
+                [
+                    'class' => \yii\log\FileTarget::class,
+                    'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/error.log'
+                ]
+            ]
+        ],
         'user' => [
             'class' => \yii\web\User::class,
             'identityClass' => \prime\models\ar\User::class

@@ -4,6 +4,7 @@ namespace prime\models\ar;
 
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
+use prime\traits\LoadOneAuthTrait;
 use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
 use yii\validators\StringValidator;

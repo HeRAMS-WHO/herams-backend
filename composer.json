@@ -19,6 +19,7 @@
     ],
     "require": {
         "php" : ">=5.6.0",
+        "ext-imagick": "*",
         "befound/yii-befound" : "^2.0.0",
         "kartik-v/yii2-widgets": "^3.4.0",
         "kartik-v/yii2-builder": "^1.6",

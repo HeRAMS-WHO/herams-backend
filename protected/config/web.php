@@ -85,5 +85,4 @@ if (defined('YII_ENV') && file_exists(__DIR__ . '/envs/' . YII_ENV . '.php')) {
 if (file_exists(__DIR__ . '/local.php')) {
     $config = yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/local.php'));
 }
-
 return $config;
