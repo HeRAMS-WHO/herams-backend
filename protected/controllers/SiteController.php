@@ -9,6 +9,11 @@
 
     class SiteController extends Controller
     {
+        public $defaultAction = 'about';
+        public function actionAbout()
+        {
+            return $this->render('about');
+        }
         public function actionIndex(User $user, Session $session)
         {
             /** @var \prime\models\ar\User $identity */
@@ -41,7 +46,7 @@
                         'rules' => [
                             [
                                 'allow' => 'true',
-                                'actions' => ['captcha']
+                                'actions' => ['captcha', 'about']
                             ],
                             [
                                 'allow' => 'true',

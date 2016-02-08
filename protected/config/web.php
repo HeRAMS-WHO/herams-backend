@@ -1,6 +1,7 @@
 <?php
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
+    'defaultRoute' => 'site/about',
     'components' => [
         'urlManager' => [
             'enablePrettyUrl' => true,
