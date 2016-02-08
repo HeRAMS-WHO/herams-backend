@@ -48,7 +48,8 @@ class Generator extends \prime\reportGenerators\base\Generator
     protected  function initResponses(ResponseCollectionInterface $responses)
     {
         $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {
-            return $r1->getSubmitDate() < $r2->getSubmitDate() ? -1 : ($r1->getSubmitDate() > $r2->getSubmitDate() ? 1 : 0);
+            // Reverse ordered
+            return -1 * strcmp($r1->getId(), $r2->getId());
         });
 
         // Get the first element, we know the collection is traversable.

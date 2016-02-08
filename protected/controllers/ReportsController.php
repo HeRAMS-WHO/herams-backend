@@ -159,13 +159,17 @@ class ReportsController extends Controller
             $responses = isset($responseId) ? $project->getResponses()->filter(function(ResponseInterface $response, $key) use ($responseId) {
                 return $response->getId() == $responseId;
             }) : $project->getResponses();
-            return $generator->renderPreview(
-                $responses,
-                $project->getSurvey(),
-                $project,
-                $user->identity->createSignature(),
-                $userData
-            );
+            if ($responses->size() > 1) {
+                return $generator->renderPreview(
+                    $responses,
+                    $project->getSurvey(),
+                    $project,
+                    $user->identity->createSignature(),
+                    $userData
+                );
+            } else {
+                return \Yii::t('app', "No data available.");
+            }
         } else {
             throw new NotFoundHttpException(\Yii::t('app', '{reportGenerator} does not exist', ['reportGenerator' => $reportGenerator]));
         }

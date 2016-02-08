@@ -13,7 +13,7 @@ use prime\models\ar\UserData;
 use prime\objects\Report;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
-class Generator extends \prime\reportGenerators\ccpm\Generator implements ReportGeneratorInterface
+class Generator extends \prime\reportGenerators\base\Generator implements ReportGeneratorInterface
 {
     /** @var ResponseInterface */
     protected $response;
@@ -29,6 +29,20 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
     public function getQuestionValue($title)
     {
         return isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
+    }
+
+    protected  function initResponses(ResponseCollectionInterface $responses)
+    {
+        $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {
+            // Reverse ordered
+            return -1 * strcmp($r1->getId(), $r2->getId());
+        });
+
+        // Get the first element, we know the collection is traversable.
+        foreach($responses as $key => $response) {
+            $this->response = $response;
+            break;
+        }
     }
 
     /**
@@ -48,7 +62,7 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
-        $this->response = $responses[0];
+        $this->initResponses($responses);
         $stream = \GuzzleHttp\Psr7\stream_for($this->view->render('publish', [
             'userData' => $userData,
             'signature' => $signature,
@@ -60,27 +74,7 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
         return new Report($userData, $signature, $stream, $this->className(), $this->getReportTitle($project, $signature));
     }
 
-    /**
-     * @param ResponseCollectionInterface $responses
-     * @param SurveyCollectionInterface $surveys
-     * @param SignatureInterface $signature
-     * @param ProjectInterface $project
-     * @param UserDataInterface|null $userData
-     * @return string
-     */
-//    public function renderPreview(
-//        ResponseCollectionInterface $responses,
-//        SurveyCollectionInterface $surveys,
-//        ProjectInterface $project,
-//        SignatureInterface $signature = null,
-//        UserDataInterface $userData = null
-//    ) {
-//        return $this->view->render('publish', [
-//            'progresses' => $this->getProgresses($responses)
-//        ], $this);
-//    }
-
-    /**
+   /**
      * Returns the title of the Report
      * @return string
      */

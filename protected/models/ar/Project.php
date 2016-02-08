@@ -186,25 +186,29 @@ class Project extends ActiveRecord implements ProjectInterface
         return $this->hasMany(Report::class, ['project_id' => 'id']);
     }
 
+    // Cache for getResponses();
+    private $_responses;
     /**
      * @return ResponseCollectionInterface
      */
     public function getResponses()
     {
-        $result = new ResponseCollection();
-        foreach ($this->limeSurvey->getResponsesByToken($this->data_survey_eid, $this->token) as $response) {
-            $result->append($response);
-        }
-        /**
-         * @todo Refactor this to be somewhere else.
-         * Special handling for CCPM.
-         */
-        if ($this->tool->acronym == 'CCPM') {
-            foreach ($this->limeSurvey->getResponsesByToken(67825, $this->token) as $response) {
-                $result->append($response);
+        if (!isset($this->_responses)) {
+            $this->_responses = new ResponseCollection();
+            foreach ($this->limeSurvey->getResponsesByToken($this->data_survey_eid, $this->token) as $response) {
+                $this->_responses->append($response);
+            }
+            /**
+             * @todo Refactor this to be somewhere else.
+             * Special handling for CCPM.
+             */
+            if ($this->tool->acronym == 'CCPM') {
+                foreach ($this->limeSurvey->getResponsesByToken(67825, $this->token) as $response) {
+                    $this->_responses->append($response);
+                }
             }
         }
-        return $result;
+        return $this->_responses;
     }
 
     /**
@@ -324,13 +328,17 @@ class Project extends ActiveRecord implements ProjectInterface
 
 
     /**
-     * @param Client $limeSurvey
+     * @return Client $limeSurvey
      */
-    public function getLimeSurvey() {
+    public function getLimeSurvey()
+    {
         return \Yii::$app->get('limeSurvey');
     }
 
-
-
-
+    public function getSurveyUrl()
+    {
+       return $this->getLimeSurvey()->getUrl($this->data_survey_eid, [
+           'token' => $this->getAttribute('token')
+       ]);
+    }
 }

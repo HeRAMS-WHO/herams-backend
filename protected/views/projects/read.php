@@ -36,13 +36,24 @@ $this->params['subMenu']['items'][] = [
 ];
 
 $this->params['subMenu']['items'][] = [
-    'label' => Html::icon('zoom-in'),
-    'url' => ['/projects/explore', 'id' => $model->id],
+    'label' => Html::icon('cog'),
+    'url' => $model->surveyUrl,
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE),
     'options' => [
         'class' => 'icon',
-        'title' => \Yii::t('app', 'Explore'),
+        'title' => \Yii::t('app', 'Update'),
     ],
+
 ];
+
+//$this->params['subMenu']['items'][] = [
+//    'label' => Html::icon('zoom-in'),
+//    'url' => ['/projects/explore', 'id' => $model->id],
+//    'options' => [
+//        'class' => 'icon',
+//        'title' => \Yii::t('app', 'Explore'),
+//    ],
+//];
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
         'label' => Html::icon('eye-open'),
@@ -55,10 +66,9 @@ if(isset($model->defaultGenerator)) {
             'projectId' => $model->id,
             'reportGenerator' => $model->default_generator
         ],
-        'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
+        'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && ($model->getResponses()->size() > 0)
     ];
 }
-
 ?>
 
 <div class="col-xs-12">
