@@ -33,23 +33,25 @@ echo Nav::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => Html::icon('list', ['title' => 'Projects']),
-            'url' => ['/projects'],
-            'visible' => !Yii::$app->user->isGuest
-        ],
-        [
-            'label' => Html::icon('list-alt', ['title' => 'Reports']),
-            'url' => ['/reports'],
-            'visible' => !Yii::$app->user->isGuest
-        ],
-        [
             'label' => Html::icon('globe', ['title' => 'Global monitor']),
             'url' => ['/marketplace'],
             'visible' => !Yii::$app->user->isGuest
 
         ],
         [
-            'label' => Html::icon('heart-empty', ['title' => \Yii::t('app', 'User lists')]),
+            'label' => Html::icon('file', ['title' => 'Reports']),
+            'url' => ['/reports'],
+            'visible' => !Yii::$app->user->isGuest
+        ],
+        [
+            'label' => Html::icon('tasks', ['title' => 'Projects']),
+            'url' => ['/projects'],
+            'visible' => !Yii::$app->user->isGuest
+        ],
+
+
+        [
+            'label' => Html::icon('bullhorn', ['title' => \Yii::t('app', 'User lists')]),
             'url' => ['/user-lists'],
             'visible' => !Yii::$app->user->isGuest
         ],
