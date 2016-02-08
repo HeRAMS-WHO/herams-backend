@@ -122,7 +122,11 @@ if(isset($model->defaultGenerator)) {
              ],
              [
                  'label' => \Yii::t('app', 'Responses'),
-                 'content' => $this->render('read/responses.php', ['responses' => $model->getResponses()])
+                 'content' => $this->render('read/responses.php', [
+                     'tool' => $model->tool,
+                     'model' => $model,
+                     'responses' => $model->getResponses()
+                 ])
              ]
          ]
     ]);

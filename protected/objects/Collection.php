@@ -144,4 +144,30 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
             throw new \DomainException("Expected {$this->dataType} got $type");
         }
     }
+
+    /**
+     * Filters the collection.
+     *
+     * @param \Closure $closure A closure with arguments $value and $key.
+     * @return Collection A collection containing the filtered results.
+     */
+    public function filter(\Closure $closure)
+    {
+        $result = clone $this;
+        $result->data = array_filter($result->data, $closure, ARRAY_FILTER_USE_BOTH);
+        return $result;
+    }
+
+    /**
+     * Sorts the collection, returns a new collection.
+     * @param \Closure $closure
+     * @return Collection
+     */
+    public function sort(\Closure $closure)
+    {
+        $result = clone $this;
+        usort($result->data, $closure);
+        return $result;
+
+    }
 }

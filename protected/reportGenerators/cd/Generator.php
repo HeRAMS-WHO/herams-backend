@@ -34,9 +34,6 @@ class Generator extends \prime\reportGenerators\base\Generator
      */
     public function getQuestionValue($title)
     {
-//        $responses = new ResponseCollection();
-//        $responses->append($this->response);
-//        $values = $this->getQuestionValues($responses, [$this->response->getSurveyId() => $title]);
         return isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
     }
 
@@ -46,6 +43,19 @@ class Generator extends \prime\reportGenerators\base\Generator
     public function getViewPath()
     {
         return __DIR__ . '/views/';
+    }
+
+    protected  function initResponses(ResponseCollectionInterface $responses)
+    {
+        $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {
+            return $r1->getSubmitDate() < $r2->getSubmitDate() ? -1 : ($r1->getSubmitDate() > $r2->getSubmitDate() ? 1 : 0);
+        });
+
+        // Get the first element, we know the collection is traversable.
+        foreach($responses as $key => $response) {
+            $this->response = $response;
+            break;
+        }
     }
 
     public function mapWorkingModalities($value)
@@ -91,8 +101,7 @@ class Generator extends \prime\reportGenerators\base\Generator
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
-        //vdd($this->mapStatus($this->map04(median($this->getQuestionValues($responses, [67825 => ['q112'], 22814 => ['q111']], [$this, 'rangeValidator04'])))));
-        $this->response = $responses[0];
+        $this->initResponses($responses);
         return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
     }
 
@@ -113,10 +122,10 @@ class Generator extends \prime\reportGenerators\base\Generator
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
+        $this->initResponses($responses);
         $stream = \GuzzleHttp\Psr7\stream_for($this->view->render('publish', [
             'userData' => $userData,
             'signature' => $signature,
-            'responses' => $responses,
             'project' => $project
         ], $this));
 

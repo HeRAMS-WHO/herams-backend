@@ -10,12 +10,9 @@ use app\components\Form;
  * @var \prime\reportGenerators\cd\Generator $generator
  * @var \prime\interfaces\ProjectInterface $project
  * @var \prime\interfaces\SignatureInterface $signature
- * @var \prime\interfaces\ResponseCollectionInterface $responses
  */
 
 $generator = $this->context;
-
-/** @var \SamIT\LimeSurvey\Interfaces\ResponseInterface $response */
 
 $this->beginContent('@app/views/layouts/report.php');
 ?>

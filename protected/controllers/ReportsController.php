@@ -58,7 +58,8 @@ class ReportsController extends Controller
         Request $request,
         Response $response,
         $projectId,
-        $reportGenerator
+        $reportGenerator,
+        $responseId = null
     )
     {
         /* @todo set correct privilege */
@@ -86,7 +87,7 @@ class ReportsController extends Controller
             }
 
             return $this->render('preview', [
-                'previewUrl' => Url::toRoute(['reports/render-preview', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator]),
+                'previewUrl' => Url::toRoute(['reports/render-preview', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator, 'responseId' => $responseId]),
                 'project' => $project,
                 'reportGenerator' => $reportGenerator
             ]);
@@ -140,6 +141,7 @@ class ReportsController extends Controller
     public function actionRenderPreview(
         User $user,
         $projectId,
+        $responseId = null,
         $reportGenerator
     )
     {
@@ -153,8 +155,12 @@ class ReportsController extends Controller
             /** @var ReportGeneratorInterface $generator */
             $generator = GeneratorFactory::get($reportGenerator);
 
+
+            $responses = isset($responseId) ? $project->getResponses()->filter(function(ResponseInterface $response, $key) use ($responseId) {
+                return $response->getId() == $responseId;
+            }) : $project->getResponses();
             return $generator->renderPreview(
-                $project->getResponses(),
+                $responses,
                 $project->getSurvey(),
                 $project,
                 $user->identity->createSignature(),

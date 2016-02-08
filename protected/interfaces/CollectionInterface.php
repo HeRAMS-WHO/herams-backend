@@ -5,7 +5,7 @@ namespace prime\interfaces;
 interface CollectionInterface extends \Traversable
 {
     /**
-     * @return int The number of Responses in this collection.
+     * @return int The number of items in this collection.
      */
     public function size();
 
@@ -24,4 +24,8 @@ interface CollectionInterface extends \Traversable
 
 
     public function append($item);
+
+    public function filter(\Closure $closure);
+
+    public function sort(\Closure $closure);
 }
