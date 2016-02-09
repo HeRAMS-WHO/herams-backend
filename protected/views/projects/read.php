@@ -11,31 +11,6 @@ use app\components\Html;
 $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
-    'label' => Html::icon('stop'),
-    'url' => ['/projects/close', 'id' => $model->id],
-    'options' => [
-        'class' => 'icon',
-        'title' => \Yii::t('app', 'Close'),
-    ],
-    'linkOptions' => [
-        'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
-        'data-method' => 'delete'
-    ],
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
-];
-
-$this->params['subMenu']['items'][] = [
-    'label' => Html::icon('share'),
-    'url' => ['/projects/share', 'id' => $model->id],
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE),
-    'options' => [
-        'class' => 'icon',
-        'title' => \Yii::t('app', 'Share'),
-    ],
-
-];
-
-$this->params['subMenu']['items'][] = [
     'label' => Html::icon('cog'),
     'url' => $model->surveyUrl,
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE),
@@ -43,17 +18,8 @@ $this->params['subMenu']['items'][] = [
         'class' => 'icon',
         'title' => \Yii::t('app', 'Update'),
     ],
-
 ];
 
-//$this->params['subMenu']['items'][] = [
-//    'label' => Html::icon('zoom-in'),
-//    'url' => ['/projects/explore', 'id' => $model->id],
-//    'options' => [
-//        'class' => 'icon',
-//        'title' => \Yii::t('app', 'Explore'),
-//    ],
-//];
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
         'label' => Html::icon('eye-open'),
@@ -69,6 +35,39 @@ if(isset($model->defaultGenerator)) {
         'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && ($model->getResponses()->size() > 0)
     ];
 }
+
+$this->params['subMenu']['items'][] = [
+    'label' => Html::icon('share'),
+    'url' => ['/projects/share', 'id' => $model->id],
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE),
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Share'),
+    ],
+];
+
+$this->params['subMenu']['items'][] = [
+    'label' => Html::icon('stop'),
+    'url' => ['/projects/close', 'id' => $model->id],
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Close'),
+    ],
+    'linkOptions' => [
+        'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
+        'data-method' => 'delete'
+    ],
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
+];
+//$this->params['subMenu']['items'][] = [
+//    'label' => Html::icon('zoom-in'),
+//    'url' => ['/projects/explore', 'id' => $model->id],
+//    'options' => [
+//        'class' => 'icon',
+//        'title' => \Yii::t('app', 'Explore'),
+//    ],
+//];
+
 ?>
 
 <div class="col-xs-12">
