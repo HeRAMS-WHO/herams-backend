@@ -5,6 +5,7 @@
 /public/img/tools/*
 .idea/
 /protected/runtime/debug/
+/protected/runtime/logs/
 /protected/runtime/HTML/
 /protected/runtime/URI/
 /protected/config/env.php

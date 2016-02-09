@@ -72,6 +72,6 @@ class ResponseFilter
 
     public function sortGroups(\Closure $sort)
     {
-        usort($this->groupedResponses, $sort);
+        uasort($this->groupedResponses, $sort);
     }
 }

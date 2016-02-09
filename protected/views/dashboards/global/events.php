@@ -125,12 +125,13 @@ foreach($typeCount as $value => $count) {
     <?php
     foreach($eventsResponses as $uoid => $eventResponses)  {
         $lastEventResponse = $eventResponses[count($eventResponses) - 1];
+        $country = \prime\models\Country::findOne($lastEventResponse->getData()['PRIMEID']);
         ?>
         <div class="col-xs-1">
             <div style="height: 34px; width: 34px; border: 2px solid darkgrey; border-radius: 50%; background-color: <?=\prime\models\mapLayers\EventGrades::mapColor($lastEventResponse->getData()['GM02'])?>;"></div>
         </div>
         <div class="col-xs-11" style="line-height: 34px">
-            <h3 style="margin-top: 0px; margin-bottom: 0px; line-height: 34px;"><?=$lastEventResponse->getData()['CED01']?> / <?=\prime\models\mapLayers\EventGrades::mapGrade($lastEventResponse->getData()['GM02'])?> / <?=\prime\models\mapLayers\EventGrades::mapGradingStage($lastEventResponse->getData()['GM00'])?> (<?=(new \Carbon\Carbon($lastEventResponse->getData()['GM01']))->format('d/m/Y')?>)</h3>
+            <h3 style="margin-top: 0px; margin-bottom: 0px; line-height: 34px;"><?=$country->name?> / <?=$lastEventResponse->getData()['CED01']?> / <?=\prime\models\mapLayers\EventGrades::mapGradingStage($lastEventResponse->getData()['GM00'])?> (<?=(new \Carbon\Carbon($lastEventResponse->getData()['GM01']))->format('d/m/Y')?>)</h3>
         </div>
         <div class="col-xs-12" style="height: 10px;"></div>
         <?php

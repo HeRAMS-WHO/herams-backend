@@ -82,7 +82,7 @@ foreach($tempData as $value => $count) {
             <div style="height: 34px; width: 34px; border: 2px solid darkgrey; border-radius: 50%; background-color: <?=\prime\models\mapLayers\CountryGrades::mapColor($lastCountryResponse->getData()['GM02'])?>;"></div>
         </div>
         <div class="col-xs-11" style="line-height: 34px">
-            <h3 style="margin-top: 0px; margin-bottom: 0px; line-height: 34px;"><?=$country->name?> / <?=\prime\models\mapLayers\CountryGrades::mapGrade($lastCountryResponse->getData()['GM02'])?> / <?=\prime\models\mapLayers\CountryGrades::mapGradingStage($lastCountryResponse->getData()['GM00'])?> (<?=(new \Carbon\Carbon($lastCountryResponse->getData()['GM01']))->format('d/m/Y')?>)</h3>
+            <h3 style="margin-top: 0px; margin-bottom: 0px; line-height: 34px;"><?=$country->name?> / <?=\prime\models\mapLayers\CountryGrades::mapGradingStage($lastCountryResponse->getData()['GM00'])?> (<?=(new \Carbon\Carbon($lastCountryResponse->getData()['GM01']))->format('d/m/Y')?>)</h3>
         </div>
         <div class="col-xs-12" style="height: 10px;"></div>
         <?php

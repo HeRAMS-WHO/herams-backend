@@ -9,6 +9,8 @@ use prime\models\ar\Project;
 use prime\models\ar\Setting;
 use prime\models\Country;
 use prime\models\forms\MarketplaceFilter;
+use prime\models\mapLayers\CountryGrades;
+use prime\models\mapLayers\EventGrades;
 use prime\models\search\Report;
 use prime\objects\ResponseCollection;
 use prime\objects\ResponseFilter;
@@ -207,6 +209,28 @@ class MarketplaceController extends Controller
             }
             return ($aD->gt($bD)) ? 1 : -1;
         });
+        $countryFilter->sortGroups(function($a, $b) {
+            /**
+             * @var ResponseInterface $aR
+             * @var ResponseInterface $bR
+             */
+            $aR = $a[count($a) - 1];
+            $bR = $b[count($b) - 1];
+            if(CountryGrades::valueMap()[$aR->getData()['GM02']] > CountryGrades::valueMap()[$bR->getData()['GM02']]) {
+                return -1;
+            } elseif(CountryGrades::valueMap()[$aR->getData()['GM02']] < CountryGrades::valueMap()[$bR->getData()['GM02']]) {
+                return 1;
+            } else {
+                /**
+                 * @var Country $aC
+                 * @var Country $bC
+                 */
+                $aC = Country::findOne($aR->getData()['PRIMEID']);
+                $bC = Country::findOne($bR->getData()['PRIMEID']);
+                return strnatcmp($aC->name, $bC->name);
+            }
+
+        });
 
         //get event responses
         $eventFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))));
@@ -227,6 +251,34 @@ class MarketplaceController extends Controller
                 return ($a->getId() > $b->getId()) ? 1 : -1;
             }
             return ($aD->gt($bD)) ? 1 : -1;
+        });
+        $eventFilter->sortGroups(function($a, $b) {
+            /**
+             * @var ResponseInterface $aR
+             * @var ResponseInterface $bR
+             */
+            $aR = $a[count($a) - 1];
+            $bR = $b[count($b) - 1];
+            if(!isset($aR->getData()['GM02'])) {
+                vdd($aR);
+            }
+            if(!isset($bR->getData()['GM02'])) {
+                vdd($bR);
+            }
+            if(EventGrades::valueMap()[$aR->getData()['GM02']] > EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return -1;
+            } elseif(EventGrades::valueMap()[$aR->getData()['GM02']] < EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return 1;
+            } else {
+                /**
+                 * @var Country $aC
+                 * @var Country $bC
+                 */
+                $aC = Country::findOne($aR->getData()['PRIMEID']);
+                $bC = Country::findOne($bR->getData()['PRIMEID']);
+                return strnatcmp($aC->name, $bC->name);
+            }
+
         });
 
         //get health cluster responses
