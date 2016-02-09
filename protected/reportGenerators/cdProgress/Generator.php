@@ -13,7 +13,7 @@ use prime\models\ar\UserData;
 use prime\objects\Report;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
-class Generator extends \prime\reportGenerators\ccpm\Generator implements ReportGeneratorInterface
+class Generator extends \prime\reportGenerators\base\Generator implements ReportGeneratorInterface
 {
     /** @var ResponseInterface */
     protected $response;
@@ -23,48 +23,51 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
         $requiredAnswers = [
             \Yii::t('cd', 'Establishment of the cluster') => [
                 'q11',
-                'q13',
-                'q14',
-                'q16',
+//                'q13',
+//                'q14',
+//                'q16',
             ],
-            \Yii::t('cd', 'Cluster coordinator') => array_merge([
-                'q21', //if q21 == 2, q26, q27, q28, q29
-                'q22',
-                'q23',
-                'q24',
-                'q25',
-            ], $this->getQuestionValue('q21') == 2 ? ['q26', 'q27', 'q28', 'q29'] : []),
+            \Yii::t('cd', 'Cluster coordinator') =>[
+                'q21'
+            ],
+//                array_merge([
+//                'q21', //if q21 == 2, q26, q27, q28, q29
+//                'q22',
+//                'q23',
+//                'q24',
+//                'q25',
+//            ], $this->getQuestionValue('q21') == 2 ? ['q26', 'q27', 'q28', 'q29'] : []),
             \Yii::t('cd', 'Cluster management') => array_merge(
                 [
                     'q31', //if q31 > 1, foreach 3 questions: q310 + (i - 1) * 3 + (1, 2, 3)
-                    'q326',
-                    'q327',
-                    'q328',
-                    'q329', //if q329 > 0, foreach 3 questions: q329 + (i - 1) * 3 + (1, 2, 3)
-                    'q345[1]',
-                    'q345[2]',
-                    'q345[3]',
-                    'q345[4]',
-                    'q345[5]',
-                    'q345[6]',
-                    'q345[7]',
-                    'q345[8]',
-                    'q346[1]',
-                    'q346[2]',
-                    'q346[3]',
-                    'q346[4]',
-                    'q346[5]',
-                ],
-                $this->getQuestionValue('q31') >= 2 ? ['q311', 'q312', 'q313'] : [],
-                $this->getQuestionValue('q31') >= 3 ? ['q314', 'q315', 'q316'] : [],
-                $this->getQuestionValue('q31') >= 4 ? ['q317', 'q318', 'q319'] : [],
-                $this->getQuestionValue('q31') >= 5 ? ['q320', 'q321', 'q322'] : [],
-                $this->getQuestionValue('q31') >= 6 ? ['q323', 'q324', 'q325'] : [],
-                $this->getQuestionValue('q329') >= 1 ? ['q330', 'q331', 'q332'] : [],
-                $this->getQuestionValue('q329') >= 2 ? ['q333', 'q334', 'q335'] : [],
-                $this->getQuestionValue('q329') >= 3 ? ['q336', 'q337', 'q338'] : [],
-                $this->getQuestionValue('q329') >= 4 ? ['q339', 'q340', 'q341'] : [],
-                $this->getQuestionValue('q329') >= 5 ? ['q342', 'q343', 'q344'] : []
+//                    'q326',
+//                    'q327',
+//                    'q328',
+//                    'q329', //if q329 > 0, foreach 3 questions: q329 + (i - 1) * 3 + (1, 2, 3)
+//                    'q345[1]',
+//                    'q345[2]',
+//                    'q345[3]',
+//                    'q345[4]',
+//                    'q345[5]',
+//                    'q345[6]',
+//                    'q345[7]',
+//                    'q345[8]',
+//                    'q346[1]',
+//                    'q346[2]',
+//                    'q346[3]',
+//                    'q346[4]',
+//                    'q346[5]',
+                ]
+//                $this->getQuestionValue('q31') >= 2 ? ['q311', 'q312', 'q313'] : [],
+//                $this->getQuestionValue('q31') >= 3 ? ['q314', 'q315', 'q316'] : [],
+//                $this->getQuestionValue('q31') >= 4 ? ['q317', 'q318', 'q319'] : [],
+//                $this->getQuestionValue('q31') >= 5 ? ['q320', 'q321', 'q322'] : [],
+//                $this->getQuestionValue('q31') >= 6 ? ['q323', 'q324', 'q325'] : [],
+//                $this->getQuestionValue('q329') >= 1 ? ['q330', 'q331', 'q332'] : [],
+//                $this->getQuestionValue('q329') >= 2 ? ['q333', 'q334', 'q335'] : [],
+//                $this->getQuestionValue('q329') >= 3 ? ['q336', 'q337', 'q338'] : [],
+//                $this->getQuestionValue('q329') >= 4 ? ['q339', 'q340', 'q341'] : [],
+//                $this->getQuestionValue('q329') >= 5 ? ['q342', 'q343', 'q344'] : []
             ),
             \Yii::t('cd', 'Cluster participants') => [
                 'q41[1]',
@@ -73,7 +76,7 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
                 'q41[4]',
                 'q41[5]',
                 'q41[6]',
-                'q42'
+//                'q42'
             ],
             \Yii::t('cd', 'Deliverable') => [
                 'q51[1]',
@@ -107,15 +110,13 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
         ];
 
         $result = [];
-        $i = false;
         foreach($requiredAnswers as $category => $qTitles) {
+            $i = false;
+            foreach($qTitles as $qTitle) {
+                $i = $i || ($this->getQuestionValue($qTitle) != '');
+            }
+            $requiredAnswers[$category] = $result;
             $result[$category] = $i;
-            $i = !$i;
-//            $result = [];
-//            foreach($qTitles as $qTitle) {
-//                $result[$qTitle] = $this->getQuestionValue($qTitle);
-//            }
-//            $requiredAnswers[$category] = $result;
         }
         return $result;
     }
