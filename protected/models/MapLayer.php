@@ -29,6 +29,7 @@ class MapLayer extends Model implements ViewContextInterface, \JsonSerializable
     public $name;
     public $showInLegend = false;
     public $legendsContainer = '#legends';
+    public $visible = true;
     /**
      * How the data is joined
      * First element is the key in the map data
@@ -78,6 +79,9 @@ class MapLayer extends Model implements ViewContextInterface, \JsonSerializable
             $view->registerJs("$('{$this->legendsContainer}').append('{$legend}');");
             $this->events['show'] = new JsExpression('function(e) {$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").show();}');
             $this->events['hide'] = new JsExpression('function(e) {$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").hide();}');
+            if(!$this->visible) {
+                $view->registerJs('$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").hide();');
+            }
         }
     }
 

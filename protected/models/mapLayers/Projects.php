@@ -3,6 +3,7 @@
 namespace prime\models\mapLayers;
 
 use app\queries\ProjectQuery;
+use miloschuman\highcharts\Highcharts;
 use prime\models\ar\Project;
 use prime\models\ar\ProjectCountry;
 use prime\models\ar\Report;
@@ -17,6 +18,8 @@ class Projects extends MapLayer
 {
     /** @var ProjectQuery */
     protected $projectQuery;
+
+    public $color;
 
     public function __construct(ProjectQuery $projectQuery, $config = [])
     {
@@ -44,8 +47,11 @@ class Projects extends MapLayer
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'projects', false); return false;}"));
         $this->type = 'mappoint';
         $this->marker = [
-            'radius' => 7
+            'radius' => 7,
+            'symbol' => 'circle'
         ];
+        $this->color = new JsExpression('Highcharts.getOptions().colors[1]');
+        $this->visible = false;
         parent::init();
     }
 

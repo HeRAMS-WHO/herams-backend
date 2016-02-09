@@ -54,7 +54,7 @@ class CountryGrades extends MapLayer
     {
         $this->allowPointSelect = true;
         $this->joinBy = ['ISO_3_CODE', 'id'];
-        $this->name = \Yii::t('app', 'Country Grades');
+        $this->name = \Yii::t('app', 'Graded Countries');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'countryGrades'); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'countryGrades', true); return false;}"));

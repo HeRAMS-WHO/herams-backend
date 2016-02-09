@@ -20,6 +20,8 @@ class HealthClusters extends MapLayer
     /** @var ResponseCollectionInterface */
     protected $responses;
 
+    public $color;
+
     public function __construct(ResponseCollectionInterface $responses, $config = [])
     {
         $this->responses = $responses;
@@ -47,9 +49,11 @@ class HealthClusters extends MapLayer
         $this->type = 'mappoint';
         $this->marker = [
             'lineWidth' => 1,
-            'radius' => 7,
-            'lineColor' => 'rgba(100, 100, 100, 1)'
+            'radius' => 5,
+            'lineColor' => 'rgba(100, 100, 100, 1)',
+            'symbol' => 'circle'
         ];
+        $this->color = 'rgba(72, 208, 250, 1)';
         parent::init();
     }
 
