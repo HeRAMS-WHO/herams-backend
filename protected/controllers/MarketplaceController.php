@@ -124,6 +124,27 @@ class MarketplaceController extends Controller
             }
             return ($aD->gt($bD)) ? 1 : -1;
         });
+        //only show events that are not "preparedness or ungraded"
+        $eventFilter->filterGroups(function($group) {
+            $response = $group[count($group) - 1];
+            return EventGrades::valueMap()[$response->getData()['GM02']] > 1;
+        });
+        $eventFilter->sortGroups(function($a, $b) {
+            /**
+             * @var ResponseInterface $aR
+             * @var ResponseInterface $bR
+             */
+            $aR = $a[count($a) - 1];
+            $bR = $b[count($b) - 1];
+
+            if(EventGrades::valueMap()[$aR->getData()['GM02']] > EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return -1;
+            } elseif(EventGrades::valueMap()[$aR->getData()['GM02']] < EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return 1;
+            } else {
+               return 0;
+            }
+        });
 
         //get health cluster responses
         $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
@@ -259,12 +280,7 @@ class MarketplaceController extends Controller
              */
             $aR = $a[count($a) - 1];
             $bR = $b[count($b) - 1];
-            if(!isset($aR->getData()['GM02'])) {
-                vdd($aR);
-            }
-            if(!isset($bR->getData()['GM02'])) {
-                vdd($bR);
-            }
+
             if(EventGrades::valueMap()[$aR->getData()['GM02']] > EventGrades::valueMap()[$bR->getData()['GM02']]) {
                 return -1;
             } elseif(EventGrades::valueMap()[$aR->getData()['GM02']] < EventGrades::valueMap()[$bR->getData()['GM02']]) {
