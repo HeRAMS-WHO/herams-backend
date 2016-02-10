@@ -208,7 +208,7 @@ class EventGrades extends MapLayer
     public function renderLegend(View $view)
     {
         return "<table style='width: 100%; margin-bottom: 5px;'>" .
-            "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Event Grades') . "</th></tr>" .
+            "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . $this->name . "</th></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A00') . "'>" . $this->mapGrade('A00') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A0') . "'>" . $this->mapGrade('A0') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A1') . "'>" . $this->mapGrade('A1') . "</td></tr>" .
