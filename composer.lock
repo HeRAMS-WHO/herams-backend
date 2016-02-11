@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f4d345db79a98b1c9ba9b7c52b40be72",
-    "content-hash": "7b7a5c9aa207fbd9b7755c84e0252cc2",
+    "hash": "d008bb73721967ed39e8a16b3db62952",
+    "content-hash": "43a364877c6b5e8b02eefc839ece4eec",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -564,12 +564,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cebe/markdown.git",
-                "reference": "35d47fe727a453a8aa5c6be7e627caad8f16d586"
+                "reference": "e4499350d8a94c4c693a7e784295eff7a717ae67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cebe/markdown/zipball/35d47fe727a453a8aa5c6be7e627caad8f16d586",
-                "reference": "35d47fe727a453a8aa5c6be7e627caad8f16d586",
+                "url": "https://api.github.com/repos/cebe/markdown/zipball/e4499350d8a94c4c693a7e784295eff7a717ae67",
+                "reference": "e4499350d8a94c4c693a7e784295eff7a717ae67",
                 "shasum": ""
             },
             "require": {
@@ -616,7 +616,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2016-02-06 17:31:49"
+            "time": "2016-02-09 22:09:46"
         },
         {
             "name": "dektrium/yii2-rbac",
@@ -2790,69 +2790,31 @@
             "time": "2013-02-21 12:04:53"
         },
         {
-            "name": "vrana/adminer",
-            "version": "v4.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/vrana/adminer.git",
-                "reference": "49e2ac4559f0027c64f0f413ad02a56bdfc70fa6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/vrana/adminer/zipball/49e2ac4559f0027c64f0f413ad02a56bdfc70fa6",
-                "reference": "49e2ac4559f0027c64f0f413ad02a56bdfc70fa6",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "plugins/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0",
-                "GPL-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jakub Vrána",
-                    "homepage": "http://www.vrana.cz/"
-                }
-            ],
-            "description": "Database management in a single PHP file.",
-            "homepage": "https://www.adminer.org/",
-            "keywords": [
-                "database"
-            ],
-            "time": "2016-02-06 19:10:16"
-        },
-        {
             "name": "yiisoft/yii2",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "7ccbfdf4cfb0ce025e27455dc3e516af23eb2800"
+                "reference": "1800d3840b098fc6e936852fa84b8c1b1a0a2e57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7ccbfdf4cfb0ce025e27455dc3e516af23eb2800",
-                "reference": "7ccbfdf4cfb0ce025e27455dc3e516af23eb2800",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/1800d3840b098fc6e936852fa84b8c1b1a0a2e57",
+                "reference": "1800d3840b098fc6e936852fa84b8c1b1a0a2e57",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/jquery": "2.1.*@stable | 1.11.*@stable",
+                "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable",
                 "bower-asset/jquery.inputmask": "~3.2.2",
                 "bower-asset/punycode": "1.3.*",
-                "bower-asset/yii2-pjax": ">=2.0.1",
+                "bower-asset/yii2-pjax": "~2.0.1",
                 "cebe/markdown": "~1.0.0 | ~1.1.0",
                 "ext-ctype": "*",
                 "ext-mbstring": "*",
                 "ezyang/htmlpurifier": "4.6.*",
                 "lib-pcre": "*",
                 "php": ">=5.4.0",
-                "yiisoft/yii2-composer": "*"
+                "yiisoft/yii2-composer": "~2.0.4"
             },
             "bin": [
                 "yii"
@@ -2919,7 +2881,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-01-28 20:15:10"
+            "time": "2016-02-10 22:42:43"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -3174,12 +3136,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "4dec9be1739cfc5f0085e3db351e1baf6d1f521f"
+                "reference": "91d85de99f689f31bb86a6e272b412d10aef42de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/4dec9be1739cfc5f0085e3db351e1baf6d1f521f",
-                "reference": "4dec9be1739cfc5f0085e3db351e1baf6d1f521f",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/91d85de99f689f31bb86a6e272b412d10aef42de",
+                "reference": "91d85de99f689f31bb86a6e272b412d10aef42de",
                 "shasum": ""
             },
             "require": {
@@ -3246,7 +3208,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2016-02-08 01:26:13"
+            "time": "2016-02-10 20:16:31"
         },
         {
             "name": "codeception/phpbuiltinserver",
@@ -3451,12 +3413,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "581943b46d0736605e4ef4676e9a820bbfff7388"
+                "reference": "b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/581943b46d0736605e4ef4676e9a820bbfff7388",
-                "reference": "581943b46d0736605e4ef4676e9a820bbfff7388",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
+                "reference": "b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
                 "shasum": ""
             },
             "require": {
@@ -3494,7 +3456,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-01-30 02:04:34"
+            "time": "2016-02-10 14:20:03"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -4735,12 +4697,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "7e7f0903e26a01647ad76e53fb5f6e294da187b2"
+                "reference": "05a12065aa18e049f3cf91b0038374e4b1dbcb41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/7e7f0903e26a01647ad76e53fb5f6e294da187b2",
-                "reference": "7e7f0903e26a01647ad76e53fb5f6e294da187b2",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/05a12065aa18e049f3cf91b0038374e4b1dbcb41",
+                "reference": "05a12065aa18e049f3cf91b0038374e4b1dbcb41",
                 "shasum": ""
             },
             "require": {
@@ -4776,7 +4738,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-02-05 07:58:37"
+            "time": "2016-02-09 20:02:42"
         },
         {
             "name": "yiisoft/yii2-codeception",
