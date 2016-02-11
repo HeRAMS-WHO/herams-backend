@@ -11,16 +11,17 @@ use app\components\Html;
  */
 
 $this->params['containerOptions'] = ['class' => 'container-fluid'];
-$this->params['rowOptions'] = ['class' => 'row'];
+$this->params['rowOptions'] = ['class' => 'row', 'style' => ['position' => 'relative']];
 
 $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4-src.js');
 $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::getAlias('@app/data/countryPolygons/' . \prime\models\ar\Setting::get('countryPolygonsFile'))) . ';' .
     'Highcharts.maps["who/world"]["hc-transform"] = {default: {crs: "WGS84"}};'
 );
 
-echo $this->render('filter', ['filter' => $filter]);
+
 
 echo Html::beginTag('div', ['class' => 'col-xs-12 col-md-10']);
+echo $this->render('filter', ['filter' => $filter]);
 $map = Highmaps::begin([
     'options' => [
         'title' => [
@@ -34,6 +35,7 @@ $map = Highmaps::begin([
         ],
         'legend' => [
             'enabled' => true,
+            'itemWidth' => 150,
             'symbolHeight' => '0px'
         ],
         'plotOptions' => [
@@ -56,7 +58,7 @@ $map = Highmaps::begin([
             'enabled' => false,
         ],
         'chart' => [
-            'height' => 600,
+            'height' => 500,
             'backgroundColor' => null
         ]
     ],
@@ -79,7 +81,16 @@ $countries = [];
 foreach($map->options['series'] as $mapLayer) {
     $countries = array_merge($countries, $mapLayer->getCountries());
 }
-echo Html::tag('div', $this->render('countries', ['countries' => $countries]), ['class' => 'col-xs-12 col-md-2', 'style' => ['max-height' => '100%', 'overflow-y' => 'scroll']]);
+echo Html::tag('div', $this->render('countries', ['countries' => $countries]), [
+    'class' => 'col-xs-12 col-md-2',
+    'style' => [
+        'max-height' => '100%',
+        'overflow-y' => 'scroll',
+        'position' => 'absolute',
+        'top' => 0,
+        'right' => 0,
+        'bottom' => 0
+    ]]);
 
 $this->registerJsFile('/js/marketplace.js', ['depends' => [\yii\web\JqueryAsset::class, \prime\assets\BootBoxAsset::class]]);
 

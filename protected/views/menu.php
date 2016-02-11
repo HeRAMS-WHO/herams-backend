@@ -79,7 +79,7 @@ echo Nav::widget([
 
         ],
         [
-            'label' => Html::icon('log-in', ['title' => 'Log in']),
+            'label' => \Yii::t('app', 'LOGIN SIGNUP'),// Html::icon('log-in', ['title' => 'LOGIN SIGNUP']),
             'url' => ['/user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
