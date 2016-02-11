@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d008bb73721967ed39e8a16b3db62952",
-    "content-hash": "43a364877c6b5e8b02eefc839ece4eec",
+    "hash": "290ebef3bf4fd2761e63e0487baf4203",
+    "content-hash": "838ce3a93cdd8d8fb9c7d563b06ea556",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -363,36 +363,22 @@
         },
         {
             "name": "bower-asset/jquery",
-            "version": "2.1.4",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery.git",
-                "reference": "7751e69b615c6eca6f783a81e292a55725af6b85"
+                "url": "https://github.com/jquery/jquery-dist.git",
+                "reference": "6fc01e29bdad0964f62ef56d01297039cdcadbe5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
-                "reference": "7751e69b615c6eca6f783a81e292a55725af6b85",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/6fc01e29bdad0964f62ef56d01297039cdcadbe5",
+                "reference": "6fc01e29bdad0964f62ef56d01297039cdcadbe5",
                 "shasum": ""
-            },
-            "require-dev": {
-                "bower-asset/qunit": "1.14.0",
-                "bower-asset/requirejs": "2.1.10",
-                "bower-asset/sinon": "1.8.1",
-                "bower-asset/sizzle": "2.1.1-patch2"
             },
             "type": "bower-asset-library",
             "extra": {
                 "bower-asset-main": "dist/jquery.js",
                 "bower-asset-ignore": [
-                    "**/.*",
-                    "build",
-                    "dist/cdn",
-                    "speed",
-                    "test",
-                    "*.md",
-                    "AUTHORS.txt",
-                    "Gruntfile.js",
                     "package.json"
                 ]
             },
@@ -400,6 +386,7 @@
                 "MIT"
             ],
             "keywords": [
+                "browser",
                 "javascript",
                 "jquery",
                 "library"
@@ -2795,12 +2782,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "1800d3840b098fc6e936852fa84b8c1b1a0a2e57"
+                "reference": "1f8027ac9d177dfe414c6b0c00edf3635a47ceb1"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/1800d3840b098fc6e936852fa84b8c1b1a0a2e57",
-                "reference": "1800d3840b098fc6e936852fa84b8c1b1a0a2e57",
+                "reference": "1f8027ac9d177dfe414c6b0c00edf3635a47ceb1",
                 "shasum": ""
             },
             "require": {
@@ -2881,7 +2868,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-02-10 22:42:43"
+            "time": "2016-02-06 21:38:43"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -4838,7 +4825,8 @@
     "stability-flags": {
         "kartik-v/yii2-mpdf": 20,
         "dektrium/yii2-user": 20,
-        "neomerx/json-api": 20
+        "neomerx/json-api": 20,
+        "yiisoft/yii2": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

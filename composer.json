@@ -37,7 +37,7 @@
         "bower-asset/is-loading": "^1",
         "bower-asset/bootbox": "^4.4",
         "miloschuman/yii2-highcharts-widget": "^4",
-        "yiisoft/yii2": "^2.0.6",
+        "yiisoft/yii2": "dev-master#1f8027ac9d177dfe414c6b0c00edf3635a47ceb1",
         "treffynnon/navigator": "^1",
         "sam-it/ls2-jsonrpc-client": "^0.7",
         "dektrium/yii2-rbac": "^0.2.0",
