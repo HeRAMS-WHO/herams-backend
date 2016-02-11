@@ -89,14 +89,7 @@ class MapLayer extends Model implements ViewContextInterface, \JsonSerializable
 
     public function toArray(array $fields = [], array $expand = [], $recursive = true)
     {
-        $attributes = $this->getAttributes();
-
-        return array_filter(
-            $attributes,
-            function ($value) {
-                return isset($value);
-            }
-        );
+        return array_filter($this->getAttributes(), function($val) { return $val !== null; });
     }
 
     /**
