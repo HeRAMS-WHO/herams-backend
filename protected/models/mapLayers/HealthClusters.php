@@ -176,7 +176,6 @@ class HealthClusters extends MapLayer
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
-        "</table>" .
-        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("selectGlobal('healthClusters');")]);
+        "</table>";
     }
 }
