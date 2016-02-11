@@ -44,8 +44,7 @@
         "npm-asset/mresize": "^1.0",
         "bower-asset/bootstrap-social": "^4.10",
         "bower-asset/jquery-locationpicker-plugin": "^0.1.12",
-        "nesbot/carbon": "^1.21",
-        "vrana/adminer": "^4.2"
+        "nesbot/carbon": "^1.21"
     },
 	"repositories": [
 		{

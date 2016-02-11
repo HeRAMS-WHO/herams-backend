@@ -50,8 +50,9 @@ $map = Highmaps::begin([
             \prime\factories\MapLayerFactory::get('base', [], ['allAreas' => true, 'nullColor' => "rgba(255, 255, 255, 0)"]),
             \prime\factories\MapLayerFactory::get('countryGrades', [$mapLayerData['countryGrades']]),
             \prime\factories\MapLayerFactory::get('eventGrades', [$mapLayerData['eventGrades']]),
-            \prime\factories\MapLayerFactory::get('healthClusters', [$mapLayerData['healthClusters']]),
+
             \prime\factories\MapLayerFactory::get('projects', [$mapLayerData['projects']]),
+            \prime\factories\MapLayerFactory::get('healthClusters', [$mapLayerData['healthClusters']]),
         ],
         'credits' => [
             'enabled' => false
