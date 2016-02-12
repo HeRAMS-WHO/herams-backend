@@ -76,8 +76,7 @@ foreach($eventsData as $value => $count) {
 
 ?>
 <div class="row">
-    <div class="col-xs-2 text-right"><h1><?=count($healthClustersResponses)?></h1></div>
-    <div class="col-xs-10"><h3 style="line-height: 39px"><?=\Yii::t('app', 'Active health clusters')?></h3></div>
+    <div class="col-xs-12 h3"><span class="h1"><?=count($healthClustersResponses)?></span> <?=\Yii::t('app', 'Active health clusters')?></div>
     <div class="col-sm-6"><h4 class="chart-head"><?=\Yii::t('app', 'in {amount} graded countries', ['amount' => count($countriesResponses)])?></h4></div>
     <div class="col-sm-6"><h4 class="chart-head"><?=\Yii::t('app', 'having {amount} events', ['amount' => count($eventsResponses)])?></h4></div>
     <?php

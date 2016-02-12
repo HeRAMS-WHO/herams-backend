@@ -52,8 +52,7 @@ foreach($typeCount as $value => $count) {
 
 ?>
 <div class="row">
-    <div class="col-xs-2 text-right"><h1><?=count($eventsResponses)?></h1></div>
-    <div class="col-xs-10"><h3 style="line-height: 39px"><?=\Yii::t('app', 'Graded events')?></h3></div>
+    <div class="col-xs-12 h3"><span class="h1"><?=count($eventsResponses)?></span> <?=\Yii::t('app', 'Graded events')?></div>
     <?php
     echo \miloschuman\highcharts\Highcharts::widget([
         'options' => [

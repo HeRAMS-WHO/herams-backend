@@ -36,8 +36,7 @@ foreach($tempData as $value => $count) {
 
 ?>
 <div class="row">
-    <div class="col-xs-2 text-right"><h1><?=count($countriesResponses)?></h1></div>
-    <div class="col-xs-10"><h3 style="line-height: 39px"><?=\Yii::t('app', 'Graded countries')?></h3></div>
+    <div class="col-xs-12 h3"><span class="h1"><?=count($countriesResponses)?></span> <?=\Yii::t('app', 'Graded countries')?></div>
     <?php
     echo \miloschuman\highcharts\Highcharts::widget([
         'options' => [

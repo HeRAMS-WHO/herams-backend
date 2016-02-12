@@ -11,7 +11,6 @@ use prime\models\mapLayers\CountryGrades;
  * @var string $layer
  * @var \prime\models\forms\MarketplaceFilter $filter
  */
-
 ?>
 
 <style>
@@ -26,7 +25,8 @@ use prime\models\mapLayers\CountryGrades;
 </div>
 <?=$this->render('/marketplace/filter', ['filter' => $filter])?>
 <div class="col-xs-12">
-    <?=\yii\bootstrap\Tabs::widget([
+    <?=\kartik\tabs\TabsX::widget([
+        'printable' => true,
         'items' => [
             [
                 'label' => \Yii::t('app', 'Country grades'),

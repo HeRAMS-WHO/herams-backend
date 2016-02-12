@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "290ebef3bf4fd2761e63e0487baf4203",
-    "content-hash": "838ce3a93cdd8d8fb9c7d563b06ea556",
+    "hash": "f4a94aa1ba4b5720a261debcd8b1d916",
+    "content-hash": "8ca8789800934aafe6a6f67fd879bdb9",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -822,22 +822,22 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "cde72929649da55470e0a81a5e85921f80f28f29"
+                "reference": "52f30624c7615eda63b97cedf0e3a104e7920aab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/cde72929649da55470e0a81a5e85921f80f28f29",
-                "reference": "cde72929649da55470e0a81a5e85921f80f28f29",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/52f30624c7615eda63b97cedf0e3a104e7920aab",
+                "reference": "52f30624c7615eda63b97cedf0e3a104e7920aab",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2.x-dev"
+                    "dev-master": "4.3.x-dev"
                 }
             },
             "autoload": {
@@ -871,7 +871,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-01-25 16:55:20"
+            "time": "2016-02-12 08:14:03"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -918,6 +918,50 @@
                 "star"
             ],
             "time": "2016-02-05 18:18:55"
+        },
+        {
+            "name": "kartik-v/bootstrap-tabs-x",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/bootstrap-tabs-x.git",
+                "reference": "e85a731d79f030fb7f7742e3e2e0ac828c3233a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-tabs-x/zipball/e85a731d79f030fb7f7742e3e2e0ac828c3233a1",
+                "reference": "e85a731d79f030fb7f7742e3e2e0ac828c3233a1",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\tabs\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Extended Bootstrap Tabs with ability to align tabs in multiple ways, add borders, rotated titles, and more.",
+            "homepage": "https://github.com/kartik-v/bootstrap-tabs-x",
+            "keywords": [
+                "bootstrap",
+                "extended",
+                "jquery",
+                "modal",
+                "modal-tabs",
+                "tabs",
+                "tabs-x"
+            ],
+            "time": "2015-06-26 14:48:16"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -1289,6 +1333,59 @@
             "time": "2015-12-03 14:15:23"
         },
         {
+            "name": "kartik-v/yii2-tabs-x",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-tabs-x.git",
+                "reference": "d300cb4b02ccbf336b6865697fff84243b7a2854"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-tabs-x/zipball/d300cb4b02ccbf336b6865697fff84243b7a2854",
+                "reference": "d300cb4b02ccbf336b6865697fff84243b7a2854",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/bootstrap-tabs-x": "~1.3",
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\tabs\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An extended bootstrap 3.0 tabs widget with ability to align tabs in multiple ways, add borders, rotated titles, and more.",
+            "homepage": "https://github.com/kartik-v/yii2-tabs-x",
+            "keywords": [
+                "bootstrap",
+                "extended",
+                "jquery",
+                "modal",
+                "modal-tabs",
+                "tabs",
+                "tabs-x"
+            ],
+            "time": "2016-02-12 13:47:34"
+        },
+        {
             "name": "kartik-v/yii2-widget-activeform",
             "version": "v1.4.7",
             "source": {
@@ -1494,18 +1591,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "ff5a97576c49a72e0480f135d9e7ce1a18c788e6"
+                "reference": "6038daa7d4e61175fdda85a71cb2a6a94d4868c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/ff5a97576c49a72e0480f135d9e7ce1a18c788e6",
-                "reference": "ff5a97576c49a72e0480f135d9e7ce1a18c788e6",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/6038daa7d4e61175fdda85a71cb2a6a94d4868c1",
+                "reference": "6038daa7d4e61175fdda85a71cb2a6a94d4868c1",
                 "shasum": ""
             },
             "require": {
                 "kartik-v/yii2-krajee-base": "~1.7"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\date\\": ""
@@ -1535,7 +1637,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 15:14:17"
+            "time": "2016-02-11 13:18:18"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
@@ -2242,16 +2344,16 @@
         },
         {
             "name": "miloschuman/yii2-highcharts-widget",
-            "version": "v4.2.2",
+            "version": "v4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/miloschuman/yii2-highcharts.git",
-                "reference": "ef8fc7d6b47a568b2092e3472ea3f2000a2f0308"
+                "reference": "f7af817c44c209fb38236721e580b67e0e51e364"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/miloschuman/yii2-highcharts/zipball/ef8fc7d6b47a568b2092e3472ea3f2000a2f0308",
-                "reference": "ef8fc7d6b47a568b2092e3472ea3f2000a2f0308",
+                "url": "https://api.github.com/repos/miloschuman/yii2-highcharts/zipball/f7af817c44c209fb38236721e580b67e0e51e364",
+                "reference": "f7af817c44c209fb38236721e580b67e0e51e364",
                 "shasum": ""
             },
             "require": {
@@ -2283,7 +2385,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-04 19:31:11"
+            "time": "2016-02-11 18:21:07"
         },
         {
             "name": "neomerx/json-api",
@@ -2786,7 +2888,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/1800d3840b098fc6e936852fa84b8c1b1a0a2e57",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/33f50af818d9d4609a964da275aa3c1ddda68bd3",
                 "reference": "1f8027ac9d177dfe414c6b0c00edf3635a47ceb1",
                 "shasum": ""
             },
@@ -2876,12 +2978,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-authclient.git",
-                "reference": "dfd80567eecb761ace59cc069e390466c583837f"
+                "reference": "13a051cebdaa19703a97a8e3a124e77cf29dd143"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-authclient/zipball/dfd80567eecb761ace59cc069e390466c583837f",
-                "reference": "dfd80567eecb761ace59cc069e390466c583837f",
+                "url": "https://api.github.com/repos/yiisoft/yii2-authclient/zipball/13a051cebdaa19703a97a8e3a124e77cf29dd143",
+                "reference": "13a051cebdaa19703a97a8e3a124e77cf29dd143",
                 "shasum": ""
             },
             "require": {
@@ -2916,7 +3018,7 @@
                 "oauth",
                 "yii2"
             ],
-            "time": "2016-02-07 21:55:56"
+            "time": "2016-02-12 11:46:43"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -3123,12 +3225,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "91d85de99f689f31bb86a6e272b412d10aef42de"
+                "reference": "6a2a0712014651e7a4137a9e5b5864aa5c0e3de7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/91d85de99f689f31bb86a6e272b412d10aef42de",
-                "reference": "91d85de99f689f31bb86a6e272b412d10aef42de",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/6a2a0712014651e7a4137a9e5b5864aa5c0e3de7",
+                "reference": "6a2a0712014651e7a4137a9e5b5864aa5c0e3de7",
                 "shasum": ""
             },
             "require": {
@@ -3195,7 +3297,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2016-02-10 20:16:31"
+            "time": "2016-02-11 22:13:53"
         },
         {
             "name": "codeception/phpbuiltinserver",
@@ -3802,12 +3904,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1ae3a683f38fe24d4b69ef35da82bd211e1894fb"
+                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1ae3a683f38fe24d4b69ef35da82bd211e1894fb",
-                "reference": "1ae3a683f38fe24d4b69ef35da82bd211e1894fb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6e351261f9cd33daf205a131a1ba61c6d33bd483",
+                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483",
                 "shasum": ""
             },
             "require": {
@@ -3866,7 +3968,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-03 15:13:49"
+            "time": "2016-02-11 14:56:33"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4684,12 +4786,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "05a12065aa18e049f3cf91b0038374e4b1dbcb41"
+                "reference": "9d236ee4aa91b41833c6ba7690dec2d28fcc118f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/05a12065aa18e049f3cf91b0038374e4b1dbcb41",
-                "reference": "05a12065aa18e049f3cf91b0038374e4b1dbcb41",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/9d236ee4aa91b41833c6ba7690dec2d28fcc118f",
+                "reference": "9d236ee4aa91b41833c6ba7690dec2d28fcc118f",
                 "shasum": ""
             },
             "require": {
@@ -4725,7 +4827,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-02-09 20:02:42"
+            "time": "2016-02-09 23:04:48"
         },
         {
             "name": "yiisoft/yii2-codeception",

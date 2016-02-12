@@ -69,7 +69,8 @@ class CountryGrades extends MapLayer
             'A0' => 'rgba(240, 240, 240, 1)',
             'A1' => 'rgba(255, 255, 0, 1)',
             'A2' => 'rgba(255, 127, 0, 1)',
-            'A3' => 'rgba(255, 0, 0, 1)'
+            'A3' => 'rgba(255, 0, 0, 1)',
+            'A4' => 'rgba(102, 0, 0, 1)'
         ];
 
         return $map[$value];
@@ -83,6 +84,7 @@ class CountryGrades extends MapLayer
             'A1' => \Yii::t('app' , 'Grade 1'),
             'A2' => \Yii::t('app' , 'Grade 2'),
             'A3' => \Yii::t('app' , 'Grade 3'),
+            'A4' => \Yii::t('app' , 'Protracted'),
         ];
     }
 
@@ -111,6 +113,7 @@ class CountryGrades extends MapLayer
             'A1' => 2,
             'A2' => 3,
             'A3' => 4,
+            'A4' => 0
         ];
     }
 
