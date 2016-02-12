@@ -44,7 +44,8 @@
         "npm-asset/mresize": "^1.0",
         "bower-asset/bootstrap-social": "^4.10",
         "bower-asset/jquery-locationpicker-plugin": "^0.1.12",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+        "kartik-v/yii2-tabs-x": "^1.2"
     },
 	"repositories": [
 		{
