@@ -188,7 +188,7 @@ class MarketplaceController extends Controller
      * @param bool|false $popup
      * @return string
      */
-    public function actionGlobalDashboard(Request $request, Client $limeSurvey, $layer, $popup = false) {
+    public function actionGlobalDashboard(Request $request, Client $limeSurvey, $layer = 'countryGrades', $popup = false) {
         if($popup) {
             $this->view->params['hideMenu'] = true;
             $this->view->params['hideFilter'] = true;

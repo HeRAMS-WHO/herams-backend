@@ -74,18 +74,26 @@ foreach($tempData as $value => $count) {
 </div>
 <div class="row">
     <?php
+    echo Html::beginTag('table', [
+        'class' => 'col-md-12 table print-1em',
+        'style' => [
+            'font-size' => '2em'
+        ]
+
+    ]);
     foreach($countriesResponses as $iso_3 => $countryResponses)  {
+        echo '<tr>';
         $lastCountryResponse = $countryResponses[count($countryResponses) - 1];
         $country = \prime\models\Country::findOne($iso_3);
-        ?>
-        <div class="col-xs-1">
-            <div style="height: 34px; width: 34px; border: 2px solid darkgrey; border-radius: 50%; background-color: <?=\prime\models\mapLayers\CountryGrades::mapColor($lastCountryResponse->getData()['GM02'])?>;"></div>
-        </div>
-        <div class="col-xs-11" style="line-height: 34px">
-            <h3 style="margin-top: 0px; margin-bottom: 0px; line-height: 34px;"><?=$country->name?> / <?=\prime\models\mapLayers\CountryGrades::mapGradingStage($lastCountryResponse->getData()['GM00'])?> (<?=(new \Carbon\Carbon($lastCountryResponse->getData()['GM01']))->format('d/m/Y')?>)</h3>
-        </div>
-        <div class="col-xs-12" style="height: 10px;"></div>
-        <?php
+        echo Html::tag('td', Html::icon('stop', ['style' => [
+            'color' => \prime\models\mapLayers\CountryGrades::mapColor($lastCountryResponse->getData()['GM02']) . ' !important',
+        ]]));
+        echo Html::tag('td', $country->name);
+        echo Html::tag('td', \prime\models\mapLayers\CountryGrades::mapGradingStage($lastCountryResponse->getData()['GM00']));
+        echo Html::tag('td', (new \Carbon\Carbon($lastCountryResponse->getData()['GM01']))->format('d/m/Y'));
+        echo '</tr>';
     }
+    echo Html::endTag('table');
     ?>
+    </ul>
 </div>

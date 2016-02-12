@@ -179,3 +179,14 @@ div#legends {
   }
   padding-bottom: 10px;
 }
+
+// Fix printing of glyphicons in color.
+@media print {
+  .glyphicon:before {
+    color: inherit !important;
+  }
+
+  .print-1em {
+    font-size: 1em !important;
+  }
+}

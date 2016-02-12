@@ -22,7 +22,7 @@ $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::ge
 
 echo Html::beginTag('div', ['class' => 'col-xs-12 col-md-10']);
 echo $this->render('filter', ['filter' => $filter]);
-echo Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("selectGlobal('countryGrades');")]);
+echo Html::a(\Yii::t('app', 'Global dashboard'), \yii\helpers\Url::to(['marketplace/global-dashboard']), ['class' => 'btn btn-default']);
 
 $map = Highmaps::begin([
     'options' => [
