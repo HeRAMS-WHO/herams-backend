@@ -17,6 +17,8 @@ class EventGrades extends MapLayer
     /** @var ResponseCollectionInterface */
     protected $responses;
 
+    public $color;
+
     public function __construct(ResponseCollectionInterface $responses, $config = [])
     {
         $this->responses = $responses;
@@ -45,17 +47,20 @@ class EventGrades extends MapLayer
     {
         $this->allowPointSelect = true;
         $this->joinBy = null;
-        $this->name = \Yii::t('app', 'Event Grades');
+        $this->name = \Yii::t('app', 'Graded Events');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'eventGrades'); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'eventGrades', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'eventGrades', false); return false;}"));
         $this->type = 'mappoint';
         $this->marker = [
-            'lineWidth' => 1,
-            'radius' => 7,
-            'lineColor' => 'rgba(100, 100, 100, 1)'
+            'lineWidth' => 2,
+            'radius' => 9,
+            'lineColor' => 'rgba(50, 50, 50, 1)',
+            'symbol' => 'circle'
         ];
+        $this->color = new JsExpression('Highcharts.getOptions().colors[3]');
+        $this->visible = false;
         parent::init();
     }
 
@@ -63,10 +68,15 @@ class EventGrades extends MapLayer
     {
         $map = [
             'A00' => 'rgba(100, 100, 100, 0.8)',
-            'A0' => 'rgba(255, 255, 255, 0)',
-            'A1' => 'rgba(150, 150, 0, 1)',
-            'A2' => 'rgba(150, 73, 0, 1)',
-            'A3' => 'rgba(150, 0, 0, 1)'
+            'A0' => 'rgba(240, 240, 240, 1)',
+            'A1' => 'rgba(255, 255, 0, 1)',
+            'A2' => 'rgba(255, 127, 0, 1)',
+            'A3' => 'rgba(255, 0, 0, 1)'
+//            'A00' => 'rgba(100, 100, 100, 0.8)',
+//            'A0' => 'rgba(255, 255, 255, 0)',
+//            'A1' => 'rgba(150, 150, 0, 1)',
+//            'A2' => 'rgba(150, 73, 0, 1)',
+//            'A3' => 'rgba(150, 0, 0, 1)'
         ];
         return $map[$value];
     }
@@ -195,16 +205,15 @@ class EventGrades extends MapLayer
         $this->addColorsToData();
     }
 
-    public function renderLegend(View $view)
+    protected function renderLegend(View $view)
     {
-        return "<table style='width: 100%; margin-bottom: 5px;'>" .
-            "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Event Grades') . "</th></tr>" .
+        return "<table>" .
+//            "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . $this->name . "</th></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A00') . "'>" . $this->mapGrade('A00') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A0') . "'>" . $this->mapGrade('A0') . "</td></tr>" .
-            "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A1') . "'>" . $this->mapGrade('A1') . "</td></tr>" .
+            "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A1') . "'>" . $this->mapGrade('A1') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A2') . "'>" . $this->mapGrade('A2') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A3') . "'>" . $this->mapGrade('A3') . "</td></tr>" .
-        "</table>" .
-        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("selectGlobal('eventGrades');")]);
+        "</table>";
     }
 }

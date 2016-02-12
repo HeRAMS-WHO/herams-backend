@@ -29,6 +29,7 @@ class MapLayer extends Model implements ViewContextInterface, \JsonSerializable
     public $name;
     public $showInLegend = false;
     public $legendsContainer = '#legends';
+    public $visible = true;
     /**
      * How the data is joined
      * First element is the key in the map data
@@ -68,29 +69,27 @@ class MapLayer extends Model implements ViewContextInterface, \JsonSerializable
 
     protected function prepareData() {}
 
-    public function renderLegend(View $view) {
-        return '';
+    protected function renderLegend(View $view) {
+        return '<table></table>';
     }
 
     public function renderLegendContainer(View $view) {
         if($this->showInLegend) {
-            $legend = addslashes(Html::tag('div', $this->renderLegend($view), ['data-layer' => MapLayerFactory::getKey(static::class), 'style' => ['display' => 'inline-block', 'margin-left' => '5px', 'margin-right' => '5px']]));
+            $legend = addslashes(Html::tag('div', $this->renderLegend($view), [
+                'data-layer' => MapLayerFactory::getKey(static::class),
+            ]));
             $view->registerJs("$('{$this->legendsContainer}').append('{$legend}');");
-            $this->events['show'] = new JsExpression('function(e) {$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").show();}');
-            $this->events['hide'] = new JsExpression('function(e) {$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").hide();}');
+            $this->events['show'] = new JsExpression('function(e) {$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").removeClass("disabled");}');
+            $this->events['hide'] = new JsExpression('function(e) {$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").addClass("disabled");}');
+            if(!$this->visible) {
+                $view->registerJs('$("' . $this->legendsContainer . ' div[data-layer=\"' . MapLayerFactory::getKey(static::class) . '\"]").addClass("disabled");');
+            }
         }
     }
 
     public function toArray(array $fields = [], array $expand = [], $recursive = true)
     {
-        $attributes = $this->getAttributes();
-
-        return array_filter(
-            $attributes,
-            function ($value) {
-                return isset($value);
-            }
-        );
+        return array_filter($this->getAttributes(), function($val) { return $val !== null; });
     }
 
     /**

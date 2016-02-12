@@ -54,7 +54,7 @@ class CountryGrades extends MapLayer
     {
         $this->allowPointSelect = true;
         $this->joinBy = ['ISO_3_CODE', 'id'];
-        $this->name = \Yii::t('app', 'Country Grades');
+        $this->name = \Yii::t('app', 'Graded Countries');
         $this->showInLegend = true;
         $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'countryGrades'); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'countryGrades', true); return false;}"));
@@ -154,16 +154,15 @@ class CountryGrades extends MapLayer
         $this->addColorsToData();
     }
 
-    public function renderLegend(View $view)
+    protected function renderLegend(View $view)
     {
-        return "<table style='width: 100%; margin-bottom: 5px;'>" .
-            "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Country Grades') . "</th></tr>" .
+        return "<table>" .
+//            "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . $this->name . "</th></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A00') . "'>" . $this->mapGrade('A00') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A0') . "'>" . $this->mapGrade('A0') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; background-color: " . $this->mapColor('A1') . "'>" . $this->mapGrade('A1') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A2') . "'>" . $this->mapGrade('A2') . "</td></tr>" .
             "<tr><td style='padding: 5px; font-weight: bold; color: white; background-color: " . $this->mapColor('A3') . "'>" . $this->mapGrade('A3') . "</td></tr>" .
-        "</table>" .
-        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("selectGlobal('countryGrades');")]);
+        "</table>";
     }
 }

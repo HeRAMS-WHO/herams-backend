@@ -9,6 +9,8 @@ use prime\models\ar\Project;
 use prime\models\ar\Setting;
 use prime\models\Country;
 use prime\models\forms\MarketplaceFilter;
+use prime\models\mapLayers\CountryGrades;
+use prime\models\mapLayers\EventGrades;
 use prime\models\search\Report;
 use prime\objects\ResponseCollection;
 use prime\objects\ResponseFilter;
@@ -122,6 +124,27 @@ class MarketplaceController extends Controller
             }
             return ($aD->gt($bD)) ? 1 : -1;
         });
+        //only show events that are not "preparedness or ungraded"
+        $eventFilter->filterGroups(function($group) {
+            $response = $group[count($group) - 1];
+            return EventGrades::valueMap()[$response->getData()['GM02']] > 1;
+        });
+        $eventFilter->sortGroups(function($a, $b) {
+            /**
+             * @var ResponseInterface $aR
+             * @var ResponseInterface $bR
+             */
+            $aR = $a[count($a) - 1];
+            $bR = $b[count($b) - 1];
+
+            if(EventGrades::valueMap()[$aR->getData()['GM02']] > EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return -1;
+            } elseif(EventGrades::valueMap()[$aR->getData()['GM02']] < EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return 1;
+            } else {
+               return 0;
+            }
+        });
 
         //get health cluster responses
         $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
@@ -165,7 +188,7 @@ class MarketplaceController extends Controller
      * @param bool|false $popup
      * @return string
      */
-    public function actionGlobalDashboard(Request $request, Client $limeSurvey, $layer, $popup = false) {
+    public function actionGlobalDashboard(Request $request, Client $limeSurvey, $layer = 'countryGrades', $popup = false) {
         if($popup) {
             $this->view->params['hideMenu'] = true;
             $this->view->params['hideFilter'] = true;
@@ -207,6 +230,28 @@ class MarketplaceController extends Controller
             }
             return ($aD->gt($bD)) ? 1 : -1;
         });
+        $countryFilter->sortGroups(function($a, $b) {
+            /**
+             * @var ResponseInterface $aR
+             * @var ResponseInterface $bR
+             */
+            $aR = $a[count($a) - 1];
+            $bR = $b[count($b) - 1];
+            if(CountryGrades::valueMap()[$aR->getData()['GM02']] > CountryGrades::valueMap()[$bR->getData()['GM02']]) {
+                return -1;
+            } elseif(CountryGrades::valueMap()[$aR->getData()['GM02']] < CountryGrades::valueMap()[$bR->getData()['GM02']]) {
+                return 1;
+            } else {
+                /**
+                 * @var Country $aC
+                 * @var Country $bC
+                 */
+                $aC = Country::findOne($aR->getData()['PRIMEID']);
+                $bC = Country::findOne($bR->getData()['PRIMEID']);
+                return strnatcmp($aC->name, $bC->name);
+            }
+
+        });
 
         //get event responses
         $eventFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))));
@@ -227,6 +272,29 @@ class MarketplaceController extends Controller
                 return ($a->getId() > $b->getId()) ? 1 : -1;
             }
             return ($aD->gt($bD)) ? 1 : -1;
+        });
+        $eventFilter->sortGroups(function($a, $b) {
+            /**
+             * @var ResponseInterface $aR
+             * @var ResponseInterface $bR
+             */
+            $aR = $a[count($a) - 1];
+            $bR = $b[count($b) - 1];
+
+            if(EventGrades::valueMap()[$aR->getData()['GM02']] > EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return -1;
+            } elseif(EventGrades::valueMap()[$aR->getData()['GM02']] < EventGrades::valueMap()[$bR->getData()['GM02']]) {
+                return 1;
+            } else {
+                /**
+                 * @var Country $aC
+                 * @var Country $bC
+                 */
+                $aC = Country::findOne($aR->getData()['PRIMEID']);
+                $bC = Country::findOne($bR->getData()['PRIMEID']);
+                return strnatcmp($aC->name, $bC->name);
+            }
+
         });
 
         //get health cluster responses

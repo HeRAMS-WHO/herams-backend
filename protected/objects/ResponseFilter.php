@@ -34,6 +34,17 @@ class ResponseFilter
         }
     }
 
+    public function filterGroups($closure = null)
+    {
+        $groups = $this->getGroups();
+        $this->groupedResponses = [];
+        foreach($groups as $group) {
+            if($closure instanceof \Closure && $closure($group)) {
+                $this->groupedResponses[] = $group;
+            }
+        }
+    }
+
     public function getFilteredResponses()
     {
         return $this->filteredResponses;
@@ -72,6 +83,6 @@ class ResponseFilter
 
     public function sortGroups(\Closure $sort)
     {
-        usort($this->groupedResponses, $sort);
+        uasort($this->groupedResponses, $sort);
     }
 }

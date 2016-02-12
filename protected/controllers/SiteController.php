@@ -9,17 +9,18 @@
 
     class SiteController extends Controller
     {
-        public function actionIndex(User $user, Session $session)
+        public function actionIndex(User $user)
         {
-            /** @var \prime\models\ar\User $identity */
-            $identity = $user->identity;
-            if ($identity->getProjects()->count() > 0) {
-                return $this->redirect('projects/list');
+            if($user->id !== null) {
+                return $this->redirect(['/marketplace']);
             } else {
-                $session->setFlash('info', \Yii::t('app', "We noticed you do not have any projects yet. We redirected you to the new project page so you can get started ASAP!"));
-                return $this->redirect('projects/new');
+                return $this->redirect(['/site/about']);
             }
-            return $this->render('index');
+        }
+
+        public function actionAbout()
+        {
+            return $this->render('about');
         }
 
         public function actions()
@@ -41,7 +42,7 @@
                         'rules' => [
                             [
                                 'allow' => 'true',
-                                'actions' => ['captcha']
+                                'actions' => ['captcha', 'about', 'index']
                             ],
                             [
                                 'allow' => 'true',

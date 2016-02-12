@@ -20,6 +20,17 @@ class HealthClusters extends MapLayer
     /** @var ResponseCollectionInterface */
     protected $responses;
 
+    public $color;
+
+    protected function addColorsToData()
+    {
+        foreach($this->data as &$data) {
+            if(!isset($data['color'])) {
+                $data['color'] = $this->mapColor($data['subnational']);
+            }
+        }
+    }
+
     public function __construct(ResponseCollectionInterface $responses, $config = [])
     {
         $this->responses = $responses;
@@ -45,10 +56,12 @@ class HealthClusters extends MapLayer
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'healthClusters', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'healthClusters', false); return false;}"));
         $this->type = 'mappoint';
+        $this->color = 'rgba(0, 0, 255, 1)';
         $this->marker = [
             'lineWidth' => 1,
-            'radius' => 7,
-            'lineColor' => 'rgba(100, 100, 100, 1)'
+            'radius' => 5,
+            'lineColor' => 'rgba(100, 100, 100, 1)',
+            'symbol' => 'circle'
         ];
         parent::init();
     }
@@ -62,6 +75,15 @@ class HealthClusters extends MapLayer
         ];
     }
 
+    public function mapColor($national)
+    {
+        $map = [
+            false => 'rgba(72, 208, 250, 1)',
+            true => 'rgba(0, 0, 255, 1)',
+        ];
+
+        return $map[$national];
+    }
     public static function mapPhase($value)
     {
         return self::phaseMap()[$value];
@@ -118,7 +140,8 @@ class HealthClusters extends MapLayer
                                 'date' => $responseDate,
                                 'localityGeo' => $responseData['LocalityGEO'],
                                 'localityId' => $responseData['LocalityID'],
-                                'value' => $responseData['CM01']
+                                'value' => $responseData['CM01'],
+                                'subnational' => $responseData['CM00'] === 'A1'
                             ];
                     } else {
                         if ($responseDate->lte($date) && $responseDate->gt($tempData[$responseData['UOID']]['date'])) {
@@ -128,7 +151,8 @@ class HealthClusters extends MapLayer
                                     'date' => $responseDate,
                                     'localityGeo' => $responseData['LocalityGEO'],
                                     'localityId' => $responseData['LocalityID'],
-                                    'value' => $responseData['CM01']
+                                    'value' => $responseData['CM01'],
+                                    'subnational' => $responseData['CM00'] === 'A1'
                                 ];
                         }
                     }
@@ -157,22 +181,23 @@ class HealthClusters extends MapLayer
                     'lon' => $longitude,
                     'id' => $id,
                     'value' => $data['value'],
-                    'iso_3' => $data['iso_3']
+                    'iso_3' => $data['iso_3'],
+                    'subnational' => $data['subnational']
                 ];
             }
         }
+        $this->addColorsToData();
     }
 
-    public function renderLegend(View $view)
+    protected function renderLegend(View $view)
     {
-        return "<table style='width: 100%; margin-bottom: 5px;'>" .
-        "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . \Yii::t('app', 'Health Clusters') . "</th></tr>" .
+        return "<table>" .
+//        "<tr><th style='padding: 5px; border-bottom: 1px solid black;'>" . $this->name . "</th></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
         "<tr><td style='padding: 5px;'>&nbsp;</td></tr>" .
-        "</table>" .
-        Html::button(\Yii::t('app', 'Global dashboard'), ['class' => 'btn btn-default', 'onclick' => new JsExpression("selectGlobal('healthClusters');")]);
+        "</table>";
     }
 }

@@ -93,7 +93,7 @@ class MarketplaceFilter extends Model{
             }
 
             if($attribute == 'endDate') {
-                if((new Carbon($this->endDate))->lt(new Carbon())) {
+                if((new Carbon($this->endDate))->lt(new Carbon((new Carbon())->format(DateTime::MYSQL_DATE)))) {
                     $result[] = \Yii::t('app', 'Responses until: ') . (new Carbon($this->endDate))->format(self::DATE_FORMAT_PHP);
                 }
             }
@@ -107,7 +107,14 @@ class MarketplaceFilter extends Model{
             }
         }
 
-        return (isset($prefix) ? $prefix : \Yii::t('app', '<br class="visible-xs">Applied filters: <br class="visible-xs">')) . implode(', <br class="visible-xs">', $result);
+        if(!empty($result)) {
+            return (isset($prefix) ? $prefix : \Yii::t(
+                'app',
+                '<br class="visible-xs">Applied filters: <br class="visible-xs">'
+            )) . implode(', <br class="visible-xs">', $result);
+        } else {
+            return '';
+        }
     }
 
     public function init()
@@ -115,7 +122,7 @@ class MarketplaceFilter extends Model{
         parent::init();
         $this->endDate = (new Carbon())->format(self::DATE_FORMAT_PHP);
         $this->regions = array_keys($this->regionOptions());
-        $this->structures = array_keys($this->structureOptions());
+        $this->structures = array_keys(array_diff_key($this->structureOptions(), ['A2' => true]));
         $this->countries = ArrayHelper::getColumn(Country::findAll(), 'iso_3');
     }
 
