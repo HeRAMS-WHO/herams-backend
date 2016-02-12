@@ -113,7 +113,7 @@ class CountryGrades extends MapLayer
             'A1' => 2,
             'A2' => 3,
             'A3' => 4,
-            'A4' => 5
+            'A4' => 0
         ];
     }
 
