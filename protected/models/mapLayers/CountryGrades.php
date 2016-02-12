@@ -84,6 +84,7 @@ class CountryGrades extends MapLayer
             'A1' => \Yii::t('app' , 'Grade 1'),
             'A2' => \Yii::t('app' , 'Grade 2'),
             'A3' => \Yii::t('app' , 'Grade 3'),
+            'A4' => \Yii::t('app' , 'Grade 4'),
         ];
     }
 
@@ -112,6 +113,7 @@ class CountryGrades extends MapLayer
             'A1' => 2,
             'A2' => 3,
             'A3' => 4,
+            'A4' => 5
         ];
     }
 
