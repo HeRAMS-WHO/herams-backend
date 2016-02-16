@@ -71,15 +71,13 @@ class Country extends Model
 
     public static function regionOptions()
     {
-        return [
-            'EURO' => \Yii::t('app', 'EURO'),
-            'EMRO' => \Yii::t('app', 'EMRO'),
-            'SEARO' => \Yii::t('app', 'SEARO'),
-            'AMRO' => \Yii::t('app', 'AMRO'),
-            'AFRO' => \Yii::t('app', 'AFRO'),
-            'WPRO' => \Yii::t('app', 'WPRO'),
-            'SERAO' => \Yii::t('app', 'SERAO')
-        ];
+        $result = [];
+        /** @var Country $country */
+        foreach(self::findAll() as $country) {
+            $result[$country->region] = $country->region;
+        }
+
+        return $result;
     }
 
     public function getRegionName()
