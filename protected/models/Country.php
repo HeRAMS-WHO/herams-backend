@@ -6,6 +6,7 @@ use prime\models\ActiveRecord;
 use prime\models\ar\Project;
 use prime\models\ar\ProjectCountry;
 use prime\models\ar\Report;
+use prime\models\ar\Setting;
 use prime\traits\JsonMemoryDataSourceTrait;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
@@ -76,7 +77,6 @@ class Country extends Model
         foreach(self::findAll() as $country) {
             $result[$country->region] = $country->region;
         }
-
         return $result;
     }
 
@@ -119,7 +119,7 @@ class Country extends Model
     protected static function getSource()
     {
         return [
-            'file' => '@app/data/countryCentroids/2015-11-12_12-00-00.json',
+            'file' => '@app/data/countryCentroids/' . Setting::get('countryPolygonsFile'),
             'keyPath' => 'properties.ISO_3_CODE',
             'dataPath' => 'features',
             'attributeMap' => [

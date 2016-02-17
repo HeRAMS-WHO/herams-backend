@@ -37,7 +37,7 @@
         "bower-asset/is-loading": "^1",
         "bower-asset/bootbox": "^4.4",
         "miloschuman/yii2-highcharts-widget": "^4",
-        "yiisoft/yii2": "dev-master#1f8027ac9d177dfe414c6b0c00edf3635a47ceb1",
+        "yiisoft/yii2": "dev-master",
         "treffynnon/navigator": "^1",
         "sam-it/ls2-jsonrpc-client": "^0.7",
         "dektrium/yii2-rbac": "^0.2.0",
@@ -45,7 +45,8 @@
         "bower-asset/bootstrap-social": "^4.10",
         "bower-asset/jquery-locationpicker-plugin": "^0.1.12",
         "nesbot/carbon": "^1.21",
-        "kartik-v/yii2-tabs-x": "^1.2"
+        "kartik-v/yii2-tabs-x": "^1.2",
+        "sam-it/yii2-magic": "^1.0.3"
     },
 	"repositories": [
 		{
