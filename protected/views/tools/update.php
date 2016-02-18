@@ -72,9 +72,9 @@ $this->params['subMenu'] = [
                 'items' => $model->dataSurveyOptions()
             ],
             'generators' => [
-                'type' => Form::INPUT_CHECKBOX_LIST,
+//                'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => \prime\factories\GeneratorFactory::options(),
-                'value' => $model->generators
+                'value' => 'test', $model->generators->asArray()
             ],
         ]
     ]);
