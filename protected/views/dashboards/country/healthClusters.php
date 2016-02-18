@@ -11,9 +11,7 @@ use prime\models\mapLayers\HealthClusters;
 echo Html::beginTag('div', ['class' => 'row', 'style' => ['overflow-y' => 'auto', 'max-height' => '340px']]);
 foreach($healthClustersResponses as $healthClusterResponses) {
     $lastHealthClusterResponse = $healthClusterResponses[count($healthClusterResponses) - 1];
-    //TODO: select coordinator and co-coordinator from response
-    $coordinator = \prime\models\ar\User::find()->all()[0];
-    $coCoordinator = \prime\models\ar\User::find()->all()[1];
+
     ?>
     <div class="col-xs-12" style="margin-bottom: 10px;">
         <div class="row">
@@ -24,19 +22,37 @@ foreach($healthClustersResponses as $healthClusterResponses) {
                 <?=\Yii::t('app', 'Coordinator:')?>
             </div>
             <div class="col-xs-3">
-                <?=$coordinator->profile->first_name . ' ' . $coordinator->profile->last_name?><br>
-                <?=$coordinator->email?><br>
-                <?=$coordinator->profile->organization?>
+                <?php
+                    // Todo: Possibly refactor to not do queries in view.
+                    if (null !== $coordinator = \prime\models\ar\User::find()->where(['id' => $lastHealthClusterResponse->getData()["CM05"]])->one()) {
+                        echo implode('<br>', [
+                            $coordinator->profile->first_name . ' ' . $coordinator->profile->last_name,
+                            $coordinator->email,
+                            $coordinator->profile->organization
+                        ]);
+                    } else {
+                        echo \Yii::t('app', 'none');
+                    }
+                ?>
             </div>
             <div class="col-xs-3">
                 <?=\Yii::t('app', 'Co-coordinator:')?>
             </div>
             <div class="col-xs-3">
-                <?=$coCoordinator->profile->first_name . ' ' . $coCoordinator->profile->last_name?><br>
-                <?=$coCoordinator->email?><br>
-                <?=$coCoordinator->profile->organization?>
+                <?php
+                    // Todo: Possibly refactor to not do queries in view.
+                    if (null !== $coordinator = \prime\models\ar\User::find()->where(['id' => $lastHealthClusterResponse->getData()["CM07"]])->one()) {
+                        echo implode('<br>', [
+                            $coordinator->profile->first_name . ' ' . $coordinator->profile->last_name,
+                            $coordinator->email,
+                            $coordinator->profile->organization
+                        ]);
+                    } else {
+                        echo \Yii::t('app', 'none');
+                    }
+                ?>
             </div>
-            <div class="col-xs-12">
+            <div class="col-xs-12" style="margin-top: 20px;">
                 <?php
                 $serie = [];
                 foreach($healthClusterResponses as $response) {
