@@ -12,9 +12,6 @@ echo Html::beginTag('div', ['class' => 'row', 'style' => ['overflow-y' => 'auto'
 foreach($healthClustersResponses as $healthClusterResponses) {
     $lastHealthClusterResponse = $healthClusterResponses[count($healthClusterResponses) - 1];
 
-    //TODO: select coordinator and co-coordinator from response
-
-    $coCoordinator = \prime\models\ar\User::find()->where(['id' => $lastHealthClusterResponse->getData()["CM07"]])->one()
     ?>
     <div class="col-xs-12" style="margin-bottom: 10px;">
         <div class="row">
@@ -26,6 +23,7 @@ foreach($healthClustersResponses as $healthClusterResponses) {
             </div>
             <div class="col-xs-3">
                 <?php
+                    // Todo: Possibly refactor to not do queries in view.
                     if (null !== $coordinator = \prime\models\ar\User::find()->where(['id' => $lastHealthClusterResponse->getData()["CM05"]])->one()) {
                         echo implode('<br>', [
                             $coordinator->profile->first_name . ' ' . $coordinator->profile->last_name,
@@ -42,15 +40,16 @@ foreach($healthClustersResponses as $healthClusterResponses) {
             </div>
             <div class="col-xs-3">
                 <?php
-                if (null !== $coordinator = \prime\models\ar\User::find()->where(['id' => $lastHealthClusterResponse->getData()["CM07"]])->one()) {
-                    echo implode('<br>', [
-                        $coordinator->profile->first_name . ' ' . $coordinator->profile->last_name,
-                        $coordinator->email,
-                        $coordinator->profile->organization
-                    ]);
-                } else {
-                    echo \Yii::t('app', 'none');
-                }
+                    // Todo: Possibly refactor to not do queries in view.
+                    if (null !== $coordinator = \prime\models\ar\User::find()->where(['id' => $lastHealthClusterResponse->getData()["CM07"]])->one()) {
+                        echo implode('<br>', [
+                            $coordinator->profile->first_name . ' ' . $coordinator->profile->last_name,
+                            $coordinator->email,
+                            $coordinator->profile->organization
+                        ]);
+                    } else {
+                        echo \Yii::t('app', 'none');
+                    }
                 ?>
             </div>
             <div class="col-xs-12" style="margin-top: 20px;">
