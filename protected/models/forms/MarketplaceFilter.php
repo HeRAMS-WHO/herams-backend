@@ -20,7 +20,7 @@ class MarketplaceFilter extends Model{
     const DATE_FORMAT_PHP = 'd-m-Y';
     const DATE_FORMAT_JS = 'dd-mm-yyyy';
 
-    public $countries;
+    private $countries;
     public $regions;
     public $endDate;
     public $structures;
@@ -48,7 +48,7 @@ class MarketplaceFilter extends Model{
                 $result = $result && false;
             }
             //check if the structure of the response matches the filter
-            if ($response->getSurveyId() == Setting::get('healthClusterMappingSurvey')) {
+            if ($response->getSurveyId() == Setting::get('healthClusterMappingSurvey') && $this->isAttributeActive('structures')) {
                 $result = $result && isset($structures[$response->getData()['CM00']]);
             }
             return $result;
@@ -150,7 +150,7 @@ class MarketplaceFilter extends Model{
     {
         return [
             [['regions'], RangeValidator::class, 'range' => array_keys(self::regionOptions()), 'allowArray' => true],
-            [['countries'], RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3'), 'allowArray' => true],
+//            [['countries'], RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3'), 'allowArray' => true],
             [['endDate'], DateValidator::class,'format' => self::DATE_FORMAT_JS],
             [['structures'], RangeValidator::class, 'range' => array_keys(self::structureOptions()), 'allowArray' => true]
         ];

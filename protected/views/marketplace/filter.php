@@ -16,8 +16,7 @@ if(!(isset($this->params['hideFilter'])) || $this->params['hideFilter'] == false
                 'filter' => [
                     'label' => \Yii::t(
                         'app',
-                        'Filter' . '<span class="" style="margin-left: 50px; font-style: italic;">' . $filter->getAppliedFiltersString(
-                        ) . '</span>'
+                        'Filter' . '<span class="" style="margin-left: 50px; font-style: italic;">' . $filter->getAppliedFiltersString($filter->activeAttributes()) . '</span>'
                     ),
                     'encode' => false,
                     'labelOptions' => [

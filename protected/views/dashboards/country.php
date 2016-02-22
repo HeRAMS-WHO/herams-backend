@@ -77,7 +77,7 @@ $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countries
             ],
             [
                 'label' => \Yii::t('app', 'Coordination'),
-                'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses]),
+                'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses, 'filter' => $filter, 'popup' => $popup]),
                 'visible' => !empty($healthClustersResponses),
                 'active' => $layer == 'healthClusters'
             ],
