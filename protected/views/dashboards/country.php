@@ -46,7 +46,9 @@ $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countries
     </div>
     <?php } ?>
 </div>
-<?=$this->render('/marketplace/filter', ['filter' => $filter])?>
+<div class="col-xs-12">
+    <?=$this->render('/marketplace/filter', ['filter' => $filter])?>
+</div>
 <div class="col-xs-12">
     <?php
 //    vdd($countriesResponses);
