@@ -88,72 +88,72 @@ if(isset($id)) {
                 }
                 ?>
             </div>
-            <div class="col-xs-12" style="margin-top: 20px;">
-                <?php
-                $serie = [];
-                foreach ($currentHealthClusterResponses as $response) {
-                    $serie[] = [
-                        'phase' => HealthClusters::mapPhase($response->getData()['CM01']),
-                        'y' => HealthClusters::mapValue($response->getData()['CM02']),
-                        'name' => (new \Carbon\Carbon($response->getData()['CM03']))->format('d/m/Y')
-                    ];
-                }
-
-                echo \miloschuman\highcharts\Highcharts::widget(
-                    [
-                        'options' => [
-                            'chart' => [
-                                'height' => 100,
-                                'marginTop' => 20
-                            ],
-                            'title' => false,
-                            'xAxis' => [
-                                'type' => 'category'
-                            ],
-                            'yAxis' => [
-                                'min' => 0,
-                                'max' => 1,
-                                'title' => false,
-                                'labels' => [
-                                    'formatter' => new \yii\web\JsExpression(
-                                        'function(){' .
-                                        'var labelMap = ' . json_encode(HealthClusters::phaseMap()) . ';' .
-                                        'var valueMap = ' . json_encode(array_flip(HealthClusters::valueMap())) . ';' .
-                                        'return this.value > 0 ? labelMap[valueMap[this.value]] : "";' .
-                                        '}'
-                                    )
-                                ],
-                                'tickInterval' => 1
-                            ],
-                            'series' => [
-                                [
-                                    'data' => $serie,
-                                    'lineWidth' => 0,
-                                    'marker' => [
-                                        'lineWidth' => 2,
-                                        'lineColor' => '#A9A9A9',
-                                        'radius' => 17
-                                    ],
-                                    'tooltip' => [
-                                        'pointFormat' => '<b>{point.phase}</b><br/>'
-                                    ]
-                                ]
-                            ],
-                            'legend' => [
-                                'enabled' => false
-                            ],
-                            'credits' => [
-                                'enabled' => false
-                            ]
-                        ],
-                        'htmlOptions' => [
-
-                        ],
-                        'id' => 'event_' . $lastHealthClusterResponse->getData()['UOID']
-                    ]
-                );
-                ?>
-            </div>
+<!--            <div class="col-xs-12" style="margin-top: 20px;">-->
+<!--                --><?php
+//                $serie = [];
+//                foreach ($currentHealthClusterResponses as $response) {
+//                    $serie[] = [
+//                        'phase' => HealthClusters::mapPhase($response->getData()['CM01']),
+//                        'y' => HealthClusters::mapValue($response->getData()['CM02']),
+//                        'name' => (new \Carbon\Carbon($response->getData()['CM03']))->format('d/m/Y')
+//                    ];
+//                }
+//
+//                echo \miloschuman\highcharts\Highcharts::widget(
+//                    [
+//                        'options' => [
+//                            'chart' => [
+//                                'height' => 100,
+//                                'marginTop' => 20
+//                            ],
+//                            'title' => false,
+//                            'xAxis' => [
+//                                'type' => 'category'
+//                            ],
+//                            'yAxis' => [
+//                                'min' => 0,
+//                                'max' => 1,
+//                                'title' => false,
+//                                'labels' => [
+//                                    'formatter' => new \yii\web\JsExpression(
+//                                        'function(){' .
+//                                        'var labelMap = ' . json_encode(HealthClusters::phaseMap()) . ';' .
+//                                        'var valueMap = ' . json_encode(array_flip(HealthClusters::valueMap())) . ';' .
+//                                        'return this.value > 0 ? labelMap[valueMap[this.value]] : "";' .
+//                                        '}'
+//                                    )
+//                                ],
+//                                'tickInterval' => 1
+//                            ],
+//                            'series' => [
+//                                [
+//                                    'data' => $serie,
+//                                    'lineWidth' => 0,
+//                                    'marker' => [
+//                                        'lineWidth' => 2,
+//                                        'lineColor' => '#A9A9A9',
+//                                        'radius' => 17
+//                                    ],
+//                                    'tooltip' => [
+//                                        'pointFormat' => '<b>{point.phase}</b><br/>'
+//                                    ]
+//                                ]
+//                            ],
+//                            'legend' => [
+//                                'enabled' => false
+//                            ],
+//                            'credits' => [
+//                                'enabled' => false
+//                            ]
+//                        ],
+//                        'htmlOptions' => [
+//
+//                        ],
+//                        'id' => 'event_' . $lastHealthClusterResponse->getData()['UOID']
+//                    ]
+//                );
+//                ?>
+<!--            </div>-->
         </div>
     </div>
     <?php
