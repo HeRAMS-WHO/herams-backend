@@ -44,6 +44,7 @@ class UserList extends ActiveRecord
 
     public function userCan($operation, User $user = null)
     {
+        $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
         return $this->user_id == $user->id || parent::userCan($operation, $user);
     }
 }
