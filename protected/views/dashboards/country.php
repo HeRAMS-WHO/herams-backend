@@ -50,9 +50,6 @@ $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countries
     <?=$this->render('/marketplace/filter', ['filter' => $filter])?>
 </div>
 <div class="col-xs-12">
-    <?php
-//    vdd($countriesResponses);
-    ?>
     <?=\yii\bootstrap\Tabs::widget([
         'items' => [
             [

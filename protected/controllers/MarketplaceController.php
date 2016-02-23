@@ -148,7 +148,8 @@ class MarketplaceController extends Controller
         });
 
         //get health cluster responses
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses(iterator_to_array($project->getResponses())));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;
@@ -300,7 +301,8 @@ class MarketplaceController extends Controller
         });
 
         //get health cluster responses
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses(iterator_to_array($project->getResponses())));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) {
                 return true;
@@ -352,7 +354,8 @@ class MarketplaceController extends Controller
         $country = Country::findOne($iso_3);
 
         //get health cluster responses
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses(iterator_to_array($project->getResponses())));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;

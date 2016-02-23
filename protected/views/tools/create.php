@@ -52,6 +52,10 @@ $this->params['subMenu'] = [
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => \prime\factories\GeneratorFactory::options()
             ],
+            'hidden' => [
+                'type' => Form::INPUT_CHECKBOX,
+                'hint' => \Yii::t('app', 'Check if the tool is not requestable for users')
+            ],
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class

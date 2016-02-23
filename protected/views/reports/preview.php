@@ -40,26 +40,9 @@ $this->params['subMenu']['items'] = [
 
 $this->registerJsFile('@web/js/preview.js', ['depends' => \yii\web\JqueryAsset::class]);
 // Dynamically resize iframe.
-$this->registerAssetBundle(\prime\assets\ResizeAsset::class);
-$this->registerJs('
-        var $iframe = $("iframe");
-        var resizer = function(e) {
-            console.log("resizer");
-            console.log(e);
-            $iframe.height($iframe.contents().find("body").height());
-            $iframe.width($iframe.contents().find("body").width());
-        };
-
-        $iframe.on("load", function() {
-            var $body = $iframe.contents().find("body");
-            $body.on("mresize", resizer);
-            console.log($body);
-            $body.trigger("mresize");
-        });
-
-    ', $this::POS_READY);
+$this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
 echo Html::tag('div', '', ['id' => 'response']);
-echo Html::tag('iframe', '', ['src' => $previewUrl, 'style' => [], 'id' => 'preview']);
+echo Html::tag('iframe', '', ['src' => $previewUrl, 'style' => [], 'id' => 'preview', 'class' => ['resize']]);
 ?>
 <style>
     body {

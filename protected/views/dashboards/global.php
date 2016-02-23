@@ -23,7 +23,9 @@ use prime\models\mapLayers\CountryGrades;
 <div class="col-xs-12">
     <h1 style="margin-top: 0px; margin-bottom: 20px;"><?=\Yii::t('app', 'Global dashboard')?></h1>
 </div>
-<?=$this->render('/marketplace/filter', ['filter' => $filter])?>
+<div class="col-xs-12">
+    <?=$this->render('/marketplace/filter', ['filter' => $filter])?>
+</div>
 <div class="col-xs-12">
     <?=\kartik\tabs\TabsX::widget([
         'printable' => true,

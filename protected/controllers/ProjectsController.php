@@ -107,7 +107,7 @@ class ProjectsController extends Controller
     public function actionNew()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Tool::find()
+            'query' => Tool::find()->notHidden()
         ]);
 
         return $this->render('new', ['dataProvider' => $dataProvider]);
