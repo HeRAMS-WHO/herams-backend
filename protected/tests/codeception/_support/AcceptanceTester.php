@@ -31,6 +31,6 @@ class AcceptanceTester extends \Codeception\Actor
         $I->fillField('Login', $user);
         $I->fillField('Password', $password);
         $I->click('Login');
-        $I->seeInSource('Logout', '.navbar');
+        $I->seeElement('a[href="/user/logout"]');
     }
 }
