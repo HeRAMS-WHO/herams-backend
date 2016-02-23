@@ -15,6 +15,7 @@ use prime\models\ar\Tool;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
 use yii\web\Session;
@@ -78,8 +79,6 @@ class ProjectsController extends Controller
 
         if ($request->isPost) {
             if($model->load($request->bodyParams) && $model->save()) {
-
-
                 $session->setFlash(
                     'projectCreated',
                     [
@@ -88,7 +87,6 @@ class ProjectsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-
 
                 if (!empty($model->getToken()->getCustomAttributes())) {
                     return $this->redirect(['projects/configure', 'id' => $model->id]);
@@ -155,6 +153,10 @@ class ProjectsController extends Controller
             'projectId' => $project->id
         ]);
 
+        $permissionsDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $model->getProject()->getPermissions()
+        ]);
+
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->createRecords()) {
                 $session->setFlash(
@@ -170,13 +172,43 @@ class ProjectsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-//                return $this->redirect(['projects/read', 'id' => $model->project->id]);
+                $model = new Share([
+                    'projectId' => $project->id
+                ]);
             }
         }
 
         return $this->render('share', [
-            'model' => $model
+            'model' => $model,
+            'project' => $project,
+            'permissionsDataProvider' => $permissionsDataProvider
         ]);
+    }
+
+    public function actionShareDelete(Request $request, Session $session, $id)
+    {
+        $permission = Permission::findOne($id);
+        //User must be able to share project in order to delete a share
+        $project = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
+        $user = $permission->sourceObject;
+        if($permission->delete()) {
+            $session->setFlash(
+                'projectShared',
+                [
+                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                    'text' => \Yii::t(
+                        'app',
+                        "Stopped sharing project <strong>{modelName}</strong> with: <strong>{user}</strong>",
+                        [
+                            'modelName' => $project->title,
+                            'user' => $user->name
+                        ]
+                    ),
+                    'icon' => 'glyphicon glyphicon-trash'
+                ]
+            );
+        }
+        $this->redirect(['/projects/share', 'id' => $project->id]);
     }
 
     public function actionUpdate(Request $request, Session $session, $id)
@@ -227,11 +259,17 @@ class ProjectsController extends Controller
     {
         return ArrayHelper::merge(parent::behaviors(),
             [
+                'verbs' => [
+                    'class' => VerbFilter::class,
+                    'actions' => [
+                        'share-delete' => ['delete']
+                    ]
+                ],
                 'access' => [
                     'rules' => [
                         [
                             'allow' => true,
-                            'roles' => ['@']
+                            'roles' => ['@'],
                         ],
                     ]
                 ]
