@@ -15,7 +15,7 @@ $this->beginContent('@app/views/layouts/report.php');
 <div class="container-fluid">
 <div class="row">
     <div class="col-xs-12">
-        <h1><?=\Yii::t('app', 'Progress')?></h1>
+        <h3><?=\Yii::t('app', 'Progress')?></h3>
     </div>
     <div class="col-xs-12 col-md-6">
         <?php

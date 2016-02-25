@@ -22,7 +22,6 @@ class GeneratorFactory
             'ccpm' => \prime\reportGenerators\ccpm\Generator::class,
             'cd' => \prime\reportGenerators\cd\Generator::class,
             'cdProgress' => \prime\reportGenerators\cdProgress\Generator::class,
-            'percentage' => \prime\reportGenerators\progressPercentage\Generator::class,
             'ccpmPercentage' => \prime\reportGenerators\ccpmProgressPercentage\Generator::class,
             'oscar' => \prime\reportGenerators\oscar\Generator::class,
             'oscarProgress' => \prime\reportGenerators\oscarProgress\Generator::class,
