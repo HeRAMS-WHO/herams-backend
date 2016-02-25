@@ -49,7 +49,10 @@ class Registration extends RegistrationForm
         $result = parent::attributeLabels();
         return array_merge($result,
             [
-                'confirmPassword' => \Yii::t('app', 'Confirmation')
+                'confirmPassword' => \Yii::t('app', 'Confirmation'),
+                'phone_alternative' => \Yii::t('app', 'Alternative phone'),
+                'office' => \Yii::t('app', 'Location'),
+                'other_contact' => \Yii::t('app', 'Other contact point (e.g. Skype)')
             ]
         );
     }
@@ -107,7 +110,7 @@ class Registration extends RegistrationForm
             'passwordLength'   => ['password', 'string', 'min' => 6],
             ['confirmPassword', 'compare', 'compareAttribute' => 'password'],
             // profile rules
-            [['first_name', 'last_name', 'organization', 'office', 'country', 'captcha'], 'required'],
+            [['first_name', 'last_name', 'organization', 'country', 'captcha'], 'required'],
             [['first_name', 'last_name', 'organization', 'office', 'position', 'other_contact'], 'string'],
             [['country'], RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
             [['captcha'], 'captcha'],
