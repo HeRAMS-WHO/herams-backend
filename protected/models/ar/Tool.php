@@ -2,17 +2,14 @@
 
 namespace prime\models\ar;
 
+use app\queries\ToolQuery;
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use Befound\Components\Map;
 use Befound\Components\UploadedFile;
 use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
-use prime\interfaces\ReportGeneratorInterface;
-use prime\models\permissions\Permission;
-use prime\models\ar\User;
-use prime\widgets\progress\Percentage;
-use yii\base\Widget;
 use yii\helpers\ArrayHelper;
+use yii\validators\BooleanValidator;
 use yii\validators\RangeValidator;
 use yii\validators\SafeValidator;
 
@@ -26,6 +23,7 @@ use yii\validators\SafeValidator;
  * @property string $acronym
  * @property string $description
  * @property Map $generators
+ * @method static ToolQuery find()
  */
 class Tool extends ActiveRecord {
 
@@ -84,6 +82,7 @@ class Tool extends ActiveRecord {
             'base_survey_eid' => \Yii::t('app', 'Base data survey'),
             'progress_type' => \Yii::t('app', "Project dashboard report"),
             'generators' => \Yii::t('app', "Reports"),
+            'generatorsArray' => \Yii::t('app', "Reports"),
         ];
     }
 
@@ -135,13 +134,17 @@ class Tool extends ActiveRecord {
         return $this->getProjectCount() === 0;
     }
 
+    public function getGeneratorsArray()
+    {
+        return $this->generators->asArray();
+    }
 
     public function getImageUrl()
     {
-        if (file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image)) {
+        if (isset($this->image) && file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image)) {
             return self::IMAGE_PATH . $this->image;
         }
-        return '/img/logo_p1024.png' ;
+        return '/site/text-image?text=' . $this->acronym ;
     }
 
     public function getIntakeUrl()
@@ -184,15 +187,16 @@ class Tool extends ActiveRecord {
     public function rules()
     {
         return [
-            [['title', 'acronym', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generators'], 'required'],
-            [['tempImage'], 'required', 'on' => ['create']],
+            [['title', 'acronym', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generators', 'generatorsArray'], 'required'],
+            //[['tempImage'], 'required', 'on' => ['create']],
             [['title', 'acronym', 'description'], 'string'],
             [['title'], 'unique'],
             [['tempImage', 'thumbTempImage'], 'image'],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
         // Validation disabled until this is merged: https://github.com/yiisoft/yii2/pull/10162
-            [['generators'], SafeValidator::class],
+            [['generators', 'generatorsArray'], SafeValidator::class],
+            [['hidden'], BooleanValidator::class]
 //            [['generators'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes()), 'allowArray' => true]
         ];
     }
@@ -200,8 +204,8 @@ class Tool extends ActiveRecord {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generators'],
-            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generators', 'base_survey_eid', 'progress_type']
+            'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generators', 'hidden'],
+            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generatorsArray', 'base_survey_eid', 'progress_type', 'hidden']
         ];
     }
 
@@ -230,7 +234,11 @@ class Tool extends ActiveRecord {
         } else {
             return null;
         }
+    }
 
+    public function setGeneratorsArray($value)
+    {
+        $this->generators = new Map($value);
     }
 
 

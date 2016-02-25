@@ -7,6 +7,7 @@ use app\components\Html;
 /**
  * @var \prime\models\ar\Project $project
  * @var \prime\models\forms\projects\Share $model
+ * @var \yii\data\ActiveDataProvider $permissionsDataProvider
  */
 
 $this->title = \Yii::t('app', 'Share {projectTitle} with:', [
@@ -72,9 +73,7 @@ $this->params['subMenu'] = [
     <h2><?=\Yii::t('app', 'Already shared with')?></h2>
     <?php
     echo \kartik\grid\GridView::widget([
-        'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => $model->getProject()->getPermissions()
-        ]),
+        'dataProvider' => $permissionsDataProvider,
         'columns' => [
             [
                 'label' => \Yii::t('app', 'User'),
@@ -82,7 +81,31 @@ $this->params['subMenu'] = [
                     return $model->sourceObject->name;
                 }
             ],
-            'permissionLabel'
+            'permissionLabel',
+            [
+                'class' => \kartik\grid\ActionColumn::class,
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function($url, $model, $key) use ($project) {
+                        return Html::a(
+                            Html::icon('trash'),
+                            [
+                                '/projects/share-delete',
+                                'id' => $model->id
+                            ],
+                            [
+                                'class' => 'text-danger',
+                                'data-method' => 'delete',
+                                'data-confirm' => \Yii::t('app', 'Are you sure you want to stop sharing <strong>{projectName}</strong> with <strong>{userName}</strong>', [
+                                    'projectName' => $project->title,
+                                    'userName' => $model->sourceObject->name
+                                ]),
+                                'title' => \Yii::t('app', 'Remove')
+                            ]
+                        );
+                    }
+                ]
+            ]
         ]
     ])
     ?>

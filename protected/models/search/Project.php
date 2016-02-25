@@ -2,6 +2,7 @@
 
 namespace prime\models\search;
 
+use app\queries\ToolQuery;
 use prime\components\ActiveQuery;
 use prime\models\ar\Tool;
 use prime\models\Country;
@@ -45,7 +46,11 @@ class Project extends \prime\models\ar\Project
         $this->scenario = 'search';
 
         $this->query = \prime\models\ar\Project::find()->notClosed();
-        $this->query->joinWith(['tool']);
+        if(!app()->user->can('admin')) {
+            $this->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
+        } else {
+            $this->query->joinWith(['tool']);
+        }
     }
 
     public function rules()

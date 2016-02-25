@@ -15,7 +15,7 @@ class SignupCest
     public function testDifferentPasswords(AcceptanceTester $I)
     {
         $I->amOnPage('/');
-        $I->see('Sign up');
+        $I->click('LOGIN SIGNUP');
         $I->click('Sign up');
         $I->seeCurrentUrlEquals('/user/register');
 
@@ -42,7 +42,6 @@ class SignupCest
         $I->fillField('Office', 'Corner');
         $I->fillField('Captcha', 'test');
         $I->click('Submit');
-        $I->seeCurrentUrlEquals('/user/login');
         // Check source since this is a javascript popup.
         $I->seeInSource('Your account has been created');
         $I->seeInDatabase('user', [
@@ -68,14 +67,14 @@ class SignupCest
     public function testLogin(AcceptanceTester $I)
     {
         $I->amOnPage('/');
-        $I->dontSeeInSource('Logout');
+        $I->dontSeeInSource('Log out');
         $I->login();
     }
 
     public function testAdminLogin(\Step\Acceptance\AdminTester $I)
     {
         $I->amOnPage('/');
-        $I->dontSeeInSource('Logout');
+        $I->dontSeeInSource('Log out');
         $I->login();
     }
 }

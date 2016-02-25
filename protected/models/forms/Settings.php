@@ -4,6 +4,7 @@ namespace prime\models\forms;
 
 use Befound\Components\DateTime;
 use prime\models\ar\Setting;
+use prime\models\search\Project;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
@@ -35,8 +36,8 @@ class Settings extends Model
             [['limeSurvey.password', 'limeSurvey.username'], RequiredValidator::class],
             ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->countryPolygonsFileOptions())],
             ['countryGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
-            ['healthClusterMappingSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
             ['eventGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
+            ['healthClusterDashboardProject', ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id']
         ];
     }
 
@@ -107,8 +108,13 @@ class Settings extends Model
         return $this->surveyOptions();
     }
 
-    public function healthClusterMappingSurveyOptions() {
-        return $this->surveyOptions();
+    public function healthClusterDashboardProjectOptions()
+    {
+        return ArrayHelper::map(
+            Project::find()->all(),
+            'id',
+            'title'
+        );
     }
 
     public function eventGradesSurveyOptions() {

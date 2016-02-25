@@ -1,14 +1,23 @@
 <?php
     namespace prime\controllers;
     use prime\components\Controller;
+    use prime\models\ar\Tool;
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
+    use yii\helpers\FileHelper;
+    use yii\web\Response;
     use yii\web\Session;
     use yii\web\User;
 
     class SiteController extends Controller
     {
+
+        public function actionAbout()
+        {
+            return $this->render('about');
+        }
+
         public function actionIndex(User $user)
         {
             if($user->id !== null) {
@@ -18,9 +27,12 @@
             }
         }
 
-        public function actionAbout()
+        public function actionTextImage(Response $response, $text)
         {
-            return $this->render('about');
+            $text = filter_var($text, FILTER_SANITIZE_STRING);
+            $response->headers->set('Content-Type', FileHelper::getMimeTypeByExtension('.svg'));
+            $response->format = Response::FORMAT_RAW;
+            return '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="100" width="100"><text x="0" y="50" fill="#666" style="font-size: 50px; alignment-baseline: middle;">' . $text . '</text></svg>';
         }
 
         public function actions()

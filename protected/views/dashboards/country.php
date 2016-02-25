@@ -10,6 +10,8 @@ use prime\models\mapLayers\CountryGrades;
  * @var array $healthClustersResponses
  * @var string $layer
  * @var \prime\models\forms\MarketplaceFilter $filter
+ * @var \prime\models\Country $country
+ * @var boolean $popup
  */
 
 $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countriesResponses[$country->iso_3][count($countriesResponses[$country->iso_3]) - 1] : null;
@@ -46,11 +48,10 @@ $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countries
     </div>
     <?php } ?>
 </div>
-<?=$this->render('/marketplace/filter', ['filter' => $filter])?>
 <div class="col-xs-12">
-    <?php
-//    vdd($countriesResponses);
-    ?>
+    <?=$this->render('/marketplace/filter', ['filter' => $filter])?>
+</div>
+<div class="col-xs-12">
     <?=\yii\bootstrap\Tabs::widget([
         'items' => [
             [
@@ -69,13 +70,13 @@ $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countries
             ],
             [
                 'label' => \Yii::t('app', 'Graded Events'),
-                'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses]),
+                'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses, 'country' => $country, 'popup' => $popup]),
                 'visible' => !empty($eventsResponses),
                 'active' => $layer == 'eventGrades'
             ],
             [
                 'label' => \Yii::t('app', 'Coordination'),
-                'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses]),
+                'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses, 'filter' => $filter, 'popup' => $popup]),
                 'visible' => !empty($healthClustersResponses),
                 'active' => $layer == 'healthClusters'
             ],

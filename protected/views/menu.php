@@ -39,17 +39,15 @@ echo Nav::widget([
 
         ],
         [
-            'label' => Html::icon('file', ['title' => 'Reports']),
-            'url' => ['/reports'],
-            'visible' => !Yii::$app->user->isGuest
-        ],
-        [
             'label' => Html::icon('tasks', ['title' => 'Projects']),
             'url' => ['/projects'],
             'visible' => !Yii::$app->user->isGuest
         ],
-
-
+        [
+            'label' => Html::icon('file', ['title' => 'Reports']),
+            'url' => ['/reports'],
+            'visible' => !Yii::$app->user->isGuest
+        ],
         [
             'label' => Html::icon('bullhorn', ['title' => \Yii::t('app', 'User lists')]),
             'url' => ['/user-lists'],

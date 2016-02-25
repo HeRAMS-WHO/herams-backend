@@ -4,6 +4,7 @@ use app\components\Html;
 
 /**
  * @var \yii\web\View $this
+ * @var \yii\data\ActiveDataProvider $userListsDataProvider
  */
 
 $this->params['subMenu']['items'] = [];
@@ -28,9 +29,7 @@ $this->params['subMenu']['items'] = [];
         ]);
     echo \kartik\grid\GridView::widget([
         'caption' => $header,
-        'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => app()->user->identity->getUserLists()
-        ]),
+        'dataProvider' => $userListsDataProvider,
         'columns' => [
             'name',
             'actions' => [

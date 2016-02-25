@@ -210,6 +210,12 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
         return $result;
     }
 
+    public function getViewPath()
+    {
+        $rc = new \ReflectionClass($this);
+        return dirname($rc->getFileName()) . '/views';
+    }
+
     public static function textarea(UserDataInterface $userData, $attribute, $options = [])
     {
         return Html::textarea($attribute, ArrayHelper::getValue($userData, $attribute, null), $options);

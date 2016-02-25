@@ -52,7 +52,7 @@ class HealthClusters extends MapLayer
         $this->joinBy = null;
         $this->name = \Yii::t('app', 'Health Clusters');
         $this->showInLegend = true;
-        $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'healthClusters'); return false;}"));
+        $this->addPointEventHandler('select', new JsExpression("function(e){selectHealthCluster(this); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'healthClusters', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'healthClusters', false); return false;}"));
         $this->type = 'mappoint';
@@ -78,8 +78,8 @@ class HealthClusters extends MapLayer
     public function mapColor($national)
     {
         $map = [
-            false => 'rgba(72, 208, 250, 1)',
-            true => 'rgba(0, 0, 255, 1)',
+            true => 'rgba(72, 208, 250, 1)',
+            false => 'rgba(0, 0, 255, 1)',
         ];
 
         return $map[$national];
@@ -141,7 +141,7 @@ class HealthClusters extends MapLayer
                                 'localityGeo' => $responseData['LocalityGEO'],
                                 'localityId' => $responseData['LocalityID'],
                                 'value' => $responseData['CM01'],
-                                'subnational' => $responseData['CM00'] === 'A1'
+                                'subnational' => $responseData['CM00'] === 'A2'
                             ];
                     } else {
                         if ($responseDate->lte($date) && $responseDate->gt($tempData[$responseData['UOID']]['date'])) {
@@ -152,7 +152,7 @@ class HealthClusters extends MapLayer
                                     'localityGeo' => $responseData['LocalityGEO'],
                                     'localityId' => $responseData['LocalityID'],
                                     'value' => $responseData['CM01'],
-                                    'subnational' => $responseData['CM00'] === 'A1'
+                                    'subnational' => $responseData['CM00'] === 'A2'
                                 ];
                         }
                     }
@@ -160,7 +160,6 @@ class HealthClusters extends MapLayer
             }
         }
 
-        //TODO add correct lat/long if those are set in the response
         $this->data = [];
         foreach ($tempData as $id => $data) {
             //Filter deactivated health clusters

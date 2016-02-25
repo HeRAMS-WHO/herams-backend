@@ -2,6 +2,7 @@
 namespace prime\traits;
 
 use prime\models\permissions\Permission;
+use yii\web\HttpException;
 
 trait LoadOneAuthTrait{
     /**

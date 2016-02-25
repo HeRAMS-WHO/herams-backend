@@ -54,9 +54,12 @@ class UserListsController extends Controller
         return $this->redirect(['/user-lists/list']);
     }
 
-    public function actionList()
+    public function actionList(User $user)
     {
-        return $this->render('list');
+        $userListsDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $user->identity->getUserLists()
+        ]);
+        return $this->render('list', ['userListsDataProvider' => $userListsDataProvider]);
     }
 
     public function actionRead($id)
@@ -93,7 +96,6 @@ class UserListsController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['list', 'read'],
                             'roles' => ['@'],
                         ],
                     ]

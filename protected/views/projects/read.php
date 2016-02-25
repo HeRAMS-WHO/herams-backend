@@ -59,32 +59,23 @@ $this->params['subMenu']['items'][] = [
     ],
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
 ];
-//$this->params['subMenu']['items'][] = [
-//    'label' => Html::icon('zoom-in'),
-//    'url' => ['/projects/explore', 'id' => $model->id],
-//    'options' => [
-//        'class' => 'icon',
-//        'title' => \Yii::t('app', 'Explore'),
-//    ],
-//];
 
 ?>
 
 <div class="col-xs-12">
     <div class="row">
-        <div class="col-xs-9">
+        <div class="col-xs-10">
             <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) ? Html::a(Html::icon('pencil'), ['projects/update', 'id' => $model->id]) : ''?></h1>
         </div>
-        <div class="col-xs-3">
-            <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '100%']])?>
+        <div class="col-xs-2">
+            <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '90%']])?>
         </div>
+
     </div>
     <div class="row">
-        <div class="col-xs-12 col-md-9">
-            Type of crisis:<br>
-            End Date:
+        <div class="col-xs-12 col-sm-7 col-md-9">
         </div>
-        <div class="col-xs-12 col-md-3">
+        <div class="col-xs-12 col-sm-5 col-md-3">
             <?=\prime\widgets\User::widget([
                 'user' => $model->owner
             ])?>
@@ -92,37 +83,19 @@ $this->params['subMenu']['items'][] = [
     </div>
 </div>
 
-<!--<div class="">-->
-    <iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" class="col-xs-12" style="
-    height: 500px;
-    border: 0px;
-    /*margin-left: -15px; */
-    padding-left: 0px;
-    /*margin-right: -15px; */
-    padding-right: 0px;
-    padding-bottom: 10px;
-    "></iframe>
-<!--</div>-->
+<iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" class="col-xs-12 resize" style="
+height: 0px;
+border: 0px;
+padding-left: 0px;
+padding-right: 0px;
+padding-bottom: 10px;
+"></iframe>
 
 <div class="col-xs-12">
     <?php
 
     // Dynamically resize iframe.
-    $this->registerAssetBundle(\prime\assets\ResizeAsset::class);
-    $this->registerJs('
-        var $iframe = $("iframe");
-        var resizer = function(e) {
-            console.log("resizer");
-            console.log(e);
-        $iframe.height($iframe.contents().find("body").height()); };
-        $iframe.on("load", function() {
-            var $body = $iframe.contents().find("body");
-            $body.on("mresize", resizer);
-            console.log($body);
-            $body.trigger("mresize");
-        });
-
-    ', $this::POS_READY);
+    $this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
     echo \yii\bootstrap\Tabs::widget([
          'items' => [
              [

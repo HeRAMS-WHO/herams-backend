@@ -52,9 +52,15 @@ $this->params['subMenu'] = [
             ],
             'progress_type' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => \prime\factories\GeneratorFactory::options()
+                'items' => \prime\factories\GeneratorFactory::options(),
+                'options' => [
+                    'prompt' => ''
+                ]
             ],
-
+            'hidden' => [
+                'type' => Form::INPUT_CHECKBOX,
+                'hint' => \Yii::t('app', 'Check if the tool is not requestable for users')
+            ],
             'tempImage' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\file\FileInput::class
@@ -65,16 +71,21 @@ $this->params['subMenu'] = [
             ],
             'intake_survey_eid' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->intakeSurveyOptions()
+                'items' => $model->intakeSurveyOptions(),
+                'options' => [
+                    'prompt' => ''
+                ]
             ],
             'base_survey_eid' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->dataSurveyOptions()
+                'items' => $model->dataSurveyOptions(),
+                'options' => [
+                    'prompt' => ''
+                ]
             ],
-            'generators' => [
-//                'type' => Form::INPUT_CHECKBOX_LIST,
+            'generatorsArray' => [
+                'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => \prime\factories\GeneratorFactory::options(),
-                'value' => 'test', $model->generators->asArray()
             ],
         ]
     ]);

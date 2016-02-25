@@ -159,7 +159,7 @@ class ReportsController extends Controller
             $responses = isset($responseId) ? $project->getResponses()->filter(function(ResponseInterface $response, $key) use ($responseId) {
                 return $response->getId() == $responseId;
             }) : $project->getResponses();
-            if ($responses->size() > 1) {
+            if ($responses->size() >= 1) {
                 return $generator->renderPreview(
                     $responses,
                     $project->getSurvey(),

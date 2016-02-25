@@ -40,11 +40,14 @@ class MarketplaceController extends Controller
             throw new BadRequestHttpException("Invalid filter values");
         }
 
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+
         $mapLayerData = [
             'projects' => $filter->applyToProjects(Project::find()),
             'countryGrades' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('countryGradesSurvey')))),
             'eventGrades' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey')))),
-            'healthClusters' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')))),
+            'healthClusters' => new ResponseCollection($filter->applyToResponses($healthClusterResponses)),
         ];
 
         //Get active
@@ -57,6 +60,7 @@ class MarketplaceController extends Controller
      * @param string $iso_3
      * @param $layer
      * @param bool|false $popup
+     * @param string $id
      * @return string
      */
     public function actionCountryDashboard(Request $request, Client $limeSurvey, $iso_3, $layer, $popup = false)
@@ -147,7 +151,9 @@ class MarketplaceController extends Controller
         });
 
         //get health cluster responses
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($healthClusterResponses));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;
@@ -176,7 +182,8 @@ class MarketplaceController extends Controller
                 'eventsResponses' => $eventFilter->getGroups(),
                 'healthClustersResponses' => $healthClusterFilter->getGroups(),
                 'layer' => $layer,
-                'filter' => $filter
+                'filter' => $filter,
+                'popup' => $popup
             ]
         );
     }
@@ -298,7 +305,9 @@ class MarketplaceController extends Controller
         });
 
         //get health cluster responses
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey'))));
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($healthClusterResponses));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) {
                 return true;
@@ -327,6 +336,112 @@ class MarketplaceController extends Controller
                 'healthClustersResponses' => $healthClusterFilter->getGroups(),
                 'layer' => $layer,
                 'filter' => $filter
+            ]
+        );
+    }
+
+    public function actionEventDashboard(Request $request, Client $limeSurvey, $iso_3, $id, $layer, $popup = false)
+    {
+        if ($popup) {
+            $this->view->params['hideMenu'] = true;
+            $this->view->params['hideFilter'] = true;
+            $this->view->params['containerOptions']['class'][] = 'container-fluid';
+        }
+
+        $filter = new MarketplaceFilter();
+        $filter->scenario = 'country';
+        $filter->load($request->queryParams);
+
+        if(!$filter->validate()) {
+            throw new BadRequestHttpException("Invalid filter values");
+        }
+
+        $country = Country::findOne($iso_3);
+
+        //get event responses
+        $eventFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))));
+        $eventFilter->filter(
+            function (ResponseInterface $response) use ($id) {
+                return $response->getData()['UOID'] == $id;
+            }
+        );
+        $eventFilter->group('UOID');
+        $eventFilter->sortGroupsInternally(function($a, $b){
+            /**
+             * @var ResponseInterface $a
+             * @var ResponseInterface $b
+             */
+            $aD = new Carbon($a->getData()['GM01']);
+            $bD = new Carbon($b->getData()['GM01']);
+            if($aD->eq($bD)) {
+                return ($a->getId() > $b->getId()) ? 1 : -1;
+            }
+            return ($aD->gt($bD)) ? 1 : -1;
+        });
+
+        return $this->render(
+            '/dashboards/event',
+            [
+                'country' => $country,
+                'id' => $id,
+                'eventsResponses' => $eventFilter->getGroups(),
+                'layer' => $layer,
+                'filter' => $filter,
+                'popup' => $popup
+            ]
+        );
+    }
+
+    public function actionHealthClusterDashboard(Request $request, Client $limeSurvey, $iso_3, $id, $layer, $popup = false)
+    {
+        if ($popup) {
+            $this->view->params['hideMenu'] = true;
+            $this->view->params['hideFilter'] = true;
+            $this->view->params['containerOptions']['class'][] = 'container-fluid';
+        }
+
+        $filter = new MarketplaceFilter();
+        $filter->scenario = 'country';
+        $filter->load($request->queryParams);
+
+        if(!$filter->validate()) {
+            throw new BadRequestHttpException("Invalid filter values");
+        }
+
+        $country = Country::findOne($iso_3);
+
+        //get health cluster responses
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($healthClusterResponses));
+        $healthClusterFilter->filter(
+            function (ResponseInterface $response) use ($country) {
+                return $response->getData()['PRIMEID'] == $country->iso_3;
+            }
+        );
+        $healthClusterFilter->group('UOID');
+        $healthClusterFilter->sortGroupsInternally(function($a, $b){
+            /**
+             * @var ResponseInterface $a
+             * @var ResponseInterface $b
+             */
+            $aD = new Carbon($a->getData()['CM03']);
+            $bD = new Carbon($b->getData()['CM03']);
+            if($aD->eq($bD)) {
+                return ($a->getId() > $b->getId()) ? 1 : -1;
+            }
+            return ($aD->gt($bD)) ? 1 : -1;
+        });
+
+        return $this->render(
+            '/dashboards/healthCluster',
+            [
+                'country' => $country,
+                'id' => $id,
+                'healthClustersResponses' => $healthClusterFilter->getGroups(),
+                'layer' => $layer,
+                'filter' => $filter,
+                'popup' => $popup
             ]
         );
     }

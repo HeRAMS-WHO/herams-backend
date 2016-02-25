@@ -40,10 +40,15 @@ echo Form::widget([
             'type' => Form::INPUT_HTML5,
             'html5type' => 'email'
         ],
-        'organization' => [
-            'type' => Form::INPUT_TEXT,
+        'image' => [
+            'type' => Form::INPUT_RAW,
+            'value' => '<div class="form-group">' .
+                \Yii::t('app', 'If you would like to add a profile image, please register your email address at {url}', [
+                    'url' => Html::a('Gravatar', '//en.gravatar.com/connect/?source=_signup', ['target' => '_blank'])
+                ]) .
+                '</div><div class="help-block"></div>'
         ],
-        'office' => [
+        'organization' => [
             'type' => Form::INPUT_TEXT,
         ],
         'country' => [
@@ -55,6 +60,21 @@ echo Form::widget([
                     'placeholder' => \Yii::t('app', 'Country')
                 ]
             ]
+        ],
+        'office' => [
+            'type' => Form::INPUT_TEXT,
+        ],
+        'position' => [
+            'type' => Form::INPUT_TEXT
+        ],
+        'phone' => [
+            'type' => Form::INPUT_TEXT
+        ],
+        'phone_alternative' => [
+            'type' => Form::INPUT_TEXT
+        ],
+        'other_contact' => [
+            'type' => Form::INPUT_TEXT
         ],
         'captcha' => [
             'type' => Form::INPUT_WIDGET,
@@ -70,7 +90,7 @@ echo Form::widget([
         'actions' => [
             'type' => Form::INPUT_RAW,
             'value' =>
-                Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-block'])
+                '<div class="form-group">' . Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-block']) . '</div>'
         ]
     ],
     'options' => [

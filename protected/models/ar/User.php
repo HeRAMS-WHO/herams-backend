@@ -4,6 +4,8 @@ namespace prime\models\ar;
 
 use prime\models\permissions\Permission;
 use prime\objects\Signature;
+use yii\helpers\Url;
+use yii\web\UrlManager;
 
 /**
  * Class User
@@ -30,9 +32,9 @@ class User extends \dektrium\user\models\User {
         );
     }
 
-    public function getGravatarUrl ($size = 24)
+    public function getGravatarUrl ($size = 1024)
     {
-        return "http://gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size;
+        return "http://gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size . "&d=blank";
     }
 
     public function getFirstName()

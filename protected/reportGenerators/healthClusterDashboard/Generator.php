@@ -1,31 +1,20 @@
 <?php
 
-namespace prime\reportGenerators\oscar;
+namespace prime\reportGenerators\healthClusterDashboard;
 
 use prime\interfaces\ProjectInterface;
-use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
+use prime\models\ar\UserData;
 use prime\objects\Report;
-use prime\objects\ResponseCollection;
-use SamIT\LimeSurvey\Interfaces\GroupInterface;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\base\Component;
-use yii\base\ViewContextInterface;
-use yii\console\Exception;
-use yii\helpers\ArrayHelper;
-use yii\web\View;
 
 class Generator extends \prime\reportGenerators\base\Generator
 {
-    public $dateFormat = 'd F - Y';
     /** @var ResponseInterface */
-    //protected $response;
     public $response;
 
     /**
@@ -65,7 +54,7 @@ class Generator extends \prime\reportGenerators\base\Generator
         UserDataInterface $userData = null
     ) {
         $this->initResponses($responses);
-        return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
+        return $this->view->render('publish', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
     }
 
     /**
@@ -90,9 +79,11 @@ class Generator extends \prime\reportGenerators\base\Generator
             'userData' => $userData,
             'signature' => $signature,
             'responses' => $responses,
-            'project' => $project
+            'project' => $project,
         ], $this));
-        return new Report($userData, $signature, $stream, __CLASS__, $this->getReportTitle($project, $signature));
+
+        $userData = new UserData();
+        return new Report($userData, $signature, $stream, $this->className(), $this->getReportTitle($project, $signature));
     }
 
     /**
@@ -101,6 +92,6 @@ class Generator extends \prime\reportGenerators\base\Generator
      */
     public static function title()
     {
-        return \Yii::t('oscar', 'OSCAR');
+        return \Yii::t('app', 'Health cluster dashboard');
     }
 }
