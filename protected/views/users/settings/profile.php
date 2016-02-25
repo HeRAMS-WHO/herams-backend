@@ -35,6 +35,14 @@ $this->title = Yii::t('user', 'Profile settings');
                 'last_name' => [
                     'type' => Form::INPUT_TEXT
                 ],
+                'image' => [
+                    'type' => Form::INPUT_RAW,
+                    'value' => '<div class="form-group"><div class="col-md-10 col-md-offset-2">' .
+                        \Yii::t('app', 'If you would like to add a profile image, please register your email address at {url}', [
+                            'url' => Html::a('Gravatar', '//en.gravatar.com/connect/?source=_signup', ['target' => '_blank'])
+                        ]) .
+                        '</div></div><div class="help-block"></div>'
+                ],
                 'organization' => [
                     'type' => Form::INPUT_TEXT,
                 ],

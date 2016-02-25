@@ -40,6 +40,14 @@ echo Form::widget([
             'type' => Form::INPUT_HTML5,
             'html5type' => 'email'
         ],
+        'image' => [
+            'type' => Form::INPUT_RAW,
+            'value' => '<div class="form-group">' .
+                \Yii::t('app', 'If you would like to add a profile image, please register your email address at {url}', [
+                    'url' => Html::a('Gravatar', '//en.gravatar.com/connect/?source=_signup', ['target' => '_blank'])
+                ]) .
+                '</div><div class="help-block"></div>'
+        ],
         'organization' => [
             'type' => Form::INPUT_TEXT,
         ],
