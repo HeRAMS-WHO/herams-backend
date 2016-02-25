@@ -40,11 +40,14 @@ class MarketplaceController extends Controller
             throw new BadRequestHttpException("Invalid filter values");
         }
 
+        $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+
         $mapLayerData = [
             'projects' => $filter->applyToProjects(Project::find()),
             'countryGrades' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('countryGradesSurvey')))),
             'eventGrades' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey')))),
-            'healthClusters' => new ResponseCollection($filter->applyToResponses($limeSurvey->getResponses(Setting::get('healthClusterMappingSurvey')))),
+            'healthClusters' => new ResponseCollection($filter->applyToResponses($healthClusterResponses)),
         ];
 
         //Get active
@@ -149,7 +152,8 @@ class MarketplaceController extends Controller
 
         //get health cluster responses
         $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses(iterator_to_array($project->getResponses())));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($healthClusterResponses));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;
@@ -302,7 +306,8 @@ class MarketplaceController extends Controller
 
         //get health cluster responses
         $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses(iterator_to_array($project->getResponses())));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($healthClusterResponses));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) {
                 return true;
@@ -407,7 +412,8 @@ class MarketplaceController extends Controller
 
         //get health cluster responses
         $project = Project::findOne(Setting::get('healthClusterDashboardProject'));
-        $healthClusterFilter = new ResponseFilter($filter->applyToResponses(iterator_to_array($project->getResponses())));
+        $healthClusterResponses = isset($project) ? iterator_to_array($project->getResponses()) : [];
+        $healthClusterFilter = new ResponseFilter($filter->applyToResponses($healthClusterResponses));
         $healthClusterFilter->filter(
             function (ResponseInterface $response) use ($country) {
                 return $response->getData()['PRIMEID'] == $country->iso_3;

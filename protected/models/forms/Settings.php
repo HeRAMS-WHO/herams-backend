@@ -36,7 +36,6 @@ class Settings extends Model
             [['limeSurvey.password', 'limeSurvey.username'], RequiredValidator::class],
             ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->countryPolygonsFileOptions())],
             ['countryGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
-            ['healthClusterMappingSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
             ['eventGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
             ['healthClusterDashboardProject', ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id']
         ];
@@ -106,10 +105,6 @@ class Settings extends Model
     }
 
     public function countryGradesSurveyOptions() {
-        return $this->surveyOptions();
-    }
-
-    public function healthClusterMappingSurveyOptions() {
         return $this->surveyOptions();
     }
 
