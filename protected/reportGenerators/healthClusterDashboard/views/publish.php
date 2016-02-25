@@ -16,13 +16,6 @@ $lastHealthClusterResponse = $this->context->response;
 
     <div class="col-xs-12" style="margin-bottom: 10px;">
         <div class="row">
-            <div class="col-xs-12" style="line-height: 34px">
-                <h3 style="margin-top: 0px; margin-bottom: 0px; line-height: 34px;"> <?= ($lastHealthClusterResponse->getData(
-                        )['LocalityID'] != '') ? $lastHealthClusterResponse->getData(
-                        )['LocalityID'] . ' / ' : '' ?><?= \prime\models\mapLayers\HealthClusters::mapPhase(
-                        $lastHealthClusterResponse->getData()['CM01']
-                    ) ?></h3>
-            </div>
             <div class="col-xs-3">
                 <?= \Yii::t('app', 'Coordinator:') ?>
             </div>
