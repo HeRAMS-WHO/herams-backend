@@ -82,6 +82,7 @@ class Tool extends ActiveRecord {
             'base_survey_eid' => \Yii::t('app', 'Base data survey'),
             'progress_type' => \Yii::t('app', "Project dashboard report"),
             'generators' => \Yii::t('app', "Reports"),
+            'generatorsArray' => \Yii::t('app', "Reports"),
         ];
     }
 
