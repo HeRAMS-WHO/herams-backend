@@ -38,9 +38,6 @@ $this->title = Yii::t('user', 'Profile settings');
                 'organization' => [
                     'type' => Form::INPUT_TEXT,
                 ],
-                'office' => [
-                    'type' => Form::INPUT_TEXT,
-                ],
                 'country' => [
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => \kartik\select2\Select2::class,
@@ -50,6 +47,21 @@ $this->title = Yii::t('user', 'Profile settings');
                             'placeholder' => \Yii::t('app', 'Country')
                         ]
                     ]
+                ],
+                'office' => [
+                    'type' => Form::INPUT_TEXT,
+                ],
+                'position' => [
+                    'type' => Form::INPUT_TEXT
+                ],
+                'phone' => [
+                    'type' => Form::INPUT_TEXT
+                ],
+                'phone_alternative' => [
+                    'type' => Form::INPUT_TEXT
+                ],
+                'other_contact' => [
+                    'type' => Form::INPUT_TEXT
                 ],
                 'actions' => [
                     'type' => Form::INPUT_RAW,

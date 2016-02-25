@@ -18,6 +18,7 @@ use prime\models\ar\User;
 use prime\models\Country;
 use yii\helpers\ArrayHelper;
 use yii\validators\RangeValidator;
+use yii\validators\RegularExpressionValidator;
 
 class Registration extends RegistrationForm
 {
@@ -34,6 +35,10 @@ class Registration extends RegistrationForm
     public $organization;
     public $office;
     public $country;
+    public $position;
+    public $phone;
+    public $phone_alternative;
+    public $other_contact;
     public $captcha;
 
     /**
@@ -103,9 +108,10 @@ class Registration extends RegistrationForm
             ['confirmPassword', 'compare', 'compareAttribute' => 'password'],
             // profile rules
             [['first_name', 'last_name', 'organization', 'office', 'country', 'captcha'], 'required'],
-            [['first_name', 'last_name', 'organization', 'office'], 'string'],
+            [['first_name', 'last_name', 'organization', 'office', 'position', 'other_contact'], 'string'],
             [['country'], RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
-            [['captcha'], 'captcha']
+            [['captcha'], 'captcha'],
+            [['phone', 'phone_alternative'], RegularExpressionValidator::class, 'pattern' => '/^\+?\d{4,20}$/', 'message' => \Yii::t('app', 'Please enter a valid phone number')]
         ];
     }
 }
