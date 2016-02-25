@@ -335,6 +335,58 @@ class MarketplaceController extends Controller
         );
     }
 
+    public function actionEventDashboard(Request $request, Client $limeSurvey, $iso_3, $id, $layer, $popup = false)
+    {
+        if ($popup) {
+            $this->view->params['hideMenu'] = true;
+            $this->view->params['hideFilter'] = true;
+            $this->view->params['containerOptions']['class'][] = 'container-fluid';
+        }
+
+        $filter = new MarketplaceFilter();
+        $filter->scenario = 'country';
+        $filter->load($request->queryParams);
+
+        if(!$filter->validate()) {
+            throw new BadRequestHttpException("Invalid filter values");
+        }
+
+        $country = Country::findOne($iso_3);
+
+        //get event responses
+        $eventFilter = new ResponseFilter($filter->applyToResponses($limeSurvey->getResponses(Setting::get('eventGradesSurvey'))));
+        $eventFilter->filter(
+            function (ResponseInterface $response) use ($id) {
+                return $response->getData()['UOID'] == $id;
+            }
+        );
+        $eventFilter->group('UOID');
+        $eventFilter->sortGroupsInternally(function($a, $b){
+            /**
+             * @var ResponseInterface $a
+             * @var ResponseInterface $b
+             */
+            $aD = new Carbon($a->getData()['GM01']);
+            $bD = new Carbon($b->getData()['GM01']);
+            if($aD->eq($bD)) {
+                return ($a->getId() > $b->getId()) ? 1 : -1;
+            }
+            return ($aD->gt($bD)) ? 1 : -1;
+        });
+
+        return $this->render(
+            '/dashboards/event',
+            [
+                'country' => $country,
+                'id' => $id,
+                'eventsResponses' => $eventFilter->getGroups(),
+                'layer' => $layer,
+                'filter' => $filter,
+                'popup' => $popup
+            ]
+        );
+    }
+
     public function actionHealthClusterDashboard(Request $request, Client $limeSurvey, $iso_3, $id, $layer, $popup = false)
     {
         if ($popup) {

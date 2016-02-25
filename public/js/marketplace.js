@@ -19,6 +19,11 @@ function selectHealthCluster(point){
     }
 }
 
+function selectEvent(point, layer){
+    var url = '/marketplace/event-dashboard?layer=' + layer + '&iso_3=' + point.iso_3 + '&id=' + point.id;
+    showBootbox(url);
+}
+
 function showBootbox(url) {
     var search = window.location.search.substr(0,1) == "?" ? "&" + window.location.search.substr(1) : "";
     url = url + search;

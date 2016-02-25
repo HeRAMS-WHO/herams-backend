@@ -49,7 +49,7 @@ class EventGrades extends MapLayer
         $this->joinBy = null;
         $this->name = \Yii::t('app', 'Graded Events');
         $this->showInLegend = true;
-        $this->addPointEventHandler('select', new JsExpression("function(e){selectCountry(this, 'eventGrades'); return false;}"));
+        $this->addPointEventHandler('select', new JsExpression("function(e){selectEvent(this, 'eventGrades'); return false;}"));
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'eventGrades', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'eventGrades', false); return false;}"));
         $this->type = 'mappoint';
@@ -184,8 +184,9 @@ class EventGrades extends MapLayer
         foreach($tempData as $id => $data) {
             if($data['value'] != 'A00' && $data['value'] != 'A0') {
                 if (!empty($data['localityGeo'])) {
-                    $latitude = 0;
-                    $longitude = 0;
+                    $latLong = explode(';', $data['localityGeo']);
+                    $latitude = floatval($latLong[0]);
+                    $longitude = floatval($latLong[1]);
                 } else {
                     $country = Country::findOne($data['iso_3']);
                     $latitude = $country->latitude;
