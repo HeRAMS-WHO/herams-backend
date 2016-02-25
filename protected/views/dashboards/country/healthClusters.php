@@ -55,7 +55,7 @@ if(isset($id)) {
 
 echo Html::beginTag('div', ['class' => ['col-xs-12']]);
 if($subnational) {
-    echo Html::tag('h3', \Yii::t('app', 'National coordination structure'));
+    echo Html::tag('h4', \Yii::t('app', 'National coordination structure'));
     if(isset($nationalClusterId)) {
         $lastNationalResponse = $healthClustersResponses[$nationalClusterId][count($healthClustersResponses[$nationalClusterId]) - 1];
         $country = \prime\models\Country::findOne($lastNationalResponse->getData()['PRIMEID']);
@@ -71,7 +71,7 @@ if($subnational) {
         );
     }
 } else {
-    echo Html::tag('h3', \Yii::t('app', 'Subnational coordination structures'));
+    echo Html::tag('h4', \Yii::t('app', 'Subnational coordination structures'));
     foreach($healthClustersResponses as $uoid => $responses) {
         if(!isset($id) || $uoid != $id) {
             $lastSubationalResponse = $responses[count($responses) - 1];
