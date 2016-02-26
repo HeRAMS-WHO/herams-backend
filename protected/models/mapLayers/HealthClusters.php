@@ -100,7 +100,7 @@ class HealthClusters extends MapLayer
     public static function mapType($value)
     {
         $map = [
-            'A1' => \Yii::t('app', 'Formal Health Cluster'),
+            'A1' => \Yii::t('app', 'Health Cluster'),
             'A2' => \Yii::t('app', 'Sectoral Coordination Mechanism')
         ];
         return $map[$value];
