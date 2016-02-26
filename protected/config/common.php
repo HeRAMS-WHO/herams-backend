@@ -108,6 +108,21 @@ return [
         ],
     ],
     'params' => [
-
+        'defaultSettings' => [
+            'icons.globalMonitor' => 'globe',
+            'icons.projects' => 'tasks',
+            'icons.reports' => 'file',
+            'icons.userLists' => 'bullhorn',
+            'icons.user' => 'user',
+            'icons.configuration' => 'wrench',
+            'icons.logOut' => 'log-out',
+            'icons.search' => 'search',
+            'icons.read' => 'eye-open',
+            'icons.update' => 'pencil',
+            'icons.share' => 'share',
+            'icons.close' => 'stop',
+            'icons.remove' => 'trash',
+            'icons.limeSurveyUpdate' => 'cog'
+        ]
     ]
 ];

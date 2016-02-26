@@ -17,11 +17,16 @@ $form = \kartik\form\ActiveForm::begin([
 ]);
 
 foreach ($settings->safeAttributes() as $setting) {
-    $options = lcfirst($setting) . 'Options';
-    if(method_exists($settings, $options)) {
-        echo $form->field($settings, $setting)->dropDownList($settings->$options());
+    if(substr($setting, 0, 6) == 'icons.') {
+        echo $form->field($settings, $setting)->dropDownList($settings->iconOptions(), ['class' => ['glyphicon']]);
     } else {
-        echo $form->field($settings, $setting)->textInput();
+        $options = lcfirst($setting) . 'Options';
+        if(method_exists($settings, $options)) {
+            echo $form->field($settings, $setting)->dropDownList($settings->$options());
+        } else {
+            echo $form->field($settings, $setting)->textInput();
+        }
     }
 }
+
 $form->end();

@@ -1,6 +1,7 @@
 <?php
 
 use \app\components\Html;
+use prime\models\ar\Setting;
 
 /**
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
@@ -104,7 +105,7 @@ use \app\components\Html;
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         $result = Html::a(
-                            Html::icon('eye-open'),
+                            Html::icon(Setting::get('icons.read')),
                             ['/projects/read', 'id' => $model->id],
                             [
                                 'title' => \Yii::t('app', 'Read')
@@ -117,7 +118,7 @@ use \app\components\Html;
                         /** @var \prime\models\ar\Project $model */
                         if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
                             $result = Html::a(
-                                Html::icon('pencil'),
+                                Html::icon(Setting::get('icons.update')),
                                 ['/projects/update', 'id' => $model->id],
                                 [
                                     'title' => \Yii::t('app', 'Update')
@@ -131,7 +132,7 @@ use \app\components\Html;
                         /** @var \prime\models\ar\Project $model */
                         if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
                             $result = Html::a(
-                                Html::icon('share'),
+                                Html::icon(Setting::get('icons.share')),
                                 ['/projects/share', 'id' => $model->id],
                                 [
                                     'title' => \Yii::t('app', 'Share')
@@ -145,7 +146,7 @@ use \app\components\Html;
                         /** @var \prime\models\ar\Project $model */
                         if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
                             $result = Html::a(
-                                Html::icon('stop'),
+                                Html::icon(Setting::get('icons.close')),
                                 ['/projects/close', 'id' => $model->id],
                                 [
                                     'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),

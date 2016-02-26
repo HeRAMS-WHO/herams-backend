@@ -1,10 +1,12 @@
 <?php
 
-/**
- * @var $toolsDataProvider \yii\data\ActiveDataProvider
- */
-
 use \app\components\Html;
+use prime\models\ar\Setting;
+
+/**
+ * @var \yii\web\View $this
+ * @var \yii\data\ActiveDataProvider $toolsDataProvider
+ */
 
 $this->params['subMenu']['items'] = [
     [
@@ -62,7 +64,7 @@ $this->params['subMenu']['items'] = [
                     'read' => function($url, $model, $key) {
                         /** @var \prime\models\ar\Tool $model */
                         $result = Html::a(
-                            Html::icon('eye-open'),
+                            Html::icon(Setting::get('icons.read')),
                             ['tools/read', 'id' => $model->id]
                         );
                         return $result;
@@ -72,7 +74,7 @@ $this->params['subMenu']['items'] = [
                         $result = '';
                         if(app()->user->can('admin')) {
                             $result = Html::a(
-                                Html::icon('pencil'),
+                                Html::icon(Setting::get('icons.update')),
                                 ['tools/update', 'id' => $model->id]
                             );
                         }
@@ -84,7 +86,7 @@ $this->params['subMenu']['items'] = [
                         $result = '';
                         if(app()->user->can('admin') && $model->getProjectCount() == 0) {
                             $result = Html::a(
-                                Html::icon('trash'),
+                                Html::icon(Setting::get('icons.remove')),
                                 ['tools/delete', 'id' => $model->id],
                                 [
                                     'data-method' => 'delete',
@@ -99,7 +101,7 @@ $this->params['subMenu']['items'] = [
                         $result = '';
                         if(app()->user->can('admin') && $model->getProjectCount() > 0) {
                             $result = Html::a(
-                                Html::icon('stop'),
+                                Html::icon(Setting::get('icons.stop')),
                                 ['tools/delete', 'id' => $model->id],
                                 [
                                     'data-method' => 'delete',
