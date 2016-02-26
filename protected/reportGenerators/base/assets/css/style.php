@@ -32,8 +32,19 @@ body {
     background-color: transparent;
 }
 
+<?php
+    $image = imagecreatefromstring(file_get_contents($project->getToolImagePath()));
+    $height = 140;
+    $width = imagesx($image) / imagesy($image) * $height;
+    $newImage = imagecreatetruecolor($width, $height);
+    imagecopyresized($newImage, $image, 0, 0, 0, 0, $width, $height, imagesx($image), imagesy($image));
+    ob_start();
+    imagepng($newImage);
+    $content = ob_get_clean();
+?>
+
 .header {
-    background-image: url(data:image/jpg;base64,<?=base64_encode(file_get_contents($project->getToolImagePath()))?>);
+    background-image: url(data:image/png;base64,<?=base64_encode($content)?>);
     background-position: right;
     background-repeat: no-repeat;
     background-size: contain;
