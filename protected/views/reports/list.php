@@ -1,6 +1,7 @@
 <?php
 
 use \app\components\Html;
+use prime\models\ar\Setting;
 
 /**
  * @var \prime\models\search\Report $reportSearch
@@ -93,7 +94,7 @@ use \app\components\Html;
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         $result = Html::a(
-                            Html::icon('eye-open'),
+                            Html::icon(Setting::get('icons.read')),
                             ['/reports/read', 'id' => $model->id],
                             [
                                 'title' => \Yii::t('app', 'Read')

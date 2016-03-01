@@ -46,10 +46,17 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                 // Yii::getAlias not yet available.
 //                'destinationDir' => $compiledAssetDir,
             ],
-            // Override bootstrap
             'bundles' => [
+                // Override bootstrap
                 \yii\bootstrap\BootstrapAsset::class => [
                     'css' => []
+                ],
+                //TODO remove if Yii issue 10973 is fixed
+                \yii\web\JqueryAsset::class => [
+                    'sourcePath' => '@bower/jquery/dist',
+                    'js' => [
+                        (YII_DEBUG) ? 'jquery.js' : 'jquery.min.js',
+                    ]
                 ]
             ]
         ],

@@ -2,6 +2,7 @@
 
 namespace prime\controllers;
 
+use app\components\InlineView;
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
@@ -15,6 +16,7 @@ use prime\objects\SurveyCollection;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use Symfony\Component\Yaml\Inline;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -114,6 +116,7 @@ class ReportsController extends Controller
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
         if(isset(GeneratorFactory::classes()[$reportGenerator])) {
+            $this->setView(new InlineView());
             $userData = $project->getUserData($reportGenerator)->one();
             if(!isset($userData)) {
                 $userData = new UserData();
@@ -153,7 +156,7 @@ class ReportsController extends Controller
                 $userData = new UserData();
             }
             /** @var ReportGeneratorInterface $generator */
-            $generator = GeneratorFactory::get($reportGenerator);
+            $generator = GeneratorFactory::get($reportGenerator, $this->view);
 
 
             $responses = isset($responseId) ? $project->getResponses()->filter(function(ResponseInterface $response, $key) use ($responseId) {
@@ -180,8 +183,7 @@ class ReportsController extends Controller
         Session $session,
         Request $request,
         $projectId,
-        $reportGenerator,
-        Client $limesurvey
+        $reportGenerator
     )
     {
         /* @todo set correct privilege */

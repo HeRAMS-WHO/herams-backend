@@ -2,7 +2,9 @@
 
 namespace prime\factories;
 
+use app\components\InlineView;
 use yii\helpers\ArrayHelper;
+use yii\web\View;
 
 
 /**
@@ -41,7 +43,8 @@ class GeneratorFactory
         }, GeneratorFactory::classes());
     }
 
-    public static function get($name) {
+    public static function get($name, View $view = null) {
+        \Yii::$container->set(View::class, InlineView::class);
         return \Yii::$container->get(ArrayHelper::getValue(self::classes(), $name, $name));
     }
 }

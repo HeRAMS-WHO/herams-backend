@@ -45,7 +45,9 @@ $questionsAndAnswers = json_decode('{"22814":{"q111":{"text":"Are you satisfied 
 $this->beginContent('@app/views/layouts/report.php');
 ?>
 <style>
-    <?=file_get_contents(__DIR__ . '/../../base/assets/css/grid.css')?>
+    <?php
+        $this->registerCss(file_get_contents(__DIR__ . '/../../base/assets/css/grid.css'))
+     ?>
     <?php include __DIR__ . '/../../base/assets/css/style.php'; ?>
     .background-good, .background-satisfactory, .background-unsatisfactory, .background-weak {
         font-weight: 600;

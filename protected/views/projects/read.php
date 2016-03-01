@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Html;
+use prime\models\ar\Setting;
 
 /**
  * @var \prime\models\ar\Project $model
@@ -11,7 +12,7 @@ use app\components\Html;
 $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
-    'label' => Html::icon('cog'),
+    'label' => Html::icon(Setting::get('icons.limeSurveyUpdate')),
     'url' => $model->surveyUrl,
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE),
     'options' => [
@@ -22,7 +23,7 @@ $this->params['subMenu']['items'][] = [
 
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
-        'label' => Html::icon('eye-open'),
+        'label' => Html::icon(Setting::get('icons.read')),
         'options' => [
             'class' => 'icon',
             'title' => \Yii::t('app', 'Preview report'),
@@ -37,7 +38,7 @@ if(isset($model->defaultGenerator)) {
 }
 
 $this->params['subMenu']['items'][] = [
-    'label' => Html::icon('share'),
+    'label' => Html::icon(Setting::get('icons.share')),
     'url' => ['/projects/share', 'id' => $model->id],
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE),
     'options' => [
@@ -47,7 +48,7 @@ $this->params['subMenu']['items'][] = [
 ];
 
 $this->params['subMenu']['items'][] = [
-    'label' => Html::icon('stop'),
+    'label' => Html::icon(Setting::get('icons.close')),
     'url' => ['/projects/close', 'id' => $model->id],
     'options' => [
         'class' => 'icon',
@@ -65,7 +66,7 @@ $this->params['subMenu']['items'][] = [
 <div class="col-xs-12">
     <div class="row">
         <div class="col-xs-10">
-            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) ? Html::a(Html::icon('pencil'), ['projects/update', 'id' => $model->id]) : ''?></h1>
+            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) ? Html::a(Html::icon(\prime\models\ar\Setting::get('icons.update')), ['projects/update', 'id' => $model->id]) : ''?></h1>
         </div>
         <div class="col-xs-2">
             <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '90%']])?>

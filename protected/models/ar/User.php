@@ -32,7 +32,7 @@ class User extends \dektrium\user\models\User {
         );
     }
 
-    public function getGravatarUrl ($size = 1024)
+    public function getGravatarUrl ($size = 256)
     {
         return "http://gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size . "&d=blank";
     }

@@ -12,7 +12,12 @@ class Setting extends ActiveRecord
     public static function get($key, $default = null) {
         // Load configuration.
         if (!array_key_exists($key, self::$config)) {
-            self::$config[$key] = (null !== $model = self::findOne(['key' => $key])) ? json_decode($model->value, true) : $default;
+            self::$config[$key] =
+                (null !== $model = self::findOne(['key' => $key]))
+                    ? json_decode($model->value, true)
+                    : (!isset($default) && isset(app()->params['defaultSettings'][$key])
+                        ? app()->params['defaultSettings'][$key]
+                        : $default);
         }
 
         return self::$config[$key];
