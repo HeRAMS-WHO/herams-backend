@@ -310,7 +310,7 @@ class Project extends ActiveRecord implements ProjectInterface
                 // User owns the project.
                 || $this->owner_id == $user->id
                 // This is the health cluster mapping project, everyone can read it.
-                || $this->id = Setting::get('healthClusterDashboardProject')
+                || $this->id === Setting::get('healthClusterDashboardProject')
                 || Permission::isAllowed($user, $this, $operation);
         }
         return $result;
