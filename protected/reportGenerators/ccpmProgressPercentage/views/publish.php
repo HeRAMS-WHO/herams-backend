@@ -74,7 +74,7 @@ $this->beginContent('@app/views/layouts/report.php');
         <div class="col-xs-hidden" style="height: 80px;"></div>
         <div class="row row-eq-height">
             <div class="col-sm-2 col-sm-offset-0 col-xs-2 col-xs-offset-3 progress-value">
-                <h2><?=app()->formatter->asPercent($responseRates['total']['responses'] / $responseRates['total']['total1']); ?></h2>
+                <h2><?=app()->formatter->asPercent($responseRates['total']['total1'] > 0 ? $responseRates['total']['responses'] / $responseRates['total']['total1'] : 0); ?></h2>
             </div>
             <div class="col-sm-10 col-xs-7 progress-title">
                 <span><?=\Yii::t('app', 'Total response rate')?></span>

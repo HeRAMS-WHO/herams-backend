@@ -77,9 +77,12 @@ $this->params['subMenu']['items'][] = [
         <div class="col-xs-12 col-sm-7 col-md-9">
         </div>
         <div class="col-xs-12 col-sm-5 col-md-3">
-            <?=\prime\widgets\User::widget([
+            <?=isset($model->owner) ?
+            \prime\widgets\User::widget([
                 'user' => $model->owner
-            ])?>
+            ])
+                :''
+            ?>
         </div>
     </div>
 </div>

@@ -295,14 +295,23 @@ class Project extends ActiveRecord implements ProjectInterface
         return \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->all(), 'id', 'title');
     }
 
+    /**
+     * @param $operation
+     * @param User|null $user
+     * @return bool
+     */
     public function userCan($operation, User $user = null)
     {
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
 
         $result = parent::userCan($operation, $user);
         if(!$result) {
-            $result = $result || $this->owner_id == $user->id;
-            $result = $result || Permission::isAllowed($user, $this, $operation);
+            $result = $result
+                // User owns the project.
+                || $this->owner_id == $user->id
+                // This is the health cluster mapping project, everyone can read it.
+                || $this->id = Setting::get('healthClusterDashboardProject')
+                || Permission::isAllowed($user, $this, $operation);
         }
         return $result;
     }
