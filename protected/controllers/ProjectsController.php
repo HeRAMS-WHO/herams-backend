@@ -7,7 +7,7 @@ use Befound\Components\DateTime;
 use prime\components\Controller;
 use prime\models\Country;
 use prime\models\forms\projects\CreateUpdate;
-use prime\models\forms\projects\Share;
+use prime\models\forms\Share;
 use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
@@ -148,14 +148,7 @@ class ProjectsController extends Controller
     public function actionShare(Session $session, Request $request, $id)
     {
         $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
-
-        $model = new Share([
-            'projectId' => $project->id
-        ]);
-
-        $permissionsDataProvider = new \yii\data\ActiveDataProvider([
-            'query' => $model->getProject()->getPermissions()
-        ]);
+        $model = new Share($project, [$project->owner_id]);
 
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->createRecords()) {
@@ -166,22 +159,19 @@ class ProjectsController extends Controller
                         'text' => \Yii::t('app',
                             "Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
                             [
-                                'modelName' => $model->project->title,
+                                'modelName' => $project->title,
                                 'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
                             ]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-                $model = new Share([
-                    'projectId' => $project->id
-                ]);
+                $model = new Share($project, [$project->owner_id]);
             }
         }
 
         return $this->render('share', [
             'model' => $model,
-            'project' => $project,
-            'permissionsDataProvider' => $permissionsDataProvider
+            'project' => $project
         ]);
     }
 

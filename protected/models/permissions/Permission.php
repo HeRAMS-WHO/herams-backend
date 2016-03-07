@@ -70,7 +70,7 @@ class Permission extends ActiveRecord
         if($p->isNewRecord || $strict || static::permissionLevels()[$permission] > static::permissionLevels()[$p->permission]) {
             $p->permission = $permission;
             return $p->save();
-        } elseif (static::permissionLevels()[$permission] <= $p->permission) {
+        } elseif (static::permissionLevels()[$permission] <= static::permissionLevels()[$p->permission]) {
             return true;
         }
 

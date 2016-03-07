@@ -5,23 +5,23 @@ use \app\components\ActiveForm;
 use app\components\Html;
 
 /**
- * @var \prime\models\ar\Project $project
+ * @var \prime\models\ar\UserList $userList
  * @var \prime\models\forms\Share $model
  */
 
 $this->params['subMenu'] = [
     'items' => [
         [
-            'label' => Html::submitButton(\Yii::t('app', 'Share'), ['form' => 'share-project', 'class' => 'btn btn-primary'])
+            'label' => Html::submitButton(\Yii::t('app', 'Share'), ['form' => 'share-userList', 'class' => 'btn btn-primary'])
         ],
     ]
 ];
 ?>
-<h1><?=\Yii::t('app', 'Share {projectName}', ['projectName' => $project->title])?></h1>
+<h1><?=\Yii::t('app', 'Share {userListName}', ['userListName' => $userList->name])?></h1>
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'share-project',
+        'id' => 'share-userList',
         'method' => 'POST',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -36,7 +36,7 @@ $this->params['subMenu'] = [
     ?>
     <h2><?=\Yii::t('app', 'Already shared with')?></h2>
     <?php
-    echo $model->renderTable('/projects/share-delete');
+    echo $model->renderTable('/user-lists/share-delete');
     ?>
 </div>
 

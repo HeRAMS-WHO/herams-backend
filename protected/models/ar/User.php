@@ -72,7 +72,7 @@ class User extends \dektrium\user\models\User {
 
     public function getUserLists()
     {
-        return $this->hasMany(UserList::class, ['user_id' => 'id']);
+        return UserList::find()->userCan(Permission::PERMISSION_READ);
     }
 
     public function getUsername()
