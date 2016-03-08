@@ -323,13 +323,14 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         if (!isset($this->_token)) {
             // Always attempt creation.
-            $this->limeSurvey->createToken($this->data_survey_eid, ['token' => $this->token]);
-            $token = $this->limeSurvey->getToken($this->data_survey_eid, $this->token);
+            $this->getLimeSurvey()->createToken($this->data_survey_eid, ['token' => $this->token]);
+            /** @var WritableTokenInterface $token */
+            $token = $this->getLimeSurvey()->getToken($this->data_survey_eid, $this->token);
 
             $token->setFirstName($this->getLocality());
             $token->setLastName($this->owner->lastName);
             $token->setValidFrom(new Carbon($this->created));
-
+            $token->save();
             $this->_token = $token;
         }
         return $this->_token;
