@@ -61,7 +61,7 @@ echo Nav::widget([
         ],
         [
             'label' => Html::icon(\prime\models\ar\Setting::get('icons.user'), ['title' => 'User']),
-            'url' => ['/user/settings/account'],
+            'url' => ['/user/settings/profile'],
             'visible' => !Yii::$app->user->isGuest
 
         ],
