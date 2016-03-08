@@ -98,11 +98,12 @@ $this->beginContent('@app/views/layouts/report.php');
     <?php
     echo \prime\widgets\report\Columns::widget([
         'items' => [
-            \Yii::t('ccpm', 'Level : {level}', ['level' => 'National']) . '<br>' . \Yii::t('ccpm', 'Completed on: {completedOn}', ['completedOn' => $signature->getTime()->format('d F - Y')]),
+            '<br>' . \Yii::t('ccpm', 'Level : {level}', ['level' => 'National']) . '<br>' . \Yii::t('ccpm', 'Completed on: {completedOn}', ['completedOn' => $signature->getTime()->format('d F - Y')]),
         ],
         'columnsInRow' => 2
     ]);
     ?>
+    <br>
     <hr>
     <div class="row">
         <h1 style="margin-top: 300px; margin-bottom: 300px; text-align: center;"><?=\Yii::t('ccpm', 'Final report')?></h1>
