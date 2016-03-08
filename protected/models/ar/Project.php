@@ -328,7 +328,9 @@ class Project extends ActiveRecord implements ProjectInterface
             $token = $this->getLimeSurvey()->getToken($this->data_survey_eid, $this->token);
 
             $token->setFirstName($this->getLocality());
-            $token->setLastName($this->owner->lastName);
+            if (isset($this->owner)) {
+                $token->setLastName($this->owner->lastName);
+            }
             $token->setValidFrom(new Carbon($this->created));
             $token->save();
             $this->_token = $token;
