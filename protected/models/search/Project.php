@@ -56,7 +56,7 @@ class Project extends \prime\models\ar\Project
     public function rules()
     {
         return [
-            [['created'], 'safe'],
+            [['created', 'closed'], 'safe'],
             [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
             [['title', 'description', 'tool_id', 'locality_name'], StringValidator::class],
         ];
@@ -76,6 +76,7 @@ class Project extends \prime\models\ar\Project
                 'title',
                 'description',
                 'created',
+                'closed',
                 'locality_name'
             ]
         ];
@@ -105,6 +106,7 @@ class Project extends \prime\models\ar\Project
                     'default' => 'asc'
                 ],
                 'created',
+                'closed',
                 'locality_name'
             ]
         ]);

@@ -6,7 +6,6 @@ use prime\models\ar\Setting;
 /**
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
  * @var \prime\models\search\Project $projectSearch
- * @var int $closedCount
  */
 
 ?>
@@ -14,32 +13,7 @@ use prime\models\ar\Setting;
     <?php
 
 //    \yii\bootstrap\Button::class
-    $header = Yii::t('app', 'Your projects')
-        .
-        \yii\bootstrap\ButtonGroup::widget([
-            'options' => [
-                'class' => 'pull-right'
-            ],
-            'buttons' => [
-                [
-                    'label' => 'New project',
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => \yii\helpers\Url::to(['projects/new']),
-                        'class' => 'btn-primary',
-                    ]
-                ],
-                [
-                    'label' => \Yii::t('app', 'Create'),
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => \yii\helpers\Url::to(['projects/create']),
-                        'class' => 'btn-default',
-                    ],
-                    'visible' => app()->user->can('admin')
-                ],
-            ]
-        ])
+    $header = Yii::t('app', 'Closed projects')
         .
         \yii\bootstrap\ButtonGroup::widget([
             'options' => [
@@ -48,13 +22,12 @@ use prime\models\ar\Setting;
             ],
             'buttons' => [
                 [
-                    'label' => \Yii::t('app', 'Show closed projects'),
+                    'label' => \Yii::t('app', 'Show open projects'),
                     'tagName' => 'a',
                     'options' => [
-                        'href' => \yii\helpers\Url::to(['/projects/list-closed']),
+                        'href' => \yii\helpers\Url::to(['/projects/list']),
                         'class' => 'btn-default',
-                    ],
-                    'visible' => $closedCount > 0
+                    ]
                 ],
             ]
         ])
@@ -120,10 +93,26 @@ use prime\models\ar\Setting;
                     ]
                 ],
             ],
+            [
+                'attribute' => 'closed',
+                'format' => 'date',
+                'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'locale' => [
+                            'format' => 'YYYY-MM-DD',
+                        ],
+                        'allowClear'=>true,
+                    ],
+                    'pluginEvents' => [
+                        "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
+                    ]
+                ],
+            ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
                 'width' => '100px',
-                'template' => '{read} {update} {share} {close}',
+                'template' => '{read} {open}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         $result = Html::a(
@@ -135,46 +124,18 @@ use prime\models\ar\Setting;
                         );
                         return $result;
                     },
-                    'update' => function($url, $model, $key) {
+                    'open' => function($url, $model, $key) {
                         $result = '';
                         /** @var \prime\models\ar\Project $model */
                         if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
                             $result = Html::a(
-                                Html::icon(Setting::get('icons.update')),
-                                ['/projects/update', 'id' => $model->id],
+                                Html::icon(Setting::get('icons.open')),
+                                ['/projects/re-open', 'id' => $model->id],
                                 [
-                                    'title' => \Yii::t('app', 'Update')
-                                ]
-                            );
-                        }
-                        return $result;
-                    },
-                    'share' => function($url, $model, $key) {
-                        $result = '';
-                        /** @var \prime\models\ar\Project $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
-                            $result = Html::a(
-                                Html::icon(Setting::get('icons.share')),
-                                ['/projects/share', 'id' => $model->id],
-                                [
-                                    'title' => \Yii::t('app', 'Share')
-                                ]
-                            );
-                        }
-                        return $result;
-                    },
-                    'close' => function($url, $model, $key) {
-                        $result = '';
-                        /** @var \prime\models\ar\Project $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
-                            $result = Html::a(
-                                Html::icon(Setting::get('icons.close')),
-                                ['/projects/close', 'id' => $model->id],
-                                [
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
-                                    'data-method' => 'delete',
+                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to re-open project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
+                                    'data-method' => 'put',
                                     'class' => 'text-danger',
-                                    'title' => \Yii::t('app', 'Close')
+                                    'title' => \Yii::t('app', 'Re-open')
                                 ]
                             );
                         }

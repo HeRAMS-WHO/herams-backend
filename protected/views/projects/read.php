@@ -14,7 +14,7 @@ $this->params['subMenu']['items'] = [];
 $this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.limeSurveyUpdate')),
     'url' => $model->surveyUrl,
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE),
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null,
     'options' => [
         'class' => 'icon',
         'title' => \Yii::t('app', 'Update'),
@@ -33,14 +33,14 @@ if(isset($model->defaultGenerator)) {
             'projectId' => $model->id,
             'reportGenerator' => $model->default_generator
         ],
-        'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && ($model->getResponses()->size() > 0)
+        'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && ($model->getResponses()->size() > 0) && $model->closed === null
     ];
 }
 
 $this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.share')),
     'url' => ['/projects/share', 'id' => $model->id],
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE),
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE) && $model->closed === null,
     'options' => [
         'class' => 'icon',
         'title' => \Yii::t('app', 'Share'),
@@ -58,7 +58,21 @@ $this->params['subMenu']['items'][] = [
         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
         'data-method' => 'delete'
     ],
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null
+];
+
+$this->params['subMenu']['items'][] = [
+    'label' => Html::icon(Setting::get('icons.open')),
+    'url' => ['/projects/re-open', 'id' => $model->id],
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Re-open'),
+    ],
+    'linkOptions' => [
+        'data-confirm' => \Yii::t('app', 'Are you sure you want to re-open project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
+        'data-method' => 'put'
+    ],
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed !== null
 ];
 
 ?>
@@ -66,7 +80,7 @@ $this->params['subMenu']['items'][] = [
 <div class="col-xs-12">
     <div class="row">
         <div class="col-xs-10">
-            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) ? Html::a(Html::icon(\prime\models\ar\Setting::get('icons.update')), ['projects/update', 'id' => $model->id]) : ''?></h1>
+            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null ? Html::a(Html::icon(\prime\models\ar\Setting::get('icons.update')), ['projects/update', 'id' => $model->id]) : ''?></h1>
         </div>
         <div class="col-xs-2">
             <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '90%']])?>

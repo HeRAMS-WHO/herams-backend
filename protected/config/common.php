@@ -121,6 +121,7 @@ return [
             'icons.update' => 'pencil',
             'icons.share' => 'share',
             'icons.close' => 'stop',
+            'icons.open' => 'play',
             'icons.remove' => 'trash',
             'icons.limeSurveyUpdate' => 'cog'
         ]
