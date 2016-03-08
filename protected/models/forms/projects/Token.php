@@ -66,7 +66,7 @@ class Token extends Model
         if (method_exists($this, $setter)) {
             $this->$setter($value);
         } elseif (method_exists($this->_token, $setter)) {
-            return $this->_token->$setter($name, $value);
+            return $this->_token->$setter($value);
         } elseif (array_key_exists(ucfirst($name), $this->_token->getCustomAttributes())) {
             return $this->_token->setCustomAttribute(ucfirst($name), $value);
         } else {

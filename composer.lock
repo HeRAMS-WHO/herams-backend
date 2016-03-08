@@ -2632,16 +2632,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v0.7.3",
+            "version": "v0.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "7a141c0652c842ee9ed8f7d017e8e565b5e2db90"
+                "reference": "ef43f92072f5e4994e58fb73a4a2ea5ccd7138cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/7a141c0652c842ee9ed8f7d017e8e565b5e2db90",
-                "reference": "7a141c0652c842ee9ed8f7d017e8e565b5e2db90",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/ef43f92072f5e4994e58fb73a4a2ea5ccd7138cc",
+                "reference": "ef43f92072f5e4994e58fb73a4a2ea5ccd7138cc",
                 "shasum": ""
             },
             "require": {
@@ -2669,7 +2669,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2016-03-08 12:15:16"
+            "time": "2016-03-08 14:35:26"
         },
         {
             "name": "sam-it/yii2-magic",
@@ -2935,12 +2935,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "2745c95428b7ec31ff383782b19dfca8c0140609"
+                "reference": "fb87a896b95d6198068f8d3bc113bb39522457dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/2745c95428b7ec31ff383782b19dfca8c0140609",
-                "reference": "2745c95428b7ec31ff383782b19dfca8c0140609",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/fb87a896b95d6198068f8d3bc113bb39522457dd",
+                "reference": "fb87a896b95d6198068f8d3bc113bb39522457dd",
                 "shasum": ""
             },
             "require": {
@@ -3021,7 +3021,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-03-07 20:59:24"
+            "time": "2016-03-08 13:12:08"
         },
         {
             "name": "yiisoft/yii2-authclient",
