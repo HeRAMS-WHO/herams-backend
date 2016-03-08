@@ -346,9 +346,22 @@ class Project extends ActiveRecord implements ProjectInterface
 
     public function getSurveyUrl()
     {
-       return $this->getLimeSurvey()->getUrl($this->data_survey_eid, [
-           'token' => $this->getAttribute('token'),
-           'newtest' => 'Y'
-       ]);
+        /**
+         * @todo Refactor this to be somewhere else.
+         * Special handling for CCPM.
+         */
+        if ($this->tool->acronym == 'CCPM') {
+            $surveyId = 67825;
+        } else {
+            $surveyId = $this->data_survey_eid;
+        }
+
+        return $this->getLimeSurvey()->getUrl(
+            $surveyId,
+            [
+                'token' => $this->getAttribute('token'),
+                'newtest' => 'Y'
+            ]
+        );
     }
 }
