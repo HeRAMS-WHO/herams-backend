@@ -36,7 +36,7 @@ class ProjectsController extends Controller
         if (!$request->isDelete) {
             throw new HttpException(405);
         } else {
-            $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
             $model->scenario = 'close';
 
             $model->closed = (new DateTime())->format(DateTime::MYSQL_DATETIME);
@@ -172,7 +172,7 @@ class ProjectsController extends Controller
         if (!$request->isPut) {
             throw new HttpException(405);
         } else {
-            $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
             $model->scenario = 'reOpen';
 
             $model->closed = null;

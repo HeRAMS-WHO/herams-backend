@@ -127,7 +127,7 @@ use prime\models\ar\Setting;
                     'open' => function($url, $model, $key) {
                         $result = '';
                         /** @var \prime\models\ar\Project $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.open')),
                                 ['/projects/re-open', 'id' => $model->id],

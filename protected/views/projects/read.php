@@ -58,7 +58,7 @@ $this->params['subMenu']['items'][] = [
         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
         'data-method' => 'delete'
     ],
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN) && $model->closed === null
 ];
 
 $this->params['subMenu']['items'][] = [
@@ -72,7 +72,7 @@ $this->params['subMenu']['items'][] = [
         'data-confirm' => \Yii::t('app', 'Are you sure you want to re-open project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
         'data-method' => 'put'
     ],
-    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed !== null
+    'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN) && $model->closed !== null
 ];
 
 ?>

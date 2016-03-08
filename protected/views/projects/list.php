@@ -166,7 +166,7 @@ use prime\models\ar\Setting;
                     'close' => function($url, $model, $key) {
                         $result = '';
                         /** @var \prime\models\ar\Project $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.close')),
                                 ['/projects/close', 'id' => $model->id],
