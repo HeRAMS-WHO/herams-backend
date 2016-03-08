@@ -20,6 +20,7 @@ class Permission extends ActiveRecord
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
     const PERMISSION_SHARE = 'share';
+    const PERMISSION_ADMIN = 'admin';
 
     public function attributeLabels()
     {
@@ -112,7 +113,8 @@ class Permission extends ActiveRecord
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read'),
             self::PERMISSION_WRITE => \Yii::t('app', 'Write/Read'),
-            self::PERMISSION_SHARE => \Yii::t('app', 'Share/Write/Read')
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share/Write/Read'),
+            self::PERMISSION_ADMIN => \Yii::t('app', 'Admin/Share/Write/Read')
         ];
     }
 
@@ -122,6 +124,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_READ => 0,
             self::PERMISSION_WRITE => 1,
             self::PERMISSION_SHARE => 2,
+            self::PERMISSION_ADMIN => 3,
         ];
     }
 

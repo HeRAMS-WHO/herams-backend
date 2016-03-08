@@ -3,8 +3,10 @@
 namespace prime\controllers;
 
 use app\components\Html;
+use app\queries\ToolQuery;
 use Befound\Components\DateTime;
 use prime\components\Controller;
+use prime\models\ar\Setting;
 use prime\models\Country;
 use prime\models\forms\projects\CreateUpdate;
 use prime\models\forms\Share;
@@ -17,6 +19,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
@@ -33,7 +36,7 @@ class ProjectsController extends Controller
         if (!$request->isDelete) {
             throw new HttpException(405);
         } else {
-            $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
             $model->scenario = 'close';
 
             $model->closed = (new DateTime())->format(DateTime::MYSQL_DATETIME);
@@ -43,10 +46,10 @@ class ProjectsController extends Controller
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
                         'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been closed.", ['modelName' => $model->title]),
-                        'icon' => 'glyphicon glyphicon-trash'
+                        'icon' => 'glyphicon glyphicon-' . Setting::get('icons.close')
                     ]
                 );
-                return $this->redirect(['/projects/list']);
+                return $this->redirect($request->referrer);
             }
         }
         if(isset($model)) {
@@ -120,8 +123,27 @@ class ProjectsController extends Controller
     {
         $projectSearch = new \prime\models\search\Project();
         $projectsDataProvider = $projectSearch->search($request->queryParams);
+        $closedCount = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE)->count();
 
         return $this->render('list', [
+            'projectSearch' => $projectSearch,
+            'projectsDataProvider' => $projectsDataProvider,
+            'closedCount' =>$closedCount
+        ]);
+    }
+
+    public function actionListClosed(Request $request)
+    {
+        $projectSearch = new \prime\models\search\Project();
+        $projectSearch->query = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE);
+        if(!app()->user->can('admin')) {
+            $projectSearch->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
+        } else {
+            $projectSearch->query->joinWith(['tool']);
+        }
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
+
+        return $this->render('listDeleted', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider
         ]);
@@ -143,6 +165,34 @@ class ProjectsController extends Controller
         return $this->render('read', [
             'model' => $project,
         ]);
+    }
+
+    public function actionReOpen(Session $session, Request $request, $id)
+    {
+        if (!$request->isPut) {
+            throw new HttpException(405);
+        } else {
+            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+            $model->scenario = 'reOpen';
+
+            $model->closed = null;
+            if($model->save()) {
+                $session->setFlash(
+                    'projectReopened',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been re-opened.", ['modelName' => $model->title]),
+                        'icon' => 'glyphicon glyphicon-' . Setting::get('icons.open')
+                    ]
+                );
+                return $this->redirect($request->referrer);
+            }
+        }
+        if(isset($model)) {
+            return $this->redirect(['/projects/read', 'id' => $model->id]);
+        } else {
+            return $this->redirect(['/projects/list-closed']);
+        }
     }
 
     public function actionShare(Session $session, Request $request, $id)

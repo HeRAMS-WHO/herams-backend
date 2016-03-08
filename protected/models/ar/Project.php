@@ -264,7 +264,7 @@ class Project extends ActiveRecord implements ProjectInterface
     public function rules()
     {
         return [
-            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'closed', 'country_iso_3'], RequiredValidator::class],
+            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'country_iso_3'], RequiredValidator::class],
             [['title', 'description', 'locality_name'], StringValidator::class],
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
@@ -275,7 +275,7 @@ class Project extends ActiveRecord implements ProjectInterface
                 'range' => function(self $model, $attribute) { return array_keys($model->generatorOptions()); },
                 'enableClientValidation'=> false
             ],
-            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
+            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME, 'skipOnEmpty' => true],
             [['latitude', 'longitude'], NumberValidator::class],
             // Save NULL instead of "" when no default report is selected.
             [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
@@ -287,6 +287,7 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         return array_merge(parent::scenarios(),[
             'close' => ['closed'],
+            'reOpen' => ['closed']
         ]);
     }
 

@@ -39,7 +39,7 @@ class SignupCest
         $I->fillField('Email', $email);
         $I->fillField('Organization', 'Tester');
         $I->selectOption('Country', 'Belgium');
-        $I->fillField('Office', 'Corner');
+        $I->fillField('Location', 'Corner');
         $I->fillField('Captcha', 'test');
         $I->click('Submit');
         // Check source since this is a javascript popup.
