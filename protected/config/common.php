@@ -49,6 +49,9 @@ return [
         'authManager' => [
             'class' => \dektrium\rbac\components\DbManager::class
         ],
+        'cache' => [
+            'class' => \yii\caching\FileCache::class
+        ],
         'limeSurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(\prime\models\ar\Setting::get('limeSurvey.host'));
             return new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));

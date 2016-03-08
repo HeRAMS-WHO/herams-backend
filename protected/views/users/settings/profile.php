@@ -71,6 +71,14 @@ $this->title = Yii::t('user', 'Profile settings');
                 'other_contact' => [
                     'type' => Form::INPUT_TEXT
                 ],
+                'accessToken' => [
+                    'type' => Form::INPUT_TEXT,
+                    'hint' => \Yii::t('app', 'Sharing this will grant recipients full access to your account. Be careful!'),
+                    'options' => [
+                        'disabled' => true
+                    ]
+                ],
+
                 'actions' => [
                     'type' => Form::INPUT_RAW,
                     'value' =>

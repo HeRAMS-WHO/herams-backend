@@ -116,7 +116,10 @@ class User extends \dektrium\user\models\User {
 
     }
 
-
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
 
 
 }
