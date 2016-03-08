@@ -330,19 +330,26 @@ class ProjectsController extends Controller
         if ($surveyId > 0) {
             // Get all tokens for the selected survey.
             $usedTokens = array_flip(Project::find()->select('token')->column());
-
-            $tokens = array_filter($limeSurvey->getTokens($surveyId), function (TokenInterface $token) use ($usedTokens) {
-                return !isset($usedTokens[$token->getToken()]) && $token->getToken() != '';
-            });
+            $tokens = $limeSurvey->getTokens($surveyId);
 
             // Filter these tokens by tokens that are in use.
 
             /** @var TokenInterface $token */
             foreach ($tokens as $token) {
-                $result[] = [
+                $row = [
                     'id' => $token->getToken(),
-                    'name' => "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(', ', array_filter($token->getCustomAttributes()))
+                    'name' => "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
+                            ', ',
+                            array_filter($token->getCustomAttributes())
+                        )
                 ];
+
+                if(isset($usedTokens[$token->getToken()])) {
+                    $row['options'] = [
+                        'disabled' => true
+                    ];
+                }
+                $result[] = $row;
             }
         }
         return [
