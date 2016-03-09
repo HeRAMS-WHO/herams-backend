@@ -2935,12 +2935,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "fb87a896b95d6198068f8d3bc113bb39522457dd"
+                "reference": "fddc28e6f72180f8a608c248ed441473ca0746d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/fb87a896b95d6198068f8d3bc113bb39522457dd",
-                "reference": "fb87a896b95d6198068f8d3bc113bb39522457dd",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/fddc28e6f72180f8a608c248ed441473ca0746d1",
+                "reference": "fddc28e6f72180f8a608c248ed441473ca0746d1",
                 "shasum": ""
             },
             "require": {
@@ -3021,7 +3021,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-03-08 13:12:08"
+            "time": "2016-03-09 08:17:41"
         },
         {
             "name": "yiisoft/yii2-authclient",
