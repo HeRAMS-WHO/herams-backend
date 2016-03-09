@@ -74,7 +74,7 @@ $this->beginContent('@app/views/layouts/report.php');
         <h1 style="margin-top: 300px; margin-bottom: 300px; text-align: center;"><?=\Yii::t('cd', 'Final report')?></h1>
     </div>
     <div class="row">
-        <div class="col-xs-12" style="text-align: right;"><img style="height: 80px;" src="data:image/gif;base64,<?=base64_encode(file_get_contents(__DIR__ . '/../../base/assets/img/who-logo.png'))?>" /></div>
+        <div class="col-xs-12" style="text-align: right;"><img style="height: 40px;" src="data:image/gif;base64,<?=base64_encode(file_get_contents(__DIR__ . '/../../base/assets/img/logo_Prime_BKGD_tag_CMJN.png'))?>" /></div>
     </div>
 </div>
 
