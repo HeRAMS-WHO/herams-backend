@@ -127,6 +127,7 @@ return [
             'icons.close' => 'stop',
             'icons.open' => 'play',
             'icons.remove' => 'trash',
+            'icons.request' => 'forward',
             'icons.limeSurveyUpdate' => 'cog'
         ]
     ]
