@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3c5a9d199c1be0328db52bb0ff3dbd97",
-    "content-hash": "8bd60354ac8414ecc5a789ee475ef69f",
+    "hash": "635d75f83d0586bf836d4112401842b0",
+    "content-hash": "850a5e11211cec89dcc4e7c87c45bd8a",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -1950,12 +1950,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "4d03239c1e28ef8d3b96ab7fe360f5cbda34fb69"
+                "reference": "cb2a5992cb96bd2939e30ec1c76eba418d6a30af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/4d03239c1e28ef8d3b96ab7fe360f5cbda34fb69",
-                "reference": "4d03239c1e28ef8d3b96ab7fe360f5cbda34fb69",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/cb2a5992cb96bd2939e30ec1c76eba418d6a30af",
+                "reference": "cb2a5992cb96bd2939e30ec1c76eba418d6a30af",
                 "shasum": ""
             },
             "require": {
@@ -1995,7 +1995,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-17 11:49:30"
+            "time": "2016-03-10 11:33:59"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -3276,12 +3276,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "4bf8532fac87aa89139b3982dfb4ac0738e93cfc"
+                "reference": "dbc038535c195ec128a3ffc71041d164dfe89dd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/4bf8532fac87aa89139b3982dfb4ac0738e93cfc",
-                "reference": "4bf8532fac87aa89139b3982dfb4ac0738e93cfc",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/dbc038535c195ec128a3ffc71041d164dfe89dd9",
+                "reference": "dbc038535c195ec128a3ffc71041d164dfe89dd9",
                 "shasum": ""
             },
             "require": {
@@ -3349,7 +3349,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2016-03-06 12:08:25"
+            "time": "2016-03-10 10:57:46"
         },
         {
             "name": "codeception/phpbuiltinserver",
@@ -3494,12 +3494,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "55ab7c5edccd60c4089eb938af158b249f9831a1"
+                "reference": "ec6cbc1d5482ea3b7a2c3c65ded0d8e749b19efb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/55ab7c5edccd60c4089eb938af158b249f9831a1",
-                "reference": "55ab7c5edccd60c4089eb938af158b249f9831a1",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ec6cbc1d5482ea3b7a2c3c65ded0d8e749b19efb",
+                "reference": "ec6cbc1d5482ea3b7a2c3c65ded0d8e749b19efb",
                 "shasum": ""
             },
             "require": {
@@ -3548,7 +3548,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-03-07 21:03:36"
+            "time": "2016-03-09 22:09:58"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3958,12 +3958,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "264188ddf4d3586c80ea615f8ec8eaea34e652a1"
+                "reference": "7718ed2bbb019dc17a802ef035a461eaac9858fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/264188ddf4d3586c80ea615f8ec8eaea34e652a1",
-                "reference": "264188ddf4d3586c80ea615f8ec8eaea34e652a1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7718ed2bbb019dc17a802ef035a461eaac9858fa",
+                "reference": "7718ed2bbb019dc17a802ef035a461eaac9858fa",
                 "shasum": ""
             },
             "require": {
@@ -4022,7 +4022,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-23 11:54:56"
+            "time": "2016-03-10 08:29:57"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4562,12 +4562,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "8412f1e1650c27758908c584f63f05bfba3f0314"
+                "reference": "a82c065e1904781ccb98427e7f523c7b08313c0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/8412f1e1650c27758908c584f63f05bfba3f0314",
-                "reference": "8412f1e1650c27758908c584f63f05bfba3f0314",
+                "url": "https://api.github.com/repos/symfony/console/zipball/a82c065e1904781ccb98427e7f523c7b08313c0c",
+                "reference": "a82c065e1904781ccb98427e7f523c7b08313c0c",
                 "shasum": ""
             },
             "require": {
@@ -4614,7 +4614,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-04 07:55:57"
+            "time": "2016-03-10 10:34:12"
         },
         {
             "name": "symfony/css-selector",
@@ -4791,12 +4791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "623bda0abd9aa29e529c8e9c08b3b84171914723"
+                "reference": "c54e407b35bc098916704e9fd090da21da4c4f52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/623bda0abd9aa29e529c8e9c08b3b84171914723",
-                "reference": "623bda0abd9aa29e529c8e9c08b3b84171914723",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/c54e407b35bc098916704e9fd090da21da4c4f52",
+                "reference": "c54e407b35bc098916704e9fd090da21da4c4f52",
                 "shasum": ""
             },
             "require": {
@@ -4832,7 +4832,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-01-27 05:14:46"
+            "time": "2016-03-10 11:13:05"
         },
         {
             "name": "symfony/yaml",
@@ -4988,7 +4988,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.6.0",
-        "ext-imagick": "*"
+        "ext-imagick": "*",
+        "ext-gd": "*"
     },
     "platform-dev": []
 }
