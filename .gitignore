@@ -4,6 +4,7 @@
 /public/assets
 /public/img/tools/*
 .idea/
+/protected/runtime/cache/
 /protected/runtime/debug/
 /protected/runtime/logs/
 /protected/runtime/HTML/

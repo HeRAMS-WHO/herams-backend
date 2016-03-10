@@ -15,6 +15,7 @@
 
         public function actionAbout()
         {
+            $this->layout = 'main';
             return $this->render('about');
         }
 

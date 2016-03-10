@@ -118,6 +118,7 @@ return [
             'icons.userLists' => 'bullhorn',
             'icons.user' => 'user',
             'icons.configuration' => 'wrench',
+            'icons.logIn' => 'log-in',
             'icons.logOut' => 'log-out',
             'icons.search' => 'search',
             'icons.read' => 'eye-open',

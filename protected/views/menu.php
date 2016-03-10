@@ -9,7 +9,7 @@ use kartik\helpers\Html;
  * @var \yii\web\View $this
  */
 NavBar::begin([
-    'brandLabel' => \kartik\helpers\Html::img('@web/img/logo.svg'),
+    'brandLabel' => \yii\helpers\ArrayHelper::getValue($this->params, 'brandLabel', \kartik\helpers\Html::img('@web/img/logo.svg')),
     'brandUrl' => Yii::$app->homeUrl,
     'renderInnerContainer' => true,
     'options' => [
@@ -77,7 +77,7 @@ echo Nav::widget([
 
         ],
         [
-            'label' => \Yii::t('app', 'LOGIN SIGNUP'),// Html::icon('log-in', ['title' => 'LOGIN SIGNUP']),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.logIn'), ['title' => 'Login or sign up']),
             'url' => ['/user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
