@@ -15,11 +15,13 @@ $this->params['subMenu'] = [
             'linkOptions' => [
                 'data-confirm' => \Yii::t('app', 'Are you sure you want to delete list <strong>{name}</strong>?', ['name' => $model->name]),
                 'data-method' => 'delete'
-            ]
+            ],
+            'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)
         ],
         [
             'label' => \Yii::t('app', 'Edit'),
-            'url' => ['/user-lists/update', 'id' => $model->id]
+            'url' => ['/user-lists/update', 'id' => $model->id],
+            'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
         ]
     ]
 ];

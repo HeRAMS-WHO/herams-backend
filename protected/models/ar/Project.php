@@ -264,7 +264,7 @@ class Project extends ActiveRecord implements ProjectInterface
     public function rules()
     {
         return [
-            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'closed', 'country_iso_3'], RequiredValidator::class],
+            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'country_iso_3'], RequiredValidator::class],
             [['title', 'description', 'locality_name'], StringValidator::class],
             [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
@@ -275,7 +275,7 @@ class Project extends ActiveRecord implements ProjectInterface
                 'range' => function(self $model, $attribute) { return array_keys($model->generatorOptions()); },
                 'enableClientValidation'=> false
             ],
-            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME],
+            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME, 'skipOnEmpty' => true],
             [['latitude', 'longitude'], NumberValidator::class],
             // Save NULL instead of "" when no default report is selected.
             [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
@@ -287,6 +287,7 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         return array_merge(parent::scenarios(),[
             'close' => ['closed'],
+            'reOpen' => ['closed']
         ]);
     }
 
@@ -323,13 +324,16 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         if (!isset($this->_token)) {
             // Always attempt creation.
-            $this->limeSurvey->createToken($this->data_survey_eid, ['token' => $this->token]);
-            $token = $this->limeSurvey->getToken($this->data_survey_eid, $this->token);
+            $this->getLimeSurvey()->createToken($this->data_survey_eid, ['token' => $this->token]);
+            /** @var WritableTokenInterface $token */
+            $token = $this->getLimeSurvey()->getToken($this->data_survey_eid, $this->token);
 
             $token->setFirstName($this->getLocality());
-            $token->setLastName($this->owner->lastName);
+            if (isset($this->owner)) {
+                $token->setLastName($this->owner->lastName);
+            }
             $token->setValidFrom(new Carbon($this->created));
-
+            $token->save();
             $this->_token = $token;
         }
         return $this->_token;
@@ -346,9 +350,22 @@ class Project extends ActiveRecord implements ProjectInterface
 
     public function getSurveyUrl()
     {
-       return $this->getLimeSurvey()->getUrl($this->data_survey_eid, [
-           'token' => $this->getAttribute('token'),
-           'newtest' => 'Y'
-       ]);
+        /**
+         * @todo Refactor this to be somewhere else.
+         * Special handling for CCPM.
+         */
+        if ($this->tool->acronym == 'CCPM') {
+            $surveyId = 67825;
+        } else {
+            $surveyId = $this->data_survey_eid;
+        }
+
+        return $this->getLimeSurvey()->getUrl(
+            $surveyId,
+            [
+                'token' => $this->getAttribute('token'),
+                'newtest' => 'Y'
+            ]
+        );
     }
 }

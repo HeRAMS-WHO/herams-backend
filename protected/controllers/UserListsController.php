@@ -3,6 +3,7 @@
 namespace prime\controllers;
 
 use prime\components\Controller;
+use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use prime\models\ar\UserList;
 use yii\helpers\ArrayHelper;
@@ -39,7 +40,7 @@ class UserListsController extends Controller
 
     public function actionDelete(Request $request, Session $session, $id)
     {
-        $model = UserList::loadOne($id, [], Permission::PERMISSION_WRITE);
+        $model = UserList::loadOne($id, [], Permission::PERMISSION_SHARE);
         if($request->isDelete) {
             $model->delete();
             $session->setFlash(
@@ -66,6 +67,62 @@ class UserListsController extends Controller
     {
         $model = UserList::loadOne($id);
         return $this->render('read', ['model' => $model]);
+    }
+
+    public function actionShare(Session $session, Request $request, $id)
+    {
+        $userList = UserList::loadOne($id, [], Permission::PERMISSION_SHARE);
+        $model = new Share($userList, [$userList->user_id]);
+
+        if($request->isPost) {
+            if($model->load($request->bodyParams) && $model->createRecords()) {
+                $session->setFlash(
+                    'userListShared',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => \Yii::t('app',
+                            "UserList <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
+                            [
+                                'modelName' => $userList->name,
+                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
+                            ]),
+                        'icon' => 'glyphicon glyphicon-ok'
+                    ]
+                );
+                $model = new Share($userList, [$userList->user_id]);
+            }
+        }
+
+        return $this->render('share', [
+            'model' => $model,
+            'userList' => $userList
+        ]);
+    }
+
+    public function actionShareDelete(Request $request, Session $session, $id)
+    {
+        $permission = Permission::findOne($id);
+        //User must be able to share user list in order to delete a share
+        $userList = UserList::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
+        $user = $permission->sourceObject;
+        if($permission->delete()) {
+            $session->setFlash(
+                'userListShared',
+                [
+                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                    'text' => \Yii::t(
+                        'app',
+                        "Stopped sharing user list <strong>{modelName}</strong> with: <strong>{user}</strong>",
+                        [
+                            'modelName' => $userList->name,
+                            'user' => $user->name
+                        ]
+                    ),
+                    'icon' => 'glyphicon glyphicon-trash'
+                ]
+            );
+        }
+        $this->redirect(['/user-lists/share', 'id' => $userList->id]);
     }
 
     public function actionUpdate(Request $request, Session $session, $id)

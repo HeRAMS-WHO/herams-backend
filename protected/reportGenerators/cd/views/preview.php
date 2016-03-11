@@ -29,10 +29,19 @@ $this->beginContent('@app/views/layouts/report.php');
 
     .block-widget div {
         white-space: pre-wrap;
+        word-wrap: break-word;
     }
 
-    .blocks-same-title-height .block-widget div:first-child{
+    .blocks-same-title-height-1 .block-widget > div:first-child{
+        height: 20px;
+    }
+
+    .blocks-same-title-height-2 .block-widget > div:first-child{
         height: 40px;
+    }
+
+    .blocks-same-title-height-3 .block-widget > div:first-child{
+        height: 60px;
     }
 
     .block-widget .row:before {
@@ -54,14 +63,18 @@ $this->beginContent('@app/views/layouts/report.php');
     <?php
     echo \prime\widgets\report\Columns::widget([
         'items' => [
-            \Yii::t('cd', 'Level : {level}', ['level' => 'National']) . '<br>' . \Yii::t('cd', 'Completed on: {completedOn}', ['completedOn' => $signature->getTime()->format($generator->dateFormat)]),
+            '<br>' . \Yii::t('cd', 'Level : {level}', ['level' => 'National']) . '<br>' . \Yii::t('cd', 'Completed on: {completedOn}', ['completedOn' => $signature->getTime()->format($generator->dateFormat)]),
         ],
         'columnsInRow' => 2
     ]);
     ?>
+    <br>
     <hr>
     <div class="row">
         <h1 style="margin-top: 300px; margin-bottom: 300px; text-align: center;"><?=\Yii::t('cd', 'Final report')?></h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="text-align: right;"><img style="height: 40px;" src="data:image/gif;base64,<?=base64_encode(file_get_contents(__DIR__ . '/../../base/assets/img/logo_Prime_BKGD_tag_CMJN.png'))?>" /></div>
     </div>
 </div>
 
@@ -108,7 +121,10 @@ $this->beginContent('@app/views/layouts/report.php');
                 'width' => 6
             ],
         ],
-        'columnsInRow' => 12
+        'columnsInRow' => 12,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height-2']
+        ]
     ]);
     echo Html::tag('div', '', ['class' => 'spacer']);
     echo \prime\widgets\report\Columns::widget([
@@ -132,7 +148,10 @@ $this->beginContent('@app/views/layouts/report.php');
                 'width' => 6
             ],
         ],
-        'columnsInRow' => 12
+        'columnsInRow' => 12,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height-1']
+        ]
     ]);
     echo Html::tag('div', '', ['class' => 'spacer']);
     ?>
@@ -193,7 +212,10 @@ $this->beginContent('@app/views/layouts/report.php');
                 'width' => 6
             ]
         ],
-        'columnsInRow' => 12
+        'columnsInRow' => 12,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height-1']
+        ]
     ]);
     ?>
 </div>
@@ -222,9 +244,9 @@ $this->beginContent('@app/views/layouts/report.php');
                     Html::tag('i', \Yii::t('cd', 'Employed by')) . ':<br>' .
                     $generator->getQuestionValue('q' . (310 + $i * 3 + 1)) . '<div class="spacer-small"></div>' .
                     Html::tag('i', \Yii::t('cd', 'Working modalities')) . ':<br>' .
-                    $generator->getQuestionValue('q' . (310 + $i * 3 + 2)) . '<div class="spacer-small"></div>' .
+                    $generator->mapWorkingModalities($generator->getQuestionValue('q' . (310 + $i * 3 + 3))) . '<div class="spacer-small"></div>' .
                     Html::tag('i', \Yii::t('cd', 'Support provided')) . ':<br>' .
-                    $generator->mapWorkingModalities($generator->getQuestionValue('q' . (310 + $i * 3 + 3))) . '<div class="spacer-small"></div>'
+                    $generator->getQuestionValue('q' . (310 + $i * 3 + 2)) . '<div class="spacer-small"></div>'
                 ]
             ]) . '</div>';
         $i++;
@@ -237,7 +259,7 @@ $this->beginContent('@app/views/layouts/report.php');
             [
                 'content' => \prime\widgets\report\Block::widget([
                     'items' => [
-                        \Yii::t('cd', 'Number of Coordinators'),
+                        \Yii::t('cd', 'Number of additional support staff'),
                         Html::tag('span', $generator->getQuestionValue('q31') - 1, ['class' => 'text-large'])
                     ]
                 ]),
@@ -245,10 +267,14 @@ $this->beginContent('@app/views/layouts/report.php');
             ],
             [
                 'content' => $contentRight,
-                'width' => 8
+                'width' => 8,
+
             ]
         ],
-        'columnsInRow' => 12
+        'columnsInRow' => 12,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height-2']
+        ]
     ]);
     ?>
 </div>
@@ -289,7 +315,10 @@ $this->beginContent('@app/views/layouts/report.php');
                 ])
             ]
         ],
-        'columnsInRow' => 3
+        'columnsInRow' => 3,
+        'rowOptions' => [
+            'class' => ['blocks-same-title-height-2']
+        ]
     ]);
     ?>
     <div class="spacer"></div>
@@ -325,7 +354,10 @@ $this->beginContent('@app/views/layouts/report.php');
                     ])
                 ]
             ],
-            'columnsInRow' => 3
+            'columnsInRow' => 3,
+            'rowOptions' => [
+                'class' => ['blocks-same-title-height-2']
+            ]
         ]);
         echo ' <div class="spacer-small"></div>';
     }
@@ -356,7 +388,7 @@ $this->beginContent('@app/views/layouts/report.php');
             [
                 'content' => \prime\widgets\report\Block::widget([
                     'items' => [
-                        \Yii::t('cd', 'Diversity (other than age and gender)'),
+                        \Yii::t('cd', 'Diversity, <small>other than age and gender</small>'),
                         $generator->mapYesNo($generator->getQuestionValue('q345[3]'))
                     ]
                 ])
@@ -372,7 +404,7 @@ $this->beginContent('@app/views/layouts/report.php');
         ],
         'columnsInRow' => 4,
         'rowOptions' => [
-            'class' => ['blocks-same-title-height']
+            'class' => ['blocks-same-title-height-2']
         ]
     ]);
 
@@ -381,7 +413,7 @@ $this->beginContent('@app/views/layouts/report.php');
             [
                 'content' => \prime\widgets\report\Block::widget([
                     'items' => [
-                        \Yii::t('cd', 'Protection, including sexual and gender based violence'),
+                        \Yii::t('cd', 'Protection, <small>incl. sexual and gender based violence</small>'),
                         $generator->mapYesNo($generator->getQuestionValue('q345[5]'))
                     ]
                 ])
@@ -413,7 +445,7 @@ $this->beginContent('@app/views/layouts/report.php');
         ],
         'columnsInRow' => 4,
         'rowOptions' => [
-            'class' => ['blocks-same-title-height']
+            'class' => ['blocks-same-title-height-2']
         ]
     ]);
     ?>
@@ -490,7 +522,7 @@ $this->beginContent('@app/views/layouts/report.php');
         ],
         'columnsInRow' => 6,
         'rowOptions' => [
-            'class' => ['blocks-same-title-height']
+            'class' => ['blocks-same-title-height-2']
         ]
     ]);
     ?>
@@ -529,6 +561,9 @@ $this->beginContent('@app/views/layouts/report.php');
                 ]
             ],
             'columnsInRow' => 2,
+            'rowOptions' => [
+                'class' => ['blocks-same-title-height-1']
+            ]
         ]);
         ?>
         </div>
@@ -553,6 +588,9 @@ $this->beginContent('@app/views/layouts/report.php');
                     ]
                 ],
                 'columnsInRow' => 2,
+                'rowOptions' => [
+                    'class' => ['blocks-same-title-height-3']
+                ]
             ]);
             ?>
         </div>
@@ -630,6 +668,9 @@ $this->beginContent('@app/views/layouts/report.php');
                     ]
                 ],
                 'columnsInRow' => 2,
+                'rowOptions' => [
+                    'class' => ['blocks-same-title-height-2']
+                ]
             ]);
             ?>
         </div>
@@ -737,6 +778,9 @@ $this->beginContent('@app/views/layouts/report.php');
                     ],
                 ],
                 'columnsInRow' => 2,
+                'rowOptions' => [
+                    'class' => ['blocks-same-title-height-2']
+                ]
             ]);
             ?>
         </div>

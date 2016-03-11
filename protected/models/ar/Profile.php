@@ -31,6 +31,11 @@ class Profile extends \dektrium\user\models\Profile
         return Country::findOne($this->country);
     }
 
+    public function getAccessToken()
+    {
+        return $this->user->access_token;
+    }
+
     public function rules()
     {
         //$rules = parent::rules();

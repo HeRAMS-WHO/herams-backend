@@ -49,6 +49,9 @@ return [
         'authManager' => [
             'class' => \dektrium\rbac\components\DbManager::class
         ],
+        'cache' => [
+            'class' => \yii\caching\FileCache::class
+        ],
         'limeSurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(\prime\models\ar\Setting::get('limeSurvey.host'));
             return new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));
@@ -115,13 +118,16 @@ return [
             'icons.userLists' => 'bullhorn',
             'icons.user' => 'user',
             'icons.configuration' => 'wrench',
+            'icons.logIn' => 'log-in',
             'icons.logOut' => 'log-out',
             'icons.search' => 'search',
             'icons.read' => 'eye-open',
             'icons.update' => 'pencil',
             'icons.share' => 'share',
             'icons.close' => 'stop',
+            'icons.open' => 'play',
             'icons.remove' => 'trash',
+            'icons.request' => 'forward',
             'icons.limeSurveyUpdate' => 'cog'
         ]
     ]

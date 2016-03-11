@@ -20,6 +20,7 @@
     "require": {
         "php" : ">=5.6.0",
         "ext-imagick": "*",
+        "ext-gd": "*",
         "befound/yii-befound" : "^2.0.0",
         "kartik-v/yii2-widgets": "^3.4.0",
         "kartik-v/yii2-builder": "^1.6",
@@ -39,7 +40,7 @@
         "miloschuman/yii2-highcharts-widget": "^4",
         "yiisoft/yii2": "dev-master",
         "treffynnon/navigator": "^1",
-        "sam-it/ls2-jsonrpc-client": "^0.7.2",
+        "sam-it/ls2-jsonrpc-client": "^0.7.3",
         "dektrium/yii2-rbac": "^0.2.0",
         "npm-asset/mresize": "^1.0",
         "bower-asset/bootstrap-social": "^4.10",

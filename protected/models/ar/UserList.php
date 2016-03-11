@@ -4,6 +4,7 @@ namespace prime\models\ar;
 
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
+use prime\models\permissions\Permission;
 use prime\traits\LoadOneAuthTrait;
 use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
@@ -17,6 +18,12 @@ class UserList extends ActiveRecord
     {
         $this->unlinkAll('users', true);
         return parent::delete();
+    }
+
+    public function getPermissions()
+    {
+        return $this->hasMany(Permission::class, ['target_id' => 'id'])
+            ->andWhere(['target' => self::class]);
     }
 
     public function getUser()
@@ -45,6 +52,12 @@ class UserList extends ActiveRecord
     public function userCan($operation, User $user = null)
     {
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
-        return $this->user_id == $user->id || parent::userCan($operation, $user);
+
+        $result = parent::userCan($operation, $user);
+        if(!$result) {
+            $result = $result || $this->user_id == $user->id;
+            $result = $result || Permission::isAllowed($user, $this, $operation);
+        }
+        return $result;
     }
 }

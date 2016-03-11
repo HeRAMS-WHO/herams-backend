@@ -218,7 +218,7 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
 
     public static function textarea(UserDataInterface $userData, $attribute, $options = [])
     {
-        return Html::textarea($attribute, ArrayHelper::getValue($userData, $attribute, null), $options);
+        return Html::textarea($attribute, isset($userData[$attribute]) ? $userData[$attribute] : null, $options);
     }
 
 

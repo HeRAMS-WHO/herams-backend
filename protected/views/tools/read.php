@@ -10,9 +10,13 @@ use prime\models\ar\Setting;
 $this->params['subMenu'] = [
     'items' => [
         [
-            'label' => \Yii::t('app', 'Request'),
+            'label' => Html::icon(Setting::get('icons.request')),
             'url' => $model->intakeUrl,
-            'target' => '_blank'
+            'target' => '_blank',
+            'options' => [
+                'class' => 'icon',
+                'title' => \Yii::t('app', 'Request'),
+            ],
         ]
     ]
 ];

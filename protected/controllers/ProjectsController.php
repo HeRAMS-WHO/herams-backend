@@ -3,11 +3,13 @@
 namespace prime\controllers;
 
 use app\components\Html;
+use app\queries\ToolQuery;
 use Befound\Components\DateTime;
 use prime\components\Controller;
+use prime\models\ar\Setting;
 use prime\models\Country;
 use prime\models\forms\projects\CreateUpdate;
-use prime\models\forms\projects\Share;
+use prime\models\forms\Share;
 use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
@@ -17,6 +19,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
@@ -33,7 +36,7 @@ class ProjectsController extends Controller
         if (!$request->isDelete) {
             throw new HttpException(405);
         } else {
-            $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
             $model->scenario = 'close';
 
             $model->closed = (new DateTime())->format(DateTime::MYSQL_DATETIME);
@@ -43,10 +46,10 @@ class ProjectsController extends Controller
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
                         'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been closed.", ['modelName' => $model->title]),
-                        'icon' => 'glyphicon glyphicon-trash'
+                        'icon' => 'glyphicon glyphicon-' . Setting::get('icons.close')
                     ]
                 );
-                return $this->redirect(['/projects/list']);
+                return $this->redirect($request->referrer);
             }
         }
         if(isset($model)) {
@@ -120,8 +123,27 @@ class ProjectsController extends Controller
     {
         $projectSearch = new \prime\models\search\Project();
         $projectsDataProvider = $projectSearch->search($request->queryParams);
+        $closedCount = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE)->count();
 
         return $this->render('list', [
+            'projectSearch' => $projectSearch,
+            'projectsDataProvider' => $projectsDataProvider,
+            'closedCount' =>$closedCount
+        ]);
+    }
+
+    public function actionListClosed(Request $request)
+    {
+        $projectSearch = new \prime\models\search\Project();
+        $projectSearch->query = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE);
+        if(!app()->user->can('admin')) {
+            $projectSearch->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
+        } else {
+            $projectSearch->query->joinWith(['tool']);
+        }
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
+
+        return $this->render('listDeleted', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider
         ]);
@@ -145,17 +167,38 @@ class ProjectsController extends Controller
         ]);
     }
 
+    public function actionReOpen(Session $session, Request $request, $id)
+    {
+        if (!$request->isPut) {
+            throw new HttpException(405);
+        } else {
+            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+            $model->scenario = 'reOpen';
+
+            $model->closed = null;
+            if($model->save()) {
+                $session->setFlash(
+                    'projectReopened',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been re-opened.", ['modelName' => $model->title]),
+                        'icon' => 'glyphicon glyphicon-' . Setting::get('icons.open')
+                    ]
+                );
+                return $this->redirect($request->referrer);
+            }
+        }
+        if(isset($model)) {
+            return $this->redirect(['/projects/read', 'id' => $model->id]);
+        } else {
+            return $this->redirect(['/projects/list-closed']);
+        }
+    }
+
     public function actionShare(Session $session, Request $request, $id)
     {
         $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
-
-        $model = new Share([
-            'projectId' => $project->id
-        ]);
-
-        $permissionsDataProvider = new \yii\data\ActiveDataProvider([
-            'query' => $model->getProject()->getPermissions()
-        ]);
+        $model = new Share($project, [$project->owner_id]);
 
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->createRecords()) {
@@ -166,22 +209,19 @@ class ProjectsController extends Controller
                         'text' => \Yii::t('app',
                             "Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
                             [
-                                'modelName' => $model->project->title,
+                                'modelName' => $project->title,
                                 'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
                             ]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-                $model = new Share([
-                    'projectId' => $project->id
-                ]);
+                $model = new Share($project, [$project->owner_id]);
             }
         }
 
         return $this->render('share', [
             'model' => $model,
-            'project' => $project,
-            'permissionsDataProvider' => $permissionsDataProvider
+            'project' => $project
         ]);
     }
 
@@ -340,19 +380,26 @@ class ProjectsController extends Controller
         if ($surveyId > 0) {
             // Get all tokens for the selected survey.
             $usedTokens = array_flip(Project::find()->select('token')->column());
-
-            $tokens = array_filter($limeSurvey->getTokens($surveyId), function (TokenInterface $token) use ($usedTokens) {
-                return !isset($usedTokens[$token->getToken()]) && $token->getToken() != '';
-            });
+            $tokens = $limeSurvey->getTokens($surveyId);
 
             // Filter these tokens by tokens that are in use.
 
             /** @var TokenInterface $token */
             foreach ($tokens as $token) {
-                $result[] = [
+                $row = [
                     'id' => $token->getToken(),
-                    'name' => "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(', ', array_filter($token->getCustomAttributes()))
+                    'name' => "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
+                            ', ',
+                            array_filter($token->getCustomAttributes())
+                        )
                 ];
+
+                if(isset($usedTokens[$token->getToken()])) {
+                    $row['options'] = [
+                        'disabled' => true
+                    ];
+                }
+                $result[] = $row;
             }
         }
         return [

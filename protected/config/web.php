@@ -8,9 +8,14 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'showScriptName' => false,
             'rules' => [
                 [
+                    'class' => \yii\rest\UrlRule::class,
+                    'controller' => ['api/surveys', 'api/collections'],
+                ],
+                [
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/read'
-                ]
+                ],
+
 //                [
 //                    'class' => \yii\web\GroupUrlRule::class,
 //                    'prefix' => 'rest',
@@ -71,6 +76,9 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         ]
     ],
     'modules' => [
+        'api' => [
+            'class' => \prime\api\Api::class
+        ],
         'user' => [
             'controllerMap' => [
                 'registration' => \prime\controllers\RegistrationController::class,

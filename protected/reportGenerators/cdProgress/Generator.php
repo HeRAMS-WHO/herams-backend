@@ -131,7 +131,7 @@ class Generator extends \prime\reportGenerators\base\Generator implements Report
 
     public function getQuestionValue($title)
     {
-        return isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
+        return isset($this->response) && isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
     }
 
     protected  function initResponses(ResponseCollectionInterface $responses)

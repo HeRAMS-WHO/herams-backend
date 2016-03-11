@@ -14,6 +14,9 @@ $font-family-base: "Open Sans";
   }
 }
 
+.btn-prime {
+    @include button-variant(#fff, $navbar-default-link-color, darken($navbar-default-link-color, 5%));
+}
 
   nav:first-of-type + * {
     margin-top: $navbar-height + $navbar-margin-bottom;
