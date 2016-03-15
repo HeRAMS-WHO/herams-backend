@@ -28,7 +28,8 @@ class GeneratorFactory
             'oscar' => \prime\reportGenerators\oscar\Generator::class,
             'oscarProgress' => \prime\reportGenerators\oscarProgress\Generator::class,
             'hc' => \prime\reportGenerators\healthClusterDashboard\Generator::class,
-            'empty' => \prime\reportGenerators\emptyReport\Generator::class
+            'empty' => \prime\reportGenerators\emptyReport\Generator::class,
+            'progress' => \prime\reportGenerators\progress\Generator::class
         ];
 
     }

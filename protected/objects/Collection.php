@@ -4,7 +4,7 @@ namespace prime\objects;
 
 use prime\interfaces\CollectionInterface;
 use Traversable;
-class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAccess
+class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAccess, \Countable
 {
     /**
      * @var string The type of objects allowed in this collection.
@@ -21,6 +21,11 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
                 $this->append($item);
             }
         }
+    }
+
+    public function count()
+    {
+        return count($this->data);
     }
 
     /**
