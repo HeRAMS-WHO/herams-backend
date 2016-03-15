@@ -7,7 +7,18 @@ use prime\models\ar\Setting;
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
  * @var \prime\models\search\Project $projectSearch
  * @var int $closedCount
+ * @var \yii\web\View $this
  */
+
+
+$this->registerJs(<<<SCRIPT
+$('.request-access').on('click', function(){
+    var project = $(this).attr('data-project-name');
+    var owner = $(this).attr('data-project-owner');
+    bootbox.alert('You are not currently part of project: <strong>' + project + '</strong>. If you wish to request access to this project, please contact <strong>' + owner + '</strong>.');
+});
+SCRIPT
+);
 
 ?>
 <div class="col-xs-12">
@@ -126,13 +137,28 @@ use prime\models\ar\Setting;
                 'template' => '{read} {share} {close}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
-                        $result = Html::a(
-                            Html::icon(Setting::get('icons.read')),
-                            ['/projects/read', 'id' => $model->id],
-                            [
-                                'title' => \Yii::t('app', 'Enter')
-                            ]
-                        );
+                        $result = '';
+                        /** @var \prime\models\ar\Project $model */
+                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_READ)) {
+                            $result = Html::a(
+                                Html::icon(Setting::get('icons.read')),
+                                ['/projects/read', 'id' => $model->id],
+                                [
+                                    'title' => \Yii::t('app', 'Enter')
+                                ]
+                            );
+                        } else {
+                            $result = Html::a(
+                                Html::icon(Setting::get('icons.requestAccess')),
+                                '#',
+                                [
+                                    'title' => \Yii::t('app', 'Get access?'),
+                                    'class' => 'request-access',
+                                    'data-project-name' => $model->title,
+                                    'data-project-owner' => $model->owner->name
+                                ]
+                            );
+                        }
                         return $result;
                     },
                     'update' => function($url, $model, $key) {

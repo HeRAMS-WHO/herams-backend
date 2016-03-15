@@ -128,7 +128,8 @@ return [
             'icons.open' => 'play',
             'icons.remove' => 'trash',
             'icons.request' => 'forward',
-            'icons.limeSurveyUpdate' => 'pencil'
+            'icons.limeSurveyUpdate' => 'pencil',
+            'icons.requestAccess' => 'info-sign'
         ]
     ]
 ];
