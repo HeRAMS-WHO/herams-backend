@@ -123,14 +123,14 @@ use prime\models\ar\Setting;
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
                 'width' => '100px',
-                'template' => '{read} {update} {share} {close}',
+                'template' => '{read} {share} {close}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         $result = Html::a(
                             Html::icon(Setting::get('icons.read')),
                             ['/projects/read', 'id' => $model->id],
                             [
-                                'title' => \Yii::t('app', 'Read')
+                                'title' => \Yii::t('app', 'Enter')
                             ]
                         );
                         return $result;

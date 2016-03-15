@@ -17,7 +17,7 @@ $this->params['subMenu']['items'][] = [
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null,
     'options' => [
         'class' => 'icon',
-        'title' => \Yii::t('app', 'Update'),
+        'title' => \Yii::t('app', 'Data update'),
     ],
 ];
 
@@ -80,7 +80,7 @@ $this->params['subMenu']['items'][] = [
 <div class="col-xs-12">
     <div class="row">
         <div class="col-xs-10">
-            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null ? Html::a(Html::icon(\prime\models\ar\Setting::get('icons.update')), ['projects/update', 'id' => $model->id]) : ''?></h1>
+            <h1><?=$model->title?><?=$model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null ? Html::a(Html::icon(\prime\models\ar\Setting::get('icons.update'), ['title' => \Yii::t('app', 'Project settings')]), ['projects/update', 'id' => $model->id]) : ''?></h1>
         </div>
         <div class="col-xs-2">
             <?=Html::img($model->tool->imageUrl, ['style' => ['width' => '90%']])?>
