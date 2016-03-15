@@ -5,6 +5,7 @@ namespace prime\commands;
 
 
 use prime\models\ar\User;
+use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\console\Controller;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -16,6 +17,7 @@ use yii\web\IdentityInterface;
 
 class AuthController extends Controller
 {
+    use ActionInjectionTrait;
     protected function createRelation(ManagerInterface $authManager, $parent, $child) {
         $parentItem = $authManager->getRole($parent);
         $childItem = $authManager->getPermission($child);
