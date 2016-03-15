@@ -40,12 +40,15 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
+        $limeSurvey = app()->limeSurvey;
         $stream = \GuzzleHttp\Psr7\stream_for($this->view->render('publish', [
             'userData' => $userData,
             'signature' => $signature,
             'responses' => $responses,
             'project' => $project,
-            'responseRates' => $this->getResponseRates($responses)
+            'surveys' => $surveys,
+            'responseRates' => $this->getResponseRates($responses),
+            'limeSurvey' => $limeSurvey
         ], $this));
 
         $userData = new UserData();

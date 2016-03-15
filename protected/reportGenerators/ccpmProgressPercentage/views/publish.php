@@ -2,6 +2,10 @@
 
 /**
  * @var \yii\web\View $this
+ * @var \prime\interfaces\SurveyCollectionInterface $surveys
+ * @var array $responseRates
+ * @var \prime\interfaces\ProjectInterface $project
+ * @var \SamIT\LimeSurvey\JsonRpc\Client $limeSurvey
  */
 
 $this->registerAssetBundle(\prime\assets\SassAsset::class);
@@ -96,6 +100,23 @@ $this->beginContent('@app/views/layouts/report.php');
                 <span><?=\Yii::t('app', 'Total number of partners')?></span>
             </div>
         </div>
+    </div>
+    <div class="col-xs-12">
+        <table class="table">
+            <?php
+            /** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
+            foreach($surveys as $survey) {
+                $url = \app\components\Html::a($limeSurvey->getUrl(
+                    $survey->getId(),
+                    [
+                        'token' => $project->getAttribute('token'),
+                        'newtest' => 'Y'
+                    ]
+                ));
+                echo "<tr><td>{$survey->getTitle()}</td><td>{$url}</td></tr>";
+            }
+            ?>
+        </table>
     </div>
 </div>
 </div>
