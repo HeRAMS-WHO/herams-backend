@@ -56,7 +56,7 @@ class HealthClusters extends MapLayer
         $this->addPointEventHandler('mouseOver', new JsExpression("function(e){hover(this, 'healthClusters', true); return false;}"));
         $this->addPointEventHandler('mouseOut', new JsExpression("function(e){hover(this, 'healthClusters', false); return false;}"));
         $this->type = 'mappoint';
-        $this->color = 'rgba(0, 0, 255, 1)';
+        $this->color = $this->mapColor(false);
         $this->marker = [
             'lineWidth' => 1,
             'radius' => 5,
@@ -75,14 +75,14 @@ class HealthClusters extends MapLayer
         ];
     }
 
-    public function mapColor($national)
+    public function mapColor($subNational)
     {
         $map = [
-            true => 'rgba(72, 208, 250, 1)',
-            false => 'rgba(0, 0, 255, 1)',
+            true => 'rgba(204, 217, 255, 1)',
+            false => 'rgba(128, 159, 255, 1)',
         ];
 
-        return $map[$national];
+        return $map[$subNational];
     }
     public static function mapPhase($value)
     {
