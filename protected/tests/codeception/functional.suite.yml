@@ -8,4 +8,6 @@ class_name: FunctionalTester
 modules:
     enabled:
         # add framework module here
+        - Yii2:
+            configFile: '/../config/console.php'
         - \Helper\Functional

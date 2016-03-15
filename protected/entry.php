@@ -10,12 +10,6 @@ define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));// && YII_ENV != 'co
 
 $loader = require_once __DIR__ . '/vendor/autoload.php';
 
-
-// Define Yii class.
-class Yii extends \app\components\Yii {
-    public static $loader;
-}
-
 Yii::$loader = $loader;
 unset($loader);
 

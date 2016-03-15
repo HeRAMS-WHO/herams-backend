@@ -1,10 +1,12 @@
 <?php
 
 class MenuCest
+
 {
 
     public function _before(AcceptanceTester $I)
     {
+        $I->runMigrations();
     }
 
     public function _after(AcceptanceTester $I)

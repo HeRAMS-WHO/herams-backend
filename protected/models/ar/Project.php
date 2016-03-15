@@ -266,7 +266,7 @@ class Project extends ActiveRecord implements ProjectInterface
         return [
             [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'country_iso_3'], RequiredValidator::class],
             [['title', 'description', 'locality_name'], StringValidator::class],
-            [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
+            [['owner_id', 'data_survey_eid', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
             [
