@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\reportGenerators\ccpmProgressPercentage;
+namespace prime\reportGenerators\progress;
 
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
@@ -11,10 +11,12 @@ use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
 use prime\models\ar\UserData;
 use prime\objects\Report;
-use yii\base\Component;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
-class Generator extends \prime\reportGenerators\ccpm\Generator implements ReportGeneratorInterface
+class Generator extends \prime\reportGenerators\base\Generator implements ReportGeneratorInterface
 {
+    public $dateFormat = 'd F - Y';
+
     /**
      * @return string the view path that may be prefixed to a relative view name.
      */
@@ -40,15 +42,12 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
-        $limeSurvey = app()->limeSurvey;
         $stream = \GuzzleHttp\Psr7\stream_for($this->view->render('publish', [
             'userData' => $userData,
             'signature' => $signature,
             'responses' => $responses,
             'project' => $project,
-            'surveys' => $surveys,
-            'responseRates' => $this->getResponseRates($responses),
-            'limeSurvey' => $limeSurvey
+            'surveys' => $surveys
         ], $this));
 
         $userData = new UserData();
@@ -63,17 +62,17 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
      * @param UserDataInterface|null $userData
      * @return string
      */
-    public function renderPreview(
-        ResponseCollectionInterface $responses,
-        SurveyCollectionInterface $surveys,
-        ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
-    ) {
-        return $this->view->render('publish', [
-            'responseRates' => $this->getResponseRates($responses)
-        ], $this);
-    }
+//    public function renderPreview(
+//        ResponseCollectionInterface $responses,
+//        SurveyCollectionInterface $surveys,
+//        ProjectInterface $project,
+//        SignatureInterface $signature = null,
+//        UserDataInterface $userData = null
+//    ) {
+//        return $this->view->render('publish', [
+//            'progresses' => $this->getProgresses($responses)
+//        ], $this);
+//    }
 
     /**
      * Returns the title of the Report
@@ -81,7 +80,7 @@ class Generator extends \prime\reportGenerators\ccpm\Generator implements Report
      */
     public static function title()
     {
-        return \Yii::t('app', 'CCPM Percentage');
+        return \Yii::t('app', 'General progress');
     }
 
 

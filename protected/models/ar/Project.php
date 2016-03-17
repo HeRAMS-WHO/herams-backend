@@ -266,7 +266,7 @@ class Project extends ActiveRecord implements ProjectInterface
         return [
             [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'country_iso_3'], RequiredValidator::class],
             [['title', 'description', 'locality_name'], StringValidator::class],
-            [['owner_id', 'data_survey_id', 'tool_id'], 'integer'],
+            [['owner_id', 'data_survey_eid', 'tool_id'], 'integer'],
             [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
             [
@@ -311,7 +311,7 @@ class Project extends ActiveRecord implements ProjectInterface
                 // User owns the project.
                 || $this->owner_id == $user->id
                 // This is the health cluster mapping project, everyone can read it.
-                || $this->id === Setting::get('healthClusterDashboardProject')
+                || ($this->id === Setting::get('healthClusterDashboardProject') && $operation == Permission::PERMISSION_READ)
                 || Permission::isAllowed($user, $this, $operation);
         }
         return $result;

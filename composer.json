@@ -61,7 +61,8 @@
             "prime\\" : ["protected"]
         },
         "classmap" : [
-            "protected/reportGenerators/"
+            "protected/reportGenerators/",
+            "protected/Yii.php"
         ]
     },
     "require-dev": {

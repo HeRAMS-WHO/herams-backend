@@ -66,8 +66,8 @@ class Generator extends \prime\reportGenerators\base\Generator
             2 => \Yii::t('cd', 'Part-time'),
             3 => \Yii::t('cd', 'Do not know'),
         ];
-        //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
-        return $map[$value];
+
+        return ArrayHelper::getValue($map, $value, '');
     }
 
     public function mapYesNo($value)
@@ -85,7 +85,7 @@ class Generator extends \prime\reportGenerators\base\Generator
             3 => \Yii::t('cd', 'Do not know')
         ];
         //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
-        return $map[$value];
+        return ArrayHelper::getValue($map, $value, '');
     }
 
     /**

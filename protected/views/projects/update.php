@@ -39,6 +39,9 @@ $this->params['subMenu'] = [
         'model' => $model,
         'columns' => 1,
         "attributes" => [
+            'token' => [
+                'type' => Form::INPUT_STATIC
+            ],
             'title' => [
                 'type' => Form::INPUT_TEXT,
             ],

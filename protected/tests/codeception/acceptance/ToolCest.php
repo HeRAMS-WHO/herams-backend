@@ -6,6 +6,7 @@ class ToolCest
 {
     public function _before(AdminTester $I)
     {
+        $I->runMigrations();
         $I->login();
         $I->click('Tools');
     }

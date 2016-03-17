@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../helpers/functions.php';
+require_once __DIR__ . '/../helpers/functions.php';
 return [
     'id' => 'prime',
     'name' => 'Prime',
@@ -122,13 +122,14 @@ return [
             'icons.logOut' => 'log-out',
             'icons.search' => 'search',
             'icons.read' => 'eye-open',
-            'icons.update' => 'pencil',
+            'icons.update' => 'cog',
             'icons.share' => 'share',
             'icons.close' => 'stop',
             'icons.open' => 'play',
             'icons.remove' => 'trash',
             'icons.request' => 'forward',
-            'icons.limeSurveyUpdate' => 'cog'
+            'icons.limeSurveyUpdate' => 'pencil',
+            'icons.requestAccess' => 'info-sign'
         ]
     ]
 ];

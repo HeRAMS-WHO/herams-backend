@@ -13,14 +13,18 @@ $this->params['brandLabel'] = Html::img('@web/img/logo_Prime_BKGD_tag_RVB.png');
     <?=Html::img('@web/img/MapMonde_RVB.svg', [
         'class' => ['col-md-12'],
         'style' => [
-            'margin-bottom' => '15px'
+            'margin-top' => '10px'
         ]
     ])?>
 </div>
 
-<div class="row" style="background-color: #f8f8f8; border: 1px solid #e7e7e7; padding-top: 15px; margin-bottom: 30px;">
+</div>
+<div style="background-color: #f8f8f8; border: 1px solid #e7e7e7;margin-top: 30px;">
+<div class="container">
+
+<div class="row" style="padding-top: 15px; margin-bottom: 30px;">
     <div class="col-sm-12">
-        <h1 style="margin-top: 0px;">About PRIME</h1>
+        <h1 style="margin-top: 0px;">About Prime</h1>
     </div>
     <div class="col-sm-12 col-md-6">
         <p>
@@ -82,4 +86,6 @@ $this->params['brandLabel'] = Html::img('@web/img/logo_Prime_BKGD_tag_RVB.png');
         <li><?=Html::img('@web/img/picto_Efficiency.svg'); ?><div>The access to information by supporting improved sharing and dissemination practices</div></li>
         </ul>
     </div>
+</div>
+
 </div>

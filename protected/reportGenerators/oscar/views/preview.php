@@ -29,6 +29,14 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
     <?=file_get_contents(__DIR__ . '/../../base/assets/css/grid.css')?>
     <?php include __DIR__ . '/../../base/assets/css/style.php'; ?>
 
+    .header {
+        background-image: url(data:image/png;base64,<?=base64_encode(file_get_contents(__DIR__ . '/../../base/assets/img/who-logo.png'))?>);
+        background-position: right;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 45px;
+    }
+
     .text-center {
         text-align: center;
     }
@@ -48,11 +56,23 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
     ]);
     ?>
     <hr>
+    <style>
+        .ap-img {
+            width: 100%;
+        }
+    </style>
 
     <div class="row">
         <h2 class="col-xs-12"><?=\Yii::t('oscar', 'Affected population')?></h2>
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="border: 1px solid #666; padding-bottom: 1em;">
         <table style="text-align: center">
+            <tr>
+                <td><img class="ap-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/affected.jpg'))?>"></td>
+                <td><img class="ap-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/deaths.jpg'))?>"></td>
+                <td><img class="ap-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/refugees.jpg'))?>"></td>
+                <td><img class="ap-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/displaced.jpg'))?>"></td>
+                <td><img class="ap-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/injured.jpg'))?>"></td>
+            </tr>
             <tr>
                 <td width="20%"><?=\Yii::t('oscar', '# People')?></td>
                 <td width="20%"><?=\Yii::t('oscar', '# Deaths')?></td>
@@ -139,7 +159,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-xs-2 hcin-img-cont">
-                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/partners.jpg'))?>">
+                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/health facilities.jpg'))?>">
                                 </div>
                                 <div class="col-xs-10">
                                     <h3 class="hcin-title"><?=\Yii::t('oscar', 'Health infrastructure')?></h3>
@@ -178,7 +198,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-xs-2 hcin-img-cont">
-                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/partners.jpg'))?>">
+                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/ewarn.jpg'))?>">
                                 </div>
                                 <div class="col-xs-10">
                                     <h3 class="hcin-title"><?=\Yii::t('oscar', 'EWARS')?></h3>
@@ -213,7 +233,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-xs-2 hcin-img-cont">
-                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/partners.jpg'))?>">
+                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/health action.jpg'))?>">
                                 </div>
                                 <div class="col-xs-10">
                                     <h3 class="hcin-title"><?=\Yii::t('app', 'Health interventions')?></h3>
@@ -256,7 +276,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-xs-2 hcin-img-cont">
-                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/partners.jpg'))?>">
+                                    <img class="hcin-img" src="data:image/jpg;base64,<?=base64_encode(file_get_contents(__DIR__ . ' /../assets/img/funding.jpg'))?>">
                                 </div>
                                 <div class="col-xs-10">
                                     <h3 class="hcin-title"><?=\Yii::t('app', 'Funding')?></h3>

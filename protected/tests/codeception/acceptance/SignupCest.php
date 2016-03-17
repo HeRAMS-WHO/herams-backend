@@ -5,6 +5,7 @@ class SignupCest
 
     public function _before(AcceptanceTester $I)
     {
+        $I->runMigrations();
     }
 
     public function _after(AcceptanceTester $I)
@@ -15,7 +16,7 @@ class SignupCest
     public function testDifferentPasswords(AcceptanceTester $I)
     {
         $I->amOnPage('/');
-        $I->click('LOGIN SIGNUP');
+        $I->click('Login or sign up');
         $I->click('Sign up');
         $I->seeCurrentUrlEquals('/user/register');
 
