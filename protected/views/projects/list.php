@@ -155,7 +155,7 @@ SCRIPT
                                     'title' => \Yii::t('app', 'Get access?'),
                                     'class' => 'request-access',
                                     'data-project-name' => $model->title,
-                                    'data-project-owner' => $model->owner->name
+                                    'data-project-owner' => isset($model->owner) ? $model->owner->name : null
                                 ]
                             );
                         }
