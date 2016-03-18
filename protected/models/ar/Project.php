@@ -35,7 +35,7 @@ use yii\validators\StringValidator;
  * Class Project
  * @package prime\models
  *
- * @property User $owner
+ * @property User $user
  * @property Tool $tool
  * @property string $title
  * @property string $description
