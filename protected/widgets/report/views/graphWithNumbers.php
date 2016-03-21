@@ -9,47 +9,52 @@ use app\components\Html;
 
 $widget = $this->context;
 
-$chart = \miloschuman\highcharts\Highcharts::widget([
-    'options' => [
-        'chart' => [
-            'type' => 'pie',
-            'backgroundColor' => 'transparent'
-        ],
-        'title' => [
-            false
-        ],
-        'yAxis' => ['title' => false],
-        'series' => [
-            [
-                'name' => \Yii::t('app', 'Statuses'),
-                'data' => [
-                    $widget->part,
-                    max($widget->total - $widget->part, 0)
+$chart = '';
+if($widget->total > 0) {
+    $chart = \miloschuman\highcharts\Highcharts::widget(
+        [
+            'options' => [
+                'chart' => [
+                    'type' => 'pie',
+                    'backgroundColor' => 'transparent'
                 ],
-                'colors' => [
-                    '#EC781C',
-                    '#F5B161'
+                'title' => [
+                    false
                 ],
-                'dataLabels' => [
+                'yAxis' => ['title' => false],
+                'series' => [
+                    [
+                        'name' => \Yii::t('app', 'Statuses'),
+                        'data' => [
+                            $widget->part,
+                            max($widget->total - $widget->part, 0)
+                        ],
+                        'colors' => [
+                            '#EC781C',
+                            '#F5B161'
+                        ],
+                        'dataLabels' => [
+                            'enabled' => false
+                        ],
+                        'animation' => false
+                    ]
+                ],
+                'credits' => ['enabled' => false],
+                'tooltip' => [
                     'enabled' => false
-                ],
-                'animation' => false
+                ]
+            ],
+            'view' => $this,
+            'htmlOptions' => [
+                'style' => [
+                    //@TODO fix if this issue is fixed
+                    //https://github.com/highcharts/highcharts/issues/1758
+                    'height' => (($widget->graphWidth / 4) * 170) . 'px'
+                ]
             ]
-        ],
-        'credits' => ['enabled' => false],
-        'tooltip' => [
-            'enabled' => false
         ]
-    ],
-    'view' => $this,
-    'htmlOptions' => [
-        'style' => [
-            //@TODO fix if this issue is fixed
-            //https://github.com/highcharts/highcharts/issues/1758
-            'height' => (($widget->graphWidth / 4) * 170) .'px'
-        ]
-    ]
-]);
+    );
+}
 
 ?>
 <div class="row">
