@@ -193,3 +193,25 @@ div#legends {
     font-size: 1em !important;
   }
 }
+
+iframe.seamless {
+  width: 100%;
+  border: 0px;
+  overflow-y: hidden;
+}
+
+.full-page {
+  position: absolute;
+  top: $navbar-height;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.full-page iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+

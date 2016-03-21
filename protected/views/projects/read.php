@@ -13,7 +13,7 @@ $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.limeSurveyUpdate')),
-    'url' => $model->surveyUrl,
+    'url' => ['/projects/update-lime-survey', 'id' => $model->id],//$model->surveyUrl,
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null,
     'options' => [
         'class' => 'icon',

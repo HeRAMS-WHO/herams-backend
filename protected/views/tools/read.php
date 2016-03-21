@@ -11,8 +11,8 @@ $this->params['subMenu'] = [
     'items' => [
         [
             'label' => Html::icon(Setting::get('icons.request')),
-            'url' => $model->intakeUrl,
-            'target' => '_blank',
+            'url' => ['/tools/request-access', 'id' => $model->id],
+            //'target' => '_blank',
             'options' => [
                 'class' => 'icon',
                 'title' => \Yii::t('app', 'Request'),
