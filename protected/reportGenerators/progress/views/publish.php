@@ -76,15 +76,7 @@ if(isset($groups[''])) {
                     <td><?=\Yii::t('app', 'Average responses per serie')?></td>
                     <td>
                         <?php
-                        echo array_reduce($groups, function($carry, $item){return $carry + count($item);}) / count($groups);
-                        ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td><?=\Yii::t('app', 'All responses')?></td>
-                    <td>
-                        <?php
-                        echo count($responses);
+                        echo round(array_reduce($groups, function($carry, $item){return $carry + count($item);}) / count($groups));
                         ?>
                     </td>
                 </tr>
@@ -103,10 +95,10 @@ if(isset($groups[''])) {
                             $languages = array_merge($languages, array_flip($survey->getLanguages()));
                             $baseLanguages = array_merge($baseLanguages, [$survey->getDefaultLanguage() => true]);
                         }
-                        if(count(array_diff_key($languages, $baseLanguages)) > 0) {
-                            echo \Yii::t('app', 'Base language and additional languages');
-                        } else {
-                            echo \Yii::t('app', 'Base language');
+                        echo \Yii::t('app', 'Base {n,plural,=1{language} other{languages}}', ['n' => count($baseLanguages)]) . ': ' . strtoupper(implode(', ', array_keys($baseLanguages)));
+                        $extraLanguages = array_diff_key($languages, $baseLanguages);
+                        if(count($extraLanguages) > 0) {
+                            echo '<br>' . \Yii::t('app', 'Additional  {n,plural,=1{language} other{languages}}', ['n' => count($extraLanguages)]) . ': ' . strtoupper(implode(', ', array_keys($extraLanguages)));
                         }
                         ?></td>
                 </tr>
