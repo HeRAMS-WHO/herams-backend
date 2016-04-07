@@ -305,7 +305,7 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
 
-        $result = parent::userCan($operation, $user);
+        $result = parent::userCan($operation, $user) || ($operation === Permission::PERMISSION_READ && app()->user->can('manager'));
         if(!$result) {
             $result = $result
                 // User owns the project.
