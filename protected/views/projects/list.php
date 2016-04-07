@@ -15,7 +15,7 @@ $this->registerJs(<<<SCRIPT
 $('.request-access').on('click', function(){
     var project = $(this).attr('data-project-name');
     var owner = $(this).attr('data-project-owner');
-    bootbox.alert('You are not currently part of project: <strong>' + project + '</strong>. If you wish to request access to this project, please contact <strong>' + owner + '</strong>.');
+    bootbox.alert('This project can not be accessed. For further information please contact <strong>' + owner + '</strong>.');
 });
 SCRIPT
 );

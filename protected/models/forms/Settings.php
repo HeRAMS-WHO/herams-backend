@@ -47,18 +47,23 @@ class Settings extends Model
                 'icons.globalMonitor',
                 'icons.projects',
                 'icons.reports',
+                'icons.preview',
                 'icons.userLists',
                 'icons.user',
                 'icons.configuration',
                 'icons.user',
+                'icons.logIn',
                 'icons.logOut',
                 //'icons.search',
                 'icons.read',
                 'icons.update',
                 'icons.share',
                 'icons.close',
+                'icons.open',
                 'icons.remove',
+                'icons.request',
                 'icons.limeSurveyUpdate',
+                'icons.requestAccess'
             ], RangeValidator::class, 'range' => array_keys($this->iconOptions())]
         ];
     }

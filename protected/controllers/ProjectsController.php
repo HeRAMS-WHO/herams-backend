@@ -275,6 +275,13 @@ class ProjectsController extends Controller
         ]);
     }
 
+    public function actionUpdateLimeSurvey($id)
+    {
+        $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+        return $this->render('updateLimeSurvey', [
+            'model' => $model
+        ]);
+    }
 
     public function actionExplore()
     {
