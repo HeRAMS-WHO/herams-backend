@@ -52,81 +52,92 @@ foreach($typeCount as $value => $count) {
 
 ?>
 <div class="row">
-    <div class="col-xs-12 h3"><span class="h1"><?=count($eventsResponses)?></span> <?=\Yii::t('app', 'Graded events')?></div>
-    <?php
-    echo \miloschuman\highcharts\Highcharts::widget([
-        'options' => [
-            'chart' => [
-                'type' => 'pie',
-                'height' => 295,
-                'marginBottom' => 100,
-                'spacingTop' => 0
-            ],
-            'title' => false,
-            'series' => [
-                [
-                    'data' => $countSerie,
-                    'dataLabels' => [
-                        'enabled' => false
-                    ],
-                    'showInLegend' => true,
-                    'tooltip' => [
-                        'pointFormat' => '{point.count} ' . \Yii::t('app', 'Events') . '<br><b>{point.y}%</b><br/>'
+    <?=$this->render('greyHeader')?>
+    <div class="col-md-5">
+        <span class="h3"><span class="h1"><?=count($eventsResponses)?></span> <?=\Yii::t('app', 'Graded events')?></span>
+        <?php
+        echo \miloschuman\highcharts\Highcharts::widget([
+            'options' => [
+                'chart' => [
+                    'type' => 'pie',
+                    'height' => 350,
+                    'marginBottom' => 70,
+                    'spacingTop' => 0
+                ],
+                'title' => false,
+                'series' => [
+                    [
+                        'data' => $countSerie,
+                        'dataLabels' => [
+                            'enabled' => false
+                        ],
+                        'showInLegend' => true,
+                        'tooltip' => [
+                            'pointFormat' => '{point.count} ' . \Yii::t('app', 'Events') . '<br><b>{point.y}%</b><br/>'
+                        ],
+                        'innerSize' => '50%',
                     ]
+                ],
+                'credits' => [
+                    'enabled' => false
                 ]
             ],
-            'credits' => [
-                'enabled' => false
-            ]
-        ],
-        'htmlOptions' => [
-            'class' => 'col-sm-6'
-        ],
-        'id' => 'events-grades'
-    ]);
-    ?>
-    <?php
-    echo \miloschuman\highcharts\Highcharts::widget([
-        'options' => [
-            'chart' => [
-                'type' => 'pie',
-                'height' => 295,
-                'marginBottom' => 100,
-                'spacingTop' => 0
+            'id' => 'events-grades'
+        ]);
+        ?>
+
+        <?php
+        echo \miloschuman\highcharts\Highcharts::widget([
+            'options' => [
+                'chart' => [
+                    'type' => 'pie',
+                    'height' => 350,
+                    'marginBottom' => 80,
+                    'spacingTop' => 0
+                ],
+                'title' => false,
+                'series' => [
+                    [
+                        'data' => $typeSerie,
+                        'dataLabels' => [
+                            'enabled' => false
+                        ],
+                        'tooltip' => [
+                            'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
+                        ],
+                        'showInLegend' => true,
+                        'innerSize' => '50%',
+                    ]
+                ],
+                'credits' => [
+                    'enabled' => false
+                ],
             ],
-            'title' => false,
-            'series' => [
-                [
-                    'data' => $typeSerie,
-                    'dataLabels' => [
-                        'enabled' => false
-                    ],
-                    'tooltip' => [
-                        'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
-                    ],
-                    'showInLegend' => true
-                ]
-            ],
-            'credits' => [
-                'enabled' => false
-            ],
-        ],
-        'htmlOptions' => [
-            'class' => 'col-sm-6'
-        ],
-        'id' => 'events-types'
-    ]);
-    ?>
-</div>
-<div class="row">
+            'id' => 'events-types'
+        ]);
+        ?>
+    </div>
+
+    <div class="col-md-7">
     <?php
     echo Html::beginTag('table', [
-        'class' => 'col-md-12 table print-1em',
+        'class' => 'table table-condensed table-striped print-1em',
         'style' => [
-            'font-size' => '1.2em'
+            //'font-size' => '1.2em'
         ]
 
     ]);
+    ?>
+        <thead>
+        <tr>
+            <th></th>
+            <th><?=Yii::t('app', 'Graded country'); ?></th>
+            <th><?=Yii::t('app', 'Event'); ?></th>
+            <th><?=Yii::t('app', 'Grading stage'); ?></th>
+            <th><?=Yii::t('app', 'Date'); ?></th>
+        </tr>
+        </thead>
+    <?php
     foreach($eventsResponses as $uoid => $eventResponses)  {
         echo '<tr>';
 
@@ -144,4 +155,5 @@ foreach($typeCount as $value => $count) {
     }
     echo Html::endTag('table');
     ?>
+    </div>
 </div>

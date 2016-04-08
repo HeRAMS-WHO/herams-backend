@@ -76,6 +76,7 @@ foreach($eventsData as $value => $count) {
 
 ?>
 <div class="row">
+    <?=$this->render('greyHeader')?>
     <div class="col-xs-12 h3"><span class="h1"><?=count($healthClustersResponses)?></span> <?=\Yii::t('app', 'Active health clusters')?></div>
     <div class="col-sm-6"><h4 class="chart-head"><?=\Yii::t('app', 'in {amount} graded countries', ['amount' => count($countriesResponses)])?></h4></div>
     <div class="col-sm-6"><h4 class="chart-head"><?=\Yii::t('app', 'having {amount} events', ['amount' => count($eventsResponses)])?></h4></div>
@@ -84,8 +85,8 @@ foreach($eventsData as $value => $count) {
         'options' => [
             'chart' => [
                 'type' => 'pie',
-                'height' => 295,
-                'marginBottom' => 100,
+                'height' => 350,
+                'marginBottom' => 80,
                 'spacingTop' => 0
             ],
             'title' => false,
@@ -98,7 +99,8 @@ foreach($eventsData as $value => $count) {
                     'tooltip' => [
                         'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
                     ],
-                    'showInLegend' => true
+                    'showInLegend' => true,
+                    'innerSize' => '50%',
                 ]
             ],
             'credits' => [
@@ -116,8 +118,8 @@ foreach($eventsData as $value => $count) {
         'options' => [
             'chart' => [
                 'type' => 'pie',
-                'height' => 295,
-                'marginBottom' => 100,
+                'height' => 350,
+                'marginBottom' => 80,
                 'spacingTop' => 0
             ],
             'title' => false,
@@ -130,7 +132,8 @@ foreach($eventsData as $value => $count) {
                     'tooltip' => [
                         'pointFormat' => '{point.count} ' . \Yii::t('app', 'Events') . '<br><b>{point.y}%</b><br/>'
                     ],
-                    'showInLegend' => true
+                    'showInLegend' => true,
+                    'innerSize' => '50%',
                 ]
             ],
             'credits' => [
@@ -143,4 +146,5 @@ foreach($eventsData as $value => $count) {
         'id' => 'health-clusters-events'
     ]);
     ?>
+    <?=$this->render('greyFooter')?>
 </div>

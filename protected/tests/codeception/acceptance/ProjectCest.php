@@ -18,6 +18,8 @@ class ProjectCest
     {
         $tool = new \prime\models\ar\Tool();
         $tool->id = 1;
+        $tool->acronym = 'TEST';
+
         if (!$tool->save(false)) {
             throw new \Exception("Couldn't create tool for testing");
         }
