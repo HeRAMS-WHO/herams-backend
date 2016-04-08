@@ -153,7 +153,9 @@ class ProjectsController extends Controller
     {
         $project = Project::loadOne($id);
         $report = $project->getProgressReport();
-
+        if (!isset($report)) {
+            throw new \HttpException(404, "Progress report for project not found.");
+        }
         $response->setContentType($report->getMimeType());
         $response->content = $report->getStream();
         return $response;
