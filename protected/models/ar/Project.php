@@ -24,6 +24,7 @@ use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
@@ -31,6 +32,7 @@ use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+use yii\web\UrlManager;
 
 /**
  * Class Project
@@ -155,7 +157,7 @@ class Project extends ActiveRecord implements ProjectInterface
     public function getOwner()
     {
         return $this->hasOne(User::class, ['id' => 'owner_id'])
-            ->inverseOf('projects');
+            ->inverseOf('ownedProjects');
     }
 
     public function getPermissions()
@@ -241,7 +243,7 @@ class Project extends ActiveRecord implements ProjectInterface
      */
     public function getToolImagePath()
     {
-        return app()->urlManager->createAbsoluteUrl($this->tool->imageUrl);
+        return Url::to($this->tool->imageUrl, true);
     }
 
     /**

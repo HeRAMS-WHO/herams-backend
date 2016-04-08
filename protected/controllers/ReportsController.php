@@ -11,6 +11,7 @@ use prime\interfaces\ResponseCollectionInterface;
 use prime\models\ar\Project;
 use prime\models\ar\Report;
 use prime\models\ar\UserData;
+use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
@@ -187,7 +188,7 @@ class ReportsController extends Controller
     )
     {
         /* @todo set correct privilege */
-        $project = Project::loadOne($projectId);
+        $project = Project::loadOne($projectId, [], Permission::PERMISSION_ADMIN);
         if(isset(GeneratorFactory::classes()[$reportGenerator])) {
             if($request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
@@ -198,7 +199,7 @@ class ReportsController extends Controller
                 $generator = GeneratorFactory::get($reportGenerator);
 
                 $report = Report::saveReport(
-                    $report = $generator->render(
+                    $generator->render(
                         $project->getResponses(),
                         $project->getSurvey(),
                         $project,

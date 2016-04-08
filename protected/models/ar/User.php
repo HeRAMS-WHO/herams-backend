@@ -70,6 +70,10 @@ class User extends \dektrium\user\models\User {
         return Project::find()->notClosed()->userCan(Permission::PERMISSION_READ);
     }
 
+    public function getOwnedProjects() {
+        return $this->hasMany(Project::class, ['owner_id' => 'id']);
+    }
+
     public function getUserLists()
     {
         return UserList::find()->userCan(Permission::PERMISSION_READ);

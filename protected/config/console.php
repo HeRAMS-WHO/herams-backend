@@ -3,7 +3,15 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerMap' => [
         'migrate' => \bariew\moduleMigration\ModuleMigrateController::class
     ],
-    'controllerNamespace' => 'prime\\commands'
+    'controllerNamespace' => 'prime\\commands',
+    'aliases' => [
+        // Mainly for console apps.
+        '@web' => '/',
+        '@webroot' => realpath(__DIR__ . '/../../public')
+    ],
+    'components' => [
+
+    ]
 ]);
     
 if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {

@@ -7,7 +7,7 @@ return [
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
     'aliases' => [
-        '@prime' => '@app'
+        '@prime' => '@app',
     ],
     'bootstrap' => ['log'],
     'components' => [

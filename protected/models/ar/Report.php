@@ -20,6 +20,7 @@ use yii\validators\ExistValidator;
 /**
  * Class Report
  * @package prime\models
+ * @property File $file
  * @property Project $project
  */
 class Report extends ActiveRecord implements ReportInterface
@@ -139,6 +140,12 @@ class Report extends ActiveRecord implements ReportInterface
         ];
     }
 
+    /**
+     * @param ReportInterface $report
+     * @param $projectId
+     * @param $generator
+     * @return Report
+     */
     public static function saveReport(ReportInterface $report, $projectId, $generator)
     {
         $transaction = app()->db->beginTransaction();
