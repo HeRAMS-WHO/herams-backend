@@ -11,6 +11,8 @@ use prime\models\mapLayers\CountryGrades;
  * @var string $layer
  * @var \prime\models\forms\MarketplaceFilter $filter
  */
+
+//$this->params['containerOptions'] = ['class' => 'container-fluid'];
 ?>
 
 <style>

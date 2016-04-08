@@ -36,15 +36,16 @@ foreach($tempData as $value => $count) {
 
 ?>
 <div class="row">
-    <div class="col-md-5 col-sm-12">
-    <div class="h3"><span class="h1"><?=count($countriesResponses)?></span> <?=\Yii::t('app', 'Graded countries')?></div>
+    <?=$this->render('greyHeader')?>
+    <div class="col-md-5">
+    <span class="h3"><span class="h1"><?=count($countriesResponses)?></span> <?=\Yii::t('app', 'Graded/protracted* countries')?></span>
 <?php
 echo \miloschuman\highcharts\Highcharts::widget([
     'options' => [
         'chart' => [
             'type' => 'pie',
-            'height' => 295,
-            'marginBottom' => 100,
+            'height' => 350,
+            'marginBottom' => 80,
             'spacingTop' => 0
         ],
         'title' => [
@@ -59,6 +60,7 @@ echo \miloschuman\highcharts\Highcharts::widget([
                 'tooltip' => [
                     'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
                 ],
+                'innerSize' => '50%',
                 'showInLegend' => true
             ]
         ],
@@ -70,33 +72,43 @@ echo \miloschuman\highcharts\Highcharts::widget([
     ],
     'id' => 'countries'
 ]);
-?>
-    </div><?php
-echo Html::beginTag('div', [
-    'class' => 'col-sm-12 col-md-7',
-]);
-echo Html::beginTag('table', [
-    'class' => 'table print-1em',
-    'style' => [
-        'font-size' => '1.2em'
-    ]
 
-]);
+?>
+        <small style="color: #a1a1a1;"><i>*<?=\Yii::t('app', 'protracted countries: countries with an HRP or parth of the 3RP that are not otherwise graded')?></i></small>
+    </div>
+
+    <?php
+        echo Html::beginTag('div', [
+            'class' => 'col-md-7',
+        ]);
+        echo Html::beginTag('table', [
+            'class' => 'table table-condensed table-striped print-1em',
+            'style' => [
+                //'font-size' => '1.2em'
+            ]
+
+        ]);
     ?>
     <thead>
     <tr>
-        <th></th>
+        <th style="width: 35px;"></th>
         <th><?=Yii::t('app', 'Graded country'); ?></th>
-        <th><?=Yii::t('app', 'Event'); ?></th>
-<!--        <th>--><?//=Yii::t('app', 'Stage'); ?><!--</th>-->
+        <th><?=Yii::t('app', 'Grading stage'); ?></th>
         <th><?=Yii::t('app', 'Date'); ?></th>
     </tr>
     </thead>
     <?php
+    $protractedCountries = [];
 foreach($countriesResponses as $iso_3 => $countryResponses)  {
     echo '<tr>';
     $lastCountryResponse = $countryResponses[count($countryResponses) - 1];
     $country = \prime\models\Country::findOne($iso_3);
+
+    if($lastCountryResponse->getData()['GM02'] == 'A4') {
+        $protractedCountries[] = $country;
+        continue;
+    }
+
     echo Html::tag('td', Html::icon('stop', ['style' => [
         'color' => \prime\models\mapLayers\CountryGrades::mapColor($lastCountryResponse->getData()['GM02']) . ' !important',
     ]]));
@@ -106,6 +118,38 @@ foreach($countriesResponses as $iso_3 => $countryResponses)  {
     echo '</tr>';
 }
 echo Html::endTag('table');
+
+    echo Html::beginTag('table', [
+        'class' => 'table table-condensed table-striped print-1em',
+        'style' => [
+            //'font-size' => '1.2em'
+        ]
+
+    ]);
+    ?>
+    <thead>
+    <tr>
+        <th style="width: 35px;"></th>
+        <th><?=Yii::t('app', 'Protracted country'); ?></th>
+    </tr>
+    </thead>
+    <?php
+    foreach($protractedCountries as $country)  {
+        echo '<tr>';
+
+        echo Html::tag('td', Html::icon('stop', ['style' => [
+            'color' => \prime\models\mapLayers\CountryGrades::mapColor('A4') . ' !important',
+        ]]));
+        echo Html::tag('td', $country->name);
+        echo '</tr>';
+    }
+    echo Html::endTag('table');
+
+
 echo Html::endTag('div');
+
+
+
+    echo $this->render('greyFooter');
 ?>
 </div>
