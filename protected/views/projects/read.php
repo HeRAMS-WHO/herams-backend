@@ -100,14 +100,22 @@ $this->params['subMenu']['items'][] = [
         </div>
     </div>
 </div>
+<?php
+    if (isset($model->tool->progress_type)) {
+        echo Html::tag('iframe', '', [
+            'src' => \yii\helpers\Url::to(['/projects/progress', 'id' => $model->id]),
+            'class' => ['col-xs-12', 'resize'],
+            'style' => [
+                'height' => 0,
+                'border' => 0,
+                'padding-left' => 0,
+                'padding-right' => 0,
+                'padding-bottom' => 0
+            ]
+        ]);
+    }
+?>
 
-<iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" class="col-xs-12 resize" style="
-height: 0px;
-border: 0px;
-padding-left: 0px;
-padding-right: 0px;
-padding-bottom: 10px;
-"></iframe>
 
 <div class="col-xs-12">
     <?php

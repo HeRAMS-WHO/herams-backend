@@ -165,22 +165,16 @@ class Project extends ActiveRecord implements ProjectInterface
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
     }
-
-    /**
-     * @return Widget
-     */
-    public function getProgressWidget()
-    {
-        $widget = $this->tool->progressWidget;
-        $widget->project = $this;
-        return $widget;
-    }
-
+    
     public function getProgressReport()
     {
-        /** @var ReportGeneratorInterface $generator */
-        $generator = GeneratorFactory::get($this->tool->progress_type);
-        return $generator->render($this->getResponses(), $this->getSurvey(), $this, app()->user->identity->createSignature());
+        if (isset($this->tool->progress_type)) {
+            /** @var ReportGeneratorInterface $generator */
+            $generator = GeneratorFactory::get($this->tool->progress_type);
+
+            return $generator->render($this->getResponses(), $this->getSurvey(), $this,
+                app()->user->identity->createSignature());
+        }
     }
 
     /**
