@@ -125,6 +125,7 @@ CSV;
             $project->country_iso_3 = $country->iso_3;
             $project->owner_id = $user->id;
             $project->token = $token->getToken();
+            $project->default_generator = $acronym == 'CCPM' ? 'ccpm' : 'cd';
 
             $project->title = $acronym == 'CCPM' ? 'Cluster Coordination Performance Monitoring' : 'Cluster Description';
             $project->description = $project->title;
@@ -137,11 +138,17 @@ CSV;
             }
             
         }
-        return false;
+        return true;
     }
 
     public function safeDown()
     {
+        foreach(explode("\n", $this->data) as $line) {
+            list($email, $acronym, $locality, $createdString, $countryCode, $tokenString) = explode(',', $line);
+            \prime\models\ar\Project::deleteAll(['token' => $tokenString]);
+
+        }
+        return true;
     }
 
 }
