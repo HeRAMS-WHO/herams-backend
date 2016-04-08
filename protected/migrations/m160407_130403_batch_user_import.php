@@ -60,11 +60,9 @@ EMAIL;
                 $user->email = $email;
                 $user->confirmed_at = time();
                 $user->password_hash = 'NOPASSWORD';
-                if (!$user->validate()) {
-                    echo "Failed to validate user.";
+                if (!$user->save()) {
+                    echo "Failed to save user.";
                     print_r($user->errors);
-
-//                var_dump($user->attributes);
                     return false;
                 }
 

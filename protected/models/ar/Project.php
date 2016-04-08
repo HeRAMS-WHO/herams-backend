@@ -30,6 +30,7 @@ use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
+use yii\validators\UniqueValidator;
 
 /**
  * Class Project
@@ -42,6 +43,8 @@ use yii\validators\StringValidator;
  * @property string $default_generator
  * @property string $country_iso_3
  * @property int $data_survey_eid The associated data survey.
+ * @property int $tool_id
+ * @property string $locality_name
  * @property Country $country
  *
  * @method static ProjectQuery find()
@@ -280,6 +283,7 @@ class Project extends ActiveRecord implements ProjectInterface
             // Save NULL instead of "" when no default report is selected.
             [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
             ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
+            ['token', UniqueValidator::class]
         ];
     }
 
