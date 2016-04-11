@@ -7,7 +7,9 @@ $(function(){
         if ($iframe.attr('data-resize') === 'height') {
             $iframe.height($iframe.contents().find("body").height());
             return;
-        } 
+        }
+
+        $iframe.height($iframe.contents().find("body").height());
         $iframe.width($iframe.contents().find("body").width());
     };
 
