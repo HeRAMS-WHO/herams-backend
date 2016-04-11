@@ -49,6 +49,7 @@ if(isset($id)) {
             'responseId' => $lastHealthClusterResponse->getData()['id']
         ])?>"
         class="resize"
+        data-resize="height"
     ></iframe>
     <?php
 }

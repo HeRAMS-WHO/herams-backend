@@ -153,7 +153,9 @@ class ProjectsController extends Controller
     {
         $project = Project::loadOne($id);
         $report = $project->getProgressReport();
-
+        if (!isset($report)) {
+            throw new \HttpException(404, "Progress report for project not found.");
+        }
         $response->setContentType($report->getMimeType());
         $response->content = $report->getStream();
         return $response;
@@ -275,11 +277,18 @@ class ProjectsController extends Controller
         ]);
     }
 
+    public function actionUpdateLimeSurvey($id)
+    {
+        $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+        return $this->render('updateLimeSurvey', [
+            'model' => $model
+        ]);
+    }
 
     public function actionExplore()
     {
         return $this->renderContent(Html::tag('div', Html::tag('iframe', '', [
-            'src' => 'https://internal.shinyapps.io/prime/herams_proto/?initialWidth=1920&childId=shinyapp',
+            'src' => 'https://prime.shinyapps.io/herams_prime/?surveyId=695195&locale=fr&country=CAF',
             'style' => [
                 'width' => '100%',
                 'height' => '100%',

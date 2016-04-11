@@ -7,7 +7,7 @@ return [
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
     'aliases' => [
-        '@prime' => '@app'
+        '@prime' => '@app',
     ],
     'bootstrap' => ['log'],
     'components' => [
@@ -115,6 +115,7 @@ return [
             'icons.globalMonitor' => 'globe',
             'icons.projects' => 'tasks',
             'icons.reports' => 'file',
+            'icons.preview' => 'file',
             'icons.userLists' => 'bullhorn',
             'icons.user' => 'user',
             'icons.configuration' => 'wrench',

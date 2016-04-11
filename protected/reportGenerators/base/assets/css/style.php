@@ -7,21 +7,21 @@
 ?>
 @font-face {
     font-family: "Open Sans";
-    src:url(data:font/opentype;base64,<?=base64_encode(file_get_contents(\yii\helpers\Url::to('@app/assets/fonts/OpenSans-Regular.ttf')))?>) format("truetype");
+    src:url(data:font/opentype;base64,<?=base64_encode(file_get_contents(Yii::getAlias('@app/assets/fonts/OpenSans-Regular.ttf')))?>) format("truetype");
     font-style: normal;
     font-weight: 400;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src:url(data:font/opentype;base64,<?=base64_encode(file_get_contents(\yii\helpers\Url::to('@app/assets/fonts/OpenSans-Semibold.ttf')))?>) format("truetype");
+    src:url(data:font/opentype;base64,<?=base64_encode(file_get_contents(Yii::getAlias('@app/assets/fonts/OpenSans-Semibold.ttf')))?>) format("truetype");
     font-style: normal;
     font-weight: 600;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src:url(data:font/opentype;base64,<?=base64_encode(file_get_contents(\yii\helpers\Url::to('@app/assets/fonts/OpenSans-Bold.ttf')))?>) format("truetype");
+    src:url(data:font/opentype;base64,<?=base64_encode(file_get_contents(Yii::getAlias('@app/assets/fonts/OpenSans-Bold.ttf')))?>) format("truetype");
     font-style: normal;
     font-weight: 900;
 }
@@ -33,6 +33,7 @@ body {
 }
 
 <?php
+    /** @var \prime\interfaces\ProjectInterface $project */
     $image = imagecreatefromstring(file_get_contents($project->getToolImagePath()));
     $height = 140;
     $width = imagesx($image) / imagesy($image) * $height;

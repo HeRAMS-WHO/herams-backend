@@ -110,6 +110,14 @@ class ToolsController extends Controller
             'model' => Tool::loadOne($id)
         ]);
     }
+    
+    public function actionRequestAccess($id)
+    {
+        $model = Tool::loadOne($id);
+        return $this->render('requestAccess', [
+            'model' => $model
+        ]);
+    }
 
     public function actionUpdate(Request $request, Session $session, $id)
     {

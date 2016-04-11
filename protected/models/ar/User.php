@@ -34,7 +34,7 @@ class User extends \dektrium\user\models\User {
 
     public function getGravatarUrl ($size = 256)
     {
-        return "http://gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size . "&d=blank";
+        return "//gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size . "&d=blank";
     }
 
     public function getFirstName()
@@ -68,6 +68,10 @@ class User extends \dektrium\user\models\User {
     public function getProjects()
     {
         return Project::find()->notClosed()->userCan(Permission::PERMISSION_READ);
+    }
+
+    public function getOwnedProjects() {
+        return $this->hasMany(Project::class, ['owner_id' => 'id']);
     }
 
     public function getUserLists()

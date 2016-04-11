@@ -13,7 +13,7 @@ $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.limeSurveyUpdate')),
-    'url' => $model->surveyUrl,
+    'url' => ['/projects/update-lime-survey', 'id' => $model->id],//$model->surveyUrl,
     'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && $model->closed === null,
     'options' => [
         'class' => 'icon',
@@ -23,7 +23,7 @@ $this->params['subMenu']['items'][] = [
 
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
-        'label' => Html::icon(Setting::get('icons.read')),
+        'label' => Html::icon(Setting::get('icons.preview')),
         'options' => [
             'class' => 'icon',
             'title' => \Yii::t('app', 'Preview report'),
@@ -100,14 +100,22 @@ $this->params['subMenu']['items'][] = [
         </div>
     </div>
 </div>
+<?php
+    if (isset($model->tool->progress_type)) {
+        echo Html::tag('iframe', '', [
+            'src' => \yii\helpers\Url::to(['/projects/progress', 'id' => $model->id]),
+            'class' => ['col-xs-12', 'resize'],
+            'style' => [
+                'height' => 0,
+                'border' => 0,
+                'padding-left' => 0,
+                'padding-right' => 0,
+                'padding-bottom' => 0
+            ]
+        ]);
+    }
+?>
 
-<iframe src="<?=\yii\helpers\Url::to(['/projects/progress', 'id' => $model->id])?>" class="col-xs-12 resize" style="
-height: 0px;
-border: 0px;
-padding-left: 0px;
-padding-right: 0px;
-padding-bottom: 10px;
-"></iframe>
 
 <div class="col-xs-12">
     <?php

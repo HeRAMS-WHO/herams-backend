@@ -40,7 +40,9 @@ class Report extends \prime\models\ar\Report
         $this->scenario = 'search';
 
         $this->query = \prime\models\ar\Report::find();
-        $this->query->joinWith(['tool', 'project', 'file']);
+        $this->query->joinWith(['tool', 'project', 'file' => function(ActiveQuery $q) {
+            $q->select(['id', 'mime_type']);
+        }]);
     }
 
     public function rules()
@@ -114,7 +116,6 @@ class Report extends \prime\models\ar\Report
         $this->query->andFilterWhere(['country_iso_3' => $this->countryId]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Report::tableName() . '.title', $this->title]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.locality_name', $this->localityName]);
-
         return $dataProvider;
     }
 

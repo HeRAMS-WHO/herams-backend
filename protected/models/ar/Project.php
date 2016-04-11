@@ -24,24 +24,29 @@ use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
+use yii\validators\UniqueValidator;
+use yii\web\UrlManager;
 
 /**
  * Class Project
  * @package prime\models
  *
- * @property User $user
+ * @property User $owner
  * @property Tool $tool
  * @property string $title
  * @property string $description
  * @property string $default_generator
  * @property string $country_iso_3
  * @property int $data_survey_eid The associated data survey.
+ * @property int $tool_id
+ * @property string $locality_name
  * @property Country $country
  *
  * @method static ProjectQuery find()
@@ -152,7 +157,7 @@ class Project extends ActiveRecord implements ProjectInterface
     public function getOwner()
     {
         return $this->hasOne(User::class, ['id' => 'owner_id'])
-            ->inverseOf('projects');
+            ->inverseOf('ownedProjects');
     }
 
     public function getPermissions()
@@ -160,22 +165,16 @@ class Project extends ActiveRecord implements ProjectInterface
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
     }
-
-    /**
-     * @return Widget
-     */
-    public function getProgressWidget()
-    {
-        $widget = $this->tool->progressWidget;
-        $widget->project = $this;
-        return $widget;
-    }
-
+    
     public function getProgressReport()
     {
-        /** @var ReportGeneratorInterface $generator */
-        $generator = GeneratorFactory::get($this->tool->progress_type);
-        return $generator->render($this->getResponses(), $this->getSurvey(), $this, app()->user->identity->createSignature());
+        if (isset($this->tool->progress_type)) {
+            /** @var ReportGeneratorInterface $generator */
+            $generator = GeneratorFactory::get($this->tool->progress_type);
+
+            return $generator->render($this->getResponses(), $this->getSurvey(), $this,
+                app()->user->identity->createSignature());
+        }
     }
 
     /**
@@ -238,7 +237,7 @@ class Project extends ActiveRecord implements ProjectInterface
      */
     public function getToolImagePath()
     {
-        return app()->urlManager->createAbsoluteUrl($this->tool->imageUrl);
+        return Url::to($this->tool->imageUrl, true);
     }
 
     /**
@@ -280,6 +279,7 @@ class Project extends ActiveRecord implements ProjectInterface
             // Save NULL instead of "" when no default report is selected.
             [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
             ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
+            ['token', UniqueValidator::class]
         ];
     }
 
@@ -305,7 +305,7 @@ class Project extends ActiveRecord implements ProjectInterface
     {
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
 
-        $result = parent::userCan($operation, $user);
+        $result = parent::userCan($operation, $user) || ($operation === Permission::PERMISSION_READ && app()->user->can('manager'));
         if(!$result) {
             $result = $result
                 // User owns the project.

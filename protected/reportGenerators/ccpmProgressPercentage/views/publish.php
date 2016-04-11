@@ -101,23 +101,23 @@ $this->beginContent('@app/views/layouts/report.php');
             </div>
         </div>
     </div>
-    <div class="col-xs-12">
-        <table class="table">
+<!--    <div class="col-xs-12">-->
+<!--        <table class="table">-->
             <?php
-            /** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
-            foreach($surveys as $survey) {
-                $url = \app\components\Html::a($limeSurvey->getUrl(
-                    $survey->getId(),
-                    [
-                        'token' => $project->getAttribute('token'),
-                        'newtest' => 'Y'
-                    ]
-                ));
-                echo "<tr><td>{$survey->getTitle()}</td><td>{$url}</td></tr>";
-            }
+//            /** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
+//            foreach($surveys as $survey) {
+//                $url = \app\components\Html::a($limeSurvey->getUrl(
+//                    $survey->getId(),
+//                    [
+//                        'token' => $project->getAttribute('token'),
+//                        'newtest' => 'Y'
+//                    ]
+//                ));
+//                echo "<tr><td>{$survey->getTitle()}</td><td>{$url}</td></tr>";
+//            }
             ?>
-        </table>
-    </div>
+<!--        </table>-->
+<!--    </div>-->
 </div>
 </div>
 <?php $this->endContent(); ?>
