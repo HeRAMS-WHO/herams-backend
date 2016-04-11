@@ -58,7 +58,7 @@ foreach($regionDistribution as $value => $count) {
     foreach(\prime\models\mapLayers\CountryGrades::colorMap() as $value => $color) {
     ?>
     .table-striped>tbody>tr.country-grade-color-<?=$value?>:nth-child(odd) {
-        background-color: <?=$color->lighten(35)?>;
+        background-color: <?=$color->lighten(40)?>;
     }
 
     .table-striped>tbody>tr.country-grade-color-<?=$value?>:nth-child(even) {

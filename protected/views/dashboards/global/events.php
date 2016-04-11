@@ -96,7 +96,7 @@ JS
     foreach(\prime\models\mapLayers\EventGrades::colorMap() as $value => $color) {
     ?>
     .table-striped>tbody>tr.event-grade-color-<?=$value?>:nth-child(odd) {
-        background-color: <?=$color->lighten(35)?>;
+        background-color: <?=$color->lighten(40)?>;
     }
 
     .table-striped>tbody>tr.event-grade-color-<?=$value?>:nth-child(even) {
