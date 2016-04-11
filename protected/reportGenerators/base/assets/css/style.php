@@ -33,28 +33,15 @@ body {
 }
 
 <?php
-    $path = $project->getToolImagePath();
-
     /** @var \prime\interfaces\ProjectInterface $project */
-    if (preg_match('_^/site/text-image\?text=(.*)$_', $path, $matches)) {
-        $content = \app\components\Html::textImage($matches[1]);
-    } else {
-        // Check if path is local.
-        if (strncasecmp('http', $path, 4) === 0) {
-            $image = imagecreatefromstring(file_get_contents($path));
-        } else {
-            $image = imagecreatefromstring(file_get_contents(Yii::getAlias('@webroot' . $path)));
-        }
-
-        $height = 140;
-        $width = imagesx($image) / imagesy($image) * $height;
-        $newImage = imagecreatetruecolor($width, $height);
-        imagecopyresized($newImage, $image, 0, 0, 0, 0, $width, $height, imagesx($image), imagesy($image));
-        ob_start();
-        imagepng($newImage);
-        $content = ob_get_clean();
-
-    }
+    $image = imagecreatefromstring(file_get_contents($project->getToolImagePath()));
+    $height = 140;
+    $width = imagesx($image) / imagesy($image) * $height;
+    $newImage = imagecreatetruecolor($width, $height);
+    imagecopyresized($newImage, $image, 0, 0, 0, 0, $width, $height, imagesx($image), imagesy($image));
+    ob_start();
+    imagepng($newImage);
+    $content = ob_get_clean();
 ?>
 
 .header {
