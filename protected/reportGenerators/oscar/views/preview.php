@@ -436,7 +436,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmwho_SQ001]'))?></td>
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmwho_SQ002]'))?></td>
                     <td><?=$formatter->asPercent(
-                            $generator->getPercentage($generator->response, 'resmob2[rmwho_SQ002]', 'resmob2[rmwho_SQ001]')
+                            $generator->getPercentage($generator->response, 'resmob2[rmwho_SQ002]', 'resmob2[rmwho_SQ001]') / 100
                         )?></td>
                 </tr>
                 <tr>
@@ -444,7 +444,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmhc_SQ001]'))?></td>
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmhc_SQ002]'))?></td>
                     <td><?=$formatter->asPercent(
-                            $generator->getPercentage($generator->response, 'resmob2[rmhc_SQ002]', 'resmob2[rmhc_SQ001]')
+                            $generator->getPercentage($generator->response, 'resmob2[rmhc_SQ002]', 'resmob2[rmhc_SQ001]') / 100
                         )?></td>
                 </tr>
                 <tr>
