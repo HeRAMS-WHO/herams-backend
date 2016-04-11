@@ -443,7 +443,9 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                     <td><?=\Yii::t('oscar', 'Health sector')?></td>
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmhc_SQ001]'))?></td>
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmhc_SQ002]'))?></td>
-                    <td><?=$formatter->asPercent($generator->getQuestionValue('resmob2[rmhc_SQ002]') / $generator->getQuestionValue('resmob2[rmhc_SQ001]'))?></td>
+                    <td><?=$formatter->asPercent(
+                            $generator->getPercentage($generator->response, 'resmob2[rmhc_SQ002]', 'resmob2[rmhc_SQ001]')
+                        )?></td>
                 </tr>
                 <tr>
                     <td><?=\Yii::t('oscar', 'Total')?></td>
