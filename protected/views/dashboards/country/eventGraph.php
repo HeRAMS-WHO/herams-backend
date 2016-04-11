@@ -12,7 +12,7 @@ foreach($eventResponses as $response) {
     $serie[] = [
         'grade' => EventGrades::mapGrade($response->getData()['GM02']),
         'y' => EventGrades::mapValue($response->getData()['GM02']),
-        'color' => EventGrades::mapColor($response->getData()['GM02']),
+        'color' => (string) EventGrades::mapColor($response->getData()['GM02']),
         'name' => (new \Carbon\Carbon($response->getData()['GM01']))->format('d/m/Y')
     ];
 }

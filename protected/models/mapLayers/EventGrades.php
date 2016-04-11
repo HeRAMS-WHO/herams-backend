@@ -30,7 +30,7 @@ class EventGrades extends MapLayer
     {
         foreach($this->data as &$data) {
             if(!isset($data['color'])) {
-                $data['color'] = $this->mapColor($data['value']);
+                $data['color'] = (string) $this->mapColor($data['value']);
             }
         }
     }

@@ -41,7 +41,7 @@ $countryGradingSerie = [];
 foreach($countriesData as $value => $count) {
     $countryGradingSerie[] = [
         'name' => \prime\models\mapLayers\CountryGrades::mapGrade($value),
-        'color' => \prime\models\mapLayers\CountryGrades::mapColor($value),
+        'color' => (string) \prime\models\mapLayers\CountryGrades::mapColor($value),
         'count' => $count,
         'y' => round($count * 100 / array_sum($countriesData))
     ];

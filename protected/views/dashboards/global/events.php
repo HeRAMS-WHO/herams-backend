@@ -237,7 +237,7 @@ JS
         echo '<tr class="event-grade-color-' . $lastEventResponse->getData()['GM02'] . '">';
 
         echo Html::tag('td', Html::icon('stop', ['style' => [
-            'color' => \prime\models\mapLayers\EventGrades::mapColor($lastEventResponse->getData()['GM02']) . ' !important',
+            'color' => (string) \prime\models\mapLayers\EventGrades::mapColor($lastEventResponse->getData()['GM02']) . ' !important',
         ]]));
         echo Html::tag('td', $country->name);
         echo Html::tag('td', $lastEventResponse->getData()['CED01']);
