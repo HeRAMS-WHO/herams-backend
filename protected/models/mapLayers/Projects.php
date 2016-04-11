@@ -61,7 +61,7 @@ class Projects extends MapLayer
             /** @var Project $project */
             $latLong = $project->getLatLong();
             return [
-                'name' => $project->title,
+//                'name' => $project->title,
                 'lat' => $latLong->getLatitude()->get(),
                 'lon' => $latLong->getLongitude()->get(),
                 'id' => $project->id,
