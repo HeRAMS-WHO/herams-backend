@@ -39,6 +39,12 @@ echo Nav::widget([
 
         ],
         [
+            'label' => Html::icon('tint', ['title' => 'Shiny']),
+            'url' => ['/projects/explore'],
+            'visible' => !Yii::$app->user->isGuest
+
+        ],
+        [
             'label' => Html::icon(\prime\models\ar\Setting::get('icons.projects'), ['id' => 'projects', 'title' => 'Projects']),
             'url' => ['/projects'],
             'visible' => !Yii::$app->user->isGuest

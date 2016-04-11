@@ -288,7 +288,7 @@ class ProjectsController extends Controller
     public function actionExplore()
     {
         return $this->renderContent(Html::tag('div', Html::tag('iframe', '', [
-            'src' => 'https://internal.shinyapps.io/prime/herams_proto/?initialWidth=1920&childId=shinyapp',
+            'src' => 'https://prime.shinyapps.io/herams_prime/?surveyId=695195&locale=fr&country=CAF',
             'style' => [
                 'width' => '100%',
                 'height' => '100%',
