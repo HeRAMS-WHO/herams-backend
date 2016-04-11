@@ -8,72 +8,137 @@ use app\components\Html;
  */
 
 //filter responses
-$tempData = [];
+$countryDistribution = [];
+$regionDistribution = [];
 foreach($countriesResponses as $iso3 => $countryResponses) {
+    $country = \prime\models\Country::findOne($iso3);
     $lastCountryResponse = $countryResponses[count($countryResponses) - 1];
     if($lastCountryResponse->getData()['GM02'] == 'A0' || $lastCountryResponse->getData()['GM02'] == '') {
         unset($countriesResponses[$iso3]);
         continue;
     }
 
-    if(!isset($tempData[$lastCountryResponse->getData()['GM02']])) {
-        $tempData[$lastCountryResponse->getData()['GM02']] = 0;
+    if(!isset($countryDistribution[$lastCountryResponse->getData()['GM02']])) {
+        $countryDistribution[$lastCountryResponse->getData()['GM02']] = 0;
     }
 
-    $tempData[$lastCountryResponse->getData()['GM02']]++;
+    if(!isset($regionDistribution[$country->region])) {
+        $regionDistribution[$country->region] = 0;
+    }
+
+    $countryDistribution[$lastCountryResponse->getData()['GM02']]++;
+    $regionDistribution[$country->region]++;
 }
 
-ksort($tempData);
-$serie = [];
-foreach($tempData as $value => $count) {
-    $serie[] = [
+ksort($countryDistribution);
+$gradeSerie = [];
+foreach($countryDistribution as $value => $count) {
+    $gradeSerie[] = [
         'name' => \prime\models\mapLayers\CountryGrades::mapGrade($value),
-        'color' => \prime\models\mapLayers\CountryGrades::mapColor($value),
+        'color' => (string) \prime\models\mapLayers\CountryGrades::mapColor($value),
         'count' => $count,
-        'y' => round($count * 100 / array_sum($tempData))
+        'y' => round($count * 100 / array_sum($countryDistribution))
+    ];
+}
+
+arsort($regionDistribution);
+$regionSerie = [];
+foreach($regionDistribution as $value => $count) {
+    $regionSerie[] = [
+        'name' => $value,
+        'count' => $count,
+        'y' => round($count * 100 / array_sum($regionDistribution))
     ];
 }
 
 ?>
+<style>
+    <?php
+     /** @var \prime\objects\Color $color */
+    foreach(\prime\models\mapLayers\CountryGrades::colorMap() as $value => $color) {
+    ?>
+    .table-striped>tbody>tr.country-grade-color-<?=$value?>:nth-child(odd) {
+        background-color: <?=$color->lighten(35)?>;
+    }
+
+    .table-striped>tbody>tr.country-grade-color-<?=$value?>:nth-child(even) {
+        background-color: <?=$color->lighten(45)?>;
+    }
+    <?php } ?>
+</style>
 <div class="row">
     <?=$this->render('greyHeader')?>
     <div class="col-md-5">
-    <span class="h3"><span class="h1"><?=count($countriesResponses)?></span> <?=\Yii::t('app', 'Graded/protracted* countries')?></span>
-<?php
-echo \miloschuman\highcharts\Highcharts::widget([
-    'options' => [
-        'chart' => [
-            'type' => 'pie',
-            'height' => 350,
-            'marginBottom' => 80,
-            'spacingTop' => 0
-        ],
-        'title' => [
-            'text' => null,
-        ],
-        'series' => [
-            [
-                'data' => $serie,
-                'dataLabels' => [
+        <span class="h3"><span class="h1"><?=count($countriesResponses)?></span> <?=\Yii::t('app', 'Graded/protracted* countries')?></span>
+        <?php
+        echo \miloschuman\highcharts\Highcharts::widget([
+            'options' => [
+                'chart' => [
+                    'type' => 'pie',
+                    'height' => 350,
+                    'marginBottom' => 80,
+                    'spacingTop' => 0
+                ],
+                'title' => [
+                    'text' => null,
+                ],
+                'series' => [
+                    [
+                        'data' => $gradeSerie,
+                        'dataLabels' => [
+                            'enabled' => false
+                        ],
+                        'tooltip' => [
+                            'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
+                        ],
+                        'innerSize' => '50%',
+                        'showInLegend' => true
+                    ]
+                ],
+                'credits' => [
                     'enabled' => false
+                ]
+            ],
+            'htmlOptions' => [
+            ],
+            'id' => 'countries'
+        ]);
+        ?>
+        <span class="h3"><?=\Yii::t('app', 'Regional distribution of graded/protracted* countries')?></span>
+        <?php
+        echo \miloschuman\highcharts\Highcharts::widget([
+            'options' => [
+                'chart' => [
+                    'type' => 'pie',
+                    'height' => 350,
+                    'marginBottom' => 80,
+                    'spacingTop' => 0
                 ],
-                'tooltip' => [
-                    'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
+                'title' => [
+                    'text' => null,
                 ],
-                'innerSize' => '50%',
-                'showInLegend' => true
-            ]
-        ],
-        'credits' => [
-            'enabled' => false
-        ]
-    ],
-    'htmlOptions' => [
-    ],
-    'id' => 'countries'
-]);
-
-?>
+                'series' => [
+                    [
+                        'data' => $regionSerie,
+                        'dataLabels' => [
+                            'enabled' => false
+                        ],
+                        'tooltip' => [
+                            'pointFormat' => '{point.count} ' . \Yii::t('app', 'Countries') . '<br><b>{point.y}%</b><br/>'
+                        ],
+                        'innerSize' => '50%',
+                        'showInLegend' => true
+                    ]
+                ],
+                'credits' => [
+                    'enabled' => false
+                ]
+            ],
+            'htmlOptions' => [
+            ],
+            'id' => 'regions'
+        ]);
+        ?>
         <small style="color: #a1a1a1;"><i>*<?=\Yii::t('app', 'protracted countries: countries with an HRP or parth of the 3RP that are not otherwise graded')?></i></small>
     </div>
 
@@ -100,7 +165,6 @@ echo \miloschuman\highcharts\Highcharts::widget([
     <?php
     $protractedCountries = [];
 foreach($countriesResponses as $iso_3 => $countryResponses)  {
-    echo '<tr>';
     $lastCountryResponse = $countryResponses[count($countryResponses) - 1];
     $country = \prime\models\Country::findOne($iso_3);
 
@@ -109,6 +173,7 @@ foreach($countriesResponses as $iso_3 => $countryResponses)  {
         continue;
     }
 
+    echo '<tr class="country-grade-color-' . $lastCountryResponse->getData()['GM02'] . '">';
     echo Html::tag('td', Html::icon('stop', ['style' => [
         'color' => \prime\models\mapLayers\CountryGrades::mapColor($lastCountryResponse->getData()['GM02']) . ' !important',
     ]]));
@@ -131,17 +196,31 @@ echo Html::endTag('table');
     <tr>
         <th style="width: 35px;"></th>
         <th><?=Yii::t('app', 'Protracted country'); ?></th>
+        <th style="width: 35px"></th>
+        <th></th>
     </tr>
     </thead>
     <?php
+    $i = 0;
     foreach($protractedCountries as $country)  {
-        echo '<tr>';
+        if($i % 2 == 0) {
+            echo '<tr>';
+        }
 
         echo Html::tag('td', Html::icon('stop', ['style' => [
             'color' => \prime\models\mapLayers\CountryGrades::mapColor('A4') . ' !important',
         ]]));
+
         echo Html::tag('td', $country->name);
-        echo '</tr>';
+
+        $i++;
+
+        if($i % 2 == 0) {
+            echo '</tr>';
+        }
+    }
+    if($i % 2 == 1) {
+        echo '<td></td><td></td></tr>';
     }
     echo Html::endTag('table');
 

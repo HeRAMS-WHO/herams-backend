@@ -20,6 +20,10 @@ use prime\models\mapLayers\CountryGrades;
         margin: 0px 0px 3px 0px;
         text-align: center;
     }
+
+    .highcharts-container {
+        margin-bottom: 20px;
+    }
 </style>
 
 <div class="col-xs-12">
@@ -33,17 +37,17 @@ use prime\models\mapLayers\CountryGrades;
         'printable' => true,
         'items' => [
             [
-                'label' => \Yii::t('app', 'Country grades'),
+                'label' => \Yii::t('app', 'Graded countries'),
                 'content' => $this->render('global/countries', ['countriesResponses' => $countriesResponses]),
                 'active' => $layer == 'countryGrades'
             ],
             [
-                'label' => \Yii::t('app', 'Event grades'),
+                'label' => \Yii::t('app', 'Graded events'),
                 'content' => $this->render('global/events', ['eventsResponses' => $eventsResponses]),
                 'active' => $layer == 'eventGrades'
             ],
             [
-                'label' => \Yii::t('app', 'Health clusters'),
+                'label' => \Yii::t('app', 'Coordination'),
                 'content' => $this->render('global/healthClusters', [
                     'healthClustersResponses' => $healthClustersResponses,
                     'eventsResponses' => $eventsResponses,

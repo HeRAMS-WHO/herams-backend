@@ -5,6 +5,7 @@ namespace prime\models\mapLayers;
 use app\components\Html;
 use Befound\Components\DateTime;
 use Carbon\Carbon;
+use prime\objects\RGBColor;
 use prime\controllers\MarketplaceController;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\Country;
@@ -62,18 +63,20 @@ class CountryGrades extends MapLayer
         parent::init();
     }
 
+    public static function colorMap() {
+        return [
+            'A00' => new RGBColor(100, 100, 100, 0.8),
+            'A0' => new RGBColor(240, 240, 240, 1),
+            'A1' => new RGBColor(255, 255, 0, 1),
+            'A2' => new RGBColor(255, 127, 0, 1),
+            'A3' => new RGBColor(255, 0, 0, 1),
+            'A4' => new RGBColor(102, 0, 0, 1)
+        ];
+    }
+
     public static function mapColor($value)
     {
-        $map = [
-            'A00' => 'rgba(100, 100, 100, 0.8)',
-            'A0' => 'rgba(240, 240, 240, 1)',
-            'A1' => 'rgba(255, 255, 0, 1)',
-            'A2' => 'rgba(255, 127, 0, 1)',
-            'A3' => 'rgba(255, 0, 0, 1)',
-            'A4' => 'rgba(102, 0, 0, 1)'
-        ];
-
-        return $map[$value];
+        return self::colorMap()[$value];
     }
 
     public static function gradeMap()
