@@ -47,6 +47,7 @@ use yii\web\UrlManager;
  * @property int $data_survey_eid The associated data survey.
  * @property int $tool_id
  * @property string $locality_name
+ * @property datetime $created
  * @property Country $country
  *
  * @method static ProjectQuery find()
