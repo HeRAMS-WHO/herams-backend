@@ -1,7 +1,7 @@
 <?php
 return [
     'components' => [
-        'urlManager' => [
+        'request' => [
             'hostInfo' => CONSOLE ? 'https://primewho.org' : null
         ],
         'db' => [
