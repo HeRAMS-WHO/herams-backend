@@ -85,11 +85,9 @@ foreach($map->options['series'] as $mapLayer) {
     $countries = array_merge($countries, $mapLayer->getCountries());
 }
 echo Html::tag('div', $this->render('countries', ['countries' => $countries]), [
-    'class' => 'col-xs-12 col-md-2',
+    'class' => 'col-xs-12 col-md-2 absolute-md',
     'style' => [
-        'max-height' => '100%',
         'overflow-y' => 'scroll',
-        'position' => 'absolute',
         'top' => 0,
         'right' => 0,
         'bottom' => 0

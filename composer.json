@@ -32,7 +32,6 @@
         "bariew/yii2-module-migration-controller": "1.*",
         "psr/http-message": "^1.0",
         "bower-asset/bootstrap-sass": "^3.3",
-        "neomerx/json-api": "dev-master",
         "2amigos/yii2-ckeditor-widget" : "^1",
         "guzzlehttp/psr7": "^1.2",
         "bower-asset/is-loading": "^1",
@@ -47,7 +46,8 @@
         "bower-asset/jquery-locationpicker-plugin": "^0.1.12",
         "nesbot/carbon": "^1.21",
         "kartik-v/yii2-tabs-x": "^1.2",
-        "sam-it/yii2-magic": "^1.0.3"
+        "sam-it/yii2-magic": "^1.0.3",
+        "primal/color": "dev-master"
     },
 	"repositories": [
 		{

@@ -49,7 +49,7 @@ $mapLayer = $this->context;
             $serie[] = [
                 'grade' => $mapLayer->mapGrade($response->getData()['GM02']),
                 'y' => $mapLayer->mapValue($response->getData()['GM02']),
-                'color' => $mapLayer->mapColor($response->getData()['GM02']),
+                'color' => (string) $mapLayer->mapColor($response->getData()['GM02']),
                 'name' => (new \Carbon\Carbon($response->getData()['GM01']))->format('d/m/Y')
             ];
         }

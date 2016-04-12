@@ -8,6 +8,7 @@ use prime\controllers\MarketplaceController;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\Country;
 use prime\models\MapLayer;
+use prime\objects\RGBColor;
 use yii\web\Controller;
 use yii\web\JsExpression;
 use yii\web\View;
@@ -29,7 +30,7 @@ class EventGrades extends MapLayer
     {
         foreach($this->data as &$data) {
             if(!isset($data['color'])) {
-                $data['color'] = $this->mapColor($data['value']);
+                $data['color'] = (string) $this->mapColor($data['value']);
             }
         }
     }
@@ -64,21 +65,25 @@ class EventGrades extends MapLayer
         parent::init();
     }
 
-    public static function mapColor($value)
+    public static function colorMap()
     {
-        $map = [
-            'A00' => 'rgba(100, 100, 100, 0.8)',
-            'A0' => 'rgba(240, 240, 240, 1)',
-            'A1' => 'rgba(255, 255, 0, 1)',
-            'A2' => 'rgba(255, 127, 0, 1)',
-            'A3' => 'rgba(255, 0, 0, 1)'
+        return [
+            'A00' => new RGBColor(100, 100, 100, 0.8),
+            'A0' => new RGBColor(240, 240, 240, 1),
+            'A1' => new RGBColor(255, 255, 0, 1),
+            'A2' => new RGBColor(255, 127, 0, 1),
+            'A3' => new RGBColor(255, 0, 0, 1),
 //            'A00' => 'rgba(100, 100, 100, 0.8)',
 //            'A0' => 'rgba(255, 255, 255, 0)',
 //            'A1' => 'rgba(150, 150, 0, 1)',
 //            'A2' => 'rgba(150, 73, 0, 1)',
 //            'A3' => 'rgba(150, 0, 0, 1)'
         ];
-        return $map[$value];
+    }
+
+    public static function mapColor($value)
+    {
+        return self::colorMap()[$value];
     }
 
     public static function gradeMap()

@@ -14,6 +14,12 @@ $font-family-base: "Open Sans";
   }
 }
 
+@media (min-width: $screen-md-min) {
+  .absolute-md {
+    position: absolute;
+  }
+}
+
 .btn-prime {
     @include button-variant(#fff, $navbar-default-link-color, darken($navbar-default-link-color, 5%));
 }

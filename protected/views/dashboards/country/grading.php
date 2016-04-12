@@ -16,7 +16,7 @@ use prime\models\mapLayers\CountryGrades;
             $serie[] = [
                 'grade' => CountryGrades::mapGrade($response->getData()['GM02']),
                 'y' => CountryGrades::mapValue($response->getData()['GM02']),
-                'color' => CountryGrades::mapColor($response->getData()['GM02']),
+                'color' => (string) CountryGrades::mapColor($response->getData()['GM02']),
                 'name' => (new \Carbon\Carbon($response->getData()['GM01']))->format('d/m/Y')
             ];
         }
