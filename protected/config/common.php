@@ -8,6 +8,7 @@ return [
     'sourceLanguage' => 'en',
     'aliases' => [
         '@prime' => '@app',
+        '@views' => '@app/views'
     ],
     'bootstrap' => ['log'],
     'components' => [
