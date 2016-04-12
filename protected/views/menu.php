@@ -76,7 +76,7 @@ echo Nav::widget([
             'items' => [
                 ['label' => 'Tools', 'url' => ['/tools']],
                 ['label' => 'Users & Permissions', 'url' => ['/rbac'], 'visible' => app()->user->can('admin')],
-                ['label' => 'Site configuration', 'url' => \yii\helpers\Url::to(['/settings/index'], true), 'visible' => app()->user->can('admin')],
+                ['label' => 'Site configuration', 'url' => ['/settings/index'], 'visible' => app()->user->can('admin')],
 
             ],
             'visible' => app()->user->can('tools')
