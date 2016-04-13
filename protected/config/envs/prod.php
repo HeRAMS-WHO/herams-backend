@@ -1,9 +1,7 @@
 <?php
 return [
     'components' => [
-        'urlManager' => [
-            'hostInfo' => CONSOLE ? 'https://primewho.org' : null
-        ],
+        'urlManager' => CONSOLE ? ['hostInfo' => 'https://primewho.org'] : [],
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',

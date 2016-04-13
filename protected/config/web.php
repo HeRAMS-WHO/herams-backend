@@ -45,8 +45,8 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'converter' => [
                 'class' => \yii\web\AssetConverter::class,
                 'commands' => [
-                    'sass' => ['css', 'sass {from} {to}'],
-                    'scss' => ['css', 'sass {from} {to}'],
+                    'sass' => ['css', 'sass -E "utf-8" {from} {to}'],
+                    'scss' => ['css', 'sass -E "utf-8" {from} {to}'],
                 ]
                 // Yii::getAlias not yet available.
 //                'destinationDir' => $compiledAssetDir,

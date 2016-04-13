@@ -152,7 +152,8 @@ class Report extends ActiveRecord implements ReportInterface
 
         $file = new File([
             'mime_type' => $report->getMimeType(),
-            'data' => $report->getStream()
+            'data' => $report->getStream(),
+            'name'=> $report->getTitle()
         ]);
 
         $save = $file->save();
@@ -165,7 +166,7 @@ class Report extends ActiveRecord implements ReportInterface
             'published' => new DateTime(),
             'user_data' => $report->getUserData()->getData(),
             'project_id' => $projectId,
-            'generator' => $generator,
+            'generator' => $report->getGenerator(),
             'title' => $report->getTitle(),
             'file_id' => $file->id
         ]);

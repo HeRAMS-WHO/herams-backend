@@ -47,6 +47,7 @@ use yii\web\UrlManager;
  * @property int $data_survey_eid The associated data survey.
  * @property int $tool_id
  * @property string $locality_name
+ * @property datetime $created
  * @property Country $country
  *
  * @method static ProjectQuery find()
@@ -311,7 +312,7 @@ class Project extends ActiveRecord implements ProjectInterface
                 // User owns the project.
                 || $this->owner_id == $user->id
                 // This is the health cluster mapping project, everyone can read it.
-                || ($this->id === Setting::get('healthClusterDashboardProject') && $operation == Permission::PERMISSION_READ)
+                || ($this->id == Setting::get('healthClusterDashboardProject') && $operation == Permission::PERMISSION_READ)
                 || Permission::isAllowed($user, $this, $operation);
         }
         return $result;

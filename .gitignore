@@ -4,14 +4,10 @@
 /public/assets
 /public/img/tools/*
 .idea/
-/protected/runtime/cache/
-/protected/runtime/debug/
-/protected/runtime/logs/
-/protected/runtime/HTML/
-/protected/runtime/URI/
+/protected/runtime/*
 /protected/config/env.php
 /protected/config/debug
 /protected/config/local.php
 /protected/controllers/DevController.php
 /protected/tests/codeception/_support/_generated/
-/protected/tests/codeception/_output/
+/protected/tests/codeception/_output/protected/runtime/10.html

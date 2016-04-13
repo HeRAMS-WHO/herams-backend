@@ -107,8 +107,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'format' => 'raw',
         ],
         [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => '{update} {delete}',
+            'class' => yii\grid\ActionColumn::class,
+            'template' => '{update} {delete} {impersonate}',
+            'buttons' => [
+                'impersonate' => function($url, \yii\db\ActiveRecordInterface $model, $row) {
+                    $options = [
+                        'title' => Yii::t('yii', 'Impersonate'),
+                        'aria-label' => Yii::t('yii', 'Impersonate'),
+                        'data-method' => 'post',
+                        'data-pjax' => '0',
+                    ];
+                    return Html::a('<span class="glyphicon glyphicon-share-alt"></span>', \yii\helpers\Url::to(['/admin/impersonate', 'id' => $model->primaryKey]), $options);
+
+                }
+            ]
         ],
     ],
 ]); ?>

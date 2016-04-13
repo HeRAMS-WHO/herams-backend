@@ -6,7 +6,6 @@ use app\components\Html;
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
  */
-
 echo \kartik\grid\GridView::widget([
     'layout' => "{items}\n{pager}",
     'dataProvider' => $projectsDataProvider,
@@ -25,22 +24,6 @@ echo \kartik\grid\GridView::widget([
             'attribute' => 'created',
             'format' => 'date',
         ],
-        'actions' => [
-            'class' => \kartik\grid\ActionColumn::class,
-            'width' => '100px',
-            'template' => '{read}',
-            'buttons' => [
-                'read' => function($url, $model, $key) {
-                    $result = Html::a(
-                        Html::icon('eye-open'),
-                        ['/projects/read', 'id' => $model->id],
-                        [
-                            'title' => \Yii::t('app', 'Read')
-                        ]
-                    );
-                    return $result;
-                }
-            ]
-        ]
+        'actions' => include \Yii::getAlias('@views/projects/list/actions.php')
     ]
 ]);

@@ -364,16 +364,26 @@ TOKENS;
             $generator = \prime\factories\GeneratorFactory::get($project->default_generator);
             $published = new DateTimeImmutable($project->created);
             echo "Generating report...";
-            $report = \prime\models\ar\Report::saveReport(
-                $generator->render(
-                    $project->getResponses(),
-                    $project->getSurvey(),
-                    $project,
-                    $project->owner->createSignature($published),
-                    new \prime\models\ar\UserData()
-                ),
-                $project->id,
-                $project->default_generator
+            /** @var \prime\interfaces\ReportInterface $generatedReport */
+            $generatedReport = $generator->render(
+                $project->getResponses(),
+                $project->getSurvey(),
+                $project,
+                $project->owner->createSignature($published),
+                new \prime\models\ar\UserData()
+            );
+
+            $date = new Carbon
+            $renamedReport = new \prime\objects\Report(
+                $generatedReport->getUserData(),
+                $generatedReport->getSignature(),
+                $generatedReport->getStream(),
+                $generatedReport->getGenerator(),
+                $title,
+                $generatedReport->getMimeType()
+            );
+
+            $report = \prime\models\ar\Report::saveReport($renamedReport, $project->id, $project->default_generator
             );
             echo "OK\n";
         }
