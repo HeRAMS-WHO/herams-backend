@@ -29,7 +29,7 @@ class CreateUpdate extends Project
 
     public function scenarios()
     {
-        return [
+        $scenarios =  [
             'create' => [
                 'title',
                 'description',
@@ -43,8 +43,17 @@ class CreateUpdate extends Project
                 'locality_name',
                 'token'
             ],
-            'update' => ['title', 'description', 'default_generator', 'country_iso_3', 'latitude', 'longitude', 'locality_name'],
+              'update' => [
+                'title',
+                'description',
+                'default_generator',
+                'country_iso_3',
+                'latitude',
+                'longitude',
+                'locality_name'
+            ],
         ];
+        $scenarios['admin-update'] = array_merge(['owner_id'], $scenarios['update']);
     }
 
     public static function tableName()

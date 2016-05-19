@@ -66,7 +66,8 @@ class Project extends ActiveRecord implements ProjectInterface
             'country_iso_3' => \Yii::t('app', 'Country'),
             'tool_id' => \Yii::t('app', 'Tool'),
             'locality_name' => \Yii::t('app', 'Locality'),
-            'data_survey_eid' => \Yii::t('app', 'Data survey')
+            'data_survey_eid' => \Yii::t('app', 'Data survey'),
+            'owner_id' => \Yii::t('app', 'Owner')
         ]);
     }
 

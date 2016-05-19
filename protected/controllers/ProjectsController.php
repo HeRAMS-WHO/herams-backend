@@ -253,12 +253,22 @@ class ProjectsController extends Controller
         $this->redirect(['/projects/share', 'id' => $project->id]);
     }
 
-    public function actionUpdate(Request $request, Session $session, $id)
+    public function actionUpdate(
+        User $user,
+        Request $request,
+        Session $session,
+        $id
+    )
     {
         $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
-        $model->scenario = 'update';
+        if ($user->can('admin')) {
+            $model->scenario = 'update';
+        } else {
+            $model->scenario = 'admin-update';
+        }
 
-        if($request->isPost) {
+
+        if($request->isPut) {
             if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
                     'projectUpdated',

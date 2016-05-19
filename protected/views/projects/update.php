@@ -26,7 +26,7 @@ $this->params['subMenu'] = [
     <?php
     $form = ActiveForm::begin([
         'id' => 'update-project',
-        'method' => 'POST',
+        'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
@@ -44,6 +44,10 @@ $this->params['subMenu'] = [
             ],
             'title' => [
                 'type' => Form::INPUT_TEXT,
+            ],
+            'owner_id' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->ownerOptions()
             ],
             'description' => [
                 'type' => Form::INPUT_WIDGET,
