@@ -366,11 +366,11 @@ TOKENS;
             echo "Generating report...";
             $report = \prime\models\ar\Report::saveReport(
                 $generator->render(
-                $project->getResponses(),
-                $project->getSurvey(),
-                $project,
-                $project->owner->createSignature($published),
-                new \prime\modelsz\ar\UserData()
+                    $project->getResponses(),
+                    $project->getSurvey(),
+                    $project,
+                    $project->owner->createSignature($published),
+                    new \prime\models\ar\UserData()
                 ),
                 $project->id,
                 $project->default_generator
