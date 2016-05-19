@@ -13,7 +13,7 @@ use prime\models\ar\Setting;
     <?php
 
 //    \yii\bootstrap\Button::class
-    $header = Yii::t('app', 'Closed projects')
+    $header = Yii::t('app', 'Inactive projects')
         .
         \yii\bootstrap\ButtonGroup::widget([
             'options' => [
@@ -22,7 +22,7 @@ use prime\models\ar\Setting;
             ],
             'buttons' => [
                 [
-                    'label' => \Yii::t('app', 'Show open projects'),
+                    'label' => \Yii::t('app', 'Show active projects'),
                     'tagName' => 'a',
                     'options' => [
                         'href' => \yii\helpers\Url::to(['/projects/list']),

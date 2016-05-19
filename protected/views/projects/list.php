@@ -61,7 +61,7 @@ SCRIPT
             ],
             'buttons' => [
                 [
-                    'label' => \Yii::t('app', 'Show closed projects'),
+                    'label' => \Yii::t('app', 'Show inactive projects'),
                     'tagName' => 'a',
                     'options' => [
                         'href' => \yii\helpers\Url::to(['/projects/list-closed']),

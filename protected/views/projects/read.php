@@ -52,7 +52,7 @@ $this->params['subMenu']['items'][] = [
     'url' => ['/projects/close', 'id' => $model->id],
     'options' => [
         'class' => 'icon',
-        'title' => \Yii::t('app', 'Close'),
+        'title' => \Yii::t('app', 'Deactivate'),
     ],
     'linkOptions' => [
         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
@@ -66,7 +66,7 @@ $this->params['subMenu']['items'][] = [
     'url' => ['/projects/re-open', 'id' => $model->id],
     'options' => [
         'class' => 'icon',
-        'title' => \Yii::t('app', 'Re-open'),
+        'title' => \Yii::t('app', 'Reactivate'),
     ],
     'linkOptions' => [
         'data-confirm' => \Yii::t('app', 'Are you sure you want to re-open project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
