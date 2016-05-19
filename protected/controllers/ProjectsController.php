@@ -255,7 +255,7 @@ class ProjectsController extends Controller
 
     public function actionUpdate(Request $request, Session $session, $id)
     {
-        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_WRITE);
+        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
         $model->scenario = 'update';
 
         if($request->isPost) {
