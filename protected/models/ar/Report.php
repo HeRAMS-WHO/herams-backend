@@ -25,9 +25,13 @@ use yii\validators\ExistValidator;
  */
 class Report extends ActiveRecord implements ReportInterface
 {
+    /**
+     * @var bool Whether to allow updating this record. Defaults to false, needs to be explicitly set to true.
+     */
+    public $allowUpdate = false;
     public function beforeSave($insert)
     {
-        if(!$insert) {
+        if(!$insert && !$this->allowUpdate) {
             throw new \Exception(\Yii::t('app', 'A report cannot be updated'));
         }
         return parent::beforeSave($insert);
