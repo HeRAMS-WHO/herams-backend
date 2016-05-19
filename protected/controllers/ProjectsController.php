@@ -262,10 +262,12 @@ class ProjectsController extends Controller
     {
         $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
         if ($user->can('admin')) {
-            $model->scenario = 'update';
-        } else {
             $model->scenario = 'admin-update';
+        } else {
+            $model->scenario = 'update';
         }
+        var_dump($model->scenario);
+        die();
 
 
         if($request->isPut) {
