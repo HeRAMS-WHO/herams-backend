@@ -54,6 +54,7 @@ class CreateUpdate extends Project
             ],
         ];
         $scenarios['admin-update'] = array_merge(['owner_id'], $scenarios['update']);
+        return $scenarios;
     }
 
     public static function tableName()
