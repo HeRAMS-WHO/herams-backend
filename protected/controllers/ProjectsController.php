@@ -266,10 +266,6 @@ class ProjectsController extends Controller
         } else {
             $model->scenario = 'update';
         }
-        var_dump($model->scenario);
-        die();
-
-
         if($request->isPut) {
             if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
