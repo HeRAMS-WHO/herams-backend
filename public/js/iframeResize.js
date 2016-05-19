@@ -1,16 +1,18 @@
 $(function(){
 
     var resizer = function($iframe) {
-        console.log($iframe.contents().find("body").height());
-        console.log($iframe.contents().find("body").width());
+        var h = $iframe.contents().height();
+        var w = $iframe.contents().width()
+        console.log("Height: " + h);
+        console.log("Width: " + w);
         // debugger;
         if ($iframe.attr('data-resize') === 'height') {
-            $iframe.height($iframe.contents().find("body").height());
+            $iframe.height(h);
             return;
         }
 
-        $iframe.height($iframe.contents().find("body").height());
-        $iframe.width($iframe.contents().find("body").width());
+        $iframe.height(Math.max(h, 100));
+        $iframe.width(Math.max(w, 100));
     };
 
     $("iframe.resize").on("load", function() {
