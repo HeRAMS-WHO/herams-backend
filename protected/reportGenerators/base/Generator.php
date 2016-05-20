@@ -90,14 +90,21 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
 
     /**
      * @param ResponseInterface $response
-     * @param string $code1 The question code containing the count.
-     * @param string $code2 The question code containing the total.
+     * @param array|string $code1 The question code containing the count.
+     * @param array|string $code2 The question code containing the total.
      * @param mixed $default If not null then this is returned when total is 0, otherwise an exception is thrown.
      */
     public function getPercentage(ResponseInterface $response, $code1, $code2, $default = 0)
     {
-        $val1 = $response->getData()[$code1] ?: null;
-        $val2 = $response->getData()[$code2] ?: null;
+        $data = $response->getData();
+        $val1 = 0;
+        $val2 = 0;
+        foreach((array) $code1 as $code) {
+            $val1 += $response->getData()[$code] ?: 0;
+        }
+        foreach((array) $code2 as $code) {
+            $val2 += $response->getData()[$code] ?: 0;
+        }
 
         if ($val2 > 0) {
             return round($val1 / $val2 * 100);

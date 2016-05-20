@@ -286,7 +286,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                                             $series = [
                                                 \Yii::t('oscar', 'WHO Funded') => $generator->getPercentage($generator->response, 'resmob2[rmwho_SQ002]', 'resmob2[rmwho_SQ001]'),
                                                 \Yii::t('oscar', 'Health sector funded') => $generator->getPercentage($generator->response, 'resmob2[rmhc_SQ002]', 'resmob2[rmhc_SQ001]'),
-                                                \Yii::t('oscar', 'Overall funded') => round(($generator->getQuestionValue('resmob2[rmhc_SQ002]') + $generator->getQuestionValue('resmob2[rmwho_SQ002]')) * 100 / ($generator->getQuestionValue('resmob2[rmhc_SQ001]') + $generator->getQuestionValue('resmob2[rmwho_SQ001]')))
+                                                \Yii::t('oscar', 'Overall funded') => $generator->getPercentage($generator->response, ['resmob2[rmhc_SQ002]', 'resmob2[rmwho_SQ002]'], ['resmob2[rmhc_SQ001]', 'resmob2[rmwho_SQ001]'])
                                             ];
                                             foreach($series as $key => $value) {
                                                 if(isset($value) && $value != 0) {
@@ -451,7 +451,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
                     <td><?=\Yii::t('oscar', 'Total')?></td>
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmwho_SQ001]') + $generator->getQuestionValue('resmob2[rmhc_SQ001]'))?></td>
                     <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmwho_SQ002]') + $generator->getQuestionValue('resmob2[rmhc_SQ002]'))?></td>
-                    <td><?=$formatter->asPercent(($generator->getQuestionValue('resmob2[rmhc_SQ002]') + $generator->getQuestionValue('resmob2[rmwho_SQ002]')) / ($generator->getQuestionValue('resmob2[rmhc_SQ001]') + $generator->getQuestionValue('resmob2[rmwho_SQ001]')))?></td>
+                    <td><?=$formatter->asPercent($generator->getPercentage($generator->response, ['resmob2[rmhc_SQ002]', 'resmob2[rmwho_SQ002]'], ['resmob2[rmhc_SQ001]', 'resmob2[rmwho_SQ001]'])) ?></td>
                 </tr>
             </table>
         </div>
