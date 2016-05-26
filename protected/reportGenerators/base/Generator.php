@@ -49,6 +49,16 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
         });
     }
 
+    public function renderPreview(
+        ResponseCollectionInterface $responses,
+        SurveyCollectionInterface $surveys,
+        ProjectInterface $project,
+        SignatureInterface $signature = null,
+        UserDataInterface $userData = null
+    ) {
+        throw new \Exception('Not implemented');
+    }
+
     /**
      * Returns the title of the Report
      * @return string
