@@ -204,6 +204,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
         }
         ?>
     </div>
+    <?php $generator->beginBlock(); ?>
     <div class="row no-break">
         <h2 class="col-xs-12"><?=\Yii::t('oscar', 'References')?></h2>
         <div class="col-xs-12">
@@ -240,6 +241,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
         </table>
         </div>
     </div>
+    <?php $generator->endBlock(); ?>
 </div>
 <?php $generator->endBlock(); ?>
 <?php $this->endContent();
