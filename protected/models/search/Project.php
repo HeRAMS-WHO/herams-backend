@@ -82,8 +82,12 @@ class Project extends \prime\models\ar\Project
         ];
     }
 
-    public function search($params)
+    public function search($params, callable $queryCallback = null)
     {
+        if (isset($queryCallback)) {
+            $queryCallback($this->query);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
             'id' => 'project-data-provider'

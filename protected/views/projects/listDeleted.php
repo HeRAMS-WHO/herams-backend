@@ -12,28 +12,8 @@ use prime\models\ar\Setting;
 <div class="col-xs-12">
     <?php
 
-//    \yii\bootstrap\Button::class
-    $header = Yii::t('app', 'Inactive projects')
-        .
-        \yii\bootstrap\ButtonGroup::widget([
-            'options' => [
-                'class' => 'pull-right',
-                'style' => ['margin-right' => '10px']
-            ],
-            'buttons' => [
-                [
-                    'label' => \Yii::t('app', 'Show active projects'),
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => \yii\helpers\Url::to(['/projects/list']),
-                        'class' => 'btn-default',
-                    ]
-                ],
-            ]
-        ])
-    ;
-    echo \kartik\grid\GridView::widget([
-        'caption' => $header,
+  echo \kartik\grid\GridView::widget([
+        'caption' => include('list/header.php'),
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [
@@ -93,22 +73,7 @@ use prime\models\ar\Setting;
                     ]
                 ],
             ],
-            [
-                'attribute' => 'closed',
-                'format' => 'date',
-                'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'locale' => [
-                            'format' => 'YYYY-MM-DD',
-                        ],
-                        'allowClear'=>true,
-                    ],
-                    'pluginEvents' => [
-                        "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
-                    ]
-                ],
-            ],
+            
             'actions' => include('list/actions.php')
         ]
     ]);

@@ -28,4 +28,8 @@ class ProjectQuery extends ActiveQuery
         return $this->userCan(Permission::PERMISSION_READ);
     }
 
+    public function notReadable()
+    {
+        return $this->userCannot(Permission::PERMISSION_READ);
+    }
 }

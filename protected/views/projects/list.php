@@ -1,6 +1,7 @@
 <?php
 
 use \app\components\Html;
+use yii\bootstrap\Nav;
 use prime\models\ar\Setting;
 
 /**
@@ -25,55 +26,10 @@ SCRIPT
 ?>
 <div class="col-xs-12">
     <?php
+    
 
-//    \yii\bootstrap\Button::class
-    $header = Yii::t('app', 'Your projects')
-        .
-        \yii\bootstrap\ButtonGroup::widget([
-            'options' => [
-                'class' => 'pull-right'
-            ],
-            'buttons' => [
-                [
-                    'label' => 'New project',
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => \yii\helpers\Url::to(['projects/new']),
-                        'class' => 'btn-primary',
-                    ]
-                ],
-                [
-                    'label' => \Yii::t('app', 'Create'),
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => \yii\helpers\Url::to(['projects/create']),
-                        'class' => 'btn-default',
-                    ],
-                    'visible' => app()->user->can('admin')
-                ],
-            ]
-        ])
-        .
-        \yii\bootstrap\ButtonGroup::widget([
-            'options' => [
-                'class' => 'pull-right',
-                'style' => ['margin-right' => '10px']
-            ],
-            'buttons' => [
-                [
-                    'label' => \Yii::t('app', 'Show inactive projects'),
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => \yii\helpers\Url::to(['/projects/list-closed']),
-                        'class' => 'btn-default',
-                    ],
-                    'visible' => $closedCount > 0
-                ],
-            ]
-        ])
-    ;
     echo \kartik\grid\GridView::widget([
-        'caption' => $header,
+        'caption' => include('list/header.php'),
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [
@@ -132,6 +88,23 @@ SCRIPT
                         "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
                     ]
                 ],
+            ],
+            [
+                'attribute' => 'closed',
+                'format' => 'date',
+                'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'locale' => [
+                            'format' => 'YYYY-MM-DD',
+                        ],
+                        'allowClear'=>true,
+                    ],
+                    'pluginEvents' => [
+                        "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
+                    ]
+                ],
+                'visible' => app()->controller->action->id === 'list-closed'
             ],
             'actions' => include('list/actions.php')
         ]

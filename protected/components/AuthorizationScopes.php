@@ -2,11 +2,11 @@
 
 namespace prime\components;
 
-use app\queries\ProjectQuery;
-use prime\models\ar\User;
+
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
+use yii\web\IdentityInterface;
 
 trait AuthorizationScopes
 {
@@ -15,15 +15,30 @@ trait AuthorizationScopes
 
     public function userCan($operation, $user = null)
     {
-        $userId = ($user instanceof User) ? $user->id : $user;
 
-        if (!app()->user->identity->isAdmin) {
+        $authManager = app()->authManager;
+        $userId = $user instanceof IdentityInterface ? $user->getId() : (is_int($user) ? $user : app()->user->identity->id);
+
+        // Check if we are interested in the current user; and if the current user is admin.
+        if (!$authManager->checkAccess($userId,'admin')) {
             $this->_required = true;
             $modelClass = $this->modelClass;
-            //die($required);
             if (!method_exists($modelClass, 'userCanScope') || !$modelClass::userCanScope($this, $operation, $user)) {
                 $this->_operations[] = [$operation, $userId];
             }
+        }
+        return $this;
+    }
+
+    public function userCannot($operation, $user = null)
+    {
+        $authManager = app()->authManager;
+        $userId = $user instanceof IdentityInterface ? $user->getId() : (is_int($user) ? $user : app()->user->identity->id);
+
+        // Check if we are interested in the current user; and if the current user is admin.
+        if (!$authManager->checkAccess($userId,'admin')) {
+            $this->_required = true;
+            $this->_operations[] = [false, $operation, $userId];
         }
         return $this;
     }
@@ -34,11 +49,7 @@ trait AuthorizationScopes
         return empty($this->_operations) ? $results :
             array_filter($results, function($element) {
                 foreach ($this->_operations as $params) {
-                    $userCanResult = $element->userCan($params[0], $params[1]);
-                    if(!is_bool($userCanResult)) {
-                        throw new \Exception('userCan must be boolean, did you implement it in ' . get_class($this) . '?');
-                    }
-                    if (!$userCanResult) {
+                    if (!$this->checkOperation($element, $params)) {
                         return false;
                     }
                 }
@@ -72,7 +83,7 @@ trait AuthorizationScopes
         $element = parent::one($db);
         if ($element) {
             foreach($this->_operations as $params) {
-                if (!$element->userCan($params[0], $params[1])) {
+                if (!$this->checkOperation($element, $params)) {
                     throw new HttpException(403, "Operation not allowed");
                 }
             }
@@ -90,6 +101,19 @@ trait AuthorizationScopes
         }
 
         return ArrayHelper::getColumn($this->all(), is_array($this->select) ? reset($this->select) : $this->select);
+    }
+
+    private function checkOperation($element, $operation)
+    {
+        if (count($operation) == 2) {
+            array_unshift($operation, true);
+        }
+
+        if(!is_bool($userCanResult = $element->userCan($operation[1], $operation[2]))) {
+            throw new \Exception('userCan must be boolean, did you implement it in ' . get_class($this) . '?');
+        }
+
+        return $operation[0] === $userCanResult;
     }
     /** 
      * From Yii docs:

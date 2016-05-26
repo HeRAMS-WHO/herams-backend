@@ -304,7 +304,7 @@ class Project extends ActiveRecord implements ProjectInterface
      * @param User|null $user
      * @return bool
      */
-    public function userCan($operation, User $user = null)
+    public function userCan($operation, $user = null)
     {
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
 

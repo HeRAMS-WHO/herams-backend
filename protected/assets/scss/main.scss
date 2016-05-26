@@ -20,6 +20,12 @@ $font-family-base: "Open Sans";
   }
 }
 
+@media(max-width: $screen-sm-max) {
+  nav.navbar-fixed-top .container {
+    width: 100%;
+  }
+}
+
 .btn-prime {
     @include button-variant(#fff, $navbar-default-link-color, darken($navbar-default-link-color, 5%));
 }
@@ -55,6 +61,7 @@ $font-family-base: "Open Sans";
   .navbar-brand {
     padding-top: 0.1 * $navbar-height;
     padding-bottom: 0.1 * $navbar-height;
+    padding-right: 0;
   }
 
   .navbar-brand img {
@@ -221,3 +228,10 @@ iframe.seamless {
   border: 0;
 }
 
+.kv-table-caption {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding-bottom: 0px;
+  font-size: 1em;
+}

@@ -3,8 +3,10 @@
 namespace prime\controllers;
 
 use app\components\Html;
+use app\queries\ProjectQuery;
 use app\queries\ToolQuery;
 use Befound\Components\DateTime;
+use prime\components\ActiveQuery;
 use prime\components\Controller;
 use prime\models\ar\Setting;
 use prime\models\Country;
@@ -121,22 +123,28 @@ class ProjectsController extends Controller
      * Shows a list of project the user has access to.
      * @return string
      */
-    public function actionList(User $user, Request $request)
+    public function actionList(Request $request)
     {
         $projectSearch = new \prime\models\search\Project();
-        $projectsDataProvider = $projectSearch->search($request->queryParams);
-        $projectsDataProvider->query->readable();
-//        $projectsDataProvider = new ArrayDataProvider([
-//            'sort' => $projectsDataProvider->sort,
-//            'allModels' => $projectsDataProvider->query->all()
-//        ]);
-//        $projectsDataProvider->setTotalCount($projectsDataProvider->query->count());
-        $closedCount = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE)->count();
+        $projectsDataProvider = $projectSearch->search($request->queryParams, function(ActiveQuery $query) {
+            $query->readable();
+        });
 
         return $this->render('list', [
             'projectSearch' => $projectSearch,
-            'projectsDataProvider' => $projectsDataProvider,
-            'closedCount' =>$closedCount
+            'projectsDataProvider' => $projectsDataProvider
+        ]);
+    }
+
+    public function actionListOthers(Request $request)
+    {
+        $projectSearch = new \prime\models\search\Project();
+        $projectsDataProvider = $projectSearch->search($request->queryParams, function(ProjectQuery $query) {
+            $query->notReadable();
+        });
+        return $this->render('list', [
+            'projectSearch' => $projectSearch,
+            'projectsDataProvider' => $projectsDataProvider
         ]);
     }
 
