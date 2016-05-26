@@ -12,6 +12,10 @@ trait AuthorizationScopes
 {
     private $_operations = [];
     private $_required = false;
+    /**
+     * @var bool Whether the result is guaranteed to be empty (userCannot when user is admin).
+     */
+    private $_empty = false;
 
     public function userCan($operation, $user = null)
     {
@@ -39,12 +43,17 @@ trait AuthorizationScopes
         if (!$authManager->checkAccess($userId,'admin')) {
             $this->_required = true;
             $this->_operations[] = [false, $operation, $userId];
+        } else {
+            $this->_empty = true;
         }
         return $this;
     }
 
     public function all($db = null)
     {
+        if ($this->_empty) {
+            return [];
+        }
         $results = parent::all($db);
         return empty($this->_operations) ? $results :
             array_filter($results, function($element) {
@@ -65,7 +74,9 @@ trait AuthorizationScopes
      */
     public function count($q = '*', $db = null)
     {
-        if (!empty($this->_operations)) {
+        if ($this->_empty) {
+            return 0;
+        } elseif (!empty($this->_operations)) {
             if ($q === '*') {
                 \Yii::info('Doing inefficient count because userCanScope is not implemented.');
                 $clone = clone($this);
@@ -80,8 +91,11 @@ trait AuthorizationScopes
 
     public function one($db = null)
     {
-        $element = parent::one($db);
-        if ($element) {
+        if ($this->_empty && $this->_required) {
+            throw new HttpException(403, "Operation not allowed");
+        } elseif ($this->_empty) {
+            return null;
+        } elseif (null !== $element = parent::one($db)) {
             foreach($this->_operations as $params) {
                 if (!$this->checkOperation($element, $params)) {
                     throw new HttpException(403, "Operation not allowed");
@@ -95,7 +109,6 @@ trait AuthorizationScopes
 
     public function column($db = null)
     {
-
         if($this->select === null || (is_array($this->select) && reset($this->select) === '*')) {
             throw new \Exception('Must specify columns when querying with column()');
         }
