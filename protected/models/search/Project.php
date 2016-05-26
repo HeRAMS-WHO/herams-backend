@@ -96,8 +96,8 @@ class Project extends \prime\models\ar\Project
                 'title',
                 'description',
                 'tool_id' => [
-                    'asc' => ['tool.acronym' => SORT_ASC],
-                    'desc' => ['tool.acronym' => SORT_DESC],
+                    'asc' => ['acronym' => SORT_ASC],
+                    'desc' => ['acronym' => SORT_DESC],
                     'default' => 'asc'
                 ],
                 'country_iso_3' => [

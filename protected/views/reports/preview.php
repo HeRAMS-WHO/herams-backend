@@ -35,6 +35,12 @@ $this->params['subMenu']['items'] = [
                 'loader-text' => \Yii::t('app', 'Generating')
             ]
         ]
+    ],
+    [
+        'label' => \Yii::t('app', 'Print'),
+        'linkOptions' => [
+            'onclick' => "$('iframe')[0].contentWindow.print();"
+        ]
     ]
 ];
 

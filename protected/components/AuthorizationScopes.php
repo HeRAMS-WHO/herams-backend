@@ -2,7 +2,9 @@
 
 namespace prime\components;
 
+use app\queries\ProjectQuery;
 use prime\models\ar\User;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 
@@ -29,6 +31,9 @@ trait AuthorizationScopes
     public function all($db = null)
     {
         $results = parent::all($db);
+        if ($this instanceof ProjectQuery) {
+            var_dump($results); die();
+        }
         return empty($this->_operations) ? $results :
             array_filter($results, function($element) {
                 foreach ($this->_operations as $params) {
@@ -42,6 +47,27 @@ trait AuthorizationScopes
                 }
                 return true;
             });
+    }
+
+    /**
+     *
+     * @param string $q
+     * @param null $db
+     * @return mixed
+     */
+    public function count($q = '*', $db = null)
+    {
+        if (!empty($this->_operations)) {
+            if ($q === '*') {
+                \Yii::info('Doing inefficient count because userCanScope is not implemented.');
+                $clone = clone($this);
+                return count($clone->all($db));
+            } else {
+                throw new InvalidConfigException('Custom counts not supported when using authorizationscopes without userCanScope');
+            }
+        } else {
+            return parent::count($q, $db);
+        }
     }
 
     public function one($db = null)

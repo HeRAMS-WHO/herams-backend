@@ -25,6 +25,10 @@ echo $this->render('filter', ['filter' => $filter]);
 echo Html::a(\Yii::t('app', 'Global dashboard'), \yii\helpers\Url::to(['marketplace/global-dashboard']), ['class' => 'btn btn-default']);
 
 $map = Highmaps::begin([
+    'scripts' => [
+        'modules/exporting',
+        'modules/offline-exporting'
+    ],
     'options' => [
         'title' => [
             'text' => false

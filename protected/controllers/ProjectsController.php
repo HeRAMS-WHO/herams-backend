@@ -17,6 +17,7 @@ use prime\models\ar\Tool;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
@@ -115,6 +116,7 @@ class ProjectsController extends Controller
 
         return $this->render('new', ['dataProvider' => $dataProvider]);
     }
+
     /**
      * Shows a list of project the user has access to.
      * @return string
@@ -123,6 +125,12 @@ class ProjectsController extends Controller
     {
         $projectSearch = new \prime\models\search\Project();
         $projectsDataProvider = $projectSearch->search($request->queryParams);
+        $projectsDataProvider->query->readable();
+//        $projectsDataProvider = new ArrayDataProvider([
+//            'sort' => $projectsDataProvider->sort,
+//            'allModels' => $projectsDataProvider->query->all()
+//        ]);
+//        $projectsDataProvider->setTotalCount($projectsDataProvider->query->count());
         $closedCount = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE)->count();
 
         return $this->render('list', [

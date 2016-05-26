@@ -3,6 +3,7 @@
 namespace app\queries;
 
 use prime\components\ActiveQuery;
+use prime\models\permissions\Permission;
 
 class ProjectQuery extends ActiveQuery
 {
@@ -20,6 +21,11 @@ class ProjectQuery extends ActiveQuery
     public function notClosed()
     {
         return $this->andWhere(['closed' => null]);
+    }
+
+    public function readable()
+    {
+        return $this->userCan(Permission::PERMISSION_READ);
     }
 
 }

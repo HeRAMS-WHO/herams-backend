@@ -109,40 +109,7 @@ use prime\models\ar\Setting;
                     ]
                 ],
             ],
-            'actions' => [
-                'class' => \kartik\grid\ActionColumn::class,
-                'width' => '100px',
-                'template' => '{read} {open}',
-                'buttons' => [
-                    'read' => function($url, $model, $key) {
-                        $result = Html::a(
-                            Html::icon(Setting::get('icons.read')),
-                            ['/projects/read', 'id' => $model->id],
-                            [
-                                'title' => \Yii::t('app', 'Read')
-                            ]
-                        );
-                        return $result;
-                    },
-                    'open' => function($url, $model, $key) {
-                        $result = '';
-                        /** @var \prime\models\ar\Project $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
-                            $result = Html::a(
-                                Html::icon(Setting::get('icons.open')),
-                                ['/projects/re-open', 'id' => $model->id],
-                                [
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to re-open project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
-                                    'data-method' => 'put',
-                                    'class' => 'text-danger',
-                                    'title' => \Yii::t('app', 'Re-open')
-                                ]
-                            );
-                        }
-                        return $result;
-                    }
-                ]
-            ]
+            'actions' => include('list/actions.php')
         ]
     ]);
     ?>

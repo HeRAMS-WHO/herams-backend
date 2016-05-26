@@ -48,6 +48,7 @@ use yii\web\UrlManager;
  * @property int $tool_id
  * @property string $locality_name
  * @property datetime $created
+ * @property boolean $isClosed
  * @property Country $country
  *
  * @method static ProjectQuery find()
@@ -369,5 +370,10 @@ class Project extends ActiveRecord implements ProjectInterface
                 'newtest' => 'Y'
             ]
         );
+    }
+
+    public function getIsClosed()
+    {
+        return isset($this->closed);
     }
 }

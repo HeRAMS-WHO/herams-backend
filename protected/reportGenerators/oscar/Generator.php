@@ -28,16 +28,6 @@ class Generator extends \prime\reportGenerators\base\Generator
     //protected $response;
     public $response;
 
-    /**
-     * Return answer to the question title in the response
-     * @param $title
-     * @return string|null
-     */
-    public function getQuestionValue($title)
-    {
-        return isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
-    }
-
     protected function initResponses(ResponseCollectionInterface $responses) {
         $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {
             // Reverse ordered
