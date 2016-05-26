@@ -31,9 +31,6 @@ trait AuthorizationScopes
     public function all($db = null)
     {
         $results = parent::all($db);
-        if ($this instanceof ProjectQuery) {
-            var_dump($results); die();
-        }
         return empty($this->_operations) ? $results :
             array_filter($results, function($element) {
                 foreach ($this->_operations as $params) {

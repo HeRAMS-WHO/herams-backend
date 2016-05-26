@@ -1,7 +1,6 @@
 <?php
 
 use app\components\Html;
-
 /**
  * @var string $previewUrl
  * @var \yii\web\View $this
