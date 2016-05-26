@@ -54,7 +54,7 @@ echo \kartik\grid\GridView::widget([
             'visible' => $responses->size() > 0 && isset($responses[0]->getData()['q02[SQ001'])
         ], [
             'class' => \kartik\grid\ActionColumn::class,
-            'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && !empty($items),
+            'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE, app()->user->identity) && !empty($items),
             'header' => \Yii::t('app', 'Preview'),
             'template' => implode(' ', array_map(function($generator) {
                 return '{' . $generator . '}';

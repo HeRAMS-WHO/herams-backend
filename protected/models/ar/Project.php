@@ -304,10 +304,8 @@ class Project extends ActiveRecord implements ProjectInterface
      * @param User|null $user
      * @return bool
      */
-    public function userCan($operation, $user = null)
+    public function userCan($operation, User $user)
     {
-        $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
-
         $result = parent::userCan($operation, $user) || ($operation === Permission::PERMISSION_READ && app()->user->can('manager'));
         if(!$result) {
             $result = $result

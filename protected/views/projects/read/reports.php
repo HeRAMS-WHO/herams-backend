@@ -20,7 +20,7 @@ foreach($tool->generators as $generator) {
     ];
 }
 //
-if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && !empty($items)) {
+if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE, app()->user->identity) && !empty($items)) {
     $caption = \yii\bootstrap\ButtonDropdown::widget([
         'label' => \Yii::t('app', 'Preview report using'),
         'containerOptions' => [

@@ -1,5 +1,5 @@
 <?php
-
+use prime\models\permissions\Permission;
 /**
  * @var \yii\web\View $this
  * @var \prime\models\ar\UserList $model
@@ -16,12 +16,12 @@ $this->params['subMenu'] = [
                 'data-confirm' => \Yii::t('app', 'Are you sure you want to delete list <strong>{name}</strong>?', ['name' => $model->name]),
                 'data-method' => 'delete'
             ],
-            'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)
+            'visible' => $model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)
         ],
         [
             'label' => \Yii::t('app', 'Edit'),
             'url' => ['/user-lists/update', 'id' => $model->id],
-            'visible' => $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)
+            'visible' => $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)
         ]
     ]
 ];

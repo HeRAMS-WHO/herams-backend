@@ -1,6 +1,7 @@
 <?php
 use app\components\Html;
 use prime\models\ar\Setting;
+use \prime\models\permissions\Permission;
 return [
     'class' => \kartik\grid\ActionColumn::class,
     'width' => '100px',
@@ -9,7 +10,7 @@ return [
         'read' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if(!$model->isClosed && $model->userCan(\prime\models\permissions\Permission::PERMISSION_READ)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.read')),
                     ['/projects/read', 'id' => $model->id],
@@ -22,7 +23,7 @@ return [
         },
         'request' => function($url, \prime\models\ar\Project $model, $key) {
             $result = '';
-            if (!$model->isClosed && !$model->userCan(\prime\models\permissions\Permission::PERMISSION_READ)) {
+            if (!$model->isClosed && !$model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.requestAccess')),
                     '#',
@@ -39,7 +40,7 @@ return [
         'update' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if(!$model->isClosed && $model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.update')),
                     ['/projects/update', 'id' => $model->id],
@@ -53,7 +54,7 @@ return [
         'share' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if(!$model->isClosed && $model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.share')),
                     ['/projects/share', 'id' => $model->id],
@@ -67,7 +68,7 @@ return [
         'close' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if(!$model->isClosed && $model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.close')),
                     ['/projects/close', 'id' => $model->id],
@@ -83,7 +84,7 @@ return [
         },
         'open' => function($url, \prime\models\ar\Project $model, $key) {
             $result = '';
-            if($model->isClosed && $model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
+            if($model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.open')),
                     ['/projects/re-open', 'id' => $model->id],

@@ -184,7 +184,7 @@ class Report extends ActiveRecord implements ReportInterface
         }
     }
 
-    public function userCan($operation, User $user = null)
+    public function userCan($operation, User $user)
     {
         $result = parent::userCan($operation, $user);
         if(!$result) {

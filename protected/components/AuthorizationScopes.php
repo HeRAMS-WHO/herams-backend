@@ -3,6 +3,7 @@
 namespace prime\components;
 
 
+use prime\models\ar\User;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
@@ -21,14 +22,15 @@ trait AuthorizationScopes
     {
 
         $authManager = app()->authManager;
-        $userId = $user instanceof IdentityInterface ? $user->getId() : (is_int($user) ? $user : app()->user->identity->id);
 
+        $user = $user ?: app()->user->identity;
+        $userId = $user instanceof IdentityInterface ? $user->getId() : $user;
         // Check if we are interested in the current user; and if the current user is admin.
         if (!$authManager->checkAccess($userId,'admin')) {
             $this->_required = true;
             $modelClass = $this->modelClass;
             if (!method_exists($modelClass, 'userCanScope') || !$modelClass::userCanScope($this, $operation, $user)) {
-                $this->_operations[] = [$operation, $userId];
+                $this->_operations[] = [$operation, $user];
             }
         }
         return $this;
@@ -42,7 +44,7 @@ trait AuthorizationScopes
         // Check if we are interested in the current user; and if the current user is admin.
         if (!$authManager->checkAccess($userId,'admin')) {
             $this->_required = true;
-            $this->_operations[] = [false, $operation, $userId];
+            $this->_operations[] = [false, $operation, $user];
         } else {
             $this->_empty = true;
         }
