@@ -35,15 +35,17 @@ class Project extends \prime\models\ar\Project
 
     public function countriesOptions()
     {
-        return ArrayHelper::map(
+        $result = ArrayHelper::map(
             array_filter($this->query->copy()->select('country_iso_3')->distinct()->column()),
-            function($model) {
-                return $model;
+            function($code) {
+                return $code;
             },
-            function($model) {
-                return Country::findOne($model)->name;
+            function($code) {
+                return Country::findOne($code)->name;
             }
         );
+        sort($result);
+        return $result;
     }
 
     public function init()
