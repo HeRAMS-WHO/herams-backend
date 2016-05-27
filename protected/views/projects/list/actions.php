@@ -87,7 +87,7 @@ return [
                         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
                         'data-method' => 'delete',
                         'class' => 'text-danger',
-                        'title' => \Yii::t('app', 'Close')
+                        'title' => \Yii::t('app', 'Deactivate')
                     ]
                 );
             }
