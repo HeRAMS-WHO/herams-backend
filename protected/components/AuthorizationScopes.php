@@ -56,14 +56,17 @@ trait AuthorizationScopes
         if ($this->_empty) {
             return [];
         }
+
+        if (empty($this->_operations)) {
+            return parent::all($db);
+        }
         // Handle limit / offset.
         $limit = $this->limit;
         $this->limit = null;
         $offset = $this->offset;
         $this->offset = null;
 
-        $results = parent::all($db);
-        $filtered = empty($this->_operations) ? $results : array_filter($results, function($element) {
+        $filtered = array_filter(parent::all($db), function($element) {
             foreach ($this->_operations as $params) {
                 if (!$this->checkOperation($element, $params)) {
                     return false;

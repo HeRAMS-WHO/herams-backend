@@ -1,6 +1,7 @@
 <?php
 
 use prime\models\mapLayers\CountryGrades;
+use \prime\objects\Deferred;
 
 /**
  * @var \yii\web\View $this
@@ -64,25 +65,25 @@ $lastGradingResponse = !empty($countriesResponses[$country->iso_3]) ? $countries
             ],
             [
                 'label' => \Yii::t('app', 'Grading'),
-                'content' => $this->render('country/grading', ['countryResponses' => \yii\helpers\ArrayHelper::getValue($countriesResponses, $country->iso_3, [])]),
+                'content' => new Deferred(function() use ($countriesResponses, $country) { return $this->render('country/grading', ['countryResponses' => \yii\helpers\ArrayHelper::getValue($countriesResponses, $country->iso_3, [])]); }),
                 'visible' => isset($lastGradingResponse),
                 'active' => $layer == 'countryGrades'
             ],
             [
                 'label' => \Yii::t('app', 'Graded Events'),
-                'content' => $this->render('country/events', ['eventsResponses' => $eventsResponses, 'country' => $country, 'popup' => $popup]),
+                'content' => new Deferred(function() use ($eventsResponses, $country, $popup) { return $this->render('country/events', ['eventsResponses' => $eventsResponses, 'country' => $country, 'popup' => $popup]); }),
                 'visible' => !empty($eventsResponses),
                 'active' => $layer == 'eventGrades'
             ],
             [
                 'label' => \Yii::t('app', 'Coordination'),
-                'content' => $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses, 'filter' => $filter, 'popup' => $popup]),
+                'content' => new Deferred(function() use ($healthClustersResponses, $filter, $popup) { return $this->render('country/healthClusters', ['healthClustersResponses' => $healthClustersResponses, 'filter' => $filter, 'popup' => $popup]); }),
                 'visible' => !empty($healthClustersResponses),
                 'active' => $layer == 'healthClusters'
             ],
             [
                 'label' => \Yii::t('app', 'Projects'),
-                'content' => $this->render('country/projects', ['projectsDataProvider' => $projectsDataProvider]),
+                'content' => new Deferred(function() use ($projectsDataProvider) { return $this->render('country/projects', ['projectsDataProvider' => $projectsDataProvider]); }),
                 'active' => $layer == 'projects'
             ],
         ],

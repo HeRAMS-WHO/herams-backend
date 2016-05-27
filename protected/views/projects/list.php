@@ -12,16 +12,6 @@ use prime\models\ar\Setting;
  */
 
 
-$this->registerJs(<<<SCRIPT
-$('.request-access').on('click', function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var project = $(this).attr('data-project-name');
-    var owner = $(this).attr('data-project-owner');
-    bootbox.alert('This project can not be accessed. For further information please contact <strong>' + owner + '</strong>.');
-});
-SCRIPT
-);
 
 ?>
 <div class="col-xs-12">
