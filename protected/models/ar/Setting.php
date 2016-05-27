@@ -8,16 +8,31 @@ use Befound\ActiveRecord\Behaviors\JsonBehavior;
 class Setting extends ActiveRecord
 {
     protected static $config = [];
+    protected static $loaded = false;
+
+    protected static function loadAll()
+    {
+        if (!self::$loaded) {
+            self::$loaded = true;
+
+            foreach (self::find()->all() as $setting) {
+                self::cache($setting);
+            }
+        }
+    }
+
+    protected static function cache(Setting $setting)
+    {
+        return self::$config[$setting->key] = json_decode($setting->value, true);
+    }
 
     public static function get($key, $default = null) {
+        self::loadAll();
         // Load configuration.
         if (!array_key_exists($key, self::$config)) {
             self::$config[$key] =
                 (null !== $model = self::findOne(['key' => $key]))
-                    ? json_decode($model->value, true)
-                    : (!isset($default) && isset(app()->params['defaultSettings'][$key])
-                        ? app()->params['defaultSettings'][$key]
-                        : $default);
+                    ? self::cache($model) : $default;
         }
 
         return self::$config[$key];

@@ -16,6 +16,11 @@ use yii\validators\StringValidator;
 
 class Project extends \prime\models\ar\Project
 {
+    /**
+     * @var \Closure
+     */
+    public $queryCallback;
+
     /** @var ActiveQuery */
     public $query;
 
@@ -25,6 +30,7 @@ class Project extends \prime\models\ar\Project
             'countryIds' => \Yii::t('app', 'Tool'),
         ]);
     }
+
 
 
     public function countriesOptions()
@@ -43,9 +49,16 @@ class Project extends \prime\models\ar\Project
     public function init()
     {
         parent::init();
+        if (isset($this->queryCallback)) {
+            $this->query = call_user_func($this->queryCallback, \prime\models\ar\Project::find()->notClosed());
+        } else {
+            die('no');
+            $this->query = \prime\models\ar\Project::find()->notClosed();
+        }
+
+
         $this->scenario = 'search';
 
-        $this->query = \prime\models\ar\Project::find()->notClosed();
         if(!app()->user->can('admin')) {
             $this->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
         } else {
@@ -82,12 +95,8 @@ class Project extends \prime\models\ar\Project
         ];
     }
 
-    public function search($params, callable $queryCallback = null)
+    public function search($params)
     {
-        if (isset($queryCallback)) {
-            $queryCallback($this->query);
-        }
-
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
             'id' => 'project-data-provider'
@@ -136,7 +145,7 @@ class Project extends \prime\models\ar\Project
         return $dataProvider;
     }
 
-    public function toolsOptions()
+    public function  toolsOptions()
     {
         return ArrayHelper::map(
             $this->query->copy()->orderBy(Tool::tableName() . '.title')->all(),

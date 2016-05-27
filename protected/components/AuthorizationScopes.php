@@ -56,16 +56,24 @@ trait AuthorizationScopes
         if ($this->_empty) {
             return [];
         }
+        // Handle limit / offset.
+        $limit = $this->limit;
+        $this->limit = null;
+        $offset = $this->offset;
+        $this->offset = null;
+
         $results = parent::all($db);
-        return empty($this->_operations) ? $results :
-            array_filter($results, function($element) {
-                foreach ($this->_operations as $params) {
-                    if (!$this->checkOperation($element, $params)) {
-                        return false;
-                    }
+        $filtered = empty($this->_operations) ? $results : array_filter($results, function($element) {
+            foreach ($this->_operations as $params) {
+                if (!$this->checkOperation($element, $params)) {
+                    return false;
                 }
-                return true;
-            });
+            }
+            return true;
+        });
+
+        // Apply limit / offset.
+        return array_slice($filtered, $offset ?: 0, $limit);
     }
 
     /**

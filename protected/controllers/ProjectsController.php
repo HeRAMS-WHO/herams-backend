@@ -6,6 +6,7 @@ use app\components\Html;
 use app\queries\ProjectQuery;
 use app\queries\ToolQuery;
 use Befound\Components\DateTime;
+use prime\api\Api;
 use prime\components\ActiveQuery;
 use prime\components\Controller;
 use prime\models\ar\Setting;
@@ -125,10 +126,12 @@ class ProjectsController extends Controller
      */
     public function actionList(Request $request)
     {
-        $projectSearch = new \prime\models\search\Project();
-        $projectsDataProvider = $projectSearch->search($request->queryParams, function(ActiveQuery $query) {
-            $query->readable();
-        });
+        $projectSearch = new \prime\models\search\Project([
+            'queryCallback' => function(ProjectQuery $query) {
+                return $query->readable();
+            }
+        ]);
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
 
         return $this->render('list', [
             'projectSearch' => $projectSearch,
@@ -138,10 +141,10 @@ class ProjectsController extends Controller
 
     public function actionListOthers(Request $request)
     {
-        $projectSearch = new \prime\models\search\Project();
-        $projectsDataProvider = $projectSearch->search($request->queryParams, function(ProjectQuery $query) {
-            $query->notReadable();
-        });
+        $projectSearch = new \prime\models\search\Project(['queryCallback' => function(ProjectQuery $query) {
+            return $query->notReadable();
+        }]);
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
         return $this->render('list', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider
