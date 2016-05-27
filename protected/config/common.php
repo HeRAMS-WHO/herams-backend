@@ -48,7 +48,8 @@ return [
             ]
         ],
         'authManager' => [
-            'class' => \dektrium\rbac\components\DbManager::class
+            'class' => \dektrium\rbac\components\DbManager::class,
+            'cache' => 'cache'
         ],
         'cache' => [
             'class' => \yii\caching\FileCache::class

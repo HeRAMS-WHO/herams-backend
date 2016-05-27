@@ -52,7 +52,6 @@ class Project extends \prime\models\ar\Project
         if (isset($this->queryCallback)) {
             $this->query = call_user_func($this->queryCallback, \prime\models\ar\Project::find()->notClosed());
         } else {
-            die('no');
             $this->query = \prime\models\ar\Project::find()->notClosed();
         }
 
