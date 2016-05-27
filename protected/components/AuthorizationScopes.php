@@ -40,7 +40,7 @@ trait AuthorizationScopes
     {
         $authManager = app()->authManager;
         $userId = $user instanceof IdentityInterface ? $user->getId() : (is_int($user) ? $user : app()->user->identity->id);
-
+        $user = $user ?: app()->user->identity;
         // Check if we are interested in the current user; and if the current user is admin.
         if (!$authManager->checkAccess($userId,'admin')) {
             $this->_required = true;
