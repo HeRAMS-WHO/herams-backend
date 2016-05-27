@@ -33,7 +33,7 @@ if(isset($groups[''])) {
                         <?php
                         echo count($responses->filter(
                             function(\SamIT\LimeSurvey\Interfaces\ResponseInterface $response){
-                                return null !== $response->getSurveyId();
+                                return null !== $response->getSubmitDate();
                             })
                         );
                         ?>
@@ -45,7 +45,8 @@ if(isset($groups[''])) {
                         <?php
                         echo count($responses->filter(
                             function(\SamIT\LimeSurvey\Interfaces\ResponseInterface $response){
-                                return null === $response->getSurveyId();
+
+                                return null === $response->getSubmitDate();
                             })
                         );
                         ?>
