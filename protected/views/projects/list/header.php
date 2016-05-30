@@ -14,7 +14,7 @@ return Nav::widget([
             'url' => ['/projects/list'],
         ],
         [
-            'label' => \Yii::t('app', "Others projects"),
+            'label' => \Yii::t('app', "Other projects"),
             'url' => ['/projects/list-others']
         ],
         [

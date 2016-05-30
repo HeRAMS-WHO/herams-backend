@@ -171,23 +171,25 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
     <?=$this->render('header', ['project' => $project, 'number' => $number, 'from' => $from, 'until' => $until])?>
 
     <div class="row">
-        <h2 class="col-xs-12"><?=\Yii::t('oscar', 'Resource mobilization')?></h2>
-        <div class="col-xs-12"><?=$generator->getQuestionValue('resmob1HTML')?></div>
-        <?=$this->render('fundingTable', [
-            'formatter' => $formatter,
-            'generator' => $generator
-        ]); ?>
-        
+        <?php $generator->beginBlock(); ?>
+        <div class="col-xs-12">
+            <h2><?=\Yii::t('oscar', 'Resource mobilization')?></h2>
+            <?=$generator->getQuestionValue('resmob1HTML')?>
+            <?=$this->render('fundingTable', [
+                'formatter' => $formatter,
+                'generator' => $generator
+            ]); ?>
+        <?php $generator->endBlock(); $generator->beginBlock(); ?>
         <div class="col-xs-12">
             <h2><?=\Yii::t('oscar', 'Health sector partners')?></h2>
             <?=$generator->getQuestionValue('resmob3')?>
         </div>
-
+        <?php $generator->endBlock(); $generator->beginBlock(); ?>
         <div class="col-xs-12">
             <h2><?=\Yii::t('oscar', 'Background of the crisis')?></h2>
             <?=$generator->getQuestionValue('backgHTML')?>
         </div>
-
+            <?php $generator->endBlock(); ?>
         <h2 class="col-xs-12"><?=\Yii::t('oscar', 'Contact information')?></h2>
         <?php
         for ($i = 1; $i <= 4; $i++) {

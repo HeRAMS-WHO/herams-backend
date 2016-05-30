@@ -18,8 +18,12 @@
     <hr>
     <div class="row">
         <?=$this->render('affectedPopulation', ['g' => $generator, 'f' => $formatter]); ?>
-        <h2 class="col-xs-12"><?=\Yii::t('oscar', 'Highlights')?></h2>
-        <div class="col-xs-12"><?=$generator->getQuestionValue('highlHTML')?></div>
+        <?php $generator->beginBlock(); ?>
+        <div class="col-xs-12">
+            <h2><?=\Yii::t('oscar', 'Highlights')?></h2>
+            <?=$generator->getQuestionValue('highlHTML')?>
+        </div>
+        <?php $generator->endBlock(); ?>
     </div>
 </div>
 <?php
