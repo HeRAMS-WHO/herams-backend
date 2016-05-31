@@ -10,7 +10,7 @@ return Nav::widget([
     ],
     'items' => [
         [
-            'label' => \Yii::t('app', 'Active projects'),
+            'label' => \Yii::t('app', 'My projects'),
             'url' => ['/projects/list'],
         ],
         [
