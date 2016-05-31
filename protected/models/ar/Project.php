@@ -190,6 +190,7 @@ class Project extends ActiveRecord implements ProjectInterface
 
     // Cache for getResponses();
     private $_responses;
+    
     /**
      * @return ResponseCollectionInterface
      */

@@ -4,8 +4,13 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
+use prime\interfaces\ReportGeneratorInterface;
+use prime\models\ar\UserData;
 use prime\models\permissions\Permission;
 use prime\models\ar\Tool;
+use prime\objects\ResponseCollection;
+use prime\objects\Signature;
+use prime\reportGenerators\base\Generator;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\web\HttpException;
 use yii\web\Request;
@@ -16,6 +21,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\Session;
+use yii\web\User;
 
 class ToolsController extends Controller
 {
@@ -50,6 +56,40 @@ class ToolsController extends Controller
         return $this->render('create', [
             'model' => $model
         ]);
+    }
+
+    public function actionDashboard(
+        Request $request,
+        Response $response,
+        User $user,
+        $id
+    )
+    {
+        /* @todo set correct privilege */
+        $tool = Tool::loadOne($id);
+        return $this->render('dashboard', [
+            'model' => $tool
+        ]);
+        /** @var ReportGeneratorInterface $generator */
+        $generator = GeneratorFactory::get($tool->default_generator, $this->view);
+
+
+        $responses = new ResponseCollection(); // $tool->getResponses();
+
+
+        if ($responses->size() >= 1) {
+
+                $generator->renderPreview(
+                $responses,
+                $tool->getSurveys(),
+                $tool,
+                new Signature("", "", ""),
+                new UserData()
+            );
+        } else {
+            return \Yii::t('app', "No data available.");
+        }
+
     }
 
     /**
@@ -185,6 +225,20 @@ class ToolsController extends Controller
             $this->redirect($this->defaultAction);
         }
     }
+
+    public function actionProgress(Response $response, $id)
+    {
+        $project = Tool::loadOne($id);
+        $report = $project->getProgressReport();
+        if (!isset($report)) {
+            throw new \HttpException(404, "Progress report for project not found.");
+        }
+        $response->setContentType($report->getMimeType());
+        $response->content = $report->getStream();
+        return $response;
+    }
+
+
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
