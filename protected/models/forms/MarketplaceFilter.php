@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
 
-class MarketplaceFilter extends Model{
+class MarketplaceFilter extends Model {
 
     const DATE_FORMAT_PHP = 'd-m-Y';
     const DATE_FORMAT_JS = 'dd-mm-yyyy';
@@ -39,37 +39,46 @@ class MarketplaceFilter extends Model{
             $result = true;
             //check if the country of the response matches the filter
             $result = $result && isset($countries[$response->getData()['PRIMEID']]);
+
             //check if the submitdate of the response matches the filter
+            $endDate = new Carbon($this->endDate);
+            $endDate->setTime(23, 59, 59);
             if($response->getSurveyId() == Setting::get('countryGradesSurvey') || $response->getSurveyId() == Setting::get('eventGradesSurvey')) {
-                $result = $result && (new Carbon($response->getData()['GM01']))->lte(new Carbon($this->endDate));
+                $result = $result && (new Carbon($response->getData()['GM01']))->lte($endDate);
             } elseif ($response->getSurveyId() == Setting::get('healthClusterMappingSurvey')) {
-                $result = $result && (new Carbon($response->getData()['CM03']))->lte(new Carbon($this->endDate));
+                $result = $result && (new Carbon($response->getData()['CM03']))->lte($endDate);
             } else {
                 $result = $result && false;
             }
+
+
             //check if the structure of the response matches the filter
             if ($response->getSurveyId() == Setting::get('healthClusterMappingSurvey') && $this->isAttributeActive('structures')) {
                 $result = $result && isset($structures[$response->getData()['CM00']]);
             }
             return $result;
         });
-        return $filter->getFilteredResponses();
+        $result = $filter->getFilteredResponses();
+//        die('n12o');
+        return $result;
     }
 
     public function applyToProjects(ProjectQuery $query)
     {
+        $endDate = new Carbon($this->endDate);
+        $endDate->setTime(23, 59, 59);
         return $query->andWhere(
             [
                 'and',
                 ['country_iso_3' => $this->countries],
-                ['<=', 'created', (new Carbon($this->endDate))->format(DateTime::MYSQL_DATETIME)],
+                ['<=', 'created', $endDate->format(DateTime::MYSQL_DATETIME)],
             ]
         )
             ->andWhere(
             [
                 'or',
                 ['closed' => null],
-                ['>=', 'closed', (new Carbon($this->endDate))->format(DateTime::MYSQL_DATE)]
+                ['>=', 'closed', $endDate->format(DateTime::MYSQL_DATE)]
             ]
         );
     }
