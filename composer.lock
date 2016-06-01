@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "317f013fa18be80945805c05c6f41f79",
-    "content-hash": "7d65e390101b51d7ea08e42e05a0276a",
+    "hash": "2cb4ea691f262ca1d459d3315e44cd38",
+    "content-hash": "b8dfc900ccc4228d8cd4bd652fc8895c",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -2683,16 +2683,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v0.7.5",
+            "version": "v0.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "d86e2e08eae6d2aa7289867e5c49b21d5690d3d7"
+                "reference": "30844afb7a6aff5bb4a498fd10781cd0dbda3e80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/d86e2e08eae6d2aa7289867e5c49b21d5690d3d7",
-                "reference": "d86e2e08eae6d2aa7289867e5c49b21d5690d3d7",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/30844afb7a6aff5bb4a498fd10781cd0dbda3e80",
+                "reference": "30844afb7a6aff5bb4a498fd10781cd0dbda3e80",
                 "shasum": ""
             },
             "require": {
@@ -2720,7 +2720,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2016-05-31 08:15:35"
+            "time": "2016-06-01 15:25:13"
         },
         {
             "name": "sam-it/yii2-magic",

@@ -289,11 +289,19 @@ class Project extends ActiveRecord implements ProjectInterface
 
     public function scenarios()
     {
-        return array_merge(parent::scenarios(),[
+        return array_merge(parent::scenarios(), [
             'close' => ['closed'],
             'reOpen' => ['closed']
         ]);
     }
+
+    public function transactions()
+    {
+        return array_merge(parent::transactions(), [
+            'create' => [self::OP_INSERT]
+        ]);
+    }
+
 
     public function toolOptions()
     {
@@ -319,14 +327,34 @@ class Project extends ActiveRecord implements ProjectInterface
         return $result;
     }
 
+    public function beforeSave($insert)
+    {
+        $result = parent::beforeSave($insert);
+        if ($result && empty($this->getAttribute('token'))) {
+                // Attempt creation of a token.
+                $token = $this->getLimeSurvey()->createToken($this->data_survey_eid, []);
+                $token->setFirstName($this->getLocality());
+                if (isset($this->owner)) {
+                    $token->setLastName($this->owner->lastName);
+                }
+                $token->setValidFrom(new Carbon($this->created));
+                $this->_token = $token;
+                $this->setAttribute('token', $token->getToken());
+                return $token->save();
+        }
+        return $result;
+    }
+
+
+
+
     /**
      * @return WritableTokenInterface
      */
     public function getToken()
     {
         if (!isset($this->_token)) {
-            // Always attempt creation.
-            $this->getLimeSurvey()->createToken($this->data_survey_eid, ['token' => $this->token]);
+
             /** @var WritableTokenInterface $token */
             $token = $this->getLimeSurvey()->getToken($this->data_survey_eid, $this->token);
 

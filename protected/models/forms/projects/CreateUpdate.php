@@ -15,18 +15,6 @@ use yii\web\JsExpression;
 
 class CreateUpdate extends Project
 {
-    public function rules()
-    {
-        return ArrayHelper::merge(parent::rules(),
-            [
-                ['token', SafeValidator::class],
-                ['token', DefaultValueValidator::class, 'value' => app()->security->generateRandomString(35)]
-
-
-            ]
-        );
-    }
-
     public function scenarios()
     {
         $scenarios =  [
