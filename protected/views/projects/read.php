@@ -49,6 +49,17 @@ $this->params['subMenu']['items'][] = [
 ];
 
 $this->params['subMenu']['items'][] = [
+    'label' => Html::icon(Setting::get('icons.download', 'download-alt')),
+    'url' => ['/projects/download', 'id' => $model->id],
+    'visible' => $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity) && $model->getResponses()->size() > 0,
+    'options' => [
+        'download' => true,
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Download'),
+    ],
+];
+
+$this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.close')),
     'url' => ['/projects/close', 'id' => $model->id],
     'options' => [

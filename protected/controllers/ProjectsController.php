@@ -17,6 +17,7 @@ use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\data\ActiveDataProvider;
@@ -186,6 +187,34 @@ class ProjectsController extends Controller
         return $this->render('read', [
             'model' => $project,
         ]);
+    }
+
+    public function actionDownload(Response $response, $id)
+    {
+        $project = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $stream = fopen('php://temp', 'w+');
+        // First get all columns.
+        $columns = [];
+        foreach($project->getResponses() as $record) {
+            foreach($record->getData() as $key => $dummy) {
+                $columns[$key] = true;
+            }
+        }
+
+        if (!empty($columns)) {
+            fputcsv($stream, array_keys($columns));
+
+            /** @var ResponseInterface $record */
+            foreach ($project->getResponses() as $record) {
+                $data = $record->getData();
+                $row = [];
+                foreach(array_keys($columns) as $column) {
+                    $row[$column] = isset($data[$column]) ? $data[$column] : null;
+                }
+                fputcsv($stream, $row);
+            }
+        }
+        return $response->sendStreamAsFile($stream, "{$project->title}.csv");
     }
 
     public function actionReOpen(Session $session, Request $request, $id)
