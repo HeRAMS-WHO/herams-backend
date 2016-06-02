@@ -10,6 +10,7 @@ use prime\interfaces\ProjectInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
+use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
@@ -326,9 +327,14 @@ class Tool extends ActiveRecord implements ProjectInterface {
         if (isset($this->progress_type)) {
             /** @var ReportGeneratorInterface $generator */
             $generator = GeneratorFactory::get($this->progress_type);
-
+            $generator = GeneratorFactory::get('progress');
             return $generator->render($this->getResponses(), $this->getSurveys(), $this,
                 app()->user->identity->createSignature());
         }
+    }
+
+    public function userCan($operation, User $user)
+    {
+        return Permission::isAllowed($user, $this, Permission::PERMISSION_INSTANTIATE);
     }
 }
