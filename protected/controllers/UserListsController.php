@@ -99,12 +99,11 @@ class UserListsController extends Controller
         ]);
     }
 
-    public function actionShareDelete(Request $request, Session $session, $id)
+    public function actionShareDelete(User $user, Request $request, Session $session, $id)
     {
         $permission = Permission::findOne($id);
         //User must be able to share user list in order to delete a share
         $userList = UserList::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
-        $user = $permission->sourceObject;
         if($permission->delete()) {
             $session->setFlash(
                 'userListShared',
@@ -115,7 +114,7 @@ class UserListsController extends Controller
                         "Stopped sharing user list <strong>{modelName}</strong> with: <strong>{user}</strong>",
                         [
                             'modelName' => $userList->name,
-                            'user' => $user->name
+                            'user' => $user->identity->name
                         ]
                     ),
                     'icon' => 'glyphicon glyphicon-trash'

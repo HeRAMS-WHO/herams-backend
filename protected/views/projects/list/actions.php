@@ -16,7 +16,7 @@ SCRIPT
 return [
     'class' => \kartik\grid\ActionColumn::class,
     'width' => '100px',
-    'template' => '{read}{request} {share} {close}{open} {download}',
+    'template' => '{read}{request} {share} {close}{open}',
     'buttons' => [
         'read' => function($url, $model, $key) {
             $result = '';
@@ -108,21 +108,6 @@ return [
                 );
             }
             return $result;
-        },
-        'download' => function($url, \prime\models\ar\Project $model, $key) {
-            $result = '';
-            if ($model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
-                $result = Html::a(
-                    Html::icon(Setting::get('icons.download', 'download-alt')),
-                    ['/projects/download', 'id' => $model->id],
-                    [
-                        'download' => true,
-                        'title' => \Yii::t('app', 'Download'),
-                    ]
-                );
-            }
-            return $result;
-
         }
     ]
 ];

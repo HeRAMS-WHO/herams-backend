@@ -7,6 +7,7 @@ use app\queries\ProjectQuery;
 use app\queries\ToolQuery;
 use Befound\Components\DateTime;
 use prime\api\Api;
+use prime\components\AccessRule;
 use prime\components\ActiveQuery;
 use prime\components\Controller;
 use prime\models\ar\Setting;
@@ -81,6 +82,13 @@ class ProjectsController extends Controller
 
     }
 
+    /**
+     * Action for creating a new project.
+     * @param CreateUpdate $model
+     * @param Request $request
+     * @param Session $session
+     * @return \Befound\Components\type|Response
+     */
     public function actionCreate(CreateUpdate $model, Request $request, Session $session)
     {
         $model->scenario = 'create';
@@ -214,7 +222,9 @@ class ProjectsController extends Controller
                 fputcsv($stream, $row);
             }
         }
-        return $response->sendStreamAsFile($stream, "{$project->title}.csv");
+        return $response->sendStreamAsFile($stream, "{$project->title}.csv", [
+            'mimeType' => 'text/csv'
+        ]);
     }
 
     public function actionReOpen(Session $session, Request $request, $id)
@@ -275,12 +285,11 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionShareDelete(Request $request, Session $session, $id)
+    public function actionShareDelete(User $user, Request $request, Session $session, $id)
     {
         $permission = Permission::findOne($id);
         //User must be able to share project in order to delete a share
         $project = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
-        $user = $permission->sourceObject;
         if($permission->delete()) {
             $session->setFlash(
                 'projectShared',
@@ -291,7 +300,7 @@ class ProjectsController extends Controller
                         "Stopped sharing project <strong>{modelName}</strong> with: <strong>{user}</strong>",
                         [
                             'modelName' => $project->title,
-                            'user' => $user->name
+                            'user' => $user->identity->name
                         ]
                     ),
                     'icon' => 'glyphicon glyphicon-trash'
@@ -374,8 +383,16 @@ class ProjectsController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
+                            'actions' => ['close', 'configure', 'list', 'list-others', 'list-closed',
+                            'progress', 'read', 'download', 're-open', 'share', 'share-delete',
+                                'update', 'update-lime-survey', 'explore', 'dependent-surveys', 'dependent-tokens'],
                             'roles' => ['@'],
                         ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['createProject']
+                        ]
                     ]
                 ]
             ]

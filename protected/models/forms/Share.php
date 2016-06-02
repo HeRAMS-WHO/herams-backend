@@ -146,6 +146,7 @@ class Share extends Model {
                 [
                     'label' => \Yii::t('app', 'User'),
                     'value' => function($model){
+
                         return $model->sourceObject->name;
                     }
                 ],

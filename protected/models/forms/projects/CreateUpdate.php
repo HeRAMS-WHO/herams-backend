@@ -5,6 +5,7 @@ namespace prime\models\forms\projects;
 use prime\models\Country;
 use prime\models\ar\Project;
 use prime\models\ar\ProjectCountry;
+use prime\models\permissions\Permission;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
@@ -49,4 +50,10 @@ class CreateUpdate extends Project
     {
         return Project::tableName();
     }
+
+    public function toolOptions()
+    {
+        return \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->userCan(Permission::PERMISSION_INSTANTIATE)->all(), 'id', 'title');
+    }
+
 }

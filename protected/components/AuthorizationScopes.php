@@ -22,7 +22,6 @@ trait AuthorizationScopes
     {
 
         $authManager = app()->authManager;
-
         $user = $user ?: app()->user->identity;
         $userId = $user instanceof IdentityInterface ? $user->getId() : $user;
         // Check if we are interested in the current user; and if the current user is admin.

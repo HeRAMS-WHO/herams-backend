@@ -5,6 +5,7 @@ namespace prime\models\permissions;
 use prime\models\ActiveRecord;
 use prime\models\ar\Project;
 use prime\models\ar\User;
+use yii\db\ActiveRecordInterface;
 
 /**
  * Class Permission
@@ -21,6 +22,7 @@ class Permission extends ActiveRecord
     const PERMISSION_WRITE = 'write';
     const PERMISSION_SHARE = 'share';
     const PERMISSION_ADMIN = 'admin';
+    const PERMISSION_INSTANTIATE = 'instantiate';
 
     public function attributeLabels()
     {
@@ -86,13 +88,25 @@ class Permission extends ActiveRecord
         return parent::instantiate($row);
     }
 
-
-    public static function isAllowed($sources, ActiveRecord $target, $permission)
+    /**
+     * Checks if a set of sources is allowed $permission on the $target.
+     * @param ActiveRecordInterface[] $sources The source objects.
+     * @param ActiveRecordInterface $target The target objects.
+     * @param $permission The permission to be checked.
+     * @return boolean
+     * @throws \Exception
+     */
+    public static function isAllowed($sources, ActiveRecordInterface $target, $permission)
     {
-        $permissionLevel = self::permissionLevels()[$permission];
-        $permissions = array_keys(array_filter(self::permissionLevels(), function($value) use ($permissionLevel) {
-            return $value >= $permissionLevel;
-        }));
+        $levels = self::permissionLevels();
+        if (isset($levels[$permission])) {
+            $permissionLevel = self::permissionLevels()[$permission];
+            $permissions = array_keys(array_filter(self::permissionLevels(), function ($value) use ($permissionLevel) {
+                return $value >= $permissionLevel;
+            }));
+        } else {
+            $permissions = [$permission];
+        }
 
         $query = self::find();
 
@@ -103,7 +117,24 @@ class Permission extends ActiveRecord
 
         $query->andWhere(['target' => get_class($target), 'target_id' => $target->id, 'permission' => $permissions]);
 
-        return app()->db->cache(function($db) use ($query) {
+        return self::getDb()->cache(function($db) use ($query) {
+            return $query->exists();
+        });
+    }
+
+    /**
+     * Checks if a $source is allowed $permission on any $targetClass instance.
+     * @param ActiveRecordInterface $source
+     * @param string $targetClass
+     * @param string $permission
+     */
+    public static function anyAllowed(ActiveRecordInterface $source, $targetClass, $permission)
+    {
+        $query = self::find();
+        $query->andWhere(['source' => get_class($source), 'source_id' => $source->id]);
+        $query->andWhere(['target' => $targetClass, 'permission' => $permission]);
+
+        return self::getDb()->cache(function($db) use ($query) {
             return $query->exists();
         });
     }
@@ -124,7 +155,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_READ => 0,
             self::PERMISSION_WRITE => 1,
             self::PERMISSION_SHARE => 2,
-            self::PERMISSION_ADMIN => 3,
+            self::PERMISSION_ADMIN => 3
         ];
     }
 

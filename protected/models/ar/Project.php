@@ -303,11 +303,6 @@ class Project extends ActiveRecord implements ProjectInterface
     }
 
 
-    public function toolOptions()
-    {
-        return \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->all(), 'id', 'title');
-    }
-
     /**
      * @param $operation
      * @param User|null $user

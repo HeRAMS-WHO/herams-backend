@@ -72,21 +72,12 @@ class ToolsController extends Controller
         ]);
         /** @var ReportGeneratorInterface $generator */
         $generator = GeneratorFactory::get($tool->default_generator, $this->view);
-
+        $generator = GeneratorFactory::get('progress', $this->view);
 
         $responses = new ResponseCollection(); // $tool->getResponses();
 
 
-        if ($responses->size() >= 1) {
-
-                $generator->renderPreview(
-                $responses,
-                $tool->getSurveys(),
-                $tool,
-                new Signature("", "", ""),
-                new UserData()
-            );
-        } else {
+        if ($responses->size() === 0) {
             return \Yii::t('app', "No data available.");
         }
 
@@ -228,8 +219,8 @@ class ToolsController extends Controller
 
     public function actionProgress(Response $response, $id)
     {
-        $project = Tool::loadOne($id);
-        $report = $project->getProgressReport();
+        $tool = $project = Tool::loadOne($id);
+        $report = $tool->getProgressReport();
         if (!isset($report)) {
             throw new \HttpException(404, "Progress report for project not found.");
         }
