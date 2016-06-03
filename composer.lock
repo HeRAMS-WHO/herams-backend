@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "116beef148ac6e2c3721f57083000af6",
-    "content-hash": "bcfd908c2a09fa6d079952787b300c8f",
+    "hash": "9e3600f15e2abc75c6c6798fab3714a8",
+    "content-hash": "ada213efe0c0b2203941b19c344611b7",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -689,12 +689,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dektrium/yii2-user.git",
-                "reference": "763806acf9a4427b7a8f544ad4683d8f1ac5bf76"
+                "reference": "94a1eda7fcb5e2880659d3fadc9c26cdb4a61651"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/763806acf9a4427b7a8f544ad4683d8f1ac5bf76",
-                "reference": "763806acf9a4427b7a8f544ad4683d8f1ac5bf76",
+                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/94a1eda7fcb5e2880659d3fadc9c26cdb4a61651",
+                "reference": "94a1eda7fcb5e2880659d3fadc9c26cdb4a61651",
                 "shasum": ""
             },
             "require": {
@@ -744,7 +744,7 @@
                 "yii2",
                 "yii2-user"
             ],
-            "time": "2016-06-02 18:50:48"
+            "time": "2016-06-03 14:23:38"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -3439,12 +3439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "15a286a3749d3ecedbea9adb20e6f3ba261a128b"
+                "reference": "870784a16e88507fe81ca77fd86e96abbaaf159b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/15a286a3749d3ecedbea9adb20e6f3ba261a128b",
-                "reference": "15a286a3749d3ecedbea9adb20e6f3ba261a128b",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/870784a16e88507fe81ca77fd86e96abbaaf159b",
+                "reference": "870784a16e88507fe81ca77fd86e96abbaaf159b",
                 "shasum": ""
             },
             "require": {
@@ -3520,7 +3520,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2016-06-03 12:15:29"
+            "time": "2016-06-03 13:09:04"
         },
         {
             "name": "codeception/phpbuiltinserver",
@@ -4171,16 +4171,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "dev-master",
+            "version": "5.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ddcee3f3778a23e8cee3ec2fac0e31753946371a"
+                "reference": "f5726a0262e5f74f8e9cf03128798b64160c441d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ddcee3f3778a23e8cee3ec2fac0e31753946371a",
-                "reference": "ddcee3f3778a23e8cee3ec2fac0e31753946371a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f5726a0262e5f74f8e9cf03128798b64160c441d",
+                "reference": "f5726a0262e5f74f8e9cf03128798b64160c441d",
                 "shasum": ""
             },
             "require": {
@@ -4216,7 +4216,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.5.x-dev"
+                    "dev-master": "5.4.x-dev"
                 }
             },
             "autoload": {
@@ -4242,7 +4242,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-06-03 10:02:44"
+            "time": "2016-06-03 09:59:50"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4812,53 +4812,6 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-02-04 12:56:52"
-        },
-        {
-            "name": "site5/phantoman",
-            "version": "v1.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/site5/phantoman.git",
-                "reference": "ff0323394e25308a87b82e3a51e20b53ea5823f9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/site5/phantoman/zipball/ff0323394e25308a87b82e3a51e20b53ea5823f9",
-                "reference": "ff0323394e25308a87b82e3a51e20b53ea5823f9",
-                "shasum": ""
-            },
-            "require": {
-                "codeception/codeception": "^2.1",
-                "php": ">=5.4.0"
-            },
-            "suggest": {
-                "jakoch/phantomjs-installer": "Automatically installs PhantomJS locally to your project."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Codeception\\Extension\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Grant Lucas",
-                    "email": "grant.lucas@wwwh.com"
-                }
-            ],
-            "description": "The Codeception extension for automatically starting and stopping PhantomJS when running tests.",
-            "homepage": "https://github.com/site5/phantoman",
-            "keywords": [
-                "codeception",
-                "extension",
-                "headless",
-                "phantomjs"
-            ],
-            "time": "2016-05-25 14:29:33"
         },
         {
             "name": "symfony/browser-kit",
