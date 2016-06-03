@@ -39,7 +39,7 @@
         "miloschuman/yii2-highcharts-widget": "^4",
         "yiisoft/yii2": "dev-master",
         "treffynnon/navigator": "^1",
-        "sam-it/ls2-jsonrpc-client": "^0.7.6",
+        "sam-it/ls2-jsonrpc-client": "^0.8.0",
         "dektrium/yii2-rbac": "^0.2.0",
         "npm-asset/mresize": "^1.0",
         "bower-asset/bootstrap-social": "^4.10",

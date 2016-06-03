@@ -19,7 +19,7 @@ use prime\models\ar\Setting;
     
 
     echo \kartik\grid\GridView::widget([
-        'caption' => include('list/header.php'),
+        'caption' => !isset($caption) ? include('list/header.php') : $caption,
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [
@@ -28,7 +28,7 @@ use prime\models\ar\Setting;
             ]
         ],
         'layout' => "{items}\n{pager}",
-        'filterModel' => $projectSearch,
+        'filterModel' => isset($projectSearch) ? $projectSearch : null,
         'dataProvider' => $projectsDataProvider,
         'columns' => [
             [
@@ -47,7 +47,8 @@ use prime\models\ar\Setting;
                 ],
                 'filterInputOptions' => [
                     'placeholder' => \Yii::t('app', 'Select tool')
-                ]
+                ],
+                'visible' => !isset($hideToolColumn) || !$hideToolColumn
             ],
             'title',
             [

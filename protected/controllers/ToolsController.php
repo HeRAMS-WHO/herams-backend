@@ -58,6 +58,18 @@ class ToolsController extends Controller
         ]);
     }
 
+    public function actionResponses(
+        Request $request,
+        Response $response,
+        User $user,
+        $id
+    ) {
+        $tool = Tool::loadOne($id);
+        return $this->render('dashboard/responses', [
+            'tool' => $tool
+        ]);
+    }
+
     public function actionDashboard(
         Request $request,
         Response $response,
@@ -65,22 +77,17 @@ class ToolsController extends Controller
         $id
     )
     {
-        /* @todo set correct privilege */
         $tool = Tool::loadOne($id);
+        $projectSearch = new \prime\models\search\Project();
+        $projectSearch->query = $tool->getProjects();
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
+
         return $this->render('dashboard', [
-            'model' => $tool
+            'model' => $tool,
+            'projectSearch' => $projectSearch,
+            'projectsDataProvider' => $projectsDataProvider
+
         ]);
-        /** @var ReportGeneratorInterface $generator */
-        $generator = GeneratorFactory::get($tool->default_generator, $this->view);
-        $generator = GeneratorFactory::get('progress', $this->view);
-
-        $responses = new ResponseCollection(); // $tool->getResponses();
-
-
-        if ($responses->size() === 0) {
-            return \Yii::t('app', "No data available.");
-        }
-
     }
 
     /**
@@ -219,6 +226,7 @@ class ToolsController extends Controller
 
     public function actionProgress(Response $response, $id)
     {
+        return '';
         $tool = $project = Tool::loadOne($id);
         $report = $tool->getProgressReport();
         if (!isset($report)) {

@@ -70,22 +70,29 @@ if(isset($model->defaultGenerator)) {
 
     // Dynamically resize iframe.
     $this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
+    \yii\widgets\Pjax::begin();
     echo \yii\bootstrap\Tabs::widget([
          'items' => [
              [
-                 'label' => \Yii::t('app', 'Reports'),
-                 'content' => $this->render('dashboard/reports.php', ['tool' => $model])
+                 'label' => \Yii::t('app', 'Projects'),
+                 'content' => $this->render('dashboard/projects.php', [
+                     'tool' => $model,
+                     'projectSearch' => $projectSearch,
+                     'projectsDataProvider' => $projectsDataProvider
+                 ])
              ],
              [
                  'label' => \Yii::t('app', 'Responses'),
-                 'content' => $this->render('dashboard/responses.php', [
-                     'tool' => $model,
-                     'model' => $model,
-                     'responses' => $model->getResponses()
-                 ])
-             ]
-         ]
+                 'url' => ['tools/responses', 'id' => $model->id]
+             ],
+            [
+                'label' => \Yii::t('app', 'Reports'),
+                'content' => $this->render('dashboard/reports.php', ['tool' => $model])
+            ],
+
+    ]
     ]);
+    \yii\widgets\Pjax::end();
     ?>
 </div>
 

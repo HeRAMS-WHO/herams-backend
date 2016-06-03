@@ -60,11 +60,6 @@ class Project extends \prime\models\ar\Project
 
         $this->scenario = 'search';
 
-        if(!app()->user->can('admin')) {
-            $this->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
-        } else {
-            $this->query->joinWith(['tool']);
-        }
     }
 
     public function rules()
@@ -98,6 +93,12 @@ class Project extends \prime\models\ar\Project
 
     public function search($params)
     {
+        if(!app()->user->can('admin')) {
+            $this->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
+        } else {
+            $this->query->joinWith(['tool']);
+        }
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
             'id' => 'project-data-provider'

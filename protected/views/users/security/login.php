@@ -1,11 +1,7 @@
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
         <?php
         /** @var \yii\web\View $this */
-        /**
-         * @var \app\models\User $model
-         */
-
         use app\components\Form;
         use app\components\Html;
         use app\components\ActiveForm;
