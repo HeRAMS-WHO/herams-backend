@@ -18,7 +18,7 @@ $this->registerJs('Highcharts.maps["who/world"] = ' . file_get_contents(\Yii::ge
     'Highcharts.maps["who/world"]["hc-transform"] = {default: {crs: "WGS84"}};'
 );
 
-
+$this->title = \Yii::t('app', 'Global dashboard');
 
 echo Html::beginTag('div', ['class' => 'col-xs-12 col-md-10']);
 echo $this->render('filter', ['filter' => $filter]);

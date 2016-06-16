@@ -55,9 +55,41 @@ $this->params['subMenu']['items'][] = [
     'options' => [
         'download' => true,
         'class' => 'icon',
+        'id' => 'download-data',
         'title' => \Yii::t('app', 'Download'),
     ],
 ];
+$this->registerJs(<<<SCRIPT
+var handler = function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    bootbox.dialog({
+        message: "Do you prefer answer as text or as code?",
+        title: "Download data in CSV format",
+        onEscape: function() {
+            console.log('cb'); 
+        },
+        buttons: {
+            text: {
+                label: "Text",
+                callback: function() {
+                    console.log('text plz');
+                }
+            },
+            code: {
+                label: "Code",
+                callback: function() {
+                    console.log('code plz');
+                }
+            },
+        }
+    
+    });
+};
+$('#download-data').on('click', handler);
+SCRIPT
+);
+
 
 $this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.close')),

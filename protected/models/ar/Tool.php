@@ -25,6 +25,7 @@ use yii\validators\SafeValidator;
  * @package prime\models
  *
  * @property string $imageUrl
+ * @property int $id
  * @property int $base_survey_eid
  * @property int $intake_survey_eid
  * @property string $acronym
@@ -197,7 +198,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
     public function rules()
     {
         return [
-            [['title', 'acronym', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generators', 'generatorsArray'], 'required'],
+            [['title', 'acronym', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generatorsArray'], 'required'],
             //[['tempImage'], 'required', 'on' => ['create']],
             [['title', 'acronym', 'description'], 'string'],
             [['title'], 'unique'],
@@ -337,4 +338,11 @@ class Tool extends ActiveRecord implements ProjectInterface {
     {
         return Permission::isAllowed($user, $this, Permission::PERMISSION_INSTANTIATE);
     }
+
+    public function getPermissions()
+    {
+        return $this->hasMany(Permission::class, ['target_id' => 'id'])
+            ->andWhere(['target' => self::class]);
+    }
+
 }

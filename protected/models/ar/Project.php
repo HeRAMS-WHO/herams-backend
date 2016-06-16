@@ -50,6 +50,7 @@ use yii\web\UrlManager;
  * @property datetime $created
  * @property boolean $isClosed
  * @property Country $country
+ * @property int $owner_id
  *
  * @method static ProjectQuery find()
  */
@@ -168,7 +169,7 @@ class Project extends ActiveRecord implements ProjectInterface
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
     }
-    
+
     public function getProgressReport()
     {
         if (isset($this->tool->progress_type)) {
@@ -325,13 +326,13 @@ class Project extends ActiveRecord implements ProjectInterface
     public function beforeSave($insert)
     {
         $result = parent::beforeSave($insert);
-        if ($result && empty($this->getAttribute('token'))) {
+        if ($result && empty($this->getAttribute('token')) && isset($this->data_survey_eid)) {
                 // Attempt creation of a token.
-                $token = $this->getLimeSurvey()->createToken($this->data_survey_eid, []);
+                $token = $this->getLimeSurvey()->createToken($this->data_survey_eid, [
+                    'token' => app()->security->generateRandomString(15)
+                ]);
                 $token->setFirstName($this->getLocality());
-                if (isset($this->owner)) {
-                    $token->setLastName($this->owner->lastName);
-                }
+
                 $token->setValidFrom(new Carbon($this->created));
                 $this->_token = $token;
                 $this->setAttribute('token', $token->getToken());

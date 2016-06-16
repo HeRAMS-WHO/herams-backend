@@ -62,7 +62,7 @@ $this->params['subMenu'] = [
                     'pluginOptions' => [
                         'url' => ['/projects/dependent-surveys'],
                         'depends' => ['createupdate-tool_id'],
-                        'initialize' => true,
+//                        'initialize' => true,
                     ],
                 ],
                 'enableClientValidation' => false

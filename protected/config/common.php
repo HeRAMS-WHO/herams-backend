@@ -74,6 +74,7 @@ return [
             ]
         ],
         'user' => [
+            'class' => \yii\web\User::class,
             'identityClass' => \prime\models\ar\User::class
         ],
         'i18n' => [

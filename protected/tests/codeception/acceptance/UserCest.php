@@ -1,8 +1,7 @@
 <?php
 
-class SignupCest
+class UserCest
 {
-
     public function _before(AcceptanceTester $I)
     {
         $I->runMigrations();

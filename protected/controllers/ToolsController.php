@@ -2,10 +2,12 @@
 
 namespace prime\controllers;
 
+use kartik\widgets\Growl;
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\models\ar\UserData;
+use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use prime\models\ar\Tool;
 use prime\objects\ResponseCollection;
@@ -39,7 +41,7 @@ class ToolsController extends Controller
                     'toolCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => "Tool <strong>{$model->title}</strong> is created.",
+                        'text' => \Yii::t('app', "Tool {tool} is created.", ['{tool}' => $model->title]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
@@ -50,6 +52,11 @@ class ToolsController extends Controller
                         'id' => $model->id
                     ]
                 );
+            } else {
+                $session->setFlash('toolNotCreated', [
+                    'type' => Growl::TYPE_WARNING,
+                    'text' => \Yii::t('app', 'Failed to create tool.') . print_r($model->errors, true)
+                ]);
             }
         }
 
@@ -237,6 +244,61 @@ class ToolsController extends Controller
         return $response;
     }
 
+
+    public function actionShare(Session $session, Request $request, $id)
+    {
+        $tool = Tool::loadOne($id, [], Permission::PERMISSION_SHARE);
+        $model = new Share($tool, []);
+
+        if($request->isPost) {
+            if($model->load($request->bodyParams) && $model->createRecords()) {
+                $session->setFlash(
+                    'projectShared',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => \Yii::t('app',
+                            "Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
+                            [
+                                'modelName' => $tool->title,
+                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
+                            ]),
+                        'icon' => 'glyphicon glyphicon-ok'
+                    ]
+                );
+                $model = new Share($tool, [$tool->owner_id]);
+            }
+        }
+
+        return $this->render('share', [
+            'model' => $model,
+            'tool' => $tool
+        ]);
+    }
+
+    public function actionShareDelete(User $user, Request $request, Session $session, $id)
+    {
+        $permission = Permission::findOne($id);
+        //User must be able to share project in order to delete a share
+        $project = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
+        if($permission->delete()) {
+            $session->setFlash(
+                'projectShared',
+                [
+                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                    'text' => \Yii::t(
+                        'app',
+                        "Stopped sharing project <strong>{modelName}</strong> with: <strong>{user}</strong>",
+                        [
+                            'modelName' => $project->title,
+                            'user' => $user->identity->name
+                        ]
+                    ),
+                    'icon' => 'glyphicon glyphicon-trash'
+                ]
+            );
+        }
+        $this->redirect(['/projects/share', 'id' => $project->id]);
+    }
 
     public function behaviors()
     {
