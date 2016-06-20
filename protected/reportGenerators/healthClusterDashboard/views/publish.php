@@ -4,11 +4,11 @@ use app\components\Html;
 
 /**
  * @var \yii\web\View $this;
+ * @var \prime\reportGenerators\base\Generator $generator
  */
 
 $this->registerAssetBundle(\prime\assets\SassAsset::class);
 $this->beginContent('@app/views/layouts/report.php');
-$lastHealthClusterResponse = $this->context->response;
 ?>
 
 <div class="container-fluid">
@@ -24,7 +24,7 @@ $lastHealthClusterResponse = $this->context->response;
                     <div class="col-xs-12">
                         <?php
                         if (null !== $coordinator = \prime\models\ar\User::find()->where(
-                                ['id' => $lastHealthClusterResponse->getData()["CM05"]]
+                                ['id' => $generator->getQuestionValue("CM05")]
                             )->one()
                         ) {
                             echo \prime\widgets\User::widget([
@@ -45,7 +45,7 @@ $lastHealthClusterResponse = $this->context->response;
                     <div class="col-xs-12">
                         <?php
                         if (null !== $cocoordinator = \prime\models\ar\User::find()->where(
-                                ['id' => $lastHealthClusterResponse->getData()["CM07"]]
+                                ['id' => $generator->getQuestionValue("CM07")]
                             )->one()
                         ) {
                             echo \prime\widgets\User::widget([

@@ -26,6 +26,9 @@ use yii\web\View;
 
 abstract class Generator extends Component implements ReportGeneratorInterface, ViewContextInterface
 {
+    /** @var ResponseInterface */
+    protected $response;
+
     protected $view;
 
     /**
@@ -47,16 +50,6 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
                 throw new \Exception("Not all blocks are closed in " . $event->viewFile);
             }
         });
-    }
-
-    public function renderPreview(
-        ResponseCollectionInterface $responses,
-        SurveyCollectionInterface $surveys,
-        ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
-    ) {
-        throw new \Exception('Not implemented');
     }
 
     /**
@@ -189,8 +182,11 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
      */
     public function getQuestionValue($title)
     {
-        $data = $this->response->getData();
-        if (isset($data[$title]) && !empty($data[$title])) {
+        if (isset($this->response)
+            && $data = $this->response->getData()
+            && isset($data[$title])
+            && !empty($data[$title]))
+        {
             $this->markBlock();
             return $data[$title];
         }
@@ -229,8 +225,7 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
 
     public function getViewPath()
     {
-        $rc = new \ReflectionClass($this);
-        return dirname($rc->getFileName()) . '/views';
+        return dirname((new \ReflectionClass($this))->getFileName()) . '/views';
     }
 
     public static function textarea(UserDataInterface $userData, $attribute, $options = [])

@@ -13,7 +13,7 @@ use prime\models\ar\UserData;
 use prime\objects\Report;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
-class Generator extends \prime\reportGenerators\base\Generator implements ReportGeneratorInterface
+class Generator extends \prime\reportGenerators\base\Generator
 {
     /** @var ResponseInterface */
     protected $response;

@@ -1,7 +1,7 @@
 <?php
+namespace prime\tests\codeception\unit;
 
-
-class ProjectTest extends yii\codeception\DbTestCase
+class ProjectTest extends \yii\codeception\DbTestCase
 {
     /**
      * @var \UnitTester

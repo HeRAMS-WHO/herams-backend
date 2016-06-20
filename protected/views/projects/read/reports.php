@@ -13,7 +13,7 @@ foreach($tool->generators as $generator) {
     $items[] = [
         'label' => \Yii::t('app', '{generator}', ['generator' => ucfirst($generator)]),
         'url' => [
-            'reports/preview',
+            $generator instanceof \prime\interfaces\ConfigurableGeneratorInterface ? 'reports/preview' : 'reports/publish',
             'projectId' => $model->id,
             'reportGenerator' => $generator
         ]

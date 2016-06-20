@@ -17,46 +17,14 @@ class Generator extends \prime\reportGenerators\base\Generator
     /** @var ResponseInterface */
     public $response;
 
-    /**
-     * Return answer to the question title in the response
-     * @param $title
-     * @return string|null
-     */
-    public function getQuestionValue($title)
-    {
-        return isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
-    }
-
-    protected function initResponses(ResponseCollectionInterface $responses) {
-        $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {
-            // Reverse ordered
-            return -1 * strcmp($r1->getId(), $r2->getId());
-        });
-
-        // Get the first element, we know the collection is traversable.
+     protected function initResponses(ResponseCollectionInterface $responses)
+     {
+        // Get the last element, we know the collection is traversable.
         foreach($responses as $key => $response) {
             $this->response = $response;
-            break;
         }
     }
-    /**
-     * @param ResponseCollectionInterface $responses
-     * @param SignatureInterface $signature
-     * @param ProjectInterface $project
-     * @param UserDataInterface|null $userData
-     * @return string
-     */
-    public function renderPreview(
-        ResponseCollectionInterface $responses,
-        SurveyCollectionInterface $surveys,
-        ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
-    ) {
-        $this->initResponses($responses);
-        return $this->view->render('publish', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
-    }
-
+    
     /**
      * This function renders a report.
      * All responses to be used are given as 1 array of Response objects.
@@ -80,6 +48,7 @@ class Generator extends \prime\reportGenerators\base\Generator
             'signature' => $signature,
             'responses' => $responses,
             'project' => $project,
+            'generator' => $this
         ], $this));
 
         $userData = new UserData();

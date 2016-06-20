@@ -30,11 +30,31 @@ if(isset($model->defaultGenerator)) {
             'title' => \Yii::t('app', 'Preview report'),
         ],
         'url' => [
-            '/reports/preview',
+            '/reports/configure',
             'projectId' => $model->id,
             'reportGenerator' => $model->default_generator
         ],
-        'visible' => $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity) && ($model->getResponses()->size() > 0) && $model->closed === null
+        'visible' => $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity) 
+            && ($model->getResponses()->size() > 0) 
+            && $model->closed === null
+            && $model->getDefaultGenerator() instanceof \prime\interfaces\ConfigurableGeneratorInterface
+    ];
+
+    $this->params['subMenu']['items'][] = [
+        'label' => Html::icon(Setting::get('icons.preview')),
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Preview report'),
+        ],
+        'url' => [
+            '/reports/publish',
+            'projectId' => $model->id,
+            'reportGenerator' => $model->default_generator
+        ],
+        'visible' => $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)
+            && ($model->getResponses()->size() > 0)
+            && $model->closed === null
+            && !$model->getDefaultGenerator() instanceof \prime\interfaces\ConfigurableGeneratorInterface
     ];
 }
 

@@ -43,7 +43,7 @@ if(isset($id)) {
         }
     </style>
     <iframe
-        src="<?=\yii\helpers\Url::to(['/reports/render-preview',
+        src="<?=\yii\helpers\Url::to(['/reports/render-final',
             'projectId' => $project->id,
             'reportGenerator' => $project->default_generator,
             'responseId' => $lastHealthClusterResponse->getData()['id']

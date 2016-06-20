@@ -25,7 +25,7 @@ foreach($tool->generators as $generator) {
     return \kartik\helpers\Html::a(
         \Yii::t('app', '{generator}', ['generator' => ucfirst($generator)]),
         \yii\helpers\Url::to([
-            'reports/preview',
+            $generator instanceof \prime\interfaces\ConfigurableGeneratorInterface ? 'reports/preview' : 'reports/publish',
             'projectId' => $model->id,
             'responseId' => $rowModel->getId(),
             'reportGenerator' => $generator

@@ -47,7 +47,7 @@ $this->registerJsFile('@web/js/preview.js', ['depends' => \yii\web\JqueryAsset::
 // Dynamically resize iframe.
 $this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
 echo Html::tag('div', '', ['id' => 'response']);
-echo Html::tag('iframe', '', ['src' => $previewUrl, 'style' => [], 'id' => 'preview', 'class' => ['resize']]);
+echo Html::tag('iframe', '', ['src' => $configureUrl, 'style' => [], 'id' => 'preview', 'class' => ['resize']]);
 ?>
 <style>
     body {

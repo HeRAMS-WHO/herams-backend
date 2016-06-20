@@ -5,6 +5,7 @@ namespace prime\controllers;
 use app\components\InlineView;
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
+use prime\interfaces\ConfigurableGeneratorInterface;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
 use prime\interfaces\ResponseCollectionInterface;
@@ -20,6 +21,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use Symfony\Component\Yaml\Inline;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\Response;
@@ -57,7 +59,7 @@ class ReportsController extends Controller
         ]);
     }
 
-    public function actionPreview(
+    public function actionConfigure(
         Request $request,
         Response $response,
         $projectId,
@@ -68,6 +70,10 @@ class ReportsController extends Controller
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId);
         if(isset(GeneratorFactory::classes()[$reportGenerator])) {
+            if (!GeneratorFactory::get($reportGenerator) instanceof ConfigurableGeneratorInterface) {
+                throw new HttpException(412, \Yii::t('app', "This report does not support configuration."));
+            }
+
             if($request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
                 if(!isset($userData)) {
@@ -89,8 +95,8 @@ class ReportsController extends Controller
                 }
             }
 
-            return $this->render('preview', [
-                'previewUrl' => Url::toRoute(['reports/render-preview', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator, 'responseId' => $responseId]),
+            return $this->render('configure', [
+                'configureUrl' => Url::toRoute(['reports/render-configure', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator, 'responseId' => $responseId]),
                 'project' => $project,
                 'reportGenerator' => $reportGenerator
             ]);
@@ -111,6 +117,7 @@ class ReportsController extends Controller
         User $user,
         Response $response,
         $projectId,
+        $responseId = null,
         $reportGenerator
     )
     {
@@ -125,9 +132,14 @@ class ReportsController extends Controller
             /** @var ReportGeneratorInterface $generator */
             $generator = GeneratorFactory::get($reportGenerator);
 
+            $responses = isset($responseId) ? $project->getResponses()->filter(function(ResponseInterface $response, $key) use ($responseId) {
+                return $response->getId() == $responseId;
+            }) : $project->getResponses();
+
+
             /** @var ReportInterface $report */
             $report = $generator->render(
-                $project->getResponses(),
+                $responses,
                 $project->getSurvey(),
                 $project,
                 $user->identity->createSignature(),
@@ -142,7 +154,7 @@ class ReportsController extends Controller
         }
     }
 
-    public function actionRenderPreview(
+    public function actionRenderConfigure(
         User $user,
         $projectId,
         $responseId = null,
@@ -159,12 +171,11 @@ class ReportsController extends Controller
             /** @var ReportGeneratorInterface $generator */
             $generator = GeneratorFactory::get($reportGenerator, $this->view);
 
-
             $responses = isset($responseId) ? $project->getResponses()->filter(function(ResponseInterface $response, $key) use ($responseId) {
                 return $response->getId() == $responseId;
             }) : $project->getResponses();
             if ($responses->size() >= 1) {
-                return $generator->renderPreview(
+                return $generator->renderConfiguration(
                     $responses,
                     $project->getSurvey(),
                     $project,
@@ -189,14 +200,17 @@ class ReportsController extends Controller
     {
         /* @todo set correct privilege */
         $project = Project::loadOne($projectId, [], Permission::PERMISSION_ADMIN);
+
+        /** @var ReportGeneratorInterface $generator */
+        $generator = GeneratorFactory::get($reportGenerator);
+
+
         if(isset(GeneratorFactory::classes()[$reportGenerator])) {
             if($request->isPost) {
                 $userData = $project->getUserData($reportGenerator)->one();
                 if (!isset($userData)) {
                     $userData = new UserData();
                 }
-                /** @var ReportGeneratorInterface $generator */
-                $generator = GeneratorFactory::get($reportGenerator);
 
                 $report = Report::saveReport(
                     $generator->render(
@@ -241,6 +255,7 @@ class ReportsController extends Controller
             return $this->render('publish', [
                 'finalUrl' => Url::toRoute(['reports/render-final', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator]),
                 'projectId' => $projectId,
+                'generator' => $generator,
                 'reportGenerator' => $reportGenerator
             ]);
         }

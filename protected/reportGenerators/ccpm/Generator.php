@@ -3,6 +3,7 @@
 namespace prime\reportGenerators\ccpm;
 
 use prime\factories\GeneratorFactory;
+use prime\interfaces\ConfigurableGeneratorInterface;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
@@ -11,15 +12,15 @@ use prime\interfaces\SignatureInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
 use prime\models\ar\Response;
+use prime\models\ar\UserData;
 use prime\objects\Report;
+use prime\objects\Signature;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use yii\helpers\ArrayHelper;
 
-class Generator extends \prime\reportGenerators\base\Generator
+class Generator extends \prime\reportGenerators\ccpmProgressPercentage\Generator implements ConfigurableGeneratorInterface
 {
-    public $CPASurveyId = 67825;
-    public $PPASurveyId = 22814;
-
+    
     public function calculateScore(ResponseCollectionInterface $responses, $map, $method = 'median')
     {
         $values = $this->getGroupedQuestionValues($responses, $map, [$this, 'rangeValidator04']);
@@ -66,39 +67,7 @@ class Generator extends \prime\reportGenerators\base\Generator
         return $result;
     }
 
-    public function getResponseRates(ResponseCollectionInterface $responses)
-    {
-        $result = [];
-        $responsesPerType = array_count_values($this->getQuestionValues($responses, [$this->PPASurveyId => ['q012']]));
-        $responsesPerType['total'] = array_sum($responsesPerType);
-        $totalsPerType = [
-            1 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[1]']]), 0, 0),
-            2 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[2]']]), 0, 0),
-            3 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[3]']]), 0, 0),
-            4 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[4]']]), 0, 0),
-            5 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[5]']]), 0, 0),
-            6 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q012[6]']]), 0, 0),
-        ];
-        $totalsPerType['total'] = array_sum($totalsPerType);
-
-        $totalsPerType2 = [
-            1 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[1]']]), 0, 0),
-            2 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[2]']]), 0, 0),
-            3 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[3]']]), 0, 0),
-            4 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[4]']]), 0, 0),
-            5 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[5]']]), 0, 0),
-            6 => (int) ArrayHelper::getValue($this->getQuestionValues($responses, [$this->CPASurveyId => ['q013[6]']]), 0, 0),
-        ];
-        $totalsPerType2['total'] = array_sum($totalsPerType2);
-
-        foreach ($totalsPerType as $number => $value) {
-            $result[$number]['responses'] = ArrayHelper::getValue($responsesPerType, $number, 0);
-            $result[$number]['total1'] = $totalsPerType[$number];
-            $result[$number]['total2'] = $totalsPerType2[$number];
-        }
-
-        return $result;
-    }
+    
 
     /**
      * @return string the view path that may be prefixed to a relative view name.
@@ -147,13 +116,19 @@ class Generator extends \prime\reportGenerators\base\Generator
      * @param UserDataInterface|null $userData
      * @return string
      */
-    public function renderPreview(
+    public function renderConfiguration(
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
         ProjectInterface $project,
         SignatureInterface $signature = null,
         UserDataInterface $userData = null
     ) {
+        if (!isset($signature)) {
+            $signature = new Signature('', 0, '');
+        }
+        if (!isset($userData)) {
+            $userData = new UserData();
+        }
         return $this->view->render('preview', [
             'userData' => $userData,
             'project' => $project,

@@ -5,18 +5,20 @@ use app\components\Html;
 /**
  * @var string $renderUrl
  * @var \yii\web\View $this
+ * @var \prime\interfaces\ReportGeneratorInterface $generator
  * @var string $reportGenerator
  * @var int $projectId
  */
 
 $this->params['subMenu']['items'] = [
     [
-        'label' => \Yii::t('app', 'Preview'),
+        'label' => \Yii::t('app', 'Configure'),
         'url' => [
-            'reports/preview',
+            'reports/configure',
             'reportGenerator' => $reportGenerator,
             'projectId' => $projectId
-        ]
+        ],
+        'visible' => $generator instanceof \prime\interfaces\ConfigurableGeneratorInterface
     ],
     [
         'label' => \Yii::t('app', 'Publish'),

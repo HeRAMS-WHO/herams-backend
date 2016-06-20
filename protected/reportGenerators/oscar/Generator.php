@@ -2,6 +2,7 @@
 
 namespace prime\reportGenerators\oscar;
 
+use prime\interfaces\ConfigurableGeneratorInterface;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
@@ -39,23 +40,6 @@ class Generator extends \prime\reportGenerators\base\Generator
             $this->response = $response;
             break;
         }
-    }
-    /**
-     * @param ResponseCollectionInterface $responses
-     * @param SignatureInterface $signature
-     * @param ProjectInterface $project
-     * @param UserDataInterface|null $userData
-     * @return string
-     */
-    public function renderPreview(
-        ResponseCollectionInterface $responses,
-        SurveyCollectionInterface $surveys,
-        ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
-    ) {
-        $this->initResponses($responses);
-        return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
     }
 
     /**

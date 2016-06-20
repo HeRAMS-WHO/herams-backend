@@ -121,6 +121,9 @@ class Project extends ActiveRecord implements ProjectInterface
         return isset($this->tool) ? array_intersect_key(GeneratorFactory::options(), array_flip($this->tool->generators->asArray())) : [];
     }
 
+    /**
+     * @return ReportGeneratorInterface
+     */
     public function getDefaultGenerator()
     {
         return GeneratorFactory::get($this->default_generator);

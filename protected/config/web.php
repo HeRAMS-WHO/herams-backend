@@ -36,7 +36,10 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         ],
         'request' => [
             'cookieValidationKey' => 'blasdf9832h238iwe',
-            'class' => \app\components\Request::class
+            'class' => \app\components\Request::class,
+            // To enable rendering in tests.
+            'scriptFile' => realpath(__DIR__ . '/../../public/index.php'),
+            'scriptUrl' => '/'
         ],
         'assetManager' => [
             'class' => \yii\web\AssetManager::class,
