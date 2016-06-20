@@ -31,7 +31,14 @@ $this->params['subMenu']['items'] = [
             'data-method' => 'post',
             'data-confirm' => \Yii::t('app', 'Are you sure you want to publish this report and save it to the marketplace?')
         ]
+    ],
+    [
+        'label' => \Yii::t('app', 'Print'),
+        'linkOptions' => [
+            'onclick' => "$('iframe')[0].contentWindow.print();"
+        ]
     ]
+
 ];
 // Dynamically resize iframe.
 $this->registerAssetBundle(\prime\assets\ResizeAsset::class);
