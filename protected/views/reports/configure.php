@@ -10,7 +10,11 @@ use app\components\Html;
 
 $this->params['subMenu']['items'] = [
     [
-        'label' => \Yii::t('app', 'Save'),
+        'label' => Html::icon('floppy-disk'),
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Save report configuration'),
+        ],
         'url' => '#',
         'linkOptions' => [
             'id' => 'save_preview',
@@ -21,7 +25,26 @@ $this->params['subMenu']['items'] = [
         ]
     ],
     [
-        'label' => \Yii::t('app', 'Publish'),
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Print report configuration'),
+        ],
+
+        'label' => Html::icon(\prime\models\ar\Setting::get('icons.print', 'print')),
+        'linkOptions' => [
+            'onclick' => "$('iframe')[0].contentWindow.print();"
+        ]
+    ],
+
+    [
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Proceed to publish'),
+        ],
+
+        'label' => Html::icon(\prime\models\ar\Setting::get('icons.proceed', 'arrow-right')),
+
+
         'url' => [
             'reports/publish',
             'reportGenerator' => $reportGenerator,
@@ -35,12 +58,6 @@ $this->params['subMenu']['items'] = [
             ]
         ]
     ],
-    [
-        'label' => \Yii::t('app', 'Print'),
-        'linkOptions' => [
-            'onclick' => "$('iframe')[0].contentWindow.print();"
-        ]
-    ]
 ];
 
 $this->registerJsFile('@web/js/preview.js', ['depends' => \yii\web\JqueryAsset::class]);

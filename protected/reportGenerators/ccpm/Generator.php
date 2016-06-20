@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
 
 class Generator extends \prime\reportGenerators\ccpmProgressPercentage\Generator implements ConfigurableGeneratorInterface
 {
-    
+
     public function calculateScore(ResponseCollectionInterface $responses, $map, $method = 'median')
     {
         $values = $this->getGroupedQuestionValues($responses, $map, [$this, 'rangeValidator04']);

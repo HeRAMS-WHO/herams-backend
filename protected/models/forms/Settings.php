@@ -64,7 +64,12 @@ class Settings extends Model
                 'icons.request',
                 'icons.limeSurveyUpdate',
                 'icons.requestAccess',
-                'icons.download'
+                'icons.download',
+                'icons.publish',
+                'icons.print',
+                'icons.proceed'
+
+
             ], RangeValidator::class, 'range' => array_keys($this->iconOptions())]
         ];
     }

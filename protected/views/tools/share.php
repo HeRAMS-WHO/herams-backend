@@ -12,16 +12,16 @@ use app\components\Html;
 $this->params['subMenu'] = [
     'items' => [
         [
-            'label' => Html::submitButton(\Yii::t('app', 'Share'), ['form' => 'share-project', 'class' => 'btn btn-primary'])
+            'label' => Html::submitButton(\Yii::t('app', 'Share'), ['form' => 'share-tool', 'class' => 'btn btn-primary'])
         ],
     ]
 ];
 ?>
-<h1><?=\Yii::t('app', 'Share {projectName}', ['projectName' => $project->title])?></h1>
+<h1><?=\Yii::t('app', 'Share {toolName}', ['toolName' => $tool->title]) ?></h1>
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'share-project',
+        'id' => 'share-tool',
         'method' => 'POST',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -36,7 +36,7 @@ $this->params['subMenu'] = [
     ?>
     <h2><?=\Yii::t('app', 'Already shared with')?></h2>
     <?php
-    echo $model->renderTable('/projects/share-delete');
+    echo $model->renderTable('/tools/share-delete');
     ?>
 </div>
 
