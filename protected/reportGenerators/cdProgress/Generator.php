@@ -15,9 +15,6 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
 class Generator extends \prime\reportGenerators\base\Generator
 {
-    /** @var ResponseInterface */
-    protected $response;
-
     public function getProgresses(ResponseCollectionInterface $responses)
     {
         $requiredAnswers = [
@@ -119,19 +116,6 @@ class Generator extends \prime\reportGenerators\base\Generator
             $result[$category] = $i;
         }
         return $result;
-    }
-
-    /**
-     * @return string the view path that may be prefixed to a relative view name.
-     */
-    public function getViewPath()
-    {
-        return __DIR__ . '/views/';
-    }
-
-    public function getQuestionValue($title)
-    {
-        return isset($this->response) && isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
     }
 
     protected  function initResponses(ResponseCollectionInterface $responses)

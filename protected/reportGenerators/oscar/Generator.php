@@ -25,9 +25,6 @@ use yii\web\View;
 class Generator extends \prime\reportGenerators\base\Generator
 {
     public $dateFormat = 'd F - Y';
-    /** @var ResponseInterface */
-    //protected $response;
-    public $response;
 
     protected function initResponses(ResponseCollectionInterface $responses) {
         $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {

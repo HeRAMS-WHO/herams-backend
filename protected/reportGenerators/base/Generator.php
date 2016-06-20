@@ -183,10 +183,11 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
     public function getQuestionValue($title)
     {
         if (isset($this->response)
-            && $data = $this->response->getData()
+            && [] !== ($data = $this->response->getData())
             && isset($data[$title])
             && !empty($data[$title]))
         {
+
             $this->markBlock();
             return $data[$title];
         }

@@ -8,7 +8,7 @@ if (class_exists(\yii\debug\Module::class)) {
         'allowedIPs' => ['127.0.0.1', '::1', '192.168.*'],
     ];
     if (!CONSOLE) {
-        $debug['bootstrap'] = ['debug'];
+//        $debug['bootstrap'] = ['debug'];
     }
 }
 

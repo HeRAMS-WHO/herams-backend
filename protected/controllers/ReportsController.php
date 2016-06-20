@@ -96,7 +96,12 @@ class ReportsController extends Controller
             }
 
             return $this->render('configure', [
-                'configureUrl' => Url::toRoute(['reports/render-configure', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator, 'responseId' => $responseId]),
+                'configureUrl' => Url::toRoute([
+                    'reports/render-configure',
+                    'projectId' => $projectId,
+                    'reportGenerator' => $reportGenerator,
+                    'responseId' => $responseId
+                ]),
                 'project' => $project,
                 'reportGenerator' => $reportGenerator
             ]);
@@ -195,6 +200,7 @@ class ReportsController extends Controller
         Session $session,
         Request $request,
         $projectId,
+        $responseId = null,
         $reportGenerator
     )
     {
@@ -253,7 +259,12 @@ class ReportsController extends Controller
 
             }
             return $this->render('publish', [
-                'finalUrl' => Url::toRoute(['reports/render-final', 'projectId' => $projectId, 'reportGenerator' => $reportGenerator]),
+                'finalUrl' => Url::toRoute([
+                    'reports/render-final',
+                    'projectId' => $projectId,
+                    'reportGenerator' => $reportGenerator,
+                    'responseId' => $responseId
+                ]),
                 'projectId' => $projectId,
                 'generator' => $generator,
                 'reportGenerator' => $reportGenerator

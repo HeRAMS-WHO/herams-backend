@@ -26,24 +26,6 @@ class Generator extends \prime\reportGenerators\base\Generator
 {
     public $dateFormat = 'd F - Y';
 
-    /**
-     * Return answer to the question title in the response
-     * @param $title
-     * @return string|null
-     */
-    public function getQuestionValue($title)
-    {
-        return isset($this->response) && isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
-    }
-
-    /**
-     * @return string the view path that may be prefixed to a relative view name.
-     */
-    public function getViewPath()
-    {
-        return __DIR__ . '/views/';
-    }
-
     protected  function initResponses(ResponseCollectionInterface $responses)
     {
         $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {

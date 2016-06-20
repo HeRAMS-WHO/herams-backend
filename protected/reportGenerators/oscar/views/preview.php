@@ -16,7 +16,6 @@ use app\components\Form;
 $generator = $this->context;
 $formatter = app()->formatter;
 
-/** @var \SamIT\LimeSurvey\Interfaces\ResponseInterface $response */
 
 $this->beginContent('@app/views/layouts/report.php');
 
@@ -26,8 +25,8 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
 ?>
 
 <style>
-    <?=file_get_contents(__DIR__ . '/../../base/assets/css/grid.css')?>
-    <?php include __DIR__ . '/../../base/assets/css/style.php'; ?>
+<?=file_get_contents(__DIR__ . '/../../base/assets/css/grid.css')?>
+<?php include __DIR__ . '/../../base/assets/css/style.php'; ?>
 
     .header {
         background-image: url(data:image/png;base64,<?=base64_encode(file_get_contents(__DIR__ . '/../../base/assets/img/who-logo.png'))?>);
@@ -51,7 +50,7 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
     }
 </style>
 
-<?=$this->render('page1', [
+<?= $this->render('page1', [
     'generator' => $generator,
     'formatter' => $formatter,
     'project' => $project,
