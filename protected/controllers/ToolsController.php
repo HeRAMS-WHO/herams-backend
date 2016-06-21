@@ -248,8 +248,11 @@ class ToolsController extends Controller
     public function actionShare(Session $session, Request $request, $id)
     {
         $tool = Tool::loadOne($id, [], Permission::PERMISSION_SHARE);
-        $model = new Share($tool, []);
-
+        $model = new Share($tool, [], [
+            'permissions' => [
+                Permission::PERMISSION_INSTANTIATE
+            ]
+        ]);
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->createRecords()) {
                 $session->setFlash(
@@ -257,7 +260,7 @@ class ToolsController extends Controller
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
                         'text' => \Yii::t('app',
-                            "Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
+                            "Tool {modelName} has been shared with: {users}",
                             [
                                 'modelName' => $tool->title,
                                 'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
@@ -265,7 +268,7 @@ class ToolsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-                $model = new Share($tool, [$tool->owner_id]);
+                $model = new Share($tool, []);
             }
         }
 
@@ -279,17 +282,17 @@ class ToolsController extends Controller
     {
         $permission = Permission::findOne($id);
         //User must be able to share project in order to delete a share
-        $project = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
+        $tool = Tool::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
         if($permission->delete()) {
             $session->setFlash(
-                'projectShared',
+                'toolShared',
                 [
                     'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
                     'text' => \Yii::t(
                         'app',
-                        "Stopped sharing project <strong>{modelName}</strong> with: <strong>{user}</strong>",
+                        "Stopped sharing tool <strong>{modelName}</strong> with: <strong>{user}</strong>",
                         [
-                            'modelName' => $project->title,
+                            'modelName' => $tool->title,
                             'user' => $user->identity->name
                         ]
                     ),
@@ -297,7 +300,7 @@ class ToolsController extends Controller
                 ]
             );
         }
-        $this->redirect(['/projects/share', 'id' => $project->id]);
+        $this->redirect(['/tools/share', 'id' => $tool->id]);
     }
 
     public function behaviors()
@@ -310,6 +313,11 @@ class ToolsController extends Controller
                             'allow' => true,
                             'actions' => ['read'],
                             'roles' => ['@'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['dependent-generators'],
+                            'roles' => ['createProject'],
                         ],
                     ]
                 ]

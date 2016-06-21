@@ -49,7 +49,8 @@ return [
         ],
         'authManager' => [
             'class' => \prime\components\AuthManager::class,
-            'cache' => 'cache'
+            'cache' => 'cache',
+            'defaultRoles' => ['user']
         ],
         'cache' => [
             'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class

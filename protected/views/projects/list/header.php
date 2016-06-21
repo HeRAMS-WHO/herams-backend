@@ -43,7 +43,7 @@ return Nav::widget([
                 'href' => Url::to(['projects/create']),
                 'class' => 'btn-default',
             ],
-            'visible' => app()->user->can('admin')
+            'visible' => app()->user->can('instantiate', ['model' => \prime\models\ar\Tool::class])
         ],
     ]
 ]);

@@ -337,7 +337,15 @@ class ProjectsController extends Controller
     public function actionShare(Session $session, Request $request, $id)
     {
         $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
-        $model = new Share($project, [$project->owner_id]);
+        $model = new Share($project, [$project->owner_id], [
+            'permissions' => [
+                Permission::PERMISSION_READ,
+                Permission::PERMISSION_WRITE,
+                Permission::PERMISSION_SHARE,
+                Permission::PERMISSION_ADMIN,
+
+            ]
+        ]);
 
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->createRecords()) {
@@ -469,7 +477,7 @@ class ProjectsController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['create'],
+                            'actions' => ['create', 'dependent-generators', 'dependent-tokens'],
                             'roles' => ['createProject']
                         ]
                     ]

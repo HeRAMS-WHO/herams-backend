@@ -12,7 +12,6 @@ use yii\rbac\Rule;
 
 class CreateToolInstance extends Rule
 {
-    public $name = __CLASS__;
     /**
      * Executes the rule.
      *
@@ -24,11 +23,6 @@ class CreateToolInstance extends Rule
      */
     public function execute($user, $item, $params)
     {
-        if (!isset($params['toolId'])) {
-            return Permission::anyAllowed(User::findOne(['id' => $user]), Tool::class, Permission::PERMISSION_INSTANTIATE);
-        } else {
-            return Permission::isAllowed(User::findOne(['id' => $user]), Tool::findOne(['id' => $params['toolId']]), Permission::PERMISSION_INSTANTIATE);
-        }
-
+        return Permission::anyAllowedById(User::class, $user, Tool::class, Permission::PERMISSION_INSTANTIATE);
     }
 }

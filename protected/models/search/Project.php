@@ -36,12 +36,12 @@ class Project extends \prime\models\ar\Project
     public function countriesOptions()
     {
         $result = ArrayHelper::map(
-            array_filter($this->query->copy()->select('country_iso_3')->distinct()->column()),
-            function($code) {
-                return $code;
+            $this->query->copy()->all(),
+            function(\prime\models\ar\Project $project) {
+                return $project->country_iso_3;
             },
-            function($code) {
-                return Country::findOne($code)->name;
+            function(\prime\models\ar\Project $project) {
+                return Country::findOne($project->country_iso_3)->name;
             }
         );
         sort($result);
@@ -51,10 +51,10 @@ class Project extends \prime\models\ar\Project
     public function init()
     {
         parent::init();
+        $this->query = \prime\models\ar\Project::find()->notClosed()->with('owner.profile');
+
         if (isset($this->queryCallback)) {
-            $this->query = call_user_func($this->queryCallback, \prime\models\ar\Project::find()->notClosed());
-        } else {
-            $this->query = \prime\models\ar\Project::find()->notClosed();
+            $this->query = call_user_func($this->queryCallback, $this->query);
         }
 
 

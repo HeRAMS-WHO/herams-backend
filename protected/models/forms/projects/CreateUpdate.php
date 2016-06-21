@@ -46,6 +46,16 @@ class CreateUpdate extends Project
         return $scenarios;
     }
 
+    public function rules()
+    {
+        return array_merge(parent::rules(), [
+            [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolOptions()), "message" => \Yii::t('app', "You are not authorized for the selected tool.")],
+
+
+        ]);
+    }
+
+
     public static function tableName()
     {
         return Project::tableName();
