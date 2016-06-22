@@ -59,7 +59,7 @@ $this->params['subMenu']['items'] = [
             ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
-                'template' => '{read} {dashboard} {edit} {remove}',
+                'template' => '{read} {dashboard} {edit} {share} {remove}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         /** @var \prime\models\ar\Tool $model */
@@ -92,7 +92,17 @@ $this->params['subMenu']['items'] = [
                         }
                         return $result;
                     },
-
+                    'share' => function($url, \prime\models\ar\Tool $model, $key) {
+                        /** @var \prime\models\ar\Tool $model */
+                        $result = '';
+                        if(app()->user->can('share', ['model' => \prime\models\ar\Tool::class, 'modelId' => $model->primaryKey])) {
+                            $result = Html::a(
+                                Html::icon(Setting::get('icons.share')),
+                                ['tools/share', 'id' => $model->id]
+                            );
+                        }
+                        return $result;
+                    },
                     'remove' => function($url, \prime\models\ar\Tool $model, $key) {
                         /** @var \prime\models\ar\Tool $model */
                         $result = '';
