@@ -73,9 +73,8 @@ trait AuthorizationScopes
             }
             return true;
         });
-
         // Apply limit / offset.
-        return array_slice($filtered, $offset ?: 0, $limit);
+        return array_slice($filtered, $offset < 0 ?: 0, $limit);
     }
 
     /**

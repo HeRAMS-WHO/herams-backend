@@ -108,6 +108,7 @@ class Project extends \prime\models\ar\Project
 
         $dataProvider->setSort([
             'attributes' => [
+                'id',
                 'title',
                 'description',
                 'tool_id' => [
