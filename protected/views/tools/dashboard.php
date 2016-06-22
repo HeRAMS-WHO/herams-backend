@@ -5,12 +5,22 @@ use \prime\models\permissions\Permission;
 use prime\models\ar\Setting;
 
 /**
- * @var \prime\models\ar\Project $model
+ * @var \prime\models\ar\Tool $model
  * @var \yii\web\View $this
  * @var \yii\data\ArrayDataProvider $responsesDataProvider
  */
 
-$this->params['subMenu']['items'] = [];
+$this->params['subMenu']['items'] = [
+    [
+        'visible' => app()->user->can('share', ['model' => \prime\models\ar\Tool::class, 'modelId' => $model->primaryKey]),
+        'url' => ['tools/share', 'id' => $model->id],
+        'label' => Html::icon(Setting::get('icons.share')),
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Share tool'),
+        ]
+    ]
+];
 
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
@@ -27,6 +37,7 @@ if(isset($model->defaultGenerator)) {
         'visible' => $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity) && ($model->getResponses()->size() > 0)
     ];
 }
+
 
 
 ?>
