@@ -477,7 +477,7 @@ class ProjectsController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['create', 'dependent-generators', 'dependent-tokens'],
+                            'actions' => ['create', 'dependent-generators', 'dependent-tokens', 'configure'],
                             'roles' => ['createProject']
                         ]
                     ]
