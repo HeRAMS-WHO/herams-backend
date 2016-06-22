@@ -44,7 +44,7 @@ class Project extends \prime\models\ar\Project
                 return Country::findOne($project->country_iso_3)->name;
             }
         );
-        sort($result);
+        asort($result);
         return $result;
     }
 
@@ -105,7 +105,6 @@ class Project extends \prime\models\ar\Project
         ]);
 
         $case = Country::searchCaseStatement('country_iso_3');
-
         $dataProvider->setSort([
             'attributes' => [
                 'id',

@@ -153,9 +153,11 @@ class ProjectsController extends Controller
 
     public function actionListOthers(Request $request)
     {
-        $projectSearch = new \prime\models\search\Project(['queryCallback' => function(ProjectQuery $query) {
-            return $query->notReadable();
-        }]);
+        $projectSearch = new \prime\models\search\Project([
+            'queryCallback' => function(ProjectQuery $query) {
+                return $query->notReadable();
+            }
+        ]);
         $projectsDataProvider = $projectSearch->search($request->queryParams);
         return $this->render('list', [
             'projectSearch' => $projectSearch,
@@ -472,12 +474,13 @@ class ProjectsController extends Controller
                             'allow' => true,
                             'actions' => ['close', 'configure', 'list', 'list-others', 'list-closed',
                             'progress', 'read', 'download', 're-open', 'share', 'share-delete',
-                                'update', 'update-lime-survey', 'explore', 'dependent-surveys', 'dependent-tokens'],
+                                'update', 'update-lime-survey', 'explore', 'new',
+                            ],
                             'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['create', 'dependent-generators', 'dependent-tokens', 'configure'],
+                            'actions' => ['create', 'dependent-generators', 'dependent-tokens', 'create', 'dependent-surveys'],
                             'roles' => ['createProject']
                         ]
                     ]
