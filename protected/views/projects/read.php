@@ -52,7 +52,7 @@ $this->params['subMenu']['items'][] = [
 
 $this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.download', 'download-alt')),
-    'url' => ['/projects/download', 'id' => $model->id],
+    'url' => '#',
     'visible' => $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity) && $model->getResponses()->size() > 0,
     'options' => [
         'download' => true,
@@ -61,27 +61,30 @@ $this->params['subMenu']['items'][] = [
         'title' => \Yii::t('app', 'Download'),
     ],
 ];
+
+$codeUrl = json_encode(\yii\helpers\Url::to(['/projects/download', 'id' => $model->id]));
+$textUrl = json_encode(\yii\helpers\Url::to(['/projects/download', 'id' => $model->id, 'text' => true]));
 $this->registerJs(<<<SCRIPT
 var handler = function(e){
+    console.log('Clicked');
     e.preventDefault();
     e.stopPropagation();
     bootbox.dialog({
         message: "Do you prefer answer as text or as code?",
         title: "Download data in CSV format",
         onEscape: function() {
-            console.log('cb'); 
         },
         buttons: {
             text: {
                 label: "Text",
                 callback: function() {
-                    console.log('text plz');
+                    window.location.href = $textUrl;
                 }
             },
             code: {
                 label: "Code",
                 callback: function() {
-                    console.log('code plz');
+                    window.location.href = $codeUrl;
                 }
             },
         }

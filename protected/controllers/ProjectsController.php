@@ -202,11 +202,11 @@ class ProjectsController extends Controller
         ]);
     }
 
-    private function getAnswer(QuestionInterface $q, $value)
+    private function getAnswer(QuestionInterface $q, $value, $text = false)
     {
         if (empty($value)) {
             return "(not set)";
-        } elseif (null !== $answers = $q->getAnswers()) {
+        } elseif ($text && (null !== $answers = $q->getAnswers())) {
             foreach($answers as $answer) {
                 if ($answer->getCode() == $value) {
                     return $answer->getText();
@@ -219,7 +219,7 @@ class ProjectsController extends Controller
 
     }
 
-    public function actionDownload(Client $limeSurvey, Response $response, $id)
+    public function actionDownload(Client $limeSurvey, Response $response, $id, $text = false)
     {
         $project = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
         /** @var Survey $survey */
@@ -238,7 +238,7 @@ class ProjectsController extends Controller
             foreach ($record->getData() as $code => $value) {
                 if (null !== $question = $survey->getQuestionByCode($code)) {
                     $text = $question->getText();
-                    $answer = $this->getAnswer($question, $value);
+                    $answer = $this->getAnswer($question, $value, $text);
 
 
                 } elseif (preg_match('/^(.+)\[(.*)\]$/', $code,
@@ -246,7 +246,7 @@ class ProjectsController extends Controller
                 ) {
                     if (null !== $sub = $question->getQuestionByCode($matches[2])) {
                         $text = $sub->getText();
-                        $answer = $this->getAnswer($sub, $value);
+                        $answer = $this->getAnswer($sub, $value, $text);
                     } elseif ($question->getDimensions() == 2 && preg_match('/^(.+)_(.+)$/', $matches[2],
                             $subMatches)
                     ) {
@@ -254,7 +254,7 @@ class ProjectsController extends Controller
                             && null !== $sub2 = $question->getQuestionByCode($subMatches[2], 1)
                         ) {
                             $text = $sub->getText() . ' - ' . $sub2->getText();
-                            $answer = $this->getAnswer($sub2, $value);
+                            $answer = $this->getAnswer($sub2, $value, $text);
                         } else {
                             throw new \RuntimeException("Could not find subquestions for 2 dimensional question.");
 
