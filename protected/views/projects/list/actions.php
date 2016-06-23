@@ -1,15 +1,27 @@
 <?php
 use app\components\Html;
 use prime\models\ar\Setting;
+use \prime\models\permissions\Permission;
+$this->registerJs(<<<SCRIPT
+$('.request-access').on('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var project = $(this).attr('data-project-name');
+    var owner = $(this).attr('data-project-owner');
+    bootbox.alert('This project can not be accessed. For further information please contact <strong>' + owner + '</strong>.');
+});
+SCRIPT
+);
+
 return [
     'class' => \kartik\grid\ActionColumn::class,
     'width' => '100px',
-    'template' => '{read} {share} {close}',
+    'template' => '{read}{request} {share} {close}{open}',
     'buttons' => [
         'read' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if($model->userCan(\prime\models\permissions\Permission::PERMISSION_READ)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.read')),
                     ['/projects/read', 'id' => $model->id],
@@ -17,7 +29,12 @@ return [
                         'title' => \Yii::t('app', 'Enter')
                     ]
                 );
-            } else {
+            }
+            return $result;
+        },
+        'request' => function($url, \prime\models\ar\Project $model, $key) {
+            $result = '';
+            if (!$model->isClosed && !$model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.requestAccess')),
                     '#',
@@ -34,7 +51,7 @@ return [
         'update' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.update')),
                     ['/projects/update', 'id' => $model->id],
@@ -48,7 +65,7 @@ return [
         'share' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.share')),
                     ['/projects/share', 'id' => $model->id],
@@ -62,7 +79,7 @@ return [
         'close' => function($url, $model, $key) {
             $result = '';
             /** @var \prime\models\ar\Project $model */
-            if($model->userCan(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.close')),
                     ['/projects/close', 'id' => $model->id],
@@ -70,7 +87,23 @@ return [
                         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
                         'data-method' => 'delete',
                         'class' => 'text-danger',
-                        'title' => \Yii::t('app', 'Close')
+                        'title' => \Yii::t('app', 'Deactivate')
+                    ]
+                );
+            }
+            return $result;
+        },
+        'open' => function($url, \prime\models\ar\Project $model, $key) {
+            $result = '';
+            if($model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
+                $result = Html::a(
+                    Html::icon(Setting::get('icons.open')),
+                    ['/projects/re-open', 'id' => $model->id],
+                    [
+                        'data-confirm' => \Yii::t('app', 'Are you sure you want to re-open project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
+                        'data-method' => 'put',
+                        'class' => 'text-danger',
+                        'title' => \Yii::t('app', 'Re-open')
                     ]
                 );
             }

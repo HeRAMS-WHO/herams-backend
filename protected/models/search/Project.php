@@ -16,6 +16,11 @@ use yii\validators\StringValidator;
 
 class Project extends \prime\models\ar\Project
 {
+    /**
+     * @var \Closure
+     */
+    public $queryCallback;
+
     /** @var ActiveQuery */
     public $query;
 
@@ -27,30 +32,34 @@ class Project extends \prime\models\ar\Project
     }
 
 
+
     public function countriesOptions()
     {
-        return ArrayHelper::map(
-            array_filter($this->query->copy()->select('country_iso_3')->distinct()->column()),
-            function($model) {
-                return $model;
+        $result = ArrayHelper::map(
+            $this->query->copy()->all(),
+            function(\prime\models\ar\Project $project) {
+                return $project->country_iso_3;
             },
-            function($model) {
-                return Country::findOne($model)->name;
+            function(\prime\models\ar\Project $project) {
+                return Country::findOne($project->country_iso_3)->name;
             }
         );
+        asort($result);
+        return $result;
     }
 
     public function init()
     {
         parent::init();
+        $this->query = \prime\models\ar\Project::find()->notClosed()->with('owner.profile');
+
+        if (isset($this->queryCallback)) {
+            $this->query = call_user_func($this->queryCallback, $this->query);
+        }
+
+
         $this->scenario = 'search';
 
-        $this->query = \prime\models\ar\Project::find()->notClosed();
-        if(!app()->user->can('admin')) {
-            $this->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
-        } else {
-            $this->query->joinWith(['tool']);
-        }
     }
 
     public function rules()
@@ -84,20 +93,26 @@ class Project extends \prime\models\ar\Project
 
     public function search($params)
     {
+        if(!app()->user->can('admin')) {
+            $this->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
+        } else {
+            $this->query->joinWith(['tool']);
+        }
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
             'id' => 'project-data-provider'
         ]);
 
         $case = Country::searchCaseStatement('country_iso_3');
-
         $dataProvider->setSort([
             'attributes' => [
+                'id',
                 'title',
                 'description',
                 'tool_id' => [
-                    'asc' => ['tool.acronym' => SORT_ASC],
-                    'desc' => ['tool.acronym' => SORT_DESC],
+                    'asc' => ['acronym' => SORT_ASC],
+                    'desc' => ['acronym' => SORT_DESC],
                     'default' => 'asc'
                 ],
                 'country_iso_3' => [
@@ -132,7 +147,7 @@ class Project extends \prime\models\ar\Project
         return $dataProvider;
     }
 
-    public function toolsOptions()
+    public function  toolsOptions()
     {
         return ArrayHelper::map(
             $this->query->copy()->orderBy(Tool::tableName() . '.title')->all(),

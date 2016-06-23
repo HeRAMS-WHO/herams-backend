@@ -59,7 +59,7 @@ $this->params['subMenu']['items'] = [
             ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
-                'template' => '{read} {edit} {remove}',
+                'template' => '{read} {dashboard} {edit} {share} {remove}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
                         /** @var \prime\models\ar\Tool $model */
@@ -67,6 +67,18 @@ $this->params['subMenu']['items'] = [
                             Html::icon(Setting::get('icons.read')),
                             ['tools/read', 'id' => $model->id]
                         );
+                        return $result;
+                    },
+                    'dashboard' => function($url, $model, $key) {
+                        $result = '';
+
+                        /** @var \prime\models\ar\Tool $model */
+                        if(app()->user->can('admin')) {
+                            $result = Html::a(
+                                Html::icon('thumbs-up'),
+                                ['tools/dashboard', 'id' => $model->id]
+                            );
+                        }
                         return $result;
                     },
                     'edit' => function($url, $model, $key) {
@@ -80,7 +92,17 @@ $this->params['subMenu']['items'] = [
                         }
                         return $result;
                     },
-
+                    'share' => function($url, \prime\models\ar\Tool $model, $key) {
+                        /** @var \prime\models\ar\Tool $model */
+                        $result = '';
+                        if(app()->user->can('share', ['model' => \prime\models\ar\Tool::class, 'modelId' => $model->primaryKey])) {
+                            $result = Html::a(
+                                Html::icon(Setting::get('icons.share')),
+                                ['tools/share', 'id' => $model->id]
+                            );
+                        }
+                        return $result;
+                    },
                     'remove' => function($url, \prime\models\ar\Tool $model, $key) {
                         /** @var \prime\models\ar\Tool $model */
                         $result = '';

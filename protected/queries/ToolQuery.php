@@ -4,6 +4,11 @@ namespace app\queries;
 
 use prime\components\ActiveQuery;
 
+/**
+ * Class ToolQuery
+ * @package app\queries
+ * @method \prime\models\ar\Tool one();
+ */
 class ToolQuery extends ActiveQuery
 {
     /**

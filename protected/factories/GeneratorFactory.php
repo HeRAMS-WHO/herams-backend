@@ -44,8 +44,22 @@ class GeneratorFactory
         }, GeneratorFactory::classes());
     }
 
-    public static function get($name, View $view = null) {
-        \Yii::$container->set(View::class, InlineView::class);
-        return \Yii::$container->get(ArrayHelper::getValue(self::classes(), $name, $name));
+    public static function get($name, View $view = null)
+    {
+        $before = ArrayHelper::getValue(\Yii::$container->getDefinitions(), View::class);
+        if (!isset($view)) {
+            \Yii::$container->set(View::class, InlineView::class);
+        } else {
+            \Yii::$container->setSingleton(View::class, $view);
+        }
+
+        $result = \Yii::$container->get(ArrayHelper::getValue(self::classes(), $name, $name));
+
+        /**
+         * Restore previous definition.
+         */
+        \Yii::$container->set(View::class, $before);
+
+        return $result;
     }
 }

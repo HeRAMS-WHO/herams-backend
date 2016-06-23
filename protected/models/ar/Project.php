@@ -48,7 +48,9 @@ use yii\web\UrlManager;
  * @property int $tool_id
  * @property string $locality_name
  * @property datetime $created
+ * @property boolean $isClosed
  * @property Country $country
+ * @property int $owner_id
  *
  * @method static ProjectQuery find()
  */
@@ -66,7 +68,8 @@ class Project extends ActiveRecord implements ProjectInterface
             'country_iso_3' => \Yii::t('app', 'Country'),
             'tool_id' => \Yii::t('app', 'Tool'),
             'locality_name' => \Yii::t('app', 'Locality'),
-            'data_survey_eid' => \Yii::t('app', 'Data survey')
+            'data_survey_eid' => \Yii::t('app', 'Data survey'),
+            'owner_id' => \Yii::t('app', 'Owner')
         ]);
     }
 
@@ -118,6 +121,9 @@ class Project extends ActiveRecord implements ProjectInterface
         return isset($this->tool) ? array_intersect_key(GeneratorFactory::options(), array_flip($this->tool->generators->asArray())) : [];
     }
 
+    /**
+     * @return ReportGeneratorInterface
+     */
     public function getDefaultGenerator()
     {
         return GeneratorFactory::get($this->default_generator);
@@ -166,7 +172,7 @@ class Project extends ActiveRecord implements ProjectInterface
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
     }
-    
+
     public function getProgressReport()
     {
         if (isset($this->tool->progress_type)) {
@@ -188,6 +194,7 @@ class Project extends ActiveRecord implements ProjectInterface
 
     // Cache for getResponses();
     private $_responses;
+    
     /**
      * @return ResponseCollectionInterface
      */
@@ -286,26 +293,27 @@ class Project extends ActiveRecord implements ProjectInterface
 
     public function scenarios()
     {
-        return array_merge(parent::scenarios(),[
+        return array_merge(parent::scenarios(), [
             'close' => ['closed'],
             'reOpen' => ['closed']
         ]);
     }
 
-    public function toolOptions()
+    public function transactions()
     {
-        return \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->all(), 'id', 'title');
+        return array_merge(parent::transactions(), [
+            'create' => [self::OP_INSERT]
+        ]);
     }
+
 
     /**
      * @param $operation
      * @param User|null $user
      * @return bool
      */
-    public function userCan($operation, User $user = null)
+    public function userCan($operation, User $user)
     {
-        $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
-
         $result = parent::userCan($operation, $user) || ($operation === Permission::PERMISSION_READ && app()->user->can('manager'));
         if(!$result) {
             $result = $result
@@ -318,14 +326,34 @@ class Project extends ActiveRecord implements ProjectInterface
         return $result;
     }
 
+    public function beforeSave($insert)
+    {
+        $result = parent::beforeSave($insert);
+        if ($result && empty($this->getAttribute('token')) && isset($this->data_survey_eid)) {
+                // Attempt creation of a token.
+                $token = $this->getLimeSurvey()->createToken($this->data_survey_eid, [
+                    'token' => app()->security->generateRandomString(15)
+                ]);
+                $token->setFirstName($this->getLocality());
+
+                $token->setValidFrom(new Carbon($this->created));
+                $this->_token = $token;
+                $this->setAttribute('token', $token->getToken());
+                return $token->save();
+        }
+        return $result;
+    }
+
+
+
+
     /**
      * @return WritableTokenInterface
      */
     public function getToken()
     {
         if (!isset($this->_token)) {
-            // Always attempt creation.
-            $this->getLimeSurvey()->createToken($this->data_survey_eid, ['token' => $this->token]);
+
             /** @var WritableTokenInterface $token */
             $token = $this->getLimeSurvey()->getToken($this->data_survey_eid, $this->token);
 
@@ -368,5 +396,10 @@ class Project extends ActiveRecord implements ProjectInterface
                 'newtest' => 'Y'
             ]
         );
+    }
+
+    public function getIsClosed()
+    {
+        return isset($this->closed);
     }
 }

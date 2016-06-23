@@ -2,11 +2,19 @@
 
 namespace prime\controllers;
 
+use kartik\widgets\Growl;
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
+use prime\interfaces\ReportGeneratorInterface;
+use prime\models\ar\UserData;
+use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use prime\models\ar\Tool;
+use prime\objects\ResponseCollection;
+use prime\objects\Signature;
+use prime\reportGenerators\base\Generator;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use yii\filters\VerbFilter;
 use yii\web\HttpException;
 use yii\web\Request;
 use yii\data\ActiveDataProvider;
@@ -16,6 +24,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\Session;
+use yii\web\User;
 
 class ToolsController extends Controller
 {
@@ -33,7 +42,7 @@ class ToolsController extends Controller
                     'toolCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => "Tool <strong>{$model->title}</strong> is created.",
+                        'text' => \Yii::t('app', "Tool {tool} is created.", ['{tool}' => $model->title]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
@@ -44,11 +53,48 @@ class ToolsController extends Controller
                         'id' => $model->id
                     ]
                 );
+            } else {
+                $session->setFlash('toolNotCreated', [
+                    'type' => Growl::TYPE_WARNING,
+                    'text' => \Yii::t('app', 'Failed to create tool.') . print_r($model->errors, true)
+                ]);
             }
         }
 
         return $this->render('create', [
             'model' => $model
+        ]);
+    }
+
+    public function actionResponses(
+        Request $request,
+        Response $response,
+        User $user,
+        $id
+    ) {
+        $tool = Tool::loadOne($id);
+        return $this->render('dashboard/responses', [
+            'tool' => $tool
+        ]);
+    }
+
+    public function actionDashboard(
+        Request $request,
+        Response $response,
+        User $user,
+        $id
+    )
+    {
+        $tool = Tool::loadOne($id);
+        $projectSearch = new \prime\models\search\Project();
+        $projectSearch->tool_id = $id;
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
+
+        return $this->render('dashboard', [
+            'model' => $tool,
+            'projectSearch' => $projectSearch,
+            'projectsDataProvider' => $projectsDataProvider
+
         ]);
     }
 
@@ -185,16 +231,102 @@ class ToolsController extends Controller
             $this->redirect($this->defaultAction);
         }
     }
+
+    public function actionProgress(Response $response, $id)
+    {
+        return '';
+        $tool = $project = Tool::loadOne($id);
+        $report = $tool->getProgressReport();
+        if (!isset($report)) {
+            throw new \HttpException(404, "Progress report for project not found.");
+        }
+        $response->setContentType($report->getMimeType());
+        $response->content = $report->getStream();
+        return $response;
+    }
+
+
+    public function actionShare(Session $session, Request $request, $id)
+    {
+        $tool = Tool::loadOne($id, [], Permission::PERMISSION_SHARE);
+        $model = new Share($tool, [], [
+            'permissions' => [
+                Permission::PERMISSION_INSTANTIATE
+            ]
+        ]);
+        if($request->isPost) {
+            if($model->load($request->bodyParams) && $model->createRecords()) {
+                $session->setFlash(
+                    'projectShared',
+                    [
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                        'text' => \Yii::t('app',
+                            "Tool {modelName} has been shared with: {users}",
+                            [
+                                'modelName' => $tool->title,
+                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
+                            ]),
+                        'icon' => 'glyphicon glyphicon-ok'
+                    ]
+                );
+                $model = new Share($tool, []);
+            }
+        }
+
+        return $this->render('share', [
+            'model' => $model,
+            'tool' => $tool
+        ]);
+    }
+
+    public function actionShareDelete(User $user, Request $request, Session $session, $id)
+    {
+        $permission = Permission::findOne($id);
+        //User must be able to share project in order to delete a share
+        $tool = Tool::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
+        if($permission->delete()) {
+            $session->setFlash(
+                'toolShared',
+                [
+                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                    'text' => \Yii::t(
+                        'app',
+                        "Stopped sharing tool <strong>{modelName}</strong> with: <strong>{user}</strong>",
+                        [
+                            'modelName' => $tool->title,
+                            'user' => $user->identity->name
+                        ]
+                    ),
+                    'icon' => 'glyphicon glyphicon-trash'
+                ]
+            );
+        }
+        $this->redirect(['/tools/share', 'id' => $tool->id]);
+    }
+
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
+
             [
+                'verbs' => [
+                    'class' => VerbFilter::class,
+                    'actions' => [
+                        'share-delete' => ['delete']
+                    ]
+                ],
+
                 'access' => [
                     'rules' => [
                         [
                             'allow' => true,
                             'actions' => ['read'],
                             'roles' => ['@'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['dependent-generators'],
+                            'roles' => ['createProject'],
                         ],
                     ]
                 ]

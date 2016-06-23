@@ -49,7 +49,7 @@ class UserList extends ActiveRecord
         ];
     }
 
-    public function userCan($operation, User $user = null)
+    public function userCan($operation, User $user)
     {
         $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
 

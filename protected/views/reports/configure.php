@@ -1,7 +1,6 @@
 <?php
 
 use app\components\Html;
-
 /**
  * @var string $previewUrl
  * @var \yii\web\View $this
@@ -11,7 +10,11 @@ use app\components\Html;
 
 $this->params['subMenu']['items'] = [
     [
-        'label' => \Yii::t('app', 'Save'),
+        'label' => Html::icon('floppy-disk'),
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Save report configuration'),
+        ],
         'url' => '#',
         'linkOptions' => [
             'id' => 'save_preview',
@@ -22,7 +25,26 @@ $this->params['subMenu']['items'] = [
         ]
     ],
     [
-        'label' => \Yii::t('app', 'Publish'),
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Print report configuration'),
+        ],
+
+        'label' => Html::icon(\prime\models\ar\Setting::get('icons.print', 'print')),
+        'linkOptions' => [
+            'onclick' => "$('iframe')[0].contentWindow.print();"
+        ]
+    ],
+
+    [
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Proceed to publish'),
+        ],
+
+        'label' => Html::icon(\prime\models\ar\Setting::get('icons.proceed', 'arrow-right')),
+
+
         'url' => [
             'reports/publish',
             'reportGenerator' => $reportGenerator,
@@ -35,14 +57,14 @@ $this->params['subMenu']['items'] = [
                 'loader-text' => \Yii::t('app', 'Generating')
             ]
         ]
-    ]
+    ],
 ];
 
 $this->registerJsFile('@web/js/preview.js', ['depends' => \yii\web\JqueryAsset::class]);
 // Dynamically resize iframe.
 $this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
 echo Html::tag('div', '', ['id' => 'response']);
-echo Html::tag('iframe', '', ['src' => $previewUrl, 'style' => [], 'id' => 'preview', 'class' => ['resize']]);
+echo Html::tag('iframe', '', ['src' => $configureUrl, 'style' => [], 'id' => 'preview', 'class' => ['resize']]);
 ?>
 <style>
     body {

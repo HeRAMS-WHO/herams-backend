@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Html;
+use prime\models\permissions\Permission;
 use prime\models\ar\Setting;
 
 /**
@@ -61,7 +62,7 @@ $this->params['subMenu']['items'] = [];
                     'share' => function($url, $model, $key) {
                         $result = '';
                         /** @var \prime\models\ar\UserList $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
+                        if($model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.share')),
                                 ['/user-lists/share', 'id' => $model->id],
@@ -75,7 +76,7 @@ $this->params['subMenu']['items'] = [];
                     'update' => function($url, $model, $key) {
                         $result = '';
                         /** @var \prime\models\ar\UserList $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE)) {
+                        if($model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.update')),
                                 ['/user-lists/update', 'id' => $model->id]
@@ -86,7 +87,7 @@ $this->params['subMenu']['items'] = [];
                     'remove' => function($url, $model, $key) {
                         $result = '';
                         /** @var \prime\models\ar\UserList $model */
-                        if($model->userCan(\prime\models\permissions\Permission::PERMISSION_SHARE)) {
+                        if($model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.remove')),
                                 ['/user-lists/delete', 'id' => $model->id],

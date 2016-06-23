@@ -13,24 +13,8 @@ use prime\models\ar\UserData;
 use prime\objects\Report;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
-class Generator extends \prime\reportGenerators\base\Generator implements ReportGeneratorInterface
+class Generator extends \prime\reportGenerators\base\Generator
 {
-    /** @var ResponseInterface */
-    protected $response;
-
-    /**
-     * @return string the view path that may be prefixed to a relative view name.
-     */
-    public function getViewPath()
-    {
-        return __DIR__ . '/views/';
-    }
-
-    public function getQuestionValue($title)
-    {
-        return isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
-    }
-
     protected  function initResponses(ResponseCollectionInterface $responses)
     {
         $responses = $responses->sort(function(ResponseInterface $r1, ResponseInterface $r2) {

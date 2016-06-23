@@ -16,7 +16,7 @@ use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
 
 class Share extends Model {
-
+    protected $_permissions = [];
     public $userIds;
     public $userListIds;
     public $permission;
@@ -51,7 +51,7 @@ class Share extends Model {
             try {
                 foreach ($this->getUsers()->all() as $user) {
                     if (!Permission::grant($user, $this->model, $this->permission)) {
-                        throw new \Exception();
+                        throw new \Exception("Failed to grant permission");
                     }
                 }
                 $transaction->commit();
@@ -64,9 +64,14 @@ class Share extends Model {
         return false;
     }
 
+    public function setPermissions(array $options)
+    {
+        $this->_permissions = $options;
+    }
+
     public function getPermissionOptions()
     {
-        return Permission::permissionLabels();
+        return !empty($this->_permissions) ? array_intersect_key(Permission::permissionLabels(), array_flip($this->_permissions)) : Permission::permissionLabels();
     }
 
     public function getUserOptions()
@@ -146,6 +151,7 @@ class Share extends Model {
                 [
                     'label' => \Yii::t('app', 'User'),
                     'value' => function($model){
+
                         return $model->sourceObject->name;
                     }
                 ],
@@ -187,7 +193,7 @@ class Share extends Model {
             [['userIds'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id', 'allowArray' => true],
             [['userListIds'], ExistValidator::class, 'targetClass' => UserList::class, 'targetAttribute' => 'id', 'allowArray' => true],
             [['userIds', 'userListIds'], DefaultValueValidator::class, 'value' => []],
-            [['permission'], RangeValidator::class, 'range' => array_keys(Permission::permissionLabels())]
+            [['permission'], RangeValidator::class, 'range' => array_keys($this->getPermissionOptions())]
         ];
     }
 }

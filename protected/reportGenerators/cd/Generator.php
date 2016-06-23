@@ -2,6 +2,7 @@
 
 namespace prime\reportGenerators\cd;
 
+use prime\interfaces\ConfigurableGeneratorInterface;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ReportInterface;
@@ -23,27 +24,7 @@ use yii\web\View;
 
 class Generator extends \prime\reportGenerators\base\Generator
 {
-    /** @var ResponseInterface */
-    protected $response;
     public $dateFormat = 'd F - Y';
-
-    /**
-     * Return answer to the question title in the response
-     * @param $title
-     * @return string|null
-     */
-    public function getQuestionValue($title)
-    {
-        return isset($this->response) && isset($this->response->getData()[$title]) ? $this->response->getData()[$title] : null;
-    }
-
-    /**
-     * @return string the view path that may be prefixed to a relative view name.
-     */
-    public function getViewPath()
-    {
-        return __DIR__ . '/views/';
-    }
 
     protected  function initResponses(ResponseCollectionInterface $responses)
     {
@@ -86,24 +67,6 @@ class Generator extends \prime\reportGenerators\base\Generator
         ];
         //No isset check, if the the value is not set, either the wrong map, or the map is incomplete
         return ArrayHelper::getValue($map, $value, '');
-    }
-
-    /**
-     * @param ResponseCollectionInterface $responses
-     * @param SignatureInterface $signature
-     * @param ProjectInterface $project
-     * @param UserDataInterface|null $userData
-     * @return string
-     */
-    public function renderPreview(
-        ResponseCollectionInterface $responses,
-        SurveyCollectionInterface $surveys,
-        ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
-    ) {
-        $this->initResponses($responses);
-        return $this->view->render('preview', ['userData' => $userData, 'project' => $project, 'signature' => $signature], $this);
     }
 
     /**

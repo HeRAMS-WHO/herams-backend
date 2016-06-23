@@ -13,14 +13,14 @@ foreach($tool->generators as $generator) {
     $items[] = [
         'label' => \Yii::t('app', '{generator}', ['generator' => ucfirst($generator)]),
         'url' => [
-            'reports/preview',
+            $generator instanceof \prime\interfaces\ConfigurableGeneratorInterface ? 'reports/preview' : 'reports/publish',
             'projectId' => $model->id,
             'reportGenerator' => $generator
         ]
     ];
 }
 //
-if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE) && !empty($items)) {
+if($model->userCan(\prime\models\permissions\Permission::PERMISSION_WRITE, app()->user->identity) && !empty($items)) {
     $caption = \yii\bootstrap\ButtonDropdown::widget([
         'label' => \Yii::t('app', 'Preview report using'),
         'containerOptions' => [

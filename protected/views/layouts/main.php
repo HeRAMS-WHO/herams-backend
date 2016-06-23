@@ -16,7 +16,7 @@
             'href' => \yii\helpers\Url::to('@web/img/prime_logo.png'),
             'type' => 'img/x-icon'
         ]); ?>
-        <title><?=Html::encode($this->title); ?></title>
+        <title><?=Html::encode($this->title ?: app()->name); ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php $this->head(); ?>
     </head>

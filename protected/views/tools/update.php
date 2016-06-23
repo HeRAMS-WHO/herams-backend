@@ -87,6 +87,14 @@ $this->params['subMenu'] = [
                 'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => \prime\factories\GeneratorFactory::options(),
             ],
+            'default_generator' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'hint' => \Yii::t("app", "This will be used in the tool dashboard."),
+                'items' => $model->generatorOptions(),
+                'options' => [
+                    'prompt' => \Yii::t('app', "None")
+                ]
+            ]
         ]
     ]);
     $form->end();

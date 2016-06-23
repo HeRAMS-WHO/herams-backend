@@ -13,9 +13,6 @@ return [
             'enableQueryCache' => true,
             'queryCache' => 'cache',
             'tablePrefix' => 'prime2_',
-            'on afterOpen' => function($event) {
-                $event->sender->createCommand("SET SESSION sql_mode = strict_trans_tables;")->execute();
-            }
         ]
     ]
 ];

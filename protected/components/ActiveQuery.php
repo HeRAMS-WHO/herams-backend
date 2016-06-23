@@ -13,13 +13,4 @@ class ActiveQuery extends \yii\db\ActiveQuery
     public function copy() {
         return clone $this;
     }
-
-    public static function userCanScope(ActiveQuery $query, $operation, $userId = null)
-    {
-        return false;
-    }
-
-
-
-
 }

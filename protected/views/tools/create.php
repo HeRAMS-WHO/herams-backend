@@ -81,7 +81,7 @@ $this->params['subMenu'] = [
                     'prompt' => ''
                 ]
             ],
-            'generators' => [
+            'generatorsArray' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => \prime\factories\GeneratorFactory::options()
             ],

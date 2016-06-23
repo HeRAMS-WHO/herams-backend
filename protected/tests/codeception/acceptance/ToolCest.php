@@ -28,7 +28,7 @@ class ToolCest
         $I->attachFile('Image', 'tools/image.jpg');
         $I->selectOption('Intake survey', 'Cluster Coordination Performance Monitoring - Activation Request');
         $I->selectOption('Base data survey', 'Cluster Coordination Performance Monitoring - Partners\' Assessment');
-        $I->checkOption('input[type="checkbox"][name="Tool[generators][]"]');
+        $I->checkOption('input[type="checkbox"][name="Tool[generatorsArray][]"]');
         $I->click('Save', 'button');
         $I->seeInSource('is created.');
         $I->see($toolTitle);

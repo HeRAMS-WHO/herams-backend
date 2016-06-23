@@ -5,6 +5,7 @@ namespace prime\models\forms\projects;
 use prime\models\Country;
 use prime\models\ar\Project;
 use prime\models\ar\ProjectCountry;
+use prime\models\permissions\Permission;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
@@ -15,21 +16,9 @@ use yii\web\JsExpression;
 
 class CreateUpdate extends Project
 {
-    public function rules()
-    {
-        return ArrayHelper::merge(parent::rules(),
-            [
-                ['token', SafeValidator::class],
-                ['token', DefaultValueValidator::class, 'value' => app()->security->generateRandomString(35)]
-
-
-            ]
-        );
-    }
-
     public function scenarios()
     {
-        return [
+        $scenarios =  [
             'create' => [
                 'title',
                 'description',
@@ -43,12 +32,38 @@ class CreateUpdate extends Project
                 'locality_name',
                 'token'
             ],
-            'update' => ['title', 'description', 'default_generator', 'country_iso_3', 'latitude', 'longitude', 'locality_name'],
+              'update' => [
+                'title',
+                'description',
+                'default_generator',
+                'country_iso_3',
+                'latitude',
+                'longitude',
+                'locality_name'
+            ],
         ];
+        $scenarios['admin-update'] = array_merge(['owner_id'], $scenarios['update']);
+        return $scenarios;
     }
+
+    public function rules()
+    {
+        return array_merge(parent::rules(), [
+            [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolOptions()), "message" => \Yii::t('app', "You are not authorized for the selected tool.")],
+
+
+        ]);
+    }
+
 
     public static function tableName()
     {
         return Project::tableName();
     }
+
+    public function toolOptions()
+    {
+        return \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->userCan(Permission::PERMISSION_INSTANTIATE)->all(), 'id', 'title');
+    }
+
 }

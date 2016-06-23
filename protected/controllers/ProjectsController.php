@@ -3,8 +3,13 @@
 namespace prime\controllers;
 
 use app\components\Html;
+use app\queries\ProjectQuery;
 use app\queries\ToolQuery;
 use Befound\Components\DateTime;
+use kartik\depdrop\DepDropAction;
+use prime\api\Api;
+use prime\components\AccessRule;
+use prime\components\ActiveQuery;
 use prime\components\Controller;
 use prime\models\ar\Setting;
 use prime\models\Country;
@@ -14,9 +19,14 @@ use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
+use SamIT\LimeSurvey\Interfaces\QuestionInterface;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
+use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
@@ -76,10 +86,16 @@ class ProjectsController extends Controller
 
     }
 
+    /**
+     * Action for creating a new project.
+     * @param CreateUpdate $model
+     * @param Request $request
+     * @param Session $session
+     * @return \Befound\Components\type|Response
+     */
     public function actionCreate(CreateUpdate $model, Request $request, Session $session)
     {
         $model->scenario = 'create';
-
         if ($request->isPost) {
             if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
@@ -115,20 +131,37 @@ class ProjectsController extends Controller
 
         return $this->render('new', ['dataProvider' => $dataProvider]);
     }
+
     /**
      * Shows a list of project the user has access to.
      * @return string
      */
-    public function actionList(User $user, Request $request)
+    public function actionList(Request $request)
     {
-        $projectSearch = new \prime\models\search\Project();
+        $projectSearch = new \prime\models\search\Project([
+            'queryCallback' => function(ProjectQuery $query) {
+                return $query->readable();
+            }
+        ]);
         $projectsDataProvider = $projectSearch->search($request->queryParams);
-        $closedCount = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE)->count();
 
         return $this->render('list', [
             'projectSearch' => $projectSearch,
-            'projectsDataProvider' => $projectsDataProvider,
-            'closedCount' =>$closedCount
+            'projectsDataProvider' => $projectsDataProvider
+        ]);
+    }
+
+    public function actionListOthers(Request $request)
+    {
+        $projectSearch = new \prime\models\search\Project([
+            'queryCallback' => function(ProjectQuery $query) {
+                return $query->notReadable();
+            }
+        ]);
+        $projectsDataProvider = $projectSearch->search($request->queryParams);
+        return $this->render('list', [
+            'projectSearch' => $projectSearch,
+            'projectsDataProvider' => $projectsDataProvider
         ]);
     }
 
@@ -169,6 +202,112 @@ class ProjectsController extends Controller
         ]);
     }
 
+    private function getAnswer(QuestionInterface $q, $value, $text = false)
+    {
+        if (empty($value)) {
+            return "(not set)";
+        } elseif ($text && (null !== $answers = $q->getAnswers())) {
+            foreach($answers as $answer) {
+                if ($answer->getCode() == $value) {
+                    return $answer->getText();
+                }
+            }
+            return "Invalid answer : `$value`.";
+        } else {
+            return $value;
+        }
+
+    }
+
+    public function actionDownload(Client $limeSurvey, Response $response, $id, $text = false)
+    {
+        $project = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        /** @var Survey $survey */
+        $survey = $project->getSurvey()->get($project->data_survey_eid);
+        /** @var QuestionInterface[] $questions */
+        $questions = [];
+        foreach($survey->getGroups() as $group) {
+            foreach($group->getQuestions() as $question) {
+                $questions[$question->getTitle()] = $question;
+            }
+        }
+        $rows = [];
+        $codes = [];
+        foreach($project->getResponses() as $record) {
+            $row = [];
+            foreach ($record->getData() as $code => $value) {
+                if (null !== $question = $survey->getQuestionByCode($code)) {
+                    $text = $question->getText();
+                    $answer = $this->getAnswer($question, $value, $text);
+
+
+                } elseif (preg_match('/^(.+)\[(.*)\]$/', $code,
+                        $matches) && null !== $question = $survey->getQuestionByCode($matches[1])
+                ) {
+                    if (null !== $sub = $question->getQuestionByCode($matches[2])) {
+                        $text = $sub->getText();
+                        $answer = $this->getAnswer($sub, $value, $text);
+                    } elseif ($question->getDimensions() == 2 && preg_match('/^(.+)_(.+)$/', $matches[2],
+                            $subMatches)
+                    ) {
+                        if (null !== ($sub = $question->getQuestionByCode($subMatches[1], 0))
+                            && null !== $sub2 = $question->getQuestionByCode($subMatches[2], 1)
+                        ) {
+                            $text = $sub->getText() . ' - ' . $sub2->getText();
+                            $answer = $this->getAnswer($sub2, $value, $text);
+                        } else {
+                            throw new \RuntimeException("Could not find subquestions for 2 dimensional question.");
+
+                        }
+                    } else {
+                        $text = "Not found";
+                        $answer = $value;
+                    }
+                } else {
+                    $text = $code;
+                    $answer = $value;
+                }
+//                echo str_pad($code, 20) . " | " . str_pad(is_null($value) ? 'NULL' : $value, 20) . " | ";
+//                echo str_pad(trim(strip_tags($answer)), 40) . ' | ';
+//                echo trim(strip_tags($text));
+//                echo "\n";
+                $codes[$text] = $code;
+                $row[$text] = $answer;
+            }
+            $rows[] = $row;
+        }
+
+        $stream = fopen('php://temp', 'w+');
+        // First get all columns.
+        $columns = [];
+        foreach($rows as $row) {
+            foreach($row as $key => $dummy) {
+                $columns[$key] = true;
+            }
+        }
+
+        if (!empty($columns)) {
+            fputcsv($stream, array_keys($columns));
+            $header = [];
+            foreach(array_keys($columns) as $columnName) {
+                $header[] = $codes[$columnName];
+            }
+            fputcsv($stream, $header);
+
+            /** @var ResponseInterface $record */
+            foreach ($rows as $data) {
+                $row = [];
+                foreach(array_keys($columns) as $column) {
+                    $row[$column] = isset($data[$column]) ? $data[$column] : null;
+                }
+                fputcsv($stream, $row);
+            }
+        }
+        return $response->sendStreamAsFile($stream, "{$project->title}.csv", [
+            'mimeType' => 'text/csv'
+        ]);
+    }
+
     public function actionReOpen(Session $session, Request $request, $id)
     {
         if (!$request->isPut) {
@@ -200,7 +339,15 @@ class ProjectsController extends Controller
     public function actionShare(Session $session, Request $request, $id)
     {
         $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
-        $model = new Share($project, [$project->owner_id]);
+        $model = new Share($project, [$project->owner_id], [
+            'permissions' => [
+                Permission::PERMISSION_READ,
+                Permission::PERMISSION_WRITE,
+                Permission::PERMISSION_SHARE,
+                Permission::PERMISSION_ADMIN,
+
+            ]
+        ]);
 
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->createRecords()) {
@@ -227,12 +374,11 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionShareDelete(Request $request, Session $session, $id)
+    public function actionShareDelete(User $user, Request $request, Session $session, $id)
     {
         $permission = Permission::findOne($id);
         //User must be able to share project in order to delete a share
         $project = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
-        $user = $permission->sourceObject;
         if($permission->delete()) {
             $session->setFlash(
                 'projectShared',
@@ -243,7 +389,7 @@ class ProjectsController extends Controller
                         "Stopped sharing project <strong>{modelName}</strong> with: <strong>{user}</strong>",
                         [
                             'modelName' => $project->title,
-                            'user' => $user->name
+                            'user' => $user->identity->name
                         ]
                     ),
                     'icon' => 'glyphicon glyphicon-trash'
@@ -253,12 +399,20 @@ class ProjectsController extends Controller
         $this->redirect(['/projects/share', 'id' => $project->id]);
     }
 
-    public function actionUpdate(Request $request, Session $session, $id)
+    public function actionUpdate(
+        User $user,
+        Request $request,
+        Session $session,
+        $id
+    )
     {
-        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_WRITE);
-        $model->scenario = 'update';
-
-        if($request->isPost) {
+        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        if ($user->can('admin')) {
+            $model->scenario = 'admin-update';
+        } else {
+            $model->scenario = 'update';
+        }
+        if($request->isPut) {
             if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
                     'projectUpdated',
@@ -318,48 +472,47 @@ class ProjectsController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
+                            'actions' => ['close', 'configure', 'list', 'list-others', 'list-closed',
+                            'progress', 'read', 'download', 're-open', 'share', 'share-delete',
+                                'update', 'update-lime-survey', 'explore', 'new',
+                            ],
                             'roles' => ['@'],
                         ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create', 'dependent-generators', 'dependent-tokens', 'create', 'dependent-surveys'],
+                            'roles' => ['createProject']
+                        ]
                     ]
                 ]
             ]
         );
     }
 
-
-    /**
-     * Get a list of generators for use in dependent dropdowns.
-     * @param Response $response
-     * @param Request $request
-     * @param array $depdrop_parents
-     * @return array
-     */
-    public function actionDependentSurveys(
-        Response $response,
-        Request $request,
-        Project $project,
-        array $depdrop_parents
-    )
+    public function actions()
     {
-        $response->format = Response::FORMAT_JSON;
-        $project->tool_id = $depdrop_parents[0];
-        $result = [];
-        if ($project->validate(['tool_id'])) {
-            foreach ($project->dataSurveyOptions() as $key => $value) {
-                $result[] = [
-                    'id' => $key,
-                    'name' => $value
-                ];
+        return ArrayHelper::merge(parent::actions(), [
+            'dependent-surveys' => [
+                'class' => DepDropAction::class,
+                'outputCallback' => function($id, $params) {
+                    $project = new Project();
+                    $project->tool_id = $id;
+                    $result = [];
+                    if ($project->validate(['tool_id'])) {
+                        foreach ($project->dataSurveyOptions() as $key => $value) {
+                            $result[] = [
+                                'id' => $key,
+                                'name' => $value
+                            ];
 
-            }
-        }
+                        }
+                    }
 
-        return [
-            'output' => $result,
-            'selected' => ''
-        ];
+                    return $result;
+                }
+            ]
+        ]);
     }
-
 
     /**
      * Get a list of tokens for use in dependent dropdowns.
@@ -390,25 +543,22 @@ class ProjectsController extends Controller
             // Get all tokens for the selected survey.
             $usedTokens = array_flip(Project::find()->select('token')->column());
             $tokens = $limeSurvey->getTokens($surveyId);
-
-            // Filter these tokens by tokens that are in use.
-
             /** @var TokenInterface $token */
             foreach ($tokens as $token) {
-                $row = [
-                    'id' => $token->getToken(),
-                    'name' => "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
-                            ', ',
-                            array_filter($token->getCustomAttributes())
-                        )
-                ];
-
-                if(isset($usedTokens[$token->getToken()])) {
-                    $row['options'] = [
-                        'disabled' => true
+                if (!empty($token->getToken())) {
+                    $row = [
+                        'id' => $token->getToken(),
+                        'name' => "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
+                                ', ',
+                                array_filter($token->getCustomAttributes())
+                            ),
+                        'options' => [
+                            'disabled' => isset($usedTokens[$token->getToken()])
+                        ]
                     ];
+
+                    $result[] = $row;
                 }
-                $result[] = $row;
             }
         }
         return [

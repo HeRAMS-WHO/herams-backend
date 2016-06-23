@@ -33,7 +33,7 @@ echo Nav::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.globalMonitor'), ['title' => 'Global monitor']),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.globalMonitor', 'asterisk'), ['title' => 'Global monitor']),
             'url' => ['/marketplace'],
             'visible' => !Yii::$app->user->isGuest
 
@@ -45,34 +45,34 @@ echo Nav::widget([
 
         ],
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.projects'), ['id' => 'projects', 'title' => 'Projects']),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.projects', 'asterisk'), ['id' => 'projects', 'title' => 'Projects']),
             'url' => ['/projects'],
             'visible' => !Yii::$app->user->isGuest
         ],
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.reports'), ['title' => 'Reports']),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.reports', 'asterisk'), ['title' => 'Reports']),
             'url' => ['/reports'],
             'visible' => !Yii::$app->user->isGuest
         ],
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.userLists'), ['title' => \Yii::t('app', 'User lists')]),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.userLists', 'asterisk'), ['title' => \Yii::t('app', 'User lists')]),
             'url' => ['/user-lists'],
             'visible' => !Yii::$app->user->isGuest
         ],
         [
 
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.search'), ['title' => \Yii::t('app', 'Search')]),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.search', 'asterisk'), ['title' => \Yii::t('app', 'Search')]),
             'url' => ['/search'],
             'visible' => false && !Yii::$app->user->isGuest // @todo Implement this.
         ],
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.user'), ['title' => 'User']),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.user', 'asterisk'), ['title' => 'User']),
             'url' => ['/user/settings/profile'],
             'visible' => !Yii::$app->user->isGuest
 
         ],
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.configuration'), ['title' => Yii::t('app', 'Configuration')]),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.configuration', 'asterisk'), ['title' => Yii::t('app', 'Configuration')]),
             'items' => [
                 ['label' => 'Tools', 'url' => ['/tools']],
                 ['label' => 'Users & Permissions', 'url' => ['/rbac'], 'visible' => app()->user->can('admin')],
@@ -83,12 +83,12 @@ echo Nav::widget([
 
         ],
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.logIn'), ['title' => 'Login or sign up']),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.logIn', 'asterisk'), ['title' => 'Login or sign up']),
             'url' => ['/user/security/login'],
             'visible' => Yii::$app->user->isGuest
         ],
         [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.logOut'), ['title' => 'Log out']),
+            'label' => Html::icon(\prime\models\ar\Setting::get('icons.logOut', 'asterisk'), ['title' => 'Log out']),
             'url' => ['/user/security/logout'],
             'linkOptions' => [
                 'data-method' => 'post'

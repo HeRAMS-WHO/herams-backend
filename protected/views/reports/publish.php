@@ -5,31 +5,54 @@ use app\components\Html;
 /**
  * @var string $renderUrl
  * @var \yii\web\View $this
+ * @var \prime\interfaces\ReportGeneratorInterface $generator
  * @var string $reportGenerator
  * @var int $projectId
  */
 
 $this->params['subMenu']['items'] = [
     [
-        'label' => \Yii::t('app', 'Preview'),
+        'label' => Html::icon(\prime\models\ar\Setting::get('icons.configure', 'edit')),
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Configure report'),
+        ],
         'url' => [
-            'reports/preview',
-            'reportGenerator' => $reportGenerator,
-            'projectId' => $projectId
-        ]
-    ],
-    [
-        'label' => \Yii::t('app', 'Publish'),
-        'url' => [
-            'reports/publish',
+            'reports/configure',
             'reportGenerator' => $reportGenerator,
             'projectId' => $projectId
         ],
+        'visible' => $generator instanceof \prime\interfaces\ConfigurableGeneratorInterface
+    ],
+    [
+        'options' => [
+            'class' => 'icon',
+            'title' => \Yii::t('app', 'Print report'),
+        ],
+
+        'label' => Html::icon(\prime\models\ar\Setting::get('icons.print', 'print')),
         'linkOptions' => [
-            'data-method' => 'post',
-            'data-confirm' => \Yii::t('app', 'Are you sure you want to publish this report and save it to the marketplace?')
+            'onclick' => "$('iframe')[0].contentWindow.print();"
         ]
+    ],
+    [
+    'label' => Html::icon(\prime\models\ar\Setting::get('icons.publish', 'cloud-upload')),
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Publish report'),
+    ],
+    'url' => [
+        'reports/publish',
+        'reportGenerator' => $reportGenerator,
+        'projectId' => $projectId
+    ],
+    'linkOptions' => [
+        'data-method' => 'post',
+        'data-confirm' => \Yii::t('app', 'Are you sure you want to publish this report and save it to the marketplace?')
     ]
+],
+
+
 ];
 // Dynamically resize iframe.
 $this->registerAssetBundle(\prime\assets\ResizeAsset::class);

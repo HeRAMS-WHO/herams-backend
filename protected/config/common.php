@@ -48,14 +48,22 @@ return [
             ]
         ],
         'authManager' => [
-            'class' => \dektrium\rbac\components\DbManager::class
+            'class' => \prime\components\AuthManager::class,
+            'cache' => 'cache',
+            'defaultRoles' => ['user']
         ],
         'cache' => [
-            'class' => \yii\caching\FileCache::class
+            'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
         ],
         'limeSurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(\prime\models\ar\Setting::get('limeSurvey.host'));
-            return new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));
+            $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));
+//            $result->setCache(function($key, $value, $duration) {
+//                return app()->get('cache')->set($key, $value, $duration);
+//            }, function ($key) {
+//                return app()->get('cache')->get($key);
+//            });
+            return $result;
         },
         'log' => [
             'targets' => [

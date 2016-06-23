@@ -48,12 +48,10 @@ $this->params['subMenu'] = [
                 ]
             ],
             'owner_id' => [
-                'label' => \Yii::t('app', 'Owner'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->ownerOptions()
             ],
             'tool_id' => [
-                'label' => \Yii::t('app', 'Tool'),
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->toolOptions()
             ],
@@ -64,7 +62,7 @@ $this->params['subMenu'] = [
                     'pluginOptions' => [
                         'url' => ['/projects/dependent-surveys'],
                         'depends' => ['createupdate-tool_id'],
-                        'initialize' => true,
+//                        'initialize' => true,
                     ],
                 ],
                 'enableClientValidation' => false
