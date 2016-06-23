@@ -14,6 +14,7 @@ use prime\objects\ResponseCollection;
 use prime\objects\Signature;
 use prime\reportGenerators\base\Generator;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use yii\db\QueryInterface;
 use yii\filters\VerbFilter;
 use yii\web\HttpException;
 use yii\web\Request;
@@ -86,8 +87,11 @@ class ToolsController extends Controller
     )
     {
         $tool = Tool::loadOne($id);
-        $projectSearch = new \prime\models\search\Project();
-        $projectSearch->tool_id = $id;
+        $projectSearch = new \prime\models\search\Project([
+            'queryCallback' => function(QueryInterface $query) use ($id) {
+                return $query->andWhere(['tool_id' => $id]);
+            }
+        ]);
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
         return $this->render('dashboard', [
