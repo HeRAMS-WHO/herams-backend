@@ -185,7 +185,7 @@ class Permission extends ActiveRecord
 
         return self::getDb()->cache(function($db) use ($query) {
             return $query->exists();
-        });
+        }, 120);
     }
 
     public static function anyAllowedById($sourceModel, $sourceId, $targetModel, $permission)
@@ -196,7 +196,7 @@ class Permission extends ActiveRecord
 
         return self::getDb()->cache(function($db) use ($query) {
             return $query->exists();
-        });
+        }, 120);
     }
 
     public static function permissionLabels()
