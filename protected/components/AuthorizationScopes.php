@@ -3,7 +3,6 @@
 namespace prime\components;
 
 
-use prime\models\ar\User;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
@@ -62,7 +61,7 @@ trait AuthorizationScopes
         // Handle limit / offset.
         $limit = $this->limit;
         $this->limit = null;
-        $offset = $this->offset;
+        $offset = $this->offset ?: 0;
         $this->offset = null;
 
         $filtered = array_filter(parent::all($db), function($element) {
@@ -74,7 +73,7 @@ trait AuthorizationScopes
             return true;
         });
         // Apply limit / offset.
-        return array_slice($filtered, $offset < 0 ?: 0, $limit);
+        return array_slice($filtered, $offset < 0 ? 0 : $offset, $limit > 0 ? $limit : null);
     }
 
     /**
