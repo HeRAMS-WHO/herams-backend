@@ -41,6 +41,20 @@ class Permission extends ActiveRecord
             'source_id' => $sourceId
         ]) as $permission) {
             self::setCache($permission->source, $permission->source_id, $permission->target, $permission->target_id, $permission->permission, true);
+            // Also add "lower" permissions.
+            $levels = self::permissionLevels();
+            if (isset($levels[$permission->permission])) {
+                foreach($levels as $name => $level) {
+                    if ($level < $levels[$permission->permission]) {
+                        self::setCache($permission->source, $permission->source_id, $permission->target,
+                            $permission->target_id, $name, true);
+                    }
+                }
+
+            }
+
+
+
         }
         // Indicator that tells us this source has been preloaded.
         self::$cache[$permission->source . $permission->source_id] = true;
