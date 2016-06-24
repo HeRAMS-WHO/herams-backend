@@ -326,6 +326,17 @@ class Project extends ActiveRecord implements ProjectInterface
         return $result;
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        // Grant read / write permissions on the project to the creator.
+        if ($insert && !app()->user->can('admin'))
+        {
+            Permission::grant(app()->user->identity, $this, Permission::PERMISSION_WRITE);
+        }
+    }
+
+
     public function beforeSave($insert)
     {
         $result = parent::beforeSave($insert);
