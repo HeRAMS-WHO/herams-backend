@@ -62,7 +62,6 @@ class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord implements SetterI
 
     public function userCan($operation, User $user)
     {
-        $user = (isset($user)) ? (($user instanceof User) ? $user : User::findOne($user)) : app()->user->identity;
         return $user->isAdmin;
     }
 
