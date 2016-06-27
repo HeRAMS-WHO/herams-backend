@@ -2,6 +2,7 @@
 
 namespace prime\models\permissions;
 
+use prime\interfaces\AuthorizableInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\Project;
 use prime\models\ar\User;
@@ -98,9 +99,9 @@ class Permission extends ActiveRecord
         }
 
         $p = new Permission([
-            'source' => get_class($source),
+            'source' => $source instanceof AuthorizableInterface ? $source->getAuthName() :get_class($source),
             'source_id' => $source->id,
-            'target' => get_class($target),
+            'target' => $target instanceof AuthorizableInterface ? $target->getAuthName() : get_class($target),
             'target_id' => $target->id
         ]);
         $p = $p->loadFromAttributeData();
