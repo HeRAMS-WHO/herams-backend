@@ -57,7 +57,7 @@ class Permission extends ActiveRecord
 
         }
         // Indicator that tells us this source has been preloaded.
-        self::$cache[$permission->source . $permission->source_id] = true;
+        self::$cache[$sourceModel . $sourceId] = true;
     }
     public function attributeLabels()
     {
