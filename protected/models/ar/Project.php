@@ -333,7 +333,7 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         // Grant read / write permissions on the project to the creator.
         if ($insert && !app()->user->can('admin'))
         {
-            if (!Permission::grant(app()->user->identity, $this, Permission::PERMISSION_WRITE)) {
+            if (!Permission::grant(app()->user->identity, $this, Permission::PERMISSION_ADMIN)) {
                 throw new \Exception("Failed to grant permission.");
             }
         }
