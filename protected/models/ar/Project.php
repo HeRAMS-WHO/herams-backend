@@ -6,6 +6,7 @@ use app\queries\ProjectQuery;
 use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
 use Befound\Components\DateTime;
 use Carbon\Carbon;
+use prime\interfaces\AuthorizableInterface;
 use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ProjectInterface;
@@ -54,7 +55,7 @@ use yii\web\UrlManager;
  *
  * @method static ProjectQuery find()
  */
-class Project extends ActiveRecord implements ProjectInterface
+class Project extends ActiveRecord implements ProjectInterface, AuthorizableInterface
 {
     use LoadOneAuthTrait;
     /**
@@ -332,7 +333,9 @@ class Project extends ActiveRecord implements ProjectInterface
         // Grant read / write permissions on the project to the creator.
         if ($insert && !app()->user->can('admin'))
         {
-            Permission::grant(app()->user->identity, $this, Permission::PERMISSION_WRITE);
+            if (!Permission::grant(app()->user->identity, $this, Permission::PERMISSION_ADMIN)) {
+                throw new \Exception("Failed to grant permission.");
+            }
         }
     }
 
@@ -352,6 +355,8 @@ class Project extends ActiveRecord implements ProjectInterface
                 $this->setAttribute('token', $token->getToken());
                 return $token->save();
         }
+
+
         return $result;
     }
 
@@ -412,5 +417,13 @@ class Project extends ActiveRecord implements ProjectInterface
     public function getIsClosed()
     {
         return isset($this->closed);
+    }
+
+    /**
+     * @return string The name to use when saving / reading permissions.
+     */
+    public function getAuthName()
+    {
+        return __CLASS__;
     }
 }
