@@ -144,6 +144,7 @@ class EventGrades extends MapLayer
             '02_9' => \Yii::t('app', 'Public health event'),
             '02_10' => \Yii::t('app', 'Storm'),
             '02_11' => \Yii::t('app', 'Tsunami'),
+            '-oth-' => \Yii::t('app', 'Other')
         ];
         return $map[$value];
     }
