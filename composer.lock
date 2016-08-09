@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f47fc3bd9164f3a9af5e6edbdacebbc9",
-    "content-hash": "22b06bd835e5a4ae20af9e7fa6545d78",
+    "hash": "3e7c7b61a826252ead00e14d994bc11a",
+    "content-hash": "75244694d7a2c96cfbf9bdee9f58b1ea",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -562,16 +562,16 @@
         },
         {
             "name": "bower-asset/yii2-pjax",
-            "version": "dev-master",
+            "version": "v2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "593b9d694b80e6832ca1fcbcd34627372b689329"
+                "reference": "60728da6ade5879e807a49ce59ef9a72039b8978"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/593b9d694b80e6832ca1fcbcd34627372b689329",
-                "reference": "593b9d694b80e6832ca1fcbcd34627372b689329",
+                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/60728da6ade5879e807a49ce59ef9a72039b8978",
+                "reference": "60728da6ade5879e807a49ce59ef9a72039b8978",
                 "shasum": ""
             },
             "require": {
@@ -588,15 +588,11 @@
                     "vendor/",
                     "script/",
                     "test/"
-                ],
-                "branch-alias": {
-                    "dev-master": "2.0.3-dev"
-                }
+                ]
             },
             "license": [
                 "MIT"
-            ],
-            "time": "2015-12-02 10:20:14"
+            ]
         },
         {
             "name": "cebe/markdown",
@@ -710,16 +706,16 @@
         },
         {
             "name": "dektrium/yii2-user",
-            "version": "dev-master",
+            "version": "0.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dektrium/yii2-user.git",
-                "reference": "6cdda3edb7b941649bf38827cc27668951496c6c"
+                "reference": "772e3961bf2c1f6cd891985d3d0da7c89058dd2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/6cdda3edb7b941649bf38827cc27668951496c6c",
-                "reference": "6cdda3edb7b941649bf38827cc27668951496c6c",
+                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/772e3961bf2c1f6cd891985d3d0da7c89058dd2b",
+                "reference": "772e3961bf2c1f6cd891985d3d0da7c89058dd2b",
                 "shasum": ""
             },
             "require": {
@@ -765,7 +761,7 @@
                 "yii2",
                 "yii2-user"
             ],
-            "time": "2016-08-09 09:20:25"
+            "time": "2016-08-09 09:18:57"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1218,12 +1214,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "756555d4d28e59d331e9f89dc2ccc7fc02fd95d2"
+                "reference": "6373e72c8747d64e9df53b4d03a76c7069f37431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/756555d4d28e59d331e9f89dc2ccc7fc02fd95d2",
-                "reference": "756555d4d28e59d331e9f89dc2ccc7fc02fd95d2",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/6373e72c8747d64e9df53b4d03a76c7069f37431",
+                "reference": "6373e72c8747d64e9df53b4d03a76c7069f37431",
                 "shasum": ""
             },
             "require": {
@@ -1260,7 +1256,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-08-04 11:44:57"
+            "time": "2016-08-09 13:17:33"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -2597,7 +2593,7 @@
             "version": "1.0.1",
             "dist": {
                 "type": "tar",
-                "url": "http://registry.npmjs.org/mresize/-/mresize-1.0.1.tgz",
+                "url": "https://registry.npmjs.org/mresize/-/mresize-1.0.1.tgz",
                 "reference": null,
                 "shasum": "9a09ed337b1bfdc9b8d833160d94d66b656d7f47"
             },
@@ -3126,12 +3122,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "6155ad5aaf9f854e7fbc077d4792a0f43b53f838"
+                "reference": "452770fcc23109dce55187e44ff4ce0f03776c74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/6155ad5aaf9f854e7fbc077d4792a0f43b53f838",
-                "reference": "6155ad5aaf9f854e7fbc077d4792a0f43b53f838",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/452770fcc23109dce55187e44ff4ce0f03776c74",
+                "reference": "452770fcc23109dce55187e44ff4ce0f03776c74",
                 "shasum": ""
             },
             "require": {
@@ -3212,7 +3208,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-08-09 08:22:10"
+            "time": "2016-08-09 13:03:57"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -5435,12 +5431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "9255a2ecb9e702ca5d1f9c3df7f9506d57910a9c"
+                "reference": "80944546b4014ce240dbeafabc2a3aec9e4794e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/9255a2ecb9e702ca5d1f9c3df7f9506d57910a9c",
-                "reference": "9255a2ecb9e702ca5d1f9c3df7f9506d57910a9c",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/80944546b4014ce240dbeafabc2a3aec9e4794e1",
+                "reference": "80944546b4014ce240dbeafabc2a3aec9e4794e1",
                 "shasum": ""
             },
             "require": {
@@ -5482,7 +5478,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-08-07 15:19:41"
+            "time": "2016-08-09 13:44:53"
         },
         {
             "name": "webmozart/assert",
@@ -5490,12 +5486,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "3a8e045064f294992a13966b6c892fb9d64853a3"
+                "reference": "1dc8bdd49e54b9b936858dd422096f349e367a85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/3a8e045064f294992a13966b6c892fb9d64853a3",
-                "reference": "3a8e045064f294992a13966b6c892fb9d64853a3",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/1dc8bdd49e54b9b936858dd422096f349e367a85",
+                "reference": "1dc8bdd49e54b9b936858dd422096f349e367a85",
                 "shasum": ""
             },
             "require": {
@@ -5508,7 +5504,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -5532,7 +5528,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2016-03-04 13:27:44"
+            "time": "2016-08-09 15:02:38"
         },
         {
             "name": "yiisoft/yii2-codeception",
@@ -5630,8 +5626,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "dektrium/yii2-user": 20,
-        "yiisoft/yii2": 20,
         "primal/color": 20
     },
     "prefer-stable": false,
