@@ -4,6 +4,7 @@ before_script:
    - pecl install imagick
    - docker-php-ext-enable imagick
    - docker-php-ext-install bz2
+   - docker-php-ext-install gd
    - curl -sS https://getcomposer.org/installer | php
    - php composer.phar install --dev
 stages:
