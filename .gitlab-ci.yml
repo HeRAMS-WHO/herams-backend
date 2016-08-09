@@ -1,7 +1,7 @@
 before_script:
    - docker-php-ext-install bz2
    - apt-get update
-   - apt-get -y install libmagickwand-dev --no-install-recommends
+   - apt-get -y install libmagickwand-dev libbz2-dev --no-install-recommends
    - pecl install imagick
    - docker-php-ext-enable imagick
    - curl -sS https://getcomposer.org/installer | php
