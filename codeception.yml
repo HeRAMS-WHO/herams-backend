@@ -1,0 +1,36 @@
+actor: Tester
+paths:
+    tests: protected/tests/codeception
+    log: protected/tests/codeception/_output
+    data: protected/tests/codeception/_data
+    support: protected/tests/codeception/_support
+    envs: protected/tests/codeception/_envs
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+        - Codeception\Extension\PhpBuiltinServer
+#        - Codeception\Extension\Phantoman
+    config:
+        Codeception\Extension\PhpBuiltinServer:
+            hostname: localhost
+            port: 12345
+            documentRoot: public
+            startDelay: 0
+            phpIni: /etc/php5/fpm/php.ini
+        Codeception\Extension\Phantoman:
+            path: 'composer exec phantomjs'
+            port: 4444
+
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=localhost;dbname=test_prime'
+            user: 'root'
+            password: 'secret'
+            populate: true
+            cleanup: true
+            dump: protected/tests/codeception/_data/dump.sql

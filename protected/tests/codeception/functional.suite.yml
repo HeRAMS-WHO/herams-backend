@@ -9,5 +9,5 @@ modules:
     enabled:
         # add framework module here
         - Yii2:
-            configFile: '/../config/console.php'
+            configFile: 'protected/config/console.php'
         - \Helper\Functional

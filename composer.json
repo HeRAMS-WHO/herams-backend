@@ -67,11 +67,11 @@
     },
     "require-dev": {
         "yiisoft/yii2-debug" : "*",
-        "codeception/codeception": "^2.1",
         "yiisoft/yii2-codeception": "^2.0",
-        "codeception/phpbuiltinserver": "^1.2",
         "site5/phantoman": "^1.1",
-        "jakoch/phantomjs-installer": "^2.1"
+        "jakoch/phantomjs-installer": "^2.1",
+        "codeception/phpbuiltinserver": "^1.2",
+        "codeception/codeception": "^2.2"
     },
     "scripts": {
         "post-install-cmd": [
