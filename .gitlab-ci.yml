@@ -11,7 +11,8 @@ before_script:
    - curl -sS https://getcomposer.org/installer | php
    - mkdir -p ~/.ssh
    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-   - php composer.phar install --dev
+   - php composer.phar -n global require fxp/composer-asset-plugin
+   - php composer.phar -n install
 
 stages:
   - build
