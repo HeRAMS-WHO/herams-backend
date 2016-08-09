@@ -1,8 +1,8 @@
 before_script:
-   - curl -sS https://getcomposer.org/installer | php
-   - php composer.phar install --dev
    - docker-php-ext-install imagick
    - docker-php-ext-install bz2
+   - curl -sS https://getcomposer.org/installer | php
+   - php composer.phar install --dev
 stages:
   - build
   - test
