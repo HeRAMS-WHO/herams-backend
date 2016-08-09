@@ -1,6 +1,6 @@
 before_script:
    - apt-get update
-   - apt-get -y install libmagickwand-dev libbz2-dev --no-install-recommends
+   - apt-get -y install libmagickwand-dev libbz2-dev git --no-install-recommends
    - pecl install imagick
    - docker-php-ext-enable imagick
    - docker-php-ext-install bz2
