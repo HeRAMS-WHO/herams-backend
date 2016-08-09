@@ -1,12 +1,17 @@
 before_script:
    - apt-get update
-   - apt-get -y install libmagickwand-dev libbz2-dev git --no-install-recommends
+   - apt-get -y install libmagickwand-dev libbz2-dev openssh-client git --no-install-recommends
+   - eval $(ssh-agent -s)
+   - ssh-add <(echo "$SSH_PRIVATE_KEY")
    - pecl install imagick
    - docker-php-ext-enable imagick
    - docker-php-ext-install bz2
    - docker-php-ext-install gd
    - curl -sS https://getcomposer.org/installer | php
+   - mkdir -p ~/.ssh
+   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
    - php composer.phar install --dev
+
 stages:
   - build
   - test
