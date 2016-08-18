@@ -143,8 +143,8 @@ class Generator extends \prime\reportGenerators\ccpmProgressPercentage\Generator
      * All responses to be used are given as 1 array of Response objects.
      * @param ResponseCollectionInterface $responses
      * @param SurveyCollectionInterface $surveys
-     * @param SignatureInterface $signature
      * @param ProjectInterface $project
+     * @param SignatureInterface $signature
      * @param UserDataInterface|null $userData
      * @return ReportInterface
      */
@@ -152,8 +152,8 @@ class Generator extends \prime\reportGenerators\ccpmProgressPercentage\Generator
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
         ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
+        SignatureInterface $signature,
+        UserDataInterface $userData
     ) {
         $stream = \GuzzleHttp\Psr7\stream_for($this->view->render('publish', [
             'userData' => $userData,

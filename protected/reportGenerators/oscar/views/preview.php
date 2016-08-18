@@ -16,7 +16,6 @@ use app\components\Form;
 $generator = $this->context;
 $formatter = app()->formatter;
 
-
 $this->beginContent('@app/views/layouts/report.php');
 
 $number = (int) $generator->getQuestionValue('gi1');
@@ -25,8 +24,10 @@ $until = (new \Carbon\Carbon($generator->getQuestionValue('gi3')))->format($gene
 ?>
 
 <style>
-<?=file_get_contents(__DIR__ . '/../../base/assets/css/grid.css')?>
-<?php include __DIR__ . '/../../base/assets/css/style.php'; ?>
+<?php
+ echo file_get_contents(__DIR__ . '/../../base/assets/css/grid.css');
+ include __DIR__ . '/../../base/assets/css/style.php';
+?>
 
     .header {
         background-image: url(data:image/png;base64,<?=base64_encode(file_get_contents(__DIR__ . '/../../base/assets/img/who-logo.png'))?>);

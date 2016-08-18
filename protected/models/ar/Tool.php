@@ -2,10 +2,12 @@
 
 namespace prime\models\ar;
 
+use app\components\Html;
 use app\queries\ToolQuery;
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use Befound\Components\Map;
 use Befound\Components\UploadedFile;
+use GuzzleHttp\Psr7\Stream;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\ActiveRecord;
@@ -13,6 +15,7 @@ use prime\factories\GeneratorFactory;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
+use Psr\Http\Message\StreamInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\helpers\ArrayHelper;
@@ -156,6 +159,18 @@ class Tool extends ActiveRecord implements ProjectInterface {
             return self::IMAGE_PATH . $this->image;
         }
         return '/site/text-image?text=' . $this->acronym ;
+    }
+
+    /**
+     * @return StreamInterface
+     */
+    public function getImage()
+    {
+        if (isset($this->image) && file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image)) {
+            return \GuzzleHttp\Psr7\stream_for(fopen(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image, 'r'));
+        } else {
+            return \GuzzleHttp\Psr7\stream_for(Html::textImage($this->acronym));
+        }
     }
 
     public function getIntakeUrl()

@@ -58,11 +58,8 @@ class GeneratorTest extends \yii\codeception\TestCase
         $this->assertInstanceOf(\prime\interfaces\ReportGeneratorInterface::class, $generator);
         $this->assertInstanceOf($class, $generator);
         $generator->render(
-            new \prime\objects\ResponseCollection(),
-            new \prime\objects\SurveyCollection(),
-            \prime\models\ar\Project::find()->one(),
-            new Signature('', 0, ''),
-            new UserData()
+            new \prime\objects\ResponseCollection(), new \prime\objects\SurveyCollection(),
+            \prime\models\ar\Project::find()->one(), new Signature('', 0, ''), new UserData()
         );
     }
 

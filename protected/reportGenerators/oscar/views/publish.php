@@ -7,7 +7,6 @@
 $report = $this->render('preview', [
     'userData' => $userData,
     'signature' => $signature,
-    'responses' => $responses,
     'project' => $project
 ]);
 

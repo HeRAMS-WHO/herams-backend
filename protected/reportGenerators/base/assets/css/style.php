@@ -33,19 +33,10 @@ body {
 }
 
 <?php
-    $path = $project->getToolImagePath();
-
-    /** @var \prime\interfaces\ProjectInterface $project */
-    if (preg_match('_^/site/text-image\?text=(.*)$_', $path, $matches)) {
-        $content = \app\components\Html::textImage($matches[1]);
-    } else {
-        // Check if path is local.
-        if (strncasecmp('http', $path, 4) === 0) {
-            $image = imagecreatefromstring(file_get_contents($path));
-        } else {
-            $image = imagecreatefromstring(file_get_contents(Yii::getAlias('@webroot' . $path)));
-        }
-
+    $content = $project->getImage()->getContents();
+    // Check if image is SVG.
+    if (strncmp($content, '<svg', 4) !== 0) {
+        $image = imagecreatefromstring($content);
         $height = 140;
         $width = imagesx($image) / imagesy($image) * $height;
         $newImage = imagecreatetruecolor($width, $height);

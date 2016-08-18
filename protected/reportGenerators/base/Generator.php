@@ -73,8 +73,8 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
     /**
      * @param array|string $code1 The question code containing the count.
      * @param array|string $code2 The question code containing the total.
-     * @param mixed $default If not null then this is returned when total is 0, otherwise an exception is thrown.
-     * @return float|int|mixed
+     * @param float $default If not null then this is returned when total is 0, otherwise an exception is thrown.
+     * @return float
      * @throws \Exception
      */
     public function getPercentage($code1, $code2, $default = 0)
@@ -89,7 +89,7 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
         }
 
         if ($val2 > 0) {
-            return round($val1 / $val2 * 100);
+            return round($val1 / $val2);
         } elseif (isset($default)) {
             return $default;
         } else {
@@ -187,7 +187,6 @@ abstract class Generator extends Component implements ReportGeneratorInterface, 
             && isset($data[$title])
             && !empty($data[$title]))
         {
-
             $this->markBlock();
             return $data[$title];
         }

@@ -181,7 +181,7 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             $generator = GeneratorFactory::get($this->tool->progress_type);
 
             return $generator->render($this->getResponses(), $this->getSurvey(), $this,
-                app()->user->identity->createSignature());
+                app()->user->identity->createSignature(), new UserData());
         }
     }
 
@@ -247,6 +247,11 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
     public function getToolImagePath()
     {
         return Url::to($this->tool->imageUrl, true);
+    }
+
+    public function getImage()
+    {
+        return $this->tool->getImage();
     }
 
     /**
@@ -331,7 +336,10 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
     {
         parent::afterSave($insert, $changedAttributes);
         // Grant read / write permissions on the project to the creator.
-        if ($insert && !app()->user->can('admin'))
+        if ($insert
+            && !app()->user->can('admin')
+            && isset(app()->user->identity)
+        )
         {
             if (!Permission::grant(app()->user->identity, $this, Permission::PERMISSION_ADMIN)) {
                 throw new \Exception("Failed to grant permission.");

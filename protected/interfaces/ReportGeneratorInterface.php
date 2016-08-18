@@ -16,12 +16,15 @@ interface ReportGeneratorInterface {
      * This function renders a report.
      * @param ResponseCollectionInterface $responses
      * @param SurveyCollectionInterface $surveys
-     * @param SignatureInterface $signature The signature to apply, null if a signature is not available or does not need to be applied.
      * @param ProjectInterface $project
+     * @param SignatureInterface $signature The signature to apply, null if a signature is not available or does not need to be applied.
      * @param UserDataInterface|null $userData
      * @return ReportInterface
      */
-    public function render(ResponseCollectionInterface $responses, SurveyCollectionInterface $surveys, ProjectInterface $project, SignatureInterface $signature = null, UserDataInterface $userData = null);
+    public function render(ResponseCollectionInterface $responses, SurveyCollectionInterface $surveys, ProjectInterface $project,
+        SignatureInterface $signature,
+        UserDataInterface $userData
+    );
 
 
 }

@@ -1,7 +1,7 @@
 <?php
 return [
     'components' => [
-        'urlManager' => CONSOLE ? ['hostInfo' => 'https://prime.projects.sam-it.eu'] : [],
+        'urlManager' => defined('CONSOLE') && CONSOLE ? ['hostInfo' => 'https://prime.projects.sam-it.eu'] : [],
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
