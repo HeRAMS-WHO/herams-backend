@@ -6,7 +6,7 @@
 		"vendor-dir" : "protected/vendor",
 		"bin-dir" : "protected/bin"
 	},
-	"minimum-stability" : "dev",
+	"minimum-stability" : "stable",
     "authors": [
         {
             "name": "Sam Mousa",
