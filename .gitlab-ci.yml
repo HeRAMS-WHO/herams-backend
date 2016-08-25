@@ -8,6 +8,7 @@ before_script:
    - docker-php-ext-install bz2
    - docker-php-ext-install gd
    - docker-php-ext-install zip
+   - docker-php-ext-install mysql
    - curl -sS https://getcomposer.org/installer | php
    - mkdir -p ~/.ssh
    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
