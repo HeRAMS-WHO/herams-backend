@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1ed8af04a2648074fdb313f795471be1",
-    "content-hash": "1cc414dbccc641a7dd689bbf2d56076a",
+    "hash": "beab4b909f27c386b6182f22c4352407",
+    "content-hash": "165b1d4249c0b813f5e7cbf300277a22",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -1313,16 +1313,16 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "1.8.5",
+            "version": "v1.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "7f7a45ffe193fe673f72b9effc01b08499f2a454"
+                "reference": "713a1c4ad5b3f9be2832586584679c4b094c6937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/7f7a45ffe193fe673f72b9effc01b08499f2a454",
-                "reference": "7f7a45ffe193fe673f72b9effc01b08499f2a454",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/713a1c4ad5b3f9be2832586584679c4b094c6937",
+                "reference": "713a1c4ad5b3f9be2832586584679c4b094c6937",
                 "shasum": ""
             },
             "require": {
@@ -1360,7 +1360,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-05-07 19:45:52"
+            "time": "2016-08-19 17:48:27"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -1411,16 +1411,16 @@
         },
         {
             "name": "kartik-v/yii2-tabs-x",
-            "version": "v1.2.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-tabs-x.git",
-                "reference": "3c53773bf463a0e3f3d9eadd0231bf58f3ae08b3"
+                "reference": "a5b9722266965c2f7c98c7ced70951e88b2a2bb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-tabs-x/zipball/3c53773bf463a0e3f3d9eadd0231bf58f3ae08b3",
-                "reference": "3c53773bf463a0e3f3d9eadd0231bf58f3ae08b3",
+                "url": "https://api.github.com/repos/kartik-v/yii2-tabs-x/zipball/a5b9722266965c2f7c98c7ced70951e88b2a2bb1",
+                "reference": "a5b9722266965c2f7c98c7ced70951e88b2a2bb1",
                 "shasum": ""
             },
             "require": {
@@ -1428,6 +1428,11 @@
                 "kartik-v/yii2-krajee-base": "~1.7"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\tabs\\": ""
@@ -1455,7 +1460,7 @@
                 "tabs",
                 "tabs-x"
             ],
-            "time": "2016-01-12 07:59:30"
+            "time": "2016-02-12 18:39:38"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -4364,16 +4369,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.2.4",
+            "version": "3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "4e83390f64e7ce04fcaec2ce95cd72823b431d19"
+                "reference": "46b249b43fd2ed8e127aa0fdb3cbcf56e9bc0e49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/4e83390f64e7ce04fcaec2ce95cd72823b431d19",
-                "reference": "4e83390f64e7ce04fcaec2ce95cd72823b431d19",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/46b249b43fd2ed8e127aa0fdb3cbcf56e9bc0e49",
+                "reference": "46b249b43fd2ed8e127aa0fdb3cbcf56e9bc0e49",
                 "shasum": ""
             },
             "require": {
@@ -4419,7 +4424,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2016-08-17 09:33:51"
+            "time": "2016-08-26 05:51:59"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -5511,6 +5516,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "kartik-v/yii2-tabs-x": 20,
         "primal/color": 20
     },
     "prefer-stable": false,
