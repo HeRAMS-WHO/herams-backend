@@ -4,8 +4,9 @@ before_script:
    - mkdir -p ~/.ssh
    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
    - composer config -g cache-dir .composercache
-   - composer config -g cache-dir
-   - composer config -g cache-files-dir
+   - composer config cache-dir .composercache
+   - composer config cache-dir
+   - composer config cache-files-dir
 stages:
   - test
 cache:
