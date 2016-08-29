@@ -12,4 +12,4 @@ stages:
 test:7.0:
   image: sammousa/php-with-extensions:7.0
   script:
-  - php composer.phar exec codecept run
+  - composer exec codecept run
