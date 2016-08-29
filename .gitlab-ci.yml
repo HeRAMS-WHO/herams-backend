@@ -1,28 +1,15 @@
 before_script:
-   - apt-get update
-   - apt-get -y install libmagickwand-dev libbz2-dev openssh-client git --no-install-recommends
    - eval $(ssh-agent -s)
    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-   - pecl install imagick
-   - docker-php-ext-enable imagick
-   - docker-php-ext-install bz2
-   - docker-php-ext-install gd
-   - docker-php-ext-install zip
-   - docker-php-ext-install mysql
-   - curl -sS https://getcomposer.org/installer | php
-   - mkdir -p ~/.ssh
-   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-   - php composer.phar -n global require fxp/composer-asset-plugin
    - php composer.phar -n install
-
 stages:
   - build
   - test
-test:5.6:
-  image: php:5.6
-  script:
-  - php composer.phar exec codecept run
+#test:5.6:
+#  image: php:5.6
+#  script:
+#  - php composer.phar exec codecept run
 test:7.0:
-  image: php:7.0
+  image: sammousa/php-with-extensions:7.0
   script:
   - php composer.phar exec codecept run
