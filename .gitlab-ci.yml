@@ -16,4 +16,4 @@ test:7.0:
   image: sammousa/php-with-extensions:7.0
   script:
     - composer -n install
-    - composer exec codecept run
+#    - composer exec codecept run
