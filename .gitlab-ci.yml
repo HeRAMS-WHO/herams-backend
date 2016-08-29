@@ -3,7 +3,7 @@ before_script:
    - ssh-add <(echo "$SSH_PRIVATE_KEY")
    - mkdir -p ~/.ssh
    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-   - composer -n install
+   - composer config cache-dir .composercache
 stages:
   - build
   - test
@@ -13,5 +13,9 @@ stages:
 #  - php composer.phar exec codecept run
 test:7.0:
   image: sammousa/php-with-extensions:7.0
+  cache:
+    paths:
+      - .composercache
   script:
-  - composer exec codecept run
+    - composer -n install
+    - composer exec codecept run
