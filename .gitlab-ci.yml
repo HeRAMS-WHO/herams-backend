@@ -5,17 +5,10 @@ before_script:
    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
    - composer config cache-dir .composercache
 stages:
-  - build
   - test
 cache:
   paths:
     - .composercache
-build:
-  script: composer -n install
-  artifacts:
-    paths:
-      - ./
-
 #test:5.6:
 #  image: php:5.6
 #  script:
@@ -23,4 +16,5 @@ build:
 test:7.0:
   image: sammousa/php-with-extensions:7.0
   script:
+    - composer -n install
     - composer exec codecept run
