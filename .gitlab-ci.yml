@@ -1,7 +1,7 @@
 before_script:
    - eval $(ssh-agent -s)
    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-   - php composer.phar -n install
+   - composer -n install
 stages:
   - build
   - test
