@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => DatePicker::widget([
                 'model'      => $searchModel,
                 'attribute'  => 'created_at',
-                'dateFormat' => 'php:Y-m-d',
+//                'dateFormat' => 'php:Y-m-d',
                 'options' => [
                     'class' => 'form-control',
                 ],
