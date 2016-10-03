@@ -23,10 +23,10 @@ unit7.0:
     MYSQL_USER: prime
     MYSQL_PASSWORD: testpass
     MYSQL_DATABASE: test
+    MYSQL_HOST: mysql
     YII_ENV: "codeception"
   script:
     - codecept run unit
-
 acceptance7.0:
   before_script:
     - eval $(ssh-agent -s)
@@ -53,6 +53,7 @@ acceptance7.0:
     MYSQL_USER: prime
     MYSQL_PASSWORD: testpass
     MYSQL_DATABASE: test
+    MYSQL_HOST: mysql
     BROWSER: firefox
     YII_ENV: "codeception"
   script:
