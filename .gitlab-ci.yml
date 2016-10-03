@@ -1,19 +1,64 @@
-before_script:
-   - eval $(ssh-agent -s)
-   - ssh-add <(echo "$SSH_PRIVATE_KEY")
-   - mkdir -p ~/.ssh
-   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 stages:
   - test
+image: sammousa/codeception-php-with-extensions:latest
 cache:
   paths:
     - .composercache
-#test:5.6:
-#  image: php:5.6
-#  script:
-#  - php composer.phar exec codecept run
-test:7.0:
-  image: sammousa/php-with-extensions:7.0
+unit7.0:
+  before_script:
+    - eval $(ssh-agent -s)
+    - '[[ $(echo "$SSH_PRIVATE_KEY" | wc -l) -gt 1 ]] || exit 1'
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - wait-for-it -h mysql:3306
+    - echo "Installing composer dependencies. (Could take a few minutes)"
+    - 'COMPOSER_CACHE_DIR=.composercache composer -q -n install'
+    - echo "OK"
+    - codecept build
+  services:
+    - mysql:5.7
+  variables:
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_USER: prime
+    MYSQL_PASSWORD: testpass
+    MYSQL_DATABASE: test
+    YII_ENV: "codeception"
   script:
-    - COMPOSER_CACHE_DIR=.composercache composer -n install
-#    - composer exec codecept run
+    - codecept run unit
+
+acceptance7.0:
+  before_script:
+    - eval $(ssh-agent -s)
+    - cat /etc/hosts
+    - '[[ $(echo "$SSH_PRIVATE_KEY" | wc -l) -gt 1 ]] || exit 1'
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - export RUNNER_IP=$(ip -o -4 addr | grep global | head -n 1 | awk '{print $4}' | cut -d/ -f1)
+    - wait-for-it -h mysql:3306
+    - echo "Installing composer dependencies. (Could take a few minutes)"
+    - 'COMPOSER_CACHE_DIR=.composercache composer -q -n install'
+    - echo "OK"
+    - echo "Starting PHP built-in server"
+    - mkdir logs
+    - 'php -S 0.0.0.0:80 -t public/ > logs/phpd.log 2>&1 &'
+    - wait-for-it -h $RUNNER_IP:80
+    - codecept build
+  services:
+    - mysql:5.7
+    - selenium/standalone-firefox:latest
+  variables:
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_USER: prime
+    MYSQL_PASSWORD: testpass
+    MYSQL_DATABASE: test
+    BROWSER: firefox
+    YII_ENV: "codeception"
+  script:
+    - codecept run acceptance
+    - du -sh protected/tests/_output
+  artifacts:
+    paths:
+#      - protected/tests/_output
+      - logs

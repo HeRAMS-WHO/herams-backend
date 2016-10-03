@@ -1,36 +1,41 @@
 actor: Tester
+params:
+  - env
 paths:
-    tests: protected/tests/codeception
-    log: protected/tests/codeception/_output
-    data: protected/tests/codeception/_data
-    support: protected/tests/codeception/_support
-    envs: protected/tests/codeception/_envs
+  tests: protected/tests
+  log: protected/tests/_output
+  data: protected/tests/_data
+  support: protected/tests/_support
+  envs: protected/tests/_envs
 settings:
-    bootstrap: _bootstrap.php
-    colors: true
-    memory_limit: 1024M
+  bootstrap: _bootstrap.php
+  colors: true
+  memory_limit: 1024M
 extensions:
-    enabled:
-        - Codeception\Extension\RunFailed
-        - Codeception\Extension\PhpBuiltinServer
-#        - Codeception\Extension\Phantoman
-    config:
-        Codeception\Extension\PhpBuiltinServer:
-            hostname: localhost
-            port: 12345
-            documentRoot: public
-            startDelay: 0
-            phpIni: /etc/php5/fpm/php.ini
-        Codeception\Extension\Phantoman:
-            path: 'composer exec phantomjs'
-            port: 4444
-
+  config:
+    Codeception\Extension\Recorder:
+      delete_successful: true
+  enabled:
+    - Codeception\Extension\RunFailed
+    - Codeception\Extension\Recorder
 modules:
-    config:
-        Db:
-            dsn: 'mysql:host=localhost;dbname=test_prime'
-            user: 'root'
-            password: 'secret'
-            populate: true
-            cleanup: true
-            dump: protected/tests/codeception/_data/dump.sql
+  enabled:
+    - Db
+  config:
+    WebDriver:
+      url: 'http://%RUNNER_IP%'
+      browser: %BROWSER%
+      host: %SELENIUM_HOST%
+      port: 4444
+      wait: 5
+      restart: true
+      window_size: 1920x1080
+      debug: true
+    Db:
+      populate: true
+      cleanup: true
+      # This is created by _bootstrap.php.
+      dump: protected/tests/_output/combined.sql
+      dsn: 'mysql:host=mysql;dbname=%MYSQL_DATABASE%'
+      password: '%MYSQL_PASSWORD%'
+      user: '%MYSQL_USER%'

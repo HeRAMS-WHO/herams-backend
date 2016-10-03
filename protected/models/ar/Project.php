@@ -66,7 +66,7 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
     {
         return array_merge(parent::attributeLabels(), [
             'default_generator' => \Yii::t('app', 'Default report'),
-            'country_iso_3' => \Yii::t('app', 'Country'),
+            'country_iso_3' => \Yii::t('app', 'Country / Territory'),
             'tool_id' => \Yii::t('app', 'Tool'),
             'locality_name' => \Yii::t('app', 'Locality'),
             'data_survey_eid' => \Yii::t('app', 'Data survey'),

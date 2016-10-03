@@ -4,15 +4,20 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
-            'dsn' => 'mysql:host=localhost;dbname=test_prime;',
-            'password' => 'secret',
-            'username' => 'root',
+            'dsn' => 'mysql:host=' . getenv('MYSQL_HOST') . ';dbname=' . getenv('MYSQL_DATABASE'),
+            'password' => getenv('MYSQL_PASSWORD'),
+            'username' => getenv('MYSQL_USER'),
             'enableSchemaCache' => true,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
             'queryCache' => 'cache',
             'tablePrefix' => ''
-        ]
+        ],
+        'mailer' => [
+            'class' => \yii\swiftmailer\Mailer::class,
+            'useFileTransport' => true
+        ],
+
     ]
 ];
 

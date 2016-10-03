@@ -8,22 +8,4 @@ use \Yii;
 class Acceptance extends \Codeception\Module
 {
 
-    public function runMigrations()
-    {
-        echo "\n";
-        !defined('YII_ENV') && define('YII_ENV', 'codeception');
-        Yii::$container = new \yii\di\Container();
-        Yii::$app = new \yii\console\Application(require __DIR__ . '/../../../../config/console.php');
-
-        /** @var \yii\console\controllers\MigrateController $controller */
-        $controller = new \yii\console\controllers\MigrateController('controller', Yii::$app, [
-            'interactive' => false,
-            'migrationPath' => __DIR__ . '/../../../../migrations'
-        ]);
-        
-        
-        if ($controller->runAction('up') != 0) {
-            throw new \RuntimeException("Failed to run database migrations.");
-        };
-    }
 }

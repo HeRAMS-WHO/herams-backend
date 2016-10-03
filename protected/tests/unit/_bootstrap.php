@@ -1,2 +1,2 @@
 <?php
-// Here you can initialize variables that will be available to your tests
+\Yii::setAlias('@tests/codeception/config/unit.php', __DIR__ . '/../../config/unit.php');

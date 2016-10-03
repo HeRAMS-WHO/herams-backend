@@ -19,4 +19,32 @@
 class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
+
+
+    public function fillHtmlField($field, $value)
+    {
+        $id = $this->grabAttributeFrom($field, 'id');
+        $this->executeJS("CKEDITOR.instances[" . json_encode($id) . "].setData(" . json_encode($value) . ");");
+    }
+
+    /**
+     * Define custom actions here
+     */
+    public function select2Option(array $select, $option)
+    {
+        if (!isset($select['css'])) {
+            throw new \RuntimeException("This function requires a CSS selector.");
+        }
+
+        $selector = [
+            'css' => $select['css'] . '~ span.select2'
+        ];
+        $this->click($selector);
+        $this->fillField(['css' =>'.select2-search__field'], $option);
+        $this->waitForText($option);
+        $this->pressKey(['css' =>'.select2-search__field'], WebDriverKeys::ENTER);
+
+    }
+
+
 }

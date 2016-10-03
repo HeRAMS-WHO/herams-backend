@@ -123,7 +123,7 @@ return [
             ]
         ],
         'rbac' => [
-            'class' => dektrium\rbac\Module::class,
+            'class' => dektrium\rbac\RbacWebModule::class,
         ],
     ],
     'params' => [

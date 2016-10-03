@@ -1,12 +1,15 @@
 <?php
 
+
+use \Step\Acceptance\User;
+use \Step\Acceptance\Admin;
+
 class MenuCest
 
 {
 
     public function _before(AcceptanceTester $I)
     {
-        $I->runMigrations();
     }
 
     public function _after(AcceptanceTester $I)
@@ -14,23 +17,21 @@ class MenuCest
     }
 
     // tests
-    public function testMenu(AcceptanceTester $I)
+    public function testMenu(User $I)
     {
-        $I->login();
         //Only pick urls where no data method is set (like logout)
         foreach($I->grabMultiple('.navbar a:not([data-method])', 'href') as $url) {
-            $I->click('a[href="' . $url . '"]');
-            $I->seeResponseCodeIs(200);
+            $I->amOnUrl($url);
+            $I->dontSeeInSource('#404');
+            $I->dontSeeInSource('#500');
         };
     }
 
-    public function testAdminMenu(\Step\Acceptance\AdminTester $I)
+    public function testAdminMenu(Admin $I)
     {
-        $I->login();
         //Only pick urls where no data method is set (like logout)
         foreach($I->grabMultiple('.navbar a:not([data-method])', 'href') as $url) {
-            $I->click('a[href="' . $url . '"]');
-            $I->seeResponseCodeIs(200);
+            $I->amOnPage($url);
         };
     }
 }

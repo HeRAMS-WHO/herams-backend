@@ -52,7 +52,7 @@ use prime\models\ar\Setting;
             [
                 'attribute' => 'countryId',
                 'value' => 'project.country.name',
-                'label' => \Yii::t('app', 'Country'),
+                'label' => \Yii::t('app', 'Country / Territory'),
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
                 'filter' => $reportSearch->countriesOptions(),
                 'filterWidgetOptions' => [

@@ -1,31 +1,24 @@
 <?php
 namespace Step\Acceptance;
 
+use Page\Login;
 use Codeception\Scenario;
 
-class UserTester extends \AcceptanceTester
+class User extends \AcceptanceTester
 {
     /**
      * Define custom actions here
      */
 
-    public function login($user = USER_NAME, $password = USER_PASS)
+    public function login(Login $loginPage, $user = USER_NAME, $password = USER_PASS)
     {
-        $I = $this;
-        $I->amOnPage('/user/login');
-        $I->fillField('Login', $user);
-        $I->fillField('Password', $password);
-        $I->click('Login');
-        $I->expectTo("See the logout menu item.");
-        $I->dontSeeInCurrentUrl('/user/login');
-        $I->seeInSource('Log out');
-        codecept_debug("Logged in!");
+        $loginPage->login($user, $password, false);
     }
 
-    public function __construct(Scenario $scenario)
+    public function __construct(Scenario $scenario, Login $loginPage)
     {
         parent::__construct($scenario);
-        $this->login();
+        $this->login($loginPage);
     }
 
 

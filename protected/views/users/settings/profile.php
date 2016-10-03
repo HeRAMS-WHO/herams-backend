@@ -52,7 +52,7 @@ $this->title = Yii::t('user', 'Profile settings');
                     'options' => [
                         'data' => $model->countryOptions(),
                         'options' => [
-                            'placeholder' => \Yii::t('app', 'Country')
+                            'placeholder' => \Yii::t('app', 'Country / Territory')
                         ]
                     ]
                 ],

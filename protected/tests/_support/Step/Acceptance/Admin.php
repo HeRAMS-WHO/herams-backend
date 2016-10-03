@@ -1,13 +1,18 @@
 <?php
 namespace Step\Acceptance;
 
-class AdminTester extends UserTester
+use Page\Login;
+use Codeception\Scenario;
+
+class Admin extends User
 {
-    public function login($user = ADMIN_USER_NAME, $password = ADMIN_USER_PASS)
+    public function __construct(Scenario $scenario, Login $loginPage)
     {
-        $I = $this;
-        parent::login($user, $password);
-        $I->seeInSource('Configuration', '.navbar');
+        parent::__construct($scenario, $loginPage);
     }
 
+    public function login(Login $loginPage, $user = ADMIN_USER_NAME, $password = ADMIN_USER_PASS)
+    {
+        return parent::login($loginPage, $user, $password);
+    }
 }
