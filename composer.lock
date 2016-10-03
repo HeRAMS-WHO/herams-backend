@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "58eabbcb2e9fbad888222b8eb169b25b",
-    "content-hash": "f6de5cc7a9ebc6b98be70cfebc2446e8",
+    "hash": "e8ca8edcea981df63dabd4de6dc7eb5d",
+    "content-hash": "13e63abebdd08a32adace888447665b2",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -3485,7 +3485,6 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.6.0",
-        "ext-imagick": "*",
         "ext-gd": "*"
     },
     "platform-dev": []
