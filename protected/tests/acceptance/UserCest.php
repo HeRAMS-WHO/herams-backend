@@ -38,7 +38,7 @@ class UserCest
         $I->fillField('Last Name', 'Doe');
         $I->fillField('Email', $email);
         $I->fillField('Organization', 'Tester');
-        $I->selectOption('Country', 'Belgium');
+        $I->selectOption('Country / Territory', 'Belgium');
         $I->fillField('Location', 'Corner');
         $I->fillField('Captcha', 'test');
         $I->click('Submit');

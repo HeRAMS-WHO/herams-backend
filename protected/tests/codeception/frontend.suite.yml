@@ -1,4 +1,0 @@
-class_name: FrontendTester
-modules:
-    enabled:
-        - \Helper\Frontend
