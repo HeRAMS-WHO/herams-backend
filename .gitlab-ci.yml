@@ -13,7 +13,7 @@ unit7.0:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - wait-for-it -h mysql:3306
     - echo "Installing composer dependencies. (Could take a few minutes)"
-    - 'COMPOSER_CACHE_DIR=.composercache composer -q -n install'
+    - 'COMPOSER_CACHE_DIR=.composercache composer -n install'
     - echo "OK"
     - codecept build
   services:
@@ -38,7 +38,7 @@ acceptance7.0:
     - export RUNNER_IP=$(ip -o -4 addr | grep global | head -n 1 | awk '{print $4}' | cut -d/ -f1)
     - wait-for-it -h mysql:3306
     - echo "Installing composer dependencies. (Could take a few minutes)"
-    - 'COMPOSER_CACHE_DIR=.composercache composer -q -n install'
+    - 'COMPOSER_CACHE_DIR=.composercache composer -n install'
     - echo "OK"
     - echo "Starting PHP built-in server"
     - mkdir logs
