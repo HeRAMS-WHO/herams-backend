@@ -36,22 +36,25 @@ class Login
         $I = $this->tester;
         $I->amOnPage(self::route());
 
-        $I->fillField(self::$emailField, $user);
-        $I->fillField(self::$passwordField, $password);
-        $I->click(self::$loginButton);
-        $I->expectTo("See the logout menu item.");
-        $I->seeElementInDOM(['css' => 'a[href$="logout"]']);
-        codecept_debug("Logged in!");
-        if ($admin) {
-            $I->seeInSource('Configuration', '.navbar');
+        $key = md5('login' . $user. $password);
+        if (!$I->loadSessionSnapshot($key)) {
+            $I->fillField(self::$emailField, $user);
+            $I->fillField(self::$passwordField, $password);
+            $I->click(self::$loginButton);
+            $I->expectTo("See the logout menu item.");
+            $I->seeElementInDOM(['css' => 'a[href$="logout"]']);
+            codecept_debug("Logged in!");
+            if ($admin) {
+                $I->seeInSource('Configuration', '.navbar');
+            }
+            $I->saveSessionSnapshot($key);
         }
     }
+
 
     public function __construct(\AcceptanceTester $tester)
     {
         $this->tester = $tester;
-        $tester->resetCookie('PHPSESSID');
-
     }
 
 

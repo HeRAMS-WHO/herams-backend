@@ -1,4 +1,7 @@
 <?php
+if (empty(getenv('DB_HOST'))) {
+    throw new \Exception('Environment variable DB_HOST must be set.');
+}
 return [
     'components' => [
         'db' => [

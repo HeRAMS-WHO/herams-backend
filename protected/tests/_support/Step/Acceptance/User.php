@@ -12,7 +12,7 @@ class User extends \AcceptanceTester
 
     public function login(Login $loginPage, $user = USER_NAME, $password = USER_PASS)
     {
-        $loginPage->login($user, $password, false);
+            $loginPage->login($user, $password, false);
     }
 
     public function __construct(Scenario $scenario, Login $loginPage)
