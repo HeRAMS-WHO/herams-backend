@@ -23,7 +23,7 @@ unit7.0:
     MYSQL_USER: prime
     MYSQL_PASSWORD: testpass
     MYSQL_DATABASE: test
-    MYSQL_HOST: mysql
+    DB_HOST: mysql
     YII_ENV: "codeception"
   script:
     - codecept run unit
@@ -53,7 +53,7 @@ acceptance7.0:
     MYSQL_USER: prime
     MYSQL_PASSWORD: testpass
     MYSQL_DATABASE: test
-    MYSQL_HOST: mysql
+    DB_HOST: mysql
     BROWSER: firefox
     SELENIUM_HOST: selenium__standalone-firefox
     YII_ENV: "codeception"

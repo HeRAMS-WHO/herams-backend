@@ -4,7 +4,7 @@ services:
 ## Running tests
   unit:
     extends: codeception
-    entrypoint: "wait-for-it -h $$MYSQL_HOST:3306 -t 100 -- /usr/bin/env codecept run unit"
+    entrypoint: "wait-for-it -h $$DB_HOST:3306 -t 100 -- /usr/bin/env codecept run unit"
     depends_on:
       - mysql
 ## Running tests
@@ -30,14 +30,14 @@ services:
       RUNNER_IP: "web"
       BROWSER: firefox
       SELENIUM_HOST: firefox
-      MYSQL_HOST: mysql
+      DB_HOST: mysql
       YII_ENV: codeception
     user: "${UID}:${GID}"
 
 ## Web server
   web:
     image: "sammousa/codeception-php-with-extensions"
-    command: "wait-for-it -h $$MYSQL_HOST:3306 -t 100 -- /usr/bin/env php -S 0.0.0.0:80 -t /project/public"
+    command: "wait-for-it -h $$DB_HOST:3306 -t 100 -- /usr/bin/env php -S 0.0.0.0:80 -t /project/public"
     depends_on:
       - mysql
     volumes:
@@ -47,7 +47,7 @@ services:
       MYSQL_USER: who
       MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
       MYSQL_DATABASE: test
-      MYSQL_HOST: mysql
+      DB_HOST: mysql
     ports:
       - "80"
 
@@ -92,7 +92,7 @@ services:
       MYSQL_USER: who
       MYSQL_PASSWORD: 7rF8YnZv5EZDatfP
       MYSQL_DATABASE: who
-      MYSQL_HOST: mysql-tunnel
+      DB_HOST: mysql-tunnel
       WEBROOT: /project/public
       VIRTUAL_HOST: prime.dev
     ports:
@@ -114,7 +114,7 @@ services:
       MYSQL_USER: who
       MYSQL_PASSWORD: 7rF8YnZv5EZDatfP
       MYSQL_DATABASE: who
-      MYSQL_HOST: mysql-tunnel
+      DB_HOST: mysql-tunnel
       COLORS: 1
 
     entrypoint: ["/project/protected/yiic"]
