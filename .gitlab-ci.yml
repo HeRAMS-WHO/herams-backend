@@ -61,5 +61,5 @@ acceptance7.0:
     - du -sh protected/tests/_output
   artifacts:
     paths:
-#      - protected/tests/_output
+      - protected/tests/_output
       - logs
