@@ -10,7 +10,7 @@ services:
 ## Running tests
   tests:
     extends: codeception
-    entrypoint: "wait-for-it -h $$RUNNER_IP:80 -t 100 -- /usr/bin/env codecept run"
+    entrypoint: "wait-for-it -h $$RUNNER_IP:80 -h $$SELENIUM_HOST:4444 -t 100 -- /usr/bin/env codecept run"
     depends_on:
       - web
       - firefox
