@@ -43,7 +43,7 @@ acceptance7.0:
     - echo "Starting PHP built-in server"
     - mkdir logs
     - 'php -S 0.0.0.0:80 -t public/ > logs/phpd.log 2>&1 &'
-    - wait-for-it -h $RUNNER_IP:80
+    - wait-for-it -h $RUNNER_IP:80 -h $SELENIUM_HOST:4444
     - codecept build
   services:
     - mysql:5.7.13
@@ -54,6 +54,7 @@ acceptance7.0:
     MYSQL_PASSWORD: testpass
     MYSQL_DATABASE: test
     BROWSER: firefox
+    SELENIUM_HOST: selenium__standalone-firefox
     YII_ENV: "codeception"
   script:
     - codecept run acceptance
