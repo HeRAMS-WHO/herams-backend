@@ -195,7 +195,7 @@ echo Html::endTag('table');
     <thead>
     <tr>
         <th style="width: 35px;"></th>
-        <th><?=Yii::t('app', 'Protracted country'); ?></th>
+        <th><?=Yii::t('app', 'Protracted country / territory'); ?></th>
         <th style="width: 35px"></th>
         <th></th>
     </tr>
