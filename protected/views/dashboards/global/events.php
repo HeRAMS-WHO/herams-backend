@@ -223,7 +223,7 @@ JS
         <thead>
         <tr>
             <th style="width: 35px;"></th>
-            <th><?=Yii::t('app', 'Graded country'); ?></th>
+            <th><?=Yii::t('app', 'Graded country / territory'); ?></th>
             <th><?=Yii::t('app', 'Event'); ?></th>
             <th><?=Yii::t('app', 'Grading stage'); ?></th>
             <th><?=Yii::t('app', 'Date'); ?></th>

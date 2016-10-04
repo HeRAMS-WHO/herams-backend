@@ -69,7 +69,7 @@ foreach($regionDistribution as $value => $count) {
 <div class="row">
     <?=$this->render('greyHeader')?>
     <div class="col-md-5">
-        <span class="h3"><span class="h1"><?=count($countriesResponses)?></span> <?=\Yii::t('app', 'Graded/protracted* countries')?></span>
+        <span class="h3"><span class="h1"><?=count($countriesResponses)?></span> <?=\Yii::t('app', 'Graded/protracted* countries / territories')?></span>
         <?php
         echo \miloschuman\highcharts\Highcharts::widget([
             'options' => [
@@ -104,7 +104,7 @@ foreach($regionDistribution as $value => $count) {
             'id' => 'countries'
         ]);
         ?>
-        <span class="h3"><?=\Yii::t('app', 'Regional distribution of graded/protracted* countries')?></span>
+        <span class="h3"><?=\Yii::t('app', 'Regional distribution of graded/protracted* countries / territories')?></span>
         <?php
         echo \miloschuman\highcharts\Highcharts::widget([
             'options' => [
@@ -157,7 +157,7 @@ foreach($regionDistribution as $value => $count) {
     <thead>
     <tr>
         <th style="width: 35px;"></th>
-        <th><?=Yii::t('app', 'Graded country'); ?></th>
+        <th><?=Yii::t('app', 'Graded country / territory'); ?></th>
         <th><?=Yii::t('app', 'Grading stage'); ?></th>
         <th><?=Yii::t('app', 'Date'); ?></th>
     </tr>

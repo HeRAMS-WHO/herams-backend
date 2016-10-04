@@ -78,7 +78,7 @@ foreach($eventsData as $value => $count) {
 <div class="row">
     <?=$this->render('greyHeader')?>
     <div class="col-xs-12 h3"><span class="h1"><?=count($healthClustersResponses)?></span> <?=\Yii::t('app', 'Active health clusters')?></div>
-    <div class="col-sm-6"><h4 class="chart-head"><?=\Yii::t('app', 'in {amount} graded countries', ['amount' => count($countriesResponses)])?></h4></div>
+    <div class="col-sm-6"><h4 class="chart-head"><?=\Yii::t('app', 'in {amount} graded countries / territories', ['amount' => count($countriesResponses)])?></h4></div>
     <div class="col-sm-6"><h4 class="chart-head"><?=\Yii::t('app', 'having {amount} events', ['amount' => count($eventsResponses)])?></h4></div>
     <?php
     echo \miloschuman\highcharts\Highcharts::widget([
