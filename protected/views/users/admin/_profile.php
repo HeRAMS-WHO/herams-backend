@@ -55,7 +55,7 @@ echo Form::widget([
             'options' => [
                 'data' => $profile->countryOptions(),
                 'options' => [
-                    'placeholder' => \Yii::t('app', 'Country / Territory')
+                    'placeholder' => \Yii::t('app', 'Country')
                 ]
             ]
         ],
