@@ -27,8 +27,8 @@ class Generator extends \prime\reportGenerators\base\Generator
         ResponseCollectionInterface $responses,
         SurveyCollectionInterface $surveys,
         ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
+        SignatureInterface $signature,
+        UserDataInterface $userData
     ) {
         $stream = \GuzzleHttp\Psr7\stream_for('');
         $userData = new UserData();

@@ -10,8 +10,10 @@ use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\UserDataInterface;
+use prime\models\ar\UserData;
 use prime\objects\Report;
 use prime\objects\ResponseCollection;
+use prime\objects\Signature;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
@@ -44,23 +46,22 @@ class Generator extends \prime\reportGenerators\base\Generator
      * All responses to be used are given as 1 array of Response objects.
      * @param ResponseCollectionInterface $responses
      * @param SurveyCollectionInterface $surveys
-     * @param SignatureInterface $signature
      * @param ProjectInterface $project
+     * @param SignatureInterface $signature
      * @param UserDataInterface|null $userData
      * @return ReportInterface
      */
     public function render(
         ResponseCollectionInterface $responses,
-        SurveyCollectionInterface $surveys,
+        SurveyCollectionInterface $surveys = null,
         ProjectInterface $project,
-        SignatureInterface $signature = null,
-        UserDataInterface $userData = null
+        SignatureInterface $signature,
+        UserDataInterface $userData
     ) {
         $this->initResponses($responses);
         $stream = \GuzzleHttp\Psr7\stream_for($this->view->render('publish', [
             'userData' => $userData,
             'signature' => $signature,
-            'responses' => $responses,
             'project' => $project
         ], $this));
         return new Report($userData, $signature, $stream, __CLASS__, $this->getReportTitle($project, $signature));

@@ -4,7 +4,6 @@ class UserCest
 {
     public function _before(AcceptanceTester $I)
     {
-        $I->runMigrations();
     }
 
     public function _after(AcceptanceTester $I)
@@ -38,12 +37,13 @@ class UserCest
         $I->fillField('Last Name', 'Doe');
         $I->fillField('Email', $email);
         $I->fillField('Organization', 'Tester');
-        $I->selectOption('Country', 'Belgium');
+
+        $I->select2Option(['css' => '[name*=country]'], 'Belgium');
         $I->fillField('Location', 'Corner');
         $I->fillField('Captcha', 'test');
         $I->click('Submit');
-        // Check source since this is a javascript popup.
-        $I->seeInSource('Your account has been created');
+        $I->wait(5);
+        $I->waitForText('Your account has been created');
         $I->seeInDatabase('user', [
             'email' => $email
         ]);
@@ -61,20 +61,17 @@ class UserCest
         $I->fillField('Login', $email);
         $I->fillField('Password', $password);
         $I->click('Login');
+        $I->wait(3);
         $I->see('You need to confirm your email address');
     }
 
-    public function testLogin(AcceptanceTester $I)
+    public function testLogin(\Step\Acceptance\User $I)
     {
         $I->amOnPage('/');
-        $I->dontSeeInSource('Log out');
-        $I->login();
     }
 
-    public function testAdminLogin(\Step\Acceptance\AdminTester $I)
+    public function testAdminLogin(\Step\Acceptance\Admin $I)
     {
         $I->amOnPage('/');
-        $I->dontSeeInSource('Log out');
-        $I->login();
     }
 }

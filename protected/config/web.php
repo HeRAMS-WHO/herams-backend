@@ -15,23 +15,6 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/read'
                 ],
-
-//                [
-//                    'class' => \yii\web\GroupUrlRule::class,
-//                    'prefix' => 'rest',
-//                    'routePrefix' => '',
-//                    'rules' => [
-//                        [
-//                            'pattern' => '<model:\w+>',
-//                            'route' => 'rest/list'
-//                        ],
-//                        [
-//                            'pattern' => '<model:\w+>/<id:\w+>',
-//                            'route' => 'rest/read'
-//                        ],
-//
-//                    ]
-//                ]
             ]
         ],
         'request' => [
@@ -48,8 +31,8 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'converter' => [
                 'class' => \yii\web\AssetConverter::class,
                 'commands' => [
-                    'sass' => ['css', 'sass -E "utf-8" {from} {to}'],
-                    'scss' => ['css', 'sass -E "utf-8" {from} {to}'],
+                    'sass' => ['css', 'sassc {from} {to}'],
+                    'scss' => ['css', 'sassc {from} {to}'],
                 ]
                 // Yii::getAlias not yet available.
 //                'destinationDir' => $compiledAssetDir,
@@ -94,14 +77,14 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     ]
 ]);
 
-if (YII_DEBUG && file_exists(__DIR__ . '/debug.php') && YII_ENV !== 'codeception') {
+if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {
     $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/debug.php'));
 }
-if (defined('YII_ENV') && file_exists(__DIR__ . '/envs/' . YII_ENV . '.php')) {
-    $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/envs/' . YII_ENV . '.php'));
-}
 
-if (file_exists(__DIR__ . '/local.php')) {
+$config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/envs/' . YII_ENV . '.php'));
+
+if (file_exists(__DIR__ . '/local.php') && YII_ENV !== 'codeception') {
     $config = yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/local.php'));
 }
+
 return $config;

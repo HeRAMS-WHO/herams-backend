@@ -3,7 +3,7 @@
 ?>
 
 <div class="container-fluid">
-    <?=$this->render('header', ['project' => $project, 'number' => $number, 'from' => $from, 'until' => $until])?>
+    <?=$this->render('header', ['number' => $number, 'from' => $from, 'until' => $until])?>
     <div class="row">
         <h1 class="col-xs-12"><?=$project->getLocality()?></h1>
     </div>

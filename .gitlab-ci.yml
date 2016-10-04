@@ -1,0 +1,67 @@
+stages:
+  - test
+image: sammousa/codeception-php-with-extensions:latest
+cache:
+  paths:
+    - .composercache
+unit7.0:
+  before_script:
+    - eval $(ssh-agent -s)
+    - '[[ $(echo "$SSH_PRIVATE_KEY" | wc -l) -gt 1 ]] || exit 1'
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - wait-for-it -h mysql:3306
+    - echo "Installing composer dependencies. (Could take a few minutes)"
+    - 'COMPOSER_CACHE_DIR=.composercache composer -n install'
+    - echo "OK"
+    - codecept build
+  services:
+    - mysql:5.7.13
+  variables:
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_USER: prime
+    MYSQL_PASSWORD: testpass
+    MYSQL_DATABASE: test
+    DB_HOST: mysql
+    YII_ENV: "codeception"
+  script:
+    - codecept run unit
+acceptance7.0:
+  before_script:
+    - eval $(ssh-agent -s)
+    - cat /etc/hosts
+    - '[[ $(echo "$SSH_PRIVATE_KEY" | wc -l) -gt 1 ]] || exit 1'
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - export RUNNER_IP=$(ip -o -4 addr | grep global | head -n 1 | awk '{print $4}' | cut -d/ -f1)
+    - wait-for-it -h mysql:3306
+    - echo "Installing composer dependencies. (Could take a few minutes)"
+    - 'COMPOSER_CACHE_DIR=.composercache composer -n install'
+    - echo "OK"
+    - echo "Starting PHP built-in server"
+    - mkdir logs
+    - 'php -S 0.0.0.0:80 -t public/ > logs/phpd.log 2>&1 &'
+    - wait-for-it -h $RUNNER_IP:80 -h $SELENIUM_HOST:4444
+    - codecept build
+  services:
+    - mysql:5.7.13
+    - selenium/standalone-firefox:latest
+  variables:
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_USER: prime
+    MYSQL_PASSWORD: testpass
+    MYSQL_DATABASE: test
+    DB_HOST: mysql
+    BROWSER: firefox
+    SELENIUM_HOST: selenium__standalone-firefox
+    YII_ENV: "codeception"
+  script:
+    - codecept run acceptance
+    - du -sh protected/tests/_output
+  artifacts:
+    when: on_failure
+    paths:
+      - protected/tests/_output
+      - logs

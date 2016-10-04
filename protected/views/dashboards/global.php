@@ -37,7 +37,7 @@ use prime\models\mapLayers\CountryGrades;
         'printable' => true,
         'items' => [
             [
-                'label' => \Yii::t('app', 'Graded countries'),
+                'label' => \Yii::t('app', 'Graded countries / territories'),
                 'content' => $this->render('global/countries', ['countriesResponses' => $countriesResponses]),
                 'active' => $layer == 'countryGrades'
             ],

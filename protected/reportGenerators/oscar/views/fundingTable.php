@@ -25,7 +25,7 @@ $generator->beginBlock();
             <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmwho_SQ001]'))?></td>
             <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmwho_SQ002]'))?></td>
             <td><?=$formatter->asPercent(
-                    $generator->getPercentage('resmob2[rmwho_SQ002]', 'resmob2[rmwho_SQ001]') / 100
+                    $generator->getPercentage('resmob2[rmwho_SQ002]', 'resmob2[rmwho_SQ001]')
                 )?></td>
         </tr>
         <?php
@@ -37,7 +37,7 @@ $generator->beginBlock();
             <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmhc_SQ001]'))?></td>
             <td><?=$formatter->asInteger($generator->getQuestionValue('resmob2[rmhc_SQ002]'))?></td>
             <td><?=$formatter->asPercent(
-                    $generator->getPercentage('resmob2[rmhc_SQ002]', 'resmob2[rmhc_SQ001]') / 100
+                    $generator->getPercentage('resmob2[rmhc_SQ002]', 'resmob2[rmhc_SQ001]')
                 )?></td>
         </tr>
         <?php

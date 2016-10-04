@@ -20,8 +20,28 @@ $generator->beginBlock();
                     <?php
                     foreach($data as $title => $value) {
                         $generator->beginBlock();
+                        if (is_array($value)) {
+                            $format = $value[1];
+                            switch ($format) {
+                                case "integer":
+                                    $display = $formatter->asInteger($generator->getQuestionValue($value[0]));
+                                    break;
+                                case "percent":
+                                    $display = $formatter->asPercent($generator->getQuestionValue($value[0]) / 100);
+                                    break;
+                                case "calculatedPercent":
+                                    $generator->markBlock();
+                                    $display = $formatter->asPercent($value[0]);
+                                    break;
+                                default:
+                                    throw new \Exception("INvalid format: $format");
+                            }
+                        } else {
+                            $display = $value;
+                            $generator->markBlock();
+                        }
                         echo "<tr>";
-                        echo Html::tag('td', $value, [
+                        echo Html::tag('td', $display, [
                             'class' => 'col-xs-2'
                         ]);
                         echo Html::tag('td', $title, [

@@ -1,0 +1,135 @@
+
+version: '2'
+services:
+## Running tests
+  unit:
+    extends: codeception
+    entrypoint: "wait-for-it -h $$DB_HOST:3306 -t 100 -- /usr/bin/env codecept run unit"
+    depends_on:
+      - mysql
+## Running tests
+  tests:
+    extends: codeception
+    entrypoint: "wait-for-it -h $$RUNNER_IP:80 -h $$SELENIUM_HOST:4444 -t 100 -- /usr/bin/env codecept run"
+    depends_on:
+      - web
+      - firefox
+## Running codeception helper scripts.
+  codeception:
+    tty: true
+    image: "sammousa/codeception-php-with-extensions"
+    entrypoint: "codecept"
+    volumes:
+      - ./:/project
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: who
+      MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
+      MYSQL_DATABASE: test
+#     We set this to keep compatibility between gitlab-ci and docker compose
+      RUNNER_IP: "web"
+      BROWSER: firefox
+      SELENIUM_HOST: firefox
+      DB_HOST: mysql
+      YII_ENV: codeception
+    user: "${UID}:${GID}"
+
+## Web server
+  web:
+    image: "sammousa/codeception-php-with-extensions"
+    command: "wait-for-it -h $$DB_HOST:3306 -t 100 -- /usr/bin/env php -S 0.0.0.0:80 -t /project/public"
+    depends_on:
+      - mysql
+    volumes:
+      - .:/project
+    environment:
+      YII_ENV: "codeception"
+      MYSQL_USER: who
+      MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
+      MYSQL_DATABASE: test
+      DB_HOST: mysql
+    ports:
+      - "80"
+
+## Mysql server (local)
+  mysql:
+    image: mysql:5.7
+#    volumes:
+#      - ./protected/tests/_output:/docker-entrypoint-initdb.d
+    tmpfs:
+      - /var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: who
+      MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
+      MYSQL_DATABASE: test
+
+
+## Firefox for acceptance testing
+  firefox:
+    image: selenium/standalone-firefox
+
+## Mysql server (tunnel)
+  mysql-tunnel:
+    image: kingsquare/tunnel
+    ports:
+      - "3306:3306"
+    volumes:
+      - $SSH_AUTH_SOCK:/ssh-agent:ro
+    command: "*:3306:localhost:3306 -v sam@vps5.sam-it.eu"
+## Run locally via tunnel.
+  via-tunnel:
+    image: sammousa/nginx-php-fpm-with-extensions
+    depends_on:
+      - mysql-tunnel
+    volumes:
+      - .:/project:ro
+    tmpfs:
+      - /project/protected/runtime:rw,noexec,nosuid,uid=100
+      - /project/public/assets:rw,noexec,nosuid,uid=100
+    environment:
+      YII_ENV: "dev"
+      MYSQL_USER: who
+      MYSQL_PASSWORD: 7rF8YnZv5EZDatfP
+      MYSQL_DATABASE: who
+      DB_HOST: mysql-tunnel
+      WEBROOT: /project/public
+      VIRTUAL_HOST: prime.dev
+    ports:
+      - "12346:80"
+    command: sh -c "sed -i 's/=404/\/index.php?$$args/g' /etc/nginx/sites-available/default.conf && /start.sh"
+
+  cli:
+    image: sammousa/php-with-extensions:7-alpine
+    depends_on:
+      - mysql-tunnel
+    volumes:
+      - .:/project:ro
+      - ./protected/migrations:/project/protected/migrations:rw
+    tmpfs:
+      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID}
+      - /project/public/assets:rw,noexec,nosuid,uid=${UID}
+    environment:
+      YII_ENV: "dev"
+      MYSQL_USER: who
+      MYSQL_PASSWORD: 7rF8YnZv5EZDatfP
+      MYSQL_DATABASE: who
+      DB_HOST: mysql-tunnel
+      COLORS: 1
+
+    entrypoint: ["/project/protected/yiic"]
+    user: "${UID}:${GID}"
+    command: ""
+  phpmyadmin:
+
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysql-tunnel
+    environment:
+     - PMA_HOST=mysql-tunnel
+     - PMA_USER=who
+     - PMA_PASSWORD=7rF8YnZv5EZDatfP
+    ports:
+     - "12346:80"
+    tmpfs:
+     - /sessions

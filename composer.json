@@ -6,7 +6,7 @@
 		"vendor-dir" : "protected/vendor",
 		"bin-dir" : "protected/bin"
 	},
-	"minimum-stability" : "dev",
+	"minimum-stability" : "stable",
     "authors": [
         {
             "name": "Sam Mousa",
@@ -19,7 +19,6 @@
     ],
     "require": {
         "php" : ">=5.6.0",
-        "ext-imagick": "*",
         "ext-gd": "*",
         "befound/yii-befound" : "^2.0.0",
         "kartik-v/yii2-widgets": "^3.4.0",
@@ -28,7 +27,7 @@
         "kartik-v/yii2-grid": "^3.0",
         "kartik-v/yii2-mpdf": "^1.0",
         "kartik-v/yii2-date-range" : "^1.6",
-        "dektrium/yii2-user": "dev-master",
+        "dektrium/yii2-user": "^0.9.9",
         "bariew/yii2-module-migration-controller": "1.*",
         "psr/http-message": "^1.0",
         "bower-asset/bootstrap-sass": "^3.3",
@@ -37,10 +36,10 @@
         "bower-asset/is-loading": "^1",
         "bower-asset/bootbox": "^4.4",
         "miloschuman/yii2-highcharts-widget": "^4",
-        "yiisoft/yii2": "dev-master",
+        "yiisoft/yii2": "^2.0.9",
         "treffynnon/navigator": "^1",
         "sam-it/ls2-jsonrpc-client": "^0.8.0",
-        "dektrium/yii2-rbac": "^0.2.0",
+        "dektrium/yii2-rbac": "^1.0.0-alpha",
         "npm-asset/mresize": "^1.0",
         "bower-asset/bootstrap-social": "^4.10",
         "bower-asset/jquery-locationpicker-plugin": "^0.1.12",
@@ -62,24 +61,13 @@
         },
         "classmap" : [
             "protected/reportGenerators/",
-            "protected/Yii.php"
+            "protected/Yii.php",
+            "protected/vendor/yiisoft/yii2"
         ]
     },
     "require-dev": {
         "yiisoft/yii2-debug" : "*",
-        "codeception/codeception": "^2.1",
-        "yiisoft/yii2-codeception": "^2.0",
-        "codeception/phpbuiltinserver": "^1.2",
-        "site5/phantoman": "^1.1",
-        "jakoch/phantomjs-installer": "^2.1"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "PhantomInstaller\\Installer::installPhantomJS"
-        ],
-        "post-update-cmd": [
-            "PhantomInstaller\\Installer::installPhantomJS"
-        ]
+        "yiisoft/yii2-codeception": "^2.0"
     },
     "extra": {
         "asset-installer-paths": {
