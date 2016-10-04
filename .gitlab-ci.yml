@@ -17,7 +17,7 @@ unit7.0:
     - echo "OK"
     - codecept build
   services:
-    - mysql:5.7
+    - mysql:5.7.13
   variables:
     MYSQL_ROOT_PASSWORD: secret
     MYSQL_USER: prime
@@ -46,14 +46,13 @@ acceptance7.0:
     - wait-for-it -h $RUNNER_IP:80
     - codecept build
   services:
-    - mysql:5.7
+    - mysql:5.7.13
     - selenium/standalone-firefox:latest
   variables:
     MYSQL_ROOT_PASSWORD: secret
     MYSQL_USER: prime
     MYSQL_PASSWORD: testpass
     MYSQL_DATABASE: test
-    MYSQL_HOST: mysql
     BROWSER: firefox
     YII_ENV: "codeception"
   script:
