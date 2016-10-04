@@ -53,6 +53,7 @@ acceptance7.0:
     MYSQL_USER: prime
     MYSQL_PASSWORD: testpass
     MYSQL_DATABASE: test
+    MYSQL_HOST: mysql
     BROWSER: firefox
     SELENIUM_HOST: selenium__standalone-firefox
     YII_ENV: "codeception"
