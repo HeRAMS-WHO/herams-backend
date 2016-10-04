@@ -60,6 +60,7 @@ acceptance7.0:
     - codecept run acceptance
     - du -sh protected/tests/_output
   artifacts:
+    when: on_failure
     paths:
       - protected/tests/_output
       - logs
