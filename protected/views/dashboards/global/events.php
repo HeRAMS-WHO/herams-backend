@@ -108,7 +108,7 @@ JS
     <?=$this->render('greyHeader')?>
     <div class="col-md-5">
         <span class="h3"><span class="h1"><?=count($eventsResponses)?></span> <?=\Yii::t('app', 'Graded events in')?>
-            <span class="h1"><?=count($countryCount)?></span> <?=\Yii::t('app', 'graded countries')?></span>
+            <span class="h1"><?=count($countryCount)?></span> <?=\Yii::t('app', 'graded countries / territoriesc')?></span>
         <?php
         echo \miloschuman\highcharts\Highcharts::widget([
             'options' => [
