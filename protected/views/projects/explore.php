@@ -157,7 +157,7 @@ $this->params['subMenu']['items'][] = [
         'src' => 'https://explore.primewho.org#' . json_encode($config),
             'style' => [
                 'display' => 'block',
-                'height' => '800px',
+                'width' => '100%',
                 'border' => 'none'
             ]
         ]);
