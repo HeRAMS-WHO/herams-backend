@@ -53,7 +53,7 @@ return [
             'defaultRoles' => ['user']
         ],
         'cache' => [
-            'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
+            'class' => false && YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
         ],
         'formatter' => [
             'numberFormatterOptions' => [
@@ -147,6 +147,8 @@ return [
             'icons.request' => 'forward',
             'icons.limeSurveyUpdate' => 'pencil',
             'icons.requestAccess' => 'info-sign'
-        ]
+        ],
+        'publicKey' => file_get_contents(__DIR__ . '/public.key'),
+        'privateKey' => file_get_contents(__DIR__ . '/private.key')
     ]
 ];

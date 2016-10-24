@@ -46,7 +46,8 @@
         "nesbot/carbon": "^1.21",
         "kartik-v/yii2-tabs-x": "^1.2.3 | @dev",
         "sam-it/yii2-magic": "^1.0.3",
-        "primal/color": "dev-master"
+        "primal/color": "dev-master",
+        "lcobucci/jwt": "^3.2"
     },
 	"repositories": [
 		{
@@ -66,13 +67,20 @@
         ]
     },
     "require-dev": {
-        "yiisoft/yii2-debug" : "*",
-        "yiisoft/yii2-codeception": "^2.0"
+        "yiisoft/yii2-debug" : "*"
     },
     "extra": {
         "asset-installer-paths": {
             "bower-asset-library" : "protected/vendor/bower",
             "npm-asset-library" : "protected/vendor/bower"
-        }
+        },
+        "asset-repositories": [
+          {
+            "name": "npm-asset/data-exploration-tool",
+            "type": "npm-vcs",
+            "url": "git@gitlab.sam-it.eu:who/data-exploration-tool.git"
+          }
+        ]
+
     }
 }
