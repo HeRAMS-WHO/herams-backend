@@ -3,6 +3,7 @@
 namespace prime\controllers;
 
 use kartik\widgets\Growl;
+use Lcobucci\JWT\Builder;
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\ReportGeneratorInterface;
@@ -100,6 +101,31 @@ class ToolsController extends Controller
             'projectsDataProvider' => $projectsDataProvider
 
         ]);
+    }
+
+
+    /**
+     * Data exploration.
+     * @return string
+     */
+    public function actionExplore(User $user, $id)
+    {
+        $tool = Tool::loadOne($id);
+
+        $builder = new Builder();
+        $builder
+            ->setIssuedAt(time())
+            ->setExpiration(time() + 600)
+            ->set('userId', $user->id)
+            ->setIssuer("https://primewho.org")
+            ->setAudience('https://primewho.org')
+            ->sign(new \Lcobucci\JWT\Signer\Rsa\Sha512(), file_get_contents(__DIR__ . '/../config/private.key'));
+
+
+        /** @var \Lcobucci\JWT\Token $token */
+        $token = $builder->getToken();
+        return $this->render('explore', ['model' => $tool, 'token' => $token]);
+
     }
 
     /**

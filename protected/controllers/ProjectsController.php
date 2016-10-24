@@ -437,7 +437,6 @@ class ProjectsController extends Controller
      */
     public function actionExplore(User $user, $id)
     {
-
         $project = Project::loadOne($id);
 
         $builder = new Builder();
