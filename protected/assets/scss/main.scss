@@ -25,18 +25,21 @@ $font-family-base: "Open Sans";
     width: 100%;
   }
 }
+nav {
+  border-bottom-width: 0 !important;
+}
 
 .btn-prime {
     @include button-variant(#fff, $navbar-default-link-color, darken($navbar-default-link-color, 5%));
 }
 
-  nav:first-of-type + * {
-    margin-top: $navbar-height + $navbar-margin-bottom;
-  }
+nav:first-of-type + * {
+  margin-top: $navbar-height + $navbar-margin-bottom;
+}
 
-  nav:first-of-type + nav {
-    margin-top: $navbar-height;
-  }
+nav:first-of-type + nav {
+  margin-top: $navbar-height;
+}
 
   ///* BEGIN Navbar styling */
   $link-part: 0.5;

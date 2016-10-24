@@ -153,23 +153,22 @@ $this->params['subMenu']['items'][] = [
         "token" => (string)$token
     ];
 
-    echo Html::tag('div', Html::tag('iframe', '', [
-//        'class' => 'resize',
+    echo Html::tag('iframe', '', [
         'src' => 'https://explore.primewho.org#' . json_encode($config),
             'style' => [
-                'width' => '100%',
-                'height' => '100%',
+                'display' => 'block',
+                'height' => '800px',
                 'border' => 'none'
             ]
-        ]), [
-//            'style' => [
-//                'position' => 'fixed',
-//                'left' => '0px',
-//                'right' => '0px',
-//                'bottom' => '0px',
-//                'top' => '70px',
-//            ]
         ]);
     ?>
+    <script>
+        (function(iframe) {
+            iframe .style.height = window.innerHeight - 160 + 'px';
+            document.addEventListener('onResize', function () {
+                iframe.style.height = window.innerHeight - 160 + 'px';
+            })
+        })(document.getElementsByTagName('iframe')[0]);
+    </script>
 </div>
 
