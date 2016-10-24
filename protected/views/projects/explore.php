@@ -146,8 +146,8 @@ $this->params['subMenu']['items'][] = [
      * @todo Add proper auth
      */
     $config = [
-        "responseUrl" => 'https://localhost' . Url::toRoute(['api/collections/view', 'id' => $model->id, '_format' => 'json'], false),
-        "structureUrl" => 'https://localhost' . Url::toRoute(['api/surveys/view', 'id' => $model->data_survey_eid, '_format' => 'json'], false),
+        "responseUrl" => Url::toRoute(['api/collections/view', 'id' => $model->id, '_format' => 'json'], true),
+        "structureUrl" => Url::toRoute(['api/surveys/view', 'id' => $model->data_survey_eid, '_format' => 'json'], true),
         "seriesColumn" => null,
         "filterExpression" => "CM.*",
         "token" => (string)$token
