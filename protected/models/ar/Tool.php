@@ -37,6 +37,7 @@ use yii\validators\SafeValidator;
  * @property string $default_generator
  * @property Map $generators
  * @property string $explorer_regex
+  @property string $explorer_name
  * @method static ToolQuery find()
  */
 class Tool extends ActiveRecord implements ProjectInterface {
