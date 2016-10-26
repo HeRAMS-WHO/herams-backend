@@ -94,6 +94,14 @@ $this->params['subMenu'] = [
                 'options' => [
                     'prompt' => \Yii::t('app', "None")
                 ]
+            ],
+            'explorer_regex' => [
+                'type' => Form::INPUT_TEXT,
+                'hint' => \Yii::t("app", "This is used by the data explorer to decide what filters and graphs are available."),
+            ],
+            'explorer_name' => [
+                'type' => Form::INPUT_TEXT,
+                'hint' => \Yii::t("app", "The name of the main entity in the data explorer."),
             ]
         ]
     ]);

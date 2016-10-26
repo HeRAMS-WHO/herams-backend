@@ -30,7 +30,6 @@ unit7.0:
 acceptance7.0:
   before_script:
     - eval $(ssh-agent -s)
-    - cat /etc/hosts
     - '[[ $(echo "$SSH_PRIVATE_KEY" | wc -l) -gt 1 ]] || exit 1'
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
