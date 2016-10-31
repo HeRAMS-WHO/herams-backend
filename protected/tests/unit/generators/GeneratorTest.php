@@ -7,7 +7,7 @@ use prime\interfaces\ConfigurableGeneratorInterface;
 use prime\models\ar\UserData;
 use prime\objects\Signature;
 
-class GeneratorTest extends \yii\codeception\TestCase
+class GeneratorTest extends \Codeception\Test\Unit
 {
     protected function _before()
     {

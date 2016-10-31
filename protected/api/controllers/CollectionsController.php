@@ -5,6 +5,7 @@ namespace prime\api\controllers;
 
 
 use prime\models\ar\Project;
+use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\caching\Cache;
@@ -13,15 +14,21 @@ use yii\helpers\ArrayHelper;
 class CollectionsController extends Controller
 {
 
-    public function actionView(Client $limeSurvey, Cache $cache, $id)
+    public function actionView(Client $limeSurvey, Cache $cache, $id, $entity = 'project')
     {
-        $cacheKey = __CLASS__ . __FILE__ . $id;
+        $cacheKey = __CLASS__ . __FILE__ . $id . $entity;
         if (false === $responses = $cache->get($cacheKey)) {
             $responses = [];
-            $project = Project::loadOne($id);
-//            vdd($project);
 
-            foreach($project->getResponses() as $response) {
+            switch ($entity) {
+                case 'project':
+                    $data = Project::loadOne($id)->getResponses();
+                    break;
+                case 'tool':
+                    $data = Tool::loadOne($id)->getResponses();
+            }
+
+            foreach($data as $response) {
                 $responses[] = $response->getData();
             }
             $cache->set($cacheKey, $responses, 3600);

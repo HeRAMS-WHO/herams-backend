@@ -16,7 +16,7 @@ class ArrayResponse extends Response implements ResponseInterface {
     }
 }
 
-class OscarTest extends \yii\codeception\TestCase
+class OscarTest extends \Codeception\Test\Unit
 {
     protected function _before()
     {

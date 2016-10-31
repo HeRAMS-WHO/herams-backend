@@ -40,19 +40,21 @@ class SassAsset extends AssetBundle
 
     public function publish($am)
     {
-        list ($this->basePath, $this->baseUrl) = $am->publish($this->sourcePath, $this->publishOptions);
-        $copy = [
-            __DIR__ . '/fonts' => $this->basePath . '/fonts/prime',
-            __DIR__ . '/scss/main.scss' => $this->basePath . '/stylesheets/main.scss',
+        if (isset($this->sourcePath)) {
+            list ($this->basePath, $this->baseUrl) = $am->publish($this->sourcePath, $this->publishOptions);
+            $copy = [
+                __DIR__ . '/fonts' => $this->basePath . '/fonts/prime',
+                __DIR__ . '/scss/main.scss' => $this->basePath . '/stylesheets/main.scss',
 
-        ];
-        foreach($copy as $source => $target) {
-            if (is_dir($source) && $this->hasDirChanged($source, $target)) {
-                FileHelper::copyDirectory($source, $target);
-            } elseif ($this->hasFileChanged($source, $target)) {
-                copy($source, $target);
+            ];
+            foreach ($copy as $source => $target) {
+                if (is_dir($source) && $this->hasDirChanged($source, $target)) {
+                    FileHelper::copyDirectory($source, $target);
+                } elseif ($this->hasFileChanged($source, $target)) {
+                    copy($source, $target);
+                }
+
             }
-
         }
         parent::publish($am);
 

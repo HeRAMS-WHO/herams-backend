@@ -39,3 +39,6 @@ modules:
       dsn: 'mysql:host=mysql;dbname=%MYSQL_DATABASE%'
       password: '%MYSQL_PASSWORD%'
       user: '%MYSQL_USER%'
+    Yii2:
+      configFile: protected/config/unit.php
+      parts: [init, orm]
