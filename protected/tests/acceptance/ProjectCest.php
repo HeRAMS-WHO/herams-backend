@@ -56,8 +56,10 @@ class ProjectCest
     public function testCreateProject(Admin $I)
     {
         $I->amOnPage('/projects');
-        $I->click('Create');
+        $I->click(['link' => 'Create']);
+        $I->wait(1);
         $I->seeCurrentUrlEquals('/projects/create');
+
         $I->fillField('Title', "My new project");
         $I->fillHtmlField(['css' => '[name*=description]'], "desc");
         $I->selectOption('Tool', 'Cluster Description');

@@ -4,7 +4,7 @@ namespace Step\Acceptance;
 use Page\Login;
 use Codeception\Scenario;
 
-class User extends \AcceptanceTester
+class User extends Guest
 {
     /**
      * Define custom actions here

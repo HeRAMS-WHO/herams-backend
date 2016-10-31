@@ -1,5 +1,7 @@
 <?php
 
+
+use Step\Acceptance\Guest;
 class UserCest
 {
     public function _before(AcceptanceTester $I)
@@ -11,17 +13,14 @@ class UserCest
     }
 
     // tests
-    public function testDifferentPasswords(AcceptanceTester $I)
+    public function testDifferentPasswords(Guest $I)
     {
-        $I->amOnPage('/');
-        $I->click('Login or sign up');
-        $I->click('Sign up');
-        $I->seeCurrentUrlEquals('/user/register');
-
+        $I->amOnPage('/user/register');
         $I->fillField('Password', 'Test');
         $I->fillField('Confirmation', 'Test1');
 
         $I->click('Submit');
+        $I->wait(1);
         $I->seeCurrentUrlEquals('/user/register');
         $I->see('must be equal');
         $I->dontSeeInSource('Your account has been created');

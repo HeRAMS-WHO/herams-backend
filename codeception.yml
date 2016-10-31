@@ -18,6 +18,7 @@ extensions:
   enabled:
     - Codeception\Extension\RunFailed
     - Codeception\Extension\Recorder
+    - Codeception\Extension\Teststatistics
 modules:
   enabled:
     - Db
