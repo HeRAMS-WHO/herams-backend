@@ -29,11 +29,13 @@ class Controller extends \yii\rest\ActiveController
         \Yii::$app->user->loginUrl = null;
     }
 
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::class,
+            'optional' => ['*'],
             'authMethods' => [
                 [
                     'class' => QueryParamAuth::class,

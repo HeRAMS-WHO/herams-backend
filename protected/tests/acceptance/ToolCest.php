@@ -10,7 +10,7 @@ class ToolCest
     {
         $toolTitle = 'Test tool';
         $I->amOnPage('/tools');
-        $I->click('Create');
+        $I->click(['link' => 'Create']);
         $I->fillField('Title', $toolTitle);
         $I->fillField('Acronym', 'T');
         $I->fillHtmlField(['css' => '[name*=description]'], 'Test description');

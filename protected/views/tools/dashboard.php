@@ -22,6 +22,16 @@ $this->params['subMenu']['items'] = [
     ]
 ];
 
+$this->params['subMenu']['items'][] = [
+    'label' => Html::icon(Setting::get('icons.explore', 'tint')),
+    'url' => ['tools/explore', 'id' => $model->id],
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Explore data'),
+    ],
+];
+
+
 if(isset($model->defaultGenerator)) {
     $this->params['subMenu']['items'][] = [
         'label' => Html::icon(Setting::get('icons.preview')),

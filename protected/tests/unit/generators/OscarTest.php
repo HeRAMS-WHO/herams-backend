@@ -16,7 +16,7 @@ class ArrayResponse extends Response implements ResponseInterface {
     }
 }
 
-class OscarTest extends \yii\codeception\TestCase
+class OscarTest extends \Codeception\Test\Unit
 {
     protected function _before()
     {
@@ -229,8 +229,6 @@ ue56u5r
         );
 
         $html = $result->getStream()->getContents();
-        file_put_contents(__DIR__ . '/oscar.html', $html);
-
         // Check for empty rows.
         $this->assertEquals(0, preg_match('-\<div class="row">\s*\</div\>-', $html));
 

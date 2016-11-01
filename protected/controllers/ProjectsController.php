@@ -2,17 +2,12 @@
 
 namespace prime\controllers;
 
-use app\components\Html;
 use app\queries\ProjectQuery;
 use app\queries\ToolQuery;
 use Befound\Components\DateTime;
 use kartik\depdrop\DepDropAction;
-use prime\api\Api;
-use prime\components\AccessRule;
-use prime\components\ActiveQuery;
 use prime\components\Controller;
 use prime\models\ar\Setting;
-use prime\models\Country;
 use prime\models\forms\projects\CreateUpdate;
 use prime\models\forms\Share;
 use prime\models\forms\projects\Token;
@@ -24,9 +19,7 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
-use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
@@ -34,8 +27,7 @@ use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
 use yii\web\Response;
-use yii\widgets\ActiveField;
-use yii\widgets\ActiveForm;
+use Lcobucci\JWT\Builder;
 
 class ProjectsController extends Controller
 {
@@ -439,24 +431,28 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionExplore()
+    /**
+     * Data exploration.
+     * @return string
+     */
+    public function actionExplore(User $user, $id)
     {
-        return $this->renderContent(Html::tag('div', Html::tag('iframe', '', [
-            'src' => 'https://prime.shinyapps.io/herams_prime/?surveyId=695195&locale=fr&country=CAF',
-            'style' => [
-                'width' => '100%',
-                'height' => '100%',
-                'border' => 'none'
-            ]
-        ]), [
-            'style' => [
-                'position' => 'fixed',
-                'left' => '0px',
-                'right' => '0px',
-                'bottom' => '0px',
-                'top' => '70px',
-            ]
-        ]));
+        $project = Project::loadOne($id);
+
+        $builder = new Builder();
+        $builder
+            ->setIssuedAt(time())
+            ->setExpiration(time() + 600)
+            ->set('userId', $user->id)
+            ->setIssuer("https://primewho.org")
+            ->setAudience('https://primewho.org')
+            ->sign(new \Lcobucci\JWT\Signer\Rsa\Sha512(), file_get_contents(__DIR__ . '/../config/private.key'));
+
+
+        /** @var \Lcobucci\JWT\Token $token */
+        $token = $builder->getToken();
+        return $this->render('explore', ['model' => $project, 'token' => $token]);
+
     }
     public function behaviors()
     {

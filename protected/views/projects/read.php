@@ -13,6 +13,16 @@ use prime\models\ar\Setting;
 $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
+    'label' => Html::icon(Setting::get('icons.explore', 'tint')),
+    'url' => ['/projects/explore', 'id' => $model->id],//$model->surveyUrl,
+    'visible' => $model->userCan(Permission::PERMISSION_READ, app()->user->identity) && $model->closed === null,
+    'options' => [
+        'class' => 'icon',
+        'title' => \Yii::t('app', 'Explore data'),
+    ],
+];
+
+$this->params['subMenu']['items'][] = [
     'label' => Html::icon(Setting::get('icons.limeSurveyUpdate')),
     'url' => ['/projects/update-lime-survey', 'id' => $model->id],//$model->surveyUrl,
     'visible' => $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity) && $model->closed === null,

@@ -6,7 +6,11 @@ namespace prime\api;
 use \Yii;
 use yii\base\Module;
 use yii\log\FileTarget;
-use yii\web\Response;
+use yii\filters\auth\CompositeAuth;
+use yii\filters\auth\HttpBearerAuth;
+
+use yii\filters\auth\QueryParamAuth;
+
 
 class Api extends Module
 {
@@ -25,4 +29,6 @@ class Api extends Module
             'levels' => ['warning', 'error', 'info']
         ]);
     }
+
+
 }

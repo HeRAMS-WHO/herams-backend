@@ -24,6 +24,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function fillHtmlField($field, $value)
     {
         $id = $this->grabAttributeFrom($field, 'id');
+        $this->waitForJS("return typeof CKEDITOR.instances[" . json_encode($id) . "] !== 'undefined';", 10);
         $this->executeJS("CKEDITOR.instances[" . json_encode($id) . "].setData(" . json_encode($value) . ");");
     }
 

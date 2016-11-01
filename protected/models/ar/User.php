@@ -2,6 +2,9 @@
 
 namespace prime\models\ar;
 
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Rsa\Sha512;
+use Lcobucci\JWT\ValidationData;
 use prime\models\permissions\Permission;
 use prime\objects\Signature;
 use yii\helpers\Url;
@@ -86,7 +89,7 @@ class User extends \dektrium\user\models\User {
 
     public function getIsAdmin()
     {
-        return app()->user->can('admin')
+        return app()->authManager->checkAccess($this->id, 'admin')
         && app()->request->getQueryParam(self::NON_ADMIN_KEY) === null;
     }
 
@@ -122,6 +125,23 @@ class User extends \dektrium\user\models\User {
 
     public static function findIdentityByAccessToken($token, $type = null)
     {
+        // First try JWT.
+        try {
+            $token = (new Parser())->parse($token);
+            $data = new ValidationData();
+            $data->setIssuer('https://primewho.org');
+            $data->setAudience('https://primewho.org');
+            if ($token->verify(new Sha512(), app()->params['publicKey'])
+                && $token->validate($data)
+                && $token->hasClaim('userId')
+            ) {
+                return static::findOne($token->getClaim('userId'));
+            }
+        } catch(\InvalidArgumentException $e) {
+
+        }
+
+
         return static::findOne(['access_token' => $token]);
     }
 

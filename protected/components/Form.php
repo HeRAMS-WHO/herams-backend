@@ -2,8 +2,11 @@
 
 namespace app\components;
 
+use SamIT\Yii2\Traits\HighlightUnsafeAttributesTrait;
+
 class Form extends \kartik\builder\Form
 {
+    use HighlightUnsafeAttributesTrait;
     protected static function renderActiveInput($form, $model, $attribute, $settings)
     {
         if(

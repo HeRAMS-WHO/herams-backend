@@ -18,6 +18,7 @@ use prime\objects\SurveyCollection;
 use Psr\Http\Message\StreamInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
+use yii\base\ErrorException;
 use yii\helpers\ArrayHelper;
 use yii\validators\BooleanValidator;
 use yii\validators\RangeValidator;
@@ -35,6 +36,8 @@ use yii\validators\SafeValidator;
  * @property string $description
  * @property string $default_generator
  * @property Map $generators
+ * @property string $explorer_regex
+  @property string $explorer_name
  * @method static ToolQuery find()
  */
 class Tool extends ActiveRecord implements ProjectInterface {
@@ -213,10 +216,21 @@ class Tool extends ActiveRecord implements ProjectInterface {
     public function rules()
     {
         return [
-            [['title', 'acronym', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generatorsArray'], 'required'],
+            [[
+                'title', 'acronym', 'description', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'generatorsArray'
+            ], 'required'],
             //[['tempImage'], 'required', 'on' => ['create']],
             [['title', 'acronym', 'description'], 'string'],
             [['title'], 'unique'],
+            [['explorer_regex'], function($attribute, $params) {
+                try {
+                    preg_match("/" . $this->{$attribute} . "/", "test");
+                } catch (ErrorException $e) {
+                    $this->addError($attribute, $e->getMessage());
+                }}, 'clientValidate' => function() {
+                    return 'try { new RegExp("/" + value + "/i") } catch (e) { messages.push(e); }';
+                }
+            ],
             [['tempImage', 'thumbTempImage'], 'image'],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
@@ -235,7 +249,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
     {
         return [
             'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generatorsArray', 'hidden'],
-            'update' => ['title', 'acronym', 'description', 'tempImage', 'thumbTempImage', 'generatorsArray', 'base_survey_eid', 'progress_type', 'hidden', 'default_generator']
+            'update' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage', 'generatorsArray', 'hidden', 'default_generator', 'explorer_regex', 'explorer_name']
         ];
     }
 
