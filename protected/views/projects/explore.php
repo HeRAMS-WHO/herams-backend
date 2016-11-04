@@ -159,7 +159,7 @@ $this->params['subMenu']['items'][] = [
     echo Html::tag('iframe', '', [
 
         'src' => 'https://explore.primewho.org#' . base64_encode(json_encode($config)),
-        'src' => 'http://localhost:4200#' . base64_encode(json_encode($config)),
+//        'src' => 'http://localhost:4200#' . base64_encode(json_encode($config)),
             'style' => [
                 'display' => 'block',
                 'width' => '100%',
