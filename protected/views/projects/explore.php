@@ -148,14 +148,18 @@ $this->params['subMenu']['items'][] = [
     $config = [
         "responseUrl" => Url::toRoute(['api/collections/view', 'id' => $model->id, 'entity' => 'project', '_format' => 'json'], true),
         "structureUrl" => Url::toRoute(['api/surveys/view', 'id' => $model->data_survey_eid, '_format' => 'json'], true),
+        "mapUrl" => Url::toRoute(['api/maps/view', 'id' => 3, '_format' => 'json'], true),
         "seriesColumn" => null,
         "filterExpression" => $model->tool->explorer_regex,
         "mainEntity" => $model->tool->explorer_name,
-        "token" => (string)$token
+
+        "token" => $token->__toString()
     ];
 
     echo Html::tag('iframe', '', [
-        'src' => 'https://explore.primewho.org#' . json_encode($config),
+
+        'src' => 'https://explore.primewho.org#' . base64_encode(json_encode($config)),
+        'src' => 'http://localhost:4200#' . base64_encode(json_encode($config)),
             'style' => [
                 'display' => 'block',
                 'width' => '100%',

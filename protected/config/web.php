@@ -9,7 +9,10 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'rules' => [
                 [
                     'class' => \yii\rest\UrlRule::class,
-                    'controller' => ['api/surveys', 'api/collections'],
+                    'controller' => ['api/surveys', 'api/collections', 'api/maps'],
+                    'tokens' => [
+                        '{id}' => '<id:\\w[\\w,]*>'
+                    ]
                 ],
                 [
                     'pattern' => '<controller>/<id:\d+>',

@@ -52,7 +52,7 @@ class CollectionsController extends Controller
             ],
             'cache' => [
                 'class' => \yii\filters\HttpCache::class,
-                'lastModified' => function($action, $params) {
+                'lastModified' => function(\yii\base\Action $action, $params) {
                     return 0;
                 }
 //                'only' => ['view'],

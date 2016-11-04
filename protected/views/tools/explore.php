@@ -149,6 +149,7 @@ $this->params['subMenu']['items'][] = [
         "responseUrl" => Url::toRoute(['api/collections/view', 'id' => $model->id, 'entity' => 'tool', '_format' => 'json'], true),
         "structureUrl" => Url::toRoute(['api/surveys/view', 'id' => $model->base_survey_eid, '_format' => 'json'], true),
         "seriesColumn" => null,
+        "mapUrl" => Url::toRoute(['api/maps/view', 'id' => 3, '_format' => 'json'], true),
         "filterExpression" => "CM.*",
         "token" => (string)$token
     ];
