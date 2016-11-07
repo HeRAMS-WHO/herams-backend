@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f20133d057e8a984a6749f0f1716c7a7",
-    "content-hash": "3ca239fb9570667ac85dc699424019e0",
+    "hash": "8bf847a15f8e1114120d428c77825281",
+    "content-hash": "540eb1ed17f2012ee1d7a6faf3d7d5c4",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -2471,16 +2471,16 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "7668cb045296f290588d04c391569c7b7fc1f899"
+                "reference": "ddce703826f9c5229781933b1a39069e38e6a0f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/7668cb045296f290588d04c391569c7b7fc1f899",
-                "reference": "7668cb045296f290588d04c391569c7b7fc1f899",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/ddce703826f9c5229781933b1a39069e38e6a0f3",
+                "reference": "ddce703826f9c5229781933b1a39069e38e6a0f3",
                 "shasum": ""
             },
             "require": {
@@ -2525,7 +2525,7 @@
                 "JWS",
                 "jwt"
             ],
-            "time": "2016-08-13 23:12:58"
+            "time": "2016-10-31 20:09:32"
         },
         {
             "name": "miloschuman/yii2-highcharts-widget",
@@ -2800,16 +2800,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v0.8.3",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "8554885ad4a458d3d2c5092e331bca431f566e59"
+                "reference": "9c46ce36ad6f16a7d858c357757316f281655fe5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/8554885ad4a458d3d2c5092e331bca431f566e59",
-                "reference": "8554885ad4a458d3d2c5092e331bca431f566e59",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/9c46ce36ad6f16a7d858c357757316f281655fe5",
+                "reference": "9c46ce36ad6f16a7d858c357757316f281655fe5",
                 "shasum": ""
             },
             "require": {
@@ -2837,7 +2837,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2016-10-26 07:39:35"
+            "time": "2016-11-07 11:37:24"
         },
         {
             "name": "sam-it/yii2-magic",
