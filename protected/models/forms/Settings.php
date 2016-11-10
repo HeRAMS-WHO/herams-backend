@@ -67,7 +67,8 @@ class Settings extends Model
                 'icons.download',
                 'icons.publish',
                 'icons.print',
-                'icons.proceed'
+                'icons.proceed',
+                'icons.explore'
 
 
             ], RangeValidator::class, 'range' => array_keys($this->iconOptions())]
