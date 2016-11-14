@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8bf847a15f8e1114120d428c77825281",
-    "content-hash": "540eb1ed17f2012ee1d7a6faf3d7d5c4",
+    "hash": "9022b043eb37e9cd8e7ce158fdd320a2",
+    "content-hash": "247d25dda9965976eef41eda9488d832",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -2800,16 +2800,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v0.9.1",
+            "version": "v0.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "69254f1492158c8ac8626a39d117c09b6a48d7c0"
+                "reference": "04691317b6cc359347380da99a73e803b650f5ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/69254f1492158c8ac8626a39d117c09b6a48d7c0",
-                "reference": "69254f1492158c8ac8626a39d117c09b6a48d7c0",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/04691317b6cc359347380da99a73e803b650f5ca",
+                "reference": "04691317b6cc359347380da99a73e803b650f5ca",
                 "shasum": ""
             },
             "require": {
@@ -2837,20 +2837,20 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2016-11-09 15:13:16"
+            "time": "2016-11-10 16:24:11"
         },
         {
             "name": "sam-it/yii2-magic",
-            "version": "v1.3.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/yii2-magic.git",
-                "reference": "3c2ddb062a3be8cc8e0e42d177dab0fe949adb15"
+                "reference": "5478c7c8ec7247c72f61246e2054ff139301f244"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/yii2-magic/zipball/3c2ddb062a3be8cc8e0e42d177dab0fe949adb15",
-                "reference": "3c2ddb062a3be8cc8e0e42d177dab0fe949adb15",
+                "url": "https://api.github.com/repos/SAM-IT/yii2-magic/zipball/5478c7c8ec7247c72f61246e2054ff139301f244",
+                "reference": "5478c7c8ec7247c72f61246e2054ff139301f244",
                 "shasum": ""
             },
             "require": {
@@ -2877,7 +2877,7 @@
                 }
             ],
             "description": "Improvements to Yii request handling.",
-            "time": "2016-10-14 10:14:46"
+            "time": "2016-11-04 11:18:45"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2934,16 +2934,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "dff51f72b0706335131b00a7f49606168c582594"
+                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/dff51f72b0706335131b00a7f49606168c582594",
-                "reference": "dff51f72b0706335131b00a7f49606168c582594",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
+                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
                 "shasum": ""
             },
             "require": {
@@ -2955,7 +2955,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -2989,7 +2989,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-05-18 14:26:46"
+            "time": "2016-11-14 01:06:16"
         },
         {
             "name": "symfony/translation",

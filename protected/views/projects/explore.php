@@ -152,7 +152,7 @@ $this->params['subMenu']['items'][] = [
         "seriesColumn" => null,
         "filterExpression" => $model->tool->explorer_regex,
         "mainEntity" => $model->tool->explorer_name,
-
+        "language" => app()->language,
         "token" => $token->__toString()
     ];
 
