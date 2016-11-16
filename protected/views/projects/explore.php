@@ -75,9 +75,8 @@ $this->params['subMenu']['items'][] = [
 
 $codeUrl = json_encode(\yii\helpers\Url::to(['/projects/download', 'id' => $model->id]));
 $textUrl = json_encode(\yii\helpers\Url::to(['/projects/download', 'id' => $model->id, 'text' => true]));
-$this->registerJs(<<<SCRIPT
-var handler = function(e){
-    console.log('Clicked');
+$this->registerJs(<<<JS
+$('#download-data').on('click', function(e){
     e.preventDefault();
     e.stopPropagation();
     bootbox.dialog({
@@ -101,9 +100,8 @@ var handler = function(e){
         }
     
     });
-};
-$('#download-data').on('click', handler);
-SCRIPT
+});
+JS
 );
 
 

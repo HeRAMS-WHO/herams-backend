@@ -31,7 +31,7 @@ class CollectionsController extends Controller
             foreach($data as $response) {
                 $responses[] = $response->getData();
             }
-            $cache->set($cacheKey, $responses, 3600);
+            $cache->set($cacheKey, $responses, 120);
         }
         return $responses;
     }
@@ -50,17 +50,17 @@ class CollectionsController extends Controller
                     ]
                 ]
             ],
-            'cache' => [
-                'class' => \yii\filters\HttpCache::class,
-                'lastModified' => function(\yii\base\Action $action, $params) {
-                    return 0;
-                }
+//            'cache' => [
+//                'class' => \yii\filters\HttpCache::class,
+//                'lastModified' => function(\yii\base\Action $action, $params) {
+//                    return 0;
+//                }
 //                'only' => ['view'],
 //                'etagSeed' => function ($action, $params) {
 //                    $post = $this->findModel(\Yii::$app->request->get('id'));
 //                    return serialize([$post->title, $post->content]);
 //                },
-            ],
+//            ],
         ], parent::behaviors());
         return $result;
     }
