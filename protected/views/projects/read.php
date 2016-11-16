@@ -13,7 +13,7 @@ use prime\models\ar\Setting;
 $this->params['subMenu']['items'] = [];
 
 $this->params['subMenu']['items'][] = [
-    'label' => Html::icon(Setting::get('icons.explore', 'tint')),
+    'label' => Html::icon(Setting::get('icons.explore', 'random')),
     'url' => ['/projects/explore', 'id' => $model->id],//$model->surveyUrl,
     'visible' => $model->userCan(Permission::PERMISSION_READ, app()->user->identity) && $model->closed === null,
     'options' => [
