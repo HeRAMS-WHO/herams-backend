@@ -7,6 +7,8 @@ use app\queries\ToolQuery;
 use Befound\ActiveRecord\Behaviors\JsonBehavior;
 use Befound\Components\Map;
 use Befound\Components\UploadedFile;
+use yii\base\InvalidParamException;
+use yii\helpers\Json;
 use \yii\validators\FileValidator;
 use GuzzleHttp\Psr7\Stream;
 use prime\interfaces\ProjectInterface;
@@ -130,7 +132,6 @@ class Tool extends ActiveRecord implements ProjectInterface {
      */
     public function getBaseSurvey()
     {
-//        vdd($this->base_survey_eid);
         return $this->limeSurvey()->getSurvey($this->base_survey_eid);
     }
 
@@ -241,6 +242,13 @@ class Tool extends ActiveRecord implements ProjectInterface {
                 }
             ],
             [['explorer_map'], FileValidator::class],
+            [['explorer_map'], function($attribute, $params) {
+                try {
+                    Json::decode($this->{$attribute});
+                } catch (InvalidParamException $e) {
+                    $this->addError($attribute, $e->getMessage());
+                }
+            }],
             [['tempImage', 'thumbTempImage'], ImageValidator::class],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
@@ -260,7 +268,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
         return [
             'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage',
             'generatorsArray', 'hidden'],
-            'update' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage',
+            'update' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'progress_type', 'thumbTempImage',
             'generatorsArray', 'hidden', 'default_generator', 'explorer_regex', 'explorer_name', 'explorer_map', 'explorer_show_services',
             'explorer_geo_js_name', 'explorer_geo_ls_name']
         ];

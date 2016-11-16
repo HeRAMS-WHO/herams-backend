@@ -76,11 +76,11 @@ $this->params['subMenu'] = [
                     'prompt' => ''
                 ]
             ],
-            'base_survey_eid' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->dataSurveyOptions(),
+            'baseSurvey' => [
+                'type' => Form::INPUT_STATIC,
+                'staticValue' => function(\prime\models\ar\Tool $model) {  return $model->getBaseSurvey()->getTitle(); },
                 'options' => [
-                    'prompt' => ''
+                    'class' => 'unsafe-ok'
                 ]
             ],
             'generatorsArray' => [
