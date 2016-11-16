@@ -147,6 +147,7 @@ $this->params['subMenu']['items'][] = [
         "responseUrl" => Url::toRoute(['api/collections/view', 'id' => $model->id, 'entity' => 'project', '_format' => 'json'], true),
         "structureUrl" => Url::toRoute(['api/surveys/view', 'id' => $model->data_survey_eid, '_format' => 'json'], true),
         "mapUrl" => Url::toRoute(['api/maps/view', 'id' => $model->tool_id, '_format' => 'json'], true),
+        "showServices" => $model->tool->explorer_show_services,
         "seriesColumn" => null,
         "filterExpression" => $model->tool->explorer_regex,
         "mainEntity" => $model->tool->explorer_name,
