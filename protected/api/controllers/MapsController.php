@@ -22,19 +22,31 @@ class MapsController extends Controller
         $options = scandir($base);
 
 
-        if (isset($options[$id])
-            && substr_compare($options[$id], '.json', -5, 5) === 0
-        ) {
-            $json = file_get_contents("$base/{$options[$id]}");
-            if ($response->format === 'json') {
-                $response->content = $json;
+//        if (isset($options[$id])
+//            && substr_compare($options[$id], '.json', -5, 5) === 0
+//        ) {
+//            $json = file_get_contents("$base/{$options[$id]}");
+//            if ($response->format === Response::FORMAT_JSON) {
+//                $response->content = $json;
+//            } else {
+//                $response->data = json_decode($json, true);
+//            }
+//
+//            return $response;
+//        } else
+        if (null !== $tool = Tool::findOne(['id' => $id])) {
+            if (!empty($tool->explorer_map)) {
+                $data = $tool->explorer_map;
             } else {
-                $response->data = json_decode($json, true);
+                $data = file_get_contents("$base/" . end($options));
             }
-
-            return $response;
+            if ($response->format === Response::FORMAT_JSON) {
+                $response->content = $data;
+            } else {
+                $response->data = json_decode($data, true);
+            }
         } else {
-            throw new NotFoundHttpException("Polygons file with id $id not found");
+            throw new NotFoundHttpException("Polygons file for tool with id $id not found");
         }
 
 //        $cacheKey = __CLASS__ . __FILE__ . $id . $entity;
@@ -71,17 +83,17 @@ class MapsController extends Controller
                     ]
                 ]
             ],
-            'cache' => [
-                'class' => \yii\filters\HttpCache::class,
-                'lastModified' => function(\yii\base\Action $action, $params) {
-                    return 0;
-                }
+//            'cache' => [
+//                'class' => \yii\filters\HttpCache::class,
+//                'lastModified' => function(\yii\base\Action $action, $params) {
+//                    return 0;
+//                }
 //                'only' => ['view'],
 //                'etagSeed' => function ($action, $params) {
 //                    $post = $this->findModel(\Yii::$app->request->get('id'));
 //                    return serialize([$post->title, $post->content]);
 //                },
-            ],
+//            ],
         ], parent::behaviors());
 //        vdd($result);
         return $result;

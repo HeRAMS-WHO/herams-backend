@@ -102,7 +102,21 @@ $this->params['subMenu'] = [
             'explorer_name' => [
                 'type' => Form::INPUT_TEXT,
                 'hint' => \Yii::t("app", "The name of the main entity in the data explorer."),
-            ]
+            ],
+            'explorer_show_services' => [
+                'type' => Form::INPUT_CHECKBOX,
+                'hint' => \Yii::t('app', 'Check if the explorer should show the services page.')
+            ],
+            'explorer_map' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\file\FileInput::class,
+            ],
+            'explorer_geo_js_name' => [
+                'type' => Form::INPUT_TEXT,
+            ],
+            'explorer_geo_ls_name' => [
+                'type' => Form::INPUT_TEXT,
+            ],
         ]
     ]);
     $form->end();
