@@ -243,10 +243,8 @@ class Tool extends ActiveRecord implements ProjectInterface {
             ],
             [['explorer_map'], FileValidator::class],
             [['explorer_map'], function($attribute, $params) {
-                try {
-                    Json::decode($this->{$attribute});
-                } catch (InvalidParamException $e) {
-                    $this->addError($attribute, $e->getMessage());
+                if (null === json_decode($this->{$attribute}, true, 9999)) {
+                    $this->addError($attribute, json_last_error_msg());
                 }
             }],
             [['tempImage', 'thumbTempImage'], ImageValidator::class],
