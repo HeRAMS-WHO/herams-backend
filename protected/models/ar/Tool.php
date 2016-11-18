@@ -243,7 +243,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
             ],
             [['explorer_map'], FileValidator::class],
             [['explorer_map'], function($attribute, $params) {
-                if (null === json_decode($this->{$attribute}, true, 9999)) {
+                if (null === json_decode($this->{$attribute}, true, 999999)) {
                     $this->addError($attribute, json_last_error_msg());
                 }
             }],
