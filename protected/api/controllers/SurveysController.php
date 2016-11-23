@@ -44,11 +44,11 @@ class SurveysController extends Controller
 //            ],
             'access' => [
                 'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'roles' => ['*'],
-//                        'actions' => ['view']
-//                    ]
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'actions' => ['view']
+                    ]
                 ]
             ],
 

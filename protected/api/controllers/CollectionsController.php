@@ -45,7 +45,7 @@ class CollectionsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-//                        'roles' => ['*'],
+                        'roles' => ['@'],
                         'actions' => ['view']
                     ]
                 ]
