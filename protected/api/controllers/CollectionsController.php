@@ -6,15 +6,13 @@ namespace prime\api\controllers;
 
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
-use SamIT\LimeSurvey\JsonRpc\Client;
-use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\caching\Cache;
-use yii\helpers\ArrayHelper;
 
 class CollectionsController extends Controller
 {
 
-    public function actionView(Client $limeSurvey, Cache $cache, $id, $entity = 'project')
+    public function actionView(Cache $cache, $id, $entity = 'project'
+    )
     {
         $cacheKey = __CLASS__ . __FILE__ . $id . $entity;
         if (false === $responses = $cache->get($cacheKey)) {
@@ -38,30 +36,15 @@ class CollectionsController extends Controller
 
     public function behaviors()
     {
+        $result = parent::behaviors();
 
-
-        $result = ArrayHelper::merge([
-            'access' => [
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'actions' => ['view']
-                    ]
-                ]
-            ],
-//            'cache' => [
-//                'class' => \yii\filters\HttpCache::class,
-//                'lastModified' => function(\yii\base\Action $action, $params) {
-//                    return 0;
-//                }
-//                'only' => ['view'],
-//                'etagSeed' => function ($action, $params) {
-//                    $post = $this->findModel(\Yii::$app->request->get('id'));
-//                    return serialize([$post->title, $post->content]);
-//                },
-//            ],
-        ], parent::behaviors());
+        array_unshift($result['access']['rules'],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+                'actions' => ['view']
+            ]
+        );
         return $result;
     }
 }

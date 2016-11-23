@@ -72,17 +72,15 @@ class MapsController extends Controller
     public function behaviors()
     {
 
+        $result = parent::behaviors();
 
-        $result = ArrayHelper::merge([
-            'access' => [
-                'rules' => [
-                    [
-                        'allow' => true,
-//                        'roles' => ['*'],
-                        'actions' => ['view']
-                    ]
-                ]
-            ],
+        array_unshift($result['access']['rules'],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+                'actions' => ['view']
+            ]
+        );
 //            'cache' => [
 //                'class' => \yii\filters\HttpCache::class,
 //                'lastModified' => function(\yii\base\Action $action, $params) {
@@ -94,8 +92,6 @@ class MapsController extends Controller
 //                    return serialize([$post->title, $post->content]);
 //                },
 //            ],
-        ], parent::behaviors());
-//        vdd($result);
         return $result;
     }
 }
