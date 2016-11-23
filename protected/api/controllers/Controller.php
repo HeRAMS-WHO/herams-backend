@@ -35,15 +35,14 @@ class Controller extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::class,
+            'except' => ['options'],
             'optional' => ['*'],
             'authMethods' => [
                 [
                     'class' => QueryParamAuth::class,
-                    'except' => ['options']
                 ],
                 [
                     'class' => HttpBearerAuth::class,
-                    'except' => ['options']
                 ]
             ]
         ];
