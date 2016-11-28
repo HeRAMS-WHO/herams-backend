@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "141e0229d68c060558ed26bc799d7635",
-    "content-hash": "9d32ed3f35a3a55d07f407cce8f8adef",
+    "hash": "cf6a15fb7765e629e1f0de4186a29990",
+    "content-hash": "a119443b72883e3dd517400f207c1dfb",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -106,11 +106,11 @@
         },
         {
             "name": "befound/yii-befound",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.sam-it.eu:befound/yii-befound.git",
-                "reference": "6373a3ae2dc0adb7036816d6dcf760c48ae19922"
+                "reference": "4685cb9361ae650d72b0bf7796b0d0a2ac7c5713"
             },
             "require": {
                 "php": ">=5.5.0",
@@ -132,7 +132,7 @@
                 }
             ],
             "description": "Befound tooling",
-            "time": "2016-05-26 12:13:46"
+            "time": "2016-11-28 16:29:49"
         },
         {
             "name": "bower-asset/bootbox",
@@ -1303,22 +1303,27 @@
         },
         {
             "name": "kartik-v/yii2-helpers",
-            "version": "v1.3.5",
+            "version": "v1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-helpers.git",
-                "reference": "f16003c8c9cfdaa50b4c9574cae9f0310946696c"
+                "reference": "0b9d5f17464df9f68e249ed4411f9f1381927b83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-helpers/zipball/f16003c8c9cfdaa50b4c9574cae9f0310946696c",
-                "reference": "f16003c8c9cfdaa50b4c9574cae9f0310946696c",
+                "url": "https://api.github.com/repos/kartik-v/yii2-helpers/zipball/0b9d5f17464df9f68e249ed4411f9f1381927b83",
+                "reference": "0b9d5f17464df9f68e249ed4411f9f1381927b83",
                 "shasum": ""
             },
             "require": {
                 "yiisoft/yii2-bootstrap": "*"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\helpers\\": ""
@@ -1345,7 +1350,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2015-12-12 18:47:11"
+            "time": "2016-11-26 06:03:52"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
