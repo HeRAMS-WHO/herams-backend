@@ -3,9 +3,6 @@ stages:
   - test
   - deploy
 image: sammousa/codeception-php-with-extensions:latest
-cache:
-  paths:
-    - .composercache
 composer:
   stage: build
   before_script:
@@ -18,6 +15,9 @@ composer:
     - echo "Installing composer dependencies. (Could take a few minutes)"
     - 'COMPOSER_CACHE_DIR=.composercache composer -n install'
     - echo "OK"
+  cache:
+    paths:
+      - .composercache
   artifacts:
     expire_in: '1 hour'
     when: on_success
