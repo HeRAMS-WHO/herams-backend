@@ -40,6 +40,11 @@ unit7.0:
     YII_ENV: "codeception"
   script:
     - codecept run unit --coverage-text --coverage-html
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - protected/tests/_output
+      - logs
 acceptance7.0:
   stage: test
   before_script:
@@ -66,8 +71,7 @@ acceptance7.0:
     - codecept run acceptance --coverage-text --coverage-html
     - du -sh protected/tests/_output
   artifacts:
-    when: on_failure
-    expire_in: 7d
+    expire_in: 1 hour
     paths:
       - protected/tests/_output
       - logs
