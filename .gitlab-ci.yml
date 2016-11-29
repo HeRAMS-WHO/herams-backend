@@ -1,20 +1,33 @@
 stages:
+  - build
   - test
+  - deploy
 image: sammousa/codeception-php-with-extensions:latest
 cache:
   paths:
     - .composercache
-unit7.0:
+
+composer:
+  stage: build
   before_script:
     - eval $(ssh-agent -s)
     - '[[ $(echo "$SSH_PRIVATE_KEY" | wc -l) -gt 1 ]] || exit 1'
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - wait-for-it -h mysql:3306
+  script:
     - echo "Installing composer dependencies. (Could take a few minutes)"
     - 'COMPOSER_CACHE_DIR=.composercache composer -n install'
     - echo "OK"
+  artifacts:
+    expire_in: 0 sec
+    when: on_sucess
+    paths:
+      - ./
+unit7.0:
+  stage: test
+  before_script:
+    - wait-for-it -h mysql:3306
     - codecept build
   services:
     - mysql:5.7.13
@@ -28,16 +41,9 @@ unit7.0:
   script:
     - codecept run unit
 acceptance7.0:
+  stage: test
   before_script:
-    - eval $(ssh-agent -s)
-    - '[[ $(echo "$SSH_PRIVATE_KEY" | wc -l) -gt 1 ]] || exit 1'
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - export RUNNER_IP=$(ip -o -4 addr | grep global | head -n 1 | awk '{print $4}' | cut -d/ -f1)
-    - echo "Installing composer dependencies. (Could take a few minutes)"
-    - 'COMPOSER_CACHE_DIR=.composercache composer -n install'
-    - echo "OK"
     - echo "Starting PHP built-in server"
     - mkdir logs
     - 'php -S 0.0.0.0:80 -t public/ > logs/phpd.log 2>&1 &'
@@ -60,6 +66,11 @@ acceptance7.0:
     - du -sh protected/tests/_output
   artifacts:
     when: on_failure
+    expire_in: 7d
     paths:
       - protected/tests/_output
       - logs
+create_image:
+  stage: deploy
+  script:
+    - ls -la .
