@@ -6,7 +6,6 @@ image: sammousa/codeception-php-with-extensions:latest
 cache:
   paths:
     - .composercache
-
 composer:
   stage: build
   before_script:
@@ -21,7 +20,7 @@ composer:
     - echo "OK"
   artifacts:
     expire_in: 0 sec
-    when: on_sucess
+    when: on_success
     paths:
       - ./
 unit7.0:
