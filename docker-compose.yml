@@ -67,7 +67,10 @@ services:
 
 ## Firefox for acceptance testing
   firefox:
-    image: selenium/standalone-firefox:3.0.1-aluminum
+    image: selenium/standalone-firefox:2.53.1
+#    image: selenium/standalone-firefox:2.53.1-beryllium
+#    image: selenium/standalone-chrome:2.53.1-beryllium
+#    image: selenium/standalone-chrome:3.0.1-barium
 
 ## Mysql server (tunnel)
   mysql-tunnel:
@@ -76,7 +79,9 @@ services:
       - "3306:3306"
     volumes:
       - $SSH_AUTH_SOCK:/ssh-agent:ro
+#    command: "*:3306:localhost:3306 -v sam@primewho.org"
     command: "*:3306:localhost:3306 -v sam@vps5.sam-it.eu"
+
 ## Run locally via tunnel.
   via-tunnel:
     image: sammousa/nginx-php-fpm-with-extensions
@@ -128,7 +133,8 @@ services:
     environment:
      - PMA_HOST=mysql-tunnel
      - PMA_USER=who
-     - PMA_PASSWORD=7rF8YnZv5EZDatfP
+     #- PMA_PASSWORD=7rF8YnZv5EZDatfP
+     - PMA_PASSWORD=z2P6NUSj3YfcfVH4
     ports:
      - "12346:80"
     tmpfs:

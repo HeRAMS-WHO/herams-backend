@@ -22,7 +22,7 @@ composer:
     expire_in: '1 hour'
     when: on_success
     paths:
-      - .
+      - ./
 unit7.0:
   stage: test
   before_script:
@@ -39,7 +39,7 @@ unit7.0:
     DB_HOST: mysql
     YII_ENV: "codeception"
   script:
-    - codecept run unit
+    - codecept run unit --coverage-text --coverage-html
 acceptance7.0:
   stage: test
   before_script:
@@ -63,7 +63,7 @@ acceptance7.0:
     YII_ENV: "codeception"
     GIT_STRATEGY: none
   script:
-    - codecept run acceptance
+    - codecept run acceptance --coverage-text --coverage-html
     - du -sh protected/tests/_output
   artifacts:
     when: on_failure
