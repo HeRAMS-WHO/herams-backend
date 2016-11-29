@@ -75,3 +75,11 @@ create_image:
   stage: deploy
   script:
     - ls -la .
+
+pages:
+  stage: deploy
+  script:
+    - mv protected/tests/_output/coverage public
+  artifacts:
+    paths:
+      - public
