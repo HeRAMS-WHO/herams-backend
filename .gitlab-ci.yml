@@ -78,7 +78,10 @@ create_image:
 
 pages:
   stage: deploy
+  variables:
+    GIT_STRATEGY: none
   script:
+    - ls -la
     - mv protected/tests/_output/coverage public
   artifacts:
     paths:
