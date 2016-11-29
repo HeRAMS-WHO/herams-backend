@@ -22,7 +22,7 @@ composer:
     expire_in: '1 hour'
     when: on_success
     paths:
-      - ./
+      - *
 unit7.0:
   stage: test
   before_script:
@@ -31,6 +31,7 @@ unit7.0:
   services:
     - mysql:5.7.13
   variables:
+    GIT_STRATEGY: none
     MYSQL_ROOT_PASSWORD: secret
     MYSQL_USER: prime
     MYSQL_PASSWORD: testpass
@@ -60,6 +61,7 @@ acceptance7.0:
     BROWSER: firefox
     SELENIUM_HOST: selenium__standalone-firefox
     YII_ENV: "codeception"
+    GIT_STRATEGY: none
   script:
     - codecept run acceptance
     - du -sh protected/tests/_output
