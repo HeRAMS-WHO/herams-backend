@@ -42,6 +42,7 @@ class Login
             $I->fillField(self::$passwordField, $password);
             $I->click(self::$loginButton);
             $I->expectTo("See the logout menu item.");
+            $I->wait(1);
             $I->seeElementInDOM(['css' => 'a[href$="logout"]']);
             codecept_debug("Logged in!");
             if ($admin) {

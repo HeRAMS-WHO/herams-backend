@@ -1,5 +1,4 @@
 <?php
-
 defined('CONSOLE') or define('CONSOLE', false);
 /**
  * Valid values are dev and production.
@@ -13,6 +12,11 @@ defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug
 call_user_func(function() {
 
     $loader = require_once __DIR__ . '/vendor/autoload.php';
+
+    if (file_exists(__DIR__ . '/../c3.php')) {
+        require_once(__DIR__ . '/../c3.php');
+    }
+
 
     Yii::$loader = $loader;
     unset($loader);

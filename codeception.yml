@@ -43,3 +43,12 @@ modules:
     Yii2:
       configFile: protected/config/unit.php
       parts: [init, orm]
+coverage:
+    enabled: true
+    remote: true
+    include:
+      - protected/*.php
+    exclude:
+      - protected/vendor/*
+      - protected/tests/*
+    c3_url: 'http://%RUNNER_IP%'
