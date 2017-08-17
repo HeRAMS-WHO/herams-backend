@@ -54,9 +54,7 @@ services:
 ## Mysql server (local)
   mysql:
     image: mysql:5.7
-#    volumes:
-#      - ./protected/tests/_output:/docker-entrypoint-initdb.d
-    tmpfs:
+    volumes:
       - /var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
