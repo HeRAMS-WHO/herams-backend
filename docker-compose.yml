@@ -36,8 +36,8 @@ services:
 
 ## Web server
   web:
-    image: "sammousa/codeception-php-with-extensions"
-    command: "/usr/bin/env php -S 0.0.0.0:80 -t /project/public"
+    image: "sammousa/php-with-extensions"
+    command: "php -S 0.0.0.0:80 -t /project/public"
     depends_on:
       mysql:
         condition: service_healthy
