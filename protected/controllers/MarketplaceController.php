@@ -454,10 +454,6 @@ class MarketplaceController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['global-dashboard']
-                        ],
-                        [
-                            'allow' => true,
                             'roles' => ['@']
                         ],
                     ]
