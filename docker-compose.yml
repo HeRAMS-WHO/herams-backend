@@ -1,5 +1,5 @@
 
-version: '2'
+version: '2.1'
 services:
 ## Running tests
   unit:
@@ -36,10 +36,11 @@ services:
 
 ## Web server
   web:
-    image: "sammousa/codeception-php-with-extensions"
-    command: "wait-for-it -h $$DB_HOST:3306 -t 100 -- /usr/bin/env php -S 0.0.0.0:80 -t /project/public"
+    image: "sammousa/php-with-extensions"
+    command: "php -S 0.0.0.0:80 -t /project/public"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     volumes:
       - .:/project
     environment:
@@ -54,9 +55,9 @@ services:
 ## Mysql server (local)
   mysql:
     image: mysql:5.7
-#    volumes:
-#      - ./protected/tests/_output:/docker-entrypoint-initdb.d
-    tmpfs:
+    healthcheck:
+      test: lsof -i :3306
+    volumes:
       - /var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
