@@ -9,7 +9,7 @@ use kartik\helpers\Html;
  * @var \yii\web\View $this
  */
 NavBar::begin([
-    'brandLabel' => \yii\helpers\ArrayHelper::getValue($this->params, 'brandLabel', \kartik\helpers\Html::img('@web/img/logo.svg')),
+    'brandLabel' => \yii\helpers\ArrayHelper::getValue($this->params, 'brandLabel', \kartik\helpers\Html::img('@web/img/logo.png')),
     'brandUrl' => Yii::$app->homeUrl,
     'renderInnerContainer' => true,
     'options' => [
@@ -41,11 +41,6 @@ echo Nav::widget([
         [
             'label' => Html::icon(\prime\models\ar\Setting::get('icons.projects', 'asterisk'), ['id' => 'projects', 'title' => 'Projects']),
             'url' => ['/projects'],
-            'visible' => !Yii::$app->user->isGuest
-        ],
-        [
-            'label' => Html::icon(\prime\models\ar\Setting::get('icons.reports', 'asterisk'), ['title' => 'Reports']),
-            'url' => ['/reports'],
             'visible' => !Yii::$app->user->isGuest
         ],
         [
