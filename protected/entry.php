@@ -4,7 +4,8 @@ defined('CONSOLE') or define('CONSOLE', false);
  * Valid values are dev and production.
  * A configuration file with the same name will be included if it exists.
  */
-defined('YII_ENV') or define('YII_ENV', !empty(getenv('YII_ENV')) ? getenv('YII_ENV') : require(__DIR__ . '/config/env.php'));
+//defined('YII_ENV') or define('YII_ENV', !empty(getenv('YII_ENV')) ? getenv('YII_ENV') : require(__DIR__ . '/config/env.php'));
+require(__DIR__ . '/config/env.php');
 
 defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 

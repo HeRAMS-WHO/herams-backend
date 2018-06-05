@@ -55,13 +55,13 @@ return [
         'cache' => [
             'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
         ],
-        'formatter' => [
-            'numberFormatterOptions' => [
-                NumberFormatter::MIN_FRACTION_DIGITS => 0,
-                NumberFormatter::MAX_FRACTION_DIGITS => 2,
-            ]
-
-        ],
+//        'formatter' => [
+//            'numberFormatterOptions' => [
+//                NumberFormatter::MIN_FRACTION_DIGITS => 0,
+//                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+//            ]
+//
+//        ],
         'limeSurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(\prime\models\ar\Setting::get('limeSurvey.host'));
             $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));
