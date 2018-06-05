@@ -20,6 +20,12 @@
             return $this->render('about');
         }
 
+        public function actionLogout()
+        {
+            $this->layout = 'logout';
+            return $this->render('logout');
+        }
+
         public function actionIndex(User $user)
         {
             if($user->id !== null) {
@@ -56,7 +62,7 @@
                         'rules' => [
                             [
                                 'allow' => 'true',
-                                'actions' => ['captcha', 'about', 'index']
+                                'actions' => ['captcha', 'about', 'index', 'logout']
                             ],
                             [
                                 'allow' => 'true',
