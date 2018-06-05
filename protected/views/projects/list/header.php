@@ -10,15 +10,15 @@ return Nav::widget([
     ],
     'items' => [
         [
-            'label' => \Yii::t('app', 'My projects'),
+            'label' => \Yii::t('app', 'My workspaces'),
             'url' => ['/projects/list'],
         ],
         [
-            'label' => \Yii::t('app', "Other projects"),
+            'label' => \Yii::t('app', "Other workspaces"),
             'url' => ['/projects/list-others']
         ],
         [
-            'label' => \Yii::t('app', 'Inactive projects'),
+            'label' => \Yii::t('app', 'Inactive workspaces'),
             'url' => ['/projects/list-closed']
         ],
 

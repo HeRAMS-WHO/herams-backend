@@ -11,7 +11,7 @@ use prime\models\ar\Setting;
  * @var \yii\web\View $this
  */
 
-
+$this->params['sectionTitle'] = 'Manage workspaces';
 
 ?>
 <div class="col-xs-12">
@@ -35,6 +35,7 @@ use prime\models\ar\Setting;
                 'attribute' => 'id'
             ],
             [
+                'label' => 'Project',
                 'attribute' => 'tool_id',
                 'value' => 'tool.acronym',
                 'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
@@ -46,11 +47,11 @@ use prime\models\ar\Setting;
 
                 ],
                 'filterInputOptions' => [
-                    'placeholder' => \Yii::t('app', 'Select tool')
+                    'placeholder' => \Yii::t('app', 'Select project')
                 ],
                 'visible' => !isset($hideToolColumn) || !$hideToolColumn
             ],
-            'title',
+            [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
             [
                 'attribute' => 'country_iso_3',
                 'value' => 'country.name',
