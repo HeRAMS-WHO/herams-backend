@@ -16,8 +16,8 @@ class Overview extends Model
     /**
      * List HF coordinates.
      * @param Cache $cache
-     * @param integer $pid
-     * @param string $code
+     * @param $pid
+     * @param $code
      * @return array
      * @throws HttpException
      */
@@ -34,12 +34,24 @@ class Overview extends Model
         foreach ($responses as $hf) {
             if ($hf['GPS[SQ001]'] != '') {
                 if (self::filterResponse($hf, $filters)) {
+                    $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']]];
+
                     if ($services) {
-                        $sl =  self::serviceLevel($hf, $qCodes);
-                        $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']], 'type' => $sl];
+                        $item['type'] = self::serviceLevel($hf, $qCodes);
                     } else {
-                        $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']], 'type' => $hf[$code]];
+                        $item['type'] = $hf[$code];
                     }
+
+                    // HF data for pop-ups
+                    $item['hf'] = [
+                        ['HF1' => $hf['HF1']],
+                        ['HF2' => $hf['HF2']],
+                        ['HF3' => $hf['HF3']],
+                        ['HF4' => $hf['HF4']],
+                        ['HFINF1' => $hf['HFINF1']],
+                        ['HFINF3' => $hf['HFINF3']],
+                    ];
+
                     $hfCoordinates[] = $item;
                 }
             }
@@ -49,9 +61,10 @@ class Overview extends Model
     }
 
     /**
-     * Calculate service level percentage for a HF.
-     * @param array $response
-     * @param array $qCodes
+     * Calculate HF service level percentage
+     * @param $response
+     * @param $qCodes
+     * @return string
      */
     public static function serviceLevel($response, $qCodes)
     {
@@ -78,9 +91,10 @@ class Overview extends Model
     }
 
     /**
-     * List question codes in a question group.
-     * @param array $structure
-     * @param array $groupIds
+     * Get questions in question groups
+     * @param $structure
+     * @param $groupIds
+     * @return array
      */
     public static function groupQuestions($structure, $groupIds)
     {
@@ -99,7 +113,7 @@ class Overview extends Model
      * @return array|mixed
      * @throws HttpException
      */
-    public static function loadStructure(Client $limeSurvey, Cache $cache, $id=999549)
+    public static function loadStructure(Client $limeSurvey, Cache $cache, $id=754743)
     {
         $cacheKey = "STRUCTURE.$id";
 
@@ -162,8 +176,9 @@ class Overview extends Model
         if (isset($filters['advanced']) && is_array($filters['advanced'])) {
             foreach ($filters['advanced'] as $filter) {
                 foreach ($filter as $code => $opts) {
+                    //if (!isset($response[$code])) return false;
                     $opts = explode(',', $opts);
-                    if (!empty($opts) && isset($response[$code]) && !in_array($response[$code], $opts))
+                    if (count($opts)>0 && isset($response[$code]) && !in_array($response[$code], $opts))
                         return false;
                 }
             }
@@ -207,10 +222,6 @@ class Overview extends Model
         return [];
     }
 
-    /**
-     * Get region names with a geo id list.
-     * @param array $geoCodes
-     */
     public static function getRegions($geoCodes)
     {
         $regions = [];

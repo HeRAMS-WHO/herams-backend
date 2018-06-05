@@ -27,11 +27,19 @@ class MarketplaceController extends Controller
 {
     public function actionIndex()
     {
-        return $this->redirect(['/marketplace/map']);
+        //return $this->redirect(['/marketplace/map']);
+        return $this->redirect(['/marketplace/herams']);
+    }
+
+        public function actionHerams(Request $request, Client $limeSurvey)
+    {
+        $this->layout = 'angular';
+        return $this->render('herams');
     }
 
     public function actionMap(Request $request, Client $limeSurvey)
     {
+        /*
         $filter = new MarketplaceFilter();
         $filter->scenario = 'global';
         $filter->load($request->queryParams);
@@ -51,7 +59,9 @@ class MarketplaceController extends Controller
         ];
 
         //Get active
-        return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => [], 'filter' => $filter]);
+        return $this->render('map', ['mapLayerData' => $mapLayerData, 'countries' => [], 'filter' => $filter]); */
+
+        return $this->render('herams'); // Country page on Angular
     }
 
     /**

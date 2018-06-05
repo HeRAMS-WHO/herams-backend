@@ -137,6 +137,8 @@ class ProjectsController extends Controller
         ]);
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
+        $this->layout = 'simple';
+
         return $this->render('list', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider
@@ -189,6 +191,20 @@ class ProjectsController extends Controller
     public function actionRead($id)
     {
         $project = Project::loadOne($id);
+        $this->layout = 'angular';
+
+        return $this->render('overview', [
+            'model' => $project,
+        ]);
+    }
+
+    /**
+     * Old project page
+     */
+    public function actionStatus($id)
+    {
+        $project = Project::loadOne($id);
+
         return $this->render('read', [
             'model' => $project,
         ]);
@@ -359,6 +375,7 @@ class ProjectsController extends Controller
                 $model = new Share($project, [$project->owner_id]);
             }
         }
+        $this->layout = 'simple';
 
         return $this->render('share', [
             'model' => $model,

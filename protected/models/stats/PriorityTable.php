@@ -1,15 +1,12 @@
 <?php
 
-namespace app\models\Stats;
+namespace app\models\stats;
 
 use app\models\Overview;
 
 
 class PriorityTable extends Overview
 {
-    /**
-     * Compile a Priority LGA table for a question and cause.
-     */
     public static function makePriorityTable($id, $responses, $qCode, $causeCode, $title)
     {
         $rows = [];
@@ -19,6 +16,7 @@ class PriorityTable extends Overview
 
         foreach ($topRegions as $name => $percent) {
             $cause = self::getTopCause($name, $causes, self::indicatorLabels($id));
+
             $row = [
                 'name' => $name,
                 'unavailability' => $percent,
@@ -92,12 +90,47 @@ class PriorityTable extends Overview
                 'percent' => $max / array_sum($data) * 100.0
             ];
         } elseif ($name != "") {
-           return [
+            return [
                 'name' => 'Unspecified',
                 'percent' => 100.0
             ];
         }
         return ['name' => "", 'percent' => 0];
+    }
+
+    public static function getTopDamage($responses)
+    {
+        $result = [];
+        $lgaResults = [];
+        $code = 'HFINF1';
+        $count = 0;
+
+        // Group by admin2
+        foreach ($responses as $response) {
+            if ($response[$code]) {
+                $lgaResults[$response['GEO2']][$response[$code]] = (isset($lgaResults[$response['GEO2']][$response[$code]])) ? $lgaResults[$response['GEO2']][$response[$code]] + 1 : 1;
+                ++$count;
+            }
+        }
+
+        // Pick top 5
+        $topPc = array_map(function($v) { $tot=(isset($v['A3']))?$v['A3']:0;$tot+=(isset($v['A4']))?$v['A4']:0; return round($tot / array_sum($v) *100.0,1); }, $lgaResults);
+        arsort($topPc);
+        $topPc = array_slice($topPc, 0, 5, true);
+
+        foreach($topPc as $name => $pc)
+            $result[] = ['name' => $name, 'damaged_percent' => $pc];
+
+        return [
+            'name' => 'Priority areas / Damage',
+            'answers' => $count,
+            'type' => 'table',
+            'columns' => [
+                ['label' => 'Name', 'class' => 'wide'],
+                ['label' => 'Damage level', 'class' => 'small'],
+            ],
+            'rows' => $result,
+        ];
     }
 }
 
