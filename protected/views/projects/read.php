@@ -187,14 +187,14 @@ $this->params['subMenu']['items'][] = [
                  'label' => \Yii::t('app', 'Reports'),
                  'content' => $this->render('read/reports.php', ['tool' => $model->tool, 'model' => $model])
              ],
-             [
+             /*[
                  'label' => \Yii::t('app', 'Responses'),
                  'content' => $this->render('read/responses.php', [
                      'tool' => $model->tool,
                      'model' => $model,
                      'responses' => $model->getResponses()
                  ])
-             ]
+             ]*/
          ]
     ]);
     ?>
