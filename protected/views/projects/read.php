@@ -173,30 +173,5 @@ $this->params['subMenu']['items'][] = [
             ]
         ]);
     }
-?>
-
-
-<div class="col-xs-12">
-    <?php
-
-    // Dynamically resize iframe.
-    $this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
-    echo \yii\bootstrap\Tabs::widget([
-         'items' => [
-             [
-                 'label' => \Yii::t('app', 'Reports'),
-                 'content' => $this->render('read/reports.php', ['tool' => $model->tool, 'model' => $model])
-             ],
-             /*[
-                 'label' => \Yii::t('app', 'Responses'),
-                 'content' => $this->render('read/responses.php', [
-                     'tool' => $model->tool,
-                     'model' => $model,
-                     'responses' => $model->getResponses()
-                 ])
-             ]*/
-         ]
-    ]);
-    ?>
-</div>
-
+// Dynamically resize iframe.
+$this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
