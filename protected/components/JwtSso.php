@@ -61,14 +61,14 @@ class JwtSso extends Component implements TicketingInterface
         if (!is_resource($this->_privateKey)) {
             throw new \RuntimeException("Failed to create stream for secret storage");
         }
+        $this->_userNameGenerator = function($id) {
+            return $id;
+        };
         parent::__construct($config);
     }
 
     public function init()
     {
-        $this->_userNameGenerator = function($id) {
-            return $id;
-        };
         parent::init();
         if (empty($this->getPrivateKey())) {
             throw new InvalidConfigException("Private key must be configured");
