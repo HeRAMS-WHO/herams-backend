@@ -197,7 +197,10 @@ class MarketplaceController extends Controller
             ]
         );
     }
-    
+
+
+
+
     public function actionEventDashboard(Request $request, Client $limeSurvey, $iso_3, $id, $layer, $popup = false)
     {
         if ($popup) {

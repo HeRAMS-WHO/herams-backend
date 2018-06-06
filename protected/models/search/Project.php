@@ -24,6 +24,16 @@ class Project extends \prime\models\ar\Project
     /** @var ActiveQuery */
     public $query;
 
+
+    private $_toolId;
+    public function __construct(
+        ?int $toolId,
+        array $config = []
+    ) {
+        parent::__construct($config);
+        $this->_toolId = $toolId;
+    }
+
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
@@ -98,10 +108,15 @@ class Project extends \prime\models\ar\Project
         } else {
             $this->query->joinWith(['tool']);
         }
+
+        $this->query->andFilterWhere(['tool_id' => $this->_toolId]);
         
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
-            'id' => 'project-data-provider'
+            'id' => 'project-data-provider',
+            'pagination' => [
+                'pageSize' => 10
+            ]
         ]);
 
         $case = Country::searchCaseStatement('country_iso_3');
@@ -115,6 +130,7 @@ class Project extends \prime\models\ar\Project
                     'desc' => ['acronym' => SORT_DESC],
                     'default' => 'asc'
                 ],
+
                 'country_iso_3' => [
                     'asc' => [$case => SORT_ASC],
                     'desc' => [$case => SORT_DESC],

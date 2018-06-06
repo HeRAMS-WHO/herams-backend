@@ -128,20 +128,26 @@ class ProjectsController extends Controller
      * Shows a list of project the user has access to.
      * @return string
      */
-    public function actionList(Request $request)
-    {
-        $projectSearch = new \prime\models\search\Project([
+    public function actionList(
+        Request $request,
+        int $toolId = null
+    ) {
+
+        $projectSearch = new \prime\models\search\Project($toolId, [
             'queryCallback' => function(ProjectQuery $query) {
                 return $query->readable();
             }
         ]);
+
+        $projectSearch->tool_id = $toolId;
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
         $this->layout = 'simple';
 
         return $this->render('list', [
             'projectSearch' => $projectSearch,
-            'projectsDataProvider' => $projectsDataProvider
+            'projectsDataProvider' => $projectsDataProvider,
+            'tool' => isset($toolId) ? Tool::findOne(['id' => $toolId]) : null
         ]);
     }
 

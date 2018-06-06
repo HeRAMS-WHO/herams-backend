@@ -7,11 +7,22 @@ return [
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
     'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
         '@prime' => '@app',
         '@views' => '@app/views'
     ],
     'bootstrap' => ['log'],
     'components' => [
+        'limesurveySSo' => [
+            'class' => \prime\components\JwtSso::class,
+            'errorRoute' => ['site/lime-survey'],
+            'privateKeyFile' => __DIR__ . '/private.key',
+            'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
+            'userNameGenerator' => function($id) {
+                return 'admin';
+            }
+        ],
         'authClientCollection' => [
             'class' => \yii\authclient\Collection::class,
             'clients' => [

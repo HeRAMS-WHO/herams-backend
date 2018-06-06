@@ -5,15 +5,18 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
-            'dsn' => 'mysql:host=localhost;dbname=who;',
-            'password' => 'z2P6NUSj3YfcfVH4',
-            'username' => 'who',
+            'dsn' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('MYSQL_DATABASE'),
+            'password' => getenv('MYSQL_PASSWORD'),
+            'username' => getenv('MYSQL_USER'),
             'enableSchemaCache' => true,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
             'queryCache' => 'cache',
-            'tablePrefix' => 'prime2_',
-        ]
+            'tablePrefix' => 'prime2_'
+        ],
+        'assetManager' => [
+            'converter' => \lucidtaz\yii2scssphp\ScssAssetConverter::class
+        ],
     ]
 ];
 

@@ -2,6 +2,7 @@
     namespace prime\controllers;
     use app\components\Html;
     use prime\components\Controller;
+    use prime\components\JwtSso;
     use prime\models\ar\Tool;
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
@@ -24,6 +25,17 @@
         {
             $this->layout = 'logout';
             return $this->render('logout');
+        }
+
+        public function actionLimeSurvey(
+            JwtSso $limesurveySSo,
+            ?string $error = null
+        ) {
+            if (isset($error)) {
+                echo Html::tag('pre', htmlentities($error));
+                return;
+            }
+            $limesurveySSo->loginAndRedirectCurrentUser();
         }
 
         public function actionIndex(User $user)

@@ -40,6 +40,7 @@ use yii\validators\SafeValidator;
  * @property string $description
  * @property string $default_generator
  * @property Map $generators
+ * @property string $title
  * @property binary $explorer_map
  * @property string $explorer_regex
   @property string $explorer_name
