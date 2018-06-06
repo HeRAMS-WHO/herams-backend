@@ -893,7 +893,7 @@ INSERT INTO `prime2_setting` (`key`, `value`) VALUES
 ('icons.update', '\"cog\"'),
 ('icons.user', '\"user\"'),
 ('icons.userLists', '\"bullhorn\"'),
-('limeSurvey.host', '\"https:\\/\\/lsprime.projects.sam-it.eu\\/admin\\/remotecontrol\"'),
+('limeSurvey.host', '\"https:\\/\\/ls.primewho.org\\/admin\\/remotecontrol\"'),
 ('limeSurvey.password', '\"H9y43n4X\"'),
 ('limeSurvey.username', '\"prime\"');
 

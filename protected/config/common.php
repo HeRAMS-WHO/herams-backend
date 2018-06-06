@@ -7,6 +7,8 @@ return [
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en',
     'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
         '@prime' => '@app',
         '@views' => '@app/views'
     ],

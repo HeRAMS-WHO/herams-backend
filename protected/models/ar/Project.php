@@ -24,6 +24,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\validators\DateValidator;
@@ -168,7 +169,7 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             ->inverseOf('ownedProjects');
     }
 
-    public function getPermissions()
+    public function getPermissions(): ActiveQuery
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);

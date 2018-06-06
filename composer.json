@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php" : ">=5.6.0",
+        "php" : ">=7.2.0",
         "ext-gd": "*",
         "befound/yii-befound" : "^2.1.1",
         "kartik-v/yii2-widgets": "^3.4.0",
@@ -27,7 +27,7 @@
         "kartik-v/yii2-grid": "^3.0",
         "kartik-v/yii2-mpdf": "^1.0",
         "kartik-v/yii2-date-range" : "^1.6",
-        "dektrium/yii2-user": "^0.9.9",
+        "dektrium/yii2-user": "^0.9.13",
         "bariew/yii2-module-migration-controller": "1.*",
         "psr/http-message": "^1.0",
         "bower-asset/bootstrap-sass": "^3.3",
@@ -36,7 +36,7 @@
         "bower-asset/is-loading": "^1",
         "bower-asset/bootbox": "^4.4",
         "miloschuman/yii2-highcharts-widget": "^4",
-        "yiisoft/yii2": "^2.0.9",
+        "yiisoft/yii2": "^2.0.15",
         "treffynnon/navigator": "^1",
         "sam-it/ls2-jsonrpc-client": "^0.10.1",
         "dektrium/yii2-rbac": "^1.0.0-alpha",
@@ -49,13 +49,7 @@
         "primal/color": "dev-master",
         "lcobucci/jwt": "^3.2"
     },
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "https://packages.sam-it.eu"
-		}
-	],
-    "autoload" : {
+	"autoload" : {
         "psr-4" : {
             "app\\" : ["protected"],
             "prime\\" : ["protected"]
@@ -69,13 +63,16 @@
     "require-dev": {
         "yiisoft/yii2-debug" : "*",
         "codeception/codeception": "2.*",
-        "codeception/c3": "2.*"
+        "codeception/c3": "2.*",
+        "lucidtaz/yii2-scssphp": "^0.2.1"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "extra": {
-        "asset-installer-paths": {
-            "bower-asset-library" : "protected/vendor/bower",
-            "npm-asset-library" : "protected/vendor/bower"
-        },
         "asset-repositories": [
           {
             "name": "npm-asset/data-exploration-tool",

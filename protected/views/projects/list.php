@@ -9,9 +9,18 @@ use prime\models\ar\Setting;
  * @var \prime\models\search\Project $projectSearch
  * @var int $closedCount
  * @var \yii\web\View $this
+ * @var \prime\models\ar\Tool $tool
+ *
  */
 
-$this->params['sectionTitle'] = 'Manage workspaces';
+
+if(isset($tool)) {
+    $this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces for project {name}', [
+            'name' => $tool->title
+    ]);
+} else {
+    $this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces for all projects');
+}
 
 ?>
 <div class="col-xs-12">
@@ -53,33 +62,18 @@ $this->params['sectionTitle'] = 'Manage workspaces';
             ],
             [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
             [
-                'attribute' => 'country_iso_3',
-                'value' => 'country.name',
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $projectSearch->countriesOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select country')
-                    ]
-                ]
+                'label' => '# responses',
+                'value' => function(\prime\models\ar\Project $project) {
+                    return 5;
+                    return $project->getResponses()->size();
+                }
             ],
-            'locality_name',
             [
-                'attribute' => 'created',
-                'format' => 'date',
-                'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'locale' => [
-                            'format' => 'YYYY-MM-DD',
-                        ],
-                        'allowClear'=>true,
-                    ],
-                    'pluginEvents' => [
-                        "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
-                    ]
-                ],
+                'label' => '# contributors',
+                'value' => function(\prime\models\ar\Project $project) {
+                    return $project->getPermissions()->count();
+                    return $project->getResponses()->size();
+                }
             ],
             [
                 'attribute' => 'closed',

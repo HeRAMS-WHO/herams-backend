@@ -39,12 +39,11 @@ services:
     image: "sammousa/php-with-extensions"
     command: "php -S 0.0.0.0:80 -t /project/public"
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
     volumes:
       - .:/project
     environment:
-      YII_ENV: "codeception"
+      YII_ENV: "dev"
       MYSQL_USER: who
       MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
       MYSQL_DATABASE: test
@@ -55,10 +54,9 @@ services:
 ## Mysql server (local)
   mysql:
     image: mysql:5.7
-    healthcheck:
-      test: lsof -i :3306
     volumes:
-      - /var/lib/mysql
+      - ./local/devdb:/var/lib/mysql
+      - ./Prime2_dev_db:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_USER: who
