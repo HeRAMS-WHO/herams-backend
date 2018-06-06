@@ -43,28 +43,27 @@ if(isset($tool)) {
             [
                 'attribute' => 'id'
             ],
-            [
-                'label' => 'Project',
-                'attribute' => 'tool_id',
-                'value' => 'tool.acronym',
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $projectSearch->toolsOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                    ],
-
-                ],
-                'filterInputOptions' => [
-                    'placeholder' => \Yii::t('app', 'Select project')
-                ],
-                'visible' => !isset($hideToolColumn) || !$hideToolColumn
-            ],
+//            [
+//                'label' => 'Project',
+//                'attribute' => 'tool_id',
+//                'value' => 'tool.acronym',
+//                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+//                'filter' => $projectSearch->toolsOptions(),
+//                'filterWidgetOptions' => [
+//                    'pluginOptions' => [
+//                        'allowClear' => true,
+//                    ],
+//
+//                ],
+//                'filterInputOptions' => [
+//                    'placeholder' => \Yii::t('app', 'Select project')
+//                ],
+//                'visible' => !isset($hideToolColumn) || !$hideToolColumn
+//            ],
             [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
             [
                 'label' => '# responses',
                 'value' => function(\prime\models\ar\Project $project) {
-                    return 5;
                     return $project->getResponses()->size();
                 }
             ],

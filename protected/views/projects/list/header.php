@@ -29,15 +29,7 @@ return Nav::widget([
     ],
     'buttons' => [
         [
-            'label' => 'New project',
-            'tagName' => 'a',
-            'options' => [
-                'href' => Url::to(['projects/new']),
-                'class' => 'btn-primary',
-            ]
-        ],
-        [
-            'label' => \Yii::t('app', 'Create'),
+            'label' => \Yii::t('app', 'Create workspace'),
             'tagName' => 'a',
             'options' => [
                 'href' => Url::to(['projects/create']),
