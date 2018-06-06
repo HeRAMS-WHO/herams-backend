@@ -64,7 +64,10 @@ if(isset($tool)) {
             [
                 'label' => '# responses',
                 'value' => function(\prime\models\ar\Project $project) {
-                    return $project->getResponses()->size();
+                    return \Yii::$app->cache->getOrSet('project.responses.' . $project->id, function() use ($project) {
+                        return $project->getResponses()->size();
+                    }, 3600);
+
                 }
             ],
             [

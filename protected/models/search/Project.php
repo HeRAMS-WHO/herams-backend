@@ -113,7 +113,10 @@ class Project extends \prime\models\ar\Project
         
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
-            'id' => 'project-data-provider'
+            'id' => 'project-data-provider',
+            'pagination' => [
+                'pageSize' => 10
+            ]
         ]);
 
         $case = Country::searchCaseStatement('country_iso_3');
