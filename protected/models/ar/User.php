@@ -93,11 +93,6 @@ class User extends \dektrium\user\models\User {
         && app()->request->getQueryParam(self::NON_ADMIN_KEY) === null;
     }
 
-    public function getFavoriteProjectId()
-    {
-        return 123; // TODO
-    }
-
     public function rules()
     {
         $rules = parent::rules();

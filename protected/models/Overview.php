@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\stats\PriorityTable;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
@@ -16,44 +17,41 @@ class Overview extends Model
     /**
      * List HF coordinates.
      * @param Cache $cache
-     * @param $pid
-     * @param $code
+     * @param int $pid
+     * @param $string code
      * @return array
      * @throws HttpException
      */
-    public static function mapPoints(Client $limeSurvey, Cache $cache, $pid, $code, $services=false)
+    public static function mapPoints(Client $limeSurvey, Cache $cache, $pid, $code, $services = false)
     {
-        $responses = self::loadResponses($cache, $pid);
-        $filters = self::filters();
+        $responses = self::loadResponses($cache, $pid, self::filters());
         if ($services) {
             $structure = self::loadStructure($limeSurvey, $cache);
-            $qCodes = self::groupQuestions($structure, explode(',',$services));
+            $qCodes = self::groupQuestions($structure, explode(',', $services));
         }
 
         $hfCoordinates = [];
         foreach ($responses as $hf) {
             if ($hf['GPS[SQ001]'] != '') {
-                if (self::filterResponse($hf, $filters)) {
-                    $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']]];
+                $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']]];
 
-                    if ($services) {
-                        $item['type'] = self::serviceLevel($hf, $qCodes);
-                    } else {
-                        $item['type'] = $hf[$code];
-                    }
-
-                    // HF data for pop-ups
-                    $item['hf'] = [
-                        ['HF1' => $hf['HF1']],
-                        ['HF2' => $hf['HF2']],
-                        ['HF3' => $hf['HF3']],
-                        ['HF4' => $hf['HF4']],
-                        ['HFINF1' => $hf['HFINF1']],
-                        ['HFINF3' => $hf['HFINF3']],
-                    ];
-
-                    $hfCoordinates[] = $item;
+                if ($services) {
+                    $item['type'] = self::serviceLevel($hf, $qCodes);
+                } else {
+                    $item['type'] = $hf[$code];
                 }
+
+                // HF data for pop-ups
+                $item['hf'] = [
+                    ['HF1' => $hf['HF1']],
+                    ['HF2' => $hf['HF2']],
+                    ['HF3' => $hf['HF3']],
+                    ['HF4' => $hf['HF4']],
+                    ['HFINF1' => $hf['HFINF1']],
+                    ['HFINF3' => $hf['HFINF3']],
+                ];
+
+                $hfCoordinates[] = $item;
             }
         }
 
@@ -137,7 +135,7 @@ class Overview extends Model
      * @return array|mixed
      * @throws HttpException
      */
-    public static function loadResponses(Cache $cache, $id, $entity = 'project')
+    public static function loadResponses(Cache $cache, $id, $filters, $entity = 'project')
     {
         $cacheKey = __CLASS__ . __FILE__ . $id . $entity;
         if (false === $responses = $cache->get($cacheKey)) {
@@ -152,7 +150,8 @@ class Overview extends Model
             }
 
             foreach($data as $response) {
-                $responses[] = $response->getData();
+                if (self::filterResponse($response->getData(), $filters))
+                    $responses[] = $response->getData();
             }
             $cache->set($cacheKey, $responses, 31200);
         }
@@ -243,7 +242,7 @@ class Overview extends Model
     public static function questionData($responses, $questionCode)
     {
         $result = [];
-        $filters = self::getFilters();
+        $filters = self::filters();
 
         foreach ($responses as $response) {
             if (self::filterResponse($response, $filters)) {
@@ -283,4 +282,95 @@ class Overview extends Model
 
         return $legend;
     }
+
+    /**
+     * Format chart data for Angular.
+     * @param array $chart
+     * @param array $responses
+     * @return array
+     */
+    public static function formatChart($chart, $responses)
+    {
+        if ($chart['rendering_type'] == 'pie') {
+            $chartData = self::questionData($responses, $chart['query']);
+            $labels = self::indicatorLabels($chart['indicator_id']);
+            $formatted = self::pieChart($labels, $chartData, $chart['indicator_name']);
+
+        } elseif ($chart['rendering_type'] == 'stacked') {
+            // show dummy chart until defined
+            $formatted = [
+                "type" => "stacked",
+                "title" => "Damage per type",
+                "total" => 743,
+                "labels" => [
+                    'Hospital (Tertiary)',
+                    'Hospital (Secondary)',
+                    'Health Centre (Primary)',
+                    'Primary Health Care Centre (Primary)',
+                    'Clinic (Primary)',
+                    'Mobile clinic',
+                ],
+                "colors" => ['#00bc1a', '#f7931e', '#ff0000', '#adadad'],
+                "series" => [
+                    [
+                        "name" => "Not damaged",
+                        "data" => [0, 0, 0, 0, 0, 0],
+                    ],
+                    [
+                        "name" => "Partially damaged",
+                        "data" => [0, 0, 0, 0, 0, 0],
+                    ],
+                    [
+                        "name" => "Fully damaged",
+                        "data" => [0, 0, 0, 0, 0, 0],
+                    ],
+                    [
+                        "name" => "N/A",
+                        "data" => [100, 100, 100, 100, 100, 100],
+                    ],
+                ],
+            ];
+        } else {
+            if ($chart['indicator_id'] == 7) {
+                $formatted = PriorityTable::getTopDamage($responses);
+            } elseif ($chart['indicator_id'] == 8) {
+                $formatted = PriorityTable::makePriorityTable(5, $responses, 'HFINF3', 'HFINF4', 'Priority areas / Functionality');
+            }
+        }
+
+        return $formatted;
+    }
+
+    /**
+     * Format pie chart data
+     * @param array $labels
+     * @param array $data
+     * @param string $title
+     * @return array
+     */
+    public static function pieChart($labels, $data, $title)
+    {
+        $chart = [];
+        $total = 0;
+
+        foreach ($labels as $code => $row) {
+            $val = (isset($data[$code])) ? (int)$data[$code] : 0;
+            $chart[] = [
+                'name' => $row['label'],
+                'y' => $val,
+                'color' => $row['color'],
+            ];
+            $total += (int)$val;
+        }
+
+        $formatted = [
+            "type" => "pie",
+            "title" => $title,
+            "total" => $total,
+            "data" => $chart,
+        ];
+
+        return $formatted;
+    }
 }
+
