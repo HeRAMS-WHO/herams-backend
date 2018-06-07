@@ -54,7 +54,7 @@
                                 'class' => 'btn btn-default btn-block',
                                 'style' => 'margin-top: 10px'
                             ]
-                        ) .
+                        )/* .
                         Html::endTag('div') .
                         \dektrium\user\widgets\Connect::widget([
                             'options' => [
@@ -62,7 +62,7 @@
                             ],
                             'baseAuthUrl' => ['/user/security/auth'],
 
-                        ])
+                        ]) */
 
                 ]
             ],
