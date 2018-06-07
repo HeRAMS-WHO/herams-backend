@@ -655,7 +655,7 @@ class Settings extends Model
     public function healthClusterDashboardProjectOptions()
     {
         return ArrayHelper::map(
-            Project::find()->all(),
+            \prime\models\ar\Project::find()->all(),
             'id',
             'title'
         );

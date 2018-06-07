@@ -5,7 +5,7 @@ return [
     'name' => 'Prime',
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
-    'sourceLanguage' => 'en',
+    'sourceLanguage' => 'en-US',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

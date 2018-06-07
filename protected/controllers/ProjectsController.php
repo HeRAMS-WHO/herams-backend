@@ -14,6 +14,7 @@ use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
+use prime\models\search\Project as ProjectSearch;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -31,6 +32,7 @@ use Lcobucci\JWT\Builder;
 
 class ProjectsController extends Controller
 {
+    public $layout = 'simple';
     public $defaultAction = 'list';
 
     public function actionClose(Session $session, Request $request, $id)
@@ -133,7 +135,7 @@ class ProjectsController extends Controller
         int $toolId = null
     ) {
 
-        $projectSearch = new \prime\models\search\Project($toolId, [
+        $projectSearch = new ProjectSearch($toolId, [
             'queryCallback' => function(ProjectQuery $query) {
                 return $query->readable();
             }
@@ -142,8 +144,6 @@ class ProjectsController extends Controller
         $projectSearch->tool_id = $toolId;
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
-        $this->layout = 'simple';
-
         return $this->render('list', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider,
@@ -151,9 +151,9 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionListOthers(Request $request)
+    public function actionListOthers(Request $request, int $toolId = null)
     {
-        $projectSearch = new \prime\models\search\Project([
+        $projectSearch = new ProjectSearch($toolId, [
             'queryCallback' => function(ProjectQuery $query) {
                 return $query->notReadable();
             }
@@ -161,14 +161,17 @@ class ProjectsController extends Controller
         $projectsDataProvider = $projectSearch->search($request->queryParams);
         return $this->render('list', [
             'projectSearch' => $projectSearch,
-            'projectsDataProvider' => $projectsDataProvider
+            'projectsDataProvider' => $projectsDataProvider,
+            'tool' => isset($toolId) ? Tool::findOne(['id' => $toolId]) : null
         ]);
     }
 
-    public function actionListClosed(Request $request)
-    {
-        $projectSearch = new \prime\models\search\Project();
-        $projectSearch->query = \prime\models\ar\Project::find()->closed()->userCan(Permission::PERMISSION_WRITE);
+    public function actionListClosed(
+        Request $request,
+        int $toolId = null
+    ) {
+        $projectSearch = new ProjectSearch($toolId);
+        $projectSearch->query = Project::find()->closed()->userCan(Permission::PERMISSION_WRITE);
         if(!app()->user->can('admin')) {
             $projectSearch->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
         } else {
@@ -200,18 +203,6 @@ class ProjectsController extends Controller
         $this->layout = 'angular';
 
         return $this->render('overview', [
-            'model' => $project,
-        ]);
-    }
-
-    /**
-     * Old project page
-     */
-    public function actionStatus($id)
-    {
-        $project = Project::loadOne($id);
-
-        return $this->render('read', [
             'model' => $project,
         ]);
     }
@@ -381,7 +372,7 @@ class ProjectsController extends Controller
                 $model = new Share($project, [$project->owner_id]);
             }
         }
-        $this->layout = 'simple';
+
 
         return $this->render('share', [
             'model' => $model,

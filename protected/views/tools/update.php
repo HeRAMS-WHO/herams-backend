@@ -78,7 +78,7 @@ $this->params['subMenu'] = [
             ],
             'baseSurvey' => [
                 'type' => Form::INPUT_STATIC,
-                'staticValue' => function(\prime\models\ar\Tool $model) {  return $model->getBaseSurvey()->getTitle(); },
+                'staticValue' => function(\prime\models\ar\Tool $model) {  $survey = $model->getBaseSurvey(); return $survey ? $survey->getTitle() : "Survey does not exist"; },
                 'options' => [
                     'class' => 'unsafe-ok'
                 ]

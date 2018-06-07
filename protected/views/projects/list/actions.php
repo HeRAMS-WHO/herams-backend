@@ -1,6 +1,7 @@
-<?php
+ <?php
 use app\components\Html;
-use prime\models\ar\Setting;
+ use prime\models\ar\Project;
+ use prime\models\ar\Setting;
 use \prime\models\permissions\Permission;
 $this->registerJs(<<<SCRIPT
 $('.request-access').on('click', function(e){
@@ -15,12 +16,12 @@ SCRIPT
 
 return [
     'class' => \kartik\grid\ActionColumn::class,
-    'width' => '100px',
-    'template' => '{read}{request} {share} {close}{open}',
+    'width' => '150px',
+    'template' => '{read}{request} {update} {share} {download} {close}{open} ',
     'buttons' => [
         'read' => function($url, $model, $key) {
             $result = '';
-            /** @var \prime\models\ar\Project $model */
+            /** @var Project $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.read')),
@@ -32,7 +33,21 @@ return [
             }
             return $result;
         },
-        'request' => function($url, \prime\models\ar\Project $model, $key) {
+        'update' => function($url, $model, $key) {
+            $result = '';
+            /** @var Project $model */
+            if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
+                $result = Html::a(
+                    Html::icon(Setting::get('icons.limeSurveyUpdate')),
+                    ['/projects/update-lime-survey', 'id' => $model->id],
+                    [
+                        'title' => \Yii::t('app', 'Data update')
+                    ]
+                );
+            }
+            return $result;
+        },
+        'request' => function($url, Project $model, $key) {
             $result = '';
             if (!$model->isClosed && !$model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
@@ -50,7 +65,7 @@ return [
         },
         'update' => function($url, $model, $key) {
             $result = '';
-            /** @var \prime\models\ar\Project $model */
+            /** @var Project $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.update')),
@@ -64,7 +79,7 @@ return [
         },
         'share' => function($url, $model, $key) {
             $result = '';
-            /** @var \prime\models\ar\Project $model */
+            /** @var Project $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.share')),
@@ -78,7 +93,7 @@ return [
         },
         'close' => function($url, $model, $key) {
             $result = '';
-            /** @var \prime\models\ar\Project $model */
+            /** @var Project $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.close')),
@@ -93,7 +108,7 @@ return [
             }
             return $result;
         },
-        'open' => function($url, \prime\models\ar\Project $model, $key) {
+        'open' => function($url, Project $model, $key) {
             $result = '';
             if($model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
@@ -107,6 +122,57 @@ return [
                     ]
                 );
             }
+            return $result;
+        },
+        'download' => function($url, Project $model, $key) {
+            $result = '';
+            if($model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
+                $result = Html::a(
+                    Html::icon(Setting::get('icons.download', 'download-alt')),
+                    null,
+                    [
+                        'data' => [
+                            'code' => \yii\helpers\Url::to(['/projects/download', 'id' => $model->id]),
+                            'text' => \yii\helpers\Url::to(['/projects/download', 'id' => $model->id, 'text' => true])
+                        ],
+                        'class' => 'download-data',
+                        'title' => \Yii::t('app', 'Download'),
+                    ]
+                );
+                $this->registerJs(<<<JS
+var handler = function(e){
+    console.log('Clicked');
+    e.preventDefault();
+    e.stopPropagation();
+    let textUrl = $(this).data('text');
+    let codeUrl = $(this).data('code');
+    bootbox.dialog({
+        message: "Do you prefer answer as text or as code?",
+        title: "Download data in CSV format",
+        onEscape: function() {
+        },
+        buttons: {
+            text: {
+                label: "Text",
+                callback: function() {
+                    window.location.href = textUrl;
+                }
+            },
+            code: {
+                label: "Code",
+                callback: function() {
+                    window.location.href = codeUrl;
+                }
+            },
+        }
+    
+    });
+};
+$('.download-data').on('click', handler);
+JS
+                );
+            }
+
             return $result;
         }
     ]

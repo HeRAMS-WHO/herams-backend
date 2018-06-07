@@ -30,6 +30,7 @@ use yii\web\User;
 
 class ToolsController extends Controller
 {
+    public $layout = 'simple';
     public $defaultAction = 'list';
 
     public function actionCreate(Request $request, Session $session)

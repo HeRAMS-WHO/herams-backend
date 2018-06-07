@@ -13,15 +13,7 @@ use prime\models\ar\Setting;
  *
  */
 
-
-if(isset($tool)) {
-    $this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces for project {name}', [
-            'name' => $tool->title
-    ]);
-} else {
-    $this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces for all projects');
-}
-
+$this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces');
 ?>
 <div class="col-xs-12">
     <?php
