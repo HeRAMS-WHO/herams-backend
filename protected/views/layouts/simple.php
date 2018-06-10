@@ -19,7 +19,6 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
     <title><?=Html::encode($this->title ?: app()->name); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->head(); ?>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
 </head>
 <body>
 <?php $this->beginBody(); ?>
@@ -44,9 +43,16 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
                                 <div class="username"><?php echo Html::encode(Yii::$app->user->identity->firstName.' '.Yii::$app->user->identity->lastName); ?></div>
                                 <div class="email"><?php echo Html::encode(Yii::$app->user->identity->email); ?></div>
                             </div>
-                            <i class="fas fa-user-circle"></i>
-                            <i class="fas fa-angle-down" id="log"></i>
+
                             <?php
+                                echo Html::icon('user', [
+                                    'style' => [
+                                        'font-size' => '4em',
+                                        'overflow' => 'hidden',
+                                        'border-radius' => '50%',
+                                        'background-color' => 'var(--breadcrumbs-color)'
+                                    ]
+                                ]);
                                 if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
                                     echo $this->render('//menu');
                                 }

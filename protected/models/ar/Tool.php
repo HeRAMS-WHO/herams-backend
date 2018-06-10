@@ -26,6 +26,7 @@ use yii\helpers\ArrayHelper;
 use yii\validators\BooleanValidator;
 use yii\validators\ImageValidator;
 use yii\validators\RangeValidator;
+use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 
 /**
@@ -229,8 +230,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
         return [
             [[
                 'title', 'acronym', 'description', 'base_survey_eid', 'progress_type', 'generatorsArray'
-            ], 'required'],
-            //[['tempImage'], 'required', 'on' => ['create']],
+            ], RequiredValidator::class],
             [['title', 'acronym', 'description', 'explorer_name', 'explorer_geo_js_name', 'explorer_geo_ls_name'], 'string'],
             [['title'], 'unique'],
             [['explorer_regex'], function($attribute, $params) {
@@ -249,6 +249,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
                 }
             }],
             [['tempImage', 'thumbTempImage'], ImageValidator::class],
+            [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
             [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
             [['hidden', 'explorer_show_services'], BooleanValidator::class],
@@ -265,11 +266,15 @@ class Tool extends ActiveRecord implements ProjectInterface {
     public function scenarios()
     {
         return [
-            'create' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage',
-            'generatorsArray', 'hidden'],
-            'update' => ['title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'progress_type', 'thumbTempImage',
-            'generatorsArray', 'hidden', 'default_generator', 'explorer_regex', 'explorer_name', 'explorer_map', 'explorer_show_services',
-            'explorer_geo_js_name', 'explorer_geo_ls_name']
+            'create' => [
+                'title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage',
+                'generatorsArray', 'hidden'
+            ],
+            'update' => [
+                'title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage',
+                'generatorsArray', 'hidden', 'default_generator', 'explorer_regex', 'explorer_name', 'explorer_map', 'explorer_show_services',
+                'explorer_geo_js_name', 'explorer_geo_ls_name'
+            ]
         ];
     }
 
@@ -385,7 +390,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
 
     public function userCan($operation, User $user)
     {
-        return Permission::isAllowed($user, $this, Permission::PERMISSION_INSTANTIATE);
+        return $user->isAdmin || Permission::isAllowed($user, $this, Permission::PERMISSION_INSTANTIATE);
     }
 
     public function getPermissions()

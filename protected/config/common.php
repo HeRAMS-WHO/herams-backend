@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../helpers/functions.php';
 return [
+    'layout' => 'simple',
     'id' => 'prime',
     'name' => 'Prime',
     'basePath' => realpath(__DIR__ . '/../'),

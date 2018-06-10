@@ -23,6 +23,6 @@ class ResizeAsset extends AssetBundle {
         'mresize.js',
     ];
 
-    public $sourcePath = '@bower/mresize';
+    public $sourcePath = '@npm/mresize';
 
 }

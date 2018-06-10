@@ -17,7 +17,7 @@ SCRIPT
 return [
     'class' => \kartik\grid\ActionColumn::class,
     'width' => '150px',
-    'template' => '{read}{request} {update} {share} {download} {close}{open} ',
+    'template' => '{read}{request} {update} {limesurvey} {share} {download} {close}{open} ',
     'buttons' => [
         'read' => function($url, $model, $key) {
             $result = '';
@@ -33,7 +33,7 @@ return [
             }
             return $result;
         },
-        'update' => function($url, $model, $key) {
+        'limesurvey' => function($url, $model, $key) {
             $result = '';
             /** @var Project $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {

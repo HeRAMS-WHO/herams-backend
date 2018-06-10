@@ -17,7 +17,7 @@ $this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces');
 ?>
 <div class="col-xs-12">
     <?php
-    
+
 
     echo \kartik\grid\GridView::widget([
         'caption' => !isset($caption) ? include('list/header.php') : $caption,

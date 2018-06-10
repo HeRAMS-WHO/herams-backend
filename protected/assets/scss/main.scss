@@ -329,7 +329,7 @@ iframe.seamless {
     USER PROFILE
  */
 
-.mainWrapper .main .content .header .user-profile
+.user-profile
 {
   padding-top:0;
   margin-top:0;
@@ -342,25 +342,26 @@ iframe.seamless {
 }
 
 /* user profile txt infos */
-.mainWrapper .main .content .header .user-profile > div:first-child {
+.user-profile > div:first-child {
   font-size: 1em;
   font-weight: 500;
   color: white;
   text-align: right;
+  margin-right: 10px;
 }
-.mainWrapper .main .content .header .user-profile > div:first-child .usrname {
+.user-profile > div:first-child .usrname {
   text-transform: uppercase;
   margin: 2px 0;
 }
-.mainWrapper .main .content .header .user-profile > div:first-child .email {
+.user-profile > div:first-child .email {
   font-size: 0.9em;
   color: #b3b1b8;
   margin: 2px 0;
 }
-.mainWrapper .main .content .header .user-profile > div:first-child .org {
+.user-profile > div:first-child .org {
   margin: 10px 0;
 }
-.mainWrapper .main .content .header .user-profile > div:first-child .org > span {
+.user-profile > div:first-child .org > span {
   text-transform: uppercase;
   color: #42424b;
   border-radius:3px;
@@ -370,7 +371,7 @@ iframe.seamless {
 }
 
 /* user profile icons/pictures container */
-.mainWrapper .main .content .header .user-profile > div:nth-child(2) {
+.user-profile > div:nth-child(2) {
   display:flex;
   justify-content: space-around;
   align-items:center;
@@ -379,13 +380,13 @@ iframe.seamless {
 }
 
 /* user profile picture placeholder */
-.mainWrapper .main .content .header .user-profile > div:nth-child(2) > i:first-child {
+.user-profile > div:nth-child(2) > i:first-child {
   font-size: 4em;
   color: #59585e;
   padding: 0 10px;
 }
 /* arrow down */
-.mainWrapper .main .content .header .user-profile > div:nth-child(2) > i:nth-child(2) {
+.user-profile > div:nth-child(2) > i:nth-child(2) {
   font-size: 1.2em;
   color: #e9e9e9;
   cursor: pointer;
@@ -402,11 +403,7 @@ iframe.seamless {
   border-top-right-radius: 5px;
   overflow-y: auto;
 }
-.mainWrapper .main .content .datagrid .row * {
-  padding-right: 0;
-  padding-left: 0;
-  margin: 0;
-}
+
 .mainWrapper .main .content .datagrid .row.spacer {
   height: 15px;
 }

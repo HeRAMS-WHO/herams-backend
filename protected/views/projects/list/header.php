@@ -32,7 +32,7 @@ return Nav::widget([
             'label' => \Yii::t('app', 'Create workspace'),
             'tagName' => 'a',
             'options' => [
-                'href' => Url::to(['projects/create']),
+                'href' => Url::to(['projects/create', 'toolId' => $tool->id]),
                 'class' => 'btn-default',
             ],
             'visible' => app()->user->can('instantiate', ['model' => \prime\models\ar\Tool::class])
