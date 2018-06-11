@@ -335,6 +335,20 @@ class ToolsController extends Controller
         $this->redirect(['/tools/share', 'id' => $tool->id]);
     }
 
+    /**
+     * HeRAMS Overview
+     * @return string
+     */
+    public function actionOverview($id)
+    {
+        $tool = Tool::loadOne($id);
+        $this->layout = 'angular';
+
+        return $this->render('overview', [
+            'model' => $tool
+        ]);
+    }
+
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
