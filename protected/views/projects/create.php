@@ -11,7 +11,7 @@ use app\components\Html;
 
 $this->title = Yii::t('app', 'Create project');
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Project overview'),
+    'label' => \Yii::t('app', 'Back to project overview'),
     'url' => ['tool/overview', 'id' => $tool->id]
 ];
 $this->params['breadcrumbs'][] = [
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['projects/list', 'toolId' => $tool->id]
 ];
 
-$this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 

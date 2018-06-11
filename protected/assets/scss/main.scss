@@ -303,7 +303,14 @@ iframe.seamless {
 }
 
 .header {
+  a {
+    color: inherit;
+  }
 
+  a:hover {
+    color: var(--primary-button-hover-color);
+    text-decoration: none;
+  }
   background-color: var(--header-background-color);
   padding-top: 15px;
   min-height: 120px;
@@ -316,6 +323,7 @@ iframe.seamless {
 .title {
   pointer-events: none;
   position: absolute;
+  letter-spacing: -2px;
   font-size: 3em;
   font-weight: 300;
   line-height: 34px;
@@ -323,7 +331,6 @@ iframe.seamless {
   border-bottom: 4px solid var(--primary-color);
   top: -53px;
   left: 15px;
-
   color: white;
 }
 
@@ -340,26 +347,29 @@ iframe.seamless {
   display:flex;
   justify-content: flex-end;
   align-items:center;
-
-}
-
-/* user profile txt infos */
-.user-profile > div:first-child {
-  font-size: 1em;
-  font-weight: 500;
   color: white;
-  text-align: right;
-  margin-right: 10px;
+  a {
+    color: white;
+  }
+
+  .username {
+    text-transform: uppercase;
+    margin: 2px 0;
+    font-size: 1em;
+    font-weight: 500;
+    color: white;
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  .email {
+    font-size: 0.9em;
+    color: #b3b1b8;
+    margin: 2px 0;
+  }
 }
-.user-profile > div:first-child .usrname {
-  text-transform: uppercase;
-  margin: 2px 0;
-}
-.user-profile > div:first-child .email {
-  font-size: 0.9em;
-  color: #b3b1b8;
-  margin: 2px 0;
-}
+
+.user-profile > div:first-child
 .user-profile > div:first-child .org {
   margin: 10px 0;
 }
@@ -371,29 +381,6 @@ iframe.seamless {
   background-color: #e9e9e9;
   width: 40px;
 }
-
-/* user profile icons/pictures container */
-.user-profile > div:nth-child(2) {
-  display:flex;
-  justify-content: space-around;
-  align-items:center;
-
-  max-width: 90px;
-}
-
-/* user profile picture placeholder */
-.user-profile > div:nth-child(2) > i:first-child {
-  font-size: 4em;
-  color: #59585e;
-  padding: 0 10px;
-}
-/* arrow down */
-.user-profile > div:nth-child(2) > i:nth-child(2) {
-  font-size: 1.2em;
-  color: #e9e9e9;
-  cursor: pointer;
-}
-
 
 /**
     MAIN CONTENT

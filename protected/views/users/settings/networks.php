@@ -18,7 +18,7 @@ use yii\helpers\Html;
  */
 
 $this->title = Yii::t('user', 'Networks');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="row">

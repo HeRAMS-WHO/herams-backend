@@ -11,10 +11,10 @@ $this->title = \Yii::t('app', 'Manage projects');
  * @var \yii\data\ActiveDataProvider $toolsDataProvider
  */
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'World overview'),
+    'label' => \Yii::t('app', 'Back home'),
     'url' => '/'
 ];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="col-xs-12">
     <?php

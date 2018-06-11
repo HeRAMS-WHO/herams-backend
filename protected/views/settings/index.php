@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = \Yii::t('app', 'Update application settings');
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'World overview'),
+    'label' => \Yii::t('app', 'Back home'),
     'url' => '/'
 ];
 

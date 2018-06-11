@@ -15,11 +15,11 @@ use prime\models\ar\Setting;
 
 $this->title = \Yii::t('app', 'Manage workspaces');
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Project overview'),
+    'label' => \Yii::t('app', 'Back to project overview'),
     'url' => ['tool/overview', 'id' => $tool->id]
 ];
 
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="col-xs-12">
     <?php

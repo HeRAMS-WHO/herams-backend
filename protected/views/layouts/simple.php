@@ -37,41 +37,47 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
                     'homeLink' => false,
                     'links' => $this->params['breadcrumbs'] ?? [
                             [
-                                'label' => \Yii::t('app', 'World overview'),
+                                'label' => \Yii::t('app', 'Back home'),
                                 'url' => '/'
                             ]
                         ],
                 ]);
                 ?>
             </div>
-            <div class="col-sm-6 col-lg-4 user-profile">
-                <div>
-                    <div class="username">
-                        <?php echo Html::encode(Yii::$app->user->identity->firstName.' '.Yii::$app->user->identity->lastName); ?>
+            <?php
+                if (!Yii::$app->user->isGuest) {
+                    ?>
+                    <div class="col-sm-6 col-lg-4 user-profile">
+                        <div>
+                            <div class="username">
+                                <?php
+
+                                echo Html::encode((Yii::$app->user->identity->firstName).' '. (Yii::$app->user->identity->lastName));
+                                ?>
+                            </div>
+                            <div class="email"><?php echo Html::encode(Yii::$app->user->identity->email); ?></div>
+                        </div>
+
+                        <?php
+                            echo Html::img(Yii::$app->user->identity->getGravatarUrl(), [
+                                'referrerpolicy' => 'no-referrer',
+                                'style' => [
+                                    'overflow' => 'hidden',
+                                    'border-radius' => '50%',
+                                    'max-height' => '70px',
+                                    'background-color' => 'var(--breadcrumbs-color)'
+                                ]
+                            ]);
+                            if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
+                                echo $this->render('//menu');
+                            }
+                        ?>
                     </div>
-                    <div class="email"><?php echo Html::encode(Yii::$app->user->identity->email); ?></div>
-                </div>
-
-                <?php
-                echo Html::img(Yii::$app->user->identity->getGravatarUrl(), [
-                    'referrerpolicy' => 'no-referrer',
-                    'style' => [
-//                                        'font-size' => '4em',
-                        'overflow' => 'hidden',
-                        'border-radius' => '50%',
-                        'max-height' => '70px',
-                        'background-color' => 'var(--breadcrumbs-color)'
-                    ]
-                ]);
-                //                                echo Html::icon('user', [
-
-                //                                ]);
-                if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
-                    echo $this->render('//menu');
-                }
-//                    ?>
-            </div>
+                            <?php
+                        }
+                    ?>
         </div>
+
     </div>
         <div style="position: relative">
             <div class="title"><?php echo $this->title ?? ''; ?></div>

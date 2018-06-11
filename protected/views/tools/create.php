@@ -4,18 +4,18 @@ use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;
 
-$this->title = Yii::t('app', 'Create tool');
+$this->title = Yii::t('app', 'Create project');
 
-$this->params['subMenu'] = [
-    'items' => [
-        '<li>' . Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'create-tool', 'class' => 'btn btn-primary']) . '</li>',
-//        [
-//            'label' => 'test'
-//        ]
-    ]
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Back home'),
+    'url' => '/'
 ];
-?>
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Manage projects'),
+    'url' => ['tools/list']
+];
 
+?>
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([

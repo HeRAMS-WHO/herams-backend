@@ -2,8 +2,8 @@
 require_once __DIR__ . '/../helpers/functions.php';
 return [
     'layout' => 'simple',
-    'id' => 'prime',
-    'name' => 'Prime',
+    'id' => 'herams',
+    'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
     'sourceLanguage' => 'en-US',
@@ -21,43 +21,8 @@ return [
             'privateKeyFile' => __DIR__ . '/private.key',
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function($id) {
-                return 'admin';
+                return "prime_$id";
             }
-        ],
-        'authClientCollection' => [
-            'class' => \yii\authclient\Collection::class,
-            'clients' => [
-                'facebook' => [
-                    'class' => \dektrium\user\clients\Facebook::class,
-                    'viewOptions' => [
-                        'widget' => [
-                            'class' => \prime\widgets\SocialAuthItem::class,
-                        ]
-                    ],
-                    'clientId' => '1646368368981068',
-                    'clientSecret' => '616885b84a81d5abc203cfc7d462ea58'
-                ],
-                'google' => [
-                    'class' => \dektrium\user\clients\Google::class,
-                    'clientId' => '550362619218-7eng5d4jjs9esfo4ddggkdd2jl31nt3u.apps.googleusercontent.com',
-                    'clientSecret' => 'Yo-fvZZ3b8D5VyzSI7VQ0TyF',
-                    'viewOptions' => [
-                        'widget' => [
-                            'class' => \prime\widgets\SocialAuthItem::class,
-                        ]
-                    ],
-                ],
-                'linkedin' => [
-                    'class' => \dektrium\user\clients\LinkedIn::class,
-                    'clientId' => '77li9jqu82f1tx',
-                    'clientSecret' => 'jxeT5c6EcSlf7d8w',
-                    'viewOptions' => [
-                        'widget' => [
-                            'class' => \prime\widgets\SocialAuthItem::class,
-                        ]
-                    ],
-                ]
-            ]
         ],
         'authManager' => [
             'class' => \prime\components\AuthManager::class,
@@ -129,7 +94,7 @@ return [
             'controllerMap' => [
                 'security' => [
                     'class' => \dektrium\user\controllers\SecurityController::class,
-                    'layout' => '//main'
+                    'layout' => '//simple'
                 ]
             ],
             'mailer' => [

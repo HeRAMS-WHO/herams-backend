@@ -11,7 +11,7 @@ use app\components\Html;
 
 $this->title = Yii::t('app', 'Update workspace');
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Project overview'),
+    'label' => \Yii::t('app', 'Back to project overview'),
     'url' => ['tool/overview', 'id' => $model->tool_id]
 ];
 $this->params['breadcrumbs'][] = [
