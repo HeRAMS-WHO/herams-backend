@@ -4,12 +4,17 @@ use \app\components\Html;
 use prime\models\ar\Setting;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
+$this->title = \Yii::t('app', 'Manage projects');
 
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $toolsDataProvider
  */
-
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'World overview'),
+    'url' => '/'
+];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-xs-12">
     <?php

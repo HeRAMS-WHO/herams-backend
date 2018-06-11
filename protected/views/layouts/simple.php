@@ -28,66 +28,72 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
 <![endif]-->
 
 <div class="mainWrapper">
-    <div class="main">
-        <div class="background-top"></div>
-        <div class="content">
-            <div class="header container-fluid">
-                <div class="row">
-                    <div class="col-sm-6 col-lg-8">
-                        <div class="breadcrumbs"><a href="/">&lt; Back home</a></div>
-                        <div class="title"><span><?php if (isset($this->params['sectionTitle'])) echo $this->params['sectionTitle']; ?></span></div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="user-profile">
-                            <div>
-                                <div class="username"><?php echo Html::encode(Yii::$app->user->identity->firstName.' '.Yii::$app->user->identity->lastName); ?></div>
-                                <div class="email"><?php echo Html::encode(Yii::$app->user->identity->email); ?></div>
-                            </div>
-
-                            <?php
-                                echo Html::icon('user', [
-                                    'style' => [
-                                        'font-size' => '4em',
-                                        'overflow' => 'hidden',
-                                        'border-radius' => '50%',
-                                        'background-color' => 'var(--breadcrumbs-color)'
-                                    ]
-                                ]);
-                                if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
-                                    echo $this->render('//menu');
-                                }
-                            ?>
-                            <div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="background-top"></div>
+    <div class="container-fluid header">
+        <div class="row">
+            <div class="col-sm-6 col-lg-8">
+                <?php
+                echo Breadcrumbs::widget([
+                    'homeLink' => false,
+                    'links' => $this->params['breadcrumbs'] ?? [
+                            [
+                                'label' => \Yii::t('app', 'World overview'),
+                                'url' => '/'
+                            ]
+                        ],
+                ]);
+                ?>
             </div>
-            <div class="datagrid container-fluid">
-                <?php echo $this->render('//subMenu'); ?>
-                <div class="row spacer"><div class="col-12"></div></div>
-                <div class="col-12">
-                    <div class="main-content-area">
-                        <?php
-                        //if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
-                        //    echo $this->render('//menu');
-                        //}
-                        echo $this->render('//flash.php');
-
-                        $defaultContainerOptions = ['class' => 'container'];
-
-                        echo Html::tag(
-                            'div',
-                            $content,
-                            isset($this->params['containerOptions'])
-                                ? \yii\helpers\ArrayHelper::merge($defaultContainerOptions, $this->params['containerOptions'])
-                                : $defaultContainerOptions
-                        );
-                        ?>
-
+            <div class="col-sm-6 col-lg-4 user-profile">
+                <div>
+                    <div class="username">
+                        <?php echo Html::encode(Yii::$app->user->identity->firstName.' '.Yii::$app->user->identity->lastName); ?>
                     </div>
+                    <div class="email"><?php echo Html::encode(Yii::$app->user->identity->email); ?></div>
                 </div>
-                <div class="row spacer"><div class="col-12"></div></div>
+
+                <?php
+                echo Html::img(Yii::$app->user->identity->getGravatarUrl(), [
+                    'referrerpolicy' => 'no-referrer',
+                    'style' => [
+//                                        'font-size' => '4em',
+                        'overflow' => 'hidden',
+                        'border-radius' => '50%',
+                        'max-height' => '70px',
+                        'background-color' => 'var(--breadcrumbs-color)'
+                    ]
+                ]);
+                //                                echo Html::icon('user', [
+
+                //                                ]);
+                if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
+                    echo $this->render('//menu');
+                }
+//                    ?>
+            </div>
+        </div>
+    </div>
+        <div style="position: relative">
+            <div class="title"><?php echo $this->title ?? ''; ?></div>
+            <div class="datagrid">
+            <div class="container">
+            <?php echo $this->render('//subMenu'); ?>
+            <?php
+            echo $this->render('//flash.php');
+
+            $defaultContainerOptions = [
+                'class' => 'row'
+            ];
+
+            echo Html::tag(
+                'div',
+                $content,
+                isset($this->params['containerOptions'])
+                    ? \yii\helpers\ArrayHelper::merge($defaultContainerOptions, $this->params['containerOptions'])
+                    : $defaultContainerOptions
+            );
+            ?>
+            </div>
             </div>
         </div>
     </div>

@@ -10,12 +10,17 @@ use app\components\Html;
  */
 
 $this->title = Yii::t('app', 'Create project');
-
-$this->params['subMenu'] = [
-    'items' => [
-        '<li>' . Html::submitButton(\Yii::t('app', 'Create workspace'), ['form' => 'create-project', 'class' => 'btn btn-primary']) . '</li>'
-    ]
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Project overview'),
+    'url' => ['tool/overview', 'id' => $tool->id]
 ];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Manage workspaces'),
+    'url' => ['projects/list', 'toolId' => $tool->id]
+];
+
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="col-xs-12">
@@ -77,7 +82,11 @@ $this->params['subMenu'] = [
 
         ]
     ]);
-
+    echo \yii\bootstrap\ButtonGroup::widget([
+        'buttons' => [
+            Html::submitButton(\Yii::t('app', 'Create workspace'), ['form' => 'create-project', 'class' => 'btn btn-primary'])
+        ]
+    ]);
     $form->end();
     ?>
 </div>

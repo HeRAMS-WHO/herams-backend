@@ -10,15 +10,20 @@ use app\components\Html;
  *
  */
 
-$this->title = Yii::t('app', 'Update project');
-
-$this->params['subMenu'] = [
-    'items' => [
-        [
-            'label' => Html::submitButton(\Yii::t('app', 'save'), ['form' => 'update-project', 'class' => 'btn btn-primary'])
-        ],
-    ]
+$this->title = Yii::t('app', 'Update workspace token');
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Project overview'),
+    'url' => ['tool/overview', 'id' => $model->tool_id]
 ];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Manage workspaces'),
+    'url' => ['projects/list', 'toolId' => $model->tool_id]
+];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Update workspace'),
+    'url' => ['projects/update', 'id' => $model->id]
+];
+
 
 ob_start();
 $form = ActiveForm::begin([
@@ -41,5 +46,13 @@ foreach($token->attributes() as $attribute) {
     }
 }
 
+echo \yii\bootstrap\ButtonGroup::widget([
+    'options' => [
+        'class' => 'pull-right'
+    ],
+    'buttons' => [
+        Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary'])
+    ]
+]);
 $form->end();
 

@@ -13,14 +13,20 @@ use prime\models\ar\Setting;
  *
  */
 
-$this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces');
+$this->title = \Yii::t('app', 'Manage workspaces');
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Project overview'),
+    'url' => ['tool/overview', 'id' => $tool->id]
+];
+
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-xs-12">
     <?php
 
 
     echo \kartik\grid\GridView::widget([
-        'caption' => !isset($caption) ? include('list/header.php') : $caption,
+        'caption' => !isset($caption) ? $this->render('list/header', ['tool' => $tool]) : $caption,
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [
@@ -35,23 +41,6 @@ $this->params['sectionTitle'] = \Yii::t('app', 'Manage workspaces');
             [
                 'attribute' => 'id'
             ],
-//            [
-//                'label' => 'Project',
-//                'attribute' => 'tool_id',
-//                'value' => 'tool.acronym',
-//                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-//                'filter' => $projectSearch->toolsOptions(),
-//                'filterWidgetOptions' => [
-//                    'pluginOptions' => [
-//                        'allowClear' => true,
-//                    ],
-//
-//                ],
-//                'filterInputOptions' => [
-//                    'placeholder' => \Yii::t('app', 'Select project')
-//                ],
-//                'visible' => !isset($hideToolColumn) || !$hideToolColumn
-//            ],
             [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
             [
                 'label' => '# responses',

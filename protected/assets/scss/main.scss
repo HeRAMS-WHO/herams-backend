@@ -23,6 +23,8 @@ html {
   --primary-button-hover-color: #3f86e6;
   --header-light-background-color: #4f4e54;
   --header-light-color: white;
+
+  height: 100%;
 }
 
 body {
@@ -269,17 +271,16 @@ iframe.seamless {
   font-size: 1em;
 }
 
-.mainWrapper .main {
-  background-color: #e0e0e0;
-}
-.mainWrapper .main .background-top {
+.background-top {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
   height: 173px;
   background-color: var(--header-background-color);
 }
-.mainWrapper .main .content {
-  position: fixed;
-  top: 24px;
-  width: 100%;
+.content {
+  margin-top: 15px;
   padding-left: 20px;
   padding-right: 15px;
 }
@@ -289,41 +290,42 @@ iframe.seamless {
     HEADER
  */
 
-.mainWrapper .main .content .header .row:nth-child(2) {
-  height: 79px;
-}
-.mainWrapper .main .content .header .row:nth-child(2) div:first-child {
-  padding: 0; margin: 0;
-}
-.mainWrapper .main .content .header .breadcrumbs {
+
+.breadcrumb {
   font-size: 1.2em;
   font-weight: 300;
-  color: #878787;
-}
-.mainWrapper .main .content .header {
-  height: 79px;
-  padding:0;
-  padding-right: 20px;
-}
-.mainWrapper .main .content .header .title {
-  font-size: 3em;
-  font-weight: 300;
-  line-height: 34px;
-  color: white;
+  color: var(--breadcrumbs-color);
+  background-color: transparent;
 
-  span {
-    margin: 0;
-    padding-bottom: 7px;
-    border-bottom: 4px solid var(--primary-color);
+  li:before {
+    content: "< ";
   }
 }
 
-.mainWrapper .main .content .header > .row > div:nth-child(2) {
-  padding:0;
-  margin: 0;
+.header {
+
+  background-color: var(--header-background-color);
+  padding-top: 15px;
+  min-height: 120px;
+
+  .row {
+    margin-left: -30px;
+  }
 }
 
+.title {
+  pointer-events: none;
+  position: absolute;
+  font-size: 3em;
+  font-weight: 300;
+  line-height: 34px;
+  padding-bottom: 15px;
+  border-bottom: 4px solid var(--primary-color);
+  top: -53px;
+  left: 15px;
 
+  color: white;
+}
 
 /**
     USER PROFILE
@@ -397,20 +399,21 @@ iframe.seamless {
     MAIN CONTENT
  */
 /* Main content container (white area) */
-.mainWrapper .main .content .datagrid {
+.datagrid {
   background-color: white;
   height: 85vh;
   border-top-right-radius: 5px;
+  position: relative;
+  margin-left: 15px;
   overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
 }
 
-.mainWrapper .main .content .datagrid .row.spacer {
+.content .datagrid .row.spacer {
   height: 15px;
-}
-
-/* Main content */
-.mainWrapper .main .content .datagrid .row .main-content-area {
-  padding: 30px;
 }
 
 /**

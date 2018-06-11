@@ -77,7 +77,8 @@ class ProjectsController extends Controller
             $this->refresh();
         }
         return $this->render('configure', [
-            'token' => $token
+            'token' => $token,
+            'model' => $model
         ]);
 
     }
@@ -127,7 +128,8 @@ class ProjectsController extends Controller
         }
 
         return $this->render('create', [
-            'model' =>  $model
+            'model' =>  $model,
+            'tool' => $tool
         ]);
     }
 
@@ -152,14 +154,13 @@ class ProjectsController extends Controller
         Request $request,
         int $toolId
     ) {
-
-        $projectSearch = new ProjectSearch($toolId, [
+        $tool = Tool::loadOne($toolId);
+        $projectSearch = new ProjectSearch($tool->id, [
             'queryCallback' => function(ProjectQuery $query) {
                 return $query->readable();
             }
         ]);
 
-        $projectSearch->tool_id = $toolId;
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
         return $this->render('list', [
@@ -169,9 +170,12 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionListOthers(Request $request, int $toolId = null)
-    {
-        $projectSearch = new ProjectSearch($toolId, [
+    public function actionListOthers(
+        Request $request,
+        int $toolId
+    ) {
+        $tool = Tool::loadOne($toolId);
+        $projectSearch = new ProjectSearch($tool->id, [
             'queryCallback' => function(ProjectQuery $query) {
                 return $query->notReadable();
             }
@@ -180,15 +184,16 @@ class ProjectsController extends Controller
         return $this->render('list', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider,
-            'tool' => isset($toolId) ? Tool::findOne(['id' => $toolId]) : null
+            'tool' => $tool
         ]);
     }
 
     public function actionListClosed(
         Request $request,
-        int $toolId = null
+        int $toolId
     ) {
-        $projectSearch = new ProjectSearch($toolId);
+        $tool = Tool::loadOne($toolId);
+        $projectSearch = new ProjectSearch($tool->id);
         $projectSearch->query = Project::find()->closed()->userCan(Permission::PERMISSION_WRITE);
         if(!app()->user->can('admin')) {
             $projectSearch->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
@@ -199,7 +204,8 @@ class ProjectsController extends Controller
 
         return $this->render('listDeleted', [
             'projectSearch' => $projectSearch,
-            'projectsDataProvider' => $projectsDataProvider
+            'projectsDataProvider' => $projectsDataProvider,
+            'tool' => $tool
         ]);
     }
 

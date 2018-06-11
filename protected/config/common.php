@@ -123,12 +123,18 @@ return [
                 'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
             'admins' => [
-                'joey_claessen@hotmail.com',
                 'sam@mousa.nl',
                 'petragallos@who.int'
             ],
+            'controllerMap' => [
+                'security' => [
+                    'class' => \dektrium\user\controllers\SecurityController::class,
+                    'layout' => '//main'
+                ]
+            ],
             'mailer' => [
-                'sender' => 'prime_support@who.int', //[new \prime\objects\Deferred(function() {return \prime\models\ar\Setting::get('systemEmail', 'default-sender@befound.nl');})],
+                'class' => \dektrium\user\Mailer::class,
+                'sender' => 'prime_support@who.int',
                 'confirmationSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
                 'recoverySubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
                 'welcomeSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Public Health Risks Information Marketplace!', ['0' => app()->name]);}),

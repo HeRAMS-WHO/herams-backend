@@ -18,7 +18,12 @@ use kartik\helpers\Html;
 //]);
 //
 echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
+    'options' => [
+        'class' => 'navbar-nav navbar-right',
+        'style' => [
+            'margin-right' => '0'
+        ]
+    ],
     'encodeLabels' => false,
     'items' => [
 

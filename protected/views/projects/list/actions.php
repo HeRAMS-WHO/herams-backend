@@ -17,7 +17,7 @@ SCRIPT
 return [
     'class' => \kartik\grid\ActionColumn::class,
     'width' => '150px',
-    'template' => '{read}{request} {update} {limesurvey} {share} {download} {close}{open} ',
+    'template' => '{request} {update} {limesurvey} {share} {download} {close}{open} ',
     'buttons' => [
         'read' => function($url, $model, $key) {
             $result = '';
@@ -129,7 +129,7 @@ return [
             if($model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.download', 'download-alt')),
-                    null,
+                    "#",
                     [
                         'data' => [
                             'code' => \yii\helpers\Url::to(['/projects/download', 'id' => $model->id]),

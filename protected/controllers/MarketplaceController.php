@@ -25,13 +25,9 @@ use yii\web\Request;
 
 class MarketplaceController extends Controller
 {
-    public function actionIndex()
-    {
-        //return $this->redirect(['/marketplace/map']);
-        return $this->redirect(['/marketplace/herams']);
-    }
+    public $defaultAction = 'herams';
 
-        public function actionHerams(Request $request, Client $limeSurvey)
+    public function actionHerams()
     {
         $this->layout = 'angular';
         return $this->render('herams');
