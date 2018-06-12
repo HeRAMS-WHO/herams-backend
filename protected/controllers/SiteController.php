@@ -14,19 +14,6 @@
 
     class SiteController extends Controller
     {
-
-        public function actionAbout()
-        {
-            $this->layout = 'main';
-            return $this->render('about');
-        }
-
-        public function actionLogout()
-        {
-            $this->layout = 'logout';
-            return $this->render('logout');
-        }
-
         public function actionLimeSurvey(
             JwtSso $limesurveySSo,
             ?string $error = null
@@ -36,15 +23,6 @@
                 return;
             }
             $limesurveySSo->loginAndRedirectCurrentUser();
-        }
-
-        public function actionIndex(User $user)
-        {
-            if($user->id !== null) {
-                return $this->redirect(['/marketplace']);
-            } else {
-                return $this->redirect(['/site/about']);
-            }
         }
 
         public function actionTextImage(Response $response, $text)
@@ -74,7 +52,7 @@
                         'rules' => [
                             [
                                 'allow' => 'true',
-                                'actions' => ['captcha', 'about', 'index', 'logout']
+                                'actions' => ['captcha', 'about', 'logout']
                             ],
                             [
                                 'allow' => 'true',

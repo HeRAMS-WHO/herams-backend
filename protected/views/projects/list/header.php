@@ -3,7 +3,7 @@ use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Nav;
 use yii\helpers\Url;
 
-return Nav::widget([
+echo Nav::widget([
     'options' => [
         'class' => 'pull-left nav-tabs',
         'style' => ['margin-right' => '10px']
@@ -11,15 +11,15 @@ return Nav::widget([
     'items' => [
         [
             'label' => \Yii::t('app', 'My workspaces'),
-            'url' => ['/projects/list'],
+            'url' => ['/projects/list', 'toolId' => $tool->id],
         ],
         [
             'label' => \Yii::t('app', "Other workspaces"),
-            'url' => ['/projects/list-others']
+            'url' => ['/projects/list-others', 'toolId' => $tool->id]
         ],
         [
             'label' => \Yii::t('app', 'Inactive workspaces'),
-            'url' => ['/projects/list-closed']
+            'url' => ['/projects/list-closed', 'toolId' => $tool->id]
         ],
 
     ]
@@ -32,7 +32,7 @@ return Nav::widget([
             'label' => \Yii::t('app', 'Create workspace'),
             'tagName' => 'a',
             'options' => [
-                'href' => Url::to(['projects/create']),
+                'href' => Url::to(['projects/create', 'toolId' => $tool->id]),
                 'class' => 'btn-default',
             ],
             'visible' => app()->user->can('instantiate', ['model' => \prime\models\ar\Tool::class])

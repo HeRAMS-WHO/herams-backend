@@ -2,25 +2,44 @@
 
 use \app\components\Html;
 use prime\models\ar\Setting;
+use yii\bootstrap\ButtonGroup;
+use yii\helpers\Url;
+$this->title = \Yii::t('app', 'Manage projects');
 
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $toolsDataProvider
  */
-
-$this->params['subMenu']['items'] = [
-    [
-        'label' => \Yii::t('app', 'Create'),
-        'url' => ['tools/create'],
-        'visible' => app()->user->identity->isAdmin
-    ]
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Back home'),
+    'url' => '/'
 ];
 
 ?>
 <div class="col-xs-12">
     <?php
     echo \kartik\grid\GridView::widget([
+        'caption' => ButtonGroup::widget([
+            'options' => [
+                'class' => 'pull-right',
+                'style' => [
+                        'margin-bottom' => '10px'
+                ]
+            ],
+            'buttons' => [
+                [
+                    'label' => \Yii::t('app', 'Create tool'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['tools/create']),
+                        'class' => 'btn-default',
+                    ],
+                    'visible' => app()->user->can('tools')
+                ],
+            ]
+        ]),
         'dataProvider' => $toolsDataProvider,
+        'layout' => "{items}\n{pager}",
         'columns' => [
             'acronym',
             'title',

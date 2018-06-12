@@ -18,34 +18,32 @@ use kartik\helpers\Html;
 //]);
 //
 echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
+    'options' => [
+        'class' => 'navbar-nav navbar-right',
+        'style' => [
+            'margin-right' => '0'
+        ]
+    ],
     'encodeLabels' => false,
     'items' => [
+
+        [
+            'label' => 'Admin',
+            'visible' => \Yii::$app->user->can('admin'),
+            'items' => [
+                ['label' => 'Users & Permissions', 'url' => ['/rbac']],
+                ['label' => 'Site configuration', 'url' => ['/settings/index']],
+                [
+                    'label' => 'Tools', 'url' => ['/tools'],
+                    'visible' => app()->user->can('tools')
+
+                ],
+            ]
+        ],
         [
             'label' => '',
             'items' => [
-//                [
-//                    'label' => Html::icon(\prime\models\ar\Setting::get('icons.globalMonitor', 'asterisk'), ['title' => 'Global monitor']),
-//                    'url' => ['/marketplace'],
-//                    'visible' => !Yii::$app->user->isGuest
-//
-//                ],
-//                [
-//                    'label' => Html::icon(\prime\models\ar\Setting::get('icons.projects', 'asterisk'), ['id' => 'projects', 'title' => 'Projects']),
-//                    'url' => ['/projects'],
-//                    'visible' => !Yii::$app->user->isGuest
-//                ],
-//                [
-//                    'label' => Html::icon(\prime\models\ar\Setting::get('icons.userLists', 'asterisk'), ['title' => \Yii::t('app', 'User lists')]),
-//                    'url' => ['/user-lists'],
-//                    'visible' => !Yii::$app->user->isGuest
-//                ],
-//                [
-//
-//                    'label' => Html::icon(\prime\models\ar\Setting::get('icons.search', 'asterisk'), ['title' => \Yii::t('app', 'Search')]),
-//                    'url' => ['/search'],
-//                    'visible' => false && !Yii::$app->user->isGuest // @todo Implement this.
-//                ],
+
                 [
                     'label' =>
 //                        Html::icon(\prime\models\ar\Setting::get('icons.user', 'asterisk'), ['title' => 'Profile']) .
@@ -54,17 +52,7 @@ echo Nav::widget([
                     'visible' => !Yii::$app->user->isGuest
 
                 ],
-//                [
-//                    'label' => Html::icon(\prime\models\ar\Setting::get('icons.configuration', 'asterisk'), ['title' => Yii::t('app', 'Configuration')]),
-//                    'items' => [
-//                        ['label' => 'Tools', 'url' => ['/tools']],
-//                        ['label' => 'Users & Permissions', 'url' => ['/rbac'], 'visible' => app()->user->can('admin')],
-//                        ['label' => 'Site configuration', 'url' => ['/settings/index'], 'visible' => app()->user->can('admin')],
-//
-//                    ],
-//                    'visible' => app()->user->can('tools')
-//
-//                ],
+
                 [
                     'label' => Html::icon(\prime\models\ar\Setting::get('icons.logIn', 'asterisk'), ['title' => 'Login or sign up']),
                     'url' => ['/user/security/login'],

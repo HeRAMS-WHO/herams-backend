@@ -11,6 +11,7 @@ use prime\models\ar\UserData;
 use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use prime\models\ar\Tool;
+use prime\models\search\Project;
 use prime\objects\ResponseCollection;
 use prime\objects\Signature;
 use prime\reportGenerators\base\Generator;
@@ -89,10 +90,7 @@ class ToolsController extends Controller
     )
     {
         $tool = Tool::loadOne($id);
-        $projectSearch = new \prime\models\search\Project([
-            'queryCallback' => function(QueryInterface $query) use ($id) {
-                return $query->andWhere(['tool_id' => $id]);
-            }
+        $projectSearch = new Project($tool->id, [
         ]);
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
@@ -379,4 +377,14 @@ class ToolsController extends Controller
         );
     }
 
+    public function actionOverview(
+        int $id
+    ) {
+        $tool = Tool::loadOne($id);
+        $this->layout = 'angular';
+
+        return $this->render('overview', [
+            'model' => $tool,
+        ]);
+    }
 }

@@ -8,14 +8,7 @@ use app\components\Html;
  * @var \prime\models\ar\Project $project
  * @var \prime\models\forms\Share $model
  */
-$this->params['sectionTitle'] = 'Share workspace';
-$this->params['subMenu'] = [
-    'items' => [
-        [
-            'label' => Html::submitButton(\Yii::t('app', 'Share'), ['form' => 'share-project', 'class' => 'btn btn-primary'])
-        ],
-    ]
-];
+$this->title = 'Share workspace';
 ?>
 <h1><?=\Yii::t('app', 'Share {projectName}', ['projectName' => $project->title])?></h1>
 <div class="col-xs-12">

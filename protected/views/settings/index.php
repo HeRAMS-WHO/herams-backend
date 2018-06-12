@@ -1,13 +1,15 @@
 <?php
 /** @var \yii\web\View $this */
+
+use yii\helpers\Html;
+
 /** @var \prime\models\forms\Settings $settings */
 
-$this->params['subMenu'] = [
-    'items' => [
-        [
-            'label' => \app\components\Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'settings', 'class' => 'btn btn-primary'])
-        ],
-    ]
+$this->title = \Yii::t('app', 'Update application settings');
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Back home'),
+    'url' => '/'
 ];
 
 $form = \kartik\form\ActiveForm::begin([
@@ -29,4 +31,12 @@ foreach ($settings->safeAttributes() as $setting) {
     }
 }
 
+echo \yii\bootstrap\ButtonGroup::widget([
+    'options' => [
+        'class' => 'pull-right'
+    ],
+    'buttons' => [
+        Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'settings', 'class' => 'btn btn-primary'])
+    ]
+]);
 $form->end();

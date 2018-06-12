@@ -1,13 +1,10 @@
 <?php
 namespace prime\api\controllers;
 
-use app\models\ar\Category;
-use app\models\ar\CountryStatus;
 use app\models\Overview;
 use app\models\stats\ServiceAvailability;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
-use yii\web\HttpException;
 
 
 class ChartsController extends Controller

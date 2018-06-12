@@ -1,5 +1,6 @@
 <?php
 
+/** @var \prime\models\ar\Tool $model */
 use \app\components\Form;
 use \app\components\ActiveForm;
 use app\components\Html;
@@ -76,12 +77,9 @@ $this->params['subMenu'] = [
                     'prompt' => ''
                 ]
             ],
-            'baseSurvey' => [
-                'type' => Form::INPUT_STATIC,
-                'staticValue' => function(\prime\models\ar\Tool $model) {  $survey = $model->getBaseSurvey(); return $survey ? $survey->getTitle() : "Survey does not exist"; },
-                'options' => [
-                    'class' => 'unsafe-ok'
-                ]
+            'base_survey_eid' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->dataSurveyOptions(),
             ],
             'generatorsArray' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,

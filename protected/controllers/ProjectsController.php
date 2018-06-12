@@ -20,9 +20,11 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
+use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\web\Request;
 use yii\web\Session;
@@ -75,7 +77,8 @@ class ProjectsController extends Controller
             $this->refresh();
         }
         return $this->render('configure', [
-            'token' => $token
+            'token' => $token,
+            'model' => $model
         ]);
 
     }
@@ -87,9 +90,25 @@ class ProjectsController extends Controller
      * @param Session $session
      * @return \Befound\Components\type|Response
      */
-    public function actionCreate(CreateUpdate $model, Request $request, Session $session)
-    {
+    public function actionCreate(
+        Request $request,
+        User $user,
+        Session $session,
+        int $toolId
+    ) {
+        $model = new CreateUpdate();
         $model->scenario = 'create';
+        $model->tool_id = $toolId;
+
+        $tool = Tool::loadOne($toolId);
+        $tool->scenario = 'create';
+        $tool->validate();
+        if (!$tool->validate()) {
+            throw new InvalidConfigException("This project is not configured correctly, the survey could be missing");
+        }
+        if (!$tool->userCan(Permission::PERMISSION_INSTANTIATE, $user->identity)) {
+            throw new ForbiddenHttpException("You are not allowed to create a workspace for this project");
+        }
         if ($request->isPost) {
             if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
@@ -109,7 +128,8 @@ class ProjectsController extends Controller
         }
 
         return $this->render('create', [
-            'model' =>  $model
+            'model' =>  $model,
+            'tool' => $tool
         ]);
     }
 
@@ -132,16 +152,15 @@ class ProjectsController extends Controller
      */
     public function actionList(
         Request $request,
-        int $toolId = null
+        int $toolId
     ) {
-
-        $projectSearch = new ProjectSearch($toolId, [
+        $tool = Tool::loadOne($toolId);
+        $projectSearch = new ProjectSearch($tool->id, [
             'queryCallback' => function(ProjectQuery $query) {
                 return $query->readable();
             }
         ]);
 
-        $projectSearch->tool_id = $toolId;
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
         return $this->render('list', [
@@ -151,9 +170,12 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function actionListOthers(Request $request, int $toolId = null)
-    {
-        $projectSearch = new ProjectSearch($toolId, [
+    public function actionListOthers(
+        Request $request,
+        int $toolId
+    ) {
+        $tool = Tool::loadOne($toolId);
+        $projectSearch = new ProjectSearch($tool->id, [
             'queryCallback' => function(ProjectQuery $query) {
                 return $query->notReadable();
             }
@@ -162,15 +184,16 @@ class ProjectsController extends Controller
         return $this->render('list', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider,
-            'tool' => isset($toolId) ? Tool::findOne(['id' => $toolId]) : null
+            'tool' => $tool
         ]);
     }
 
     public function actionListClosed(
         Request $request,
-        int $toolId = null
+        int $toolId
     ) {
-        $projectSearch = new ProjectSearch($toolId);
+        $tool = Tool::loadOne($toolId);
+        $projectSearch = new ProjectSearch($tool->id);
         $projectSearch->query = Project::find()->closed()->userCan(Permission::PERMISSION_WRITE);
         if(!app()->user->can('admin')) {
             $projectSearch->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
@@ -181,7 +204,8 @@ class ProjectsController extends Controller
 
         return $this->render('listDeleted', [
             'projectSearch' => $projectSearch,
-            'projectsDataProvider' => $projectsDataProvider
+            'projectsDataProvider' => $projectsDataProvider,
+            'tool' => $tool
         ]);
     }
 
@@ -497,31 +521,6 @@ class ProjectsController extends Controller
                 ]
             ]
         );
-    }
-
-    public function actions()
-    {
-        return ArrayHelper::merge(parent::actions(), [
-            'dependent-surveys' => [
-                'class' => DepDropAction::class,
-                'outputCallback' => function($id, $params) {
-                    $project = new Project();
-                    $project->tool_id = $id;
-                    $result = [];
-                    if ($project->validate(['tool_id'])) {
-                        foreach ($project->dataSurveyOptions() as $key => $value) {
-                            $result[] = [
-                                'id' => $key,
-                                'name' => $value
-                            ];
-
-                        }
-                    }
-
-                    return $result;
-                }
-            ]
-        ]);
     }
 
     /**
