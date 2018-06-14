@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = [
                     'pluginOptions' => [
                         'url' => ['/projects/dependent-tokens'],
                         'depends' => ['createupdate-data_survey_eid'],
-                        'initialize' => false,
+                        'initialize' => true,
                         'placeholder' => \Yii::t('app', 'Create new token')
                     ],
                 ],
