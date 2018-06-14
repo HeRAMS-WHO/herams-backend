@@ -87,7 +87,11 @@ $this->params['breadcrumbs'][] = [
             ],
         ],
         'options' => [
-
+        ]
+    ]);
+    echo \yii\bootstrap\ButtonGroup::widget([
+        'buttons' => [
+            Html::submitButton(\Yii::t('app', 'Create project'), ['form' => 'create-tool', 'class' => 'btn btn-primary'])
         ]
     ]);
 
