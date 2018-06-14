@@ -13,7 +13,7 @@ use app\components\Html;
 $this->title = Yii::t('app', 'Update workspace token');
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Back to project overview'),
-    'url' => ['tool/overview', 'id' => $model->tool_id]
+    'url' => ['projects/overview', 'pid' => $model->tool_id]
 ];
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Manage workspaces'),

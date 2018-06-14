@@ -11,7 +11,7 @@ use prime\models\ar\Setting;
 $this->title = \Yii::t('app', 'Manage workspaces');
 //$this->params['breadcrumbs'][] = [
 //    'label' => \Yii::t('app', 'Back to project overview'),
-//    'url' => ['tool/overview', 'id' => $tool->id]
+//    'url' => ['projects/overview', 'pid' => $tool->id]
 //]
 
 ?>

@@ -10,7 +10,7 @@ use app\components\Html;
 //$this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Back to project overview'),
-    'url' => ['tool/overview', 'id' => $model->tool_id]
+    'url' => ['projects/overview', 'pid' => $model->tool_id]
 ];
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Manage workspaces'),

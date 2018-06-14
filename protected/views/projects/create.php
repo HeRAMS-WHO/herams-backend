@@ -9,10 +9,10 @@ use app\components\Html;
  * @var \prime\models\ar\Project $model
  */
 
-$this->title = Yii::t('app', 'Create project');
+$this->title = Yii::t('app', 'Create workspace');
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Back to project overview'),
-    'url' => ['tool/overview', 'id' => $tool->id]
+    'url' => ['projects/overview', 'pid' => $tool->id]
 ];
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Manage workspaces'),
