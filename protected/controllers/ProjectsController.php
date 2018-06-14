@@ -231,6 +231,16 @@ class ProjectsController extends Controller
         ]);
     }
 
+    public function actionOverview($pid)
+    {
+        $model = Tool::loadOne($pid);
+        $this->layout = 'angular';
+
+        return $this->render('overview', [
+            'model' => $model,
+        ]);
+    }
+
     private function getAnswer(QuestionInterface $q, $value, $text = false)
     {
         if (empty($value)) {
@@ -508,7 +518,7 @@ class ProjectsController extends Controller
                             'allow' => true,
                             'actions' => ['close', 'configure', 'list', 'list-others', 'list-closed',
                             'progress', 'read', 'download', 're-open', 'share', 'share-delete',
-                                'update', 'update-lime-survey', 'explore', 'new',
+                                'update', 'update-lime-survey', 'explore', 'new', 'overview'
                             ],
                             'roles' => ['@'],
                         ],
