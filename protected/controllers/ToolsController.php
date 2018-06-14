@@ -376,15 +376,4 @@ class ToolsController extends Controller
             ]
         );
     }
-
-    public function actionOverview(
-        int $id
-    ) {
-        $tool = Tool::loadOne($id);
-        $this->layout = 'angular';
-
-        return $this->render('overview', [
-            'model' => $tool,
-        ]);
-    }
 }
