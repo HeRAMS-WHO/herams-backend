@@ -290,10 +290,11 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             ],
             [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME, 'skipOnEmpty' => true],
             [['latitude', 'longitude'], NumberValidator::class],
+            ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
+            ['token', UniqueValidator::class],
             // Save NULL instead of "" when no default report is selected.
             [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
-            ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
-            ['token', UniqueValidator::class]
+            [['country_iso_3'], DefaultValueValidator::class, 'value' => 'NLD'],
         ];
     }
 
