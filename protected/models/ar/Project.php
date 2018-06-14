@@ -152,6 +152,8 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
      */
     public function getLocality()
     {
+        // Quick fix
+        return "Unknown";
         if(!empty($this->locality_name)) {
             $result = "{$this->country->name} ({$this->locality_name})";
         } else {
