@@ -24,8 +24,6 @@ $this->params['breadcrumbs'][] = [
     'url' => ['projects/update', 'id' => $model->id]
 ];
 
-
-ob_start();
 $form = ActiveForm::begin([
     'id' => 'update-project',
     'method' => 'PUT',
@@ -35,10 +33,9 @@ $form = ActiveForm::begin([
         'defaultPlaceholder' => false
     ]
 ]);
-
 foreach($token->attributes() as $attribute) {
     if ($token->isAttributeSafe($attribute)) {
-        echo $form->field($token, $attribute);
+       echo $form->field($token, $attribute);
     } else {
         echo $form->field($token, $attribute)->textInput([
             'readonly' => true

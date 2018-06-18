@@ -63,6 +63,11 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
      * @var WritableTokenInterface
      */
     protected $_token;
+    public function init() 
+    {
+        parent::init();
+        $this->country_iso_3 = 'NLD';
+    }
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
@@ -294,7 +299,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             ['token', UniqueValidator::class],
             // Save NULL instead of "" when no default report is selected.
             [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
-            [['country_iso_3'], DefaultValueValidator::class, 'value' => 'NLD'],
         ];
     }
 
@@ -436,3 +440,4 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         return __CLASS__;
     }
 }
+
