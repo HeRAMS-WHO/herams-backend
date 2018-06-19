@@ -333,7 +333,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
                         $this->_responses->append($response);
                     }
                 }
-                app()->cache->set($key, $this->_responses, 60);
+                //app()->cache->set($key, $this->_responses, 60);
             }
 
         }

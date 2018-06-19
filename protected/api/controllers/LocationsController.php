@@ -2,9 +2,11 @@
 
 namespace prime\api\controllers;
 
+use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
 use yii\web\HttpException;
+use app\models\Overview;
 
 
 class LocationsController extends Controller
@@ -13,22 +15,30 @@ class LocationsController extends Controller
      * Values for common filters.
      * In transition as we evaluate how front could do this automatically.
      */
-    public function actionView($id)
+    public function actionView(Client $limeSurvey, Cache $cache, $id, $pid)
     {
         try {
-            $locations = \Yii::$app->db->createCommand('SELECT geo_id, geo_name, geo_level, parent_id FROM prime2_geography WHERE geo_id in (1,9) OR parent_id = 9')
-                ->queryAll();
+            $model = Tool::loadone($pid);
+            $location_labels = Overview::geoLabels($limeSurvey, $cache, $model->base_survey_eid);
 
-            $dates = \Yii::$app->db->createCommand('SELECT DISTINCT DATE(submit_date) as ddate FROM prime2_response_master ORDER BY ddate DESC')
-                ->queryAll();
+            if ($pid == 10) {
+                $locations = \Yii::$app->db->createCommand('SELECT geo_id, geo_name, geo_level, parent_id FROM prime2_geography WHERE geo_id in (1,3,9,37) OR parent_id in (3, 9, 37)')
+                    ->queryAll();
+            } else {
+                $locations = \Yii::$app->db->createCommand('SELECT geo_id, geo_name, geo_level, parent_id FROM prime2_geography WHERE geo_id  >= 300')
+                    ->queryAll();
+            }
 
             $types = \Yii::$app->db->createCommand('SELECT option_label as label, option_code as code, option_color as color FROM `prime2_indicator_option` WHERE indicator_id=11')
                 ->queryAll();
 
             $result = [
                 'results' => [
-                    'locations' => $locations,
-                    'dates' => array_column($dates, 'ddate'),
+                    'locations' => [
+                        'locations_types_labels' => $location_labels,
+                        'locations_list' => $locations
+                    ],
+                    'dates' => date('Y-m-d'),
                     'hf_types' => $types
                 ],
             ];

@@ -5,6 +5,7 @@ namespace app\models\stats;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\caching\Cache;
+use Carbon\Carbon;
 use prime\models\ar\Project;
 use prime\models\ar\Tool;
 use yii\web\HttpException;
@@ -14,7 +15,8 @@ class ServiceAvailability
 {
     public function status(Client $limeSurvey, Cache $cache, $group, $pid)
     {
-        $structure = $this->loadStructure($limeSurvey, $cache);
+        $model = Tool::loadOne($pid);
+        $structure = $this->loadStructure($limeSurvey, $cache, $model->base_survey_eid);
         $qCodes = $this->getGroup($structure, explode(",",$group));
 
         $responses = $this->loadResponses($cache, $pid, $this->getFilters());
@@ -127,7 +129,7 @@ class ServiceAvailability
 
         foreach ($responses as $response) {
             foreach($codes as $code) {
-                if ($response[$code]) {
+                if (isset($response[$code]) && $response[$code]) {
                     $result[$response[$code]] = (isset($result[$response[$code]])) ? $result[$response[$code]] + 1 : 1;
                     $lgaResults[$response['GEO2']][$response[$code]] = (isset($lgaResults[$response['GEO2']][$response[$code]])) ? $lgaResults[$response['GEO2']][$response[$code]] + 1 : 1;
 
@@ -168,7 +170,12 @@ class ServiceAvailability
     {
         $questions = [];
         foreach($groupIds as $groupId) {
-            $questions += $structure['groups'][$groupId]['questions'];
+            foreach ($structure['groups'] as $group) {
+                if ($group['index'] == $groupId) {
+                    $questions += $group['questions'];
+                    break;
+                }
+            }
         }
         return $questions;
     }
@@ -235,7 +242,7 @@ class ServiceAvailability
         return $result;
     }
 
-    private function loadStructure($limeSurvey, $cache, $id=999549)
+    private function loadStructure($limeSurvey, $cache, $id=742358)
     {
         $cacheKey = "STRUCTURE.$id";
 
@@ -253,32 +260,69 @@ class ServiceAvailability
 
     private function loadResponses(Cache $cache, $id, $filters, $entity = 'project')
     {
-        $cacheKey = __CLASS__ . __FILE__ . $id . $entity;
+        $limitDate = isset($filters['date']) ? Carbon::createFromTimestamp(strtotime($filters['date'])) : new Carbon();
+        $cacheKey = 'responses' . $id . $entity . $limitDate->format('Ymd');
         if (false === $responses = $cache->get($cacheKey)) {
             $responses = [];
 
             switch ($entity) {
-                case 'project':
+                case 'workspace':
                     $data = Project::loadOne($id)->getResponses();
                     break;
-                case 'tool':
+                case 'project':
                     $data = Tool::loadOne($id)->getResponses();
             }
 
-            foreach($data as $response) {
-                if ($this->filterResponse($response->getData(), $filters))
-                    $responses[] = $response->getData();
+            $responses = $this->prepareData($data, $limitDate);
+
+            $cache->set($cacheKey, $responses, 3600);
+        }
+        if ($this->hasFilters($filters)) {
+            $filtered = [];
+            foreach($responses as $response) {
+                if ($this->filterResponse($response, $filters))
+                    $filtered[] = $response;
             }
-            $cache->set($cacheKey, $responses, 31200);
+            return $filtered;
         }
         return $responses;
+    }
+
+    public function prepareData($responses, Carbon $date = null)
+    {
+        if (!isset($date)) {
+            $date = new Carbon();
+        }
+
+        $tempData = [];
+        foreach ($responses as $response) {
+            $responseData = $response->getData();
+            if ($responseData['UOID'] != '' && isset($responseData['datestamp'])) {
+                $responseDate = new Carbon($responseData['datestamp']);
+                if (!isset($tempData[$responseData['UOID']]) && $responseDate->lte($date)) {
+                    $tempData[$responseData['UOID']] = $responseData;
+                } else {
+                    if ($responseDate->lte($date) && $responseDate->gt(new Carbon($tempData[$responseData['UOID']]['datestamp']))) {
+                        $tempData[$responseData['UOID']] = $responseData;
+                    }
+                }
+            }
+        }
+        return array_values($tempData);
+    }
+
+
+    public function hasFilters($filters)
+    {
+        return (!empty($filters['location']) ) ||
+        (isset($filters['date']) && $filters['date'] ) ||
+        (!empty($filters['hftypes']) ) ||
+        (isset($filters['advanced']) && is_array($filters['advanced']) && count($filters['advanced']) > 0);
     }
 
     private function filterResponse($response, $filters)
     {
         if (!empty($filters['location']) && is_array($filters['location']) && !in_array($response['GEO2'], $filters['location']))
-            return false;
-        if (isset($filters['date']) && $filters['date'] && strtotime($response['datestamp']) > strtotime($filters['date']))
             return false;
         if (!empty($filters['hftypes']) && is_array($filters['hftypes']) && !in_array($response['HF2'], $filters['hftypes']))
             return false;

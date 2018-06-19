@@ -13,10 +13,10 @@ class CoordinatesController extends Controller
     /**
      * Predefined country status for world map
      */
-    public function actionView(Client $limeSurvey, Cache $cache, $id, $code, $ind, $services=false)
+    public function actionView(Client $limeSurvey, Cache $cache, $id, $pid, $code, $ind, $services=false)
     {
         try {
-            $mapPoints = Overview::mapPoints($limeSurvey, $cache, $id, $code, $services);
+            $mapPoints = Overview::mapPoints($limeSurvey, $cache, $pid, $code, $services);
 
             $points = [
                 'results' => [

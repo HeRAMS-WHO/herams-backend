@@ -8,6 +8,7 @@ use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\base\Model;
+use Carbon\Carbon;
 use yii\caching\Cache;
 use yii\web\HttpException;
 
@@ -26,19 +27,20 @@ class Overview extends Model
     {
         $responses = self::loadResponses($cache, $pid, self::filters());
         if ($services) {
-            $structure = self::loadStructure($limeSurvey, $cache);
+            $model = Tool::loadOne($pid);
+            $structure = self::loadStructure($limeSurvey, $cache, $model->base_survey_eid);
             $qCodes = self::groupQuestions($structure, explode(',', $services));
         }
 
         $hfCoordinates = [];
         foreach ($responses as $hf) {
-            if ($hf['GPS[SQ001]'] != '') {
+            if ($hf['GPS[SQ001]'] != '' && $hf['GPS[SQ002]'] != '' && is_numeric($hf['GPS[SQ001]']) && is_numeric($hf['GPS[SQ002]']) ) {
                 $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']]];
 
                 if ($services) {
                     $item['type'] = self::serviceLevel($hf, $qCodes);
                 } else {
-                    $item['type'] = $hf[$code];
+                    $item['type'] = (isset($hf[$code])) ? $hf[$code] : '';
                 }
 
                 // HF data for pop-ups
@@ -73,7 +75,7 @@ class Overview extends Model
         });
 
         foreach($codes as $code) {
-            if ($response[$code] && $response[$code] != 'A4') {
+            if (isset($response[$code]) && $response[$code] && $response[$code] != 'A4') {
                 if ($response[$code] == 'A1')
                     ++$nrAvailable;
                 ++$nrTotal;
@@ -98,7 +100,11 @@ class Overview extends Model
     {
         $questions = [];
         foreach($groupIds as $groupId) {
-            $questions += $structure['groups'][$groupId]['questions'];
+            foreach($structure['groups'] as $group)
+                if ($group['index'] == $groupId) {
+                    $questions += $group['questions'];
+                    break;
+                }
         }
         return $questions;
     }
@@ -111,7 +117,7 @@ class Overview extends Model
      * @return array|mixed
      * @throws HttpException
      */
-    public static function loadStructure(Client $limeSurvey, Cache $cache, $id=754743)
+    public static function loadStructure(Client $limeSurvey, Cache $cache, $id=742358)
     {
         $cacheKey = "STRUCTURE.$id";
 
@@ -127,6 +133,22 @@ class Overview extends Model
         return $survey;
     }
 
+    public static function geoLabels(Client $limeSurvey, Cache $cache, $survey_eid)
+    {
+        $structure = self::loadStructure($limeSurvey, $cache, $survey_eid);
+
+        $labels =  ['2' => 'State', '3' => 'Locality'];
+        foreach ($structure['groups'] as $group) {
+            if (isset($group['questions']['GEO1']['text']))
+                $labels['2'] = $group['questions']['GEO1']['text'];
+            if (isset($group['questions']['GEO2']['text'])) {
+                $labels['3'] = $group['questions']['GEO2']['text'];
+                break;
+            }
+        }
+        return ['geo_level' => $labels];
+    }
+
     /**
      * Load survey response data from LimeSurvey
      * @param Cache $cache
@@ -137,25 +159,63 @@ class Overview extends Model
      */
     public static function loadResponses(Cache $cache, $id, $filters, $entity = 'project')
     {
-        $cacheKey = __CLASS__ . __FILE__ . $id . $entity;
+        $limitDate = isset($filters['date']) ? Carbon::createFromTimestamp(strtotime($filters['date'])) : new Carbon();
+        $cacheKey = 'responses' . $id . $entity . $limitDate->format('Ymd');
         if (false === $responses = $cache->get($cacheKey)) {
             $responses = [];
 
             switch ($entity) {
-                case 'project':
+                case 'workspace':
                     $data = Project::loadOne($id)->getResponses();
                     break;
-                case 'tool':
+                case 'project':
                     $data = Tool::loadOne($id)->getResponses();
             }
 
-            foreach($data as $response) {
-                if (self::filterResponse($response->getData(), $filters))
-                    $responses[] = $response->getData();
+            $responses = self::prepareData($data, $limitDate);
+
+            $cache->set($cacheKey, $responses, 3600);
+        }
+        if (self::hasFilters($filters)) {
+            $filtered = [];
+            foreach($responses as $response) {
+                if (self::filterResponse($response, $filters))
+                    $filtered[] = $response;
             }
-            $cache->set($cacheKey, $responses, 31200);
+            return $filtered;
         }
         return $responses;
+    }
+
+    public static function prepareData($responses, Carbon $date = null)
+    {
+        if (!isset($date)) {
+            $date = new Carbon();
+        }
+
+        $tempData = [];
+        foreach ($responses as $response) {
+            $responseData = $response->getData();
+            if ($responseData['UOID'] != '' && isset($responseData['datestamp'])) {
+                $responseDate = new Carbon($responseData['datestamp']);
+                if (!isset($tempData[$responseData['UOID']]) && $responseDate->lte($date)) {
+                    $tempData[$responseData['UOID']] = $responseData;
+                } else {
+                    if ($responseDate->lte($date) && $responseDate->gt(new Carbon($tempData[$responseData['UOID']]['datestamp']))) {
+                        $tempData[$responseData['UOID']] = $responseData;
+                    }
+                }
+            }
+        }
+        return array_values($tempData);
+    }
+
+    public static function hasFilters($filters)
+    {
+        return (!empty($filters['location']) ) ||
+        (isset($filters['date']) && $filters['date'] ) ||
+        (!empty($filters['hftypes']) ) ||
+        (isset($filters['advanced']) && is_array($filters['advanced']) && count($filters['advanced']) > 0);
     }
 
     /**
@@ -167,8 +227,6 @@ class Overview extends Model
     public static function filterResponse($response, $filters)
     {
         if (!empty($filters['location']) && is_array($filters['location']) && !in_array($response['GEO2'], $filters['location']))
-            return false;
-        if (isset($filters['date']) && $filters['date'] && strtotime($response['datestamp']) > strtotime($filters['date']))
             return false;
         if (!empty($filters['hftypes']) && is_array($filters['hftypes']) && !in_array($response['HF2'], $filters['hftypes']))
             return false;
@@ -245,12 +303,12 @@ class Overview extends Model
         $filters = self::filters();
 
         foreach ($responses as $response) {
-            if (self::filterResponse($response, $filters)) {
+            //if (self::filterResponse($response, $filters)) {
                 if ($response[$questionCode])
                     $result[$response[$questionCode]] = (isset($result[$response[$questionCode]])) ? $result[$response[$questionCode]]+1 : 1;
                 else
                     $result["NR"] = (isset($result["NR"])) ? $result["NR"]+1 :  1;
-            }
+            //}
         }
         return $result;
     }
@@ -334,7 +392,7 @@ class Overview extends Model
             if ($chart['indicator_id'] == 7) {
                 $formatted = PriorityTable::getTopDamage($responses);
             } elseif ($chart['indicator_id'] == 8) {
-                $formatted = PriorityTable::makePriorityTable(5, $responses, 'HFINF3', 'HFINF4', 'Priority areas / Functionality');
+                $formatted = PriorityTable::makePriorityTable(5, $responses, 'HFINF3', 'HFINF4[1]', 'Priority areas / Functionality');
             }
         }
 

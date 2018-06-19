@@ -462,7 +462,7 @@ class ProjectsController extends Controller
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-                return $this->redirect(['projects/read', 'id' => $model->id]);
+                return $this->redirect(['projects/list', 'toolId' => $model->tool_id]);
             }
         }
 

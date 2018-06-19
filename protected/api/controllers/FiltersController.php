@@ -3,7 +3,7 @@
 namespace prime\api\controllers;
 
 use app\models\Overview;
-use prime\models\ar\Project;
+use prime\models\ar\Tool;
 use prime\models\permissions\Permission;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
@@ -19,9 +19,9 @@ class FiltersController extends Controller
     public function actionView(Client $limeSurvey, Cache $cache, $id)
     {
         try {
-            $project = Project::loadOne($id, [], Permission::PERMISSION_READ);
+           $model = Tool::loadOne($id);
 
-            $filters = Overview::loadStructure($limeSurvey, $cache, $project->data_survey_eid);
+            $filters = Overview::loadStructure($limeSurvey, $cache, $model->base_survey_eid);
 
             // Exclude groups or questions here.
 
