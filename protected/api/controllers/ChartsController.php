@@ -12,7 +12,7 @@ class ChartsController extends Controller
     /**
      * Predefined country status for world map
      */
-    public function actionView(Client $limeSurvey, Cache $cache, $id, $cid, $services=false)
+    public function actionView(Client $limeSurvey, Cache $cache, $id, $pid, $cid, $services=false)
     {
         $data = [];
 
@@ -24,7 +24,7 @@ class ChartsController extends Controller
                 ->bindValue(':id', $cid)
                 ->queryAll();
 
-            $responses = Overview::loadResponses($cache, $id, Overview::filters());
+            $responses = Overview::loadResponses($cache, $pid, Overview::filters());
 
             // Add formatted values to result data
             foreach ($charts as $chart) {
@@ -33,7 +33,7 @@ class ChartsController extends Controller
         } else {
             // Get service availability for given services
             $sa = new ServiceAvailability();
-            $data = $sa->status($limeSurvey, $cache, $services, $id);
+            $data = $sa->status($limeSurvey, $cache, $services, $pid);
         }
         return $data;
     }

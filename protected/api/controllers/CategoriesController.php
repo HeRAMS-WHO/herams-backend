@@ -3,6 +3,7 @@ namespace prime\api\controllers;
 
 use app\models\ar\Category;
 use app\models\Menu;
+use prime\models\ar\Tool;
 use yii\caching\Cache;
 use yii\web\HttpException;
 
@@ -12,13 +13,15 @@ class CategoriesController extends Controller
     /**
      * Categories for the left side menu and user info.
      */
-    public function actionView($id)
+    public function actionView($id, $pid)
     {
+        $model = Tool::loadone($pid);
         $user = app()->user->identity;
 
         $result = [
             'results' => [
-                'categories' => Menu::categories(),
+                'country' => $model->acronym,
+                'categories' => Menu::categories($pid),
                 'userinfo' => [
                     'first_name' => $user->getFirstName(),
                     'last_name' => $user->getLastName(),
