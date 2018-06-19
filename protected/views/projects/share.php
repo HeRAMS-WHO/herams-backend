@@ -9,6 +9,12 @@ use app\components\Html;
  * @var \prime\models\forms\Share $model
  */
 $this->title = 'Share workspace';
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Manage workspaces'),
+    'url' => ['projects/list', 'toolId' => $project->tool_id]
+];
+
+
 ?>
 <h1><?=\Yii::t('app', 'Share {projectName}', ['projectName' => $project->title])?></h1>
 <div class="col-xs-12">
