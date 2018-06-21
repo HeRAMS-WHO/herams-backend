@@ -33,6 +33,12 @@
             return Html::textImage($text);
         }
 
+        public function actionLogout()	
+        {	
+            $this->layout = 'logout';	
+            return $this->render('logout');	
+       }
+
         public function actions()
         {
             return [

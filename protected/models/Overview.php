@@ -23,22 +23,25 @@ class Overview extends Model
      * @return array
      * @throws HttpException
      */
-    public static function mapPoints(Client $limeSurvey, Cache $cache, $pid, $code, $services = false)
+    public static function mapPoints(Client $limeSurvey, Cache $cache, $pid, $code, $indicatorId, $services = false)
     {
+        $model = Tool::loadOne($pid);
+        $structure = self::loadStructure($limeSurvey, $cache, $model->base_survey_eid);
         $responses = self::loadResponses($cache, $pid, self::filters());
+
         if ($services) {
-            $model = Tool::loadOne($pid);
-            $structure = self::loadStructure($limeSurvey, $cache, $model->base_survey_eid);
             $qCodes = self::groupQuestions($structure, explode(',', $services));
         }
 
         $hfCoordinates = [];
+        $noData = true;
         foreach ($responses as $hf) {
-            if ($hf['GPS[SQ001]'] != '' && $hf['GPS[SQ002]'] != '' && is_numeric($hf['GPS[SQ001]']) && is_numeric($hf['GPS[SQ002]']) ) {
+            if ($hf['GPS[SQ001]'] > 0 && $hf['GPS[SQ002]'] > 0 && is_numeric($hf['GPS[SQ001]']) && is_numeric($hf['GPS[SQ002]']) && $hf['GPS[SQ001]'] < 20 && $hf['GPS[SQ002]'] < 33 ) {
                 $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']]];
 
                 if ($services) {
                     $item['type'] = self::serviceLevel($hf, $qCodes);
+                    //if ($item['type'] == 'NR') $noData = true;
                 } else {
                     $item['type'] = (isset($hf[$code])) ? $hf[$code] : '';
                 }
@@ -57,7 +60,9 @@ class Overview extends Model
             }
         }
 
-        return $hfCoordinates;
+        $legend = self::mapLegend($indicatorId, $structure, $code, $noData);
+
+        return ['legend' => $legend, 'points' => $hfCoordinates];
     }
 
     /**
@@ -81,7 +86,7 @@ class Overview extends Model
                 ++$nrTotal;
             }
         }
-        if($nrTotal == 0) return 'C1';
+        if($nrTotal == 0) return 'NR';
         $percentAvailable = round($nrAvailable / $nrTotal * 100.0);
 
         if ($percentAvailable < 25) return 'C1';
@@ -146,7 +151,33 @@ class Overview extends Model
                 break;
             }
         }
-        return ['geo_level' => $labels];
+
+        $types = self::questionLabels($structure, 'HF2');
+
+        return ['location' => ['geo_level' => $labels], 'types' => $types];
+    }
+
+    public static function questionLabels($structure, $qCode)
+    {
+        $labels =  [];
+        if ($qCode) {
+            foreach ($structure['groups'] as $group) {
+                if (isset($group['questions'][$qCode]['answers'])) {
+                    foreach ($group['questions'][$qCode]['answers'] as $answer) {
+                        $labels[$answer['code']] = self::shortLabel($answer['text']);
+                    }
+                }
+            }
+        }
+        return $labels;
+    }
+
+    public static function shortLabel($str)
+    {
+        if (($pos = strpos($str, ':')) !== false) {
+            $str = substr($str, 0, $pos);
+        }
+        return $str;
     }
 
     /**
@@ -319,17 +350,25 @@ class Overview extends Model
      * @param integer $id
      * @return array
      */
-    public static function mapLegend($id)
+    public static function mapLegend($id, $structure, $code, $noData=true)
     {
         $labels = [];
         $colors = [];
+        $answers = self::questionLabels($structure, $code);
         $options = \Yii::$app->db->createCommand('SELECT * FROM prime2_indicator_option WHERE indicator_id=:id')
             ->bindValue(':id', $id)
             ->queryAll();
 
         foreach ($options as $opt) {
-            $labels[$opt['option_code']] = ['label' => $opt['option_label'], 'color' => $opt['option_color']];
+            $label = (isset($answers[$opt['option_code']])) ? $answers[$opt['option_code']] : $opt['option_label'];
+            $labels[$opt['option_code']] = ['label' => $label, 'color' => $opt['option_color']];
             $colors[$opt['option_code']] = $opt['option_color'];
+        }
+
+        // Inject "No data" legend
+        if ($noData) {
+            $labels['NR'] = ['label' => 'No data', 'color' => '#202020'];
+            $colors['NR'] = '#202020';
         }
 
         /** @todo  remove colors when front can take them from legend */
@@ -347,52 +386,19 @@ class Overview extends Model
      * @param array $responses
      * @return array
      */
-    public static function formatChart($chart, $responses)
+    public static function formatChart($chart, $responses, $answers = [])
     {
         if ($chart['rendering_type'] == 'pie') {
             $chartData = self::questionData($responses, $chart['query']);
             $labels = self::indicatorLabels($chart['indicator_id']);
-            $formatted = self::pieChart($labels, $chartData, $chart['indicator_name']);
-
-        } elseif ($chart['rendering_type'] == 'stacked') {
-            // show dummy chart until defined
-            $formatted = [
-                "type" => "stacked",
-                "title" => "Damage per type",
-                "total" => 743,
-                "labels" => [
-                    'Hospital (Tertiary)',
-                    'Hospital (Secondary)',
-                    'Health Centre (Primary)',
-                    'Primary Health Care Centre (Primary)',
-                    'Clinic (Primary)',
-                    'Mobile clinic',
-                ],
-                "colors" => ['#00bc1a', '#f7931e', '#ff0000', '#adadad'],
-                "series" => [
-                    [
-                        "name" => "Not damaged",
-                        "data" => [0, 0, 0, 0, 0, 0],
-                    ],
-                    [
-                        "name" => "Partially damaged",
-                        "data" => [0, 0, 0, 0, 0, 0],
-                    ],
-                    [
-                        "name" => "Fully damaged",
-                        "data" => [0, 0, 0, 0, 0, 0],
-                    ],
-                    [
-                        "name" => "N/A",
-                        "data" => [100, 100, 100, 100, 100, 100],
-                    ],
-                ],
-            ];
+            $formatted = self::pieChart($labels, $chartData, $chart['indicator_name'], $answers);
         } else {
             if ($chart['indicator_id'] == 7) {
                 $formatted = PriorityTable::getTopDamage($responses);
             } elseif ($chart['indicator_id'] == 8) {
                 $formatted = PriorityTable::makePriorityTable(5, $responses, 'HFINF3', 'HFINF4[1]', 'Priority areas / Functionality');
+            } elseif ($chart['indicator_id'] == 21) {
+                $formatted = PriorityTable::makePriorityTable(20, $responses, 'HFACC1', 'HFACC2[1]', 'Priority areas / Accessibility');
             }
         }
 
@@ -406,15 +412,16 @@ class Overview extends Model
      * @param string $title
      * @return array
      */
-    public static function pieChart($labels, $data, $title)
+    public static function pieChart($labels, $data, $title, $answers = [])
     {
         $chart = [];
         $total = 0;
 
         foreach ($labels as $code => $row) {
             $val = (isset($data[$code])) ? (int)$data[$code] : 0;
+            $label = (isset($answers[$code])) ? $answers[$code] : $row['label'];
             $chart[] = [
-                'name' => $row['label'],
+                'name' => $label,
                 'y' => $val,
                 'color' => $row['color'],
             ];

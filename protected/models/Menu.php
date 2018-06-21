@@ -35,6 +35,8 @@ class Menu extends Model
         $nested = [];
 
         foreach ($all as $cat) {
+            if ($cat['ws_map_url'] == '' && $cat['ws_chart_url'] == '' && $cat['parent_id'] > 0)
+                unset($cat['aggregated']);
             if ($cat['parent_id'] == $parentId) {
                 $subCategories = self::nestedCategories($all, $cat['id']);
                 if (count($subCategories) > 0)

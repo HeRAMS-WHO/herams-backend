@@ -3,6 +3,7 @@ namespace prime\api\controllers;
 
 use app\models\Overview;
 use app\models\stats\ServiceAvailability;
+use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
 
@@ -17,18 +18,22 @@ class ChartsController extends Controller
         $data = [];
 
         if (!$services) {
+            $model = Tool::loadone($pid);
+
             // get list of charts in category
             $charts = \Yii::$app->db->createCommand(
-                'SELECT * FROM prime2_category_chart cc join prime2_indicator ii on cc.indicator_id = ii.id WHERE category_id=:id'
+                'SELECT * FROM prime2_category_chart cc join prime2_indicator ii on cc.indicator_id = ii.id WHERE category_id=:id ORDER BY cc.display_order ASC'
             )
                 ->bindValue(':id', $cid)
                 ->queryAll();
 
+            $structure = Overview::loadStructure($limeSurvey, $cache, $model->base_survey_eid);
             $responses = Overview::loadResponses($cache, $pid, Overview::filters());
 
             // Add formatted values to result data
             foreach ($charts as $chart) {
-                $data[] = Overview::formatChart($chart, $responses);
+                $labels = Overview::questionLabels($structure, $chart['query']);
+                $data[] = Overview::formatChart($chart, $responses, $labels);
             }
         } else {
             // Get service availability for given services

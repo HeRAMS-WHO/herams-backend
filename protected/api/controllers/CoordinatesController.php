@@ -16,13 +16,14 @@ class CoordinatesController extends Controller
     public function actionView(Client $limeSurvey, Cache $cache, $id, $pid, $code, $ind, $services=false)
     {
         try {
-            $mapPoints = Overview::mapPoints($limeSurvey, $cache, $pid, $code, $services);
+
+            $mapData = Overview::mapPoints($limeSurvey, $cache, $pid, $code, $ind, $services);
 
             $points = [
                 'results' => [
                     'type' => "map",
-                    'config' => Overview::mapLegend($ind),
-                    'hf_list' => $mapPoints,
+                    'config' => $mapData['legend'],
+                    'hf_list' => $mapData['points'],
                 ],
             ];
 
