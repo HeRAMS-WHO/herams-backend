@@ -24,6 +24,7 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\validators\DateValidator;
@@ -62,13 +63,15 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
      * @var WritableTokenInterface
      */
     protected $_token;
+    public function init() 
+    {
+        parent::init();
+        $this->country_iso_3 = 'NLD';
+    }
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'default_generator' => \Yii::t('app', 'Default report'),
-            'country_iso_3' => \Yii::t('app', 'Country'),
             'tool_id' => \Yii::t('app', 'Tool'),
-            'locality_name' => \Yii::t('app', 'Locality'),
             'data_survey_eid' => \Yii::t('app', 'Data survey'),
             'owner_id' => \Yii::t('app', 'Owner')
         ]);
@@ -154,6 +157,8 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
      */
     public function getLocality()
     {
+        // Quick fix
+        return "Unknown";
         if(!empty($this->locality_name)) {
             $result = "{$this->country->name} ({$this->locality_name})";
         } else {
@@ -168,7 +173,7 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             ->inverseOf('ownedProjects');
     }
 
-    public function getPermissions()
+    public function getPermissions(): ActiveQuery
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
@@ -290,10 +295,10 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             ],
             [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME, 'skipOnEmpty' => true],
             [['latitude', 'longitude'], NumberValidator::class],
+            ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
+            ['token', UniqueValidator::class],
             // Save NULL instead of "" when no default report is selected.
             [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
-            ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
-            ['token', UniqueValidator::class]
         ];
     }
 
@@ -435,3 +440,4 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         return __CLASS__;
     }
 }
+

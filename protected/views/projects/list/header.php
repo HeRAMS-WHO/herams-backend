@@ -3,23 +3,23 @@ use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Nav;
 use yii\helpers\Url;
 
-return Nav::widget([
+echo Nav::widget([
     'options' => [
         'class' => 'pull-left nav-tabs',
         'style' => ['margin-right' => '10px']
     ],
     'items' => [
         [
-            'label' => \Yii::t('app', 'My projects'),
-            'url' => ['/projects/list'],
+            'label' => \Yii::t('app', 'My workspaces'),
+            'url' => ['/projects/list', 'toolId' => $tool->id],
         ],
         [
-            'label' => \Yii::t('app', "Other projects"),
-            'url' => ['/projects/list-others']
+            'label' => \Yii::t('app', "Other workspaces"),
+            'url' => ['/projects/list-others', 'toolId' => $tool->id]
         ],
         [
-            'label' => \Yii::t('app', 'Inactive projects'),
-            'url' => ['/projects/list-closed']
+            'label' => \Yii::t('app', 'Inactive workspaces'),
+            'url' => ['/projects/list-closed', 'toolId' => $tool->id]
         ],
 
     ]
@@ -29,18 +29,10 @@ return Nav::widget([
     ],
     'buttons' => [
         [
-            'label' => 'New project',
+            'label' => \Yii::t('app', 'Create workspace'),
             'tagName' => 'a',
             'options' => [
-                'href' => Url::to(['projects/new']),
-                'class' => 'btn-primary',
-            ]
-        ],
-        [
-            'label' => \Yii::t('app', 'Create'),
-            'tagName' => 'a',
-            'options' => [
-                'href' => Url::to(['projects/create']),
+                'href' => Url::to(['projects/create', 'toolId' => $tool->id]),
                 'class' => 'btn-default',
             ],
             'visible' => app()->user->can('instantiate', ['model' => \prime\models\ar\Tool::class])

@@ -1,7 +1,7 @@
 <?php
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
-    'defaultRoute' => 'site',
+    'defaultRoute' => 'marketplace/herams',
     'components' => [
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -9,7 +9,8 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'rules' => [
                 [
                     'class' => \yii\rest\UrlRule::class,
-                    'controller' => ['api/surveys', 'api/collections', 'api/maps'],
+                    'controller' => ['api/surveys', 'api/collections', 'api/maps', 'api/countries',
+                        'api/coordinates', 'api/categories', 'api/charts', 'api/filters', 'api/locations'],
                     'tokens' => [
                         '{id}' => '<id:\\w[\\w,]*>'
                     ]
@@ -83,7 +84,6 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
 if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {
     $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/debug.php'));
 }
-
 $config = \yii\helpers\ArrayHelper::merge($config, include(__DIR__ . '/envs/' . YII_ENV . '.php'));
 
 if (file_exists(__DIR__ . '/local.php') && YII_ENV !== 'codeception') {

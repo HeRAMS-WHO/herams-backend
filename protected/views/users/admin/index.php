@@ -23,7 +23,7 @@ use yii\widgets\Pjax;
  */
 
 $this->title = Yii::t('user', 'Manage users');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?= $this->render('/_alert', [

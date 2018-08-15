@@ -1,51 +1,28 @@
 <?php
 require_once __DIR__ . '/../helpers/functions.php';
 return [
-    'id' => 'prime',
-    'name' => 'Prime',
+    'layout' => 'simple',
+    'id' => 'herams',
+    'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
-    'sourceLanguage' => 'en',
+    'sourceLanguage' => 'en-US',
     'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
         '@prime' => '@app',
         '@views' => '@app/views'
     ],
     'bootstrap' => ['log'],
     'components' => [
-        'authClientCollection' => [
-            'class' => \yii\authclient\Collection::class,
-            'clients' => [
-                'facebook' => [
-                    'class' => \dektrium\user\clients\Facebook::class,
-                    'viewOptions' => [
-                        'widget' => [
-                            'class' => \prime\widgets\SocialAuthItem::class,
-                        ]
-                    ],
-                    'clientId' => '1646368368981068',
-                    'clientSecret' => '616885b84a81d5abc203cfc7d462ea58'
-                ],
-                'google' => [
-                    'class' => \dektrium\user\clients\Google::class,
-                    'clientId' => '550362619218-7eng5d4jjs9esfo4ddggkdd2jl31nt3u.apps.googleusercontent.com',
-                    'clientSecret' => 'Yo-fvZZ3b8D5VyzSI7VQ0TyF',
-                    'viewOptions' => [
-                        'widget' => [
-                            'class' => \prime\widgets\SocialAuthItem::class,
-                        ]
-                    ],
-                ],
-                'linkedin' => [
-                    'class' => \dektrium\user\clients\LinkedIn::class,
-                    'clientId' => '77li9jqu82f1tx',
-                    'clientSecret' => 'jxeT5c6EcSlf7d8w',
-                    'viewOptions' => [
-                        'widget' => [
-                            'class' => \prime\widgets\SocialAuthItem::class,
-                        ]
-                    ],
-                ]
-            ]
+        'limesurveySSo' => [
+            'class' => \prime\components\JwtSso::class,
+            'errorRoute' => ['site/lime-survey'],
+            'privateKeyFile' => __DIR__ . '/private.key',
+            'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
+            'userNameGenerator' => function($id) {
+                return "prime_$id";
+            }
         ],
         'authManager' => [
             'class' => \prime\components\AuthManager::class,
@@ -55,13 +32,13 @@ return [
         'cache' => [
             'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
         ],
-        'formatter' => [
-            'numberFormatterOptions' => [
-                NumberFormatter::MIN_FRACTION_DIGITS => 0,
-                NumberFormatter::MAX_FRACTION_DIGITS => 2,
-            ]
-
-        ],
+//        'formatter' => [
+//            'numberFormatterOptions' => [
+//                NumberFormatter::MIN_FRACTION_DIGITS => 0,
+//                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+//            ]
+//
+//        ],
         'limeSurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(\prime\models\ar\Setting::get('limeSurvey.host'));
             $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));
@@ -111,12 +88,18 @@ return [
                 'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
             'admins' => [
-                'joey_claessen@hotmail.com',
                 'sam@mousa.nl',
                 'petragallos@who.int'
             ],
+            'controllerMap' => [
+                'security' => [
+                    'class' => \dektrium\user\controllers\SecurityController::class,
+                    'layout' => '//simple'
+                ]
+            ],
             'mailer' => [
-                'sender' => 'prime_support@who.int', //[new \prime\objects\Deferred(function() {return \prime\models\ar\Setting::get('systemEmail', 'default-sender@befound.nl');})],
+                'class' => \dektrium\user\Mailer::class,
+                'sender' => 'prime_support@who.int',
                 'confirmationSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
                 'recoverySubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
                 'welcomeSubject' => new \prime\objects\Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Public Health Risks Information Marketplace!', ['0' => app()->name]);}),

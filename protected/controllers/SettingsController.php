@@ -13,6 +13,7 @@ use yii\web\User;
 
 class SettingsController extends Controller
 {
+    public $layout = 'simple';
     public function actionIndex(Request $request, Session $session) {
         $settings = new Settings();
         if ($request->isPost && $settings->load($request->getBodyParams())) {

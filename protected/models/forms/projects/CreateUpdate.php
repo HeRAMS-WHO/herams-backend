@@ -21,49 +21,21 @@ class CreateUpdate extends Project
         $scenarios =  [
             'create' => [
                 'title',
-                'description',
                 'owner_id',
                 'data_survey_eid',
-                'tool_id',
-                'default_generator',
-                'country_iso_3',
-                'latitude',
-                'longitude',
-                'locality_name',
                 'token'
             ],
               'update' => [
                 'title',
                 'description',
-                'default_generator',
-                'country_iso_3',
-                'latitude',
-                'longitude',
-                'locality_name'
             ],
         ];
         $scenarios['admin-update'] = array_merge(['owner_id'], $scenarios['update']);
         return $scenarios;
     }
 
-    public function rules()
-    {
-        return array_merge(parent::rules(), [
-            [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolOptions()), "message" => \Yii::t('app', "You are not authorized for the selected tool.")],
-
-
-        ]);
-    }
-
-
     public static function tableName()
     {
         return Project::tableName();
     }
-
-    public function toolOptions()
-    {
-        return \yii\helpers\ArrayHelper::map(\prime\models\ar\Tool::find()->userCan(Permission::PERMISSION_INSTANTIATE)->all(), 'id', 'title');
-    }
-
 }

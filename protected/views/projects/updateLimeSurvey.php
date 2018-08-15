@@ -8,7 +8,16 @@ use app\components\Html;
  */
 
 //$this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Back to project overview'),
+    'url' => ['projects/overview', 'pid' => $model->tool_id]
+];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Manage workspaces'),
+    'url' => ['projects/list', 'toolId' => $model->tool_id]
+];
 
+$this->title = \Yii::t('app', 'Update data');
 echo Html::beginTag('div', [
     'class' => ['full-page']
 ]);

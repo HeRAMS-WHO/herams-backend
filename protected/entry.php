@@ -10,8 +10,14 @@ defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug
 
 
 call_user_func(function() {
+    $autoload = __DIR__ . '/vendor/autoload.php';
+    if (!file_exists($autoload)) {
+        die("Could not locate composer autoloader");
 
-    $loader = require_once __DIR__ . '/vendor/autoload.php';
+    }
+
+    $loader = require_once $autoload;
+
 
     if (file_exists(__DIR__ . '/../c3.php')) {
         require_once(__DIR__ . '/../c3.php');

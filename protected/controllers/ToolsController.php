@@ -11,6 +11,7 @@ use prime\models\ar\UserData;
 use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use prime\models\ar\Tool;
+use prime\models\search\Project;
 use prime\objects\ResponseCollection;
 use prime\objects\Signature;
 use prime\reportGenerators\base\Generator;
@@ -30,6 +31,7 @@ use yii\web\User;
 
 class ToolsController extends Controller
 {
+    public $layout = 'simple';
     public $defaultAction = 'list';
 
     public function actionCreate(Request $request, Session $session)
@@ -88,10 +90,7 @@ class ToolsController extends Controller
     )
     {
         $tool = Tool::loadOne($id);
-        $projectSearch = new \prime\models\search\Project([
-            'queryCallback' => function(QueryInterface $query) use ($id) {
-                return $query->andWhere(['tool_id' => $id]);
-            }
+        $projectSearch = new Project($tool->id, [
         ]);
         $projectsDataProvider = $projectSearch->search($request->queryParams);
 
@@ -334,6 +333,20 @@ class ToolsController extends Controller
         $this->redirect(['/tools/share', 'id' => $tool->id]);
     }
 
+    /**
+     * HeRAMS Overview
+     * @return string
+     */
+    public function actionOverview($id)
+    {
+        $tool = Tool::loadOne($id);
+        $this->layout = 'angular';
+
+        return $this->render('overview', [
+            'model' => $tool
+        ]);
+    }
+
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
@@ -363,5 +376,4 @@ class ToolsController extends Controller
             ]
         );
     }
-
 }

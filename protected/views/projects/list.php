@@ -9,17 +9,24 @@ use prime\models\ar\Setting;
  * @var \prime\models\search\Project $projectSearch
  * @var int $closedCount
  * @var \yii\web\View $this
+ * @var \prime\models\ar\Tool $tool
+ *
  */
 
+$this->title = \Yii::t('app', 'Manage workspaces');
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Back to project overview'),
+    'url' => ['projects/overview', 'pid' => $tool->id]
+];
 
 
 ?>
 <div class="col-xs-12">
     <?php
-    
+
 
     echo \kartik\grid\GridView::widget([
-        'caption' => !isset($caption) ? include('list/header.php') : $caption,
+        'caption' => !isset($caption) ? $this->render('list/header', ['tool' => $tool]) : $caption,
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [
@@ -34,51 +41,22 @@ use prime\models\ar\Setting;
             [
                 'attribute' => 'id'
             ],
+            [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
             [
-                'attribute' => 'tool_id',
-                'value' => 'tool.acronym',
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $projectSearch->toolsOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                    ],
+                'label' => '# responses',
+                'value' => function(\prime\models\ar\Project $project) {
+                    return \Yii::$app->cache->getOrSet('project.responses.' . $project->id, function() use ($project) {
+                        return $project->getResponses()->size();
+                    }, 3600);
 
-                ],
-                'filterInputOptions' => [
-                    'placeholder' => \Yii::t('app', 'Select tool')
-                ],
-                'visible' => !isset($hideToolColumn) || !$hideToolColumn
+                }
             ],
-            'title',
             [
-                'attribute' => 'country_iso_3',
-                'value' => 'country.name',
-                'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-                'filter' => $projectSearch->countriesOptions(),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'placeholder' => \Yii::t('app', 'Select country')
-                    ]
-                ]
-            ],
-            'locality_name',
-            [
-                'attribute' => 'created',
-                'format' => 'date',
-                'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'locale' => [
-                            'format' => 'YYYY-MM-DD',
-                        ],
-                        'allowClear'=>true,
-                    ],
-                    'pluginEvents' => [
-                        "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
-                    ]
-                ],
+                'label' => '# contributors',
+                'value' => function(\prime\models\ar\Project $project) {
+                    return $project->getPermissions()->count();
+                    return $project->getResponses()->size();
+                }
             ],
             [
                 'attribute' => 'closed',

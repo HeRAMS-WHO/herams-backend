@@ -24,6 +24,7 @@ use yii\web\UrlManager;
  */
 class User extends \dektrium\user\models\User {
 
+    public $last_login_at;
     const NON_ADMIN_KEY = 'safe';
 
     public function createSignature(\DateTimeImmutable $time = null)

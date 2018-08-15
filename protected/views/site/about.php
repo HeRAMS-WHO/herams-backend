@@ -6,7 +6,7 @@ use yii\helpers\Html;
  * @var \yii\web\View $this
  */
 
-$this->params['brandLabel'] = Html::img('@web/img/logo_Prime_BKGD_tag_RVB.png');
+$this->params['brandLabel'] = Html::img('@web/img/logo.png');
 
 ?>
 <div class="row">
@@ -24,16 +24,16 @@ $this->params['brandLabel'] = Html::img('@web/img/logo_Prime_BKGD_tag_RVB.png');
 
 <div class="row" style="padding-top: 15px; margin-bottom: 30px;">
     <div class="col-sm-12">
-        <h1 style="margin-top: 0px;">About Prime</h1>
+        <h1 style="margin-top: 0px;">About HeRAMS</h1>
     </div>
     <div class="col-sm-12 col-md-6">
         <p>
-            Prime supports timely and evidence-based decision making in humanitarian emergencies by providing health
+            HeRAMS supports timely and evidence-based decision making in humanitarian emergencies by providing health
             sector actors involved in the response with a platform for standardised production and exchange of critical
             information.
         </p>
         <p>
-            Prime drives the production of information through a series of tools that significantly facilitate and
+            HeRAMS drives the production of information through a series of tools that significantly facilitate and
             reinforce all aspects of information management, including data collection, management, analysis, reporting,
             sharing and dissemination.
         </p>
@@ -78,7 +78,7 @@ $this->params['brandLabel'] = Html::img('@web/img/logo_Prime_BKGD_tag_RVB.png');
         }
     </style>
     <div class="col-sm-12 col-md-6">
-        <span style="margin-bottom: 5px;display: inline-block;">PRIME aims more particularly at improving:</span>
+        <span style="margin-bottom: 5px;display: inline-block;">HeRAMS aims more particularly at improving:</span>
         <ul id="prime-usp">
         <li><?=Html::img('@web/img/picto_Reliability.svg'); ?><div>The reliability of the information through improved transparency and wider participation</div></li>
         <li><?=Html::img('@web/img/picto_Consistency.svg'); ?><div>The consistency of the information by ensuring up to date and reliable information is made available at any point in time during an emergency</div></li>

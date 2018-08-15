@@ -8,14 +8,13 @@ use app\components\Html;
  * @var \prime\models\ar\Project $project
  * @var \prime\models\forms\Share $model
  */
-
-$this->params['subMenu'] = [
-    'items' => [
-        [
-            'label' => Html::submitButton(\Yii::t('app', 'Share'), ['form' => 'share-project', 'class' => 'btn btn-primary'])
-        ],
-    ]
+$this->title = 'Share workspace';
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Manage workspaces'),
+    'url' => ['projects/list', 'toolId' => $project->tool_id]
 ];
+
+
 ?>
 <h1><?=\Yii::t('app', 'Share {projectName}', ['projectName' => $project->title])?></h1>
 <div class="col-xs-12">
@@ -34,6 +33,8 @@ $this->params['subMenu'] = [
 
     $form->end();
     ?>
+    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary" form="share-project">Share</button></div>
+
     <h2><?=\Yii::t('app', 'Already shared with')?></h2>
     <?php
     echo $model->renderTable('/projects/share-delete');

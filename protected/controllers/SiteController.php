@@ -2,6 +2,7 @@
     namespace prime\controllers;
     use app\components\Html;
     use prime\components\Controller;
+    use prime\components\JwtSso;
     use prime\models\ar\Tool;
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
@@ -13,20 +14,15 @@
 
     class SiteController extends Controller
     {
-
-        public function actionAbout()
-        {
-            $this->layout = 'main';
-            return $this->render('about');
-        }
-
-        public function actionIndex(User $user)
-        {
-            if($user->id !== null) {
-                return $this->redirect(['/marketplace']);
-            } else {
-                return $this->redirect(['/site/about']);
+        public function actionLimeSurvey(
+            JwtSso $limesurveySSo,
+            ?string $error = null
+        ) {
+            if (isset($error)) {
+                echo Html::tag('pre', htmlentities($error));
+                return;
             }
+            $limesurveySSo->loginAndRedirectCurrentUser();
         }
 
         public function actionTextImage(Response $response, $text)
@@ -36,6 +32,12 @@
             $response->format = Response::FORMAT_RAW;
             return Html::textImage($text);
         }
+
+        public function actionLogout()	
+        {	
+            $this->layout = 'logout';	
+            return $this->render('logout');	
+       }
 
         public function actions()
         {
@@ -56,7 +58,7 @@
                         'rules' => [
                             [
                                 'allow' => 'true',
-                                'actions' => ['captcha', 'about', 'index']
+                                'actions' => ['captcha', 'about', 'logout']
                             ],
                             [
                                 'allow' => 'true',

@@ -14,7 +14,7 @@ return [
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
             'queryCache' => 'cache',
-            'tablePrefix' => ''
+            'tablePrefix' => 'prime2_'
         ],
         'mailer' => [
             'class' => \yii\swiftmailer\Mailer::class,

@@ -21,15 +21,12 @@ if (isset($this->params['subMenu'], $this->params['subMenu']['items'])) {
 if($visible) {
     NavBar::begin([
         'renderInnerContainer' => true,
-//        'innerContainerOptions' => [
-//            'class' => 'container-fluid'
-//        ],
         'options' => [
             'class' => 'navbar-default navbar-static-top',
             'style' => [
 //                'margin-top' => '-20px',
 //                    'top' => '70px',
-//                'z-index' => 2000
+                'z-index' => 10
             ]
         ],
     ]);
