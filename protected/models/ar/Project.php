@@ -3,25 +3,21 @@
 namespace prime\models\ar;
 
 use app\queries\ProjectQuery;
-use Befound\ActiveRecord\Behaviors\LinkTableBehavior;
-use Befound\Components\DateTime;
 use Carbon\Carbon;
-use prime\interfaces\AuthorizableInterface;
-use prime\models\ActiveRecord;
 use prime\factories\GeneratorFactory;
+use prime\interfaces\AuthorizableInterface;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SurveyCollectionInterface;
+use prime\models\ActiveRecord;
 use prime\models\Country;
 use prime\models\permissions\Permission;
-use prime\models\Widget;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
-use Treffynnon\Navigator;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\db\ActiveQuery;
@@ -34,7 +30,6 @@ use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
-use yii\web\UrlManager;
 
 /**
  * Class Project
@@ -179,17 +174,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             ->andWhere(['target' => self::class]);
     }
 
-    public function getProgressReport()
-    {
-        if (isset($this->tool->progress_type)) {
-            /** @var ReportGeneratorInterface $generator */
-            $generator = GeneratorFactory::get($this->tool->progress_type);
-
-            return $generator->render($this->getResponses(), $this->getSurvey(), $this,
-                app()->user->identity->createSignature(), new UserData());
-        }
-    }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -259,16 +243,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         return $this->tool->getImage();
     }
 
-    /**
-     * @param $reportGenerator
-     * @return $this
-     */
-    public function getUserData($reportGenerator)
-    {
-        return $this->hasOne(UserData::class, ['project_id' => 'id'])
-            ->andWhere(['generator' => $reportGenerator]);
-    }
-
     public function isTransactional($operation)
     {
         return true;
@@ -293,7 +267,7 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
                 'range' => function(self $model, $attribute) { return array_keys($model->generatorOptions()); },
                 'enableClientValidation'=> false
             ],
-            [['closed'], DateValidator::class,'format' => 'php:' . DateTime::MYSQL_DATETIME, 'skipOnEmpty' => true],
+            [['closed'], DateValidator::class,'format' => 'php:Y-m-d H:i:s', 'skipOnEmpty' => true],
             [['latitude', 'longitude'], NumberValidator::class],
             ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
             ['token', UniqueValidator::class],

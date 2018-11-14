@@ -4,12 +4,8 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\models\forms\Settings;
-use yii\base\Module;
-use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
 use yii\web\Request;
 use yii\web\Session;
-use yii\web\User;
 
 class SettingsController extends Controller
 {

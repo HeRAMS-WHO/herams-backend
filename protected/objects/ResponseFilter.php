@@ -2,7 +2,6 @@
 
 namespace prime\objects;
 
-use prime\interfaces\ResponseCollectionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
 class ResponseFilter

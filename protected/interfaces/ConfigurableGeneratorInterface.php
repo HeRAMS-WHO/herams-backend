@@ -2,8 +2,6 @@
 
 namespace prime\interfaces;
 
-use Psr\Http\Message\StreamInterface;
-
 interface ConfigurableGeneratorInterface extends ReportGeneratorInterface
 {
     /**

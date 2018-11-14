@@ -2,7 +2,6 @@
 
 namespace prime\assets;
 
-use prime\assets\AppAsset;
 use yii\web\AssetBundle;
 
 

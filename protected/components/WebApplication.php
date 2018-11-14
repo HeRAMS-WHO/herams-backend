@@ -3,14 +3,14 @@
 namespace app\components;
 
 use SamIT\LimeSurvey\JsonRpc\Client;
+use yii\web\Application;
 
 /**
  * Class WebApplication
- * @property \app\components\Request $request
  * @property Client $limeSurvey
  */
 
-class WebApplication extends \Befound\Applications\WebApplication
+class WebApplication extends Application
 {
 
 }

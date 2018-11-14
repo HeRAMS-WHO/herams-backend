@@ -1,7 +1,8 @@
 <?php
-    use \yii\bootstrap\Html;
-    use yii\widgets\Breadcrumbs;
-    /* @var $this \yii\web\View */
+
+use yii\bootstrap\Html;
+
+/* @var $this \yii\web\View */
     /* @var $content string */
     $this->beginPage();
     $this->registerAssetBundle(\prime\assets\AppAsset::class);

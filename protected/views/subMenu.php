@@ -2,8 +2,6 @@
 
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\widgets\Menu;
-use kartik\helpers\Html;
 
 /**
  * @var \yii\web\View $this

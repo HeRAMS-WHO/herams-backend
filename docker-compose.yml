@@ -1,38 +1,6 @@
 
 version: '2.1'
 services:
-## Running tests
-  unit:
-    extends: codeception
-    entrypoint: "wait-for-it -h $$DB_HOST:3306 -t 100 -- /usr/bin/env codecept run unit"
-    depends_on:
-      - mysql
-## Running tests
-  tests:
-    extends: codeception
-    entrypoint: "wait-for-it -h $$RUNNER_IP:80 -h $$SELENIUM_HOST:4444 -t 100 -- /usr/bin/env codecept run"
-    depends_on:
-      - web
-      - firefox
-## Running codeception helper scripts.
-  codeception:
-    tty: true
-    image: "sammousa/codeception-php-with-extensions"
-    entrypoint: "codecept"
-    volumes:
-      - ./:/project
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_USER: who
-      MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
-      MYSQL_DATABASE: test
-#     We set this to keep compatibility between gitlab-ci and docker compose
-      RUNNER_IP: "web"
-      BROWSER: firefox
-      SELENIUM_HOST: firefox
-      DB_HOST: mysql
-      YII_ENV: codeception
-    user: "${UID}:${GID}"
 
 ## Web server
   web:
@@ -43,9 +11,8 @@ services:
     volumes:
       - .:/project
     environment:
-      YII_ENV: "dev"
-      MYSQL_USER: who
-      MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
       MYSQL_DATABASE: test
       DB_HOST: mysql
     ports:
@@ -53,60 +20,20 @@ services:
 
 ## Mysql server (local)
   mysql:
-    image: mysql:5.7
+    image: mysql
+    command: --character-set-server=utf8 --max-connections=1000 --default-authentication-plugin=mysql_native_password
+    user: "${UID}:${GID}"
     volumes:
       - ./local/devdb:/var/lib/mysql
-      - ./Prime2_dev_db:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_USER: who
-      MYSQL_PASSWORD: z2P6NUSj3YfcfVH4
       MYSQL_DATABASE: test
 
-
-## Firefox for acceptance testing
-  firefox:
-    image: selenium/standalone-firefox:2.53.1
-#    image: selenium/standalone-firefox:2.53.1-beryllium
-#    image: selenium/standalone-chrome:2.53.1-beryllium
-#    image: selenium/standalone-chrome:3.0.1-barium
-
-## Mysql server (tunnel)
-  mysql-tunnel:
-    image: kingsquare/tunnel
-    ports:
-      - "3306:3306"
-    volumes:
-      - $SSH_AUTH_SOCK:/ssh-agent:ro
-#    command: "*:3306:localhost:3306 -v sam@primewho.org"
-    command: "*:3306:localhost:3306 -v sam@vps5.sam-it.eu"
-
-## Run locally via tunnel.
-  via-tunnel:
-    image: sammousa/nginx-php-fpm-with-extensions
-    depends_on:
-      - mysql-tunnel
-    volumes:
-      - .:/project:ro
-    tmpfs:
-      - /project/protected/runtime:rw,noexec,nosuid,uid=100
-      - /project/public/assets:rw,noexec,nosuid,uid=100
-    environment:
-      YII_ENV: "dev"
-      MYSQL_USER: who
-      MYSQL_PASSWORD: 7rF8YnZv5EZDatfP
-      MYSQL_DATABASE: who
-      DB_HOST: mysql-tunnel
-      WEBROOT: /project/public
-      VIRTUAL_HOST: prime.dev
-    ports:
-      - "12346:80"
-    command: sh -c "sed -i 's/=404/\/index.php?$$args/g' /etc/nginx/sites-available/default.conf && /start.sh"
-
   cli:
-    image: sammousa/php-with-extensions:7-alpine
+    build:
+      context: docker/cli
     depends_on:
-      - mysql-tunnel
+      - mysql
     volumes:
       - .:/project:ro
       - ./protected/migrations:/project/protected/migrations:rw
@@ -115,26 +42,22 @@ services:
       - /project/public/assets:rw,noexec,nosuid,uid=${UID}
     environment:
       YII_ENV: "dev"
-      MYSQL_USER: who
-      MYSQL_PASSWORD: 7rF8YnZv5EZDatfP
-      MYSQL_DATABASE: who
-      DB_HOST: mysql-tunnel
-      COLORS: 1
-
-    entrypoint: ["/project/protected/yiic"]
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: test
+      DB_HOST: mysql
+    entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
     user: "${UID}:${GID}"
     command: ""
   phpmyadmin:
-
     image: phpmyadmin/phpmyadmin
     depends_on:
-      - mysql-tunnel
+      - mysql
     environment:
-     - PMA_HOST=mysql-tunnel
-     - PMA_USER=who
-     #- PMA_PASSWORD=7rF8YnZv5EZDatfP
-     - PMA_PASSWORD=z2P6NUSj3YfcfVH4
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: secret
     ports:
-     - "12346:80"
+      - "12346:80"
     tmpfs:
-     - /sessions
+      - /sessions

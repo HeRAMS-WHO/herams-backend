@@ -1,6 +1,6 @@
 <?php
 
-use \app\components\Html;
+use app\components\Html;
 
 /**
  * @var \yii\web\View $this

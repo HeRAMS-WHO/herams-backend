@@ -1,9 +1,9 @@
 <?php
 
 use app\components\Html;
-use \prime\models\permissions\Permission;
 use prime\models\ar\Setting;
-use \yii\helpers\Url;
+use prime\models\permissions\Permission;
+use yii\helpers\Url;
 
 /**
  * @var \prime\models\ar\Project $model

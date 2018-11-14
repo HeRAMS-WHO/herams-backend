@@ -1,9 +1,11 @@
  <?php
-use app\components\Html;
+
+ use app\components\Html;
  use prime\models\ar\Project;
  use prime\models\ar\Setting;
-use \prime\models\permissions\Permission;
-$this->registerJs(<<<SCRIPT
+ use prime\models\permissions\Permission;
+
+ $this->registerJs(<<<SCRIPT
 $('.request-access').on('click', function(e){
     e.preventDefault();
     e.stopPropagation();

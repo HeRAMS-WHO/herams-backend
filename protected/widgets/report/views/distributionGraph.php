@@ -1,7 +1,5 @@
 <?php
 
-use app\components\Html;
-
 /**
  * @var \yii\web\View $this
  */

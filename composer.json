@@ -2,10 +2,6 @@
     "name": "who/prime2",
     "description": "WHO Prime 2",
     "license": "proprietary",
-	"config" : {
-		"vendor-dir" : "protected/vendor",
-		"bin-dir" : "protected/bin"
-	},
 	"minimum-stability" : "stable",
     "authors": [
         {
@@ -20,7 +16,6 @@
     "require": {
         "php" : ">=7.2.0",
         "ext-gd": "*",
-        "befound/yii-befound" : "^2.1.1",
         "kartik-v/yii2-widgets": "^3.4.0",
         "kartik-v/yii2-builder": "^1.6",
         "kartik-v/yii2-helpers": "^1.3",
@@ -28,7 +23,6 @@
         "kartik-v/yii2-mpdf": "^1.0",
         "kartik-v/yii2-date-range" : "^1.6",
         "dektrium/yii2-user": "^0.9.13",
-        "bariew/yii2-module-migration-controller": "1.*",
         "psr/http-message": "^1.0",
         "bower-asset/bootstrap-sass": "^3.3",
         "2amigos/yii2-ckeditor-widget" : "^1",
@@ -55,15 +49,13 @@
             "prime\\" : ["protected"]
         },
         "classmap" : [
-            "protected/reportGenerators/",
             "protected/Yii.php",
-            "protected/vendor/yiisoft/yii2"
+            "vendor/yiisoft/yii2"
         ]
     },
     "require-dev": {
         "yiisoft/yii2-debug" : "*",
         "codeception/codeception": "2.*",
-        "codeception/c3": "2.*",
         "lucidtaz/yii2-scssphp": "^0.2.1"
     },
     "repositories": [

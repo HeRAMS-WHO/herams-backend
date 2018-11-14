@@ -1,7 +1,7 @@
 <?php
 
-use \app\components\Form;
-use \app\components\ActiveForm;
+use app\components\ActiveForm;
+use app\components\Form;
 use app\components\Html;
 
 /**

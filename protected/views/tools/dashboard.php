@@ -1,8 +1,8 @@
 <?php
 
 use app\components\Html;
-use \prime\models\permissions\Permission;
 use prime\models\ar\Setting;
+use prime\models\permissions\Permission;
 
 /**
  * @var \prime\models\ar\Tool $model

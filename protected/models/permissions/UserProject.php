@@ -3,7 +3,6 @@
 namespace prime\models\permissions;
 
 use prime\components\ActiveQuery;
-use prime\models\ActiveRecord;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use yii\helpers\ArrayHelper;

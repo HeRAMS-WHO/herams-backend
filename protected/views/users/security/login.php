@@ -5,9 +5,10 @@
 <div class="col-xs-12 col-md-6 col-md-offset-3">
     <?php
     /** @var \yii\web\View $this */
+
+    use app\components\ActiveForm;
     use app\components\Form;
     use app\components\Html;
-    use app\components\ActiveForm;
 
     $form = ActiveForm::begin([
         'id' => 'login-form',

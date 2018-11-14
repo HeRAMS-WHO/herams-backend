@@ -1,4 +1,5 @@
 <?php
+
 use kartik\helpers\Html;
 
 $this->beginContent('@app/views/layouts/main.php');

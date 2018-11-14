@@ -2,9 +2,7 @@
 
 namespace prime\models;
 
-use prime\models\ActiveRecord;
 use prime\models\ar\Project;
-use prime\models\ar\ProjectCountry;
 use prime\models\ar\Report;
 use prime\models\ar\Setting;
 use prime\traits\JsonMemoryDataSourceTrait;
@@ -13,9 +11,6 @@ use Treffynnon\Navigator\LatLong;
 use yii\base\Model;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
-use yii\validators\NumberValidator;
-use yii\validators\RequiredValidator;
-use yii\validators\StringValidator;
 
 /**
  * Class Country
@@ -85,27 +80,6 @@ class Country extends Model
         return (isset($this->regionOptions()[$this->region]) ? $this->regionOptions()[$this->region] : $this->region);
     }
 
-    public function getReports()
-    {
-        $result = Report::find()->joinWith(['project'])->andWhere([Project::tableName() . '.country_iso_3' => $this->iso_3]);
-        $result->multiple = true;
-        return $result;
-    }
-
-    public function getReportsGroupedByTool()
-    {
-        return \yii\helpers\ArrayHelper::map(
-            $this->reports,
-            'id',
-            function($model) {
-                return $model;
-            },
-            function(\prime\models\ar\Report $model) {
-                return $model->project->tool_id;
-            }
-        );
-    }
-
     /**
      * @todo refactor to use settings
      * @return array
@@ -119,7 +93,7 @@ class Country extends Model
     protected static function getSource()
     {
         return [
-            'file' => '@app/data/countryCentroids/' . Setting::get('countryPolygonsFile'),
+            'file' => '@app/data/countryCentroids/' . (Setting::get('countryPolygonsFile') ?? '2016-04-08_16-22-00.json'),
             'keyPath' => 'properties.ISO_3_CODE',
             'dataPath' => 'features',
             'attributeMap' => [

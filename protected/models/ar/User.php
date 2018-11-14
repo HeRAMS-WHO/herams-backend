@@ -2,13 +2,8 @@
 
 namespace prime\models\ar;
 
-use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\Signer\Rsa\Sha512;
-use Lcobucci\JWT\ValidationData;
 use prime\models\permissions\Permission;
 use prime\objects\Signature;
-use yii\helpers\Url;
-use yii\web\UrlManager;
 
 /**
  * Class User

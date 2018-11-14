@@ -2,11 +2,11 @@
 
 namespace prime\api\controllers;
 
+use app\models\Overview;
 use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
 use yii\web\HttpException;
-use app\models\Overview;
 
 
 class LocationsController extends Controller

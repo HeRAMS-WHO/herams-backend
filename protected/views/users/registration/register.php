@@ -4,9 +4,9 @@
  * @var \prime\models\forms\user\Registration $model
  */
 
+use app\components\ActiveForm;
 use app\components\Form;
 use app\components\Html;
-use app\components\ActiveForm;
 
 $form = ActiveForm::begin([
     'id' => 'register-form',

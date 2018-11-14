@@ -6,7 +6,7 @@ use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
-class Controller extends \Befound\Components\Controller
+class Controller extends \yii\web\Controller
 {
     use ActionInjectionTrait;
     public $layout = 'oneRow';

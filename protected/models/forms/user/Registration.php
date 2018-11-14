@@ -12,7 +12,6 @@
 namespace prime\models\forms\user;
 
 use dektrium\user\models\RegistrationForm;
-use dektrium\user\Module;
 use prime\models\ar\Profile;
 use prime\models\ar\User;
 use prime\models\Country;

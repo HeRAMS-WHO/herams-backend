@@ -1,11 +1,8 @@
 <?php
 namespace prime\api\controllers;
 
-use app\models\ar\Category;
 use app\models\Menu;
 use prime\models\ar\Tool;
-use yii\caching\Cache;
-use yii\web\HttpException;
 
 
 class CategoriesController extends Controller

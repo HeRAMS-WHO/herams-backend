@@ -1,5 +1,5 @@
 /local
-/protected/vendor
+/vendor
 /protected/bin
 /public/components
 /public/assets

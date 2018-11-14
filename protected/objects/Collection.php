@@ -4,6 +4,7 @@ namespace prime\objects;
 
 use prime\interfaces\CollectionInterface;
 use Traversable;
+
 class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAccess, \Countable
 {
     /**

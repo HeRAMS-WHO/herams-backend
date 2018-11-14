@@ -3,13 +3,12 @@
 namespace prime\models;
 
 use prime\components\ActiveQuery;
-use prime\injection\SetterInjectionTrait;
 use prime\injection\SetterInjectionInterface;
-use prime\models\permissions\Permission;
+use prime\injection\SetterInjectionTrait;
 use prime\models\ar\User;
 use yii\web\HttpException;
 
-class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord implements SetterInjectionInterface
+class ActiveRecord extends \yii\db\ActiveRecord implements SetterInjectionInterface
 {
     use SetterInjectionTrait;
     /**
@@ -87,4 +86,26 @@ class ActiveRecord extends \Befound\ActiveRecord\ActiveRecord implements SetterI
         return $result;
     }
 
+    /**
+     * Returns a field useful for displaying this record
+     * @return string
+     */
+    public function getDisplayField()
+    {
+        foreach ($this->attributes as $name)
+        {
+            if (in_array($name, array('title', 'name')))
+            {
+                return $this->getAttribute($name);
+            }
+        }
+        $pk = $this->getPrimaryKey();
+        if (is_array($pk))
+        {
+            $pk = print_r($pk, true);
+        }
+
+
+        return "No title for " . get_class($this) . "($pk)";
+    }
 }

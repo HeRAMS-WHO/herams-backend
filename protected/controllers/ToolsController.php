@@ -6,25 +6,15 @@ use kartik\widgets\Growl;
 use Lcobucci\JWT\Builder;
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
-use prime\interfaces\ReportGeneratorInterface;
-use prime\models\ar\UserData;
+use prime\models\ar\Tool;
 use prime\models\forms\Share;
 use prime\models\permissions\Permission;
-use prime\models\ar\Tool;
 use prime\models\search\Project;
-use prime\objects\ResponseCollection;
-use prime\objects\Signature;
-use prime\reportGenerators\base\Generator;
-use SamIT\LimeSurvey\JsonRpc\Client;
-use yii\db\QueryInterface;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\Request;
-use yii\data\ActiveDataProvider;
-use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
-use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\Session;
 use yii\web\User;
@@ -82,92 +72,6 @@ class ToolsController extends Controller
         ]);
     }
 
-    public function actionDashboard(
-        Request $request,
-        Response $response,
-        User $user,
-        $id
-    )
-    {
-        $tool = Tool::loadOne($id);
-        $projectSearch = new Project($tool->id, [
-        ]);
-        $projectsDataProvider = $projectSearch->search($request->queryParams);
-
-        return $this->render('dashboard', [
-            'model' => $tool,
-            'projectSearch' => $projectSearch,
-            'projectsDataProvider' => $projectsDataProvider
-
-        ]);
-    }
-
-
-    /**
-     * Data exploration.
-     * @return string
-     */
-    public function actionExplore(User $user, $id)
-    {
-        $tool = Tool::loadOne($id);
-
-        $builder = new Builder();
-        $builder
-            ->setIssuedAt(time())
-            ->setExpiration(time() + 600)
-            ->set('userId', $user->id)
-            ->setIssuer("https://primewho.org")
-            ->setAudience('https://primewho.org')
-            ->sign(new \Lcobucci\JWT\Signer\Rsa\Sha512(), file_get_contents(__DIR__ . '/../config/private.key'));
-
-
-        /** @var \Lcobucci\JWT\Token $token */
-        $token = $builder->getToken();
-        return $this->render('explore', ['model' => $tool, 'token' => $token]);
-
-    }
-
-    /**
-     * Get a list of generators for use in dependent dropdowns.
-     * @param Response $response
-     * @param Request $request
-     * @param array $depdrop_parents
-     * @return array
-     */
-    public function actionDependentGenerators(
-        Response $response,
-        Request $request,
-        array $depdrop_parents
-    )
-    {
-        $response->format = Response::FORMAT_JSON;
-        $generators = [];
-        $options = GeneratorFactory::options();
-
-        foreach(Tool::findAll(['id' => $depdrop_parents]) as $tool) {
-            $generatorCount = count($tool->generators);
-            foreach ($tool->generators as $key => $value) {
-                if (isset($options[$value])) {
-                    $generators[] = [
-                        'id' => $value,
-                        'name' => $options[$value]
-                    ];
-                } else {
-                    unset($tool->generators[$key]);
-                }
-            }
-            if ($generatorCount > count($tool->generators)) {
-                $tool->save();
-            }
-        }
-
-
-        return [
-            'output' => $generators,
-            'selected' => ''
-        ];
-    }
-
     public function actionList()
     {
         $toolsDataProvider = new ActiveDataProvider([
@@ -186,14 +90,6 @@ class ToolsController extends Controller
         ]);
     }
     
-    public function actionRequestAccess($id)
-    {
-        $model = Tool::loadOne($id);
-        return $this->render('requestAccess', [
-            'model' => $model
-        ]);
-    }
-
     public function actionUpdate(Request $request, Session $session, $id)
     {
         $model = Tool::loadOne($id);

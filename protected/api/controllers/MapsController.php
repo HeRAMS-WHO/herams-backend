@@ -4,12 +4,7 @@
 namespace prime\api\controllers;
 
 
-use prime\models\ar\Project;
 use prime\models\ar\Tool;
-use SamIT\LimeSurvey\JsonRpc\Client;
-use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
-use yii\caching\Cache;
-use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 

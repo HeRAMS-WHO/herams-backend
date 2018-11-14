@@ -1,8 +1,6 @@
 <?php
 
-use \app\components\Form;
-use \app\components\ActiveForm;
-use app\components\Html;
+use app\components\ActiveForm;
 
 /**
  * @var \prime\models\ar\Project $project

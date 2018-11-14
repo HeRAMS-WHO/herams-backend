@@ -3,7 +3,6 @@
 namespace prime\widgets\report;
 
 use app\components\Html;
-use yii\helpers\ArrayHelper;
 
 class DeliverableBlock extends Block
 {

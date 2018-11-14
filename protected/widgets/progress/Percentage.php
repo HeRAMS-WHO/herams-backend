@@ -2,7 +2,6 @@
 
 namespace prime\widgets\progress;
 
-use app\components\Html;
 use prime\models\ar\Project;
 use yii\base\Widget;
 

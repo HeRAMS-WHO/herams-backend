@@ -4,9 +4,9 @@
  * @var \dektrium\user\models\RecoveryForm $model
  */
 
+use app\components\ActiveForm;
 use app\components\Form;
 use app\components\Html;
-use app\components\ActiveForm;
 
 $form = ActiveForm::begin([
     'id' => 'recovery-form',

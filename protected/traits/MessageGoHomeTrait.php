@@ -2,8 +2,6 @@
 
 namespace prime\traits;
 
-use yii\web\Controller;
-
 /**
  * Class MessageGoHomeTrait
  * @package prime\traits

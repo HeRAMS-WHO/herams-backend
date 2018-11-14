@@ -4,30 +4,23 @@ namespace prime\models\ar;
 
 use app\components\Html;
 use app\queries\ToolQuery;
-use Befound\ActiveRecord\Behaviors\JsonBehavior;
-use Befound\Components\Map;
-use Befound\Components\UploadedFile;
-use yii\base\InvalidParamException;
-use yii\helpers\Json;
-use \yii\validators\FileValidator;
-use GuzzleHttp\Psr7\Stream;
+use prime\factories\GeneratorFactory;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\ActiveRecord;
-use prime\factories\GeneratorFactory;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use Psr\Http\Message\StreamInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
-use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\base\ErrorException;
 use yii\helpers\ArrayHelper;
 use yii\validators\BooleanValidator;
+use yii\validators\FileValidator;
 use yii\validators\ImageValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
-use yii\validators\SafeValidator;
+use yii\web\UploadedFile;
 
 /**
  * Class Tool
@@ -40,7 +33,6 @@ use yii\validators\SafeValidator;
  * @property string $acronym
  * @property string $description
  * @property string $default_generator
- * @property Map $generators
  * @property string $title
  * @property binary $explorer_map
  * @property string $explorer_regex
@@ -102,24 +94,8 @@ class Tool extends ActiveRecord implements ProjectInterface {
             'tempImage' => \Yii::t('app', 'Image'),
             'thumbTempImage' => \Yii::t('app', 'Thumbnail'),
             'intake_survey_eid' => \Yii::t('app', 'Intake survey'),
-            'base_survey_eid' => \Yii::t('app', 'Base data survey'),
-            'progress_type' => \Yii::t('app', "Project dashboard report"),
-            'generators' => \Yii::t('app', "Reports"),
-            'default_generator' => \Yii::t('app', "Default report"),
-            'generatorsArray' => \Yii::t('app', "Reports"),
+            'base_survey_eid' => \Yii::t('app', 'Base data survey')
         ];
-    }
-
-    public function behaviors()
-    {
-        return ArrayHelper::merge(parent::behaviors(),
-            [
-                JsonBehavior::class => [
-                    'class' => JsonBehavior::class,
-                    'jsonAttributes' => ['generators']
-                ]
-            ]
-        );
     }
 
     /**
@@ -251,9 +227,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
             [['tempImage', 'thumbTempImage'], ImageValidator::class],
             [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
             [['intake_survey_eid', 'base_survey_eid'], 'integer'],
-            [['progress_type'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes())],
             [['hidden', 'explorer_show_services'], BooleanValidator::class],
-            [['generatorsArray'], RangeValidator::class, 'range' => array_keys(GeneratorFactory::classes()), 'allowArray' => true],
             [
             ['default_generator'],
                 RangeValidator::class,
@@ -303,16 +277,6 @@ class Tool extends ActiveRecord implements ProjectInterface {
         } else {
             return null;
         }
-    }
-
-    public function setGeneratorsArray($value)
-    {
-        $this->generators = new Map($value);
-    }
-
-    public function generatorOptions()
-    {
-        return GeneratorFactory::options();
     }
 
     // Cache for getResponses();
@@ -365,9 +329,6 @@ class Tool extends ActiveRecord implements ProjectInterface {
     }
 
 
-    public function getReports() {
-        return $this->hasMany(Report::class, ['id' => 'tool_id'])->via('projects');
-    }
     /**
      * Return the url to the tool image
      * @return string
@@ -375,17 +336,6 @@ class Tool extends ActiveRecord implements ProjectInterface {
     public function getToolImagePath()
     {
         return $this->imageUrl;
-    }
-
-    public function getProgressReport()
-    {
-        if (isset($this->progress_type)) {
-            /** @var ReportGeneratorInterface $generator */
-            $generator = GeneratorFactory::get($this->progress_type);
-            $generator = GeneratorFactory::get('progress');
-            return $generator->render($this->getResponses(), $this->getSurveys(), $this,
-                app()->user->identity->createSignature());
-        }
     }
 
     public function userCan($operation, User $user)

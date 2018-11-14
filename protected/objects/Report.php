@@ -2,13 +2,10 @@
 
 namespace prime\objects;
 
-use prime\interfaces\ProjectInterface;
 use prime\interfaces\ReportInterface;
-use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SignatureInterface;
 use prime\interfaces\UserDataInterface;
 use Psr\Http\Message\StreamInterface;
-use yii\base\Component;
 
 class Report implements ReportInterface
 {

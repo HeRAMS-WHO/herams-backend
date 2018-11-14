@@ -1,9 +1,10 @@
 <?php
 
-use \app\components\Html;
+use app\components\Html;
 use prime\models\ar\Setting;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
+
 $this->title = \Yii::t('app', 'Manage projects');
 
 /**

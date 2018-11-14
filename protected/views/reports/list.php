@@ -1,6 +1,6 @@
 <?php
 
-use \app\components\Html;
+use app\components\Html;
 use prime\models\ar\Setting;
 
 /**

@@ -4,16 +4,14 @@ namespace prime\controllers;
 
 use app\queries\ProjectQuery;
 use app\queries\ToolQuery;
-use Befound\Components\DateTime;
-use kartik\depdrop\DepDropAction;
 use prime\components\Controller;
-use prime\models\ar\Setting;
-use prime\models\forms\projects\CreateUpdate;
-use prime\models\forms\Share;
-use prime\models\forms\projects\Token;
-use prime\models\permissions\Permission;
 use prime\models\ar\Project;
+use prime\models\ar\Setting;
 use prime\models\ar\Tool;
+use prime\models\forms\projects\CreateUpdate;
+use prime\models\forms\projects\Token;
+use prime\models\forms\Share;
+use prime\models\permissions\Permission;
 use prime\models\search\Project as ProjectSearch;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
@@ -27,10 +25,9 @@ use yii\helpers\ArrayHelper;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\web\Request;
+use yii\web\Response;
 use yii\web\Session;
 use yii\web\User;
-use yii\web\Response;
-use Lcobucci\JWT\Builder;
 
 class ProjectsController extends Controller
 {
@@ -45,7 +42,7 @@ class ProjectsController extends Controller
             $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
             $model->scenario = 'close';
 
-            $model->closed = (new DateTime())->format(DateTime::MYSQL_DATETIME);
+            $model->closed = (new DateTime())->format('Y-m-d H:i:s');
             if($model->save()) {
                 $session->setFlash(
                     'projectClosed',
@@ -88,7 +85,6 @@ class ProjectsController extends Controller
      * @param CreateUpdate $model
      * @param Request $request
      * @param Session $session
-     * @return \Befound\Components\type|Response
      */
     public function actionCreate(
         Request $request,
@@ -207,18 +203,6 @@ class ProjectsController extends Controller
             'projectsDataProvider' => $projectsDataProvider,
             'tool' => $tool
         ]);
-    }
-
-    public function actionProgress(Response $response, $id)
-    {
-        $project = Project::loadOne($id);
-        $report = $project->getProgressReport();
-        if (!isset($report)) {
-            throw new \HttpException(404, "Progress report for project not found.");
-        }
-        $response->setContentType($report->getMimeType());
-        $response->content = $report->getStream();
-        return $response;
     }
 
     public function actionRead($id)

@@ -9,6 +9,7 @@ return [
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
     'timeZone' => 'UTC',
+    'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en-US',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

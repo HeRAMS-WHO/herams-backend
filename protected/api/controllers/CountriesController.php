@@ -4,8 +4,6 @@ namespace prime\api\controllers;
 
 use app\models\ar\Category;
 use app\models\ar\CountryStatus;
-use yii\caching\Cache;
-use yii\web\HttpException;
 
 
 class CountriesController extends Controller

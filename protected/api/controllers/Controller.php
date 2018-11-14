@@ -7,7 +7,6 @@ use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\AccessControl;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
-
 use yii\filters\auth\QueryParamAuth;
 use yii\web\Response;
 

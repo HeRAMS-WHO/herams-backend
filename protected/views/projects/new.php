@@ -1,5 +1,7 @@
 <?php
-use \yii\helpers\Html;
+
+use yii\helpers\Html;
+
 /** @var \yii\data\ActiveDataProvider $dataProvider */
 /** @var \yii\web\View $this */
 $this->title = \Yii::t('app', "Create project");

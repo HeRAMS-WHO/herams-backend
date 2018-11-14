@@ -4,14 +4,12 @@
 namespace prime\commands;
 
 
-use prime\models\ar\User;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\console\Controller;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\rbac\ManagerInterface;
-use yii\rbac\Permission;
 use yii\rbac\Role;
 use yii\web\IdentityInterface;
 

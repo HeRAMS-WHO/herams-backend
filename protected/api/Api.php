@@ -3,13 +3,8 @@
 
 namespace prime\api;
 
-use \Yii;
 use yii\base\Module;
 use yii\log\FileTarget;
-use yii\filters\auth\CompositeAuth;
-use yii\filters\auth\HttpBearerAuth;
-
-use yii\filters\auth\QueryParamAuth;
 
 
 class Api extends Module

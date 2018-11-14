@@ -2,13 +2,10 @@
 
 namespace prime\interfaces;
 
-use Befound\Components\Map;
-use prime\models\ar\Project;
-
 interface UserDataInterface extends \JsonSerializable, \ArrayAccess {
 
     /**
-     * @return array|Map
+     * @return array
      */
     public function getData();
 

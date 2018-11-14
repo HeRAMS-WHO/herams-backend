@@ -5,7 +5,6 @@ namespace prime\objects;
 
 
 use prime\interfaces\ResponseCollectionInterface;
-use prime\objects\Collection;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
 /**

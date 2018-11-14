@@ -3,14 +3,11 @@
     use app\components\Html;
     use prime\components\Controller;
     use prime\components\JwtSso;
-    use prime\models\ar\Tool;
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
     use yii\helpers\FileHelper;
     use yii\web\Response;
-    use yii\web\Session;
-    use yii\web\User;
 
     class SiteController extends Controller
     {

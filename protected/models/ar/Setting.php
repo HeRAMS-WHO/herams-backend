@@ -1,9 +1,7 @@
 <?php
 namespace prime\models\ar;
 
-
-use Befound\ActiveRecord\ActiveRecord;
-use Befound\ActiveRecord\Behaviors\JsonBehavior;
+use prime\models\ActiveRecord;
 
 class Setting extends ActiveRecord
 {

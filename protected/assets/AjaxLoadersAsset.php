@@ -3,7 +3,6 @@
 namespace prime\assets;
 
 use yii\web\AssetBundle;
-use yii\web\JqueryAsset;
 
 class AjaxLoadersAsset extends AssetBundle
 {

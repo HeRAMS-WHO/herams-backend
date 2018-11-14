@@ -1,8 +1,8 @@
 <?php
 
+use app\components\ActiveForm;
 use app\components\Form;
 use app\components\Html;
-use app\components\ActiveForm;
 
 $this->title = Yii::t('user', 'Profile settings');
 

@@ -4,7 +4,6 @@ namespace prime\api\controllers;
 
 use app\models\Overview;
 use prime\models\ar\Tool;
-use prime\models\permissions\Permission;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
 use yii\web\HttpException;

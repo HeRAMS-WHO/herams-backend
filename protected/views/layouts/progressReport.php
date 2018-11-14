@@ -1,6 +1,7 @@
 <?php
-use \yii\bootstrap\Html;
-use yii\widgets\Breadcrumbs;
+
+use yii\bootstrap\Html;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 $this->beginPage();

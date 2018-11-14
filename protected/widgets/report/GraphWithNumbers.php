@@ -2,9 +2,7 @@
 
 namespace prime\widgets\report;
 
-use app\components\Html;
 use yii\base\Widget;
-use yii\helpers\ArrayHelper;
 
 class GraphWithNumbers extends Widget
 {

@@ -5,7 +5,6 @@ namespace prime\widgets\report;
 use app\components\Html;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
-use yii\web\JsExpression;
 
 class Distributions extends Widget
 {

@@ -1,9 +1,5 @@
 <?php
 
-use \app\components\Html;
-use yii\bootstrap\Nav;
-use prime\models\ar\Setting;
-
 /**
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
  * @var \prime\models\search\Project $projectSearch

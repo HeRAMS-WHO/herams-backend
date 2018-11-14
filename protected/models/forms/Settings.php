@@ -2,7 +2,6 @@
 
 namespace prime\models\forms;
 
-use Befound\Components\DateTime;
 use prime\models\ar\Setting;
 use prime\models\search\Project;
 use yii\base\Model;
@@ -120,7 +119,7 @@ class Settings extends Model
                 },
                 function ($file) {
                     return app()->formatter->asDatetime(
-                        DateTime::createFromFormat(DateTime::FILE, basename($file, '.json')),
+                        DateTime::createFromFormat('Y-m-d_H-i-s', basename($file, '.json')),
                         'full'
                     );
                 }
