@@ -123,26 +123,4 @@ class User extends \dektrium\user\models\User {
     {
 
     }
-
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        // First try JWT.
-        try {
-            $token = (new Parser())->parse($token);
-            $data = new ValidationData();
-            $data->setIssuer('https://primewho.org');
-            $data->setAudience('https://primewho.org');
-            if ($token->verify(new Sha512(), app()->params['publicKey'])
-                && $token->validate($data)
-                && $token->hasClaim('userId')
-            ) {
-                return static::findOne($token->getClaim('userId'));
-            }
-        } catch(\InvalidArgumentException $e) {
-
-        }
-
-
-        return static::findOne(['access_token' => $token]);
-    }
 }

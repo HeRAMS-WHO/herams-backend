@@ -479,29 +479,6 @@ class ProjectsController extends Controller
         ]);
     }
 
-    /**
-     * Data exploration.
-     * @return string
-     */
-    public function actionExplore(User $user, $id)
-    {
-        $project = Project::loadOne($id);
-
-        $builder = new Builder();
-        $builder
-            ->setIssuedAt(time())
-            ->setExpiration(time() + 600)
-            ->set('userId', $user->id)
-            ->setIssuer("https://primewho.org")
-            ->setAudience('https://primewho.org')
-            ->sign(new \Lcobucci\JWT\Signer\Rsa\Sha512(), file_get_contents(__DIR__ . '/../config/private.key'));
-
-
-        /** @var \Lcobucci\JWT\Token $token */
-        $token = $builder->getToken();
-        return $this->render('explore', ['model' => $project, 'token' => $token]);
-
-    }
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
@@ -518,7 +495,7 @@ class ProjectsController extends Controller
                             'allow' => true,
                             'actions' => ['close', 'configure', 'list', 'list-others', 'list-closed',
                             'progress', 'read', 'download', 're-open', 'share', 'share-delete',
-                                'update', 'update-lime-survey', 'explore', 'new', 'overview'
+                                'update', 'update-lime-survey', 'new', 'overview'
                             ],
                             'roles' => ['@'],
                         ],

@@ -1,4 +1,7 @@
 <?php
+
+use prime\models\ar\Setting;
+
 require_once __DIR__ . '/../helpers/functions.php';
 return [
     'layout' => 'simple',
@@ -15,10 +18,22 @@ return [
     ],
     'bootstrap' => ['log'],
     'components' => [
+        'db' => [
+            'class' => \yii\db\Connection::class,
+            'charset' => 'utf8',
+            'dsn' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('MYSQL_DATABASE'),
+            'password' => getenv('MYSQL_PASSWORD'),
+            'username' => getenv('MYSQL_USER'),
+            'enableSchemaCache' => true,
+            'schemaCache' => 'cache',
+            'enableQueryCache' => true,
+            'queryCache' => 'cache',
+            'tablePrefix' => 'prime2_'
+        ],
         'limesurveySSo' => [
             'class' => \prime\components\JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKeyFile' => __DIR__ . '/private.key',
+            'privateKey' => getenv('PRIVATE_KEY_FILE'),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function($id) {
                 return "prime_$id";
@@ -40,8 +55,8 @@ return [
 //
 //        ],
         'limeSurvey' => function (){
-            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(\prime\models\ar\Setting::get('limeSurvey.host'));
-            $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, \prime\models\ar\Setting::get('limeSurvey.username'), \prime\models\ar\Setting::get('limeSurvey.password'));
+            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'));
+            $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, Setting::get('limeSurvey.username'), Setting::get('limeSurvey.password'));
             $result->setCache(function($key, $value, $duration) {
                 return app()->get('cache')->set($key, $value, $duration);
             }, function ($key) {
@@ -75,7 +90,7 @@ return [
                 'class' => Swift_SmtpTransport::class,
                 'constructArgs' => ['localhost', 25]
             ]
-        ]
+        ],
     ],
     'modules' => [
         'user' => [
@@ -130,8 +145,6 @@ return [
             'icons.request' => 'forward',
             'icons.limeSurveyUpdate' => 'pencil',
             'icons.requestAccess' => 'info-sign'
-        ],
-        'publicKey' => file_get_contents(__DIR__ . '/public.key'),
-        'privateKey' => file_get_contents(__DIR__ . '/private.key')
+        ]
     ]
 ];

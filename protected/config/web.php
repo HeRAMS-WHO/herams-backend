@@ -70,6 +70,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'class' => \prime\api\Api::class
         ],
         'user' => [
+            'class' => \dektrium\user\Module::class,
             'controllerMap' => [
                 'registration' => \prime\controllers\RegistrationController::class,
                 'recovery' => \prime\controllers\RecoveryController::class
