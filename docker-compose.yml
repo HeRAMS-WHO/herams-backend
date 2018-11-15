@@ -68,7 +68,7 @@ services:
   codeception:
     extends:
       service: base
-    entrypoint: ["/sbin/tini", "--", "/project/vendor/bin/codecept"]
+    entrypoint: ["/sbin/tini", "--", "phpdbg", "-qrr", "/project/vendor/bin/codecept"]
     working_dir: "/project"
     command: "run"
   phpmyadmin:

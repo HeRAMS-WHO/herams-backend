@@ -1,0 +1,17 @@
+language: php
+php:
+  - '7.2'
+addons:
+  mariadb: "10.2"
+before_install :
+  - phpenv config-rm xdebug.ini
+install:
+  - composer global require hirak/prestissimo
+  - travis_retry composer install
+before_script:
+  - mysql -e 'CREATE DATABASE yiitest;'
+script:
+  - phpdbg -qrr vendor/bin/codecept run --coverage-xml
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml

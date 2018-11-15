@@ -28,6 +28,5 @@ coverage:
     include:
       - protected/*.php
     exclude:
-      - protected/vendor/*
+      - vendor/*
       - tests/*
-    c3_url: 'http://%RUNNER_IP%'
