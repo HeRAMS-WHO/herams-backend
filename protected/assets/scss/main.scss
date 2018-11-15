@@ -23,18 +23,11 @@ html {
   --primary-button-hover-color: #3f86e6;
   --header-light-background-color: #4f4e54;
   --header-light-color: white;
-
   height: 100%;
 }
 
 body {
   background-color: var(--main-background-color);
-}
-@at-root {
-  @font-face {
-    font-family: "Open Sans";
-    src: url("../fonts/prime/OpenSans-Regular.ttf") format("truetype");
-  }
 }
 
 @media (min-width: $screen-md-min) {
@@ -50,10 +43,6 @@ body {
 }
 nav {
   border-bottom-width: 0 !important;
-}
-
-.btn-prime {
-  @include button-variant(#fff, $navbar-default-link-color, darken($navbar-default-link-color, 5%));
 }
 
 .btn-primary:hover {

@@ -16,32 +16,32 @@
     "require": {
         "php" : ">=7.2.0",
         "ext-gd": "*",
-        "kartik-v/yii2-widgets": "^3.4.0",
-        "kartik-v/yii2-builder": "^1.6",
-        "kartik-v/yii2-helpers": "^1.3",
-        "kartik-v/yii2-grid": "^3.0",
-        "kartik-v/yii2-mpdf": "^1.0",
-        "kartik-v/yii2-date-range" : "^1.6",
-        "dektrium/yii2-user": "^0.9.13",
-        "psr/http-message": "^1.0",
-        "bower-asset/bootstrap-sass": "^3.3",
         "2amigos/yii2-ckeditor-widget" : "^1",
-        "guzzlehttp/psr7": "^1.2",
-        "bower-asset/is-loading": "^1",
         "bower-asset/bootbox": "^4.4",
-        "miloschuman/yii2-highcharts-widget": "^4",
-        "yiisoft/yii2": "^2.0.15",
-        "treffynnon/navigator": "^1",
-        "sam-it/ls2-jsonrpc-client": "^0.10.1",
-        "dektrium/yii2-rbac": "^1.0.0-alpha",
-        "npm-asset/mresize": "^1.0",
+        "bower-asset/bootstrap-sass": "^3.3",
         "bower-asset/bootstrap-social": "^4.10",
+        "bower-asset/is-loading": "^1",
         "bower-asset/jquery-locationpicker-plugin": "^0.1.12",
-        "nesbot/carbon": "^1.21",
+        "dektrium/yii2-rbac": "^1.0.0-alpha",
+        "dektrium/yii2-user": "^0.9.13",
+        "guzzlehttp/psr7": "^1.2",
+        "kartik-v/yii2-builder": "^1.6.5",
+        "kartik-v/yii2-date-range" : "^1.6",
+        "kartik-v/yii2-grid": "^3.0",
+        "kartik-v/yii2-helpers": "^1.3",
+        "kartik-v/yii2-mpdf": "^1.0",
         "kartik-v/yii2-tabs-x": "^1.2.3 | @dev",
-        "sam-it/yii2-magic": "^1.0.3",
+        "kartik-v/yii2-widgets": "^3",
+        "lcobucci/jwt": "^3.2",
+        "miloschuman/yii2-highcharts-widget": "^4",
+        "nesbot/carbon": "^1.21",
+        "npm-asset/mresize": "^1.0",
         "primal/color": "dev-master",
-        "lcobucci/jwt": "^3.2"
+        "psr/http-message": "^1.0",
+        "sam-it/ls2-jsonrpc-client": "^1",
+        "sam-it/yii2-magic": "^1.0.3",
+        "treffynnon/navigator": "^1",
+        "yiisoft/yii2": "^2.0.15"
     },
 	"autoload" : {
         "psr-4" : {
@@ -56,7 +56,8 @@
     "require-dev": {
         "yiisoft/yii2-debug" : "*",
         "codeception/codeception": "2.*",
-        "lucidtaz/yii2-scssphp": "^0.2.1"
+        "lucidtaz/yii2-scssphp": "^0.2.1",
+        "ifsnop/mysqldump-php": "^2"
     },
     "repositories": [
         {

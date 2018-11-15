@@ -44,21 +44,13 @@ echo Nav::widget([
 
                 [
                     'label' =>
-//                        Html::icon(\prime\models\ar\Setting::get('icons.user', 'asterisk'), ['title' => 'Profile']) .
                         \Yii::t('app', 'Profile'),
                     'url' => ['/user/settings/profile'],
                     'visible' => !Yii::$app->user->isGuest
 
                 ],
-
-                [
-                    'label' => Html::icon(\prime\models\ar\Setting::get('icons.logIn', 'asterisk'), ['title' => 'Login or sign up']),
-                    'url' => ['/user/security/login'],
-                    'visible' => Yii::$app->user->isGuest
-                ],
                 [
                     'label' =>
-//                        Html::icon(\prime\models\ar\Setting::get('icons.logOut', 'asterisk'), ['title' => 'Log out']) .
                         \Yii::t('app', 'Log out'),
                     'url' => ['/user/security/logout'],
                     'linkOptions' => [

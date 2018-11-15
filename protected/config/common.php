@@ -15,7 +15,8 @@ return [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
         '@prime' => '@app',
-        '@views' => '@app/views'
+        '@views' => '@app/views',
+        '@tests' => '@app/../tests',
     ],
     'bootstrap' => ['log'],
     'components' => [
@@ -89,7 +90,7 @@ return [
             'class' => \yii\swiftmailer\Mailer::class,
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'constructArgs' => ['localhost', 25]
+                'constructArgs' => [getenv('SMTP_HOST'), getenv('SMTP_PORT')]
             ]
         ],
     ],
@@ -103,10 +104,7 @@ return [
                 'RecoveryForm' => \prime\models\forms\user\Recovery::class,
                 'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
-            'admins' => [
-                'sam@mousa.nl',
-                'petragallos@who.int'
-            ],
+            'adminPermission' => 'admin',
             'controllerMap' => [
                 'security' => [
                     'class' => \dektrium\user\controllers\SecurityController::class,

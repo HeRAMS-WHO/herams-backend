@@ -4,6 +4,7 @@ namespace prime\components;
 
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\AccessControl;
+use yii\filters\AccessRule;
 use yii\helpers\ArrayHelper;
 
 class Controller extends \yii\web\Controller

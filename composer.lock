@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c26c5cf859e2ec94a06356372009703d",
+    "content-hash": "95311c2fca1c071cd569dc5f0f70542a",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -2963,16 +2963,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v0.10.1",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "ecc4094696660c2f2085588bdc5aa69ccdace865"
+                "reference": "85cb7b0a4cecec994117e7269d3904f0c8b60970"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/ecc4094696660c2f2085588bdc5aa69ccdace865",
-                "reference": "ecc4094696660c2f2085588bdc5aa69ccdace865",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/85cb7b0a4cecec994117e7269d3904f0c8b60970",
+                "reference": "85cb7b0a4cecec994117e7269d3904f0c8b60970",
                 "shasum": ""
             },
             "require": {
@@ -3000,7 +3000,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2016-12-02T10:16:05+00:00"
+            "time": "2018-11-14T15:40:11+00:00"
         },
         {
             "name": "sam-it/yii2-magic",
@@ -4142,6 +4142,58 @@
                 "promise"
             ],
             "time": "2016-12-20T10:07:11+00:00"
+        },
+        {
+            "name": "ifsnop/mysqldump-php",
+            "version": "v2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ifsnop/mysqldump-php.git",
+                "reference": "8d063449981e3f7bd28a3a083842e21a24d1f4af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ifsnop/mysqldump-php/zipball/8d063449981e3f7bd28a3a083842e21a24d1f4af",
+                "reference": "8d063449981e3f7bd28a3a083842e21a24d1f4af",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ifsnop\\": "src/Ifsnop/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Diego Torres",
+                    "homepage": "https://github.com/ifsnop",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This is a php version of linux's mysqldump in terminal \"$ mysqldump -u username -p...\"",
+            "homepage": "https://github.com/ifsnop/mysqldump-php",
+            "keywords": [
+                "backup",
+                "database",
+                "dump",
+                "export",
+                "mysql",
+                "mysqldump",
+                "pdo",
+                "sqlite"
+            ],
+            "time": "2018-06-30T19:40:05+00:00"
         },
         {
             "name": "leafo/scssphp",

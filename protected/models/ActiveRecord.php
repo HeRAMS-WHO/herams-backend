@@ -61,7 +61,8 @@ class ActiveRecord extends \yii\db\ActiveRecord implements SetterInjectionInterf
 
     public function userCan($operation, User $user)
     {
-        return $user->isAdmin;
+        // Admins can do anything
+        return app()->authManager->checkAccess($user->id, 'admin');
     }
 
 

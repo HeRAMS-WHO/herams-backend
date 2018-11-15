@@ -304,8 +304,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             $result = $result
                 // User owns the project.
                 || $this->owner_id == $user->id
-                // This is the health cluster mapping project, everyone can read it.
-                || ($this->id == Setting::get('healthClusterDashboardProject') && $operation == Permission::PERMISSION_READ)
                 || Permission::isAllowed($user, $this, $operation);
         }
         return $result;

@@ -83,12 +83,6 @@ class User extends \dektrium\user\models\User {
         return $this->email;
     }
 
-    public function getIsAdmin()
-    {
-        return app()->authManager->checkAccess($this->id, 'admin')
-        && app()->request->getQueryParam(self::NON_ADMIN_KEY) === null;
-    }
-
     public function rules()
     {
         $rules = parent::rules();

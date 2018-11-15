@@ -93,7 +93,7 @@ class Country extends Model
     protected static function getSource()
     {
         return [
-            'file' => '@app/data/countryCentroids/' . (Setting::get('countryPolygonsFile') ?? '2016-04-08_16-22-00.json'),
+            'file' => '@app/data/countryCentroids/2016-04-08_16-22-00.json',
             'keyPath' => 'properties.ISO_3_CODE',
             'dataPath' => 'features',
             'attributeMap' => [

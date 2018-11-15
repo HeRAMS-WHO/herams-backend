@@ -2,6 +2,7 @@
 
 namespace prime\assets;
 
+use app\assets\FontBundle;
 use yii\bootstrap\BootstrapAsset;
 use yii\helpers\FileHelper;
 use yii\web\AssetBundle;
@@ -16,6 +17,7 @@ class SassAsset extends AssetBundle
 
     public $depends = [
         BootstrapAsset::class,
+        FontBundle::class,
         YiiAsset::class
     ];
 
@@ -40,7 +42,6 @@ class SassAsset extends AssetBundle
         if (isset($this->sourcePath)) {
             list ($this->basePath, $this->baseUrl) = $am->publish($this->sourcePath, $this->publishOptions);
             $copy = [
-                __DIR__ . '/fonts' => $this->basePath . '/fonts/prime',
                 __DIR__ . '/scss/main.scss' => $this->basePath . '/stylesheets/main.scss',
 
             ];
