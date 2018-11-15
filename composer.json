@@ -45,11 +45,14 @@
     },
 	"autoload" : {
         "psr-4" : {
+            "prime\\" : ["protected"],
             "app\\" : ["protected"],
-            "prime\\" : ["protected"]
+            "prime\\tests\\": [
+                "tests/",
+                "tests/_support"
+            ]
         },
         "classmap" : [
-            "protected/Yii.php",
             "vendor/yiisoft/yii2"
         ]
     },
@@ -64,15 +67,5 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ],
-    "extra": {
-        "asset-repositories": [
-          {
-            "name": "npm-asset/data-exploration-tool",
-            "type": "npm-vcs",
-            "url": "git@gitlab.sam-it.eu:who/data-exploration-tool.git"
-          }
-        ]
-
-    }
+    ]
 }

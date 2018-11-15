@@ -1,0 +1,9 @@
+actor: FunctionalTester
+suite_namespace: prime\tests\functional
+modules:
+    enabled:
+        - REST:
+              depends: Yii2
+        - Asserts
+        # add a framework module here
+        - Yii2

@@ -3,45 +3,60 @@ version: '2.1'
 services:
 
 ## Web server
-  web:
-    image: "sammousa/php-with-extensions"
-    command: "php -S 0.0.0.0:80 -t /project/public"
+  serve:
+    build:
+      context: docker/cli
+    entrypoint: ["php", "-S", "0.0.0.0:80", "-t", "/project/public"]
     depends_on:
       - mysql
+      - mailcatcher
     volumes:
-      - .:/project
+      - .:/project:ro
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: secret
       MYSQL_DATABASE: test
       DB_HOST: mysql
+      YII_ENV: dev
+      SMTP_HOST: mailcatcher
+      SMTP_PORT: 1025
     ports:
-      - "80"
+      - "12346:80"
+    tmpfs:
+      - /project/protected/runtime:rw,noexec,nosuid
+      - /project/public/assets:rw,noexec,nosuid
 
-## Mysql server (local)
+
+  ## Mysql server (local)
   mysql:
     image: mysql
-    command: --character-set-server=utf8 --max-connections=1000 --default-authentication-plugin=mysql_native_password
+    command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
     user: "${UID}:${GID}"
     volumes:
       - ./local/devdb:/var/lib/mysql
+      - ./tests/_data/db:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: test
 
   cli:
-    build:
-      context: docker/cli
+    extends:
+      service: base
     depends_on:
       - mysql
+  base:
+    build:
+      context: docker/cli
     volumes:
       - .:/project:ro
+      - ./tests/_data:/project/tests/_data:rw
+      - ./tests:/project/tests:rw
       - ./protected/migrations:/project/protected/migrations:rw
     tmpfs:
       - /project/protected/runtime:rw,noexec,nosuid,uid=${UID}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID}
     environment:
-      YII_ENV: "dev"
+      YII_ENV: "test"
       MYSQL_USER: root
       MYSQL_PASSWORD: secret
       MYSQL_DATABASE: test
@@ -49,6 +64,13 @@ services:
     entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
     user: "${UID}:${GID}"
     command: ""
+
+  codeception:
+    extends:
+      service: base
+    entrypoint: ["/sbin/tini", "--", "/project/vendor/bin/codecept"]
+    working_dir: "/project"
+    command: "run"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
@@ -58,6 +80,10 @@ services:
       PMA_USER: root
       PMA_PASSWORD: secret
     ports:
-      - "12346:80"
+      - "12345:80"
     tmpfs:
       - /sessions
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "12347:1080"

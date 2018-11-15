@@ -1,5 +1,5 @@
 <?php
-
+namespace prime\tests;
 
 /**
  * Inherited Methods

@@ -10,8 +10,8 @@
 /protected/config/debug
 /protected/config/local.php
 /protected/controllers/DevController.php
-/protected/tests/codeception/_support/_generated/
-/protected/tests/codeception/_output/protected/runtime/10.html
+/tests/codeception/_support/_generated/
+/tests/codeception/_output
 _output
 _generated
 c3.php

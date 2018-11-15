@@ -8,9 +8,8 @@ use prime\injection\SetterInjectionTrait;
 use prime\models\ar\User;
 use yii\web\HttpException;
 
-class ActiveRecord extends \yii\db\ActiveRecord implements SetterInjectionInterface
+class ActiveRecord extends \yii\db\ActiveRecord
 {
-    use SetterInjectionTrait;
     /**
      * @return ActiveQuery
      * @throws \yii\base\InvalidConfigException
@@ -68,24 +67,6 @@ class ActiveRecord extends \yii\db\ActiveRecord implements SetterInjectionInterf
 
 
 
-
-    /**
-     * This static function is responsible for creation in Yii.
-     * It therefore requires \Yii.
-     * @param array $row
-     * @return static
-     */
-    public static function instantiate($row)
-    {
-        $result = parent::instantiate($row);
-        if ($result instanceof SetterInjectionInterface) {
-            // Inject required dependencies.
-            foreach($result::listDependencies() as $setter => $class) {
-                $result->$setter(\Yii::$container->get($class));
-            }
-        }
-        return $result;
-    }
 
     /**
      * Returns a field useful for displaying this record

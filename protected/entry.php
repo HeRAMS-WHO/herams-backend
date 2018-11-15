@@ -16,17 +16,9 @@ call_user_func(function() {
 
     }
 
-    $loader = require_once $autoload;
-
-    Yii::$loader = $loader;
-    unset($loader);
-
-    Yii::$container = new prime\injection\Container();
-
+    require_once $autoload;
     $config = require __DIR__ . '/config/web.php';
-    spl_autoload_register(['Yii', 'autoload'], true, false);
-
-    $app = new \app\components\WebApplication($config);
-
+    \Yii::$container->set(\yii\web\Application::class, $config);
+    $app = \Yii::$container->get(\yii\web\Application::class);
     $app->run();
 });

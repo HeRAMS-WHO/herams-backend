@@ -2,6 +2,7 @@
 
 namespace prime\models\forms;
 
+use DateTime;
 use prime\models\ar\Setting;
 use prime\models\search\Project;
 use yii\base\Model;
@@ -38,22 +39,11 @@ class Settings extends Model
         return [
             ['limeSurvey.host', 'url'],
             [['limeSurvey.password', 'limeSurvey.username'], RequiredValidator::class],
-            ['countryPolygonsFile', RangeValidator::class, 'range' => array_keys($this->countryPolygonsFileOptions())],
-            ['countryGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
-            ['eventGradesSurvey', RangeValidator::class, 'range' => array_keys($this->surveyOptions())],
-            ['healthClusterDashboardProject', ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
             [[
-                'icons.globalMonitor',
                 'icons.projects',
-                'icons.reports',
-                'icons.preview',
-                'icons.userLists',
                 'icons.user',
                 'icons.configuration',
                 'icons.user',
-                'icons.logIn',
-                'icons.logOut',
-                //'icons.search',
                 'icons.read',
                 'icons.update',
                 'icons.share',
@@ -61,15 +51,7 @@ class Settings extends Model
                 'icons.open',
                 'icons.remove',
                 'icons.request',
-                'icons.limeSurveyUpdate',
-                'icons.requestAccess',
                 'icons.download',
-                'icons.publish',
-                'icons.print',
-                'icons.proceed',
-                'icons.explore'
-
-
             ], RangeValidator::class, 'range' => array_keys($this->iconOptions())]
         ];
     }
