@@ -4,7 +4,6 @@ namespace prime\models;
 
 use prime\models\ar\Project;
 use prime\models\ar\Report;
-use prime\models\ar\Setting;
 use prime\traits\JsonMemoryDataSourceTrait;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;

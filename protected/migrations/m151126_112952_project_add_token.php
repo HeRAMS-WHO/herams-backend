@@ -16,16 +16,13 @@ class m151126_112952_project_add_token extends Migration
                 throw new \Exception("Something went wrong while generating tokens.");
             }
         }
-        return $transaction->commit();
+        $transaction->commit();
     }
 
     public function down()
     {
         $this->dropColumn('{{%project}}', 'token');
         return true;
-        echo "m151126_112952_project_add_token cannot be reverted.\n";
-
-        return false;
     }
 
     /*

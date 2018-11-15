@@ -3,13 +3,11 @@
 namespace prime\controllers;
 
 use kartik\widgets\Growl;
-use Lcobucci\JWT\Builder;
 use prime\components\Controller;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Tool;
 use prime\models\forms\Share;
 use prime\models\permissions\Permission;
-use prime\models\search\Project;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;

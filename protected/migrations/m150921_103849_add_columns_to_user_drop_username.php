@@ -1,7 +1,7 @@
 <?php
 
 use yii\db\Migration;
-use \yii\db\mysql\Schema;
+use yii\db\mysql\Schema;
 
 class m150921_103849_add_columns_to_user_drop_username extends Migration
 {

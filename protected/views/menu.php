@@ -1,6 +1,5 @@
 <?php
 
-use kartik\helpers\Html;
 use yii\bootstrap\Nav;
 
 /**
