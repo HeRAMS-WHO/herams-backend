@@ -1,20 +1,11 @@
 <?php
-
-
 namespace prime\api;
 
 use yii\base\Module;
 use yii\log\FileTarget;
 
-
 class Api extends Module
 {
-    /**
-     * The previously set exception handler.
-     * @var Callable
-     */
-    protected $oldHandler;
-
     public function init()
     {
         parent::init();
@@ -24,6 +15,4 @@ class Api extends Module
             'levels' => ['warning', 'error', 'info']
         ]);
     }
-
-
 }

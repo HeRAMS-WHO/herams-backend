@@ -6,8 +6,6 @@
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
-    use yii\helpers\FileHelper;
-    use yii\web\Response;
 
     class SiteController extends Controller
     {
@@ -22,19 +20,11 @@
             $limesurveySSo->loginAndRedirectCurrentUser();
         }
 
-        public function actionTextImage(Response $response, $text)
-        {
-            $text = filter_var($text, FILTER_SANITIZE_STRING);
-            $response->headers->set('Content-Type', FileHelper::getMimeTypeByExtension('.svg'));
-            $response->format = Response::FORMAT_RAW;
-            return Html::textImage($text);
-        }
-
-        public function actionLogout()	
+        public function actionLogout()
         {	
             $this->layout = 'logout';	
             return $this->render('logout');	
-       }
+        }
 
         public function actions()
         {
@@ -55,7 +45,7 @@
                         'rules' => [
                             [
                                 'allow' => 'true',
-                                'actions' => ['captcha', 'about', 'logout']
+                                'actions' => ['captcha', 'logout']
                             ],
                             [
                                 'allow' => 'true',

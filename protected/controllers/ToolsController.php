@@ -39,12 +39,7 @@ class ToolsController extends Controller
                     ]
                 );
 
-                return $this->redirect(
-                    [
-                        'tools/read',
-                        'id' => $model->id
-                    ]
-                );
+                return $this->redirect(['tools/update', 'id' => $model->id]);
             } else {
                 $session->setFlash('toolNotCreated', [
                     'type' => Growl::TYPE_WARNING,
@@ -55,18 +50,6 @@ class ToolsController extends Controller
 
         return $this->render('create', [
             'model' => $model
-        ]);
-    }
-
-    public function actionResponses(
-        Request $request,
-        Response $response,
-        User $user,
-        $id
-    ) {
-        $tool = Tool::loadOne($id);
-        return $this->render('dashboard/responses', [
-            'tool' => $tool
         ]);
     }
 
@@ -81,13 +64,6 @@ class ToolsController extends Controller
         ]);
     }
 
-    public function actionRead($id)
-    {
-        return $this->render('read',[
-            'model' => Tool::loadOne($id)
-        ]);
-    }
-    
     public function actionUpdate(Request $request, Session $session, $id)
     {
         $model = Tool::loadOne($id);
@@ -104,12 +80,7 @@ class ToolsController extends Controller
                     ]
                 );
 
-                return $this->redirect(
-                    [
-                        'tools/read',
-                        'id' => $model->id
-                    ]
-                );
+                return $this->refresh();
             }
         }
 
@@ -125,49 +96,31 @@ class ToolsController extends Controller
      */
     public function actionDelete(Request $request, Session $session,  $id)
     {
-        if (!$request->isDelete) {
-            throw new HttpException(405);
+        $tool = Tool::loadOne($id);
+        if ($tool->delete()) {
+            $session->setFlash(
+                'toolDeleted',
+                [
+                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
+                    'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> has been removed.",
+                        ['modelName' => $tool->title]),
+                    'icon' => 'glyphicon glyphicon-trash'
+                ]
+            );
+
         } else {
-            $tool = Tool::loadOne($id);
-            if ($tool->delete()) {
-                $session->setFlash(
-                    'toolDeleted',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> has been removed.",
-                            ['modelName' => $tool->title]),
-                        'icon' => 'glyphicon glyphicon-trash'
-                    ]
-                );
-
-            } else {
-                $session->setFlash(
-                    'toolDeleted',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_DANGER,
-                        'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> could not be removed.",
-                            ['modelName' => $tool->title]),
-                        'icon' => 'glyphicon glyphicon-trash'
-                    ]
-                );
-            }
-            $this->redirect($this->defaultAction);
+            $session->setFlash(
+                'toolDeleted',
+                [
+                    'type' => \kartik\widgets\Growl::TYPE_DANGER,
+                    'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> could not be removed.",
+                        ['modelName' => $tool->title]),
+                    'icon' => 'glyphicon glyphicon-trash'
+                ]
+            );
         }
+        $this->redirect($this->defaultAction);
     }
-
-    public function actionProgress(Response $response, $id)
-    {
-        return '';
-        $tool = $project = Tool::loadOne($id);
-        $report = $tool->getProgressReport();
-        if (!isset($report)) {
-            throw new \HttpException(404, "Progress report for project not found.");
-        }
-        $response->setContentType($report->getMimeType());
-        $response->content = $report->getStream();
-        return $response;
-    }
-
 
     public function actionShare(Session $session, Request $request, $id)
     {
@@ -244,29 +197,14 @@ class ToolsController extends Controller
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),
-
             [
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'share-delete' => ['delete']
+                        'share-delete' => ['delete'],
+                        'delete' => ['delete']
                     ]
                 ],
-
-                'access' => [
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'actions' => ['read'],
-                            'roles' => ['@'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['dependent-generators'],
-                            'roles' => ['createProject'],
-                        ],
-                    ]
-                ]
             ]
         );
     }
