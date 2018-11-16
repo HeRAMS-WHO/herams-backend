@@ -23,9 +23,9 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
-            'dsn' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('MYSQL_DATABASE'),
-            'password' => getenv('MYSQL_PASSWORD'),
-            'username' => getenv('MYSQL_USER'),
+            'dsn' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME'),
+            'password' => getenv('DB_PASS'),
+            'username' => getenv('DB_USER'),
             'enableSchemaCache' => true,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
@@ -105,12 +105,6 @@ return [
                 'SettingsForm' => \prime\models\forms\user\Settings::class
             ],
             'adminPermission' => 'admin',
-            'controllerMap' => [
-                'security' => [
-                    'class' => \dektrium\user\controllers\SecurityController::class,
-                    'layout' => '//simple'
-                ]
-            ],
             'mailer' => [
                 'class' => \dektrium\user\Mailer::class,
                 'sender' => 'prime_support@who.int',

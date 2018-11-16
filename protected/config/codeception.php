@@ -2,9 +2,6 @@
 
 use yii\web\Application;
 
-$config = \Yii::$container->getDefinitions()[Application::class];
-unset($config['modules']['debug']);
-$config['bootstrap'] = array_filter($config['bootstrap'], function($value) {
-    return $value !== 'debug';
-});
+$config = require 'web.php';
+$config['components']['limeSurvey'] = \prime\tests\_helpers\LimesurveyStub::class;
 return $config;

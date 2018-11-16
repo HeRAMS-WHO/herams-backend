@@ -7,7 +7,8 @@ WHO - WHE - HeRAMS Nigeria
 1. Get [Docker](https://docs.docker.com/install/)
 2. Get [Docker Compose](https://docs.docker.com/compose/install/)
 3. Clone the git repository to your local system
-4. Optionally alter .env to suit your preferences
+4. Copy `.env.default` to `.env`
+4. Optionally alter `.env` to suit your preferences
 5. Run `docker-compose up serve`
 
 ## Result

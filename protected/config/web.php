@@ -58,8 +58,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'theme' => [
                 'pathMap' => [
                     '@dektrium/user/views/mail' => '@app/mail',
-                    '@dektrium/user/views' => '@app/views/users',
-
+//                    '@dektrium/user/views' => '@app/views/users',
                 ]
             ],
         ]
@@ -67,13 +66,6 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'modules' => [
         'api' => [
             'class' => \prime\api\Api::class
-        ],
-        'user' => [
-            'class' => \dektrium\user\Module::class,
-            'controllerMap' => [
-                'registration' => \prime\controllers\RegistrationController::class,
-                'recovery' => \prime\controllers\RecoveryController::class
-            ]
         ],
         'gridview' => [
             'class' => \kartik\grid\Module::class
