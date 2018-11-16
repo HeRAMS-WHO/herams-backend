@@ -6,8 +6,6 @@ use app\queries\ProjectQuery;
 use Carbon\Carbon;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\AuthorizableInterface;
-use prime\interfaces\ProjectInterface;
-use prime\interfaces\ReportGeneratorInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SurveyCollectionInterface;
 use prime\models\ActiveRecord;
@@ -22,9 +20,8 @@ use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\validators\DateValidator;
-use yii\validators\DefaultValueValidator;
+use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -51,18 +48,14 @@ use yii\validators\UniqueValidator;
  *
  * @method static ProjectQuery find()
  */
-class Project extends ActiveRecord implements ProjectInterface, AuthorizableInterface
+class Project extends ActiveRecord implements AuthorizableInterface
 {
     use LoadOneAuthTrait;
     /**
      * @var WritableTokenInterface
      */
     protected $_token;
-    public function init() 
-    {
-        parent::init();
-        $this->country_iso_3 = 'NLD';
-    }
+
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
@@ -77,22 +70,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         return array_merge(parent::attributeHints(), [
             'token' => 'Note that the first name and last name fields in the tokens will be overridden upon project creation!.'
         ]);
-    }
-
-
-    public function dataSurveyOptions()
-    {
-        try {
-            // Get base survey.
-            $prefix = $this->tool->getBaseSurvey()->getTitle();
-            $result =  array_filter($this->tool->dataSurveyOptions(), function ($option) use ($prefix) {
-                return substr_compare($prefix, $option, 0, strlen($prefix)) === 0;
-            });
-            return $result;
-        } catch (\Exception $e) {
-
-        }
-        return [];
     }
 
     /**
@@ -113,19 +90,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         );
         asort($options);
         return $options;
-    }
-
-    public function generatorOptions()
-    {
-        return isset($this->tool) ? array_intersect_key(GeneratorFactory::options(), array_flip($this->tool->generators->asArray())) : [];
-    }
-
-    /**
-     * @return ReportGeneratorInterface
-     */
-    public function getDefaultGenerator()
-    {
-        return GeneratorFactory::get($this->default_generator);
     }
 
     /**
@@ -174,14 +138,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
             ->andWhere(['target' => self::class]);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReports()
-    {
-        return $this->hasMany(Report::class, ['project_id' => 'id']);
-    }
-
     // Cache for getResponses();
     private $_responses;
     
@@ -190,19 +146,11 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
      */
     public function getResponses()
     {
+        return new ResponseCollection();
         if (!isset($this->_responses)) {
             $this->_responses = new ResponseCollection();
-            foreach ($this->limeSurvey->getResponsesByToken($this->data_survey_eid, $this->token) as $response) {
+            foreach ($this->limeSurvey->getResponsesByToken($this->tool->base_survey_eid, $this->token) as $response) {
                 $this->_responses->append($response);
-            }
-            /**
-             * @todo Refactor this to be somewhere else.
-             * Special handling for CCPM.
-             */
-            if ($this->tool->acronym == 'CCPM') {
-                foreach ($this->limeSurvey->getResponsesByToken(67825, $this->token) as $response) {
-                    $this->_responses->append($response);
-                }
             }
         }
         return $this->_responses;
@@ -230,19 +178,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         return $this->hasOne(Tool::class, ['id' => 'tool_id']);
     }
 
-    /**
-     * @return string
-     */
-    public function getToolImagePath()
-    {
-        return Url::to($this->tool->imageUrl, true);
-    }
-
-    public function getImage()
-    {
-        return $this->tool->getImage();
-    }
-
     public function isTransactional($operation)
     {
         return true;
@@ -256,23 +191,12 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
     public function rules()
     {
         return [
-            [['title', 'description', 'owner_id', 'data_survey_eid', 'tool_id', 'country_iso_3'], RequiredValidator::class],
-            [['title', 'description', 'locality_name'], StringValidator::class],
-            [['owner_id', 'data_survey_eid', 'tool_id'], 'integer'],
-            [['owner_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
-            [['tool_id'], 'exist', 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
-            [
-                ['default_generator'],
-                RangeValidator::class,
-                'range' => function(self $model, $attribute) { return array_keys($model->generatorOptions()); },
-                'enableClientValidation'=> false
-            ],
+            [['title', 'owner_id', 'tool_id'], RequiredValidator::class],
+            [['title'], StringValidator::class],
+            [['owner_id'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id'],
+            [['tool_id'], ExistValidator::class, 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
             [['closed'], DateValidator::class,'format' => 'php:Y-m-d H:i:s', 'skipOnEmpty' => true],
-            [['latitude', 'longitude'], NumberValidator::class],
-            ['country_iso_3', RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
-            ['token', UniqueValidator::class],
-            // Save NULL instead of "" when no default report is selected.
-            [['default_generator', 'locality_name', 'latitude', 'longitude'], DefaultValueValidator::class],
+            ['token', UniqueValidator::class]
         ];
     }
 
@@ -328,9 +252,9 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
     public function beforeSave($insert)
     {
         $result = parent::beforeSave($insert);
-        if ($result && empty($this->getAttribute('token')) && isset($this->data_survey_eid)) {
+        if ($result && empty($this->getAttribute('token'))) {
                 // Attempt creation of a token.
-                $token = $this->getLimeSurvey()->createToken($this->data_survey_eid, [
+                $token = $this->getLimeSurvey()->createToken($this->tool->base_survey_eid, [
                     'token' => app()->security->generateRandomString(15)
                 ]);
                 $token->setFirstName($this->getLocality());
@@ -340,8 +264,6 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
                 $this->setAttribute('token', $token->getToken());
                 return $token->save();
         }
-
-
         return $result;
     }
 
@@ -356,7 +278,7 @@ class Project extends ActiveRecord implements ProjectInterface, AuthorizableInte
         if (!isset($this->_token)) {
 
             /** @var WritableTokenInterface $token */
-            $token = $this->getLimeSurvey()->getToken($this->data_survey_eid, $this->token);
+            $token = $this->getLimeSurvey()->getToken($this->tool->base_survey_eid, $this->token);
 
             $token->setFirstName($this->getLocality());
             if (isset($this->owner)) {

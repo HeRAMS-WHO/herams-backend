@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use app\components\ActiveForm;
+use kartik\widgets\ActiveForm;
 use app\components\Form;
 use yii\helpers\Html;
 

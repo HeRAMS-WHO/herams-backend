@@ -1,6 +1,6 @@
 <?php
 
-use app\components\ActiveForm;
+use kartik\widgets\ActiveForm;
 
 /**
  * @var \prime\models\ar\Project $project

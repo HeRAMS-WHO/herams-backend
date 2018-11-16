@@ -49,6 +49,14 @@ echo Nav::widget([
 
                 ],
                 [
+                    'visible' => Yii::$app->session->has(\dektrium\user\controllers\AdminController::ORIGINAL_USER_SESSION_KEY),
+                    'url' => ['/user/admin/switch'],
+                    'label' => Yii::t('main', 'Back to original user'),
+                    'linkOptions' => [
+                        'data-method' => 'post'
+                    ],
+                ],
+                [
                     'label' =>
                         \Yii::t('app', 'Log out'),
                     'url' => ['/user/security/logout'],

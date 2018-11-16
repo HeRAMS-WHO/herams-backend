@@ -2,12 +2,12 @@
 
 namespace prime\models\ar;
 
+use app\queries\ProjectQuery;
 use prime\models\permissions\Permission;
-use prime\objects\Signature;
+use yii\validators\RequiredValidator;
 
 /**
  * Class User
- * @package prime\models
  * @property Profile $profile
  * @property string $firstName
  * @property string $lastName
@@ -22,29 +22,22 @@ class User extends \dektrium\user\models\User {
     public $last_login_at;
     const NON_ADMIN_KEY = 'safe';
 
-    public function createSignature(\DateTimeImmutable $time = null)
-    {
-        return new Signature(
-            $this->email,
-            $this->id,
-            $this->name
-        );
-    }
-
     public function getGravatarUrl ($size = 256)
     {
         return "//gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size . "&d=blank";
     }
 
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
-        return isset($this->profile) ? $this->profile->first_name : null;
+        return $this->profile->first_name ?? null;
     }
 
-    public function getLastName() {
-        return isset($this->profile) ? $this->profile->last_name : null;
+    public function getLastName(): ?string
+    {
+        return $this->profile->last_name ?? null;
     }
-    public function getName()
+
+    public function getName(): string
     {
         if(!isset($this->profile)) {
             return $this->email;
@@ -62,25 +55,15 @@ class User extends \dektrium\user\models\User {
 
     /**
      * The project find function only returns projects a user has at least read access to
-     * @return $this
      */
-    public function getProjects()
+    public function getProjects(): ProjectQuery
     {
         return Project::find()->notClosed()->userCan(Permission::PERMISSION_READ);
     }
 
-    public function getOwnedProjects() {
+    public function getOwnedProjects(): ProjectQuery
+    {
         return $this->hasMany(Project::class, ['owner_id' => 'id']);
-    }
-
-    public function getUserLists()
-    {
-        return UserList::find()->userCan(Permission::PERMISSION_READ);
-    }
-
-    public function getUsername()
-    {
-        return $this->email;
     }
 
     public function rules()
@@ -92,24 +75,5 @@ class User extends \dektrium\user\models\User {
         unset($rules['usernameUnique']);
         unset($rules['usernameTrim']);
         return $rules;
-    }
-
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        $scenarios['connect'] = ['email'];
-        $scenarios['create'] = ['email', 'password'];
-        $scenarios['register'] = ['email', 'password'];
-        $scenarios['settings'] = ['email', 'password'];
-        return $scenarios;
-    }
-
-    /**
-     * Dummy function because Dektrium user module uses username
-     * @param $values
-     */
-    public function setUsername($value)
-    {
-
     }
 }

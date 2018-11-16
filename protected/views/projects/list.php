@@ -51,10 +51,10 @@ $this->params['breadcrumbs'][] = [
                 'label' => '# contributors',
                 'value' => function(\prime\models\ar\Project $project) {
                     return $project->getPermissions()->count();
-                    return $project->getResponses()->size();
                 }
             ],
             [
+                'class' => \kartik\grid\DataColumn::class,
                 'attribute' => 'closed',
                 'format' => 'date',
                 'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,

@@ -2,13 +2,12 @@
 
 namespace prime\models\forms;
 
-use app\components\Html;
 use kartik\builder\Form;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
-use prime\models\ar\UserList;
 use prime\models\permissions\Permission;
 use yii\base\Model;
+use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
@@ -79,29 +78,10 @@ class Share extends Model {
         return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', 'name');
     }
 
-    public function getUserListOptions()
-    {
-        return ArrayHelper::map(app()->user->identity->getUserLists()->all(), 'id', 'name');
-    }
-
-    public function getUserLists()
-    {
-        return UserList::find()->where(['id' => $this->userListIds]);
-    }
-
     public function getUsers()
     {
-        $userIds = $this->userIds;
-
-        /** @var UserList $userList */
-        foreach($this->getUserLists()->all() as $userList){
-            $userIds = ArrayHelper::merge($userIds, $userList->getUsers()->select('id')->column());
-        }
-
-        $userIds = array_diff($userIds, $this->excludeUserIds);
-
         return User::find()->where([
-            'id' => $userIds
+            'id' => $this->userIds
         ]);
     }
 
@@ -191,7 +171,6 @@ class Share extends Model {
         return [
             [['permission'], 'required'],
             [['userIds'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id', 'allowArray' => true],
-            [['userListIds'], ExistValidator::class, 'targetClass' => UserList::class, 'targetAttribute' => 'id', 'allowArray' => true],
             [['userIds', 'userListIds'], DefaultValueValidator::class, 'value' => []],
             [['permission'], RangeValidator::class, 'range' => array_keys($this->getPermissionOptions())]
         ];

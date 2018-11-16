@@ -12,12 +12,10 @@ class CreateUpdate extends Project
             'create' => [
                 'title',
                 'owner_id',
-                'data_survey_eid',
                 'token'
             ],
               'update' => [
                 'title',
-                'description',
             ],
         ];
         $scenarios['admin-update'] = array_merge(['owner_id'], $scenarios['update']);

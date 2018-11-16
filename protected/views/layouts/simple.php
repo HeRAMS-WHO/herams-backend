@@ -9,6 +9,7 @@ $this->beginPage();
 $this->registerAssetBundle(\prime\assets\AppAsset::class);
 ?>
 <!DOCTYPE html>
+<!-- Layout: <?=__FILE__ ?> -->
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -37,12 +38,12 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
                 <?php
                 echo Breadcrumbs::widget([
                     'homeLink' => false,
-                    'links' => $this->params['breadcrumbs'] ?? [
+                    'links' => array_merge([
                             [
                                 'label' => \Yii::t('app', 'Back home'),
                                 'url' => '/'
                             ]
-                        ],
+                        ], $this->params['breadcrumbs'] ?? [])
                 ]);
                 ?>
             </div>

@@ -1,24 +1,40 @@
 <?php
-namespace prime\tests\codeception\unit\models\ar;
+namespace prime\tests\unit\models\ar;
 
-class ProjectTest extends \Codeception\Test\Unit
+use prime\models\ar\Tool;
+
+class ProjectTest extends ActiveRecordTest
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
+    public function validSamples(): array
     {
+        return [
+            [
+                [
+                    'title' => 'test',
+                    'owner_id' => TEST_USER_ID,
+                    'tool_id' => function() {
+                        $tool = new Tool();
+                        $tool->title = 'Test Tool';
+                        $tool->base_survey_eid = '12345';
+                        $this->assertTrue($tool->save(), print_r($tool->errors, true));
+                        return $tool->id;
+                    }
+                ]
+            ],
+//            [
+//                []
+//            ]
+        ];
     }
 
-    protected function _after()
+    public function invalidSamples(): array
     {
+        return [
+            [
+                []
+            ]
+        ];
     }
 
-    // tests
-    public function testCreate()
-    {
 
-    }
 }

@@ -8,6 +8,7 @@ use yii\bootstrap\Html;
     $this->registerAssetBundle(\prime\assets\AppAsset::class);
 ?>
 <!DOCTYPE html>
+<!-- Layout: <?=__FILE__ ?> -->
 <html lang="en">
 <head>
   <meta charset="utf-8">

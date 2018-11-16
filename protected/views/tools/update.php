@@ -2,19 +2,11 @@
 
 /** @var \prime\models\ar\Tool $model */
 
-use app\components\ActiveForm;
+use kartik\widgets\ActiveForm;
 use app\components\Form;
-use app\components\Html;
+use yii\bootstrap\Html;
 
-$this->title = Yii::t('app', 'Update tool');
-
-$this->params['subMenu'] = [
-    'items' => [
-        [
-            'label' => Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-tool', 'class' => 'btn btn-primary'])
-        ],
-    ]
-];
+$this->title = Yii::t('app', 'Update project');
 
 ?>
 
@@ -24,15 +16,7 @@ $this->params['subMenu'] = [
         'id' => 'update-tool',
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false
-        ],
-        'options' => [
-            'enctype'=>'multipart/form-data'
-        ]
     ]);
-
 
     echo \app\components\Form::widget([
         'form' => $form,
@@ -45,6 +29,14 @@ $this->params['subMenu'] = [
             'base_survey_eid' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->dataSurveyOptions(),
+            ],
+            [
+                'type' => Form::INPUT_RAW,
+                'value' => \yii\bootstrap\ButtonGroup::widget([
+                    'buttons' => [
+                        Html::submitButton(\Yii::t('app', 'Update project'), ['class' => 'btn btn-primary'])
+                    ]
+                ])
             ]
         ]
     ]);

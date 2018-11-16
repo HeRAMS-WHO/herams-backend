@@ -4,9 +4,9 @@
  * @var \dektrium\user\models\RecoveryForm $model
  */
 
-use app\components\ActiveForm;
+use kartik\widgets\ActiveForm;
 use app\components\Form;
-use app\components\Html;
+use yii\bootstrap\Html;
 
 $form = ActiveForm::begin([
     'id' => 'reset-form',

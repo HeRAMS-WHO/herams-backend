@@ -8,6 +8,7 @@ use Ifsnop\Mysqldump\Mysqldump;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\console\Controller;
 use yii\db\Connection;
+use yii\db\Exception;
 use yii\db\Query;
 use yii\db\TableSchema;
 use yii\helpers\Console;
@@ -16,22 +17,53 @@ class DatabaseController extends Controller
 {
     use ActionInjectionTrait;
 
+    private function runMigrateCommand(string $command = 'up', string $params = ''): void
+    {
+        $cmd = "YII_ENV=dev {$_SERVER['PHP_SELF']} migrate/$command --interactive=0 --color=1 $params";
+        $this->stdout("Running command: $cmd\n", Console::FG_CYAN);
+        passthru($cmd, $return);
+
+        if ($return !== 0) {
+            $this->stderr("Subcommand failed with exit code:  $return\n", Console::FG_RED);
+            exit(2);
+        }
+    }
+
+    private function connectWithTimeout(Connection $db, int $timeout)
+    {
+        $start = microtime(true);
+        $this->stdout('Waiting for database to come up.', Console::FG_YELLOW);
+        while (microtime(true) - $start < $timeout)
+        {
+            try {
+                $this->stdout('.', Console::FG_CYAN);
+                $db->open();
+                break;
+            } catch (Exception $e) {
+                sleep(1);
+            }
+        }
+        $db->open();
+        $this->stdout(". OK\n", Console::FG_GREEN);
+    }
     public function actionUpdateTest(Connection $db, int $redo = 0)
     {
         if (YII_ENV != 'test') {
             throw new \Exception("This command only works in the test environment");
         }
 
-        // Step 1. Run the migrations.
+        $this->connectWithTimeout($db, 30);
+        // Step 1. Run module migrations
+        $this->runMigrateCommand('up', '--migrationPath=@vendor/dektrium/yii2-user/migrations');
+        $this->runMigrateCommand('up', '--migrationPath=@yii/rbac/migrations');
+
+        // Step 2. Run app migrations.
         if ($redo > 0) {
-            passthru($_SERVER['PHP_SELF'] . ' migrate/redo --interactive=0 --color=1 ' . $redo, $return);
+            $this->runMigrateCommand('redo ' . $redo);
         }
 
-        passthru($_SERVER['PHP_SELF'] . ' migrate/up --interactive=0 --color=1', $return);
-        if ($return !== 0) {
-            $this->stderr("Migrations failed... stopping.\n", Console::FG_RED);
-            return;
-        }
+        $this->runMigrateCommand('up');
+
 
         // Get table names.
         $tables = $db->schema->getTableNames('', true);

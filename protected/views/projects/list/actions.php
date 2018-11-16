@@ -1,6 +1,6 @@
  <?php
 
- use app\components\Html;
+ use yii\bootstrap\Html;
  use prime\models\ar\Project;
  use prime\models\ar\Setting;
  use prime\models\permissions\Permission;

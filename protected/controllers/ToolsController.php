@@ -25,7 +25,6 @@ class ToolsController extends Controller
     public function actionCreate(Request $request, Session $session)
     {
         $model = new Tool();
-        $model->scenario = 'create';
 
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->save())
@@ -34,7 +33,7 @@ class ToolsController extends Controller
                     'toolCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app', "Tool {tool} is created.", ['{tool}' => $model->title]),
+                        'text' => \Yii::t('app', "Tool {tool} is created.", ['tool' => $model->title]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
@@ -67,7 +66,6 @@ class ToolsController extends Controller
     public function actionUpdate(Request $request, Session $session, $id)
     {
         $model = Tool::loadOne($id);
-        $model->scenario = 'update';
 
         if($request->isPut) {
             if($model->load($request->bodyParams) && $model->save()) {

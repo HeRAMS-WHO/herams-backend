@@ -10,8 +10,6 @@ use yii\helpers\ArrayHelper;
 class Controller extends \yii\web\Controller
 {
     use ActionInjectionTrait;
-    public $layout = 'oneRow';
-
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(),

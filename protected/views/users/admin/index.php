@@ -10,9 +10,11 @@
  */
 
 use dektrium\user\models\UserSearch;
+use kartik\grid\ActionColumn;
+use kartik\grid\GridView;
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\View;
 use yii\widgets\Pjax;
 
@@ -99,18 +101,26 @@ $this->title = Yii::t('user', 'Manage users');
             'format' => 'raw',
         ],
         [
-            'class' => yii\grid\ActionColumn::class,
-            'template' => '{update} {delete} {impersonate}',
+            'class' => ActionColumn::class,
+            'width' => '100px',
+            'template' => '{switch}{resend_password}{update}{delete}',
             'buttons' => [
-                'impersonate' => function($url, \yii\db\ActiveRecordInterface $model, $row) {
-                    $options = [
-                        'title' => Yii::t('yii', 'Impersonate'),
-                        'aria-label' => Yii::t('yii', 'Impersonate'),
-                        'data-method' => 'post',
-                        'data-pjax' => '0',
-                    ];
-                    return Html::a('<span class="glyphicon glyphicon-share-alt"></span>', \yii\helpers\Url::to(['/admin/impersonate', 'id' => $model->primaryKey]), $options);
-
+                'resend_password' => function ($url, $model, $key) {
+                    if (!$model->isAdmin) {
+                        return '
+                    <a data-method="POST" data-confirm="' . Yii::t('user', 'Are you sure?') . '" href="' . Url::to(['resend-password', 'id' => $model->id]) . '">
+                    <span title="' . Yii::t('user', 'Generate and send new password to user') . '" class="glyphicon glyphicon-envelope">
+                    </span> </a>';
+                    }
+                },
+                'switch' => function ($url, $model) {
+                    if(\Yii::$app->user->identity->isAdmin && $model->id != Yii::$app->user->id && Yii::$app->getModule('user')->enableImpersonateUser) {
+                        return Html::a('<span class="glyphicon glyphicon-user"></span>', ['/user/admin/switch', 'id' => $model->id], [
+                            'title' => Yii::t('user', 'Become this user'),
+                            'data-confirm' => Yii::t('user', 'Are you sure you want to switch to this user for the rest of this Session?'),
+                            'data-method' => 'POST',
+                        ]);
+                    }
                 }
             ]
         ],

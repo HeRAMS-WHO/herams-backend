@@ -1,50 +1,6 @@
-
-version: '2.1'
-services:
-
-## Web server
-  serve:
-    build:
-      context: docker/cli
-    entrypoint: ["php", "-S", "0.0.0.0:80", "-t", "/project/public"]
-    depends_on:
-      - mysql
-      - mailcatcher
-    volumes:
-      - .:/project:ro
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
-      MYSQL_DATABASE: test
-      DB_HOST: mysql
-      YII_ENV: dev
-      SMTP_HOST: mailcatcher
-      SMTP_PORT: 1025
-    ports:
-      - "12346:80"
-    tmpfs:
-      - /project/protected/runtime:rw,noexec,nosuid
-      - /project/public/assets:rw,noexec,nosuid
-
-
-  ## Mysql server (local)
-  mysql:
-    image: mysql
-    command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
-    user: "${UID}:${GID}"
-    volumes:
-      - ./local/devdb:/var/lib/mysql
-      - ./tests/_data/db:/docker-entrypoint-initdb.d
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: test
-
-  cli:
-    extends:
-      service: base
-    depends_on:
-      - mysql
-  base:
+version: '3.6'
+x-env:
+  base: &base
     build:
       context: docker/cli
     volumes:
@@ -56,20 +12,69 @@ services:
       - /project/protected/runtime:rw,noexec,nosuid,uid=${UID}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID}
     environment:
-      YII_ENV: "test"
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
-      MYSQL_DATABASE: test
       DB_HOST: mysql
+      DB_USER: $DB_USER
+      DB_NAME: $DB_NAME
+      DB_PASS: $DB_PASS
+      YII_ENV: $YII_ENV
+      SMTP_HOST: mailcatcher
+      SMTP_PORT: 1025
+    user: ${UID-0}
+    working_dir: "/project"
+  mysql: &mysql
+    image: mysql
+    command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
+    user: ${UID-0}
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASS
+services:
+## Web server
+  serve:
+    << : *base
+    depends_on:
+      - mysql
+      - mailcatcher
+      - phpmyadmin
+    entrypoint: ["/sbin/tini", "--", "php", "-S", "0.0.0.0:8080", "-t", "/project/public"]
+    ports:
+      - "127.0.0.1:${APP_PORT-12346}:8080"
+    tmpfs:
+      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID-0}
+      - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
+
+
+  ## Mysql server (local), this will create a persistent data store for local development
+
+  mysql:
+    << : *mysql
+    volumes:
+      - ./local/devdb:/var/lib/mysql
+      - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
+
+  # Mysql server (testing), this will store data on tmpfs, it will not persist
+  testdb:
+    << : *mysql
+    volumes:
+      - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
+    tmpfs:
+      /var/lib/mysql:rw,nodev,nosuid,relatime,uid=${UID-0}
+  cli:
+    << : *base
+    depends_on:
+      - mysql
+      - mailcatcher
+      - phpmyadmin
     entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
-    user: "${UID}:${GID}"
     command: ""
 
   codeception:
-    extends:
-      service: base
+    << : *base
+    depends_on:
+      - testdb
     entrypoint: ["/sbin/tini", "--", "phpdbg", "-qrr", "/project/vendor/bin/codecept"]
-    working_dir: "/project"
     command: "run"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -77,13 +82,13 @@ services:
       - mysql
     environment:
       PMA_HOST: mysql
-      PMA_USER: root
-      PMA_PASSWORD: secret
+      PMA_PASSWORD: $DB_PASS
+      PMA_USER: $DB_USER
     ports:
-      - "12345:80"
+      - "127.0.0.1:${PHPMYADMIN_PORT-12345}:80"
     tmpfs:
       - /sessions
   mailcatcher:
     image: schickling/mailcatcher
     ports:
-      - "12347:1080"
+      - "127.0.0.1:${MAILCATCHER_PORT-12347}:1080"

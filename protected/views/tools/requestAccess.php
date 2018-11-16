@@ -1,6 +1,6 @@
 <?php
 
-use app\components\Html;
+use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this

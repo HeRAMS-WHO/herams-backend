@@ -7,7 +7,6 @@ class m150921_103849_add_columns_to_user_drop_username extends Migration
 {
     public function up()
     {
-        $this->dropColumn('{{%user}}', 'username');
         $this->dropColumn('{{%profile}}', 'name');
         $this->addColumn('{{%profile}}', 'first_name', Schema::TYPE_STRING . ' NOT NULL');
         $this->addColumn('{{%profile}}', 'last_name', Schema::TYPE_STRING . ' NOT NULL');
@@ -18,7 +17,6 @@ class m150921_103849_add_columns_to_user_drop_username extends Migration
 
     public function down()
     {
-        $this->addColumn('{{%user}}', 'username', Schema::TYPE_STRING);
         $this->addColumn('{{%profile}}', 'name', Schema::TYPE_STRING);
         $this->dropColumn('{{%profile}}', 'first_name');
         $this->dropColumn('{{%profile}}', 'last_name');

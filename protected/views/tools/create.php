@@ -1,16 +1,12 @@
 <?php
 /** @var \prime\models\ar\Tool $model */
 
-use app\components\ActiveForm;
+use kartik\widgets\ActiveForm;
 use app\components\Form;
-use app\components\Html;
+use yii\bootstrap\Html;
 
 $this->title = Yii::t('app', 'Create project');
 
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Back home'),
-    'url' => '/'
-];
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Manage projects'),
     'url' => ['tools/list']
@@ -20,8 +16,6 @@ $this->params['breadcrumbs'][] = [
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'create-tool',
-        'method' => 'POST',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
@@ -34,7 +28,6 @@ $this->params['breadcrumbs'][] = [
     echo \app\components\Form::widget([
         'form' => $form,
         'model' => $model,
-        'columns' => 1,
         "attributes" => [
             'title' => [
                 'type' => Form::INPUT_TEXT,
@@ -46,16 +39,18 @@ $this->params['breadcrumbs'][] = [
                     'prompt' => ''
                 ]
             ],
+            [
+                'type' => Form::INPUT_RAW,
+                'value' => \yii\bootstrap\ButtonGroup::widget([
+                    'buttons' => [
+                        Html::submitButton(\Yii::t('app', 'Create project'), ['class' => 'btn btn-primary'])
+                    ]
+                ])
+            ]
         ],
         'options' => [
         ]
     ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
-        'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Create project'), ['form' => 'create-tool', 'class' => 'btn btn-primary'])
-        ]
-    ]);
-
     $form->end();
     ?>
 </div>

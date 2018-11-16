@@ -1,8 +1,8 @@
 <?php
 
-use app\components\ActiveForm;
+use kartik\widgets\ActiveForm;
 use app\components\Form;
-use app\components\Html;
+use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
@@ -48,43 +48,18 @@ $this->params['breadcrumbs'][] = [
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->ownerOptions()
             ],
-            'data_survey_eid' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->dataSurveyOptions()
-            ],
             'token' => [
-                'type' => Form::INPUT_WIDGET,
-                'widgetClass' => \kartik\widgets\DepDrop::class,
-                'options' => [
-                    'pluginOptions' => [
-                        'url' => ['/projects/dependent-tokens'],
-                        'depends' => ['createupdate-data_survey_eid'],
-                        'initialize' => true,
-                        'placeholder' => \Yii::t('app', 'Create new token')
-                    ],
-                ],
-                'enableClientValidation' => false
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $tool->tokenOptions()
             ],
-
-//            'default_generator' => [
-//                'type' => Form::INPUT_WIDGET,
-//                'widgetClass' => \kartik\widgets\DepDrop::class,
-//                'options' => [
-//                    'pluginOptions' => [
-//                        'url' => ['/tools/dependent-generators'],
-//                        'depends' => ['createupdate-tool_id'],
-//                        'initialize' => true,
-//                        'placeholder' => null
-//                    ],
-//                ],
-//                'enableClientValidation' => false
-//            ],
-
-        ]
-    ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
-        'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Create workspace'), ['form' => 'create-project', 'class' => 'btn btn-primary'])
+            [
+                'type' => Form::INPUT_RAW,
+                'value' => \yii\bootstrap\ButtonGroup::widget([
+                    'buttons' => [
+                        Html::submitButton(\Yii::t('app', 'Create workspace'), ['form' => 'create-project', 'class' => 'btn btn-primary'])
+                    ]
+                ])
+            ]
         ]
     ]);
     $form->end();

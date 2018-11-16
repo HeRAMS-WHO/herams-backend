@@ -1,6 +1,6 @@
 <?php
 
-use app\components\Html;
+use yii\bootstrap\Html;
 use prime\models\ar\Setting;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
@@ -11,20 +11,12 @@ $this->title = \Yii::t('app', 'Manage projects');
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $toolsDataProvider
  */
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Back home'),
-    'url' => '/'
-];
-
-?>
-<div class="col-xs-12">
-    <?php
     echo \kartik\grid\GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
                 'class' => 'pull-right',
                 'style' => [
-                        'margin-bottom' => '10px'
+                    'margin-bottom' => '10px'
                 ]
             ],
             'buttons' => [
@@ -42,43 +34,14 @@ $this->params['breadcrumbs'][] = [
         'dataProvider' => $toolsDataProvider,
         'layout' => "{items}\n{pager}",
         'columns' => [
-            'acronym',
             'title',
-            [
-                'attribute' => 'description',
-                'format' => 'raw'
-            ],
-            [
-                'attribute' => 'imageUrl',
-                'label' => \Yii::t('app', 'Image'),
-                'format' => ['image',
-                    [
-                        'height' => '100px',
-                    ]
-                ]
-            ],
-            [
-                'attribute' => 'thumbnailUrl',
-                'label' => \Yii::t('app', 'Thumbnail'),
-                'format' => ['image',
-                    [
-                        'height' => '32px',
-                    ]
-                ]
-            ],
-            [
-                'attribute' => 'generators',
-                'value'=>function ($model, $key, $index, $widget) {
-                    return Html::ul($model->generators);
-                },
-                'format' => 'raw'
-            ],
             [
                 'attribute' => 'projectCount',
                 'format' => 'integer'
             ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
+                'width' => '100px',
                 'template' => '{read} {dashboard} {edit} {share} {remove}',
                 'buttons' => [
                     'read' => function($url, $model, $key) {
@@ -157,5 +120,3 @@ $this->params['breadcrumbs'][] = [
             ]
         ]
     ]);
-    ?>
-</div>

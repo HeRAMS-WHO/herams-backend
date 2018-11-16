@@ -5,6 +5,8 @@ namespace prime\controllers;
 use app\queries\ProjectQuery;
 use app\queries\ToolQuery;
 use prime\components\Controller;
+use prime\controllers\projects\Close;
+use prime\controllers\projects\Download;
 use prime\models\ar\Project;
 use prime\models\ar\Setting;
 use prime\models\ar\Tool;
@@ -34,34 +36,6 @@ class ProjectsController extends Controller
     public $layout = 'simple';
     public $defaultAction = 'list';
 
-    public function actionClose(Session $session, Request $request, $id)
-    {
-        if (!$request->isDelete) {
-            throw new HttpException(405);
-        } else {
-            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
-            $model->scenario = 'close';
-
-            $model->closed = (new DateTime())->format('Y-m-d H:i:s');
-            if($model->save()) {
-                $session->setFlash(
-                    'projectClosed',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been closed.", ['modelName' => $model->title]),
-                        'icon' => 'glyphicon glyphicon-' . Setting::get('icons.close')
-                    ]
-                );
-                return $this->redirect($request->referrer);
-            }
-        }
-        if(isset($model)) {
-            return $this->redirect(['/projects/read', 'id' => $model->id]);
-        } else {
-            return $this->redirect(['/projects/list']);
-        }
-    }
-
     public function actionConfigure(Request $request, Session $session, $id)
     {
         /** @var Project $model */
@@ -77,7 +51,6 @@ class ProjectsController extends Controller
             'token' => $token,
             'model' => $model
         ]);
-
     }
 
     /**
@@ -90,6 +63,7 @@ class ProjectsController extends Controller
         Request $request,
         User $user,
         Session $session,
+        Client $limeSurvey,
         int $toolId
     ) {
         $model = new CreateUpdate();
@@ -97,8 +71,6 @@ class ProjectsController extends Controller
         $model->tool_id = $toolId;
 
         $tool = Tool::loadOne($toolId);
-        $tool->scenario = 'create';
-        $tool->validate();
         if (!$tool->validate()) {
             throw new InvalidConfigException("This project is not configured correctly, the survey could be missing");
         }
@@ -127,19 +99,6 @@ class ProjectsController extends Controller
             'model' =>  $model,
             'tool' => $tool
         ]);
-    }
-
-
-    /**
-     * Shows the available tools in a large grid.
-     */
-    public function actionNew()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Tool::find()->notHidden()
-        ]);
-
-        return $this->render('new', ['dataProvider' => $dataProvider]);
     }
 
     /**
@@ -222,112 +181,6 @@ class ProjectsController extends Controller
 
         return $this->render('overview', [
             'model' => $model,
-        ]);
-    }
-
-    private function getAnswer(QuestionInterface $q, $value, $text = false)
-    {
-        if (empty($value)) {
-            return "(not set)";
-        } elseif ($text && (null !== $answers = $q->getAnswers())) {
-            foreach($answers as $answer) {
-                if ($answer->getCode() == $value) {
-                    return $answer->getText();
-                }
-            }
-            return "Invalid answer : `$value`.";
-        } else {
-            return $value;
-        }
-
-    }
-
-    public function actionDownload(Client $limeSurvey, Response $response, $id, $text = false)
-    {
-        $project = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
-        /** @var Survey $survey */
-        $survey = $project->getSurvey()->get($project->data_survey_eid);
-        /** @var QuestionInterface[] $questions */
-        $questions = [];
-        foreach($survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
-                $questions[$question->getTitle()] = $question;
-            }
-        }
-        $rows = [];
-        $codes = [];
-        foreach($project->getResponses() as $record) {
-            $row = [];
-            foreach ($record->getData() as $code => $value) {
-                if (null !== $question = $survey->getQuestionByCode($code)) {
-                    $text = $question->getText();
-                    $answer = $this->getAnswer($question, $value, $text);
-
-
-                } elseif (preg_match('/^(.+)\[(.*)\]$/', $code,
-                        $matches) && null !== $question = $survey->getQuestionByCode($matches[1])
-                ) {
-                    if (null !== $sub = $question->getQuestionByCode($matches[2])) {
-                        $text = $sub->getText();
-                        $answer = $this->getAnswer($sub, $value, $text);
-                    } elseif ($question->getDimensions() == 2 && preg_match('/^(.+)_(.+)$/', $matches[2],
-                            $subMatches)
-                    ) {
-                        if (null !== ($sub = $question->getQuestionByCode($subMatches[1], 0))
-                            && null !== $sub2 = $question->getQuestionByCode($subMatches[2], 1)
-                        ) {
-                            $text = $sub->getText() . ' - ' . $sub2->getText();
-                            $answer = $this->getAnswer($sub2, $value, $text);
-                        } else {
-                            throw new \RuntimeException("Could not find subquestions for 2 dimensional question.");
-
-                        }
-                    } else {
-                        $text = "Not found";
-                        $answer = $value;
-                    }
-                } else {
-                    $text = $code;
-                    $answer = $value;
-                }
-//                echo str_pad($code, 20) . " | " . str_pad(is_null($value) ? 'NULL' : $value, 20) . " | ";
-//                echo str_pad(trim(strip_tags($answer)), 40) . ' | ';
-//                echo trim(strip_tags($text));
-//                echo "\n";
-                $codes[$text] = $code;
-                $row[$text] = $answer;
-            }
-            $rows[] = $row;
-        }
-
-        $stream = fopen('php://temp', 'w+');
-        // First get all columns.
-        $columns = [];
-        foreach($rows as $row) {
-            foreach($row as $key => $dummy) {
-                $columns[$key] = true;
-            }
-        }
-
-        if (!empty($columns)) {
-            fputcsv($stream, array_keys($columns));
-            $header = [];
-            foreach(array_keys($columns) as $columnName) {
-                $header[] = $codes[$columnName];
-            }
-            fputcsv($stream, $header);
-
-            /** @var ResponseInterface $record */
-            foreach ($rows as $data) {
-                $row = [];
-                foreach(array_keys($columns) as $column) {
-                    $row[$column] = isset($data[$column]) ? $data[$column] : null;
-                }
-                fputcsv($stream, $row);
-            }
-        }
-        return $response->sendStreamAsFile($stream, "{$project->title}.csv", [
-            'mimeType' => 'text/csv'
         ]);
     }
 
@@ -470,7 +323,8 @@ class ProjectsController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'share-delete' => ['delete']
+                        'share-delete' => ['delete'],
+                        'delete' => ['delete']
                     ]
                 ],
                 'access' => [
@@ -485,7 +339,7 @@ class ProjectsController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['create', 'dependent-generators', 'dependent-tokens', 'create', 'dependent-surveys'],
+                            'actions' => ['create'],
                             'roles' => ['createProject']
                         ]
                     ]
@@ -546,4 +400,14 @@ class ProjectsController extends Controller
             'selected' => ''
         ];
     }
+
+    public function actions()
+    {
+        return [
+            'download' => Download::class,
+            'close' => Close::class
+        ];
+    }
+
+
 }

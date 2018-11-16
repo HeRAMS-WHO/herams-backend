@@ -1,8 +1,8 @@
 <?php
     namespace prime\controllers;
-    use app\components\Html;
+    use yii\bootstrap\Html;
     use prime\components\Controller;
-    use prime\components\JwtSso;
+    use prime\interfaces\TicketingInterface;
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
@@ -10,7 +10,7 @@
     class SiteController extends Controller
     {
         public function actionLimeSurvey(
-            JwtSso $limesurveySSo,
+            TicketingInterface $limesurveySSo,
             ?string $error = null
         ) {
             if (isset($error)) {

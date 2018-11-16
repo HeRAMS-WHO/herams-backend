@@ -2,44 +2,32 @@
 
 namespace prime\models\ar;
 
-use app\components\Html;
 use app\queries\ToolQuery;
 use prime\factories\GeneratorFactory;
-use prime\interfaces\ProjectInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
-use Psr\Http\Message\StreamInterface;
+use prime\tests\_helpers\Survey;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
-use yii\base\ErrorException;
+use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use yii\helpers\ArrayHelper;
 use yii\validators\BooleanValidator;
-use yii\validators\FileValidator;
-use yii\validators\ImageValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
+use yii\validators\StringValidator;
+use yii\validators\UniqueValidator;
 use yii\web\UploadedFile;
 
 /**
  * Class Tool
- * @package prime\models
- *
- * @property string $imageUrl
  * @property int $id
  * @property int $base_survey_eid
- * @property int $intake_survey_eid
- * @property string $acronym
- * @property string $description
- * @property string $default_generator
  * @property string $title
- * @property binary $explorer_map
- * @property string $explorer_regex
-  @property string $explorer_name
  * @method static ToolQuery find()
  */
-class Tool extends ActiveRecord implements ProjectInterface {
+class Tool extends ActiveRecord {
 
     const IMAGE_PATH = '/img/tools/';
 
@@ -91,9 +79,6 @@ class Tool extends ActiveRecord implements ProjectInterface {
     public function attributeLabels()
     {
         return [
-            'tempImage' => \Yii::t('app', 'Image'),
-            'thumbTempImage' => \Yii::t('app', 'Thumbnail'),
-            'intake_survey_eid' => \Yii::t('app', 'Intake survey'),
             'base_survey_eid' => \Yii::t('app', 'Base data survey')
         ];
     }
@@ -110,6 +95,7 @@ class Tool extends ActiveRecord implements ProjectInterface {
      */
     public function getBaseSurvey()
     {
+        return new Survey();
         try {
             return $this->limeSurvey()->getSurvey($this->base_survey_eid);
         } catch (\Throwable $t) {
@@ -120,53 +106,16 @@ class Tool extends ActiveRecord implements ProjectInterface {
 
     public function dataSurveyOptions()
     {
-        $result = array_filter(ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function ($details) {
-            if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) != 0
-                && strpos($details['surveyls_title'], '_') === false
-            ) {
-                return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
-            }
-
-            return false;
-        }));
+        $result = ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function ($details) {
+            return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
+        });
 
         return $result;
     }
 
-
     public function beforeDelete()
     {
         return $this->getProjectCount() === 0;
-    }
-
-    public function getGeneratorsArray()
-    {
-        return $this->generators->asArray();
-    }
-
-    public function getImageUrl()
-    {
-        if (isset($this->image) && file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image)) {
-            return self::IMAGE_PATH . $this->image;
-        }
-        return '/site/text-image?text=' . $this->acronym ;
-    }
-
-    /**
-     * @return StreamInterface
-     */
-    public function getImage()
-    {
-        if (isset($this->image) && file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image)) {
-            return \GuzzleHttp\Psr7\stream_for(fopen(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->image, 'r'));
-        } else {
-            return \GuzzleHttp\Psr7\stream_for(Html::textImage($this->acronym));
-        }
-    }
-
-    public function getIntakeUrl()
-    {
-        return app()->limeSurvey->getUrl($this->intake_survey_eid);
     }
 
     public function getProjects()
@@ -178,24 +127,6 @@ class Tool extends ActiveRecord implements ProjectInterface {
         return $this->getProjects()->count();
     }
 
-    public function getThumbnailUrl() {
-        if(isset($this->thumbnail) && file_exists(\Yii::getAlias('@webroot') . self::IMAGE_PATH . $this->thumbnail)) {
-            return self::IMAGE_PATH . $this->thumbnail;
-        } else {
-            return $this->getImageUrl();
-        }
-    }
-
-    public function intakeSurveyOptions()
-    {
-        return array_filter(ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function($details) {
-            if (substr_compare('[INTAKE]', $details['surveyls_title'], 0, 8) === 0) {
-                return trim(substr($details['surveyls_title'], 8)) . (($details['active'] == 'N') ? " (INACTIVE)" : "");
-            }
-            return false;
-        }));
-    }
-
     public function isTransactional($operation)
     {
         return true;
@@ -205,78 +136,13 @@ class Tool extends ActiveRecord implements ProjectInterface {
     {
         return [
             [[
-                'title', 'acronym', 'description', 'base_survey_eid', 'progress_type', 'generatorsArray'
+                'title', 'base_survey_eid'
             ], RequiredValidator::class],
-            [['title', 'acronym', 'description', 'explorer_name', 'explorer_geo_js_name', 'explorer_geo_ls_name'], 'string'],
-            [['title'], 'unique'],
-            [['explorer_regex'], function($attribute, $params) {
-                try {
-                    preg_match("/" . $this->{$attribute} . "/", "test");
-                } catch (ErrorException $e) {
-                    $this->addError($attribute, $e->getMessage());
-                }}, 'clientValidate' => function() {
-                    return 'try { new RegExp("/" + value + "/i") } catch (e) { messages.push(e); }';
-                }
-            ],
-            [['explorer_map'], FileValidator::class],
-            [['explorer_map'], function($attribute, $params) {
-                if (null === json_decode($this->{$attribute}, true, 999999)) {
-                    $this->addError($attribute, json_last_error_msg());
-                }
-            }],
-            [['tempImage', 'thumbTempImage'], ImageValidator::class],
+            [['title'], StringValidator::class],
+            [['title'], UniqueValidator::class],
             [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
-            [['intake_survey_eid', 'base_survey_eid'], 'integer'],
-            [['hidden', 'explorer_show_services'], BooleanValidator::class],
-            [
-            ['default_generator'],
-                RangeValidator::class,
-                'range' => function(self $model, $attribute) { return array_keys($model->generatorOptions()); },
-                'enableClientValidation'=> false
-            ]
+            [['hidden'], BooleanValidator::class],
         ];
-    }
-
-    public function scenarios()
-    {
-        return [
-            'create' => [
-                'title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage',
-                'generatorsArray', 'hidden'
-            ],
-            'update' => [
-                'title', 'acronym', 'description', 'tempImage', 'intake_survey_eid', 'base_survey_eid', 'progress_type', 'thumbTempImage',
-                'generatorsArray', 'hidden', 'default_generator', 'explorer_regex', 'explorer_name', 'explorer_map', 'explorer_show_services',
-                'explorer_geo_js_name', 'explorer_geo_ls_name'
-            ]
-        ];
-    }
-
-    /**
-     * Saves an image for this record using the id
-     * @param UploadedFile $image
-     * @param string $postfix
-     * @return null|string
-     * @throws \Exception
-     */
-    public function saveImage(UploadedFile $image, $postfix = '')
-    {
-        if($this->isNewRecord) {
-            throw new \Exception('Cannot save an image for a unsaved tool');
-        }
-
-        $fileNameWithExtension = $this->id . $postfix . '.' . $image->extension;
-        $filePath = \Yii::getAlias('@webroot') . self::IMAGE_PATH;
-
-        if(!is_writable($filePath)) {
-            throw new \Exception('Unwritable image path');
-        }
-
-        if($image->saveAs($filePath . $fileNameWithExtension)) {
-            return $fileNameWithExtension;
-        } else {
-            return null;
-        }
     }
 
     // Cache for getResponses();
@@ -304,39 +170,33 @@ class Tool extends ActiveRecord implements ProjectInterface {
         return $this->_responses;
     }
 
-    public function getSurveys()
+    public function tokenOptions(): array
     {
-        $result = new SurveyCollection();
-        $surveyIds = [];
-        /** @var ResponseInterface $response */
-        foreach($this->getResponses() as $response) {
-            $surveyIds[$response->getSurveyId()] = true;
+
+        return [
+            'abc' => 'token abc'
+        ];
+        $limeSurvey = $this->limeSurvey();
+        $usedTokens = array_flip(Project::find()->select('token')->column());
+        $tokens = $limeSurvey->getTokens($this->base_survey_eid);
+
+        $result = [];
+        /** @var TokenInterface $token */
+        foreach ($tokens as $token) {
+            if (isset($usedTokens[$token->getToken()])) {
+                continue;
+            }
+            if (!empty($token->getToken())) {
+                $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
+                        ', ',
+                        array_filter($token->getCustomAttributes())
+                    );
+            }
         }
-        foreach($surveyIds as $surveyId => $dummy) {
-            $result->append($this->limeSurvey()->getSurvey($surveyId));
-        }
+
         return $result;
     }
 
-
-    /**
-     * Returns the name of the location of the project
-     * @return string
-     */
-    public function getLocality()
-    {
-        return 'Tool';
-    }
-
-
-    /**
-     * Return the url to the tool image
-     * @return string
-     */
-    public function getToolImagePath()
-    {
-        return $this->imageUrl;
-    }
 
     public function userCan($operation, User $user)
     {

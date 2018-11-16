@@ -1,11 +1,12 @@
 <?php
 
-use app\components\ActiveForm;
+use kartik\widgets\ActiveForm;
 use app\components\Form;
-use app\components\Html;
+use yii\bootstrap\Html;
 
 $this->title = Yii::t('user', 'Profile settings');
 
+/** @var \prime\models\ar\Profile $model */
 ?>
 
 <div class="row">
