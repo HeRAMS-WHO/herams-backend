@@ -5,26 +5,26 @@ x-env:
       context: docker/cli
     volumes:
       - .:/project:ro
-      - ./tests/_data:/project/tests/_data:rw
       - ./tests:/project/tests:rw
       - ./protected/migrations:/project/protected/migrations:rw
     tmpfs:
-      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID}
-      - /project/public/assets:rw,noexec,nosuid,uid=${UID}
+      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID-0}
+      - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment:
-      DB_HOST: mysql
+      DB_HOST: devdb
       DB_USER: $DB_USER
       DB_NAME: $DB_NAME
       DB_PASS: $DB_PASS
       YII_ENV: $YII_ENV
       SMTP_HOST: mailcatcher
       SMTP_PORT: 1025
-    user: ${UID-0}
+    user: ${UID-0}:${GID-0}
+
     working_dir: "/project"
   mysql: &mysql
     image: mysql
     command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
-    user: ${UID-0}
+    user: ${UID-0}:${GID-0}
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: $DB_NAME
@@ -35,10 +35,22 @@ services:
   serve:
     << : *base
     depends_on:
-      - mysql
+      - devdb
       - mailcatcher
       - phpmyadmin
-    entrypoint: ["/sbin/tini", "--", "php", "-S", "0.0.0.0:8080", "-t", "/project/public"]
+    entrypoint: [
+      "/sbin/tini",
+      "--",
+      "wait-for-it",
+      "30",
+      "devdb",
+      "3306",
+      "php",
+      "-S",
+      "0.0.0.0:8080",
+      "-t",
+      "/project/public"
+    ]
     ports:
       - "127.0.0.1:${APP_PORT-12346}:8080"
     tmpfs:
@@ -47,11 +59,10 @@ services:
 
 
   ## Mysql server (local), this will create a persistent data store for local development
-
-  mysql:
+  devdb:
     << : *mysql
     volumes:
-      - ./local/devdb:/var/lib/mysql
+      - ./local/devdb:/var/lib/mysql:rw
       - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
 
   # Mysql server (testing), this will store data on tmpfs, it will not persist
@@ -64,12 +75,21 @@ services:
   cli:
     << : *base
     depends_on:
-      - mysql
+      - devdb
       - mailcatcher
       - phpmyadmin
     entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
     command: ""
-
+  composer:
+    << : *base
+    entrypoint: [
+      "/sbin/tini",
+      "--",
+      "composer"
+    ]
+    volumes:
+      - /composer-cache
+      - .:/project:rw
   codeception:
     << : *base
     depends_on:
@@ -78,6 +98,7 @@ services:
       "/sbin/tini",
       "--",
       "wait-for-it",
+      "30",
       "testdb",
       "3306",
       "phpdbg",
@@ -94,9 +115,9 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
-      - mysql
+      - devdb
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: devdb
       PMA_PASSWORD: $DB_PASS
       PMA_USER: $DB_USER
     ports:

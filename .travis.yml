@@ -1,20 +1,9 @@
-language: php
-php:
-  - '7.2'
-addons:
-  mariadb: "10.2"
-env:
-  - DB_HOST=localhost DB_USER=travis YII_ENV=test DB_NAME=yiitest
-before_install :
-  - phpenv config-rm xdebug.ini
-install:
-  - composer global require hirak/prestissimo
-  - travis_retry composer install
+language: minimal
 before_script:
-  - mysql -e 'CREATE DATABASE yiitest;'
-  - for f in tests/_data/db/*; do mysql yiitest < "$f"; done
+  - docker-compose build
+  - docker-compose composer install
 script:
-  - phpdbg -qrr vendor/bin/codecept run --coverage-xml
+  - docker-compose run codeception --coverage-xml
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
