@@ -8,8 +8,8 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 install:
   - cp .env.default .env
-    - docker-compose --version
-    - docker-compose build
+  - docker-compose --version
+  - docker-compose build
 before_script:
   - docker-compose run --rm composer install
 script:
