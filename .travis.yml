@@ -3,6 +3,7 @@ env:
   - DOCKER_COMPOSE_VERSION=1.23.1
 before_script:
   - cp .env.default .env
+  - docker-compose --version
   - docker-compose build
   - docker-compose composer install
 script:
