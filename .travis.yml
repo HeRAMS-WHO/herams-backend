@@ -11,9 +11,10 @@ install:
     - docker-compose --version
     - docker-compose build
 before_script:
-  - docker-compose composer install
+  - docker-compose run --rm composer install
 script:
-  - docker-compose run codeception --coverage-xml
+  - docker-compose run --rm codeception --coverage-xml
+  - docker-compose run --rm codeception --coverage-xml
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
