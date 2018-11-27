@@ -5,6 +5,8 @@ addons:
   mariadb: "10.2"
 env:
   - "DB_HOST=localhost"
+  - "DB_USER=travis"
+  - "YII_ENV=test"
 before_install :
   - phpenv config-rm xdebug.ini
 install:
@@ -12,9 +14,7 @@ install:
   - travis_retry composer install
 before_script:
   - mysql -e 'CREATE DATABASE yiitest;'
-  - source .env.default
 script:
-  - env
   - phpdbg -qrr vendor/bin/codecept run --coverage-xml
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
