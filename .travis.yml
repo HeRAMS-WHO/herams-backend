@@ -15,5 +15,4 @@ before_script:
 script:
   - docker-compose run --rm codeception run --coverage-xml
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
+  - docker run --rm --entrypoint /bin/sh php:alpine -v tests/_output/coverage.xml:/coverage.xml -c "wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar --format=php-clover /coverage.xml"
