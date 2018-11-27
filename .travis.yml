@@ -1,4 +1,6 @@
 language: minimal
+env:
+  - DOCKER_COMPOSE_VERSION=1.23.1
 before_script:
   - cp .env.default .env
   - docker-compose build
