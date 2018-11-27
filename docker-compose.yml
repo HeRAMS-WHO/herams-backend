@@ -74,8 +74,23 @@ services:
     << : *base
     depends_on:
       - testdb
-    entrypoint: ["/sbin/tini", "--", "phpdbg", "-qrr", "/project/vendor/bin/codecept"]
+    entrypoint: [
+      "/sbin/tini",
+      "--",
+      "wait-for-it",
+      "testdb",
+      "3306",
+      "phpdbg",
+      "-qrr",
+      "/project/vendor/bin/codecept"
+    ]
     command: "run"
+    environment:
+      DB_HOST: testdb
+      DB_USER: $DB_USER
+      DB_NAME: $DB_NAME
+      DB_PASS: $DB_PASS
+      YII_ENV: $YII_ENV
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:

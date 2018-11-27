@@ -10,7 +10,9 @@ install:
   - travis_retry composer install
 before_script:
   - mysql -e 'CREATE DATABASE yiitest;'
+  - source .env
 script:
+  - env
   - phpdbg -qrr vendor/bin/codecept run --coverage-xml
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

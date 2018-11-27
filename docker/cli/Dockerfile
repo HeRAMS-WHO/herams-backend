@@ -16,3 +16,4 @@ RUN apk add --no-cache --update \
   php7-tokenizer \
   php7-xml \
   --
+ADD wait.sh /bin/wait-for-it

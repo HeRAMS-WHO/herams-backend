@@ -2,6 +2,8 @@
 namespace prime\models\ar;
 
 use prime\models\ActiveRecord;
+use yii\validators\RequiredValidator;
+use yii\validators\StringValidator;
 
 class Setting extends ActiveRecord
 {
@@ -50,7 +52,11 @@ class Setting extends ActiveRecord
         return $model->save();
     }
 
-    public function getDecodedValue() {
-        return json_decode($this->value);
+    public function rules()
+    {
+        return [
+            [['key'], RequiredValidator::class],
+            [['value'], StringValidator::class]
+        ];
     }
 }
