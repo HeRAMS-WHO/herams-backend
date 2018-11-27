@@ -10,7 +10,7 @@ install:
   - travis_retry composer install
 before_script:
   - mysql -e 'CREATE DATABASE yiitest;'
-  - source .env
+  - source .env.default
 script:
   - env
   - phpdbg -qrr vendor/bin/codecept run --coverage-xml
