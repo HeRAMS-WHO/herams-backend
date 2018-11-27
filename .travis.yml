@@ -1,10 +1,16 @@
 language: minimal
 env:
   - DOCKER_COMPOSE_VERSION=1.23.1
-before_script:
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+install:
   - cp .env.default .env
-  - docker-compose --version
-  - docker-compose build
+    - docker-compose --version
+    - docker-compose build
+before_script:
   - docker-compose composer install
 script:
   - docker-compose run codeception --coverage-xml
