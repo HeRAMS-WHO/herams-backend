@@ -12,6 +12,7 @@ install:
   - travis_retry composer install
 before_script:
   - mysql -e 'CREATE DATABASE yiitest;'
+  - for f in tests/_data/db/*; do mysql yiitest < "$f"; done
 script:
   - phpdbg -qrr vendor/bin/codecept run --coverage-xml
 after_script:
