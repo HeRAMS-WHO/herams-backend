@@ -4,7 +4,7 @@ php:
 addons:
   mariadb: "10.2"
 env:
-  - "DB_HOST=localhost" "DB_USER=travis" "YII_ENV=test"
+  - DB_HOST=localhost DB_USER=travis YII_ENV=test
 before_install :
   - phpenv config-rm xdebug.ini
 install:
