@@ -48,12 +48,12 @@ class Overview extends Model
 
                 // HF data for pop-ups
                 $item['hf'] = [
-                    ['HF1' => $hf['HF1']],
-                    ['HF2' => $hf['HF2']],
-                    ['HF3' => $hf['HF3']],
-                    ['HF4' => $hf['HF4']],
-                    ['HFINF1' => $hf['HFINF1']],
-                    ['HFINF3' => $hf['HFINF3']],
+                    ['HF1' => $hf['HF1'] ?? null],
+                    ['HF2' => $hf['HF2'] ?? null],
+                    ['HF3' => $hf['HF3'] ?? null],
+                    ['HF4' => $hf['HF4'] ?? null],
+                    ['HFINF1' => $hf['HFINF1'] ?? null],
+                    ['HFINF3' => $hf['HFINF3'] ?? null],
                 ];
 
                 $hfCoordinates[] = $item;
@@ -335,7 +335,7 @@ class Overview extends Model
 
         foreach ($responses as $response) {
             //if (self::filterResponse($response, $filters)) {
-                if ($response[$questionCode])
+                if (isset($response[$questionCode]))
                     $result[$response[$questionCode]] = (isset($result[$response[$questionCode]])) ? $result[$response[$questionCode]]+1 : 1;
                 else
                     $result["NR"] = (isset($result["NR"])) ? $result["NR"]+1 :  1;
