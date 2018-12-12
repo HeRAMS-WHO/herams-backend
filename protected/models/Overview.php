@@ -36,7 +36,7 @@ class Overview extends Model
         $hfCoordinates = [];
         $noData = true;
         foreach ($responses as $hf) {
-            if ($hf['GPS[SQ001]'] > 0 && $hf['GPS[SQ002]'] > 0 && is_numeric($hf['GPS[SQ001]']) && is_numeric($hf['GPS[SQ002]']) && $hf['GPS[SQ001]'] < 20 && $hf['GPS[SQ002]'] < 33 ) {
+            if (is_numeric($hf['GPS[SQ001]']) && is_numeric($hf['GPS[SQ002]']) && $hf['GPS[SQ001]'] >= -90 && $hf['GPS[SQ002]'] >= -180 && $hf['GPS[SQ001]'] <= 90 && $hf['GPS[SQ002]'] <= 180 ) {
                 $item = ['coord' => [$hf['GPS[SQ001]'], $hf['GPS[SQ002]']]];
 
                 if ($services) {
