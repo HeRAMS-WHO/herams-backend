@@ -1,12 +1,18 @@
 <?php
-namespace prime\api\controllers;
+namespace prime\api\v1\controllers;
 
+use app\models\ar\Category;
 use app\models\Menu;
 use prime\models\ar\Tool;
 
 
 class CategoriesController extends Controller
 {
+
+    public function actionIndex()
+    {
+        return Category::find()->all();
+    }
     /**
      * Categories for the left side menu and user info.
      */

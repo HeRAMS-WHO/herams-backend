@@ -2,7 +2,7 @@
 
 namespace prime\models;
 
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\ar\Report;
 use prime\traits\JsonMemoryDataSourceTrait;
 use Treffynnon\Navigator\Coordinate;
@@ -61,7 +61,7 @@ class Country extends Model
 
     public function getProjects()
     {
-        return Project::find()->andWhere([Project::tableName() . '.country_iso_3' => $this->iso_3]);
+        return Workspace::find()->andWhere([Workspace::tableName() . '.country_iso_3' => $this->iso_3]);
     }
 
     public static function regionOptions()

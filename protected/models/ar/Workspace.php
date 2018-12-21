@@ -4,22 +4,29 @@ namespace prime\models\ar;
 
 use app\queries\ProjectQuery;
 use Carbon\Carbon;
+use prime\components\Route;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\AuthorizableInterface;
+use prime\interfaces\FacilityListInterface;
+use prime\interfaces\ProjectInterface;
 use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\SurveyCollectionInterface;
+use prime\interfaces\WorkspaceInterface;
+use prime\lists\FacilityList;
 use prime\models\ActiveRecord;
 use prime\models\Country;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use prime\traits\LoadOneAuthTrait;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use Treffynnon\Navigator\Coordinate;
 use Treffynnon\Navigator\LatLong;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
@@ -27,6 +34,7 @@ use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+use yii\web\Linkable;
 
 /**
  * Class Project
@@ -48,7 +56,7 @@ use yii\validators\UniqueValidator;
  *
  * @method static ProjectQuery find()
  */
-class Project extends ActiveRecord implements AuthorizableInterface
+class Workspace extends ActiveRecord implements AuthorizableInterface, WorkspaceInterface, Linkable
 {
     use LoadOneAuthTrait;
     /**
@@ -146,10 +154,9 @@ class Project extends ActiveRecord implements AuthorizableInterface
      */
     public function getResponses()
     {
-        return new ResponseCollection();
         if (!isset($this->_responses)) {
             $this->_responses = new ResponseCollection();
-            foreach ($this->limeSurvey->getResponsesByToken($this->tool->base_survey_eid, $this->token) as $response) {
+            foreach ($this->getLimeSurvey()->getResponsesByToken($this->tool->base_survey_eid, $this->token) as $response) {
                 $this->_responses->append($response);
             }
         }
@@ -195,6 +202,7 @@ class Project extends ActiveRecord implements AuthorizableInterface
             [['title'], StringValidator::class],
             [['owner_id'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id'],
             [['tool_id'], ExistValidator::class, 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
+            [['tool_id'], NumberValidator::class],
             [['closed'], DateValidator::class,'format' => 'php:Y-m-d H:i:s', 'skipOnEmpty' => true],
             ['token', UniqueValidator::class]
         ];
@@ -302,18 +310,8 @@ class Project extends ActiveRecord implements AuthorizableInterface
 
     public function getSurveyUrl()
     {
-        /**
-         * @todo Refactor this to be somewhere else.
-         * Special handling for CCPM.
-         */
-        if ($this->tool->acronym == 'CCPM') {
-            $surveyId = 67825;
-        } else {
-            $surveyId = $this->data_survey_eid;
-        }
-
         return $this->getLimeSurvey()->getUrl(
-            $surveyId,
+            $this->data_survey_eid,
             [
                 'token' => $this->getAttribute('token'),
                 'newtest' => 'Y'
@@ -333,5 +331,99 @@ class Project extends ActiveRecord implements AuthorizableInterface
     {
         return __CLASS__;
     }
+
+    /**
+     * String representation of object
+     * @link https://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        // TODO: Implement serialize() method.
+    }
+
+    /**
+     * Constructs the object
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        // TODO: Implement unserialize() method.
+    }
+
+    public function getId(): string
+    {
+        return $this->getAttribute('id');
+    }
+
+    public function getName(): string
+    {
+        return $this->getAttribute('title');
+    }
+
+    public function getProject(): ProjectInterface
+    {
+        return $this->tool;
+    }
+
+    public function getFacilities(): FacilityListInterface
+    {
+        $facilities = [];
+        /** @var ResponseInterface $response */
+        foreach($this->getResponses() as $response) {
+            if (isset($response->getData()['HF1'])) {
+                $name = $response->getData()['HF1'];
+
+                $facilities[$name] = new Facility($name);
+            }
+
+        }
+        return new FacilityList([]);
+    }
+
+    /**
+     * Returns a list of links.
+     *
+     * Each link is either a URI or a [[Link]] object. The return value of this method should
+     * be an array whose keys are the relation names and values the corresponding links.
+     *
+     * If a relation name corresponds to multiple links, use an array to represent them.
+     *
+     * For example,
+     *
+     * ```php
+     * [
+     *     'self' => 'http://example.com/users/1',
+     *     'friends' => [
+     *         'http://example.com/users/2',
+     *         'http://example.com/users/3',
+     *     ],
+     *     'manager' => $managerLink, // $managerLink is a Link object
+     * ]
+     * ```
+     *
+     * @return array the links
+     */
+    public function getLinks()
+    {
+        return [
+            'self' => Url::to(['workspace/view', 'id' => $this->id], true),
+            'facilities' => Url::to(['facility/index', 'workspace_id' => $this->id], true),
+            'project' => Url::to(['project/view', 'id' => $this->tool_id], true),
+        ];
+    }
+
+    public static function tableName()
+    {
+        return '{{%project}}';
+    }
+
+
 }
 

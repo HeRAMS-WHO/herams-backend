@@ -3,7 +3,7 @@
 namespace prime\models\permissions;
 
 use prime\components\ActiveQuery;
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\ar\User;
 use prime\models\ar\UserList;
 use yii\helpers\ArrayHelper;
@@ -45,7 +45,7 @@ class UserUserList extends Permission
         }
 
         if(!($target instanceOf UserList)) {
-            throw new \DomainException('Target should be instance of ' . Project::class);
+            throw new \DomainException('Target should be instance of ' . Workspace::class);
         }
 
         return parent::grant($source, $target, $permission, $strict);

@@ -4,20 +4,30 @@ namespace prime\models\ar;
 
 use app\queries\ToolQuery;
 use prime\factories\GeneratorFactory;
+use prime\interfaces\FacilityListInterface;
+use prime\interfaces\ProjectInterface;
 use prime\interfaces\ResponseCollectionInterface;
+use prime\interfaces\WorkspaceListInterface;
+use prime\lists\SurveyFacilityList;
+use prime\lists\WorkspaceList;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use prime\tests\_helpers\Survey;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
+use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\validators\BooleanValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+use yii\web\Link;
+use yii\web\Linkable;
 use yii\web\UploadedFile;
 
 /**
@@ -27,7 +37,7 @@ use yii\web\UploadedFile;
  * @property string $title
  * @method static ToolQuery find()
  */
-class Tool extends ActiveRecord {
+class Tool extends ActiveRecord implements ProjectInterface, Linkable {
 
     const IMAGE_PATH = '/img/tools/';
 
@@ -93,15 +103,9 @@ class Tool extends ActiveRecord {
     /**
      * @return \SamIT\LimeSurvey\Interfaces\SurveyInterface
      */
-    public function getBaseSurvey()
+    public function getBaseSurvey(): SurveyInterface
     {
-        return new Survey();
-        try {
-            return $this->limeSurvey()->getSurvey($this->base_survey_eid);
-        } catch (\Throwable $t) {
-            return null;
-        }
-
+        return $this->limeSurvey()->getSurvey($this->base_survey_eid);
     }
 
     public function dataSurveyOptions()
@@ -120,7 +124,7 @@ class Tool extends ActiveRecord {
 
     public function getProjects()
     {
-        return $this->hasMany(Project::class, ['tool_id' => 'id']);
+        return $this->hasMany(Workspace::class, ['tool_id' => 'id']);
     }
     public function getProjectCount()
     {
@@ -139,7 +143,7 @@ class Tool extends ActiveRecord {
                 'title', 'base_survey_eid'
             ], RequiredValidator::class],
             [['title'], StringValidator::class],
-            [['title'], UniqueValidator::class],
+//            [['title'], UniqueValidator::class],
             [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
             [['hidden'], BooleanValidator::class],
         ];
@@ -149,23 +153,12 @@ class Tool extends ActiveRecord {
     private $_responses;
 
     /**
-     * @return ResponseCollectionInterface
+     * @return ResponseInterface[]
      */
     public function getResponses()
     {
         if (!isset($this->_responses)) {
-            $key = "{$this->id}-responses";
-            if (false === $this->_responses = app()->cache->get($key)) {
-                $this->_responses = new ResponseCollection();
-                /** @var Project $project */
-                foreach ($this->projects as $project) {
-                    foreach ($project->getResponses() as $response) {
-                        $this->_responses->append($response);
-                    }
-                }
-                //app()->cache->set($key, $this->_responses, 60);
-            }
-
+            $this->_responses = $this->limeSurvey()->getResponses($this->base_survey_eid);
         }
         return $this->_responses;
     }
@@ -177,7 +170,7 @@ class Tool extends ActiveRecord {
             'abc' => 'token abc'
         ];
         $limeSurvey = $this->limeSurvey();
-        $usedTokens = array_flip(Project::find()->select('token')->column());
+        $usedTokens = array_flip(Workspace::find()->select('token')->column());
         $tokens = $limeSurvey->getTokens($this->base_survey_eid);
 
         $result = [];
@@ -209,4 +202,74 @@ class Tool extends ActiveRecord {
             ->andWhere(['target' => self::class]);
     }
 
+    /**
+     * String representation of object
+     * @link https://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * Constructs the object
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        throw new NotSupportedException();
+    }
+
+    public function getId(): string
+    {
+        return $this->getAttribute('id');
+    }
+
+    public function getWorkspaces(): WorkspaceListInterface
+    {
+        return new WorkspaceList($this->projects);
+    }
+
+    /**
+     * Returns a list of links.
+     *
+     * Each link is either a URI or a [[Link]] object. The return value of this method should
+     * be an array whose keys are the relation names and values the corresponding links.
+     *
+     * If a relation name corresponds to multiple links, use an array to represent them.
+     *
+     * For example,
+     *
+     * ```php
+     * [
+     *     'self' => 'http://example.com/users/1',
+     *     'friends' => [
+     *         'http://example.com/users/2',
+     *         'http://example.com/users/3',
+     *     ],
+     *     'manager' => $managerLink, // $managerLink is a Link object
+     * ]
+     * ```
+     *
+     * @return array the links
+     */
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['project/view', 'id' => $this->id], true),
+            'workspaces' => Url::to(['workspace/index', 'filter' => ['tool_id' => $this->id]], true),
+        ];
+    }
+
+    public function getFacilities(): FacilityListInterface
+    {
+        return new SurveyFacilityList($this->getBaseSurvey());
+    }
 }

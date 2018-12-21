@@ -1,10 +1,10 @@
 <?php
 
 
-namespace prime\api\controllers;
+namespace prime\api\v1\controllers;
 
 
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\ar\Tool;
 use yii\caching\Cache;
 
@@ -20,7 +20,7 @@ class CollectionsController extends Controller
 
             switch ($entity) {
                 case 'project':
-                    $data = Project::loadOne($id)->getResponses();
+                    $data = Workspace::loadOne($id)->getResponses();
                     break;
                 case 'tool':
                     $data = Tool::loadOne($id)->getResponses();

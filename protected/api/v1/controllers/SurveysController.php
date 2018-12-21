@@ -1,5 +1,5 @@
 <?php
-namespace prime\api\controllers;
+namespace prime\api\v1\controllers;
 
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\SerializeHelper;

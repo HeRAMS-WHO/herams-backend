@@ -2,7 +2,7 @@
 
 /**
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
- * @var \prime\models\search\Project $projectSearch
+ * @var \prime\models\search\Workspace $projectSearch
  */
 
 $this->title = \Yii::t('app', 'Manage workspaces');
@@ -27,7 +27,7 @@ $this->title = \Yii::t('app', 'Manage workspaces');
             [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
             [
                 'label' => '# responses',
-                'value' => function(\prime\models\ar\Project $project) {
+                'value' => function(\prime\models\ar\Workspace $project) {
                     return \Yii::$app->cache->getOrSet('project.responses.' . $project->id, function() use ($project) {
                         return $project->getResponses()->size();
                     }, 3600);
@@ -36,7 +36,7 @@ $this->title = \Yii::t('app', 'Manage workspaces');
             ],
             [
                 'label' => '# contributors',
-                'value' => function(\prime\models\ar\Project $project) {
+                'value' => function(\prime\models\ar\Workspace $project) {
                     return $project->getPermissions()->count();
                     return $project->getResponses()->size();
                 }

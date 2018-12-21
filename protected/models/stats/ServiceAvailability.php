@@ -3,7 +3,7 @@
 namespace app\models\stats;
 
 use Carbon\Carbon;
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\ar\Tool;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
@@ -267,7 +267,7 @@ class ServiceAvailability
 
             switch ($entity) {
                 case 'workspace':
-                    $data = Project::loadOne($id)->getResponses();
+                    $data = Workspace::loadOne($id)->getResponses();
                     break;
                 case 'project':
                     $data = Tool::loadOne($id)->getResponses();

@@ -4,7 +4,7 @@ namespace prime\models\permissions;
 
 use prime\interfaces\AuthorizableInterface;
 use prime\models\ActiveRecord;
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\ar\User;
 use yii\db\ActiveRecordInterface;
 
@@ -118,7 +118,7 @@ class Permission extends ActiveRecord
 
     public static function instantiate($row)
     {
-        if($row['source'] == User::class && $row['target'] == Project::class) {
+        if($row['source'] == User::class && $row['target'] == Workspace::class) {
             return new UserProject();
         }
         return parent::instantiate($row);

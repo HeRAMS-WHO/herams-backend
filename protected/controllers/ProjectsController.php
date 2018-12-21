@@ -7,14 +7,15 @@ use app\queries\ToolQuery;
 use prime\components\Controller;
 use prime\controllers\projects\Close;
 use prime\controllers\projects\Download;
-use prime\models\ar\Project;
+use prime\controllers\projects\View;
+use prime\models\ar\Workspace;
 use prime\models\ar\Setting;
 use prime\models\ar\Tool;
 use prime\models\forms\projects\CreateUpdate;
 use prime\models\forms\projects\Token;
 use prime\models\forms\Share;
 use prime\models\permissions\Permission;
-use prime\models\search\Project as ProjectSearch;
+use prime\models\search\Workspace as ProjectSearch;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -38,8 +39,8 @@ class ProjectsController extends Controller
 
     public function actionConfigure(Request $request, Session $session, $id)
     {
-        /** @var Project $model */
-        $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+        /** @var Workspace $model */
+        $model = Workspace::loadOne($id, [], Permission::PERMISSION_WRITE);
         // Form model.
         $token = new Token($model->getToken());
 
@@ -149,7 +150,7 @@ class ProjectsController extends Controller
     ) {
         $tool = Tool::loadOne($toolId);
         $projectSearch = new ProjectSearch($tool->id);
-        $projectSearch->query = Project::find()->closed()->userCan(Permission::PERMISSION_WRITE);
+        $projectSearch->query = Workspace::find()->closed()->userCan(Permission::PERMISSION_WRITE);
         if(!app()->user->can('admin')) {
             $projectSearch->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
         } else {
@@ -166,7 +167,7 @@ class ProjectsController extends Controller
 
     public function actionRead($id)
     {
-        $project = Project::loadOne($id);
+        $project = Workspace::loadOne($id);
         $this->layout = 'angular';
 
         return $this->render('overview', [
@@ -189,7 +190,7 @@ class ProjectsController extends Controller
         if (!$request->isPut) {
             throw new HttpException(405);
         } else {
-            $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+            $model = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
             $model->scenario = 'reOpen';
 
             $model->closed = null;
@@ -214,7 +215,7 @@ class ProjectsController extends Controller
 
     public function actionShare(Session $session, Request $request, $id)
     {
-        $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
+        $project = Workspace::loadOne($id, [], Permission::PERMISSION_SHARE);
         $model = new Share($project, [$project->owner_id], [
             'permissions' => [
                 Permission::PERMISSION_READ,
@@ -255,7 +256,7 @@ class ProjectsController extends Controller
     {
         $permission = Permission::findOne($id);
         //User must be able to share project in order to delete a share
-        $project = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
+        $project = Workspace::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
         if($permission->delete()) {
             $session->setFlash(
                 'projectShared',
@@ -310,7 +311,7 @@ class ProjectsController extends Controller
 
     public function actionUpdateLimeSurvey($id)
     {
-        $model = Project::loadOne($id, [], Permission::PERMISSION_WRITE);
+        $model = Workspace::loadOne($id, [], Permission::PERMISSION_WRITE);
         return $this->render('updateLimeSurvey', [
             'model' => $model
         ]);
@@ -375,7 +376,7 @@ class ProjectsController extends Controller
 
         if ($surveyId > 0) {
             // Get all tokens for the selected survey.
-            $usedTokens = array_flip(Project::find()->select('token')->column());
+            $usedTokens = array_flip(Workspace::find()->select('token')->column());
             $tokens = $limeSurvey->getTokens($surveyId);
             /** @var TokenInterface $token */
             foreach ($tokens as $token) {
@@ -405,7 +406,8 @@ class ProjectsController extends Controller
     {
         return [
             'download' => Download::class,
-            'close' => Close::class
+            'close' => Close::class,
+            'view' => View::class
         ];
     }
 

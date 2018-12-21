@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\validators\RangeValidator;
 use yii\validators\StringValidator;
 
-class Project extends \prime\models\ar\Project
+class Workspace extends \prime\models\ar\Workspace
 {
     /**
      * @var \Closure
@@ -44,10 +44,10 @@ class Project extends \prime\models\ar\Project
     {
         $result = ArrayHelper::map(
             $this->query->copy()->all(),
-            function(\prime\models\ar\Project $project) {
+            function(\prime\models\ar\Workspace $project) {
                 return $project->country_iso_3;
             },
-            function(\prime\models\ar\Project $project) {
+            function(\prime\models\ar\Workspace $project) {
                 return Country::findOne($project->country_iso_3)->name;
             }
         );
@@ -58,7 +58,7 @@ class Project extends \prime\models\ar\Project
     public function init()
     {
         parent::init();
-        $this->query = \prime\models\ar\Project::find()->notClosed()->with('owner.profile');
+        $this->query = \prime\models\ar\Workspace::find()->notClosed()->with('owner.profile');
 
         if (isset($this->queryCallback)) {
             $this->query = call_user_func($this->queryCallback, $this->query);
@@ -154,8 +154,8 @@ class Project extends \prime\models\ar\Project
 
         $this->query->andFilterWhere(['tool_id' => $this->tool_id]);
         $this->query->andFilterWhere(['country_iso_3' => $this->country_iso_3]);
-        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.title', $this->title]);
-        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.locality_name', $this->locality_name]);
+        $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.title', $this->title]);
+        $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.locality_name', $this->locality_name]);
 
         return $dataProvider;
     }

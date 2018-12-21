@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\api\controllers;
+namespace prime\api\v1\controllers;
 
 use app\models\Overview;
 use prime\models\ar\Tool;

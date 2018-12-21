@@ -1,0 +1,80 @@
+.NestedSelect {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+}
+
+.NestedSelect .options {
+    display: none;
+    z-index: 100000;
+    position: absolute;
+    background-color: white;
+    padding: 10px;
+    /*border-radius: 10px;*/
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: 1px solid #4177c1;
+    left: 0;
+    top: 100%;
+}
+
+.NestedSelect .current.expanded + .options {
+    display: inherit;
+}
+
+.NestedSelect .current {
+    --height: 30px;
+    background-image: url('filter_where.svg');
+    background-repeat: no-repeat;
+    background-size: var(--height);
+    background-position: center left;
+    padding-left: calc(var(--height) + 10px);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.NestedSelect div {
+    padding: 10px 0px 10px 10px;
+}
+
+.NestedSelect label {
+    display: block;
+    position: relative;
+    padding-right: 30px;
+}
+
+.NestedSelect .options input {
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    width: 0;
+    bottom: 0;
+    top: 0;
+}
+
+.NestedSelect .options input::before {
+    content: '☐';
+    position: absolute;
+    font-size: 1em;
+}
+
+.NestedSelect .options input:checked::after {
+    pointer-events: none;
+    content: '✓';
+    position: absolute;
+    font-size: 1.5em;
+    top: -0.3em;
+}
+
+.NestedSelect input:indeterminate::after {
+    content: '⯀';
+    position: absolute;
+    font-size: 1em;
+    left: 0.13em;
+    top: -0.085em;
+}
+
+.NestedSelect div label:first-child {
+    font-weight: 600;
+    font-size: 1.5em;
+}

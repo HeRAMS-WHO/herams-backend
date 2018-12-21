@@ -8,12 +8,45 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'showScriptName' => false,
             'rules' => [
                 [
-                    'class' => \yii\rest\UrlRule::class,
-                    'controller' => ['api/surveys', 'api/collections', 'api/maps', 'api/countries',
-                        'api/coordinates', 'api/categories', 'api/charts', 'api/filters', 'api/locations'],
-                    'tokens' => [
-                        '{id}' => '<id:\\w[\\w,]*>'
+                    'class' => \yii\web\GroupUrlRule::class,
+                    'prefix' => 'api',
+                    'rules' => [
+                        [
+                            'class' => \yii\rest\UrlRule::class,
+                            'controller' => ['api/surveys', 'api/collections', 'api/maps', 'api/countries',
+                                'api/coordinates', 'api/categories', 'api/charts', 'api/filters', 'api/locations'],
+                            'tokens' => [
+                                '{id}' => '<id:\\w[\\w,]*>'
+                            ]
+                        ],
                     ]
+                ],
+//                [
+//                    'class' => \yii\web\GroupUrlRule::class,
+//                    'prefix' => 'v2',
+//                    'rules' => [
+//                        [
+//                            'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>',
+//                            'route' => '<controller>/<action>'
+//                        ]
+//
+//                    ]
+//                ],
+                [
+                    'class' => \yii\rest\UrlRule::class,
+//                    'only' => [
+//                        'view',
+//                        'index'
+//                    ],
+
+                    'extraPatterns' => [
+                        'GET {id}/<action:\w+>' => '<action>'
+                    ],
+                    'controller' => [
+                        'v2/project',
+                        'v2/workspace',
+                        'v2/facility'
+                    ],
                 ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
@@ -27,10 +60,21 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'scriptFile' => realpath(__DIR__ . '/../../public/index.php'),
             'scriptUrl' => '/'
         ],
+
+        'response' => [
+            'class' => \yii\web\Response::class,
+            'formatters' => [
+                \yii\web\Response::FORMAT_JSON => [
+                    'class' => \yii\web\JsonResponseFormatter::class,
+                    'prettyPrint' => true
+                ]
+            ]
+        ],
         'assetManager' => [
             'class' => \yii\web\AssetManager::class,
             // http://www.yiiframework.com/doc-2.0/guide-structure-assets.html#cache-busting
             'appendTimestamp' => true,
+            'forceCopy' =>  true,
             'converter' => [
                 'class' => \yii\web\AssetConverter::class,
                 'commands' => [
@@ -65,7 +109,10 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     ],
     'modules' => [
         'api' => [
-            'class' => \prime\api\Api::class
+            'class' => \prime\api\v1\Api::class
+        ],
+        'v2' => [
+            'class' => \prime\api\v2\Module::class
         ],
         'gridview' => [
             'class' => \kartik\grid\Module::class

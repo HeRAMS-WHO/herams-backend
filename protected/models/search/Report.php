@@ -113,7 +113,7 @@ class Report extends \prime\models\ar\Report
         $this->query->andFilterWhere(['tool_id' => $this->toolId]);
         $this->query->andFilterWhere(['country_iso_3' => $this->countryId]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Report::tableName() . '.title', $this->title]);
-        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.locality_name', $this->localityName]);
+        $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.locality_name', $this->localityName]);
         return $dataProvider;
     }
 

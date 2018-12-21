@@ -4,7 +4,7 @@
 namespace prime\controllers\projects;
 
 
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
@@ -32,7 +32,7 @@ class Download extends Action
 
     public function run($id, $text = false)
     {
-        $project = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $project = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
         /** @var Survey $survey */
         $survey = $project->getSurvey()->get($project->data_survey_eid);
         /** @var QuestionInterface[] $questions */

@@ -2,7 +2,7 @@
 /** @var \prime\models\ar\Tool $tool */
 /**
  * @var \yii\web\View $this
- * @var \prime\models\ar\Project $model
+ * @var \prime\models\ar\Workspace $model
  */
 
 $getter = function(\SamIT\LimeSurvey\Interfaces\ResponseInterface $response, $i, $j, \yii\grid\DataColumn $column) {

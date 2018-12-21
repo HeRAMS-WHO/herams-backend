@@ -1,7 +1,7 @@
 <?php
 
 
-namespace prime\api\controllers;
+namespace prime\api\v1\controllers;
 
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\AccessControl;

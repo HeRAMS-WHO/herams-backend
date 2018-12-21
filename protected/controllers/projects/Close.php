@@ -5,7 +5,7 @@ namespace prime\controllers\projects;
 
 
 use DateTime;
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\ar\Setting;
 use prime\models\permissions\Permission;
 use yii\base\Action;
@@ -35,7 +35,7 @@ class Close extends Action
     public function run(int $id)
     {
 
-        $model = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $model = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
         $model->scenario = 'close';
 
         $model->closed = (new DateTime())->format('Y-m-d H:i:s');

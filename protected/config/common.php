@@ -3,6 +3,8 @@
 use prime\models\ar\Setting;
 
 require_once __DIR__ . '/../helpers/functions.php';
+ini_set('memory_limit','512M');
+
 return [
     'layout' => 'simple',
     'id' => 'herams',
@@ -46,6 +48,10 @@ return [
             'cache' => 'cache',
             'defaultRoles' => ['user']
         ],
+        'limesurveyCache' => [
+            'class' => \yii\caching\FileCache::class,
+            'cachePath' => '@runtime/limesurveyCache'
+        ],
         'cache' => [
             'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
         ],
@@ -60,9 +66,11 @@ return [
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'));
             $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, Setting::get('limeSurvey.username'), Setting::get('limeSurvey.password'));
             $result->setCache(function($key, $value, $duration) {
-                return app()->get('cache')->set($key, $value, $duration);
+                \Yii::info('Setting cache key: ' . $key, 'ls');
+                return app()->get('limesurveyCache')->set($key, $value, $duration);
             }, function ($key) {
-                return app()->get('cache')->get($key);
+                \Yii::info('Getting cache key: ' . $key, 'ls');
+                return app()->get('limesurveyCache')->get($key);
             });
             return $result;
         },

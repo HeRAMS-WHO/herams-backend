@@ -4,7 +4,7 @@ use kartik\widgets\ActiveForm;
 use yii\bootstrap\Html;
 
 /**
- * @var \prime\models\ar\Project $project
+ * @var \prime\models\ar\Workspace $project
  * @var \prime\models\forms\Share $model
  */
 

@@ -1,0 +1,29 @@
+.legend:before {
+    color: var(--color);
+    content: '◯';
+
+    font-weight: 300;
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.legend {
+    vertical-align: middle;
+    user-select: none;
+}
+.leaflet-control-layers-selector {
+    /*height: 30px;*/
+}
+
+.leaflet-control-layers-overlays * {
+    vertical-align: middle;
+}
+
+.leaflet-control-layers-selector {
+    display: none;
+}
+
+.leaflet-control-layers-selector:checked + span .legend:before {
+    content: '⬤';
+}
+

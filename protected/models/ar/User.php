@@ -58,12 +58,12 @@ class User extends \dektrium\user\models\User {
      */
     public function getProjects(): ProjectQuery
     {
-        return Project::find()->notClosed()->userCan(Permission::PERMISSION_READ);
+        return Workspace::find()->notClosed()->userCan(Permission::PERMISSION_READ);
     }
 
     public function getOwnedProjects(): ProjectQuery
     {
-        return $this->hasMany(Project::class, ['owner_id' => 'id']);
+        return $this->hasMany(Workspace::class, ['owner_id' => 'id']);
     }
 
     public function rules()

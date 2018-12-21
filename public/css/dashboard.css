@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+html {
+    --header-background-color: #42424b;
+    --header-color: white;
+    --background-color: #878787;
+    --primary-color: #4177c1;
+
+    --highlight-background-color: #5791e1;
+    --highlight-color: white;
+
+    --main-background-color: #e0e0e0;
+    --content-background-color: white;
+    --breadcrumbs-color: #878787;
+    --primary-button-hover-color: #3f86e6;
+
+    --header-light-background-color: #4f4e54;
+    --header-light-color: white;
+
+}
+
+/**
+ Box sizing reset
+ */
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+    /*margin: 0;*/
+    /*padding: 0;*/
+
+}
+
+.menu {
+    padding-top: 10px;
+    background-color: white;
+    grid-area: sidebar;
+    font-size: 1.3em;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.menu h1 {
+    text-transform: capitalize;
+    font-size: 1em;
+    letter-spacing: 0.6em;
+    /* This centers the text (since we have 0.8em after each char due to letter-spacing*/
+    margin-right: -0.6em;
+    margin-top: 0;
+    text-align: center;
+}
+
+.menu li {
+    list-style: none;
+    padding-left: 2em;
+}
+
+.menu img {
+    max-width: 100%;
+    display: block;
+    max-height: 100px;
+    max-width: 170px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.menu ul {
+    margin: 0;
+}
+
+.user-menu {
+    padding: 1em;
+    background-color: var(--header-background-color);
+    grid-area: user;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    text-align: right;
+    color: var(--header-color);
+}
+
+.user-menu .name{
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.user-menu .email {
+    color: #b3b1b8;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+.user-menu > * {
+    margin-left: 5px;
+}
+
+
+.breadcrumbs {
+    position: relative;
+    grid-area: breadcrumbs;
+    background-color: var(--header-background-color);
+    margin-left: 1em;
+    min-height: 77px;
+    color: var(--breadcrumbs-color)
+}
+
+.menu .current {
+    position: absolute;
+    border-bottom: 4px solid var(--highlight-background-color);
+    color: var(--highlight-color);
+    font-size: 3em;
+    letter-spacing: -2px;
+    font-weight: 300;
+    left: 0;
+    bottom: 0;
+}
+
+/**/
+.filters {
+    background-color: white;
+    grid-area: filters;
+    padding: 10px;
+}
+
+.filters > button {
+    float: right;
+}
+
+.chart {
+    width: 100px;
+    height: 100px;
+}
+.content {
+    background-color: var(--main-background-color);
+    grid-area: main;
+}
+
+.content > div {
+    border-radius: 3px;
+    min-width: 0;
+    min-height: 0;
+}
+
+.map {
+    border: 3px solid white;
+}
+
+.prime_widgets_chart_Chart {
+    position: relative;
+    background-color: white;
+}
+
+.table {
+    background-color: white;
+    padding: 1em;
+    overflow-x: scroll;
+}
+
+.table h1 {
+    margin-top: 0;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--header-background-color);
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
+body {
+    font-family: "Open Sans";
+    color: #212529;
+    min-height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    min-width: 100%;
+}
+/**/
+.filters > div {
+    display: inline-block;
+}
+
+.filters > div > * {
+    border: none;
+    /*border-bottom: 1px solid #ccc;*/
+    margin-left: 1em;
+    padding-bottom: 10px;
+    vertical-align: bottom;
+}
+
+.filters input {
+
+}
+
+/**
+ 2 Column layout, menu on left.
+*/
+@media (min-width: 600px) {
+    .filters {
+        margin-left: 1em;
+        margin-right: 1em;
+        border-radius: 5px;
+        border-top-left-radius: 0;
+
+    }
+
+    body {
+        background: linear-gradient(
+                to bottom,
+                var(--header-background-color) 0%,
+                var(--header-background-color) 230px,
+                var(--main-background-color) 230px,
+                var(--main-background-color) 100%)
+    ;
+
+        display: grid;
+        grid-template-columns: 285px 1fr;
+        grid-template-rows: auto auto auto 1fr;
+        grid-template-areas:
+                "sidebar user"
+                "sidebar breadcrumbs"
+                "sidebar filters"
+                "sidebar main"
+    }
+
+    .content {
+        padding: 1em;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(auto-fit, 200px);
+        grid-auto-flow: dense;
+        grid-row-gap: 1em;
+        grid-column-gap: 1em;
+    }
+}
+
+/**
+ 3 column layout.
+*/
+@media (min-width: 800px) {
+    body {
+        background: linear-gradient(
+                to bottom,
+                var(--header-background-color) 0%,
+                var(--header-background-color) 130px,
+                var(--main-background-color) 130px,
+                var(--main-background-color) 100%)
+    ;
+        grid-template-rows: auto auto 1fr;
+        grid-template-columns: 285px 1fr 1fr ;
+        grid-template-areas:
+                "sidebar breadcrumbs user"
+                "sidebar filters filters"
+                "sidebar main main"
+    }
+
+    .content {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    .map {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+    .table {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+}
+
+@media (min-width: 900px) {
+    .content {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1110px) {
+    .content {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+/* Tables markup */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    background-color: #e0e0e0;
+    border-bottom: 2px solid #878787;
+    padding-top: 15px;
+}
+
+td {
+    border: 1px solid #dee2e6;
+    font-size: 0.9em;
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+/**
+Menu stuff
+ */
+.menu {
+    --indicator-width: 3px;
+    --indent: 20px;
+    --item-padding-vertical: 10px;
+}
+.menu a {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    padding-left: 20px;
+    font-weight: 600;
+    box-sizing: border-box;
+    padding-top: var(--item-padding-vertical);
+    padding-bottom: var(--item-padding-vertical);
+
+}
+
+.menu a, .menu a:visited {
+    color: inherit;
+}
+
+.menu a.active {
+    border-left: var(--indicator-width) solid var(--highlight-background-color);
+    padding-left: calc(var(--indent) - var(--indicator-width));
+    color: var(--highlight-background-color);
+}
+
+.menu section:not(.expanded) > a:not(:first-child) {
+    display: none;
+}
+
+.menu section a:first-child:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    margin-right: 10px;
+    margin-top: var(--item-padding-vertical);
+}
+
+.menu section:not(.expanded) > a:first-child:after {
+    content: '＋';
+}
+
+.menu section.expanded > a:first-child:after {
+    content: '－';
+}
+
+.menu section > a:not(:first-child) {
+    padding-left: calc(2 * var(--indent) - var(--indicator-width));
+    background-color: #f3f3f3;
+}
+
+.NestedSelect input::after {
+    color: var(--highlight-background-color);
+}

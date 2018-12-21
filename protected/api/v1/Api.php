@@ -1,5 +1,5 @@
 <?php
-namespace prime\api;
+namespace prime\api\v1;
 
 use yii\base\Module;
 use yii\log\FileTarget;
