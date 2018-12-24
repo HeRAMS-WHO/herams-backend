@@ -230,7 +230,7 @@ body {
         padding: 1em;
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(auto-fit, 200px);
+        grid-auto-rows: 200px;
         grid-auto-flow: dense;
         grid-row-gap: 1em;
         grid-column-gap: 1em;
@@ -275,13 +275,28 @@ body {
 @media (min-width: 900px) {
     .content {
         grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 200px 200px repeat(auto-fit, 200px);
+    }
+
+    .prime_widgets_chart_Chart {
+        grid-row: span 2;
     }
 }
 
-@media (min-width: 1110px) {
+@media(min-width: 1130px) {
+    .prime_widgets_chart_Chart {
+        grid-row: span 1;
+    }
+}
+
+@media(min-width: 1460px) {
     .content {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
+
+    /*.prime_widgets_chart_Chart {*/
+        /*grid-row: span 1;*/
+    /*}*/
 }
 /* Tables markup */
 table {

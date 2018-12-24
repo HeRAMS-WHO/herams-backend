@@ -85,7 +85,8 @@ class Map extends Widget
                     
                     let legend = document.createElement('span');
                     legend.classList.add('legend');
-                    legend.attributeStyleMap.set('--color', color);
+                    legend.style.setProperty('--color', color);
+                    //legend.attributeStyleMap.set('--color', color);
                     legend.textContent = set.title;
                     
                     // legend.css
