@@ -4,6 +4,8 @@
 namespace prime\widgets\chart;
 
 
+use prime\traits\SurveyHelper;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -12,12 +14,38 @@ use yii\web\View;
 
 class Chart extends Widget
 {
+    use SurveyHelper;
     public $options = [];
-    public $title;
     public $data = [];
-    public function init()
+    public $code;
+
+    /** @var SurveyInterface */
+    public $survey;
+
+    private function getPieDataSet(array $responses): array
     {
-        parent::init();
+        // Check question type.
+        $question = $this->findQuestionByCode($this->code);
+        $map = $this->getAnswers($this->code);
+        ksort($map);
+        $map[''] = 'No answer given';
+        $counts = [];
+
+        foreach($map as $k => $v) {
+            $counts[$v] = 0;
+        }
+
+        foreach($responses as $response) {
+            $value = $response->getValueForCode($question->getTitle()) ?? '';
+            $counts[$map[$value]]++;
+        }
+
+
+        return $counts;
+    }
+
+    public function run()
+    {
         $this->registerClientScript();
 
         $options = $this->options;
@@ -25,27 +53,24 @@ class Chart extends Widget
         $options['id'] = $this->getId();
 
         echo Html::beginTag('div', $options);
-    }
 
-    public function run()
-    {
-        parent::run();
-        $count = count($this->data);
+        $dataSet = $this->getPieDataSet($this->data);
+        $count = count($dataSet);
         $config = [
             'type' => 'doughnut',
             'data' => [
                 'datasets' => [
                     [
-                        'data' => array_values($this->data),
+                        'data' => array_values($dataSet),
                         'backgroundColor' => new JsExpression("chroma.scale(['green', 'orange', 'red', 'grey']).colors($count)"),
                     ]
                 ],
-                'labels' => array_keys($this->data)
+                'labels' => array_keys($dataSet)
             ],
             'options' => [
                 'elements' => [
                     'center' => [
-                        'text' => array_sum($this->data)
+                        'text' => array_sum($dataSet)
                     ]
                 ],
                 'legend' => [
@@ -55,7 +80,7 @@ class Chart extends Widget
 
                 'title' => [
                     'display' => true,
-                    'text' => $this->title
+                    'text' => $this->getTitle()
                 ],
                 'responsive' => true,
                 'maintainAspectRatio' => false

@@ -41,7 +41,8 @@
         "sam-it/ls2-jsonrpc-client": "^1",
         "sam-it/yii2-magic": "^1.0.3",
         "treffynnon/navigator": "^1",
-        "yiisoft/yii2": "^2.0.15"
+        "yiisoft/yii2": "^2.0.15",
+        "nikic/iter": "^1.6"
     },
 	"autoload" : {
         "psr-4" : {

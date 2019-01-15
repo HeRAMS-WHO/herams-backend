@@ -30,6 +30,18 @@ $this->title = Yii::t('app', 'Update project');
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->dataSurveyOptions(),
             ],
+            'latitude_code' => [
+                'type' => Form::INPUT_TEXT
+            ],
+            'longitude_code' => [
+                'type' => Form::INPUT_TEXT
+            ],
+            'name_code' => [
+                'type' => Form::INPUT_TEXT
+            ],
+            'type_code' => [
+                'type' => Form::INPUT_TEXT
+            ],
             [
                 'type' => Form::INPUT_RAW,
                 'value' => \yii\bootstrap\ButtonGroup::widget([
@@ -41,5 +53,6 @@ $this->title = Yii::t('app', 'Update project');
         ]
     ]);
     $form->end();
+
     ?>
 </div>

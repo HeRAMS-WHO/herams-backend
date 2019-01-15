@@ -23,7 +23,7 @@ html {
  Box sizing reset
  */
 html {
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 *, *:before, *:after {
     box-sizing: inherit;
@@ -32,42 +32,75 @@ html {
 
 }
 
-.menu {
+input {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+
+
+
+.filter {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: #212529;
     padding-top: 10px;
-    background-color: white;
-    grid-area: sidebar;
-    font-size: 1.3em;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1px;
+    background-color: transparent;
 }
 
-.menu h1 {
-    text-transform: capitalize;
-    font-size: 1em;
-    letter-spacing: 0.6em;
-    /* This centers the text (since we have 0.8em after each char due to letter-spacing*/
-    margin-right: -0.6em;
-    margin-top: 0;
-    text-align: center;
+.filter:before {
+    font-smooth: never;
+    -webkit-font-smoothing : none;
+    margin-right: 0.3em;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #76C62F;
+    background-color: inherit;
 }
 
-.menu li {
-    list-style: none;
-    padding-left: 2em;
+.filter > * {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: 0;
 }
 
-.menu img {
-    max-width: 100%;
-    display: block;
-    max-height: 100px;
-    max-width: 170px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+.filter input::-webkit-inner-spin-button, .filter input::-webkit-calendar-picker-indicator {
+    opacity: 1;
 }
-.menu ul {
-    margin: 0;
+
+.filter input::-webkit-calendar-picker-indicator {
+    /*opacity: 0;*/
+    /*display:none;*/
+}
+
+
+.filter_where:before {
+    /* https://fontawesome.com/icons/globe?style=solid */
+    content: '';
+}
+
+.filter_when:before {
+    /* https://fontawesome.com/icons/calendar-alt?style=solid */
+    content: '';
+}
+
+
+.filter_type:before {
+    /* https://fontawesome.com/icons/hospital?style=regular */
+    content: '';
+}
+
+.filter_advanced:before  {
+    /* https://fontawesome.com/icons/filter?style=solid */
+    content: '';
 }
 
 .user-menu {
@@ -100,7 +133,7 @@ html {
     position: relative;
     grid-area: breadcrumbs;
     background-color: var(--header-background-color);
-    margin-left: 1em;
+    /*margin-left: 1em;*/
     min-height: 77px;
     color: var(--breadcrumbs-color)
 }
@@ -120,11 +153,9 @@ html {
 .filters {
     background-color: white;
     grid-area: filters;
-    padding: 10px;
-}
-
-.filters > button {
-    float: right;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    --height: 30px;
 }
 
 .chart {
@@ -167,11 +198,23 @@ html {
 .buttons {
     display: flex;
     flex-direction: row-reverse;
+    color: var(--background-color);
+
+}
+
+.buttons button {
+    color: inherit;
+    height: var(--height);
+    border: none;
+    background: none;
 }
 
 
+
+
 body {
-    font-family: "Open Sans";
+    font-family: "Source Sans Pro", sans-serif;
+
     color: #212529;
     min-height: 100%;
     margin: 0;
@@ -183,17 +226,12 @@ body {
     display: inline-block;
 }
 
-.filters > div > * {
-    border: none;
-    /*border-bottom: 1px solid #ccc;*/
-    margin-left: 1em;
-    padding-bottom: 10px;
-    vertical-align: bottom;
-}
-
-.filters input {
-
-}
+/*.filters > div > * {*/
+    /*border: none;*/
+    /*!*border-bottom: 1px solid #ccc;*!*/
+    /*margin-left: 1em;*/
+    /*padding-bottom: 10px;*/
+/*}*/
 
 /**
  2 Column layout, menu on left.
@@ -306,7 +344,7 @@ table {
 
 th {
     background-color: #e0e0e0;
-    border-bottom: 2px solid #878787;
+    border-bottom: 2px solid var(--background-color);
     padding-top: 15px;
 }
 
@@ -320,21 +358,66 @@ td {
 /**
 Menu stuff
  */
+.menu h1 {
+    text-transform: capitalize;
+    font-size: 1em;
+    letter-spacing: 0.6em;
+    /* This centers the text (since we have 0.8em after each char due to letter-spacing*/
+    margin-right: -0.6em;
+    margin-top: 0;
+    text-align: center;
+}
+
+.menu li {
+    list-style: none;
+    padding-left: 2em;
+}
+
+.menu img {
+    max-width: 100%;
+    display: block;
+    max-height: 100px;
+    max-width: 170px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.menu ul {
+    margin: 0;
+}
+
 .menu {
+    --animation-duration: 500ms;
     --indicator-width: 3px;
     --indent: 20px;
     --item-padding-vertical: 10px;
+    padding-top: 10px;
+    background-color: white;
+    grid-area: sidebar;
+    font-size: 1em;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+    z-index: 10;
 }
+
+.menu nav > a, .menu nav > section > header > a {
+    font-weight: 600;
+}
+
 .menu a {
     display: block;
     text-decoration: none;
     position: relative;
     padding-left: 20px;
-    font-weight: 600;
     box-sizing: border-box;
     padding-top: var(--item-padding-vertical);
     padding-bottom: var(--item-padding-vertical);
+    overflow: hidden;
 
+    max-height: 2em;
+    transition: max-height var(--animation-duration),
+                padding-top var(--animation-duration),
+                padding-bottom var(--animation-duration);
 }
 
 .menu a, .menu a:visited {
@@ -343,15 +426,22 @@ Menu stuff
 
 .menu a.active {
     border-left: var(--indicator-width) solid var(--highlight-background-color);
-    padding-left: calc(var(--indent) - var(--indicator-width));
     color: var(--highlight-background-color);
 }
 
-.menu section:not(.expanded) > a:not(:first-child) {
-    display: none;
+.menu header:not(.expanded) ~ a {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
-.menu section a:first-child:after {
+.menu header {
+    position: relative;
+}
+.menu header:after {
+    font-weight: 900;
+    font-family: "Font Awesome 5 Free";
+    content: "\f054";
     position: absolute;
     top: 0;
     right: 0;
@@ -360,19 +450,44 @@ Menu stuff
     margin-top: var(--item-padding-vertical);
 }
 
-.menu section:not(.expanded) > a:first-child:after {
-    content: '＋';
+.menu header.expanded:after {
+    font-family: "Font Awesome 5 Free";
+    content: "\f078";
 }
 
-.menu section.expanded > a:first-child:after {
-    content: '－';
-}
+/*.menu section:not(.expanded) > a:first-child:after {*/
+    /*content: '＋';*/
+/*}*/
 
-.menu section > a:not(:first-child) {
+/*.menu section.expanded > a:first-child:after {*/
+    /*content: '－';*/
+/*}*/
+
+.menu section > a {
     padding-left: calc(2 * var(--indent) - var(--indicator-width));
     background-color: #f3f3f3;
 }
 
 .NestedSelect input::after {
     color: var(--highlight-background-color);
+}
+
+/*
+ MODAL
+ */
+
+.modal {
+    display: none;
+    position: fixed;
+    left: 100px;
+    right: 100px;
+    top: 100px;
+    z-index: 1001;
+    bottom: 100px;
+    background-color: lightgrey;
+    overflow-y: scroll;
+}
+
+.modal.visible {
+    display: block;
 }

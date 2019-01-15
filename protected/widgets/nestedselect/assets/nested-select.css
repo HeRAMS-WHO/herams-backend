@@ -1,7 +1,6 @@
 .NestedSelect {
     position: relative;
     display: inline-block;
-    padding: 10px;
 }
 
 .NestedSelect .options {
@@ -15,22 +14,21 @@
     border-top-right-radius: 0;
     border-top: 1px solid #4177c1;
     left: 0;
+    min-width: 200px;
     top: 100%;
 }
 
+.NestedSelect .current {
+    display: inline-block;
+}
+/*.NestedSelect .current:after  {*/
+    /*content: '▾'; !* ▼⌄*!*/
+    /*font-weight: bold;*/
+    /*margin-left: 1em;*/
+/*}*/
+
 .NestedSelect .current.expanded + .options {
     display: inherit;
-}
-
-.NestedSelect .current {
-    --height: 30px;
-    background-image: url('filter_where.svg');
-    background-repeat: no-repeat;
-    background-size: var(--height);
-    background-position: center left;
-    padding-left: calc(var(--height) + 10px);
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 
 .NestedSelect div {
@@ -74,7 +72,7 @@
     top: -0.085em;
 }
 
-.NestedSelect div label:first-child {
+.NestedSelect div label.group {
     font-weight: 600;
     font-size: 1.5em;
 }

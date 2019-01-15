@@ -2,7 +2,7 @@
 
 namespace prime\models\ar;
 
-use app\queries\ProjectQuery;
+use app\queries\WorkspaceQuery;
 use Carbon\Carbon;
 use prime\components\Route;
 use prime\factories\GeneratorFactory;
@@ -54,7 +54,7 @@ use yii\web\Linkable;
  * @property Country $country
  * @property int $owner_id
  *
- * @method static ProjectQuery find()
+ * @method static WorkspaceQuery find()
  */
 class Workspace extends ActiveRecord implements AuthorizableInterface, WorkspaceInterface, Linkable
 {
@@ -311,7 +311,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
     public function getSurveyUrl()
     {
         return $this->getLimeSurvey()->getUrl(
-            $this->data_survey_eid,
+            $this->tool->base_survey_eid,
             [
                 'token' => $this->getAttribute('token'),
                 'newtest' => 'Y'

@@ -2,7 +2,7 @@
 
 namespace prime\models\ar;
 
-use app\queries\ProjectQuery;
+use app\queries\WorkspaceQuery;
 use prime\models\permissions\Permission;
 use yii\validators\RequiredValidator;
 
@@ -56,12 +56,12 @@ class User extends \dektrium\user\models\User {
     /**
      * The project find function only returns projects a user has at least read access to
      */
-    public function getProjects(): ProjectQuery
+    public function getProjects(): WorkspaceQuery
     {
         return Workspace::find()->notClosed()->userCan(Permission::PERMISSION_READ);
     }
 
-    public function getOwnedProjects(): ProjectQuery
+    public function getOwnedProjects(): WorkspaceQuery
     {
         return $this->hasMany(Workspace::class, ['owner_id' => 'id']);
     }

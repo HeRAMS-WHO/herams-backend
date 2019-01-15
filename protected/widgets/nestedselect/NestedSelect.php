@@ -5,11 +5,13 @@ namespace prime\widgets\nestedselect;
 
 
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\widgets\InputWidget;
 
 class NestedSelect extends InputWidget
 {
     public $placeholder;
+    public $multiple = '(multiple)';
     public $selection;
     public $allowMultiple = true;
 
@@ -20,6 +22,8 @@ class NestedSelect extends InputWidget
         parent::init();
         $options = $this->options;
         Html::addCssClass($options, 'NestedSelect');
+        $options['data']['multiple'] = $this->multiple;
+        $options['data']['placeholder'] = $this->placeholder;
         $this->view->registerAssetBundle(AssetBundle::class);
         echo Html::beginTag('div', $options);
     }
@@ -35,8 +39,10 @@ class NestedSelect extends InputWidget
         array_push($stack, $label);
         $this->indent(Html::checkbox($this->name . '[]', in_array($value, $this->selection ?? []), [
             'value' => $value,
-            'class' => 'option',
-            'label' => implode(' / ', $stack)
+            'labelOptions' => [
+                'class' => 'option',
+            ],
+            'label' => $label //implode(' / ', $stack)
         ]), count($stack));
     }
 
@@ -47,7 +53,10 @@ class NestedSelect extends InputWidget
         $this->indent(Html::beginTag('div'), $level);
         $this->indent(Html::checkbox('', false, [
             'label' => $label,
-            'class' => 'group'
+            'labelOptions' => [
+                'class' => 'group'
+            ]
+
         ]));
         $this->renderOptions($items, $stack);
         $this->indent('</div>', $level);
@@ -67,11 +76,13 @@ class NestedSelect extends InputWidget
     public function run()
     {
         parent::run();
-        echo Html::tag('span', $this->placeholder, [
-            'class' => ['current']
+        echo Html::tag('span', null, [
+            'class' => ['current'],
         ]);
         echo Html::beginTag('div', ['class' => 'options']);
         $this->renderOptions($this->items);
+        $id = Json::encode($this->id);
+        $this->view->registerJs("NestedSelect.updateTitle(document.getElementById($id));");
         echo Html::endTag('div');
         echo Html::endTag('div');
     }

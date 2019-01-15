@@ -5,7 +5,7 @@ namespace app\queries;
 use prime\components\ActiveQuery;
 use prime\models\permissions\Permission;
 
-class ProjectQuery extends ActiveQuery
+class WorkspaceQuery extends ActiveQuery
 {
     /**
      * @return self

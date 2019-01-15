@@ -4,39 +4,99 @@
 namespace prime\widgets\map;
 
 
+use prime\objects\HeramsResponse;
+use prime\traits\SurveyHelper;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
 class Map extends Widget
 {
+    use SurveyHelper;
     public const TILE_LAYER = 'tileLayer';
-    public $baseLayers = [];
+    public $baseLayers = [
+        [
+            "type" => Map::TILE_LAYER,
+            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        ]
+    ];
 
-    public $options = [];
+    public $options = [
+        'class' => ['map']
+    ];
 
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
 
+    /**
+     * @var HeramsResponse[]
+     */
     public $data = [];
+    /** @var SurveyInterface */
+    public $survey;
 
+    public $code;
 
-    public function init()
+    private function getCollections(array $data)
     {
-        parent::init();
-        $this->registerClientScript();
+        $types = $this->getAnswers($this->code);
+        $collections = [];
+        /** @var HeramsResponse $response */
+        foreach($data as $response) {
+            $type = $response->getType();
+            $latitude = $response->getLatitude();
+            $longitude = $response->getLongitude();
+            if (abs($latitude) < 0.0000001
+                && abs($longitude) < 0.0000001) {
+                continue;
+            }
 
-        $options = $this->options;
-        Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
-        $options['id'] = $this->getId();
+            if (!isset($collections[$type])) {
+                $collections[$type] = [
+                    "type" => "FeatureCollection",
+                    'features' => [],
+                    "title" => $types[$type] ?? $type ?? 'Unknown',
+                ];
+            }
 
-        echo Html::beginTag('div', $options);
+            $point = [
+                "type" => "Feature",
+                "geometry" => [
+                    "type" => "Point",
+                    "coordinates" => [$latitude, $longitude]
+                ],
+                "properties" => [
+                    'title' => $response->getName(),
+                ]
 
+//                'subtitle' => '',
+//                'items' => [
+//                    'ownership',
+//                    'building damage',
+//                    'functionality'
+//                ]
+            ];
+            $collections[$type]['features'][] = $point;
+        }
+        uksort($collections, function($a, $b) {
+            if ($a === "" || $a === "-oth-") {
+                return 1;
+            } elseif ($b === "" || $b === "-oth-") {
+                return -1;
+            }
+            return $a <=> $b;
+        });
+        return array_values($collections);
     }
 
     public function run()
     {
-
+        $this->registerClientScript();
+        $options = $this->options;
+        Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
+        $options['id'] = $this->getId();
+        echo Html::beginTag('div', $options);
         $id = Json::encode($this->getId());
 
         $config = Json::encode([
@@ -46,7 +106,7 @@ class Map extends Widget
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
-        $data = Json::encode($this->data);
+        $data = Json::encode($this->getCollections($this->data));
 
         $this->view->registerJs(<<<JS
         (function() {
@@ -86,6 +146,7 @@ class Map extends Widget
                     let legend = document.createElement('span');
                     legend.classList.add('legend');
                     legend.style.setProperty('--color', color);
+                    legend.title = set.features.length;
                     //legend.attributeStyleMap.set('--color', color);
                     legend.textContent = set.title;
                     

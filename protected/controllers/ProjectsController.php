@@ -2,7 +2,7 @@
 
 namespace prime\controllers;
 
-use app\queries\ProjectQuery;
+use app\queries\WorkspaceQuery;
 use app\queries\ToolQuery;
 use prime\components\Controller;
 use prime\controllers\projects\Close;
@@ -112,7 +112,7 @@ class ProjectsController extends Controller
     ) {
         $tool = Tool::loadOne($toolId);
         $projectSearch = new ProjectSearch($tool->id, [
-            'queryCallback' => function(ProjectQuery $query) {
+            'queryCallback' => function(WorkspaceQuery $query) {
                 return $query->readable();
             }
         ]);
@@ -132,7 +132,7 @@ class ProjectsController extends Controller
     ) {
         $tool = Tool::loadOne($toolId);
         $projectSearch = new ProjectSearch($tool->id, [
-            'queryCallback' => function(ProjectQuery $query) {
+            'queryCallback' => function(WorkspaceQuery $query) {
                 return $query->notReadable();
             }
         ]);

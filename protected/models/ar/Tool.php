@@ -12,6 +12,7 @@ use prime\lists\SurveyFacilityList;
 use prime\lists\WorkspaceList;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
+use prime\objects\HeramsCodeMap;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use prime\tests\_helpers\Survey;
@@ -36,6 +37,7 @@ use yii\web\UploadedFile;
  * @property int $base_survey_eid
  * @property string $title
  * @method static ToolQuery find()
+ * @property Page[] $pages
  */
 class Tool extends ActiveRecord implements ProjectInterface, Linkable {
 
@@ -50,6 +52,11 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
      */
     public $tempImage;
     public $thumbTempImage;
+
+    public $latitude_code;
+    public $longitude_code;
+    public $type_code;
+    public $name_code;
 
 
     /**
@@ -89,7 +96,17 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
     public function attributeLabels()
     {
         return [
-            'base_survey_eid' => \Yii::t('app', 'Base data survey')
+            'base_survey_eid' => \Yii::t('app', 'Survey')
+        ];
+    }
+
+    public function attributeHints()
+    {
+        return [
+            'latitude_code' => \Yii::t('app', 'Question code containing the latitude (case sensitive)'),
+            'longitude_code' => \Yii::t('app', 'Question code containing the longitude (case sensitive)'),
+            'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
+            'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
         ];
     }
 
@@ -146,6 +163,7 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
 //            [['title'], UniqueValidator::class],
             [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
             [['hidden'], BooleanValidator::class],
+            [['latitude_code', 'longitude_code', 'name_code', 'type_code'], StringValidator::class, 'min' => 1]
         ];
     }
 
@@ -271,5 +289,14 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
     public function getFacilities(): FacilityListInterface
     {
         return new SurveyFacilityList($this->getBaseSurvey());
+    }
+
+    public function getMap(): HeramsCodeMap
+    {
+        return new HeramsCodeMap();
+    }
+
+    public function getPages() {
+        return $this->hasMany(Page::class, ['tool_id' => 'id'])->andWhere(['parent_id' => null]);
     }
 }
