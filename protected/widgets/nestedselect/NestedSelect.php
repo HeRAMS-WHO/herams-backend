@@ -12,10 +12,22 @@ class NestedSelect extends InputWidget
 {
     public $placeholder;
     public $multiple = '(multiple)';
-    public $selection;
     public $allowMultiple = true;
 
+    public $expanded = false;
+    public $header = true;
+
     public $items;
+
+    private function getValue()
+    {
+        return $this->value ?? $this->model->{$this->attribute} ?? [];
+    }
+
+    private function getName(): string
+    {
+        return $this->name ?? Html::getInputName($this->model, $this->attribute);
+    }
 
     public function init()
     {
@@ -37,7 +49,7 @@ class NestedSelect extends InputWidget
     {
 
         array_push($stack, $label);
-        $this->indent(Html::checkbox($this->name . '[]', in_array($value, $this->selection ?? []), [
+        $this->indent(Html::checkbox($this->getName() . '[]', in_array($value, $this->getValue()), [
             'value' => $value,
             'labelOptions' => [
                 'class' => 'option',
@@ -76,13 +88,23 @@ class NestedSelect extends InputWidget
     public function run()
     {
         parent::run();
-        echo Html::tag('span', null, [
-            'class' => ['current'],
-        ]);
+        $currentOptions = [
+            'class' => ['current']
+        ];
+        if ($this->expanded) {
+            Html::addCssClass($currentOptions, 'expanded');
+        }
+        echo Html::tag('span', null, $currentOptions);
         echo Html::beginTag('div', ['class' => 'options']);
         $this->renderOptions($this->items);
-        $id = Json::encode($this->id);
-        $this->view->registerJs("NestedSelect.updateTitle(document.getElementById($id));");
+        $id = Json::encode($this->options['id']);
+        $this->view->registerJs(<<<JS
+    NestedSelect.updateTitle(document.getElementById($id));
+    NestedSelect.updateGroupBoxes(document.getElementById($id));
+JS
+        );
+
+
         echo Html::endTag('div');
         echo Html::endTag('div');
     }

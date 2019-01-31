@@ -299,4 +299,9 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
     public function getPages() {
         return $this->hasMany(Page::class, ['tool_id' => 'id'])->andWhere(['parent_id' => null]);
     }
+
+    public function getAllPages()
+    {
+        return $this->hasMany(Page::class, ['tool_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
+    }
 }

@@ -1,15 +1,14 @@
 <?php
 
 
-namespace prime\controllers\projects;
+namespace prime\controllers\project;
 
 
+use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Tool;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsResponse;
-use prime\widgets\chart\Chart;
-use prime\widgets\map\Map;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
@@ -25,23 +24,41 @@ class View extends Action
         Client $limeSurvey,
         Request $request,
         int $id,
-        int $page_id = null
+        int $page_id = null,
+        int $parent_id = null
     ) {
         $this->controller->layout = 'css3-grid';
         $tool = Tool::findOne(['id' => $id]);
-        if (isset($page_id)) {
+        $survey = $limeSurvey->getSurvey($tool->base_survey_eid);
+
+        if (isset($parent_id, $page_id)) {
+            /** @var PageInterface $parent */
+            $parent = Page::findOne(['id' => $parent_id]);
+            foreach ($parent->getChildPages($survey) as $childPage) {
+                if ($childPage->getid() === $page_id) {
+                    $page = $childPage;
+                    break;
+                }
+            }
+            if (!isset($page)) {
+                throw new NotFoundHttpException();
+            }
+        } elseif (isset($page_id)) {
             $page = Page::findOne(['id' => $page_id]);
+            if (!isset($page) || $page->tool_id !== $tool->id) {
+                throw new NotFoundHttpException($page->tool_id);
+            }
         } else {
             $page = $tool->pages[0];
         }
-        if ($page->tool_id !== $tool->id) {
-            throw new NotFoundHttpException($page->tool_id);
-        }
+
+
+
 
         \Yii::beginProfile('getResponses');
         $responses = [];
         $map = $tool->getMap();
-        foreach($limeSurvey->getResponses($tool->base_survey_eid) as $response) {
+        foreach($this->getResponses($limeSurvey, $tool->base_survey_eid) as $response) {
             try {
                 $responses[] = new HeramsResponse($response, $map);
             } catch (\InvalidArgumentException $e) {
@@ -50,7 +67,7 @@ class View extends Action
         }
         \Yii::endProfile('getResponses');
 
-        $survey = $limeSurvey->getSurvey($tool->base_survey_eid);
+
         $filter = new ResponseFilter($responses, $survey);
         $filter->load($request->queryParams);
         $elements = [];
@@ -58,6 +75,22 @@ class View extends Action
 
         /** @var  $filtered */
         $filtered = $filter->filter($responses);
+
+        // Check if page uses subjects.
+        if (false) {
+            \Yii::beginProfile('transpose');
+            $finalResponses = [];
+            foreach($filtered as $response) {
+                foreach($response->getSubjects() as $subject) {
+                    $finalResponses[] = $subject;
+                }
+            }
+            \Yii::endProfile('transpose');
+        } else {
+            $finalResponses = $filtered;
+        }
+
+
         return $this->controller->render('view', [
             'elements' => $elements,
             'types' => $this->getTypes($survey),
@@ -67,6 +100,23 @@ class View extends Action
             'page' => $page,
             'survey' => $survey
         ]);
+    }
+
+    private function getResponses(Client $limeSurvey, int $surveyId, int $retries = 10)
+    {
+        $attempts = 0;
+        while ($attempts <= $retries)
+        {
+            try {
+                return $limeSurvey->getResponses($surveyId);
+            } catch (\Throwable $t) {
+                if ($attempts === $retries) {
+                    throw new \Exception('Failed to get responses after ' . $retries . ' attempts', 0, $t);
+                }
+            }
+            $attempts++;
+        }
+
     }
 
     private function getTypes(SurveyInterface $survey): array {

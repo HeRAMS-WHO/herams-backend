@@ -24,6 +24,7 @@ class ResponseFilter extends Model
 
     public $types;
     public $locations = [];
+    public $advanced = [];
 
     /**
      * @var HeramsResponse[]
@@ -39,6 +40,7 @@ class ResponseFilter extends Model
     ) {
         parent::__construct([]);
         $this->allResponses = $responses;
+        $this->date = date('Y-m-d');
 
     }
 
@@ -46,7 +48,7 @@ class ResponseFilter extends Model
     {
         return [
             [['date'], DateValidator::class, 'format' => 'php:Y-m-d'],
-            [['locations', 'types'], SafeValidator::class],
+            [['locations', 'types', 'advanced'], SafeValidator::class],
         ];
     }
 
@@ -102,6 +104,13 @@ class ResponseFilter extends Model
                 continue;
             }
 
+            // Advanced filter.
+            foreach($this->advanced as $key => $values) {
+                if (!empty($values) && !in_array($response->getValueForCode($key), $values)) {
+                    continue 2;
+                }
+            }
+
             $id = $response->getSubjectId();
             if (!isset($indexed[$id]) || $indexed[$id]->getDate() < $response->getDate()) {
                 $indexed[$id] = $response;
@@ -113,5 +122,11 @@ class ResponseFilter extends Model
         \Yii::endProfile('filter');
         return array_values($indexed);
     }
+
+    public function formName()
+    {
+        return 'RF';
+    }
+
 
 }

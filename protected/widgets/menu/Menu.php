@@ -4,8 +4,10 @@
 namespace prime\widgets\menu;
 
 
+use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Tool;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -15,7 +17,10 @@ class Menu extends Widget
     /** @var Tool */
     public $project;
 
-    /** @var Page */
+    /** @var SurveyInterface */
+    public $survey;
+
+    /** @var PageInterface */
     public $currentPage;
 
 
@@ -53,38 +58,40 @@ JS;
     }
 
     /**
-     * @param Page $page
      * @return bool whether the link is active
      */
-    protected function renderPageLink(Page $page): bool
+    protected function renderPageLink(PageInterface $page): bool
     {
         $options = [];
-        if ($page->id === $this->currentPage->id) {
+        if ($page->getId() === $this->currentPage->getId()
+            && $page->getParentId() === $this->currentPage->getParentId()
+        ) {
             Html::addCssClass($options, 'active');
+            $result = true;
+        } else {
+            $result = false;
         }
-        $route = empty($page->children) ? ['projects/view', 'id' => $this->project->id, 'page_id' => $page->id] : null;
-        echo Html::a($page->title, $route, $options);
+        $route = empty($page->children) ? [
+            'project/view',
+            'id' => $this->project->id,
+            'parent_id' => $page->getParentId(),
+            'page_id' => $page->getId()
+        ] : null;
+        echo Html::a($page->getTitle(), $route, $options);
 
-        return $page->id === $this->currentPage->id;
+        return $result;
     }
 
     /**
      * @param Page $page
      * @return bool whether this menu contains an active child.
      */
-    protected function renderPageMenu(Page $page): bool
+    protected function renderPageMenu(PageInterface $page): bool
     {
-        // Check if page has children.
-        if (empty($page->children)) {
-            return $this->renderPageLink($page);
-        }
-
-
         $headerOptions = [];
-        echo Html::beginTag('section');
         ob_start();
         $result = false;
-        foreach($page->children as $child) {
+        foreach($page->getChildPages($this->survey) as $child) {
             if ($this->renderPageMenu($child) && !$result) {
                 $result = true;
                 Html::addCssClass($headerOptions, 'expanded');
@@ -92,6 +99,11 @@ JS;
         }
 
         $sub = ob_get_clean();
+
+        if (empty($sub)) {
+            return $this->renderPageLink($page);
+        }
+        echo Html::beginTag('section');
         echo Html::tag('header', Html::a($page->title), $headerOptions);
         echo $sub;
         echo Html::endTag('section');

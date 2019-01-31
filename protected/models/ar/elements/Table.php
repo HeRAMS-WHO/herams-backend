@@ -8,19 +8,18 @@ use prime\models\ar\Element;
 use prime\widgets\table\Table as TableWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
-use prime\widgets\map\Map as MapWidget;
 
 class Table extends Element
 {
-    public function getWidget(
+    protected function getWidgetInternal(
         SurveyInterface $survey,
-        array $data
+        iterable $data
     ): Widget
     {
-        return new TableWidget(array_merge($this->config, [
+        return new TableWidget(array_merge([
             'data' => $data,
             'survey' => $survey,
-        ]));
+        ], $this->config));
 
     }
 }

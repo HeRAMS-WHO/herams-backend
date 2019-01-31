@@ -1,6 +1,9 @@
 <?php
 /* @var $this \yii\web\View */
-    /* @var $content string */
+
+use yii\widgets\Breadcrumbs;
+
+/* @var $content string */
     $this->beginPage();
 
     $this->registerCssFile('/css/dashboard.css?' . time());
@@ -30,11 +33,14 @@ $this->beginBody(); ?>
         <div class="email">sam@mousa.nl</div>
     </div>
 </div>
-<div class="breadcrumbs">
-    <div class="parent">Status &gt; </div>
-    <div class="current">Functionality</div>
-</div>
 <?php
+    echo Breadcrumbs::widget([
+        'homeLink' => [
+            'label' => \Yii::t('app', 'World overview'),
+            'url' => '/'
+        ],
+        'links' => $this->params['breadcrumbs'] ?? []
+    ]);
     echo $content;
     $this->endBody();
 ?>

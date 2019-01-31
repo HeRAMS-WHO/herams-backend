@@ -14,7 +14,7 @@ trait SurveyHelper
     /** @var string */
     public $code;
 
-    private function findQuestionByCode(string $text): ?QuestionInterface
+    private function findQuestionByCode(string $text): QuestionInterface
     {
         $survey = $this->survey;
         foreach($survey->getGroups() as $group) {
@@ -25,6 +25,7 @@ trait SurveyHelper
 
             }
         }
+        throw new \InvalidArgumentException("Question code $text not found");
     }
 
     private function getAnswers(string $code = null)
@@ -41,12 +42,19 @@ trait SurveyHelper
         foreach($answers as $answer) {
             $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
         }
+
+        ksort($map);
+        $map[''] = 'No answer given';
         return $map;
     }
 
-    private function getTitle()
+    protected function getTitle(): string
     {
-        $question = $this->findQuestionByCode($this->code);
-        return trim(explode(':', $question->getText())[0], "\n:");
+        try {
+            $question = $this->findQuestionByCode($this->code);
+            return trim(explode(':', $question->getText())[0], "\n:");
+        } catch (\InvalidArgumentException $e) {
+            return ucfirst($this->code);
+        }
     }
 }

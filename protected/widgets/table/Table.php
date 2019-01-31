@@ -25,9 +25,10 @@ class Table extends Widget
     /** @var HeramsResponse[] $data */
     public $data = [];
 
+    public $groupCode = 'location';
+
     public function run()
     {
-
         echo Html::beginTag('div', ['class' => ['table']]);
         echo Html::tag('h1', $this->getTitle());
         $this->renderTable();
@@ -44,15 +45,42 @@ class Table extends Widget
 
     protected function getRows(): iterable
     {
-        $reasonMap = $this->getAnswers($this->reasonCode );
+        try {
+            $question = $this->findQuestionByCode($this->code);
+            $valueGetter = function($response) {
+                return $response->getValueForCode($this->code) ?? [];
+            };
+        } catch (\InvalidArgumentException $e) {
+            // Question doesn't exist, we should use getter to retrieve values.
+            $valueGetter = function($response) {
+                $getter = 'get'. ucfirst($this->code);
+                return $response->$getter() ?? [];
+            };
+        }
+
+        try {
+            $this->findQuestionByCode($this->reasonCode);
+            $reasonGetter = function($response): array {
+                return $response->getValueForCode($this->reasonCode) ?? [];
+            };
+            $reasonMap = $this->getAnswers($this->reasonCode);
+        } catch (\InvalidArgumentException $e) {
+            $getter = 'get'. ucfirst($this->reasonCode);
+            $reasonGetter = function($response) use ($getter):array {
+                return $response->$getter();
+            };
+        }
+
         $result = [];
         /** @var HeramsResponse $response */
+        \Yii::beginProfile(__CLASS__ . 'count');
         foreach($this->data as $response) {
-            $location = $response->getLocation();
-            if (empty($location)) {
+            $group = $this->getGroup($response);
+            if (empty($group)) {
                 continue;
             }
-            $value = $response->getValueForCode($this->code);
+
+            $value = $valueGetter($response);
             if (empty($value)) {
                 continue;
             }
@@ -61,37 +89,32 @@ class Table extends Widget
                 $key = 'FUNCTIONAL';
             } else {
                 $key = 'NONFUNCTIONAL';
-                $reasons = $response->getValueForCode($this->reasonCode) ?? [];
-                foreach($reasons as $reason) {
-                    $result[$location]['reasons'][$reason] = ($result[$location]['reasons'][$reason] ?? 0) + 1;
+                foreach($reasonGetter($response) as $reason) {
+                    $result[$group]['reasons'][$reason] = ($result[$group]['reasons'][$reason] ?? 0) + 1;
                 }
             }
-            $result[$location]['counts'][$key] = ($result[$location]['counts'][$key] ?? 0) + 1;
-            $result[$location]['counts']['TOTAL'] = ($result[$location]['counts']['TOTAL'] ?? 0) + 1;
+            $result[$group]['counts'][$key] = ($result[$group]['counts'][$key] ?? 0) + 1;
+            $result[$group]['counts']['TOTAL'] = ($result[$group]['counts']['TOTAL'] ?? 0) + 1;
         }
 
+        \Yii::endProfile(__CLASS__ . 'count');
         // Todo: SORT
         uasort($result, function($a, $b) {
             $percentageA = 1.0 * ($a['counts']['FUNCTIONAL'] ?? 0) / $a['counts']['TOTAL'];
             $percentageB = 1.0 * ($b['counts']['FUNCTIONAL'] ?? 0) / $b['counts']['TOTAL'];
             return ($percentageA <=> $percentageB);
         });
-
-        foreach(array_slice($result, 0, 5) as $location => $data) {
+        foreach(array_slice($result, 0, 5) as $group => $data) {
             $reasons = $data['reasons'] ?? [];
             arsort($reasons);
             $total = array_sum($reasons);
             yield [
-                $location,
+                $group,
                 number_format(100.0 * ($data['counts']['FUNCTIONAL'] ?? 0) / $data['counts']['TOTAL'], 2),
-                empty($reasons) ? 'Unknown' : $reasonMap[array_keys($reasons)[0]],
-                empty($reasons) ? 'Unknown' : (100.0 * array_values($reasons)[0] / $total)
+                empty($reasons) ? 'Unknown' : $reasonMap[array_keys($reasons)[0]] ?? array_keys($reasons)[0],
+                empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 2)
             ];
         }
-        return;
-        echo '<pre>';
-        var_dump(array_slice($result, 0, 5)); die();
-        return array_slice($result, 0, 5);
     }
 
     protected function renderTableBody() {
@@ -104,6 +127,32 @@ class Table extends Widget
             echo Html::endTag('tr');
         }
         echo Html::beginTag('tbody');
+    }
+
+    private $groupCodeIsQuestion;
+
+    private function getGroup($data): ?string
+    {
+        if (!isset($this->groupCodeIsQuestion)) {
+            try {
+                $this->findQuestionByCode($this->groupCode);
+                $this->groupCodeIsQuestion = true;
+
+
+            } catch (\InvalidArgumentException $e) {
+                $this->groupCodeIsQuestion = false;
+
+            }
+        }
+
+        if ($this->groupCodeIsQuestion) {
+            return $data->getValueForCode($this->groupCode);
+        } else {
+            $getter = 'get' . ucfirst($this->groupCode);
+            return $data->$getter();
+        }
+
+
     }
 
     protected function renderTableHead()

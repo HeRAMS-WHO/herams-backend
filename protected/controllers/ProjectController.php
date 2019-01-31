@@ -4,6 +4,7 @@ namespace prime\controllers;
 
 use kartik\widgets\Growl;
 use prime\components\Controller;
+use prime\controllers\project\View;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Tool;
 use prime\models\forms\Share;
@@ -13,11 +14,10 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\Request;
-use yii\web\Response;
 use yii\web\Session;
 use yii\web\User;
 
-class ToolsController extends Controller
+class ProjectController extends Controller
 {
     public $layout = 'simple';
     public $defaultAction = 'list';
@@ -190,6 +190,13 @@ class ToolsController extends Controller
         return $this->render('overview', [
             'model' => $tool
         ]);
+    }
+
+    public function actions()
+    {
+        return [
+            'view' => View::class
+        ];
     }
 
     public function behaviors()

@@ -11,15 +11,15 @@ use prime\widgets\map\Map as MapWidget;
 
 class Map extends Element
 {
-    public function getWidget(
+    protected function getWidgetInternal(
         SurveyInterface $survey,
-        array $data
+        iterable $data
     ): Widget
     {
         return new MapWidget([
             'data' => $data,
             'survey' => $survey,
-            'code' => $this->config['code'] ?? 'HF2'
+            'code' => $this->config['code']
         ]);
 
     }

@@ -4,44 +4,150 @@
 namespace prime\widgets\chart;
 
 
+use prime\objects\HeramsResponse;
 use prime\traits\SurveyHelper;
+use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
 use yii\web\View;
+use function iter\map;
+use function iter\take;
+use function iter\toArray;
 
 class Chart extends Widget
 {
+    public const TYPE_DOUGHNUT = 'doughnut';
+    public const TYPE_BAR = 'bar';
     use SurveyHelper;
     public $options = [];
+
+    /** @var iterable */
     public $data = [];
     public $code;
+
+    public $type = self::TYPE_DOUGHNUT;
 
     /** @var SurveyInterface */
     public $survey;
 
-    private function getPieDataSet(array $responses): array
+    /** @var ?string The title to use, if not set will fall back to retrieving it from the survey */
+    public $title;
+
+    /**
+     * @var bool whether to skip multiple choice / ranking questions with no answer
+     */
+    public $skipEmpty = false;
+
+    public $map;
+
+    public $colors = ['red' , 'orange', 'green'];
+    /**
+     * @param HeramsResponse[] $responses
+     * @return array
+     */
+    protected function getDataSet(iterable $responses): array
     {
         // Check question type.
-        $question = $this->findQuestionByCode($this->code);
-        $map = $this->getAnswers($this->code);
-        ksort($map);
-        $map[''] = 'No answer given';
-        $counts = [];
+        try {
+            $question = $this->findQuestionByCode($this->code);
+            switch ($question->getDimensions()) {
+                case 0:
+                    // Single choice
+                    $counts = $this->getCounts($responses, [$this->code]);
+                    $map = $this->map ?? $this->getAnswers($this->code);
+                    return $this->map($map, $counts);
+                case 1:
+                    // Ranking or multiple choice.
+                    $titles = take(3, map(function (QuestionInterface $subQuestion) use ($question) {
+                        return "{$question->getTitle()}[{$subQuestion->getTitle()}]";
+                    }, $question->getQuestions(0)));
+                    // Take the first to get the map.
+                    $map = $this->map ?? $this->getAnswers($question->getTitle());
+                    $counts = $this->getCounts($responses, $titles);
+                    return $this->map($map, $counts);
+                default:
+                    die('unknown' . $question->getDimensions());
+            }
+        } catch (\InvalidArgumentException $e) {
+            // If the question is not set, it could be an abstract property.
+            $getter = 'get'. ucfirst($this->code);
 
-        foreach($map as $k => $v) {
-            $counts[$v] = 0;
+            // Call this method on each response.
+            $counts = [];
+            foreach($responses as $response) {
+                $value = $response->$getter();
+                if (!$this->skipEmpty || !empty($value)) {
+                    if (is_scalar($value)) {
+                        $counts[$value] = ($counts[$value] ?? 0) + 1;
+                    } else {
+                        foreach($value as $subValue) {
+                            $counts[$subValue] = ($counts[$subValue] ?? 0) + 1;
+                        }
+                    }
+
+                }
+
+            }
+
+            if (isset($this->map)) {
+                return $this->map($this->map, $counts);
+            }
+
+            ksort($counts);
+            return $counts;
         }
 
+
+
+
+    }
+
+    private function map(array $map, array $counts)
+    {
+        $result = [];
+
+        foreach($map as $key => $label) {
+            if ($this->skipEmpty && !array_key_exists($key, $counts)) {
+                continue;
+            }
+
+            $result[$label] = $counts[$key] ?? null;
+            unset($counts[$key]);
+        }
+
+        foreach($counts as $key => $value) {
+            $result[$key] = $value;
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * @param HeramsResponse[] $responses
+     * @param string[] $codes
+     */
+    private function getCounts(iterable $responses, iterable $codes): array
+    {
+        $codes = toArray($codes);
+        $result = [];
         foreach($responses as $response) {
-            $value = $response->getValueForCode($question->getTitle()) ?? '';
-            $counts[$map[$value]]++;
+            $empty = true;
+            foreach($codes as $code) {
+                $value = $response->getValueForCode($code);
+                if (!empty($value)) {
+                    $empty = false;
+                    $result[$value] = ($result[$value] ?? 0) + 1;
+                }
+            }
+            if ($empty && !$this->skipEmpty) {
+                $result[""] = ($result[""] ?? 0) + 1;
+            }
         }
-
-
-        return $counts;
+        return $result;
     }
 
     public function run()
@@ -54,20 +160,31 @@ class Chart extends Widget
 
         echo Html::beginTag('div', $options);
 
-        $dataSet = $this->getPieDataSet($this->data);
+        $dataSet = $this->getDataSet($this->data);
         $count = count($dataSet);
+        if ($count > 30) {
+            $this->type = self::TYPE_BAR;
+        }
+        $baseColors = Json::encode($this->colors);
         $config = [
-            'type' => 'doughnut',
+            'type' => $this->type,
             'data' => [
                 'datasets' => [
                     [
                         'data' => array_values($dataSet),
-                        'backgroundColor' => new JsExpression("chroma.scale(['green', 'orange', 'red', 'grey']).colors($count)"),
+                        'backgroundColor' => new JsExpression("chroma.scale($baseColors).colors($count)")
                     ]
                 ],
                 'labels' => array_keys($dataSet)
             ],
             'options' => [
+                'scales' => [
+                    'xAxes' => [
+                        [
+                            'display' => false,
+                        ]
+                    ]
+                ],
                 'elements' => [
                     'center' => [
                         'text' => array_sum($dataSet)
@@ -75,12 +192,13 @@ class Chart extends Widget
                 ],
                 'legend' => [
                     'position' => 'bottom',
+                    'display' => $this->type === self::TYPE_DOUGHNUT
                 ],
                 'cutoutPercentage' => 80,
 
                 'title' => [
-                    'display' => true,
-                    'text' => $this->getTitle()
+                    'display' => $this->type === self::TYPE_DOUGHNUT,
+                    'text' => $this->title ?? $this->getTitle()
                 ],
                 'responsive' => true,
                 'maintainAspectRatio' => false

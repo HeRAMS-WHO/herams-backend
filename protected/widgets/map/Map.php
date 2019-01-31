@@ -38,13 +38,25 @@ class Map extends Widget
 
     public $code;
 
-    private function getCollections(array $data)
+    private function getCollections(iterable $data)
     {
-        $types = $this->getAnswers($this->code);
+        try {
+            $types = $this->getAnswers($this->code);
+            $getter = function($response) {
+                return $response->getValueForCode($this->code);
+            };
+        } catch (\InvalidArgumentException $e) {
+            $types = [];
+            $getter = function($response) {
+                $getter = 'get' . ucfirst($this->code);
+                return $response->$getter();
+            };
+        }
+
         $collections = [];
         /** @var HeramsResponse $response */
         foreach($data as $response) {
-            $type = $response->getType();
+            $value = $getter($response);
             $latitude = $response->getLatitude();
             $longitude = $response->getLongitude();
             if (abs($latitude) < 0.0000001
@@ -52,11 +64,11 @@ class Map extends Widget
                 continue;
             }
 
-            if (!isset($collections[$type])) {
-                $collections[$type] = [
+            if (!isset($collections[$value])) {
+                $collections[$value] = [
                     "type" => "FeatureCollection",
                     'features' => [],
-                    "title" => $types[$type] ?? $type ?? 'Unknown',
+                    "title" => $types[$value] ?? $value ?? 'Unknown',
                 ];
             }
 
@@ -77,7 +89,7 @@ class Map extends Widget
 //                    'functionality'
 //                ]
             ];
-            $collections[$type]['features'][] = $point;
+            $collections[$value]['features'][] = $point;
         }
         uksort($collections, function($a, $b) {
             if ($a === "" || $a === "-oth-") {

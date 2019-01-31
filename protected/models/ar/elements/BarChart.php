@@ -9,21 +9,26 @@ use prime\widgets\chart\Chart as ChartWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 
-class Chart extends Element
+class BarChart extends Element
 {
     protected function getWidgetInternal(
         SurveyInterface $survey,
         iterable $data
     ): Widget
     {
-        return new ChartWidget(array_merge($this->config, [
-            'data' => $data,
-            'skipEmpty' => true,
-            'survey' => $survey,
-            'type' => ChartWidget::TYPE_DOUGHNUT
-        ]));
+        return new ChartWidget(array_merge(
+            [
+//                'type' => ChartWidget::TYPE_BAR,
+                'skipEmpty' => true,
+                'data' => $data,
+                'survey' => $survey,
+            ],
+            $this->config
+        ));
 
     }
+
+
 
 
 }

@@ -1,46 +1,29 @@
-<?php
-
-/** @var \prime\models\ar\Tool $model */
-
-use kartik\widgets\ActiveForm;
-use app\components\Form;
-use yii\bootstrap\Html;
-
-$this->title = Yii::t('app', 'Update project');
-
-?>
-
 <div class="col-xs-12">
     <?php
+    /** @var \prime\models\ar\Page $page */
+    use app\components\Form;
+    use kartik\form\ActiveForm;
+    use kartik\helpers\Html;
+
     $form = ActiveForm::begin([
         'id' => 'update-tool',
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
     ]);
 
-    echo \app\components\Form::widget([
+    echo Form::widget([
         'form' => $form,
-        'model' => $model,
+        'model' => $page,
         'columns' => 1,
         "attributes" => [
             'title' => [
                 'type' => Form::INPUT_TEXT,
             ],
-            'base_survey_eid' => [
+            'parent_id' => [
+                'attribute' => 'parent_id' ,
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->dataSurveyOptions(),
-            ],
-            'latitude_code' => [
-                'type' => Form::INPUT_TEXT
-            ],
-            'longitude_code' => [
-                'type' => Form::INPUT_TEXT
-            ],
-            'name_code' => [
-                'type' => Form::INPUT_TEXT
-            ],
-            'type_code' => [
-                'type' => Form::INPUT_TEXT
+
+                'items' => array_merge(['' => 'No parent'], $page->parentOptions())
             ],
             [
                 'type' => Form::INPUT_RAW,

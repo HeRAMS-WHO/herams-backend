@@ -407,7 +407,6 @@ class ProjectsController extends Controller
         return [
             'download' => Download::class,
             'close' => Close::class,
-            'view' => View::class
         ];
     }
 

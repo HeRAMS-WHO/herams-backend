@@ -4,6 +4,8 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'defaultRoute' => 'marketplace/herams',
     'components' => [
         'urlManager' => [
+            'class' => \yii\web\UrlManager::class,
+            'cache' => false,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
@@ -50,8 +52,9 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                 ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
-                    'route' => '<controller>/read'
+                    'route' => '<controller>/view'
                 ],
+
             ]
         ],
         'request' => [

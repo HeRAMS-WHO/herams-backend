@@ -3,6 +3,7 @@
 (function(document) {
     window.NestedSelect = {};
     window.NestedSelect.updateTitle = function (nestedSelect) {
+        nestedSelect = nestedSelect.closest('.NestedSelect');
         let selected = nestedSelect.querySelectorAll('.option > input:checked');
         let label;
         switch (selected.length) {
@@ -17,6 +18,25 @@
 
         }
         nestedSelect.querySelector('.current').textContent = label;
+    };
+
+    window.NestedSelect.updateGroupBoxes = function(element) {
+        element.closest(".NestedSelect").querySelectorAll(".group > input[type=checkbox]").forEach(function(el) {
+            let groupContainer = el.closest('div');
+            if (groupContainer.querySelectorAll(".option > input[type=checkbox]:checked").length === 0) {
+                el.checked = false;
+                el.indeterminate = false;
+            } else if (groupContainer.querySelectorAll(".option > input[type=checkbox]:not(:checked)").length === 0) {
+                let currentElement = groupContainer.querySelector('.group input');
+                currentElement.checked = true;
+                currentElement.indeterminate = false;
+            } else {
+                let currentElement = groupContainer.querySelector('.group input');
+                currentElement.checked = false;
+                currentElement.indeterminate = true;
+            }
+        });
+
     };
 
     window.NestedSelect.updateParents = function(element) {
@@ -63,8 +83,10 @@
 
             });
         }
+
+
         // Find all parents.
-        let element = NestedSelect.updateParents(e.target);
-        NestedSelect.updateTitle(element.parentNode);
+        NestedSelect.updateGroupBoxes(e.target);
+        NestedSelect.updateTitle(e.target);
     });
 })(document);

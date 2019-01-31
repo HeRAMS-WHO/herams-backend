@@ -12,16 +12,23 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
  */
 class HeramsResponse
 {
+    private static $surveySubjectKeys = [];
+    private static $surveyArrayKeys = [];
+
+    private $subjectExpression = '/^QHeRAMS\d+$/';
     /** @var array */
     private $data;
     /** @var HeramsCodeMap */
     private $map;
+
+    private $surveyId;
 
     public function __construct(
         ResponseInterface $response,
         HeramsCodeMap $map
     ) {
         $this->data = $response->getData();
+        $this->surveyId = $response->getSurveyId();
         $this->map = $map;
 
         // Validate.
@@ -67,17 +74,28 @@ class HeramsResponse
         if (array_key_exists($code, $this->data)) {
             return $this->data[$code];
         }
+
         // Try iteration.
         $result = [];
-        foreach($this->data as $key => $value) {
-            if (strpos($key . '[', $code) === 0
-                && !empty($value)
-            ) {
-                // Prefix match.
-                $result[] = $value;
+        foreach($this->getKeysForCode($code) as $key) {
+            if (isset($this->data[$key]) && !empty($this->data[$key])) {
+                $result[] = $this->data[$key];
             }
         }
         return !empty($result) ? $result : null;
+    }
+
+    private function getKeysForCode(string $code)
+    {
+        if (!isset(self::$surveyArrayKeys[$this->surveyId][$code])) {
+            self::$surveyArrayKeys[$this->surveyId][$code] = [];
+            foreach ($this->data as $key => $dummy) {
+                if (strpos($key . '[', $code) === 0) {
+                    self::$surveyArrayKeys[$this->surveyId][$code][] = $key;
+                }
+            }
+        }
+        return self::$surveyArrayKeys[$this->surveyId][$code];
     }
 
     public function getSubjectId(): string
@@ -90,21 +108,43 @@ class HeramsResponse
         return $this->data[$this->map->getLocation()] ?? null;
     }
 
-    public function getServices(): array
+
+    private function getSubjectKeys()
     {
-        $full = 0;
-        $total = 0;
-        foreach($this->data as $key => $value) {
-            if (preg_match('/^QHeRAMS\d+$/', $key)) {
-                if ($value === 'A1') {
-                    $full++;
-                }
-                if (in_array($value, ['A1', 'A2', 'A3'])) {
-                    $total++;
+        if (!isset(self::$surveySubjectKeys[$this->surveyId])) {
+            self::$surveySubjectKeys[$this->surveyId] = [];
+            foreach($this->data as $key => $dummy) {
+                if (preg_match($this->subjectExpression, $key)) {
+                    self::$surveySubjectKeys[$this->surveyId][] = $key;
                 }
             }
         }
-        return $total === 0 ? null : 1.0 * $full / $total;
+
+        return self::$surveySubjectKeys[$this->surveyId];
+
+    }
+    /**
+     * @return HeramsSubject[]
+     */
+    public function getSubjects(): iterable
+    {
+        foreach ($this->getSubjectKeys() as $key) {
+            yield new HeramsSubject($this, $key);
+        }
+    }
+
+    public function getSubjectAvailability()
+    {
+        $full = 0;
+        $total = 0;
+        foreach ($this->getSubjects() as $heramsSubject) {
+            if ($heramsSubject->isFullyAvailable()) {
+                $full++;
+            }
+            $total++;
+        }
+
+        return $total > 0 ? 100.0 * $full / $total : 0;
     }
 
     public function getMainReason(): ?string

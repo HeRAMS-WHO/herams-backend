@@ -23,7 +23,7 @@ html {
  Box sizing reset
  */
 html {
-    /*box-sizing: border-box;*/
+    box-sizing: border-box;
 }
 *, *:before, *:after {
     box-sizing: inherit;
@@ -37,11 +37,17 @@ input {
     padding-bottom: 0;
 }
 
+a:hover {
+    color: var(--primary-button-hover-color);
+    text-decoration: none;
+}
 
 
 
 .filter {
-    display: inline-block;
+    text-align: left;
+    /*width: calc(100% - 10px);*/
+    display: block;
     font-size: 1.2rem;
     color: #212529;
     padding-top: 10px;
@@ -52,7 +58,7 @@ input {
     border: none;
     border-bottom: 1px solid #ccc;
     padding-bottom: 1px;
-    background-color: transparent;
+    background-color: white;
 }
 
 .filter:before {
@@ -81,7 +87,14 @@ input {
     /*display:none;*/
 }
 
-
+.filter_search {
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.filter_search:before {
+    content: "\f002";
+}
 .filter_where:before {
     /* https://fontawesome.com/icons/globe?style=solid */
     content: '';
@@ -129,25 +142,34 @@ input {
 }
 
 
-.breadcrumbs {
+.breadcrumb {
     position: relative;
     grid-area: breadcrumbs;
     background-color: var(--header-background-color);
-    /*margin-left: 1em;*/
-    min-height: 77px;
-    color: var(--breadcrumbs-color)
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: var(--breadcrumbs-color);
+    list-style-type: none;
 }
 
-.menu .current {
-    position: absolute;
-    border-bottom: 4px solid var(--highlight-background-color);
-    color: var(--highlight-color);
-    font-size: 3em;
-    letter-spacing: -2px;
-    font-weight: 300;
-    left: 0;
-    bottom: 0;
+.breadcrumb a:not(:hover), .breadcrumb a:not(:hover):visited, .breadcrumb a:not(:hover):active {
+    color: var(--breadcrumbs-color);
+    text-decoration: none;
 }
+
+.breadcrumb li {
+    display: inline-block;
+}
+
+.breadcrumb li:not(:last-child):after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content:" \f054 ";
+}
+
 
 /**/
 .filters {
@@ -170,13 +192,14 @@ input {
 .content > div {
     border-radius: 3px;
     min-width: 0;
-    min-height: 0;
+    /*min-height: 0;*/
 }
 
 .map {
     border: 3px solid white;
+    min-height: 200px;
 }
-
+/**/
 .prime_widgets_chart_Chart {
     position: relative;
     background-color: white;
@@ -185,7 +208,7 @@ input {
 .table {
     background-color: white;
     padding: 1em;
-    overflow-x: scroll;
+    overflow: auto;
 }
 
 .table h1 {
@@ -223,7 +246,7 @@ body {
 }
 /**/
 .filters > div {
-    display: inline-block;
+    display: block;
 }
 
 /*.filters > div > * {*/
@@ -234,7 +257,7 @@ body {
 /*}*/
 
 /**
- 2 Column layout, menu on left.
+ 2 Column layout, menu above filters.
 */
 @media (min-width: 600px) {
     .filters {
@@ -245,6 +268,15 @@ body {
 
     }
 
+    .filters > div {
+        display: inline-block;
+    }
+
+    .filter {
+        width: auto;
+        display: inline-block;
+    }
+
     body {
         background: linear-gradient(
                 to bottom,
@@ -253,25 +285,32 @@ body {
                 var(--main-background-color) 230px,
                 var(--main-background-color) 100%)
     ;
-
         display: grid;
-        grid-template-columns: 285px 1fr;
+        grid-template-columns: auto 1fr;
         grid-template-rows: auto auto auto 1fr;
         grid-template-areas:
-                "sidebar user"
-                "sidebar breadcrumbs"
-                "sidebar filters"
-                "sidebar main"
+                "breadcrumbs user"
+                "sidebar sidebar"
+                "filters filters"
+                "main main";
     }
 
     .content {
         padding: 1em;
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-auto-rows: 200px;
         grid-auto-flow: dense;
         grid-row-gap: 1em;
         grid-column-gap: 1em;
+    }
+    .map {
+        grid-column: span 1;
+        grid-row: span 2;
+    }
+    .table {
+        grid-column: span 2;
+        grid-row: span 2;
     }
 }
 
@@ -279,6 +318,7 @@ body {
  3 column layout.
 */
 @media (min-width: 800px) {
+
     body {
         background: linear-gradient(
                 to bottom,
@@ -306,7 +346,7 @@ body {
     }
     .table {
         grid-column: span 2;
-        grid-row: span 2;
+        grid-row: span 1;
     }
 }
 
@@ -316,13 +356,13 @@ body {
         grid-template-rows: 200px 200px repeat(auto-fit, 200px);
     }
 
-    .prime_widgets_chart_Chart {
+    .prime_widgets_chart_Chart, .table {
         grid-row: span 2;
     }
 }
 
 @media(min-width: 1130px) {
-    .prime_widgets_chart_Chart {
+    .prime_widgets_chart_Chart, .table {
         grid-row: span 1;
     }
 }
@@ -358,6 +398,18 @@ td {
 /**
 Menu stuff
  */
+
+/*.menu .current {*/
+    /*position: absolute;*/
+    /*border-bottom: 4px solid var(--highlight-background-color);*/
+    /*color: var(--highlight-color);*/
+    /*font-size: 3em;*/
+    /*letter-spacing: -2px;*/
+    /*font-weight: 300;*/
+    /*left: 0;*/
+    /*!*bottom: 0;*!*/
+/*}*/
+
 .menu h1 {
     text-transform: capitalize;
     font-size: 1em;
@@ -398,6 +450,7 @@ Menu stuff
     font-size: 1em;
     box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
     z-index: 10;
+    padding-bottom: 10px;
 }
 
 .menu nav > a, .menu nav > section > header > a {
@@ -414,7 +467,7 @@ Menu stuff
     padding-bottom: var(--item-padding-vertical);
     overflow: hidden;
 
-    max-height: 2em;
+    max-height: 3em;
     transition: max-height var(--animation-duration),
                 padding-top var(--animation-duration),
                 padding-bottom var(--animation-duration);
@@ -437,6 +490,7 @@ Menu stuff
 
 .menu header {
     position: relative;
+    cursor: pointer;
 }
 .menu header:after {
     font-weight: 900;
@@ -468,26 +522,112 @@ Menu stuff
     background-color: #f3f3f3;
 }
 
+.menu a:hover {
+    background-color: var(--highlight-background-color);
+    color: white;
+    border-left-color:white;
+}
+
+
 .NestedSelect input::after {
     color: var(--highlight-background-color);
 }
 
+.NestedSelect.inline {
+    display: block;
+}
+.NestedSelect.inline .options {
+    position: inherit;
+}
+
+.NestedSelect.inline span.current {
+    display: none;
+}
 /*
  MODAL
  */
 
+body[data-modal] {
+    overflow: hidden;
+    user-select: none;
+}
+
 .modal {
     display: none;
     position: fixed;
-    left: 100px;
-    right: 100px;
-    top: 100px;
-    z-index: 1001;
-    bottom: 100px;
-    background-color: lightgrey;
-    overflow-y: scroll;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    max-width: 500px;
+    max-height: 100vh;
+    padding: 15px 15px 15px 15px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 1200;
+    background-color: rgba(198, 198, 198, 1);
 }
 
-.modal.visible {
+.close {
+    border: none;
+    float: right;
+    width: 20px;
+    height: 20px;
+    /*top: 15px;*/
+    /*right: 15px;*/
+    background-color: rgba(1, 1, 1, 0);
+}
+
+.close::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f00d";
+    font-size: 1.2rem;
+}
+
+.close + * {
+    margin-top: 30px;
+}
+@media (min-width: 600px) {
+    .modal {
+        top: 100px;
+        bottom: 100px;
+        border: 2px solid var(--highlight-background-color);
+    }
+
+}
+.modal label {
     display: block;
+}
+
+body[data-modal] .modal {
+    display: block;
+}
+
+body[data-modal]:after {
+    display: block;
+    z-index: 1100;
+    content: " ";
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    opacity: 0.7;
+
+}
+
+.hidden {
+    display: none !important;
+    background-color: red;
+
+}
+
+.modal .filter {
+    display: block;
+
 }
