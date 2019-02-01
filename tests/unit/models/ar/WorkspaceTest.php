@@ -3,7 +3,7 @@ namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Tool;
 
-class ProjectTest extends ActiveRecordTest
+class WorkspaceTest extends ActiveRecordTest
 {
     public function validSamples(): array
     {
