@@ -44,13 +44,13 @@ class GroupPage implements PageInterface
                 'transpose' => false,
                 'config' => [
                     'code' => 'HF2'
-                ]
+                ],
             ]),
             new Chart([
                 'transpose' => true,
                 'config' => [
                     'code' => 'availability',
-                    'colors' => ['red', 'orange', 'green', 'grey'],
+                    'colors' => ['green', 'orange', 'red', 'grey'],
                     'map' => [
                         'A1' => 'Fully available',
                         'A2' => 'Partially available',
@@ -86,7 +86,14 @@ class GroupPage implements PageInterface
                 'config' => [
                     'code' => 'availability',
                     'reasonCode' => 'causes',
-                    'groupCode' => 'location'
+                    'groupCode' => 'location',
+                    'reasonMap' => [
+                        'A1' => 'Lack of health staff',
+                        'A2' => 'Lack of training of health staff',
+                        'A3' => 'Lack of medical supplies',
+                        'A4' => 'Lack of medical equipment',
+                        'A5' => 'Lack of finances'
+                    ]
                 ]
             ])
         ];
@@ -101,7 +108,7 @@ class GroupPage implements PageInterface
 
     public function getId(): int
     {
-        return $this->group->getId();
+        return $this->group->getId() + 10000;
     }
 
     public function getParentId(): ?int

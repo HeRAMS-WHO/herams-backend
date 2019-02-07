@@ -44,7 +44,6 @@ trait SurveyHelper
         }
 
         ksort($map);
-        $map[''] = 'No answer given';
         return $map;
     }
 

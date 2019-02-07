@@ -19,6 +19,8 @@ class NestedSelect extends InputWidget
 
     public $items;
 
+    public $groupLabelOptions = [];
+
     private function getValue()
     {
         return $this->value ?? $this->model->{$this->attribute} ?? [];
@@ -63,11 +65,11 @@ class NestedSelect extends InputWidget
         array_push($stack, $label);
         $level = count($stack);
         $this->indent(Html::beginTag('div'), $level);
+        $groupLabelOptions = $this->groupLabelOptions;
+        Html::addCssClass($groupLabelOptions, 'group');
         $this->indent(Html::checkbox('', false, [
             'label' => $label,
-            'labelOptions' => [
-                'class' => 'group'
-            ]
+            'labelOptions' => $groupLabelOptions
 
         ]));
         $this->renderOptions($items, $stack);

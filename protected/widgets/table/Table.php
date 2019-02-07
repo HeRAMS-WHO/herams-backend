@@ -22,10 +22,19 @@ class Table extends Widget
 
     public $reasonCode;
 
+    public $reasonMap;
+
     /** @var HeramsResponse[] $data */
     public $data = [];
 
     public $groupCode = 'location';
+
+    public $columnNames = [
+        'Name',
+        'Availability (%)',
+        'Main problem',
+        'Main cause (%)'
+    ];
 
     public function run()
     {
@@ -63,12 +72,13 @@ class Table extends Widget
             $reasonGetter = function($response): array {
                 return $response->getValueForCode($this->reasonCode) ?? [];
             };
-            $reasonMap = $this->getAnswers($this->reasonCode);
+            $reasonMap = $this->reasonMap ?? $this->getAnswers($this->reasonCode);
         } catch (\InvalidArgumentException $e) {
             $getter = 'get'. ucfirst($this->reasonCode);
             $reasonGetter = function($response) use ($getter):array {
                 return $response->$getter();
             };
+            $reasonMap = $this->reasonMap;
         }
 
         $result = [];
@@ -110,9 +120,9 @@ class Table extends Widget
             $total = array_sum($reasons);
             yield [
                 $group,
-                number_format(100.0 * ($data['counts']['FUNCTIONAL'] ?? 0) / $data['counts']['TOTAL'], 2),
+                number_format(100.0 * ($data['counts']['FUNCTIONAL'] ?? 0) / $data['counts']['TOTAL'], 0),
                 empty($reasons) ? 'Unknown' : $reasonMap[array_keys($reasons)[0]] ?? array_keys($reasons)[0],
-                empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 2)
+                empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 0)
             ];
         }
     }
@@ -159,10 +169,10 @@ class Table extends Widget
     {
         echo Html::beginTag('thead');
         echo Html::beginTag('tr');
-        echo Html::tag('th', 'Name');
-        echo Html::tag('th', 'Availability (%)');
-        echo Html::tag('th', 'Main problem');
-        echo Html::tag('th', 'Main cause (%)');
+        foreach($this->columnNames as $columnName)
+        {
+            echo Html::tag('th', $columnName);
+        }
         echo Html::endTag('tr');
         echo Html::endTag('thead');
     }

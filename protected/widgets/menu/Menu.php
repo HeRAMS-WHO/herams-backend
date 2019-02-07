@@ -23,6 +23,7 @@ class Menu extends Widget
     /** @var PageInterface */
     public $currentPage;
 
+    public $params = [];
 
     protected function registerClientScript()
     {
@@ -71,12 +72,12 @@ JS;
         } else {
             $result = false;
         }
-        $route = empty($page->children) ? [
+        $route = empty($page->children) ? array_merge($this->params, [
             'project/view',
             'id' => $this->project->id,
             'parent_id' => $page->getParentId(),
             'page_id' => $page->getId()
-        ] : null;
+        ]) : null;
         echo Html::a($page->getTitle(), $route, $options);
 
         return $result;

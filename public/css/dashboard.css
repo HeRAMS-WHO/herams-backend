@@ -46,11 +46,11 @@ a:hover {
 
 .filter {
     text-align: left;
-    /*width: calc(100% - 10px);*/
+    width: calc(100% - 10px);
     display: block;
     font-size: 1.2rem;
     color: #212529;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
     margin-left: 5px;
     margin-right: 5px;
     padding-left: 0;
@@ -59,6 +59,7 @@ a:hover {
     border-bottom: 1px solid #ccc;
     padding-bottom: 1px;
     background-color: white;
+    min-height: var(--height);
 }
 
 .filter:before {
@@ -72,10 +73,14 @@ a:hover {
 }
 
 .filter > * {
-    cursor: pointer;
+
     background-color: transparent;
     border: none;
     outline: 0;
+}
+
+.filter > *:first-child {
+    cursor: pointer;
 }
 
 .filter input::-webkit-inner-spin-button, .filter input::-webkit-calendar-picker-indicator {
@@ -92,8 +97,15 @@ a:hover {
     padding: 10px;
     margin-bottom: 20px;
 }
+.filter_search > input {
+    border-bottom: 1px solid #ccc;
+}
 .filter_search:before {
     content: "\f002";
+}
+
+.filter .hint{
+    font-size: 0.6em;
 }
 .filter_where:before {
     /* https://fontawesome.com/icons/globe?style=solid */
@@ -116,6 +128,9 @@ a:hover {
     content: '';
 }
 
+.count {
+    float: right;
+}
 .user-menu {
     padding: 1em;
     background-color: var(--header-background-color);
@@ -247,6 +262,7 @@ body {
 /**/
 .filters > div {
     display: block;
+    vertical-align: bottom;
 }
 
 /*.filters > div > * {*/

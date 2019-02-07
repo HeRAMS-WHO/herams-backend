@@ -43,7 +43,30 @@ class Chart extends Widget
 
     public $map;
 
-    public $colors = ['red' , 'orange', 'green'];
+    public $colors = ['green' , 'orange', 'red'];
+
+    public $notRelevantColor = 'gray';
+
+    protected function getMap()
+    {
+        try {
+            $question = $this->findQuestionByCode($this->code);
+            switch ($question->getDimensions()) {
+                case 0:
+                    $map = $this->getAnswers($this->code);
+                    break;
+                case 1:
+                    $map = $this->getAnswers($question->getTitle());
+                    break;
+                default:
+                    die('unknown' . $question->getDimensions());
+            }
+        } catch (\InvalidArgumentException $e) {
+            $map = [];
+
+        }
+        return array_merge($this->map ?? [], $map);
+    }
     /**
      * @param HeramsResponse[] $responses
      * @return array
@@ -56,18 +79,14 @@ class Chart extends Widget
             switch ($question->getDimensions()) {
                 case 0:
                     // Single choice
-                    $counts = $this->getCounts($responses, [$this->code]);
-                    $map = $this->map ?? $this->getAnswers($this->code);
-                    return $this->map($map, $counts);
+                    return $this->getCounts($responses, [$this->code]);
+
                 case 1:
                     // Ranking or multiple choice.
                     $titles = take(3, map(function (QuestionInterface $subQuestion) use ($question) {
                         return "{$question->getTitle()}[{$subQuestion->getTitle()}]";
                     }, $question->getQuestions(0)));
-                    // Take the first to get the map.
-                    $map = $this->map ?? $this->getAnswers($question->getTitle());
-                    $counts = $this->getCounts($responses, $titles);
-                    return $this->map($map, $counts);
+                    return $this->getCounts($responses, $titles);
                 default:
                     die('unknown' . $question->getDimensions());
             }
@@ -91,11 +110,6 @@ class Chart extends Widget
                 }
 
             }
-
-            if (isset($this->map)) {
-                return $this->map($this->map, $counts);
-            }
-
             ksort($counts);
             return $counts;
         }
@@ -105,7 +119,7 @@ class Chart extends Widget
 
     }
 
-    private function map(array $map, array $counts)
+    private function applyMapping(array $map, array $counts)
     {
         $result = [];
 
@@ -121,6 +135,7 @@ class Chart extends Widget
         foreach($counts as $key => $value) {
             $result[$key] = $value;
         }
+
 
         return $result;
     }
@@ -147,6 +162,7 @@ class Chart extends Widget
                 $result[""] = ($result[""] ?? 0) + 1;
             }
         }
+        ksort($result);
         return $result;
     }
 
@@ -159,20 +175,49 @@ class Chart extends Widget
         $options['id'] = $this->getId();
 
         echo Html::beginTag('div', $options);
+        $map = $this->getMap();
+        $unmappedData = $this->getDataSet($this->data);
+        $dataSet = $this->applyMapping($map, $unmappedData);
 
-        $dataSet = $this->getDataSet($this->data);
-        $count = count($dataSet);
-        if ($count > 30) {
+        $pointCount = count($dataSet);
+        if ($pointCount > 30) {
             $this->type = self::TYPE_BAR;
         }
-        $baseColors = Json::encode($this->colors);
+
+        $colorCount = max(count($map), $pointCount) - (empty($this->notRelevantColor) ? 0 : 1);
+
+        $colors = [];
+        foreach(array_keys($map) as $i => $k) {
+            if (isset($unmappedData[$k], $this->colors[$i])) {
+                $colors[] = $this->colors[$i];
+            }
+        }
+        $baseColors = Json::encode($colors);
+        if (!empty($this->notRelevantColor)) {
+            $notRelevantColor = Json::encode($this->notRelevantColor);
+            $colorJs = new JsExpression(<<<JS
+(function() {
+    let colors = chroma.scale($baseColors).colors($colorCount);
+    colors.push($notRelevantColor);
+    return colors;
+})(chroma)
+
+
+
+JS
+            );
+
+        } else {
+            $colorJs = new JsExpression("chroma.scale($baseColors).colors($colorCount)");
+        }
+
         $config = [
             'type' => $this->type,
             'data' => [
                 'datasets' => [
                     [
                         'data' => array_values($dataSet),
-                        'backgroundColor' => new JsExpression("chroma.scale($baseColors).colors($count)")
+                        'backgroundColor' => $colorJs
                     ]
                 ],
                 'labels' => array_keys($dataSet)
@@ -187,12 +232,28 @@ class Chart extends Widget
                 ],
                 'elements' => [
                     'center' => [
-                        'text' => array_sum($dataSet)
+                        'text' => new JsExpression('(chart) => {
+                            let data = chart.data.datasets[0].data;
+                            for (k in  chart.data.datasets[0]._meta) {
+                                let meta = chart.data.datasets[0]._meta[k];
+                                let total = meta.data.reduce((sum, elem) => {
+                                   return elem.hidden ? sum : sum + data[elem._index];
+                                }, 0);
+                                return total;
+                            }
+                            
+                            
+                        console.log(chart); 
+                        }')
                     ]
                 ],
                 'legend' => [
-                    'position' => 'bottom',
-                    'display' => $this->type === self::TYPE_DOUGHNUT
+
+                    'position' => 'right',
+                    'display' => $this->type === self::TYPE_DOUGHNUT,
+                    'labels' => [
+                        'boxWidth' => 15
+                    ]
                 ],
                 'cutoutPercentage' => 80,
 
@@ -201,7 +262,30 @@ class Chart extends Widget
                     'text' => $this->title ?? $this->getTitle()
                 ],
                 'responsive' => true,
-                'maintainAspectRatio' => false
+                'maintainAspectRatio' => false,
+                'tooltips' => [
+                    'callbacks' => [
+                        'label' => new JsExpression('function(item, data) { 
+                        console.log(this, item, data);
+                            let value = data.datasets[item.datasetIndex].data[item.index];
+                            let label = data.labels[item.index] || "";
+                            let meta = this._chart.data.datasets[0]._meta;
+                            for (let key in meta) {
+                                let sum = meta[key].data.reduce((sum, elem) => {
+                                    return elem.hidden ? sum : sum + data.datasets[item.datasetIndex].data[elem._index]
+                               
+                               
+                                }, 0);
+                                let percentage = Math.round(100 * value / sum) + "%";
+                                return `${label}: ${value} (${percentage})`;
+                            }
+                            console.log(meta);
+                            
+                        }'),
+
+                    ]
+
+                ]
             ]
         ];
         $jsConfig = Json::encode($config);
@@ -224,52 +308,7 @@ JS
 
     protected function registerClientScript()
     {
-        $js = <<<JS
-Chart.pluginService.register({
-        beforeDraw: function (chart) {
-            if (chart.config.options.elements.center) {
-                //Get ctx from string
-                var ctx = chart.chart.ctx;
-
-                //Get options from the center object in options
-                var centerConfig = chart.config.options.elements.center;
-                var fontStyle = centerConfig.fontStyle || 'Arial';
-                var txt = centerConfig.text;
-                var color = centerConfig.color || '#000';
-                var sidePadding = centerConfig.sidePadding || 20;
-                var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
-                //Start with a base font of 30px
-                ctx.font = "30px " + fontStyle;
-
-                //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
-                var stringWidth = ctx.measureText(txt).width;
-                var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
-
-                // Find out how much the font can grow in width.
-                var widthRatio = elementWidth / stringWidth;
-                var newFontSize = Math.floor(30 * widthRatio);
-                var elementHeight = (chart.innerRadius * 2);
-
-                // Pick a new font size so it will not be larger than the height of label.
-                var fontSizeToUse = Math.min(newFontSize, elementHeight);
-
-                //Set font settings to draw it correctly.
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
-                var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
-                ctx.font = fontSizeToUse+"px " + fontStyle;
-                ctx.fillStyle = color;
-
-                //Draw text in center
-                ctx.fillText(txt, centerX, centerY);
-            }
-        }
-    });
-JS;
-
-        $this->view->registerAssetBundle(ChartJsBundle::class);
-        $this->view->registerJs($js, View::POS_END);
+       $this->view->registerAssetBundle(ChartBundle::class);
 
 
 

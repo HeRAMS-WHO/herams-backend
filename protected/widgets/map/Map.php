@@ -10,6 +10,7 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\JsExpression;
 
 class Map extends Widget
 {
@@ -36,7 +37,16 @@ class Map extends Widget
     /** @var SurveyInterface */
     public $survey;
 
+    public $colors;
+
     public $code;
+
+    public function init()
+    {
+        $this->colors = new JsExpression('chroma.brewer.OrRd');
+        parent::init();
+    }
+
 
     private function getCollections(iterable $data)
     {
@@ -120,6 +130,7 @@ class Map extends Widget
         $baseLayers = Json::encode($this->baseLayers);
         $data = Json::encode($this->getCollections($this->data));
 
+        $scale = Json::encode($this->colors);
         $this->view->registerJs(<<<JS
         (function() {
             let map = L.map($id, $config);
@@ -133,7 +144,7 @@ class Map extends Widget
             
             let data = $data;
                 let layers = {};
-                let scale = chroma.scale(chroma.brewer.OrRd).colors(data.length);
+                let scale = chroma.scale($scale).colors(data.length);
                 for (let set of data) {
                     let color = scale.pop();
                     let layer = L.geoJSON(set.features, {

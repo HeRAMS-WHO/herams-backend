@@ -53,7 +53,7 @@ return [
             'cachePath' => '@runtime/limesurveyCache'
         ],
         'cache' => [
-            'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
+            'class' => \yii\caching\FileCache::class
         ],
 //        'formatter' => [
 //            'numberFormatterOptions' => [

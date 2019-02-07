@@ -108,7 +108,8 @@ class View extends Action
         while ($attempts <= $retries)
         {
             try {
-                return $limeSurvey->getResponses($surveyId);
+                $result = $limeSurvey->getResponses($surveyId);
+                return $result;
             } catch (\Throwable $t) {
                 if ($attempts === $retries) {
                     throw new \Exception('Failed to get responses after ' . $retries . ' attempts', 0, $t);

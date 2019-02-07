@@ -8,8 +8,10 @@ use yii\web\View;
 
 echo \prime\widgets\menu\Menu::widget([
     'project' => $project,
+    'params' => \Yii::$app->request->queryParams,
     'currentPage' => $page,
-    'survey' => $survey
+    'survey' => $survey,
+
 ]);
 
 $this->params['breadcrumbs'] = [
@@ -49,7 +51,8 @@ echo $this->render('view/filters', [
     'types' => $types,
     'survey' => $survey,
     'project' => $project,
-    'filterModel' => $filterModel
+    'filterModel' => $filterModel,
+    'data' => $data
 ]);
 echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
 

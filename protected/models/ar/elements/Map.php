@@ -16,11 +16,11 @@ class Map extends Element
         iterable $data
     ): Widget
     {
-        return new MapWidget([
+        return new MapWidget(array_merge([
             'data' => $data,
             'survey' => $survey,
-            'code' => $this->config['code']
-        ]);
+        ], $this->config
+        ));
 
     }
 }
