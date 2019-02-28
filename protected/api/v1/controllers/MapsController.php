@@ -4,7 +4,7 @@
 namespace prime\api\v1\controllers;
 
 
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -29,7 +29,7 @@ class MapsController extends Controller
 //
 //            return $response;
 //        } else
-        if (null !== $tool = Tool::findOne(['id' => $id])) {
+        if (null !== $tool = Project::findOne(['id' => $id])) {
             if (!empty($tool->explorer_map)) {
                 $data = $tool->explorer_map;
             } else {

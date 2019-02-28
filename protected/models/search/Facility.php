@@ -4,7 +4,7 @@ namespace prime\models\search;
 
 use app\queries\ToolQuery;
 use prime\components\ActiveQuery;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\Country;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

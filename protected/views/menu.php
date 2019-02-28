@@ -31,7 +31,7 @@ echo Nav::widget([
                 ['label' => 'Users & Permissions', 'url' => ['/rbac']],
                 ['label' => 'Site configuration', 'url' => ['/settings/index']],
                 [
-                    'label' => 'Tools', 'url' => ['/tools'],
+                    'label' => 'Projects', 'url' => ['/project'],
                     'visible' => app()->user->can('tools')
 
                 ],

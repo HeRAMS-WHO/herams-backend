@@ -1,6 +1,7 @@
 <?php
 /* @var $this \yii\web\View */
 
+use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 /* @var $content string */
@@ -24,23 +25,39 @@ use yii\widgets\Breadcrumbs;
 <body>
 <?php
 
-$this->beginBody(); ?>
+$this->beginBody();
+
+?>
 <div class="user-menu">
     <i class="fas fa-chevron-down"></i>
-    <img src="https://herams.org/img/Profile_white.png">
+    <?php
+        /** @var \prime\models\ar\User $user */
+        $user = \Yii::$app->user->identity;
+        echo Html::img($user->getGravatarUrl(), [
+            'referrerpolicy' => 'no-referrer'
+        ]);
+
+    ?>
+
     <div>
-        <div class="name">Sam Mousa</div>
-        <div class="email">sam@mousa.nl</div>
+        <?= Html::a("{$user->firstName} {$user->lastName}", ['/user/settings/profile'], [
+                'class' => 'name'
+        ]); ?>
+        <div class="email"><?= $user->email ?></div>
     </div>
 </div>
+<div class="title">
 <?php
-    echo Breadcrumbs::widget([
+    echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
         'homeLink' => [
             'label' => \Yii::t('app', 'World overview'),
             'url' => '/'
         ],
         'links' => $this->params['breadcrumbs'] ?? []
     ]);
+echo Html::tag('span', $this->title, ['class' => 'header']);
+?></div>
+<?php
     echo $content;
     $this->endBody();
 ?>

@@ -4,7 +4,7 @@ namespace prime\models\search;
 
 use app\queries\ToolQuery;
 use prime\components\ActiveQuery;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\Country;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -163,7 +163,7 @@ class Workspace extends \prime\models\ar\Workspace
     public function  toolsOptions()
     {
         return ArrayHelper::map(
-            $this->query->copy()->orderBy(Tool::tableName() . '.title')->all(),
+            $this->query->copy()->orderBy(Project::tableName() . '.title')->all(),
             'tool.id',
             'tool.acronym'
         );

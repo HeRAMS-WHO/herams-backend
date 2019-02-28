@@ -1,17 +1,22 @@
 <?php
 
+use kartik\grid\GridView;
+use prime\helpers\Icon;
 use yii\bootstrap\Html;
 use prime\models\ar\Setting;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
 $this->title = \Yii::t('app', 'Manage projects');
-
+$this->params['breadcrumbs'][] = [
+    'label' => $this->title
+//    'url' => ['project/view', 'id' => $project->id]
+];
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $toolsDataProvider
  */
-    echo \kartik\grid\GridView::widget([
+    echo GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
                 'class' => 'pull-right',
@@ -41,45 +46,45 @@ $this->title = \Yii::t('app', 'Manage projects');
                 'template' => '{view} {update} {share} {remove}',
                 'buttons' => [
                     'view' => function($url, $model, $key) {
-                        /** @var \prime\models\ar\Tool $model */
+                        /** @var \prime\models\ar\Project $model */
                         $result = Html::a(
-                            Html::icon('eye-open', [
-                                'title' => \Yii::t('app', 'View')
-                            ]),
-                            ['project/view', 'id' => $model->id]
+                            Icon::eye(),
+                            ['project/view', 'id' => $model->id],
+                            ['title' => 'View']
+
                         );
                         return $result;
                     },
                     'update' => function($url, $model, $key) {
-                        /** @var \prime\models\ar\Tool $model */
+                        /** @var \prime\models\ar\Project $model */
                         $result = '';
                         if(app()->user->can('admin')) {
                             $result = Html::a(
-                                Html::icon('pencil', [
+                                Icon::pencilAlt(),
+                                ['project/update', 'id' => $model->id], [
                                     'title' => \Yii::t('app', 'Edit')
-                                ]),
-                                ['project/update', 'id' => $model->id]
+                                ]
                             );
                         }
                         return $result;
                     },
-                    'share' => function($url, \prime\models\ar\Tool $model, $key) {
-                        /** @var \prime\models\ar\Tool $model */
+                    'share' => function($url, \prime\models\ar\Project $model, $key) {
+                        /** @var \prime\models\ar\Project $model */
                         $result = '';
-                        if(app()->user->can('share', ['model' => \prime\models\ar\Tool::class, 'modelId' => $model->primaryKey])) {
+                        if(app()->user->can('share', ['model' => \prime\models\ar\Project::class, 'modelId' => $model->primaryKey])) {
                             $result = Html::a(
-                                Html::icon('share-alt', [
+                                Icon::share(),
+                                ['project/share', 'id' => $model->id], [
                                     'title' => \Yii::t('app', 'Share')
-                                ]),
-                                ['project/share', 'id' => $model->id]
+                                ]
                             );
                         }
                         return $result;
                     },
-                    'remove' => function($url, \prime\models\ar\Tool $model, $key) {
-                        /** @var \prime\models\ar\Tool $model */
+                    'remove' => function($url, \prime\models\ar\Project $model, $key) {
+                        /** @var \prime\models\ar\Project $model */
                         $result = '';
-                        if(app()->user->can('admin') && $model->getProjectCount() == 0) {
+                        if(app()->user->can('admin') && $model->getWorkspaceCount() == 0) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.remove')),
                                 ['project/delete', 'id' => $model->id],
@@ -91,10 +96,10 @@ $this->title = \Yii::t('app', 'Manage projects');
                         }
                         return $result;
                     },
-                    'deactivate' => function($url, \prime\models\ar\Tool $model, $key) {
-                        /** @var \prime\models\ar\Tool $model */
+                    'deactivate' => function($url, \prime\models\ar\Project $model, $key) {
+                        /** @var \prime\models\ar\Project $model */
                         $result = '';
-                        if(app()->user->can('admin') && $model->getProjectCount() > 0) {
+                        if(app()->user->can('admin') && $model->getWorkspaceCount() > 0) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.stop')),
                                 ['project/delete', 'id' => $model->id],

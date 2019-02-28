@@ -1,5 +1,6 @@
 <?php
     namespace prime\controllers;
+    use prime\controllers\site\WorldMap;
     use yii\bootstrap\Html;
     use prime\components\Controller;
     use prime\interfaces\TicketingInterface;
@@ -32,6 +33,9 @@
                 'captcha' => [
                     'class' => CaptchaAction::class,
                     'fixedVerifyCode' => php_sapi_name() == 'cli-server' ? 'test' : null
+                ],
+                'world-map' => [
+                    'class' => WorldMap::class
                 ]
             ];
         }

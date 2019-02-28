@@ -5,14 +5,22 @@
  * @var \prime\models\search\Workspace $projectSearch
  * @var int $closedCount
  * @var \yii\web\View $this
- * @var \prime\models\ar\Project $tool
+ * @var \prime\models\ar\Project $project
  *
  */
 
-$this->title = \Yii::t('app', 'Manage workspaces');
+use kartik\grid\GridView;
+
+$this->title = \Yii::t('app', 'Manage workspaces in {project}', ['project' => $project->getDisplayField()]);
+
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Back to project overview'),
-    'url' => ['projects/overview', 'pid' => $tool->id]
+    'label' => $project->getDisplayField(),
+    'url' => ['project/view', 'id' => $project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Manage workspaces'),
+//    'url' => ['project/view', 'id' => $project->id]
 ];
 
 
@@ -21,8 +29,7 @@ $this->params['breadcrumbs'][] = [
     <?php
 
 
-    echo \kartik\grid\GridView::widget([
-        'caption' => !isset($caption) ? $this->render('list/header', ['tool' => $tool]) : $caption,
+    echo GridView::widget([
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [
@@ -31,13 +38,13 @@ $this->params['breadcrumbs'][] = [
             ]
         ],
         'layout' => "{items}\n{pager}",
-        'filterModel' => isset($projectSearch) ? $projectSearch : null,
-        'dataProvider' => $projectsDataProvider,
+        'filterModel' => $workspaceSearch,
+        'dataProvider' => $workspaceProvider,
         'columns' => [
             [
                 'attribute' => 'id'
             ],
-            [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
+            [ 'label' => 'Title', 'attribute' => 'title', 'value' => 'title' ],
             [
                 'label' => '# responses',
                 'value' => function(\prime\models\ar\Workspace $project) {
@@ -57,7 +64,7 @@ $this->params['breadcrumbs'][] = [
                 'class' => \kartik\grid\DataColumn::class,
                 'attribute' => 'closed',
                 'format' => 'date',
-                'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE,
+                'filterType' => GridView::FILTER_DATE_RANGE,
                 'filterWidgetOptions' => [
                     'pluginOptions' => [
                         'locale' => [
@@ -71,7 +78,7 @@ $this->params['breadcrumbs'][] = [
                 ],
                 'visible' => app()->controller->action->id === 'list-closed'
             ],
-            'actions' => include('list/actions.php')
+            'actions' => include('workspaces/actions.php')
         ]
     ]);
     ?>

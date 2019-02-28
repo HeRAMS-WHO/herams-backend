@@ -3,7 +3,7 @@ namespace prime\api\v1\controllers;
 
 use app\models\ar\Category;
 use app\models\Menu;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 
 
 class CategoriesController extends Controller
@@ -18,7 +18,7 @@ class CategoriesController extends Controller
      */
     public function actionView($id, $pid)
     {
-        $model = Tool::loadone($pid);
+        $model = Project::loadone($pid);
         $user = app()->user->identity;
 
         $result = [

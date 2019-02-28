@@ -3,7 +3,7 @@ namespace prime\api\v1\controllers;
 
 use app\models\Overview;
 use app\models\stats\ServiceAvailability;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
 
@@ -18,7 +18,7 @@ class ChartsController extends Controller
         $data = [];
 
         if (!$services) {
-            $model = Tool::loadone($pid);
+            $model = Project::loadone($pid);
 
             // get list of charts in category
             $charts = \Yii::$app->db->createCommand(

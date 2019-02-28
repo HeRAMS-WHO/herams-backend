@@ -4,7 +4,7 @@ namespace app\models\stats;
 
 use Carbon\Carbon;
 use prime\models\ar\Workspace;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\caching\Cache;
@@ -15,7 +15,7 @@ class ServiceAvailability
 {
     public function status(Client $limeSurvey, Cache $cache, $group, $pid)
     {
-        $model = Tool::loadOne($pid);
+        $model = Project::loadOne($pid);
         $structure = $this->loadStructure($limeSurvey, $cache, $model->base_survey_eid);
         $qCodes = $this->getGroup($structure, explode(",",$group));
 
@@ -270,7 +270,7 @@ class ServiceAvailability
                     $data = Workspace::loadOne($id)->getResponses();
                     break;
                 case 'project':
-                    $data = Tool::loadOne($id)->getResponses();
+                    $data = Project::loadOne($id)->getResponses();
             }
 
             $responses = $this->prepareData($data, $limitDate);

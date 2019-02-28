@@ -1,5 +1,4 @@
 
-
 $navbar-height: 70px;
 // Default value.
 $navbar-margin-bottom: 20px;
@@ -286,10 +285,14 @@ iframe.seamless {
   color: var(--breadcrumbs-color);
   background-color: transparent;
 
-  li:before {
-    content: "< ";
-  }
 }
+.breadcrumb > li + li:before {
+
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content:" \f054 ";
+}
+
 
 .header {
   a {

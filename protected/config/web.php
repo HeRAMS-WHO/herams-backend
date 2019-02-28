@@ -54,6 +54,18 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view'
                 ],
+                [
+                    'pattern' => '<controller>/<id:\d+>/<action:[\w-]+>',
+                    'route' => '<controller>/<action>'
+                ],
+                // For testing.
+                [
+                    'pattern' => '/',
+                    'route' => 'site/world-map',
+                    'defaults' => [
+                        'id' => 1
+                    ]
+                ]
 
             ]
         ],

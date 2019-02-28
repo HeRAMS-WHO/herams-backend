@@ -10,6 +10,7 @@ return [
     'id' => 'herams',
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
+    'runtimePath' => '/tmp',
     'timeZone' => 'UTC',
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en-US',
@@ -28,7 +29,7 @@ return [
             'dsn' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME'),
             'password' => getenv('DB_PASS'),
             'username' => getenv('DB_USER'),
-            'enableSchemaCache' => true,
+            'enableSchemaCache' => !YII_DEBUG,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
             'queryCache' => 'cache',
@@ -69,8 +70,13 @@ return [
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 return app()->get('limesurveyCache')->set($key, $value, $duration);
             }, function ($key) {
-                \Yii::info('Getting cache key: ' . $key, 'ls');
-                return app()->get('limesurveyCache')->get($key);
+                $result = app()->get('limesurveyCache')->get($key);
+                if ($result === false) {
+                    \Yii::info('Getting MISS key: ' . $key, 'ls');
+                } else {
+                    \Yii::info('Getting HIT key: ' . $key, 'ls');
+                }
+                return $result;
             });
             return $result;
         },

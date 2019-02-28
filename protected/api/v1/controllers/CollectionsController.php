@@ -5,7 +5,7 @@ namespace prime\api\v1\controllers;
 
 
 use prime\models\ar\Workspace;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use yii\caching\Cache;
 
 class CollectionsController extends Controller
@@ -23,7 +23,7 @@ class CollectionsController extends Controller
                     $data = Workspace::loadOne($id)->getResponses();
                     break;
                 case 'tool':
-                    $data = Tool::loadOne($id)->getResponses();
+                    $data = Project::loadOne($id)->getResponses();
             }
 
             foreach($data as $response) {

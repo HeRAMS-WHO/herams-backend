@@ -3,7 +3,7 @@
 namespace prime\api\v1\controllers;
 
 use app\models\Overview;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
 use yii\web\HttpException;
@@ -18,7 +18,7 @@ class FiltersController extends Controller
     public function actionView(Client $limeSurvey, Cache $cache, $id)
     {
         try {
-           $model = Tool::loadOne($id);
+           $model = Project::loadOne($id);
 
             $filters = Overview::loadStructure($limeSurvey, $cache, $model->base_survey_eid);
 

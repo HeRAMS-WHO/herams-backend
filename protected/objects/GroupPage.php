@@ -50,7 +50,7 @@ class GroupPage implements PageInterface
                 'transpose' => true,
                 'config' => [
                     'code' => 'availability',
-                    'colors' => ['green', 'orange', 'red', 'grey'],
+                    'colors' => ['green', 'orange', 'red'],
                     'map' => [
                         'A1' => 'Fully available',
                         'A2' => 'Partially available',

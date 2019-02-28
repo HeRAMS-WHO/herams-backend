@@ -1,24 +1,35 @@
 <?php
 
-/** @var \prime\models\ar\Tool $model */
+/** @var \prime\models\ar\Project $model */
 
+use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use app\components\Form;
+use rmrevin\yii\fontawesome\FAS;
 use yii\bootstrap\Html;
+use yii\data\ActiveDataProvider;
 
 $this->title = Yii::t('app', 'Update project');
-
+$this->params['breadcrumbs'] = [
+    [
+        'label' => $model->getDisplayField(),
+        'url' => ['project/view', 'id' => $model->id]
+    ],
+];
+$this->params['breadcrumbs'][] = [
+    'label' => $this->title
+//    'url' => ['project/view', 'id' => $project->id]
+];
 ?>
 
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'update-tool',
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
     ]);
 
-    echo \app\components\Form::widget([
+    echo Form::widget([
         'form' => $form,
         'model' => $model,
         'columns' => 1,
@@ -30,17 +41,18 @@ $this->title = Yii::t('app', 'Update project');
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->dataSurveyOptions(),
             ],
-            'latitude_code' => [
+            'latitude' => [
                 'type' => Form::INPUT_TEXT
             ],
-            'longitude_code' => [
+            'longitude' => [
                 'type' => Form::INPUT_TEXT
             ],
-            'name_code' => [
-                'type' => Form::INPUT_TEXT
+            'status' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->statusOptions()
             ],
-            'type_code' => [
-                'type' => Form::INPUT_TEXT
+            'typemap' => [
+                'type' => Form::INPUT_TEXTAREA
             ],
             [
                 'type' => Form::INPUT_RAW,
@@ -49,7 +61,8 @@ $this->title = Yii::t('app', 'Update project');
                         Html::submitButton(\Yii::t('app', 'Update project'), ['class' => 'btn btn-primary'])
                     ]
                 ])
-            ]
+            ],
+
         ]
     ]);
     $form->end();
@@ -58,8 +71,8 @@ $this->title = Yii::t('app', 'Update project');
 </div>
 <div class="col-xs-12">
     <?php
-        echo \kartik\grid\GridView::widget([
-            'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getAllPages()]),
+        echo GridView::widget([
+            'dataProvider' => new ActiveDataProvider(['query' => $model->getAllPages()]),
             'columns' => [
                 'id',
                 'title',

@@ -5,7 +5,7 @@ namespace app\models;
 use app\models\stats\PriorityTable;
 use Carbon\Carbon;
 use prime\models\ar\Workspace;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\SerializeHelper;
 use yii\base\Model;
@@ -25,7 +25,7 @@ class Overview extends Model
      */
     public static function mapPoints(Client $limeSurvey, Cache $cache, $pid, $code, $indicatorId, $services = false)
     {
-        $model = Tool::loadOne($pid);
+        $model = Project::loadOne($pid);
         $structure = self::loadStructure($limeSurvey, $cache, $model->base_survey_eid);
         $responses = self::loadResponses($cache, $pid, self::filters());
 
@@ -200,7 +200,7 @@ class Overview extends Model
                     $data = Workspace::loadOne($id)->getResponses();
                     break;
                 case 'project':
-                    $data = Tool::loadOne($id)->getResponses();
+                    $data = Project::loadOne($id)->getResponses();
             }
 
             $responses = self::prepareData($data, $limitDate);

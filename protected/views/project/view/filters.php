@@ -12,7 +12,7 @@ use yii\helpers\Json as Json;
 use yii\helpers\Url;
 
 /* @var \yii\web\View $this */
-/* @var \prime\models\ar\Tool $project */
+/* @var \prime\models\ar\Project $project */
 /* @var ResponseFilter $filterModel */
 
 echo Html::beginForm(['project/view', 'id' => $project->id,

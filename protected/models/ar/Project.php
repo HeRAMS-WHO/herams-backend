@@ -3,6 +3,7 @@
 namespace prime\models\ar;
 
 use app\queries\ToolQuery;
+use prime\components\JsonValidator;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\ProjectInterface;
@@ -11,8 +12,11 @@ use prime\interfaces\WorkspaceListInterface;
 use prime\lists\SurveyFacilityList;
 use prime\lists\WorkspaceList;
 use prime\models\ActiveRecord;
+use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
+use prime\objects\FacilityType;
 use prime\objects\HeramsCodeMap;
+use prime\objects\HeramsResponse;
 use prime\objects\ResponseCollection;
 use prime\objects\SurveyCollection;
 use prime\tests\_helpers\Survey;
@@ -21,8 +25,10 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\validators\BooleanValidator;
+use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
@@ -38,59 +44,45 @@ use yii\web\UploadedFile;
  * @property string $title
  * @method static ToolQuery find()
  * @property Page[] $pages
+ * @property int $status
  */
-class Tool extends ActiveRecord implements ProjectInterface, Linkable {
+class Project extends ActiveRecord implements ProjectInterface, Linkable {
 
-    const IMAGE_PATH = '/img/tools/';
+    public const STATUS_ONGOING = 0;
+    public const STATUS_BASELINE = 1;
+    public const STATUS_TARGET = 2;
+    public const STATUS_EMERGENCY_SPECIFIC = 3;
 
     const PROGRESS_ABSOLUTE = 'absolute';
     const PROGRESS_PERCENTAGE = 'percentage';
 
-    /**
-     * variable for uploading tool image
-     * @var UploadedFile
-     */
-    public $tempImage;
-    public $thumbTempImage;
-
-    public $latitude_code;
-    public $longitude_code;
-    public $type_code;
-    public $name_code;
-
-
-    /**
-     * Save images after saving record to database.
-     * @param bool $insert
-     * @param array $changedAttributes
-     * @throws \Exception
-     */
-    public function afterSave($insert, $changedAttributes)
+    public function statusText(): string
     {
-        parent::afterSave($insert, $changedAttributes);
+        return $this->statusOptions()[$this->status];
+    }
+    public function init()
+    {
+        parent::init();
+        $this->typemap = Json::encode([
+            'A1' => 'Primary',
+            'A2' => 'Primary',
+            'A3' => 'Secondary',
+            'A4' => 'Secondary',
+            'A5' => 'Tertiary',
+            'A6' => 'Tertiary',
+            "" => 'Other',
+        ]);
+        $this->status = self::STATUS_ONGOING;
+    }
 
-        /**
-         * Save image and thumbnail if set
-         * This has to be done in the after save because the id of the record is needed
-         * Only save if one of both is set
-         */
-        $save = false;
-
-        if(isset($this->tempImage)) {
-            $this->image = $this->saveImage($this->tempImage);
-            unset($this->tempImage);
-            $save = true;
-        }
-
-        if(isset($this->thumbTempImage)) {
-            $this->thumbnail = $this->saveImage($this->thumbTempImage, '_thumbnail');
-            unset($this->thumbTempImage);
-            $save = true;
-        }
-
-        if($save) {
-            $this->save(false);
-        }
+    public function statusOptions()
+    {
+        return [
+            self::STATUS_ONGOING => 'Ongoing',
+            self::STATUS_BASELINE => 'Baseline',
+            self::STATUS_TARGET => 'Target',
+            self::STATUS_EMERGENCY_SPECIFIC => 'Emergency specific'
+        ];
     }
 
     public function attributeLabels()
@@ -107,6 +99,8 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
             'longitude_code' => \Yii::t('app', 'Question code containing the longitude (case sensitive)'),
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
+            'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
+            'status' => \Yii::t('app','Project status is shown on the world map')
         ];
     }
 
@@ -120,7 +114,7 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
     /**
      * @return \SamIT\LimeSurvey\Interfaces\SurveyInterface
      */
-    public function getBaseSurvey(): SurveyInterface
+    public function getSurvey(): SurveyInterface
     {
         return $this->limeSurvey()->getSurvey($this->base_survey_eid);
     }
@@ -136,21 +130,16 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
 
     public function beforeDelete()
     {
-        return $this->getProjectCount() === 0;
+        return $this->getWorkspaceCount() === 0;
     }
 
     public function getProjects()
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id']);
     }
-    public function getProjectCount()
+    public function getWorkspaceCount()
     {
         return $this->getProjects()->count();
-    }
-
-    public function isTransactional($operation)
-    {
-        return true;
     }
 
     public function rules()
@@ -160,10 +149,12 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
                 'title', 'base_survey_eid'
             ], RequiredValidator::class],
             [['title'], StringValidator::class],
-//            [['title'], UniqueValidator::class],
+            [['title'], UniqueValidator::class],
             [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
             [['hidden'], BooleanValidator::class],
-            [['latitude_code', 'longitude_code', 'name_code', 'type_code'], StringValidator::class, 'min' => 1]
+            [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
+            [['typemap'], JsonValidator::class, 'rootType' => JsonValidator::ROOT_OBJECT],
+            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())]
         ];
     }
 
@@ -181,33 +172,59 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
         return $this->_responses;
     }
 
-    public function tokenOptions(): array
+
+    /**
+     * @return iterable|HeramsResponse[]
+     */
+    public function getHeramsResponses(): iterable
     {
 
-        return [
-            'abc' => 'token abc'
-        ];
-        $limeSurvey = $this->limeSurvey();
-        $usedTokens = array_flip(Workspace::find()->select('token')->column());
-        $tokens = $limeSurvey->getTokens($this->base_survey_eid);
-
-        $result = [];
-        /** @var TokenInterface $token */
-        foreach ($tokens as $token) {
-            if (isset($usedTokens[$token->getToken()])) {
-                continue;
-            }
-            if (!empty($token->getToken())) {
-                $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
-                        ', ',
-                        array_filter($token->getCustomAttributes())
-                    );
+        $map = $this->getMap();
+        $heramsResponses = [];
+        foreach($this->getResponses() as $response) {
+            try {
+                $heramsResponses[] = new HeramsResponse($response, $map);
+            } catch (\InvalidArgumentException $e) {
+                // Silent ignore invalid responses.
             }
         }
-
-        return $result;
+        return (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();
     }
 
+    public function getTypeCounts()
+    {
+        $map = Json::decode($this->typemap);
+        // Always have a mapping for the empty / unknown value.
+        if (!isset($map[""])) {
+            $map[""] = "Unknown";
+        }
+        // Initialize counts
+        $counts = [];
+        foreach($map as $key => $value) {
+            $counts[$value] = 0;
+        }
+
+        foreach($this->getHeramsResponses() as $response) {
+            $type = $response->getType();
+            if (empty($map)) {
+                $counts[$type] = ($counts[$type] ?? 0) + 1;
+            } elseif (isset($map[$type])) {
+                $counts[$map[$type]]++;
+            } else {
+                $counts[$map[""]]++;
+            }
+        }
+        return $counts;
+    }
+
+    public function getFunctionalityCounts()
+    {
+        return [
+            'Fully' => mt_rand(1, 100),
+            'Partially' => mt_rand(1, 100),
+            'None' => mt_rand(1, 100),
+        ];
+    }
 
     public function userCan($operation, User $user)
     {
@@ -288,7 +305,7 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
 
     public function getFacilities(): FacilityListInterface
     {
-        return new SurveyFacilityList($this->getBaseSurvey());
+        return new SurveyFacilityList($this->getSurvey());
     }
 
     public function getMap(): HeramsCodeMap
@@ -303,5 +320,20 @@ class Tool extends ActiveRecord implements ProjectInterface, Linkable {
     public function getAllPages()
     {
         return $this->hasMany(Page::class, ['tool_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
+    }
+
+    public function getType(): FacilityType
+    {
+        return new FacilityType(FacilityType::PRIMARY);
+    }
+
+    public function getContributorCount(): int
+    {
+        return 1 + $this->getPermissions()->count();
+    }
+
+    public function getFacilityCount(): int
+    {
+        return count($this->getHeramsResponses());
     }
 }

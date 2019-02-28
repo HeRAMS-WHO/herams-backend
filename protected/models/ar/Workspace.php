@@ -41,7 +41,7 @@ use yii\web\Linkable;
  * @package prime\models
  *
  * @property User $owner
- * @property Tool $tool
+ * @property Project $tool
  * @property string $title
  * @property string $description
  * @property string $default_generator
@@ -182,7 +182,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
 
     public function getTool()
     {
-        return $this->hasOne(Tool::class, ['id' => 'tool_id']);
+        return $this->hasOne(Project::class, ['id' => 'tool_id']);
     }
 
     public function isTransactional($operation)
@@ -201,7 +201,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
             [['title', 'owner_id', 'tool_id'], RequiredValidator::class],
             [['title'], StringValidator::class],
             [['owner_id'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id'],
-            [['tool_id'], ExistValidator::class, 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
+            [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
             [['tool_id'], NumberValidator::class],
             [['closed'], DateValidator::class,'format' => 'php:Y-m-d H:i:s', 'skipOnEmpty' => true],
             ['token', UniqueValidator::class]
@@ -418,12 +418,5 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
             'project' => Url::to(['project/view', 'id' => $this->tool_id], true),
         ];
     }
-
-    public static function tableName()
-    {
-        return '{{%project}}';
-    }
-
-
 }
 

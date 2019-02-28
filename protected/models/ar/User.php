@@ -4,6 +4,7 @@ namespace prime\models\ar;
 
 use app\queries\WorkspaceQuery;
 use prime\models\permissions\Permission;
+use yii\helpers\Url;
 use yii\validators\RequiredValidator;
 
 /**
@@ -24,7 +25,7 @@ class User extends \dektrium\user\models\User {
 
     public function getGravatarUrl ($size = 256)
     {
-        return "//gravatar.com/avatar/" . md5(strtolower($this->email)) . "?s=" . $size . "&d=blank";
+        return "//s.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . "?s=" . $size;
     }
 
     public function getFirstName(): ?string

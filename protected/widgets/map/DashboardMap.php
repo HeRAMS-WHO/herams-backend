@@ -12,39 +12,106 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
 
-class Map extends Widget
+class DashboardMap extends Widget
 {
+    use SurveyHelper;
     public const TILE_LAYER = 'tileLayer';
     public $baseLayers = [
         [
-            "type" => self::TILE_LAYER,
+            "type" => DashboardMap::TILE_LAYER,
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        ],
-//        [
-//            "type" => self::TILE_LAYER,
-//            "url" => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-//        ]
+        ]
     ];
 
     public $options = [
-        'class' => [
-            'map'
-        ]
+        'class' => ['map']
     ];
 
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
 
+    /**
+     * @var HeramsResponse[]
+     */
+    public $data = [];
+    /** @var SurveyInterface */
+    public $survey;
+
     public $colors;
 
-    public $data;
+    public $code;
 
-    public $markerRadius = 10;
     public function init()
     {
         $this->colors = new JsExpression('chroma.brewer.OrRd');
         parent::init();
     }
+
+
+    private function getCollections(iterable $data)
+    {
+        try {
+            $types = $this->getAnswers($this->code);
+            $getter = function($response) {
+                return $response->getValueForCode($this->code);
+            };
+        } catch (\InvalidArgumentException $e) {
+            $types = [];
+            $getter = function($response) {
+                $getter = 'get' . ucfirst($this->code);
+                return $response->$getter();
+            };
+        }
+
+        $collections = [];
+        /** @var HeramsResponse $response */
+        foreach($data as $response) {
+            $value = $getter($response);
+            $latitude = $response->getLatitude();
+            $longitude = $response->getLongitude();
+            if (abs($latitude) < 0.0000001
+                && abs($longitude) < 0.0000001) {
+                continue;
+            }
+
+            if (!isset($collections[$value])) {
+                $collections[$value] = [
+                    "type" => "FeatureCollection",
+                    'features' => [],
+                    "title" => $types[$value] ?? $value ?? 'Unknown',
+                ];
+            }
+
+            $point = [
+                "type" => "Feature",
+                "geometry" => [
+                    "type" => "Point",
+                    "coordinates" => [$latitude, $longitude]
+                ],
+                "properties" => [
+                    'title' => $response->getName(),
+                ]
+
+//                'subtitle' => '',
+//                'items' => [
+//                    'ownership',
+//                    'building damage',
+//                    'functionality'
+//                ]
+            ];
+            $collections[$value]['features'][] = $point;
+        }
+        uksort($collections, function($a, $b) {
+            if ($a === "" || $a === "-oth-") {
+                return 1;
+            } elseif ($b === "" || $b === "-oth-") {
+                return -1;
+            }
+            return $a <=> $b;
+        });
+        return array_values($collections);
+    }
+
     public function run()
     {
         $this->registerClientScript();
@@ -57,18 +124,16 @@ class Map extends Widget
         $config = Json::encode([
             'preferCanvas' => true,
             'center' => $this->center,
-            'zoom' => $this->zoom,
-            'zoomControl' => false
+            'zoom' => $this->zoom
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
-        $data = Json::encode($this->data);
+        $data = Json::encode($this->getCollections($this->data));
 
         $scale = Json::encode($this->colors);
         $this->view->registerJs(<<<JS
         (function() {
             let map = L.map($id, $config);
-            window.map = map;
             for (let baseLayer of $baseLayers) {
                 switch (baseLayer.type) {
                     case 'tileLayer':
@@ -76,7 +141,7 @@ class Map extends Widget
                         break;
                 }
             }
-            // /*
+            
             let data = $data;
                 let layers = {};
                 let scale = chroma.scale($scale).colors(data.length);
@@ -84,52 +149,21 @@ class Map extends Widget
                     let color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
-                            let marker = L.circleMarker(latlng, {
-                                radius: {$this->markerRadius},
+                            return L.circleMarker(latlng, {
+                                radius: 2,
                                 color: color,
                                 weight: 1,
                                 opacity: 1,
                                 fillOpacity: 0.8
                             });
-                            
-                            let popup = marker.bindPopup(feature.properties.popup || feature.properties.title, {
-                                maxWidth: "auto",
-                                closeButton: false
-                            });
-                            popup.on('popupopen', function() {
-                                let event = new Event('mapPopupOpen');
-                                event.id = feature.properties.id;
-                                window.dispatchEvent(event);
-                            });
-                            popup.on('popupclose', function() {
-                                let event = new Event('mapPopupClose');
-                                window.dispatchEvent(event);
-                            });
-                            
-                            window.addEventListener('externalPopup', function(e) {
-                                if (e.id == feature.properties.id) {
-                                    marker.openPopup(popup);    
-                                }
-                                 
-                            });
-                            return marker;
-                        }, 
-                        onEachFeature: function(feature, layer) {
-                            console.log(feature, layer);
                         }
                     });
-                    
-                    let tooltip = layer.bindTooltip(function(e) {
+                    layer.bindTooltip(function(e) {
+                        return e.feature.properties.title;
+                    }),
+                    layer.bindPopup(function(e) {
                         return e.feature.properties.title;
                     });
-                    // let popup = layer.bindPopup(function(e) {
-                    //     console.log(arguments);
-                    //     return e.feature.properties.popup || e.feature.properties.title;
-                    // }, {
-                    //     maxWidth: "auto",
-                    //     closeButton: false
-                    // });
-                    
                     layer.addTo(map);
                     
                     let legend = document.createElement('span');
@@ -143,14 +177,8 @@ class Map extends Widget
                     layers[legend.outerHTML] = layer;
                 }
                 L.control.layers([], layers, {
-                    collapsed: false,
-                    position: 'bottomright'
+                    collapsed: false
                 }).addTo(map);
-                
-                
-            L.control.zoom({
-                position: 'bottomright'
-            }).addTo(map);
         })();
 
 JS
@@ -163,6 +191,9 @@ JS
     protected function registerClientScript()
     {
         $this->view->registerAssetBundle(MapBundle::class);
+//        $config = [
+//
+//        ]
     }
 
 }

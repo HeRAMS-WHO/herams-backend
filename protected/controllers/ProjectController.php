@@ -4,9 +4,12 @@ namespace prime\controllers;
 
 use kartik\widgets\Growl;
 use prime\components\Controller;
+use prime\controllers\project\Index;
+use prime\controllers\project\Summary;
 use prime\controllers\project\View;
+use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use yii\data\ActiveDataProvider;
@@ -20,11 +23,12 @@ use yii\web\User;
 class ProjectController extends Controller
 {
     public $layout = 'simple';
-    public $defaultAction = 'list';
 
-    public function actionCreate(Request $request, Session $session)
-    {
-        $model = new Tool();
+    public function actionCreate(
+        Request $request,
+        Session $session
+    ) {
+        $model = new Project();
 
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->save())
@@ -38,12 +42,7 @@ class ProjectController extends Controller
                     ]
                 );
 
-                return $this->redirect(['tools/update', 'id' => $model->id]);
-            } else {
-                $session->setFlash('toolNotCreated', [
-                    'type' => Growl::TYPE_WARNING,
-                    'text' => \Yii::t('app', 'Failed to create tool.') . print_r($model->errors, true)
-                ]);
+                return $this->redirect(['update', 'id' => $model->id]);
             }
         }
 
@@ -52,20 +51,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function actionList()
-    {
-        $toolsDataProvider = new ActiveDataProvider([
-            'query' => Tool::find()->userCan(Permission::PERMISSION_READ)
-        ]);
-
-        return $this->render('list', [
-            'toolsDataProvider' => $toolsDataProvider
-        ]);
-    }
-
     public function actionUpdate(Request $request, Session $session, $id)
     {
-        $model = Tool::loadOne($id);
+        $model = Project::loadOne($id);
 
         if($request->isPut) {
             if($model->load($request->bodyParams) && $model->save()) {
@@ -94,7 +82,7 @@ class ProjectController extends Controller
      */
     public function actionDelete(Request $request, Session $session,  $id)
     {
-        $tool = Tool::loadOne($id);
+        $tool = Project::loadOne($id);
         if ($tool->delete()) {
             $session->setFlash(
                 'toolDeleted',
@@ -122,7 +110,7 @@ class ProjectController extends Controller
 
     public function actionShare(Session $session, Request $request, $id)
     {
-        $tool = Tool::loadOne($id, [], Permission::PERMISSION_SHARE);
+        $tool = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
         $model = new Share($tool, [], [
             'permissions' => [
                 Permission::PERMISSION_INSTANTIATE
@@ -157,7 +145,7 @@ class ProjectController extends Controller
     {
         $permission = Permission::findOne($id);
         //User must be able to share project in order to delete a share
-        $tool = Tool::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
+        $tool = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
         if($permission->delete()) {
             $session->setFlash(
                 'toolShared',
@@ -184,7 +172,7 @@ class ProjectController extends Controller
      */
     public function actionOverview($id)
     {
-        $tool = Tool::loadOne($id);
+        $tool = Project::loadOne($id);
         $this->layout = 'angular';
 
         return $this->render('overview', [
@@ -195,7 +183,10 @@ class ProjectController extends Controller
     public function actions()
     {
         return [
-            'view' => View::class
+            'index' => Index::class,
+            'view' => View::class,
+            'summary' => Summary::class,
+            'workspaces' => Workspaces::class
         ];
     }
 

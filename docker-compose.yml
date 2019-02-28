@@ -8,7 +8,7 @@ x-env:
       - ./tests:/project/tests:rw
       - ./protected/migrations:/project/protected/migrations:rw
     tmpfs:
-      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID-0}
+      - /tmp:rw,noexec,nosuid,uid=${UID-0}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment:
       DB_HOST: devdb
@@ -53,11 +53,6 @@ services:
     ]
     ports:
       - "0.0.0.0:${APP_PORT-12346}:8080"
-    tmpfs:
-      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID-0}
-      - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
-
-
   ## Mysql server (local), this will create a persistent data store for local development
   devdb:
     << : *mysql

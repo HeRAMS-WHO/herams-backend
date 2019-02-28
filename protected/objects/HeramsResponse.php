@@ -33,7 +33,7 @@ class HeramsResponse
 
         // Validate.
         if (!isset($this->data[$this->map->getSubjectId()])) {
-            throw new \InvalidArgumentException('Invalid response');
+            throw new \InvalidArgumentException('Invalid response, could not find field: ' . $this->map->getSubjectId());
         }
     }
 

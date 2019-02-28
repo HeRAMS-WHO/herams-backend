@@ -63,7 +63,6 @@ class Chart extends Widget
             }
         } catch (\InvalidArgumentException $e) {
             $map = [];
-
         }
         return array_merge($this->map ?? [], $map);
     }
@@ -186,12 +185,18 @@ class Chart extends Widget
 
         $colorCount = max(count($map), $pointCount) - (empty($this->notRelevantColor) ? 0 : 1);
 
-        $colors = [];
-        foreach(array_keys($map) as $i => $k) {
-            if (isset($unmappedData[$k], $this->colors[$i])) {
-                $colors[] = $this->colors[$i];
+
+        if (!empty($map)) {
+            $colors = [];
+            foreach (array_keys($map) as $i => $k) {
+                if (isset($unmappedData[$k], $this->colors[$i])) {
+                    $colors[] = $this->colors[$i];
+                }
             }
+        } else {
+            $colors = $this->colors;
         }
+
         $baseColors = Json::encode($colors);
         if (!empty($this->notRelevantColor)) {
             $notRelevantColor = Json::encode($this->notRelevantColor);
@@ -279,8 +284,6 @@ JS
                                 let percentage = Math.round(100 * value / sum) + "%";
                                 return `${label}: ${value} (${percentage})`;
                             }
-                            console.log(meta);
-                            
                         }'),
 
                     ]

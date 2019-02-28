@@ -6,15 +6,20 @@ namespace prime\widgets\menu;
 
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
-class Menu extends Widget
+/**
+ * Class Menu
+ * Implements a side menu for project pages
+ * @package prime\widgets\menu
+ */
+class SideMenu extends Widget
 {
-    /** @var Tool */
+    /** @var Project */
     public $project;
 
     /** @var SurveyInterface */
@@ -48,8 +53,10 @@ JS;
         Html::addCssClass($options, 'menu');
         $this->registerClientScript();
         echo Html::beginTag('div', $options);
-        echo Html::img("https://herams.org/img/HeRAMS.png");
+        echo Html::img("/img/HeRAMS.png");
         echo Html::tag('h1', $this->project->getDisplayField());
+//
+        echo Html::tag('hr');
         echo Html::beginTag('nav');
         foreach($this->project->pages as $page) {
             $this->renderPageMenu($page);

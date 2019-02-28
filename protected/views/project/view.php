@@ -1,12 +1,13 @@
 <?php
 
 /** @var View $this */
-/** @var \prime\models\ar\Tool $project */
+/** @var \prime\models\ar\Project $project */
 /** @var \prime\models\ar\Page $page */
 
+use prime\widgets\menu\SideMenu;
 use yii\web\View;
 
-echo \prime\widgets\menu\Menu::widget([
+echo SideMenu::widget([
     'project' => $project,
     'params' => \Yii::$app->request->queryParams,
     'currentPage' => $page,
@@ -36,16 +37,20 @@ while(!empty($stack)) {
     ];
 }
 
+if ($project->pages[0]->getId() !== $page->getId()) {
+    $this->params['breadcrumbs'][] = [
+        'label' => $page->getTitle(),
+//    'url' => [
+//        'project/view',
+//        'id' => $project->id,
+//        'page_id' => $page->getId(),
+//        'parent_id' => $page->getParentId()
+//    ]
+    ];
+}
 
-$this->params['breadcrumbs'][] = [
-    'label' => $page->getTitle(),
-    'url' => [
-        'project/view',
-        'id' => $project->id,
-        'page_id' => $page->getId(),
-        'parent_id' => $page->getParentId()
-    ]
-];
+$this->title = $page->getTitle();
+
 
 echo $this->render('view/filters', [
     'types' => $types,
@@ -58,6 +63,7 @@ echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
 
     foreach($page->getChildElements() as $element) {
         \Yii::beginProfile('Render element ' . $element->id);
+        echo "<!-- Chart {$element->id} -->";
         echo $element->getWidget($survey, $data, $page)->run();
         \Yii::endProfile('Render element ' . $element->id);
     }

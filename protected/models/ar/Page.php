@@ -84,7 +84,7 @@ class Page extends ActiveRecord implements PageInterface
             [['title', 'tool_id'], RequiredValidator::class],
             [['title'], StringValidator::class],
             [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id'],
-            [['tool_id'], ExistValidator::class, 'targetClass' => Tool::class, 'targetAttribute' => 'id']
+            [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id']
         ];
     }
 

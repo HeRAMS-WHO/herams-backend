@@ -3,7 +3,7 @@
 namespace prime\api\v1\controllers;
 
 use app\models\Overview;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\caching\Cache;
 use yii\web\HttpException;
@@ -18,7 +18,7 @@ class LocationsController extends Controller
     public function actionView(Client $limeSurvey, Cache $cache, $id, $pid)
     {
         try {
-            $model = Tool::loadone($pid);
+            $model = Project::loadone($pid);
             $labels = Overview::geoLabels($limeSurvey, $cache, $model->base_survey_eid);
 
             if ($pid == 10) {

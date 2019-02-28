@@ -1,5 +1,5 @@
 <?php
-/** @var \prime\models\ar\Tool $model */
+/** @var \prime\models\ar\Project $model */
 
 use kartik\widgets\ActiveForm;
 use app\components\Form;
@@ -9,7 +9,7 @@ $this->title = Yii::t('app', 'Create project');
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Manage projects'),
-    'url' => ['tools/list']
+    'url' => ['project/index']
 ];
 
 ?>

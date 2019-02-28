@@ -6,7 +6,7 @@ use yii\helpers\Html;
 ?>
     <nav>
         <?php
-        /** @var \prime\models\ar\Tool $project */
+        /** @var \prime\models\ar\Project $project */
         /** @var Page $currentPage */
         foreach($project->pages as $page) {
 

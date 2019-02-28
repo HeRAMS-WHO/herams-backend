@@ -1,5 +1,6 @@
 <?php
 
+use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
 use yii\bootstrap\Html;
 use yii\widgets\Breadcrumbs;
 
@@ -18,8 +19,12 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
         'rel' => 'shortcut icon',
         'href' => \yii\helpers\Url::to('@web/img/favicon.png'),
         'type' => 'img/x-icon'
-    ]); ?>
+    ]);
+    $this->registerAssetBundle(CdnFreeAssetBundle::class);
+    ?>
     <title><?=Html::encode($this->title ?: app()->name); ?></title>
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->head(); ?>
 </head>
@@ -37,13 +42,11 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
             <div class="col-sm-6 col-lg-8">
                 <?php
                 echo Breadcrumbs::widget([
-                    'homeLink' => false,
-                    'links' => array_merge([
-                            [
-                                'label' => \Yii::t('app', 'Back home'),
-                                'url' => '/'
-                            ]
-                        ], $this->params['breadcrumbs'] ?? [])
+                    'homeLink' => [
+                        'label' => \Yii::t('app', 'World overview'),
+                        'url' => '/'
+                    ],
+                    'links' => $this->params['breadcrumbs'] ?? []
                 ]);
                 ?>
             </div>

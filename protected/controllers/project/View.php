@@ -6,7 +6,7 @@ namespace prime\controllers\project;
 
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -28,8 +28,8 @@ class View extends Action
         int $parent_id = null
     ) {
         $this->controller->layout = 'css3-grid';
-        $tool = Tool::findOne(['id' => $id]);
-        $survey = $limeSurvey->getSurvey($tool->base_survey_eid);
+        $project = Project::findOne(['id' => $id]);
+        $survey = $limeSurvey->getSurvey($project->base_survey_eid);
 
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
@@ -45,11 +45,13 @@ class View extends Action
             }
         } elseif (isset($page_id)) {
             $page = Page::findOne(['id' => $page_id]);
-            if (!isset($page) || $page->tool_id !== $tool->id) {
+            if (!isset($page) || $page->tool_id !== $project->id) {
                 throw new NotFoundHttpException($page->tool_id);
             }
+        } elseif (!empty($project->pages)) {
+            $page = $project->pages[0];
         } else {
-            $page = $tool->pages[0];
+            throw new NotFoundHttpException('No reporting has been set up for this project');
         }
 
 
@@ -57,8 +59,8 @@ class View extends Action
 
         \Yii::beginProfile('getResponses');
         $responses = [];
-        $map = $tool->getMap();
-        foreach($this->getResponses($limeSurvey, $tool->base_survey_eid) as $response) {
+        $map = $project->getMap();
+        foreach($project->getResponses() as $response) {
             try {
                 $responses[] = new HeramsResponse($response, $map);
             } catch (\InvalidArgumentException $e) {
@@ -96,7 +98,7 @@ class View extends Action
             'types' => $this->getTypes($survey),
             'data' => $filtered,
             'filterModel' => $filter,
-            'project' => $tool,
+            'project' => $project,
             'page' => $page,
             'survey' => $survey
         ]);
@@ -112,6 +114,7 @@ class View extends Action
                 return $result;
             } catch (\Throwable $t) {
                 if ($attempts === $retries) {
+                    throw $t;
                     throw new \Exception('Failed to get responses after ' . $retries . ' attempts', 0, $t);
                 }
             }

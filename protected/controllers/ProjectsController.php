@@ -10,7 +10,7 @@ use prime\controllers\projects\Download;
 use prime\controllers\projects\View;
 use prime\models\ar\Workspace;
 use prime\models\ar\Setting;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\forms\projects\CreateUpdate;
 use prime\models\forms\projects\Token;
 use prime\models\forms\Share;
@@ -71,7 +71,7 @@ class ProjectsController extends Controller
         $model->scenario = 'create';
         $model->tool_id = $toolId;
 
-        $tool = Tool::loadOne($toolId);
+        $tool = Project::loadOne($toolId);
         if (!$tool->validate()) {
             throw new InvalidConfigException("This project is not configured correctly, the survey could be missing");
         }
@@ -110,7 +110,7 @@ class ProjectsController extends Controller
         Request $request,
         int $toolId
     ) {
-        $tool = Tool::loadOne($toolId);
+        $tool = Project::loadOne($toolId);
         $projectSearch = new ProjectSearch($tool->id, [
             'queryCallback' => function(WorkspaceQuery $query) {
                 return $query->readable();
@@ -122,7 +122,7 @@ class ProjectsController extends Controller
         return $this->render('list', [
             'projectSearch' => $projectSearch,
             'projectsDataProvider' => $projectsDataProvider,
-            'tool' => isset($toolId) ? Tool::findOne(['id' => $toolId]) : null
+            'tool' => isset($toolId) ? Project::findOne(['id' => $toolId]) : null
         ]);
     }
 
@@ -130,7 +130,7 @@ class ProjectsController extends Controller
         Request $request,
         int $toolId
     ) {
-        $tool = Tool::loadOne($toolId);
+        $tool = Project::loadOne($toolId);
         $projectSearch = new ProjectSearch($tool->id, [
             'queryCallback' => function(WorkspaceQuery $query) {
                 return $query->notReadable();
@@ -148,7 +148,7 @@ class ProjectsController extends Controller
         Request $request,
         int $toolId
     ) {
-        $tool = Tool::loadOne($toolId);
+        $tool = Project::loadOne($toolId);
         $projectSearch = new ProjectSearch($tool->id);
         $projectSearch->query = Workspace::find()->closed()->userCan(Permission::PERMISSION_WRITE);
         if(!app()->user->can('admin')) {
@@ -177,7 +177,7 @@ class ProjectsController extends Controller
 
     public function actionOverview($pid)
     {
-        $model = Tool::loadOne($pid);
+        $model = Project::loadOne($pid);
         $this->layout = 'angular';
 
         return $this->render('overview', [

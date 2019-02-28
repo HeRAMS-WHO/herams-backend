@@ -12,15 +12,15 @@ echo Nav::widget([
     'items' => [
         [
             'label' => \Yii::t('app', 'My workspaces'),
-            'url' => ['/projects/list', 'toolId' => $tool->id],
+            'url' => ['project/workspaces', 'id' => $project->id],
         ],
         [
             'label' => \Yii::t('app', "Other workspaces"),
-            'url' => ['/projects/list-others', 'toolId' => $tool->id]
+            'url' => ['project/workspaces', 'id' => $project->id, 'accessible' => 1]
         ],
         [
             'label' => \Yii::t('app', 'Inactive workspaces'),
-            'url' => ['/projects/list-closed', 'toolId' => $tool->id]
+            'url' => ['project/workspaces', 'id' => $project->id, 'active' => 0]
         ],
 
     ]
@@ -36,7 +36,7 @@ echo Nav::widget([
                 'href' => Url::to(['projects/create', 'toolId' => $tool->id]),
                 'class' => 'btn-default',
             ],
-            'visible' => app()->user->can('instantiate', ['model' => \prime\models\ar\Tool::class])
+            'visible' => app()->user->can('instantiate', ['model' => \prime\models\ar\Project::class])
         ],
     ]
 ]);

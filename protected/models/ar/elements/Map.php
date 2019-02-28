@@ -7,7 +7,7 @@ namespace prime\models\ar\elements;
 use prime\models\ar\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
-use prime\widgets\map\Map as MapWidget;
+use prime\widgets\map\DashboardMap as MapWidget;
 
 class Map extends Element
 {

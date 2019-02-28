@@ -42,7 +42,9 @@
         "sam-it/yii2-magic": "^1.0.3",
         "treffynnon/navigator": "^1",
         "yiisoft/yii2": "^2.0.15",
-        "nikic/iter": "^1.6"
+        "nikic/iter": "^1.6",
+        "rmrevin/yii2-fontawesome": "^3.3",
+        "fortawesome/font-awesome": "^5.7"
     },
 	"autoload" : {
         "psr-4" : {
