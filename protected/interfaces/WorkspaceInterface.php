@@ -4,7 +4,7 @@
 namespace prime\interfaces;
 
 
-interface WorkspaceInterface extends \Serializable
+interface WorkspaceInterface
 {
     public function getId(): string;
 

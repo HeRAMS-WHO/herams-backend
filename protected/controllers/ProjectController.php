@@ -13,6 +13,7 @@ use prime\models\ar\Project;
 use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use yii\data\ActiveDataProvider;
+use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
@@ -201,6 +202,15 @@ class ProjectController extends Controller
                         'delete' => ['delete']
                     ]
                 ],
+
+                'pageCache' => [
+                    'class' => PageCache::class,
+                    'only' => ['summary'],
+                    'variations' => [
+                        \Yii::$app->request->getQueryParam('id')
+                    ],
+                    'duration' => 120,
+                ]
             ]
         );
     }

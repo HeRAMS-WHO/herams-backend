@@ -4,6 +4,7 @@ namespace prime\models\ar;
 
 use app\queries\ToolQuery;
 use prime\components\JsonValidator;
+use prime\components\LimesurveyDataProvider;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\ProjectInterface;
@@ -105,10 +106,10 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
     }
 
     /**
-     * @return \SamIT\LimeSurvey\JsonRpc\Client
+     * @return LimesurveyDataProvider
      */
-    protected function limeSurvey() {
-        return app()->limeSurvey;
+    protected function limesurveyDataProvider() {
+        return app()->limesurveyDataProvider;
     }
 
     /**
@@ -116,12 +117,13 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
      */
     public function getSurvey(): SurveyInterface
     {
-        return $this->limeSurvey()->getSurvey($this->base_survey_eid);
+        return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
     }
 
     public function dataSurveyOptions()
     {
-        $result = ArrayHelper::map(app()->limeSurvey->listSurveys(), 'sid', function ($details) {
+
+        $result = ArrayHelper::map($this->limesurveyDataProvider()->listSurveys(), 'sid', function ($details) {
             return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
         });
 
@@ -168,7 +170,7 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
     {
         if (!isset($this->_responses)) {
             \Yii::beginProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
-            $this->_responses = $this->limeSurvey()->getResponses($this->base_survey_eid);
+            $this->_responses = $this->limesurveyDataProvider()->getResponses($this->base_survey_eid);
             \Yii::endProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
         }
         return $this->_responses;
@@ -180,7 +182,9 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
      */
     public function getHeramsResponses(): iterable
     {
-
+        // Do this here to fix profiling.
+        $this->getResponses();
+        \Yii::beginProfile(__FUNCTION__);
         $map = $this->getMap();
         $heramsResponses = [];
         foreach($this->getResponses() as $response) {
@@ -190,11 +194,14 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
                 // Silent ignore invalid responses.
             }
         }
-        return (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();
+        $result = (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();
+        \Yii::endProfile(__FUNCTION__);
+        return $result;
     }
 
     public function getTypeCounts()
     {
+        \Yii::beginProfile(__FUNCTION__);
         $map = Json::decode($this->typemap);
         // Always have a mapping for the empty / unknown value.
         if (!isset($map[""])) {
@@ -216,6 +223,8 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
                 $counts[$map[""]]++;
             }
         }
+
+        \Yii::endProfile(__FUNCTION__);
         return $counts;
     }
 

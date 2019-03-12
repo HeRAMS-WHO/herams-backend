@@ -16,7 +16,7 @@
     "require": {
         "php" : ">=7.2.0",
         "ext-gd": "*",
-        "ext-mysql": "*",
+        "ext-pdo_mysql": "*",
         "ext-intl": "*",
         "2amigos/yii2-ckeditor-widget" : "^1",
         "bower-asset/bootbox": "^4.4",
@@ -35,7 +35,7 @@
         "nesbot/carbon": "^1.21",
         "npm-asset/mresize": "^1.0",
         "psr/http-message": "^1.0",
-        "sam-it/ls2-jsonrpc-client": "^1.0.1",
+        "sam-it/ls2-jsonrpc-client": "^1.1.0",
         "sam-it/yii2-magic": "^1.0.3",
         "yiisoft/yii2": "^2.0.15",
         "nikic/iter": "^1.6",

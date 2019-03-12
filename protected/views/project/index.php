@@ -40,6 +40,13 @@ $this->params['breadcrumbs'][] = [
         'layout' => "{items}\n{pager}",
         'columns' => [
             'title',
+            [
+                'label' => 'Cache status',
+                'value' => function(\prime\models\ar\Project $project) {
+                    $timestamp = \Yii::$app->limesurveyDataProvider->responseCacheTime($project->base_survey_eid);
+                    return isset($timestamp) ? \Carbon\Carbon::createFromTimestamp($timestamp)->diffForHumans() : null;
+                }
+            ],
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
                 'width' => '100px',

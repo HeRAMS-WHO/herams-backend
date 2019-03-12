@@ -11,7 +11,6 @@ use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\base\Action;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -21,7 +20,6 @@ class View extends Action
 
 
     public function run(
-        Client $limeSurvey,
         Request $request,
         int $id,
         int $page_id = null,
@@ -29,7 +27,7 @@ class View extends Action
     ) {
         $this->controller->layout = 'css3-grid';
         $project = Project::findOne(['id' => $id]);
-        $survey = $limeSurvey->getSurvey($project->base_survey_eid);
+        $survey = $project->getSurvey();
 
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
@@ -102,25 +100,6 @@ class View extends Action
             'page' => $page,
             'survey' => $survey
         ]);
-    }
-
-    private function getResponses(Client $limeSurvey, int $surveyId, int $retries = 10)
-    {
-        $attempts = 0;
-        while ($attempts <= $retries)
-        {
-            try {
-                $result = $limeSurvey->getResponses($surveyId);
-                return $result;
-            } catch (\Throwable $t) {
-                if ($attempts === $retries) {
-                    throw $t;
-                    throw new \Exception('Failed to get responses after ' . $retries . ' attempts', 0, $t);
-                }
-            }
-            $attempts++;
-        }
-
     }
 
     private function getTypes(SurveyInterface $survey): array {

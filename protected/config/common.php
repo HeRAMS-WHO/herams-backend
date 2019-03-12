@@ -63,7 +63,12 @@ return [
 //            ]
 //
 //        ],
-        'limeSurvey' => function (){
+        'limesurveyDataProvider' => [
+            'class' => \prime\components\LimesurveyDataProvider::class,
+            'client' => 'limesurvey',
+            'cache' => 'limesurveyCache'
+        ],
+        'limesurvey' => function (){
             $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'));
             $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, Setting::get('limeSurvey.username'), Setting::get('limeSurvey.password'));
             $result->setCache(function($key, $value, $duration) {

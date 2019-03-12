@@ -4,22 +4,20 @@ namespace prime\models\ar;
 
 use app\queries\WorkspaceQuery;
 use Carbon\Carbon;
+use prime\components\LimesurveyDataProvider;
 use prime\interfaces\AuthorizableInterface;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\ResponseCollectionInterface;
-use prime\interfaces\SurveyCollectionInterface;
 use prime\interfaces\WorkspaceInterface;
 use prime\lists\FacilityList;
 use prime\models\ActiveRecord;
 use prime\models\Country;
 use prime\models\permissions\Permission;
 use prime\objects\ResponseCollection;
-use prime\objects\SurveyCollection;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
-use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -133,28 +131,11 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
     {
         if (!isset($this->_responses)) {
             $this->_responses = new ResponseCollection();
-            foreach ($this->getLimeSurvey()->getResponsesByToken($this->tool->base_survey_eid, $this->token) as $response) {
+            foreach ($this->getLimesurveyDataProvider()->getResponsesByToken($this->tool->base_survey_eid, $this->token) as $response) {
                 $this->_responses->append($response);
             }
         }
         return $this->_responses;
-    }
-
-    /**
-     * @return SurveyCollectionInterface
-     * TODO: Implement correct function, language of surveys should be correct!
-     */
-    public function getSurvey()
-    {
-        $surveys = new SurveyCollection();
-        /** @var ResponseInterface $response */
-        foreach($this->responses as $response) {
-            if(!$surveys->offsetExists($response->getSurveyId())) {
-                $survey = $this->limeSurvey->getSurvey($response->getSurveyId());
-                $surveys->add($survey->getId(), $survey);
-            }
-        }
-        return $surveys;
     }
 
     public function getTool()
@@ -239,7 +220,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
         $result = parent::beforeSave($insert);
         if ($result && empty($this->getAttribute('token'))) {
                 // Attempt creation of a token.
-                $token = $this->getLimeSurvey()->createToken($this->tool->base_survey_eid, [
+                $token = $this->getLimesurveyDataProvider()->createToken($this->tool->base_survey_eid, [
                     'token' => app()->security->generateRandomString(15)
                 ]);
                 $token->setFirstName($this->getLocality());
@@ -263,7 +244,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
         if (!isset($this->_token)) {
 
             /** @var WritableTokenInterface $token */
-            $token = $this->getLimeSurvey()->getToken($this->tool->base_survey_eid, $this->token);
+            $token = $this->getLimesurveyDataProvider()->getToken($this->tool->base_survey_eid, $this->token);
 
             $token->setFirstName($this->getLocality());
             if (isset($this->owner)) {
@@ -277,17 +258,14 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
     }
 
 
-    /**
-     * @return Client $limeSurvey
-     */
-    public function getLimeSurvey()
+    public function getLimesurveyDataProvider(): LimesurveyDataProvider
     {
-        return \Yii::$app->get('limeSurvey');
+        return \Yii::$app->get('limesurveyDataProvider');
     }
 
     public function getSurveyUrl()
     {
-        return $this->getLimeSurvey()->getUrl(
+        return $this->getLimesurveyDataProvider()->getUrl(
             $this->tool->base_survey_eid,
             [
                 'token' => $this->getAttribute('token'),

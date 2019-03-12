@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c47685ddd85f26c4c8d5e35f30c5c38",
+    "content-hash": "6e69b136ffcd84f79340da6216b3b479",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -2671,19 +2671,21 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "85cb7b0a4cecec994117e7269d3904f0c8b60970"
+                "reference": "fcd00b1120c4169558bbc7e9e083ff1f40dbd32e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/85cb7b0a4cecec994117e7269d3904f0c8b60970",
-                "reference": "85cb7b0a4cecec994117e7269d3904f0c8b60970",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/fcd00b1120c4169558bbc7e9e083ff1f40dbd32e",
+                "reference": "fcd00b1120c4169558bbc7e9e083ff1f40dbd32e",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
+                "php": ">7.1",
                 "sam-it/ls-interfaces": "^0.5.0"
             },
             "suggest": {
@@ -2708,7 +2710,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2018-11-14T15:40:11+00:00"
+            "time": "2019-03-12T13:54:46+00:00"
         },
         {
             "name": "sam-it/yii2-magic",
@@ -6101,7 +6103,7 @@
     "platform": {
         "php": ">=7.2.0",
         "ext-gd": "*",
-        "ext-mysql": "*",
+        "ext-pdo_mysql": "*",
         "ext-intl": "*"
     },
     "platform-dev": []
