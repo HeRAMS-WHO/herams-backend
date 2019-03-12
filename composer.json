@@ -16,6 +16,8 @@
     "require": {
         "php" : ">=7.2.0",
         "ext-gd": "*",
+        "ext-mysql": "*",
+        "ext-intl": "*",
         "2amigos/yii2-ckeditor-widget" : "^1",
         "bower-asset/bootbox": "^4.4",
         "bower-asset/bootstrap-sass": "^3.3",
