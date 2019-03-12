@@ -88,11 +88,8 @@ class ResponseFilter extends Model
         // Index by UOID.
         /** @var HeramsResponse[] $indexed */
         $indexed = [];
-        /** @var HeramsResponse $response */
 
-
-
-        apply(function($response) use (&$indexed) {
+        apply(function(HeramsResponse $response) use (&$indexed) {
             $id = $response->getSubjectId();
             if (!isset($indexed[$id]) || $indexed[$id]->getDate() < $response->getDate()) {
                 $indexed[$id] = $response;

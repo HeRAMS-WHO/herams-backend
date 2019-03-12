@@ -1,8 +1,8 @@
 -- mysqldump-php https://github.com/ifsnop/mysqldump-php
 --
--- Host: mysql	Database: test
+-- Host: devdb	Database: test
 -- ------------------------------------------------------
--- Server version 	8.0.13
+-- Server version 	8.0.15
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -140,6 +140,24 @@ CREATE TABLE `prime2_country_status` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `prime2_element`
+--
+
+DROP TABLE IF EXISTS `prime2_element`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prime2_element` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) NOT NULL,
+  `type` varchar(25) DEFAULT NULL,
+  `config` json DEFAULT NULL,
+  `sort` int(11) NOT NULL,
+  `transpose` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `prime2_file`
 --
 
@@ -262,6 +280,27 @@ CREATE TABLE `prime2_migration` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `prime2_page`
+--
+
+DROP TABLE IF EXISTS `prime2_page`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prime2_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `tool_id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `sort` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `page_project` (`tool_id`),
+  KEY `page_page` (`parent_id`),
+  CONSTRAINT `page_page` FOREIGN KEY (`parent_id`) REFERENCES `prime2_page` (`id`),
+  CONSTRAINT `page_project` FOREIGN KEY (`tool_id`) REFERENCES `prime2_project` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `prime2_permission`
 --
 
@@ -320,14 +359,15 @@ DROP TABLE IF EXISTS `prime2_project`;
 CREATE TABLE `prime2_project` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
-  `owner_id` int(11) DEFAULT NULL,
-  `tool_id` int(11) DEFAULT NULL,
-  `closed` date DEFAULT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `token` varchar(35) DEFAULT NULL,
+  `base_survey_eid` int(11) DEFAULT NULL,
+  `hidden` tinyint(1) DEFAULT '0',
+  `latitude` decimal(9,6) DEFAULT NULL,
+  `longitude` decimal(9,6) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `typemap` json NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `token` (`token`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -470,23 +510,6 @@ CREATE TABLE `prime2_token` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `prime2_tool`
---
-
-DROP TABLE IF EXISTS `prime2_tool`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_tool` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `base_survey_eid` int(11) DEFAULT NULL,
-  `hidden` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `title` (`title`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `prime2_user`
 --
 
@@ -495,7 +518,6 @@ DROP TABLE IF EXISTS `prime2_user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prime2_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `auth_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -509,9 +531,8 @@ CREATE TABLE `prime2_user` (
   `last_login_at` int(11) DEFAULT NULL,
   `access_token` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `prime2_user_unique_username` (`username`),
   UNIQUE KEY `prime2_user_unique_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -556,6 +577,26 @@ CREATE TABLE `prime2_user_list_user` (
   `user_id` int(11) NOT NULL,
   UNIQUE KEY `user_list_user` (`user_list_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `prime2_workspace`
+--
+
+DROP TABLE IF EXISTS `prime2_workspace`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prime2_workspace` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `owner_id` int(11) DEFAULT NULL,
+  `tool_id` int(11) DEFAULT NULL,
+  `closed` date DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `token` varchar(35) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -22,14 +22,15 @@ use yii\widgets\Breadcrumbs;
 ?>
 </head>
 
-<body>
-<?php
 
+<?php
+echo Html::beginTag('body', $this->params['body'] ?? []);
 $this->beginBody();
 
 ?>
 <div class="user-menu">
-    <i class="fas fa-chevron-down"></i>
+    <i style="margin-left: 10px; font-size: 30px;" class="fas fa-sign-out-alt"></i>
+    <i style="margin-left: 10px; font-size: 30px;" class="fas fa-wrench"></i>
     <?php
         /** @var \prime\models\ar\User $user */
         $user = \Yii::$app->user->identity;

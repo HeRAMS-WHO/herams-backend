@@ -86,7 +86,7 @@ class DashboardMap extends Widget
                 "type" => "Feature",
                 "geometry" => [
                     "type" => "Point",
-                    "coordinates" => [$latitude, $longitude]
+                    "coordinates" => [$longitude, $latitude]
                 ],
                 "properties" => [
                     'title' => $response->getName(),

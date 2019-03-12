@@ -167,7 +167,9 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
     public function getResponses()
     {
         if (!isset($this->_responses)) {
+            \Yii::beginProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
             $this->_responses = $this->limeSurvey()->getResponses($this->base_survey_eid);
+            \Yii::endProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
         }
         return $this->_responses;
     }

@@ -17,8 +17,17 @@ use yii\helpers\Json;
  * Implements a side menu for project pages
  * @package prime\widgets\menu
  */
-class SideMenu extends Widget
+class ProjectPageMenu extends SideMenu
 {
+    /** @var Project */
+    public $project;
+
+    /** @var SurveyInterface */
+    public $survey;
+
+    /** @var PageInterface */
+    public $currentPage;
+
     public $params = [];
 
     protected function registerClientScript()

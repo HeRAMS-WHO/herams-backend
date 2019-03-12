@@ -4,10 +4,10 @@
 /** @var \prime\models\ar\Project $project */
 /** @var \prime\models\ar\Page $page */
 
-use prime\widgets\menu\SideMenu;
+use prime\widgets\menu\ProjectPageMenu;
 use yii\web\View;
 
-echo SideMenu::widget([
+echo ProjectPageMenu::widget([
     'project' => $project,
     'params' => \Yii::$app->request->queryParams,
     'currentPage' => $page,

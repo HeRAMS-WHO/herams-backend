@@ -14,6 +14,9 @@ use yii\helpers\Inflector;
  * @method static string eye
  * @method static string pencilAlt
  * @method static string share
+ * @method static string hospital
+ * @method static string user
+ * @method static string clipboardList
 // * @method static string pencil
  */
 class Icon

@@ -69,4 +69,11 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m180410_155232
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m180605_220711_add_aggregated_to_category_table', 1542209722);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m181115_144357_tool_drop_fields', 1542293156);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m181115_152543_project_drop_fields', 1542295691);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190115_091112_create_page_element_table', 1550053628);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190213_095249_tool_add_coordinates', 1550053628);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190213_140119_rename_project_table', 1550066523);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190213_140128_rename_tool_table', 1550066523);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190221_083716_project_status', 1550738299);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190227_093439_project_add_typemap', 1551260145);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190305_153424_drop_username_column', 1551800123);
 SET FOREIGN_KEY_CHECKS=1;

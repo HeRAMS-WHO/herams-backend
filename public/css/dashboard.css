@@ -168,11 +168,19 @@ a:hover {
     grid-area: title;
     position: relative;
 }
+body.no-title .title {
+    display: none;
+}
+
 span.header {
+    max-width: 100%;
+    overflow: hidden;
     font-weight: bold;
+    white-space: nowrap;
     font-size: 25px;
     display: block;
     color: var(--header-color);
+    text-overflow: ellipsis;
     background-color: var(--header-background-color);
     border-bottom: 5px solid var(--highlight-background-color);
 }
@@ -230,7 +238,7 @@ span.header {
 
 .map {
     border: 3px solid white;
-    min-height: 200px;
+    height: 400px;
 }
 /**/
 .prime_widgets_chart_Chart {
@@ -270,12 +278,21 @@ span.header {
 
 body {
     font-family: "Source Sans Pro", sans-serif;
-
     color: #212529;
-    min-height: 100%;
+    min-height: 100vh;
     margin: 0;
     overflow-x: hidden;
     min-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto minmax(400px, 1fr);
+    grid-template-areas:
+        "user"
+        "title"
+        "sidebar"
+        "main"
+    ;
+
 }
 /**/
 .filters > div {
@@ -294,6 +311,9 @@ body {
  2 Column layout, menu above filters.
 */
 @media (min-width: 600px) {
+    .menu {
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+    }
     .title {
         padding-left: var(--gutter-size);
     }
@@ -328,13 +348,27 @@ body {
                 var(--main-background-color) 100%)
     ;
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto auto 1fr;
         grid-template-areas:
                 "title user"
                 "sidebar sidebar"
                 "filters filters"
                 "main main";
+    }
+
+    body.no-title {
+        grid-template-rows: 1fr;
+        grid-template-areas:
+                "sidebar main main main"
+    ;
+    }
+
+    body.no-title .user-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1000;
     }
 
     .content {
@@ -375,6 +409,7 @@ body {
                 "sidebar title title user"
                 "sidebar filters filters filters"
                 "sidebar main main main"
+        ;
     }
 
     .content {
@@ -463,10 +498,11 @@ Menu stuff
 }
 
 .menu hr {
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     margin-left: 5px;
     margin-right: 5px;
+    grid-area: separator;
 }
 .menu li {
     list-style: none;
@@ -474,6 +510,7 @@ Menu stuff
 }
 
 .menu img {
+    grid-area: image;
     max-width: 100%;
     display: block;
     max-height: 100px;
@@ -497,9 +534,28 @@ Menu stuff
     background-color: white;
     grid-area: sidebar;
     font-size: 1em;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    padding-bottom: 10px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto 1fr auto;
+    grid-template-areas:
+        "image"
+        "title"
+        "separator"
+        "nav"
+        "footer"
+}
+
+.menu .footer {
+    background-color: var(--header-background-color);
+    text-align: center;
+    color: var(--header-color);
+    grid-area: footer;
+}
+
+.menu nav {
+    grid-area: nav;
+    margin-bottom: 20px;
 }
 
 .menu nav > a, .menu nav > button, .menu nav > section > header > a {

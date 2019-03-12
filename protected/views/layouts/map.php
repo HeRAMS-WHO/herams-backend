@@ -1,0 +1,234 @@
+<?php
+
+use prime\widgets\map\Map;
+use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
+use yii\helpers\Html;
+
+/* @var $this \yii\web\View */
+
+/* @var $content string */
+$this->beginPage();
+
+//$this->registerCssFile('/css/dashboard.css?' . time());
+$this->registerAssetBundle(CdnFreeAssetBundle::class);
+$this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+$this->registerAssetBundle(\prime\assets\NewAppAsset::class);
+
+?>
+    <html lang="<?=\Yii::$app->language; ?>">
+
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <?= $this->head();?>
+
+        <style>
+            body {
+                margin: 0;
+            }
+
+            .map {
+                visibility: hidden;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+                z-index: 1;
+            }
+
+            @media (min-width: 800px) {
+                body {
+                    display: flex;
+                    margin: 0;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .map {
+                    visibility: visible;
+                }
+
+                .map:after {
+                    content: " ";
+                    position: fixed;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    top: 0;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    pointer-events: none;
+                    z-index: 400;
+                }
+            }
+
+            .popover {
+                --color: #505050;
+                --padding: 40px;
+                --gutter-color: grey;
+                --gutter-width: 1px;
+                --dark-background-color: #424348;
+                --darker-background-color: #222328;
+                --dark-color: white;
+                --status-height: 30px;
+                --darker-color: var(--dark-color);
+                --primary-button-background-color: #4177c1;
+                --link-color: #4177c1;
+                --primary-button-color: white;
+                --validation-error-color: #d90001;
+                --border-color: #7c7b80;
+                --stat-icon-color: #a09fa4;
+                z-index: 2;
+                background-color: white;
+                display: grid;
+                max-width: 800px;
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto auto var(--status-height);
+                grid-template-areas:
+                        "intro"
+                        "login"
+                        "stat"
+                        "status"
+            ;
+                padding-top: var(--padding);
+
+            }
+
+            .form {
+                grid-area: login;
+                padding: var(--padding);
+                padding-bottom: 0;
+                margin-bottom: var(--padding);
+                position: relative;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form > * {
+                flex-grow: 0;
+            }
+
+            .form > form {
+                flex-grow: 1;
+            }
+
+            .intro {
+                padding: var(--padding);
+                grid-area: intro;
+                text-align: justify;
+                margin: 0;
+                line-height: 2em;
+                padding-bottom: 0;
+            }
+
+            @media (min-width: 800px) {
+                .popover {
+                    grid-template-columns: 1fr 1fr;
+                    grid-template-rows: 1fr auto var(--status-height);
+                    grid-template-areas:
+                            "intro  login"
+                            "stat   stat"
+                            "status status"
+                ;
+                }
+
+                .intro {
+                    border-right: calc(var(--gutter-width) / 2) solid var(--gutter-color);
+                    margin-bottom: var(--padding);
+                    padding-bottom: 0;
+                }
+
+                .login {
+                    border-left: calc(var(--gutter-width) / 2) solid var(--gutter-color);
+                    flex-grow: 0;
+                }
+
+            }
+
+            .actions {
+                flex-wrap: wrap;
+                display: flex;
+                justify-content: space-between;
+            }
+
+
+
+
+            .intro img {
+                max-width: 100%;
+                display: block;
+                margin: auto;
+            }
+
+            .popover a {
+                font-size: 0.7em;
+            }
+
+            .stats {
+                display: flex;
+                flex-wrap: wrap;
+                padding-top: var(--padding);
+                padding-bottom: var(--padding);
+                grid-area: stat;
+                background-color: var(--dark-background-color);
+            }
+            .stat {
+                flex-grow: 1;
+                flex-basis: 0;
+                color: var(--dark-color);
+                text-align: center;
+                border-right: calc(var(--gutter-width) / 2) solid var(--gutter-color);
+                border-left: calc(var(--gutter-width) / 2) solid var(--gutter-color);
+            }
+
+            .stat:first-child {
+                border-left: none;
+            }
+
+            .stat:last-child {
+                border-right: none;
+            }
+
+            .stat svg {
+                color: var(--stat-icon-color);
+                font-size: 50px;
+                display: block;
+                margin: auto;
+            }
+            .stat span {
+                display: block;
+                margin: auto;
+                font-size: 50px;
+            }
+
+            .status {
+                line-height: var(--status-height);
+                grid-area: status;
+                text-align: center;
+                font-size: calc(var(--status-height) / 1.2);
+                background-color: var(--darker-background-color);
+                color: var(--darker-color);
+            }
+
+            .actions a {
+                color: var(--link-color);
+                display: block;
+                margin-bottom: 5px;
+            }
+        </style>
+    </head>
+
+
+    <body>
+
+    <?php
+
+    $this->beginBody();
+    echo $this->render('//flash.php');
+    echo Map::widget();
+    echo $content;
+    $this->endBody();
+    ?>
+    </body>
+
+    </html>
+<?php
+$this->endPage();

@@ -16,8 +16,14 @@ use prime\models\ar\Profile;
 use prime\models\ar\User;
 use prime\models\Country;
 use yii\helpers\ArrayHelper;
+use yii\validators\CompareValidator;
+use yii\validators\EmailValidator;
+use yii\validators\FilterValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RegularExpressionValidator;
+use yii\validators\RequiredValidator;
+use yii\validators\StringValidator;
+use yii\validators\UniqueValidator;
 
 class Registration extends RegistrationForm
 {
@@ -31,13 +37,6 @@ class Registration extends RegistrationForm
      */
     public $first_name;
     public $last_name;
-    public $organization;
-    public $office;
-    public $country;
-    public $position;
-    public $phone;
-    public $phone_alternative;
-    public $other_contact;
     public $captcha;
 
     /**
@@ -45,25 +44,12 @@ class Registration extends RegistrationForm
      */
     public function attributeLabels()
     {
-        $result = parent::attributeLabels();
-        return array_merge($result,
+        return array_merge(parent::attributeLabels(),
             [
-                'confirmPassword' => \Yii::t('app', 'Confirmation'),
-                'phone_alternative' => \Yii::t('app', 'Alternative phone'),
-                'office' => \Yii::t('app', 'Location'),
-                'other_contact' => \Yii::t('app', 'Other contact point (e.g. Skype)')
+                'confirmPassword' => \Yii::t('app', 'Password confirmation'),
             ]
         );
     }
-
-    public function countryOptions()
-    {
-        $countries = Country::findAll();
-        $countries = ArrayHelper::map($countries, 'iso_3', 'name');
-        asort($countries);
-        return $countries;
-    }
-
     /**
      * Loads attributes to the user model. You should override this method if you are going to add new fields to the
      * registration form. You can read more in special guide.
@@ -91,29 +77,24 @@ class Registration extends RegistrationForm
      */
     public function rules()
     {
-        $user = $this->module->modelMap['User'];
-
         return [
             // email rules
-            'emailTrim'     => ['email', 'filter', 'filter' => 'trim'],
-            'emailRequired' => ['email', 'required'],
-            'emailPattern'  => ['email', 'email'],
+            'emailTrim'     => [['email'], FilterValidator::class, 'filter' => 'trim'],
+            'emailRequired' => [['email'], RequiredValidator::class],
+            'emailPattern'  => [['email'], EmailValidator::class],
             'emailUnique'   => [
-                'email',
-                'unique',
-                'targetClass' => $user,
+                ['email'],
+                UniqueValidator::class,
+                'targetClass' => $this->module->modelMap['User'],
                 'message' => \Yii::t('user', 'This email address has already been taken')
             ],
             // password rules
-            'passwordRequired' => [['password', 'confirmPassword'], 'required', 'skipOnEmpty' => $this->module->enableGeneratingPassword],
-            'passwordLength'   => ['password', 'string', 'min' => 6],
-            ['confirmPassword', 'compare', 'compareAttribute' => 'password'],
+            'passwordRequired' => [['password', 'confirmPassword'], RequiredValidator::class, 'skipOnEmpty' => $this->module->enableGeneratingPassword],
+            'passwordLength'   => ['password', StringValidator::class, 'min' => 6],
+            ['confirmPassword', CompareValidator::class, 'compareAttribute' => 'password'],
             // profile rules
-            [['first_name', 'last_name', 'organization', 'country', 'captcha'], 'required'],
-            [['first_name', 'last_name', 'organization', 'office', 'position', 'other_contact'], 'string'],
-            [['country'], RangeValidator::class, 'range' => ArrayHelper::getColumn(Country::findAll(), 'iso_3')],
-            [['captcha'], 'captcha'],
-            [['phone', 'phone_alternative'], RegularExpressionValidator::class, 'pattern' => '/^\+?\d{4,20}$/', 'message' => \Yii::t('app', 'Please enter a valid phone number')]
+            [['first_name'], RequiredValidator::class],
+            [['first_name', 'last_name'], 'string'],
         ];
     }
 }

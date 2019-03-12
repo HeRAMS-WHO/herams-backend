@@ -117,7 +117,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'theme' => [
                 'pathMap' => [
                     '@dektrium/user/views/mail' => '@app/mail',
-//                    '@dektrium/user/views' => '@app/views/users',
+                    '@dektrium/user/views' => '@app/views/user',
                 ]
             ],
         ]

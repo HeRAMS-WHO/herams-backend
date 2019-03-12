@@ -5,6 +5,10 @@
 use prime\models\ar\Project;
 use yii\helpers\Html;
 $this->title = "World overview";
+
+$this->params['body'] = [
+    'class' => ['no-title']
+];
 // Order projects by status.
 $collections = [];
 foreach($projects as $project) {
@@ -45,7 +49,7 @@ foreach($projects as $project) {
 echo Html::endTag('nav');
 $this->registerJs(<<<JS
     window.addEventListener('click', function(e) {
-        if (e.target.matches('.menu button')) {
+        if (e.target.matches('.menu button:not(.active)')) {
             let event = new Event('externalPopup');
             event.id = e.target.getAttribute('data-id');
             window.dispatchEvent(event);
@@ -69,17 +73,9 @@ $this->registerJs(<<<JS
 JS
     , \yii\web\View::POS_END);
 
-echo Html::beginTag('div', ['style' => [
-    'position' =>'absolute',
-    'bottom' => 0,
-    'left' => 0,
-    'height' => '150px',
-    'right' => 0,
-    'background-color' => 'var(--header-background-color)',
-    'text-align' => 'center',
-    'color' => 'white',
-
-]]);
+echo Html::beginTag('div',[
+    'class' => 'footer'
+]);
 echo Html::tag('span', count($projects), [
     'style' => [
         'display' => 'block',
@@ -104,16 +100,6 @@ echo \prime\widgets\map\Map::widget([
     ],
     'data' => $collections
 ]);
-echo Html::img("/img/HeRAMS.png", [
-    'style' => [
-        'position' => 'fixed',
-        'padding' => '20px;',
-        'left' => 0,
-        'top' => 0,
-        'width' => '150px',
-        'background-color' => 'white'
-    ]
-]);
 //echo UserMenu::widget([
 //    'options' => [
 //        'style' => [
@@ -131,9 +117,12 @@ echo Html::img("/img/HeRAMS.png", [
     }
     .leaflet-popup-content {
         margin: 0;
-        background-image: url('/img/loader.svg');
-        background-repeat: no-repeat;
-        background-position: center;
+        /*background-image: url('/img/loader.svg');*/
+        /*background-repeat: no-repeat;*/
+        /*background-position: center;*/
+        background-color: #42424b;
+
+        padding-bottom: 10px;
 
     }
     .leaflet-popup-content-wrapper {
@@ -144,9 +133,10 @@ echo Html::img("/img/HeRAMS.png", [
 
     iframe {
         box-sizing: border-box;
-        width: 400px;
+        max-width: 400px;
         border-width: 0;
-        height: 360px;
+        min-width: 200px;
+        min-height: 370px;
         overflow: hidden;
     }
 </style>

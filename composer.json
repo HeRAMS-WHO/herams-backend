@@ -36,7 +36,6 @@
         "miloschuman/yii2-highcharts-widget": "^4",
         "nesbot/carbon": "^1.21",
         "npm-asset/mresize": "^1.0",
-        "primal/color": "^1",
         "psr/http-message": "^1.0",
         "sam-it/ls2-jsonrpc-client": "^1.0.1",
         "sam-it/yii2-magic": "^1.0.3",
@@ -60,7 +59,7 @@
         ]
     },
     "require-dev": {
-        "yiisoft/yii2-debug" : "*",
+        "yiisoft/yii2-debug" : "2.0.x-dev",
         "codeception/codeception": "2.*",
         "lucidtaz/yii2-scssphp": "^0.2.1",
         "ifsnop/mysqldump-php": "^2"

@@ -37,7 +37,7 @@ class Map extends Widget
 
     public $colors;
 
-    public $data;
+    public $data = [];
 
     public $markerRadius = 10;
     public function init()
@@ -142,10 +142,12 @@ class Map extends Widget
                     // legend.css
                     layers[legend.outerHTML] = layer;
                 }
+                if (layers.length > 0) {
                 L.control.layers([], layers, {
                     collapsed: false,
                     position: 'bottomright'
                 }).addTo(map);
+                }
                 
                 
             L.control.zoom({

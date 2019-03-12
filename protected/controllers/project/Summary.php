@@ -19,19 +19,8 @@ class Summary extends Action
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
-
-        $heramsResponses = [];
-        foreach($project->getResponses() as $response) {
-            try {
-                $heramsResponses[] = new HeramsResponse($response, $project->getMap());
-            } catch (\InvalidArgumentException $e) {
-                // Ignore invalid responses for now.
-            }
-        }
-
         return $this->controller->render('summary', [
             'project' => $project,
-            'heramsResponses' => $heramsResponses
         ]);
     }
 
