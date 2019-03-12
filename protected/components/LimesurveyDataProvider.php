@@ -35,7 +35,6 @@ class LimesurveyDataProvider extends Component
      */
     public function getResponsesFromCache(int $surveyId): ?iterable
     {
-        return null;
         \Yii::beginProfile(__FUNCTION__);
         $result = $this->cache->get($this->responsesCacheKey($surveyId)) ?: null;
         \Yii::endProfile(__FUNCTION__);
