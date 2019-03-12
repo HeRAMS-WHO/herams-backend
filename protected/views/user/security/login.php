@@ -20,6 +20,11 @@ use yii\widgets\ActiveForm;
 
     $form = ActiveForm::begin([
         'id' => 'login-form',
+//        'enableAjaxValidation' => true,
+        'enableClientValidation' => true,
+//        'validateOnBlur' => true,
+//        'validateOnType' => false,
+//        'validateOnChange' => false,
 
 
     ]);
