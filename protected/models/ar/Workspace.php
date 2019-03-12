@@ -4,8 +4,6 @@ namespace prime\models\ar;
 
 use app\queries\WorkspaceQuery;
 use Carbon\Carbon;
-use prime\components\Route;
-use prime\factories\GeneratorFactory;
 use prime\interfaces\AuthorizableInterface;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\ProjectInterface;
@@ -22,15 +20,12 @@ use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
-use Treffynnon\Navigator\Coordinate;
-use Treffynnon\Navigator\LatLong;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
-use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
@@ -98,24 +93,6 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
         );
         asort($options);
         return $options;
-    }
-
-    /**
-     * @return LatLong
-     */
-    public function getLatLong()
-    {
-        if(isset($this->latitude, $this->longitude)) {
-            $latitude = $this->latitude;
-            $longitude = $this->longitude;
-        } else {
-            $latitude = $this->country->latitude;
-            $longitude = $this->country->longitude;
-        }
-        return new LatLong(
-            new Coordinate(rad2deg($latitude)),
-            new Coordinate(rad2deg($longitude))
-        );
     }
 
     /**

@@ -3,10 +3,7 @@
 namespace prime\models;
 
 use prime\models\ar\Workspace;
-use prime\models\ar\Report;
 use prime\traits\JsonMemoryDataSourceTrait;
-use Treffynnon\Navigator\Coordinate;
-use Treffynnon\Navigator\LatLong;
 use yii\base\Model;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
@@ -49,14 +46,6 @@ class Country extends Model
             }
         }
         return $result;
-    }
-
-    public function getLatLong()
-    {
-        return new LatLong(
-            new Coordinate($this->latitude),
-            new Coordinate($this->longitude)
-        );
     }
 
     public function getProjects()
