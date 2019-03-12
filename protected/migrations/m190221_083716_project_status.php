@@ -1,5 +1,6 @@
 <?php
 
+use prime\models\ar\Project;
 use yii\db\Migration;
 
 /**
@@ -12,7 +13,7 @@ class m190221_083716_project_status extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('{{%project}}', 'status', $this->integer()->defaultValue(Project::ST)->notNull());
+        $this->addColumn('{{%project}}', 'status', $this->integer()->defaultValue(Project::STATUS_ONGOING)->notNull());
     }
 
     /**
