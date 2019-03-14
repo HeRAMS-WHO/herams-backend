@@ -13,9 +13,9 @@ $this->beginContent('@views/layouts/map.php');
     <div class="intro">
         <?=Html::img('@web/img/HeRAMS.png'); ?>
         <p>
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sapien ex, efficitur vitae justo ut, tristique bibendum elit.
-            Donec et mauris finibus, consequat ante at, convallis arcu. Integer tempor sodales libero.
+            The Health Resources and Services Availability Monitoring System is a collaborative process for the
+            monitoring of essential health resources and services in support to the identification of needs,
+            gaps and priorities
         </p>
     </div>
     <div class="form">
