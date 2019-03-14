@@ -182,7 +182,10 @@ class DashboardMap extends Widget
                 }).addTo(map);
                 
                 
-                console.log(L.latLngBounds(bounds));
+                L.control.scale({
+                    metric: true,
+                    imperial: false
+                }).addTo(map);
                 map.fitBounds(bounds, {
                     padding: [50, 50]
                 });

@@ -154,7 +154,10 @@ class Map extends Widget
             L.control.zoom({
                 position: 'bottomright'
             }).addTo(map);
-            
+            L.control.scale({
+                metric: true,
+                imperial: false
+            }).addTo(map);
             map.fitBounds(bounds, {
                 padding: [50, 50]
             });
