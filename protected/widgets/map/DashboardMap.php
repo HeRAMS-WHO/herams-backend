@@ -141,7 +141,7 @@ class DashboardMap extends Widget
                         break;
                 }
             }
-            
+            let bounds = [];
             let data = $data;
                 let layers = {};
                 let scale = chroma.scale($scale).colors(data.length);
@@ -149,6 +149,7 @@ class DashboardMap extends Widget
                     let color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
+                            bounds.push(latlng);
                             return L.circleMarker(latlng, {
                                 radius: 2,
                                 color: color,
@@ -179,6 +180,12 @@ class DashboardMap extends Widget
                 L.control.layers([], layers, {
                     collapsed: false
                 }).addTo(map);
+                
+                
+                console.log(L.latLngBounds(bounds));
+                map.fitBounds(bounds, {
+                    padding: [50, 50]
+                });
         })();
 
 JS

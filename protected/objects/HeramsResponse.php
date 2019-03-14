@@ -39,12 +39,29 @@ class HeramsResponse
 
     public function getLatitude(): ?float
     {
-        return ((float) $this->data[$this->map->getLatitude()]) ?? null;
+        $result = ((float) $this->data[$this->map->getLatitude()]) ?? null;
+
+        if ($result < 0) {
+            throw new \RuntimeException('Invalid latitude: ' . $result . 'for response ' . $this->data['token']);
+        }
+        while ($result > 90) {
+            $result = $result / 10;
+        }
+        return $result;
     }
 
     public function getLongitude(): ?float
     {
-        return ((float) $this->data[$this->map->getLongitude()]) ?? null;
+        $result = ((float) $this->data[$this->map->getLongitude()]) ?? null;
+
+        if ($result < 0) {
+            throw new \RuntimeException('Invalid longitude: ' . $result . 'for response ' . $this->data['token']);
+        }
+
+        while ($result > 180) {
+            $result = $result / 10;
+        }
+        return $result;
     }
 
     public function getType(): ?string
