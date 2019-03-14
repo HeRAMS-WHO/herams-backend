@@ -23,7 +23,7 @@ foreach($projects as $project) {
         "type" => "Feature",
         "geometry" => [
             "type" => "Point",
-            "coordinates" => [$project->latitude, $project->longitude]
+            "coordinates" => [$project->longitude, $project->latitude]
         ],
         "properties" => [
             'id' => $project->id,
