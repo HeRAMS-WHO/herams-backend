@@ -159,7 +159,7 @@ $this->registerAssetBundle(ChartBundle::class);
                 ],
                 'title' => [
                     'display' => true,
-                    'text' => 'Functionality'
+                    'text' => 'Type'
                 ],
                 'animation' => [
                     'animateScale' => true,
