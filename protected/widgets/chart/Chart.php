@@ -190,6 +190,7 @@ class Chart extends Widget
             foreach (array_keys($map) as $i => $k) {
                 $bitMap[] = isset($unmappedData[$k]);
             }
+        }
 
         $baseColors = Json::encode($this->colors);
         $bitMap = Json::encode($bitMap ?? []);
