@@ -96,8 +96,6 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
     public function attributeHints()
     {
         return [
-            'latitude_code' => \Yii::t('app', 'Question code containing the latitude (case sensitive)'),
-            'longitude_code' => \Yii::t('app', 'Question code containing the longitude (case sensitive)'),
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
             'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),

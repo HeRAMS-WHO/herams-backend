@@ -20,13 +20,10 @@ use yii\widgets\ActiveForm;
 
     $form = ActiveForm::begin([
         'id' => 'login-form',
-//        'enableAjaxValidation' => true,
-        'enableClientValidation' => true,
-//        'validateOnBlur' => true,
-//        'validateOnType' => false,
-//        'validateOnChange' => false,
-
-
+        'enableAjaxValidation' => true,
+        'validateOnBlur' => false,
+        'validateOnType' => false,
+        'validateOnChange' => false,
     ]);
     echo $form->field($model, 'login')->textInput([
         'placeholder' => 'Email',

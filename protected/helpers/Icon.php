@@ -17,10 +17,13 @@ use yii\helpers\Inflector;
  * @method static string hospital
  * @method static string user
  * @method static string clipboardList
+ * @method static string signOutAlt
 // * @method static string pencil
  */
 class Icon
 {
+
+
     public static function icon($name, array $options = [])
     {
         $svg = IconBundle::register(\Yii::$app->view)->baseUrl . '/symbol-defs.svg';

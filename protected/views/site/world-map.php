@@ -2,7 +2,9 @@
 
 /** @var Project[] $projects */
 
+use prime\helpers\Icon;
 use prime\models\ar\Project;
+use prime\widgets\map\Map;
 use yii\helpers\Html;
 $this->title = "World overview";
 
@@ -76,45 +78,34 @@ JS
 echo Html::beginTag('div',[
     'class' => 'footer'
 ]);
-echo Html::tag('span', count($projects), [
-    'style' => [
-        'display' => 'block',
-        'font-size' => '5em',
-        'font-weight' => 'bold'
-
-    ]
+echo Icon::mapMarkedAlt(['class' => 'subject']);
+echo Html::tag('div', count($projects), [
+    'class' => 'counter'
 ]);
-echo Html::tag('span', 'HeRAMS projects');
+echo Html::tag('div', 'HeRAMS projects', [
+    'class' => 'subject'
+]);
+echo Html::beginTag('div', ['class' => 'status']);
+
+echo Icon::sync();
+
+echo Html::endTag('div');
+
+echo Html::a(Icon::chevronLeft(), '#', ['class' => 'left']);
+echo Html::a(Icon::chevronRight(), '#', ['class' => 'right']);
+
 echo Html::endTag('div');
 echo Html::endTag('div');
-echo \prime\widgets\map\Map::widget([
+echo Map::widget([
+    'colors' => ["#4075c3"],
     'options' => [
         'class' => 'content',
-        'style' => [
-//            'position' => 'fixed',
-//            'left' => 0,
-//            'right' => 0,
-//            'bottom' => YII_DEBUG ? '42px' : 0,
-//            'top' => 0
-        ]
     ],
     'data' => $collections
 ]);
-//echo UserMenu::widget([
-//    'options' => [
-//        'style' => [
-//            'position' => 'fixed',
-//            'right' => 0,
-////            'background-color' => 'green'
-//        ]
-//    ]
-//]);
 
 ?>
 <style>
-    body {
-        font-family: "Source Sans Pro", sans-serif;
-    }
     .leaflet-popup-content {
         margin: 0;
         /*background-image: url('/img/loader.svg');*/

@@ -39,10 +39,10 @@ class Map extends Widget
 
     public $data = [];
 
-    public $markerRadius = 10;
+    public $markerRadius = 12.5;
     public function init()
     {
-        $this->colors = new JsExpression('chroma.brewer.OrRd');
+        $this->colors = $this->colors ?? new JsExpression('chroma.brewer.OrRd');
         parent::init();
     }
     public function run()
@@ -89,7 +89,7 @@ class Map extends Widget
                         let marker = L.circleMarker(latlng, {
                             radius: {$this->markerRadius},
                             color: color,
-                            weight: 1,
+                            weight: 2.5,
                             opacity: 1,
                             fillOpacity: 0.8
                         });

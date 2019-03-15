@@ -185,25 +185,25 @@ class Chart extends Widget
 
         $colorCount = max(count($map), $pointCount) - (empty($this->notRelevantColor) ? 0 : 1);
 
-
         if (!empty($map)) {
-            $colors = [];
+            $bitMap = [];
             foreach (array_keys($map) as $i => $k) {
-                if (isset($unmappedData[$k], $this->colors[$i])) {
-                    $colors[] = $this->colors[$i];
-                }
+                $bitMap[] = isset($unmappedData[$k]);
             }
-        } else {
-            $colors = $this->colors;
-        }
 
-        $baseColors = Json::encode($colors);
-        if (!empty($this->notRelevantColor)) {
-            $notRelevantColor = Json::encode($this->notRelevantColor);
-            $colorJs = new JsExpression(<<<JS
+        $baseColors = Json::encode($this->colors);
+        $bitMap = Json::encode($bitMap ?? []);
+        $notRelevantColor = Json::encode($this->notRelevantColor);
+        $colorJs = new JsExpression(<<<JS
 (function() {
-    let colors = chroma.scale($baseColors).colors($colorCount);
-    colors.push($notRelevantColor);
+    let bitmap = $bitMap;
+    let colors = chroma.scale($baseColors).colors($colorCount).filter((element, index) => {
+        return bitmap.length == 0 || bitmap[index];
+    });
+    
+    if ($notRelevantColor != null) {
+        colors.push($notRelevantColor);    
+    }
     return colors;
 })(chroma)
 
@@ -211,11 +211,6 @@ class Chart extends Widget
 
 JS
             );
-
-        } else {
-            $colorJs = new JsExpression("chroma.scale($baseColors).colors($colorCount)");
-        }
-
         $config = [
             'type' => $this->type,
             'data' => [
