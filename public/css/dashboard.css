@@ -438,6 +438,7 @@ body {
     .map {
         grid-column: span 2;
         grid-row: span 2;
+        height: 100%;
     }
     .table {
         grid-column: span 2;
