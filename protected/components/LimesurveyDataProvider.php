@@ -49,7 +49,7 @@ class LimesurveyDataProvider extends Component
 
     protected function responsesCacheKey(int $surveyId): string
     {
-        return __CLASS__ . 'responses ' . $surveyId;
+        return 'responses_' . $surveyId;
     }
 
     /**
