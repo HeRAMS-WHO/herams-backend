@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
 html {
     --header-background-color: #42424b;
@@ -143,6 +144,7 @@ a:hover {
 }
 .user-menu {
     padding: 10px;
+    padding-right: 20px;
     background-color: var(--header-background-color);
     grid-area: user;
     display: flex;
@@ -238,6 +240,7 @@ span.header {
     width: 100px;
     height: 100px;
 }
+
 .content {
     background-color: var(--main-background-color);
     grid-area: main;
@@ -724,7 +727,7 @@ body[data-modal] {
     user-select: none;
 }
 
-.modal {
+.filter-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -776,7 +779,7 @@ body[data-modal] {
     margin-top: 30px;
 }
 @media (min-width: 600px) {
-    .modal {
+    .filter-modal {
         top: 100px;
         bottom: 100px;
         border: 2px solid var(--highlight-background-color);
@@ -795,11 +798,11 @@ body[data-modal] {
     }
 
 }
-.modal label {
+.filter-modal label {
     display: block;
 }
 
-body[data-modal] .modal {
+body[data-modal] .filter-modal {
     display: block;
 }
 
@@ -823,7 +826,7 @@ body[data-modal]:after {
 
 }
 
-.modal .filter {
+.filter-modal .filter {
     display: block;
 
 }

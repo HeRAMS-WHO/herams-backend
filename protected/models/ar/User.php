@@ -77,4 +77,9 @@ class User extends \dektrium\user\models\User {
         unset($rules['usernameTrim']);
         return $rules;
     }
+
+    public function getUsername()
+    {
+        return null;
+    }
 }

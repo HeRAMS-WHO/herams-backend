@@ -1,4 +1,5 @@
 <?php
+/** @var \prime\components\Environment $env */
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'defaultRoute' => 'marketplace/herams',

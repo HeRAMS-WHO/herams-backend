@@ -33,6 +33,7 @@ $this->params['subMenu'] = [
 
     $form->end();
     ?>
+    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary" form="share-project">Share</button></div>
     <h2><?=\Yii::t('app', 'Already shared with')?></h2>
     <?php
     echo $model->renderTable('/tools/share-delete');

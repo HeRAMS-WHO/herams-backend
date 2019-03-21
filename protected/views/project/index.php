@@ -1,6 +1,7 @@
 <?php
 
 use kartik\grid\GridView;
+use prime\assets\SassAsset;
 use prime\helpers\Icon;
 use yii\bootstrap\Html;
 use prime\models\ar\Setting;

@@ -304,7 +304,7 @@ JS;
 </div>
     <?php
 if (!empty($project->pages)) {
-   Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
+   echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
 }
 
     ?>

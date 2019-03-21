@@ -21,7 +21,6 @@ $this->params['breadcrumbs'][] = [
 //    'url' => ['project/view', 'id' => $project->id]
 ];
 ?>
-
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([

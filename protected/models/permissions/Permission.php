@@ -221,7 +221,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_WRITE => \Yii::t('app', 'Write/Read'),
             self::PERMISSION_SHARE => \Yii::t('app', 'Share/Write/Read'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Admin/Share/Write/Read'),
-            self::PERMISSION_INSTANTIATE => \Yii::t('app', 'Instantiate')
+            self::PERMISSION_INSTANTIATE => \Yii::t('app', 'Administer workspaces')
         ];
     }
 

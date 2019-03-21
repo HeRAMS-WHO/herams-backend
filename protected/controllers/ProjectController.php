@@ -24,7 +24,7 @@ use yii\web\User;
 
 class ProjectController extends Controller
 {
-    public $layout = 'simple';
+    public $layout = 'admin';
 
     public function actionCreate(
         Request $request,
@@ -141,20 +141,6 @@ class ProjectController extends Controller
             );
         }
         $this->redirect(['/tools/share', 'id' => $tool->id]);
-    }
-
-    /**
-     * HeRAMS Overview
-     * @return string
-     */
-    public function actionOverview($id)
-    {
-        $tool = Project::loadOne($id);
-        $this->layout = 'angular';
-
-        return $this->render('overview', [
-            'model' => $tool
-        ]);
     }
 
     public function actions()

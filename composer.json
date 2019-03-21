@@ -18,6 +18,7 @@
         "ext-gd": "*",
         "ext-pdo_mysql": "*",
         "ext-intl": "*",
+        "ext-json": "*",
         "2amigos/yii2-ckeditor-widget" : "^1",
         "bower-asset/bootbox": "^4.4",
         "bower-asset/bootstrap-sass": "^3.3",

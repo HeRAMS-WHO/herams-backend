@@ -1,5 +1,6 @@
 <?php
     namespace prime\controllers;
+    use prime\controllers\site\Admin;
     use prime\controllers\site\WorldMap;
     use yii\bootstrap\Html;
     use prime\components\Controller;
@@ -36,6 +37,9 @@
                 ],
                 'world-map' => [
                     'class' => WorldMap::class
+                ],
+                'admin' => [
+                    'class' => Admin::class
                 ]
             ];
         }

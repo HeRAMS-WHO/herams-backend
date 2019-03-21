@@ -48,10 +48,16 @@ foreach($projects as $project) {
         ]
     ]);
 }
+
+echo Html::a('New project', ['project/create'], [
+    'style' => [
+        'color' => '#737373'
+    ]
+]);
 echo Html::endTag('nav');
 $this->registerJs(<<<JS
     window.addEventListener('click', function(e) {
-        if (e.target.matches('.menu button:not(.active)')) {
+        if (e.target.matches('.menu button[data-id]:not(.active)')) {
             let event = new Event('externalPopup');
             event.id = e.target.getAttribute('data-id');
             window.dispatchEvent(event);

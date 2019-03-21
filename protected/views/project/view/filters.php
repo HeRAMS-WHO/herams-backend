@@ -67,7 +67,7 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
     </div>
     <div class="advanced">
         <button type="button" id="advanced" class="filter filter_advanced">Advanced filters</button>
-        <div class="modal" id="advanced-modal">
+        <div class="filter-modal" id="advanced-modal">
             <button type="button" class="close"></button>
             <div class="filter filter_search">
                 <input id="search-filter">

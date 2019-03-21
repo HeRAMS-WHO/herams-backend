@@ -1,7 +1,7 @@
 <?php
 
 use prime\models\ar\Setting;
-
+/** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
 ini_set('memory_limit','512M');
 
@@ -10,7 +10,7 @@ return [
     'id' => 'herams',
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
-    'runtimePath' => '/tmp',
+    'runtimePath' => $env->get('RUNTIME_PATH'),
     'timeZone' => 'UTC',
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en-US',
@@ -26,9 +26,9 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
-            'dsn' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME'),
-            'password' => getenv('DB_PASS'),
-            'username' => getenv('DB_USER'),
+            'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';dbname=' . $env->get('DB_NAME'),
+            'password' => $env->get('DB_PASS'),
+            'username' => $env->get('DB_USER'),
             'enableSchemaCache' => !YII_DEBUG,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
@@ -38,7 +38,7 @@ return [
         'limesurveySSo' => [
             'class' => \prime\components\JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => getenv('PRIVATE_KEY_FILE'),
+            'privateKey' => $env->get('PRIVATE_KEY_FILE'),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function($id) {
                 return "prime_$id";
@@ -109,14 +109,14 @@ return [
             'class' => \yii\swiftmailer\Mailer::class,
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'constructArgs' => [getenv('SMTP_HOST'), getenv('SMTP_PORT')]
+                'constructArgs' => [$env->get('SMTP_HOST'), $env->get('SMTP_PORT')]
             ]
         ],
     ],
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
-            'layout' => '//map-popover',
+            'layout' => '//admin',
             'modelMap' => [
                 'User' => \prime\models\ar\User::class,
                 'Profile' => \prime\models\ar\Profile::class,
@@ -135,6 +135,7 @@ return [
         ],
         'rbac' => [
             'class' => dektrium\rbac\RbacWebModule::class,
+            'layout' => '//admin'
         ],
     ],
     'params' => [
