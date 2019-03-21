@@ -3,27 +3,24 @@
 namespace prime\models\ar;
 
 use app\queries\ToolQuery;
+use function iter\mapKeys;
+use function iter\toArrayWithKeys;
 use prime\components\JsonValidator;
 use prime\components\LimesurveyDataProvider;
 use prime\factories\GeneratorFactory;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\ProjectInterface;
-use prime\interfaces\ResponseCollectionInterface;
 use prime\interfaces\WorkspaceListInterface;
 use prime\lists\SurveyFacilityList;
 use prime\lists\WorkspaceList;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
-use prime\objects\FacilityType;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsResponse;
-use prime\objects\ResponseCollection;
-use prime\objects\SurveyCollection;
-use prime\tests\_helpers\Survey;
+use prime\objects\HeramsSubject;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -36,7 +33,6 @@ use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\Link;
 use yii\web\Linkable;
-use yii\web\UploadedFile;
 
 /**
  * Class Tool
@@ -199,11 +195,14 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
 
     public function getTypeCounts()
     {
+        if (null !== $result = $this->getOverride('typeCounts')) {
+            return $result;
+        }
         \Yii::beginProfile(__FUNCTION__);
         $map = Json::decode($this->typemap);
         // Always have a mapping for the empty / unknown value.
-        if (!isset($map[""])) {
-            $map[""] = "Unknown";
+        if (!isset($map[HeramsResponse::UNKNOWN_VALUE])) {
+            $map[HeramsResponse::UNKNOWN_VALUE] = "Unknown";
         }
         // Initialize counts
         $counts = [];
@@ -218,7 +217,7 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
             } elseif (isset($map[$type])) {
                 $counts[$map[$type]]++;
             } else {
-                $counts[$map[""]]++;
+                $counts[$map[HeramsResponse::UNKNOWN_VALUE]]++;
             }
         }
 
@@ -228,13 +227,62 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
 
     public function getFunctionalityCounts()
     {
-        return [
-            'Fully' => mt_rand(1, 100),
-            'Partially' => mt_rand(1, 100),
-            'None' => mt_rand(1, 100),
+        $counts = [];
+        foreach($this->getHeramsResponses() as $heramsResponse) {
+            $counts[$heramsResponse->getFunctionality()] = ($counts[$heramsResponse->getFunctionality()] ?? 0) + 1;
+        }
+        ksort($counts);
+        $map = [
+            'A1' => \Yii::t('app', 'Full'),
+            'A2' => \Yii::t('app', 'Partial'),
+            'A3' => \Yii::t('app', 'None'),
         ];
+
+        $result = [];
+        foreach($counts as $key => $value) {
+            if (isset($map[$key])) {
+                $result[$map[$key]] = $value;
+            }
+        }
+        return $result;
     }
 
+
+    public function getSubjectAvailabilityCounts(): iterable
+    {
+        $counts = [
+            HeramsSubject::FULLY_AVAILABLE => 0,
+            HeramsSubject::PARTIALLY_AVAILABLE => 0,
+            HeramsSubject::NOT_AVAILABLE => 0,
+            HeramsSubject::NOT_PROVIDED=> 0,
+        ];
+        foreach ($this->getHeramsResponses() as $heramsResponse)
+        {
+            foreach ($heramsResponse->getSubjects() as $subject) {
+                $subjectAvailability = $subject->getAvailability();
+                if (!isset($subjectAvailability)) {
+                    continue;
+                }
+                $counts[$subjectAvailability]++;
+            }
+        }
+
+        ksort($counts);
+        $map = [
+            'A1' => \Yii::t('app', 'Full'),
+            'A2' => \Yii::t('app', 'Partial'),
+            'A3' => \Yii::t('app', 'None'),
+//            'A4' => \Yii::t('app', 'Not normally provided'),
+        ];
+
+        $result = [];
+        foreach($counts as $key => $value) {
+            if (isset($map[$key])) {
+                $result[$map[$key]] = $value;
+            }
+        }
+        return $result;
+    }
     public function userCan($operation, User $user)
     {
         return $user->isAdmin || Permission::isAllowed($user, $this, Permission::PERMISSION_INSTANTIATE);
@@ -331,18 +379,18 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
         return $this->hasMany(Page::class, ['tool_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
     }
 
-    public function getType(): FacilityType
+   public function getContributorCount(): int
     {
-        return new FacilityType(FacilityType::PRIMARY);
-    }
-
-    public function getContributorCount(): int
-    {
-        return 1 + $this->getPermissions()->count();
+        return $this->getOverride('contributorCount') ?? 1 + $this->getPermissions()->count();
     }
 
     public function getFacilityCount(): int
     {
-        return count($this->getHeramsResponses());
+        return $this->getOverride('facilityCount') ?? count($this->getHeramsResponses());
+    }
+
+    public function getOverride($name)
+    {
+        return $this->getOverrides()[$name] ?? null;
     }
 }
