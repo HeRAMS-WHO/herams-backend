@@ -6,6 +6,7 @@ use kartik\widgets\Growl;
 use prime\components\Controller;
 use prime\controllers\project\Index;
 use prime\controllers\project\Summary;
+use prime\controllers\project\Update;
 use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
@@ -51,31 +52,6 @@ class ProjectController extends Controller
             'model' => $model
         ]);
     }
-
-    public function actionUpdate(Request $request, Session $session, $id)
-    {
-        $model = Project::loadOne($id);
-
-        if($request->isPut) {
-            if($model->load($request->bodyParams) && $model->save()) {
-                $session->setFlash(
-                    'toolUpdated',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => "Tool <strong>{$model->title}</strong> is updated.",
-                        'icon' => 'glyphicon glyphicon-ok'
-                    ]
-                );
-
-                return $this->refresh();
-            }
-        }
-
-        return $this->render('update', [
-            'model' => $model
-        ]);
-    }
-
     /**
      * Deletes a tool.
      * @param $id
@@ -184,6 +160,7 @@ class ProjectController extends Controller
     public function actions()
     {
         return [
+            'update' => Update::class,
             'index' => Index::class,
             'view' => View::class,
             'summary' => Summary::class,
@@ -205,6 +182,7 @@ class ProjectController extends Controller
 
                 'pageCache' => [
                     'class' => PageCache::class,
+                    'enabled' => !YII_DEBUG,
                     'only' => ['summary'],
                     'variations' => [
                         \Yii::$app->request->getQueryParam('id')

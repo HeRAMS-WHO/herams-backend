@@ -158,9 +158,13 @@ class Map extends Widget
                 metric: true,
                 imperial: false
             }).addTo(map);
+            try {
             map.fitBounds(bounds, {
                 padding: [50, 50]
             });
+            } catch(err) {
+                console.error(err);
+            }
         })();
 
 JS

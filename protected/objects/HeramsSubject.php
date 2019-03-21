@@ -11,6 +11,12 @@ namespace prime\objects;
  */
 class HeramsSubject
 {
+    public const FULLY_AVAILABLE = 'A1';
+    public const PARTIALLY_AVAILABLE= 'A2';
+    public const NOT_AVAILABLE= 'A3';
+    public const NOT_PROVIDED = 'A4';
+
+
     /** @var HeramsResponse */
     private $response;
 
@@ -36,7 +42,7 @@ class HeramsSubject
 
     public function isFullyAvailable(): bool
     {
-        return $this->response->getValueForCode($this->code) === 'A1';
+        return $this->response->getValueForCode($this->code) === self::FULLY_AVAILABLE;
     }
 
     public function getCauses(): array

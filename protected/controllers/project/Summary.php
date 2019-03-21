@@ -15,7 +15,7 @@ class Summary extends Action
     public function run(int $id)
     {
         $this->controller->layout = 'base';
-        $project = Project::findOne(['id' => $id]);
+        $project = Project::find()->with('pages')->where(['id' => $id])->one();
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }

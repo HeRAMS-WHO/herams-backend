@@ -51,8 +51,17 @@ $this->params['breadcrumbs'][] = [
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->statusOptions()
             ],
-            'typemap' => [
-                'type' => Form::INPUT_TEXTAREA
+            'typemapAsJson' => [
+                'type' => Form::INPUT_TEXTAREA,
+                'options' => [
+                    'rows' => 10
+                ]
+            ],
+            'overridesAsJson' => [
+                'type' => Form::INPUT_TEXTAREA,
+                'options' => [
+                    'rows' => 10
+                ]
             ],
             [
                 'type' => Form::INPUT_RAW,

@@ -302,7 +302,12 @@ JS;
         ?>
     </canvas>
 </div>
-<?=Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']); ?>
+    <?php
+if (!empty($project->pages)) {
+   Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
+}
+
+    ?>
 </div>
 <?php
 if (class_exists('yii\debug\Module')) {

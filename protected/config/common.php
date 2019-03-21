@@ -69,7 +69,7 @@ return [
             'cache' => 'limesurveyCache'
         ],
         'limesurvey' => function (){
-            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'));
+            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'), false, 30);
             $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, Setting::get('limeSurvey.username'), Setting::get('limeSurvey.password'));
             $result->setCache(function($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');

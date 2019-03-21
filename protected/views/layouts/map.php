@@ -83,13 +83,11 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 grid-template-columns: 1fr;
                 grid-template-rows: 1fr auto auto var(--status-height);
                 grid-template-areas:
-                        /*"intro"*/
-                        /*"login"*/
+                        "intro"
+                        "login"
                         "stat"
                         "status"
             ;
-                padding-top: var(--padding);
-                border-radius: 3px;
 
             }
 
@@ -123,8 +121,17 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 padding-bottom: 0;
             }
 
+            .intro img {
+                max-width: 200px;
+                display: block;
+                margin: auto;
+            }
+
             @media (min-width: 710px) {
                 .popover {
+                    padding-top: var(--padding);
+                    border-radius: 3px;
+
                     grid-template-columns: 1fr 1fr;
                     grid-template-rows: 1fr auto var(--status-height);
                     grid-template-areas:
@@ -145,6 +152,9 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                     flex-grow: 0;
                 }
 
+                .intro img {
+                    max-width: calc(100% - 64px);
+                }
             }
 
             .actions {
@@ -156,11 +166,7 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
 
 
 
-            .intro img {
-                max-width: calc(100% - 64px);
-                display: block;
-                margin: auto;
-            }
+
 
             .popover a {
                 font-size: 13px;
@@ -177,9 +183,9 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
             .stats {
                 display: flex;
                 flex-wrap: wrap;
+                grid-area: stat;
                 padding-top: 25px;
                 padding-bottom: 25px;
-                grid-area: stat;
                 background-color: var(--dark-background-color);
             }
             .stat {
@@ -214,9 +220,9 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
 
             .status {
                 line-height: var(--status-height);
-                grid-area: status;
                 text-align: center;
                 font-size: 16px;
+                grid-area: status;
                 font-weight: bold;
                 background-color: #222229;
                 color: #ffffff;
@@ -225,6 +231,8 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
             .status .value {
                 color: #92929b;
                 font-size: 14px;
+
+
                 font-weight: normal;
             }
 

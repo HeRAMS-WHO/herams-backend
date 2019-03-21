@@ -12,6 +12,7 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
  */
 class HeramsResponse
 {
+    public const UNKNOWN_VALUE = '_unknown';
     private static $surveySubjectKeys = [];
     private static $surveyArrayKeys = [];
 
@@ -66,7 +67,7 @@ class HeramsResponse
 
     public function getType(): ?string
     {
-        return $this->data[$this->map->getType()] ?? null;
+        return $this->getValueForCode($this->map->getType());
     }
 
     public function getDate(): ?\DateTimeInterface
@@ -89,16 +90,18 @@ class HeramsResponse
     public function getValueForCode(string $code)
     {
         if (array_key_exists($code, $this->data)) {
-            return $this->data[$code];
-        }
-
-        // Try iteration.
-        $result = [];
-        foreach($this->getKeysForCode($code) as $key) {
-            if (isset($this->data[$key]) && !empty($this->data[$key])) {
-                $result[] = $this->data[$key];
+            $result = $this->data[$code];
+        } else {
+            // Try iteration.
+            $result = [];
+            foreach($this->getKeysForCode($code) as $key) {
+                if (isset($this->data[$key]) && !empty($this->data[$key])) {
+                    $result[] = $this->data[$key];
+                }
             }
         }
+
+
         return !empty($result) ? $result : null;
     }
 
@@ -164,6 +167,10 @@ class HeramsResponse
         return $total > 0 ? 100.0 * $full / $total : 0;
     }
 
+    public function getFunctionality(): ?string
+    {
+        return $this->getValueForCode('HFINF3') ?? self::UNKNOWN_VALUE;
+    }
     public function getMainReason(): ?string
     {
         $reasons = [];

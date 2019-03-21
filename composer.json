@@ -35,9 +35,9 @@
         "nesbot/carbon": "^1.21",
         "npm-asset/mresize": "^1.0",
         "psr/http-message": "^1.0",
-        "sam-it/ls2-jsonrpc-client": "^1.1.0",
+        "sam-it/ls2-jsonrpc-client": "^1.1.1",
         "sam-it/yii2-magic": "^1.0.3",
-        "yiisoft/yii2": "^2.0.15",
+        "yiisoft/yii2": "^2.0.16.1",
         "nikic/iter": "^1.6",
         "rmrevin/yii2-fontawesome": "^3.3",
         "fortawesome/font-awesome": "^5.7"

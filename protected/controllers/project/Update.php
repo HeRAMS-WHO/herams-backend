@@ -16,7 +16,7 @@ class Update extends Action
     public function run(Request $request, Session $session, $id)
     {
         $model = Project::loadOne($id);
-
+        $model->validate();
         if ($request->isPut) {
             if ($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(

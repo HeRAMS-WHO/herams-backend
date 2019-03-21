@@ -3,11 +3,8 @@
 namespace prime\models\ar;
 
 use app\queries\ToolQuery;
-use function iter\mapKeys;
-use function iter\toArrayWithKeys;
 use prime\components\JsonValidator;
 use prime\components\LimesurveyDataProvider;
-use prime\factories\GeneratorFactory;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\ProjectInterface;
 use prime\interfaces\WorkspaceListInterface;
@@ -26,9 +23,11 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\validators\BooleanValidator;
+use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
+use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\Link;
@@ -60,7 +59,7 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
     public function init()
     {
         parent::init();
-        $this->typemap = Json::encode([
+        $this->typemap = [
             'A1' => 'Primary',
             'A2' => 'Primary',
             'A3' => 'Secondary',
@@ -68,7 +67,13 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
             'A5' => 'Tertiary',
             'A6' => 'Tertiary',
             "" => 'Other',
-        ]);
+        ];
+
+        $this->overrides = [
+            'facilityCount' => null,
+            'typeCounts' => null,
+            'contributorCount' => null
+        ];
         $this->status = self::STATUS_ONGOING;
     }
 
@@ -138,9 +143,35 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
         return $this->getProjects()->count();
     }
 
+    public function getTypemapAsJson()
+    {
+        return Json::encode($this->typemap, JSON_PRETTY_PRINT);
+    }
+
+    public function getOverridesAsJson()
+    {
+        return Json::encode($this->overrides, JSON_PRETTY_PRINT);
+    }
+
+    public function setTypemapAsJson($value)
+    {
+        $this->typemap = Json::decode($value);
+    }
+
+    public function setOverridesAsJson($value)
+    {
+        $this->overrides= Json::decode($value);
+    }
+
+
     public function rules()
     {
         return [
+            [['overrides'], DefaultValueValidator::class, 'value' => [
+                'facilityCount' => null,
+                'typeCounts' => null,
+                'contributorCount' => null
+            ]],
             [[
                 'title', 'base_survey_eid'
             ], RequiredValidator::class],
@@ -149,7 +180,7 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
             [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
-            [['typemap'], JsonValidator::class, 'rootType' => JsonValidator::ROOT_OBJECT],
+            [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
             [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())]
         ];
     }
@@ -199,7 +230,7 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
             return $result;
         }
         \Yii::beginProfile(__FUNCTION__);
-        $map = Json::decode($this->typemap);
+        $map = $this->typemap;
         // Always have a mapping for the empty / unknown value.
         if (!isset($map[HeramsResponse::UNKNOWN_VALUE])) {
             $map[HeramsResponse::UNKNOWN_VALUE] = "Unknown";
@@ -391,6 +422,6 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
 
     public function getOverride($name)
     {
-        return $this->getOverrides()[$name] ?? null;
+        return $this->overrides[$name] ?? null;
     }
 }

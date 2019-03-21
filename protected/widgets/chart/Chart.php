@@ -224,6 +224,11 @@ JS
                 'labels' => array_keys($dataSet)
             ],
             'options' => [
+                'layout' => [
+                    'padding' => [
+//                        'right' => 50
+                    ]
+                ],
                 'scales' => [
                     'xAxes' => [
                         [
@@ -249,7 +254,6 @@ JS
                     ]
                 ],
                 'legend' => [
-
                     'position' => 'right',
                     'display' => $this->type === self::TYPE_DOUGHNUT,
                     'labels' => [
@@ -299,6 +303,7 @@ JS
         (function() {
             let ctx = document.getElementById($canvasId).getContext('2d');
             let chart = new Chart(ctx, $jsConfig);
+            
         })();
 JS
         );

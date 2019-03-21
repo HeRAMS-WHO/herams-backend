@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e69b136ffcd84f79340da6216b3b479",
+    "content-hash": "693456e34bf9bc5263e3cc66ef7c19e8",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -585,16 +585,16 @@
         },
         {
             "name": "fortawesome/font-awesome",
-            "version": "5.7.2",
+            "version": "5.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "1cf1062e0cfda5e9b5b2cac7844721b345e1a9c5"
+                "reference": "e0994360c5da1a5269f6d3842513665b6080f66c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/1cf1062e0cfda5e9b5b2cac7844721b345e1a9c5",
-                "reference": "1cf1062e0cfda5e9b5b2cac7844721b345e1a9c5",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e0994360c5da1a5269f6d3842513665b6080f66c",
+                "reference": "e0994360c5da1a5269f6d3842513665b6080f66c",
                 "shasum": ""
             },
             "type": "library",
@@ -644,7 +644,7 @@
                 "icon",
                 "svg"
             ],
-            "time": "2019-02-12T17:09:34+00:00"
+            "time": "2019-03-19T22:45:20+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1060,16 +1060,16 @@
         },
         {
             "name": "kartik-v/yii2-grid",
-            "version": "v3.2.9",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "3735c999eda391961220845063f8b373f409f488"
+                "reference": "b4384299da378d15667d82d5a5bd9eb2cb23abde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/3735c999eda391961220845063f8b373f409f488",
-                "reference": "3735c999eda391961220845063f8b373f409f488",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/b4384299da378d15667d82d5a5bd9eb2cb23abde",
+                "reference": "b4384299da378d15667d82d5a5bd9eb2cb23abde",
                 "shasum": ""
             },
             "require": {
@@ -1081,7 +1081,7 @@
             "type": "yii2-extension",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev"
+                    "dev-master": "3.3.x-dev"
                 }
             },
             "autoload": {
@@ -1108,7 +1108,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-12-07T12:28:30+00:00"
+            "time": "2019-03-12T17:04:35+00:00"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -1163,16 +1163,16 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v2.0.4",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "ec7fc2c5ed76ee29c939ed6fe33bab76eb25499c"
+                "reference": "9ddb662bdf49fdb671a90853912a40418a26a0dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/ec7fc2c5ed76ee29c939ed6fe33bab76eb25499c",
-                "reference": "ec7fc2c5ed76ee29c939ed6fe33bab76eb25499c",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/9ddb662bdf49fdb671a90853912a40418a26a0dd",
+                "reference": "9ddb662bdf49fdb671a90853912a40418a26a0dd",
                 "shasum": ""
             },
             "suggest": {
@@ -1211,7 +1211,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-12-04T03:40:27+00:00"
+            "time": "2019-03-13T17:14:54+00:00"
         },
         {
             "name": "kartik-v/yii2-tabs-x",
@@ -2671,16 +2671,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "fcd00b1120c4169558bbc7e9e083ff1f40dbd32e"
+                "reference": "11ebce885ea4fe3a18e40a5f97e66e20bd78f2a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/fcd00b1120c4169558bbc7e9e083ff1f40dbd32e",
-                "reference": "fcd00b1120c4169558bbc7e9e083ff1f40dbd32e",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/11ebce885ea4fe3a18e40a5f97e66e20bd78f2a2",
+                "reference": "11ebce885ea4fe3a18e40a5f97e66e20bd78f2a2",
                 "shasum": ""
             },
             "require": {
@@ -2710,7 +2710,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2019-03-12T13:54:46+00:00"
+            "time": "2019-03-21T10:58:47+00:00"
         },
         {
             "name": "sam-it/yii2-magic",
@@ -4776,16 +4776,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.6",
+            "version": "7.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "09c85e14994df92e5ff1f5ec0b481bdb7d3d3df9"
+                "reference": "eb343b86753d26de07ecba7868fa983104361948"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/09c85e14994df92e5ff1f5ec0b481bdb7d3d3df9",
-                "reference": "09c85e14994df92e5ff1f5ec0b481bdb7d3d3df9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/eb343b86753d26de07ecba7868fa983104361948",
+                "reference": "eb343b86753d26de07ecba7868fa983104361948",
                 "shasum": ""
             },
             "require": {
@@ -4803,7 +4803,7 @@
                 "phpunit/php-code-coverage": "^6.0.7",
                 "phpunit/php-file-iterator": "^2.0.1",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-timer": "^2.0",
+                "phpunit/php-timer": "^2.1",
                 "sebastian/comparator": "^3.0",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^4.0",
@@ -4856,7 +4856,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-02-18T09:24:50+00:00"
+            "time": "2019-03-16T07:31:17+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -6039,12 +6039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "88cf5bf2a26c1248f20b89a63fe2e3a1ab941c57"
+                "reference": "0380db2170d5667bf5355b5fbf963802866a1a28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/88cf5bf2a26c1248f20b89a63fe2e3a1ab941c57",
-                "reference": "88cf5bf2a26c1248f20b89a63fe2e3a1ab941c57",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/0380db2170d5667bf5355b5fbf963802866a1a28",
+                "reference": "0380db2170d5667bf5355b5fbf963802866a1a28",
                 "shasum": ""
             },
             "require": {
@@ -6088,7 +6088,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2019-03-11T09:25:26+00:00"
+            "time": "2019-03-17T17:47:24+00:00"
         }
     ],
     "aliases": [],
