@@ -60,6 +60,7 @@ class LimesurveyDataProvider extends Component
      */
     public function refreshResponses(int $surveyId): iterable
     {
+        \Yii::beginProfile(__FUNCTION__, __CLASS__);
         $result = $this->client->getResponses($surveyId);
         $key = $this->responsesCacheKey($surveyId);
 
@@ -68,6 +69,7 @@ class LimesurveyDataProvider extends Component
             "{$key}_present" => time()
         ], $this->responseCacheDuration);
 
+        \Yii::endProfile(__FUNCTION__, __CLASS__);
         return $result;
     }
 
@@ -83,7 +85,10 @@ class LimesurveyDataProvider extends Component
 
     public function getSurvey(int $surveyId): SurveyInterface
     {
-        return $this->client->getSurvey($surveyId);
+        \Yii::beginProfile(__FUNCTION__, __CLASS__);
+        $result = $this->client->getSurvey($surveyId);
+        \Yii::endProfile(__FUNCTION__, __CLASS__);
+        return $result;
     }
 
     public function getUrl(int $surveyId, array $params = []): string
