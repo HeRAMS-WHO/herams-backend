@@ -51,8 +51,18 @@ $this->params['breadcrumbs'][] = [
             'actions' => [
                 'class' => \kartik\grid\ActionColumn::class,
                 'width' => '100px',
-                'template' => '{view} {update} {share} {remove}',
+                'template' => '{view} {update} {share} {remove} {workspaces}',
                 'buttons' => [
+                    'workspaces' => function($url, $model, $key) {
+                        /** @var \prime\models\ar\Project $model */
+                        $result = Html::a(
+                            Icon::list(),
+                            ['project/workspaces', 'id' => $model->id],
+                            ['title' => 'View']
+
+                        );
+                        return $result;
+                    },
                     'view' => function($url, $model, $key) {
                         /** @var \prime\models\ar\Project $model */
                         $result = Html::a(

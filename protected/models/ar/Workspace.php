@@ -131,7 +131,10 @@ class Workspace extends ActiveRecord implements AuthorizableInterface, Workspace
     {
         if (!isset($this->_responses)) {
             $this->_responses = new ResponseCollection();
-            foreach ($this->getLimesurveyDataProvider()->getResponsesByToken($this->tool->base_survey_eid, $this->token) as $response) {
+            foreach ($this->getLimesurveyDataProvider()->getResponses($this->tool->base_survey_eid) as $response) {
+                if ($response->getData()['token'] !== $this->token) {
+                    continue;
+                }
                 $this->_responses->append($response);
             }
         }
