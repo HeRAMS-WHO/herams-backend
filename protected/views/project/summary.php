@@ -244,68 +244,58 @@ JS;
 <div class="chart">
     <canvas id="chart3">
         <?php
+        $availability = $project->getSubjectAvailabilityCounts();
+        $dataCount = count($availability);
+        $jsonConfig = \yii\helpers\Json::encode([
+            'type' => 'doughnut',
+            'data' => [
+                'datasets' => [
+                    [
+                        'data' => array_values($availability),
+                        'backgroundColor' => new \yii\web\JsExpression("chroma.scale(['green', 'orange', 'red', ]).colors($dataCount)"),
+                        'label' => 'Types'
+                    ]
+                ],
+                'labels' => array_keys($availability)
+            ],
+            'options' => [
+                'elements' => [
+                    'arc' => [
+                        'borderWidth' =>  0
+                    ],
+                    'center' => [
+                        'sidePadding' => 40,
+                        'color' => "white",
+                        'fontWeight' =>  900,
+                        'fontStyle' => "Font Awesome 5 Free",
+                        // Checkmark
+                        'text' => ""
+                    ]
+                ],
+                'cutoutPercentage' => 95,
+                'responsive' => true,
+                'maintainAspectRatio' => false,
+                'legend' => [
+                    'position' => 'bottom',
+                    'labels' => [
+                        'boxWidth' => 12,
+                        'fontSize' => 12,
+                    ]
+                ],
+                'title' => [
+                    'display' => true,
+                    'text' => 'Service availability'
+                ],
+                'animation' => [
+                    'animateScale' => true,
+                    'animateRotate' => true
+                ]
+            ]
+        ], JSON_PRETTY_PRINT);
         $js = <<<JS
     (function() {
-        var config = {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: [
-                        332,
-                        13,
-                        190,
-                    ],
-                    backgroundColor: [
-                        "green",
-                        "red",
-                        "grey",
-                    ],
-                    label: 'Dataset 1'
-                }],
-                labels: [
-                    'Red',
-                    'Orange',
-                    'Yellow',
-                ]
-            },
-            options: {
-                elements: {
-                    arc: {
-                        borderWidth: 0
-                    },
-                    center: {
-                        sidePadding: 40,
-                        color: "white",
-                        fontWeight: 900,
-                        fontStyle: "Font Awesome 5 Free",
-                        // Cog
-                        text: ""
-                    }
-                },
-                
-                cutoutPercentage: 95,
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        boxWidth: 12,
-                        fontSize: 12,
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Service availability'
-                },
-                animation: {
-                    animateScale: true,
-                    animateRotate: true
-                }
-            }
-        };
-
         let canvas = document.getElementById('chart3').getContext('2d');
-        let chart = new Chart(canvas, config);
+        let chart = new Chart(canvas, $jsonConfig);
     })();
 JS;
         $this->registerJs($js);

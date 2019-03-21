@@ -36,7 +36,7 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 z-index: 1;
             }
 
-            @media (min-width: 800px) {
+            @media (min-width: 710px) {
                 body {
                     display: flex;
                     margin: 0;
@@ -68,7 +68,7 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 --dark-background-color: #424348;
                 --darker-background-color: #222328;
                 --dark-color: white;
-                --status-height: 30px;
+                --status-height: 35px;
                 --darker-color: var(--dark-color);
                 --primary-button-background-color: #4177c1;
                 --link-color: #4177c1;
@@ -79,16 +79,17 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 z-index: 2;
                 background-color: white;
                 display: grid;
-                max-width: 800px;
+                max-width: 710px;
                 grid-template-columns: 1fr;
                 grid-template-rows: 1fr auto auto var(--status-height);
                 grid-template-areas:
-                        "intro"
-                        "login"
+                        /*"intro"*/
+                        /*"login"*/
                         "stat"
                         "status"
             ;
                 padding-top: var(--padding);
+                border-radius: 3px;
 
             }
 
@@ -112,14 +113,17 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
 
             .intro {
                 padding: var(--padding);
+                padding-top: 0;
+                color: #565656;
                 grid-area: intro;
                 text-align: justify;
                 margin: 0;
                 line-height: 2em;
+                font-size: 16px;
                 padding-bottom: 0;
             }
 
-            @media (min-width: 800px) {
+            @media (min-width: 710px) {
                 .popover {
                     grid-template-columns: 1fr 1fr;
                     grid-template-rows: 1fr auto var(--status-height);
@@ -131,13 +135,13 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 }
 
                 .intro {
-                    border-right: calc(var(--gutter-width) / 2) solid var(--gutter-color);
+                    border-right: var(--gutter-width) solid var(--gutter-color);
                     margin-bottom: var(--padding);
                     padding-bottom: 0;
                 }
 
-                .login {
-                    border-left: calc(var(--gutter-width) / 2) solid var(--gutter-color);
+                .form {
+
                     flex-grow: 0;
                 }
 
@@ -153,20 +157,28 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
 
 
             .intro img {
-                max-width: 100%;
+                max-width: calc(100% - 64px);
                 display: block;
                 margin: auto;
             }
 
             .popover a {
-                font-size: 0.7em;
+                font-size: 13px;
+                color: var(--link-color);
+                display: block;
+                margin-bottom: 5px;
+            }
+            .popover header {
+                font-size: 24px;
+                color: #353535;
+                font-weight: 600;
             }
 
             .stats {
                 display: flex;
                 flex-wrap: wrap;
-                padding-top: var(--padding);
-                padding-bottom: var(--padding);
+                padding-top: 25px;
+                padding-bottom: 25px;
                 grid-area: stat;
                 background-color: var(--dark-background-color);
             }
@@ -175,8 +187,9 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 flex-basis: 0;
                 color: var(--dark-color);
                 text-align: center;
+                font-size: 16px;
                 border-right: calc(var(--gutter-width) / 2) solid var(--gutter-color);
-                border-left: calc(var(--gutter-width) / 2) solid var(--gutter-color);
+                /*border-left: calc(var(--gutter-width) / 2) solid var(--gutter-color);*/
             }
 
             .stat:first-child {
@@ -189,30 +202,36 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
 
             .stat svg {
                 color: var(--stat-icon-color);
-                font-size: 50px;
+                font-size: 40px;
                 display: block;
                 margin: auto;
             }
             .stat span {
                 display: block;
                 margin: auto;
-                font-size: 50px;
+                font-size: 48px;
             }
 
             .status {
                 line-height: var(--status-height);
                 grid-area: status;
                 text-align: center;
-                font-size: calc(var(--status-height) / 1.2);
-                background-color: var(--darker-background-color);
-                color: var(--darker-color);
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #222229;
+                color: #ffffff;
             }
 
-            .actions a {
-                color: var(--link-color);
-                display: block;
-                margin-bottom: 5px;
+            .status .value {
+                color: #92929b;
+                font-size: 14px;
+                font-weight: normal;
             }
+
+            .status .icon {
+                vertical-align: middle;
+            }
+
         </style>
     </head>
 

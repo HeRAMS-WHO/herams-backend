@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 
-?>
+//?>
 
     <header><?=\Yii::t('app', 'Log in to HeRAMS') ?></header>
     <?php
@@ -31,10 +31,11 @@ use yii\widgets\ActiveForm;
     echo $form->field($model, 'password')->passwordInput([
         'placeholder' => $model->getAttributeLabel('password')
     ]);
-
-    ActiveForm::end();
-    echo Html::beginTag('div', ['class' => 'actions']);
     echo Html::a(\Yii::t('app', "Reset password"), ['/user/forgot']);
+    ActiveForm::end();
+
+    echo Html::beginTag('div', ['class' => 'actions']);
+
     echo Html::a(\Yii::t('app', "Sign up"), ['/user/register']);
     echo Html::a(\Yii::t('app', "Resend confirmation"), ['/user/resend']);
     echo Html::submitButton('Log in', ['class' => 'button', 'form' => 'login-form']);

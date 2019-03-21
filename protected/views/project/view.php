@@ -64,6 +64,7 @@ echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
     foreach($page->getChildElements() as $element) {
         \Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Chart {$element->id} -->";
+        echo "<!-- " . json_encode($element). " -->";
         echo $element->getWidget($survey, $data, $page)->run();
         \Yii::endProfile('Render element ' . $element->id);
     }

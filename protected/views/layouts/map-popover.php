@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+use prime\helpers\Icon;
 use prime\models\ar\Project;
 use yii\helpers\Html;
 use function iter\reduce;
@@ -44,7 +46,7 @@ $this->beginContent('@views/layouts/map.php');
             Users
         </div>
     </div>
-    <div class="status">Last updated: today</div>
+    <div class="status"><?= Icon::sync() ?> Last updated: <span class="value"><?=$projects[0]->title . ' / ' . Carbon::now()->subHour(mt_rand(1, 100))->diffForHumans() ?></span></div>
 </div>
 <?php
 
