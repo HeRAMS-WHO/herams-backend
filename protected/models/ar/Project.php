@@ -230,9 +230,9 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
             return $result;
         }
         \Yii::beginProfile(__FUNCTION__);
-        $map = $this->typemap;
+        $map = is_array($this->typemap) ? $this->typemap : [];
         // Always have a mapping for the empty / unknown value.
-        if (!isset($map[HeramsResponse::UNKNOWN_VALUE])) {
+        if (!empty($map) && !isset($map[HeramsResponse::UNKNOWN_VALUE])) {
             $map[HeramsResponse::UNKNOWN_VALUE] = "Unknown";
         }
         // Initialize counts
