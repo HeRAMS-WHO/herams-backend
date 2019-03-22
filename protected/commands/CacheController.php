@@ -6,8 +6,10 @@ namespace prime\commands;
 
 use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
+use prime\models\ar\File;
 use prime\models\ar\Project;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
+use yii\caching\FileCache;
 use yii\helpers\Console;
 
 class CacheController extends \yii\console\controllers\CacheController
@@ -16,6 +18,9 @@ class CacheController extends \yii\console\controllers\CacheController
     public function actionWarmup(
         LimesurveyDataProvider $dataProvider
     ) {
+        if ($dataProvider->cache instanceof FileCache) {
+            var_dump($dataProvider->cache->cachePath);
+        }
         /** @var Project $project */
         foreach(Project::find()->each() as $project) {
             $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);

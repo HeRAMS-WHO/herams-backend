@@ -42,9 +42,12 @@ Chart.pluginService.register({
             var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
             ctx.font = 'normal normal ' + fontWeight + ' ' + fontSizeToUse + 'px "' + fontStyle + '"';
             ctx.fillStyle = color;
+            console.log(ctx.font);
 
+            console.log(txt, centerX, centerY);
             //Draw text in center
             ctx.fillText(txt, centerX, centerY);
+
         }
     }
 });

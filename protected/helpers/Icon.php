@@ -18,6 +18,10 @@ use yii\helpers\Inflector;
  * @method static string user
  * @method static string clipboardList
  * @method static string signOutAlt
+ *
+ * // NovelT icons
+ * @method static string project
+ * @method static string healthFacility
 // * @method static string pencil
  */
 class Icon
@@ -26,12 +30,17 @@ class Icon
 
     public static function icon($name, array $options = [])
     {
-        $svg = IconBundle::register(\Yii::$app->view)->baseUrl . '/symbol-defs.svg';
+
         Html::addCssClass($options, ['icon', "icon-$name"]);
         return Html::tag('svg',
-            Html::tag('use', '', ['href' => "{$svg}#icon-{$name}"]),
+           self::svgSource($name),
             $options
         );
+    }
+
+    public static function svgSource($name) {
+        $svg = IconBundle::register(\Yii::$app->view)->baseUrl . '/symbol-defs.svg';
+        return Html::tag('use', '', ['href' => "{$svg}#icon-{$name}"]);
     }
 
     public static function __callStatic($name, $arguments)

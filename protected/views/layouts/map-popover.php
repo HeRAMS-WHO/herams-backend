@@ -25,12 +25,12 @@ $this->beginContent('@views/layouts/map.php');
     </div>
     <div class="stats">
         <div class="stat">
-            <?= \prime\helpers\Icon::clipboardList(); ?>
+            <?= \prime\helpers\Icon::project(); ?>
             <span><?= count($projects); ?></span>
             Projects
         </div>
         <div class="stat">
-            <?= \prime\helpers\Icon::hospital(); ?>
+            <?= \prime\helpers\Icon::healthFacility(); ?>
             <span><?php
                 echo \Yii::$app->cache->getOrSet('totalFacilityCount', function() use ($projects) {
                     return reduce(function (?int $accumulator, Project $project, string $key) {
@@ -41,7 +41,7 @@ $this->beginContent('@views/layouts/map.php');
             Health Facilities
         </div>
         <div class="stat">
-            <?= \prime\helpers\Icon::user(); ?>
+            <?= \prime\helpers\Icon::users(); ?>
             <span><?= \prime\models\ar\User::find()->count() ?></span>
             Users
         </div>

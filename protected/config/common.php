@@ -116,12 +116,12 @@ return [
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
-            'layout' => '//admin',
+            'layout' => '//map-popover',
             'controllerMap' => [
-                'security' => [
-                    'class' => \dektrium\user\controllers\SecurityController::class,
-                    'layout' => '//map-popover'
-                ]
+                'admin' => [
+                    'class' => \dektrium\user\controllers\AdminController::class,
+                    'layout' => '//admin'
+                ],
             ],
             'modelMap' => [
                 'User' => \prime\models\ar\User::class,

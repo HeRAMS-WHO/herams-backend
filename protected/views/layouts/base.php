@@ -11,6 +11,7 @@ $this->registerAssetBundle(CdnFreeAssetBundle::class);
 $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
 
 ?>
+    <!DOCTYPE HTML>
     <html>
 
     <head>

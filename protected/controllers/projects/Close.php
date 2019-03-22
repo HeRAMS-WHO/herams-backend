@@ -40,7 +40,7 @@ class Close extends Action
 
         $model->closed = (new DateTime())->format('Y-m-d H:i:s');
         if($model->save()) {
-            $this->ession->setFlash(
+            $this->session->setFlash(
                 'projectClosed',
                 [
                     'type' => \kartik\widgets\Growl::TYPE_SUCCESS,

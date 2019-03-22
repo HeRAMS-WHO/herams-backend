@@ -29,6 +29,11 @@ class LimesurveyDataProvider extends Component
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
     }
 
+
+    public function getToken(int $surveyId, string $token)
+    {
+        return $this->client->getToken($surveyId, $token);
+    }
     /**
      * @param int $surveyId
      * @return iterable|ResponseInterface[]|null returns NULL if the cache does not contain an entry.
@@ -49,7 +54,7 @@ class LimesurveyDataProvider extends Component
 
     protected function responsesCacheKey(int $surveyId): string
     {
-        return 'responses_' . $surveyId;
+        return __CLASS__ . 'responses ' . $surveyId;
     }
 
     /**
@@ -60,7 +65,6 @@ class LimesurveyDataProvider extends Component
      */
     public function refreshResponses(int $surveyId): iterable
     {
-        \Yii::beginProfile(__FUNCTION__, __CLASS__);
         $result = $this->client->getResponses($surveyId);
         $key = $this->responsesCacheKey($surveyId);
 
@@ -69,7 +73,6 @@ class LimesurveyDataProvider extends Component
             "{$key}_present" => time()
         ], $this->responseCacheDuration);
 
-        \Yii::endProfile(__FUNCTION__, __CLASS__);
         return $result;
     }
 
@@ -85,10 +88,7 @@ class LimesurveyDataProvider extends Component
 
     public function getSurvey(int $surveyId): SurveyInterface
     {
-        \Yii::beginProfile(__FUNCTION__, __CLASS__);
-        $result = $this->client->getSurvey($surveyId);
-        \Yii::endProfile(__FUNCTION__, __CLASS__);
-        return $result;
+        return $this->client->getSurvey($surveyId);
     }
 
     public function getUrl(int $surveyId, array $params = []): string

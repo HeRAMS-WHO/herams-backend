@@ -130,10 +130,11 @@ echo Map::widget([
 
     iframe {
         box-sizing: border-box;
-        max-width: 400px;
+        max-width: 500px;
         border-width: 0;
-        min-width: 200px;
-        min-height: 370px;
+        width: 400px;
+        min-width: 300px;
+        min-height: 350px;
         overflow: hidden;
     }
 </style>

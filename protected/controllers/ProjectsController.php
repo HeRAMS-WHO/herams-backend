@@ -2,36 +2,22 @@
 
 namespace prime\controllers;
 
-use app\queries\WorkspaceQuery;
-use app\queries\ToolQuery;
 use prime\components\Controller;
 use prime\components\LimesurveyDataProvider;
 use prime\controllers\projects\Close;
 use prime\controllers\projects\Download;
 use prime\controllers\projects\View;
-use prime\models\ar\Workspace;
 use prime\models\ar\Setting;
-use prime\models\ar\Project;
-use prime\models\forms\projects\CreateUpdate;
+use prime\models\ar\Workspace;
 use prime\models\forms\projects\Token;
-use prime\models\forms\Share;
 use prime\models\permissions\Permission;
-use prime\models\search\Workspace as ProjectSearch;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
-use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
-use SamIT\LimeSurvey\JsonRpc\Client;
-use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
-use yii\base\InvalidConfigException;
-use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\web\Request;
 use yii\web\Response;
 use yii\web\Session;
-use yii\web\User;
 
 class ProjectsController extends Controller
 {
@@ -85,14 +71,6 @@ class ProjectsController extends Controller
 
 
 
-
-    public function actionUpdateLimeSurvey($id)
-    {
-        $model = Workspace::loadOne($id, [], Permission::PERMISSION_WRITE);
-        return $this->render('updateLimeSurvey', [
-            'model' => $model
-        ]);
-    }
 
     public function behaviors()
     {

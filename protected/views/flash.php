@@ -27,4 +27,5 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
     !isset($message['title']) ?: $config['title'] = $message['title'];
     !isset($message['icon']) ?: $config['icon'] = $message['icon'];
     echo \kartik\growl\Growl::widget($config);
+
 }

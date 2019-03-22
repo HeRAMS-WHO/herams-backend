@@ -1,5 +1,3 @@
-svg { pointer-events: none; }
-
 .icon {
   display: inline-block;
   width: 1em;
@@ -16,6 +14,90 @@ Single-colored icons can be modified like so:
   color: red;
 }
 ========================================== */
+
+.icon-admin {
+  width: 0.9619140625em;
+}
+
+.icon-availability {
+  width: 1.34375em;
+}
+
+.icon-back {
+  width: 0.6064453125em;
+}
+
+.icon-be-careful {
+  width: 1.1552734375em;
+}
+
+.icon-calendar {
+  width: 0.9765625em;
+}
+
+.icon-create {
+  width: 1.236328125em;
+}
+
+.icon-delete {
+  width: 0.873046875em;
+}
+
+.icon-download {
+  width: 0.8115234375em;
+}
+
+.icon-edit {
+  width: 0.990234375em;
+}
+
+.icon-health-facility {
+  width: 1.0029296875em;
+}
+
+.icon-last-update {
+  width: 0.9970703125em;
+}
+
+.icon-menu-collapse {
+  width: 10.3271484375em;
+}
+
+.icon-menu-expand {
+  width: 0.998046875em;
+}
+
+.icon-open-profile {
+  width: 1.5126953125em;
+}
+
+.icon-options {
+  width: 0.2412109375em;
+}
+
+.icon-partner {
+  width: 1.3359375em;
+}
+
+.icon-project {
+  width: 1.7998046875em;
+}
+
+.icon-search {
+  width: 1.0205078125em;
+}
+
+.icon-select-menu {
+  width: 0.23828125em;
+}
+
+.icon-sync {
+  width: 1.2919921875em;
+}
+
+.icon-users {
+  width: 1.056640625em;
+}
 
 .icon-px {
   width: 0.875em;
@@ -1733,7 +1815,7 @@ Single-colored icons can be modified like so:
   width: 0.875em;
 }
 
-.icon-calendar {
+.icon-calendar1 {
   width: 0.875em;
 }
 
@@ -2129,7 +2211,7 @@ Single-colored icons can be modified like so:
   width: 1.25em;
 }
 
-.icon-edit {
+.icon-edit1 {
   width: 1.125em;
 }
 
@@ -2653,7 +2735,7 @@ Single-colored icons can be modified like so:
   width: 1.25em;
 }
 
-.icon-info {
+.icon-info1 {
   width: 0.375em;
 }
 
@@ -3505,7 +3587,7 @@ Single-colored icons can be modified like so:
   width: 1.25em;
 }
 
-.icon-sync {
+.icon-sync1 {
   width: 1.0009765625em;
 }
 
@@ -3793,7 +3875,7 @@ Single-colored icons can be modified like so:
   width: 1.25em;
 }
 
-.icon-users {
+.icon-users1 {
   width: 1.25em;
 }
 
@@ -3949,7 +4031,7 @@ Single-colored icons can be modified like so:
   width: 0.875em;
 }
 
-.icon-calendar1 {
+.icon-calendar11 {
   width: 0.875em;
 }
 
@@ -4017,7 +4099,7 @@ Single-colored icons can be modified like so:
   width: 0.96875em;
 }
 
-.icon-edit1 {
+.icon-edit11 {
   width: 1.125em;
 }
 

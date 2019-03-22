@@ -14,8 +14,11 @@ use yii\web\Session;
 
 class Configure extends Action
 {
-    public function run(Request $request, Session $session, int $id)
-    {
+    public function run(
+        Request $request,
+        Session $session,
+        int $id
+    ) {
         /** @var Workspace $model */
         $model = Workspace::loadOne($id, [], Permission::PERMISSION_WRITE);
         // Form model.

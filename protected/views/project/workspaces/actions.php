@@ -41,7 +41,7 @@ return [
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.limeSurveyUpdate')),
-                    ['/projects/update-lime-survey', 'id' => $model->id],
+                    ['/workspace/limesurvey', 'id' => $model->id],
                     [
                         'title' => \Yii::t('app', 'Data update')
                     ]
@@ -71,7 +71,7 @@ return [
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.update')),
-                    ['/projects/update', 'id' => $model->id],
+                    ['/workspace/update', 'id' => $model->id],
                     [
                         'title' => \Yii::t('app', 'Update')
                     ]

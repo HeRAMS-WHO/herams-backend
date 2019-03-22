@@ -7,15 +7,32 @@ use prime\widgets\chart\ChartBundle;
 use rmrevin\yii\fontawesome\FAR;
 use rmrevin\yii\fontawesome\FAS;
 use yii\helpers\Html;
-
+use prime\helpers\Icon;
 $this->registerAssetBundle(ChartBundle::class);
+$bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
+$prefix = $bundle->baseUrl . '/fonts/fonts/';
+$this->registerCss(<<<CSS
+    @font-face {
+      font-family: 'icomoon';
+      src:  url('{$bundle->baseUrl}/fonts/fonts/icomoon.eot?nr7qn');
+      src:  url('{$bundle->baseUrl}/fonts/fonts/icomoon.eot?nr7qn#iefix') format('embedded-opentype'),
+        url('{$bundle->baseUrl}/fonts/fonts/icomoon.ttf?nr7qn') format('truetype'),
+        url('{$bundle->baseUrl}/fonts/fonts/icomoon.woff?nr7qn') format('woff'),
+        url('{$bundle->baseUrl}/fonts/fonts/icomoon.svg?nr7qn#icomoon') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
+CSS
+
+    );
+$hostInfo = \Yii::$app->request->hostInfo;
 ?>
 <style>
     html {
         --header-background-color: #212529;
         --primary-button-background-color: #4177c1;
         --primary-button-hover-color: #3f86e6;
-        --color: white;
+        --color: #eeeeee;
 
     }
     body {
@@ -115,7 +132,9 @@ $this->registerAssetBundle(ChartBundle::class);
 
     $types = $project->getTypeCounts();
     $total = array_sum($types);
-    $typeCount = count($types);
+
+    $url = $this->registerAssetBundle(\prime\assets\IconBundle::class)->baseUrl . '/svg/admin.svg';
+$typeCount = count($types);
     if ($total > 0) {
         $jsonConfig = \yii\helpers\Json::encode([
             'type' => 'doughnut',
@@ -140,11 +159,11 @@ $this->registerAssetBundle(ChartBundle::class);
                     ],
                     'center' => [
                         'sidePadding' => 40,
-                        'color' => "white",
-                        'fontWeight' => 900,
-                        'fontStyle' => "Font Awesome 5 Free",
-                        // Hospital
-                        'text' => ""
+                        'color' => '#eeeeee',
+                        'fontWeight' => "normal",
+                        'fontStyle' => "icomoon",
+                        // Facility
+                        'text' => "\u{e90b}"
                     ]
                 ],
                 'cutoutPercentage' => 95,
@@ -169,8 +188,7 @@ $this->registerAssetBundle(ChartBundle::class);
         ], JSON_PRETTY_PRINT);
         $js = <<<JS
     (function() {
-        var config = {$jsonConfig}
-
+        var config = {$jsonConfig};
         let canvas = document.getElementById('chart1').getContext('2d');
         let chart = new Chart(canvas, config);
     })();
@@ -196,7 +214,11 @@ JS;
                     'label' => 'Types'
                 ]
             ],
-            'labels' => array_keys($functionality)
+            'labels' => array_map(function ($key) use ($types, $total) {
+                $count = $types[$key];
+                $percentage = 100 * $count / $total;
+                return number_format($percentage, 1) . '% ' . $key;
+            }, array_keys($functionality))
         ],
         'options' => [
             'elements' => [
@@ -205,11 +227,11 @@ JS;
                 ],
                 'center' => [
                     'sidePadding' => 40,
-                    'color' => "white",
-                    'fontWeight' =>  900,
-                    'fontStyle' => "Font Awesome 5 Free",
-                    // Checkmark
-                    'text' => ""
+                    'color' => '#eeeeee',
+                    'fontWeight' => "normal",
+                    'fontStyle' => "icomoon",
+                    // Functionality
+                    'text' => "\u{e90a}"
                 ]
             ],
             'cutoutPercentage' => 95,
@@ -235,7 +257,8 @@ JS;
     $js = <<<JS
     (function() {
         let canvas = document.getElementById('chart2').getContext('2d');
-        let chart = new Chart(canvas, $jsonConfig);
+        let config = $jsonConfig;
+        let chart = new Chart(canvas, config);
     })();
 JS;
     $this->registerJs($js);
@@ -244,6 +267,8 @@ JS;
 <div class="chart">
     <canvas id="chart3">
         <?php
+//        $svg = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents(\Yii::getAlias('@app/assets/svg/availability.svg')));
+
         $availability = $project->getSubjectAvailabilityCounts();
         $dataCount = count($availability);
         $jsonConfig = \yii\helpers\Json::encode([
@@ -265,11 +290,11 @@ JS;
                     ],
                     'center' => [
                         'sidePadding' => 40,
-                        'color' => "white",
-                        'fontWeight' =>  900,
-                        'fontStyle' => "Font Awesome 5 Free",
-                        // Checkmark
-                        'text' => ""
+                        'color' => '#eeeeee',
+                        'fontWeight' => "normal",
+                        'fontStyle' => "icomoon",
+                        // Availability
+                        'text' => "\u{e901}"
                     ]
                 ],
                 'cutoutPercentage' => 95,

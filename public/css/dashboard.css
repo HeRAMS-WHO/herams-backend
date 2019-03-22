@@ -244,6 +244,7 @@ span.header {
 .content {
     background-color: var(--main-background-color);
     grid-area: main;
+    position: relative;;
 }
 
 .content > div {

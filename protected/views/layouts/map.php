@@ -13,8 +13,8 @@ $this->beginPage();
 $this->registerAssetBundle(CdnFreeAssetBundle::class);
 $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
 $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
-
 ?>
+    <!doctype HTML>
     <html lang="<?=\Yii::$app->language; ?>">
 
     <head>
