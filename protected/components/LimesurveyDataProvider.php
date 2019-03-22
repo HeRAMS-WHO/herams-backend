@@ -9,6 +9,7 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\base\Component;
+use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\di\Instance;
 
@@ -25,6 +26,10 @@ class LimesurveyDataProvider extends Component
 
     public function init()
     {
+        parent::init();
+        if ($this->cache === 'cache') {
+            throw new InvalidConfigException();
+        }
         $this->client = Instance::ensure($this->client, Client::class);
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
     }
@@ -41,20 +46,22 @@ class LimesurveyDataProvider extends Component
     public function getResponsesFromCache(int $surveyId): ?iterable
     {
         \Yii::beginProfile(__FUNCTION__);
-        $result = $this->cache->get($this->responsesCacheKey($surveyId)) ?: null;
+        $key = $this->responsesCacheKey($surveyId);
+        $result = $this->cache->get($key) ?: null;
+        \Yii::info('CACHE ' . ($result ? 'HIT' : 'MISS') . ' for ' . $key, __CLASS__);
         \Yii::endProfile(__FUNCTION__);
         return $result;
     }
 
     public function responseCacheTime(int $surveyId): ?int
     {
-        $result = $this->cache->get($this->responsesCacheKey($surveyId). '_present');
+        $result = $this->cache->get($this->responsesCacheKey($surveyId). 'present');
         return is_int($result) ? $result : null;
     }
 
     protected function responsesCacheKey(int $surveyId): string
     {
-        return __CLASS__ . 'responses ' . $surveyId;
+        return 'LDPresponses' . $surveyId;
     }
 
     /**
@@ -70,7 +77,7 @@ class LimesurveyDataProvider extends Component
 
         $this->cache->multiSet([
             $key => $result,
-            "{$key}_present" => time()
+            "{$key}present" => time()
         ], $this->responseCacheDuration);
 
         return $result;
@@ -104,6 +111,6 @@ class LimesurveyDataProvider extends Component
     /** @return TokenInterface[] */
     public function getTokens(int $surveyId): array
     {
-
+        return $this->client->getTokens($surveyId);
     }
 }
