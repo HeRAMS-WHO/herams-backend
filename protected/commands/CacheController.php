@@ -38,6 +38,10 @@ class CacheController extends \yii\console\controllers\CacheController
                 $this->stdout("Last time cache was refreshed was $diff\n", Console::FG_GREEN);
             }
 
+            $this->stdout('Refreshing survey structure...', Console::FG_CYAN);
+            $dataProvider->getSurvey($project->base_survey_eid);
+            $this->stdout("OK\n", Console::FG_GREEN);
+
         }
     }
 }
