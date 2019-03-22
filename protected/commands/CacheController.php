@@ -34,7 +34,11 @@ class CacheController extends \yii\console\controllers\CacheController
             }
 
             $this->stdout('Refreshing survey structure...', Console::FG_CYAN);
-            $limesurveyDataProvider->getSurvey($project->base_survey_eid)->getGroups();
+            foreach ($limesurveyDataProvider->getSurvey($project->base_survey_eid)->getGroups() as $group) {
+                $this->stdout('.', Console::FG_PURPLE);
+                $group->getQuestions();
+
+            }
             $this->stdout("OK\n", Console::FG_GREEN);
 
         }

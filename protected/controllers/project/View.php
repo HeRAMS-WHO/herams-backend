@@ -67,29 +67,14 @@ class View extends Action
         }
         \Yii::endProfile('getResponses');
 
-
+        \Yii::beginProfile('ResponseFilterinit');
         $filter = new ResponseFilter($responses, $survey);
         $filter->load($request->queryParams);
         $elements = [];
-
+        \Yii::endProfile('ResponseFilterinit');
 
         /** @var  $filtered */
         $filtered = $filter->filter($responses);
-
-        // Check if page uses subjects.
-        if (false) {
-            \Yii::beginProfile('transpose');
-            $finalResponses = [];
-            foreach($filtered as $response) {
-                foreach($response->getSubjects() as $subject) {
-                    $finalResponses[] = $subject;
-                }
-            }
-            \Yii::endProfile('transpose');
-        } else {
-            $finalResponses = $filtered;
-        }
-
 
         return $this->controller->render('view', [
             'elements' => $elements,
@@ -103,6 +88,7 @@ class View extends Action
     }
 
     private function getTypes(SurveyInterface $survey): array {
+        \Yii::beginProfile(__FUNCTION__);
         $question = $this->findQuestionByCode($survey, 'HF2');
         $answers = $question->getAnswers();
         assert(count($answers) > 0);
@@ -111,6 +97,7 @@ class View extends Action
         foreach($answers as $answer) {
             $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
         }
+        \Yii::endProfile(__FUNCTION__);
         return $map;
     }
 

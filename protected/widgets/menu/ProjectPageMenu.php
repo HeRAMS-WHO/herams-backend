@@ -46,6 +46,7 @@ JS;
     }
     public function run()
     {
+        \Yii::beginProfile(__CLASS__);
         $options = [
             'id' => $this->getId()
         ];
@@ -55,7 +56,6 @@ JS;
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
         echo Html::tag('h1', $this->project->getDisplayField());
-//
         echo Html::tag('hr');
         echo Html::beginTag('nav');
         foreach($this->project->pages as $page) {
@@ -63,6 +63,7 @@ JS;
         }
         echo Html::endTag('nav');
         echo Html::endTag('div');
+        \Yii::endProfile(__CLASS__);
     }
 
     /**
