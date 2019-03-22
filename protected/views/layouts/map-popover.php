@@ -36,7 +36,7 @@ $this->beginContent('@views/layouts/map.php');
                     return reduce(function (?int $accumulator, Project $project, string $key) {
                         return $accumulator + \iter\count($project->getHeramsResponses());
                     }, $projects);
-                });
+                }, 3600 * 24);
                 ?></span>
             Health Facilities
         </div>

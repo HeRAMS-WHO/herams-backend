@@ -203,6 +203,7 @@ JS;
     </canvas>
     <?php
     $functionality = $project->getFunctionalityCounts();
+    $total = array_sum($functionality);
     $dataCount = count($functionality);
     $jsonConfig = \yii\helpers\Json::encode([
         'type' => 'doughnut',
@@ -214,8 +215,8 @@ JS;
                     'label' => 'Types'
                 ]
             ],
-            'labels' => array_map(function ($key) use ($types, $total) {
-                $count = $types[$key];
+            'labels' => array_map(function ($key) use ($functionality, $total) {
+                $count = $functionality[$key];
                 $percentage = 100 * $count / $total;
                 return number_format($percentage, 1) . '% ' . $key;
             }, array_keys($functionality))
