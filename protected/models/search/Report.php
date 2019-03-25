@@ -3,7 +3,7 @@
 namespace prime\models\search;
 
 use prime\components\ActiveQuery;
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\Country;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -113,14 +113,14 @@ class Report extends \prime\models\ar\Report
         $this->query->andFilterWhere(['tool_id' => $this->toolId]);
         $this->query->andFilterWhere(['country_iso_3' => $this->countryId]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Report::tableName() . '.title', $this->title]);
-        $this->query->andFilterWhere(['like', \prime\models\ar\Project::tableName() . '.locality_name', $this->localityName]);
+        $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.locality_name', $this->localityName]);
         return $dataProvider;
     }
 
     public function toolsOptions()
     {
         return ArrayHelper::map(
-            $this->query->copy()->orderBy(Tool::tableName() . '.title')->all(),
+            $this->query->copy()->orderBy(Project::tableName() . '.title')->all(),
             'tool.id',
             'tool.acronym'
         );

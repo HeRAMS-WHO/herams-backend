@@ -29,4 +29,12 @@ class Controller extends \yii\web\Controller
             ]
         );
     }
+
+    public function render($view, $params = [])
+    {
+        \Yii::beginProfile(__FUNCTION__);
+        $result = parent::render($view, $params);
+        \Yii::endProfile(__FUNCTION__);
+        return $result;
+    }
 }

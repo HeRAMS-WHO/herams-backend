@@ -26,6 +26,11 @@ class Setting extends ActiveRecord
         return self::$config[$setting->key] = json_decode($setting->value, true);
     }
 
+    public function getDecodedValue()
+    {
+        return json_decode($this->value, true);
+    }
+
     public static function get($key, $default = null) {
         self::loadAll();
         // Load configuration.

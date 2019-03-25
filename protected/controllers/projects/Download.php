@@ -4,11 +4,11 @@
 namespace prime\controllers\projects;
 
 
-use prime\models\ar\Project;
+use prime\components\LimesurveyDataProvider;
+use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
-use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
 use yii\base\Action;
 use yii\web\Controller;
@@ -16,25 +16,22 @@ use yii\web\Response;
 
 class Download extends Action
 {
-    private $limeSurvey;
     private $response;
     public function __construct(
         string $id,
         Controller $controller,
-        Client $limeSurvey,
         Response $response,
         array $config = []
     ) {
         parent::__construct($id, $controller, $config);
-        $this->limeSurvey = $limeSurvey;
         $this->response = $response;
     }
 
     public function run($id, $text = false)
     {
-        $project = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $workspace = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
         /** @var Survey $survey */
-        $survey = $project->getSurvey()->get($project->data_survey_eid);
+        $survey = $workspace->tool->getSurvey();
         /** @var QuestionInterface[] $questions */
         $questions = [];
         foreach($survey->getGroups() as $group) {
@@ -45,7 +42,7 @@ class Download extends Action
         $rows = [];
         $codes = [];
         /** @var ResponseInterface $record */
-        foreach($project->getResponses() as $record) {
+        foreach($workspace->getResponses() as $record) {
             $row = [];
             foreach ($record->getData() as $code => $value) {
                 if (null !== $question = $survey->getQuestionByCode($code)) {
@@ -115,7 +112,7 @@ class Download extends Action
                 fputcsv($stream, $row);
             }
         }
-        return $this->response->sendStreamAsFile($stream, "{$project->title}.csv", [
+        return $this->response->sendStreamAsFile($stream, "{$workspace->title}.csv", [
             'mimeType' => 'text/csv'
         ]);
     }

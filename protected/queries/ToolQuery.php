@@ -7,7 +7,7 @@ use prime\components\ActiveQuery;
 /**
  * Class ToolQuery
  * @package app\queries
- * @method \prime\models\ar\Tool one();
+ * @method \prime\models\ar\Project one();
  */
 class ToolQuery extends ActiveQuery
 {

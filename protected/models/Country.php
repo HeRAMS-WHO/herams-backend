@@ -2,11 +2,8 @@
 
 namespace prime\models;
 
-use prime\models\ar\Project;
-use prime\models\ar\Report;
+use prime\models\ar\Workspace;
 use prime\traits\JsonMemoryDataSourceTrait;
-use Treffynnon\Navigator\Coordinate;
-use Treffynnon\Navigator\LatLong;
 use yii\base\Model;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
@@ -51,17 +48,9 @@ class Country extends Model
         return $result;
     }
 
-    public function getLatLong()
-    {
-        return new LatLong(
-            new Coordinate($this->latitude),
-            new Coordinate($this->longitude)
-        );
-    }
-
     public function getProjects()
     {
-        return Project::find()->andWhere([Project::tableName() . '.country_iso_3' => $this->iso_3]);
+        return Workspace::find()->andWhere([Workspace::tableName() . '.country_iso_3' => $this->iso_3]);
     }
 
     public static function regionOptions()

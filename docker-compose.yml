@@ -1,4 +1,6 @@
 version: '3.6'
+volumes:
+  runtime:
 x-env:
   base: &base
     build:
@@ -7,8 +9,9 @@ x-env:
       - .:/project:ro
       - ./tests:/project/tests:rw
       - ./protected/migrations:/project/protected/migrations:rw
+      - runtime:/runtime
     tmpfs:
-      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID-0}
+      - /tmp:rw,noexec,nosuid,uid=${UID-0}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment:
       DB_HOST: devdb
@@ -16,7 +19,9 @@ x-env:
       DB_NAME: $DB_NAME
       DB_PASS: $DB_PASS
       YII_ENV: $YII_ENV
+      RUNTIME_PATH: /runtime
       SMTP_HOST: mailcatcher
+      PRIVATE_KEY_FILE: /project/local/testkey
       SMTP_PORT: 1025
     user: ${UID-0}:${GID-0}
 
@@ -52,12 +57,7 @@ services:
       "/project/public"
     ]
     ports:
-      - "127.0.0.1:${APP_PORT-12346}:8080"
-    tmpfs:
-      - /project/protected/runtime:rw,noexec,nosuid,uid=${UID-0}
-      - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
-
-
+      - "0.0.0.0:${APP_PORT-12346}:8080"
   ## Mysql server (local), this will create a persistent data store for local development
   devdb:
     << : *mysql

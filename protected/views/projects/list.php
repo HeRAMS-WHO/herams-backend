@@ -2,10 +2,10 @@
 
 /**
  * @var \yii\data\ActiveDataProvider $projectsDataProvider
- * @var \prime\models\search\Project $projectSearch
+ * @var \prime\models\search\Workspace $projectSearch
  * @var int $closedCount
  * @var \yii\web\View $this
- * @var \prime\models\ar\Tool $tool
+ * @var \prime\models\ar\Project $tool
  *
  */
 
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = [
             [ 'label' => 'Workspace', 'attribute' => 'title', 'value' => 'title' ],
             [
                 'label' => '# responses',
-                'value' => function(\prime\models\ar\Project $project) {
+                'value' => function(\prime\models\ar\Workspace $project) {
                     return \Yii::$app->cache->getOrSet('project.responses.' . $project->id, function() use ($project) {
                         return $project->getResponses()->size();
                     }, 3600);
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = [
             ],
             [
                 'label' => '# contributors',
-                'value' => function(\prime\models\ar\Project $project) {
+                'value' => function(\prime\models\ar\Workspace $project) {
                     return $project->getPermissions()->count();
                 }
             ],

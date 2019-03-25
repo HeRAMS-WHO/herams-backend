@@ -1,7 +1,7 @@
  <?php
 
  use yii\bootstrap\Html;
- use prime\models\ar\Project;
+ use prime\models\ar\Workspace;
  use prime\models\ar\Setting;
  use prime\models\permissions\Permission;
 
@@ -23,7 +23,7 @@ return [
     'buttons' => [
         'read' => function($url, $model, $key) {
             $result = '';
-            /** @var Project $model */
+            /** @var Workspace $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.read')),
@@ -37,7 +37,7 @@ return [
         },
         'limesurvey' => function($url, $model, $key) {
             $result = '';
-            /** @var Project $model */
+            /** @var Workspace $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.limeSurveyUpdate')),
@@ -49,7 +49,7 @@ return [
             }
             return $result;
         },
-        'request' => function($url, Project $model, $key) {
+        'request' => function($url, Workspace $model, $key) {
             $result = '';
             if (!$model->isClosed && !$model->userCan(Permission::PERMISSION_READ, app()->user->identity)) {
                 $result = Html::a(
@@ -67,7 +67,7 @@ return [
         },
         'update' => function($url, $model, $key) {
             $result = '';
-            /** @var Project $model */
+            /** @var Workspace $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_WRITE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.update')),
@@ -81,7 +81,7 @@ return [
         },
         'share' => function($url, $model, $key) {
             $result = '';
-            /** @var Project $model */
+            /** @var Workspace $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.share')),
@@ -95,7 +95,7 @@ return [
         },
         'close' => function($url, $model, $key) {
             $result = '';
-            /** @var Project $model */
+            /** @var Workspace $model */
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.close')),
@@ -110,7 +110,7 @@ return [
             }
             return $result;
         },
-        'open' => function($url, Project $model, $key) {
+        'open' => function($url, Workspace $model, $key) {
             $result = '';
             if($model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
@@ -126,7 +126,7 @@ return [
             }
             return $result;
         },
-        'download' => function($url, Project $model, $key) {
+        'download' => function($url, Workspace $model, $key) {
             $result = '';
             if($model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(

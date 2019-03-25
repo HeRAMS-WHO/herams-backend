@@ -1,13 +1,16 @@
 <?php
 
 use prime\models\ar\Setting;
-
+/** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
+ini_set('memory_limit','512M');
+
 return [
     'layout' => 'simple',
     'id' => 'herams',
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
+    'runtimePath' => $env->get('RUNTIME_PATH'),
     'timeZone' => 'UTC',
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en-US',
@@ -23,10 +26,10 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
-            'dsn' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME'),
-            'password' => getenv('DB_PASS'),
-            'username' => getenv('DB_USER'),
-            'enableSchemaCache' => true,
+            'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';dbname=' . $env->get('DB_NAME'),
+            'password' => $env->get('DB_PASS'),
+            'username' => $env->get('DB_USER'),
+            'enableSchemaCache' => !YII_DEBUG,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
             'queryCache' => 'cache',
@@ -35,7 +38,7 @@ return [
         'limesurveySSo' => [
             'class' => \prime\components\JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => getenv('PRIVATE_KEY_FILE'),
+            'privateKey' => file_get_contents($env->get('PRIVATE_KEY_FILE')),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function($id) {
                 return "prime_$id";
@@ -46,8 +49,12 @@ return [
             'cache' => 'cache',
             'defaultRoles' => ['user']
         ],
+        'limesurveyCache' => [
+            'class' => \yii\caching\FileCache::class,
+            'cachePath' => '@runtime/limesurveyCache'
+        ],
         'cache' => [
-            'class' => YII_DEBUG ? \yii\caching\DummyCache::class : \yii\caching\FileCache::class
+            'class' => \yii\caching\FileCache::class
         ],
 //        'formatter' => [
 //            'numberFormatterOptions' => [
@@ -56,13 +63,25 @@ return [
 //            ]
 //
 //        ],
-        'limeSurvey' => function (){
-            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'));
+        'limesurveyDataProvider' => [
+            'class' => \prime\components\LimesurveyDataProvider::class,
+            'client' => 'limesurvey',
+            'cache' => 'limesurveyCache'
+        ],
+        'limesurvey' => function (){
+            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'), false, 30);
             $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, Setting::get('limeSurvey.username'), Setting::get('limeSurvey.password'));
             $result->setCache(function($key, $value, $duration) {
-                return app()->get('cache')->set($key, $value, $duration);
+                \Yii::info('Setting cache key: ' . $key, 'ls');
+                return app()->get('limesurveyCache')->set($key, $value, $duration);
             }, function ($key) {
-                return app()->get('cache')->get($key);
+                $result = app()->get('limesurveyCache')->get($key);
+                if ($result === false) {
+                    \Yii::info('Getting MISS key: ' . $key, 'ls');
+                } else {
+                    \Yii::info('Getting HIT key: ' . $key, 'ls');
+                }
+                return $result;
             });
             return $result;
         },
@@ -90,13 +109,25 @@ return [
             'class' => \yii\swiftmailer\Mailer::class,
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'constructArgs' => [getenv('SMTP_HOST'), getenv('SMTP_PORT')]
+                'username' => $env->get('SMTP_USER'),
+                'password' => $env->get('SMTP_PASS'),
+                'constructArgs' => [
+                    $env->get('SMTP_HOST'),
+                    $env->get('SMTP_PORT')
+                ]
             ]
         ],
     ],
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
+            'layout' => '//map-popover',
+            'controllerMap' => [
+                'admin' => [
+                    'class' => \dektrium\user\controllers\AdminController::class,
+                    'layout' => '//admin'
+                ],
+            ],
             'modelMap' => [
                 'User' => \prime\models\ar\User::class,
                 'Profile' => \prime\models\ar\Profile::class,
@@ -115,6 +146,7 @@ return [
         ],
         'rbac' => [
             'class' => dektrium\rbac\RbacWebModule::class,
+            'layout' => '//admin'
         ],
     ],
     'params' => [

@@ -1,474 +1,64 @@
-
-
-$navbar-height: 70px;
-// Default value.
-$navbar-margin-bottom: 20px;
-$navbar-default-link-color: #DB3C26;
-$navbar-default-link-active-color: darken(#DB3C26, 10%);
-$nav-link-hover-bg: inherit;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
 $btn-primary-bg: #4177c1;
 $link-color: $btn-primary-bg;
-$font-family-base: "Open Sans";
-@import 'bootstrap';
+$font-family-base: "Source Sans Pro";
+$font-size-base: 16px;
 
-html {
-  --header-background-color: #42424b;
-  --header-color: white;
-  --background-color: #878787;
-  --primary-color: #4177c1;
-  --main-background-color: #e0e0e0;
-  --content-background-color: white;
-  --breadcrumbs-color: #878787;
-  --primary-button-hover-color: #3f86e6;
-  --header-light-background-color: #4f4e54;
-  --header-light-color: white;
-  height: 100%;
-}
-
-body {
-  background-color: var(--main-background-color);
-}
-
-@media (min-width: $screen-md-min) {
-  .absolute-md {
-    position: absolute;
-  }
-}
-
-@media(max-width: $screen-sm-max) {
-  nav.navbar-fixed-top .container {
-    width: 100%;
-  }
-}
-nav {
-  border-bottom-width: 0 !important;
-}
-
-.btn-primary:hover {
-  background-color: var(--primary-button-hover-color);
-}
-nav:first-of-type + * {
-  margin-top: $navbar-height + $navbar-margin-bottom;
-}
-
-nav:first-of-type + nav {
-  margin-top: $navbar-height;
-}
-
-///* BEGIN Navbar styling */
-$link-part: 0.5;
-//nav .nav > li > a > span {
-//  vertical-align: middle;
-//}
-
-nav .nav > li {
-  padding: (1- $link-part) / 2 * $navbar-height;
-
-  button {
-    font-size: ($link-part * $navbar-height - 14) / $line-height-base;
-  }
-
-  a:not(.btn) {
-    font-size: $link-part * $navbar-height;
-    //line-height: $link-part * $navbar-height;
-    padding: 0px;
-  }
-}
-
-.navbar-brand {
-  padding-top: 0.1 * $navbar-height;
-  padding-bottom: 0.1 * $navbar-height;
-  padding-right: 0;
-}
-
-.navbar-brand img {
-  height: 0.8 * $navbar-height;
-}
-
-h1 {
-  a {
-    float: right;
-    color: lightgrey;
-  }
-}
-
-
-// Sign in with facebook / google / linkedin cleanup.
-.auth-clients li {
-  .auth-client {
-    .auth-title {
-      //display: none;
-    }
-
-    //float: none;
-    //display: inline-block;
-  }
-
-  text-align: center;
-  margin-top: 10px;
-
-  &:first-child {
-    // Since the group has margin of 5.
-    margin-top: 5px;
-  }
-  margin-right: 0;
-  float: none;
-  display: block;
-  padding-left: 0px;
-  clear: both;
-}
-
-// Add squares.
-.button-grid {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  border: 1px solid grey;
-  width: 100%;
-  padding: 0px;
-
-
-  img {
-    width: 100%;
-  }
-}
-
-.button-grid:hover::before {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-color: rgba(51, 51, 51, 0.3);
-  content: "";
-}
-//
-//ul.nav > li:not(.dropdown) {
-//  a:hover::after {
-//    content: " " attr(title);
-//    display: block;
-//    position: absolute;
-//    left: 0;
-//    bottom: -10%;
-//    font-size: 0.4em;
-//  }
-//  a {
-//    text-align: center;
-//  }
-//
-//
-//}
-
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  padding-left: 5px;
-}
-
-a.asc:after {
-  content: /*"\e113"*/ "\e151";
-}
-
-a.desc:after {
-  content: /*"\e114"*/ "\e152";
-}
-
-div.row-eq-height {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-}
-
-/**
-  Stuff for the global monitor / marketplace.
-*/
-div#legends {
-  & > div {
-    position: relative;
-    width: 150px;
-    display: inline-block;
-    padding-left: 5px;
-    padding-right: 5px;
-
-  }
-
-  .disabled::before {
-    content: "";
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background-color: rgba(255, 255, 255, 0.5);
-  }
-  table, button {
-    width: 100%;
-
-  }
-
-  table {
-    margin-bottom: 5px;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  padding-bottom: 10px;
-}
-
-// Fix printing of glyphicons in color.
-@media print {
-  .glyphicon:before {
-    color: inherit !important;
-  }
-
-  .print-1em {
-    font-size: 1em !important;
-  }
-}
-
-iframe.seamless {
-  width: 100%;
-  border: 0px;
-  overflow-y: hidden;
-}
-
-.full-page {
-  position: absolute;
-  top: $navbar-height;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-}
-
-.full-page iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.kv-table-caption {
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  padding-bottom: 0px;
-  font-size: 1em;
-}
-
-.background-top {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 173px;
-  background-color: var(--header-background-color);
-}
-.content {
-  margin-top: 15px;
-  padding-left: 20px;
-  padding-right: 15px;
-}
-
-
-/**
-    HEADER
+/*!
+ * Bootstrap v3.4.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+// Core variables and mixins
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
 
-.breadcrumb {
-  font-size: 1.2em;
-  font-weight: 300;
-  color: var(--breadcrumbs-color);
-  background-color: transparent;
+// Reset and dependencies
+@import "bootstrap/normalize";
+@import "bootstrap/print";
+@import "bootstrap/glyphicons";
 
-  li:before {
-    content: "< ";
-  }
-}
+// Core CSS
+@import "bootstrap/scaffolding";
+@import "bootstrap/type";
+@import "bootstrap/code";
+@import "bootstrap/grid";
+@import "bootstrap/tables";
+@import "bootstrap/forms";
+@import "bootstrap/buttons";
 
-.header {
-  a {
-    color: inherit;
-  }
+// Components
+@import "bootstrap/component-animations";
+@import "bootstrap/dropdowns";
+@import "bootstrap/button-groups";
+@import "bootstrap/input-groups";
+@import "bootstrap/navs";
+//@import "bootstrap/navbar";
+//@import "bootstrap/breadcrumbs";
+//@import "bootstrap/pagination";
+//@import "bootstrap/pager";
+////@import "bootstrap/labels";
+//@import "bootstrap/badges";
+//@import "bootstrap/jumbotron";
+//@import "bootstrap/thumbnails";
+//@import "bootstrap/alerts";
+//@import "bootstrap/progress-bars";
+//@import "bootstrap/media";
+//@import "bootstrap/list-group";
+//@import "bootstrap/panels";
+//@import "bootstrap/responsive-embed";
+//@import "bootstrap/wells";
+//@import "bootstrap/close";
 
-  a:hover {
-    color: var(--primary-button-hover-color);
-    text-decoration: none;
-  }
-  background-color: var(--header-background-color);
-  padding-top: 15px;
-  min-height: 120px;
+// Components w/ JavaScript
+@import "bootstrap/modals";
+//@import "bootstrap/tooltip";
+//@import "bootstrap/popovers";
+//@import "bootstrap/carousel";
 
-  .row {
-    margin-left: -30px;
-  }
-}
-
-.title {
-  pointer-events: none;
-  position: absolute;
-  letter-spacing: -2px;
-  font-size: 3em;
-  font-weight: 300;
-  line-height: 34px;
-  padding-bottom: 15px;
-  border-bottom: 4px solid var(--primary-color);
-  top: -53px;
-  left: 15px;
-  color: white;
-}
-
-/**
-    USER PROFILE
- */
-
-.user-profile
-{
-  padding-top:0;
-  margin-top:0;
-  line-height:1em;
-
-  display:flex;
-  justify-content: flex-end;
-  align-items:center;
-  color: white;
-  a {
-    color: white;
-  }
-
-  .username {
-    text-transform: uppercase;
-    margin: 2px 0;
-    font-size: 1em;
-    font-weight: 500;
-    color: white;
-    text-align: right;
-    margin-right: 10px;
-  }
-
-  .email {
-    font-size: 0.9em;
-    color: #b3b1b8;
-    margin: 2px 0;
-  }
-}
-
-.user-profile > div:first-child
-.user-profile > div:first-child .org {
-  margin: 10px 0;
-}
-.user-profile > div:first-child .org > span {
-  text-transform: uppercase;
-  color: #42424b;
-  border-radius:3px;
-  padding: 2px;
-  background-color: #e9e9e9;
-  width: 40px;
-}
-
-/**
-    MAIN CONTENT
- */
-/* Main content container (white area) */
-.datagrid {
-  background-color: white;
-  height: 85vh;
-  border-top-right-radius: 5px;
-  position: relative;
-  margin-left: 15px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin-right: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-}
-
-.content .datagrid .row.spacer {
-  height: 15px;
-}
-
-/**
-    BOOTSTRAP POPOVER
- */
-.hidden-popover{
-  display:none;
-}
-.popover.bottom>.arrow {
-  display: none;
-}
-.popover-content {
-  padding:0;
-  margin:0;
-}
-.log-popover > ul {
-  list-style:none;
-  padding:0;
-  margin:0
-}
-.log-popover > ul > li {
-  padding:5px 10px 5px 20px;
-  font-size: 1em;
-  font-family: Roboto, 'sans-serif';
-}
-.log-popover > ul > li:hover {
-  color: white;
-  background-color:#5791e1;
-}
-
-/* BROWSERHAPPY */
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-
-
-
-/**
- Bootbox styling
- */
-.modal-header {
-  background-color: var(--header-light-background-color);
-  color: var(--header-light-color);
-  border-bottom: 4px solid var(--primary-color);
-  position: relative;
-
-  .close:hover {
-    color: var(--header-color);
-  }
-  .close {
-    background-color: var(--header-background-color);
-    color: var(--header-color);
-    font-weight: lighter;
-    font-size: 45px;
-    width: 60px;
-    bottom: -4px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-top: 0px;
-    opacity: 1;
-    text-shadow: none;
-    float: none;
-}
-
-
-}
-.modal-dialog {
-  width: 350px;
-  margin-top: 200px;
-}
-
-.modal-footer {
-  border-top: none;
-}
-
-.modal-content {
-  border-radius: 0px;
-}
+// Utility classes
+@import "bootstrap/utilities";
+@import "bootstrap/responsive-utilities";

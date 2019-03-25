@@ -3,7 +3,7 @@
 use kartik\widgets\ActiveForm;
 
 /**
- * @var \prime\models\ar\Project $project
+ * @var \prime\models\ar\Workspace $project
  * @var \prime\models\forms\Share $model
  */
 $this->title = 'Share workspace';

@@ -14,6 +14,6 @@ class ProjectCountry extends ActiveRecord
 
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id']);
+        return $this->hasOne(Workspace::class, ['id' => 'project_id']);
     }
 }

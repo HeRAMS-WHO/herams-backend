@@ -3,14 +3,14 @@
 namespace prime\models\permissions;
 
 use prime\components\ActiveQuery;
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\ar\User;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class UserProject
  * @package prime\models\permissions
- * @property Project $project
+ * @property Workspace $project
  * @property int $projectId
  * @property User $user
  * @property int $userId
@@ -20,7 +20,7 @@ class UserProject extends Permission
     public function init()
     {
         $this->source = User::class;
-        $this->target = Project::class;
+        $this->target = Workspace::class;
     }
 
     /**
@@ -30,7 +30,7 @@ class UserProject extends Permission
     {
         $result = parent::find();
         $result->andWhere([
-            'target' => Project::class,
+            'target' => Workspace::class,
             'source' => User::class
         ]);
         return $result;
@@ -42,8 +42,8 @@ class UserProject extends Permission
             throw new \DomainException('Source should be instance of ' . User::class);
         }
 
-        if(!($target instanceOf Project)) {
-            throw new \DomainException('Target should be instance of ' . Project::class);
+        if(!($target instanceOf Workspace)) {
+            throw new \DomainException('Target should be instance of ' . Workspace::class);
         }
 
         return parent::grant($source, $target, $permission, $strict);
@@ -51,7 +51,7 @@ class UserProject extends Permission
 
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'target_id']);
+        return $this->hasOne(Workspace::class, ['id' => 'target_id']);
     }
 
     public function getProjectId()
@@ -75,7 +75,7 @@ class UserProject extends Permission
             parent::rules(),
             [
                 [['source_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
-                [['target_id'], 'exist', 'targetClass' => Project::class, 'targetAttribute' => 'id'],
+                [['target_id'], 'exist', 'targetClass' => Workspace::class, 'targetAttribute' => 'id'],
                 [['source_id'], 'in', 'not' => true, 'range' => [$this->project->owner_id]]
             ]
         );

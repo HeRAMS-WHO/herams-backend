@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\ar\Project $model
+ * @var \prime\models\ar\Workspace $model
  */
 
 //$this->registerAssetBundle(\prime\assets\ReportResizeAsset::class);

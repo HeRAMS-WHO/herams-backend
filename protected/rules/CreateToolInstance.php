@@ -4,7 +4,7 @@
 namespace prime\rules;
 
 
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use yii\rbac\Item;
@@ -23,6 +23,6 @@ class CreateToolInstance extends Rule
      */
     public function execute($user, $item, $params)
     {
-        return Permission::anyAllowedById(User::class, $user, Tool::class, Permission::PERMISSION_INSTANTIATE);
+        return Permission::anyAllowedById(User::class, $user, Project::class, Permission::PERMISSION_INSTANTIATE);
     }
 }

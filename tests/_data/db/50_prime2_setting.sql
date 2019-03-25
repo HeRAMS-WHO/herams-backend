@@ -20,7 +20,7 @@ INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('icons.share', '\"share\"'
 INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('icons.update', '\"cog\"');
 INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('icons.user', '\"user\"');
 INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('icons.userLists', '\"bullhorn\"');
-INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('limeSurvey.host', '\"\"');
-INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('limeSurvey.password', '\"a\"');
-INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('limeSurvey.username', '\"b\"');
+INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('limeSurvey.host', '\"https:\\/\\/ls.herams.org\\/admin\\/remotecontrol\"');
+INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('limeSurvey.password', '\"pEk6%gW2\\/jYu\"');
+INSERT INTO `prime2_setting` (`key`, `value`) VALUES ('limeSurvey.username', '\"herams\"');
 SET FOREIGN_KEY_CHECKS=1;

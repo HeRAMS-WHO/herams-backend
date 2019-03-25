@@ -102,16 +102,6 @@ class Share extends Model {
                         ]
                     ]
                 ],
-                'userListIds' => [
-                    'type' => Form::INPUT_WIDGET,
-                    'widgetClass' => \kartik\widgets\Select2::class,
-                    'options' => [
-                        'data' => $this->userListOptions,
-                        'options' => [
-                            'multiple' => true
-                        ]
-                    ]
-                ],
                 'permission' => [
                     'label' => \Yii::t('app', 'Permission'),
                     'type' => Form::INPUT_DROPDOWN_LIST,

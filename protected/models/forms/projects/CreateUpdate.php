@@ -2,9 +2,9 @@
 
 namespace prime\models\forms\projects;
 
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 
-class CreateUpdate extends Project
+class CreateUpdate extends Workspace
 {
     public function scenarios()
     {
@@ -24,6 +24,6 @@ class CreateUpdate extends Project
 
     public static function tableName()
     {
-        return Project::tableName();
+        return Workspace::tableName();
     }
 }

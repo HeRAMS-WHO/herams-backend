@@ -74,13 +74,12 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getDisplayField()
     {
-        foreach ($this->attributes as $name)
-        {
-            if (in_array($name, array('title', 'name')))
-            {
-                return $this->getAttribute($name);
+        foreach(['title', 'name'] as $attribute) {
+            if ($this->hasAttribute($attribute)) {
+                return $this->getAttribute($attribute);
             }
         }
+
         $pk = $this->getPrimaryKey();
         if (is_array($pk))
         {

@@ -4,7 +4,7 @@
 namespace prime\tests\unit\models\forms;
 
 
-use prime\models\ar\Tool;
+use prime\models\ar\Project;
 use prime\models\forms\Share;
 use prime\tests\unit\models\ModelTest;
 use yii\base\Model;
@@ -14,7 +14,7 @@ class ShareTest extends ModelTest
 
     protected function getModel(): Model
     {
-        $baseModel = new Tool();
+        $baseModel = new Project();
         $baseModel->title = __CLASS__;
         $baseModel->base_survey_eid = 12345;
         $this->assertTrue($baseModel->save());

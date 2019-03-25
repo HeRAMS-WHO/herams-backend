@@ -2,336 +2,426 @@
 
 namespace prime\models\ar;
 
-use app\queries\ProjectQuery;
-use Carbon\Carbon;
-use prime\factories\GeneratorFactory;
-use prime\interfaces\AuthorizableInterface;
-use prime\interfaces\ResponseCollectionInterface;
-use prime\interfaces\SurveyCollectionInterface;
+use app\queries\ToolQuery;
+use prime\components\JsonValidator;
+use prime\components\LimesurveyDataProvider;
+use prime\interfaces\FacilityListInterface;
+use prime\interfaces\ProjectInterface;
+use prime\interfaces\WorkspaceListInterface;
+use prime\lists\SurveyFacilityList;
+use prime\lists\WorkspaceList;
 use prime\models\ActiveRecord;
-use prime\models\Country;
+use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
-use prime\objects\ResponseCollection;
-use prime\objects\SurveyCollection;
-use prime\traits\LoadOneAuthTrait;
-use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
-use SamIT\LimeSurvey\JsonRpc\Client;
-use Treffynnon\Navigator\Coordinate;
-use Treffynnon\Navigator\LatLong;
-use yii\db\ActiveQuery;
+use prime\objects\HeramsCodeMap;
+use prime\objects\HeramsResponse;
+use prime\objects\HeramsSubject;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
-use yii\validators\DateValidator;
-use yii\validators\ExistValidator;
+use yii\helpers\Json;
+use yii\helpers\Url;
+use yii\validators\BooleanValidator;
+use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
+use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+use yii\web\Link;
+use yii\web\Linkable;
 
 /**
- * Class Project
- * @package prime\models
- *
- * @property User $owner
- * @property Tool $tool
+ * Class Tool
+ * @property int $id
+ * @property int $base_survey_eid
  * @property string $title
- * @property string $description
- * @property string $default_generator
- * @property string $country_iso_3
- * @property int $data_survey_eid The associated data survey.
- * @property int $tool_id
- * @property string $locality_name
- * @property datetime $created
- * @property boolean $isClosed
- * @property Country $country
- * @property int $owner_id
- *
- * @method static ProjectQuery find()
+ * @method static ToolQuery find()
+ * @property Page[] $pages
+ * @property int $status
  */
-class Project extends ActiveRecord implements AuthorizableInterface
-{
-    use LoadOneAuthTrait;
-    /**
-     * @var WritableTokenInterface
-     */
-    protected $_token;
+class Project extends ActiveRecord implements ProjectInterface, Linkable {
+
+    public const STATUS_ONGOING = 0;
+    public const STATUS_BASELINE = 1;
+    public const STATUS_TARGET = 2;
+    public const STATUS_EMERGENCY_SPECIFIC = 3;
+
+    const PROGRESS_ABSOLUTE = 'absolute';
+    const PROGRESS_PERCENTAGE = 'percentage';
+
+    public function statusText(): string
+    {
+        return $this->statusOptions()[$this->status];
+    }
+    public function init()
+    {
+        parent::init();
+        $this->typemap = [
+            'A1' => 'Primary',
+            'A2' => 'Primary',
+            'A3' => 'Secondary',
+            'A4' => 'Secondary',
+            'A5' => 'Tertiary',
+            'A6' => 'Tertiary',
+            "" => 'Other',
+        ];
+
+        $this->overrides = [
+            'facilityCount' => null,
+            'typeCounts' => null,
+            'contributorCount' => null
+        ];
+        $this->status = self::STATUS_ONGOING;
+    }
+
+    public function statusOptions()
+    {
+        return [
+            self::STATUS_ONGOING => 'Ongoing',
+            self::STATUS_BASELINE => 'Baseline',
+            self::STATUS_TARGET => 'Target',
+            self::STATUS_EMERGENCY_SPECIFIC => 'Emergency specific'
+        ];
+    }
 
     public function attributeLabels()
     {
-        return array_merge(parent::attributeLabels(), [
-            'tool_id' => \Yii::t('app', 'Tool'),
-            'data_survey_eid' => \Yii::t('app', 'Data survey'),
-            'owner_id' => \Yii::t('app', 'Owner')
-        ]);
+        return [
+            'base_survey_eid' => \Yii::t('app', 'Survey')
+        ];
     }
 
     public function attributeHints()
     {
-        return array_merge(parent::attributeHints(), [
-            'token' => 'Note that the first name and last name fields in the tokens will be overridden upon project creation!.'
-        ]);
+        return [
+            'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
+            'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
+            'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
+            'status' => \Yii::t('app','Project status is shown on the world map')
+        ];
     }
 
     /**
-     * @return Country
+     * @return LimesurveyDataProvider
      */
-    public function getCountry()
-    {
-        return Country::findOne($this->country_iso_3);
-    }
-
-
-    public function countryOptions()
-    {
-        $options = ArrayHelper::map(
-            Country::findAll(),
-            'iso_3',
-            'name'
-        );
-        asort($options);
-        return $options;
+    protected function limesurveyDataProvider() {
+        return app()->limesurveyDataProvider;
     }
 
     /**
-     * @return LatLong
+     * @return \SamIT\LimeSurvey\Interfaces\SurveyInterface
      */
-    public function getLatLong()
+    public function getSurvey(): SurveyInterface
     {
-        if(isset($this->latitude, $this->longitude)) {
-            $latitude = $this->latitude;
-            $longitude = $this->longitude;
-        } else {
-            $latitude = $this->country->latitude;
-            $longitude = $this->country->longitude;
+        return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
+    }
+
+    public function dataSurveyOptions()
+    {
+
+        $result = ArrayHelper::map($this->limesurveyDataProvider()->listSurveys(), 'sid', function ($details) {
+            return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
+        });
+
+        return $result;
+    }
+
+    public function beforeDelete()
+    {
+        return $this->getWorkspaceCount() === 0;
+    }
+
+    public function getProjects()
+    {
+        return $this->hasMany(Workspace::class, ['tool_id' => 'id']);
+    }
+    public function getWorkspaceCount()
+    {
+        return $this->getProjects()->count();
+    }
+
+    public function getTypemapAsJson()
+    {
+        return Json::encode($this->typemap, JSON_PRETTY_PRINT);
+    }
+
+    public function getOverridesAsJson()
+    {
+        return Json::encode($this->overrides, JSON_PRETTY_PRINT);
+    }
+
+    public function setTypemapAsJson($value)
+    {
+        $this->typemap = Json::decode($value);
+    }
+
+    public function setOverridesAsJson($value)
+    {
+        $this->overrides= Json::decode($value);
+    }
+
+
+    public function rules()
+    {
+        return [
+            [['overrides'], DefaultValueValidator::class, 'value' => [
+                'facilityCount' => null,
+                'typeCounts' => null,
+                'contributorCount' => null
+            ]],
+            [[
+                'title', 'base_survey_eid'
+            ], RequiredValidator::class],
+            [['title'], StringValidator::class],
+            [['title'], UniqueValidator::class],
+            [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
+            [['hidden'], BooleanValidator::class],
+            [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
+            [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
+            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())]
+        ];
+    }
+
+    // Cache for getResponses();
+    private $_responses;
+
+    /**
+     * @return ResponseInterface[]
+     */
+    public function getResponses()
+    {
+        if (!isset($this->_responses)) {
+            \Yii::beginProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
+            $this->_responses = $this->limesurveyDataProvider()->getResponses($this->base_survey_eid);
+            \Yii::endProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
         }
-        return new LatLong(
-            new Coordinate(rad2deg($latitude)),
-            new Coordinate(rad2deg($longitude))
-        );
+        return $this->_responses;
     }
 
+
     /**
-     * Return the name of the locality. If locality_name isn't set, return name of the country
-     * @return string
+     * @return iterable|HeramsResponse[]
      */
-    public function getLocality()
+    public function getHeramsResponses(): iterable
     {
-        // Quick fix
-        return "Unknown";
-        if(!empty($this->locality_name)) {
-            $result = "{$this->country->name} ({$this->locality_name})";
-        } else {
-            $result = $this->country->name;
+        // Do this here to fix profiling.
+        $this->getResponses();
+        \Yii::beginProfile(__FUNCTION__);
+        $map = $this->getMap();
+        $heramsResponses = [];
+        foreach($this->getResponses() as $response) {
+            try {
+                $heramsResponses[] = new HeramsResponse($response, $map);
+            } catch (\InvalidArgumentException $e) {
+                // Silent ignore invalid responses.
+            }
+        }
+        $result = (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();
+        \Yii::endProfile(__FUNCTION__);
+        return $result;
+    }
+
+    public function getTypeCounts()
+    {
+        if (null !== $result = $this->getOverride('typeCounts')) {
+            return $result;
+        }
+        \Yii::beginProfile(__FUNCTION__);
+        $map = is_array($this->typemap) ? $this->typemap : [];
+        // Always have a mapping for the empty / unknown value.
+        if (!empty($map) && !isset($map[HeramsResponse::UNKNOWN_VALUE])) {
+            $map[HeramsResponse::UNKNOWN_VALUE] = "Unknown";
+        }
+        // Initialize counts
+        $counts = [];
+        foreach($map as $key => $value) {
+            $counts[$value] = 0;
+        }
+
+        foreach($this->getHeramsResponses() as $response) {
+            $type = $response->getType();
+            if (empty($map)) {
+                $counts[$type] = ($counts[$type] ?? 0) + 1;
+            } elseif (isset($map[$type])) {
+                $counts[$map[$type]]++;
+            } else {
+                $counts[$map[HeramsResponse::UNKNOWN_VALUE]]++;
+            }
+        }
+
+        \Yii::endProfile(__FUNCTION__);
+        return $counts;
+    }
+
+    public function getFunctionalityCounts()
+    {
+        $counts = [];
+        foreach($this->getHeramsResponses() as $heramsResponse) {
+            $counts[$heramsResponse->getFunctionality()] = ($counts[$heramsResponse->getFunctionality()] ?? 0) + 1;
+        }
+        ksort($counts);
+        $map = [
+            'A1' => \Yii::t('app', 'Full'),
+            'A2' => \Yii::t('app', 'Partial'),
+            'A3' => \Yii::t('app', 'None'),
+        ];
+
+        $result = [];
+        foreach($counts as $key => $value) {
+            if (isset($map[$key])) {
+                $result[$map[$key]] = $value;
+            }
         }
         return $result;
     }
 
-    public function getOwner()
+
+    public function getSubjectAvailabilityCounts(): iterable
     {
-        return $this->hasOne(User::class, ['id' => 'owner_id'])
-            ->inverseOf('ownedProjects');
+        $counts = [
+            HeramsSubject::FULLY_AVAILABLE => 0,
+            HeramsSubject::PARTIALLY_AVAILABLE => 0,
+            HeramsSubject::NOT_AVAILABLE => 0,
+            HeramsSubject::NOT_PROVIDED=> 0,
+        ];
+        foreach ($this->getHeramsResponses() as $heramsResponse)
+        {
+            foreach ($heramsResponse->getSubjects() as $subject) {
+                $subjectAvailability = $subject->getAvailability();
+                if (!isset($subjectAvailability)) {
+                    continue;
+                }
+                $counts[$subjectAvailability]++;
+            }
+        }
+
+        ksort($counts);
+        $map = [
+            'A1' => \Yii::t('app', 'Full'),
+            'A2' => \Yii::t('app', 'Partial'),
+            'A3' => \Yii::t('app', 'None'),
+//            'A4' => \Yii::t('app', 'Not normally provided'),
+        ];
+
+        $result = [];
+        foreach($counts as $key => $value) {
+            if (isset($map[$key])) {
+                $result[$map[$key]] = $value;
+            }
+        }
+        return $result;
+    }
+    public function userCan($operation, User $user)
+    {
+        return $user->isAdmin || Permission::isAllowed($user, $this, Permission::PERMISSION_INSTANTIATE);
     }
 
-    public function getPermissions(): ActiveQuery
+    public function getPermissions()
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
     }
 
-    // Cache for getResponses();
-    private $_responses;
-    
     /**
-     * @return ResponseCollectionInterface
+     * String representation of object
+     * @link https://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
      */
-    public function getResponses()
+    public function serialize()
     {
-        return new ResponseCollection();
-        if (!isset($this->_responses)) {
-            $this->_responses = new ResponseCollection();
-            foreach ($this->limeSurvey->getResponsesByToken($this->tool->base_survey_eid, $this->token) as $response) {
-                $this->_responses->append($response);
-            }
-        }
-        return $this->_responses;
+        throw new NotSupportedException();
     }
 
     /**
-     * @return SurveyCollectionInterface
-     * TODO: Implement correct function, language of surveys should be correct!
+     * Constructs the object
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
      */
-    public function getSurvey()
+    public function unserialize($serialized)
     {
-        $surveys = new SurveyCollection();
-        /** @var ResponseInterface $response */
-        foreach($this->responses as $response) {
-            if(!$surveys->offsetExists($response->getSurveyId())) {
-                $survey = $this->limeSurvey->getSurvey($response->getSurveyId());
-                $surveys->add($survey->getId(), $survey);
-            }
-        }
-        return $surveys;
+        throw new NotSupportedException();
     }
 
-    public function getTool()
+    public function getId(): string
     {
-        return $this->hasOne(Tool::class, ['id' => 'tool_id']);
+        return $this->getAttribute('id');
     }
 
-    public function isTransactional($operation)
+    public function getWorkspaces(): WorkspaceListInterface
     {
-        return true;
+        return new WorkspaceList($this->projects);
     }
 
-    public function ownerOptions()
-    {
-        return \yii\helpers\ArrayHelper::map(\prime\models\ar\User::find()->all(), 'id', 'name');
-    }
-
-    public function rules()
+    /**
+     * Returns a list of links.
+     *
+     * Each link is either a URI or a [[Link]] object. The return value of this method should
+     * be an array whose keys are the relation names and values the corresponding links.
+     *
+     * If a relation name corresponds to multiple links, use an array to represent them.
+     *
+     * For example,
+     *
+     * ```php
+     * [
+     *     'self' => 'http://example.com/users/1',
+     *     'friends' => [
+     *         'http://example.com/users/2',
+     *         'http://example.com/users/3',
+     *     ],
+     *     'manager' => $managerLink, // $managerLink is a Link object
+     * ]
+     * ```
+     *
+     * @return array the links
+     */
+    public function getLinks()
     {
         return [
-            [['title', 'owner_id', 'tool_id'], RequiredValidator::class],
-            [['title'], StringValidator::class],
-            [['owner_id'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id'],
-            [['tool_id'], ExistValidator::class, 'targetClass' => Tool::class, 'targetAttribute' => 'id'],
-            [['closed'], DateValidator::class,'format' => 'php:Y-m-d H:i:s', 'skipOnEmpty' => true],
-            ['token', UniqueValidator::class]
+            Link::REL_SELF => Url::to(['project/view', 'id' => $this->id], true),
+            'workspaces' => Url::to(['workspace/index', 'filter' => ['tool_id' => $this->id]], true),
         ];
     }
 
-    public function scenarios()
+    public function getFacilities(): FacilityListInterface
     {
-        return array_merge(parent::scenarios(), [
-            'close' => ['closed'],
-            'reOpen' => ['closed']
-        ]);
+        return new SurveyFacilityList($this->getSurvey());
     }
 
-    public function transactions()
+    public function getMap(): HeramsCodeMap
     {
-        return array_merge(parent::transactions(), [
-            'create' => [self::OP_INSERT]
-        ]);
+        return new HeramsCodeMap();
     }
 
-
-    /**
-     * @param $operation
-     * @param User|null $user
-     * @return bool
-     */
-    public function userCan($operation, User $user)
-    {
-        $result = parent::userCan($operation, $user) || ($operation === Permission::PERMISSION_READ && app()->user->can('manager'));
-        if(!$result) {
-            $result = $result
-                // User owns the project.
-                || $this->owner_id == $user->id
-                || Permission::isAllowed($user, $this, $operation);
-        }
-        return $result;
+    public function getPages() {
+        return $this->hasMany(Page::class, ['tool_id' => 'id'])->andWhere(['parent_id' => null])->orderBy('sort');
     }
 
-    public function afterSave($insert, $changedAttributes)
+    public function getAllPages()
     {
-        parent::afterSave($insert, $changedAttributes);
-        // Grant read / write permissions on the project to the creator.
-        if ($insert
-            && !app()->user->can('admin')
-            && isset(app()->user->identity)
-        )
-        {
-            if (!Permission::grant(app()->user->identity, $this, Permission::PERMISSION_ADMIN)) {
-                throw new \Exception("Failed to grant permission.");
-            }
-        }
+        return $this->hasMany(Page::class, ['tool_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
     }
 
-
-    public function beforeSave($insert)
+   public function getContributorCount(): int
     {
-        $result = parent::beforeSave($insert);
-        if ($result && empty($this->getAttribute('token'))) {
-                // Attempt creation of a token.
-                $token = $this->getLimeSurvey()->createToken($this->tool->base_survey_eid, [
-                    'token' => app()->security->generateRandomString(15)
-                ]);
-                $token->setFirstName($this->getLocality());
-
-                $token->setValidFrom(new Carbon($this->created));
-                $this->_token = $token;
-                $this->setAttribute('token', $token->getToken());
-                return $token->save();
-        }
-        return $result;
+        return $this->getOverride('contributorCount') ?? 1 + $this->getPermissions()->count();
     }
 
-
-
-
-    /**
-     * @return WritableTokenInterface
-     */
-    public function getToken()
+    public function getFacilityCount(): int
     {
-        if (!isset($this->_token)) {
-
-            /** @var WritableTokenInterface $token */
-            $token = $this->getLimeSurvey()->getToken($this->tool->base_survey_eid, $this->token);
-
-            $token->setFirstName($this->getLocality());
-            if (isset($this->owner)) {
-                $token->setLastName($this->owner->lastName);
-            }
-            $token->setValidFrom(new Carbon($this->created));
-            $token->save();
-            $this->_token = $token;
-        }
-        return $this->_token;
+        return $this->getOverride('facilityCount') ?? count($this->getHeramsResponses());
     }
 
-
-    /**
-     * @return Client $limeSurvey
-     */
-    public function getLimeSurvey()
+    public function getOverride($name)
     {
-        return \Yii::$app->get('limeSurvey');
-    }
-
-    public function getSurveyUrl()
-    {
-        /**
-         * @todo Refactor this to be somewhere else.
-         * Special handling for CCPM.
-         */
-        if ($this->tool->acronym == 'CCPM') {
-            $surveyId = 67825;
-        } else {
-            $surveyId = $this->data_survey_eid;
-        }
-
-        return $this->getLimeSurvey()->getUrl(
-            $surveyId,
-            [
-                'token' => $this->getAttribute('token'),
-                'newtest' => 'Y'
-            ]
-        );
-    }
-
-    public function getIsClosed()
-    {
-        return isset($this->closed);
-    }
-
-    /**
-     * @return string The name to use when saving / reading permissions.
-     */
-    public function getAuthName()
-    {
-        return __CLASS__;
+        return $this->overrides[$name] ?? null;
     }
 }
-
