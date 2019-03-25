@@ -11,10 +11,15 @@ use prime\models\ar\elements\Chart;
 use prime\models\ar\elements\Map;
 use prime\models\ar\elements\Table;
 use prime\objects\HeramsResponse;
+use prime\widgets\element\Element as ElementWidget;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\NotSupportedException;
 use yii\base\Widget;
+use yii\helpers\Json;
+use yii\validators\BooleanValidator;
+use yii\validators\NumberValidator;
+use yii\validators\SafeValidator;
 
 /**
  *
@@ -49,7 +54,7 @@ class Element extends ActiveRecord
         throw new NotSupportedException('This must be implemented in a subclass');
     }
 
-    final public function getWidget(SurveyInterface $survey, iterable $data, PageInterface $page): Widget
+    final public function getWidget(SurveyInterface $survey, iterable $data, PageInterface $page): ElementWidget
     {
         return $this->getWidgetInternal($survey, $page->filterResponses($this->prepareData($data)));
     }
@@ -64,6 +69,21 @@ class Element extends ActiveRecord
 
             }
         }
+    }
+
+    public function getPage()
+    {
+        return $this->hasOne(Page::class, ['id' => 'page_id']);
+    }
+
+    public function getConfigAsJson()
+    {
+        return Json::encode($this->config, JSON_PRETTY_PRINT);
+    }
+
+    public function setConfigAsJson($value)
+    {
+        $this->config = Json::decode($value);
     }
 
     /**
@@ -83,5 +103,14 @@ class Element extends ActiveRecord
                 yield $value;
             }
         }
+    }
+
+    public function rules()
+    {
+        return [
+            [['sort'], NumberValidator::class],
+            [['transpose'], BooleanValidator::class],
+            [['configAsJson'], SafeValidator::class],
+        ];
     }
 }

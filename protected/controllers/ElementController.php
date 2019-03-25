@@ -5,14 +5,13 @@ namespace prime\controllers;
 
 
 use prime\components\Controller;
-use prime\controllers\page\Update;
+use prime\controllers\element\Update;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
-class PageController extends Controller
+class ElementController extends Controller
 {
     public $layout = 'admin';
-
     public function actions()
     {
         return [

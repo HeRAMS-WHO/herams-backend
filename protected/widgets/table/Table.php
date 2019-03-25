@@ -6,13 +6,18 @@ namespace prime\widgets\table;
 
 use prime\objects\HeramsResponse;
 use prime\traits\SurveyHelper;
+use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 
-class Table extends Widget
+class Table extends Element
 {
     use SurveyHelper;
+
+    public $options = [
+        'class' => 'table'
+    ];
 
     /** @var SurveyInterface */
     public $survey;
@@ -38,10 +43,9 @@ class Table extends Widget
 
     public function run()
     {
-        echo Html::beginTag('div', ['class' => ['table']]);
         echo Html::tag('h1', $this->getTitle());
         $this->renderTable();
-        echo Html::endTag('div');
+        parent::run();
     }
 
     protected function renderTable()

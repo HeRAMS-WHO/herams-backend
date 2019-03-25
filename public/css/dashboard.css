@@ -53,7 +53,10 @@ a:hover {
     text-decoration: none;
 }
 
-
+a {
+    color: var(--primary-button-color);
+    text-decoration: none;
+}
 
 .filter {
     text-align: left;
@@ -256,7 +259,8 @@ span.header {
     z-index: 1000000;
 }
 
-.content > div {
+.content > .element {
+    position: relative;;
     border-radius: 3px;
     min-width: 0;
     /*min-height: 0;*/

@@ -6,6 +6,7 @@ namespace prime\widgets\chart;
 
 use prime\objects\HeramsResponse;
 use prime\traits\SurveyHelper;
+use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
@@ -17,12 +18,11 @@ use function iter\map;
 use function iter\take;
 use function iter\toArray;
 
-class Chart extends Widget
+class Chart extends Element
 {
     public const TYPE_DOUGHNUT = 'doughnut';
     public const TYPE_BAR = 'bar';
     use SurveyHelper;
-    public $options = [];
 
     /** @var iterable */
     public $data = [];
@@ -169,11 +169,7 @@ class Chart extends Widget
     {
         $this->registerClientScript();
 
-        $options = $this->options;
-        Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
-        $options['id'] = $this->getId();
 
-        echo Html::beginTag('div', $options);
         $map = $this->getMap();
         $unmappedData = $this->getDataSet($this->data);
         $dataSet = $this->applyMapping($map, $unmappedData);
@@ -307,7 +303,7 @@ JS
         })();
 JS
         );
-        echo Html::endTag('div');
+        parent::run();
     }
 
     protected function registerClientScript()

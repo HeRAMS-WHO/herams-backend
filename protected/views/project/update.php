@@ -5,6 +5,8 @@
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use app\components\Form;
+use prime\helpers\Icon;
+use prime\models\ar\Setting;
 use rmrevin\yii\fontawesome\FAS;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
@@ -84,7 +86,31 @@ $this->params['breadcrumbs'][] = [
             'columns' => [
                 'id',
                 'title',
-                'parent_id'
+                'parent_id' => [
+                    'value' => function(\prime\models\ar\Page $model) {
+                        return isset($model->parent_id) ? "{$model->parent->title} ({$model->parent_id})" : null;
+                    }
+                ],
+                'actions' => [
+                    'class' => \kartik\grid\ActionColumn::class,
+                    'width' => '100px',
+                    'template' => '{update}',
+                    'buttons' => [
+                        'update' => function($url, $model, $key) {
+                            /** @var \prime\models\ar\Page $model */
+                            $result = '';
+                            if(app()->user->can('admin')) {
+                                $result = Html::a(
+                                    Icon::pencilAlt(),
+                                    ['page/update', 'id' => $model->id], [
+                                        'title' => \Yii::t('app', 'Edit')
+                                    ]
+                                );
+                            }
+                            return $result;
+                        },
+                    ]
+                ]
             ]
         ]);
 

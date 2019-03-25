@@ -6,13 +6,14 @@ namespace prime\widgets\map;
 
 use prime\objects\HeramsResponse;
 use prime\traits\SurveyHelper;
+use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
 
-class DashboardMap extends Widget
+class DashboardMap extends Element
 {
     use SurveyHelper;
     public const TILE_LAYER = 'tileLayer';
@@ -115,10 +116,6 @@ class DashboardMap extends Widget
     public function run()
     {
         $this->registerClientScript();
-        $options = $this->options;
-        Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
-        $options['id'] = $this->getId();
-        echo Html::beginTag('div', $options);
         $id = Json::encode($this->getId());
 
         $config = Json::encode([
@@ -194,16 +191,13 @@ class DashboardMap extends Widget
 JS
         );
 
-        echo Html::endTag('div');
+        parent::run();
     }
 
 
     protected function registerClientScript()
     {
         $this->view->registerAssetBundle(MapBundle::class);
-//        $config = [
-//
-//        ]
     }
 
 }

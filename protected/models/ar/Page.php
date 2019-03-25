@@ -24,6 +24,10 @@ use yii\validators\StringValidator;
  */
 class Page extends ActiveRecord implements PageInterface
 {
+    public function getProject()
+    {
+        return $this->hasOne(Project::class, ['id' => 'tool_id']);
+    }
 
     public function getChildren()
     {

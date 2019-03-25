@@ -16,7 +16,7 @@ class BarChart extends Element
         iterable $data
     ): Widget
     {
-        return new ChartWidget(array_merge(
+        return new ChartWidget($this, array_merge(
             [
 //                'type' => ChartWidget::TYPE_BAR,
                 'skipEmpty' => true,
