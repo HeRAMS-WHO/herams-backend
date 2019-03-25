@@ -9,7 +9,7 @@ defined('CONSOLE') or define('CONSOLE', false);
  */
 define('YII_ENV', getenv('YII_ENV'));
 
-defined('YII_DEBUG') or define('YII_DEBUG', true || file_exists(__DIR__ . '/config/debug'));
+defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 
 
 call_user_func(function() {

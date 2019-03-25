@@ -113,7 +113,8 @@ return [
                 'password' => $env->get('SMTP_PASS'),
                 'constructArgs' => [
                     $env->get('SMTP_HOST'),
-                    $env->get('SMTP_PORT')
+                    $env->get('SMTP_PORT'),
+                    $env->get('SMTP_ENCRYPTION')
                 ]
             ]
         ],
