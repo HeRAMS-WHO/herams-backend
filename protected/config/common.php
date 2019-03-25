@@ -109,7 +109,12 @@ return [
             'class' => \yii\swiftmailer\Mailer::class,
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'constructArgs' => [$env->get('SMTP_HOST'), $env->get('SMTP_PORT')]
+                'username' => $env->get('SMTP_USER'),
+                'password' => $env->get('SMTP_PASS'),
+                'constructArgs' => [
+                    $env->get('SMTP_HOST'),
+                    $env->get('SMTP_PORT')
+                ]
             ]
         ],
     ],
