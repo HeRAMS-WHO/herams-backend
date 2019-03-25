@@ -38,7 +38,7 @@ return [
         'limesurveySSo' => [
             'class' => \prime\components\JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => $env->get('PRIVATE_KEY_FILE'),
+            'privateKey' => file_get_contents($env->get('PRIVATE_KEY_FILE')),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function($id) {
                 return "prime_$id";

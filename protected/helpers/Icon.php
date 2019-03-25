@@ -11,18 +11,19 @@ use yii\helpers\Inflector;
 /**
  * Class Icon
  * @package prime\helpers
- * @method static string eye
- * @method static string pencilAlt
- * @method static string share
- * @method static string hospital
- * @method static string user
- * @method static string clipboardList
- * @method static string signOutAlt
+ * @method static string eye(array $options = [])
+ * @method static string pencilAlt(array $options = [])
+ * @method static string share(array $options = [])
+ * @method static string hospital(array $options = [])
+ * @method static string user(array $options = [])
+ * @method static string clipboardList(array $options = [])
+ * @method static string signOutAlt(array $options = [])
+ * @method static string windowMaximize(array $options = [])
  *
  * // NovelT icons
- * @method static string project
- * @method static string healthFacility
-// * @method static string pencil
+ * @method static string project(array $options = [])
+ * @method static string healthFacility(array $options = [])
+// * @method static string pencil(array $options = [])
  */
 class Icon
 {

@@ -38,9 +38,6 @@
                 'world-map' => [
                     'class' => WorldMap::class
                 ],
-                'admin' => [
-                    'class' => Admin::class
-                ]
             ];
         }
 

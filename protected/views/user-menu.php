@@ -20,5 +20,5 @@ use yii\helpers\Html;
         ]); ?>
         <div class="email"><?= $user->email ?></div>
     </div>
-    <?= Html::a(\prime\helpers\Icon::admin(), ['/site/admin']); ?>
+    <?= Html::a(\prime\helpers\Icon::admin(), ['/admin/dashboard']); ?>
 </div>

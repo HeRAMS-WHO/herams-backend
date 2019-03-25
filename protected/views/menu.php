@@ -12,6 +12,7 @@ echo Html::beginTag('div', ['class' => 'menu']);
         if (\Yii::$app->user->can('admin')) {
             echo Html::a('Users', ['/user/admin/index']);
         }
+        echo Html::a('Limesurvey', ['/admin/limesurvey']);
     echo Html::endTag('nav');
 
     echo Html::beginTag('div',[
