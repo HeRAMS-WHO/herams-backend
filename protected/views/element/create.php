@@ -1,13 +1,9 @@
 <?php
-
+/** @var \prime\models\ar\Page $page */
 /** @var \prime\models\ar\Element $model */
 
-use kartik\grid\GridView;
-use kartik\widgets\ActiveForm;
 use app\components\Form;
-use rmrevin\yii\fontawesome\FAS;
-use yii\bootstrap\Html;
-use yii\data\ActiveDataProvider;
+use kartik\form\ActiveForm;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -27,13 +23,16 @@ $this->params['breadcrumbs'][] = [
     'url' => ['page/update', 'id' => $page->id]
 ];
 
-$this->title = \Yii::t('app', 'Update element');
+$this->title = \Yii::t('app', 'Create element');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="col-xs-12">
     <?php
+
+
     $form = ActiveForm::begin([
+        'id' => 'update-page',
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
     ]);
@@ -43,6 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'columns' => 1,
         "attributes" => [
+            'type' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->typeOptions()
+            ],
             'sort' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
@@ -60,12 +63,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_RAW,
                 'value' => \yii\bootstrap\ButtonGroup::widget([
                     'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update project'), ['class' => 'btn btn-primary'])
+                        \yii\bootstrap\Html::submitButton(\Yii::t('app', 'Create element'), ['class' => 'btn btn-primary'])
                     ]
                 ])
             ],
 
         ]
+
     ]);
     $form->end();
 

@@ -11,6 +11,7 @@ use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\validators\ExistValidator;
+use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 
@@ -24,6 +25,14 @@ use yii\validators\StringValidator;
  */
 class Page extends ActiveRecord implements PageInterface
 {
+    public function init()
+    {
+        $this->sort = 0;
+        parent::init();
+
+    }
+
+
     public function getProject()
     {
         return $this->hasOne(Project::class, ['id' => 'tool_id']);
@@ -85,7 +94,8 @@ class Page extends ActiveRecord implements PageInterface
     public function rules()
     {
         return [
-            [['title', 'tool_id'], RequiredValidator::class],
+            [['title', 'tool_id', 'sort'], RequiredValidator::class],
+            [['sort'], NumberValidator::class],
             [['title'], StringValidator::class],
             [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id'],
             [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id']

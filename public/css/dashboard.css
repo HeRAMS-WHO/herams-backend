@@ -553,6 +553,10 @@ Menu stuff
     margin: 0;
 }
 
+a > svg {
+    pointer-events: none;
+}
+
 .menu {
     --animation-duration: 500ms;
     --indicator-width: 3px;

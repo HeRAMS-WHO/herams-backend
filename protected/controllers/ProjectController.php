@@ -8,6 +8,7 @@ use prime\controllers\project\Index;
 use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
+use prime\controllers\project\Pages;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
@@ -174,6 +175,15 @@ class ProjectController extends Controller
                         \Yii::$app->request->getQueryParam('id')
                     ],
                     'duration' => 120,
+                ],
+                'access' => [
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['summary'],
+                            'roles' => ['@'],
+                        ],
+                    ]
                 ]
             ]
         );

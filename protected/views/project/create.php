@@ -5,11 +5,18 @@ use kartik\widgets\ActiveForm;
 use app\components\Form;
 use yii\bootstrap\Html;
 
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Admin dashboard'),
+    'url' => ['/admin']
+];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Projects'),
+    'url' => ['/project']
+];
 $this->title = Yii::t('app', 'Create project');
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Manage projects'),
-    'url' => ['project/index']
+    'label' => $this->title
 ];
 
 ?>

@@ -8,8 +8,10 @@ use app\components\Form;
 use prime\helpers\Icon;
 use prime\models\ar\Setting;
 use rmrevin\yii\fontawesome\FAS;
+use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 
 
 $this->params['breadcrumbs'][] = [
@@ -83,6 +85,24 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-xs-12">
     <?php
         echo GridView::widget([
+            'caption' => ButtonGroup::widget([
+                'options' => [
+                    'class' => 'pull-right',
+                    'style' => [
+                        'margin-bottom' => '10px'
+                    ]
+                ],
+                'buttons' => [
+                    [
+                        'label' => \Yii::t('app', 'Create page'),
+                        'tagName' => 'a',
+                        'options' => [
+                            'href' => Url::to(['page/create', 'project_id' => $model->id]),
+                            'class' => 'btn-default',
+                        ],
+                    ],
+                ]
+            ]),
             'dataProvider' => new ActiveDataProvider(['query' => $model->getAllPages()]),
             'columns' => [
                 'id',

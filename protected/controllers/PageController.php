@@ -5,6 +5,7 @@ namespace prime\controllers;
 
 
 use prime\components\Controller;
+use prime\controllers\page\Create;
 use prime\controllers\page\Update;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -16,7 +17,8 @@ class PageController extends Controller
     public function actions()
     {
         return [
-            'update' => Update::class
+            'update' => Update::class,
+            'create' => Create::class
         ];
     }
 

@@ -5,9 +5,7 @@
 use kartik\grid\GridView;
 use kartik\helpers\Html;
 use prime\helpers\Icon;
-use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -22,7 +20,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/update', 'id' => $project->id]
 ];
 
-$this->title = $page->title;
+$this->title = \Yii::t('app', 'Create page');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -50,54 +48,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 'items' => array_merge(['' => 'No parent'], $page->parentOptions())
             ],
+            'sort' => [
+               'type' => Form::INPUT_TEXT,
+            ],
             [
                 'type' => Form::INPUT_RAW,
                 'value' => \yii\bootstrap\ButtonGroup::widget([
                     'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update page'), ['class' => 'btn btn-primary'])
+                        Html::submitButton(\Yii::t('app', 'Create page'), ['class' => 'btn btn-primary'])
                     ]
                 ])
             ]
         ]
     ]);
     $form->end();
-
-    ?>
-</div>
-<div class="col-xs-12">
-    <?php
-    echo GridView::widget([
-        'caption' => ButtonGroup::widget([
-            'options' => [
-                'class' => 'pull-right',
-                'style' => [
-                    'margin-bottom' => '10px'
-                ]
-            ],
-            'buttons' => [
-                [
-                    'label' => \Yii::t('app', 'Create element'),
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => Url::to(['element/create', 'page_id' => $page->id]),
-                        'class' => 'btn-default',
-                    ],
-                ],
-            ]
-        ]),
-        'dataProvider' => new ActiveDataProvider(['query' => $page->getElements()]),
-        'columns' => [
-            'id',
-            'type',
-            'sort',
-            'actions' => [
-                'class' => \kartik\grid\ActionColumn::class,
-                'controller' => 'element',
-                'width' => '100px',
-                'template' => '{update}',
-            ]
-        ]
-    ]);
 
     ?>
 </div>

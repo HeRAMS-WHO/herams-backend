@@ -4,6 +4,7 @@
 namespace prime\models\ar;
 
 
+use prime\components\JsonValidator;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\elements\BarChart;
@@ -19,6 +20,7 @@ use yii\base\Widget;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
+use yii\validators\RangeValidator;
 use yii\validators\SafeValidator;
 
 /**
@@ -108,9 +110,30 @@ class Element extends ActiveRecord
     public function rules()
     {
         return [
+            [['type'], RangeValidator::class, 'range' => array_keys($this->typeOptions())],
             [['sort'], NumberValidator::class],
             [['transpose'], BooleanValidator::class],
             [['configAsJson'], SafeValidator::class],
         ];
     }
+
+    public function typeOptions()
+    {
+        return [
+            'map' => 'A dashboard element that shows a map, size 2x2',
+            'chart' => 'A chart, size 1x1',
+            'barchart' => 'A bar chart, size 1x1',
+            'table' => 'A table, size 2x1'
+        ];
+    }
+
+    public function attributeHints()
+    {
+        return [
+            'sort' => \Yii::t('app', 'Determines the order of elements on a page, elements shown in ascending order'),
+            'transpose' => \Yii::t('app', 'Whether this element needs data at facility (HF) or subject (service) level'),
+        ];
+    }
+
+
 }

@@ -2,14 +2,10 @@
 
 namespace prime\models\ar;
 
-use app\queries\ToolQuery;
-use prime\components\JsonValidator;
+use app\queries\ProjectQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
-use prime\interfaces\ProjectInterface;
-use prime\interfaces\WorkspaceListInterface;
 use prime\lists\SurveyFacilityList;
-use prime\lists\WorkspaceList;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
@@ -31,18 +27,17 @@ use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\Link;
-use yii\web\Linkable;
 
 /**
  * Class Tool
  * @property int $id
  * @property int $base_survey_eid
  * @property string $title
- * @method static ToolQuery find()
+ * @method static ProjectQuery find()
  * @property Page[] $pages
  * @property int $status
  */
-class Project extends ActiveRecord implements ProjectInterface, Linkable {
+class Project extends ActiveRecord {
 
     public const STATUS_ONGOING = 0;
     public const STATUS_BASELINE = 1;
@@ -134,13 +129,13 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
         return $this->getWorkspaceCount() === 0;
     }
 
-    public function getProjects()
+    public function getWorkspaces()
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id']);
     }
     public function getWorkspaceCount()
     {
-        return $this->getProjects()->count();
+        return $this->getWorkspaces()->count();
     }
 
     public function getTypemapAsJson()
@@ -349,48 +344,6 @@ class Project extends ActiveRecord implements ProjectInterface, Linkable {
     {
         throw new NotSupportedException();
     }
-
-    public function getId(): string
-    {
-        return $this->getAttribute('id');
-    }
-
-    public function getWorkspaces(): WorkspaceListInterface
-    {
-        return new WorkspaceList($this->projects);
-    }
-
-    /**
-     * Returns a list of links.
-     *
-     * Each link is either a URI or a [[Link]] object. The return value of this method should
-     * be an array whose keys are the relation names and values the corresponding links.
-     *
-     * If a relation name corresponds to multiple links, use an array to represent them.
-     *
-     * For example,
-     *
-     * ```php
-     * [
-     *     'self' => 'http://example.com/users/1',
-     *     'friends' => [
-     *         'http://example.com/users/2',
-     *         'http://example.com/users/3',
-     *     ],
-     *     'manager' => $managerLink, // $managerLink is a Link object
-     * ]
-     * ```
-     *
-     * @return array the links
-     */
-    public function getLinks()
-    {
-        return [
-            Link::REL_SELF => Url::to(['project/view', 'id' => $this->id], true),
-            'workspaces' => Url::to(['workspace/index', 'filter' => ['tool_id' => $this->id]], true),
-        ];
-    }
-
     public function getFacilities(): FacilityListInterface
     {
         return new SurveyFacilityList($this->getSurvey());

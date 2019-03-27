@@ -1,9 +1,10 @@
 <?php
 
 
-namespace prime\controllers\page;
+namespace prime\controllers\element;
 
 
+use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\permissions\Permission;
 use yii\base\Action;
@@ -13,44 +14,50 @@ use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
 
-class Update extends Action
+class Create extends Action
 {
 
     public function run(
         Request $request,
         Session $session,
         User $user,
-        int $id
+        int $page_id
 
     ) {
-        $page = Page::findOne(['id' => $id]);
+        $page = Page::findOne(['id' => $page_id]);
         if (!isset($page)) {
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_ADMIN, $page->project)) {
+        $project = $page->project;
+
+        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
             throw new ForbiddenHttpException();
         }
 
-        if ($request->isPut) {
-            if ($page->load($request->bodyParams) && $page->save()) {
+
+        $model = new Element();
+        $model->page_id = $page->id;
+
+        if ($request->isPost) {
+            if ($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
-                    'toolUpdated',
+                    'elementCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => "Tool <strong>{$page->title}</strong> is updated.",
+                        'text' => "Element created",
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
 
-                return $this->controller->refresh();
+                return $this->controller->redirect(['update', 'id' => $model->id]);
             }
         }
 
-
-        return $this->controller->render('update', [
+        return $this->controller->render('create', [
             'page' => $page,
-            'project' => $page->project
+            'model' => $model,
+            'project' => $project
         ]);
     }
 

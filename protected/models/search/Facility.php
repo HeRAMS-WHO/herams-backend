@@ -15,11 +15,11 @@ use yii\validators\StringValidator;
 class Facility extends Model
 {
     public function __construct(
-        ?int $toolId,
+        ?int $projectId,
         array $config = []
     ) {
         parent::__construct($config);
-        $this->_toolId = $toolId;
+        $this->_toolId = $projectId;
     }
 
     public function attributeLabels()
