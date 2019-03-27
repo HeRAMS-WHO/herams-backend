@@ -20,5 +20,12 @@ use yii\helpers\Html;
         ]); ?>
         <div class="email"><?= $user->email ?></div>
     </div>
-    <?= Html::a(\prime\helpers\Icon::admin(), ['/admin/dashboard']); ?>
+    <?php
+        if (\Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
+            echo Html::a(\prime\helpers\Icon::admin(), ['/admin/dashboard']);
+        }
+
+
+
+    ?>
 </div>
