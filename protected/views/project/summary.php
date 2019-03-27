@@ -161,7 +161,7 @@ $typeCount = count($types);
                     ],
                     'center' => [
                         'sidePadding' => 40,
-                        'color' => '#eeeeee',
+                        'color' => $total > 0 ? '#eeeeee' : '#a5a5a5',
                         'fontWeight' => "normal",
                         'fontStyle' => "icomoon",
                         // Facility
@@ -172,6 +172,7 @@ $typeCount = count($types);
                 'responsive' => true,
                 'maintainAspectRatio' => false,
                 'legend' => [
+                    'display' => $total > 0,
                     'position' => 'bottom',
                     'labels' => [
                         'boxWidth' => 12,
@@ -230,7 +231,7 @@ JS;
                 ],
                 'center' => [
                     'sidePadding' => 40,
-                    'color' => '#eeeeee',
+                    'color' => $total > 0 ? '#eeeeee' : '#a5a5a5',
                     'fontWeight' => "normal",
                     'fontStyle' => "icomoon",
                     // Functionality
@@ -241,6 +242,7 @@ JS;
             'responsive' => true,
             'maintainAspectRatio' => false,
             'legend' => [
+                'display' => $total > 0,
                 'position' => 'bottom',
                 'labels' => [
                     'boxWidth' => 12,

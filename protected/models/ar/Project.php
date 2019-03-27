@@ -274,7 +274,7 @@ class Project extends ActiveRecord {
     }
 
 
-    public function getSubjectAvailabilityCounts(): iterable
+    public function getSubjectAvailabilityCounts(): array
     {
         $counts = [
             HeramsSubject::FULLY_AVAILABLE => 0,
