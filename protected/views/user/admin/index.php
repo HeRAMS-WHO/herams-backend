@@ -24,7 +24,16 @@ use yii\widgets\Pjax;
  * @var UserSearch $searchModel
  */
 
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Admin dashboard'),
+    'url' => ['/admin']
+];
 $this->title = Yii::t('user', 'Manage users');
+$this->params['breadcrumbs'][] = [
+    'label' => $this->title
+];
+
+
 
 ?>
 
