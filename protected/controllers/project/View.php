@@ -74,14 +74,12 @@ class View extends Action
         \Yii::beginProfile('ResponseFilterinit');
         $filter = new ResponseFilter($responses, $survey);
         $filter->load($request->queryParams);
-        $elements = [];
         \Yii::endProfile('ResponseFilterinit');
 
         /** @var  $filtered */
         $filtered = $filter->filter($responses);
 
         return $this->controller->render('view', [
-            'elements' => $elements,
             'types' => $this->getTypes($survey),
             'data' => $filtered,
             'filterModel' => $filter,

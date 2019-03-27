@@ -18,16 +18,14 @@ use yii\helpers\Url;
 echo Html::beginForm(['project/view', 'id' => $project->id,
     'page_id' => \Yii::$app->request->getQueryParam('page_id'),
     'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-
 ], 'get', [
-        'autocomplete' => 'off',
-        'class' => 'filters'
-    ]);
+    'autocomplete' => 'off',
+    'class' => 'filters'
+]);
 
     ?>
     <div class="basic">
         <?php
-
         echo NestedSelect::widget([
             'placeholder' => \Yii::t('app', 'All locations'),
             'attribute' => 'locations',
@@ -78,6 +76,7 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
                 </ul>
             </div>
             <?php
+
             $this->registerJs(<<<JS
     document.getElementById('search-filter').addEventListener('input', function(e) {
         let tokens = e.target.value.toLocaleUpperCase().split(' ').filter(x => x);
@@ -105,6 +104,7 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
 
 JS
             );
+
             /** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
             $groups = $survey->getGroups();
             usort($groups, function(GroupInterface $a, GroupInterface $b) {
@@ -113,14 +113,11 @@ JS
             $renderFilter = function(
                 QuestionInterface $question,
                 GroupInterface $group,
-
                 ResponseFilter $filterModel,
                 array $items
             ) {
-                $title =  explode(':', $question->getText(), 2)[0];
+                $title =  explode(':', strip_tags($question->getText()), 2)[0];
                 $name = Html::getInputName($filterModel, 'advanced');
-
-
                 echo NestedSelect::widget([
                     'expanded' => true,
                     'options' => [
@@ -140,14 +137,12 @@ JS
             };
             foreach($survey->getGroups() as $group) {
                 foreach ($group->getQuestions() as $question) {
-
                     if (($answers = $question->getAnswers()) !== null
                         && $question->getDimensions() === 0) {
-
                         $items = \yii\helpers\ArrayHelper::map(
                             $answers, \iter\fn\method('getCode'),
                             function(AnswerInterface $answer) {
-                                return explode(':', $answer->getText(), 2)[0];
+                                return explode(':', strip_tags($answer->getText()), 2)[0];
                             }
                         );
                         $renderFilter($question, $group, $filterModel, $items);
@@ -157,23 +152,11 @@ JS
 
                         ]);
                         continue;
-                        foreach($question->getQuestions(0) as $subQuestion) {
-                            if (($answers = $subQuestion->getAnswers()) !== null) {
-                                $items = \yii\helpers\ArrayHelper::map(
-                                    $answers, \iter\fn\method('getCode'),
-                                    function(AnswerInterface $answer) {
-                                        return explode(':', $answer->getText(), 2)[0];
-                                    }
-                                );
-                                $renderFilter($subQuestion, $group, $filterModel, $items);
-                            }
-                        }
                     }
 
 
                 }
             }
-
             ?>
 
         </div>

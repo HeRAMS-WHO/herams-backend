@@ -43,6 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'columns' => 1,
         "attributes" => [
+            'type' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->typeOptions()
+            ],
             'sort' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
@@ -60,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_RAW,
                 'value' => \yii\bootstrap\ButtonGroup::widget([
                     'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update project'), ['class' => 'btn btn-primary'])
+                        Html::submitButton(\Yii::t('app', 'Update element'), ['class' => 'btn btn-primary'])
                     ]
                 ])
             ],

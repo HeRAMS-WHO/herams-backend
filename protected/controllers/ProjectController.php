@@ -60,14 +60,17 @@ class ProjectController extends Controller
      */
     public function actionDelete(Request $request, Session $session,  $id)
     {
-        $tool = Project::loadOne($id);
-        if ($tool->delete()) {
+        $project = Project::loadOne($id);
+        if ($project->delete() !== false) {
+
+
+
             $session->setFlash(
                 'toolDeleted',
                 [
                     'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
                     'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> has been removed.",
-                        ['modelName' => $tool->title]),
+                        ['modelName' => $project->title]),
                     'icon' => 'glyphicon glyphicon-trash'
                 ]
             );
@@ -78,7 +81,7 @@ class ProjectController extends Controller
                 [
                     'type' => \kartik\widgets\Growl::TYPE_DANGER,
                     'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> could not be removed.",
-                        ['modelName' => $tool->title]),
+                        ['modelName' => $project->title]),
                     'icon' => 'glyphicon glyphicon-trash'
                 ]
             );

@@ -21,6 +21,7 @@ use yii\helpers\Json;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
+use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 
 /**
@@ -110,6 +111,7 @@ class Element extends ActiveRecord
     public function rules()
     {
         return [
+            [['sort', 'type', 'transpose', 'configAsJson'], RequiredValidator::class],
             [['type'], RangeValidator::class, 'range' => array_keys($this->typeOptions())],
             [['sort'], NumberValidator::class],
             [['transpose'], BooleanValidator::class],
