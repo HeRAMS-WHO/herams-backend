@@ -14,7 +14,7 @@ class WorldMap extends Action
     {
         $this->controller->layout = 'css3-grid';
         return $this->controller->render('world-map', [
-            'projects' => Project::find()->all()
+            'projects' => Project::find()->orderBy('title')->all()
         ]);
     }
 

@@ -10,24 +10,26 @@ use yii\helpers\Html;
 use prime\helpers\Icon;
 $this->registerAssetBundle(ChartBundle::class);
 $bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
-$prefix = $bundle->baseUrl . '/fonts/fonts/';
-$this->registerCss(<<<CSS
-    @font-face {
-      font-family: 'icomoon';
-      src:  url('{$bundle->baseUrl}/fonts/fonts/icomoon.eot?nr7qn');
-      src:  url('{$bundle->baseUrl}/fonts/fonts/icomoon.eot?nr7qn#iefix') format('embedded-opentype'),
-        url('{$bundle->baseUrl}/fonts/fonts/icomoon.ttf?nr7qn') format('truetype'),
-        url('{$bundle->baseUrl}/fonts/fonts/icomoon.woff?nr7qn') format('woff'),
-        url('{$bundle->baseUrl}/fonts/fonts/icomoon.svg?nr7qn#icomoon') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-CSS
+$font = $bundle->baseUrl . '/fonts/fonts/icomoon.woff';
 
-    );
 $hostInfo = \Yii::$app->request->hostInfo;
+
+$this->registerLinkTag([
+    'rel' => 'preload',
+    'href' => $font,
+    'as' => 'font'
+], 'icomoon');
+
+$this->title = $project->getDisplayField();
 ?>
 <style>
+    @font-face {
+        font-family: 'icomoon';
+        src:  url('<?=$font ?>') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
     html {
         --header-background-color: #212529;
         --primary-button-background-color: #4177c1;
@@ -109,7 +111,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
 
 
 </style>
-<h1><?= $project->getDisplayField() ?></h1>
+<h1><?= $this->title ?></h1>
 <div class="grid">
 <div class="stat"><?=
     implode(" ", [
