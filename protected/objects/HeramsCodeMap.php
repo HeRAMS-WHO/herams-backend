@@ -13,22 +13,22 @@ class HeramsCodeMap
 
     public function getLatitude(): string
     {
-        return 'GPS[SQ001]';
+        return 'PoSDGPS[SQ001]';
     }
 
     public function getLongitude(): string
     {
-        return 'GPS[SQ002]';
+        return 'PoSDGPS[SQ002]';
     }
 
     public function getType(): string
     {
-        return 'HF2';
+        return 'MoSD3';
     }
 
     public function getName(): string
     {
-        return 'HF1';
+        return 'MoSD2';
     }
 
     public function getDate(): string
