@@ -7,6 +7,7 @@ namespace prime\controllers\project;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -58,11 +59,14 @@ class View extends Action
         \Yii::beginProfile('getResponses');
         $responses = [];
         $map = $project->getMap();
-        foreach($project->getResponses() as $response) {
-            try {
-                $responses[] = new HeramsResponse($response, $map);
-            } catch (\InvalidArgumentException $e) {
+        /** @var Workspace $workspace */
+        foreach($project->getWorkspaces()->each() as $workspace) {
+            foreach($workspace->getResponses() as $response) {
+                try {
+                    $responses[] = new HeramsResponse($response, $map);
+                } catch (\InvalidArgumentException $e) {
 
+                }
             }
         }
         \Yii::endProfile('getResponses');
@@ -89,7 +93,12 @@ class View extends Action
 
     private function getTypes(SurveyInterface $survey): array {
         \Yii::beginProfile(__FUNCTION__);
-        $question = $this->findQuestionByCode($survey, 'HF2');
+        try {
+            $question = $this->findQuestionByCode($survey, 'HF2');
+        } catch (\TypeError $e) {
+            // This is a badly configured survey.
+            return [];
+        }
         $answers = $question->getAnswers();
         assert(count($answers) > 0);
 
@@ -97,6 +106,7 @@ class View extends Action
         foreach($answers as $answer) {
             $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
         }
+
         \Yii::endProfile(__FUNCTION__);
         return $map;
     }
