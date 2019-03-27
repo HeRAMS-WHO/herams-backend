@@ -169,7 +169,7 @@ class HeramsResponse
 
     public function getFunctionality(): ?string
     {
-        return $this->getValueForCode('HFINF3') ?? self::UNKNOWN_VALUE;
+        return $this->getValueForCode($this->map->getFunctionality()) ?? self::UNKNOWN_VALUE;
     }
     public function getMainReason(): ?string
     {
@@ -191,12 +191,6 @@ class HeramsResponse
         }
         $mainReason = array_keys($reasons)[0];
         return $mainReason;
-        echo '<pre>';
-        var_dump($reasons);
-        $percentage = 1.0 * array_shift($reasons) / count($services);
-        var_dump($mainReason, $services);
-
-        var_dump($percentage); die();
     }
 
 

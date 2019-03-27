@@ -45,4 +45,9 @@ class HeramsCodeMap
     {
         return 'GEO2';
     }
+
+    public function getFunctionality(): string
+    {
+        return 'HFFUNCT';
+    }
 }
