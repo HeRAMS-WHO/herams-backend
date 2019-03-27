@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     $form = ActiveForm::begin([
         'id' => 'update-page',
-        'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
     ]);
 
