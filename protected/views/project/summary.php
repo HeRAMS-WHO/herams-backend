@@ -293,7 +293,7 @@ JS;
                     ],
                     'center' => [
                         'sidePadding' => 40,
-                        'color' => '#eeeeee',
+                        'color' => array_sum($availability) > 0 ? '#eeeeee' : '#a5a5a5',
                         'fontWeight' => "normal",
                         'fontStyle' => "icomoon",
                         // Availability
@@ -304,6 +304,7 @@ JS;
                 'responsive' => true,
                 'maintainAspectRatio' => false,
                 'legend' => [
+                    'display' => array_sum($availability) > 0,
                     'position' => 'bottom',
                     'labels' => [
                         'boxWidth' => 12,
