@@ -2,7 +2,7 @@
 
 namespace prime\models\search;
 
-use app\queries\ToolQuery;
+use app\queries\ProjectQuery;
 use prime\components\ActiveQuery;
 use prime\models\ar\Project;
 use prime\models\Country;
@@ -101,9 +101,9 @@ class Workspace extends \prime\models\ar\Workspace
     public function search($params)
     {
         if(!app()->user->can('admin')) {
-            $this->query->joinWith(['tool' => function(ToolQuery $query) {return $query->notHidden();}]);
+            $this->query->joinWith(['project' => function(ProjectQuery $query) {return $query->notHidden();}]);
         } else {
-            $this->query->joinWith(['tool']);
+            $this->query->joinWith(['project']);
         }
 
         $this->query->andFilterWhere(['tool_id' => $this->_toolId]);

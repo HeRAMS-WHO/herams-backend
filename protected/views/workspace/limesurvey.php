@@ -9,7 +9,7 @@ use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['site/admin']
+    'url' => ['/admin']
 ];
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Workspaces for {project}', [
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
 $this->title = \Yii::t('app', 'Update data for {workspace}', [
-    'workspace' => $model->getName()
+    'workspace' => $model->title
 ]);
 $this->params['breadcrumbs'][] = $this->title;
 //echo Html::beginTag('div', [

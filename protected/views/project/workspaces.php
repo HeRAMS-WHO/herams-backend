@@ -10,18 +10,24 @@
  */
 
 use kartik\grid\GridView;
+use yii\bootstrap\ButtonGroup;
+use yii\helpers\Url;
 
-$this->title = \Yii::t('app', 'Manage workspaces in {project}', ['project' => $project->getDisplayField()]);
-
-$this->params['breadcrumbs'][] = [
-    'label' => $project->getDisplayField(),
-    'url' => ['project/view', 'id' => $project->id]
-];
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Manage workspaces'),
-//    'url' => ['project/view', 'id' => $project->id]
+    'label' => \Yii::t('app', 'Admin dashboard'),
+    'url' => ['/admin']
 ];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Projects'),
+    'url' => ['/project']
+];
+$this->params['breadcrumbs'][] = [
+    'label' => $project->title,
+    'url' => ['project/update', 'id' => $project->id]
+];
+$this->title = \Yii::t('app', 'Workspaces');
+$this->params['breadcrumbs'][] = $this->title;
 
 
 ?>
@@ -30,6 +36,35 @@ $this->params['breadcrumbs'][] = [
 
 
     echo GridView::widget([
+        'caption' => ButtonGroup::widget([
+            'options' => [
+                'class' => 'pull-right',
+                'style' => [
+                    'margin-bottom' => '10px'
+                ]
+            ],
+            'buttons' => [
+                [
+                    'label' => \Yii::t('app', 'Import workspaces'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
+                        'class' => 'btn-default',
+                    ],
+                    'visible' => app()->user->can('tools')
+                ],
+                [
+                    'label' => \Yii::t('app', 'Create workspace'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
+                        'class' => 'btn-primary',
+                    ],
+                    'visible' => app()->user->can('tools')
+                ],
+
+            ]
+        ]),
         'pjax' => true,
         'pjaxSettings' => [
             'options' => [

@@ -6,7 +6,8 @@ use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\ar\Workspace $model
+ * @var \prime\models\forms\workspace\Import $model
+ * @var \prime\models\ar\Project $project
  */
 
 $this->params['breadcrumbs'][] = [
@@ -18,12 +19,14 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/project']
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces for {project}', [
-        'project' => $model->project->title
-    ]),
-    'url' => ['project/workspaces', 'id' => $model->project->id]
+    'label' => $project->title,
+    'url' => ['project/update', 'id' => $project->id]
 ];
-$this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $model->title]);
+$this->params['breadcrumbs'][] = [
+    'label' => 'Workspaces',
+    'url' => ['project/workspaces', 'id' => $project->id]
+];
+$this->title = \Yii::t('app', 'Import');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -32,8 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'update-project',
-        'method' => 'PUT',
+        'id' => 'import-workspaces',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
@@ -46,16 +48,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'columns' => 1,
         "attributes" => [
-            'token' => [
-                'type' => Form::INPUT_STATIC
-            ],
-            'title' => [
-                'type' => Form::INPUT_TEXT,
+            'titleField' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->fieldOptions()
             ],
             'owner_id' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->ownerOptions()
             ],
+            'tokens' => [
+                'type' => Form::INPUT_CHECKBOX_LIST,
+                'items' => $model->tokenOptions()
+            ]
         ]
     ]);
     echo \yii\bootstrap\ButtonGroup::widget([
@@ -65,11 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
         'buttons' => [
-            Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
-                'class' => ['btn btn-default']
-            ]),
-            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
-
+            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'import-workspaces', 'class' => 'btn btn-primary']),
         ]
     ]);
     $form->end();

@@ -4,36 +4,40 @@
 namespace prime\controllers\workspace;
 
 
+use prime\models\ar\Project;
 use prime\models\forms\workspace\CreateUpdate;
 use prime\models\permissions\Permission;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
 use yii\web\Request;
 use yii\web\Session;
 use yii\web\User;
 
-class Update extends Action
+class Create extends Action
 {
 
     public function run(
         User $user,
         Request $request,
         Session $session,
-        $id
-    )
-    {
-        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
-        if ($user->can('admin')) {
-            $model->scenario = 'admin-update';
-        } else {
-            $model->scenario = 'update';
+        int $project_id
+    ) {
+        $project = Project::loadOne($project_id);
+        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+            throw new ForbiddenHttpException();
         }
-        if($request->isPut) {
+
+        $model = new CreateUpdate();
+        $model->scenario = CreateUpdate::SCENARIO_CREATE;
+        $model->tool_id = $project->id;
+
+        if($request->isPost) {
             if($model->load($request->bodyParams) && $model->save()) {
                 $session->setFlash(
-                    'projectUpdated',
+                    'workspaceCreated',
                     [
                         'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app', "Project <strong>{modelName}</strong> has been updated.", ['modelName' => $model->title]),
+                        'text' => \Yii::t('app', "Workspace <strong>{modelName}</strong> has been updated.", ['modelName' => $model->title]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
@@ -41,7 +45,7 @@ class Update extends Action
             }
         }
 
-        return $this->controller->render('update', [
+        return $this->controller->render('create', [
             'model' => $model
         ]);
     }

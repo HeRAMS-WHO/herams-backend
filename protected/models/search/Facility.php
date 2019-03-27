@@ -2,7 +2,7 @@
 
 namespace prime\models\search;
 
-use app\queries\ToolQuery;
+use app\queries\ProjectQuery;
 use prime\components\ActiveQuery;
 use prime\models\ar\Project;
 use prime\models\Country;

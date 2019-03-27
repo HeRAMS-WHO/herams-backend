@@ -11,17 +11,18 @@ use rmrevin\yii\fontawesome\FAS;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 
-$this->title = Yii::t('app', 'Update project');
-$this->params['breadcrumbs'] = [
-    [
-        'label' => $model->getDisplayField(),
-        'url' => ['project/view', 'id' => $model->id]
-    ],
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Admin dashboard'),
+    'url' => ['/admin']
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => $this->title
-//    'url' => ['project/view', 'id' => $project->id]
+    'label' => \Yii::t('app', 'Projects'),
+    'url' => ['/project']
 ];
+
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-xs-12">
     <?php

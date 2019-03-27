@@ -8,10 +8,13 @@ use prime\models\ar\Setting;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
-$this->title = \Yii::t('app', 'Manage projects');
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Admin dashboard'),
+    'url' => ['/admin']
+];
+$this->title = \Yii::t('app', 'Projects');
 $this->params['breadcrumbs'][] = [
     'label' => $this->title
-//    'url' => ['project/view', 'id' => $project->id]
 ];
 /**
  * @var \yii\web\View $this
@@ -58,7 +61,7 @@ $this->params['breadcrumbs'][] = [
                         $result = Html::a(
                             Icon::list(),
                             ['project/workspaces', 'id' => $model->id],
-                            ['title' => 'View']
+                            ['title' => 'Workspaces']
 
                         );
                         return $result;

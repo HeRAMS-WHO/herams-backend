@@ -9,7 +9,7 @@ use prime\components\ActiveQuery;
  * @package app\queries
  * @method \prime\models\ar\Project one();
  */
-class ToolQuery extends ActiveQuery
+class ProjectQuery extends ActiveQuery
 {
     /**
      * @return self

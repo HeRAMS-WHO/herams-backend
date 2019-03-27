@@ -9,19 +9,25 @@ use yii\bootstrap\Html;
  *
  */
 
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Admin dashboard'),
+    'url' => ['/admin']
+];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Workspaces for {project}', [
+        'project' => $model->project->title
+    ]),
+    'url' => ['project/workspaces', 'id' => $model->project->id]
+];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Workspace {workspace}', [
+        'workspace' => $model->title,
+    ]),
+    'url' => ['workspace/update', 'id' => $model->id]
+];
+
 $this->title = Yii::t('app', 'Update workspace token');
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Back to project overview'),
-    'url' => ['projects/overview', 'pid' => $model->tool_id]
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Manage workspaces'),
-    'url' => ['projects/list', 'toolId' => $model->tool_id]
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Update workspace'),
-    'url' => ['projects/update', 'id' => $model->id]
-];
+$this->params['breadcrumbs'][] = $this->title;
 
 $form = ActiveForm::begin([
     'id' => 'update-project',

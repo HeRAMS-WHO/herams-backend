@@ -17,6 +17,7 @@ $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro"
     <head>
         <?= $this->head();?>
 
+        <?= \yii\helpers\Html::tag('title', $this->title); ?>
     </head>
 
     <body>

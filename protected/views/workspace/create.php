@@ -14,16 +14,12 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/admin']
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Workspaces for {project}', [
         'project' => $model->project->title
     ]),
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
-$this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $model->title]);
+$this->title = \Yii::t('app', 'New workspace');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -46,9 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'columns' => 1,
         "attributes" => [
-            'token' => [
-                'type' => Form::INPUT_STATIC
-            ],
             'title' => [
                 'type' => Form::INPUT_TEXT,
             ],
@@ -56,6 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->ownerOptions()
             ],
+            'token' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->tokenOptions()
+            ],
+
         ]
     ]);
     echo \yii\bootstrap\ButtonGroup::widget([
