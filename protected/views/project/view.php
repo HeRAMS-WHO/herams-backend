@@ -1,15 +1,19 @@
 <?php
 
 /** @var View $this */
-/** @var \prime\models\ar\Project $project */
-/** @var \prime\models\ar\Page $page */
+/** @var Project $project */
+/** @var Page $page */
 
+use prime\interfaces\PageInterface;
+use prime\models\ar\Page;
+use prime\models\ar\Project;
 use prime\widgets\menu\ProjectPageMenu;
+use yii\helpers\Html;
 use yii\web\View;
 
 echo ProjectPageMenu::widget([
     'project' => $project,
-    'params' => \Yii::$app->request->queryParams,
+    'params' => Yii::$app->request->queryParams,
     'currentPage' => $page,
     'survey' => $survey,
 
@@ -30,7 +34,7 @@ while (null !== ($parent = $parent->getParentPage())) {
 }
 
 while(!empty($stack)) {
-    /** @var \prime\interfaces\PageInterface $p */
+    /** @var PageInterface $p */
     $p = array_pop($stack);
     $this->params['breadcrumbs'][] = [
         'label' => $p->getTitle(),
@@ -59,28 +63,28 @@ echo $this->render('view/filters', [
     'filterModel' => $filterModel,
     'data' => $data
 ]);
-echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
+echo Html::beginTag('div', ['class' => 'content']);
 
     foreach($page->getChildElements() as $element) {
-        \Yii::beginProfile('Render element ' . $element->id);
+        Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Chart {$element->id} -->";
         $level = ob_get_level();
         ob_start();
         try {
             echo $element->getWidget($survey, $data, $page)->run();
             echo ob_get_clean();
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }
-            echo \yii\helpers\Html::tag('div', $t->getMessage(), [
-                'class' => 'element',
-                'style' => [
-                    'white-space' => 'pre'
+            echo Html::tag('div',
+                "Rendering this element caused an error: <strong>{$t->getMessage()}</strong>. The most common reason for the error is an invalid question code in its configuration. You can edit the element " . Html::a('here', ['/element/update', 'id' => $element->id]) . '.',
+                [
+                    'class' => 'element',
                 ]
-            ]);
+            );
         }
-        \Yii::endProfile('Render element ' . $element->id);
+        Yii::endProfile('Render element ' . $element->id);
     }
 
-    echo \yii\helpers\Html::endTag('div');
+    echo Html::endTag('div');
