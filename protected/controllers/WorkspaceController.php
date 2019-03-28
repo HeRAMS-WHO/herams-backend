@@ -9,6 +9,7 @@ use prime\controllers\workspace\Configure;
 use prime\controllers\workspace\Create;
 use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
+use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
@@ -25,6 +26,7 @@ class WorkspaceController extends Controller
             'limesurvey' => Limesurvey::class,
             'update' => Update::class,
             'create' => Create::class,
+            'share' => Share::class,
             'import' => Import::class
 
         ];

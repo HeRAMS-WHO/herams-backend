@@ -3,7 +3,7 @@
 use prime\models\ar\Setting;
 /** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
-ini_set('memory_limit','512M');
+ini_set('memory_limit','4096M');
 
 return [
     'layout' => 'simple',
@@ -122,7 +122,7 @@ return [
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
-            'layout' => '//map-popover',
+            'layout' => '//admin',
             'controllerMap' => [
                 'admin' => [
                     'class' => \dektrium\user\controllers\AdminController::class,

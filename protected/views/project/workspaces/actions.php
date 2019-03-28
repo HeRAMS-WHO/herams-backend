@@ -85,7 +85,7 @@ return [
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_SHARE, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.share')),
-                    ['/projects/share', 'id' => $model->id],
+                    ['/workspace/share', 'id' => $model->id],
                     [
                         'title' => \Yii::t('app', 'Share')
                     ]
@@ -99,7 +99,7 @@ return [
             if(!$model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.close')),
-                    ['/projects/close', 'id' => $model->id],
+                    ['/workspace/close', 'id' => $model->id],
                     [
                         'data-confirm' => \Yii::t('app', 'Are you sure you want to close project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
                         'data-method' => 'delete',
@@ -115,7 +115,7 @@ return [
             if($model->isClosed && $model->userCan(Permission::PERMISSION_ADMIN, app()->user->identity)) {
                 $result = Html::a(
                     Html::icon(Setting::get('icons.open')),
-                    ['/projects/re-open', 'id' => $model->id],
+                    ['/workspace/re-open', 'id' => $model->id],
                     [
                         'data-confirm' => \Yii::t('app', 'Are you sure you want to re-open project <strong>{modelName}</strong>?', ['modelName' => $model->title]),
                         'data-method' => 'put',
@@ -134,8 +134,8 @@ return [
                     "#",
                     [
                         'data' => [
-                            'code' => \yii\helpers\Url::to(['/projects/download', 'id' => $model->id]),
-                            'text' => \yii\helpers\Url::to(['/projects/download', 'id' => $model->id, 'text' => true])
+                            'code' => \yii\helpers\Url::to(['/workspace/download', 'id' => $model->id]),
+                            'text' => \yii\helpers\Url::to(['/workspace/download', 'id' => $model->id, 'text' => true])
                         ],
                         'class' => 'download-data',
                         'title' => \Yii::t('app', 'Download'),

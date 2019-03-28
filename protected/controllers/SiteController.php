@@ -8,6 +8,7 @@
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
+    use yii\web\ErrorAction;
 
     class SiteController extends Controller
     {
@@ -31,6 +32,11 @@
         public function actions()
         {
             return [
+                'error' => [
+                    'class' => ErrorAction::class,
+                    'layout' => 'map-popover-full',
+                    'view' => 'error'
+                ],
                 'captcha' => [
                     'class' => CaptchaAction::class,
                     'fixedVerifyCode' => php_sapi_name() == 'cli-server' ? 'test' : null
