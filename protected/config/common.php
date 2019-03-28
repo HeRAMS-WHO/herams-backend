@@ -122,7 +122,7 @@ return [
     'modules' => [
         'user' => [
             'class' => \dektrium\user\Module::class,
-            'layout' => '//admin',
+            'layout' => '//map-popover',
             'controllerMap' => [
                 'admin' => [
                     'class' => \dektrium\user\controllers\AdminController::class,
