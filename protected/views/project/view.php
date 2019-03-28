@@ -64,12 +64,15 @@ echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
     foreach($page->getChildElements() as $element) {
         \Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Chart {$element->id} -->";
+        $level = ob_get_level();
+        ob_start();
         try {
-            ob_start();
             echo $element->getWidget($survey, $data, $page)->run();
-
             echo ob_get_clean();
         } catch (\Throwable $t) {
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
             echo \yii\helpers\Html::tag('div', $t->getMessage(), [
                 'class' => 'element',
                 'style' => [
