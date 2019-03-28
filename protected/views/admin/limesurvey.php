@@ -2,6 +2,11 @@
 
 use prime\helpers\Icon;
 
+$this->title= \Yii::t('app', 'Backend administration');
+$this->params['breadcrumbs'][] = [
+    'label' => $this->title
+];
+
 /** @var \yii\web\View $this */
 echo \yii\helpers\Html::tag('iframe', '', [
     'src' => \yii\helpers\Url::to(['/site/lime-survey']),

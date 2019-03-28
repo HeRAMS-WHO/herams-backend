@@ -13,7 +13,7 @@ echo Html::beginTag('div', ['class' => 'menu']);
         if (\Yii::$app->user->can('admin')) {
             echo Html::a('Users', ['/user/admin/index']);
         }
-        echo Html::a('Limesurvey', ['/admin/limesurvey']);
+        echo Html::a(\Yii::t('app', 'Backend administration'), ['/admin/limesurvey']);
     echo Html::endTag('nav');
     echo $this->render('//footer', ['projects' => Project::find()->all()]);
 
