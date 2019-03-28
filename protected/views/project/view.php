@@ -65,7 +65,10 @@ echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
         \Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Chart {$element->id} -->";
         try {
+            ob_start();
             echo $element->getWidget($survey, $data, $page)->run();
+
+            echo ob_get_clean();
         } catch (\Throwable $t) {
             echo \yii\helpers\Html::tag('div', $t->getMessage(), [
                 'class' => 'element',
