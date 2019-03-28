@@ -43,7 +43,7 @@ class GroupPage implements PageInterface
             new Map([
                 'transpose' => false,
                 'config' => [
-                    'code' => 'HF2'
+                    'code' => 'MoSD3'
                 ],
             ]),
             new Chart([
