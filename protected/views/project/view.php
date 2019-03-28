@@ -64,8 +64,16 @@ echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
     foreach($page->getChildElements() as $element) {
         \Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Chart {$element->id} -->";
-        echo "<!-- " . json_encode($element). " -->";
-        echo $element->getWidget($survey, $data, $page)->run();
+        try {
+            echo $element->getWidget($survey, $data, $page)->run();
+        } catch (\Throwable $t) {
+            echo \yii\helpers\Html::tag('div', $t->getMessage(), [
+                'class' => 'element',
+                'style' => [
+                    'white-space' => 'pre'
+                ]
+            ]);
+        }
         \Yii::endProfile('Render element ' . $element->id);
     }
 
