@@ -44,7 +44,7 @@ class DashboardMap extends Element
 
     public function init()
     {
-        $this->colors = new JsExpression('chroma.brewer.OrRd');
+        $this->colors = $this->colors ?? new JsExpression('chroma.brewer.OrRd');
         parent::init();
     }
 
