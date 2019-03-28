@@ -183,7 +183,6 @@ class ProjectController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['summary'],
                             'roles' => ['@'],
                         ],
                     ]

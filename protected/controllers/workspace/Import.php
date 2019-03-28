@@ -25,7 +25,7 @@ class Import extends Action
         int $project_id
     ) {
         $project = Project::loadOne($project_id);
-        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+        if (!$user->can(Permission::PERMISSION_INSTANTIATE, $project)) {
             throw new ForbiddenHttpException();
         }
 
