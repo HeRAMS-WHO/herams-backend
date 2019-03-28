@@ -1,6 +1,7 @@
 <?php
 
 use prime\helpers\Icon;
+use prime\models\ar\Project;
 use yii\helpers\Html;
 
 echo Html::beginTag('div', ['class' => 'menu']);
@@ -14,19 +15,6 @@ echo Html::beginTag('div', ['class' => 'menu']);
         }
         echo Html::a('Limesurvey', ['/admin/limesurvey']);
     echo Html::endTag('nav');
+    echo $this->render('//footer', ['projects' => Project::find()->all()]);
 
-    echo Html::beginTag('div',[
-        'class' => 'footer'
-    ]);
-        echo Icon::mapMarkedAlt(['class' => 'subject']);
-        echo Html::tag('div', count($projects), [
-            'class' => 'counter'
-        ]);
-        echo Html::tag('div', 'HeRAMS projects', [
-            'class' => 'subject'
-        ]);
-        echo Html::beginTag('div', ['class' => 'status']);
-            echo Icon::sync();
-        echo Html::endTag('div');
-    echo Html::endTag('div');
 echo Html::endTag('div');

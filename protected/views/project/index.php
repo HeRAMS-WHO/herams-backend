@@ -105,7 +105,10 @@ $this->params['breadcrumbs'][] = [
                     'remove' => function($url, \prime\models\ar\Project $model, $key) {
                         /** @var \prime\models\ar\Project $model */
                         $result = '';
-                        if(app()->user->can('admin') && $model->getWorkspaceCount() == 0) {
+                        if(
+                            app()->user->can('admin')
+                            && $model->getWorkspaceCount() == 0
+                        ) {
                             $result = Html::a(
                                 Html::icon(Setting::get('icons.remove')),
                                 ['project/delete', 'id' => $model->id],
