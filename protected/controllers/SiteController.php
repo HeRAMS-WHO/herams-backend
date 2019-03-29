@@ -56,7 +56,7 @@
                         'rules' => [
                             [
                                 'allow' => 'true',
-                                'actions' => ['captcha', 'logout']
+                                'actions' => ['captcha', 'logout', 'error']
                             ],
                             [
                                 'allow' => 'true',
