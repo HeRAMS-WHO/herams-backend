@@ -121,6 +121,9 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                     '@dektrium/user/views' => '@app/views/user',
                 ]
             ],
+        ],
+        'errorHandler' => [
+            'errorAction' => '/site/error'
         ]
     ],
     'modules' => [
