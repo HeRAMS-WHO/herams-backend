@@ -9,6 +9,7 @@ use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
 use prime\models\forms\ResponseFilter;
+use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -80,7 +81,7 @@ class View extends Action
         $filtered = $filter->filter($responses);
 
         return $this->controller->render('view', [
-            'types' => $this->getTypes($survey),
+            'types' => $this->getTypes($survey, $project),
             'data' => $filtered,
             'filterModel' => $filter,
             'project' => $project,
@@ -89,10 +90,11 @@ class View extends Action
         ]);
     }
 
-    private function getTypes(SurveyInterface $survey): array {
+    private function getTypes(SurveyInterface $survey, Project $project): array {
         \Yii::beginProfile(__FUNCTION__);
         try {
-            $question = $this->findQuestionByCode($survey, 'HF2');
+
+            $question = $this->findQuestionByCode($survey, $project->getMap()->getType());
         } catch (\TypeError $e) {
             // This is a badly configured survey.
             return [];
