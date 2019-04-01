@@ -208,9 +208,9 @@ class Permission extends ActiveRecord
     public static function permissionLabels()
     {
         return [
-            self::PERMISSION_READ => \Yii::t('app', 'Read'),
-            self::PERMISSION_WRITE => \Yii::t('app', 'Write'),
-            self::PERMISSION_SHARE => \Yii::t('app', 'Share'),
+            self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to update the settings'),
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share, this allows sharing permissions, only makes sense when combined with other permissions'),
             self::PERMISSION_INSTANTIATE => \Yii::t('app', 'Administer workspaces'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Full access'),
         ];
