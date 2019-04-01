@@ -21,7 +21,7 @@ class Update extends Action
         $id
     )
     {
-        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_WRITE);
         if ($user->can('admin')) {
             $model->scenario = 'admin-update';
         } else {

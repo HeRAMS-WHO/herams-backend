@@ -61,8 +61,10 @@ class Permission extends ActiveRecord
      */
     public static function impliedPermissions() {
         return [
-            'read' => ['write', 'admin'],
-            'write' => ['admin']
+            self::PERMISSION_READ => [self::PERMISSION_WRITE, self::PERMISSION_ADMIN],
+            self::PERMISSION_WRITE => [self::PERMISSION_ADMIN],
+            self::PERMISSION_SHARE => [self::PERMISSION_ADMIN]
+
         ];
     }
 

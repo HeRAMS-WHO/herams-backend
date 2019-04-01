@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = [
 
                     },
                     'update' => function($url, Project $model, $key) {
-                        if(app()->user->can('admin')) {
+                        if(app()->user->can(Permission::PERMISSION_WRITE, $model)) {
                             return Html::a(
                                 Icon::pencilAlt(),
                                 ['project/update', 'id' => $model->id], [
