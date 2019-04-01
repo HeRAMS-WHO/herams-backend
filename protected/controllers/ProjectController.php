@@ -16,6 +16,7 @@ use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessRule;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -71,7 +72,6 @@ class ProjectController extends Controller
             'index' => Index::class,
             'view' => View::class,
             'summary' => Summary::class,
-
             'share' => Share::class,
             'workspaces' => Workspaces::class
         ];
@@ -84,7 +84,6 @@ class ProjectController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'share-delete' => ['delete'],
                         'delete' => ['delete']
                     ]
                 ],
@@ -102,12 +101,13 @@ class ProjectController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['view', 'summary', 'index', 'update', 'workspaces'],
+                            'actions' => ['share', 'view', 'summary', 'index', 'update', 'workspaces'],
                             'roles' => ['@'],
                         ],
                     ]
                 ]
             ]
         );
+
     }
 }

@@ -14,11 +14,12 @@ class Index extends Action
     public function run()
     {
         $projectProvider = new ActiveDataProvider([
-            'query' => Project::find()->userCan(Permission::PERMISSION_READ)
+            'query' => Project::find()
+                ->with('workspaces')
         ]);
 
         return $this->controller->render('index', [
-            'toolsDataProvider' => $projectProvider
+            'projectProvider' => $projectProvider
         ]);
     }
 }

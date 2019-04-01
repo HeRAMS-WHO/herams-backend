@@ -22,7 +22,12 @@ class Share extends Action
         $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
         $model = new \prime\models\forms\Share($project, [], [
             'permissions' => [
-                Permission::PERMISSION_INSTANTIATE
+                Permission::PERMISSION_READ,
+                Permission::PERMISSION_SHARE,
+                Permission::PERMISSION_WRITE,
+                Permission::PERMISSION_INSTANTIATE,
+                Permission::PERMISSION_ADMIN,
+
             ]
         ]);
         if($request->isPost) {

@@ -10,8 +10,6 @@ interface WorkspaceInterface
 
     public function getName(): string;
 
-    public function getProject(): ProjectInterface;
-
     public function getFacilities(): FacilityListInterface;
 
 }

@@ -22,6 +22,8 @@ class AuthManager extends DbManager
         $result = parent::checkAccess($userId, 'admin', $params)
             || parent::checkAccess($userId, $permissionName, $params);
 
+
+
         // Check using custom permission table.
         if (!$result && isset($params['model'])) {
             if (isset($params['id'])) {

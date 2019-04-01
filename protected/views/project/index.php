@@ -3,6 +3,8 @@
 use kartik\grid\GridView;
 use prime\assets\SassAsset;
 use prime\helpers\Icon;
+use prime\models\ar\Project;
+use prime\models\permissions\Permission;
 use yii\bootstrap\Html;
 use prime\models\ar\Setting;
 use yii\bootstrap\ButtonGroup;
@@ -18,7 +20,7 @@ $this->params['breadcrumbs'][] = [
 ];
 /**
  * @var \yii\web\View $this
- * @var \yii\data\ActiveDataProvider $toolsDataProvider
+ * @var \yii\data\ActiveDataProvider $projectProvider
  */
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
@@ -36,17 +38,18 @@ $this->params['breadcrumbs'][] = [
                         'href' => Url::to(['project/create']),
                         'class' => 'btn-default',
                     ],
-                    'visible' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_ADMIN)
+                    'visible' => app()->user->can(Permission::PERMISSION_ADMIN)
                 ],
             ]
         ]),
-        'dataProvider' => $toolsDataProvider,
+        'dataProvider' => $projectProvider,
         'layout' => "{items}\n{pager}",
         'columns' => [
             'title',
+            'workspaceCount',
             [
                 'label' => 'Cache status',
-                'value' => function(\prime\models\ar\Project $project) {
+                'value' => function(Project $project) {
                     $timestamp = \Yii::$app->limesurveyDataProvider->responseCacheTime($project->base_survey_eid);
                     return isset($timestamp) ? \Carbon\Carbon::createFromTimestamp($timestamp)->diffForHumans() : null;
                 }
@@ -56,8 +59,7 @@ $this->params['breadcrumbs'][] = [
                 'width' => '100px',
                 'template' => '{view} {update} {share} {remove} {workspaces}',
                 'buttons' => [
-                    'workspaces' => function($url, $model, $key) {
-                        /** @var \prime\models\ar\Project $model */
+                    'workspaces' => function($url, Project $model, $key) {
                         $result = Html::a(
                             Icon::list(),
                             ['project/workspaces', 'id' => $model->id],
@@ -66,50 +68,50 @@ $this->params['breadcrumbs'][] = [
                         );
                         return $result;
                     },
-                    'view' => function($url, $model, $key) {
-                        /** @var \prime\models\ar\Project $model */
-                        $result = Html::a(
-                            Icon::eye(),
-                            ['project/view', 'id' => $model->id],
-                            ['title' => 'View']
-
-                        );
-                        return $result;
-                    },
-                    'update' => function($url, $model, $key) {
-                        /** @var \prime\models\ar\Project $model */
-                        $result = '';
-                        if(app()->user->can('admin')) {
+                    'view' => function($url, Project $model, $key) {
+                        if (!empty($model->pages)
+                            && app()->user->can(Permission::PERMISSION_READ, $model)
+                        ) {
                             $result = Html::a(
+                                Icon::eye(),
+                                ['project/view', 'id' => $model->id],
+                                ['title' => 'View']
+
+                            );
+                            return $result;
+                        }
+
+                    },
+                    'update' => function($url, Project $model, $key) {
+                        if(app()->user->can('admin')) {
+                            return Html::a(
                                 Icon::pencilAlt(),
                                 ['project/update', 'id' => $model->id], [
                                     'title' => \Yii::t('app', 'Edit')
                                 ]
                             );
+
                         }
-                        return $result;
+
                     },
-                    'share' => function($url, \prime\models\ar\Project $model, $key) {
-                        /** @var \prime\models\ar\Project $model */
-                        $result = '';
-                        if(app()->user->can('share', ['model' => \prime\models\ar\Project::class, 'modelId' => $model->primaryKey])) {
+                    'share' => function($url, Project $model, $key) {
+                        if(app()->user->can('share', $model)) {
                             $result = Html::a(
                                 Icon::share(),
                                 ['project/share', 'id' => $model->id], [
                                     'title' => \Yii::t('app', 'Share')
                                 ]
                             );
+                            return $result;
                         }
-                        return $result;
+
                     },
-                    'remove' => function($url, \prime\models\ar\Project $model, $key) {
-                        /** @var \prime\models\ar\Project $model */
-                        $result = '';
+                    'remove' => function($url, Project $model, $key) {
                         if(
-                            app()->user->can('admin')
-                            && $model->getWorkspaceCount() == 0
+                            app()->user->can(Permission::PERMISSION_ADMIN)
+                            && $model->canBeDeleted()
                         ) {
-                            $result = Html::a(
+                            return Html::a(
                                 Html::icon(Setting::get('icons.remove')),
                                 ['project/delete', 'id' => $model->id],
                                 [
@@ -118,10 +120,9 @@ $this->params['breadcrumbs'][] = [
                                 ]
                             );
                         }
-                        return $result;
                     },
-                    'deactivate' => function($url, \prime\models\ar\Project $model, $key) {
-                        /** @var \prime\models\ar\Project $model */
+                    'deactivate' => function($url, Project $model, $key) {
+                        /** @var Project $model */
                         $result = '';
                         if(app()->user->can('admin') && $model->getWorkspaceCount() > 0) {
                             $result = Html::a(

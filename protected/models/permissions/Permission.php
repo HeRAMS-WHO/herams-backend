@@ -7,6 +7,8 @@ use prime\models\ActiveRecord;
 use prime\models\ar\Workspace;
 use prime\models\ar\User;
 use yii\db\ActiveRecordInterface;
+use yii\validators\RequiredValidator;
+use yii\validators\UniqueValidator;
 
 /**
  * Class Permission
@@ -42,20 +44,6 @@ class Permission extends ActiveRecord
             'source_id' => $sourceId
         ]) as $permission) {
             self::setCache($permission->source, $permission->source_id, $permission->target, $permission->target_id, $permission->permission, true);
-            // Also add "lower" permissions.
-            $levels = self::permissionLevels();
-            if (isset($levels[$permission->permission])) {
-                foreach($levels as $name => $level) {
-                    if ($level < $levels[$permission->permission]) {
-                        self::setCache($permission->source, $permission->source_id, $permission->target,
-                            $permission->target_id, $name, true);
-                    }
-                }
-
-            }
-
-
-
         }
         // Indicator that tells us this source has been preloaded.
         self::$cache[$sourceModel . $sourceId] = true;
@@ -64,6 +52,17 @@ class Permission extends ActiveRecord
     {
         return [
             'permissionLabel' => \Yii::t('app', 'Permission')
+        ];
+    }
+
+    /**
+     * Key is the checked permission, values are the permissions by which it is implied.
+     * @return array
+     */
+    public static function impliedPermissions() {
+        return [
+            'read' => ['write', 'admin'],
+            'write' => ['admin']
         ];
     }
 
@@ -88,7 +87,7 @@ class Permission extends ActiveRecord
         return $this->hasOne($this->target, ['id' => 'target_id']);
     }
 
-    public static function grant(\yii\db\ActiveRecord $source,\yii\db\ActiveRecord $target, $permission, $strict = false)
+    public static function grant(\yii\db\ActiveRecord $source,\yii\db\ActiveRecord $target, $permission)
     {
         if($source->isNewRecord) {
             throw new \Exception('Source is new record');
@@ -102,18 +101,12 @@ class Permission extends ActiveRecord
             'source' => $source instanceof AuthorizableInterface ? $source->getAuthName() :get_class($source),
             'source_id' => $source->id,
             'target' => $target instanceof AuthorizableInterface ? $target->getAuthName() : get_class($target),
-            'target_id' => $target->id
+            'target_id' => $target->id,
+            'permission' => $permission
         ]);
         $p = $p->loadFromAttributeData();
 
-        if($p->isNewRecord || $strict || static::permissionLevels()[$permission] > static::permissionLevels()[$p->permission]) {
-            $p->permission = $permission;
-            return $p->save();
-        } elseif (static::permissionLevels()[$permission] <= static::permissionLevels()[$p->permission]) {
-            return true;
-        }
-
-        return false;
+        return $p->save();
     }
 
     public static function instantiate($row)
@@ -141,15 +134,20 @@ class Permission extends ActiveRecord
     }
 
 
-    private static function getCache($sourceModel, $sourceId, $targetModel, $targetId, $permission)
-    {
+    private static function getCache(
+        $sourceModel,
+        $sourceId,
+        $targetModel,
+        $targetId,
+        $permission
+    ): bool {
         if (!isset($targetId)) {
             throw new \Exception('targetId is required');
         }
         \Yii::info("Checking from cache: $sourceModel [$sourceId] --> $targetModel [$targetId]");
         $key = md5($sourceModel . $sourceId . $targetModel . $targetId . $permission);
 
-        return isset(self::$cache[$key]) ? self::$cache[$key] : (isset(self::$cache[$sourceModel . $sourceId]) ? false : null);
+        return self::$cache[$key] ?? false;
     }
 
     private static function setCache($sourceModel, $sourceId, $targetModel, $targetId, $permission, $value)
@@ -163,23 +161,16 @@ class Permission extends ActiveRecord
     {
         self::loadCache($sourceModel, $sourceId);
 
-        if (null === $result = self::getCache($sourceModel, $sourceId, $targetModel, $targetId, $permission)) {
-            $levels = self::permissionLevels();
-            if (isset($levels[$permission])) {
-                $permissionLevel = self::permissionLevels()[$permission];
-                $permissions = array_keys(array_filter(self::permissionLevels(), function ($value) use ($permissionLevel) {
-                    return $value >= $permissionLevel;
-                }));
-            } else {
-                $permissions = [$permission];
+        // Check cache
+        if (false === $result = self::getCache($sourceModel, $sourceId, $targetModel, $targetId, $permission)) {
+            // Cache does not have an entry.
+            // Check implied.
+            foreach(static::impliedPermissions()[$permission] ?? [] as $explicitPermission) {
+                // Use recursion.
+                if(self::isAllowedById($sourceModel, $sourceId, $targetModel, $targetId, $explicitPermission)) {
+                    return true;
+                }
             }
-
-            $query = self::find();
-            $query->orWhere(['source' => $sourceModel, 'source_id' => $sourceId]);
-            $query->andWhere(['target' => $targetModel, 'target_id' => $targetId, 'permission' => $permissions]);
-
-            $result = $query->exists();
-            self::setCache($sourceModel, $sourceId, $targetModel, $targetId, $permission, $result);
         }
 
         return $result;
@@ -218,10 +209,10 @@ class Permission extends ActiveRecord
     {
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read'),
-            self::PERMISSION_WRITE => \Yii::t('app', 'Write/Read'),
-            self::PERMISSION_SHARE => \Yii::t('app', 'Share/Write/Read'),
-            self::PERMISSION_ADMIN => \Yii::t('app', 'Admin/Share/Write/Read'),
-            self::PERMISSION_INSTANTIATE => \Yii::t('app', 'Administer workspaces')
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write'),
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share'),
+            self::PERMISSION_INSTANTIATE => \Yii::t('app', 'Administer workspaces'),
+            self::PERMISSION_ADMIN => \Yii::t('app', 'Full access'),
         ];
     }
 
@@ -229,17 +220,19 @@ class Permission extends ActiveRecord
     {
         return [
             self::PERMISSION_READ => 0,
-            self::PERMISSION_WRITE => 1,
-            self::PERMISSION_SHARE => 2,
-            self::PERMISSION_ADMIN => 3
+            self::PERMISSION_INSTANTIATE => 1,
+            self::PERMISSION_WRITE => 2,
+            self::PERMISSION_SHARE => 3,
+            self::PERMISSION_ADMIN => 4,
         ];
     }
 
     public function rules()
     {
         return [
-            [['source', 'source_id', 'target', 'target_id', 'permission'], 'required'],
-            [['source', 'source_id', 'target', 'target_id'], 'unique', 'targetAttribute' => ['source', 'source_id', 'target', 'target_id']],
+            [['source', 'source_id', 'target', 'target_id', 'permission'], RequiredValidator::class],
+            [['source', 'source_id', 'target', 'target_id', 'permission'], UniqueValidator::class,
+                'targetAttribute' => ['source', 'source_id', 'target', 'target_id', 'permission']],
             [['permission'], 'in', 'range' => array_keys(self::permissionLabels())]
         ];
     }

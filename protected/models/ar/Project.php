@@ -130,9 +130,14 @@ class Project extends ActiveRecord {
         return $result;
     }
 
-    public function beforeDelete()
+    public function canBeDeleted(): bool
     {
         return $this->getWorkspaceCount() === 0;
+    }
+
+    public function beforeDelete()
+    {
+        return $this->canBeDeleted();
     }
 
     public function getWorkspaces()
@@ -141,7 +146,7 @@ class Project extends ActiveRecord {
     }
     public function getWorkspaceCount()
     {
-        return $this->getWorkspaces()->count();
+        return $this->isRelationPopulated('workspaces') ? count($this->workspaces) : $this->getWorkspaces()->count();
     }
 
     public function getTypemapAsJson()

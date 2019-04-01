@@ -204,7 +204,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface
         )
         {
             if (!Permission::grant(app()->user->identity, $this, Permission::PERMISSION_ADMIN)) {
-                throw new \Exception("Failed to grant permission.");
+                throw new \Exception("Failed to grant permission");
             }
         }
     }

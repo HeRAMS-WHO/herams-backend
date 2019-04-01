@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->params['breadcrumbs'][] = [
     'label' => $project->title,
-    'url' => ['project/update', 'id' => $project->id]
+    'url' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_WRITE, $project) ? ['project/update', 'id' => $project->id] : null
 ];
 $this->title = \Yii::t('app', 'Workspaces');
 $this->params['breadcrumbs'][] = $this->title;
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
                         'class' => 'btn-default',
                     ],
-                    'visible' => app()->user->can('tools')
+                    'visible' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_INSTANTIATE, $project)
                 ],
                 [
                     'label' => \Yii::t('app', 'Create workspace'),
@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
                         'class' => 'btn-primary',
                     ],
-                    'visible' => app()->user->can('tools')
+                    'visible' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_INSTANTIATE, $project)
                 ],
 
             ]

@@ -2,6 +2,7 @@
 
 namespace prime\models\forms;
 
+use function iter\rewindable\filter;
 use kartik\builder\Form;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
@@ -13,6 +14,7 @@ use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
+use yii\validators\RequiredValidator;
 
 class Share extends Model {
     protected $_permissions = [];
@@ -36,9 +38,16 @@ class Share extends Model {
     {
         return [
             'userIds' => \Yii::t('app', 'Users'),
-            'userListIds' => \Yii::t('app', 'User lists')
         ];
     }
+
+    public function attributeHints()
+    {
+        return [
+            'permission' => \Yii::t('app', 'You are only allowed to grant permissions that you have'),
+        ];
+    }
+
 
     /**
      * @return bool
@@ -49,8 +58,10 @@ class Share extends Model {
             $transaction = app()->db->beginTransaction();
             try {
                 foreach ($this->getUsers()->all() as $user) {
-                    if (!Permission::grant($user, $this->model, $this->permission)) {
-                        throw new \Exception("Failed to grant permission");
+                    foreach($this->permission as $permission) {
+                        if (!Permission::grant($user, $this->model, $permission)) {
+                            throw new \Exception("Failed to grant permission");
+                        }
                     }
                 }
                 $transaction->commit();
@@ -68,9 +79,16 @@ class Share extends Model {
         $this->_permissions = $options;
     }
 
-    public function getPermissionOptions()
+    public function getPermissionOptions(): array
     {
-        return !empty($this->_permissions) ? array_intersect_key(Permission::permissionLabels(), array_flip($this->_permissions)) : Permission::permissionLabels();
+        $permissions = !empty($this->_permissions) ? array_intersect_key(Permission::permissionLabels(), array_flip($this->_permissions)) : Permission::permissionLabels();
+        // Filter for current user.
+        foreach($permissions as $key => $label) {
+            if (!app()->user->can($key, $this->model)) {
+                unset($permissions[$key]);
+            }
+        }
+        return $permissions;
     }
 
     public function getUserOptions()
@@ -104,7 +122,7 @@ class Share extends Model {
                 ],
                 'permission' => [
                     'label' => \Yii::t('app', 'Permission'),
-                    'type' => Form::INPUT_DROPDOWN_LIST,
+                    'type' => Form::INPUT_CHECKBOX_LIST,
                     'items' => $this->permissionOptions
                 ]
             ]
@@ -160,10 +178,10 @@ class Share extends Model {
 
     public function rules() {
         return [
-            [['permission'], 'required'],
+            [['permission', 'userIds'], RequiredValidator::class],
             [['userIds'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id', 'allowArray' => true],
-            [['userIds', 'userListIds'], DefaultValueValidator::class, 'value' => []],
-            [['permission'], RangeValidator::class, 'range' => array_keys($this->getPermissionOptions())]
+            [['userIds'], DefaultValueValidator::class, 'value' => []],
+            [['permission'], RangeValidator::class,  'allowArray' => true, 'range' => array_keys($this->getPermissionOptions())]
         ];
     }
 }
