@@ -4,7 +4,6 @@
 namespace prime\models\ar;
 
 
-use prime\components\JsonValidator;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\elements\BarChart;
@@ -16,7 +15,6 @@ use prime\widgets\element\Element as ElementWidget;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\NotSupportedException;
-use yii\base\Widget;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;

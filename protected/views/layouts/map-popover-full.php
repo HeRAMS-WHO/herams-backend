@@ -3,7 +3,6 @@
 use Carbon\Carbon;
 use prime\helpers\Icon;
 use prime\models\ar\Project;
-use yii\helpers\Html;
 use function iter\reduce;
 
 $projects = Project::find()->all();

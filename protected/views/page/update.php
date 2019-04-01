@@ -1,10 +1,10 @@
 <?php
 /** @var \prime\models\ar\Page $page */
-    use app\components\Form;
-    use kartik\form\ActiveForm;
+
+use app\components\Form;
+use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\helpers\Html;
-use prime\helpers\Icon;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;

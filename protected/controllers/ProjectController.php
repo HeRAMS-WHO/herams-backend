@@ -2,28 +2,23 @@
 
 namespace prime\controllers;
 
-use kartik\widgets\Growl;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\Index;
+use prime\controllers\project\Pages;
 use prime\controllers\project\Share;
 use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
-use prime\controllers\project\Pages;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
-use yii\data\ActiveDataProvider;
-use yii\filters\AccessRule;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\Request;
 use yii\web\Session;
-use yii\web\User;
 
 class ProjectController extends Controller
 {

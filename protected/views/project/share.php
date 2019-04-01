@@ -1,7 +1,6 @@
 <?php
 
 use kartik\widgets\ActiveForm;
-use yii\bootstrap\Html;
 
 /**
  * @var \prime\models\ar\Project $project

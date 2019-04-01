@@ -8,8 +8,6 @@ use prime\objects\HeramsResponse;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\base\Widget;
-use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
 

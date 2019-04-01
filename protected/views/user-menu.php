@@ -1,7 +1,6 @@
 <?php
 
 use prime\helpers\Icon;
-use prime\models\permissions\Permission;
 use yii\helpers\Html;
 
 ?>

@@ -2,13 +2,7 @@
 
 namespace prime\models\search;
 
-use app\queries\ProjectQuery;
-use prime\components\ActiveQuery;
-use prime\models\ar\Project;
-use prime\models\Country;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\validators\RangeValidator;
 use yii\validators\StringValidator;
 

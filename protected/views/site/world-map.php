@@ -2,11 +2,11 @@
 
 /** @var Project[] $projects */
 
-use prime\helpers\Icon;
 use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 use prime\widgets\map\Map;
 use yii\helpers\Html;
+
 $this->title = "World overview";
 
 $this->params['body'] = [

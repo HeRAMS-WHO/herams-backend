@@ -8,7 +8,6 @@ use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 

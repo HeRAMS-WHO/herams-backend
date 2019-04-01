@@ -11,8 +11,6 @@ use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
-use yii\filters\PageCache;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 class WorkspaceController extends Controller

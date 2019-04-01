@@ -2,7 +2,6 @@
 
 use prime\widgets\map\Map;
 use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
-use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 

@@ -1,7 +1,8 @@
 <div class="footer">
 <?php
 
-use Carbon\Carbon;use prime\helpers\Icon;
+use Carbon\Carbon;
+use prime\helpers\Icon;
 use yii\helpers\Html;
 
 echo Icon::mapMarkedAlt(['class' => 'subject']);

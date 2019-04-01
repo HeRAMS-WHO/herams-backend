@@ -4,8 +4,6 @@ namespace prime\models\ar;
 
 use app\queries\WorkspaceQuery;
 use prime\models\permissions\Permission;
-use yii\helpers\Url;
-use yii\validators\RequiredValidator;
 
 /**
  * Class User

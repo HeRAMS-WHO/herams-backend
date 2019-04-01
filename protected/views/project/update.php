@@ -2,12 +2,10 @@
 
 /** @var \prime\models\ar\Project $model */
 
+use app\components\Form;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
-use app\components\Form;
 use prime\helpers\Icon;
-use prime\models\ar\Setting;
-use rmrevin\yii\fontawesome\FAS;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;

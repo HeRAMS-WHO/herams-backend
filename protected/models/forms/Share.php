@@ -2,7 +2,6 @@
 
 namespace prime\models\forms;
 
-use function iter\rewindable\filter;
 use kartik\builder\Form;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;

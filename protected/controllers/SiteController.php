@@ -1,9 +1,8 @@
 <?php
     namespace prime\controllers;
+    use prime\components\Controller;
     use prime\controllers\site\Admin;
     use prime\controllers\site\WorldMap;
-    use yii\bootstrap\Html;
-    use prime\components\Controller;
     use prime\interfaces\TicketingInterface;
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;

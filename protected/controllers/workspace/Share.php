@@ -4,7 +4,6 @@
 namespace prime\controllers\workspace;
 
 
-use prime\models\ar\Project;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;

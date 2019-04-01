@@ -4,8 +4,8 @@ namespace prime\models\permissions;
 
 use prime\interfaces\AuthorizableInterface;
 use prime\models\ActiveRecord;
-use prime\models\ar\Workspace;
 use prime\models\ar\User;
+use prime\models\ar\Workspace;
 use yii\db\ActiveRecordInterface;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;

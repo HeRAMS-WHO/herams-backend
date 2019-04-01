@@ -1,6 +1,5 @@
 <?php
 
-use prime\helpers\Icon;
 use prime\models\ar\Project;
 use yii\helpers\Html;
 

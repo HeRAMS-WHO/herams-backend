@@ -4,9 +4,6 @@
 namespace prime\widgets\map;
 
 
-use prime\objects\HeramsResponse;
-use prime\traits\SurveyHelper;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;

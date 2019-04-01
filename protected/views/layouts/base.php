@@ -1,6 +1,7 @@
 <?php
 
 use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
+
 /* @var $this \yii\web\View */
 
 /* @var $content string */

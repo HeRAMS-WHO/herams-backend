@@ -3,7 +3,6 @@
 namespace prime\models\ar;
 
 use app\queries\ProjectQuery;
-use function iter\filter;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
 use prime\lists\SurveyFacilityList;
@@ -18,7 +17,6 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use yii\helpers\Url;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
@@ -27,7 +25,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
-use yii\web\Link;
+use function iter\filter;
 
 /**
  * Class Tool

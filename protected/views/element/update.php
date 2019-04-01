@@ -2,12 +2,9 @@
 
 /** @var \prime\models\ar\Element $model */
 
-use kartik\grid\GridView;
-use kartik\widgets\ActiveForm;
 use app\components\Form;
-use rmrevin\yii\fontawesome\FAS;
+use kartik\widgets\ActiveForm;
 use yii\bootstrap\Html;
-use yii\data\ActiveDataProvider;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),

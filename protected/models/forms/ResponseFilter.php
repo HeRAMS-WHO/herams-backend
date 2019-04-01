@@ -5,20 +5,16 @@ namespace prime\models\forms;
 
 
 use Carbon\Carbon;
+use prime\objects\HeramsResponse;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use SamIT\LimeSurvey\JsonRpc\Concrete\Response;
+use yii\base\Model;
+use yii\validators\DateValidator;
+use yii\validators\SafeValidator;
 use function iter\all;
 use function iter\apply;
 use function iter\enumerate;
 use function iter\filter;
-use function iter\map;
-use prime\objects\HeramsResponse;
-use SamIT\LimeSurvey\Interfaces\ResponseInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use SamIT\LimeSurvey\JsonRpc\Concrete\Response;
-use yii\base\Model;
-use yii\helpers\ArrayHelper;
-use yii\validators\DateValidator;
-use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 
 /**
  * Class ResponseFilter implements filtering for Response Collections

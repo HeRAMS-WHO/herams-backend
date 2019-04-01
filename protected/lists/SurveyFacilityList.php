@@ -8,9 +8,6 @@ use prime\interfaces\FacilityInterface;
 use prime\interfaces\FacilityListInterface;
 use prime\models\ar\Facility;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\data\DataProviderInterface;
-use yii\data\Pagination;
-use yii\data\Sort;
 
 class SurveyFacilityList implements FacilityListInterface
 {

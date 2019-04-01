@@ -7,7 +7,7 @@ use prime\widgets\chart\ChartBundle;
 use rmrevin\yii\fontawesome\FAR;
 use rmrevin\yii\fontawesome\FAS;
 use yii\helpers\Html;
-use prime\helpers\Icon;
+
 $this->registerAssetBundle(ChartBundle::class);
 $bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
 $font = $bundle->baseUrl . '/fonts/fonts/icomoon.woff';

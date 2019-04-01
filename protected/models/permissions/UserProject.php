@@ -3,8 +3,8 @@
 namespace prime\models\permissions;
 
 use prime\components\ActiveQuery;
-use prime\models\ar\Workspace;
 use prime\models\ar\User;
+use prime\models\ar\Workspace;
 use yii\helpers\ArrayHelper;
 
 /**
