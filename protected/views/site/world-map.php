@@ -4,6 +4,7 @@
 
 use prime\helpers\Icon;
 use prime\models\ar\Project;
+use prime\models\permissions\Permission;
 use prime\widgets\map\Map;
 use yii\helpers\Html;
 $this->title = "World overview";
@@ -48,12 +49,13 @@ foreach($projects as $project) {
         ]
     ]);
 }
-
-echo Html::a('New project', ['project/create'], [
-    'style' => [
-        'color' => '#737373'
-    ]
-]);
+if (app()->user->can(Permission::PERMISSION_ADMIN)) {
+    echo Html::a('New project', ['project/create'], [
+        'style' => [
+            'color' => '#737373'
+        ]
+    ]);
+}
 echo Html::endTag('nav');
 $this->registerJs(<<<JS
     window.addEventListener('click', function(e) {
