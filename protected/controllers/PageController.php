@@ -4,9 +4,11 @@
 namespace prime\controllers;
 
 
+use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\page\Create;
 use prime\controllers\page\Update;
+use prime\models\ar\Page;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
@@ -18,7 +20,11 @@ class PageController extends Controller
     {
         return [
             'update' => Update::class,
-            'create' => Create::class
+            'create' => Create::class,
+            'delete' => [
+                'class' => DeleteAction::class,
+                'query' => Page::find()
+            ]
         ];
     }
 

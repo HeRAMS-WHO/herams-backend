@@ -52,6 +52,7 @@ class Share extends Action
                     $workspace->owner_id,
                 ]);
             }
+            return $this->controller->refresh();
         }
 
 

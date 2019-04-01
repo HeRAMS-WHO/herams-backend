@@ -138,7 +138,8 @@ class Share extends Model {
                                 Html::icon('trash'),
                                 [
                                     $deleteAction,
-                                    'id' => $model->id
+                                    'id' => $model->id,
+                                    'redirect' => \Yii::$app->request->url
                                 ],
                                 [
                                     'class' => 'text-danger',

@@ -4,9 +4,11 @@
 namespace prime\controllers;
 
 
+use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\element\Create;
 use prime\controllers\element\Update;
+use prime\models\ar\Element;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
@@ -17,7 +19,11 @@ class ElementController extends Controller
     {
         return [
             'update' => Update::class,
-            'create' => Create::class
+            'create' => Create::class,
+            'delete' => [
+                'class' => DeleteAction::class,
+                'query' => Element::find()
+            ]
         ];
     }
 

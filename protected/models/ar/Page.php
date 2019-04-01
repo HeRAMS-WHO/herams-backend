@@ -102,6 +102,16 @@ class Page extends ActiveRecord implements PageInterface
         ];
     }
 
+    public function canBeDeleted(): bool
+    {
+        return $this->getChildren()->count() === 0;
+    }
+
+    public function beforeDelete()
+    {
+        return $this->canBeDeleted();
+    }
+
     public function prepareData(array $data)
     {
         $result = [];
