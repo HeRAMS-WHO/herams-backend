@@ -19,10 +19,6 @@ class Create extends Action
         Request $request,
         Session $session
     ) {
-        if (!$user->can(Permission::PERMISSION_ADMIN)) {
-            throw new ForbiddenHttpException();
-        }
-
         $model = new Project();
 
         if($request->isPost) {
@@ -31,7 +27,7 @@ class Create extends Action
                 $session->setFlash(
                     'toolCreated',
                     [
-                        'type' => \kartik\widgets\Growl::TYPE_SUsCCESS,
+                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
                         'text' => \Yii::t('app', "Tool {tool} is created.", ['tool' => $model->title]),
                         'icon' => 'glyphicon glyphicon-ok'
                     ]

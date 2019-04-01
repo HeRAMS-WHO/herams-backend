@@ -14,8 +14,9 @@ echo Icon::bug();
 /** @var \Throwable $exception */
 if ($exception instanceof \yii\web\HttpException) {
     echo Html::tag('span', $exception->getName(), ['class' => 'error']);
+} else {
+    echo Html::tag('span', $exception->getMessage(), ['class' => 'error']);
 }
-echo Html::tag('span', $exception->getMessage(), ['class' => 'error']);
 
 switch(get_class( $exception)) {
     case \yii\web\NotFoundHttpException::class:
