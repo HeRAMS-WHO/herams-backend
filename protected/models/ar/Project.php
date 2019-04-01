@@ -3,6 +3,7 @@
 namespace prime\models\ar;
 
 use app\queries\ProjectQuery;
+use function iter\filter;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
 use prime\lists\SurveyFacilityList;
@@ -116,9 +117,14 @@ class Project extends ActiveRecord {
 
     public function dataSurveyOptions()
     {
+        $existing = Project::find()->select('base_survey_eid')->indexBy('base_survey_eid')->column();
 
-        $result = ArrayHelper::map($this->limesurveyDataProvider()->listSurveys(), 'sid', function ($details) {
-            return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
+        $surveys = filter(function($details) use ($existing) {
+            return !isset($existing[$details['sid']]);
+        }, $this->limesurveyDataProvider()->listSurveys());
+
+        $result = ArrayHelper::map($surveys, 'sid', function ($details) use ($existing) {
+                return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
         });
 
         return $result;

@@ -4,6 +4,7 @@ namespace prime\controllers;
 
 use kartik\widgets\Growl;
 use prime\components\Controller;
+use prime\controllers\project\Create;
 use prime\controllers\project\Index;
 use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
@@ -27,32 +28,6 @@ class ProjectController extends Controller
 {
     public $layout = 'admin';
 
-    public function actionCreate(
-        Request $request,
-        Session $session
-    ) {
-        $model = new Project();
-
-        if($request->isPost) {
-            if($model->load($request->bodyParams) && $model->save())
-            {
-                $session->setFlash(
-                    'toolCreated',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app', "Tool {tool} is created.", ['tool' => $model->title]),
-                        'icon' => 'glyphicon glyphicon-ok'
-                    ]
-                );
-
-                return $this->redirect(['update', 'id' => $model->id]);
-            }
-        }
-
-        return $this->render('create', [
-            'model' => $model
-        ]);
-    }
     /**
      * Deletes a tool.
      * @param $id
@@ -150,6 +125,7 @@ class ProjectController extends Controller
     public function actions()
     {
         return [
+            'create' => Create::class,
             'update' => Update::class,
             'index' => Index::class,
             'view' => View::class,
@@ -183,6 +159,7 @@ class ProjectController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
+                            'actions' => ['view', 'summary', 'index', 'update'],
                             'roles' => ['@'],
                         ],
                     ]

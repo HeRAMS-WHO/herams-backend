@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = [
                         'href' => Url::to(['project/create']),
                         'class' => 'btn-default',
                     ],
-                    'visible' => app()->user->can('tools')
+                    'visible' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_ADMIN)
                 ],
             ]
         ]),
