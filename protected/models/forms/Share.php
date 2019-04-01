@@ -81,7 +81,15 @@ class Share extends Model {
 
     public function getPermissionOptions(): array
     {
-        $permissions = !empty($this->_permissions) ? array_intersect_key(Permission::permissionLabels(), array_flip($this->_permissions)) : Permission::permissionLabels();
+        $permissions = empty($this->_permissions)? Permission::permissionLabels() : $this->_permissions;
+
+        // Add labels if needed.
+        foreach($permissions as $key => $value) {
+            if (is_numeric($key)) {
+                unset($permissions[$key]);
+                $permissions[$value] = Permission::permissionLabels()[$value];
+            }
+        }
         // Filter for current user.
         foreach($permissions as $key => $label) {
             if (!app()->user->can($key, $this->model)) {
