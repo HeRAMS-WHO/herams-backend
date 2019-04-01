@@ -38,17 +38,6 @@ class PageController extends Controller
                         'delete' => ['delete']
                     ]
                 ],
-                'access' => [
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['admin'],
-                        ],
-                        [
-                            'allow' => false,
-                        ]
-                    ]
-                ]
             ]
         );
     }

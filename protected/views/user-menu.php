@@ -1,10 +1,12 @@
 <?php
 
+use prime\helpers\Icon;
+use prime\models\permissions\Permission;
 use yii\helpers\Html;
 
 ?>
 <div class="user-menu">
-    <?= Html::a(\prime\helpers\Icon::signOutAlt(), ['/user/security/logout'], ['data-method' => 'POST']); ?>
+    <?= Html::a(Icon::signOutAlt(), ['/user/security/logout'], ['data-method' => 'POST']); ?>
     <?php
     /** @var \prime\models\ar\User $user */
     $user = \Yii::$app->user->identity;
@@ -21,11 +23,6 @@ use yii\helpers\Html;
         <div class="email"><?= $user->email ?></div>
     </div>
     <?php
-        if (\Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
-            echo Html::a(\prime\helpers\Icon::admin(), ['/admin/dashboard']);
-        }
-
-
-
+        echo Html::a(Icon::admin(), ['/admin/dashboard']);
     ?>
 </div>

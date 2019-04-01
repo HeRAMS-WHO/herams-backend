@@ -6,6 +6,7 @@ use kartik\widgets\Growl;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\Index;
+use prime\controllers\project\Share;
 use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
@@ -13,7 +14,6 @@ use prime\controllers\project\Pages;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
-use prime\models\forms\Share;
 use prime\models\permissions\Permission;
 use yii\data\ActiveDataProvider;
 use yii\filters\PageCache;
@@ -63,65 +63,6 @@ class ProjectController extends Controller
         }
         $this->redirect($this->defaultAction);
     }
-
-    public function actionShare(Session $session, Request $request, $id)
-    {
-        $tool = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
-        $model = new Share($tool, [], [
-            'permissions' => [
-                Permission::PERMISSION_INSTANTIATE
-            ]
-        ]);
-        if($request->isPost) {
-            if($model->load($request->bodyParams) && $model->createRecords()) {
-                $session->setFlash(
-                    'projectShared',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app',
-                            "Tool {modelName} has been shared with: {users}",
-                            [
-                                'modelName' => $tool->title,
-                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
-                            ]),
-                        'icon' => 'glyphicon glyphicon-ok'
-                    ]
-                );
-                $model = new Share($tool, []);
-            }
-        }
-
-        return $this->render('share', [
-            'model' => $model,
-            'tool' => $tool
-        ]);
-    }
-
-    public function actionShareDelete(User $user, Request $request, Session $session, $id)
-    {
-        $permission = Permission::findOne($id);
-        //User must be able to share project in order to delete a share
-        $tool = Project::loadOne($permission->target_id, [], Permission::PERMISSION_SHARE);
-        if($permission->delete()) {
-            $session->setFlash(
-                'toolShared',
-                [
-                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                    'text' => \Yii::t(
-                        'app',
-                        "Stopped sharing tool <strong>{modelName}</strong> with: <strong>{user}</strong>",
-                        [
-                            'modelName' => $tool->title,
-                            'user' => $user->identity->name
-                        ]
-                    ),
-                    'icon' => 'glyphicon glyphicon-trash'
-                ]
-            );
-        }
-        $this->redirect(['/tools/share', 'id' => $tool->id]);
-    }
-
     public function actions()
     {
         return [
@@ -130,6 +71,8 @@ class ProjectController extends Controller
             'index' => Index::class,
             'view' => View::class,
             'summary' => Summary::class,
+
+            'share' => Share::class,
             'workspaces' => Workspaces::class
         ];
     }
@@ -159,7 +102,7 @@ class ProjectController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['view', 'summary', 'index', 'update'],
+                            'actions' => ['view', 'summary', 'index', 'update', 'workspaces'],
                             'roles' => ['@'],
                         ],
                     ]

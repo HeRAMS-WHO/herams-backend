@@ -48,11 +48,9 @@ class Share extends Action
                         'icon' => 'glyphicon glyphicon-ok'
                     ]
                 );
-                $model = new ShareForm($workspace, [
-                    $workspace->owner_id,
-                ]);
+                return $this->controller->refresh();
             }
-            return $this->controller->refresh();
+
         }
 
 

@@ -11,8 +11,12 @@ echo Html::img("/img/HeRAMS.png", [
     'class' => 'logo',
 ]);
 echo Icon::bug();
-//var_dump($exception); die();
+/** @var \Throwable $exception */
+if ($exception instanceof \yii\web\HttpException) {
+    echo Html::tag('span', $exception->getName(), ['class' => 'error']);
+}
 echo Html::tag('span', $exception->getMessage(), ['class' => 'error']);
+
 switch(get_class( $exception)) {
     case \yii\web\NotFoundHttpException::class:
         $message = \Yii::t('app', 'The page you are looking for doesn\'t exist');

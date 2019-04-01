@@ -5,6 +5,7 @@ namespace prime\components;
 
 
 use dektrium\rbac\components\DbManager;
+use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 
@@ -12,6 +13,12 @@ class AuthManager extends DbManager
 {
     public function checkAccess($userId, $permissionName, $params = [])
     {
+        if ($params instanceof ActiveRecord) {
+            $params = [
+                'id' => $params->id,
+                'model' => get_class($params)
+            ];
+        }
         $result = parent::checkAccess($userId, 'admin', $params)
             || parent::checkAccess($userId, $permissionName, $params);
 

@@ -184,7 +184,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface
      */
     public function userCan($operation, User $user)
     {
-        $result = parent::userCan($operation, $user) || ($operation === Permission::PERMISSION_READ && app()->user->can('manager'));
+        $result = parent::userCan($operation, $user) || ($operation === Permission::PERMISSION_READ);
         if(!$result) {
             $result = $result
                 // User owns the project.

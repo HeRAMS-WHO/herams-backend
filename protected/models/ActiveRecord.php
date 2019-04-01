@@ -6,6 +6,7 @@ use prime\components\ActiveQuery;
 use prime\injection\SetterInjectionInterface;
 use prime\injection\SetterInjectionTrait;
 use prime\models\ar\User;
+use prime\models\permissions\Permission;
 use yii\web\HttpException;
 
 class ActiveRecord extends \yii\db\ActiveRecord
@@ -63,7 +64,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public function userCan($operation, User $user)
     {
         // Admins can do anything
-        return app()->authManager->checkAccess($user->id, 'admin');
+        return app()->authManager->checkAccess($user->id, Permission::PERMISSION_ADMIN);
     }
 
 

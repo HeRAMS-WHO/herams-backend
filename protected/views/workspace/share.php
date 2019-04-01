@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h2><?=\Yii::t('app', 'Already shared with')?></h2>
     <?php
-    echo $model->renderTable('/permission/delete');
+    echo $model->renderTable();
     ?>
 </div>
 

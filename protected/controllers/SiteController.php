@@ -8,6 +8,7 @@
     use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
+    use yii\web\BadRequestHttpException;
     use yii\web\ErrorAction;
 
     class SiteController extends Controller
@@ -17,8 +18,7 @@
             ?string $error = null
         ) {
             if (isset($error)) {
-                echo Html::tag('pre', htmlentities($error));
-                return;
+                throw new BadRequestHttpException($error);
             }
             $limesurveySSo->loginAndRedirectCurrentUser();
         }

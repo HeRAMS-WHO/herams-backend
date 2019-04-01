@@ -111,7 +111,7 @@ class Share extends Model {
         ]);
     }
 
-    public function renderTable($deleteAction = '')
+    public function renderTable($deleteAction = '/permission/delete')
     {
         return \kartik\grid\GridView::widget([
             'dataProvider' => new ActiveDataProvider([

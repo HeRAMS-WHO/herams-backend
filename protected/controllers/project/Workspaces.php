@@ -22,8 +22,12 @@ class Workspaces extends Action
         int $id
     ) {
         $project = Project::loadOne($id);
-
-        if (!$user->can(Permission::PERMISSION_INSTANTIATE, $project)) {
+        if (! (
+            $user->can(Permission::PERMISSION_READ, $project)
+            || $user->can(Permission::PERMISSION_INSTANTIATE, $project)
+            || $user->can(Permission::PERMISSION_WRITE, $project)
+        )
+        ) {
             throw new ForbiddenHttpException();
         }
         $workspaceSearch = new WorkspaceSearch($project->id, [
