@@ -12,7 +12,7 @@ echo Html::img("/img/HeRAMS.png", [
 ]);
 echo Icon::bug();
 /** @var \Throwable $exception */
-if ($exception instanceof \yii\web\HttpException) {
+if (empty($exception->getMessage()) && $exception instanceof \yii\web\HttpException) {
     echo Html::tag('span', $exception->getName(), ['class' => 'error']);
 } else {
     echo Html::tag('span', $exception->getMessage(), ['class' => 'error']);

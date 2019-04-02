@@ -4,8 +4,8 @@
 namespace prime\api\v1\controllers;
 
 
-use prime\models\ar\Workspace;
 use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use yii\caching\Cache;
 
 class CollectionsController extends Controller

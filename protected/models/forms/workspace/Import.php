@@ -4,7 +4,6 @@
 namespace prime\models\forms\workspace;
 
 
-use function iter\rewindable\map;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;

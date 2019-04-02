@@ -4,8 +4,8 @@
  * @var \dektrium\user\models\RecoveryForm $model
  */
 
-use kartik\widgets\ActiveForm;
 use app\components\Form;
+use kartik\widgets\ActiveForm;
 use yii\bootstrap\Html;
 
 $form = ActiveForm::begin([

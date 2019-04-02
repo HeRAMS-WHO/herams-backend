@@ -4,7 +4,6 @@
 namespace prime\controllers\projects;
 
 
-use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;

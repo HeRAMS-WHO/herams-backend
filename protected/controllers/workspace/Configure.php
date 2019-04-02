@@ -8,7 +8,6 @@ use prime\models\ar\Workspace;
 use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use yii\base\Action;
-use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Session;
 

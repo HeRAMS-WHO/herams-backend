@@ -8,7 +8,6 @@ use prime\models\ar\Element;
 use prime\widgets\element\Element as ElementWidget;
 use prime\widgets\table\Table as TableWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\base\Widget;
 
 class Table extends Element
 {

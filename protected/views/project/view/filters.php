@@ -1,12 +1,10 @@
 <?php
 
-use function iter\map;
 use prime\models\forms\ResponseFilter as ResponseFilter;
 use prime\widgets\nestedselect\NestedSelect;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface as QuestionInterface;
-use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
 use yii\helpers\Url;

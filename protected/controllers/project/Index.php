@@ -5,7 +5,6 @@ namespace prime\controllers\project;
 
 
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
 

@@ -1,9 +1,9 @@
  <?php
 
- use yii\bootstrap\Html;
- use prime\models\ar\Workspace;
  use prime\models\ar\Setting;
+ use prime\models\ar\Workspace;
  use prime\models\permissions\Permission;
+ use yii\bootstrap\Html;
 
  $this->registerJs(<<<SCRIPT
 $('.request-access').on('click', function(e){

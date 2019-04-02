@@ -5,8 +5,8 @@ namespace prime\controllers\projects;
 
 
 use DateTime;
-use prime\models\ar\Workspace;
 use prime\models\ar\Setting;
+use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\Controller;

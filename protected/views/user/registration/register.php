@@ -1,6 +1,5 @@
 <?php
 
-use function iter\reduce;
 use prime\models\ar\Project;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
