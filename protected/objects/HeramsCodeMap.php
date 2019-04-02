@@ -13,12 +13,12 @@ class HeramsCodeMap
 
     public function getLatitude(): string
     {
-        return 'PoSDGPS[SQ001]';
+        return 'MoSDGPS[SQ001]';
     }
 
     public function getLongitude(): string
     {
-        return 'PoSDGPS[SQ002]';
+        return 'MoSDGPS[SQ002]';
     }
 
     public function getType(): string
