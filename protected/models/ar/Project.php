@@ -221,6 +221,7 @@ class Project extends ActiveRecord {
                 $heramsResponses[] = new HeramsResponse($response, $map);
             } catch (\InvalidArgumentException $e) {
                 // Silent ignore invalid responses.
+                throw $e;
             }
         }
         $result = (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();
