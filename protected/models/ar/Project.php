@@ -118,7 +118,7 @@ class Project extends ActiveRecord {
         $existing = Project::find()->select('base_survey_eid')->indexBy('base_survey_eid')->column();
 
         $surveys = filter(function($details) use ($existing) {
-            return !isset($existing[$details['sid']]);
+            return $this->base_survey_eid == $details['sid'] || !isset($existing[$details['sid']]);
         }, $this->limesurveyDataProvider()->listSurveys());
 
         $result = ArrayHelper::map($surveys, 'sid', function ($details) use ($existing) {
