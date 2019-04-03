@@ -14,6 +14,7 @@ use prime\objects\HeramsResponse;
 use prime\objects\HeramsSubject;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -221,7 +222,9 @@ class Project extends ActiveRecord {
                 $heramsResponses[] = new HeramsResponse($response, $map);
             } catch (\InvalidArgumentException $e) {
                 // Silent ignore invalid responses.
-                throw $e;
+                throw new InvalidConfsonse->getId(),
+                    'survey' => $response->getSurveyId()
+                ]), 0, $e);
             }
         }
         $result = (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();
