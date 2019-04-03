@@ -222,10 +222,10 @@ class Project extends ActiveRecord {
                 $heramsResponses[] = new HeramsResponse($response, $map);
             } catch (\InvalidArgumentException $e) {
                 // Silent ignore invalid responses.
-                throw new InvalidConfigException(\Yii::t('app', 'Invalid data for response {response} in survey {survey}', [
-                    'response' => $response->getId(),
-                    'survey' => $response->getSurveyId()
-                ]), 0, $e);
+//                throw new InvalidConfigException(\Yii::t('app', 'Invalid data for response {response} in survey {survey}', [
+//                    'response' => $response->getId(),
+//                    'survey' => $response->getSurveyId()
+//                ]), 0, $e);
             }
         }
         $result = (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();

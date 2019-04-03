@@ -43,7 +43,7 @@ class HeramsCodeMap
 
     public function getLocation(): string
     {
-        return 'GEO2';
+        return 'GEO1';
     }
 
     public function getFunctionality(): string
