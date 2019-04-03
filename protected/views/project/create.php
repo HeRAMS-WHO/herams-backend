@@ -27,9 +27,6 @@ $this->params['breadcrumbs'][] = [
         'formConfig' => [
             'showLabels' => true,
             'defaultPlaceholder' => false
-        ],
-        'options' => [
-            'enctype'=>'multipart/form-data'
         ]
     ]);
     echo \app\components\Form::widget([

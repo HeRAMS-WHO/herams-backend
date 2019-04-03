@@ -28,8 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'update-project',
-        'method' => 'PUT',
+        'id' => 'create-workspace',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
@@ -66,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
                 'class' => ['btn btn-default']
             ]),
-            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
+            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'create-workspace', 'class' => 'btn btn-primary']),
 
         ]
     ]);

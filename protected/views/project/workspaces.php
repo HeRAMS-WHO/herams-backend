@@ -82,9 +82,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [ 'label' => 'Title', 'attribute' => 'title', 'value' => 'title' ],
             [
                 'label' => '# responses',
-                'value' => function(\prime\models\ar\Workspace $project) {
-                    return \Yii::$app->cache->getOrSet('project.responses.' . $project->id, function() use ($project) {
-                        return $project->getResponses()->size();
+                'value' => function(\prime\models\ar\Workspace $workspace) {
+                    return \Yii::$app->cache->getOrSet('project.responses.' . $workspace->id, function() use ($workspace) {
+                        return $workspace->getResponses()->size();
                     }, 3600);
 
                 }

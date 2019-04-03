@@ -11,6 +11,7 @@ use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 class WorkspaceController extends Controller
@@ -34,6 +35,12 @@ class WorkspaceController extends Controller
     {
         return ArrayHelper::merge(parent::behaviors(),
             [
+                'verb' => [
+                    'class' => VerbFilter::class,
+                    'actions' => [
+                        'create' => ['get', 'post']
+                    ]
+                ],
                 'access' => [
                     'rules' => [
                         [
