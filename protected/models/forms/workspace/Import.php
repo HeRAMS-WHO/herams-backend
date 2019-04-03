@@ -54,6 +54,7 @@ class Import extends Model
             // Selected by default.
             $this->tokens[$token->getToken()] = $token->getToken();
             $this->tokenObjects[$token->getToken()] = $token;
+            $this->fieldOptions['token'] = 'token';
             foreach($token->getCustomAttributes() as $key => $value) {
                 if (!empty($value)) {
                     $this->fieldOptions[$key] = $key;
@@ -87,6 +88,11 @@ class Import extends Model
         ];
     }
 
+    private function getName(TokenInterface $token): string
+    {
+        return $token->getCustomAttributes()[$this->titleField] ?? $token->{'get'. ucfirst($this->titleField)}();
+    }
+
     public function rules()
     {
         return [
@@ -100,7 +106,7 @@ class Import extends Model
                     $workspace = new Workspace();
                     $workspace->tool_id = $this->project->id;
                     $workspace->owner_id = $this->owner_id;
-                    $workspace->title = $tokenObject->getCustomAttributes()[$this->titleField];
+                    $workspace->title = $this->getName($tokenObject);
                     $workspace->setAttribute('token', $token);
                     if (!$workspace->validate()) {
                         foreach($workspace->errors as $attribute => $errors) {
@@ -128,7 +134,7 @@ class Import extends Model
             $workspace = new Workspace();
             $workspace->tool_id = $this->project->id;
             $workspace->owner_id = $this->owner_id;
-            $workspace->title = $tokenObject->getCustomAttributes()[$this->titleField];
+            $workspace->title = $this->getName($tokenObject);
             $workspace->setAttribute('token', $token);
             if ($workspace->save()) {
                 $success++;

@@ -37,7 +37,6 @@ use yii\validators\UniqueValidator;
  * @property string $country_iso_3
  * @property int $data_survey_eid The associated data survey.
  * @property int $tool_id
- * @property string $locality_name
  * @property datetime $created
  * @property boolean $isClosed
  * @property Country $country
@@ -88,22 +87,6 @@ class Workspace extends ActiveRecord implements AuthorizableInterface
         return $options;
     }
 
-    /**
-     * Return the name of the locality. If locality_name isn't set, return name of the country
-     * @return string
-     */
-    public function getLocality()
-    {
-        // Quick fix
-        return "Unknown";
-        if(!empty($this->locality_name)) {
-            $result = "{$this->country->name} ({$this->locality_name})";
-        } else {
-            $result = $this->country->name;
-        }
-        return $result;
-    }
-
     public function getOwner()
     {
         return $this->hasOne(User::class, ['id' => 'owner_id'])
@@ -124,13 +107,10 @@ class Workspace extends ActiveRecord implements AuthorizableInterface
      */
     public function getResponses()
     {
-        if (!isset($this->_responses)) {
-            $this->_responses = new ResponseCollection();
-            foreach ($this->getLimesurveyDataProvider()->getResponsesByToken($this->project->base_survey_eid, $this->getAttribute('token')) as $response) {
-                $this->_responses->append($response);
-            }
-        }
-        return $this->_responses;
+        \Yii::beginProfile(__FUNCTION__, __CLASS__);
+        $result = $this->getLimesurveyDataProvider()->getResponsesByToken($this->project->base_survey_eid, $this->getAttribute('token'));
+        \Yii::endProfile(__FUNCTION__, __CLASS__);
+        return $result;
     }
 
     public function getProject()
@@ -218,7 +198,6 @@ class Workspace extends ActiveRecord implements AuthorizableInterface
                 $token = $this->getLimesurveyDataProvider()->createToken($this->project->base_survey_eid, [
                     'token' => app()->security->generateRandomString(15)
                 ]);
-                $token->setFirstName($this->getLocality());
 
                 $token->setValidFrom(new Carbon($this->created));
                 $this->_token = $token;
@@ -241,7 +220,6 @@ class Workspace extends ActiveRecord implements AuthorizableInterface
             /** @var WritableTokenInterface $token */
             $token = $this->getLimesurveyDataProvider()->getToken($this->project->base_survey_eid, $this->token);
 
-            $token->setFirstName($this->getLocality());
             if (isset($this->owner)) {
                 $token->setLastName($this->owner->lastName);
             }

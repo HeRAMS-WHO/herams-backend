@@ -45,7 +45,7 @@ class CacheController extends \yii\console\controllers\CacheController
                     $this->stdout("Current usage: " . number_format(memory_get_usage() / 1024 / 1024, 2) . "MB \n", Console::FG_YELLOW);
                     $this->stdout("Peak usage: " . number_format(memory_get_peak_usage(true) / 1024 / 1024, 2) . "MB \n", Console::FG_YELLOW);
                     try {
-                        $limesurveyDataProvider->refreshResponses($surveyId);
+//                        $limesurveyDataProvider->refreshResponses($surveyId);
                         break;
                     } catch (ErrorException $e) {
                         $this->stderr($e->getMessage() . "\n", Console::FG_RED);

@@ -190,42 +190,22 @@ class Project extends ActiveRecord {
         ];
     }
 
-    // Cache for getResponses();
-    private $_responses;
-
-    /**
-     * @return ResponseInterface[]
-     */
-    public function getResponses()
-    {
-        if (!isset($this->_responses)) {
-            \Yii::beginProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
-            $this->_responses = $this->limesurveyDataProvider()->getResponses($this->base_survey_eid);
-            \Yii::endProfile($this->base_survey_eid, __CLASS__ . ':' . __FUNCTION__);
-        }
-        return $this->_responses;
-    }
-
-
     /**
      * @return iterable|HeramsResponse[]
      */
     public function getHeramsResponses(): iterable
     {
-        // Do this here to fix profiling.
-        $this->getResponses();
         \Yii::beginProfile(__FUNCTION__);
         $map = $this->getMap();
         $heramsResponses = [];
-        foreach($this->getResponses() as $response) {
-            try {
-                $heramsResponses[] = new HeramsResponse($response, $map);
-            } catch (\InvalidArgumentException $e) {
-                // Silent ignore invalid responses.
-//                throw new InvalidConfigException(\Yii::t('app', 'Invalid data for response {response} in survey {survey}', [
-//                    'response' => $response->getId(),
-//                    'survey' => $response->getSurveyId()
-//                ]), 0, $e);
+        /** @var Workspace $workspace */
+        foreach($this->workspaces as $workspace) {
+            foreach ($workspace->getResponses() as $response) {
+                try {
+                    $heramsResponses[] = new HeramsResponse($response, $map);
+                } catch (\InvalidArgumentException $e) {
+                        // Silent ignore invalid responses.
+                }
             }
         }
         $result = (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();

@@ -30,8 +30,7 @@ class Facility extends Model
     {
         return [
             [['created', 'closed'], 'safe'],
-            [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
-            [['title', 'description', 'tool_id', 'locality_name'], StringValidator::class],
+            [['title', 'description', 'tool_id'], StringValidator::class],
         ];
     }
 

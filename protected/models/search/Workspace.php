@@ -155,8 +155,6 @@ class Workspace extends \prime\models\ar\Workspace
         $this->query->andFilterWhere(['tool_id' => $this->tool_id]);
         $this->query->andFilterWhere(['country_iso_3' => $this->country_iso_3]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.title', $this->title]);
-        $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.locality_name', $this->locality_name]);
-
         return $dataProvider;
     }
 

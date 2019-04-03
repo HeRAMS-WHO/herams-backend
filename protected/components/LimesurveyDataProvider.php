@@ -57,7 +57,11 @@ class LimesurveyDataProvider extends Component
     {
         \Yii::beginProfile(__FUNCTION__);
         $key = $this->responsesCacheKey($surveyId, $token);
-        $result = $this->cache->get($key) ?: null;
+        $result = $this->cache->get($key) ;
+        if ($result === false) {
+            $result = null;
+        }
+
         \Yii::info('CACHE ' . ($result ? 'HIT' : 'MISS') . ' for ' . $key, __CLASS__);
         \Yii::endProfile(__FUNCTION__);
         return $result;
@@ -70,7 +74,7 @@ class LimesurveyDataProvider extends Component
 
     protected function responsesCacheKey(int $surveyId, ?string $token = null): string
     {
-        return 'LDPresponses' . $surveyId . $token;
+        return 'LDPrsps' . $surveyId . $token;
     }
 
     /**
@@ -108,6 +112,7 @@ class LimesurveyDataProvider extends Component
             $key => $result,
             "{$key}present" => time()
         ], $this->responseCacheDuration);
+
 
         \Yii::endProfile($surveyId. '|| ' . $token, __FUNCTION__);
         return $result;

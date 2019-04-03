@@ -56,20 +56,8 @@ class View extends Action
 
 
 
-        \Yii::beginProfile('getResponses');
-        $responses = [];
         $map = $project->getMap();
-        /** @var Workspace $workspace */
-        foreach($project->getWorkspaces()->each() as $workspace) {
-            foreach($workspace->getResponses() as $response) {
-                try {
-                    $responses[] = new HeramsResponse($response, $map);
-                } catch (\InvalidArgumentException $e) {
-
-                }
-            }
-        }
-        \Yii::endProfile('getResponses');
+        $responses = $project->getHeramsResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
         $filter = new ResponseFilter($responses, $survey);
