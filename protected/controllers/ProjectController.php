@@ -2,6 +2,7 @@
 
 namespace prime\controllers;
 
+use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\Index;
@@ -16,55 +17,22 @@ use prime\models\ar\Project;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\HttpException;
-use yii\web\Request;
-use yii\web\Session;
 
 class ProjectController extends Controller
 {
     public $layout = 'admin';
 
-    /**
-     * Deletes a tool.
-     * @param $id
-     * @throws HttpException Method not allowed if request is not a DELETE request
-     */
-    public function actionDelete(Request $request, Session $session,  $id)
-    {
-        $project = Project::loadOne($id);
-        if ($project->delete() !== false) {
-
-
-
-            $session->setFlash(
-                'toolDeleted',
-                [
-                    'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                    'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> has been removed.",
-                        ['modelName' => $project->title]),
-                    'icon' => 'glyphicon glyphicon-trash'
-                ]
-            );
-
-        } else {
-            $session->setFlash(
-                'toolDeleted',
-                [
-                    'type' => \kartik\widgets\Growl::TYPE_DANGER,
-                    'text' => \Yii::t('app', "Tool <strong>{modelName}</strong> could not be removed.",
-                        ['modelName' => $project->title]),
-                    'icon' => 'glyphicon glyphicon-trash'
-                ]
-            );
-        }
-        $this->redirect($this->defaultAction);
-    }
     public function actions()
     {
         return [
             'create' => Create::class,
             'update' => Update::class,
             'index' => Index::class,
+            'delete' => [
+                'class' => DeleteAction::class,
+                'query' => Project::find(),
+                'redirect' => ['/project']
+            ],
             'view' => View::class,
             'summary' => Summary::class,
             'share' => Share::class,

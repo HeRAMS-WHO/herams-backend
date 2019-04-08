@@ -5,13 +5,13 @@ namespace prime\controllers\workspace;
 
 
 use prime\components\LimesurveyDataProvider;
+use prime\components\NotificationService;
 use prime\models\ar\Project;
 use prime\models\forms\workspace\Import as ImportModel;
 use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\Request;
-use yii\web\Session;
 use yii\web\User;
 
 class Import extends Action
@@ -21,7 +21,7 @@ class Import extends Action
         LimesurveyDataProvider $limesurveyDataProvider,
         User $user,
         Request $request,
-        Session $session,
+        NotificationService $notificationService,
         int $project_id
     ) {
         $project = Project::loadOne($project_id);
@@ -39,17 +39,10 @@ class Import extends Action
                 && $model->validate()
             ) {
                 $result = $model->run();
-                $session->setFlash(
-                    'workspaceCreated',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app', "Created {success} workspaces, failed to create {fail} workspaces", [
-                            'success' => $result->getSuccessCount(),
-                            'fail' => $result->getFailCount(),
-                        ]),
-                        'icon' => 'glyphicon glyphicon-ok'
-                    ]
-                );
+                $notificationService->info(\Yii::t('app', "Created {success} workspaces, failed to create {fail} workspaces", [
+                    'success' => $result->getSuccessCount(),
+                    'fail' => $result->getFailCount(),
+                ]));
                 return $this->controller->redirect(['project/workspaces', 'id' => $project->id]);
             }
         }

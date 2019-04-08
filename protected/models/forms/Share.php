@@ -9,6 +9,7 @@ use prime\models\permissions\Permission;
 use yii\base\Model;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
@@ -103,7 +104,7 @@ class Share extends Model {
         return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', 'name');
     }
 
-    public function getUsers()
+    public function getUsers(): ActiveQueryInterface
     {
         return User::find()->where([
             'id' => $this->userIds

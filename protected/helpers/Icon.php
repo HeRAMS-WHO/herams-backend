@@ -24,6 +24,8 @@ use yii\helpers\Inflector;
  * @method static string project(array $options = [])
  * @method static string healthFacility(array $options = [])
 // * @method static string pencil(array $options = [])
+ * @method static string delete(array $options = [])
+ * @method static string edit(array $options = [])
  */
 class Icon
 {

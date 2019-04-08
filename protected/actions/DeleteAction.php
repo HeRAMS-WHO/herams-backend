@@ -36,7 +36,7 @@ class DeleteAction extends Action
         int $id
     ) {
         /** @var ActiveRecordInterface $model */
-        $model = $this->query->andWhere(['id' => $id]);
+        $model = $this->query->andWhere(['id' => $id])->one();
         if (!isset($model)) {
             throw new NotFoundHttpException();
         }

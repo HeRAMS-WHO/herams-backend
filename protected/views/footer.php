@@ -5,7 +5,7 @@ use Carbon\Carbon;
 use prime\helpers\Icon;
 use yii\helpers\Html;
 
-echo Icon::mapMarkedAlt(['class' => 'subject']);
+echo Icon::project(['class' => 'subject']);
 echo Html::tag('div', count($projects), [
     'class' => 'counter'
 ]);

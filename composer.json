@@ -41,7 +41,9 @@
         "yiisoft/yii2": "^2.0.16.1",
         "nikic/iter": "^1.6",
         "rmrevin/yii2-fontawesome": "^3.3",
-        "fortawesome/font-awesome": "^5.7"
+        "fortawesome/font-awesome": "^5.7",
+        "npm-asset/pnotify": "^3.2",
+        "npm-asset/izitoast": "^1.4"
     },
 	"autoload" : {
         "psr-4" : {

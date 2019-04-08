@@ -186,6 +186,10 @@ a {
     grid-area: title;
     position: relative;
 }
+.no-title .iziToast-wrapper-topRight {
+    top: 50px;
+}
+
 body.no-title .title {
     display: none;
 }
@@ -392,7 +396,7 @@ body {
     }
 
     body.no-title {
-        grid-template-rows: 1fr;
+        grid-template-rows: 100vh;
         grid-template-areas:
                 "sidebar main main main"
     ;
@@ -559,6 +563,7 @@ a > svg {
 }
 
 .menu {
+    overflow: hidden;
     --animation-duration: 500ms;
     --indicator-width: 3px;
     --indent: 20px;
@@ -638,7 +643,7 @@ a > svg {
 
 .menu nav {
     grid-area: nav;
-    margin-bottom: 20px;
+    overflow-y: auto;
 }
 
 .menu nav > a, .menu nav > button, .menu nav > section > header > a {

@@ -8,6 +8,13 @@ use prime\widgets\map\Map;
 use yii\helpers\Html;
 
 $this->title = "World overview";
+$bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
+$font = $bundle->baseUrl . '/fonts/fonts/icomoon.woff';
+$this->registerLinkTag([
+    'rel' => 'preload',
+    'href' => $font,
+    'as' => 'font'
+], 'icomoon');
 
 $this->params['body'] = [
     'class' => ['no-title']

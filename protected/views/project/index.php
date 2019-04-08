@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = [
                     'update' => function($url, Project $model, $key) {
                         if(app()->user->can(Permission::PERMISSION_WRITE, $model)) {
                             return Html::a(
-                                Icon::pencilAlt(),
+                                Icon::edit(),
                                 ['project/update', 'id' => $model->id], [
                                     'title' => \Yii::t('app', 'Edit')
                                 ]
@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = [
                             && $model->canBeDeleted()
                         ) {
                             return Html::a(
-                                Html::icon(Setting::get('icons.remove')),
+                                Icon::delete(),
                                 ['project/delete', 'id' => $model->id],
                                 [
                                     'data-method' => 'delete',

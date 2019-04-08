@@ -43,19 +43,6 @@ services:
       - devdb
       - mailcatcher
       - phpmyadmin
-    entrypoint: [
-      "/sbin/tini",
-      "--",
-      "wait-for-it",
-      "30",
-      "devdb",
-      "3306",
-      "php",
-      "-S",
-      "0.0.0.0:8080",
-      "-t",
-      "/project/public"
-    ]
     ports:
       - "0.0.0.0:${APP_PORT-12346}:8080"
   ## Mysql server (local), this will create a persistent data store for local development

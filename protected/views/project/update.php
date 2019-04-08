@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             $result = '';
                             if(app()->user->can('admin')) {
                                 $result = Html::a(
-                                    Icon::pencilAlt(),
+                                    Icon::edit(),
                                     ['page/update', 'id' => $model->id], [
                                         'title' => \Yii::t('app', 'Edit')
                                     ]

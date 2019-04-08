@@ -4,6 +4,7 @@
 namespace prime\controllers\page;
 
 
+use prime\components\NotificationService;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\models\permissions\Permission;
@@ -11,7 +12,6 @@ use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\Session;
 use yii\web\User;
 
 class Create extends Action
@@ -19,7 +19,7 @@ class Create extends Action
 
     public function run(
         Request $request,
-        Session $session,
+        NotificationService $notificationService,
         User $user,
         int $project_id
 
@@ -39,14 +39,9 @@ class Create extends Action
 
         if ($request->isPost) {
             if ($model->load($request->bodyParams) && $model->save()) {
-                $session->setFlash(
-                    'toolUpdated',
-                    [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => "Page <strong>{$model->title}</strong> created",
-                        'icon' => 'glyphicon glyphicon-ok'
-                    ]
-                );
+                $notificationService->success(\Yii::t('app', "Page <strong>{page}</strong> created", [
+                    'page' => $model->title
+                ]));
 
                 return $this->controller->redirect(['update', 'id' => $model->id]);
             }

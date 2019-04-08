@@ -40,7 +40,7 @@ class Element extends Widget
         if (\Yii::$app->user->can('admin')
             && isset($this->element->id)
         ) {
-            echo Html::a(Icon::pencilAlt(), ['/element/update', 'id' => $this->element->id], [
+            echo Html::a(Icon::edit(), ['/element/update', 'id' => $this->element->id], [
                 'style' => [
                     'position' => 'absolute',
                     'right' => '5px',

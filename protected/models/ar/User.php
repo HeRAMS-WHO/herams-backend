@@ -3,7 +3,9 @@
 namespace prime\models\ar;
 
 use app\queries\WorkspaceQuery;
+use prime\assets\IconBundle;
 use prime\models\permissions\Permission;
+use yii\helpers\Url;
 
 /**
  * Class User
@@ -23,7 +25,11 @@ class User extends \dektrium\user\models\User {
 
     public function getGravatarUrl ($size = 256)
     {
-        return "//s.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . "?s=" . $size;
+        return "//s.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . '?'. http_build_query([
+            's' => $size,
+//            'default' =>
+//            \Yii::$app->request->hostInfo . \Yii::$app->assetManager->getAssetUrl(IconBundle::register(\Yii::$app->view), 'fonts/svg/profile.svg')
+        ]);
     }
 
     public function getFirstName(): ?string

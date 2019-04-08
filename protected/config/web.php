@@ -1,9 +1,18 @@
 <?php
 /** @var \prime\components\Environment $env */
+
+use prime\components\NotificationService;
+
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
+    'bootstrap' => [
+        'notificationService',
+    ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'notificationService' => [
+            'class' => NotificationService::class
+        ],
         'urlManager' => [
             'class' => \yii\web\UrlManager::class,
             'cache' => false,

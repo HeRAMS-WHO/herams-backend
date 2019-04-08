@@ -22,6 +22,7 @@ RUN apk add --no-cache --update \
   php7-zip \
   --
 ADD wait.sh /bin/wait-for-it
+ADD init.sh /sbin/init.sh
 ENV COMPOSER_CACHE_DIR=/composer-cache
 ENV COMPOSER_HOME=/composer
 RUN mkdir $COMPOSER_CACHE_DIR && \
@@ -34,3 +35,4 @@ RUN mkdir $COMPOSER_CACHE_DIR && \
     chmod -R 777 $COMPOSER_CACHE_DIR && \
     chmod -R 777 $COMPOSER_HOME
 VOLUME /composer-cache
+ENTRYPOINT ["/sbin/init.sh"]

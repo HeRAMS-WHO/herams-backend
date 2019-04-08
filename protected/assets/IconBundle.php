@@ -15,7 +15,8 @@ class IconBundle extends AssetBundle
     ];
 
     public $css = [
-        'style.css'
+        'style.css',
+        'font.css'
     ];
 
 }

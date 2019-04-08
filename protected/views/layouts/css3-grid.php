@@ -1,13 +1,14 @@
 <?php
 /* @var $this \yii\web\View */
 
+use prime\assets\DashboardBundle;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 /* @var $content string */
     $this->beginPage();
 
-    $this->registerCssFile('/css/dashboard.css?' . time());
+    $this->registerAssetBundle(DashboardBundle::class);
     $this->registerAssetBundle(\yii\web\YiiAsset::class);
 
 ?>

@@ -11,25 +11,17 @@ use yii\helpers\Html;
 $this->registerAssetBundle(ChartBundle::class);
 $bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
 $font = $bundle->baseUrl . '/fonts/fonts/icomoon.woff';
-
-$hostInfo = \Yii::$app->request->hostInfo;
-
-$this->registerLinkTag([
-    'rel' => 'preload',
-    'href' => $font,
-    'as' => 'font'
-], 'icomoon');
+//$this->registerLinkTag([
+//    'rel' => 'preload',
+//    'href' => $font,
+//    'as' => 'font'
+//], 'icomoon');
 
 $this->title = $project->getDisplayField();
+$hostInfo = \Yii::$app->request->hostInfo;
+
 ?>
 <style>
-    @font-face {
-        font-family: 'icomoon';
-        src:  url('<?=$font ?>') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
-
     html {
         --header-background-color: #212529;
         --primary-button-background-color: #4177c1;

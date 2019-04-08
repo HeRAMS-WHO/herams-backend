@@ -4,17 +4,17 @@
 namespace prime\controllers\workspace;
 
 
+use prime\components\NotificationService;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\Request;
-use yii\web\Session;
 
 class Share extends Action
 {
     public function run(
-        Session $session,
+        NotificationService $notificationService,
         Request $request,
         int $id
     )
@@ -32,20 +32,15 @@ class Share extends Action
 
         if ($request->isPost) {
             if ($model->load($request->bodyParams) && $model->createRecords()) {
-                $session->setFlash(
-                    'workspaceShared',
+                $notificationService->success(\Yii::t('app',
+                    "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
                     [
-                        'type' => \kartik\widgets\Growl::TYPE_SUCCESS,
-                        'text' => \Yii::t('app',
-                            "Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
-                            [
-                                'modelName' => $workspace->title,
-                                'users' => implode(', ', array_map(function ($model) {
-                                    return $model->name;
-                                }, $model->getUsers()->all()))
-                            ]),
-                        'icon' => 'glyphicon glyphicon-ok'
-                    ]
+                        'modelName' => $workspace->title,
+                        'users' => implode(', ', array_map(function ($model) {
+                            return $model->name;
+                        }, $model->getUsers()->all()))
+                    ])
+
                 );
                 return $this->controller->refresh();
             }
