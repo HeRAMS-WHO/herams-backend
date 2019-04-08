@@ -103,7 +103,7 @@ class Workspace extends ActiveRecord implements AuthorizableInterface
     private $_responses;
     
     /**
-     * @return ResponseCollectionInterface
+     * @return ResponseInterface[]
      */
     public function getResponses()
     {

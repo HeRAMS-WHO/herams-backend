@@ -127,6 +127,11 @@ class LimesurveyDataProvider extends Component
         return $this->getResponsesFromCache($surveyId) ?? $this->refreshResponses($surveyId);
     }
 
+    /**
+     * @param int $surveyId
+     * @param string $token
+     * @return iterable|ResponseInterface[]
+     */
     public function getResponsesByToken(int $surveyId, string $token): iterable
     {
         return $this->getResponsesByTokenFromCache($surveyId, $token) ?? $this->refreshResponsesByToken($surveyId, $token);
