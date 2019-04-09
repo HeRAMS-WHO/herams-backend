@@ -19,7 +19,7 @@ class Workspaces extends Action
         int $id
     ) {
         $project = Project::loadOne($id);
-        $workspaceSearch = new WorkspaceSearch($project->id);
+        $workspaceSearch = new WorkspaceSearch($project);
 
         $workspaceProvider = $workspaceSearch->search($request->queryParams);
 

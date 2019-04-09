@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @var \yii\data\ActiveDataProvider $projectsDataProvider
- * @var \prime\models\search\Workspace $projectSearch
+ * @var \yii\data\ActiveDataProvider $workspacesDataProvider
+ * @var \prime\models\search\Workspace $workspaceSearch
  * @var int $closedCount
  * @var \yii\web\View $this
  * @var \prime\models\ar\Project $project
