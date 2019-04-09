@@ -64,7 +64,7 @@ class Workspace extends \prime\models\ar\Workspace
     {
         return [
             [['created', 'closed'], 'safe'],
-            [['title', 'description', 'locality_name'], StringValidator::class],
+            [['title'], StringValidator::class],
         ];
     }
 
@@ -78,12 +78,9 @@ class Workspace extends \prime\models\ar\Workspace
         return [
             'search' => [
                 'project_id',
-                'country_iso_3',
                 'title',
-                'description',
                 'created',
                 'closed',
-                'locality_name'
             ]
         ];
     }
@@ -111,14 +108,12 @@ class Workspace extends \prime\models\ar\Workspace
             'attributes' => [
                 'id',
                 'title',
-                'description',
                 'country_iso_3' => [
                     'asc' => [$case => SORT_ASC],
                     'desc' => [$case => SORT_DESC],
                     'default' => 'asc'
                 ],
                 'created',
-                'closed',
                 'locality_name'
             ]
         ]);
