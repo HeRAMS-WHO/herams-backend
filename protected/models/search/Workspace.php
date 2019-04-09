@@ -64,7 +64,7 @@ class Workspace extends \prime\models\ar\Workspace
     {
         return [
             [['created', 'closed'], 'safe'],
-            [['title', 'description', 'project_id', 'locality_name'], StringValidator::class],
+            [['title', 'description', 'locality_name'], StringValidator::class],
         ];
     }
 
@@ -96,7 +96,7 @@ class Workspace extends \prime\models\ar\Workspace
             $this->query->joinWith(['project']);
         }
 
-        $this->query->andFilterWhere(['tool_id' => $this->projectId]);
+        $this->query->andFilterWhere(['tool_id' => $this->project->id]);
         
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
@@ -112,12 +112,6 @@ class Workspace extends \prime\models\ar\Workspace
                 'id',
                 'title',
                 'description',
-                'tool_id' => [
-                    'asc' => ['acronym' => SORT_ASC],
-                    'desc' => ['acronym' => SORT_DESC],
-                    'default' => 'asc'
-                ],
-
                 'country_iso_3' => [
                     'asc' => [$case => SORT_ASC],
                     'desc' => [$case => SORT_DESC],
@@ -142,7 +136,6 @@ class Workspace extends \prime\models\ar\Workspace
             ]);
         }
 
-        $this->query->andFilterWhere(['tool_id' => $this->project->id]);
         $this->query->andFilterWhere(['country_iso_3' => $this->country_iso_3]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.title', $this->title]);
         return $dataProvider;
