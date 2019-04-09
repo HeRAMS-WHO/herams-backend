@@ -22,23 +22,14 @@ class Workspace extends \prime\models\ar\Workspace
     public $query;
 
 
-    private $_toolId;
+    private $project;
     public function __construct(
-        ?int $projectId,
+        Project $project,
         array $config = []
     ) {
         parent::__construct($config);
-        $this->_toolId = $projectId;
+        $this->project = $project;
     }
-
-    public function attributeLabels()
-    {
-        return array_merge(parent::attributeLabels(), [
-            'countryIds' => \Yii::t('app', 'Tool'),
-        ]);
-    }
-
-
 
     public function countriesOptions()
     {
@@ -73,8 +64,7 @@ class Workspace extends \prime\models\ar\Workspace
     {
         return [
             [['created', 'closed'], 'safe'],
-            [['tool_id'], RangeValidator::class, 'range' => array_keys($this->toolsOptions()), 'allowArray' => true],
-            [['title', 'description', 'tool_id', 'locality_name'], StringValidator::class],
+            [['title', 'description', 'project_id', 'locality_name'], StringValidator::class],
         ];
     }
 
@@ -87,7 +77,7 @@ class Workspace extends \prime\models\ar\Workspace
     {
         return [
             'search' => [
-                'tool_id',
+                'project_id',
                 'country_iso_3',
                 'title',
                 'description',
@@ -106,7 +96,7 @@ class Workspace extends \prime\models\ar\Workspace
             $this->query->joinWith(['project']);
         }
 
-        $this->query->andFilterWhere(['tool_id' => $this->_toolId]);
+        $this->query->andFilterWhere(['tool_id' => $this->projectId]);
         
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
@@ -152,19 +142,9 @@ class Workspace extends \prime\models\ar\Workspace
             ]);
         }
 
-        $this->query->andFilterWhere(['tool_id' => $this->tool_id]);
+        $this->query->andFilterWhere(['tool_id' => $this->project->id]);
         $this->query->andFilterWhere(['country_iso_3' => $this->country_iso_3]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.title', $this->title]);
         return $dataProvider;
     }
-
-    public function  toolsOptions()
-    {
-        return ArrayHelper::map(
-            $this->query->copy()->orderBy(Project::tableName() . '.title')->all(),
-            'tool.id',
-            'tool.acronym'
-        );
-    }
-
 }

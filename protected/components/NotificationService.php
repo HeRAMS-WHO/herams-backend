@@ -47,13 +47,11 @@ class NotificationService extends Component
         }
 
         ToastBundle::register($view);
-//        PNotifyBundle::register($view);
 
         $jsNotifications = [];
         foreach ($this->getSession()->getAllFlashes(true) as $flash) {
             $type = ArrayHelper::remove($flash, 'type', 'show');
             $flash['position'] = 'topRight';
-//            $flash['timeout'] = 5050000;
 
             $config = json_encode($flash);
 

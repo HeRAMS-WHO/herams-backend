@@ -4,6 +4,7 @@
 namespace prime\actions;
 
 
+use prime\components\NotificationService;
 use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
@@ -32,7 +33,7 @@ class DeleteAction extends Action
 
     public function run(
         User $user,
-        Session $session,
+        NotificationService $notificationService,
         int $id
     ) {
         /** @var ActiveRecordInterface $model */
@@ -45,11 +46,17 @@ class DeleteAction extends Action
         }
 
         if ($model->delete() === false) {
-            $session->setFlash('fail', 'Deletion failed');
+            $notificationService->error('Deletion failed');
         } else {
-            $session->setFlash('fail', 'Deletion successful');
+            $notificationService->success('Deletion successful');
         }
 
-        return $this->controller->redirect($this->redirect);
+        if ($this->redirect instanceof \Closure) {
+            $redirect = call_user_func($this->redirect, $model);
+        } else {
+            $redirect = $this->redirect;
+        }
+
+        return $this->controller->redirect($redirect);
     }
 }

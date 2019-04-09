@@ -22,7 +22,10 @@ class ElementController extends Controller
             'create' => Create::class,
             'delete' => [
                 'class' => DeleteAction::class,
-                'query' => Element::find()
+                'query' => Element::find(),
+                'redirect' => function(Element $element) {
+                    return ['page/update', 'id' => $element->page_id];
+                }
             ]
         ];
     }

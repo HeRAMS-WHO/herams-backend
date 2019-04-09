@@ -190,6 +190,10 @@ a {
     top: 50px;
 }
 
+.iziToast-wrapper-topRight {
+    top: 100px;
+}
+
 body.no-title .title {
     display: none;
 }
