@@ -146,7 +146,7 @@ class Project extends ActiveRecord {
     }
     public function getWorkspaceCount(): int
     {
-        return $this->isRelationPopulated('workspaces') ? count($this->workspaces) : $this->getWorkspaces()->count();
+        return $this->isRelationPopulated('workspaces') ? count($this->workspaces) : (int)$this->getWorkspaces()->count();
     }
 
     public function getTypemapAsJson()
