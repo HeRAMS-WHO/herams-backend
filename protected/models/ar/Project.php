@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models\ar;
 
@@ -143,7 +144,7 @@ class Project extends ActiveRecord {
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id']);
     }
-    public function getWorkspaceCount()
+    public function getWorkspaceCount(): int
     {
         return $this->isRelationPopulated('workspaces') ? count($this->workspaces) : $this->getWorkspaces()->count();
     }
