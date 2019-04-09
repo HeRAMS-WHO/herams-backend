@@ -5,10 +5,7 @@ namespace prime\models\search;
 use app\queries\ProjectQuery;
 use prime\components\ActiveQuery;
 use prime\models\ar\Project;
-use prime\models\Country;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
-use yii\validators\RangeValidator;
 use yii\validators\StringValidator;
 
 class Workspace extends \prime\models\ar\Workspace
@@ -29,21 +26,6 @@ class Workspace extends \prime\models\ar\Workspace
     ) {
         parent::__construct($config);
         $this->project = $project;
-    }
-
-    public function countriesOptions()
-    {
-        $result = ArrayHelper::map(
-            $this->query->copy()->all(),
-            function(\prime\models\ar\Workspace $project) {
-                return $project->country_iso_3;
-            },
-            function(\prime\models\ar\Workspace $project) {
-                return Country::findOne($project->country_iso_3)->name;
-            }
-        );
-        asort($result);
-        return $result;
     }
 
     public function init()
@@ -103,16 +85,10 @@ class Workspace extends \prime\models\ar\Workspace
             ]
         ]);
 
-        $case = Country::searchCaseStatement('country_iso_3');
         $dataProvider->setSort([
             'attributes' => [
                 'id',
                 'title',
-                'country_iso_3' => [
-                    'asc' => [$case => SORT_ASC],
-                    'desc' => [$case => SORT_DESC],
-                    'default' => 'asc'
-                ],
                 'created',
                 'locality_name'
             ]
@@ -131,7 +107,6 @@ class Workspace extends \prime\models\ar\Workspace
             ]);
         }
 
-        $this->query->andFilterWhere(['country_iso_3' => $this->country_iso_3]);
         $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.title', $this->title]);
         return $dataProvider;
     }
