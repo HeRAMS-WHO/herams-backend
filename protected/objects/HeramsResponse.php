@@ -42,10 +42,7 @@ class HeramsResponse
     {
         $result = ((float) $this->data[$this->map->getLatitude()]) ?? null;
 
-        if ($result < 0) {
-            throw new \RuntimeException('Invalid latitude: ' . $result . 'for response ' . $this->data['token']);
-        }
-        while ($result > 90) {
+        while (abs($result) > 90) {
             $result = $result / 10;
         }
         return $result;
@@ -55,11 +52,7 @@ class HeramsResponse
     {
         $result = ((float) $this->data[$this->map->getLongitude()]) ?? null;
 
-        if ($result < 0) {
-            throw new \RuntimeException('Invalid longitude: ' . $result . 'for response ' . $this->data['token']);
-        }
-
-        while ($result > 180) {
+        while (abs($result) > 180) {
             $result = $result / 10;
         }
         return $result;
