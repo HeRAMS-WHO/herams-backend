@@ -49,7 +49,14 @@ class NotificationService extends Component
         ToastBundle::register($view);
 
         $jsNotifications = [];
-        foreach ($this->getSession()->getAllFlashes(true) as $flash) {
+        foreach ($this->getSession()->getAllFlashes(true) as $key => $flash) {
+            if (!is_array($flash)) {
+                $flash = [
+                    'type' => $key,
+                    'message' => $flash,
+                    'title' => ucfirst($key)
+                ];
+            }
             $type = ArrayHelper::remove($flash, 'type', 'show');
             $flash['position'] = 'topRight';
 
@@ -75,7 +82,7 @@ class NotificationService extends Component
         );
     }
 
-    public function success(string $message, string $title = null, string $key = null)
+    public function success(string $message, string $title = null, string $key = null): void
     {
         $this->getSession()->setFlash(
             $key ?? "Message" . $this->counter++,
@@ -87,7 +94,7 @@ class NotificationService extends Component
         );
     }
 
-    public function error(string $message, string $title = null, string $key = null)
+    public function error(string $message, string $title = null, string $key = null): void
     {
         $this->getSession()->setFlash(
             $key ?? "Message" . $this->counter++,
@@ -99,7 +106,7 @@ class NotificationService extends Component
         );
     }
 
-    public function warn(string $message, string $title = null, string $key = null)
+    public function warn(string $message, string $title = null, string $key = null): void
     {
         $this->getSession()->setFlash(
             $key ?? "Message" . $this->counter++,
