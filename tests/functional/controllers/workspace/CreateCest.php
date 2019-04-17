@@ -55,7 +55,7 @@ class CreateCest
             'title' => 'Cool stuff',
             'tool_id' => $project->id,
 
-            'token' => $tokens[2]->getToken()
+            'token' => array_pop($tokens)->getToken()
         ]);
         $I->seeInSource(substr(json_encode('Workspace <strong>Cool stuff</strong> created'), 1, -1));
     }
