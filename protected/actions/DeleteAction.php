@@ -19,6 +19,7 @@ class DeleteAction extends Action
 {
     /** @var ActiveQueryInterface */
     public $query;
+    /** @var string|\Closure */
     public $permission = Permission::PERMISSION_ADMIN;
 
     public $redirect;
@@ -41,10 +42,11 @@ class DeleteAction extends Action
         if (!isset($model)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can($this->permission, $model)) {
+        if (is_string($this->permission) && !$user->can($this->permission, $model)
+            || ($this->permission instanceof \Closure && !call_user_func($this->permission, $user, $model))
+        ) {
             throw new ForbiddenHttpException();
         }
-
         if ($model->delete() === false) {
             $notificationService->error('Deletion failed');
         } else {

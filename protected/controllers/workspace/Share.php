@@ -9,17 +9,31 @@ use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
+use yii\web\User;
 
 class Share extends Action
 {
     public function run(
         NotificationService $notificationService,
         Request $request,
+        User $user,
         int $id
     )
     {
-        $workspace = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $workspace = Workspace::findOne(['id' => $id]);
+        if (!isset($workspace)) {
+            throw new NotFoundHttpException();
+        }
+        if (!(
+                $user->can(Permission::PERMISSION_ADMIN, $workspace)
+                || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
+            )
+        ) {
+            throw new ForbiddenHttpException();
+        }
         $model = new ShareForm($workspace, [], [
             'permissions' => [
                 Permission::PERMISSION_WRITE => \Yii::t('app', 'Manage the underlying response data'),

@@ -4,10 +4,7 @@
 namespace prime\tests\functional\controllers\project;
 
 use prime\models\ar\Project;
-use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
-use yii\helpers\Json;
 
 class CreateCest
 {

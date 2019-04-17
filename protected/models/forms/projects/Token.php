@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\validators\DateValidator;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
+use yii\validators\StringValidator;
 
 /**
  * Class Token
@@ -108,6 +109,7 @@ class Token extends Model
     public function rules()
     {
         return [
+            [['firstName', 'lastName'], SafeValidator::class],
             [array_map('lcfirst', array_keys($this->_token->getCustomAttributes())), SafeValidator::class],
             [['validFrom', 'validUntil'], DateValidator::class, 'format' => 'php:Y-m-d H:i:s'],
             [['usesLeft'], NumberValidator::class, 'min' => 1]

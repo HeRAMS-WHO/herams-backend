@@ -10,16 +10,31 @@ use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\web\User;
 
 class Download extends Action
 {
     public function run(
         Response $response,
+        User $user,
         int $id,
         $text = false
     ) {
-        $workspace = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $codeAsText = $text;
+        $workspace = Workspace::findOne(['id' => $id]);
+        if (!isset($workspace)) {
+            throw new NotFoundHttpException();
+        }
+        if (!(
+            $user->can(Permission::PERMISSION_ADMIN, $workspace)
+            || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
+        )) {
+            throw new ForbiddenHttpException();
+        }
+
         /** @var Survey $survey */
         $survey = $workspace->project->getSurvey();
         /** @var QuestionInterface[] $questions */
@@ -37,7 +52,7 @@ class Download extends Action
             foreach ($record->getData() as $code => $value) {
                 if (null !== $question = $survey->getQuestionByCode($code)) {
                     $text = $question->getText();
-                    $answer = $this->getAnswer($question, $value, $text);
+                    $answer = $this->getAnswer($question, $value, $codeAsText);
 
 
                 } elseif (preg_match('/^(.+)\[(.*)\]$/', $code,

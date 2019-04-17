@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'import-workspaces',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
@@ -52,10 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->fieldOptions()
             ],
-            'owner_id' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->ownerOptions()
-            ],
             'tokens' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => $model->tokenOptions()
@@ -69,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
         'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'import-workspaces', 'class' => 'btn btn-primary']),
+            Html::submitButton(\Yii::t('app', 'Import workspaces'), ['class' => 'btn btn-primary']),
         ]
     ]);
     $form->end();

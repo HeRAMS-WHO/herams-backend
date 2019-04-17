@@ -11,6 +11,7 @@ use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
+use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
@@ -92,7 +93,7 @@ class Workspace extends ActiveRecord
             [['title'], StringValidator::class, 'min' => 1],
             [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
             [['tool_id'], NumberValidator::class],
-            ['token', UniqueValidator::class]
+            ['token', UniqueValidator::class],
         ];
     }
 
@@ -145,6 +146,14 @@ class Workspace extends ActiveRecord
         );
     }
 
+    public function scenarios()
+    {
+        $result = parent::scenarios();
+        $result[self::SCENARIO_DEFAULT][] = '!tool_id';
+        return $result;
+    }
+
+
     public function getIsClosed()
     {
         return isset($this->closed);
@@ -163,6 +172,31 @@ class Workspace extends ActiveRecord
 
         }
         return new FacilityList([]);
+    }
+
+    public function tokenOptions(): array
+    {
+        $limesurveyDataProvider = $this->getLimesurveyDataProvider();
+        $usedTokens = $this->project->getWorkspaces()->select(['token'])->indexBy('token')->column();
+
+        $tokens = $limesurveyDataProvider->getTokens($this->project->base_survey_eid);
+
+        $result = [];
+        /** @var TokenInterface $token */
+        foreach ($tokens as $token) {
+            if (isset($usedTokens[$token->getToken()])) {
+                continue;
+            }
+            if (!empty($token->getToken())) {
+                $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
+                        ', ',
+                        array_filter($token->getCustomAttributes())
+                    );
+            }
+        }
+        asort($result);
+
+        return array_merge(['' => 'Create new token'], $result);
     }
 
 }

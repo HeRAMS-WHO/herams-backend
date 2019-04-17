@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'share-workspace',
         'method' => 'POST',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -40,11 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
 
     echo $model->renderForm($form);
-
+    ?>
+    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary">Share</button></div>
+    <?php
     $form->end();
     ?>
-    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary" form="share-workspace">Share</button></div>
-
     <h2><?=\Yii::t('app', 'Already shared with')?></h2>
     <?php
     echo $model->renderTable();

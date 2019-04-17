@@ -8,10 +8,13 @@ use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 
 class TokenStub implements WritableTokenInterface
 {
+    private $data = [];
+    private $surveyId;
 
-    public function __construct($surveyId, array $tokenData, $generateToken = true)
+    public function __construct($surveyId, array $tokenData)
     {
-
+        $this->data = $tokenData;
+        $this->surveyId = $surveyId;
     }
 
     /**
@@ -19,7 +22,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getId()
     {
-        // TODO: Implement getId() method.
+        return $this->data['id'] ?? null;
     }
 
     /**
@@ -27,7 +30,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getSurveyId()
     {
-        // TODO: Implement getSurveyId() method.
+        return $this->surveyId;
     }
 
     /**
@@ -35,7 +38,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getToken()
     {
-        // TODO: Implement getToken() method.
+        return $this->data['token'] ?? null;
     }
 
     /**
@@ -43,7 +46,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getFirstName()
     {
-        // TODO: Implement getFirstName() method.
+        return $this->data['firstName'] ?? null;
     }
 
     /**
@@ -51,7 +54,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getLastName()
     {
-        // TODO: Implement getLastName() method.
+        return $this->data['lastName'] ?? null;
     }
 
     /**
@@ -59,7 +62,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getValidFrom()
     {
-        // TODO: Implement getValidFrom() method.
+        return $this->data['validFrom'] ?? null;
     }
 
     /**
@@ -67,7 +70,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getValidUntil()
     {
-        // TODO: Implement getValidUntil() method.
+        return $this->data['validUntil'] ?? null;
     }
 
     /**
@@ -75,7 +78,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getUsesLeft()
     {
-        // TODO: Implement getUsesLeft() method.
+        return $this->data['usesLeft'] ?? null;
     }
 
     /**
@@ -83,7 +86,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getEmail()
     {
-        // TODO: Implement getEmail() method.
+        return $this->data['email'] ?? null;
     }
 
     /**
@@ -91,7 +94,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getCompleted()
     {
-        // TODO: Implement getCompleted() method.
+        return $this->data['completed'] ?? null;
     }
 
     /**
@@ -99,7 +102,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getInvitationSent()
     {
-        // TODO: Implement getInvitationSent() method.
+        return $this->data['invitationSent'] ?? null;
     }
 
     /**
@@ -107,7 +110,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getReminderCount()
     {
-        // TODO: Implement getReminderCount() method.
+        return $this->data['reminderCount'] ?? null;
     }
 
     /**
@@ -115,7 +118,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getReminderSent()
     {
-        // TODO: Implement getReminderSent() method.
+        return $this->data['reminderSent'] ?? null;
     }
 
     /**
@@ -123,7 +126,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getLanguage()
     {
-        // TODO: Implement getLanguage() method.
+        return $this->data['language'] ?? null;
     }
 
     /**
@@ -131,7 +134,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function getCustomAttributes()
     {
-        // TODO: Implement getCustomAttributes() method.
+        return $this->data['customAttributes'] ?? [];
     }
 
     /**
@@ -148,7 +151,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setFirstName($value)
     {
-        // TODO: Implement setFirstName() method.
+        return $this->data['firstName'] = $value;
     }
 
     /**
@@ -157,7 +160,8 @@ class TokenStub implements WritableTokenInterface
      */
     public function setLastName($value)
     {
-        // TODO: Implement setLastName() method.
+        return $this->data['lastName'] = $value;
+
     }
 
     /**
@@ -166,7 +170,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setToken($value)
     {
-        // TODO: Implement setToken() method.
+        return $this->data['token'] = $value;
     }
 
     /**
@@ -175,7 +179,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setValidFrom(\DateTimeInterface $value = null)
     {
-        // TODO: Implement setValidFrom() method.
+        return $this->data['validFrom'] = $value;
     }
 
     /**
@@ -184,7 +188,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setValidUntil(\DateTimeInterface $value = null)
     {
-        // TODO: Implement setValidUntil() method.
+        return $this->data['validUntil'] = $value;
     }
 
     /**
@@ -193,7 +197,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setUsesLeft($value)
     {
-        // TODO: Implement setUsesLeft() method.
+        return $this->data['usesLeft'] = $value;
     }
 
     /**
@@ -202,7 +206,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setEmail($value)
     {
-        // TODO: Implement setEmail() method.
+        return $this->data['email'] = $value;
     }
 
     /**
@@ -211,7 +215,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setCompleted(\DateTimeInterface $value = null)
     {
-        // TODO: Implement setCompleted() method.
+        return $this->data['completed'] = $value;
     }
 
     /**
@@ -220,7 +224,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setInvitationSent(\DateTimeInterface $value = null)
     {
-        // TODO: Implement setInvitationSent() method.
+        return $this->data['invitationSent'] = $value;
     }
 
     /**
@@ -229,7 +233,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setReminderCount($value)
     {
-        // TODO: Implement setReminderCount() method.
+        return $this->data['reminderCount'] = $value;
     }
 
     /**
@@ -238,7 +242,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setReminderSent(\DateTimeInterface $value = null)
     {
-        // TODO: Implement setReminderSent() method.
+        return $this->data['reminderSent'] = $value;
     }
 
     /**
@@ -247,7 +251,7 @@ class TokenStub implements WritableTokenInterface
      */
     public function setLanguage($value)
     {
-        // TODO: Implement setLanguage() method.
+        return $this->data['language'] = $value;
     }
 
     /**
@@ -258,6 +262,6 @@ class TokenStub implements WritableTokenInterface
      */
     public function setCustomAttribute($name, $value)
     {
-        // TODO: Implement setCustomAttribute() method.
+        return $this->data['customAttributes'][$name] = $value;
     }
 }

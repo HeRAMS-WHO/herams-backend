@@ -1,6 +1,7 @@
 <?php
 
 use kartik\widgets\ActiveForm;
+use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
 /**
@@ -30,7 +31,6 @@ $this->title = Yii::t('app', 'Update workspace token');
 $this->params['breadcrumbs'][] = $this->title;
 
 $form = ActiveForm::begin([
-    'id' => 'update-project',
     'method' => 'PUT',
     "type" => ActiveForm::TYPE_HORIZONTAL,
     'formConfig' => [
@@ -48,12 +48,12 @@ foreach($token->attributes() as $attribute) {
     }
 }
 
-echo \yii\bootstrap\ButtonGroup::widget([
+echo ButtonGroup::widget([
     'options' => [
         'class' => 'pull-right'
     ],
     'buttons' => [
-        Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary'])
+        Html::submitButton(\Yii::t('app', 'Update token'), ['class' => 'btn btn-primary'])
     ]
 ]);
 $form->end();

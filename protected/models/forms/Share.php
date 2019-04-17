@@ -83,12 +83,6 @@ class Share extends Model {
                 $permissions[$value] = Permission::permissionLabels()[$value];
             }
         }
-        // Filter for current user.
-        foreach($permissions as $key => $label) {
-            if (!app()->user->can($key, $this->model)) {
-                unset($permissions[$key]);
-            }
-        }
         return $permissions;
     }
 

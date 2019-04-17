@@ -8,14 +8,27 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Answer;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Group;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Question;
-use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 
 class LimesurveyStub extends Client
 {
+    private $tokens;
+
     public function __construct()
     {
         // Don't call parent
+        $this->tokens = [
+            12345 => [
+                'token1' => new TokenStub(12345, ['token' => 'token1']),
+                'token2' => new TokenStub(12345, ['token' => 'token2'])
+            ]
+        ];
     }
+
+    public function getUrl($surveyId, array $params = [])
+    {
+        return 'https://limesurvey/' . $surveyId;
+    }
+
 
     public function __invoke($name)
     {
@@ -90,7 +103,20 @@ class LimesurveyStub extends Client
 
     public function createToken($surveyId, array $tokenData, $generateToken = true)
     {
-        return new TokenStub($surveyId, $tokenData, $generateToken);
+        $result = new TokenStub($surveyId, $tokenData);
+        $this->tokens[$surveyId][$result->getToken()] = $result;
+        return $result;
     }
+
+    public function getTokens($surveyId, array $attributesConditions = null, $attributeCount = 20, $limit = 10000)
+    {
+        return $this->tokens[$surveyId] ?? [];
+    }
+
+    public function getToken($surveyId, $token, $attributeCount = 20)
+    {
+        return $this->tokens[$surveyId][$token];
+    }
+
 
 }

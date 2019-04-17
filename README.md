@@ -1,6 +1,7 @@
 # who-herams
 WHO - WHE - HeRAMS Nigeria
-
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/WorldHealthOrganization/herams-backend/badges/quality-score.png?b=poc)](https://scrutinizer-ci.com/g/WorldHealthOrganization/herams-backend/?branch=poc)
+[![Code Coverage](https://scrutinizer-ci.com/g/WorldHealthOrganization/herams-backend/badges/coverage.png?b=poc)](https://scrutinizer-ci.com/g/WorldHealthOrganization/herams-backend/?branch=poc)
 # Set up developer environment
 
 ## Requirements

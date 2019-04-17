@@ -2,11 +2,12 @@
 
 use app\components\Form;
 use kartik\widgets\ActiveForm;
+use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\forms\workspace\CreateUpdate $model
+ * @var \prime\models\ar\Workspace $model
  */
 
 $this->params['breadcrumbs'][] = [
@@ -45,23 +46,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_TEXT,
             ],
             'token' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->tokenOptions()
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\select2\Select2::class,
+                'options' => [
+                    'data' => $model->tokenOptions(),
+                ],
+                'placeholder' => 'Create new token'
             ],
 
         ]
     ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
+    echo ButtonGroup::widget([
         'options' => [
             'class' => [
                 'pull-right'
             ],
         ],
         'buttons' => [
-            Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
-                'class' => ['btn btn-default']
-            ]),
-            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'create-workspace', 'class' => 'btn btn-primary']),
+            Html::submitButton(\Yii::t('app', 'Create workspace'), ['class' => 'btn btn-primary']),
 
         ]
     ]);

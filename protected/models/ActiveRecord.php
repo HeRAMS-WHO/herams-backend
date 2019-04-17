@@ -11,8 +11,6 @@ use yii\web\HttpException;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
-    public const SCENARIO_UPDATE = 'update';
-    public const SCENARIO_CREATE = 'create';
     /**
      * @return ActiveQuery
      * @throws \yii\base\InvalidConfigException

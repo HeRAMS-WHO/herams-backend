@@ -3,15 +3,12 @@
 
 namespace prime\tests\functional\controllers\project;
 
-use prime\models\ar\Page;
-use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
-use yii\helpers\Json;
 use yii\helpers\Url;
 
-class WorkspacesCestCest
+class WorkspacesCest
 {
 
     public function testAccessControl(FunctionalTester $I)

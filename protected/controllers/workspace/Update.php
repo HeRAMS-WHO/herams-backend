@@ -5,9 +5,12 @@ namespace prime\controllers\workspace;
 
 
 use prime\components\NotificationService;
+use prime\models\ar\Workspace;
 use prime\models\forms\workspace\CreateUpdate;
 use prime\models\permissions\Permission;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\User;
 
@@ -16,23 +19,33 @@ class Update extends Action
 
     public function run(
         Request $request,
+        User $user,
         NotificationService $notificationService,
         $id
     ) {
-        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
-        $model->scenario = 'update';
+        $workspace = Workspace::findOne(['id' => $id]);
+        if (!isset($workspace)) {
+            throw new NotFoundHttpException();
+        }
+        if (!(
+            $user->can(Permission::PERMISSION_ADMIN, $workspace)
+            || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
+        )) {
+            throw new ForbiddenHttpException();
+        }
+
         if($request->isPut) {
-            if($model->load($request->bodyParams) && $model->save()) {
+            if($workspace->load($request->bodyParams) && $workspace->save()) {
                 $notificationService->success(\Yii::t('app', "Workspace <strong>{modelName}</strong> has been updated.", [
-                    'modelName' => $model->title
+                    'modelName' => $workspace->title
                 ]));
 
-                return $this->controller->redirect(['project/workspaces', 'id' => $model->project->id]);
+                return $this->controller->redirect(['project/workspaces', 'id' => $workspace->project->id]);
             }
         }
 
         return $this->controller->render('update', [
-            'model' => $model
+            'model' => $workspace
         ]);
     }
 

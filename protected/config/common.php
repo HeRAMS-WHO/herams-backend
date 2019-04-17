@@ -88,8 +88,11 @@ return [
             return $result;
         },
         'log' => [
+            'flushInterval' => 1,
+
             'targets' => [
                 [
+                    'exportInterval' => 1,
                     'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
                     'logFile' => '@runtime/logs/error.log'

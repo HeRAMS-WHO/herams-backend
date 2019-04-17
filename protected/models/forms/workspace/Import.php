@@ -25,7 +25,6 @@ class Import extends Model
     private $tokenObjects = [];
 
     public $titleField;
-    public $owner_id;
     public $tokens = [];
 
 
@@ -76,11 +75,6 @@ class Import extends Model
 
     }
 
-    public function ownerOptions()
-    {
-        return ArrayHelper::map(User::find()->all(), 'id', 'name');
-    }
-
     public function attributeHints()
     {
         return [
@@ -96,7 +90,7 @@ class Import extends Model
     public function rules()
     {
         return [
-            [['titleField', 'owner_id', 'tokens'], RequiredValidator::class],
+            [['titleField', 'tokens'], RequiredValidator::class],
             [['titleField'], RangeValidator::class, 'range' => array_keys($this->fieldOptions())],
             [['tokens'], RangeValidator::class, 'range' => array_keys($this->tokenOptions()), 'allowArray' => true],
             [['tokens'], function($params) {
@@ -105,7 +99,6 @@ class Import extends Model
                     $tokenObject = $this->tokenObjects[$token];
                     $workspace = new Workspace();
                     $workspace->tool_id = $this->project->id;
-                    $workspace->owner_id = $this->owner_id;
                     $workspace->title = $this->getName($tokenObject);
                     $workspace->setAttribute('token', $token);
                     if (!$workspace->validate()) {
@@ -133,7 +126,6 @@ class Import extends Model
             $tokenObject = $this->tokenObjects[$token];
             $workspace = new Workspace();
             $workspace->tool_id = $this->project->id;
-            $workspace->owner_id = $this->owner_id;
             $workspace->title = $this->getName($tokenObject);
             $workspace->setAttribute('token', $token);
             if ($workspace->save()) {
