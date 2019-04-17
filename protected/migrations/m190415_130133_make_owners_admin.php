@@ -19,7 +19,7 @@ class m190415_130133_make_owners_admin extends Migration
         foreach( Workspace::find()->each() as $workspace) {
             $user = User::findOne(['id' => $workspace->owner_id]);
             if (!isset($user)) {
-                throw new \Exception("Owner {$workspace->owner_id} for workspace {$workspace->title} ({$workspace->id}) not found");
+                continue;
             }
             Permission::grant($user, $workspace, Permission::PERMISSION_ADMIN);
             if (!Permission::find()
