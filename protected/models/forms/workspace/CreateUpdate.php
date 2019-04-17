@@ -13,14 +13,12 @@ class CreateUpdate extends Workspace
         $scenarios =  [
             'create' => [
                 'title',
-                'owner_id',
                 'token'
             ],
               'update' => [
                 'title',
             ],
         ];
-        $scenarios['admin-update'] = array_merge(['owner_id'], $scenarios['update']);
         return $scenarios;
     }
 

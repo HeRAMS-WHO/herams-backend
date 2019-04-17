@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\ar\Workspace $model
+ * @var \prime\models\forms\workspace\CreateUpdate $model
  */
 
 $this->params['breadcrumbs'][] = [
@@ -43,10 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
         "attributes" => [
             'title' => [
                 'type' => Form::INPUT_TEXT,
-            ],
-            'owner_id' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->ownerOptions()
             ],
             'token' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,

@@ -2,10 +2,10 @@
 
 namespace prime\models\permissions;
 
-use prime\interfaces\AuthorizableInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
+use app\queries\PermissionQuery;
 use yii\db\ActiveRecordInterface;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
@@ -18,9 +18,14 @@ use yii\validators\UniqueValidator;
  * @property int $source_id
  * @property string $target
  * @property int $target_id
+ *
+ * @method static PermissionQuery find()
  */
 class Permission extends ActiveRecord
 {
+    // If set to false we will reload the cache every time.
+    public static $enableCaching = true;
+
     // Cache for the results for the anyAllowed lookup.
     private static $anyCache = [];
     // Cache for the results for the isAllowed loookup.
@@ -28,14 +33,12 @@ class Permission extends ActiveRecord
 
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
-    const PERMISSION_SHARE = 'share';
     const PERMISSION_ADMIN = 'admin';
-    const PERMISSION_INSTANTIATE = 'instantiate';
 
 
     public static function loadCache($sourceModel, $sourceId)
     {
-        if (!empty(self::$cache)) {
+        if (self:: $enableCaching && !empty(self::$cache)) {
             return;
         }
         /** @var self $permission */
@@ -63,8 +66,6 @@ class Permission extends ActiveRecord
         return [
             self::PERMISSION_READ => [self::PERMISSION_WRITE, self::PERMISSION_ADMIN],
             self::PERMISSION_WRITE => [self::PERMISSION_ADMIN],
-            self::PERMISSION_SHARE => [self::PERMISSION_ADMIN]
-
         ];
     }
 
@@ -89,7 +90,7 @@ class Permission extends ActiveRecord
         return $this->hasOne($this->target, ['id' => 'target_id']);
     }
 
-    public static function grant(\yii\db\ActiveRecord $source,\yii\db\ActiveRecord $target, $permission)
+    public static function grant(\yii\db\ActiveRecord $source,\yii\db\ActiveRecord $target, $permission): void
     {
         if($source->isNewRecord) {
             throw new \Exception('Source is new record');
@@ -99,16 +100,22 @@ class Permission extends ActiveRecord
             throw new \Exception('Target is new record');
         }
 
-        $p = new Permission([
-            'source' => $source instanceof AuthorizableInterface ? $source->getAuthName() :get_class($source),
+        if (!Permission::find()->where([
+            'source' => get_class($source),
             'source_id' => $source->id,
-            'target' => $target instanceof AuthorizableInterface ? $target->getAuthName() : get_class($target),
+            'target' => get_class($target),
             'target_id' => $target->id,
             'permission' => $permission
-        ]);
-        $p = $p->loadFromAttributeData();
-
-        return $p->save();
+        ])->exists()) {
+            $p = new Permission([
+                'source' => get_class($source),
+                'source_id' => $source->id,
+                'target' => get_class($target),
+                'target_id' => $target->id,
+                'permission' => $permission
+            ]);
+            $p->save();
+        }
     }
 
     public static function instantiate($row)
@@ -123,11 +130,11 @@ class Permission extends ActiveRecord
      * Checks if a set of sources is allowed $permission on the $target.
      * @param ActiveRecordInterface $source The source object.
      * @param ActiveRecordInterface $target The target objects.
-     * @param $permission The permission to be checked.
+     * @param string $permission The permission to be checked.
      * @return boolean
      * @throws \Exception
      */
-    public static function isAllowed(ActiveRecordInterface $source, ActiveRecordInterface $target, $permission)
+    public static function isAllowed(ActiveRecordInterface $source, ActiveRecordInterface $target, string $permission)
     {
         if ($target->primaryKey === null) {
             throw new \Exception("Invalid record.");
@@ -212,9 +219,7 @@ class Permission extends ActiveRecord
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
             self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to update the settings'),
-            self::PERMISSION_SHARE => \Yii::t('app', 'Share, this allows sharing permissions, only makes sense when combined with other permissions'),
-            self::PERMISSION_INSTANTIATE => \Yii::t('app', 'Administer workspaces'),
-            self::PERMISSION_ADMIN => \Yii::t('app', 'Full access'),
+            self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
         ];
     }
 
@@ -222,9 +227,7 @@ class Permission extends ActiveRecord
     {
         return [
             self::PERMISSION_READ => 0,
-            self::PERMISSION_INSTANTIATE => 1,
             self::PERMISSION_WRITE => 2,
-            self::PERMISSION_SHARE => 3,
             self::PERMISSION_ADMIN => 4,
         ];
     }

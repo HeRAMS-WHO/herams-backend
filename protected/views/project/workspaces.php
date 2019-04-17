@@ -10,6 +10,7 @@
  */
 
 use kartik\grid\GridView;
+use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->params['breadcrumbs'][] = [
     'label' => $project->title,
-    'url' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_WRITE, $project) ? ['project/update', 'id' => $project->id] : null
+    'url' => app()->user->can(Permission::PERMISSION_WRITE, $project) ? ['project/update', 'id' => $project->id] : null
 ];
 $this->title = \Yii::t('app', 'Workspaces');
 $this->params['breadcrumbs'][] = $this->title;
@@ -51,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
                         'class' => 'btn-default',
                     ],
-                    'visible' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_INSTANTIATE, $project)
+                    'visible' => app()->user->can(Permission::PERMISSION_WRITE, $project)
                 ],
                 [
                     'label' => \Yii::t('app', 'Create workspace'),
@@ -60,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
                         'class' => 'btn-primary',
                     ],
-                    'visible' => app()->user->can(\prime\models\permissions\Permission::PERMISSION_INSTANTIATE, $project)
+                    'visible' => app()->user->can(Permission::PERMISSION_WRITE, $project)
                 ],
 
             ]

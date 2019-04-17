@@ -64,7 +64,15 @@ class ProjectController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['share', 'view', 'summary', 'index', 'update', 'workspaces'],
+                            'actions' => [
+                                'share',
+                                'view',
+                                'summary',
+                                'index',
+                                'update',
+                                'workspaces',
+                                'delete'
+                            ],
                             'roles' => ['@'],
                         ],
                     ]

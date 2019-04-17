@@ -8,6 +8,7 @@ use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\objects\GroupPage;
 use prime\objects\HeramsResponse;
+use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\validators\ExistValidator;
@@ -25,6 +26,7 @@ use yii\validators\StringValidator;
  */
 class Page extends ActiveRecord implements PageInterface
 {
+    use LoadOneAuthTrait;
     public function init()
     {
         $this->sort = 0;

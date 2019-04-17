@@ -52,8 +52,6 @@ $this->params['breadcrumbs'][] = [
                 ])
             ]
         ],
-        'options' => [
-        ]
     ]);
     $form->end();
     ?>

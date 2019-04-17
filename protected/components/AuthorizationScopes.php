@@ -26,10 +26,7 @@ trait AuthorizationScopes
         // Check if we are interested in the current user; and if the current user is admin.
         if (!$authManager->checkAccess($userId,'admin')) {
             $this->_required = true;
-            $modelClass = $this->modelClass;
-            if (!method_exists($modelClass, 'userCanScope') || !$modelClass::userCanScope($this, $operation, $user)) {
-                $this->_operations[] = [$operation, $user];
-            }
+            $this->_operations[] = [$operation, $user];
         }
         return $this;
     }

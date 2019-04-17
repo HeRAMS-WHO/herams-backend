@@ -19,15 +19,12 @@ class Share extends Action
         int $id
     )
     {
-        $project = Project::loadOne($id, [], Permission::PERMISSION_SHARE);
+        $project = Project::loadOne($id, [], Permission::PERMISSION_ADMIN);
         $model = new \prime\models\forms\Share($project, [], [
             'permissions' => [
-                Permission::PERMISSION_READ,
-                Permission::PERMISSION_SHARE,
-                Permission::PERMISSION_WRITE,
-                Permission::PERMISSION_INSTANTIATE,
+                Permission::PERMISSION_READ => 'Allow access to the project dashboard from the world map',
+                Permission::PERMISSION_WRITE => 'Allows full access to all workspaces in this project as well as creating new ones or deleting existing ones',
                 Permission::PERMISSION_ADMIN,
-
             ]
         ]);
         if($request->isPost) {
@@ -37,7 +34,7 @@ class Share extends Action
                             [
                                 'modelName' => $project->title,
                                 'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
-                            ]),
+                            ])
                 );
                 return $this->controller->refresh();
             }

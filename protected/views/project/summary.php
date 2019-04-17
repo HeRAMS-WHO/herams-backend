@@ -326,7 +326,7 @@ JS;
     </canvas>
 </div>
     <?php
-if (!empty($project->pages)) {
+if (!empty($project->pages) && \Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_READ, $project)) {
    echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
 }
 

@@ -9,7 +9,7 @@ use ArrayAccess;
 class Environment implements ArrayAccess {
     private $data = [];
 
-    public function __construct(string $file)
+    public function __construct(?string $file = null)
     {
         $this->data = getenv();
         if (file_exists($file)) {

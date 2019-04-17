@@ -19,7 +19,7 @@ class AuthManager extends DbManager
                 'model' => get_class($params)
             ];
         }
-        $result = parent::checkAccess($userId, 'admin', $params)
+        $result = parent::checkAccess($userId, Permission::PERMISSION_ADMIN, $params)
             || parent::checkAccess($userId, $permissionName, $params);
 
 

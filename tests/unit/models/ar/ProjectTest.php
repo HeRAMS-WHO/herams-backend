@@ -1,7 +1,7 @@
 <?php
 namespace prime\tests\unit\models\ar;
 
-class ToolTest extends ActiveRecordTest
+class ProjectTest extends ActiveRecordTest
 {
     public function validSamples(): array
     {

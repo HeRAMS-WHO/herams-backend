@@ -1,9 +1,9 @@
 <?php
 
+use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Project;
-use prime\models\ar\Setting;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
@@ -54,9 +54,9 @@ $this->params['breadcrumbs'][] = [
                 }
             ],
             'actions' => [
-                'class' => \kartik\grid\ActionColumn::class,
+                'class' => ActionColumn::class,
                 'width' => '100px',
-                'template' => '{view} {update} {share} {remove} {workspaces}',
+                'template' => '{view} {workspaces} {update} {share} {remove}',
                 'buttons' => [
                     'workspaces' => function($url, Project $model, $key) {
                         $result = Html::a(
@@ -72,9 +72,9 @@ $this->params['breadcrumbs'][] = [
                             && app()->user->can(Permission::PERMISSION_READ, $model)
                         ) {
                             $result = Html::a(
-                                Icon::eye(),
+                                Icon::project(),
                                 ['project/view', 'id' => $model->id],
-                                ['title' => 'View']
+                                ['title' => \Yii::t('app', 'Project dashboard')]
 
                             );
                             return $result;
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = [
 
                     },
                     'update' => function($url, Project $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_WRITE, $model)) {
+                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
                             return Html::a(
                                 Icon::edit(),
                                 ['project/update', 'id' => $model->id], [
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = [
 
                     },
                     'share' => function($url, Project $model, $key) {
-                        if(app()->user->can('share', $model)) {
+                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
                             $result = Html::a(
                                 Icon::share(),
                                 ['project/share', 'id' => $model->id], [
@@ -115,25 +115,10 @@ $this->params['breadcrumbs'][] = [
                                 ['project/delete', 'id' => $model->id],
                                 [
                                     'data-method' => 'delete',
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this tool from the system?')
+                                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?')
                                 ]
                             );
                         }
-                    },
-                    'deactivate' => function($url, Project $model, $key) {
-                        /** @var Project $model */
-                        $result = '';
-                        if(app()->user->can('admin') && $model->getWorkspaceCount() > 0) {
-                            $result = Html::a(
-                                Html::icon(Setting::get('icons.stop')),
-                                ['project/delete', 'id' => $model->id],
-                                [
-                                    'data-method' => 'delete',
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to disable this tool?')
-                                ]
-                            );
-                        }
-                        return $result;
                     },
                 ]
             ]

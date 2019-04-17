@@ -1,6 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
 SET NAMES 'utf8';
-INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (1, 1, 'map', CAST('{\"code\":\"HF2\"}' AS JSON), 0, 0);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (2, 1, 'chart', CAST('{\"code\":\"availability\"}' AS JSON), 4, 1);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (4, 1, 'chart', CAST('{\"code\":\"HFACC1\",\"notRelevantColor\":null}' AS JSON), 3, 0);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (5, 3, 'table', CAST('{\"code\":\"HFACC1\",\"reasonCode\":\"HFACC2\"}' AS JSON), 2, 0);
@@ -9,8 +8,6 @@ INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transp
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (8, 3, 'map', CAST('{\"code\":\"HF2\"}' AS JSON), 0, 0);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (9, 3, 'chart', CAST('{\"code\":\"HF2\",\"colors\":[\"rgb(255, 99, 132)\",\"rgb(255, 159, 64)\",\"rgb(255, 205, 86)\",\"rgb(75, 192, 192)\",\"rgb(54, 162, 235)\",\"rgb(153, 102, 255)\",\"rgb(201, 203, 207)\"]}' AS JSON), 1, 0);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (10, 3, 'chart', CAST('{\"code\":\"HF3\",\"colors\":[\"rgb(255, 99, 132)\",\"rgb(255, 159, 64)\",\"rgb(255, 205, 86)\",\"rgb(75, 192, 192)\",\"rgb(54, 162, 235)\",\"rgb(153, 102, 255)\",\"rgb(201, 203, 207)\"]}' AS JSON), 2, 0);
-INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (11, 1, 'chart', CAST('{\"code\":\"HFINF1\"}' AS JSON), 1, 0);
-INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (12, 1, 'chart', CAST('{\"code\":\"HFINF3\",\"notRelevantColor\":null}' AS JSON), 2, 0);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (13, 4, 'chart', CAST('{\"code\":\"HFMR1\",\"colors\":[\"rgb(255, 99, 132)\",\"rgb(255, 159, 64)\",\"rgb(255, 205, 86)\",\"rgb(75, 192, 192)\",\"rgb(54, 162, 235)\",\"rgb(153, 102, 255)\",\"rgb(201, 203, 207)\"]}' AS JSON), 0, 0);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (14, 4, 'chart', CAST('{\"code\":\"HFMR3\"}' AS JSON), 1, 0);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (15, 4, 'chart', CAST('{\"code\":\"HFMR4\",\"colors\":[\"rgb(255, 99, 132)\",\"rgb(255, 159, 64)\",\"rgb(255, 205, 86)\",\"rgb(75, 192, 192)\",\"rgb(54, 162, 235)\",\"rgb(153, 102, 255)\",\"rgb(201, 203, 207)\"]}' AS JSON), 2, 0);
@@ -34,4 +31,5 @@ INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transp
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (34, 10, 'chart', CAST('{\"map\":{\"A1\":\"Fully available\",\"A2\":\"Partially available\",\"A3\":\"Not available\",\"A4\":\"Not normally provided\"},\"code\":\"availability\",\"colors\":[\"green\",\"orange\",\"red\",\"grey\"]}' AS JSON), 1, 1);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (35, 10, 'chart', CAST('{\"map\":{\"A1\":\"Lack of health staff\",\"A2\":\"Lack of training of health staff\",\"A3\":\"Lack of medical supplies\",\"A4\":\"Lack of medical equipment\",\"A5\":\"Lack of finances\"},\"code\":\"causes\",\"colors\":[\"rgb(255, 99, 132)\",\"rgb(255, 159, 64)\",\"rgb(255, 205, 86)\",\"rgb(75, 192, 192)\",\"rgb(54, 162, 235)\",\"rgb(153, 102, 255)\",\"rgb(201, 203, 207)\"]}' AS JSON), 2, 1);
 INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (36, 10, 'table', CAST('{\"code\":\"availability\",\"reasonCode\":\"causes\"}' AS JSON), 4, 1);
+INSERT INTO `prime2_element` (`id`, `page_id`, `type`, `config`, `sort`, `transpose`) VALUES (37, 12, 'map', CAST('{\"code\":\"MoSD3\",\"colors\":[\"black\"]}' AS JSON), 1, 0);
 SET FOREIGN_KEY_CHECKS=1;

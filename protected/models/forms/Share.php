@@ -3,6 +3,8 @@
 namespace prime\models\forms;
 
 use kartik\builder\Form;
+use kartik\widgets\ActiveForm;
+use kartik\widgets\Select2;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
@@ -41,14 +43,6 @@ class Share extends Model {
         ];
     }
 
-    public function attributeHints()
-    {
-        return [
-            'permission' => \Yii::t('app', 'You are only allowed to grant permissions that you have'),
-        ];
-    }
-
-
     /**
      * @return bool
      */
@@ -59,15 +53,14 @@ class Share extends Model {
             try {
                 foreach ($this->getUsers()->all() as $user) {
                     foreach($this->permission as $permission) {
-                        if (!Permission::grant($user, $this->model, $permission)) {
-                            throw new \Exception("Failed to grant permission");
-                        }
+                        Permission::grant($user, $this->model, $permission);
                     }
                 }
                 $transaction->commit();
                 return true;
             } catch (\Exception $e) {
                 $transaction->rollBack();
+                throw $e;
             }
 
         }
@@ -111,7 +104,7 @@ class Share extends Model {
         ]);
     }
 
-    public function renderForm(\kartik\widgets\ActiveForm $form)
+    public function renderForm(ActiveForm $form)
     {
         return Form::widget([
             'form' => $form,
@@ -119,8 +112,9 @@ class Share extends Model {
             'columns' => 1,
             "attributes" => [
                 'userIds' => [
+
                     'type' => Form::INPUT_WIDGET,
-                    'widgetClass' => \kartik\widgets\Select2::class,
+                    'widgetClass' => Select2::class,
                     'options' => [
                         'data' => $this->userOptions,
                         'options' => [

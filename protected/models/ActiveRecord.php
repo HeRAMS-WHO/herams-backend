@@ -46,32 +46,6 @@ class ActiveRecord extends \yii\db\ActiveRecord
     }
 
     /**
-     * Loads a model, throws an exception if user does not have permission.
-     * @param int $id
-     * @param string $priv
-     * @param array $with
-     * @return static ::class
-     * @throws HttpException
-     */
-    public static function loadOne($id, array $with = []) {
-        $result = static::find()->where(['id' => $id])->with($with)->one();
-        if (!isset($result)) {
-            throw new HttpException(404, \yii\helpers\StringHelper::basename(static::class) . " not found.");
-        }
-        return $result;
-    }
-
-    public function userCan($operation, User $user)
-    {
-        // Admins can do anything
-        return app()->authManager->checkAccess($user->id, Permission::PERMISSION_ADMIN);
-    }
-
-
-
-
-
-    /**
      * Returns a field useful for displaying this record
      * @return string
      */

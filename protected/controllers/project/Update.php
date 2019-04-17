@@ -23,7 +23,7 @@ class Update extends Action
     {
         $model = Project::loadOne($id);
 
-        if (!$user->can(Permission::PERMISSION_WRITE, $model)) {
+        if (!$user->can(Permission::PERMISSION_ADMIN, $model)) {
             throw new ForbiddenHttpException();
         }
 

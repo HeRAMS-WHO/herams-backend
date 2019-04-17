@@ -22,10 +22,7 @@ class Create extends Action
         NotificationService $notificationService,
         int $project_id
     ) {
-        $project = Project::loadOne($project_id);
-        if (!$user->can(Permission::PERMISSION_INSTANTIATE, $project)) {
-            throw new ForbiddenHttpException();
-        }
+        $project = Project::loadOne($project_id, [], Permission::PERMISSION_WRITE);
 
         $model = new CreateUpdate();
         $model->scenario = CreateUpdate::SCENARIO_CREATE;

@@ -19,14 +19,11 @@ class Share extends Action
         int $id
     )
     {
-        $workspace = Workspace::loadOne($id, [], Permission::PERMISSION_SHARE);
-        $model = new ShareForm($workspace, [$workspace->owner_id], [
+        $workspace = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $model = new ShareForm($workspace, [], [
             'permissions' => [
-                Permission::PERMISSION_READ,
-                Permission::PERMISSION_WRITE,
-                Permission::PERMISSION_SHARE,
-                Permission::PERMISSION_ADMIN,
-
+                Permission::PERMISSION_WRITE => \Yii::t('app', 'Manage the underlying response data'),
+                Permission::PERMISSION_ADMIN => \Yii::t('app', 'Full access, includes editing the workspace properties, token and response data'),
             ]
         ]);
 

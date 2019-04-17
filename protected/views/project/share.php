@@ -1,6 +1,7 @@
 <?php
 
 use kartik\widgets\ActiveForm;
+use yii\helpers\Html;
 
 /**
  * @var \prime\models\ar\Project $project
@@ -23,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-xs-12">
     <?php
     $form = ActiveForm::begin([
-        'id' => 'share-project',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
@@ -33,11 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     echo $model->renderForm($form);
 
-    $form->end();
     ?>
-    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary" form="share-project">Share</button></div>
-    <h2><?=\Yii::t('app', 'Already shared with')?></h2>
+    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary">Share</button></div>
     <?php
+    $form->end();
+
+
+    echo Html::tag('h2', \Yii::t('app', 'Already shared with'));
     echo $model->renderTable();
     ?>
 </div>

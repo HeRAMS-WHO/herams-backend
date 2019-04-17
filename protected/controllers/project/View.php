@@ -27,7 +27,7 @@ class View extends Action
         int $parent_id = null
     ) {
         $this->controller->layout = 'css3-grid';
-        $project = Project::findOne(['id' => $id]);
+        $project = Project::loadOne($id, []);
         $survey = $project->getSurvey();
 
         if (isset($parent_id, $page_id)) {
@@ -45,7 +45,7 @@ class View extends Action
         } elseif (isset($page_id)) {
             $page = Page::findOne(['id' => $page_id]);
             if (!isset($page) || $page->tool_id !== $project->id) {
-                throw new NotFoundHttpException($page->tool_id);
+                throw new NotFoundHttpException();
             }
         } elseif (!empty($project->pages)) {
             $page = $project->pages[0];
@@ -77,17 +77,16 @@ class View extends Action
         ]);
     }
 
-    private function getTypes(SurveyInterface $survey, Project $project): array {
+    private function getTypes(SurveyInterface $survey, Project $project): array
+    {
         \Yii::beginProfile(__FUNCTION__);
-        try {
+        $question = $this->findQuestionByCode($survey, $project->getMap()->getType());
 
-            $question = $this->findQuestionByCode($survey, $project->getMap()->getType());
-        } catch (\TypeError $e) {
-            // This is a badly configured survey.
+        if (!isset($question)) {
             return [];
         }
+
         $answers = $question->getAnswers();
-        assert(count($answers) > 0);
 
         $map = [];
         foreach($answers as $answer) {
@@ -108,6 +107,7 @@ class View extends Action
 
             }
         }
+        return null;
     }
 
 

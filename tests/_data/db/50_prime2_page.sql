@@ -9,4 +9,6 @@ INSERT INTO `prime2_page` (`id`, `title`, `tool_id`, `parent_id`, `sort`) VALUES
 INSERT INTO `prime2_page` (`id`, `title`, `tool_id`, `parent_id`, `sort`) VALUES (8, 'Accessibility', 1, NULL, 4);
 INSERT INTO `prime2_page` (`id`, `title`, `tool_id`, `parent_id`, `sort`) VALUES (9, 'Management & Support', 1, NULL, 5);
 INSERT INTO `prime2_page` (`id`, `title`, `tool_id`, `parent_id`, `sort`) VALUES (10, 'Overview', 1, 5, 0);
+INSERT INTO `prime2_page` (`id`, `title`, `tool_id`, `parent_id`, `sort`) VALUES (12, 'Main', 5, NULL, 0);
+INSERT INTO `prime2_page` (`id`, `title`, `tool_id`, `parent_id`, `sort`) VALUES (13, 'test', 6, NULL, 0);
 SET FOREIGN_KEY_CHECKS=1;

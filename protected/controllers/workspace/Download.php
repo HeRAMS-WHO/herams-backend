@@ -1,7 +1,7 @@
 <?php
 
 
-namespace prime\controllers\projects;
+namespace prime\controllers\workspace;
 
 
 use prime\models\ar\Workspace;
@@ -10,27 +10,18 @@ use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
 use yii\base\Action;
-use yii\web\Controller;
 use yii\web\Response;
 
 class Download extends Action
 {
-    private $response;
-    public function __construct(
-        string $id,
-        Controller $controller,
+    public function run(
         Response $response,
-        array $config = []
+        int $id,
+        $text = false
     ) {
-        parent::__construct($id, $controller, $config);
-        $this->response = $response;
-    }
-
-    public function run($id, $text = false)
-    {
         $workspace = Workspace::loadOne($id, [], Permission::PERMISSION_ADMIN);
         /** @var Survey $survey */
-        $survey = $workspace->tool->getSurvey();
+        $survey = $workspace->project->getSurvey();
         /** @var QuestionInterface[] $questions */
         $questions = [];
         foreach($survey->getGroups() as $group) {
@@ -79,8 +70,8 @@ class Download extends Action
 //                echo str_pad(trim(strip_tags($answer)), 40) . ' | ';
 //                echo trim(strip_tags($text));
 //                echo "\n";
-                $codes[$text] = $code;
-                $row[$text] = $answer;
+                $codes[$text] = trim($code);
+                $row[$text] = trim($answer);
             }
             $rows[] = $row;
         }
@@ -111,7 +102,7 @@ class Download extends Action
                 fputcsv($stream, $row);
             }
         }
-        return $this->response->sendStreamAsFile($stream, "{$workspace->title}.csv", [
+        return $response->sendStreamAsFile($stream, "{$workspace->title}.csv", [
             'mimeType' => 'text/csv'
         ]);
     }

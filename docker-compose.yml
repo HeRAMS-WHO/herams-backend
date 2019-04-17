@@ -99,11 +99,13 @@ services:
       DB_NAME: $DB_NAME
       DB_PASS: $DB_PASS
       YII_ENV: $YII_ENV
+      RUNTIME_PATH: /runtime
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
       - devdb
     environment:
+      PMA_HOSTS: testdb,devdb
       PMA_HOST: devdb
       PMA_PASSWORD: $DB_PASS
       PMA_USER: $DB_USER

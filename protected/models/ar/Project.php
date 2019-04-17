@@ -13,9 +13,8 @@ use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsResponse;
 use prime\objects\HeramsSubject;
-use SamIT\LimeSurvey\Interfaces\ResponseInterface;
+use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -39,7 +38,7 @@ use function iter\filter;
  * @property int $status
  */
 class Project extends ActiveRecord {
-
+    use LoadOneAuthTrait;
     public const STATUS_ONGOING = 0;
     public const STATUS_BASELINE = 1;
     public const STATUS_TARGET = 2;
@@ -304,9 +303,10 @@ class Project extends ActiveRecord {
         }
         return $result;
     }
+
     public function userCan($operation, User $user)
     {
-        return $user->isAdmin || Permission::isAllowed($user, $this, Permission::PERMISSION_INSTANTIATE);
+        return $user->isAdmin || Permission::isAllowed($user, $this, $operation);
     }
 
     public function getPermissions()

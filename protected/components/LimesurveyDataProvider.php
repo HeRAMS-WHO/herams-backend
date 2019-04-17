@@ -34,6 +34,15 @@ class LimesurveyDataProvider extends Component
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
     }
 
+    public function createToken(
+        int $surveyId,
+        string $token
+    ) {
+        return $this->client->createToken($surveyId, [
+            'token' => $token
+        ]);
+    }
+
 
     public function getToken(int $surveyId, string $token)
     {

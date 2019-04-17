@@ -1,8 +1,9 @@
 <?php
 
+use yii\web\Application;
+
 define('TEST_ADMIN_ID', 1);
 define('TEST_USER_ID', 2);
-
 
 call_user_func(function() {
     define('YII_ENV', getenv('YII_ENV'));
@@ -16,9 +17,11 @@ call_user_func(function() {
     }
 
     require_once $autoload;
+    \prime\models\permissions\Permission::$enableCaching = false;
+
     $config = require __DIR__ . '/../protected/config/codeception.php';
 
-    \Yii::$container->set(\yii\web\Application::class, $config);
+    \Yii::$container->set(Application::class, $config);
 
 
     $base = __DIR__;

@@ -15,21 +15,15 @@ class Update extends Action
 {
 
     public function run(
-        User $user,
         Request $request,
         NotificationService $notificationService,
         $id
-    )
-    {
-        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_WRITE);
-        if ($user->can('admin')) {
-            $model->scenario = 'admin-update';
-        } else {
-            $model->scenario = 'update';
-        }
+    ) {
+        $model = CreateUpdate::loadOne($id, [], Permission::PERMISSION_ADMIN);
+        $model->scenario = 'update';
         if($request->isPut) {
             if($model->load($request->bodyParams) && $model->save()) {
-                $notificationService->success(\Yii::t('app', "Project <strong>{modelName}</strong> has been updated.", [
+                $notificationService->success(\Yii::t('app', "Workspace <strong>{modelName}</strong> has been updated.", [
                     'modelName' => $model->title
                 ]));
 

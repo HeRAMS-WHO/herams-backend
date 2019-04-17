@@ -1,5 +1,6 @@
 <?php
 
+use prime\components\JwtSso;
 use prime\models\ar\Setting;
 
 /** @var \prime\components\Environment $env */
@@ -37,9 +38,9 @@ return [
             'tablePrefix' => 'prime2_'
         ],
         'limesurveySSo' => [
-            'class' => \prime\components\JwtSso::class,
+            'class' => JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => file_get_contents($env->get('PRIVATE_KEY_FILE')),
+            'privateKey' => $env->offsetExists('PRIVATE_KEY_FILE') ? file_get_contents($env->get('PRIVATE_KEY_FILE')) : null,
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function($id) {
                 return "prime_$id";

@@ -25,7 +25,7 @@ class PermissionController extends Controller
         if (!isset($target)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_SHARE, $target)) {
+        if (!$user->can(Permission::PERMISSION_ADMIN, $target)) {
             throw new ForbiddenHttpException();
         }
 

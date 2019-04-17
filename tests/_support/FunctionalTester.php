@@ -1,6 +1,10 @@
 <?php
 namespace prime\tests;
 
+use prime\models\ar\Project;
+use prime\models\ar\Workspace;
+use yii\db\ActiveRecord;
+
 /**
  * Inherited Methods
  * @method void wantToTest($text)
@@ -20,7 +24,38 @@ class FunctionalTester extends \Codeception\Actor
 {
     use _generated\FunctionalTesterActions;
 
+    private $workspace;
+    private $project;
    /**
     * Define custom actions here
     */
+   public function haveProject(): Project
+   {
+       if (!isset($this->project)) {
+           $this->project = $project = new Project();
+           $project->title = 'Test project';
+           $project->base_survey_eid = 12345;
+           $this->save($project);
+       }
+
+       return $this->project;
+
+   }
+
+   public function haveWorkspace(): Workspace
+   {
+       if (!isset($this->workspace)) {
+           $this->workspace = $workspace = new Workspace();
+           $workspace->title = 'WS1';
+           $workspace->token = 'abc';
+           $workspace->tool_id = $this->haveProject()->id;
+           $this->save($workspace);
+       }
+       return $this->workspace;
+   }
+
+   public function save(ActiveRecord $activeRecord)
+   {
+       $this->assertTrue($activeRecord->save(), print_r($activeRecord->errors, true));
+   }
 }

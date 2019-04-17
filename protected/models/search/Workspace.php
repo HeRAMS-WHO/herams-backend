@@ -31,7 +31,7 @@ class Workspace extends \prime\models\ar\Workspace
     public function init()
     {
         parent::init();
-        $this->query = \prime\models\ar\Workspace::find()->notClosed()->with('owner.profile');
+        $this->query = \prime\models\ar\Workspace::find();
 
         if (isset($this->queryCallback)) {
             $this->query = call_user_func($this->queryCallback, $this->query);
@@ -45,7 +45,7 @@ class Workspace extends \prime\models\ar\Workspace
     public function rules()
     {
         return [
-            [['created', 'closed'], 'safe'],
+            [['created'], 'safe'],
             [['title'], StringValidator::class],
         ];
     }
@@ -62,19 +62,13 @@ class Workspace extends \prime\models\ar\Workspace
                 'project_id',
                 'title',
                 'created',
-                'closed',
             ]
         ];
     }
 
     public function search($params)
     {
-        if(!app()->user->can('admin')) {
-            $this->query->joinWith(['project' => function(ProjectQuery $query) {return $query->notHidden();}]);
-        } else {
-            $this->query->joinWith(['project']);
-        }
-
+        $this->query->joinWith(['project']);
         $this->query->andFilterWhere(['tool_id' => $this->project->id]);
         
         $dataProvider = new ActiveDataProvider([
@@ -90,7 +84,6 @@ class Workspace extends \prime\models\ar\Workspace
                 'id',
                 'title',
                 'created',
-                'locality_name'
             ]
         ]);
 

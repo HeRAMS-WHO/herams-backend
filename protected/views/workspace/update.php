@@ -52,10 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'title' => [
                 'type' => Form::INPUT_TEXT,
             ],
-            'owner_id' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->ownerOptions()
-            ],
         ]
     ]);
     echo \yii\bootstrap\ButtonGroup::widget([
