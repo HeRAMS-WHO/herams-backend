@@ -15,4 +15,4 @@ before_script:
 script:
   - docker-compose run --rm codeception run --coverage-xml
 after_script:
-  - docker run --rm -v $(pwd)/tests/_output/coverage.xml:/coverage.xml --entrypoint /bin/sh php:alpine -c "wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover /coverage.xml"
+  - docker run --rm -v $(pwd):/project --entrypoint /bin/sh php:alpine -c "cd /project && apk add --update --no-cache git && wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml"
