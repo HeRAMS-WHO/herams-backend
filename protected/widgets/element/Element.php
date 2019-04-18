@@ -5,6 +5,7 @@ namespace prime\widgets\element;
 
 
 use prime\helpers\Icon;
+use prime\models\permissions\Permission;
 use yii\base\Widget;
 use yii\helpers\Html;
 
@@ -37,9 +38,8 @@ class Element extends Widget
     public function run()
     {
         parent::run();
-        if (\Yii::$app->user->can('admin')
-            && isset($this->element->id)
-        ) {
+
+        if (isset($this->element->id, $this->element->page->project) && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $this->element->page->project)) {
             echo Html::a(Icon::edit(), ['/element/update', 'id' => $this->element->id], [
                 'style' => [
                     'position' => 'absolute',
