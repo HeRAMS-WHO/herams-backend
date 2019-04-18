@@ -3,9 +3,11 @@
 /** @var \prime\models\ar\Project $model */
 
 use app\components\Form;
+use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use prime\helpers\Icon;
+use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
@@ -111,14 +113,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ],
                 'actions' => [
-                    'class' => \kartik\grid\ActionColumn::class,
+                    'class' => ActionColumn::class,
                     'width' => '100px',
                     'template' => '{update}',
                     'buttons' => [
                         'update' => function($url, $model, $key) {
                             /** @var \prime\models\ar\Page $model */
                             $result = '';
-                            if(app()->user->can('admin')) {
+                            if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
                                 $result = Html::a(
                                     Icon::edit(),
                                     ['page/update', 'id' => $model->id], [
