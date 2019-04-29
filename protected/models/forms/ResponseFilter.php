@@ -5,9 +5,11 @@ namespace prime\models\forms;
 
 
 use Carbon\Carbon;
+use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Response;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\validators\DateValidator;
 use yii\validators\SafeValidator;
@@ -34,16 +36,27 @@ class ResponseFilter extends Model
     private $allResponses;
 
     /**
+     * @var SurveyInterface
+     */
+    private $survey;
+    /**
+     * @var HeramsCodeMap
+     */
+    private $map;
+
+    /**
      * @param HeramsResponse[] $responses
      */
     public function __construct(
         array $responses,
-        SurveyInterface $survey
+        SurveyInterface $survey,
+        HeramsCodeMap $map
     ) {
         parent::__construct([]);
         $this->allResponses = $responses;
         $this->date = date('Y-m-d');
-
+        $this->survey = $survey;
+        $this->map = $map;
     }
 
     public function rules()
@@ -54,13 +67,33 @@ class ResponseFilter extends Model
         ];
     }
 
+    private function makeNested(array $flat): array
+    {
 
+    }
     /**
      * @param Response[]
      * @return array
      */
     public function nestedLocationOptions(): array
     {
+        $result = [];
+        // Get the question.
+        foreach($this->survey->getGroups() as $group) {
+            foreach($group->getQuestions() as $question) {
+                if ($question->getTitle() === $this->map->getLocation()) {
+                    $answers = $question->getAnswers();
+                    break 2;
+                }
+            }
+        }
+
+        if (isset($answers)) {
+            foreach ($answers as $answer) {
+                $result[$answer->getCode()] = $answer->getText();
+            }
+            return $result;
+        }
         $locations = [];
         /** @var HeramsResponse $response */
         foreach($this->allResponses as $response) {
@@ -78,7 +111,6 @@ class ResponseFilter extends Model
 
     public function filter(): array
     {
-
         \Yii::beginProfile('filter');
         $limit = new Carbon($this->date);
         // Index by UOID.
@@ -123,7 +155,6 @@ class ResponseFilter extends Model
             return true;
 
         }, $this->allResponses));
-
 
         \Yii::endProfile('filter');
         return array_values($indexed);

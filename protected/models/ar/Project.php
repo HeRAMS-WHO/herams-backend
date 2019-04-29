@@ -208,7 +208,8 @@ class Project extends ActiveRecord {
                 }
             }
         }
-        $result = (new ResponseFilter($heramsResponses, $this->getSurvey()))->filter();
+        return $heramsResponses;
+        $result = (new ResponseFilter($heramsResponses, $this->getSurvey(), $this->getMap()))->filter();
         \Yii::endProfile(__FUNCTION__);
         return $result;
     }

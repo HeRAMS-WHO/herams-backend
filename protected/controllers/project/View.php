@@ -60,7 +60,7 @@ class View extends Action
         $responses = $project->getHeramsResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
-        $filter = new ResponseFilter($responses, $survey);
+        $filter = new ResponseFilter($responses, $survey, $project->getMap());
         $filter->load($request->queryParams);
         \Yii::endProfile('ResponseFilterinit');
 
