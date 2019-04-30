@@ -281,13 +281,12 @@ class Project extends ActiveRecord {
         {
             foreach ($heramsResponse->getSubjects() as $subject) {
                 $subjectAvailability = $subject->getAvailability();
-                if (!isset($subjectAvailability)) {
+                if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
                     continue;
                 }
                 $counts[$subjectAvailability]++;
             }
         }
-
         ksort($counts);
         $map = [
             'A1' => \Yii::t('app', 'Full'),

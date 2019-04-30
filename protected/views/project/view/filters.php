@@ -24,17 +24,18 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
     ?>
     <div class="basic">
         <?php
-        echo NestedSelect::widget([
-            'placeholder' => \Yii::t('app', 'All locations'),
+        echo \kartik\select2\Select2::widget([
+//            'placeholder' => \Yii::t('app', 'All locations'),
             'attribute' => 'locations',
             'model' => $filterModel,
             'options' => [
+                'multiple' => true,
                 'class' => [
                     'filter',
                     'filter_where'
                 ]
             ],
-            'items' => $filterModel->nestedLocationOptions()
+            'data' => $filterModel->nestedLocationOptions()
         ]);
 
         echo Html::tag('span', Html::activeTextInput($filterModel, 'date', [

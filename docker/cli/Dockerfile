@@ -27,10 +27,10 @@ ENV COMPOSER_CACHE_DIR=/composer-cache
 ENV COMPOSER_HOME=/composer
 RUN mkdir $COMPOSER_CACHE_DIR && \
     mkdir $COMPOSER_HOME && \
-    php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');" && \
-    php -r "if (hash_file('sha384', '/tmp/composer-setup.php') === file_get_contents('https://composer.github.io/installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
-    php /tmp/composer-setup.php --install-dir /bin --filename composer && \
-    php -r "unlink('/tmp/composer-setup.php');" && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php -r "if (hash_file('sha384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php composer-setup.php --filename composer --install-dir /bin && \
+    php -r "unlink('composer-setup.php');" && \
     composer global require hirak/prestissimo && \
     chmod -R 777 $COMPOSER_CACHE_DIR && \
     chmod -R 777 $COMPOSER_HOME

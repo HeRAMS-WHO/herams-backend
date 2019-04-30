@@ -90,10 +90,27 @@ class ResponseFilter extends Model
 
         if (isset($answers)) {
             foreach ($answers as $answer) {
-                $result[$answer->getCode()] = $answer->getText();
+                $result[$answer->getText()] = [$answer->getCode()];
+                // Aggregates
+                $keyParts = [];
+                $parts = explode(' / ', $answer->getText());
+                array_pop($parts);
+                foreach($parts as $part) {
+                    $keyParts[] = $part;
+                    $key = implode(' / ', $keyParts);
+                    if (!isset($result[$key])) {
+                        $result[$key] = [$answer->getCode()];
+                    } else {
+                        $result[$key][] = $answer->getCode();
+                    }
+
+
+                }
             }
-            return $result;
+
+            return array_flip(array_map(function(array $list) { return implode(',', $list); }, $result));
         }
+
         $locations = [];
         /** @var HeramsResponse $response */
         foreach($this->allResponses as $response) {
@@ -117,12 +134,18 @@ class ResponseFilter extends Model
         /** @var HeramsResponse[] $indexed */
         $indexed = [];
 
+        $locations = [];
+        foreach($this->locations as $location) {
+            foreach(explode(',', $location) as $option) {
+                $locations[$option] = true;
+            }
+        }
         apply(function(HeramsResponse $response) use (&$indexed) {
             $id = $response->getSubjectId();
             if (!isset($indexed[$id]) || $indexed[$id]->getDate() < $response->getDate()) {
                 $indexed[$id] = $response;
             }
-        }, filter(function(HeramsResponse $response) use ($limit) {
+        }, filter(function(HeramsResponse $response) use ($limit, $locations) {
             // Date filter
             if ($response->getDate() === null || !$limit->greaterThan($response->getDate())) {
                 return false;
@@ -135,7 +158,7 @@ class ResponseFilter extends Model
             }
 
             // Location filter
-            if (!empty($this->locations) && !isset(array_flip($this->locations)[$response->getLocation()])) {
+            if (!isset($locations[$response->getLocation()])) {
                 return false;
             }
 
