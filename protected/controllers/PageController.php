@@ -23,7 +23,10 @@ class PageController extends Controller
             'create' => Create::class,
             'delete' => [
                 'class' => DeleteAction::class,
-                'query' => Page::find()
+                'query' => Page::find(),
+                'redirect' => function(Page $page) {
+                    return ['project/update', 'id' => $page->project->id];
+                }
             ]
         ];
     }

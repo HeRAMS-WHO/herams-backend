@@ -7,6 +7,7 @@ use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use prime\helpers\Icon;
+use prime\models\ar\Page;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
@@ -108,27 +109,40 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'title',
                 'parent_id' => [
-                    'value' => function(\prime\models\ar\Page $model) {
+                    'value' => function(Page $model) {
                         return isset($model->parent_id) ? "{$model->parent->title} ({$model->parent_id})" : null;
                     }
                 ],
                 'actions' => [
                     'class' => ActionColumn::class,
                     'width' => '100px',
-                    'template' => '{update}',
+                    'template' => '{update} {delete}',
+                    'visibleButtons' => [
+                        'update' => function(Page $page) {
+                            return app()->user->can(Permission::PERMISSION_ADMIN, $page->project);
+                        },
+                        'delete' => function(Page $page) {
+                            return $page->canBeDeleted() && app()->user->can(Permission::PERMISSION_ADMIN, $page->project);
+                        },
+                    ],
                     'buttons' => [
-                        'update' => function($url, $model, $key) {
-                            /** @var \prime\models\ar\Page $model */
-                            $result = '';
-                            if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
-                                $result = Html::a(
-                                    Icon::edit(),
-                                    ['page/update', 'id' => $model->id], [
-                                        'title' => \Yii::t('app', 'Edit')
-                                    ]
-                                );
-                            }
-                            return $result;
+                        'delete' => function($url, Page $page, $key) {
+                            return Html::a(
+                                Icon::delete(),
+                                ['page/delete', 'id' => $page->id], [
+                                    'title' => \Yii::t('app', 'Delete'),
+                                    'data-method' => 'delete',
+                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to delete this page?')
+                                ]
+                            );
+                        },
+                        'update' => function($url, Page $page, $key) {
+                            return Html::a(
+                                Icon::edit(),
+                                ['page/update', 'id' => $page->id], [
+                                    'title' => \Yii::t('app', 'Edit')
+                                ]
+                            );
                         },
                     ]
                 ]
