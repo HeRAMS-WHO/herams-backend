@@ -20,9 +20,12 @@ class LimesurveyCest
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(403);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_WRITE);
+        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_READ);
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(403);
+        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_WRITE);
+        $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
+        $I->seeResponseCodeIs(200);
     }
 
     public function testAccessControlWithWriteAccess(FunctionalTester $I)

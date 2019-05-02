@@ -23,7 +23,7 @@ class Limesurvey extends Action
             throw new NotFoundHttpException();
         }
         if (!(
-            $user->can(Permission::PERMISSION_ADMIN, $workspace)
+            $user->can(Permission::PERMISSION_WRITE, $workspace)
             || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
         )) {
             throw new ForbiddenHttpException();
