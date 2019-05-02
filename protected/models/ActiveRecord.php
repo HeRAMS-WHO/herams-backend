@@ -64,4 +64,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
         return "No title for " . get_class($this) . "($pk)";
     }
+
+    public function getPermissionParent(): ?ActiveRecord {
+        return null;
+    }
 }

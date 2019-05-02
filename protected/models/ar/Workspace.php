@@ -62,6 +62,11 @@ class Workspace extends ActiveRecord
             ->andWhere(['target' => self::class]);
     }
 
+    public function getPermissionParent(): ?ActiveRecord
+    {
+        return $this->project;
+    }
+
     // Cache for getResponses();
     private $_responses;
     
