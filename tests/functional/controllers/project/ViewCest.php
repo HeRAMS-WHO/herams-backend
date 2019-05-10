@@ -11,8 +11,9 @@ use prime\tests\FunctionalTester;
 class ViewCest
 {
 
-    public function testView(FunctionalTester $I)
+    public function testView(FunctionalTester $I, Scenario $scenario)
     {
+        $scenario->incomplete('Project dashboard is open to all users');
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $I->amOnPage(['project/view', 'id' => $project->id]);
