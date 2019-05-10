@@ -106,7 +106,7 @@ class Page extends ActiveRecord implements PageInterface
 
     public function canBeDeleted(): bool
     {
-        return $this->getChildren()->count() === 0;
+        return ((int) $this->getChildren()->count())=== 0;
     }
 
     public function beforeDelete()
