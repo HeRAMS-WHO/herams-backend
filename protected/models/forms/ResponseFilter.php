@@ -158,7 +158,7 @@ class ResponseFilter extends Model
             }
 
             // Location filter
-            if (!isset($locations[$response->getLocation()])) {
+            if (!empty($locations) && !isset($locations[$response->getLocation()])) {
                 return false;
             }
 
