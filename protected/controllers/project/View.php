@@ -27,7 +27,7 @@ class View extends Action
         int $parent_id = null
     ) {
         $this->controller->layout = 'css3-grid';
-        $project = Project::loadOne($id, []);
+        $project = Project::findOne(['id'  => $id]);
         $survey = $project->getSurvey();
 
         if (isset($parent_id, $page_id)) {
