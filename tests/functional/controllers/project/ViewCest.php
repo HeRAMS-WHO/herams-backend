@@ -3,6 +3,7 @@
 
 namespace prime\tests\functional\controllers\project;
 
+use Codeception\Scenario;
 use prime\models\ar\Page;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
