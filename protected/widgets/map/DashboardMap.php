@@ -181,9 +181,13 @@ class DashboardMap extends Element
                     metric: true,
                     imperial: false
                 }).addTo(map);
-                map.fitBounds(bounds, {
-                    padding: [50, 50]
-                });
+                try {
+                    map.fitBounds(bounds, {
+                        padding: [50, 50]
+                    });
+                } catch(err) {
+                    console.error(err);
+                }
         })();
 
 JS
