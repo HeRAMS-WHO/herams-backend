@@ -135,7 +135,7 @@ class ResponseFilter extends Model
         $indexed = [];
 
         $locations = [];
-        foreach($this->locations as $location) {
+        foreach((array) $this->locations as $location) {
             foreach(explode(',', $location) as $option) {
                 $locations[$option] = true;
             }
