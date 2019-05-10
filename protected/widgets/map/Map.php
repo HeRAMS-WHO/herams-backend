@@ -59,7 +59,7 @@ class Map extends Widget
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
-        $data = Json::encode($this->data);
+        $data = Json::encode(array_values($this->data));
 
         $scale = Json::encode($this->colors);
         $this->view->registerJs(<<<JS
