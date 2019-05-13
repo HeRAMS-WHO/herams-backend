@@ -26,10 +26,15 @@ use yii\helpers\Inflector;
  * @method static string delete(array $options = [])
  * @method static string edit(array $options = [])
  * @method static string download(array $options = [])
+ * @method static string sync(array$options = [])
  */
 class Icon
 {
 
+    public static function contributors(array $options = []): string
+    {
+        return self::partner($options);
+    }
 
     public static function icon($name, array $options = [])
     {

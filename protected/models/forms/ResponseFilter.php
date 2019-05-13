@@ -7,12 +7,14 @@ namespace prime\models\forms;
 use Carbon\Carbon;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsResponse;
+use SamIT\LimeSurvey\Interfaces\AnswerInterface;
+use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
+use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Response;
-use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\validators\DateValidator;
-use yii\validators\SafeValidator;
+use yii\validators\RangeValidator;
 use function iter\all;
 use function iter\apply;
 use function iter\enumerate;
@@ -45,6 +47,10 @@ class ResponseFilter extends Model
     private $map;
 
     /**
+     * @var QuestionInterface[]
+     */
+    private $advancedFilterMap;
+    /**
      * @param HeramsResponse[] $responses
      */
     public function __construct(
@@ -57,20 +63,95 @@ class ResponseFilter extends Model
         $this->date = date('Y-m-d');
         $this->survey = $survey;
         $this->map = $map;
+
+        $this->initAdvancedFilterMap();
+    }
+    private function initAdvancedFilterMap()
+    {
+        $groups = $this->survey->getGroups();
+        usort($groups, function(GroupInterface $a, GroupInterface $b) {
+            return $a->getIndex() <=> $b->getIndex();
+        });
+        foreach($groups as $group) {
+            foreach ($group->getQuestions() as $question) {
+                if (null !== $answers = $question->getAnswers()) {
+                    $this->advancedFilterMap[$question->getTitle()] = $question;
+                }
+            }
+        }
     }
 
     public function rules()
     {
-        return [
-            [['date'], DateValidator::class, 'format' => 'php:Y-m-d'],
-            [['locations', 'types', 'advanced'], SafeValidator::class],
-        ];
+        $rules = [];
+        $rules[] = [['date'], DateValidator::class, 'format' => 'php:Y-m-d'];
+//        $rules[] = [['locations'], RangeValidator::class, 'range' => array_values($this->nestedLocationOptions()), 'allowArray' => true];
+        $rules[] = [['types'], RangeValidator::class, 'range' => array_values($this->typeOptions()), 'allowArray' => true];
+        foreach($this->advancedFilterMap as $code => $question) {
+            $rules[] = [
+                ["adv_{$question->getTitle()}"],
+                RangeValidator::class,
+                'range' => array_map(function(AnswerInterface $answer) { return $answer->getCode(); }, $question->getAnswers())
+            ];
+        }
+        return $rules;
     }
+
+    public function __get($name)
+    {
+        if (strncmp($name, 'adv_', 4) !== 0) {
+            return parent::__get($name);
+        }
+        return $this->advanced[substr($name, 4)] ?? null;
+    }
+
+    public function __set($name, $value)
+    {
+        if (strncmp($name, 'adv_', 4) !== 0) {
+            parent::__set($name, $value);
+        } else {
+            $this->advanced[substr($name, 4)] = $value;
+        }
+
+    }
+
+    private function getQuestionFromCode(string $code): QuestionInterface
+    {
+        foreach($this->survey->getGroups() as $group) {
+            foreach ($group->getQuestions() as $question) {
+                if ($question->getTitle() === $code) {
+                    return $question;
+                }
+            }
+        }
+
+    }
+
+    public function advancedOptions(string $fieldName): array
+    {
+        $question = $this->getQuestionFromCode($fieldName);
+        $result = [];
+        foreach($question->getAnswers() as $answer) {
+            $result[$answer->getCode()] = explode(':', strip_tags($answer->getText()), 2)[0];
+        }
+        return $result;
+    }
+
+    public function getAttributeLabel($attribute)
+    {
+        if (strncmp($attribute, 'adv_', 4) !== 0) {
+            return parent::getAttributeLabel($attribute);
+        }
+        return trim(html_entity_decode(explode(':', strip_tags($this->getQuestionFromCode(substr($attribute, 4))->getText()), 2)[0]));
+
+    }
+
 
     private function makeNested(array $flat): array
     {
 
     }
+
     /**
      * @param Response[]
      * @return array
@@ -124,6 +205,32 @@ class ResponseFilter extends Model
 
         }
         return $locations;
+    }
+
+    /**
+     * @param Response[]
+     * @return array
+     */
+    public function typeOptions(): array
+    {
+        $result = [];
+        // Get the question.
+        foreach ($this->survey->getGroups() as $group) {
+            foreach ($group->getQuestions() as $question) {
+                if ($question->getTitle() === $this->map->getType()) {
+                    $answers = $question->getAnswers();
+                    break 2;
+                }
+            }
+        }
+
+        foreach ($answers as $answer) {
+            $result[$answer->getText()] = [$answer->getCode()];
+        }
+
+        return array_flip(array_map(function (array $list) {
+            return implode(',', $list);
+        }, $result));
     }
 
     public function filter(): array

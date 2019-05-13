@@ -142,9 +142,7 @@ a {
     content: '';
 }
 
-.count {
-    float: right;
-}
+
 .user-menu {
     padding: 10px;
     padding-right: 20px;
@@ -242,9 +240,69 @@ span.header {
     background-color: white;
     grid-area: filters;
     margin-bottom: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
+    font-size: 20px;
     --height: 30px;
+}
+
+.select2-dropdown {
+    z-index: 10051;
+}
+
+.filters .row > div {
+    float: left;
+    --width: 12;
+    width: calc(100% / 12 * var(--width));
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.filters .row > .col-sm-3 {
+    --width: 3
+}
+.filters .row > .col-sm-6 {
+    --width: 6
+}
+.filters .row > .col-md-2 {
+    --width: 2
+}
+
+.filters .row > .col-md-10 {
+    --width: 10
+}
+.filters .advanced {
+    display: none;
+}
+
+.filters.expanded .advanced {
+    display: block;
+}
+
+
+
+.filters > div.count svg {
+    vertical-align: middle;
+    font-size: 1.2em;
+}
+.filters > div.count {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-left: solid 1px;
+}
+
+.filters > div.count:first-child {
+    border-left: none;
+}
+
+.filters em {
+    font-style: normal;
+}
+.filters em::before {
+    content: " "
+}
+.filters em {
+    font-weight: bold;
 }
 
 .chart {
@@ -872,4 +930,5 @@ body[data-modal]:after {
     font-size: 14px;
     /*color: #92929b;*/
 }
+
 

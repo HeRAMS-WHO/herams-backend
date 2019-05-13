@@ -107,14 +107,14 @@ $hostInfo = \Yii::$app->request->hostInfo;
 <div class="grid">
 <div class="stat"><?=
     implode(" ", [
-        FAR::icon('hospital'),
+        \prime\helpers\Icon::healthFacility(),
         Html::tag('b', $project->getFacilityCount()),
         \Yii::t('app', 'Health facilities')
     ])
 ?></div>
 <div class="stat"><?=
     implode(" ", [
-        FAS::icon('users'),
+        \prime\helpers\Icon::contributors(),
         Html::tag('b', $project->getContributorCount()),
         \Yii::t('app', 'Contributors')
     ])
