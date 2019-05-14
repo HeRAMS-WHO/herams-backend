@@ -5,6 +5,7 @@ use prime\helpers\Icon;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
+use prime\models\permissions\Permission;
 use yii\helpers\Html;
 use function iter\reduce;
 
@@ -32,8 +33,16 @@ $this->beginContent('@views/layouts/map.php');
         </div>
         <div class="stat">
             <?= Icon::contributors(); ?>
-            <span><?= Workspace::find()->count(); ?></span>
-            Workspaces
+            <span><?=
+                Permission::find()->where([
+                    'target' => Workspace::class,
+                    'permission' => [
+                        Permission::PERMISSION_WRITE,
+                        Permission::PERMISSION_ADMIN
+                    ]
+                ])->distinct()->count('source_id');
+            ?></span>
+            Contributors
         </div>
         <div class="stat">
             <?= Icon::healthFacility(); ?>

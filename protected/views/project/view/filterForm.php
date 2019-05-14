@@ -142,7 +142,14 @@ JS
     $id = Json::encode('#' . Html::getInputId($filterModel, 'date'));
     $this->registerJs("flatpickr($id);");
     echo Html::submitButton(\Yii::t('app', 'Apply'), [
-            'class' => 'btn btn-primary'
+            'style' => [
+                'float' => 'right',
+                'box-shadow' => 'none',
+                'background-color' => 'gray',
+                'color' => 'white',
+                'padding' => '10px',
+                'border' => 'none'
+            ]
     ]);
     echo Form::widget([
         'form' => $form,

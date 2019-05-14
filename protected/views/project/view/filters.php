@@ -51,7 +51,8 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
             'box-shadow' => 'none',
             'background-color' => 'gray',
             'color' => 'white',
-            'padding' => '10px'
+            'padding' => '10px',
+            'border' => 'none'
         ]]);
         $this->registerJs(<<<JS
         $('#filter-expand').on('click', function() {
