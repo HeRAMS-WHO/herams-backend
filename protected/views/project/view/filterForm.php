@@ -30,6 +30,36 @@ use yii\helpers\Json as Json;
 
     $filters = [];
 
+    $matcher = new \yii\web\JsExpression(<<<JS
+    function(params, data) {
+            if (typeof params.term === 'undefined' || params.term.length === 0) {
+                return data;
+            }
+            if (typeof data.text === 'undefined') {
+                return null;
+            }
+            
+            // Tokenize string.
+            let matches = 0;
+            let tokens = params.term.toLowerCase().split(' ');
+            for (let i = tokens.length - 1; i >= 0; i--) {
+                // Match a token.
+                if (tokens[i].length === 0) {
+                    continue;
+                }
+                
+                if (data.text.toLowerCase().indexOf(tokens[i]) > -1) {
+                    matches++;
+                } else {
+                    return null;
+                }
+            }
+            data.matchCount = matches;
+            return data;
+        }
+JS
+    );
+
     foreach($groups as $group) {
         foreach ($group->getQuestions() as $question) {
             if (($answers = $question->getAnswers()) !== null
@@ -64,36 +94,12 @@ use yii\helpers\Json as Json;
                         'name' => "{$attribute}[]",
                         'options' => [
                             'multiple' => true,
+
+
                         ],
-                        'matcher' => new \yii\web\JsExpression(<<<JS
-    function(params, data) {
-            if (typeof params.term === 'undefined' || params.term.length === 0) {
-                return data;
-            }
-            if (typeof data.text === 'undefined') {
-                return null;
-            }
-            
-            // Tokenize string.
-            let matches = 0;
-            let tokens = params.term.toLowerCase().split(' ');
-            for (let i = tokens.length - 1; i >= 0; i--) {
-                // Match a token.
-                if (tokens[i].length === 0) {
-                    continue;
-                }
-                
-                if (data.text.toLowerCase().indexOf(tokens[i]) > -1) {
-                    matches++;
-                } else {
-                    return null;
-                }
-            }
-            data.matchCount = matches;
-            return data;
-        };
-JS
-                        ),
+                        'pluginOptions' => [
+                            'matcher' => $matcher
+                        ],
 
                         'data' => $filterModel->advancedOptions($question->getTitle()),
 
@@ -104,7 +110,6 @@ JS
                 continue;
                 echo $this->render('multiplechoicefilter', [
                     'question' => $question,
-
                 ]);
                 continue;
             }
