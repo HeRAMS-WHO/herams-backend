@@ -49,7 +49,7 @@ class ResponseFilter extends Model
     /**
      * @var QuestionInterface[]
      */
-    private $advancedFilterMap;
+    private $advancedFilterMap = [];
     /**
      * @param HeramsResponse[] $responses
      */
@@ -86,7 +86,7 @@ class ResponseFilter extends Model
         $rules = [];
         $rules[] = [['date'], DateValidator::class, 'format' => 'php:Y-m-d'];
 //        $rules[] = [['locations'], RangeValidator::class, 'range' => array_values($this->nestedLocationOptions()), 'allowArray' => true];
-        $rules[] = [['types'], RangeValidator::class, 'range' => array_values($this->typeOptions()), 'allowArray' => true];
+//        $rules[] = [['types'], RangeValidator::class, 'range' => array_values($this->typeOptions()), 'allowArray' => true];
         foreach($this->advancedFilterMap as $code => $question) {
             $rules[] = [
                 ["adv_{$question->getTitle()}"],
