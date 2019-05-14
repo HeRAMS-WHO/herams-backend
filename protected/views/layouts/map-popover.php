@@ -45,7 +45,7 @@ $this->beginContent('@views/layouts/map.php');
             Health Facilities
         </div>
     </div>
-    <div class="status"><?= Icon::sync() ?> Most recently updated: <span class="value">
+    <div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
             if (false !== $ts = \Yii::$app->cache->get('lastUpdatedTimestamp')) {
                 $lastUpdated = Carbon::createFromTimestampUTC($ts)->diffForHumans();

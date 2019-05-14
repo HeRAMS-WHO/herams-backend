@@ -28,13 +28,21 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
     <div class="count">
         <?php
         echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
-        echo Html::tag('em', count($data));
+        echo Html::tag('em', $project->getWorkspaceCount());
         ?>
     </div>
     <div class="count">
         <?php
-        echo Icon::sync() . ' ' . \Yii::t('app', 'Last update');
-        echo Html::tag('em', count($data));
+        echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
+        /** @var \prime\objects\HeramsResponse $heramsResponse */
+        $lastUpdate = null;
+        foreach($data as $heramsResponse) {
+            $date = $heramsResponse->getDate();
+            if (!isset($lastUpdate) || $date->greaterThan($lastUpdate)) {
+                $lastUpdate = $date;
+            }
+        }
+        echo Html::tag('em', $lastUpdate->diffForHumans());
         ?>
     </div>
     <?php

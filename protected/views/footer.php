@@ -14,7 +14,7 @@ echo Html::tag('div', 'HeRAMS projects', [
     'class' => 'subject'
 ]);
 ?>
-<div class="status"><?= Icon::sync() ?> Most recently updated: <span class="value">
+<div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
             if (false !== $ts = \Yii::$app->cache->get('lastUpdatedTimestamp')) {
                 $lastUpdated = Carbon::createFromTimestampUTC($ts)->diffForHumans();
