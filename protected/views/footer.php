@@ -12,13 +12,26 @@ echo Html::tag('div', count($projects), [
 echo Html::tag('div', 'HeRAMS projects', [
     'class' => 'subject'
 ]);
-echo Html::beginTag('div', ['class' => 'status']);
+?>
+<div class="status"><?= Icon::sync() ?> Most recently updated: <span class="value">
+            <?php
+            if (false !== $ts = \Yii::$app->cache->get('lastUpdatedTimestamp')) {
+                $lastUpdated = Carbon::createFromTimestampUTC($ts)->diffForHumans();
+            } else {
+                $lastUpdated = \Yii::t('app', 'Unknown');
+            }
 
-echo Icon::sync();
-echo " Last updated: ";
-echo Html::tag('span', $projects[0]->title . ' / ' . Carbon::now()->subHour(mt_rand(1, 100))->diffForHumans(), ['class' => 'value']);
+            if (false !== $projectId = Yii::$app->cache->get('lastUpdatedProject')) {
+                $lastProject = Project::findOne(['id' => $projectId])->title;
+            } else {
+                $lastProject = \Yii::t('app', 'Unknown');
+            }
 
-echo Html::endTag('div');
+            echo "$lastProject / $lastUpdated";
+
+            ?></span>
+</div>
+    <?php
 
 echo Html::a(Icon::chevronLeft(), '#', ['class' => 'left']);
 echo Html::a(Icon::chevronRight(), '#', ['class' => 'right']);

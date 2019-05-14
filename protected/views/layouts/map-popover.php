@@ -61,7 +61,8 @@ $this->beginContent('@views/layouts/map.php');
 
             echo "$lastProject / $lastUpdated";
 
-            ?></span></div>
+            ?></span>
+    </div>
 
 </div>
 <?php
