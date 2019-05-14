@@ -3,6 +3,7 @@
 
 use Carbon\Carbon;
 use prime\helpers\Icon;
+use prime\models\ar\Project;
 use yii\helpers\Html;
 
 echo Icon::project(['class' => 'subject']);
