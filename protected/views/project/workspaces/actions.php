@@ -12,7 +12,7 @@ return [
     'buttons' => [
         'limesurvey' => function($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)
+            if (\Yii::$app->user->can(Permission::PERMISSION_WRITE, $model)
                 || \Yii::$app->user->can(Permission::PERMISSION_WRITE, $model->project)
             ) {
                 $result = Html::a(

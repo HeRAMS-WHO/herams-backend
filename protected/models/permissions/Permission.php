@@ -218,7 +218,7 @@ class Permission extends ActiveRecord
     {
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
-            self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to update the settings'),
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to children or data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
         ];
     }
