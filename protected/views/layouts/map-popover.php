@@ -40,7 +40,10 @@ $this->beginContent('@views/layouts/map.php');
                         Permission::PERMISSION_WRITE,
                         Permission::PERMISSION_ADMIN
                     ]
-                ])->distinct()->count('source_id');
+                ])->
+                distinct()
+                    ->select('source_id')
+                    ->count();
             ?></span>
             Contributors
         </div>
