@@ -139,7 +139,12 @@ class Share extends Model {
                         return $model->sourceObject->name;
                     }
                 ],
-                'permissionLabel',
+                'permissionLabel' => [
+                    'attribute' => 'permissionLabel',
+                    'value' => function(Permission $model) {
+                        return $this->getPermissionOptions()[$model->permission];
+                    }
+                ],
                 [
                     'class' => \kartik\grid\ActionColumn::class,
                     'template' => '{delete}',

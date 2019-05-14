@@ -15,9 +15,6 @@ use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
 
-?>
-<div class="col-xs-12">
-    <?php
     $form = ActiveForm::begin([
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -196,6 +193,3 @@ JS
         ], $filters))
     ]);
     $form->end();
-
-    ?>
-</div>
