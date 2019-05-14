@@ -31,7 +31,7 @@ $this->beginContent('@views/layouts/map.php');
             <span><?= Project::find()->count(); ?></span>
             Projects
         </div>
-        <div class="stat">
+        <div class="stat" style="display: none;">
             <?= Icon::contributors(); ?>
             <span><?php
                $count = 0;
@@ -44,19 +44,20 @@ $this->beginContent('@views/layouts/map.php');
             Contributors
         </div>
         <div class="stat">
-            <?= Icon::user(); ?>
-            <span><?= User::find()->count(); ?></span>
-            Users
-        </div>
-        <div class="stat">
             <?= Icon::healthFacility(); ?>
             <span>
             <?php
-                echo \Yii::$app->cache->get('totalFacilityCount') ?: '?';
+            echo \Yii::$app->cache->get('totalFacilityCount') ?: '?';
             ?>
             </span>
             Health Facilities
         </div>
+        <div class="stat">
+            <?= Icon::user(); ?>
+            <span><?= User::find()->count(); ?></span>
+            Users
+        </div>
+
     </div>
     <div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
@@ -76,7 +77,6 @@ $this->beginContent('@views/layouts/map.php');
 
             ?></span>
     </div>
-
 </div>
 <?php
 
