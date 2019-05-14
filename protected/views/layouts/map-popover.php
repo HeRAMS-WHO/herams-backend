@@ -36,6 +36,7 @@ $this->beginContent('@views/layouts/map.php');
             <span><?=
                 Permission::find()->where([
                     'target' => Workspace::class,
+                    'source' => User::class,
                     'permission' => [
                         Permission::PERMISSION_WRITE,
                         Permission::PERMISSION_ADMIN
