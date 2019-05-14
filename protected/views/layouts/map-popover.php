@@ -49,6 +49,11 @@ $this->beginContent('@views/layouts/map.php');
             Contributors
         </div>
         <div class="stat">
+            <?= Icon::user(); ?>
+            <span><?= User::find()->count(); ?></span>
+            Users
+        </div>
+        <div class="stat">
             <?= Icon::healthFacility(); ?>
             <span>
             <?php
