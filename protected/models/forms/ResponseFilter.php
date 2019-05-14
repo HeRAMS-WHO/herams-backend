@@ -249,7 +249,11 @@ class ResponseFilter extends Model
         }
         apply(function(HeramsResponse $response) use (&$indexed) {
             $id = $response->getSubjectId();
-            if (!isset($indexed[$id]) || $indexed[$id]->getDate() < $response->getDate()) {
+            if (!isset($indexed[$id])
+                || $indexed[$id]->getDate()->lessThan($response->getDate())
+                || ($indexed[$id]->getDate()->equalTo($response->getDate()) && $indexed[$id]->getId() < $response->getId())
+
+            ) {
                 $indexed[$id] = $response;
             }
         }, filter(function(HeramsResponse $response) use ($limit, $locations) {

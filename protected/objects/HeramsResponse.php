@@ -24,6 +24,7 @@ class HeramsResponse
     private $map;
 
     private $surveyId;
+    private $responseId;
 
     public function __construct(
         ResponseInterface $response,
@@ -31,6 +32,7 @@ class HeramsResponse
     ) {
         $this->data = $response->getData();
         $this->surveyId = $response->getSurveyId();
+        $this->responseId = (int) $response->getId();
         $this->map = $map;
 
         // Validate.
@@ -49,6 +51,10 @@ class HeramsResponse
         return $result;
     }
 
+    public function getId(): int
+    {
+        return $this->responseId;
+    }
     public function getLongitude(): ?float
     {
         $result = ((float) $this->data[$this->map->getLongitude()]) ?? null;
