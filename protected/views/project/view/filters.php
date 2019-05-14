@@ -28,7 +28,7 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
     <div class="count">
         <?php
         echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
-        echo Html::tag('em', $project->getWorkspaceCount());
+        echo Html::tag('em', $project->getContributorCount());
         ?>
     </div>
     <div class="count">

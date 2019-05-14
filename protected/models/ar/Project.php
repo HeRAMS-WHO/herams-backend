@@ -357,7 +357,23 @@ class Project extends ActiveRecord {
 
    public function getContributorCount(): int
     {
-        return $this->getOverride('contributorCount') ?? 1 + $this->getPermissions()->count();
+        $result = $this->getOverride('contributorCount');
+        if (!isset($result)) {
+            $result = (int) Permission::find()->where([
+                'target' => Workspace::class,
+                'target_id' => $this->getWorkspaces()->select('id')->column(),
+                'source' => User::class,
+                'permission' => [
+                    Permission::PERMISSION_WRITE,
+                    Permission::PERMISSION_ADMIN
+                ]
+            ])->
+            distinct()
+                ->select('source_id')
+                ->count();
+
+        }
+        return $result;
     }
 
     public function getFacilityCount(): int

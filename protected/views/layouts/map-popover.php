@@ -33,18 +33,13 @@ $this->beginContent('@views/layouts/map.php');
         </div>
         <div class="stat">
             <?= Icon::contributors(); ?>
-            <span><?=
-                Permission::find()->where([
-                    'target' => Workspace::class,
-                    'source' => User::class,
-                    'permission' => [
-                        Permission::PERMISSION_WRITE,
-                        Permission::PERMISSION_ADMIN
-                    ]
-                ])->
-                distinct()
-                    ->select('source_id')
-                    ->count();
+            <span><?php
+               $count = 0;
+               /** @var Project $project */
+               foreach(Project::find()->each() as $project) {
+                   $count += $project->getContributorCount();
+               }
+               echo $count;
             ?></span>
             Contributors
         </div>
