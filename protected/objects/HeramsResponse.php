@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace prime\objects;
 
 
+use Carbon\Carbon;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
 /**
@@ -63,10 +64,10 @@ class HeramsResponse
         return $this->getValueForCode($this->map->getType());
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?Carbon
     {
         if (null !== $date = $this->data[$this->map->getDate()] ?? null) {
-            $result = \DateTime::createFromFormat('Y-m-d', explode(' ', $date, 2)[0]);
+            $result = Carbon::createFromFormat('Y-m-d', explode(' ', $date, 2)[0]);
             if (!$result instanceof \DateTimeInterface) {
                 throw new \RuntimeException('Invalid date format: ' . $date);
             }

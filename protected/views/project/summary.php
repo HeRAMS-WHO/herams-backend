@@ -58,7 +58,6 @@ $hostInfo = \Yii::$app->request->hostInfo;
         text-transform: uppercase;
         background-color: var(--header-background-color);
         text-align: center;
-        grid-area: title;
     }
 
     .stat {

@@ -63,8 +63,38 @@ use yii\helpers\Json as Json;
                     'options' => [
                         'name' => "{$attribute}[]",
                         'options' => [
-                            'multiple' => true
+                            'multiple' => true,
                         ],
+                        'matcher' => new \yii\web\JsExpression(<<<JS
+    function(params, data) {
+            if (typeof params.term === 'undefined' || params.term.length === 0) {
+                return data;
+            }
+            if (typeof data.text === 'undefined') {
+                return null;
+            }
+            
+            // Tokenize string.
+            let matches = 0;
+            let tokens = params.term.toLowerCase().split(' ');
+            for (let i = tokens.length - 1; i >= 0; i--) {
+                // Match a token.
+                if (tokens[i].length === 0) {
+                    continue;
+                }
+                
+                if (data.text.toLowerCase().indexOf(tokens[i]) > -1) {
+                    matches++;
+                } else {
+                    return null;
+                }
+            }
+            data.matchCount = matches;
+            return data;
+        };
+JS
+                        ),
+
                         'data' => $filterModel->advancedOptions($question->getTitle()),
 
 

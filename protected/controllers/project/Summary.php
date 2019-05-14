@@ -17,7 +17,15 @@ class Summary extends Action
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
-        return $this->controller->render('summary', [
+
+        switch($project->status) {
+            case Project::STATUS_TARGET:
+                $view = 'summary-target';
+                break;
+            default:
+                $view = 'summary';
+        }
+        return $this->controller->render($view, [
             'project' => $project,
         ]);
     }

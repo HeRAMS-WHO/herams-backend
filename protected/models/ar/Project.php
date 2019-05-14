@@ -209,9 +209,6 @@ class Project extends ActiveRecord {
             }
         }
         return $heramsResponses;
-        $result = (new ResponseFilter($heramsResponses, $this->getSurvey(), $this->getMap()))->filter();
-        \Yii::endProfile(__FUNCTION__);
-        return $result;
     }
 
     public function getTypeCounts()
@@ -368,6 +365,10 @@ class Project extends ActiveRecord {
         return $this->getOverride('facilityCount') ?? count($this->getHeramsResponses());
     }
 
+    /**
+     * @param $name
+     * @return mixed|null
+     */
     public function getOverride($name)
     {
         return $this->overrides[$name] ?? null;

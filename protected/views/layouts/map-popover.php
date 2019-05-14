@@ -3,10 +3,11 @@
 use Carbon\Carbon;
 use prime\helpers\Icon;
 use prime\models\ar\Project;
+use prime\models\ar\User;
+use prime\models\ar\Workspace;
 use yii\helpers\Html;
 use function iter\reduce;
 
-$projects = Project::find()->all();
 $this->beginContent('@views/layouts/map.php');
 
 
@@ -25,28 +26,43 @@ $this->beginContent('@views/layouts/map.php');
     </div>
     <div class="stats">
         <div class="stat">
-            <?= \prime\helpers\Icon::project(); ?>
-            <span><?= count($projects); ?></span>
+            <?= Icon::project(); ?>
+            <span><?= Project::find()->count(); ?></span>
             Projects
         </div>
         <div class="stat">
-            <?= \prime\helpers\Icon::healthFacility(); ?>
-            <span><?php
-                echo \Yii::$app->cache->getOrSet('totalFacilityCount', function() use ($projects) {
-                    return reduce(function (?int $accumulator, Project $project, string $key) {
-                        return $accumulator + \iter\count($project->getHeramsResponses());
-                    }, $projects);
-                }, 3600 * 24);
-                ?></span>
-            Health Facilities
+            <?= Icon::contributors(); ?>
+            <span><?= Workspace::find()->count(); ?></span>
+            Workspaces
         </div>
         <div class="stat">
-            <?= \prime\helpers\Icon::users(); ?>
-            <span><?= \prime\models\ar\User::find()->count() ?></span>
-            Users
+            <?= Icon::healthFacility(); ?>
+            <span>
+            <?php
+                echo \Yii::$app->cache->get('totalFacilityCount') ?: '?';
+            ?>
+            </span>
+            Health Facilities
         </div>
     </div>
-    <div class="status"><?= Icon::sync() ?> Last updated: <span class="value"><?=$projects[0]->title . ' / ' . Carbon::now()->subHour(mt_rand(1, 100))->diffForHumans() ?></span></div>
+    <div class="status"><?= Icon::sync() ?> Most recently updated: <span class="value">
+            <?php
+            if (false !== $ts = \Yii::$app->cache->get('lastUpdatedTimestamp')) {
+                $lastUpdated = Carbon::createFromTimestampUTC($ts)->diffForHumans();
+            } else {
+                $lastUpdated = \Yii::t('app', 'Unknown');
+            }
+
+            if (false !== $projectId = Yii::$app->cache->get('lastUpdatedProject')) {
+                $lastProject = Project::findOne(['id' => $projectId])->title;
+            } else {
+                $lastProject = \Yii::t('app', 'Unknown');
+            }
+
+            echo "$lastProject / $lastUpdated";
+
+            ?></span></div>
+
 </div>
 <?php
 
