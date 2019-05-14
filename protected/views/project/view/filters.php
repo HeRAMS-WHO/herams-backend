@@ -38,11 +38,11 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
         $lastUpdate = null;
         foreach($data as $heramsResponse) {
             $date = $heramsResponse->getDate();
-            if (!isset($lastUpdate) || $date->greaterThan($lastUpdate)) {
+            if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
                 $lastUpdate = $date;
             }
         }
-        echo Html::tag('em', $lastUpdate->diffForHumans());
+        echo Html::tag('em', $lastUpdate? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
         ?>
     </div>
     <?php
