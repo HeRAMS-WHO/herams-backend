@@ -193,7 +193,7 @@ class Project extends ActiveRecord {
     /**
      * @return iterable|HeramsResponse[]
      */
-    public function getHeramsResponses(): iterable
+    public function  getHeramsResponses(): iterable
     {
         \Yii::beginProfile(__FUNCTION__);
         $map = $this->getMap();
@@ -378,7 +378,8 @@ class Project extends ActiveRecord {
 
     public function getFacilityCount(): int
     {
-        return $this->getOverride('facilityCount') ?? count($this->getHeramsResponses());
+        return $this->getOverride('facilityCount')
+            ?? count((new ResponseFilter($this->getHeramsResponses(), null, $this->getMap()))->filter());
     }
 
     /**

@@ -11,7 +11,6 @@ use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use SamIT\LimeSurvey\JsonRpc\Concrete\Response;
 use yii\base\Model;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
@@ -37,11 +36,7 @@ class ResponseFilter extends Model
      */
     private $allResponses;
 
-    /**
-     * @var SurveyInterface
-     */
-    private $survey;
-    /**
+      /**
      * @var HeramsCodeMap
      */
     private $map;
@@ -55,20 +50,21 @@ class ResponseFilter extends Model
      */
     public function __construct(
         array $responses,
-        SurveyInterface $survey,
+        ?SurveyInterface $survey,
         HeramsCodeMap $map
     ) {
         parent::__construct([]);
         $this->allResponses = $responses;
         $this->date = date('Y-m-d');
-        $this->survey = $survey;
         $this->map = $map;
 
-        $this->initAdvancedFilterMap();
+        if (isset($survey)) {
+            $this->initAdvancedFilterMap($survey);
+        }
     }
-    private function initAdvancedFilterMap()
+    private function initAdvancedFilterMap(SurveyInterface $survey)
     {
-        $groups = $this->survey->getGroups();
+        $groups = $survey->getGroups();
         usort($groups, function(GroupInterface $a, GroupInterface $b) {
             return $a->getIndex() <=> $b->getIndex();
         });
@@ -115,23 +111,10 @@ class ResponseFilter extends Model
 
     }
 
-    private function getQuestionFromCode(string $code): QuestionInterface
-    {
-        foreach($this->survey->getGroups() as $group) {
-            foreach ($group->getQuestions() as $question) {
-                if ($question->getTitle() === $code) {
-                    return $question;
-                }
-            }
-        }
-
-    }
-
     public function advancedOptions(string $fieldName): array
     {
-        $question = $this->getQuestionFromCode($fieldName);
         $result = [];
-        foreach($question->getAnswers() as $answer) {
+        foreach($this->advancedFilterMap[$fieldName]->getAnswers() as $answer) {
             $result[$answer->getCode()] = explode(':', strip_tags($answer->getText()), 2)[0];
         }
         return $result;
@@ -142,96 +125,12 @@ class ResponseFilter extends Model
         if (strncmp($attribute, 'adv_', 4) !== 0) {
             return parent::getAttributeLabel($attribute);
         }
-        return trim(html_entity_decode(explode(':', strip_tags($this->getQuestionFromCode(substr($attribute, 4))->getText()), 2)[0]));
+        $code = substr($attribute, 4);
+
+        return trim(html_entity_decode(explode(':', strip_tags($this->advancedFilterMap[$code]->getText()), 2)[0]));
 
     }
 
-
-    private function makeNested(array $flat): array
-    {
-
-    }
-
-    /**
-     * @param Response[]
-     * @return array
-     */
-    public function nestedLocationOptions(): array
-    {
-        $result = [];
-        // Get the question.
-        foreach($this->survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
-                if ($question->getTitle() === $this->map->getLocation()) {
-                    $answers = $question->getAnswers();
-                    break 2;
-                }
-            }
-        }
-
-        if (isset($answers)) {
-            foreach ($answers as $answer) {
-                $result[$answer->getText()] = [$answer->getCode()];
-                // Aggregates
-                $keyParts = [];
-                $parts = explode(' / ', $answer->getText());
-                array_pop($parts);
-                foreach($parts as $part) {
-                    $keyParts[] = $part;
-                    $key = implode(' / ', $keyParts);
-                    if (!isset($result[$key])) {
-                        $result[$key] = [$answer->getCode()];
-                    } else {
-                        $result[$key][] = $answer->getCode();
-                    }
-
-
-                }
-            }
-
-            return array_flip(array_map(function(array $list) { return implode(',', $list); }, $result));
-        }
-
-        $locations = [];
-        /** @var HeramsResponse $response */
-        foreach($this->allResponses as $response) {
-            $location = array_filter([
-                $response->getValueForCode('GEO1'),
-                $response->getValueForCode('GEO2')
-            ]);
-            if (count($location) === 2) {
-                $locations[$location[0]][$location[1]] = $location[1];
-            }
-
-        }
-        return $locations;
-    }
-
-    /**
-     * @param Response[]
-     * @return array
-     */
-    public function typeOptions(): array
-    {
-        $result = [];
-        // Get the question.
-        foreach ($this->survey->getGroups() as $group) {
-            foreach ($group->getQuestions() as $question) {
-                if ($question->getTitle() === $this->map->getType()) {
-                    $answers = $question->getAnswers();
-                    break 2;
-                }
-            }
-        }
-
-        foreach ($answers as $answer) {
-            $result[$answer->getText()] = [$answer->getCode()];
-        }
-
-        return array_flip(array_map(function (array $list) {
-            return implode(',', $list);
-        }, $result));
-    }
 
     public function filter(): array
     {
