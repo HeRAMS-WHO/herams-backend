@@ -249,6 +249,17 @@ span.header {
     z-index: 10051;
 }
 
+.filters a, .filters button{
+    float: right;
+    box-shadow: none;
+    background-color: gray;
+    color: white;
+    padding: 10px;
+    margin-right: 10px;
+    border:none;
+    text-align: center;
+    width: 100px;
+}
 .filters .row > div {
     float: left;
     --width: 12;
@@ -271,6 +282,7 @@ span.header {
 }
 .filters .advanced {
     display: none;
+    margin-top: 8px;
 }
 
 .filters.expanded .advanced {

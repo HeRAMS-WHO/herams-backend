@@ -46,14 +46,7 @@ echo Html::beginForm(['project/view', 'id' => $project->id,
         ?>
     </div>
     <?php
-        echo Html::a('Filters', '#', ['id' => 'filter-expand', 'style' => [
-            'float' => 'right',
-            'box-shadow' => 'none',
-            'background-color' => 'gray',
-            'color' => 'white',
-            'padding' => '10px',
-            'border' => 'none'
-        ]]);
+        echo Html::a('Filters', '#', ['id' => 'filter-expand']);
         $this->registerJs(<<<JS
         $('#filter-expand').on('click', function() {
             $(this).parent().toggleClass('expanded');

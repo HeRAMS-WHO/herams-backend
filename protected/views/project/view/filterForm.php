@@ -4,19 +4,19 @@
 /** @var \prime\models\ar\Project $project */
 
 use app\components\Form;
-use function iter\chain;
 use kartik\select2\Select2;
 use kartik\widgets\ActiveForm;
 use prime\models\forms\ResponseFilter as ResponseFilter;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface as QuestionInterface;
-use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
+use function iter\chain;
+use yii\helpers\Url;
 
-    $form = ActiveForm::begin([
-        'method' => 'PUT',
+$form = ActiveForm::begin([
+        'method' => 'GET',
         "type" => ActiveForm::TYPE_HORIZONTAL,
     ]);
     /** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
@@ -114,8 +114,6 @@ JS
 
         }
     }
-//    echo '<pre>';
-//    var_dump($filters); die();
 
     $renderFilter = function(
         QuestionInterface $question,
@@ -141,16 +139,13 @@ JS
     };
     $id = Json::encode('#' . Html::getInputId($filterModel, 'date'));
     $this->registerJs("flatpickr($id);");
-    echo Html::submitButton(\Yii::t('app', 'Apply'), [
-            'style' => [
-                'float' => 'right',
-                'box-shadow' => 'none',
-                'background-color' => 'gray',
-                'color' => 'white',
-                'padding' => '10px',
-                'border' => 'none'
-            ]
-    ]);
+    echo Html::submitButton(\Yii::t('app', 'Apply'));
+    echo Html::a(\Yii::t('app', 'Clear'), [
+        'project/view',
+        'id' => $project->id,
+        'page_id' => \Yii::$app->request->getQueryParam('page_id'),
+        'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
+        ]);
     echo Form::widget([
         'form' => $form,
         'model' => $filterModel,
@@ -163,40 +158,6 @@ JS
                 ],
                 'class' => 'filter filter_when',
             ]
-
-
-//            'locations' => [
-//                'type' => Form::INPUT_WIDGET,
-//                'widgetClass' => Select2::class,
-//                'options' => [
-//                    'options' => [
-//                        'multiple' => true,
-//                        'class' => [
-//                            'filter',
-//                            'filter_where'
-//                        ]
-//                    ],
-//                    'data' => $filterModel->nestedLocationOptions()
-//                ]
-//            ],
-//            'types' => [
-//                'type' => Form::INPUT_WIDGET,
-//                'widgetClass' => Select2::class,
-//                'options' => [
-//                    'options' => [
-//                        'multiple' => true,
-//                        'class' => [
-//                            'filter',
-//                            'filter_where'
-//                        ]
-//                    ],
-//                    'data' => $filterModel->typeOptions()
-//                ]
-//            ],
-
-
-
-
         ], $filters))
     ]);
     $form->end();
