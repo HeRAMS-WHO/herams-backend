@@ -46,13 +46,6 @@ $this->params['breadcrumbs'][] = [
         'columns' => [
             'title',
             'workspaceCount',
-            [
-                'label' => 'Cache status',
-                'value' => function(Project $project) {
-                    $timestamp = \Yii::$app->limesurveyDataProvider->responseCacheTime($project->base_survey_eid);
-                    return isset($timestamp) ? \Carbon\Carbon::createFromTimestamp($timestamp)->diffForHumans() : null;
-                }
-            ],
             'actions' => [
                 'class' => ActionColumn::class,
                 'width' => '100px',

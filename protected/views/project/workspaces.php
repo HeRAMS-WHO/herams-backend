@@ -10,6 +10,7 @@
  */
 
 use kartik\grid\GridView;
+use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
@@ -82,8 +83,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [ 'label' => 'Title', 'attribute' => 'title', 'value' => 'title' ],
             [
+                'label' => 'Cache status',
+                'value' => function(Workspace $workspace) {
+                    /** @var \prime\components\LimesurveyDataProvider $provider */
+                    $provider = \Yii::$app->limesurveyDataProvider;
+                    $timestamp = $provider->tokenCacheTime($workspace->project->base_survey_eid, $workspace->getAttribute('token'));
+                    return isset($timestamp) ? \Carbon\Carbon::createFromTimestamp($timestamp)->diffForHumans() : null;
+                }
+            ],
+            [
                 'label' => '# responses',
-                'value' => function(\prime\models\ar\Workspace $workspace) {
+                'value' => function(Workspace $workspace) {
                     return \Yii::$app->cache->getOrSet('project.responses.' . $workspace->id, function() use ($workspace) {
                         return count($workspace->getResponses());
                     }, 3600);
@@ -92,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => '# contributors',
-                'value' => function(\prime\models\ar\Workspace $project) {
+                'value' => function(Workspace $project) {
                     return $project->getPermissions()->count();
                 }
             ],

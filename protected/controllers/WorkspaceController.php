@@ -11,6 +11,7 @@ use prime\controllers\workspace\Create;
 use prime\controllers\workspace\Download;
 use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
+use prime\controllers\workspace\Refresh;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
 use prime\models\ar\Project;
@@ -34,6 +35,7 @@ class WorkspaceController extends Controller
             'share' => Share::class,
             'import' => Import::class,
             'download' => Download::class,
+            'refresh' => Refresh::class,
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Workspace::find(),

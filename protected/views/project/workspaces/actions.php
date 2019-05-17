@@ -8,8 +8,20 @@
 return [
     'class' => \kartik\grid\ActionColumn::class,
     'width' => '150px',
-    'template' => '{update} {share} {remove} {download} {limesurvey}',
+    'controller' => 'workspace',
+    'template' => '{refresh} {update} {share} {remove} {download} {limesurvey}',
     'buttons' => [
+        'refresh' => function($url, Workspace $model, $key) {
+            $result = '';
+            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)
+                || \Yii::$app->user->can(Permission::PERMISSION_WRITE, $model->project)
+            ) {
+                $result = Html::a(Icon::sync(), $url, [
+                    'title' => \Yii::t('app', 'Refresh data from limesurvey')
+                ]);
+            }
+            return $result;
+        },
         'limesurvey' => function($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_WRITE, $model)
@@ -17,7 +29,7 @@ return [
             ) {
                 $result = Html::a(
                     Icon::pencilAlt(),
-                    ['/workspace/limesurvey', 'id' => $model->id],
+                    $url,
                     [
                         'title' => \Yii::t('app', 'Data update')
                     ]
@@ -32,7 +44,7 @@ return [
             ) {
                 $result = Html::a(
                     Icon::edit(),
-                    ['/workspace/update', 'id' => $model->id],
+                    $url,
                     [
                         'title' => \Yii::t('app', 'Update')
                     ]
@@ -46,7 +58,7 @@ return [
             if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model->project)) {
                 $result = Html::a(
                     Icon::share(),
-                    ['/workspace/share', 'id' => $model->id],
+                    $url,
                     [
                         'title' => \Yii::t('app', 'Share')
                     ]
@@ -60,7 +72,7 @@ return [
             ) {
                 return Html::a(
                     Icon::delete(),
-                    ['workspace/delete', 'id' => $model->id],
+                    $url,
                     [
                         'data-method' => 'delete',
                         'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?')
