@@ -118,17 +118,17 @@ $hostInfo = \Yii::$app->request->hostInfo;
         \Yii::t('app', 'Contributors')
     ])
 ?></div>
-<div class="chart">
-    <canvas id="chart1"></canvas>
-<?php
 
+<?php
 
     $types = $project->getTypeCounts();
     $total = array_sum($types);
 
-    $url = $this->registerAssetBundle(\prime\assets\IconBundle::class)->baseUrl . '/svg/admin.svg';
-$typeCount = count($types);
     if ($total > 0) {
+        echo Html::beginTag('div', ['class' => 'chart']);
+        echo Html::tag('canvas', '', ['id' => 'chart1']);
+        $url = $this->registerAssetBundle(\prime\assets\IconBundle::class)->baseUrl . '/svg/admin.svg';
+        $typeCount = count($types);
         $jsonConfig = \yii\helpers\Json::encode([
             'type' => 'doughnut',
             'data' => [
@@ -188,85 +188,87 @@ $typeCount = count($types);
     })();
 JS;
         $this->registerJs($js);
+        echo Html::endTag('div');
     }
-    ?>
 
-    </div>
-<div class="chart">
-    <canvas id="chart2">
-    </canvas>
-    <?php
     $functionality = $project->getFunctionalityCounts();
     $total = array_sum($functionality);
-    $dataCount = count($functionality);
-    $jsonConfig = \yii\helpers\Json::encode([
-        'type' => 'doughnut',
-        'data' => [
-            'datasets' => [
-                [
-                    'data' => array_values($functionality),
-                    'backgroundColor' => new \yii\web\JsExpression("chroma.scale(['green', 'orange', 'red']).colors($dataCount)"),
-                    'label' => 'Types'
-                ]
-            ],
-            'labels' => array_map(function ($key) use ($functionality, $total) {
-                $count = $functionality[$key];
-                $percentage = 100 * $count / $total;
-                return number_format($percentage, 1) . '% ' . $key;
-            }, array_keys($functionality))
-        ],
-        'options' => [
-            'elements' => [
-                'arc' => [
-                    'borderWidth' =>  0
+    if ($total > 0) {
+        echo Html::beginTag('div', ['class' => 'chart']);
+        echo Html::tag('canvas', '', ['id' => 'chart2']);
+
+        $dataCount = count($functionality);
+        $jsonConfig = \yii\helpers\Json::encode([
+            'type' => 'doughnut',
+            'data' => [
+                'datasets' => [
+                    [
+                        'data' => array_values($functionality),
+                        'backgroundColor' => new \yii\web\JsExpression("chroma.scale(['green', 'orange', 'red']).colors($dataCount)"),
+                        'label' => 'Types'
+                    ]
                 ],
-                'center' => [
-                    'sidePadding' => 40,
-                    'color' => $total > 0 ? '#eeeeee' : '#a5a5a5',
-                    'fontWeight' => "normal",
-                    'fontStyle' => "icomoon",
-                    // Functionality
-                    'text' => "\u{e90a}"
+                'labels' => array_map(function ($key) use ($functionality, $total) {
+                    $count = $functionality[$key];
+                    $percentage = 100 * $count / $total;
+                    return number_format($percentage, 1) . '% ' . $key;
+                }, array_keys($functionality))
+            ],
+            'options' => [
+                'elements' => [
+                    'arc' => [
+                        'borderWidth' => 0
+                    ],
+                    'center' => [
+                        'sidePadding' => 40,
+                        'color' => $total > 0 ? '#eeeeee' : '#a5a5a5',
+                        'fontWeight' => "normal",
+                        'fontStyle' => "icomoon",
+                        // Functionality
+                        'text' => "\u{e90a}"
+                    ]
+                ],
+                'cutoutPercentage' => 95,
+                'responsive' => true,
+                'maintainAspectRatio' => false,
+                'legend' => [
+                    'display' => $total > 0,
+                    'position' => 'bottom',
+                    'labels' => [
+                        'boxWidth' => 12,
+                        'fontSize' => 12,
+                    ]
+                ],
+                'title' => [
+                    'display' => true,
+                    'text' => 'Functionality'
+                ],
+                'animation' => [
+                    'animateScale' => true,
+                    'animateRotate' => true
                 ]
-            ],
-            'cutoutPercentage' => 95,
-            'responsive' => true,
-            'maintainAspectRatio' => false,
-            'legend' => [
-                'display' => $total > 0,
-                'position' => 'bottom',
-                'labels' => [
-                    'boxWidth' => 12,
-                    'fontSize' => 12,
-                ]
-            ],
-            'title' => [
-                'display' => true,
-                'text' => 'Functionality'
-            ],
-            'animation' => [
-                'animateScale' => true,
-                'animateRotate' => true
             ]
-        ]
-    ], JSON_PRETTY_PRINT);
-    $js = <<<JS
+        ], JSON_PRETTY_PRINT);
+        $js = <<<JS
     (function() {
         let canvas = document.getElementById('chart2').getContext('2d');
         let config = $jsonConfig;
         let chart = new Chart(canvas, config);
     })();
 JS;
-    $this->registerJs($js);
-    ?>
-</div>
-<div class="chart">
-    <canvas id="chart3">
-        <?php
-//        $svg = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents(\Yii::getAlias('@app/assets/svg/availability.svg')));
+        $this->registerJs($js);
+        echo Html::endTag('div');
+    }
 
-        $availability = $project->getSubjectAvailabilityCounts();
-        $dataCount = count($availability);
+
+    $availability = $project->getSubjectAvailabilityCounts();
+    $dataCount = count($availability);
+    $total = array_sum($availability);
+    if ($total > 0) {
+
+        echo Html::beginTag('div', ['class' => 'chart']);
+        echo Html::tag('canvas', '', ['id' => 'chart3']);
+
         $jsonConfig = \yii\helpers\Json::encode([
             'type' => 'doughnut',
             'data' => [
@@ -282,11 +284,11 @@ JS;
             'options' => [
                 'elements' => [
                     'arc' => [
-                        'borderWidth' =>  0
+                        'borderWidth' => 0
                     ],
                     'center' => [
                         'sidePadding' => 40,
-                        'color' => array_sum($availability) > 0 ? '#eeeeee' : '#a5a5a5',
+                        'color' => $total > 0 ? '#eeeeee' : '#a5a5a5',
                         'fontWeight' => "normal",
                         'fontStyle' => "icomoon",
                         // Availability
@@ -321,11 +323,9 @@ JS;
     })();
 JS;
         $this->registerJs($js);
-        ?>
-    </canvas>
-</div>
-    <?php
-if (!empty($project->pages) && (true || \Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_READ, $project))) {
+    }
+
+    if (!empty($project->pages) && (true || \Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_READ, $project))) {
    echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
 }
 
