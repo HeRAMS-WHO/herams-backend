@@ -9,7 +9,7 @@ return [
     'class' => \kartik\grid\ActionColumn::class,
     'width' => '150px',
     'controller' => 'workspace',
-    'template' => '{refresh} {update} {share} {remove} {download} {limesurvey}',
+    'template' => '{refresh} {update} {share} {delete} {download} {limesurvey}',
     'buttons' => [
         'refresh' => function($url, Workspace $model, $key) {
             $result = '';
@@ -66,7 +66,7 @@ return [
             }
             return $result;
         },
-        'remove' => function($url, Workspace $model, $key) {
+        'delete' => function($url, Workspace $model, $key) {
             if (app()->user->can(Permission::PERMISSION_ADMIN, $model)
                 || app()->user->can(Permission::PERMISSION_WRITE, $model->project)
             ) {
