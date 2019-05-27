@@ -3,6 +3,7 @@
 /** @var \prime\models\ar\Project $project */
 /** @var \yii\web\View $this */
 
+use prime\models\permissions\Permission;
 use prime\widgets\chart\ChartBundle;
 use rmrevin\yii\fontawesome\FAR;
 use rmrevin\yii\fontawesome\FAS;
@@ -323,11 +324,12 @@ JS;
     })();
 JS;
         $this->registerJs($js);
+        echo Html::endTag('div');
     }
 
-    if (!empty($project->pages) && (true || \Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_READ, $project))) {
-   echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
-}
+    if (!empty($project->pages) && (true || \Yii::$app->user->can(Permission::PERMISSION_READ, $project))) {
+       echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
+    }
 
     ?>
 </div>
