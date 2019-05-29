@@ -669,13 +669,23 @@ a > svg {
     font-size: 48px;
 }
 
-.menu .footer svg.subject {
+.menu .footer .stats div > svg {
     font-size: 32px;
     color: #92929b;
 }
 
+.menu .footer .stats > div {
+    display: none;
+}
+.menu .footer .stats > div:first-child {
+    display: block;
+    animation: fadein 2s;
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
 .menu .footer .left, .menu .footer .right {
-
     display: inline;
     font-size: 48px;
     position: absolute;;

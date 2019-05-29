@@ -2,8 +2,9 @@
 /** @var \prime\components\Environment $env */
 
 use prime\components\NotificationService;
+use yii\web\AssetConverter;
 
-$config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
+$config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
         'notificationService',
@@ -99,15 +100,13 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
             'class' => \yii\web\AssetManager::class,
             // http://www.yiiframework.com/doc-2.0/guide-structure-assets.html#cache-busting
             'appendTimestamp' => true,
-            'forceCopy' =>  true,
+            'forceCopy' =>  YII_DEBUG,
             'converter' => [
-                'class' => \yii\web\AssetConverter::class,
+                'class' => AssetConverter::class,
                 'commands' => [
                     'sass' => ['css', 'sassc {from} {to}'],
                     'scss' => ['css', 'sassc {from} {to}'],
                 ]
-                // Yii::getAlias not yet available.
-//                'destinationDir' => $compiledAssetDir,
             ],
             'bundles' => [
                 // Override bootstrap

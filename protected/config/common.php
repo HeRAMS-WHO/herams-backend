@@ -2,7 +2,6 @@
 
 use prime\components\JwtSso;
 use prime\models\ar\Setting;
-
 /** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
 ini_set('memory_limit','4096M');
