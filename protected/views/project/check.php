@@ -12,8 +12,12 @@ foreach($project->workspaces as $workspace) {
         try {
             new \prime\objects\HeramsResponse($response, $map);
         } catch (\Throwable $t) {
+            $url = strtr('https://ls.herams.org/admin/responses?sa=view&surveyid={surveyid}&id={id}', [
+               '{surveyid}' => $project->base_survey_eid,
+               '{id}' => $response->getId(),
+            ]);
             $rows[] = [
-                $response->getId(),
+                Html::a($response->getId(), $url, ['target' => '_blank']),
                 $t->getMessage(),
             ];
         }
