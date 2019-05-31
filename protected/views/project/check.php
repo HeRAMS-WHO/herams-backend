@@ -13,7 +13,7 @@ foreach($project->workspaces as $workspace) {
             new \prime\objects\HeramsResponse($response, $map);
         } catch (\Throwable $t) {
             $rows[] = [
-                $response->id,
+                $response->getId(),
                 $t->getMessage(),
             ];
         }
