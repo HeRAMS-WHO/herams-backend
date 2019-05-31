@@ -6,20 +6,35 @@ use yii\helpers\Html;
 /** @var Project $project */
 $map = $project->getMap();
 foreach($project->workspaces as $workspace) {
-    echo Html::beginTag('div');
-    echo Html::tag('h1', $workspace->title);
-    echo Html::beginTag('table');
 
+    $rows = [];
     foreach($workspace->getResponses() as $response) {
         try {
             new \prime\objects\HeramsResponse($response, $map);
         } catch (\Throwable $t) {
-            echo Html::beginTag('tr');
-            echo Html::tag('td', $response->id);
-            echo Html::tag('td', $t->getMessage());
-            echo Html::endTag('tr');
+            $rows[] = [
+                $response->id,
+                $t->getMessage(),
+            ];
         }
     }
-    echo Html::endTag('table');
+    echo Html::beginTag('div');
+    echo Html::tag('h1', $workspace->title, [
+        'style' => [
+            'background-color' => count($rows) > 0 ? 'red' : 'green'
+        ]
+    ]);
+    if (!empty($rows)) {
+        echo Html::beginTag('table');
+        foreach ($rows as $row) {
+            echo Html::beginTag('tr');
+            foreach($row as $cell) {
+                echo Html::tag('td', $cell);
+            }
+            echo Html::endTag('tr');
+
+        }
+        echo Html::endTag('table');
+    }
     echo Html::endTag('div');
 }
