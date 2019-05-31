@@ -102,6 +102,18 @@ $this->params['breadcrumbs'][] = [
                         }
 
                     },
+                    'check' => function($url, Project $model, $key) {
+                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
+                            return Html::a(
+                                Icon::checkSquare(),
+                                ['project/check', 'id' => $model->id], [
+                                    'title' => \Yii::t('app', 'Check data')
+                                ]
+                            );
+
+                        }
+
+                    },
                     'share' => function($url, Project $model, $key) {
                         if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
                             $result = Html::a(
