@@ -26,6 +26,8 @@ class HeramsResponse
     private $surveyId;
     private $responseId;
 
+    private $date;
+
     public function __construct(
         ResponseInterface $response,
         HeramsCodeMap $map
@@ -38,6 +40,15 @@ class HeramsResponse
         // Validate.
         if (!isset($this->data[$this->map->getSubjectId()])) {
             throw new \InvalidArgumentException('Invalid response, could not find field: ' . $this->map->getSubjectId());
+        }
+
+        if (!$this->data[$this->map->getDate()]) {
+            throw new \InvalidArgumentException('Invalid response, could not find field: ' . $this->map->getDate());
+        }
+
+        $this->date = Carbon::createFromFormat('Y-m-d', explode(' ', $this->data[$this->map->getDate()], 2)[0]);
+        if (!$this->date instanceof \DateTimeInterface) {
+            throw new \RuntimeException('Invalid date format: ' . $this->data[$this->map->getDate()]);
         }
     }
 
@@ -70,16 +81,9 @@ class HeramsResponse
         return $this->getValueForCode($this->map->getType());
     }
 
-    public function getDate(): ?Carbon
+    public function getDate(): Carbon
     {
-        if (null !== $date = $this->data[$this->map->getDate()] ?? null) {
-            $result = Carbon::createFromFormat('Y-m-d', explode(' ', $date, 2)[0]);
-            if (!$result instanceof \DateTimeInterface) {
-                throw new \RuntimeException('Invalid date format: ' . $date);
-            }
-            return $result;
-        }
-        return null;
+        $this->date;
     }
 
     public function getName(): ?string
@@ -100,8 +104,6 @@ class HeramsResponse
                 }
             }
         }
-
-
         return !empty($result) ? $result : null;
     }
 
