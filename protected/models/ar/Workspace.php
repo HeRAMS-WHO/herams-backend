@@ -173,14 +173,11 @@ class Workspace extends ActiveRecord
     {
         $map = $this->project->getMap();
         $heramsResponses = [];
-        /** @var Workspace $workspace */
-        foreach($this->workspaces as $workspace) {
-            foreach ($workspace->getResponses() as $response) {
-                try {
-                    $heramsResponses[] = new HeramsResponse($response, $map);
-                } catch (\InvalidArgumentException $e) {
-                    // Silent ignore invalid responses.
-                }
+        foreach ($this->getResponses() as $response) {
+            try {
+                $heramsResponses[] = new HeramsResponse($response, $map);
+            } catch (\InvalidArgumentException $e) {
+                // Silent ignore invalid responses.
             }
         }
         return $heramsResponses;
