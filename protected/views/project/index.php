@@ -44,7 +44,9 @@ $this->params['breadcrumbs'][] = [
         'dataProvider' => $projectProvider,
         'layout' => "{items}\n{pager}",
         'columns' => [
+            'id',
             'title',
+            'facilityCount',
             'workspaceCount',
             'actions' => [
                 'class' => ActionColumn::class,
