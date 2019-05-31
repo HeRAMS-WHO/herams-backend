@@ -36,6 +36,7 @@ use function iter\filter;
  * @method static ProjectQuery find()
  * @property Page[] $pages
  * @property int $status
+ * @property Workspace[] $workspaces
  */
 class Project extends ActiveRecord {
     use LoadOneAuthTrait;
