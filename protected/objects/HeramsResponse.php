@@ -83,7 +83,7 @@ class HeramsResponse
 
     public function getDate(): Carbon
     {
-        $this->date;
+        return $this->date;
     }
 
     public function getName(): ?string
