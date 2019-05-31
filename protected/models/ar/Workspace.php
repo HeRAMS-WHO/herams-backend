@@ -166,21 +166,25 @@ class Workspace extends ActiveRecord
         return isset($this->closed);
     }
 
+    private $_heramsResponses;
     /**
      * @return iterable|HeramsResponse[]
      */
     public function  getHeramsResponses(): iterable
     {
-        $map = $this->project->getMap();
-        $heramsResponses = [];
-        foreach ($this->getResponses() as $response) {
-            try {
-                $heramsResponses[] = new HeramsResponse($response, $map);
-            } catch (\InvalidArgumentException $e) {
-                // Silent ignore invalid responses.
+        if (!isset($this->_heramsResponses)) {
+            $this->_heramsResponses = [];
+            $map = $this->project->getMap();
+            foreach ($this->getResponses() as $response) {
+                try {
+                    $this->_heramsResponses[] = new HeramsResponse($response, $map);
+                } catch (\InvalidArgumentException $e) {
+                    // Silent ignore invalid responses.
+                }
             }
         }
-        return $heramsResponses;
+
+        return $this->_heramsResponses;
     }
 
     public function getFacilityCount(): int
