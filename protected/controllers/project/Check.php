@@ -21,7 +21,7 @@ class Check extends Action
         int $id
     )
     {
-        $model = Project::find()->with('workspaces')->one();
+        $model = Project::find()->with('workspaces')->andWhere(['id' => $id])->one();
 
         if (!$user->can(Permission::PERMISSION_ADMIN, $model)) {
             throw new ForbiddenHttpException();
