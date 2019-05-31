@@ -141,7 +141,7 @@ class Project extends ActiveRecord {
 
     public function getWorkspaces()
     {
-        return $this->hasMany(Workspace::class, ['tool_id' => 'id']);
+        return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
     public function getWorkspaceCount(): int
     {

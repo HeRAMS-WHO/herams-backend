@@ -83,7 +83,7 @@ class Workspace extends ActiveRecord
 
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'tool_id']);
+        return $this->hasOne(Project::class, ['id' => 'tool_id'])->inverseOf('workspaces');
     }
 
     public function isTransactional($operation)
