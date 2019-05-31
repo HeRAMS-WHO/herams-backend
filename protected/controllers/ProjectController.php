@@ -4,6 +4,7 @@ namespace prime\controllers;
 
 use prime\actions\DeleteAction;
 use prime\components\Controller;
+use prime\controllers\project\Check;
 use prime\controllers\project\Create;
 use prime\controllers\project\Index;
 use prime\controllers\project\Pages;
@@ -25,6 +26,7 @@ class ProjectController extends Controller
     public function actions()
     {
         return [
+            'check' => Check::class,
             'create' => Create::class,
             'update' => Update::class,
             'index' => Index::class,
