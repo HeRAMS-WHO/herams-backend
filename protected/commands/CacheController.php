@@ -72,9 +72,6 @@ class CacheController extends \yii\console\controllers\CacheController
                 $this->stdout("OK\n", Console::FG_GREEN);
 
             }
-            $cache->set('totalFacilityCount', $totalFacilityCount, 3600);
-            $cache->set('lastUpdatedTimestamp', $lastUpdatedTimestamp->timestamp, 3600);
-            $cache->set('lastUpdatedProject', $lastUpdatedProject, 3600);
         }
         $cache->set('totalFacilityCount', $totalFacilityCount, 3600);
         $cache->set('lastUpdatedTimestamp', $lastUpdatedTimestamp->timestamp, 3600);
