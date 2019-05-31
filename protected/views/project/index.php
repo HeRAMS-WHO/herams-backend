@@ -46,8 +46,22 @@ $this->params['breadcrumbs'][] = [
         'columns' => [
             'id',
             'title',
-            'facilityCount',
-            'workspaceCount',
+            [
+                'label' => \Yii::t('app', '# Workspaces'),
+                'attribute'  => 'workspaceCount',
+            ],
+            [
+                'label' => \Yii::t('app', '# Contributors'),
+                'attribute' => 'contributorCount'
+            ],
+            [
+                'label' => \Yii::t('app', '# Health facilities'),
+                'attribute' => 'facilityCount'
+            ],
+            [
+                'label' => \Yii::t('app', '# Responses'),
+                'attribute' => 'responseCount'
+            ],
             'actions' => [
                 'class' => ActionColumn::class,
                 'width' => '100px',

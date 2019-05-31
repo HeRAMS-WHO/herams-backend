@@ -195,17 +195,11 @@ class Project extends ActiveRecord {
      */
     public function  getHeramsResponses(): iterable
     {
-        \Yii::beginProfile(__FUNCTION__);
-        $map = $this->getMap();
         $heramsResponses = [];
         /** @var Workspace $workspace */
         foreach($this->workspaces as $workspace) {
-            foreach ($workspace->getResponses() as $response) {
-                try {
-                    $heramsResponses[] = new HeramsResponse($response, $map);
-                } catch (\InvalidArgumentException $e) {
-                        // Silent ignore invalid responses.
-                }
+            foreach ($workspace->getHeramsResponses() as $response) {
+                $heramsResponses[] = $response;
             }
         }
         return $heramsResponses;
@@ -380,6 +374,11 @@ class Project extends ActiveRecord {
     {
         return $this->getOverride('facilityCount')
             ?? count((new ResponseFilter($this->getHeramsResponses(), null, $this->getMap()))->filter());
+    }
+
+    public function getResponseCount(): int
+    {
+        return count($this->getHeramsResponses());
     }
 
     /**

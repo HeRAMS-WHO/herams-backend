@@ -92,18 +92,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label' => '# responses',
+                'label' => '# Contributors',
+                'value' => function(Workspace $project) {
+                    return $project->getPermissions()->count();
+                }
+            ],
+            [
+                'label' => '# Health facilities',
+                'attribute' => 'facilityCount',
+            ],
+            [
+                'label' => '# Responses',
                 'value' => function(Workspace $workspace) {
                     return \Yii::$app->cache->getOrSet('project.responses.' . $workspace->id, function() use ($workspace) {
                         return count($workspace->getResponses());
                     }, 3600);
 
-                }
-            ],
-            [
-                'label' => '# contributors',
-                'value' => function(Workspace $project) {
-                    return $project->getPermissions()->count();
                 }
             ],
             [

@@ -8,7 +8,9 @@ use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
 use prime\lists\FacilityList;
 use prime\models\ActiveRecord;
+use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
+use prime\objects\HeramsResponse;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -162,6 +164,31 @@ class Workspace extends ActiveRecord
     public function getIsClosed()
     {
         return isset($this->closed);
+    }
+
+    /**
+     * @return iterable|HeramsResponse[]
+     */
+    public function  getHeramsResponses(): iterable
+    {
+        $map = $this->project->getMap();
+        $heramsResponses = [];
+        /** @var Workspace $workspace */
+        foreach($this->workspaces as $workspace) {
+            foreach ($workspace->getResponses() as $response) {
+                try {
+                    $heramsResponses[] = new HeramsResponse($response, $map);
+                } catch (\InvalidArgumentException $e) {
+                    // Silent ignore invalid responses.
+                }
+            }
+        }
+        return $heramsResponses;
+    }
+
+    public function getFacilityCount(): int
+    {
+        return count((new ResponseFilter($this->getHeramsResponses(), null, $this->project->getMap()))->filter());
     }
 
     public function getFacilities(): FacilityListInterface
