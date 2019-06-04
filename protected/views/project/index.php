@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = [
             ],
             'actions' => [
                 'class' => ActionColumn::class,
-                'width' => '100px',
+                'width' => '120px',
                 'template' => '{view} {workspaces} {update} {check} {share} {remove}',
                 'buttons' => [
                     'workspaces' => function($url, Project $model, $key) {

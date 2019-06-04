@@ -29,7 +29,7 @@ class Update extends Action
         }
 
         if (!$user->can(Permission::PERMISSION_ADMIN, $page->project)) {
-            throw new ForbiddenHttpException();
+            throw new ForbiddenHttpException("You do not have admin permissions on project {$page->project->name} ({$page->project->id})");
         }
 
         if ($request->isPut) {
