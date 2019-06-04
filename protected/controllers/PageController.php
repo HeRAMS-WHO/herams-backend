@@ -25,7 +25,7 @@ class PageController extends Controller
             'create' => Create::class,
             'delete' => [
                 'class' => DeleteAction::class,
-                'permission' => function(Page $page, User $user) {
+                'permission' => function(User $user, Page $page) {
                     return $user->can(Permission::PERMISSION_ADMIN, $page->project);
                 },
                 'query' => Page::find(),
