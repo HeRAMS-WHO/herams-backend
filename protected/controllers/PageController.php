@@ -35,6 +35,14 @@ class PageController extends Controller
     {
         return ArrayHelper::merge(parent::behaviors(),
             [
+                'access' => [
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ]
+                ],
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
