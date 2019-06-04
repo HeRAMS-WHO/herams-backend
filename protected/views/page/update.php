@@ -6,6 +6,7 @@ use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\helpers\Html;
 use prime\helpers\Icon;
+use prime\models\ar\Page;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
@@ -98,18 +99,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width' => '100px',
                 'template' => '{update} {remove}',
                 'buttons' => [
-                'remove' => function($url, \prime\models\ar\Element $model, $key) {
-                    if(app()->user->can(Permission::PERMISSION_ADMIN)) {
-                        return Html::a(
-                            Icon::delete(),
-                            ['element/delete', 'id' => $model->id],
-                            [
-                                'data-method' => 'delete',
-                                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this tool from the system?')
-                            ]
-                        );
-                    }
-                },
+                    'remove' => function($url, \prime\models\ar\Element $model, $key) {
+                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
+                            return Html::a(
+                                Icon::delete(),
+                                ['element/delete', 'id' => $model->id],
+                                [
+                                    'data-method' => 'delete',
+                                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this tool from the system?')
+                                ]
+                            );
+                        }
+                    },
                 ]
             ]
         ]

@@ -44,11 +44,8 @@ class ElementController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
-                        [
-                            'allow' => false,
-                        ]
                     ]
                 ]
             ]
