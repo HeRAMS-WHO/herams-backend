@@ -26,6 +26,7 @@ use yii\validators\SafeValidator;
  *
  * @property boolean $transpose
  * @property array $config
+ * @property Page $page
  */
 class Element extends ActiveRecord
 {

@@ -9,8 +9,10 @@ use prime\components\Controller;
 use prime\controllers\element\Create;
 use prime\controllers\element\Update;
 use prime\models\ar\Element;
+use prime\models\permissions\Permission;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\User;
 
 class ElementController extends Controller
 {
@@ -22,6 +24,9 @@ class ElementController extends Controller
             'create' => Create::class,
             'delete' => [
                 'class' => DeleteAction::class,
+                'permission' => function(User $user, Element $element) {
+                    return $user->can(Permission::PERMISSION_ADMIN, $element->page->project);
+                },
                 'query' => Element::find(),
                 'redirect' => function(Element $element) {
                     return ['page/update', 'id' => $element->page_id];
