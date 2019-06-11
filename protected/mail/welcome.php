@@ -37,6 +37,6 @@ use yii\helpers\Html;
 </p>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
     <?= Yii::t('user', 'The HeRAMS Team') ?>.
-    <? Html::img($message->embed(__DIR__ . '/../../public/img/HeRAMS_Horizontal_withoutbaseline.png')); ?>
+    <?= Html::img($message->embed(__DIR__ . '/../../public/img/HeRAMS_Horizontal_withoutbaseline.png')); ?>
 </p>
 
