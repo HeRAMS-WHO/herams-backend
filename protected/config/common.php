@@ -155,8 +155,7 @@ return [
                 'sender' => 'support@herams.org',
                 'confirmationSubject' => new Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
                 'recoverySubject' => new Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
-                'welcomeSubject' => new Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Public Health Risks Information Marketplace!', ['0' => app()->name]);}),
-            ]
+                'welcomeSubject' => new Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Health Resources and Services Availability Monitoring System', ['0' => app()->name]);}),            ]
         ],
         'rbac' => [
             'class' => dektrium\rbac\RbacWebModule::class,
