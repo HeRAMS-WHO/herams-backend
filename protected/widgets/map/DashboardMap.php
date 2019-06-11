@@ -119,7 +119,10 @@ class DashboardMap extends Element
         $config = Json::encode([
             'preferCanvas' => true,
             'center' => $this->center,
-            'zoom' => $this->zoom
+            'zoom' => $this->zoom,
+            'minZoom' => 0,
+            'maxZoom' => 30,
+            'maxNativeZoom' => 18
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);

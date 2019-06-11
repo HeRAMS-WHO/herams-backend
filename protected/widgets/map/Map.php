@@ -55,7 +55,9 @@ class Map extends Widget
             'preferCanvas' => true,
             'center' => $this->center,
             'zoom' => $this->zoom,
-            'zoomControl' => false
+            'zoomControl' => false,
+            'maxZoom' => 30,
+            'maxNativeZoom' => 18
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
