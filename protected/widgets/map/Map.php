@@ -60,7 +60,7 @@ class Map extends Widget
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 20
+            'maxZoom' => 18
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
