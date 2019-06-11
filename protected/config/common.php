@@ -1,5 +1,6 @@
 <?php
 
+use dektrium\user\controllers\RegistrationController;
 use prime\components\JwtSso;
 use prime\models\ar\Setting;
 use prime\objects\Deferred;
@@ -134,6 +135,12 @@ return [
                     'class' => \dektrium\user\controllers\AdminController::class,
                     'layout' => '//admin'
                 ],
+                'registration' => [
+                    'class' => RegistrationController::class,
+                    'on ' . RegistrationController::EVENT_AFTER_CONFIRM => function() {
+                        \Yii::$app->end(0, \Yii::$app->response->redirect('/'));
+                    }
+                ]
             ],
             'modelMap' => [
                 'User' => \prime\models\ar\User::class,
