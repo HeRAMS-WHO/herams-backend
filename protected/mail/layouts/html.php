@@ -23,7 +23,7 @@
     <?php $this->head() ?>
 </head>
 <body bgcolor="#f6f6f6" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; margin: 0; padding: 0;">
-<div style="text-align: center;"><img src="<?=app()->urlManager->createAbsoluteUrl(['img/logo.svg'])?>" style="height: 80px; margin-top: 20px;"></div>
+<div style="text-align: center;"><img src="<?=app()->urlManager->createAbsoluteUrl(['img/HeRAMS_Horizontal_withoutbaseline.png'])?>" style="height: 80px; margin-top: 20px;"></div>
 <table class="body-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 20px;">
     <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
         <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
