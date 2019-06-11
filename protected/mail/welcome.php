@@ -13,6 +13,7 @@ use yii\helpers\Html;
 
 /**
  * @var dektrium\user\Module 		$module
+ * @var \yii\mail\MessageInterface $message
  * @var dektrium\user\models\User   $user
  * @var dektrium\user\models\Token  $token
  * @var bool                        $showPassword
@@ -20,7 +21,7 @@ use yii\helpers\Html;
 
 ?>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
-    <?= Yii::t('user', 'You have successfully registered to {0}, the Public Health Risk Information Marketplace', Yii::$app->name) ?>.
+    <?= Yii::t('user', 'You have successfully registered to {0}, Health Resources and Services Availability Monitoring System', Yii::$app->name) ?>.
 </p>
 
 <?php if ($token !== null): ?>
@@ -35,6 +36,7 @@ use yii\helpers\Html;
     <?php endif ?>
 </p>
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
-    <?= Yii::t('user', 'The Prime Team') ?>.
+    <?= Yii::t('user', 'The HeRAMS Team') ?>.
+    <?= $message->embed(__DIR__ . '/../../public/img/HeRAMS_Horizontal_withoutbaseline.png'); ?>
 </p>
 
