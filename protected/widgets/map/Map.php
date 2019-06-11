@@ -16,6 +16,10 @@ class Map extends Widget
         [
             "type" => self::TILE_LAYER,
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+            'options' => [
+                'maxZoom' => 30,
+                'maxNativeZoom' => 17
+            ]
         ],
 //        [
 //            "type" => self::TILE_LAYER,
@@ -56,8 +60,6 @@ class Map extends Widget
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 30,
-            'maxNativeZoom' => 18
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
