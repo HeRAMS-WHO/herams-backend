@@ -33,6 +33,7 @@ class DashboardMap extends Element
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
 
+    public $markerRadius = 2;
     /**
      * @var HeramsResponse[]
      */
@@ -150,7 +151,7 @@ class DashboardMap extends Element
                         pointToLayer: function(feature, latlng) {
                             bounds.push(latlng);
                             return L.circleMarker(latlng, {
-                                radius: 2,
+                                radius: $this->markerRadius,
                                 color: color,
                                 weight: 1,
                                 opacity: 1,
