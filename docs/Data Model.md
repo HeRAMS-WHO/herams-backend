@@ -3,6 +3,8 @@
 This file attempts to describe the data model in use for HeRAMS.
 
 This needs to be a lot longer
+![Image of a chicken](https://previews.123rf.com/images/memoangeles/memoangeles1410/memoangeles141000013/32555963-cartoon-chicken-illustration.jpg)
+
 
 
 ## Terms
