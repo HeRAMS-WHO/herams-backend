@@ -4,6 +4,9 @@ This file attempts to describe the data model in use for HeRAMS.
 
 Testing editing via __stackedit__
 This is a table:
+|  b| a | c|
+|--|--| -|
+| a |b  | c |
 
 ## Terms
 
@@ -176,5 +179,5 @@ If not, can workspace managers add new ones? (Yes, via the response picker plugi
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTgxOTUwMTE1NF19
+eyJoaXN0b3J5IjpbLTE1MDA0MzcyNzddfQ==
 -->
