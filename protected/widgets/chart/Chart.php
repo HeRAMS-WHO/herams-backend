@@ -9,6 +9,7 @@ use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
@@ -41,9 +42,12 @@ class Chart extends Element
 
     public $map;
 
-    public $colors = ['green' , 'orange', 'red'];
-
-    public $notRelevantColor = 'gray';
+    public $colors = [
+        ['code' => 'A1', 'color' => 'green'],
+        ['code' => 'A2', 'color' => 'orange'],
+        ['code' => 'A3', 'color' => 'red'],
+        ['code' => 'A4', 'color' => 'gray']
+    ];
 
     protected function getMap()
     {
@@ -177,42 +181,23 @@ class Chart extends Element
             $this->type = self::TYPE_BAR;
         }
 
-        $colorCount = max(count($map), $pointCount) - (empty($this->notRelevantColor) ? 0 : 1);
 
-        if (!empty($map)) {
-            $bitMap = [];
-            foreach (array_keys($map) as $i => $k) {
-                $bitMap[] = isset($unmappedData[$k]);
-            }
+
+        $colors = [];
+
+        $colorMap = ArrayHelper::map($this->colors, 'code', 'color');
+
+        foreach($unmappedData as $code => $count) {
+            $colors[] = $colorMap[$code] ?? new JsExpression('chroma.random().hex()');
         }
 
-        $baseColors = Json::encode($this->colors);
-        $bitMap = Json::encode($bitMap ?? []);
-        $notRelevantColor = Json::encode($this->notRelevantColor);
-        $colorJs = new JsExpression(<<<JS
-(function() {
-    let bitmap = $bitMap;
-    let colors = chroma.scale($baseColors).colors($colorCount).filter((element, index) => {
-        return bitmap.length == 0 || bitmap[index];
-    });
-    
-    if ($notRelevantColor != null) {
-        colors.push($notRelevantColor);    
-    }
-    return colors;
-})(chroma)
-
-
-
-JS
-            );
         $config = [
             'type' => $this->type,
             'data' => [
                 'datasets' => [
                     [
                         'data' => array_values($dataSet),
-                        'backgroundColor' => $colorJs
+                        'backgroundColor' => $colors
                     ]
                 ],
                 'labels' => array_keys($dataSet)

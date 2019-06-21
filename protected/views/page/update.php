@@ -53,6 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 'items' => array_merge(['' => 'No parent'], $page->parentOptions())
             ],
+            'add_services' => [
+                 'type' => Form::INPUT_CHECKBOX
+            ],
             [
                 'type' => Form::INPUT_RAW,
                 'value' => \yii\bootstrap\ButtonGroup::widget([

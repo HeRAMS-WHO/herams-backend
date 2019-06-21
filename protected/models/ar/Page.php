@@ -28,11 +28,11 @@ use yii\validators\StringValidator;
 class Page extends ActiveRecord implements PageInterface
 {
     use LoadOneAuthTrait;
+
     public function init()
     {
         $this->sort = 0;
         parent::init();
-
     }
 
 
@@ -67,13 +67,13 @@ class Page extends ActiveRecord implements PageInterface
             yield $page;
         }
 
-        if ($this->id !== 5) {
-            return;
-        }
-        /** @var GroupInterface $group */
-        foreach($survey->getGroups() as $group) {
-            if (strpos($group->getTitle(), 'HeRAMS ') === 0) {
-                yield new GroupPage($group, $this);
+        if ($this->add_services) {
+
+            /** @var GroupInterface $group */
+            foreach ($survey->getGroups() as $group) {
+                if (strpos($group->getTitle(), 'HeRAMS ') === 0) {
+                    yield new GroupPage($group, $this);
+                }
             }
         }
     }

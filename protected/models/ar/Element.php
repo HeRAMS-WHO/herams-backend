@@ -73,6 +73,38 @@ class Element extends ActiveRecord
         }
     }
 
+    public function getCode(): ?string
+    {
+        return $this->config['code'] ?? null;
+    }
+
+    public function setCode(string $value): void
+    {
+        $config = $this->config;
+        $config['code'] = $value;
+        $this->config = $config;
+    }
+
+    public function getColors(): array
+    {
+        return $this->config['colors'] ?? [];
+    }
+
+    public function setColors(array $value): void
+    {
+        // Clean up the array.
+        $map = [];
+        for($i = count($value) -1; $i >= 0; $i--) {
+            if (!empty($value[$i]['code']) || $value[$i]['color'] !== '#000000') {
+                $map[$value[$i]['code']] = $value[$i];
+            }
+        }
+        $config = $this->config;
+        ksort($map);
+        $config['colors'] = array_values($map);
+        $this->config = $config;
+    }
+
     public function getPage()
     {
         return $this->hasOne(Page::class, ['id' => 'page_id']);
@@ -80,12 +112,21 @@ class Element extends ActiveRecord
 
     public function getConfigAsJson()
     {
-        return Json::encode($this->config, JSON_PRETTY_PRINT);
+        $result = [];
+        foreach($this->config as $key => $value) {
+            if (!$this->canGetProperty($key)) {
+                $result[$key] = $value;
+            }
+        }
+        return Json::encode($result, JSON_PRETTY_PRINT);
     }
 
     public function setConfigAsJson($value)
     {
-        $this->config = Json::decode($value);
+        $config = Json::decode($value);
+        $config['colors'] = $this->getColors();
+        $config['code'] = $this->getCode();
+        $this->config = $config;
     }
 
     /**
@@ -115,8 +156,20 @@ class Element extends ActiveRecord
             [['sort'], NumberValidator::class],
             [['transpose'], BooleanValidator::class],
             [['configAsJson'], SafeValidator::class],
+            [['code', 'colors'], SafeValidator::class]
         ];
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'colors.code' => 'Answer code'
+        ];
+    }
+
+
+
+
 
     public function typeOptions()
     {

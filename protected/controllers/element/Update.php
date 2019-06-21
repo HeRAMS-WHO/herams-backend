@@ -32,7 +32,6 @@ class Update extends Action
             throw new ForbiddenHttpException();
         }
 
-
         if ($request->isPut) {
             if ($model->load($request->bodyParams) && $model->save()) {
                 $notificationService->success(\Yii::t('app', "Element updated"));
@@ -41,8 +40,17 @@ class Update extends Action
             }
         }
 
+        $codeOptions = [];
+        foreach($model->page->project->survey->getGroups() as $group) {
+            foreach($group->getQuestions() as $question) {
+                $text = strip_tags($question->getText());
+                $codeOptions[$question->getTitle()] = "{$text} ({$question->getTitle()})";
+            }
+        }
+
         return $this->controller->render('update', [
             'model' => $model,
+            'codeOptions' => $codeOptions,
             'project' => $model->page->project,
             'page' => $model->page
         ]);

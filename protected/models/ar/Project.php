@@ -37,6 +37,7 @@ use function iter\filter;
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
+ * @property-read SurveyInterface $survey
  */
 class Project extends ActiveRecord {
     use LoadOneAuthTrait;

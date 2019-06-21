@@ -3,7 +3,9 @@
 /** @var \prime\models\ar\Element $model */
 
 use app\components\Form;
+use kartik\select2\Select2;
 use kartik\widgets\ActiveForm;
+use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = [
@@ -37,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     echo Form::widget([
         'form' => $form,
+
         'model' => $model,
         'columns' => 1,
         "attributes" => [
@@ -51,21 +54,53 @@ $this->params['breadcrumbs'][] = $this->title;
             'transpose' => [
                 'type' => Form::INPUT_CHECKBOX,
             ],
+            'code' => [
+                 'type' => Form::INPUT_WIDGET,
+                'widgetClass' => Select2::class,
+                'options' => [
+                    'data' => $codeOptions,
+                ],
+            ],
             'configAsJson' => [
                 'type' => Form::INPUT_TEXTAREA,
                 'options' => [
                     'rows' => 10
                 ]
             ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => \yii\bootstrap\ButtonGroup::widget([
-                    'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update element'), ['class' => 'btn btn-primary'])
-                    ]
-                ])
-            ],
 
+
+        ]
+    ]);
+    $attributes = [];
+    for($i = 0; $i < 20; $i++) {
+        $attributes["colors[$i][code]"] = [
+            'type' => Form::INPUT_TEXT,
+            'label' => 'Answer code',
+            'options' => [
+                'placeholder' => 'No answer given / not shown'
+            ],
+            'allowUnsafe' => true
+        ];
+        $attributes["colors[$i][color]"] = [
+            'type' => Form::INPUT_HTML5,
+            'html5type' =>'color',
+            'allowUnsafe' => true,
+            'label' => 'Color'
+        ];
+
+    }
+
+    $form->formConfig['labelSpan'] = 4;
+    echo Form::widget([
+        'form' => $form,
+        'model' => $model,
+        'columns' => 2,
+        'attributes' => $attributes
+
+    ]);
+    echo ButtonGroup::widget([
+        'buttons' => [
+            Html::submitButton(\Yii::t('app', 'Update element'), ['class' => 'btn btn-primary'])
         ]
     ]);
     $form->end();
