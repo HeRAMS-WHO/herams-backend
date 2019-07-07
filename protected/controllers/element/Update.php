@@ -43,8 +43,10 @@ class Update extends Action
         $codeOptions = [];
         foreach($model->page->project->survey->getGroups() as $group) {
             foreach($group->getQuestions() as $question) {
-                $text = strip_tags($question->getText());
-                $codeOptions[$question->getTitle()] = "{$text} ({$question->getTitle()})";
+                if ($question->getAnswers() !== null) {
+                    $text = strip_tags($question->getText());
+                    $codeOptions[$question->getTitle()] = "{$text} ({$question->getTitle()})";
+                }
             }
         }
 

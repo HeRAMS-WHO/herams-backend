@@ -67,7 +67,7 @@ echo Html::beginTag('div', ['class' => 'content']);
 
     foreach($page->getChildElements() as $element) {
         Yii::beginProfile('Render element ' . $element->id);
-        echo "<!-- Chart {$element->id} -->";
+        echo "<!-- Begin chart {$element->id} -->";
         $level = ob_get_level();
         ob_start();
         try {
@@ -84,7 +84,8 @@ echo Html::beginTag('div', ['class' => 'content']);
                 ]
             );
         }
+        echo "<!-- End chart {$element->id} -->";
         Yii::endProfile('Render element ' . $element->id);
     }
 
-    echo Html::endTag('div');
+echo Html::endTag('div');
