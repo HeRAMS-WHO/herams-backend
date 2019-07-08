@@ -111,24 +111,7 @@ class Element extends Model
         if (!isset($this->element->code)) {
             return [];
         }
-        switch($this->element->code) {
-            case 'availability':
-                return [
-                    HeramsSubject::FULLY_AVAILABLE,
-                    HeramsSubject::PARTIALLY_AVAILABLE,
-                    HeramsSubject::NOT_AVAILABLE,
-                    HeramsSubject::NOT_PROVIDED,
-                    ""
-                ];
-            case 'fullyAvailable':
-                return [
-                    0, 1
-                ];
-            case 'causes':
-                return [];
-            default:
-                return array_keys($this->getAnswers($this->element->code));
-        }
+        return array_keys($this->getAnswers($this->element->code));
     }
 
     public function colorAttributes(): array
