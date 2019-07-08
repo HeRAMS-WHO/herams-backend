@@ -1,12 +1,16 @@
 <?php
 
-/** @var \prime\models\ar\Element $model */
+/** @var \prime\models\ar\Element|\prime\models\forms\Element $model */
+/** @var \prime\models\ar\Project $project */
+/** @var View $this */
 
 use app\components\Form;
 use kartik\select2\Select2;
 use kartik\widgets\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
+use yii\web\View;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -26,14 +30,15 @@ $this->params['breadcrumbs'][] = [
     'url' => ['page/update', 'id' => $page->id]
 ];
 
-$this->title = \Yii::t('app', 'Update element');
+$this->title = $model->isNewRecord
+    ? \Yii::t('app', 'Create element')
+    : \Yii::t('app', 'Update element');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12">
+<div class="col-xs-8">
     <?php
     $form = ActiveForm::begin([
-        'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
     ]);
 
@@ -52,58 +57,105 @@ $this->params['breadcrumbs'][] = $this->title;
                 'html5type' => 'number'
             ],
             'transpose' => [
-                'type' => Form::INPUT_CHECKBOX,
-            ],
-            'code' => [
-                 'type' => Form::INPUT_WIDGET,
-                'widgetClass' => Select2::class,
-                'options' => [
-                    'data' => $codeOptions,
-                ],
-            ],
-            'configAsJson' => [
-                'type' => Form::INPUT_TEXTAREA,
-                'options' => [
-                    'rows' => 10
+                'type' => Form::INPUT_RADIO_BUTTON_GROUP,
+                'items' => [
+                    true => \Yii::t('app', 'Yes'),
+                    false => \Yii::t('app', 'No')
                 ]
             ],
-
-
+            'code' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => Select2::class,
+                'options' => [
+                    'data' => $model->codeOptions(),
+                ],
+            ],
+            'reasonCode' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => Select2::class,
+                'options' => [
+                    'data' => $model->codeOptions(),
+                ],
+                'visible' => $model->isAttributeSafe('reasonCode')
+            ],
+            'groupCode' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => Select2::class,
+                'options' => [
+                    'data' => $model->codeOptions(),
+                ],
+                'visible' => $model->isAttributeSafe('groupCode')
+            ],
+            'title' => [
+                'type' => Form::INPUT_TEXT,
+                'options' => [
+                    'placeholder' => $model->getTitlePlaceHolder(),
+                ],
+                'visible' => $model->isAttributeSafe('title')
+            ],
+            'markerRadius' => [
+                'type' => Form::INPUT_HTML5,
+                'html5type' => 'number',
+                'options' => [
+                    'placeholder' => \prime\widgets\map\DashboardMap::DEFAULT_MARKER_RADIUS
+                ],
+                'visible' => $model->isAttributeSafe('markerRadius')
+            ],
         ]
     ]);
+
+    $url = \yii\helpers\Json::encode($url);
+    $this->registerJs(<<<JS
+$('#element-code, #element-transpose').on('change', function(e) {
+    // Refresh page on change.
+    window.location.href = $url.replace("__value__", e.target.value).replace("__key__", e.target.name);
+});
+JS
+    );
+
+
     $attributes = [];
-    for($i = 0; $i < 20; $i++) {
-        $attributes["colors[$i][code]"] = [
-            'type' => Form::INPUT_TEXT,
-            'label' => 'Answer code',
-            'options' => [
-                'placeholder' => 'No answer given / not shown'
-            ],
-            'allowUnsafe' => true
-        ];
-        $attributes["colors[$i][color]"] = [
+    foreach($model->colorAttributes() as $attribute) {
+        $attributes[$attribute] = [
             'type' => Form::INPUT_HTML5,
             'html5type' =>'color',
             'allowUnsafe' => true,
-            'label' => 'Color'
         ];
-
     }
 
-    $form->formConfig['labelSpan'] = 4;
-    echo Form::widget([
-        'form' => $form,
-        'model' => $model,
-        'columns' => 2,
-        'attributes' => $attributes
+    if (!empty($attributes)) {
+        $form->formConfig['labelSpan'] = 4;
+        echo Form::widget([
+            'form' => $form,
+            'model' => $model,
+            'columns' => 2,
+            'attributes' => $attributes
 
-    ]);
+        ]);
+    }
     echo ButtonGroup::widget([
         'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Update element'), ['class' => 'btn btn-primary'])
+            Html::submitButton($this->title,
+                ['class' => 'btn btn-primary']
+            )
         ]
     ]);
     $form->end();
 
+    ?>
+</div>
+<div class="col-xs-4">
+    <?php
+        if (isset($model->id)) {
+            echo Html::tag('iframe', '', [
+                'src' => Url::to(['element/preview', 'id' => $model->id]),
+                'style' => [
+                    'border' => 'none',
+                    'width' => '100%',
+                    'min-height' => '500px',
+                    'background-color' => 'white'
+                ]
+            ]);
+        }
     ?>
 </div>

@@ -10,7 +10,6 @@ require_once __DIR__ . '/../helpers/functions.php';
 ini_set('memory_limit','4096M');
 
 return [
-    'layout' => 'simple',
     'id' => 'herams',
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),

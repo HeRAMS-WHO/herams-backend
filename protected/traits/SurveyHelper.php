@@ -11,46 +11,58 @@ trait SurveyHelper
 {
     /** @var SurveyInterface */
     public $survey;
-    /** @var string */
-    public $code;
 
-    private function findQuestionByCode(string $text): QuestionInterface
+    private function findQuestionByCode(string $code): QuestionInterface
     {
         $survey = $this->survey;
-        foreach($survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
-                if ($question->getTitle() === $text) {
+        foreach ($survey->getGroups() as $group) {
+            foreach ($group->getQuestions() as $question) {
+                if ($question->getTitle() === $code) {
                     return $question;
                 }
 
             }
         }
-        throw new \InvalidArgumentException("Question code $text not found");
+        throw new \InvalidArgumentException("Question code $code not found");
     }
 
-    private function getAnswers(string $code = null)
+    private function getAnswers(string $code)
     {
-        $code = $code ?? $this->code;
         $question = $this->findQuestionByCode($code);
+
         $answers = $question->getAnswers() ?? $question->getQuestions(0)[0]->getAnswers() ?? [];
 
         assert(count($answers) > 0);
         $map = [];
-        foreach($answers as $answer) {
+        foreach ($answers as $answer) {
             $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
         }
-
         ksort($map);
+        if (!isset($map[""])) {
+            $map[""] = \Yii::t('app', 'Unknown');
+        }
         return $map;
     }
 
-    protected function getTitle(): string
+    protected function getTitleFromCode(string $code): string
     {
-        try {
-            $question = $this->findQuestionByCode($this->code);
-            return trim(explode(':', $question->getText())[0], "\n:");
-        } catch (\InvalidArgumentException $e) {
-            return ucfirst($this->code);
+        $codeOptions['availability'] = 'Service availability';
+        $codeOptions['fullyAvailable'] = 'Is the service fully available';
+        $codeOptions['causes'] = 'Causes of unavailability';
+        if (isset($codeOptions[$code])) {
+            return $codeOptions[$code];
         }
+        try {
+            $question = $this->findQuestionByCode($code);
+            return $this->normalizeQuestionText($question->getText());
+
+        } catch (\InvalidArgumentException $e) {
+            return $this->normalizeQuestionText($code);
+        }
+    }
+
+    protected function normalizeQuestionText(string $text): string
+    {
+        return trim(explode(':', $text)[0], "\n:");
     }
 }

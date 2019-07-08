@@ -21,8 +21,14 @@ class Element extends Widget
 
     public function __construct(\prime\models\ar\Element $element, $config = [])
     {
-        parent::__construct($config);
+        parent::__construct();
         $this->element = $element;
+        foreach($config as $key => $value) {
+            if ($this->canSetProperty($key)) {
+                $this->$key = $value;
+            }
+        }
+
     }
 
     public function init()

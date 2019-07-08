@@ -9,7 +9,6 @@ use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
@@ -43,10 +42,10 @@ class Chart extends Element
     public $map;
 
     public $colors = [
-        ['code' => 'A1', 'color' => 'green'],
-        ['code' => 'A2', 'color' => 'orange'],
-        ['code' => 'A3', 'color' => 'red'],
-        ['code' => 'A4', 'color' => 'gray']
+        'A1' => 'green',
+        'A2' => 'orange',
+        'A3' => 'red',
+        'A4' => 'gray'
     ];
 
     protected function getMap()
@@ -181,14 +180,12 @@ class Chart extends Element
             $this->type = self::TYPE_BAR;
         }
 
-
-
         $colors = [];
 
-        $colorMap = ArrayHelper::map($this->colors, 'code', 'color');
+        $colorMap = $this->colors;
 
         foreach($unmappedData as $code => $count) {
-            $colors[] = $colorMap[$code] ?? new JsExpression('chroma.random().hex()');
+            $colors[] = $colorMap[$code] ?? '#000000';
         }
 
         $config = [
@@ -228,7 +225,6 @@ class Chart extends Element
                             }
                             
                             
-                        console.log(chart); 
                         }')
                     ]
                 ],
@@ -243,7 +239,7 @@ class Chart extends Element
 
                 'title' => [
                     'display' => $this->type === self::TYPE_DOUGHNUT,
-                    'text' => $this->title ?? $this->getTitle()
+                    'text' => $this->title ?? $this->getTitleFromCode($this->code)
                 ],
                 'responsive' => true,
                 'maintainAspectRatio' => false,

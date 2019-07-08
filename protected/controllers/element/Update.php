@@ -4,10 +4,12 @@
 namespace prime\controllers\element;
 
 
+use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\models\ar\Element;
 use prime\models\permissions\Permission;
 use yii\base\Action;
+use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -18,43 +20,44 @@ class Update extends Action
 
     public function run(
         Request $request,
+        LimesurveyDataProvider $limesurveyDataProvider,
         NotificationService $notificationService,
         User $user,
         int $id
     ) {
-        $model = Element::findOne(['id' => $id]);
-
-        if (!isset($model)) {
+        $element = Element::findOne(['id' => $id]);
+        if (!isset($element)) {
             throw new NotFoundHttpException();
         }
-
-        if (!$user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
+        if (!$user->can(Permission::PERMISSION_ADMIN, $element->page->project)) {
             throw new ForbiddenHttpException();
         }
 
-        if ($request->isPut) {
+        $model = new \prime\models\forms\Element(
+            $limesurveyDataProvider->getSurvey($element->project->base_survey_eid),
+            $element
+        );
+
+        if ($request->isPost) {
             if ($model->load($request->bodyParams) && $model->save()) {
                 $notificationService->success(\Yii::t('app', "Element updated"));
-
                 return $this->controller->refresh();
+            } else {
+                $notificationService->error(\Yii::t('app', "Element not updated"));
             }
-        }
-
-        $codeOptions = [];
-        foreach($model->page->project->survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
-                if ($question->getAnswers() !== null) {
-                    $text = strip_tags($question->getText());
-                    $codeOptions[$question->getTitle()] = "{$text} ({$question->getTitle()})";
-                }
-            }
+        } elseif ($request->isGet) {
+            // We load params from GET as well, this allows reloading the page with proper form fields.
+            $model->load($request->queryParams);
         }
 
         return $this->controller->render('update', [
             'model' => $model,
-            'codeOptions' => $codeOptions,
             'project' => $model->page->project,
-            'page' => $model->page
+            'page' => $model->page,
+            'url' => Url::to(array_merge($request->queryParams, [
+                '__key__' => '__value__',
+                '0' => $this->uniqueId
+            ]))
         ]);
     }
 

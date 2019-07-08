@@ -13,6 +13,7 @@ use yii\web\JsExpression;
 
 class DashboardMap extends Element
 {
+    public const DEFAULT_MARKER_RADIUS = 2;
     use SurveyHelper;
     public const TILE_LAYER = 'tileLayer';
     public $baseLayers = [
@@ -30,10 +31,10 @@ class DashboardMap extends Element
         'class' => ['map']
     ];
 
-    public $center = [8.6753, 9.0820];
-    public $zoom = 5.4;
+    private $center = [8.6753, 9.0820];
+    private $zoom = 5.4;
 
-    public $markerRadius = 2;
+    public $markerRadius = self::DEFAULT_MARKER_RADIUS;
     /**
      * @var HeramsResponse[]
      */
@@ -83,6 +84,7 @@ class DashboardMap extends Element
                     "type" => "FeatureCollection",
                     'features' => [],
                     "title" => $types[$value] ?? $value ?? 'Unknown',
+                    'color' => $this->colors[$value] ?? '#000000'
                 ];
             }
 
@@ -129,9 +131,8 @@ class DashboardMap extends Element
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
-        $data = Json::encode($this->getCollections($this->data));
+        $data = Json::encode($this->getCollections($this->data), JSON_PRETTY_PRINT);
 
-        $scale = Json::encode($this->colors);
         $this->view->registerJs(<<<JS
         (function() {
             let map = L.map($id, $config);
@@ -145,15 +146,13 @@ class DashboardMap extends Element
             let bounds = [];
             let data = $data;
                 let layers = {};
-                let scale = chroma.scale($scale).colors(data.length);
                 for (let set of data) {
-                    let color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
                             bounds.push(latlng);
                             return L.circleMarker(latlng, {
                                 radius: $this->markerRadius,
-                                color: color,
+                                color: set.color,
                                 weight: 1,
                                 opacity: 1,
                                 fillOpacity: 0.8
@@ -170,7 +169,7 @@ class DashboardMap extends Element
                     
                     let legend = document.createElement('span');
                     legend.classList.add('legend');
-                    legend.style.setProperty('--color', color);
+                    legend.style.setProperty('--color', set.color);
                     legend.title = set.features.length;
                     //legend.attributeStyleMap.set('--color', color);
                     legend.textContent = set.title;

@@ -7,6 +7,7 @@ namespace prime\controllers;
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\element\Create;
+use prime\controllers\element\Preview;
 use prime\controllers\element\Update;
 use prime\models\ar\Element;
 use prime\models\permissions\Permission;
@@ -22,6 +23,7 @@ class ElementController extends Controller
         return [
             'update' => Update::class,
             'create' => Create::class,
+            'preview' => Preview::class,
             'delete' => [
                 'class' => DeleteAction::class,
                 'permission' => function(User $user, Element $element) {

@@ -56,7 +56,6 @@ class View extends Action
 
 
 
-        $map = $project->getMap();
         $responses = $project->getHeramsResponses();
 
         \Yii::beginProfile('ResponseFilterinit');

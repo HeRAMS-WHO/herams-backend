@@ -8,6 +8,7 @@ namespace prime\objects;
  * This object models a Subject from the HeRAMS survey, in most cases these are services.
  * @package prime\objects
  *
+ * @method ?string getType()
  */
 class HeramsSubject
 {
@@ -50,14 +51,9 @@ class HeramsSubject
         return $this->response->getValueForCode($this->code . 'x') ?? [];
     }
 
-    public function getType(): ?string
-    {
-        return $this->response->getType();
-    }
-
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this->response, $name], $arguments);
+        return $this->response->{$name}(... $arguments);
     }
 
 

@@ -21,12 +21,14 @@ use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
+use yii\validators\StringValidator;
 
 /**
  *
  * @property boolean $transpose
  * @property array $config
  * @property Page $page
+ * @property Project $project
  */
 class Element extends ActiveRecord
 {
@@ -92,16 +94,8 @@ class Element extends ActiveRecord
 
     public function setColors(array $value): void
     {
-        // Clean up the array.
-        $map = [];
-        for($i = count($value) -1; $i >= 0; $i--) {
-            if (!empty($value[$i]['code']) || $value[$i]['color'] !== '#000000') {
-                $map[$value[$i]['code']] = $value[$i];
-            }
-        }
         $config = $this->config;
-        ksort($map);
-        $config['colors'] = array_values($map);
+        $config['colors'] = $value;
         $this->config = $config;
     }
 
@@ -110,23 +104,20 @@ class Element extends ActiveRecord
         return $this->hasOne(Page::class, ['id' => 'page_id']);
     }
 
+    public function getProject()
+    {
+        return $this->hasOne(Project::class, ['id' => 'tool_id'])->via('page');
+    }
+
     public function getConfigAsJson()
     {
         $result = [];
-        foreach($this->config as $key => $value) {
+        foreach($this->config ?? [] as $key => $value) {
             if (!$this->canGetProperty($key)) {
                 $result[$key] = $value;
             }
         }
         return Json::encode($result, JSON_PRETTY_PRINT);
-    }
-
-    public function setConfigAsJson($value)
-    {
-        $config = Json::decode($value);
-        $config['colors'] = $this->getColors();
-        $config['code'] = $this->getCode();
-        $this->config = $config;
     }
 
     /**
@@ -147,16 +138,30 @@ class Element extends ActiveRecord
             }
         }
     }
+    public function getTitle(): ?string
+    {
+        return $this->config['title'] ?? null;
+    }
+
+    public function setTitle($value)
+    {
+        $config = $this->config;
+        if (empty($value)) {
+            unset($config['title']);
+        } else {
+            $config['title'] = $value;
+        }
+        $this->config = $config;
+    }
 
     public function rules()
     {
         return [
-            [['sort', 'type', 'transpose', 'configAsJson'], RequiredValidator::class],
+            [['sort', 'type', 'transpose', 'code'], RequiredValidator::class],
             [['type'], RangeValidator::class, 'range' => array_keys($this->typeOptions())],
             [['sort'], NumberValidator::class],
             [['transpose'], BooleanValidator::class],
-            [['configAsJson'], SafeValidator::class],
-            [['code', 'colors'], SafeValidator::class]
+            'colors' => [['colors'], SafeValidator::class],
         ];
     }
 

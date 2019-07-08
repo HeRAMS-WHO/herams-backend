@@ -11,6 +11,7 @@ use prime\objects\HeramsResponse;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -85,7 +86,7 @@ class Page extends ActiveRecord implements PageInterface
         }
     }
 
-    public function getElements() {
+    public function getElements(): ActiveQuery {
         return $this->hasMany(Element::class, ['page_id' => 'id'])->orderBy(['sort' => SORT_ASC]);
     }
 

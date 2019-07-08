@@ -5,6 +5,7 @@ namespace prime\widgets\table;
 
 
 use prime\objects\HeramsResponse;
+use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -31,7 +32,7 @@ class Table extends Element
     /** @var HeramsResponse[] $data */
     public $data = [];
 
-    public $groupCode = 'location';
+    public $groupCode;
 
     public $columnNames = [
         'Name',
@@ -40,9 +41,17 @@ class Table extends Element
         'Main cause (%)'
     ];
 
+    public $title;
+
+    public function __construct(\prime\models\ar\Element $element, $config = [])
+    {
+        parent::__construct($element, $config);
+        $this->columnNames[0] = $this->getTitleFromCode($this->groupCode);
+    }
+
     public function run()
     {
-        echo Html::tag('h1', $this->getTitle());
+        echo Html::tag('h1', $this->title ?? $this->getTitleFromCode($this->code));
         $this->renderTable();
         parent::run();
     }
@@ -117,12 +126,13 @@ class Table extends Element
             $percentageB = 1.0 * ($b['counts']['FUNCTIONAL'] ?? 0) / $b['counts']['TOTAL'];
             return ($percentageA <=> $percentageB);
         });
+        $groupMap = $this->groupMap ?? $this->getAnswers($this->groupCode);
         foreach(array_slice($result, 0, 5) as $group => $data) {
             $reasons = $data['reasons'] ?? [];
             arsort($reasons);
             $total = array_sum($reasons);
             yield [
-                $group,
+                $groupMap[$group] ?? $group,
                 number_format(100.0 * ($data['counts']['FUNCTIONAL'] ?? 0) / $data['counts']['TOTAL'], 0),
                 empty($reasons) ? 'Unknown' : $reasonMap[array_keys($reasons)[0]] ?? array_keys($reasons)[0],
                 empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 0)
@@ -142,30 +152,13 @@ class Table extends Element
         echo Html::beginTag('tbody');
     }
 
-    private $groupCodeIsQuestion;
-
+    /**
+     * @param HeramsSubject|HeramsResponse $data
+     * @return string|null
+     */
     private function getGroup($data): ?string
     {
-        if (!isset($this->groupCodeIsQuestion)) {
-            try {
-                $this->findQuestionByCode($this->groupCode);
-                $this->groupCodeIsQuestion = true;
-
-
-            } catch (\InvalidArgumentException $e) {
-                $this->groupCodeIsQuestion = false;
-
-            }
-        }
-
-        if ($this->groupCodeIsQuestion) {
-            return $data->getValueForCode($this->groupCode);
-        } else {
-            $getter = 'get' . ucfirst($this->groupCode);
-            return $data->$getter();
-        }
-
-
+        return $data->getValueForCode($this->groupCode);
     }
 
     protected function renderTableHead()
