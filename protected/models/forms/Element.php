@@ -126,7 +126,7 @@ class Element extends Model
 
     public function getTitlePlaceHolder(): string
     {
-        return $this->getTitleFromCode($this->code);
+        return isset($this->code) ? $this->getTitleFromCode($this->code) : 'Pick one';
     }
 
     public function codeOptions(): array
