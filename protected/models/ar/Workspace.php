@@ -77,10 +77,7 @@ class Workspace extends ActiveRecord
      */
     public function getResponses()
     {
-        \Yii::beginProfile(__FUNCTION__, __CLASS__);
-        $result = $this->getLimesurveyDataProvider()->getResponsesByToken($this->project->base_survey_eid, $this->getAttribute('token'));
-        \Yii::endProfile(__FUNCTION__, __CLASS__);
-        return $result;
+        return $this->getLimesurveyDataProvider()->getResponsesByToken($this->project->base_survey_eid, $this->getAttribute('token'));
     }
 
     public function getProject()

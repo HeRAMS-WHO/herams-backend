@@ -17,6 +17,13 @@ class Index extends Action
                 ->with('workspaces')
         ]);
 
+        /** @var Project $model */
+        foreach($projectProvider->getModels() as $model) {
+            \Yii::beginProfile($model->title, 'load data');
+            $model->getHeramsResponses();
+            \Yii::endProfile($model->title, 'load data');
+        }
+
         return $this->controller->render('index', [
             'projectProvider' => $projectProvider
         ]);
