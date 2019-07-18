@@ -376,13 +376,24 @@ class Project extends ActiveRecord {
 
     public function getFacilityCount(): int
     {
-        return $this->getOverride('facilityCount')
-            ?? count((new ResponseFilter($this->getHeramsResponses(), null, $this->getMap()))->filter());
+        if (null === $facilityCount = $this->getOverride('facilityCount')) {
+            $facilityCount = 0;
+            foreach($this->workspaces as $workspace) {
+                $facilityCount += $workspace->getFacilityCount();
+            }
+        }
+        return $facilityCount;
     }
 
     public function getResponseCount(): int
     {
-        return count($this->getHeramsResponses());
+        if (null === $responseCount = $this->getOverride('responseCount')) {
+            $responseCount = 0;
+            foreach($this->workspaces as $workspace) {
+                $responseCount += $workspace->getResponseCount();
+            }
+        }
+        return $responseCount;
     }
 
     /**

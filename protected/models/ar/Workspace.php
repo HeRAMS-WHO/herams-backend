@@ -189,6 +189,11 @@ class Workspace extends ActiveRecord
         return count((new ResponseFilter($this->getHeramsResponses(), null, $this->project->getMap()))->filter());
     }
 
+    public function getResponseCount(): int
+    {
+        return count($this->getHeramsResponses());
+    }
+
     public function getFacilities(): FacilityListInterface
     {
         $facilities = [];
