@@ -197,6 +197,7 @@ class Project extends ActiveRecord {
      */
     public function  getHeramsResponses(): iterable
     {
+        \Yii::beginProfile(__FUNCTION__, __CLASS__);
         $heramsResponses = [];
         /** @var Workspace $workspace */
         foreach($this->workspaces as $workspace) {
@@ -204,6 +205,7 @@ class Project extends ActiveRecord {
                 $heramsResponses[] = $response;
             }
         }
+        \Yii::endProfile(__FUNCTION__, __CLASS__);
         return $heramsResponses;
     }
 
