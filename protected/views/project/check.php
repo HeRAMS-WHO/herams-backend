@@ -6,7 +6,6 @@ use yii\helpers\Html;
 /** @var Project $project */
 $map = $project->getMap();
 foreach($project->workspaces as $workspace) {
-
     $rows = [];
     foreach($workspace->getResponses() as $response) {
         try {

@@ -3,6 +3,8 @@
 
 namespace prime\objects;
 
+use prime\interfaces\HeramsResponseInterface;
+
 /**
  * Class HeramsSubject
  * This object models a Subject from the HeRAMS survey, in most cases these are services.
@@ -18,7 +20,7 @@ class HeramsSubject
     public const NOT_PROVIDED = 'A4';
 
 
-    /** @var HeramsResponse */
+    /** @var HeramsResponseInterface */
     private $response;
 
     private $code;
@@ -29,7 +31,7 @@ class HeramsSubject
     }
 
     public function __construct(
-        HeramsResponse $response,
+        HeramsResponseInterface $response,
         string $code
     ) {
         $this->response = $response;

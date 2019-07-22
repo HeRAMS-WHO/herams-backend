@@ -5,15 +5,15 @@ namespace prime\objects;
 
 
 use Carbon\Carbon;
+use prime\interfaces\HeramsResponseInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 
 /**
  * Class HeramsResponse
  * @package prime\objects
  */
-class HeramsResponse
+class HeramsResponse implements HeramsResponseInterface
 {
-    public const UNKNOWN_VALUE = '_unknown';
     private static $surveySubjectKeys = [];
     private static $surveyArrayKeys = [];
 
@@ -26,6 +26,7 @@ class HeramsResponse
     private $surveyId;
     private $responseId;
 
+    /** @var Carbon */
     private $date;
 
     public function __construct(
@@ -45,11 +46,12 @@ class HeramsResponse
         if (!$this->data[$this->map->getDate()]) {
             throw new \InvalidArgumentException('Invalid response, could not find field: ' . $this->map->getDate());
         }
-
-        $this->date = Carbon::createFromFormat('Y-m-d', explode(' ', $this->data[$this->map->getDate()], 2)[0]);
-        if (!$this->date instanceof \DateTimeInterface) {
+        $date = Carbon::createFromFormat('Y-m-d', explode(' ', $this->data[$this->map->getDate()], 2)[0]);
+        if (!$date instanceof Carbon) {
             throw new \RuntimeException('Invalid date format: ' . $this->data[$this->map->getDate()]);
         }
+
+        $this->date = $date;
     }
 
     public function getLatitude(): ?float
@@ -81,7 +83,7 @@ class HeramsResponse
         return $this->getValueForCode($this->map->getType());
     }
 
-    public function getDate(): Carbon
+    public function getDate(): ?Carbon
     {
         return $this->date;
     }
@@ -155,7 +157,7 @@ class HeramsResponse
         }
     }
 
-    public function getSubjectAvailability()
+    public function getSubjectAvailability(): float
     {
         $full = 0;
         $total = 0;
@@ -169,9 +171,9 @@ class HeramsResponse
         return $total > 0 ? 100.0 * $full / $total : 0;
     }
 
-    public function getFunctionality(): ?string
+    public function getFunctionality(): string
     {
-        return $this->getValueForCode($this->map->getFunctionality()) ?? self::UNKNOWN_VALUE;
+        return $this->getValueForCode($this->map->getFunctionality()) ?? HeramsResponseInterface::UNKNOWN_VALUE;
     }
     public function getMainReason(): ?string
     {
@@ -196,4 +198,8 @@ class HeramsResponse
     }
 
 
+    public function getRawData(): array
+    {
+        return $this->data;
+    }
 }

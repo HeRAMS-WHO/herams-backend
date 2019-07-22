@@ -21,6 +21,7 @@ x-env:
       YII_ENV: $YII_ENV
       RUNTIME_PATH: /runtime
       SMTP_HOST: mailcatcher
+      RESPONSE_SUBMISSION_KEY: $RESPONSE_SUBMISSION_KEY
       PRIVATE_KEY_FILE: /project/local/testkey
       SMTP_PORT: 1025
     user: ${UID-0}:${GID-0}

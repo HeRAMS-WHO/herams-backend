@@ -77,6 +77,7 @@ echo Html::beginTag('div', ['class' => 'content']);
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }
+            \Yii::error($t);
             echo Html::tag('div',
                 "Rendering this element caused an error: <strong>{$t->getMessage()}</strong>. The most common reason for the error is an invalid question code in its configuration. You can edit the element " . Html::a('here', ['/element/update', 'id' => $element->id]) . '.',
                 [

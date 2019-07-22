@@ -50,4 +50,9 @@ class HeramsCodeMap
     {
         return 'HFFUNCT';
     }
+
+    public function getSubjectExpression(): string
+    {
+        return '/^QHeRAMS\d+$/';
+    }
 }

@@ -4,6 +4,7 @@
 namespace prime\controllers\workspace;
 
 
+use prime\interfaces\HeramsResponseInterface;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -46,10 +47,10 @@ class Download extends Action
         }
         $rows = [];
         $codes = [];
-        /** @var ResponseInterface $record */
-        foreach($workspace->getResponses() as $record) {
+        /** @var HeramsResponseInterface $record */
+        foreach($workspace->heramsResponses as $record) {
             $row = [];
-            foreach ($record->getData() as $code => $value) {
+            foreach ($record->getRawData() as $code => $value) {
                 if (null !== $question = $survey->getQuestionByCode($code)) {
                     $text = $question->getText();
                     $answer = $this->getAnswer($question, $value, $codeAsText);

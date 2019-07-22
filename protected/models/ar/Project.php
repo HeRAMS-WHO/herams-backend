@@ -6,6 +6,7 @@ namespace prime\models\ar;
 use app\queries\ProjectQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
+use prime\interfaces\HeramsResponseInterface;
 use prime\lists\SurveyFacilityList;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
@@ -201,7 +202,7 @@ class Project extends ActiveRecord {
         $heramsResponses = [];
         /** @var Workspace $workspace */
         foreach($this->workspaces as $workspace) {
-            foreach ($workspace->getHeramsResponses() as $response) {
+            foreach ($workspace->heramsResponses as $response) {
                 $heramsResponses[] = $response;
             }
         }
@@ -217,8 +218,8 @@ class Project extends ActiveRecord {
         \Yii::beginProfile(__FUNCTION__);
         $map = is_array($this->typemap) ? $this->typemap : [];
         // Always have a mapping for the empty / unknown value.
-        if (!empty($map) && !isset($map[HeramsResponse::UNKNOWN_VALUE])) {
-            $map[HeramsResponse::UNKNOWN_VALUE] = "Unknown";
+        if (!empty($map) && !isset($map[HeramsResponseInterface::UNKNOWN_VALUE])) {
+            $map[HeramsResponseInterface::UNKNOWN_VALUE] = "Unknown";
         }
         // Initialize counts
         $counts = [];
@@ -233,7 +234,7 @@ class Project extends ActiveRecord {
             } elseif (isset($map[$type])) {
                 $counts[$map[$type]]++;
             } else {
-                $counts[$map[HeramsResponse::UNKNOWN_VALUE]]++;
+                $counts[$map[HeramsResponseInterface::UNKNOWN_VALUE]]++;
             }
         }
 

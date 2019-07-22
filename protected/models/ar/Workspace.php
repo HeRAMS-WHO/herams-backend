@@ -6,6 +6,7 @@ use app\queries\WorkspaceQuery;
 use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
+use prime\interfaces\HeramsResponseInterface;
 use prime\lists\FacilityList;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
@@ -30,11 +31,11 @@ use yii\validators\UniqueValidator;
  * @property Project $project
  * @property string $title
  * @property string $description
- * @property int $data_survey_eid The associated data survey.
  * @property int $tool_id
  * @property datetime $created
  *
  * @method static WorkspaceQuery find()
+ * @property HeramsResponseInterface[] $heramsResponses
  */
 class Workspace extends ActiveRecord
 {
@@ -43,13 +44,6 @@ class Workspace extends ActiveRecord
      * @var WritableTokenInterface
      */
     protected $_token;
-
-    public function attributeLabels()
-    {
-        return array_merge(parent::attributeLabels(), [
-            'data_survey_eid' => \Yii::t('app', 'Data survey'),
-        ]);
-    }
 
     public function attributeHints()
     {
@@ -69,9 +63,6 @@ class Workspace extends ActiveRecord
         return $this->project;
     }
 
-    // Cache for getResponses();
-    private $_responses;
-    
     /**
      * @return ResponseInterface[]
      */
@@ -163,50 +154,23 @@ class Workspace extends ActiveRecord
         return isset($this->closed);
     }
 
-    private $_heramsResponses;
-    /**
-     * @return iterable|HeramsResponse[]
-     */
-    public function  getHeramsResponses(): iterable
+    public function  getHeramsResponses()
     {
-        if (!isset($this->_heramsResponses)) {
-            $this->_heramsResponses = [];
-            $map = $this->project->getMap();
-            foreach ($this->getResponses() as $response) {
-                try {
-                    $this->_heramsResponses[] = new HeramsResponse($response, $map);
-                } catch (\InvalidArgumentException $e) {
-                    // Silent ignore invalid responses.
-                }
-            }
-        }
-
-        return $this->_heramsResponses;
+        return $this->hasMany(Response::class, [
+            'token' => 'token',
+        ])->andWhere([
+            'survey_id' => $this->project->base_survey_eid
+        ]);
     }
 
     public function getFacilityCount(): int
     {
-        return count((new ResponseFilter($this->getHeramsResponses(), null, $this->project->getMap()))->filter());
+        return count((new ResponseFilter($this->heramsResponses, null, $this->project->getMap()))->filter());
     }
 
     public function getResponseCount(): int
     {
-        return count($this->getHeramsResponses());
-    }
-
-    public function getFacilities(): FacilityListInterface
-    {
-        $facilities = [];
-        /** @var ResponseInterface $response */
-        foreach($this->getResponses() as $response) {
-            if (isset($response->getData()['HF1'])) {
-                $name = $response->getData()['HF1'];
-
-                $facilities[$name] = new Facility($name);
-            }
-
-        }
-        return new FacilityList([]);
+        return $this->getHeramsResponses()->count();
     }
 
     public function tokenOptions(): array

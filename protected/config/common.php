@@ -124,6 +124,7 @@ return [
                 ]
             ]
         ],
+
     ],
     'modules' => [
         'user' => [
@@ -182,6 +183,7 @@ return [
             'icons.request' => 'forward',
             'icons.limeSurveyUpdate' => 'pencil',
             'icons.requestAccess' => 'info-sign'
-        ]
+        ],
+        'responseSubmissionKey' => $env->get('RESPONSE_SUBMISSION_KEY')
     ]
 ];

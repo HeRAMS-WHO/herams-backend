@@ -5,6 +5,7 @@ namespace prime\models\forms;
 
 
 use Carbon\Carbon;
+use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
@@ -137,7 +138,7 @@ class ResponseFilter extends Model
         \Yii::beginProfile('filter');
         $limit = new Carbon($this->date);
         // Index by UOID.
-        /** @var HeramsResponse[] $indexed */
+        /** @var HeramsResponseInterface[] $indexed */
         $indexed = [];
 
         $locations = [];
@@ -146,7 +147,7 @@ class ResponseFilter extends Model
                 $locations[$option] = true;
             }
         }
-        apply(function(HeramsResponse $response) use (&$indexed) {
+        apply(function(HeramsResponseInterface $response) use (&$indexed) {
             $id = $response->getSubjectId();
             if (!isset($indexed[$id])
                 || $indexed[$id]->getDate()->lessThan($response->getDate())
@@ -155,7 +156,7 @@ class ResponseFilter extends Model
             ) {
                 $indexed[$id] = $response;
             }
-        }, filter(function(HeramsResponse $response) use ($limit, $locations) {
+        }, filter(function(HeramsResponseInterface $response) use ($limit, $locations) {
             // Date filter
             if (!$limit->greaterThanOrEqualTo($response->getDate())) {
                 return false;

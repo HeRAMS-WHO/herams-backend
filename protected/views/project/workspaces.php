@@ -103,12 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => '# Responses',
-                'value' => function(Workspace $workspace) {
-                    return \Yii::$app->cache->getOrSet('project.responses.' . $workspace->id, function() use ($workspace) {
-                        return count($workspace->getResponses());
-                    }, 3600);
-
-                }
+                'value' => 'responseCount'
             ],
             [
                 'class' => \kartik\grid\DataColumn::class,
