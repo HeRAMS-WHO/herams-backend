@@ -12,6 +12,15 @@ use prime\objects\HeramsSubject;
 use function iter\filter;
 use function iter\toArrayWithKeys;
 
+/**
+ * Class Response
+ * @package prime\models\ar
+ * @property string|\DateTimeInterface $last_updated
+ * @property string $token
+ * @property int $id
+ * @property int $survey_id
+ * @property array $data
+ */
 class Response extends ActiveRecord implements HeramsResponseInterface
 {
     private static $surveySubjectKeys = [];
@@ -103,7 +112,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     }
     public function getSubjectId(): string
     {
-        return $this->data[$this->getMap()->getSubjectId()] ?? null;
+        return $this->data[$this->getMap()->getSubjectId()];
     }
 
     public function getLocation(): ?string
@@ -135,7 +144,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     }
 
     /**
-     * @return HeramsSubject[]
+     * @return iterable|HeramsSubject[]
      */
     public function getSubjects(): iterable
     {
