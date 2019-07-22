@@ -157,7 +157,7 @@ class ResponseFilter extends Model
             }
         }, filter(function(HeramsResponse $response) use ($limit, $locations) {
             // Date filter
-            if (!$limit->greaterThan($response->getDate())) {
+            if (!$limit->greaterThanOrEqualTo($response->getDate())) {
                 return false;
             }
 
