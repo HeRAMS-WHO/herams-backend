@@ -40,7 +40,11 @@ class HeramsSubject
 
     public function getAvailability(): ?string
     {
-        return $this->response->getValueForCode($this->code);
+        $result = $this->response->getValueForCode($this->code);
+        if (is_array($result)) {
+            var_dump($result); die();
+        }
+        return $result;
     }
 
     public function isFullyAvailable(): bool

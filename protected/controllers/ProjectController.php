@@ -73,7 +73,8 @@ class ProjectController extends Controller
                                 'index',
                                 'update',
                                 'workspaces',
-                                'delete'
+                                'delete',
+                                'check'
                             ],
                             'roles' => ['@'],
                         ],

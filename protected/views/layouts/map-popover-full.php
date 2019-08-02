@@ -23,7 +23,7 @@ $this->beginContent('@views/layouts/map.php');
             <span><?php
                 echo \Yii::$app->cache->getOrSet('totalFacilityCount', function() use ($projects) {
                     return reduce(function (?int $accumulator, Project $project, string $key) {
-                        return $accumulator + \iter\count($project->getHeramsResponses());
+                        return $accumulator + $project->getFacilityCount();
                     }, $projects);
                 }, 3600 * 24);
                 ?></span>

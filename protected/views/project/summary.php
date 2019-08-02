@@ -121,11 +121,10 @@ $hostInfo = \Yii::$app->request->hostInfo;
 ?></div>
 
 <?php
-
     $types = $project->getTypeCounts();
     $total = array_sum($types);
-
     if ($total > 0) {
+        \Yii::beginProfile('chart1');
         echo Html::beginTag('div', ['class' => 'chart']);
         echo Html::tag('canvas', '', ['id' => 'chart1']);
         $url = $this->registerAssetBundle(\prime\assets\IconBundle::class)->baseUrl . '/svg/admin.svg';
@@ -190,11 +189,13 @@ $hostInfo = \Yii::$app->request->hostInfo;
 JS;
         $this->registerJs($js);
         echo Html::endTag('div');
+        \Yii::endProfile('chart1');
     }
 
     $functionality = $project->getFunctionalityCounts();
     $total = array_sum($functionality);
     if ($total > 0) {
+        \Yii::beginProfile('chart2');
         echo Html::beginTag('div', ['class' => 'chart']);
         echo Html::tag('canvas', '', ['id' => 'chart2']);
 
@@ -259,6 +260,7 @@ JS;
 JS;
         $this->registerJs($js);
         echo Html::endTag('div');
+        \Yii::endProfile('chart2');
     }
 
 
@@ -266,7 +268,7 @@ JS;
     $dataCount = count($availability);
     $total = array_sum($availability);
     if ($total > 0) {
-
+        \Yii::beginProfile('chart3');
         echo Html::beginTag('div', ['class' => 'chart']);
         echo Html::tag('canvas', '', ['id' => 'chart3']);
 
@@ -325,6 +327,7 @@ JS;
 JS;
         $this->registerJs($js);
         echo Html::endTag('div');
+        \Yii::endProfile('chart3');
     }
 
     if (!empty($project->pages) && (true || \Yii::$app->user->can(Permission::PERMISSION_READ, $project))) {
@@ -334,6 +337,6 @@ JS;
     ?>
 </div>
 <?php
-if (class_exists('yii\debug\Module')) {
+if (class_exists(\yii\debug\Module::class)) {
     $this->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
 }

@@ -5,13 +5,10 @@ namespace prime\models\ar;
 use app\queries\WorkspaceQuery;
 use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
-use prime\interfaces\FacilityListInterface;
 use prime\interfaces\HeramsResponseInterface;
-use prime\lists\FacilityList;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
-use prime\objects\HeramsResponse;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -66,7 +63,7 @@ class Workspace extends ActiveRecord
     /**
      * @return ResponseInterface[]
      */
-    public function getResponses()
+    public function getRawResponses()
     {
         return $this->getLimesurveyDataProvider()->getResponsesByToken($this->project->base_survey_eid, $this->getAttribute('token'));
     }
@@ -154,23 +151,22 @@ class Workspace extends ActiveRecord
         return isset($this->closed);
     }
 
-    public function  getHeramsResponses()
+    public function  getResponses()
     {
         return $this->hasMany(Response::class, [
-            'token' => 'token',
-        ])->andWhere([
-            'survey_id' => $this->project->base_survey_eid
-        ]);
+            'workspace_id' => 'id',
+        ])->inverseOf('workspace');
     }
 
     public function getFacilityCount(): int
     {
-        return count((new ResponseFilter($this->heramsResponses, null, $this->project->getMap()))->filter());
+        $filter = new ResponseFilter(null, $this->project->getMap());
+        return $filter->filterQuery($this->getResponses())->count();
     }
 
     public function getResponseCount(): int
     {
-        return $this->getHeramsResponses()->count();
+        return $this->getResponses()->count();
     }
 
     public function tokenOptions(): array

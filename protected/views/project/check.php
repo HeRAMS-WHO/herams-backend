@@ -7,7 +7,7 @@ use yii\helpers\Html;
 $map = $project->getMap();
 foreach($project->workspaces as $workspace) {
     $rows = [];
-    foreach($workspace->getResponses() as $response) {
+    foreach($workspace->getRawResponses() as $response) {
         try {
             new \prime\objects\HeramsResponse($response, $map);
         } catch (\Throwable $t) {

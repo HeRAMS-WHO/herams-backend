@@ -9,6 +9,8 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
+use app\queries\ResponseQuery;
+use yii\validators\RequiredValidator;
 use function iter\filter;
 use function iter\toArrayWithKeys;
 
@@ -16,10 +18,12 @@ use function iter\toArrayWithKeys;
  * Class Response
  * @package prime\models\ar
  * @property string|\DateTimeInterface $last_updated
- * @property string $token
+ * @property int $workspace_id
  * @property int $id
+ * @property string|\DateTimeInterface $date
  * @property int $survey_id
  * @property array $data
+ * @method static ResponseQuery find()
  */
 class Response extends ActiveRecord implements HeramsResponseInterface
 {
@@ -30,20 +34,48 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     {
         return new HeramsCodeMap();
     }
+
     public function beforeSave($insert)
     {
         $this->last_updated = Carbon::now();
         return parent::beforeSave($insert);
     }
 
-    public function loadData(array $data)
+    public function afterFind()
+    {
+        parent::afterFind();
+        $data = $this->data;
+        ksort($data);
+        $this->data = $data;
+        $this->setOldAttribute('data', $data);
+    }
+
+    public function afterRefresh()
+    {
+        parent::afterRefresh();
+        $data = $this->data;
+        ksort($data);
+        $this->data = $data;
+        $this->setOldAttribute('data', $data);
+    }
+
+    public function getWorkspace()
+    {
+        return $this->hasOne(Workspace::class, ['id' => 'workspace_id'])->inverseOf('responses');
+    }
+    public function loadData(array $data, Workspace $workspace)
     {
         $data = toArrayWithKeys(filter(function($value) {
             return !empty($value); //$value !== null;
         }, $data));
 
-        $this->token = $data['token'];
-        $this->id = $data['id'];
+        $this->workspace_id = $workspace->id;
+        $this->id = (int) $data['id'] ?? null;
+
+        if (isset($data['Update'])) {
+            $this->date = Carbon::createFromFormat('Y-m-d H:i:s', $data['Update'])->format('Y-m-d');
+        }
+        $this->hf_id = $data['UOID'] ?? null;
         // Remove some keys from the data.
         unset(
             $data['submitdate'],
@@ -52,18 +84,30 @@ class Response extends ActiveRecord implements HeramsResponseInterface
             $data['startlanguage'],
             $data['id'],
             $data['token'],
-            $data['lastpage']
+            $data['lastpage'],
+            $data['UOID']
         );
+        ksort($data);
         $this->data = $data;
     }
 
     public function getLatitude(): ?float
     {
+        if (isset($this->data[$this->getMap()->getLatitude()])
+            && !is_numeric($this->data[$this->getMap()->getLatitude()])
+        ) {
+            return null;
+        }
         return $this->data[$this->getMap()->getLatitude()] ?? null;
     }
 
     public function getLongitude(): ?float
     {
+        if (isset($this->data[$this->getMap()->getLongitude()])
+            && !is_numeric($this->data[$this->getMap()->getLongitude()])
+        ) {
+            return null;
+        }
         return $this->data[$this->getMap()->getLongitude()] ?? null;
     }
 
@@ -103,7 +147,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         if (!isset(self::$surveyArrayKeys[$this->survey_id][$code])) {
             self::$surveyArrayKeys[$this->survey_id][$code] = [];
             foreach ($this->data as $key => $dummy) {
-                if (strpos($key . '[', $code) === 0) {
+                if (strpos($key, $code . '[') === 0) {
                     self::$surveyArrayKeys[$this->survey_id][$code][] = $key;
                 }
             }
@@ -112,7 +156,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     }
     public function getSubjectId(): string
     {
-        return $this->data[$this->getMap()->getSubjectId()];
+        return $this->hf_id;
     }
 
     public function getLocation(): ?string
@@ -122,24 +166,21 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getDate(): ?Carbon
     {
-        if (!isset($this->data[$this->getMap()->getDate()])) {
-            return null;
-        }
-        return Carbon::createFromFormat('Y-m-d', explode(' ', $this->data[$this->getMap()->getDate()], 2)[0]);
+        return Carbon::createFromFormat('Y-m-d', $this->date);
     }
 
     private function getSubjectKeys()
     {
-        if (!isset(self::$surveySubjectKeys[$this->surveyId])) {
-            self::$surveySubjectKeys[$this->surveyId] = [];
+        if (!isset(self::$surveySubjectKeys[$this->survey_id])) {
+            self::$surveySubjectKeys[$this->survey_id] = [];
             foreach($this->data as $key => $dummy) {
                 if (preg_match($this->getMap()->getSubjectExpression(), $key)) {
-                    self::$surveySubjectKeys[$this->surveyId][] = $key;
+                    self::$surveySubjectKeys[$this->survey_id][] = $key;
                 }
             }
         }
 
-        return self::$surveySubjectKeys[$this->surveyId];
+        return self::$surveySubjectKeys[$this->survey_id];
 
     }
 
@@ -208,6 +249,14 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         $mainReason = array_keys($reasons)[0];
         return $mainReason;
     }
+
+    public function rules()
+    {
+        return [
+            [['date', 'hf_id', 'id', 'survey_id', 'workspace_id'], RequiredValidator::class]
+        ];
+    }
+
 
     public function getRawData(): array
     {

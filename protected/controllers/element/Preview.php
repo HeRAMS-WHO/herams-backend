@@ -29,19 +29,19 @@ class Preview extends Action
         if (!$user->can(Permission::PERMISSION_ADMIN, $element->page->project)) {
             throw new ForbiddenHttpException();
         }
-        $responses = $element->project->getHeramsResponses();
+        $responses = $element->project->getResponses();
 
         $survey = $limesurveyDataProvider->getSurvey($element->project->base_survey_eid);
 
         \Yii::beginProfile('ResponseFilterinit');
-        $filter = new ResponseFilter($responses, $survey, $element->project->getMap());
+        $filter = new ResponseFilter($survey, $element->project->getMap());
         \Yii::endProfile('ResponseFilterinit');
 
         $this->controller->layout = 'base';
         return $this->controller->render('preview', [
             'survey' => $survey,
             'element' => $element,
-            'data' => $filter->filter()
+            'data' => $filter->filter($responses->each())
         ]);
 
     }

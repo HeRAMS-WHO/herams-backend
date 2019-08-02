@@ -3,6 +3,7 @@
 namespace app\queries;
 
 use prime\components\ActiveQuery;
+use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 
 class WorkspaceQuery extends ActiveQuery
@@ -21,6 +22,11 @@ class WorkspaceQuery extends ActiveQuery
     public function notClosed()
     {
         return $this->andWhere(['closed' => null]);
+    }
+
+    public function inProject(Project $project)
+    {
+        return $this->andWhere(['tool_id' => $project->id]);
     }
 
     public function readable()

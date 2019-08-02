@@ -18,8 +18,7 @@ class CacheController extends \yii\console\controllers\CacheController
 {
     use ActionInjectionTrait;
     public function actionWarmup(
-        LimesurveyDataProvider $limesurveyDataProvider,
-        CacheInterface $cache
+        LimesurveyDataProvider $limesurveyDataProvider
     ) {
         $totalFacilityCount = 0;
         $lastUpdatedProject = null;
@@ -33,18 +32,19 @@ class CacheController extends \yii\console\controllers\CacheController
                 $this->stderr($t->getMessage(), Console::FG_RED);
             }
         }
-        $cache->set('totalFacilityCount', $totalFacilityCount, 3600);
-        $cache->set('lastUpdatedTimestamp', $lastUpdatedTimestamp->timestamp, 3600);
-        $cache->set('lastUpdatedProject', $lastUpdatedProject, 3600);
 
+    }
+
+    public function actionWarmupProject(
+        LimesurveyDataProvider $limesurveyDataProvider,
+        int $id
+    ) {
+        $this->warmupProject($limesurveyDataProvider, Project::findOne(['id' => $id]));
     }
 
     protected function warmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
-        Project $project,
-        ?Carbon &$lastUpdatedTimestamp,
-        int &$totalFacilityCount,
-        ?int &$lastUpdatedProject
+        Project $project
     ) {
         $surveyId = $project->base_survey_eid;
 
@@ -70,13 +70,16 @@ class CacheController extends \yii\console\controllers\CacheController
                     'survey_id' => $response->getSurveyId()
                 ];
 
+                /**
+                 * @var Response $dataResponse
+                 */
                 $dataResponse = Response::findOne($key) ?? new Response($key);
-                $dataResponse->loadData($response->getData());
-                $dataResponse->last_updated = Carbon::now();
+                $dataResponse->loadData($response->getData(), $workspace);
                 if ($dataResponse->isNewRecord) {
                     $this->stdout($dataResponse->save() ? '+' : '-', Console::FG_RED);
+                } elseif (empty($dataResponse->dirtyAttributes)) {
+                    $this->stdout('0', Console::FG_GREEN);
                 } else {
-                    $dataResponse->save();
                     $this->stdout($dataResponse->save() ? '+' : '-', Console::FG_YELLOW);
                 }
 

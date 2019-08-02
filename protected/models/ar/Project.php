@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use app\queries\ProjectQuery;
+use app\queries\ResponseQuery;
+use app\queries\WorkspaceQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\HeramsResponseInterface;
@@ -17,6 +19,7 @@ use prime\objects\HeramsSubject;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\NotSupportedException;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
@@ -27,6 +30,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+use function foo\func;
 use function iter\filter;
 
 /**
@@ -193,22 +197,11 @@ class Project extends ActiveRecord {
         ];
     }
 
-    /**
-     * @return iterable|HeramsResponse[]
-     */
-    public function  getHeramsResponses(): iterable
+    public function  getResponses(): ResponseQuery
     {
-        \Yii::beginProfile(__FUNCTION__, __CLASS__);
-        $heramsResponses = [];
-        /** @var Workspace $workspace */
-        foreach($this->workspaces as $workspace) {
-            foreach ($workspace->heramsResponses as $response) {
-                $heramsResponses[] = $response;
-            }
-        }
-        \Yii::endProfile(__FUNCTION__, __CLASS__);
-        return $heramsResponses;
+        return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
     }
+
 
     public function getTypeCounts()
     {
@@ -227,8 +220,18 @@ class Project extends ActiveRecord {
             $counts[$value] = 0;
         }
 
-        foreach($this->getHeramsResponses() as $response) {
-            $type = $response->getType();
+        $query = $this->getResponses()
+            ->groupBy([
+                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))"
+            ])
+            ->select([
+                'count' => 'count(*)',
+                'type' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))",
+            ])
+             ->indexBy('type')
+            ->asArray();
+
+        foreach($query->column() as $type => $count) {
             if (empty($map)) {
                 $counts[$type] = ($counts[$type] ?? 0) + 1;
             } elseif (isset($map[$type])) {
@@ -242,24 +245,31 @@ class Project extends ActiveRecord {
         return $counts;
     }
 
-    public function getFunctionalityCounts()
+    public function getFunctionalityCounts(): array
     {
-        $counts = [];
-        foreach($this->getHeramsResponses() as $heramsResponse) {
-            $counts[$heramsResponse->getFunctionality()] = ($counts[$heramsResponse->getFunctionality()] ?? 0) + 1;
-        }
-        ksort($counts);
+        $query = $this->getResponses()
+            ->groupBy([
+                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))"
+            ])
+            ->select([
+                'count' => 'count(*)',
+                'functionality' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))",
+            ])
+            ->indexBy('functionality')
+            ->orderBy('functionality')
+            ->asArray();
+
         $map = [
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
             'A3' => \Yii::t('app', 'None'),
+            HeramsResponse::UNKNOWN_VALUE => \Yii::t('app', 'Unknown'),
         ];
 
         $result = [];
-        foreach($counts as $key => $value) {
-            if (isset($map[$key])) {
-                $result[$map[$key]] = $value;
-            }
+        foreach($query->column() as $key => $value) {
+            $label = isset($map[$key]) ? $key : $map[HeramsResponse::UNKNOWN_VALUE];
+            $result[$label] = ($result[$label] ?? 0) + $value;
         }
         return $result;
     }
@@ -267,13 +277,15 @@ class Project extends ActiveRecord {
 
     public function getSubjectAvailabilityCounts(): array
     {
+        \Yii::beginProfile(__FUNCTION__);
         $counts = [
             HeramsSubject::FULLY_AVAILABLE => 0,
             HeramsSubject::PARTIALLY_AVAILABLE => 0,
             HeramsSubject::NOT_AVAILABLE => 0,
             HeramsSubject::NOT_PROVIDED=> 0,
         ];
-        foreach ($this->getHeramsResponses() as $heramsResponse)
+        /** @var HeramsResponseInterface $heramsResponse */
+        foreach ($this->getResponses()->each() as $heramsResponse)
         {
             foreach ($heramsResponse->getSubjects() as $subject) {
                 $subjectAvailability = $subject->getAvailability();
@@ -297,6 +309,8 @@ class Project extends ActiveRecord {
                 $result[$map[$key]] = $value;
             }
         }
+
+        \Yii::endProfile(__FUNCTION__);
         return $result;
     }
 
@@ -379,9 +393,8 @@ class Project extends ActiveRecord {
     {
         if (null === $facilityCount = $this->getOverride('facilityCount')) {
             $facilityCount = 0;
-            foreach($this->workspaces as $workspace) {
-                $facilityCount += $workspace->getFacilityCount();
-            }
+            $filter = new ResponseFilter(null, $this->getMap());
+            $facilityCount = (int) $filter->filterQuery($this->getResponses())->count();
         }
         return $facilityCount;
     }

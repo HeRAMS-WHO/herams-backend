@@ -30,6 +30,13 @@ class Element extends Model
         parent::__construct();
         $this->survey = $survey;
         $this->element = $element;
+        try {
+            $this->findQuestionByCode($this->code);
+        } catch (\Throwable $t) {
+            // Invalid question code. Reset it.
+            $element->code = array_keys($this->codeOptions())[0];
+        }
+
     }
 
     public function __isset($name)
@@ -188,7 +195,12 @@ class Element extends Model
             case 'causes':
                 return [];
             default:
-                return $this->getQuestionAnswers($this->element->code);
+                try {
+                    return $this->getQuestionAnswers($this->element->code);
+                } catch (\Throwable $t) {
+                    return [];
+                }
+
         }
     }
 }

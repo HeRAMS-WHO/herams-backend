@@ -56,15 +56,18 @@ class View extends Action
 
 
 
-        $responses = $project->getHeramsResponses();
+        $responses = $project->getResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
-        $filter = new ResponseFilter($responses, $survey, $project->getMap());
+
+        $filter = new ResponseFilter($survey, $project->getMap());
         $filter->load($request->queryParams);
         \Yii::endProfile('ResponseFilterinit');
 
         /** @var  $filtered */
-        $filtered = $filter->filter($responses);
+
+
+        $filtered = $filter->filterQuery($responses)->all();
 
         return $this->controller->render('view', [
             'types' => $this->getTypes($survey, $project),

@@ -30,7 +30,12 @@ trait SurveyHelper
     {
         $question = $this->findQuestionByCode($code);
 
-        $answers = $question->getAnswers() ?? $question->getQuestions(0)[0]->getAnswers() ?? [];
+        $answers = $question->getAnswers() ??
+            (
+                $question->getDimensions() > 0
+                ? $question->getQuestions(0)[0]->getAnswers() ?? []
+                : []
+            ) ?? [] ;
 
         assert(count($answers) > 0);
         $map = [];

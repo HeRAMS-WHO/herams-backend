@@ -4,15 +4,18 @@
 namespace prime\models\forms;
 
 
+use app\queries\ResponseQuery;
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
+use prime\models\ar\Response;
 use prime\objects\HeramsCodeMap;
-use prime\objects\HeramsResponse;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
+use yii\db\ActiveQuery;
+use yii\db\Expression;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
 use function iter\all;
@@ -26,18 +29,16 @@ use function iter\filter;
  */
 class ResponseFilter extends Model
 {
-    public $date;
+    /**
+     * @var ?Carbon
+     */
+    private $date;
 
     public $types;
     public $locations = [];
     public $advanced = [];
 
     /**
-     * @var HeramsResponse[]
-     */
-    private $allResponses;
-
-      /**
      * @var HeramsCodeMap
      */
     private $map;
@@ -46,19 +47,23 @@ class ResponseFilter extends Model
      * @var QuestionInterface[]
      */
     private $advancedFilterMap = [];
-    /**
-     * @param HeramsResponse[] $responses
-     */
+
+    public function setDate($date)
+    {
+        $this->date = new Carbon($date);
+    }
+
+    public function getDate(): ?Carbon
+    {
+        return $this->date;
+    }
+
     public function __construct(
-        array $responses,
         ?SurveyInterface $survey,
         HeramsCodeMap $map
     ) {
         parent::__construct([]);
-        $this->allResponses = $responses;
-        $this->date = date('Y-m-d');
         $this->map = $map;
-
         if (isset($survey)) {
             $this->initAdvancedFilterMap($survey);
         }
@@ -132,11 +137,56 @@ class ResponseFilter extends Model
 
     }
 
+    public function filterQuery(ResponseQuery $query): ActiveQuery
+    {
+        // Find the latest response per HF.
+        $left = clone $query;
+        $left->alias('left');
+        $right = Response::find()
+            ->andFilterWhere([
+                '<=',
+                'date',
+                $this->date
+            ]);
+        $left->leftJoin(['right' => $right], [
+            'and',
+            [
+                '[[left]].[[workspace_id]]' => new Expression('[[right]].[[workspace_id]]'),
+                '[[left]].[[hf_id]]' => new Expression('[[right]].[[hf_id]]'),
+            ],
+            [
+                '<',
+                "[[left]].[[date]]",
+                new Expression("[[right]].[[date]]")
+            ],
 
-    public function filter(): array
+        ])->groupBy([
+            '[[left]].[[workspace_id]]',
+            '[[left]].[[hf_id]]'
+        ])->select([
+            'id' => "max([[left]].[[id]])"
+        ])->andWhere([
+            '[[right]].[[id]]' => null
+        ]);
+
+
+        $query->andWhere([
+            'id' => $left
+        ]);
+
+        foreach($this->advanced as $key => $value) {
+            if (!empty($value)) {
+                $query->andWhere([
+                    "json_unquote(json_extract([[data]],'$.{$key}'))" => $value
+                ]);
+            }
+        }
+        return $query;
+    }
+
+    public function filter(iterable $responses): iterable
     {
         \Yii::beginProfile('filter');
-        $limit = new Carbon($this->date);
         // Index by UOID.
         /** @var HeramsResponseInterface[] $indexed */
         $indexed = [];
@@ -156,9 +206,9 @@ class ResponseFilter extends Model
             ) {
                 $indexed[$id] = $response;
             }
-        }, filter(function(HeramsResponseInterface $response) use ($limit, $locations) {
+        }, filter(function(HeramsResponseInterface $response) use ($locations) {
             // Date filter
-            if (!$limit->greaterThanOrEqualTo($response->getDate())) {
+            if (isset($this->date) && !$this->date->greaterThanOrEqualTo($response->getDate())) {
                 return false;
             }
 
@@ -188,7 +238,7 @@ class ResponseFilter extends Model
 
             return true;
 
-        }, $this->allResponses));
+        }, $responses));
 
         \Yii::endProfile('filter');
         return array_values($indexed);
