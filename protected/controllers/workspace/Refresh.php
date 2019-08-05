@@ -41,10 +41,12 @@ class Refresh extends Action
         $new = $updated = $unchanged = 0;
         $start = microtime(true);
         $limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token'));
+        $ids = [];
         foreach($limesurveyDataProvider->getResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+            $ids[] = $response->id;
             $key = [
                 'id' => $response->getId(),
-                'survey_id' => $response->getSurveyId()
+                'workspace_id' => $workspace->id
             ];
 
             $dataResponse = Response::findOne($key) ?? new Response($key);
@@ -59,10 +61,17 @@ class Refresh extends Action
                 $dataResponse->save();
             }
         }
-        $notificationService->success(\Yii::t('app,', 'Refreshing data took {time} seconds; {new} new records, {updated} existing records, {unchanged} unchanged records', [
+        // Check for deleted responses as well.
+        $deleted = Response::deleteAll([
+            'and',
+            ['workspace_id' => $workspace->id],
+            ['not', ['id' => $ids]]
+        ]);
+        $notificationService->success(\Yii::t('app,', 'Refreshing data took {time} seconds; {new} new records, {updated} existing records, {deleted} deleted records, {unchanged} unchanged records', [
             'time' => number_format(microtime(true) - $start, 0),
             'new' => $new,
             'updated' => $updated,
+            'deleted' => $deleted,
             'unchanged' => $unchanged
         ]));
 
