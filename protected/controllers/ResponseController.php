@@ -51,7 +51,7 @@ class ResponseController extends Controller
             throw new NotFoundHttpException('Unknown survey ID');
         }
 
-        $workspace = Workspace::find()->inProject($project)->andWhere(['token' => $data['token']]);
+        $workspace = Workspace::find()->inProject($project)->andWhere(['token' => $data['token']])->one();
         if (!isset($workspace)) {
             throw new NotFoundHttpException('Unknown token');
         }
