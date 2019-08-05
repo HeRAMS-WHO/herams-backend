@@ -48,7 +48,7 @@ class Refresh extends Action
             ];
 
             $dataResponse = Response::findOne($key) ?? new Response($key);
-            $dataResponse->loadData($response->getData());
+            $dataResponse->loadData($response->getData(), $workspace);
             if ($dataResponse->isNewRecord) {
                 $new++;
                 $dataResponse->save();
