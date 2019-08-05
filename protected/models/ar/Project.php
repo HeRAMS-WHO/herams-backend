@@ -402,10 +402,7 @@ class Project extends ActiveRecord {
     public function getResponseCount(): int
     {
         if (null === $responseCount = $this->getOverride('responseCount')) {
-            $responseCount = 0;
-            foreach($this->workspaces as $workspace) {
-                $responseCount += $workspace->getResponseCount();
-            }
+            $responseCount = $this->getResponses()->count();
         }
         return $responseCount;
     }
