@@ -43,7 +43,7 @@ class Refresh extends Action
         $limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token'));
         $ids = [];
         foreach($limesurveyDataProvider->getResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
-            $ids[] = $response->id;
+            $ids[] = $response->getId();
             $key = [
                 'id' => $response->getId(),
                 'workspace_id' => $workspace->id
