@@ -44,7 +44,6 @@ class ResponseController extends Controller
             'id' => $data['id']
         ];
 
-        unset($data['id']);
         // Find the project.
         $project = Project::find()->andWhere(['base_survey_eid' => $request->getBodyParam('surveyId')])->one();
         if (!(isset($project))) {
