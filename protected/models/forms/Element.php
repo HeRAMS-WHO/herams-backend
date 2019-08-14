@@ -30,13 +30,6 @@ class Element extends Model
         parent::__construct();
         $this->survey = $survey;
         $this->element = $element;
-        try {
-            $this->findQuestionByCode($this->code);
-        } catch (\Throwable $t) {
-            // Invalid question code. Reset it.
-            $element->code = array_keys($this->codeOptions())[0];
-        }
-
     }
 
     public function __isset($name)
