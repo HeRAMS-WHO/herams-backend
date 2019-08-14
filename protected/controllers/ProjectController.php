@@ -6,6 +6,7 @@ use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\project\Check;
 use prime\controllers\project\Create;
+use prime\controllers\project\Filter;
 use prime\controllers\project\Index;
 use prime\controllers\project\Pages;
 use prime\controllers\project\Share;
@@ -26,6 +27,7 @@ class ProjectController extends Controller
     public function actions()
     {
         return [
+            'filter' => Filter::class,
             'check' => Check::class,
             'create' => Create::class,
             'update' => Update::class,
@@ -49,7 +51,8 @@ class ProjectController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'delete' => ['delete']
+                        'delete' => ['delete'],
+                        'filter' => ['post']
                     ]
                 ],
 

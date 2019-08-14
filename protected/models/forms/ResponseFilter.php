@@ -14,8 +14,11 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
+use yii\base\Security;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
+use yii\helpers\StringHelper;
+use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
 use function iter\all;
@@ -34,8 +37,6 @@ class ResponseFilter extends Model
      */
     private $date;
 
-    public $types;
-    public $locations = [];
     public $advanced = [];
 
     /**
@@ -111,6 +112,8 @@ class ResponseFilter extends Model
     {
         if (strncmp($name, 'adv_', 4) !== 0) {
             parent::__set($name, $value);
+        } elseif (empty($value)) {
+            unset($this->advanced[substr($name, 4)]);
         } else {
             $this->advanced[substr($name, 4)] = $value;
         }
@@ -191,13 +194,7 @@ class ResponseFilter extends Model
         /** @var HeramsResponseInterface[] $indexed */
         $indexed = [];
 
-        $locations = [];
-        foreach((array) $this->locations as $location) {
-            foreach(explode(',', $location) as $option) {
-                $locations[$option] = true;
-            }
-        }
-        apply(function(HeramsResponseInterface $response) use (&$indexed) {
+                apply(function(HeramsResponseInterface $response) use (&$indexed) {
             $id = $response->getSubjectId();
             if (!isset($indexed[$id])
                 || $indexed[$id]->getDate()->lessThan($response->getDate())
@@ -206,20 +203,9 @@ class ResponseFilter extends Model
             ) {
                 $indexed[$id] = $response;
             }
-        }, filter(function(HeramsResponseInterface $response) use ($locations) {
+        }, filter(function(HeramsResponseInterface $response) {
             // Date filter
             if (isset($this->date) && !$this->date->greaterThanOrEqualTo($response->getDate())) {
-                return false;
-            }
-
-            // Type filter.
-            if (!empty($this->types) && !in_array($response->getType(), $this->types)
-            ) {
-                return false;
-            }
-
-            // Location filter
-            if (!empty($locations) && !isset($locations[$response->getLocation()])) {
                 return false;
             }
 
@@ -249,5 +235,18 @@ class ResponseFilter extends Model
         return 'RF';
     }
 
+    public function toQueryParam(): string
+    {
+        return StringHelper::base64UrlEncode(gzcompress(json_encode([
+            'advanced' => $this->advanced,
+            'date' => $this->date,
+        ], 9));
+    }
 
+    public function fromQueryParam(string $value)
+    {
+        $variables = json_decode(gzdeflate(StringHelper::base64UrlDecode($value), 9));
+        $this->date = $variables['date'] ?? null;
+        $this->advanced = $variables['advanced'] ?? null;
+    }
 }

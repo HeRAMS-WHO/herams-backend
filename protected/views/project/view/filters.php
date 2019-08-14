@@ -10,10 +10,10 @@ use yii\helpers\Url;
 /* @var \prime\models\ar\Project $project */
 /* @var ResponseFilter $filterModel */
 
-echo Html::beginForm(['project/view', 'id' => $project->id,
+echo Html::beginForm(['project/filter', 'id' => $project->id,
     'page_id' => \Yii::$app->request->getQueryParam('page_id'),
     'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-], 'get', [
+], 'post', [
     'autocomplete' => 'off',
     'class' => 'filters'
 ]);

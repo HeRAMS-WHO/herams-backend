@@ -24,7 +24,8 @@ class View extends Action
         Request $request,
         int $id,
         int $page_id = null,
-        int $parent_id = null
+        int $parent_id = null,
+        string $filter = null
     ) {
         $this->controller->layout = 'css3-grid';
         $project = Project::findOne(['id'  => $id]);
@@ -60,19 +61,22 @@ class View extends Action
 
         \Yii::beginProfile('ResponseFilterinit');
 
-        $filter = new ResponseFilter($survey, $project->getMap());
-        $filter->load($request->queryParams);
+        $filterModel = new ResponseFilter($survey, $project->getMap());
+        if (!empty($filter)) {
+            $filterModel->fromQueryParam($filter);
+        }
+        $filterModel->load($request->queryParams);
         \Yii::endProfile('ResponseFilterinit');
 
         /** @var  $filtered */
 
 
-        $filtered = $filter->filterQuery($responses)->all();
+        $filtered = $filterModel->filterQuery($responses)->all();
 
         return $this->controller->render('view', [
             'types' => $this->getTypes($survey, $project),
             'data' => $filtered,
-            'filterModel' => $filter,
+            'filterModel' => $filterModel,
             'project' => $project,
             'page' => $page,
             'survey' => $survey
