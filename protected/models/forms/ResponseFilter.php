@@ -247,6 +247,6 @@ class ResponseFilter extends Model
     {
         $variables = json_decode(gzdeflate(StringHelper::base64UrlDecode($value), 9));
         $this->date = $variables['date'] ?? null;
-        $this->advanced = $variables['advanced'] ?? null;
+        $this->advanced = $variables['advanced'] ?? [];
     }
 }
