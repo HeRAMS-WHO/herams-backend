@@ -43,19 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
 
     echo Form::widget([
+
         'form' => $form,
 
         'model' => $model,
         'columns' => 1,
         "attributes" => [
-            'type' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->typeOptions()
-            ],
-            'sort' => [
-                'type' => Form::INPUT_HTML5,
-                'html5type' => 'number'
-            ],
             'transpose' => [
                 'type' => Form::INPUT_RADIO_BUTTON_GROUP,
                 'items' => [
@@ -70,6 +63,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data' => $model->codeOptions(),
                 ],
             ],
+            'type' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->typeOptions()
+            ],
+            'sort' => [
+                'type' => Form::INPUT_HTML5,
+                'html5type' => 'number'
+            ],
+
             'reasonCode' => [
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => Select2::class,
