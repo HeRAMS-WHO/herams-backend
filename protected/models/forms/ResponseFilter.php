@@ -245,7 +245,7 @@ class ResponseFilter extends Model
 
     public function fromQueryParam(string $value)
     {
-        $variables = json_decode(gzuncompress(StringHelper::base64UrlDecode($value)));
+        $variables = json_decode(gzuncompress(StringHelper::base64UrlDecode($value)), true);
         $this->date = $variables['date'] ?? null;
         $this->advanced = $variables['advanced'] ?? [];
     }
