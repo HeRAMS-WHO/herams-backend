@@ -41,7 +41,7 @@ class Preview extends Action
         return $this->controller->render('preview', [
             'survey' => $survey,
             'element' => $element,
-            'data' => $filter->filter($responses->each())
+            'data' => $filter->filterQuery($responses)
         ]);
 
     }
