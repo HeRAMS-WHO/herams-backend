@@ -28,7 +28,6 @@ use function iter\toArrayWithKeys;
 class Response extends ActiveRecord implements HeramsResponseInterface
 {
     private static $surveySubjectKeys = [];
-    private static $surveyArrayKeys = [];
 
     public function getMap(): HeramsCodeMap
     {
@@ -87,8 +86,24 @@ class Response extends ActiveRecord implements HeramsResponseInterface
             $data['lastpage'],
             $data['UOID']
         );
-        ksort($data);
-        $this->data = $data;
+
+        // Transform arrays.
+        $transformed = [];
+        foreach($data as $key => $value) {
+
+            if (preg_match('/(.*)\[\d+\]$/', $key, $matches)) {
+                if (isset($transformed[$matches[0]])) {
+                    $transformed[$matches[0]][] = $value;
+                } else {
+                    $transformed[$matches[0]] = [$value];
+                }
+            } else {
+                $transformed[$key] = $value;
+            }
+        }
+
+        ksort($transformed);
+        $this->data = $transformed;
     }
 
     public function getLatitude(): ?float
@@ -128,32 +143,9 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getValueForCode(string $code)
     {
-        if (array_key_exists($code, $this->data)) {
-            $result = $this->data[$code];
-        } else {
-            // Try iteration.
-            $result = [];
-            foreach($this->getKeysForCode($code) as $key) {
-                if (isset($this->data[$key]) && !empty($this->data[$key])) {
-                    $result[] = $this->data[$key];
-                }
-            }
-        }
-        return !empty($result) ? $result : null;
+        return $this->data[$code] ?? null;
     }
 
-    private function getKeysForCode(string $code)
-    {
-        if (!isset(self::$surveyArrayKeys[$this->survey_id][$code])) {
-            self::$surveyArrayKeys[$this->survey_id][$code] = [];
-            foreach ($this->data as $key => $dummy) {
-                if (strpos($key, $code . '[') === 0) {
-                    self::$surveyArrayKeys[$this->survey_id][$code][] = $key;
-                }
-            }
-        }
-        return self::$surveyArrayKeys[$this->survey_id][$code];
-    }
     public function getSubjectId(): string
     {
         return $this->hf_id;
