@@ -88,7 +88,7 @@ class DashboardMap extends Element
                     "coordinates" => [$longitude, $latitude]
                 ],
                 "properties" => [
-                    'title' => $response->getName(),
+                    'title' => $response->getName() ?? 'No name',
                 ]
 
 //                'subtitle' => '',
