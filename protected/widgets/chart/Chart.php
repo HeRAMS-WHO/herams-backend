@@ -79,6 +79,15 @@ class Chart extends Element
                         1 => 'True',
                     ];
                 case 'causes':
+                    $expr = strtr($this->element->project->getMap()->getSubjectExpression(), ['$' => 'x$']);
+                    foreach($this->survey->getGroups() as $group) {
+                        foreach($group->getQuestions() as $question) {
+                            if (preg_match($expr, $question->getTitle())) {
+                                return $this->getAnswers($question->getTitle());
+                            }
+                        }
+                    }
+                    return [];
                 default:
                     $map = [];
             }
@@ -87,7 +96,7 @@ class Chart extends Element
         return array_merge($this->map ?? [], $map);
     }
     /**
-     * @param HeramsResponse[] $responses
+     * @param HeramsResponse[]|HeramsSubject[] $responses
      * @return array
      */
     protected function getDataSet(iterable $responses): array

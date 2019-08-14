@@ -17,7 +17,7 @@ class Element extends Widget
 {
     public $options = [];
     /** @var \prime\models\ar\Element  */
-    private $element;
+    protected $element;
 
     public function __construct(\prime\models\ar\Element $element, $config = [])
     {
