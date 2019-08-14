@@ -68,7 +68,7 @@ class DashboardMap extends Element
             $latitude = $response->getLatitude();
             $longitude = $response->getLongitude();
             if (abs($latitude) < 0.0000001
-                && abs($longitude) < 0.0000001) {
+                || abs($longitude) < 0.0000001) {
                 continue;
             }
 
@@ -89,6 +89,7 @@ class DashboardMap extends Element
                 ],
                 "properties" => [
                     'title' => $response->getName() ?? 'No name',
+                    'id' => $response->getId()
                 ]
 
 //                'subtitle' => '',
