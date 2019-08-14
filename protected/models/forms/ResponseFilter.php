@@ -237,16 +237,19 @@ class ResponseFilter extends Model
 
     public function toQueryParam(): string
     {
-        return StringHelper::base64UrlEncode(gzcompress(json_encode([
+        $data = array_filter([
             'advanced' => $this->advanced,
             'date' => $this->date,
-        ], 9)));
+        ]);
+        return StringHelper::base64UrlEncode(gzcompress(json_encode($data, 9)));
     }
 
     public function fromQueryParam(string $value)
     {
         $variables = json_decode(gzuncompress(StringHelper::base64UrlDecode($value)), true);
-        $this->date = $variables['date'] ?? null;
+        if (isset($variables['date'])) {
+            $this->setDate($variables['date']);
+        }
         $this->advanced = $variables['advanced'] ?? [];
     }
 }
