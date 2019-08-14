@@ -30,7 +30,7 @@ class Filter extends Action
         $project = Project::findOne(['id'  => $id]);
         $survey = $project->getSurvey();
         $filter = new ResponseFilter($survey, $project->getMap());
-        $filter->load($request->queryParams);
+        $filter->load($request->bodyParams);
         return $this->controller->redirect(['project/view',
             'id' => $id,
             'page_id' => $page_id,
