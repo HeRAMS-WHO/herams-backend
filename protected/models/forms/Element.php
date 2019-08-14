@@ -101,7 +101,7 @@ class Element extends Model
     {
         return array_merge($this->element->rules(), [
             $this->colorRule(),
-            [['code'], RangeValidator::class, 'range' => array_keys($this->codeOptions())]
+            [['code'], RangeValidator::class, 'range' => function() { return array_keys($this->codeOptions()); }]
         ]);
     }
 
