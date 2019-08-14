@@ -197,7 +197,7 @@ class Element extends Model
                 foreach($this->survey->getGroups() as $group) {
                     foreach($group->getQuestions() as $question) {
                         if (preg_match($expr, $question->getTitle())) {
-                            return $this->getAnswers($question->getTitle());
+                            return $this->getQuestionAnswers($question->getTitle());
                         }
                     }
                 }
