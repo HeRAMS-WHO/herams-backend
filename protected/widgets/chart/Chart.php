@@ -5,6 +5,7 @@ namespace prime\widgets\chart;
 
 
 use prime\objects\HeramsResponse;
+use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -63,7 +64,25 @@ class Chart extends Element
                     die('unknown' . $question->getDimensions());
             }
         } catch (\InvalidArgumentException $e) {
-            $map = [];
+            switch($this->code) {
+                case 'availability':
+                    return [
+                        HeramsSubject::FULLY_AVAILABLE => \Yii::t('app', 'Fully available'),
+                        HeramsSubject::PARTIALLY_AVAILABLE => \Yii::t('app', 'Partially available'),
+                        HeramsSubject::NOT_AVAILABLE => \Yii::t('app', 'Not available'),
+                        HeramsSubject::NOT_PROVIDED => \Yii::t('app', 'Not normally provided'),
+                        "" => \Yii::t('app', 'Unknown'),
+                    ];
+                case 'fullyAvailable':
+                    return [
+                        0 => 'False',
+                        1 => 'True',
+                    ];
+                case 'causes':
+                default:
+                    $map = [];
+            }
+
         }
         return array_merge($this->map ?? [], $map);
     }
