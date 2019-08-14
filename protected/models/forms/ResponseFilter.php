@@ -240,7 +240,7 @@ class ResponseFilter extends Model
         return StringHelper::base64UrlEncode(gzcompress(json_encode([
             'advanced' => $this->advanced,
             'date' => $this->date,
-        ], 9));
+        ], 9)));
     }
 
     public function fromQueryParam(string $value)
