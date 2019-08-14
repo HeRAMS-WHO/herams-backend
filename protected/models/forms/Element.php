@@ -193,6 +193,14 @@ class Element extends Model
                     1 => 'True',
                 ];
             case 'causes':
+                $expr = strtr($this->element->project->getMap()->getSubjectExpression(), ['$' => 'x$']);
+                foreach($this->survey->getGroups() as $group) {
+                    foreach($group->getQuestions() as $question) {
+                        if (preg_match($expr, $question->getTitle())) {
+                            return $this->getAnswers($question->getTitle());
+                        }
+                    }
+                }
                 return [];
             default:
                 try {
