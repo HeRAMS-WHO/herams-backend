@@ -391,20 +391,13 @@ class Project extends ActiveRecord {
 
     public function getFacilityCount(): int
     {
-        if (null === $facilityCount = $this->getOverride('facilityCount')) {
-            $facilityCount = 0;
-            $filter = new ResponseFilter(null, $this->getMap());
-            $facilityCount = (int) $filter->filterQuery($this->getResponses())->count();
-        }
-        return $facilityCount;
+        return (int) ($this->getOverride('facilityCount')
+            ?? (new ResponseFilter(null, $this->getMap()))->filterQuery($this->getResponses())->count());
     }
 
     public function getResponseCount(): int
     {
-        if (null === $responseCount = $this->getOverride('responseCount')) {
-            $responseCount = (int) $this->getResponses()->count();
-        }
-        return $responseCount;
+        return (int) ($this->getOverride('responseCount') ?? $this->getResponses()->count());
     }
 
     /**
