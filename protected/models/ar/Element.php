@@ -128,14 +128,10 @@ class Element extends ActiveRecord
     {
         if ($this->transpose) {
             foreach($data as $key => $value) {
-                foreach($value->getSubjects() as $subject) {
-                    yield $subject;
-                }
+                yield from $value->getSubjects();
             }
         } else {
-            foreach($data as $key => $value) {
-                yield $value;
-            }
+            yield from $data;
         }
     }
     public function getTitle(): ?string

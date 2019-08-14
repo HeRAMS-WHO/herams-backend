@@ -29,6 +29,9 @@ class View extends Action
     ) {
         $this->controller->layout = 'css3-grid';
         $project = Project::findOne(['id'  => $id]);
+        if (!isset($project)) {
+            throw new NotFoundHttpException();
+        }
         $survey = $project->getSurvey();
 
         if (isset($parent_id, $page_id)) {
