@@ -29,6 +29,7 @@ use yii\validators\UniqueValidator;
  * @property string $title
  * @property string $description
  * @property int $tool_id
+ * @property int $id
  * @property datetime $created
  *
  * @method static WorkspaceQuery find()
@@ -151,7 +152,7 @@ class Workspace extends ActiveRecord
         return isset($this->closed);
     }
 
-    public function  getResponses()
+    public function  getResponses(): ActiveQuery
     {
         return $this->hasMany(Response::class, [
             'workspace_id' => 'id',

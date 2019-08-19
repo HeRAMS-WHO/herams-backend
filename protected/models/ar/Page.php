@@ -4,6 +4,7 @@
 namespace prime\models\ar;
 
 
+use prime\interfaces\Exportable;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\objects\GroupPage;
@@ -11,6 +12,7 @@ use prime\objects\HeramsResponse;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use yii\base\InvalidArgumentException;
 use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
@@ -26,7 +28,7 @@ use yii\validators\StringValidator;
  * @property Project $project
  * @property ?Page $parent
  */
-class Page extends ActiveRecord implements PageInterface
+class Page extends ActiveRecord implements PageInterface, Exportable
 {
     use LoadOneAuthTrait;
 
@@ -150,5 +152,64 @@ class Page extends ActiveRecord implements PageInterface
     public function filterResponses(iterable $responses): iterable
     {
         return $responses;
+    }
+
+    public function export(): array
+    {
+        $attributes = $this->attributes;
+        foreach ($this->primaryKey() as $key) {
+            unset($attributes[$key]);
+        }
+        unset($attributes['tool_id'], $attributes['parent_id']);
+        $elements = [];
+        foreach ($this->elements as $element) {
+            $elements[] = $element->export();
+        }
+        $pages = [];
+        foreach($this->children as $page) {
+            $pages[] = $page->export();
+        }
+        return [
+            'type' => 'page',
+            'attributes' => $attributes,
+            'elements' => $elements,
+            'pages' => $pages
+        ];
+    }
+
+    /**
+     * @param Page|Project $parent
+     * @param array $data
+     * @return Page
+     */
+    public static function import($parent, array $data): Page
+    {
+        if (!($parent instanceof Page || $parent instanceof Project)) {
+            throw new \InvalidArgumentException('Parent must be instance of Page or Project');
+        }
+        $result = new Page();
+        $result->setAttributes($data['attributes']);
+        if ($parent instanceof Page) {
+            $result->tool_id = $parent->tool_id;
+            $result->parent_id = $parent->id;
+        } else {
+            $result->tool_id = $parent->id;
+        }
+
+        if (!$result->validate()) {
+            throw new InvalidArgumentException('Validation failed');
+        }
+
+        $result->save(false);
+
+        foreach($data['elements'] as $elementData) {
+            Element::import($result, $elementData);
+        }
+
+        foreach($data['pages'] as $pageData) {
+            Page::import($result, $pageData);
+        }
+
+        return $result;
     }
 }

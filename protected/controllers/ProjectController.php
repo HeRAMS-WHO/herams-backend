@@ -6,7 +6,9 @@ use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\project\Check;
 use prime\controllers\project\Create;
+use prime\controllers\project\ExportDashboard;
 use prime\controllers\project\Filter;
+use prime\controllers\project\ImportDashboard;
 use prime\controllers\project\Index;
 use prime\controllers\project\Pages;
 use prime\controllers\project\Share;
@@ -27,6 +29,8 @@ class ProjectController extends Controller
     public function actions()
     {
         return [
+            'export-dashboard' => ExportDashboard::class,
+            'import-dashboard' => ImportDashboard::class,
             'filter' => Filter::class,
             'check' => Check::class,
             'create' => Create::class,

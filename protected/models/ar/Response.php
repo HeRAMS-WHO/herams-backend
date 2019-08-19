@@ -90,12 +90,11 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         // Transform arrays.
         $transformed = [];
         foreach($data as $key => $value) {
-
             if (preg_match('/(.*)\[\d+\]$/', $key, $matches)) {
-                if (isset($transformed[$matches[0]])) {
-                    $transformed[$matches[0]][] = $value;
+                if (isset($transformed[$matches[1]])) {
+                    $transformed[$matches[1]][] = $value;
                 } else {
-                    $transformed[$matches[0]] = [$value];
+                    $transformed[$matches[1]] = [$value];
                 }
             } else {
                 $transformed[$key] = $value;

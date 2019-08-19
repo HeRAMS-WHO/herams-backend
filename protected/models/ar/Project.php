@@ -408,4 +408,13 @@ class Project extends ActiveRecord {
     {
         return $this->overrides[$name] ?? null;
     }
+
+    public function exportDashboard(): array
+    {
+        $pages = [];
+        foreach ($this->pages as $page) {
+            $pages[] = $page->export();
+        }
+        return $pages;
+    }
 }

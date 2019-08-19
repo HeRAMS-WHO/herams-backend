@@ -99,6 +99,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         'tagName' => 'a',
                         'options' => [
                             'href' => Url::to(['page/create', 'project_id' => $model->id]),
+                            'class' => 'btn-primary',
+                        ],
+                    ],
+                    [
+                        'label' => \Yii::t('app', 'Export all'),
+                        'tagName' => 'a',
+                        'options' => [
+                            'href' => Url::to(['project/export-dashboard', 'id' => $model->id]),
+                            'download' => true,
+                            'class' => 'btn-default',
+                        ],
+                    ],
+                    [
+                        'label' => \Yii::t('app', 'Import pages'),
+                        'tagName' => 'a',
+                        'options' => [
+                            'href' => Url::to(['project/import-dashboard', 'id' => $model->id]),
                             'class' => 'btn-default',
                         ],
                     ],
