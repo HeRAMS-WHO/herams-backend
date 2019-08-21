@@ -268,7 +268,7 @@ class Project extends ActiveRecord {
 
         $result = [];
         foreach($query->column() as $key => $value) {
-            $label = isset($map[$key]) ? $key : $map[HeramsResponse::UNKNOWN_VALUE];
+            $label = isset($map[$key]) ? $map[$key] : $map[HeramsResponse::UNKNOWN_VALUE];
             $result[$label] = ($result[$label] ?? 0) + $value;
         }
         return $result;
