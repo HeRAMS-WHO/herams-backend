@@ -10,6 +10,10 @@ use prime\objects\HeramsSubject;
 interface HeramsResponseInterface
 {
     public const UNKNOWN_VALUE = '_unknown';
+    public const BUCKET75100 = 3;
+    public const BUCKET5075 = 2;
+    public const BUCKET2550 = 1;
+    public const BUCKET25 = 0;
     public function getLatitude(): ?float;
     public function getLongitude(): ?float;
 
@@ -35,7 +39,7 @@ interface HeramsResponseInterface
 
     public function getSubjectAvailability(): float;
 
-    public function getSubjectAvailabilityBucket(): string;
+    public function getSubjectAvailabilityBucket(): int;
 
     public function getFunctionality(): string;
 

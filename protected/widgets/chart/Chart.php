@@ -4,6 +4,7 @@
 namespace prime\widgets\chart;
 
 
+use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsResponse;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
@@ -65,6 +66,13 @@ class Chart extends Element
             }
         } catch (\InvalidArgumentException $e) {
             switch($this->code) {
+                case 'subjectAvailabilityBucket':
+                    return [
+                        HeramsResponseInterface::BUCKET25 => \Yii::t('app', '< 25%'),
+                        HeramsResponseInterface::BUCKET2550 => \Yii::t('app', '25 - 50%'),
+                        HeramsResponseInterface::BUCKET5075 => \Yii::t('app', '50 - 75%'),
+                        HeramsResponseInterface::BUCKET75100 => \Yii::t('app', '> 75%'),
+                    ];
                 case 'availability':
                     return [
                         HeramsSubject::FULLY_AVAILABLE => \Yii::t('app', 'Fully available'),
