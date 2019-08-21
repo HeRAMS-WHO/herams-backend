@@ -111,10 +111,7 @@ class Chart extends Element
 
                 case 1:
                     // Ranking or multiple choice.
-                    $titles = take(3, map(function (QuestionInterface $subQuestion) use ($question) {
-                        return "{$question->getTitle()}[{$subQuestion->getTitle()}]";
-                    }, $question->getQuestions(0)));
-                    return $this->getCounts($responses, $titles);
+                    return $this->getCounts($responses, [$this->code]);
                 default:
                     die('unknown' . $question->getDimensions());
             }
@@ -173,20 +170,20 @@ class Chart extends Element
      * @param HeramsResponse[] $responses
      * @param string[] $codes
      */
-    private function getCounts(iterable $responses, iterable $codes): array
+    private function getCounts(iterable $responses, string $code, int $top = 3): array
     {
-        $codes = toArray($codes);
         $result = [];
         foreach($responses as $response) {
-            $empty = true;
-            foreach($codes as $code) {
-                $value = $response->getValueForCode($code);
-                if (!empty($value)) {
-                    $empty = false;
+            $value = $response->getValueForCode($code);
+            if (!empty($value)) {
+                if (is_array($value)) {
+                    foreach(take($top, $value) as $answer) {
+                        $result[$answer] = ($result[$answer] ?? 0) + 1;
+                    }
+                } else {
                     $result[$value] = ($result[$value] ?? 0) + 1;
                 }
-            }
-            if ($empty && !$this->skipEmpty) {
+            } elseif (!$this->skipEmpty) {
                 $result[""] = ($result[""] ?? 0) + 1;
             }
         }
