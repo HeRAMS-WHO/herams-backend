@@ -156,11 +156,11 @@ class Element extends Model
             }
         }
         if ($this->element->transpose) {
-            $codeOptions['availability'] = \Yii::t('app', 'The availability of the service');
-            $codeOptions['fullyAvailable'] = \Yii::t('app', 'Whether the service is fully available');
-            $codeOptions['causes'] = \Yii::t('app', 'The causes of unavailability');
+            $codeOptions['availability'] = $this->getTitleFromCode('availability');
+            $codeOptions['fullyAvailable'] = $this->getTitleFromCode('fullyAvailable');
+            $codeOptions['causes'] = $this->getTitleFromCode('causes');
         } else {
-            $codeOptions['subjectAvailabilityBucket'] = \Yii::t('app', 'The aggregate availability of services per HF');
+            $codeOptions['subjectAvailabilityBucket'] = $this->getTitleFromCode('subjectAvailabilityBucket');
         }
         return $codeOptions;
     }
