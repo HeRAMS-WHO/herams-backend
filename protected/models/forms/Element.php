@@ -31,7 +31,7 @@ class Element extends Model
         $this->survey = $survey;
         $this->element = $element;
         if ($element->isNewRecord && $element->getCode() === null) {
-            $element->setColors($this->codeOptions()[0]);
+            $element->setColors(array_keys($this->codeOptions())[0]);
         }
     }
 
