@@ -67,25 +67,9 @@ class Chart extends Element
         } catch (\InvalidArgumentException $e) {
             switch($this->code) {
                 case 'subjectAvailabilityBucket':
-                    return [
-                        HeramsResponseInterface::BUCKET25 => \Yii::t('app', '< 25%'),
-                        HeramsResponseInterface::BUCKET2550 => \Yii::t('app', '25 - 50%'),
-                        HeramsResponseInterface::BUCKET5075 => \Yii::t('app', '50 - 75%'),
-                        HeramsResponseInterface::BUCKET75100 => \Yii::t('app', '> 75%'),
-                    ];
                 case 'availability':
-                    return [
-                        HeramsSubject::FULLY_AVAILABLE => \Yii::t('app', 'Fully available'),
-                        HeramsSubject::PARTIALLY_AVAILABLE => \Yii::t('app', 'Partially available'),
-                        HeramsSubject::NOT_AVAILABLE => \Yii::t('app', 'Not available'),
-                        HeramsSubject::NOT_PROVIDED => \Yii::t('app', 'Not normally provided'),
-                        "" => \Yii::t('app', 'Unknown'),
-                    ];
                 case 'fullyAvailable':
-                    return [
-                        0 => 'False',
-                        1 => 'True',
-                    ];
+                    return $this->getAnswers($this->code);
                 case 'causes':
                     $expr = strtr($this->element->project->getMap()->getSubjectExpression(), ['$' => 'x$']);
                     foreach($this->survey->getGroups() as $group) {

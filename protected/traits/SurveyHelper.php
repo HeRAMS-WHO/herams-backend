@@ -4,6 +4,8 @@
 namespace prime\traits;
 
 
+use prime\interfaces\HeramsResponseInterface;
+use prime\objects\HeramsSubject;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
@@ -28,25 +30,49 @@ trait SurveyHelper
 
     private function getAnswers(string $code)
     {
-        $question = $this->findQuestionByCode($code);
+        switch ($code) {
+            case 'availability':
+                return [
+                    HeramsSubject::FULLY_AVAILABLE => \Yii::t('app', 'Fully available'),
+                    HeramsSubject::PARTIALLY_AVAILABLE => \Yii::t('app', 'Partially available'),
+                    HeramsSubject::NOT_AVAILABLE => \Yii::t('app', 'Not available'),
+                    HeramsSubject::NOT_PROVIDED => \Yii::t('app', 'Not normally provided'),
+                    "" => \Yii::t('app', 'Unknown'),
+                ];
+            case 'fullyAvailable':
+                return [
+                    0 => 'False',
+                    1 => 'True',
+                ];
+            case 'subjectAvailabilityBucket':
+                return [
+                    HeramsResponseInterface::BUCKET25 => \Yii::t('app', '< 25%'),
+                    HeramsResponseInterface::BUCKET2550 => \Yii::t('app', '25 - 50%'),
+                    HeramsResponseInterface::BUCKET5075 => \Yii::t('app', '50 - 75%'),
+                    HeramsResponseInterface::BUCKET75100 => \Yii::t('app', '> 75%'),
+                ];
+            default:
+                $question = $this->findQuestionByCode($code);
 
-        $answers = $question->getAnswers() ??
-            (
-                $question->getDimensions() > 0
-                ? $question->getQuestions(0)[0]->getAnswers() ?? []
-                : []
-            ) ?? [] ;
+                $answers = $question->getAnswers() ??
+                    (
+                    $question->getDimensions() > 0
+                        ? $question->getQuestions(0)[0]->getAnswers() ?? []
+                        : []
+                    ) ?? [] ;
 
-        assert(count($answers) > 0);
-        $map = [];
-        foreach ($answers as $answer) {
-            $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
+                assert(count($answers) > 0);
+                $map = [];
+                foreach ($answers as $answer) {
+                    $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
+                }
+                ksort($map);
+                if (!isset($map[""])) {
+                    $map[""] = \Yii::t('app', 'Unknown');
+                }
+                return $map;
         }
-        ksort($map);
-        if (!isset($map[""])) {
-            $map[""] = \Yii::t('app', 'Unknown');
-        }
-        return $map;
+
     }
 
     protected function getTitleFromCode(string $code): string
