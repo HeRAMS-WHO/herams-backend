@@ -211,7 +211,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
             }
         }
 
-        return $limit > 0 ? 100.0 * $score / $limit : 0;
+        return $limit > 0 ? 100.0 * $score / (3 * $limit) : 0;
     }
 
     public function getFunctionality(): string
@@ -265,6 +265,8 @@ class Response extends ActiveRecord implements HeramsResponseInterface
                 return \Yii::t('app', '50 - 75%');
             case 3:
                 return \Yii::t('app', '> 75%');
+            default:
+
         }
     }
 }
