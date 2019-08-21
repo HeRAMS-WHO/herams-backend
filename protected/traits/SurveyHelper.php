@@ -52,7 +52,7 @@ trait SurveyHelper
     protected function getTitleFromCode(string $code): string
     {
         $codeOptions['availability'] = \Yii::t('app', 'Service availability');
-        $codeOptions['availability'] = \Yii::t('app', 'The aggregate availability of services per HF');
+        $codeOptions['subjectAvailabilityBucket'] = \Yii::t('app', 'The aggregate availability of services per HF');
         $codeOptions['fullyAvailable'] = \Yii::t('app', 'Is the service fully available');
         $codeOptions['causes'] = \Yii::t('app','Causes of unavailability');
         if (isset($codeOptions[$code])) {
