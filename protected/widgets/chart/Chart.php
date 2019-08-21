@@ -107,11 +107,11 @@ class Chart extends Element
             switch ($question->getDimensions()) {
                 case 0:
                     // Single choice
-                    return $this->getCounts($responses, [$this->code]);
+                    return $this->getCounts($responses, $this->code);
 
                 case 1:
                     // Ranking or multiple choice.
-                    return $this->getCounts($responses, [$this->code]);
+                    return $this->getCounts($responses, $this->code);
                 default:
                     die('unknown' . $question->getDimensions());
             }
