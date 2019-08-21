@@ -17,11 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    '# Contributors' => '',
-    '# Health facilities' => '',
-    '# Responses' => '',
-    '# Workspaces' => '',
-    'Admin dashboard' => '',
+    '# Contributors' => '# Contributeurs',
+    '# Health facilities' => '# Formations sanitaires',
+    '# Responses' => 'Réponses',
+    '# Workspaces' => 'Espace de travail',
+    'Admin dashboard' => 'Le tableau de bord de l\'administrateur',
     'Allow everything' => '',
     'Already shared with' => '',
     'Alternative phone' => '',
