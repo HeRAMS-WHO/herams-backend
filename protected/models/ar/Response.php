@@ -253,4 +253,18 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     {
         return $this->data;
     }
+
+    public function getSubjectAvailabilityBucket(): string
+    {
+        switch(intdiv($this->getSubjectAvailability(), 25)) {
+            case 0:
+                return \Yii::t('app', '< 25%');
+            case 1:
+                return \Yii::t('app', '25 - 50%');
+            case 2:
+                return \Yii::t('app', '50 - 75%');
+            case 3:
+                return \Yii::t('app', '> 75%');
+        }
+    }
 }

@@ -159,7 +159,7 @@ class Element extends Model
             $codeOptions['fullyAvailable'] = \Yii::t('app', 'Whether the service is fully available');
             $codeOptions['causes'] = \Yii::t('app', 'The causes of unavailability');
         } else {
-            $codeOptions['subjectAvailability'] = \Yii::t('app', 'The aggregate availability of services per HF');
+            $codeOptions['subjectAvailabilityBucket'] = \Yii::t('app', 'The aggregate availability of services per HF');
         }
         return $codeOptions;
     }

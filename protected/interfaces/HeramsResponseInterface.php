@@ -35,6 +35,8 @@ interface HeramsResponseInterface
 
     public function getSubjectAvailability(): float;
 
+    public function getSubjectAvailabilityBucket(): string;
+
     public function getFunctionality(): string;
 
     public function getMainReason(): ?string;
