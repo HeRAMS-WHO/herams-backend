@@ -22,7 +22,7 @@ return [
     '# Responses' => 'Réponses',
     '# Workspaces' => 'Espace de travail',
     'Admin dashboard' => 'Le tableau de bord de l\'administrateur',
-    'Allow everything' => '',
+    'Allow everything' => 'Permettre toutes les modifications',
     'Already shared with' => '',
     'Alternative phone' => '',
     'Apply' => '',
