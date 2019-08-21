@@ -126,6 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'title',
                 'parent_id' => [
+                    'attribute' => 'parent_id',
                     'value' => function(Page $model) {
                         return isset($model->parent_id) ? "{$model->parent->title} ({$model->parent_id})" : null;
                     }
