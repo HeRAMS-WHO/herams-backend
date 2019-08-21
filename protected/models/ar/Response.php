@@ -263,10 +263,8 @@ class Response extends ActiveRecord implements HeramsResponseInterface
                 return \Yii::t('app', '25 - 50%');
             case 2:
                 return \Yii::t('app', '50 - 75%');
-            case 3:
-                return \Yii::t('app', '> 75%');
             default:
-
+                return \Yii::t('app', '> 75%');
         }
     }
 }
