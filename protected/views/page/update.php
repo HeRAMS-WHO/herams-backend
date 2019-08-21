@@ -56,6 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'add_services' => [
                  'type' => Form::INPUT_CHECKBOX
             ],
+            'sort' => [
+                'type' => Form::INPUT_TEXT,
+            ],
             [
                 'type' => Form::INPUT_RAW,
                 'value' => \yii\bootstrap\ButtonGroup::widget([
