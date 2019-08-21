@@ -65,8 +65,10 @@ class Element extends Model
     {
         $result = $this->element->attributeLabels();
         // Add color labels.
-        foreach ($this->getAnswers($this->element->getCode()) as $code => $answer) {
-            $result["color.$code"] = $answer;
+        if ($this->element->code !== null) {
+            foreach ($this->getAnswers($this->element->getCode()) as $code => $answer) {
+                $result[strtr("color.$code", ['-' => '_'])] = $answer;
+            }
         }
         return $result;
     }
@@ -130,7 +132,7 @@ class Element extends Model
             return [];
         }
         return array_map(function($code) {
-            return "color.$code";
+            return strtr("color.$code", ['-' => '_']);
         }, $this->answerCodes());
     }
 

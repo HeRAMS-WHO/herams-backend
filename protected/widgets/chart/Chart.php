@@ -210,7 +210,7 @@ class Chart extends Element
         $colorMap = $this->colors;
 
         foreach($unmappedData as $code => $count) {
-            $colors[] = $colorMap[$code] ?? '#000000';
+            $colors[] = $colorMap[strtr($code, ['-' => '_'])] ?? '#000000';
         }
 
         $config = [
