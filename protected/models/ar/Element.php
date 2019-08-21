@@ -17,14 +17,12 @@ use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\InvalidArgumentException;
 use yii\base\NotSupportedException;
-use yii\db\Exception;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 
 /**
  *
@@ -35,6 +33,13 @@ use yii\validators\StringValidator;
  */
 class Element extends ActiveRecord implements Exportable
 {
+    public function __construct($config = [])
+    {
+        $this->transpose = false;
+        parent::__construct($config);
+
+    }
+
     public static function tableName()
     {
         return '{{%element}}';

@@ -100,9 +100,8 @@ class Element extends Model
 
     private function colorRule(): array
     {
-        $attributes = toArray(map(function($code) { return "color.$code"; }, $this->answerCodes()));
         return [
-            $attributes, RegularExpressionValidator::class, 'pattern' => '/^\#[0-9a-fA-F]{6}$/'
+            $this->colorAttributes(), RegularExpressionValidator::class, 'pattern' => '/^\#[0-9a-fA-F]{6}$/'
         ];
     }
 
@@ -113,6 +112,16 @@ class Element extends Model
         }
         return array_keys($this->getAnswers($this->element->code));
     }
+
+    public function onUnsafeAttribute($name, $value)
+    {
+        if (in_array($name, $this->colorAttributes())) {
+            $this->setColor($name, $value);
+        } else {
+            parent::onUnsafeAttribute($name, $value);
+        }
+    }
+
 
     public function colorAttributes(): array
     {
