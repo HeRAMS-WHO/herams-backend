@@ -81,6 +81,7 @@ class DashboardMap extends Element
                     "type" => "FeatureCollection",
                     'features' => [],
                     "title" => $types[$value] ?? $value ?? 'Unknown',
+                    'value' => $value,
                     'color' => $this->colors[$value] ?? '#000000'
                 ];
             }

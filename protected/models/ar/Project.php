@@ -5,7 +5,6 @@ namespace prime\models\ar;
 
 use app\queries\ProjectQuery;
 use app\queries\ResponseQuery;
-use app\queries\WorkspaceQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\FacilityListInterface;
 use prime\interfaces\HeramsResponseInterface;
@@ -19,7 +18,6 @@ use prime\objects\HeramsSubject;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\NotSupportedException;
-use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
@@ -30,7 +28,6 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
-use function foo\func;
 use function iter\filter;
 
 /**

@@ -9,6 +9,7 @@ x-env:
       - .:/project:ro
       - ./tests:/project/tests:rw
       - ./protected/migrations:/project/protected/migrations:rw
+      - ./protected/messages:/project/protected/messages:rw
       - runtime:/runtime
     tmpfs:
       - /tmp:rw,noexec,nosuid,uid=${UID-0}

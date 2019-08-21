@@ -67,7 +67,7 @@ class Refresh extends Action
             ['workspace_id' => $workspace->id],
             ['not', ['id' => $ids]]
         ]);
-        $notificationService->success(\Yii::t('app,', 'Refreshing data took {time} seconds; {new} new records, {updated} existing records, {deleted} deleted records, {unchanged} unchanged records', [
+        $notificationService->success(\Yii::t('app', 'Refreshing data took {time} seconds; {new} new records, {updated} existing records, {deleted} deleted records, {unchanged} unchanged records', [
             'time' => number_format(microtime(true) - $start, 0),
             'new' => $new,
             'updated' => $updated,
