@@ -52,8 +52,11 @@ trait SurveyHelper
                     HeramsResponseInterface::BUCKET75100 => \Yii::t('app', '> 75%'),
                 ];
             default:
-                $question = $this->findQuestionByCode($code);
-
+                try {
+                    $question = $this->findQuestionByCode($code);
+                } catch (\Throwable $t) {
+                    return [];
+                }
                 $answers = $question->getAnswers() ??
                     (
                     $question->getDimensions() > 0

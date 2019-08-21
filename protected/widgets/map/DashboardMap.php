@@ -4,6 +4,7 @@
 namespace prime\widgets\map;
 
 
+use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsResponse;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
@@ -48,19 +49,18 @@ class DashboardMap extends Element
 
     private function getCollections(iterable $data)
     {
-        try {
-            $types = $this->getAnswers($this->code);
-            $getter = function($response) {
-                return $response->getValueForCode($this->code);
+        $method  = 'get' . ucfirst($this->code);
+        if (method_exists(HeramsResponseInterface::class, $method)) {
+            $getter = function($response) use ($method) {
+                return $response->$method();
             };
-        } catch (\InvalidArgumentException $e) {
-            $types = [];
-            $getter = function($response) {
-                $getter = 'get' . ucfirst($this->code);
-                return $response->$getter();
+        } else {
+            $getter = function(HeramsResponseInterface $response) {
+                return $response->getValueForCode($this->code);
             };
         }
 
+        $types = $this->getAnswers($this->code);
         $collections = [];
         /** @var HeramsResponse $response */
         foreach($data as $response) {
