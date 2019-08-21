@@ -154,6 +154,7 @@ class Element extends Model
                 }
             }
         }
+        $codeOptions['subjectAvailability'];
         if ($this->element->transpose) {
             $codeOptions['availability'] = 'The availability of the service';
             $codeOptions['fullyAvailable'] = 'Whether the service is fully available';
