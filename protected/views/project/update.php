@@ -130,6 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return isset($model->parent_id) ? "{$model->parent->title} ({$model->parent_id})" : null;
                     }
                 ],
+                'sort',
                 'actions' => [
                     'class' => ActionColumn::class,
                     'width' => '100px',
