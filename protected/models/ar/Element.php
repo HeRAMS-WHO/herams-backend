@@ -35,7 +35,7 @@ class Element extends ActiveRecord implements Exportable
 {
     public function __construct($config = [])
     {
-        $this->transpose = false;
+        $this->transpose = 0;
         parent::__construct($config);
 
     }

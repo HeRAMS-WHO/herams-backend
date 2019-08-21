@@ -52,8 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'transpose' => [
                 'type' => Form::INPUT_RADIO_BUTTON_GROUP,
                 'items' => [
-                    true => \Yii::t('app', 'Yes'),
-                    false => \Yii::t('app', 'No')
+                    1 => \Yii::t('app', 'Yes'),
+                    0 => \Yii::t('app', 'No')
                 ]
             ],
             'code' => [

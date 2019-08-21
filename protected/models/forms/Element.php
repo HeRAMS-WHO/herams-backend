@@ -30,6 +30,9 @@ class Element extends Model
         parent::__construct();
         $this->survey = $survey;
         $this->element = $element;
+        if ($element->isNewRecord && $element->getCode() === null) {
+            $element->setColors($this->codeOptions()[0]);
+        }
     }
 
     public function __isset($name)
