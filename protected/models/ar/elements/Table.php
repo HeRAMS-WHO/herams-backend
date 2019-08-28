@@ -48,7 +48,7 @@ class Table extends Element
         } else {
             $config['reasonCode'] = $value;
         }
-        $this->getWidgetConfig() = $config;
+        $this->config = $config;
     }
 
     public function getGroupCode(): ?string
@@ -64,7 +64,7 @@ class Table extends Element
         } else {
             $config['groupCode'] = $value;
         }
-        $this->getWidgetConfig() = $config;
+        $this->config = $config;
     }
 
 }

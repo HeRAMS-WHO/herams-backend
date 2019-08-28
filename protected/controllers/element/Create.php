@@ -43,6 +43,7 @@ class Create extends Action
 
         try {
             $element = Element::instantiate(['type' => $type]);
+            $element->type = $type;
         } catch (\InvalidArgumentException $e) {
             throw new BadRequestHttpException('Invalid element type', 0, $e);
         }

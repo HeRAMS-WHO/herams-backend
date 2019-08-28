@@ -47,7 +47,7 @@ class HeramsSubject
         return $result;
     }
 
-    public function isFullyAvailable(): bool
+    public function getFullyAvailable(): bool
     {
         return $this->response->getValueForCode($this->code) === self::FULLY_AVAILABLE;
     }

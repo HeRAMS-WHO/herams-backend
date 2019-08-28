@@ -169,7 +169,7 @@ class Element extends ActiveRecord implements Exportable
     public function rules()
     {
         return [
-            [['sort', 'type', 'transpose', 'code'], RequiredValidator::class],
+            [['sort', 'type', 'transpose', 'code', 'width', 'height'], RequiredValidator::class],
             [['type'], RangeValidator::class, 'range' => array_keys($this->typeOptions())],
             [['width', 'height'], NumberValidator::class, 'integerOnly' => true, 'min' => 1, 'max' => 4],
             [['sort'], NumberValidator::class, 'integerOnly' => true],

@@ -4,16 +4,12 @@
 namespace prime\models\forms;
 
 
-use prime\interfaces\HeramsResponseInterface;
-use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
 use yii\base\UnknownMethodException;
 use yii\validators\RangeValidator;
 use yii\validators\RegularExpressionValidator;
-use function iter\map;
-use function iter\toArray;
 
 class Element extends Model
 {
