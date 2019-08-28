@@ -11,6 +11,7 @@ use prime\models\ar\Page;
 use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\helpers\Url;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -24,7 +25,8 @@ class Create extends Action
         NotificationService $notificationService,
         LimesurveyDataProvider $limesurveyDataProvider,
         User $user,
-        int $page_id
+        int $page_id,
+        string $type
 
     ) {
         $page = Page::findOne(['id' => $page_id]);
@@ -39,7 +41,12 @@ class Create extends Action
         }
 
 
-        $element = new Element();
+        try {
+            $element = Element::instantiate(['type' => $type]);
+        } catch (\InvalidArgumentException $e) {
+            throw new BadRequestHttpException('Invalid element type', 0, $e);
+        }
+
         $element->page_id = $page->id;
         $element->sort = $page->getElements()->select('max(sort)')->scalar() + 1;
         $model = new \prime\models\forms\Element($limesurveyDataProvider->getSurvey($project->base_survey_eid), $element);

@@ -85,10 +85,34 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'buttons' => [
                 [
-                    'label' => \Yii::t('app', 'Create element'),
+                    'label' => \Yii::t('app', 'Create table'),
                     'tagName' => 'a',
                     'options' => [
-                        'href' => Url::to(['element/create', 'page_id' => $page->id]),
+                        'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'table']),
+                        'class' => 'btn-default',
+                    ],
+                ],
+                [
+                    'label' => \Yii::t('app', 'Create map'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'map']),
+                        'class' => 'btn-default',
+                    ],
+                ],
+                [
+                    'label' => \Yii::t('app', 'Create chart'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'chart']),
+                        'class' => 'btn-default',
+                    ],
+                ],
+                [
+                    'label' => \Yii::t('app', 'Create table'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'table']),
                         'class' => 'btn-default',
                     ],
                 ],
