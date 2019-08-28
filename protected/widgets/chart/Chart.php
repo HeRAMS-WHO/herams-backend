@@ -5,18 +5,14 @@ namespace prime\widgets\chart;
 
 
 use prime\interfaces\HeramsResponseInterface;
-use prime\objects\HeramsResponse;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
-use function iter\map;
 use function iter\take;
-use function iter\toArray;
 
 class Chart extends Element
 {
@@ -88,7 +84,7 @@ class Chart extends Element
         return array_merge($this->map ?? [], $map);
     }
     /**
-     * @param HeramsResponse[]|HeramsSubject[] $responses
+     * @param HeramsResponseInterface[]|HeramsSubject[] $responses
      * @return array
      */
     protected function getDataSet(iterable $responses): array
@@ -159,7 +155,7 @@ class Chart extends Element
 
 
     /**
-     * @param HeramsResponse[] $responses
+     * @param HeramsResponseInterface[] $responses
      * @param string[] $codes
      */
     private function getCounts(iterable $responses, string $code, int $top = 3): array

@@ -202,4 +202,9 @@ class HeramsResponse implements HeramsResponseInterface
     {
         return $this->data;
     }
+
+    public function getSubjectAvailabilityBucket(): int
+    {
+        // TODO: Implement getSubjectAvailabilityBucket() method.
+    }
 }

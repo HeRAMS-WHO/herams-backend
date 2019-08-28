@@ -5,12 +5,10 @@ namespace prime\widgets\map;
 
 
 use prime\interfaces\HeramsResponseInterface;
-use prime\objects\HeramsResponse;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Json;
-use yii\web\JsExpression;
 
 class DashboardMap extends Element
 {
@@ -37,7 +35,7 @@ class DashboardMap extends Element
 
     public $markerRadius = self::DEFAULT_MARKER_RADIUS;
     /**
-     * @var HeramsResponse[]
+     * @var HeramsResponseInterface[]
      */
     public $data = [];
     /** @var SurveyInterface */
@@ -62,7 +60,7 @@ class DashboardMap extends Element
 
         $types = $this->getAnswers($this->code);
         $collections = [];
-        /** @var HeramsResponse $response */
+        /** @var HeramsResponseInterface $response */
         foreach($data as $response) {
             $value = $getter($response);
             $latitude = $response->getLatitude();

@@ -4,7 +4,7 @@
 namespace prime\widgets\table;
 
 
-use prime\objects\HeramsResponse;
+use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
@@ -29,7 +29,7 @@ class Table extends Element
 
     public $reasonMap;
 
-    /** @var HeramsResponse[] $data */
+    /** @var HeramsResponseInterface[] $data */
     public $data = [];
 
     public $groupCode;
@@ -94,7 +94,7 @@ class Table extends Element
         }
 
         $result = [];
-        /** @var HeramsResponse $response */
+        /** @var HeramsResponseInterface $response */
         \Yii::beginProfile(__CLASS__ . 'count');
         foreach($this->data as $response) {
             $group = $this->getGroup($response);
@@ -153,7 +153,7 @@ class Table extends Element
     }
 
     /**
-     * @param HeramsSubject|HeramsResponse $data
+     * @param HeramsSubject|HeramsResponseInterface $data
      * @return string|null
      */
     private function getGroup($data): ?string

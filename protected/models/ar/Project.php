@@ -13,7 +13,6 @@ use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
-use prime\objects\HeramsResponse;
 use prime\objects\HeramsSubject;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -260,12 +259,12 @@ class Project extends ActiveRecord {
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
             'A3' => \Yii::t('app', 'None'),
-            HeramsResponse::UNKNOWN_VALUE => \Yii::t('app', 'Unknown'),
+            HeramsResponseInterface::UNKNOWN_VALUE => \Yii::t('app', 'Unknown'),
         ];
 
         $result = [];
         foreach($query->column() as $key => $value) {
-            $label = isset($map[$key]) ? $map[$key] : $map[HeramsResponse::UNKNOWN_VALUE];
+            $label = isset($map[$key]) ? $map[$key] : $map[HeramsResponseInterface::UNKNOWN_VALUE];
             $result[$label] = ($result[$label] ?? 0) + $value;
         }
         return $result;

@@ -5,13 +5,13 @@ namespace prime\models\ar;
 
 
 use prime\interfaces\Exportable;
+use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\elements\BarChart;
 use prime\models\ar\elements\Chart;
 use prime\models\ar\elements\Map;
 use prime\models\ar\elements\Table;
-use prime\objects\HeramsResponse;
 use prime\widgets\element\Element as ElementWidget;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -129,7 +129,7 @@ class Element extends ActiveRecord implements Exportable
     }
 
     /**
-     * @param HeramsResponse[]|iterable $data
+     * @param HeramsResponseInterface[]|iterable $data
      * @return \Generator
      */
     private function prepareData(iterable $data)

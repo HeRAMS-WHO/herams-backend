@@ -5,10 +5,10 @@ namespace prime\models\ar;
 
 
 use prime\interfaces\Exportable;
+use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\objects\GroupPage;
-use prime\objects\HeramsResponse;
 use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -121,7 +121,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     public function prepareData(array $data)
     {
         $result = [];
-        /** @var HeramsResponse $response */
+        /** @var HeramsResponseInterface $response */
         foreach($data as $response) {
             foreach($response->getSubjects() as $subject) {
                 $result[] = $subject;
