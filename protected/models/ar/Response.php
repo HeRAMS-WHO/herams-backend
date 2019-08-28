@@ -69,6 +69,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         }, $data));
 
         $this->workspace_id = $workspace->id;
+        $this->survey_id = $workspace->project->base_survey_eid;
         $this->id = (int) $data['id'] ?? null;
 
         if (isset($data['Update'])) {

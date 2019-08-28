@@ -33,7 +33,6 @@ use yii\validators\SafeValidator;
  * @property int $width
  * @property int $height
  * @property int $sort
- * @property bool $transpose
  */
 class Element extends ActiveRecord implements Exportable
 {

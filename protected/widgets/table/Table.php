@@ -107,7 +107,7 @@ class Table extends Element
                 continue;
             }
 
-            if ($value === 'A1') {
+            if ($value === HeramsSubject::FULLY_AVAILABLE) {
                 $key = 'FUNCTIONAL';
             } else {
                 $key = 'NONFUNCTIONAL';
@@ -126,8 +126,8 @@ class Table extends Element
             $percentageB = 1.0 * ($b['counts']['FUNCTIONAL'] ?? 0) / $b['counts']['TOTAL'];
             return ($percentageA <=> $percentageB);
         });
-        $groupMap = $this->groupMap ?? $this->getAnswers($this->groupCode);
-        foreach(array_slice($result, 0, 5) as $group => $data) {
+        $groupMap = $this->getAnswers($this->groupCode);
+        foreach(array_slice($result, 0, 5, true) as $group => $data) {
             $reasons = $data['reasons'] ?? [];
             arsort($reasons);
             $total = array_sum($reasons);
