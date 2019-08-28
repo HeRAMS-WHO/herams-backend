@@ -108,14 +108,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'btn-default',
                     ],
                 ],
-                [
-                    'label' => \Yii::t('app', 'Create table'),
-                    'tagName' => 'a',
-                    'options' => [
-                        'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'table']),
-                        'class' => 'btn-default',
-                    ],
-                ],
             ]
         ]),
         'dataProvider' => new ActiveDataProvider(['query' => $page->getElements()]),

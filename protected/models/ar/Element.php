@@ -183,10 +183,10 @@ class Element extends ActiveRecord implements Exportable
     public function typeOptions()
     {
         return [
-            'map' => 'A dashboard element that shows a map, size 2x2',
-            'chart' => 'A chart, size 1x1',
-            'barchart' => 'A bar chart, size 1x1',
-            'table' => 'A table, size 2x1'
+            'map' => \Yii::t('app', 'A dashboard element that shows a map, size 2x2'),
+            'chart' => \Yii::t('app', 'A chart, size 1x1'),
+            'barchart' => \Yii::t('app','A bar chart, size 1x1'),
+            'table' => \Yii::t('app','A table, size 2x1')
         ];
     }
 

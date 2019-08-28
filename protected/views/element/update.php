@@ -63,10 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data' => $model->codeOptions(),
                 ],
             ],
-            'type' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->typeOptions()
-            ],
             'sort' => [
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
