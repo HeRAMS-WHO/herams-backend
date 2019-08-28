@@ -38,7 +38,7 @@ class Refresh extends Action
             throw new ForbiddenHttpException();
         }
 
-        $new = $updated = $unchanged = 0;
+        $new = $updated = $unchanged = $failed = 0;
         $start = microtime(true);
         $limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token'));
         $ids = [];
@@ -51,14 +51,14 @@ class Refresh extends Action
 
             $dataResponse = Response::findOne($key) ?? new Response($key);
             $dataResponse->loadData($response->getData(), $workspace);
-            if ($dataResponse->isNewRecord) {
+            if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
-                $dataResponse->save();
             } elseif (empty($dataResponse->dirtyAttributes)) {
                 $unchanged++;
-            } else {
+            } elseif ($dataResponse->save()) {
                 $updated++;
-                $dataResponse->save();
+            } else {
+                $failed++;
             }
         }
         // Check for deleted responses as well.
@@ -67,12 +67,13 @@ class Refresh extends Action
             ['workspace_id' => $workspace->id],
             ['not', ['id' => $ids]]
         ]);
-        $notificationService->success(\Yii::t('app', 'Refreshing data took {time} seconds; {new} new records, {updated} existing records, {deleted} deleted records, {unchanged} unchanged records', [
+        $notificationService->success(\Yii::t('app', '{failed} Refreshing data took {time} seconds; {new} new records, {updated} existing records, {deleted} deleted records, {unchanged} unchanged records', [
             'time' => number_format(microtime(true) - $start, 0),
             'new' => $new,
             'updated' => $updated,
             'deleted' => $deleted,
-            'unchanged' => $unchanged
+            'unchanged' => $unchanged,
+            'failed' => $failed
         ]));
 
         return $this->controller->redirect($request->getReferrer());

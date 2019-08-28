@@ -30,12 +30,18 @@ use yii\validators\SafeValidator;
  * @property array $config
  * @property Page $page
  * @property Project $project
+ * @property int $width
+ * @property int $height
+ * @property int $sort
+ * @property bool $transpose
  */
 class Element extends ActiveRecord implements Exportable
 {
     public function __construct($config = [])
     {
         $this->transpose = 0;
+        $this->width = 1;
+        $this->height = 1;
         parent::__construct($config);
 
     }
