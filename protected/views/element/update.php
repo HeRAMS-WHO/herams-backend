@@ -67,6 +67,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'number'
             ],
+            'width' => [
+                'type' => Form::INPUT_HTML5,
+                'html5type' => 'number',
+            ],
+            'height' => [
+                'type' => Form::INPUT_HTML5,
+                'html5type' => 'number'
+            ],
 
             'reasonCode' => [
                 'type' => Form::INPUT_WIDGET,

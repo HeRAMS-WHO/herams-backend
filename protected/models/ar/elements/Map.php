@@ -15,12 +15,12 @@ class Map extends Element
 {
     public function getMarkerRadius(): ?int
     {
-        return $this->config['markerRadius'] ?? null;
+        return $this->getWidgetConfig()['markerRadius'] ?? null;
     }
 
     public function setMarkerRadius($value)
     {
-        $config = $this->config;
+        $config = $this->getWidgetConfig();
         if (empty($value)) {
             unset($config['markerRadius']);
         } else {
@@ -36,7 +36,7 @@ class Map extends Element
         return new MapWidget($this, array_merge([
             'data' => $data,
             'survey' => $survey,
-        ], $this->config
+        ], $this->getWidgetConfig()
         ));
 
     }

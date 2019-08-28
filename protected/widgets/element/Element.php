@@ -19,16 +19,18 @@ class Element extends Widget
     /** @var \prime\models\ar\Element  */
     protected $element;
 
-    public function __construct(\prime\models\ar\Element $element, $config = [])
+    public $width = 1;
+    public $height = 1;
+
+    public function __construct(\prime\models\ar\Element $element, array $config = [])
     {
-        parent::__construct();
         $this->element = $element;
         foreach($config as $key => $value) {
             if ($this->canSetProperty($key)) {
                 $this->$key = $value;
             }
         }
-
+        parent::__construct();
     }
 
     public function init()
@@ -38,6 +40,10 @@ class Element extends Widget
         Html::addCssClass($options, strtr(get_class($this), ['\\' => '_']));
         Html::addCssClass($options, 'element');
         $options['id'] = $this->getId();
+        $options['style'] = array_merge($options['style'] ?? [], [
+           'grid-row' => 'span ' . $this->height ,
+           'grid-column' => 'span ' . $this->width
+        ]);
         echo Html::beginTag('div', $options);
     }
 

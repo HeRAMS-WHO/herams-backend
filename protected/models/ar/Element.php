@@ -40,6 +40,14 @@ class Element extends ActiveRecord implements Exportable
 
     }
 
+    protected function getWidgetConfig(): array
+    {
+        return array_merge($this->config, [
+            'width' => $this->width,
+            'height' => $this->height
+        ]);
+    }
+
     public static function tableName()
     {
         return '{{%element}}';
@@ -163,7 +171,8 @@ class Element extends ActiveRecord implements Exportable
         return [
             [['sort', 'type', 'transpose', 'code'], RequiredValidator::class],
             [['type'], RangeValidator::class, 'range' => array_keys($this->typeOptions())],
-            [['sort'], NumberValidator::class],
+            [['width', 'height'], NumberValidator::class, 'integerOnly' => true, 'min' => 1, 'max' => 4],
+            [['sort'], NumberValidator::class, 'integerOnly' => true],
             [['transpose'], BooleanValidator::class],
             'colors' => [['colors'], SafeValidator::class],
         ];

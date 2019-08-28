@@ -19,7 +19,7 @@ class Chart extends Element
         iterable $data
     ): Widget
     {
-        return new ChartWidget($this, array_merge($this->config, [
+        return new ChartWidget($this, array_merge($this->getWidgetConfig(), [
             'data' => $data,
             'skipEmpty' => true,
             'survey' => $survey,

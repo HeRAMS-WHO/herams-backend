@@ -23,7 +23,7 @@ class BarChart extends Element
                 'data' => $data,
                 'survey' => $survey,
             ],
-            $this->config
+            $this->getWidgetConfig()
         ));
 
     }

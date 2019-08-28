@@ -21,7 +21,7 @@ class Table extends Element
         return new TableWidget($this, array_merge([
             'data' => $data,
             'survey' => $survey,
-        ], $this->config));
+        ], $this->getWidgetConfig()));
     }
 
     public function rules()
@@ -37,34 +37,34 @@ class Table extends Element
 
     public function getReasonCode(): ?string
     {
-        return $this->config['reasonCode'] ?? null;
+        return $this->getWidgetConfig()['reasonCode'] ?? null;
     }
 
     public function setReasonCode(string $value)
     {
-        $config = $this->config;
+        $config = $this->getWidgetConfig();
         if (empty($value)) {
             unset($config['reasonCode']);
         } else {
             $config['reasonCode'] = $value;
         }
-        $this->config = $config;
+        $this->getWidgetConfig() = $config;
     }
 
     public function getGroupCode(): ?string
     {
-        return $this->config['groupCode'] ?? null;
+        return $this->getWidgetConfig()['groupCode'] ?? null;
     }
 
     public function setGroupCode(string $value)
     {
-        $config = $this->config;
+        $config = $this->getWidgetConfig();
         if (empty($value)) {
             unset($config['groupCode']);
         } else {
             $config['groupCode'] = $value;
         }
-        $this->config = $config;
+        $this->getWidgetConfig() = $config;
     }
 
 }
