@@ -74,6 +74,9 @@ class DashboardMap extends Element
                 continue;
             }
 
+            if (is_array($value)) {
+                $value = array_shift($value);
+            }
             if (!isset($collections[$value])) {
                 $collections[$value] = [
                     "type" => "FeatureCollection",
@@ -124,12 +127,14 @@ class DashboardMap extends Element
             'preferCanvas' => true,
             'center' => $this->center,
             'zoom' => $this->zoom,
+            'zoomControl' => false,
             'maxZoom' => 18
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
         $data = Json::encode($this->getCollections($this->data), JSON_PRETTY_PRINT);
 
+        $title = Json::encode($this->getTitleFromCode($this->code));
         $this->view->registerJs(<<<JS
         (function() {
             let map = L.map($id, $config);
@@ -183,6 +188,9 @@ class DashboardMap extends Element
                     metric: true,
                     imperial: false
                 }).addTo(map);
+                L.control.zoom({
+                    position: "bottomleft"
+                }).addTo(map);
                 try {
                     map.fitBounds(bounds, {
                         padding: [50, 50]
@@ -190,6 +198,18 @@ class DashboardMap extends Element
                 } catch(err) {
                     console.error(err);
                 }
+                
+                let title = L.control({
+                    position: "topleft"
+                });
+                title.onAdd = function (map) {
+                    this._div = L.DomUtil.create('div', 'info');
+                    this._div.innerHTML = '<span class="leaflet-bar" style="font-size: 12px; padding: 5px; font-weight: bold; color: #666; background-color: white;">' + $title + '</span>';
+                    return this._div;
+                };
+                
+                title.addTo(map);
+                
         })();
 
 JS

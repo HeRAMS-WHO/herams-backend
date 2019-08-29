@@ -11,6 +11,7 @@ use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\Request;
 use yii\web\User;
 
 class Preview extends Action
@@ -19,6 +20,7 @@ class Preview extends Action
     public function run(
         LimesurveyDataProvider $limesurveyDataProvider,
         User $user,
+        Request $request,
         int $id
     ) {
         $element = Element::findOne(['id' => $id]);
@@ -29,6 +31,7 @@ class Preview extends Action
         if (!$user->can(Permission::PERMISSION_ADMIN, $element->page->project)) {
             throw new ForbiddenHttpException();
         }
+        $element->load($request->queryParams);
         $responses = $element->project->getResponses();
 
         $survey = $limesurveyDataProvider->getSurvey($element->project->base_survey_eid);

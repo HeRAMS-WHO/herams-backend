@@ -153,8 +153,13 @@ JS
 <div class="col-xs-4">
     <?php
         if (isset($model->id)) {
+            $params = ['element/preview'];
+            foreach($model->safeAttributes() as $attribute) {
+                $params[Html::getInputName($model, $attribute)] = $model->$attribute;
+            }
+            $params['id'] = $model->id;
             echo Html::tag('iframe', '', [
-                'src' => Url::to(['element/preview', 'id' => $model->id]),
+                'src' => Url::to($params),
                 'style' => [
                     'border' => 'none',
                     'width' => '100%',

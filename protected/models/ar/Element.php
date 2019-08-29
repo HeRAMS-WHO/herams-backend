@@ -96,6 +96,12 @@ class Element extends ActiveRecord implements Exportable
         }
     }
 
+    public function formName()
+    {
+        return 'Element';
+    }
+
+
     public function getCode(): ?string
     {
         return $this->config['code'] ?? null;
