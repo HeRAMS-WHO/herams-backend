@@ -84,15 +84,15 @@ class Table extends Element
             $reasonGetter = function($response): array {
                 return $response->getValueForCode($this->reasonCode) ?? [];
             };
-            $reasonMap = $this->reasonMap ?? $this->getAnswers($this->reasonCode);
         } catch (\InvalidArgumentException $e) {
             $getter = 'get'. ucfirst($this->reasonCode);
             $reasonGetter = function($response) use ($getter):array {
                 return $response->$getter();
             };
-            $reasonMap = $this->reasonMap;
         }
 
+        $reasonMap = $this->reasonMap ?? $this->getAnswers($this->reasonCode);
+        
         $result = [];
         /** @var HeramsResponseInterface $response */
         \Yii::beginProfile(__CLASS__ . 'count');
