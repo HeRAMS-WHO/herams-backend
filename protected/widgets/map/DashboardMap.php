@@ -204,7 +204,7 @@ class DashboardMap extends Element
                 });
                 title.onAdd = function (map) {
                     this._div = L.DomUtil.create('div', 'info');
-                    this._div.innerHTML = '<span class="leaflet-bar" style="font-size: 12px; padding: 5px; font-weight: bold; color: #666; background-color: white;">' + $title + '</span>';
+                    this._div.innerHTML = '<div class="leaflet-bar" style="font-size: 12px; padding: 5px; font-weight: bold; color: #666; background-color: white;">' + $title + '</div>';
                     return this._div;
                 };
                 
