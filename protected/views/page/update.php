@@ -11,6 +11,8 @@ use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
+use function iter\chain;
+use function iter\toArrayWithKeys;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -51,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'parent_id' ,
                 'type' => Form::INPUT_DROPDOWN_LIST,
 
-                'items' => array_merge(['' => 'No parent'], $page->parentOptions())
+                'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
             ],
             'add_services' => [
                  'type' => Form::INPUT_CHECKBOX
