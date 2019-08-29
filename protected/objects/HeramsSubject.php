@@ -63,6 +63,17 @@ class HeramsSubject
         return $this->response->getValueForCode($this->code . 'x') ?? [];
     }
 
+    public function getValueForCode(string $code)
+    {
+        switch($code) {
+            case 'availability':
+                return $this->getAvailability();
+            case 'fullyAvailable':
+                return $this->getFullyAvailable();
+            default:
+                $this->response->getValueForCode($code);
+        }
+    }
     public function __call($name, $arguments)
     {
         return $this->response->{$name}(... $arguments);
