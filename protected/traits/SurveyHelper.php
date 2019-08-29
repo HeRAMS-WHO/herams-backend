@@ -31,6 +31,15 @@ trait SurveyHelper
     private function getAnswers(string $code)
     {
         switch ($code) {
+            case 'causes':
+                return [
+                    HeramsSubject::LACK_EQUIPMENT => \Yii::t('app', 'Lack of medical equipment'),
+                    HeramsSubject::LACK_FINANCES => \Yii::t('app', 'Lack of finances'),
+                    HeramsSubject::LACK_STAFF => \Yii::t('app', 'Lack of health staff'),
+                    HeramsSubject::LACK_TRAINING => \Yii::t('app', 'Lack of training of health staff'),
+                    HeramsSubject::LACK_SUPPLIES => \Yii::t('app', 'Lack of medical supplies'),
+                ];
+
             case 'availability':
                 return [
                     HeramsSubject::FULLY_AVAILABLE => \Yii::t('app', 'Fully available'),
