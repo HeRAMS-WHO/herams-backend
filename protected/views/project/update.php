@@ -141,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return app()->user->can(Permission::PERMISSION_ADMIN, $page->project);
                         },
                         'delete' => function(Page $page) {
-                            return $page->canBeDeleted() && app()->user->can(Permission::PERMISSION_ADMIN, $page->project);
+                            return app()->user->can(Permission::PERMISSION_ADMIN, $page->project);
                         },
                     ],
                     'buttons' => [

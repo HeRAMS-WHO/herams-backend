@@ -108,14 +108,17 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         ];
     }
 
-    public function canBeDeleted(): bool
-    {
-        return ((int) $this->getChildren()->count())=== 0;
-    }
-
     public function beforeDelete()
     {
-        return $this->canBeDeleted();
+        /** @var Page $child */
+        foreach($this->getChildren()->each() as $child) {
+            $child->delete();
+        }
+        /** @var Element $element */
+        foreach($this->getElements()->each() as $element) {
+            $element->delete();
+        }
+        return parent::beforeDelete();
     }
 
     public function prepareData(array $data)

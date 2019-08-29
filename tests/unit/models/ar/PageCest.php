@@ -11,9 +11,4 @@ class PageCest
 {
 
 
-    public function testCanBeDeleted(FunctionalTester $I)
-    {
-        $page = new Page();
-        $I->assertTrue($page->canBeDeleted());
-    }
 }
