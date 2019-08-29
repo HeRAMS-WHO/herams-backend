@@ -100,13 +100,23 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     public function rules()
     {
         return [
-            [['title', 'tool_id', 'sort'], RequiredValidator::class],
+            [['title', 'sort'], RequiredValidator::class],
             [['sort'], NumberValidator::class],
             [['title'], StringValidator::class],
-            [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id'],
-            [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id']
+            [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id', 'filter' => function(ActiveQuery $query) {
+                return $query->andWhere(['tool_id' => $this->tool_id]);
+            }],
+            [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
         ];
     }
+
+    public function scenarios()
+    {
+        $result = parent::scenarios();
+        $result[self::SCENARIO_DEFAULT][] = '!tool_id';
+        return $result;
+    }
+
 
     public function beforeDelete()
     {
@@ -135,15 +145,16 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function parentOptions()
     {
-        return $this->find()
+        $result = $this->find()
             ->andWhere([
                 'tool_id' => $this->tool_id,
                 'parent_id' => null
             ])
-            ->andWhere(['not', ['id' => $this->id]])
+            ->andFilterWhere(['not', ['id' => $this->id]])
             ->select(['title', 'id'])
             ->indexBy('id')
             ->column();
+        return $result;
     }
 
     public function getParentPage(): ?PageInterface

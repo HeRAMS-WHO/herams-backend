@@ -4,6 +4,8 @@
 use app\components\Form;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
+use function iter\chain;
+use function iter\toArrayWithKeys;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -43,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'parent_id' ,
                 'type' => Form::INPUT_DROPDOWN_LIST,
 
-                'items' => array_merge(['' => 'No parent'], $page->parentOptions())
+                'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
             ],
             'sort' => [
                'type' => Form::INPUT_TEXT,
