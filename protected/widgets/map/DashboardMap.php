@@ -5,6 +5,7 @@ namespace prime\widgets\map;
 
 
 use prime\interfaces\HeramsResponseInterface;
+use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -53,7 +54,11 @@ class DashboardMap extends Element
                 return $response->$method();
             };
         } else {
-            $getter = function(HeramsResponseInterface $response) {
+            /**
+             * @param HeramsResponseInterface|HeramsSubject $response
+             * @return mixed
+             */
+            $getter = function($response) {
                 return $response->getValueForCode($this->code);
             };
         }
