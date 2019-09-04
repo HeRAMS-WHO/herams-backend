@@ -9,10 +9,6 @@ use yii\helpers\Html;
     <?php
     /** @var \prime\models\ar\User $user */
     $user = \Yii::$app->user->identity;
-    echo Html::img($user->getGravatarUrl(), [
-        'referrerpolicy' => 'no-referrer'
-    ]);
-
     ?>
 
     <div>
