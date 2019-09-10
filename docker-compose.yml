@@ -16,9 +16,9 @@ x-env:
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment:
       DB_HOST: devdb
-      DB_USER: $DB_USER
-      DB_NAME: $DB_NAME
-      DB_PASS: $DB_PASS
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_PASS: ${DB_PASS}
       YII_ENV: $YII_ENV
       RUNTIME_PATH: /runtime
       SMTP_HOST: mailcatcher
@@ -34,9 +34,9 @@ x-env:
     user: ${UID-0}:${GID-0}
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: $DB_NAME
-      MYSQL_USER: $DB_USER
-      MYSQL_PASSWORD: $DB_PASS
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
 services:
 ## Web server
   serve:

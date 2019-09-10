@@ -13,7 +13,7 @@ return [
     'id' => 'herams',
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
-    'runtimePath' => $env->get('RUNTIME_PATH'),
+    'runtimePath' => $env->get('RUNTIME_PATH', '/tmp'),
     'timeZone' => 'UTC',
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en-US',

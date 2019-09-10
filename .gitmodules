@@ -1,0 +1,3 @@
+[submodule "protected/messages/locale"]
+	path = protected/messages/locale
+	url = git@github.com:WorldHealthOrganization/herams-i18n.git
