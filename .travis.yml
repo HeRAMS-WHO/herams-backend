@@ -4,6 +4,7 @@ jobs:
     - stage: "I18n"
       name: "Push translations"
       script:
+        - composer install
         - git clone git@github.com:WorldHealthOrganization/herams-i18n.git
         - protected/yiic message/extract protected/config/i18n.php --message-path herams-i18n
         - cd herams-i18n
