@@ -3,14 +3,18 @@ jobs:
   include:
     - stage: "I18n"
       name: "Push translations"
-      script:
+      install:
         - eval "$(ssh-agent -s)"
         - openssl aes-256-cbc -K $encrypted_12c8071d2874_key -iv $encrypted_12c8071d2874_iv -in priv.key.enc -d | ssh-add -
         - composer global require hirak/prestissimo
-        - composer install
         - git clone git@github.com:WorldHealthOrganization/herams-i18n.git
+        - pip install sphinx-intl
+      script:
+        - composer install
         - protected/yiic message/extract protected/config/i18n.php --message-path herams-i18n
+        - sphinx-build -b gettext docs herams-i18n
         - cd herams-i18n
+        - sphinx-intl update -p .
         - git commit -a -m "Update translation templates"
         - git push
 
