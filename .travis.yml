@@ -17,6 +17,7 @@ jobs:
         - # Remove bad header from pot file.
         - "sed -i 's/POT-Creation-Date: \\n/POT-Creation-Date: 0000-00-00 00:00\\n/g' messages.pot"
         - sphinx-intl update -p .
+        - git add .
         - git commit -a -m "Update translation templates"
         - git push
 
