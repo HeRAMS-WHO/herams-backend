@@ -12,10 +12,10 @@ jobs:
       script:
         - composer install
         - protected/yiic message/extract protected/config/i18n.php --message-path herams-i18n
-        - # Remove bad header from pot file.
-        - sed -i '/^"POT-Creation-Date: \\n"/d'  messages.pot
         - sphinx-build -b gettext docs herams-i18n
         - cd herams-i18n
+        - # Remove bad header from pot file.
+        - sed -i '/^"POT-Creation-Date: \\n"/d' messages.pot
         - sphinx-intl update -p .
         - git commit -a -m "Update translation templates"
         - git push
