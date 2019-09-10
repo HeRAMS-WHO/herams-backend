@@ -15,7 +15,7 @@ jobs:
         - sphinx-build -b gettext docs herams-i18n
         - cd herams-i18n
         - # Remove bad header from pot file.
-        - "sed -i 's/POT-Creation-Date: \\n/POT-Creation-Date: 0000-00-00 00:00:00\\n/g' messages.pot"
+        - "sed -i 's/POT-Creation-Date: \\n/POT-Creation-Date: 0000-00-00 00:00\\n/g' messages.pot"
         - sphinx-intl update -p .
         - git commit -a -m "Update translation templates"
         - git push
