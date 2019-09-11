@@ -21,7 +21,8 @@ jobs:
         - rm messages.pot
         - sphinx-intl update -p .
         - git add .
-        - git commit -a -m "Update translation templates"
+        - git commit -a -m "Update translation templates" || echo "No changes"
+        - git push
 
 #install:
 #  - cp .env.default .env
