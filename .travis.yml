@@ -11,16 +11,17 @@ jobs:
         - pip install --user sphinx-intl > /dev/null
       script:
         - composer install
+        - rm herams-i18n/*.pot
         - protected/yiic message/extract protected/config/i18n.php --message-path herams-i18n
         - sphinx-build -b gettext docs herams-i18n
+        - cp -R docs herams-i18n/
         - cd herams-i18n
         # Fix bad Yii header in pot file by copying header from another file
-        - (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' guide.pot; tail -n +12 messages.pot) > app.pot
+        - (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 messages.pot) > app.pot
         - rm messages.pot
         - sphinx-intl update -p .
         - git add .
         - git commit -a -m "Update translation templates"
-        - git push
 
 #install:
 #  - cp .env.default .env
