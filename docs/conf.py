@@ -54,3 +54,5 @@ html_static_path = ['_static']
 language = 'en'
 locale_dirs = ['locales/']
 gettext_compact = False
+
+master_doc = 'index'
