@@ -82,6 +82,9 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         ],
         'request' => [
             'class' => \yii\web\Request::class,
+            'trustedHosts' => [
+                '10.42.0.0/16'
+            ],
             'cookieValidationKey' => 'blasdf9832h238iwe',
             // To enable rendering in tests.
             'scriptFile' => realpath(__DIR__ . '/../../public/index.php'),
