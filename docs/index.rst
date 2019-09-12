@@ -8,7 +8,7 @@ Introduction
 
 Below is a sample button, it should be localized:
 
-.. image:: bt_next.png
+.. image:: media/img/bt_next.png
 
 Welcome to the **HeRAMS User Guide**.
 This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login/>`_ and aims to provide users with a brief overview of key components of the platform.
