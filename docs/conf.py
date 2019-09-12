@@ -51,7 +51,7 @@ exclude_patterns = []
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-locale_dirs = ['locales/']
+locale_dirs = ['../locales/']
 gettext_compact = False
 
 master_doc = 'index'
