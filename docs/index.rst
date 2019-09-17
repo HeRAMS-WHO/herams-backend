@@ -6,19 +6,14 @@
 Introduction
 ============
 
-Welcome to the **HeRAMS User Guide**.
-This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login/>`_. 
-It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the Edit data section.
-It aims to provide users with a brief overview of key components of the platform and contains step-by-step instruction for common tasks. 
-Data managers can find additional information on how edit data in the `Edit Data`__ section.
+Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login/>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`__ section.
 For more advanced topics related to user management and project administration, please consult the `Project Administration`__ section.
 
 .. __: `Edit Data`_
 .. __: `HeRAMS Administration`_
 
 It should be noted that the guide only addresses issues related to the HERAMS platform. 
-For general information on the HeRAMS approach and for technical guidance please consult official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. 
-For additional questions not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
+For general information on the HeRAMS approach and for technical guidance please consult official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. For additional questions not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
 
 
 Getting started
@@ -58,8 +53,7 @@ This chapter provides step-by-step instructions on how to access the HeRAMS plat
 Logging in
 ----------
 
-.. note:: New users without an existing account, will have to register before being able to login to the HeRAMS platform. 
-To create a user account, follow the instruction `here`__.
+.. note:: New users without an existing account, will have to register before being able to login to the HeRAMS platform. To create a user account, follow the instruction `here`__.
 
 .. __: `Creating a User Account`_
 
