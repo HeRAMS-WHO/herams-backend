@@ -24,21 +24,25 @@ Creating a User Account
 
 This chapter provides step-by-step instructions on how to access the HeRAMS platform, create a user account and update your user profile.
 
-1. To register as a new user, go to `herams.org <https://herams.org.>`_
-2. On the sign-in page, click the `sign up <https://herams.org/user/register/>`_ link located just above the log in button.
+1. To register as a new user, go to `herams.org <https://herams.org.>`_.
+2. On the sign-in page, click the `sign up <https://herams.org/user/register/>`_ link located just above the |login| button.
 
+.. |login| image:: media/img/bt_login.png
+   :height: 1.3em
+   :align: top
+   
 .. image:: media/img/HeRAMS_register.png
    :alt: HeRAMS Login
-   :height: 100px
+   :height: 200px
    :align: center
 
 3. On the page that opens, enter your details.
-4. Submit your information by clicking the sign up button.
+4. Submit your information by clicking the |sign-up| button.
 
-.. |sign up| image:: media/img/bt_sign_up.png
+.. |sign-up| image:: media/img/bt_sign_up.png
    :height: 1.3em
    :align: top
-
+   
 5. A confirmation email will be sent to the email address you entered.
 
 .. tip:: If you don't receive a confirmation email within a few minutes, check your spam folder.
@@ -57,9 +61,9 @@ Logging in
 
 .. __: `Creating a User Account`_
 
-1. Go to `https://herams.org <https://herams.org>`_ in either FireFox or Chrome
-2. Enter your email address and password in the designated fields
-3. Click |login|
+1. Go to `https://herams.org <https://herams.org>`_ in either FireFox or Chrome.
+2. Enter your email address and password in the designated fields.
+3. Click the |login| button.
 
 .. |login| image::  media/img/bt_login.png
            :height: 1em
