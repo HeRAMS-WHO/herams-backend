@@ -548,7 +548,7 @@ body {
 @media (min-width: 900px) {
     .content {
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 200px 200px repeat(auto-fit, 200px);
+        grid-template-rows: repeat(auto-fit, minmax(200px, 33%));
     }
 
     .prime_widgets_chart_Chart, .table {
