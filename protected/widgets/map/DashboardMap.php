@@ -20,6 +20,7 @@ class DashboardMap extends Element
         [
             "type" => DashboardMap::TILE_LAYER,
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+            "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
                 'maxNativeZoom' => 17
@@ -198,7 +199,7 @@ class DashboardMap extends Element
                 }).addTo(map);
                 try {
                     map.fitBounds(bounds, {
-                        padding: [50, 50]
+                        padding: [20, 20]
                     });
                 } catch(err) {
                     console.error(err);

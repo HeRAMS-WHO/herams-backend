@@ -16,6 +16,7 @@ class Map extends Widget
         [
             "type" => self::TILE_LAYER,
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+            "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
                 'maxNativeZoom' => 17
