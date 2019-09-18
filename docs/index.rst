@@ -12,8 +12,8 @@ For more advanced topics related to user management and project administration, 
 .. __: `Edit Data`_
 .. __: `HeRAMS Administration`_
 
-It should be noted that the guide only addresses issues related to the HERAMS platform. 
-For general information on the HeRAMS approach and for technical guidance please consult official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. For additional questions not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
+It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/user/login/>`_. 
+For general information on the HeRAMS approach and for technical guidance please consult the official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. For additional questions that are not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
 
 
 Getting started
@@ -22,9 +22,12 @@ Getting started
 Creating a User Account
 --------------------
 
-This chapter provides step-by-step instructions on how to access the HeRAMS platform, create a user account and update your user profile.
+This chapter provides step-by-step instructions on how to access the  `HeRAMS platform <https://herams.org/user/login/>`_, create a user account and update your user profile.
 
-1. To register as a new user, go to `herams.org <https://herams.org.>`_.
+1. To register as a new user, open the link `herams.org <https://herams.org.>`_ in your browser.
+
+.. tip:: It is strongly recommended to either user FireFox or Chrome.
+
 2. On the sign-in page, click the `sign up <https://herams.org/user/register/>`_ link located just above the |login| button.
 
 .. |login| image:: media/img/bt_login.png
@@ -38,15 +41,13 @@ This chapter provides step-by-step instructions on how to access the HeRAMS plat
 
 3. On the page that opens, enter your details.
 4. Submit your information by clicking the |sign-up| button.
+5. A confirmation email will be sent to the email address you entered.
 
 .. |sign-up| image:: media/img/bt_sign_up.png
    :height: 1.3em
    :align: top
    
-5. A confirmation email will be sent to the email address you entered.
-
 .. tip:: If you don't receive a confirmation email within a few minutes, check your spam folder.
-
 
 6. Confirm your registration by clicking the link in your email.
 
@@ -61,22 +62,24 @@ Logging in
 
 .. __: `Creating a User Account`_
 
-1. Go to `https://herams.org <https://herams.org>`_ in either FireFox or Chrome.
+1. Open the link `https://herams.org <https://herams.org>`_ in your browser.
 2. Enter your email address and password in the designated fields.
 3. Click the |login| button.
 
 .. |login| image::  media/img/bt_login.png
-           :height: 1em
+           :height: 1.3em
+	   :align: top
 
-.. note:: It is strongly recommended to either user FireFox or Chrome
+.. tip:: It is strongly recommended to either user FireFox or Chrome.
 
 Logging out
 -----------
 
-When on a shared system you want to make sure that you log out when you are down. To logout click |button| in the top right corner of the screen.
+When on a shared system you want to make sure that you log out when you are down. To logout click the |logout| button in the top right corner of the screen.
 
-.. |button| image:: media/img/bt_logout.png
-            :height: 1em
+.. |logout| image:: media/img/bt_logout.png
+            :height: 1.3em
+	    :align: top
 
 
 Reset password
@@ -84,24 +87,27 @@ Reset password
 
 In case you forgot your password, the instruction below will guide through the steps to reset your password.
 
-1. Go to`https://herams.org <https://herams.org>`_  in either FireFox or Chrome
-2. On the sign in page, click the `reset password <https://herams.org/user/forgot/>`_ link located just below the password field.
+1. Open the link `https://herams.org <https://herams.org>`_ in your browser.
+
+.. tip:: It is strongly recommended to either user FireFox or Chrome.
+
+2. On the sign in page, click the `reset password <https://herams.org/user/forgot/>`_ link located below the password field.
 3. Enter your email address in the top field.
 4. Below the email field, you will see an image similar to this one: |captcha|
+5. Enter the the characters displayed into the field below the image.
+6. Click the |submit| button.
+7. You will receive an email with a password reset link. Click the link to open the password rest page. 
 
 .. |captcha| image:: media/img/img_captcha.png
    :alt: HeRAMS Login
-   :height: 20px
-
-5. Enter the the characters displayed into the field below the image.
-6. Click the |submit| button
-
+   :height: 1.3em
+   :align: top
+   
 .. |submit| image:: media/img/bt_submit_en.png
-            :height: 1.3em
+   :height: 1.3em
+   :align: top
 
-7. You will receive an email with a password reset link. click the link to open the password rest page. 
-
-.. note:: If you did not receive this email, please ceck your spam or bulk email folders.
+.. note:: If you did not receive this email within a few minutes, check your spam folder.
 
 7. In the page that opens, enter your new password.
 8. Click the |submit| button to confirm your new password.
@@ -129,12 +135,11 @@ Change Password
 ---------------
 
 1. To alter your password, open your user profile as explained `above`__.
-
-.. __: `Update your User Profile`_
-
-2. Click the `account <https://herams.org/user/settings/account>`_ link to access your account information.
+2. Click the `Account <https://herams.org/user/settings/account>`_ link to access your account information.
 3. In the page opening, you should be able to change your email address and enter a new password.
 4. Make sure to click the |submit| button to confirm your changes.
+
+.. __: `Update your User Profile`_
 
 .. |submit| image:: media/img/bt_submit_en.png
             :height: 1.3em
@@ -142,25 +147,6 @@ Change Password
 .. image:: media/vid/HeRAMS_change_password.gif
    :align: center
    :height: 300px
-
-Add a Profile Picture
----------------------
-
-You can further personalize your account by adding a profile picture. In order for your profile picture to appear, you will have to register your email address at `Gravatar <https://en.gravatar.com>`_.
-
-.. tip:: For more information on Gravatar, click `here <https://fr.gravatar.com/support/what-is-gravatar"/>`_
-
-1. Open your `user profile <https://herams.org/user/settings/profile/>`_ by clicking your name displayed in the upper right corner.
-2. Click the `Gravatar <https://en.gravatar.com>`_ link shown in the image below
-
-.. image:: media/img/user_profile.png
-
-3. You will be prompted to login to your `Worldpress <https://wordpress.com/log-in>`_ account. If you don't already have a Worldpress account, follow the instructions to create a new account
-4. Once logged in, open the **Manage Gravatars** tab and upload your image
-5. In the **My Gravatars** tab you should now be able to assign the image to the email address used to register on the HeRAMS platform.
-
-.. note:: It might take a few minutes before your gravatar appears on your HeRAMS profile
-
 
 World map
 =========
