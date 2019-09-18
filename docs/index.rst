@@ -22,7 +22,7 @@ Getting started
 Creating a User Account
 --------------------
 
-This chapter provides step-by-step instructions on how to access the  `HeRAMS platform <https://herams.org/user/login/>`_, create a user account and update your user profile.
+This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/user/login/>`_, create a user account and update your user profile.
 
 1. To register as a new user, open the link `herams.org <https://herams.org.>`_ in your browser.
 
@@ -151,7 +151,7 @@ Change Password
 World map
 =========
 
-After loggin in, you will see a world map with several blue dots. Each of these dots represents a HeRAMS project.
+After logging in, you will see a world map with several blue dots. Each of these dots represents a HeRAMS project.
 You can also see the list of all available projects in the navigation pane on the left. 
 In addition, a brief summary on the number of projects available in HeRAMS, the total number of contributors and health facilities is shown in the bottom left corner.
 
@@ -163,17 +163,17 @@ In addition, a brief summary on the number of projects available in HeRAMS, the 
     :height: 1.3em
 	:align: top
 	
-.. tip:: Access to the project dashboards is restricted to selected users. If you would like to be granted access to a project dashboard, please contact your country focal point or send an email to hearmas.who.int specifying your function and role as well as a brief explanation why you would like to access the project dashboard.
+.. tip:: Access to the project dashboards is restricted to selected users. If you would like to be granted access to a project dashboard, please contact your country focal point or send an email to `herams@who.int <mailto:herams@who.int?>`_ specifying your function and role as well as a brief explanation why you would like to access the dashboard.
 
 .. image:: media/img/HeRAMS_worldview.png
    :alt: HeRAMS Worldview
    :height: 300px
 
 
-Project dashboard
+Project Dashboard
 =================
 
-Each project in HeRAMS has a custom, interactive dashboard providing an instant analysis and overview of key indicators based on the available data.
+Each project in HeRAMS has a custom, interactive dashboard providing an instant and in-depth analysis based on the available data.
 
 1. To view a project dashboard, open the project summary by selecting your project form the navigation pane on the left. Alternatively, you can open the project summary by clicking the corresponding blue dot on the world map.
 2. In the pop-up window, click the |details| button. This will open the interactive dashboard.
@@ -194,7 +194,7 @@ Each project in HeRAMS has a custom, interactive dashboard providing an instant 
 .. |forward| image:: media/img/icon_forward.png
              :height: 1em
 
-5. 5.	To return to a previous page, you can either select the page in the navigation pane on the left or use the breadcrumb trail on top of the dashboard. For example, the image below displays a sub-page of the Nigeria dashboard. 
+5. To return to a previous page, you can either select the page in the navigation pane on the left or use the breadcrumb trail on top of the dashboard. For example, the image below displays a sub-page of the Nigeria dashboard. 
 To return to the first page of the dashboard, click on **Nigeria** in the breadcrumb trail.
 
 .. image:: media/img/HeRAMS_navigation_pane.png
@@ -213,7 +213,9 @@ The animation below shows the dashboards in action.
 Filtering data
 --------------
 
-Data in the dashboard can be filtered. This allows you to zoom in on subsets that are of interest to you. Filtering is not persistent and only visible during your current session.
+Data in the dashboard can be filtered. This allows you to zoom in on subsets that are of interest to you. 
+
+.. note:: Filtering is not persistent and only visible during your current session.
 
 1. In the top right corner of the dashboard, click the |filter| button.
 
@@ -222,7 +224,7 @@ Data in the dashboard can be filtered. This allows you to zoom in on subsets tha
 
 2. You should now see the filter configuration page. Use the drop-down list to select your filter criteria. Repeat this process until you have added all the desired filter criteria.
 
-.. note:: If you apply multiple search criteria, only results that contain all terms will be shown
+.. note:: If you apply multiple search criteria, only results that contain all terms will be shown.
 
 .. tip:: You can limit the number of fields displayed using the search field on top of the page.
 
@@ -246,17 +248,17 @@ Customizing the dashboard
 
 This section provides a few tips and tricks on how to customize the dashboard and view additional details.
 
-Mouseover Messages
-~~~~~~~~~~~~~~~~~~
+Tooltips
+~~~~~~~~
 
-If you hover with your mouse over a point on a map or over a chart, you will see a small pop-up message appearing displaying further details.
+If you hover with your mouse over a point on a map or a chart, a small pop-up message will appear, displaying additional details.
 
-Adjust Map Zoom Level and Focus Area
+Adjust the Map Zoom Level and Focus Area
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can adjust the zoom level of the maps using the scroll button on your mouse. In addition, you can change the focus area of the map. Make sure your mouse is in the map element. Right click (hold) and drag the map in the desired direction. This will move the map focus area.
+You can adjust the zoom level of a map by using the scroll button on your mouse. To change the focus area of a map, position you mouse in the map element. Right click (hold) and drag the map in the desired direction. This will move the map focus area.
 
-Remove items from charts or maps
+Remove a Category from Charts or Maps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By clicking the icons in the legend, you can remove a category from a chart or map. To add it again, simply click the circle again.
@@ -270,7 +272,7 @@ Depending on the zoom level applied to a map, it may happen that several points 
    :height: 300px
 
 
-Default pages
+Default dashboard pages
 -------------
 
 The below section provides an overview of the standard pages available in a dashboard. Each page refers to a HeRAMS standard information pillar.
@@ -285,7 +287,7 @@ The **Overview** page provides a summary, in form of:
 *	a map to spot the distribution and number of health facilities by level of care (i.e. primary, secondary and tertiary health care facilities); and
 *	doughnut charts to summarize different indicators, such as level of damage, functionality status, accessibility and service availability in the assessed health facility.
 
-.. note:: Note that service availability is country specific. Thus, direct comparisons form one country to another should be avoided.
+.. note:: Service availability is country-specific. Thus, direct comparisons form one country to another should be avoided.
 
 .. image:: media/img/HeRAMS_dashboard_overview.png
    :height: 300px
@@ -294,7 +296,7 @@ The **Overview** page provides a summary, in form of:
 Infrastructure
 ~~~~~~~~~~~~~~
 
-The **Infrastructure** page, displays a descriptive analysis, including:
+The **Infrastructure** page displays a descriptive analysis, including:
 
 * a map to spot the distribution and number of health facilities by type;
 * doughnut charts to illustrate **Mo** des of **S** ervice **D** elivery (**MoSD**s) by type as well as the modality of the building structure (permanent vs. temporary); and
