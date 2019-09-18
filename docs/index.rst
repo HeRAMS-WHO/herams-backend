@@ -2,7 +2,24 @@
    :height: 100px
    :alt: HeRAMS Logo
    :align: center
-
+   
+.. |login| image:: media/img/bt_login.png
+   :height: 1.3em
+   :align: top
+   
+.. |sign-up| image:: media/img/bt_sign_up.png
+   :height: 1.3em
+   :align: top
+ 
+ .. |captcha| image:: media/img/img_captcha.png
+   :alt: HeRAMS Login
+   :height: 1.3em
+   :align: top
+   
+.. |submit| image:: media/img/bt_submit_en.png
+   :height: 1.3em
+   :align: top
+   
 Introduction
 ============
 
@@ -30,10 +47,6 @@ This chapter provides step-by-step instructions on how to access the `HeRAMS pla
 
 2. On the sign-in page, click the `sign up <https://herams.org/user/register/>`_ link located just above the |login| button.
 
-.. |login| image:: media/img/bt_login.png
-   :height: 1.3em
-   :align: top
-   
 .. image:: media/img/HeRAMS_register.png
    :alt: HeRAMS Login
    :height: 200px
@@ -42,10 +55,6 @@ This chapter provides step-by-step instructions on how to access the `HeRAMS pla
 3. On the page that opens, enter your details.
 4. Submit your information by clicking the |sign-up| button.
 5. A confirmation email will be sent to the email address you entered.
-
-.. |sign-up| image:: media/img/bt_sign_up.png
-   :height: 1.3em
-   :align: top
    
 .. tip:: If you don't receive a confirmation email within a few minutes, check your spam folder.
 
@@ -53,8 +62,8 @@ This chapter provides step-by-step instructions on how to access the `HeRAMS pla
 
   .. image:: media/vid/HeRAMS_create_account.gif
      :align: center
-	 
-	 
+
+
 Logging in
 ----------
 
@@ -65,10 +74,6 @@ Logging in
 1. Open the link `https://herams.org <https://herams.org>`_ in your browser.
 2. Enter your email address and password in the designated fields.
 3. Click the |login| button.
-
-.. |login| image::  media/img/bt_login.png
-           :height: 1.3em
-	   :align: top
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
@@ -98,23 +103,10 @@ In case you forgot your password, the instruction below will guide through the s
 6. Click the |submit| button.
 7. You will receive an email with a password reset link. Click the link to open the password rest page. 
 
-.. |captcha| image:: media/img/img_captcha.png
-   :alt: HeRAMS Login
-   :height: 1.3em
-   :align: top
-   
-.. |submit| image:: media/img/bt_submit_en.png
-   :height: 1.3em
-   :align: top
-
 .. note:: If you did not receive this email within a few minutes, check your spam folder.
 
 7. In the page that opens, enter your new password.
 8. Click the |submit| button to confirm your new password.
-
-.. |submit| image:: media/img/bt_submit_en.png
-            :height: 1.3em
-
 9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login/>`_.
 
 .. image:: media/vid/HeRAMS_password_reset.gif
@@ -173,16 +165,15 @@ In addition, a brief summary on the number of projects available in HeRAMS, the 
 Project Dashboard
 =================
 
-Each project in HeRAMS has a custom, interactive dashboard providing an instant and in-depth analysis based on the available data.
+Each project in HeRAMS has a custom interactive dashboard providing an instant and in-depth analysis based on the available data.
 
 1. To view a project dashboard, open the project summary by selecting your project form the navigation pane on the left. Alternatively, you can open the project summary by clicking the corresponding blue dot on the world map.
 2. In the pop-up window, click the |details| button. This will open the interactive dashboard.
+3. You should now see a page similar to the one shown below. In the navigation pane on the left you will find a list of all available pages.
 
 .. |details| image:: media/img/bt_details.png
             :height: 1.3em
-
-3. You should now see a page similar to the one shown below. In the navigation pane on the left you will find a list of all available pages.
-
+	    
 .. image:: media/img/HeRAMS_dashboard_overview.png
    :alt: HeRAMS Register
    :height: 300px
@@ -229,12 +220,11 @@ Data in the dashboard can be filtered. This allows you to zoom in on subsets tha
 .. tip:: You can limit the number of fields displayed using the search field on top of the page.
 
 3. Click the |applyfilter| button to activate your filter.
-
-.. |applyfilter| image:: img src="media/img/bt_apply_filter.png
-    :height: 1em
-
 4. To remove the filters, return to the **Filter** pages and click the |clear| button.
 
+.. |applyfilter| image:: media/img/bt_apply_filter.png
+    :height: 1em
+    
 .. |clear| image:: img src="media/img/bt_clear_filter.png
     :height: 1em
 
@@ -317,7 +307,8 @@ The **Condition** page displays the level of reported damage to MoDS buildings f
 
 .. image:: media/img/HeRAMS_dashboard_condition.png
    :height: 300px
-
+   :align: center
+   
 Functionality
 ~~~~~~~~~~~~~
 
@@ -329,7 +320,8 @@ The **Functionality** page displays the level of functionality of the MoSDs foll
 
 .. image:: media/img/HeRAMS_dashboard_functionality.png
    :height: 300px
-
+   :align: center
+   
 Accessibility
 ~~~~~~~~~~~~~
 
@@ -341,7 +333,8 @@ The **Accessibility** page displays the level of accessibility to MoSDs followin
 
 .. image:: media/img/HeRAMS_dashboard_accessibility.png
    :height: 300px
-
+   :align: center
+   
 Management & support
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -358,18 +351,20 @@ The **Management & support** page displays information on the management of the 
 
 .. image:: media/img/HeRAMS_dashboard_management_support.png
    :height: 300px
-
+   :align: center
+   
 Basic Amenities
 ~~~~~~~~~~~~~~
 
-The **Basic Amenities** page presents a series of doughnut  charts displaying information of core areas such as:
+The **Basic Amenities** page presents a series of doughnut charts displaying information of core areas such as:
 
 * the principle source of water and power; and
 * the percentage of MoDS with sufficient water and power supplies
 
 .. image:: media/img/HeRAMS_dashboard_basic_amenities.png
    :height: 300px
-
+   :align: center
+   
 Service Availability
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -381,16 +376,15 @@ The **Service Availability** page displays multiple pages per type of service. E
 
 .. image:: media/img/HeRAMS_dashboard_service_availability.png
    :height: 300px
+   :align: center
 
 
 Edit Data
 =========
 
-This chapter is itended primarily for data managers responsible to update the HeRAMS data. It covers all aspects related to data editing, including registering new health facilities,
-updating the status of exisiting health facilities as well as deleting erroneous records (e.g. duplicates). 
+This chapter is itended primarily for data managers responsible to update the HeRAMS data. It covers all aspects related to data editing, including registering new health facilities, updating the status of exisiting health facilities as well as deleting erroneous records (e.g. duplicates). 
 
-.. note:: Please not that access to the data edit interface is limited to users responsible to update the data. 
-If you require your access permissions to be changed, kindly contact your country focal point or send an email to `herams@who.int <mailto:herams@who.int?>`_ specifying your function and role as well as a brief explanation why you would like your access permissions to altered.
+.. note:: Please not that access to the data edit interface is limited to users responsible to update the data. If you require your access permissions to be changed, kindly contact your country focal point or send an email to `herams@who.int <mailto:herams@who.int?>`_ specifying your function and role as well as a brief explanation why you would like your access permissions to altered.
 
 .. note:: For technical information related to the questionnaire please contact your country focal point or send an email to `herams@who.int <mailto:herams@who.int?>`_.
 
@@ -398,16 +392,16 @@ Access the Data Update Interface
 --------------------------------
 
 1. Open the admin interface by clicking the |settings| button on the top right corner of the page (next to your username). 
+2. From the navigation pane on the left, select `Projects <https://herams.org/project/index>`_.
+3. You should now see a table of all available projects. For each project, the table displays the number **Workspaces**, **Contributors**, **Health facilities** and **Responses**.
 
 .. |settings| image:: media/img/icon_settings.png
    :height: 1.3em
    :alt: settings
    :align: top
    
-2. From the navigation pane on the left, select `Projects <https://herams.org/project/index>`_.
-3. You should now see a table of all available projects. For each project, the table displays the number **Workspaces**, **Contributors**, **Health facilities** and **Responses**.
-
 .. tip:: The number of responses can be higher than the total number of health facilities. This indicates that a health facility was assessed multiple times.
+
 4. In the last column of the table, click the |workspace| icon. This will open a new page displaying a list of all available workspace.
 
 .. |workspace| image:: media/img/icon_workspace.png
@@ -415,20 +409,17 @@ Access the Data Update Interface
    :alt: workspace
    :align: top
 
-.. note:: HeRAMS uses so called **Workspaces** to manage access permission to the underlying data. 
-
-A workspace might for example constitute a specific organization or a geographic region. For more information on **Workspaces** click `here`__.
+.. note:: HeRAMS uses so called **Workspaces** to manage access permission to the underlying data. A workspace might for example constitute a specific organization or a geographic region. For more information on **Workspaces** click `here`__.
 
 .. __: `workspaces`_
 
 5. To view the health facilities that are part of a specific workspace, click the |update-data| icon in the Action column.
+6. Use the |forward| buttons to move to the next page or filter the workspaces by typing the workspace name in the field below the header row.
 
 .. |workspace| image:: media/img/icon_data_update_black.png
    :height: 1.3em
    :alt: update-data
    :align: top
-
-6. Use the |forward| buttons to move to the next page or filter the workspaces by typing the workspace name in the field below the header row.
 
 .. |workspace| image:: media/img/icon_page_forward.png
    :height: 1.3em
@@ -440,7 +431,7 @@ A workspace might for example constitute a specific organization or a geographic
    :alt: filter workspaces
    :align: center
    
-6. You should now see a table with all the health facilities of the selected workspace.
+7. You should now see a table with all the health facilities of the selected workspace.
 
 The video below summarizes the steps to access the data entry interface.
 
@@ -456,12 +447,11 @@ Edit a Health Facility
 .. Caution:: Editing a record will overwrite the existing record. If you would like to update the status of a health facility while keeping the history of changes, follow the instructions in the section below.
 
 1. Open the data update interface as outlined `above`__.
+2. To edit a record, click the |pencil-blue| icon in the left most column.
 
 .. __: `Access the Data Update Interface`_
 
-2. To edit a record, click the |pencil| icon in the left most column.
-
-.. |pencil| image:: media/img/icon_pencil_blue.png
+.. |pencil-blue| image:: media/img/icon_pencil_blue.png
    :height: 1.3em
    :alt: next
    :align: top
@@ -473,22 +463,20 @@ Edit a Health Facility
    :alt: update data table
    :align: center
    
-3.	You should now be able to edit the selected record. Use the |next| buttons in the lower right corner to move to the next page of the questionnaire or return to the previous page. You can also use the navigation pane on the left to access a specific section of the questionnaire.
+3. You should now be able to edit the selected record. Use the |next| buttons in the lower right corner to move to the next page of the questionnaire or return to the previous page. You can also use the navigation pane on the left to access a specific section of the questionnaire.
+4. Make sure to validate and save your changes before exiting the record. To save your changes, navigate to the last page, **Validate**, and click the |submit| button.
+5. If you would like to discard your edits, click the |clear| button in the lower right corner of the page.
 
 .. |next| image:: media/img/bt_next_en.png
    :height: 1.3em
    :alt: next
    :align: top
    
-4.	Make sure to validate and save your changes before exiting the record. To save your changes, navigate to the last page, **Validate**, and click the |submit| button.
-   
 .. |submit| image:: media/img/bt_submit_en.png
    :height: 1.3em
    :alt: submit
    :align: top
    
-5. If you would like to discard your edits, click the |clear| button in the lower right corner of the page.
-
 .. |clear| image:: media/img/bt_clear_en.png
    :height: 1.3em
    :alt: clear
@@ -505,29 +493,27 @@ Update a Health Facility
 If HeRAMS is used as a monitoring tool, you can record changes to a health facility while keeping the existing information.
 
 .. note:: Please note that the ability to update health facilities is not enabled in all projects. Contact your country focal point or send an email to `herams@who.int <mailto:herams@who.int?>`_ for further information.
-1.	To update the status of a health facility, use the |update| button to open the record.
+
+1. To update the status of a health facility, use the |update| button to open the record.
+2. You should now be able to edit the selected record. Use the |next| buttons in the lower right corner to move to the next page of the questionnaire or return to the previous page. You can also use the navigation pane on the left to access a specific section of the questionnaire.
+3. Make sure to validate and save your changes before exiting the record. To save your changes, navigate to the last page, **Validate**, and click the |submit| button.
+4. If you would like to discard your edits, click the |clear| button in the lower right corner of the page.
 
 .. |update| image:: media/img/icon_data_update_blue.png
    :height: 1.3em
    :alt: update
    :align: top
 
-2.	You should now be able to edit the selected record. Use the |next| buttons in the lower right corner to move to the next page of the questionnaire or return to the previous page. You can also use the navigation pane on the left to access a specific section of the questionnaire.
-
 .. |next| image:: media/img/bt_next_en.png
    :height: 1.3em
    :alt: next
    :align: top
-   
-3.	Make sure to validate and save your changes before exiting the record. To save your changes, navigate to the last page, **Validate**, and click the |submit| button.
-   
+
 .. |submit| image:: media/img/bt_submit_en.png
    :height: 1.3em
    :alt: submit
    :align: top
    
-4. If you would like to discard your edits, click the |clear| button in the lower right corner of the page.
-
 .. |clear| image:: media/img/bt_clear_en.png
    :height: 1.3em
    :alt: clear
@@ -537,32 +523,29 @@ Register a New Health Facility
 ------------------------------
 
 1. To create a new record, click the button |new-record|.
+2. You should now be able to edit the selected record. Use the |next| buttons in the lower right corner to move to the next page of the questionnaire or return to the previous page. You can also use the navigation pane on the left to access a specific section of the questionnaire.   
+3. Make sure to validate and save your changes before exiting the record. To save your changes, navigate to the last page, **Validate**, and click the |submit| button. 
+4. If you would like to discard your edits, click the |clear| button in the lower right corner of the page.
 
 .. |new-record| image:: media/img/bt_new_record_en.png
    :height: 1.3em
    :alt: submit
    :align: top
-
-2.	You should now be able to edit the selected record. Use the |next| buttons in the lower right corner to move to the next page of the questionnaire or return to the previous page. You can also use the navigation pane on the left to access a specific section of the questionnaire.
-
+   
 .. |next| image:: media/img/bt_next_en.png
    :height: 1.3em
    :alt: next
    :align: top
-   
-3.	Make sure to validate and save your changes before exiting the record. To save your changes, navigate to the last page, **Validate**, and click the |submit| button.
-   
+
 .. |submit| image:: media/img/bt_submit_en.png
    :height: 1.3em
    :alt: submit
    :align: top
    
-4. If you would like to discard your edits, click the |clear| button in the lower right corner of the page.
-
 .. |clear| image:: media/img/bt_clear_en.png
    :height: 1.3em
    :alt: clear
-   :align: top  
+   :align: top
 
 Delete a Health Facility
 ------------------------
@@ -574,8 +557,6 @@ Delete a Health Facility
    :alt: delete
    :align: top
    
-1. To delete a record, click the <img src="media/img/icon_delete_blue.png" height="20" align="top" alt='delete'></img> icon in the first column.
-
 .. Warning:: Deleting records cannot be undone. Be careful when deleting a record.
 
 
@@ -595,11 +576,10 @@ Follow the instructions below to download data for a single workspaces. If you r
 
 .. note:: In order to download data, you will require access to the corresponding workspace. Contact your system administrator to elevate your access rights if needed.
 
-1.	Navigate to the workspace page of your project (see `Access the Data Update Interface`__ steps 1 - 4 for detailed instructions).
+1. Navigate to the workspace page of your project (see `Access the Data Update Interface`__ steps 1 - 4 for detailed instructions).
+2. In the rightmost column, click the |download| button. This will download all records of this workspace.
 
 .. __: `Access the Data Update Interface`_
-
-2.	In the rightmost column, click the |download| button. This will download all records of this workspace.
 
 .. |downlaod| image:: media/img/icon_download.png
    :height: 1.3em
@@ -656,53 +636,45 @@ HeRAMS uses the concept of workspaces to manage user permissions. Each workspace
 
 
 * |refresh| **Refresh Data Cache**: This button allows users to manually refresh the data cache of a workspace. Data is automatically refreshed every 30 minutes. This means if a record is updated, the changes are not immediately reflected on the dashboard. Thus, by manually refreshing the data cash of a workspace the time lag limitation can be overcome and the changes made will become visible immediately.
+* |pencil| **Update Workspace**:  allows to change the title or token of a workspace.
+* |share-icon| **Share Workspace**: To grant a user access to workspace, the workspace must be shared with the user. For more information on how to add users to a workspace click `here`__.
+* |delete| **Delete Workspace**: Permanetly removes a workspace from a project. See `Delete a Workspace`__ for more information.
+* |download| **Download Data**: Downloads all records belonging to the selected workspace. See `Download Data`__ for more information.
+* |edit| **Data Update**: This opens the data edit interface. More information on data editing and updating is available `here`__.
 
 .. |refresh| image:: media/img/icon_refresh_data.png
    :height: 1.3em
    :alt: refresh
    :align: top
 
-* |pencil| **Update Workspace**:  allows to change the title or token of a workspace.
-
 .. |pencil| image:: media/img/icon_pencil_black.png
    :height: 1.3em
    :alt: pencil
    :align: top
 
-* |share| **Share Workspace**: To grant a user access to workspace, the workspace must be shared with the user. For more information on how to add users to a workspace click `here`__.
-
-.. |share| image:: media/img/icon_share.png
+.. |share-icon| image:: media/img/icon_share.png
    :height: 1.3em
    :alt: share
    :align: top
-
-.. __: `Add a User to a Workspace`_
-
-* |delete| **Delete Workspace**: Permanetly removes a workspace from a project. See `Delete a Workspace`__ for more information.
 
 .. |delete| image:: media/img/icon_delete_black.png
    :height: 1.3em
    :alt: delete
    :align: top
-
-.. __: `Delete a Workspace`_
-
-* |download| **Download Data**: Downloads all records belonging to the selected workspace. See `Download Data`__ for more information.
-
+   
 .. |download| image:: media/img/icon_download.png
    :height: 1.3em
    :alt: download
    :align: top
-
-.. __: `Download Data`_
-
-* |edit| **Data Update**: This opens the data edit interface. More information on data editing and updating is available `here`__.
-
+   
 .. |edit| image:: media/img/icon_data_update_black.png
    :height: 1.3em
    :alt: edit
    :align: top
-
+   
+.. __: `Add a User to a Workspace`_
+.. __: `Delete a Workspace`_
+.. __: `Download Data`_
 .. __: `Edit Data`_
 
 .. note: The number of buttons visible to users depends on your access rights and might vary from one workspace to another.
@@ -721,44 +693,40 @@ Add a User to a Workspace
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. To grant a user access to a workspace, open the admin interface by clicking the |settings| icon in the top right corner of the screen.
+2. In the navigation pane on the left, click `Projects<https://herams.org/project/index>` to open the **Projects** overview table. 
+3. In the rightmost column of the table, you should see several **Action** buttons. Click the |workspace| icon. This will open the workspace of the selected project.
+4. You should now see a table with all workspaces of your project. For each workspace the table provides information on the last time data was synced with the underlying database, the number of contributors, health facilities and responses. Alike the **Projects** table, the last column contains several **Action** buttons.
+5. To grant a user access to a workspace (e.g. to update the data), you have to share the workspace with them. Click the |share| icon in the **Actions** column.
+6. You should now see a page similar to the image below. On the bottom half of the page you can see a list of all users currently having access to the workspace including their permission level. In the top half of the page you have the option to add a new user. Start typing the users name in the top field. You will notice that the list of users is dynamically filtering. Select the user you would like to add.
 
 .. |settings| image:: media/img/icon_settings.png
    :height: 1.3em
    :alt: settings
    :align: top
 
-2. In the navigation pane on the left, click `Projects<https://herams.org/project/index>` to open the **Projects** overview table. 
-3. In the rightmost column of the table, you should see several **Action** buttons. Click the |workspace| icon. This will open the workspace of the selected project.
-
 .. |workspace| image:: media/img/icon_workspace.png
    :height: 1.3em
    :alt: workspace
    :align: top
    
-4. You should now see a table with all workspaces of your project. For each workspace the table provides information on the last time data was synced with the underlying database, the number of contributors, health facilities and responses. Alike the **Projects** table, the last column contains several **Action** buttons.
-5. To grant a user access to a workspace (e.g. to update the data), you have to share the workspace with them. Click the |share| icon in the **Actions** column.
-
-.. |share| image:: media/img/icon_share.png
-   :height: 1.3em
-   :alt: share
-   :align: top
-
-6. You should now see a page similar to the image below. On the bottom half of the page you can see a list of all users currently having access to the workspace including their permission level. In the top half of the page you have the option to add a new user. Start typing the users name in the top field. You will notice that the list of users is dynamically filtering. Select the user you would like to add.
-
 .. image:: media/img/HeRAMS_workspace_share.png
 	:height: 200px
 	:alt: share workspace
 	:align: center
 
+.. |share| image:: media/img/icon_share.png
+   :height: 1.3em
+   :alt: share
+   :align: top
+   
   .. tip: You can add multiple users add once as shown in the image above.
 
   .. note: If you cannot find a user, it means the user has not yet created an account. Ask the user to create an account by registering on the HeRAMS platform and then retry. Should the issue persist, contact your system administrator or send an email to `herams@who.int <mailto:herams@who.int?>`_.
 
 7. Use the checkboxes to select the appropriate permission level. See `above`__ for further details on workspace permissions.
+8. Click the |share| button to share the workspace with the selected user(s).
 
 .. __: `Workspace Permissions`_
-
-8. Click the |share| button to share the workspace with the selected user(s).
 
 .. |share| image:: media/img/bt_share.png
    :height: 1.3em
@@ -774,10 +742,9 @@ Remove a User from a Workspace
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. To remove a user from a workspace, navigate to the workspace from which you would like to remove the user. (Follow steps 1 - 5 outlined `above`__ to access the workspace).
+2. On the second half of the page you will see a list of all users having access to the workspace. Click the |delete| icon to remove the user permanently.
 
 .. __: `Add a User to a Workspace`_
-
-2. On the second half of the page you will see a list of all users having access to the workspace. Click the |delete| icon to remove the user permanently.
 
 .. |delete| image:: media/img/icon_delete_black.png
    :height: 1.3em
@@ -788,10 +755,9 @@ Change a User's Workspace Permission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. To change a user's permission, remove the user from the workspace as outlined `above`__
+2. Now add the user again using the new permission level (see `Add a User to a Workspace`__ for details).
 
 .. __: `Remove a User from a Workspace`_
-
-2. Now add the user again using the new permission level (see `Add a User to a Workspace`__ for details).
 
 .. __: `Add a User to a Workspace`_
 
@@ -799,26 +765,23 @@ Create a New Workspace
 ~~~~~~~~~~~~~~~~~~~~
 
 1. To create a new workspace, access the workspace page of your project. (Follow steps 1 - 5 outlined `above`__ to access the workspace).
+2. In the upper left corner, you will see a button labelled |create-workspace|.
+3. On the page that opens, you should now be able to create a new workspace.
+4. Enter the workspace's name into the title field.
+5. Use the dropdown list to select the corresponding **Token** or create a new token by selecting **Create new token**.
 
 .. __: `Add a User to a Workspace`_
-
-2. In the upper left corner, you will see a button labelled |create-workspace|.
 
 .. |create-workspace| image:: media/img/bt_create_workspace.png
    :height: 1.3em
    :alt: create-workspace
    :align: top
-
-3. On the page that opens, you should now be able to create a new workspace.
-
-  .. image:: media/img/HeRAMS_workspace_create.png
-     :height: 250px
-     :alt: create-workspace
-     :align: center
-
-4. Enter the workspace's name into the title field.
-5. Use the dropdown list to select the corresponding **Token** or create a new token by selecting **Create new token**.
-
+   
+.. image:: media/img/HeRAMS_workspace_create.png
+   :height: 250px
+   :alt: create-workspace
+   :align: center
+     
   .. Note: Tokens are unique identifiers that link health facilities to workspaces. To add a health facility to a workspace the token of the record in question has to be manually changed. Contact your system administrator for guidance on how to change a record's token.
 
 Delete a Workspaces
@@ -833,7 +796,7 @@ Delete a Workspaces
    
   .. note: Deleting workspace will not affect the underlying data. See the `Delete a health facility`__ to learn how to permanently a record from your project.
 
-   .. __: `Delete a Health Facility`_   
+   .. __: `Delete a Health Facility`_
 
 Projects
 --------
@@ -863,9 +826,9 @@ The `Projects<https://herams.org/project/index>`_ page provides a brief overview
    
 .. __: `Dashboard`_
 
-* |edit| **Edit Project Properties**: Permits users with appropriate permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`__ for more information on editing the project properties. For addtional information on how to configuring the dashboard, consult the section `Configure the Project Dashboard`__.
+* |pencil| **Edit Project Properties**: Permits users with appropriate permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`__ for more information on editing the project properties. For addtional information on how to configuring the dashboard, consult the section `Configure the Project Dashboard`__.
 
-.. |edit| image:: media/img/icon_pencil_black.png
+.. |pencil| image:: media/img/icon_pencil_black.png
    :height: 1.3em
    :alt: pencil
    :align: top
@@ -972,9 +935,9 @@ Modify a Project
    :align: top
    
 2. Open the **Projects** page by selecting `Projects <https://herams.org/project/index>`_ in the navigation pane on the left.
-3. Click the |edit| icon in the **Actions** column of your project. This will open the project properties page.
+3. Click the |pencil| icon in the **Actions** column of your project. This will open the project properties page.
 
-.. |edit| image:: media/img/icon_pencil_black.png
+.. |pencil| image:: media/img/icon_pencil_black.png
    :height: 1.3em
    :alt: edit
    :align: top
@@ -1192,7 +1155,7 @@ Update a Dashboard Page
 Delete a Dashboard Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To delete a dashboard page,  open the Project's property page. (Follow steps 1 - 3 in the `Modify a Project`__ section.
+1. To delete a dashboard page, open the Project's property page. (Follow steps 1 - 3 in the `Modify a Project`__ section.
 
 .. __: `Modify a Project`_
 
