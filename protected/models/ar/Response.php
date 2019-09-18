@@ -165,14 +165,19 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     {
         if (!isset(self::$surveySubjectKeys[$this->survey_id])) {
             self::$surveySubjectKeys[$this->survey_id] = [];
-            foreach($this->data as $key => $dummy) {
-                if (preg_match($this->getMap()->getSubjectExpression(), $key)) {
-                    self::$surveySubjectKeys[$this->survey_id][] = $key;
-                }
+        }
+        foreach($this->data as $key => $dummy) {
+            if (isset(self::$surveySubjectKeys[$this->survey_id][$key])) {
+                continue;
             }
+
+            if (preg_match($this->getMap()->getSubjectExpression(), $key)) {
+                self::$surveySubjectKeys[$this->survey_id][$key] = true;
+            }
+
         }
 
-        return self::$surveySubjectKeys[$this->survey_id];
+        return array_keys(self::$surveySubjectKeys[$this->survey_id]);
 
     }
 
