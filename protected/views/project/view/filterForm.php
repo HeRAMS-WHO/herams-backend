@@ -66,7 +66,7 @@ JS
                         return $answer->getCode();
                     },
                     function(AnswerInterface $answer) {
-                        return strtok(strip_tags($answer->getText()), ':(')[0];
+                        return strtok(strip_tags($answer->getText()), ':(');
                     }
                 );
 //                $renderFilter($question, $group, $filterModel, $items);
@@ -123,7 +123,7 @@ JS
         ResponseFilter $filterModel,
         array $items
     ) {
-        $title =  strtok( strip_tags($question->getText()), ':(')[0];
+        $title =  strtok( strip_tags($question->getText()), ':(');
         $name = \yii\helpers\Html::getInputName($filterModel, 'advanced');
         echo \kartik\select2\Select2::widget([
             'model' => $filterModel,
