@@ -71,7 +71,7 @@ class HeramsSubject
             case 'fullyAvailable':
                 return $this->getFullyAvailable();
             default:
-                $this->response->getValueForCode($code);
+                return $this->response->getValueForCode($code);
         }
     }
     public function __call($name, $arguments)
