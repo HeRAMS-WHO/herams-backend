@@ -126,10 +126,6 @@ class Chart extends Element
             ksort($counts);
             return $counts;
         }
-
-
-
-
     }
 
     private function applyMapping(array $map, array $counts)
@@ -186,6 +182,7 @@ class Chart extends Element
 
         $map = $this->getMap();
         $unmappedData = $this->getDataSet($this->data);
+
         $dataSet = $this->applyMapping($map, $unmappedData);
 
         $pointCount = count($dataSet);

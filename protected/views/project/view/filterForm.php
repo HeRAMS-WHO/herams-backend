@@ -62,9 +62,11 @@ JS
             if (($answers = $question->getAnswers()) !== null
                 && $question->getDimensions() === 0) {
                 $items = \yii\helpers\ArrayHelper::map(
-                    $answers, \iter\fn\method('getCode'),
+                    $answers, function(AnswerInterface $answer) {
+                        return $answer->getCode();
+                    },
                     function(AnswerInterface $answer) {
-                        return explode(':', strip_tags($answer->getText()), 2)[0];
+                        return strtok(strip_tags($answer->getText()), ':(')[0];
                     }
                 );
 //                $renderFilter($question, $group, $filterModel, $items);
@@ -121,7 +123,7 @@ JS
         ResponseFilter $filterModel,
         array $items
     ) {
-        $title =  explode(':', strip_tags($question->getText()), 2)[0];
+        $title =  strtok( strip_tags($question->getText()), ':(')[0];
         $name = \yii\helpers\Html::getInputName($filterModel, 'advanced');
         echo \kartik\select2\Select2::widget([
             'model' => $filterModel,

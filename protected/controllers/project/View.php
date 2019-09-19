@@ -99,7 +99,7 @@ class View extends Action
 
         $map = [];
         foreach($answers as $answer) {
-            $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
+            $map[$answer->getCode()] = trim(strtok($answer->getText(), ':(')[0]);
         }
 
         \Yii::endProfile(__FUNCTION__);

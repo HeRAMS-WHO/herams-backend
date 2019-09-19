@@ -18,7 +18,7 @@ foreach($question->getQuestions(0) as $subQuestion) {
         $items = \yii\helpers\ArrayHelper::map(
             $answers, \iter\fn\method('getCode'),
             function(AnswerInterface $answer) {
-                return explode(':', $answer->getText(), 2)[0];
+                return strtok( $answer->getText(), ':(')[0];
             }
         );
       //  $renderFilter($subQuestion, $group, $filterModel, $items);

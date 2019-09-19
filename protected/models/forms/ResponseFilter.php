@@ -124,8 +124,23 @@ class ResponseFilter extends Model
     {
         $result = [];
         foreach($this->advancedFilterMap[$fieldName]->getAnswers() as $answer) {
-            $result[$answer->getCode()] = explode(':', strip_tags($answer->getText()), 2)[0];
+            $title = strtok(strip_tags($answer->getText()), ':(')[0];
+            if (strpos($title, '/') !== false) {
+                $parts = explode('/', $title, 2);
+                if (isset($result[$parts[0]])) {
+                    $result[$parts[0]][$answer->getCode()] = $title;
+                } else {
+                    $result[$parts[0]] = [
+                        $answer->getCode() => $title
+                    ];
+                }
+            } else {
+                $result[$answer->getCode()] = $title;
+            }
         }
+//        echo '<pre>';
+//        print_r($result);
+//        die();
         return $result;
     }
 
@@ -136,7 +151,7 @@ class ResponseFilter extends Model
         }
         $code = substr($attribute, 4);
 
-        return trim(html_entity_decode(explode(':', strip_tags($this->advancedFilterMap[$code]->getText()), 2)[0]));
+        return trim(html_entity_decode(strtok(strip_tags($this->advancedFilterMap[$code]->getText()), ':(')[0]));
 
     }
 

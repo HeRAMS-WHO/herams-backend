@@ -76,7 +76,7 @@ trait SurveyHelper
                 assert(count($answers) > 0);
                 $map = [];
                 foreach ($answers as $answer) {
-                    $map[$answer->getCode()] = trim(explode(':', $answer->getText())[0]);
+                    $map[$answer->getCode()] = trim(strtok($answer->getText(),':(')[0]);
                 }
                 ksort($map);
                 if (!isset($map[""])) {
@@ -107,6 +107,6 @@ trait SurveyHelper
 
     protected function normalizeQuestionText(string $text): string
     {
-        return trim(explode(':', $text)[0], "\n:");
+        return trim(strtok($text, ':(')[0], "\n:");
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use prime\helpers\Icon;
+use prime\interfaces\HeramsResponseInterface;
 use prime\models\forms\ResponseFilter as ResponseFilter;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
@@ -34,7 +35,7 @@ echo Html::beginForm(['project/filter', 'id' => $project->id,
     <div class="count">
         <?php
         echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
-        /** @var \prime\objects\HeramsResponse $heramsResponse */
+        /** @var HeramsResponseInterface $heramsResponse */
         $lastUpdate = null;
         foreach($data as $heramsResponse) {
             $date = $heramsResponse->getDate();
