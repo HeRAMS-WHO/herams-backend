@@ -61,16 +61,17 @@ $this->beginContent('@views/layouts/map.php');
     </div>
     <div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
+            $latestResponse =  \prime\models\ar\Response::find()->orderBy(['last_updated' => SORT_DESC])->limit(1)->one();
             if (false !== $ts = \Yii::$app->cache->get('lastUpdatedTimestamp')) {
                 $lastUpdated = Carbon::createFromTimestampUTC($ts)->diffForHumans();
             } else {
-                $lastUpdated = \Yii::t('app', 'Unknown');
+                $lastUpdated = $latestResponse->last_updated;
             }
 
             if (false !== $projectId = Yii::$app->cache->get('lastUpdatedProject')) {
                 $lastProject = Project::findOne(['id' => $projectId])->title;
             } else {
-                $lastProject = \Yii::t('app', 'Unknown');
+                $lastProject = Project::findOne(['base_survey_eid' => $latestResponse->survey_id])->title;
             }
 
             echo "$lastProject / $lastUpdated";
