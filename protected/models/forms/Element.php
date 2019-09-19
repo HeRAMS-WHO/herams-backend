@@ -32,6 +32,17 @@ class Element extends Model
         }
     }
 
+    public function load($data, $formName = null): bool
+    {
+        if (parent::load($data, $formName)) {
+            // Recreate validators.
+            $this->getValidators()->exchangeArray($this->createValidators());
+            return true;
+        }
+        return false;
+    }
+
+
     public function __isset($name)
     {
         return parent::__isset($name) || isset($this->element->$name);
