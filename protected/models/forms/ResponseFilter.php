@@ -124,7 +124,7 @@ class ResponseFilter extends Model
     {
         $result = [];
         foreach($this->advancedFilterMap[$fieldName]->getAnswers() as $answer) {
-            $title = strtok(strip_tags($answer->getText()), ':(')
+            $title = strtok(strip_tags($answer->getText()), ':(');
             if (strpos($title, '/') !== false) {
                 $parts = explode('/', $title, 2);
                 if (isset($result[$parts[0]])) {
