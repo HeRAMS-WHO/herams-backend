@@ -252,11 +252,12 @@ class ResponseFilter extends Model
 
     public function toQueryParam(): string
     {
-        $data = array_filter([
+        $data = gzcompress(json_encode(array_filter([
             'advanced' => $this->advanced,
             'date' => $this->date,
-        ]);
-        return StringHelper::base64UrlEncode(gzcompress(json_encode($data, 9)));
+        ])), 9);
+        $length = mb_strlen($data, '8BIT');
+        return StringHelper::base64UrlEncode($data . str_repeat("\0", (2 * ($length % 3)) % 3));
     }
 
     public function fromQueryParam(string $value)
