@@ -82,6 +82,7 @@ class ProjectController extends Controller
                                 'workspaces',
                                 'delete',
                                 'check',
+                                'filter',
                                 'export-dashboard',
                                 'import-dashboard'
                             ],
