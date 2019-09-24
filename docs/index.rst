@@ -3,11 +3,6 @@
    :alt: HeRAMS Logo
    :align: center
 
-
-
-=================
-HeRAMS User Guide
-=================   
 	
 Introduction
 ============
