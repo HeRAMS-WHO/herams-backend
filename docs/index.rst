@@ -5,7 +5,9 @@
 
 
 
-   
+=================
+HeRAMS User Guide
+=================   
 	
 Introduction
 ============
@@ -58,7 +60,7 @@ Logging in
 
 .. __: `Creating a User Account`_
 
-1. Open the link ``herams.org <https://herams.org>`_ in your browser.
+1. Open the link `herams.org <https://herams.org>`_ in your browser.
 2. Enter your email address and password in the designated fields.
 3. Click the |login| button.
 
@@ -75,7 +77,7 @@ Reset password
 
 In case you forgot your password, the instruction below will guide through the steps to reset your password.
 
-1. Open the link ``herams.org <https://herams.org>`_ in your browser.
+1. Open the link `herams.org <https://herams.org>`_ in your browser.
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
@@ -593,7 +595,7 @@ Create a New Workspace
      
   .. Note: Tokens are unique identifiers that link health facilities to workspaces. To add a health facility to a workspace the token of the record in question has to be manually changed. Contact your system administrator for guidance on how to change a record's token.
 
-Delete a Workspaces
+Delete a Workspace
 ~~~~~~~~~~~~~~~~~~~
 
 1. You can remove a workspace by clicking the |delete-black| icon in the **Actions** column next to the selected workspace.
@@ -602,16 +604,16 @@ Delete a Workspaces
 
    .. __: `Delete a Health Facility`_
 
+
 Projects
 --------
 
 The `Projects <https://herams.org/project/index>`_ page provides a brief overview of all projects available on the HeRAMS platform. 
 
-.. image:: media/img/HeRAMS_projects.png
-	:height: 300px
-	:alt: projects
-    :align: center
-
+  .. image:: media/img/HeRAMS_projects.png
+  	:height: 300px
+	:align: center
+	
 * |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here`__ form information on workspaces. 
 * |dashboard| **Dashboard**: By clicking the dashboard icon, the project `dashboard`__ will be opened.
 * |pencil-thin| **Edit Project Properties**: Permits users with appropriate permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`__ for more information on editing the project properties. For addtional information on how to configuring the dashboard, consult the section `Configure the Project Dashboard`__.
@@ -619,7 +621,7 @@ The `Projects <https://herams.org/project/index>`_ page provides a brief overvie
 * |share-icon| **Share**: The sharing function is used to grant users access to a project. See `below`__ for further details.
 
 .. __: `Workspaces`_   
-.. __: `Dashboard`_
+.. __: `Project Dashboard`_
 .. __: `Modify a Project`_
 .. __: `Configure the Project Dashboard`_
 .. __: `Add a User to a Project`_
@@ -635,6 +637,9 @@ Add a User to a Project
 4. You should now see a page similar to the image shown below. On the bottom half of the screen you can see a list of all users currently having access to this project and their permission level. In the top half the page you have the option to add a user. Start typing the users name in the top field. You will notice that the list of users is dynamically filtering. Select the user you would like to add.
 
   .. image:: media/img/HeRAMS_project_share.png
+  	:height: 300px
+	:alt: share project
+	:align: center
 
   .. tip: You can add multiple users add once as shown in the image above.
 
@@ -645,8 +650,8 @@ Add a User to a Project
 
 .. __: `Project Permissions`
 
-.. image:: media/vid/HeRAMS_project_share.gif
-	:height: 300px
+  .. image:: media/vid/HeRAMS_project_share.gif
+    :height: 300px
     :alt: share project
     :align: center
     
@@ -741,7 +746,7 @@ This section covers the steps required to add a new element to an existing dashb
 .. __: `Modify a Project`_
 
 .. image:: media/img/HeRAMS_dashboard_pages_table.png
-	:height: 300px
+	:height: 350px
 	:alt: Dashboard pages
 	:align: center
 
@@ -810,7 +815,7 @@ Add a New Page to a Dashboard
 3. Enter the page name in the top field.
 4. For sub-pages, select the parent page from the **Parent Id** drop-down list. For all other pages select **No parent**.
 5. Define the page order by entering a **Sort** index. Increment the index by 1 for each new page, starting with **0** for the first page.
-6. Click the <img src="media/img/bt_create_page_blue.png" height="20" align="top" alt='create page'></img> button to add the page to the dashboard.
+6. Click the |create-page| button to add the page to the dashboard.
 7. If you return to the previous page, you will see the page appearing in the list of available pages.
 
   .. note: You only created an empty page. To add elements to your page, see section `Add a New Element to a Page`__.
@@ -821,7 +826,7 @@ Add a New Page to a Dashboard
 Update a Dashboard Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To alter an existing page, click the |pencil icon next to the page's name. This will open the page's setting page. You are now able to change the title and the order of the page. See `above`__ for further details.
+1. To alter an existing page, click the |pencil-black| icon next to the page's name. This will open the page's setting page. You are now able to change the title and the order of the page. See `above`__ for further details.
 2. On the page that opens you should now be able to alter the page name, and display order.
 3. Save your changes by clicking the |update-page| button.
 
@@ -921,11 +926,10 @@ To correct the issue, follow the instruction outlined `here`__.
  .. __: `Data Encoding in Excel`_
 
 
-
 .. |applyfilter| image:: media/img/bt_apply_filter.png
-    :height: 1.5em
-	:align: top
-	:align: apply filter
+   :height: 1.5em
+   :align: top
+   :alt: apply filter
 
 .. |captcha| image:: media/img/img_captcha.png
    :alt: HeRAMS Login
@@ -942,10 +946,10 @@ To correct the issue, follow the instruction outlined `here`__.
    :alt: clear
    :align: top	
 
-.. |clearfilter| image:: img src="media/img/bt_clear_filter.png
-    :height: 1.5em
-	:align: top
-	:alt: clearfilter
+.. |clearfilter| image:: media/img/bt_clear_filter.png
+   :height: 1.5em
+   :align: top
+   :alt: clearfilter
 
 .. |create-element-blue| image:: media/img/bt_create_element_blue.png
    :height: 1.5em
@@ -956,7 +960,12 @@ To correct the issue, follow the instruction outlined `here`__.
    :height: 1.5em
    :alt: create-element
    :align: top
-     
+
+.. |create-page| image:: media/img/bt_create_page_blue   .png
+   :height: 1.5em
+   :alt: create-element
+   :align: top
+   
 .. |create-workspace| image:: media/img/bt_create_workspace.png
    :height: 1.5em
    :alt: create-workspace
@@ -988,8 +997,8 @@ To correct the issue, follow the instruction outlined `here`__.
    :align: top
    
 .. |filter| image:: media/img/bt_filter.png
-    :height: 1.5em
-	:align: top	
+   :height: 1.5em
+   :align: top	
 	
 .. |forward| image:: media/img/icon_forward.png
    :height: 1.5em
@@ -1007,9 +1016,9 @@ To correct the issue, follow the instruction outlined `here`__.
    :alt: login
 
 .. |logout| image:: media/img/bt_logout.png
-    :height: 1.5em
-	:alt: logout
-	:align: top   
+   :height: 1.5em
+   :alt: logout
+   :align: top   
 
 .. |next| image:: media/img/bt_next_en.png
    :height: 1.5em
