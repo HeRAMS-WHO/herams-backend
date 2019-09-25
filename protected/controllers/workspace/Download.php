@@ -87,7 +87,7 @@ class Download extends Action
 //                echo trim(strip_tags($text));
 //                echo "\n";
                 $codes[$text] = trim($code);
-                $row[$text] = trim($answer);
+                $row[$text] = is_array($answer) ? implode(', ', $answer) :  trim($answer);
             }
             $rows[] = $row;
         }
