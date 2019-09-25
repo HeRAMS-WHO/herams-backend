@@ -48,7 +48,7 @@ class Download extends Action
         $rows = [];
         $codes = [];
         /** @var HeramsResponseInterface $record */
-        foreach($workspace->heramsResponses as $record) {
+        foreach($workspace->responses as $record) {
             $row = [];
             foreach ($record->getRawData() as $code => $value) {
                 if (null !== $question = $survey->getQuestionByCode($code)) {

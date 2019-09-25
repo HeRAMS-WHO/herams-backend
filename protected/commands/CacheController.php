@@ -52,13 +52,6 @@ class CacheController extends \yii\console\controllers\CacheController
         foreach ($project->getWorkspaces()->each() as $workspace) {
             $token = $workspace->getAttribute('token');
             $this->stdout("Starting cache warmup for workspace {$workspace->title}..\n", Console::FG_CYAN);
-            $lastTime = $limesurveyDataProvider->tokenCacheTime($surveyId, $token);
-            if ($lastTime === null) {
-                $this->stdout("No existing cache time found\n", Console::FG_RED);
-            } else {
-                $diff = Carbon::createFromTimestamp($lastTime)->diffForHumans();
-                $this->stdout("Last time cache was refreshed was $diff\n", Console::FG_GREEN);
-            }
             $limesurveyDataProvider->refreshResponsesByToken($surveyId, $token);
             $this->stdout("OK\n", Console::FG_GREEN);
 
@@ -87,15 +80,12 @@ class CacheController extends \yii\console\controllers\CacheController
             $this->stdout("OK\n", Console::FG_GREEN);
         }
 
-        if (!isset($lastTime) || Carbon::createFromTimestamp($lastTime)->addMinute(20)->isPast()) {
-            $this->stdout('Refreshing survey structure...', Console::FG_CYAN);
-            foreach ($limesurveyDataProvider->getSurvey($project->base_survey_eid)->getGroups() as $group) {
-                $this->stdout('.', Console::FG_PURPLE);
-                $group->getQuestions();
-
-            }
-            $this->stdout("OK\n", Console::FG_GREEN);
+        $this->stdout('Refreshing survey structure...', Console::FG_CYAN);
+        foreach ($limesurveyDataProvider->getSurvey($project->base_survey_eid)->getGroups() as $group) {
+            $this->stdout('.', Console::FG_PURPLE);
+            $group->getQuestions();
 
         }
+        $this->stdout("OK\n", Console::FG_GREEN);
     }
 }

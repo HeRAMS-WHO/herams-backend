@@ -33,7 +33,7 @@ use yii\validators\UniqueValidator;
  * @property datetime $created
  *
  * @method static WorkspaceQuery find()
- * @property HeramsResponseInterface[] $heramsResponses
+ * @property HeramsResponseInterface[] $responses
  */
 class Workspace extends ActiveRecord
 {
