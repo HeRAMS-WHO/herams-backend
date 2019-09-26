@@ -42,10 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'title' => [
                 'type' => Form::INPUT_TEXT,
             ],
-            'base_survey_eid' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->dataSurveyOptions(),
-            ],
             'latitude' => [
                 'type' => Form::INPUT_TEXT
             ],
