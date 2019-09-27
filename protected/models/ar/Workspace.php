@@ -14,6 +14,7 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use yii\db\ActiveQuery;
+use yii\db\Query;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -86,7 +87,7 @@ class Workspace extends ActiveRecord
             [['title'], StringValidator::class, 'min' => 1],
             [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
             [['tool_id'], NumberValidator::class],
-            ['token', UniqueValidator::class],
+            [['token'], UniqueValidator::class, function(Query $query) { $query->andWhere(['tool_id' => $this->tool_id]); }],
         ];
     }
 
