@@ -87,7 +87,7 @@ class Workspace extends ActiveRecord
             [['title'], StringValidator::class, 'min' => 1],
             [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
             [['tool_id'], NumberValidator::class],
-            [['token'], UniqueValidator::class, function(Query $query) { $query->andWhere(['tool_id' => $this->tool_id]); }],
+            [['token'], UniqueValidator::class, 'filter' => function(Query $query) { $query->andWhere(['tool_id' => $this->tool_id]); }],
         ];
     }
 
