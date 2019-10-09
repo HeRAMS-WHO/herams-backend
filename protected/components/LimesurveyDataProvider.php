@@ -4,6 +4,7 @@
 namespace prime\components;
 
 
+use prime\exceptions\SurveyDoesNotExist;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -114,7 +115,11 @@ class LimesurveyDataProvider extends Component
 
     public function getSurvey(int $surveyId): SurveyInterface
     {
-        return $this->client->getSurvey($surveyId);
+        try {
+            return $this->client->getSurvey($surveyId);
+        } catch (\Exception $e) {
+            throw SurveyDoesNotExist::fromClient($e);
+        }
     }
 
     public function getUrl(int $surveyId, array $params = []): string

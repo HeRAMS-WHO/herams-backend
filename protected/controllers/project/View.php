@@ -4,6 +4,7 @@
 namespace prime\controllers\project;
 
 
+use prime\exceptions\SurveyDoesNotExist;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
@@ -15,6 +16,7 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
+use yii\web\ServerErrorHttpException;
 
 class View extends Action
 {
@@ -32,7 +34,11 @@ class View extends Action
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
-        $survey = $project->getSurvey();
+        try {
+            $survey = $project->getSurvey();
+        } catch (SurveyDoesNotExist $e) {
+            throw new ServerErrorHttpException($e->getMessage());
+        }
 
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */

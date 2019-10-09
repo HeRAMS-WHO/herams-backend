@@ -32,6 +32,16 @@ class Preview extends Action
             throw new ForbiddenHttpException();
         }
         $element->load($request->queryParams);
+        // Hack for colors
+        $colors = [];
+        foreach($request->queryParams['Element'] ?? [] as $key => $value) {
+            if (strncmp($key, 'color.', 6) === 0 ) {
+                $colors[substr($key, 6)] = $value;
+
+            }
+        }
+        $element->setColors($colors);
+
         $responses = $element->project->getResponses();
 
         $survey = $limesurveyDataProvider->getSurvey($element->project->base_survey_eid);

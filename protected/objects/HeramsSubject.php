@@ -14,6 +14,7 @@ use prime\interfaces\HeramsResponseInterface;
  */
 class HeramsSubject
 {
+    public const UNKNOWN_VALUE = '_UNKNOWN';
     public const FULLY_AVAILABLE = 'A1';
     public const PARTIALLY_AVAILABLE= 'A2';
     public const NOT_AVAILABLE= 'A3';

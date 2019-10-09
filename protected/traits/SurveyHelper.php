@@ -76,11 +76,12 @@ trait SurveyHelper
                 assert(count($answers) > 0);
                 $map = [];
                 foreach ($answers as $answer) {
-                    $map[$answer->getCode()] = trim(strtok($answer->getText(),':('));
+                    $code = $answer->getCode() === "" ? HeramsSubject::UNKNOWN_VALUE : $answer->getCode();
+                    $map[$code] = trim(strtok($answer->getText(),':('));
                 }
                 ksort($map);
-                if (!isset($map[""])) {
-                    $map[""] = \Yii::t('app', 'Unknown');
+                if (!isset($map[HeramsSubject::UNKNOWN_VALUE])) {
+                    $map[HeramsSubject::UNKNOWN_VALUE] = \Yii::t('app', 'Unknown');
                 }
                 return $map;
         }

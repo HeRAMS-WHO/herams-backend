@@ -13,13 +13,14 @@ use yii\helpers\Json;
 
 class DashboardMap extends Element
 {
-    public const DEFAULT_MARKER_RADIUS = 2;
     use SurveyHelper;
+
+    public const DEFAULT_MARKER_RADIUS = 2;
     public const TILE_LAYER = 'tileLayer';
     public $baseLayers = [
         [
             "type" => DashboardMap::TILE_LAYER,
-            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+//            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
@@ -68,7 +69,7 @@ class DashboardMap extends Element
         $collections = [];
         /** @var HeramsResponseInterface $response */
         foreach($data as $response) {
-            $value = $getter($response);
+            $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
             $latitude = $response->getLatitude();
             $longitude = $response->getLongitude();
             if (abs($latitude) < 0.0000001
@@ -139,7 +140,6 @@ class DashboardMap extends Element
 
         $baseLayers = Json::encode($this->baseLayers);
         $data = Json::encode($this->getCollections($this->data), JSON_PRETTY_PRINT);
-
         $title = Json::encode($this->getTitleFromCode($this->code));
         $this->view->registerJs(<<<JS
         (function() {

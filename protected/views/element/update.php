@@ -116,6 +116,10 @@ $('#element-code, #element-transpose').on('change', function(e) {
     // Refresh page on change.
     window.location.href = $url.replace("__value__", e.target.value).replace("__key__", e.target.name);
 });
+
+$('form').on('change', function() {
+    $('.col-xs-4 iframe').attr('src', '/element/{$model->id}/preview?' + $('form').serialize());
+});
 JS
     );
 
