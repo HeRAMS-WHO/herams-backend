@@ -146,8 +146,27 @@ JS
     echo ButtonGroup::widget([
         'buttons' => [
             Html::submitButton($this->title,
-                ['class' => 'btn btn-primary']
-            )
+                [
+                    'class' => 'btn btn-primary',
+                    'name' => 'submit',
+                    'value' => 'refresh'
+                ]
+            ),
+            Html::submitButton(\Yii::t('app', 'Update & go to dashboard'), [
+                'class' => 'btn btn-success',
+                'name' => 'submit',
+                'value' => 'dashboard'
+            ]),
+            Html::a(\Yii::t('app', 'Discard changes & go to dashboard'),
+                [
+                    'project/view',
+                    'page_id' => $model->page->id,
+                    'id' => $model->project->id
+                ],
+                [
+                'class' => 'btn btn-warning',
+
+            ])
         ]
     ]);
     $form->end();
