@@ -64,13 +64,13 @@ Logging in
 Logging out
 -----------
 
-When on a shared system you want to make sure that you log out when you are down. To logout click the |logout| button in the top right corner of the screen.
+To logout click the |logout| button in the top right corner of the screen.
 
 
 Reset password
 --------------
 
-In case you forgot your password, the instruction below will guide through the steps to reset your password.
+In case you forgot your password, the instruction below will guide you through the steps to reset your password.
 
 1. Open the link `herams.org <https://herams.org>`_ in your browser.
 
@@ -81,11 +81,11 @@ In case you forgot your password, the instruction below will guide through the s
 4. Below the email field, you will see an image similar to this one: |captcha|
 5. Enter the the characters displayed into the field below the image.
 6. Click the |submit| button.
-7. You will receive an email with a password reset link. Click the link to open the password rest page. 
+7. You will receive an email with a password reset link. Click the link to open the password reset page. 
 
 .. note:: If you did not receive this email within a few minutes, check your spam folder.
 
-7. In the page that opens, enter your new password.
+7. On the page that opens, enter your new password.
 8. Click the |submit| button to confirm your new password.
 9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login/>`_.
 
@@ -107,8 +107,8 @@ Change Password
 ---------------
 
 1. To alter your password, open your user profile as explained `above`__.
-2. Click the `Account <https://herams.org/user/settings/account>`_ link to access your account information.
-3. In the page opening, you should be able to change your email address and enter a new password.
+2. Click on the `Account <https://herams.org/user/settings/account>`_ link to access your account information.
+3. On the page opening, you should be able to change your email address and enter a new password.
 4. Make sure to click the |submit| button to confirm your changes.
 
 .. __: `Update your User Profile`_
@@ -140,7 +140,7 @@ Project Dashboard
 
 Each project in HeRAMS has a custom interactive dashboard providing an instant and in-depth analysis based on the available data.
 
-1. To view a project dashboard, open the project summary by selecting your project form the navigation pane on the left. Alternatively, you can open the project summary by clicking the corresponding blue dot on the world map.
+1. To view a project dashboard, open the project summary by selecting your project from the navigation pane on the left. Alternatively, you can open the project summary by clicking the corresponding blue dot on the world map.
 2. In the pop-up window, click the |details| button. This will open the interactive dashboard.
 3. You should now see a page similar to the one shown below. In the navigation pane on the left you will find a list of all available pages.
     
@@ -170,12 +170,12 @@ The animation below shows the dashboards in action.
 Filtering data
 --------------
 
-Data in the dashboard can be filtered. This allows you to zoom in on subsets that are of interest to you. 
+Data on the dashboard can be filtered. This allows you to scrutinise the data subsets that are of interest to you.
 
 .. note:: Filtering is not persistent and only visible during your current session.
 
 1. In the top right corner of the dashboard, click the |filter| button.
-2. You should now see the filter configuration page. Use the drop-down list to select your filter criteria. Repeat this process until you have added all the desired filter criteria.
+2. You should now see the filtering setting page. Use the drop-down list to select your filter criteria. Repeat this process until you have added all the desired filter criteria.
 
 .. note:: If you apply multiple search criteria, only results that contain all terms will be shown.
 
@@ -223,7 +223,7 @@ Default dashboard pages
 
 The below section provides an overview of the standard pages available in a dashboard. Each page refers to a HeRAMS standard information pillar.
 
-.. note:: The order and the content of dashboards is customized based on the needs for individual projects. Your dashboard might therefore be substantially different from the example pages displayed below.
+.. note:: The order and the content of dashboards are customized individually based on each project's need. Your dashboard might, therefore, be substantially different from the example pages displayed below.
 
 Overview
 ~~~~~~~~
@@ -233,7 +233,7 @@ The **Overview** page provides a summary, in form of:
 *	a map to spot the distribution and number of health facilities by level of care (i.e. primary, secondary and tertiary health care facilities); and
 *	donout charts to summarize different indicators, such as level of damage, functionality status, accessibility and service availability in the assessed health facility.
 
-.. note:: Service availability is country-specific. Thus, direct comparisons form one country to another should be avoided.
+.. note:: Service availability is country-specific. Thus, direct comparisons from one country to another should be avoided.
 
 .. image:: media/img/HeRAMS_dashboard_overview.png
    :height: 300px
@@ -255,10 +255,10 @@ The **Infrastructure** page displays a descriptive analysis, including:
 Condition
 ~~~~~~~~
 
-The **Condition** page displays the level of reported damage to MoDS buildings following a standard classification and scale (Not Damaged to Fully Damaged). Information is visualized as:
+The **Condition** page displays the level of reported damage to MoSD buildings following a standard classification and scale (Not Damaged to Fully Damaged). Information is visualized as:
 
 *	a map to spot the distribution and number of health facilities according to the level of building damage (i.e. condition);
-*	donout charts summarizing the reported level of building damage by level of severity as well as the distribution of MoDS by type; and
+*	donout charts summarizing the reported level of building damage by level of severity as well as the distribution of MoSD by type; and
 *	a table to provide the name of the prioritized localities in terms of damage and their main causes.
 
 .. image:: media/img/HeRAMS_dashboard_condition.png
@@ -609,7 +609,7 @@ The `Projects <https://herams.org/project/index>`_ page provides a brief overvie
   	:height: 300px
 	:align: center
 	
-* |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here`__ form information on workspaces. 
+* |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here`__ for more information on workspaces. 
 * |dashboard| **Dashboard**: By clicking the dashboard icon, the project `dashboard`__ will be opened.
 * |pencil-thin| **Edit Project Properties**: Permits users with appropriate permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`__ for more information on editing the project properties. For addtional information on how to configuring the dashboard, consult the section `Configure the Project Dashboard`__.
 * |check| **Check Data**: Can be used for a quick review of the data to identify invalid responses.
