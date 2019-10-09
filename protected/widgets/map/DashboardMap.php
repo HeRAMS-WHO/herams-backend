@@ -185,9 +185,18 @@ class DashboardMap extends Element
                     // legend.css
                     layers[legend.outerHTML] = layer;
                 }
-                L.control.layers([], layers, {
-                    collapsed: false
-                }).addTo(map);
+                let layerControl = L.control.layers([], layers, {
+                    collapsed: false,
+                });
+                let parentAdd = layerControl.onAdd;
+                layerControl.onAdd = function() { 
+                    let result = parentAdd.apply(this, arguments);
+                    $(result).prepend('<p style="font-size: 1.3em; font-weight: bold; margin: 0;">' + $title + '</p>');
+                    return result;
+                };
+                
+                layerControl.addTo(map);
+
                 
                 
                 L.control.scale({
@@ -205,16 +214,16 @@ class DashboardMap extends Element
                     console.error(err);
                 }
                 
-                let title = L.control({
-                    position: "topleft"
-                });
-                title.onAdd = function (map) {
-                    this._div = L.DomUtil.create('div', 'info');
-                    this._div.innerHTML = '<div class="leaflet-bar" style="font-size: 12px; padding: 5px; font-weight: bold; color: #666; background-color: white;">' + $title + '</div>';
-                    return this._div;
-                };
-                
-                title.addTo(map);
+//                let title = L.control({
+//                    position: "topleft"
+//                });
+//                title.onAdd = function (map) {
+//                    this._div = L.DomUtil.create('div', 'info');
+//                    this._div.innerHTML = '<div class="leaflet-bar" style="font-size: 12px; padding: 5px; font-weight: bold; color: #666; background-color: white;">' + $title + '</div>';
+//                    return this._div;
+//                };
+//                
+//                title.addTo(map);
                 
         })();
 
