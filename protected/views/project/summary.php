@@ -146,6 +146,9 @@ $hostInfo = \Yii::$app->request->hostInfo;
                 }, array_keys($types))
             ],
             'options' => [
+                'tooltips' => [
+                        'enabled' => false,
+                ],
                 'elements' => [
                     'arc' => [
                         'borderWidth' => 0
@@ -217,6 +220,9 @@ JS;
                 }, array_keys($functionality))
             ],
             'options' => [
+                'tooltips' => [
+                    'enabled' => false,
+                ],
                 'elements' => [
                     'arc' => [
                         'borderWidth' => 0
@@ -285,6 +291,9 @@ JS;
                 'labels' => array_keys($availability)
             ],
             'options' => [
+                'tooltips' => [
+                    'enabled' => false,
+                ],
                 'elements' => [
                     'arc' => [
                         'borderWidth' => 0
