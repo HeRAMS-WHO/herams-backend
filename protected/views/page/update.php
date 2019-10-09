@@ -115,6 +115,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => new ActiveDataProvider(['query' => $page->getElements()]),
         'columns' => [
             'id',
+            'title',
+            'code',
             'type',
             'sort',
             'actions' => [
