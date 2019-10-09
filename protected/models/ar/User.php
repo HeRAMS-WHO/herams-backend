@@ -82,8 +82,4 @@ class User extends \dektrium\user\models\User {
         return $rules;
     }
 
-    public function getUsername()
-    {
-        return null;
-    }
 }
