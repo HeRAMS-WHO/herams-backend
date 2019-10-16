@@ -33,7 +33,7 @@
             return [
                 'error' => [
                     'class' => ErrorAction::class,
-                    'layout' => 'map-popover-full',
+                    'layout' => 'map-popover',
                     'view' => 'error'
                 ],
                 'captcha' => [

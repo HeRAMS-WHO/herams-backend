@@ -37,20 +37,8 @@ echo Html::endTag('div');
 ?>
 <div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
-            $latestResponse =  \prime\models\ar\Response::find()->orderBy(['last_updated' => SORT_DESC])->limit(1)->one();
-            if (false !== $ts = \Yii::$app->cache->get('lastUpdatedTimestamp')) {
-                $lastUpdated = Carbon::createFromTimestampUTC($ts)->diffForHumans();
-            } else {
-                $lastUpdated = $latestResponse->last_updated;
-            }
-
-            if (false !== $projectId = Yii::$app->cache->get('lastUpdatedProject')) {
-                $lastProject = Project::findOne(['id' => $projectId])->title;
-            } else {
-                $lastProject = Project::findOne(['base_survey_eid' => $latestResponse->survey_id])->title;
-            }
-
-            echo "$lastProject / $lastUpdated";
+            $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
+            echo "{$latestResponse->project->title} / {$latestResponse->last_updated}";
 
             ?></span>
 </div>

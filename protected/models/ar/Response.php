@@ -17,12 +17,14 @@ use function iter\toArrayWithKeys;
 /**
  * Class Response
  * @package prime\models\ar
- * @property string|\DateTimeInterface $last_updated
+ * @property string|\DateTimeInterface $last_updated The last time this response was synced
  * @property int $workspace_id
  * @property int $id
- * @property string|\DateTimeInterface $date
+ * @property string|\DateTimeInterface $date The date of the information
  * @property int $survey_id
  * @property array $data
+ * @property Workspace $workspace
+ * @property Project $project
  * @method static ResponseQuery find()
  */
 class Response extends ActiveRecord implements HeramsResponseInterface
@@ -62,6 +64,12 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     {
         return $this->hasOne(Workspace::class, ['id' => 'workspace_id'])->inverseOf('responses');
     }
+
+    public function getProject()
+    {
+        return $this->hasOne(Project::class, ['id' => 'project_id'])->via('workspace');
+    }
+
     public function loadData(array $data, Workspace $workspace)
     {
         $data = toArrayWithKeys(filter(function($value) {
