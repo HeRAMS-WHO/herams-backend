@@ -62,7 +62,11 @@ $this->beginContent('@views/layouts/map.php');
     <div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
             $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
-            echo "{$latestResponse->project->title} / {$latestResponse->last_updated}";
+            if (isset($latestResponse)) {
+                echo "{$latestResponse->project->title} / {$latestResponse->last_updated}";
+            } else {
+                echo "No data loaded";
+            }
             ?></span>
     </div>
 </div>

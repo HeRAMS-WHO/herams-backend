@@ -77,7 +77,6 @@ class UpdateCest
         }
 
         $options = [
-            'base_survey_eid' => 11111,
             'status' => Project::STATUS_EMERGENCY_SPECIFIC,
         ];
         foreach($options as $key => $value) {

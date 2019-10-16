@@ -67,7 +67,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id'])->via('workspace');
+        return $this->hasOne(Project::class, ['id' => 'tool_id'])->via('workspace');
     }
 
     public function loadData(array $data, Workspace $workspace)

@@ -23,14 +23,15 @@ jobs:
         - git add .
         - git commit -a -m "Update translation templates" || echo "No changes"
         - git push
-
-#install:
-#  - cp .env.default .env
-#  - docker-compose --version
-#  - docker-compose build
-#before_script:
-#  - docker-compose run --rm composer install
-#script:
-#  - docker-compose run --rm codeception run --coverage-xml
-#after_script:
-#  - docker run --rm -v $(pwd):$(pwd) --entrypoint /bin/sh php:alpine -c "cd $(pwd) && apk add --update --no-cache git && wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml"
+    - stage: "test"
+      name: "test"
+      install:
+        - cp .env.default .env
+        - docker-compose --version
+        - docker-compose build
+      before_script:
+        - docker-compose run --rm composer install
+      script:
+        - docker-compose run --rm codeception run --coverage-xml
+      after_script:
+        - docker run --rm -v $(pwd):$(pwd) --entrypoint /bin/sh php:alpine -c "cd $(pwd) && apk add --update --no-cache git && wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml"

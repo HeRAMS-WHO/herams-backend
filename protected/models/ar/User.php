@@ -23,6 +23,11 @@ class User extends \dektrium\user\models\User {
     public $last_login_at;
     const NON_ADMIN_KEY = 'safe';
 
+    public function getUserName()
+    {
+        return null;
+    }
+
     public function getGravatarUrl ($size = 256)
     {
         return "//s.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . '?'. http_build_query([
