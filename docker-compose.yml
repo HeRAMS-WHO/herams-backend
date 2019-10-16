@@ -20,6 +20,9 @@ x-env:
       DB_NAME: ${DB_NAME}
       DB_PASS: ${DB_PASS}
       YII_ENV: $YII_ENV
+      LS_HOST: ${LS_HOST}
+      LS_PASS: ${LS_PASS}
+      LS_USER: ${LS_USER}
       RUNTIME_PATH: /runtime
       SMTP_HOST: mailcatcher
       RESPONSE_SUBMISSION_KEY: $RESPONSE_SUBMISSION_KEY
@@ -90,8 +93,6 @@ services:
       "30",
       "testdb",
       "3306",
-      "phpdbg",
-      "-qrr",
       "/project/vendor/bin/codecept"
     ]
     command: "run"

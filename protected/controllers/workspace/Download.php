@@ -7,14 +7,18 @@ namespace prime\controllers\workspace;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
+use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
+use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Survey;
 use yii\base\Action;
+use yii\helpers\ArrayHelper;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\User;
+use function iter\toArray;
 
 class Download extends Action
 {
@@ -42,56 +46,21 @@ class Download extends Action
         $questions = [];
         foreach($survey->getGroups() as $group) {
             foreach($group->getQuestions() as $question) {
+                // Extract each question separately.
                 $questions[$question->getTitle()] = $question;
             }
         }
         $rows = [];
         $codes = [];
         /** @var HeramsResponseInterface $record */
-        foreach($workspace->responses as $record) {
+        foreach($workspace->getResponses()->each() as $record) {
             $row = [];
-            foreach ($record->getRawData() as $code => $value) {
-                if (null !== $question = $survey->getQuestionByCode($code)) {
-                    $text = $question->getText();
-                    $answer = $this->getAnswer($question, $value, $codeAsText);
-
-
-                } elseif (preg_match('/^(.+)\[(.*)\]$/', $code,
-                        $matches) && null !== $question = $survey->getQuestionByCode($matches[1])
-                ) {
-                    if (null !== $sub = $question->getQuestionByCode($matches[2])) {
-                        $text = $sub->getText();
-                        $answer = $this->getAnswer($sub, $value, $text);
-                    } elseif ($question->getDimensions() == 2 && preg_match('/^(.+)_(.+)$/', $matches[2],
-                            $subMatches)
-                    ) {
-                        if (null !== ($sub = $question->getQuestionByCode($subMatches[1], 0))
-                            && null !== $sub2 = $question->getQuestionByCode($subMatches[2], 1)
-                        ) {
-                            $text = $sub->getText() . ' - ' . $sub2->getText();
-                            $answer = $this->getAnswer($sub2, $value, $text);
-                        } else {
-                            throw new \RuntimeException("Could not find subquestions for 2 dimensional question.");
-
-                        }
-                    } else {
-                        $text = "Not found";
-                        $answer = $value;
-                    }
-                } else {
-                    $text = $code;
-                    $answer = $value;
-                }
-//                echo str_pad($code, 20) . " | " . str_pad(is_null($value) ? 'NULL' : $value, 20) . " | ";
-//                echo str_pad(trim(strip_tags($answer)), 40) . ' | ';
-//                echo trim(strip_tags($text));
-//                echo "\n";
-                $codes[$text] = trim($code);
-                $row[$text] = is_array($answer) ? implode(', ', $answer) :  trim($answer);
-            }
-            $rows[] = $row;
+            $rows[] = toArray($this->getRow($survey, $record));
         }
 
+//        echo '<pre>';
+//        print_r($rows);
+//        die();
         $stream = fopen('php://temp', 'w+');
         // First get all columns.
         $columns = [];
@@ -121,6 +90,71 @@ class Download extends Action
         return $response->sendStreamAsFile($stream, "{$workspace->title}.csv", [
             'mimeType' => 'text/csv'
         ]);
+    }
+
+    private function getRow(
+        SurveyInterface $survey,
+        HeramsResponseInterface $record
+    ) {
+        $data = $record->getRawData();
+
+        foreach($survey->getGroups() as $group) {
+            foreach($group->getQuestions() as $question) {
+                // Extract each question separately.
+                switch ($question->getDimensions()) {
+                    case 0:
+                        if ($question->getAnswers() === null) {
+                            yield $question->getTitle() => $data[$question->getTitle()] ?? null;
+                        } else {
+                            $map = ArrayHelper::map($question->getAnswers(),
+                                function(AnswerInterface $a) { return $a->getCode(); },
+                                function(AnswerInterface $a) { return $a->getText(); }
+                            );
+                            yield $question->getTitle() => $map[$data[$question->getTitle()] ?? null] ?? null;
+                        }
+
+                        break;
+                    case 1:
+                        foreach($question->getQuestions(0) as $subQuestion) {
+                            if ($subQuestion->getAnswers() === null) {
+                                yield "{$question->getTitle()}[{$subQuestion->getTitle()}]" => $data["{$question->getTitle()}[{$subQuestion->getTitle()}]"] ?? null;
+                            } else {
+                                $map = ArrayHelper::map($subQuestion->getAnswers(),
+                                    function(AnswerInterface $a) { return $a->getCode(); },
+                                    function(AnswerInterface $a) { return $a->getText(); }
+                                );
+                                if (isset($data[$question->getTitle()])) {
+                                    var_dump($question->getTitle());
+
+                                    var_dump($data[$question->getTitle()]);
+                                    var_dump($subQuestion->getTitle());
+                                    var_dump($subQuestion->getText());
+                                    die();
+                                }
+                                yield "{$question->getTitle()}[{$subQuestion->getTitle()}]" => $map[$data[$question->getTitle()] ?? null] ?? null;
+                            }
+                        }
+                        break;
+                    case 2:
+                        $rowQuestions = $question->getQuestions(0);
+                        usort($rowQuestions, function(QuestionInterface $a, QuestionInterface $b) {
+                            return $a->getIndex() <=> $b->getIndex();
+                        });
+                        foreach($rowQuestions as $rowQuestion) {
+                            $cells = $rowQuestion->getQuestions(0);
+                            usort($cells, function(QuestionInterface $a, QuestionInterface $b) {
+                                return $a->getIndex() <=> $b->getIndex();
+                            });
+                            foreach($cells as $cell) {
+                                $code = "{$question->getTitle()}[{$rowQuestion->getTitle()}_{$cell->getTitle()}]";
+                                yield $code => $data[$code] ?? null;
+                            }
+                        }
+                        break;
+                    default:
+                }
+            }
+        }
     }
 
     private function getAnswer(QuestionInterface $q, $value, $text = false)

@@ -96,6 +96,7 @@ return [
                         'title' => \Yii::t('app', 'Download'),
                     ]
                 );
+                \prime\assets\BootBoxAsset::register($this);
                 $this->registerJs(<<<JS
 var handler = function(e){
     console.log('Clicked');
@@ -103,6 +104,17 @@ var handler = function(e){
     e.stopPropagation();
     let textUrl = $(this).data('text');
     let codeUrl = $(this).data('code');
+    iziToast.question({
+        close: true,
+        displayMode: 'once',
+        overlay: true,
+        position: 'center',
+        title: "Download data in CSV format",
+        message: "Do you prefer answer as text or as code?",
+        buttons: [
+            
+        ]    
+    });
     bootbox.dialog({
         message: "Do you prefer answer as text or as code?",
         title: "Download data in CSV format",

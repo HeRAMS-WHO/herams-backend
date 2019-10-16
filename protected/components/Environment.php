@@ -42,9 +42,9 @@ class Environment implements ArrayAccess {
         throw new \Exception('Not supported');
     }
 
-    public function __debugInfo()
-    {
-        return ['data' => '** MASKED **'];
-    }
+//    public function __debugInfo()
+//    {
+//        return ['data' => '** MASKED **'];
+//    }
 
 }

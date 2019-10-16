@@ -2,8 +2,9 @@
 
 use dektrium\user\controllers\RegistrationController;
 use prime\components\JwtSso;
-use prime\models\ar\Setting;
 use prime\objects\Deferred;
+use SamIT\LimeSurvey\JsonRpc\Client;
+use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 
 /** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
@@ -71,9 +72,9 @@ return [
             'client' => 'limesurvey',
             'cache' => 'limesurveyCache'
         ],
-        'limesurvey' => function (){
-            $json = new \SamIT\LimeSurvey\JsonRpc\JsonRpcClient(Setting::get('limeSurvey.host'), false, 30);
-            $result = new \SamIT\LimeSurvey\JsonRpc\Client($json, Setting::get('limeSurvey.username'), Setting::get('limeSurvey.password'));
+        'limesurvey' => function () use ($env) {
+            $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);
+            $result = new Client($json, $env->get('LS_USER'), $env->get('LS_PASS'));
             $result->setCache(function($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 return app()->get('limesurveyCache')->set($key, $value, $duration);

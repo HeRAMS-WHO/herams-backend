@@ -4,16 +4,9 @@
 namespace prime\controllers\project;
 
 
-use prime\interfaces\PageInterface;
-use prime\models\ar\Page;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
 use prime\models\forms\ResponseFilter;
-use prime\objects\HeramsResponse;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
 
 class Filter extends Action

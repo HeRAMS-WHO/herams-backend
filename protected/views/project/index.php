@@ -25,9 +25,6 @@ $this->params['breadcrumbs'][] = [
         'caption' => ButtonGroup::widget([
             'options' => [
                 'class' => 'pull-right',
-                'style' => [
-                    'margin-bottom' => '10px'
-                ]
             ],
             'buttons' => [
                 [

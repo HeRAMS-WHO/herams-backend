@@ -39,7 +39,7 @@ echo Html::endTag('div');
             <?php
             $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
             if (isset($latestResponse)) {
-                echo "{$latestResponse->project->title} / {$latestResponse->last_updated}";
+                echo "{$latestResponse->project->title} / {$latestResponse->date}";
             } else {
                 echo "No data loaded";
             }

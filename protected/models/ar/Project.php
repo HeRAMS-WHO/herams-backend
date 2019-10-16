@@ -6,9 +6,7 @@ namespace prime\models\ar;
 use app\queries\ProjectQuery;
 use app\queries\ResponseQuery;
 use prime\components\LimesurveyDataProvider;
-use prime\interfaces\FacilityListInterface;
 use prime\interfaces\HeramsResponseInterface;
-use prime\lists\SurveyFacilityList;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
@@ -344,10 +342,6 @@ class Project extends ActiveRecord {
     public function unserialize($serialized)
     {
         throw new NotSupportedException();
-    }
-    public function getFacilities(): FacilityListInterface
-    {
-        return new SurveyFacilityList($this->getSurvey());
     }
 
     public function getMap(): HeramsCodeMap

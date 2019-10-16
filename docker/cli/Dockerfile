@@ -21,6 +21,17 @@ RUN apk add --no-cache --update \
   php7-xmlwriter \
   php7-zip \
   --
+RUN apk add --no-cache php7-pear php7-dev build-base \
+    && pecl install pcov \
+    && apk del php7-pear php7-dev build-base
+
+# Add php.ini directives.
+RUN echo $'memory_limit=1G \n\
+\n\
+variables_order = "GPCSE" \n\
+\n\
+extension = pcov.so \n\
+' >> /etc/php7/php.ini
 ADD wait.sh /bin/wait-for-it
 ADD init.sh /sbin/init.sh
 ENV COMPOSER_CACHE_DIR=/composer-cache

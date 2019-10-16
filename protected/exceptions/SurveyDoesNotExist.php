@@ -1,10 +1,6 @@
 <?php
 
-
 namespace prime\exceptions;
-
-
-use Throwable;
 
 class SurveyDoesNotExist extends \Exception
 {

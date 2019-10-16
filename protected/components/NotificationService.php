@@ -4,7 +4,6 @@
 namespace prime\components;
 
 
-use prime\assets\PNotifyBundle;
 use prime\assets\ToastBundle;
 use yii\authclient\AuthAction;
 use yii\base\Component;

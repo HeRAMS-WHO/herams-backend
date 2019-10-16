@@ -14,14 +14,12 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.3.0",
         "ext-gd": "*",
         "ext-pdo_mysql": "*",
         "ext-intl": "*",
         "ext-json": "*",
-        "2amigos/yii2-ckeditor-widget": "^1",
         "bower-asset/bootbox": "^4.4",
-        "bower-asset/bootstrap-sass": "^3.3",
         "bower-asset/is-loading": "^1",
         "dektrium/yii2-rbac": "^1.0.0-alpha",
         "dektrium/yii2-user": "^0.9.13",
@@ -42,8 +40,8 @@
         "nikic/iter": "^1.6",
         "rmrevin/yii2-fontawesome": "^3.3",
         "fortawesome/font-awesome": "^5.7",
-        "npm-asset/pnotify": "^3.2",
-        "npm-asset/izitoast": "^1.4"
+        "npm-asset/izitoast": "^1.4",
+        "npm-asset/bootstrap": "^3.4"
     },
     "autoload": {
         "psr-4": {
@@ -64,9 +62,9 @@
     },
     "require-dev": {
         "yiisoft/yii2-debug": "2.0.x-dev",
-        "codeception/codeception": "2.*",
-        "lucidtaz/yii2-scssphp": "^0.2.1",
-        "ifsnop/mysqldump-php": "^2"
+        "codeception/codeception": "3",
+        "ifsnop/mysqldump-php": "^2",
+        "phpunit/phpunit": "8.1.*"
     },
     "repositories": [
         {

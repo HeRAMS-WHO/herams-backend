@@ -10,16 +10,15 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
+        'css/main.css',
+        'css/form.css'
     ];
 
     public $js = [
-        '/js/main.js',
-        '/js/unobtrusive/tabs.js'
+        '/js/main.js'
     ];
 
     public $depends = [
-        SassAsset::class,
-        AjaxLoadersAsset::class,
-        BootBoxAsset::class
+        BootstrapBundle::class
     ];
 }

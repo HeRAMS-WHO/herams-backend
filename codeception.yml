@@ -28,5 +28,7 @@ coverage:
     include:
       - protected/*.php
     exclude:
+      - protected/config/*
+      - protected/migrations/*
       - vendor/*
       - tests/*

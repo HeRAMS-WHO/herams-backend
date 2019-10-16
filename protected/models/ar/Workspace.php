@@ -44,13 +44,6 @@ class Workspace extends ActiveRecord
      */
     protected $_token;
 
-    public function attributeHints()
-    {
-        return array_merge(parent::attributeHints(), [
-            'token' => 'Note that the first name and last name fieldOptions in the tokens will be overridden upon project creation!.'
-        ]);
-    }
-
     public function getPermissions(): ActiveQuery
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])

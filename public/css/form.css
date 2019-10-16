@@ -1,44 +1,26 @@
-html {
-    --primary-button-background-color: #4177c1;
-    --primary-button-color: white;
-    --validation-error-color: #d90001;
-    --border-color: grey;
-}
-form input {
-    padding: 10px;
-    border-radius: 5px;
-    width: 100%;
-    border-style: solid;
-    border-width: 1px;
-    border-color: var(--border-color);
-
-}
-
 form .has-error input{
     border-color: var(--validation-error-color);
 }
-form label {
-    display: none;
-}
+
 
 .help-block, .error-summary  {
     margin-top: 10px;
     color: var(--validation-error-color);
 }
 
-.form-group {
-    margin-bottom: 10px;
-}
-
-button[type="submit"] {
+.btn {
     cursor: pointer;
     padding: 10px;
     border-radius: 5px;
-    width: 100%;
     box-shadow: none;
-    background-color: var(--primary-button-background-color);
-    color: var(--primary-button-color);
+    background-image: none;
     border: none;
     text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-button-background-color);
+    color: var(--primary-button-color);
+
 }
 
