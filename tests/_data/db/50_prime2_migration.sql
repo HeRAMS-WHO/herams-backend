@@ -88,4 +88,5 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190621_161448
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190722_084803_create_response_table', 1564751070);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190828_131450_element_add_size', 1566998156);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190925_131139_response_table_foreign_keys', 1571216010);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m191024_124402_assignments_to_permissions', 1571928494);
 SET FOREIGN_KEY_CHECKS=1;

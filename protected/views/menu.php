@@ -10,7 +10,7 @@ echo Html::beginTag('div', ['class' => 'menu']);
         $projects = [];
         echo Html::a('Projects', ['/project/index']);
         if (\Yii::$app->user->can('admin')) {
-            echo Html::a('Users', ['/user/admin/index']);
+            echo Html::a('Users', ['/user/index']);
         }
         echo Html::a(\Yii::t('app', 'Backend administration'), ['/admin/limesurvey']);
     echo Html::endTag('nav');

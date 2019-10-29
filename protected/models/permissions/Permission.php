@@ -34,6 +34,8 @@ class Permission extends ActiveRecord
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
     const PERMISSION_ADMIN = 'admin';
+    const PERMISSION_SHARE = 'share';
+    const PERMISSION_DELETE = 'delete';
 
 
     public static function loadCache($sourceModel, $sourceId)
@@ -220,15 +222,6 @@ class Permission extends ActiveRecord
             self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
             self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to children or data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
-        ];
-    }
-
-    public static function permissionLevels()
-    {
-        return [
-            self::PERMISSION_READ => 0,
-            self::PERMISSION_WRITE => 2,
-            self::PERMISSION_ADMIN => 4,
         ];
     }
 

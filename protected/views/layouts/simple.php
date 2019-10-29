@@ -65,15 +65,6 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
                         </div>
 
                         <?php
-                            echo Html::img(Yii::$app->user->identity->getGravatarUrl(), [
-                                'referrerpolicy' => 'no-referrer',
-                                'style' => [
-                                    'overflow' => 'hidden',
-                                    'border-radius' => '50%',
-                                    'max-height' => '70px',
-                                    'background-color' => 'var(--breadcrumbs-color)'
-                                ]
-                            ]);
                             if(!isset($this->params['hideMenu']) || $this->params['hideMenu'] == false) {
                                 echo $this->render('//menu');
                             }

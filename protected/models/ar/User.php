@@ -4,8 +4,11 @@ namespace prime\models\ar;
 
 use app\queries\WorkspaceQuery;
 use prime\assets\IconBundle;
+use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
+use yii\base\NotSupportedException;
 use yii\helpers\Url;
+use yii\web\IdentityInterface;
 
 /**
  * Class User
@@ -18,23 +21,12 @@ use yii\helpers\Url;
  * @property string $gravatarUrl
  * @property string $name
  */
-class User extends \dektrium\user\models\User {
+class User extends \dektrium\user\models\User implements IdentityInterface {
 
     public $last_login_at;
-    const NON_ADMIN_KEY = 'safe';
-
     public function getUserName()
     {
         return null;
-    }
-
-    public function getGravatarUrl ($size = 256)
-    {
-        return "//s.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . '?'. http_build_query([
-            's' => $size,
-//            'default' =>
-//            \Yii::$app->request->hostInfo . \Yii::$app->assetManager->getAssetUrl(IconBundle::register(\Yii::$app->view), 'fonts/svg/profile.svg')
-        ]);
     }
 
     public function getFirstName(): ?string
@@ -47,33 +39,12 @@ class User extends \dektrium\user\models\User {
         return $this->profile->last_name ?? null;
     }
 
-    public function getName(): string
-    {
-        if(!isset($this->profile)) {
-            return $this->email;
-        } else {
-            return implode(
-                ' ',
-                [
-                    $this->firstName,
-                    $this->lastName,
-                    '(' . $this->email . ')'
-                ]
-            );
-        }
-    }
-
     /**
      * The project find function only returns projects a user has at least read access to
      */
     public function getProjects(): WorkspaceQuery
     {
         return Workspace::find()->notClosed()->userCan(Permission::PERMISSION_READ);
-    }
-
-    public function getOwnedProjects(): WorkspaceQuery
-    {
-        return $this->hasMany(Workspace::class, ['owner_id' => 'id']);
     }
 
     public function rules()
@@ -86,5 +57,21 @@ class User extends \dektrium\user\models\User {
         unset($rules['usernameTrim']);
         return $rules;
     }
+
+    public function setPassword(string $password): void
+    {
+        $this->password_hash = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public static function getDb()
+    {
+        return ActiveRecord::getDb();
+    }
+
+    public function getIsAdmin()
+    {
+        throw new NotSupportedException('use proper permission checking');
+    }
+
 
 }

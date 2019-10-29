@@ -8,6 +8,11 @@ use prime\tests\FunctionalTester;
 
 class CreateCest
 {
+    public function _before(FunctionalTester $I)
+    {
+        $I->assertTrue(\Yii::$app->authManager->checkAccess(TEST_ADMIN_ID, 'admin'));
+        $I->assertFalse(\Yii::$app->authManager->checkAccess(TEST_USER_ID, 'admin'));
+    }
 
     public function testAccessControl(FunctionalTester $I)
     {

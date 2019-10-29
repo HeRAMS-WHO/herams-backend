@@ -9,6 +9,7 @@ use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
 use yii\base\Action;
+use yii\rbac\CheckAccessInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -19,6 +20,7 @@ class Share extends Action
     public function run(
         NotificationService $notificationService,
         Request $request,
+        CheckAccessInterface $authManager,
         User $user,
         int $id
     )
@@ -34,7 +36,7 @@ class Share extends Action
         ) {
             throw new ForbiddenHttpException();
         }
-        $model = new ShareForm($workspace, [], [
+        $model = new ShareForm($workspace, $authManager, $user->identity, [
             'permissions' => [
                 Permission::PERMISSION_WRITE => \Yii::t('app', 'Manage the underlying response data'),
                 Permission::PERMISSION_ADMIN => \Yii::t('app', 'Full access, includes editing the workspace properties, token and response data'),

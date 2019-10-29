@@ -13,27 +13,37 @@ use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
+use yii\rbac\CheckAccessInterface;
 use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
+use yii\web\IdentityInterface;
 
 class Share extends Model {
     protected $_permissions = [];
     public $userIds;
-    public $userListIds;
     public $permission;
-    protected $excludeUserIds;
     protected $model;
 
-    public function __construct(ActiveRecord $model, array $excludeUserIds = [], array $config = [])
-    {
-        parent::__construct($config);
-        $this->model = $model;
-        $this->excludeUserIds = $excludeUserIds;
-        if($this->model->getIsNewRecord()) {
+    /** @var CheckAccessInterface */
+    private $accessChecker;
+    /** @var int */
+    private $userId;
+
+    public function __construct(
+        ActiveRecord $model,
+        CheckAccessInterface $accessChecker,
+        IdentityInterface $identity
+    ) {
+        if($model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
+        parent::__construct([]);
+        $this->model = $model;
+        $this->accessChecker = $accessChecker;
+        $this->userId = $identity->getId();
+
     }
 
     public function attributeLabels()
@@ -74,7 +84,7 @@ class Share extends Model {
 
     public function getPermissionOptions(): array
     {
-        $permissions = empty($this->_permissions)? Permission::permissionLabels() : $this->_permissions;
+        $permissions = empty($this->_permissions) ? Permission::permissionLabels() : $this->_permissions;
 
         // Add labels if needed.
         foreach($permissions as $key => $value) {
@@ -83,7 +93,9 @@ class Share extends Model {
                 $permissions[$value] = Permission::permissionLabels()[$value];
             }
         }
-        return $permissions;
+        return array_filter($permissions, function($key) {
+            return $this->accessChecker->checkAccess($this->userId, $key, $this->model);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     public function getUserOptions()
