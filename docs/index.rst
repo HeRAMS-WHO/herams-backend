@@ -231,7 +231,7 @@ Overview
 The **Overview** page provides a summary, in form of:
 
 *	a map to spot the distribution and number of health facilities by level of care (i.e. primary, secondary and tertiary health care facilities); and
-*	donout charts to summarize different indicators, such as level of damage, functionality status, accessibility and service availability in the assessed health facility.
+*	donut charts to summarize different indicators, such as level of damage, functionality status, accessibility and service availability in the assessed health facility.
 
 .. note:: The service availability indicator is country-specific. Thus, direct comparisons from one country to another should be avoided.
 
@@ -245,7 +245,7 @@ Infrastructure
 The **Infrastructure** page displays a descriptive analysis, including:
 
 * a map to spot the distribution and number of health facilities by type;
-* donout charts to illustrate **Mo**\des of **S**\ervice **D**\elivery (**MoSD**\s) by type as well as the modality of the building structure (permanent vs. temporary); and
+* donut charts to illustrate **Mo**\des of **S**\ervice **D**\elivery (**MoSD**\s) by type as well as the modality of the building structure (permanent vs. temporary); and
 * a table to illustrate reported accessibility barriers.
 
 .. image:: media/img/HeRAMS_dashboard_infastructure.png
@@ -258,7 +258,7 @@ Condition
 The **Condition** page displays the level of reported damage to MoSD buildings following a standard classification and scale (Not Damaged to Fully Damaged). Information is visualized as:
 
 *	a map to spot the distribution and number of health facilities according to the level of building damage (i.e. condition);
-*	donout charts summarizing the reported level of building damage by level of severity as well as the distribution of MoSD by type; and
+*	donut charts summarizing the reported level of building damage by level of severity as well as the distribution of MoSD by type; and
 *	a table to provide the name of the prioritized localities in terms of damage and their main causes.
 
 .. image:: media/img/HeRAMS_dashboard_condition.png
@@ -271,7 +271,7 @@ Functionality
 The **Functionality** page displays the level of functionality of the MoSDs following a standard classification and scale (Fully Functioning to Not Functioning) represented as:
 
 *	a map to spot the distribution and number of MoSDs according to the functionality status;
-*	donout charts to summarize the level of functionality as well as main causes of non-functionality; and
+*	donut charts to summarize the level of functionality as well as main causes of non-functionality; and
 *	a table displays the list of priority areas in terms of non-functional health facilities and reported causes.
 
 .. image:: media/img/HeRAMS_dashboard_functionality.png
@@ -284,7 +284,7 @@ Accessibility
 The **Accessibility** page displays the level of accessibility to MoSDs following a standard classification and scale (Fully Accessible to Not Accessible) in the form of:
 
 *	a map to spot the distribution and number of MoSDs according to the accessibility status;
-*	donout charts to summarize the level of accessibility per number of MoSDs as well as the reported causes of inaccessibility per number of MoSDs; and
+*	donut charts to summarize the level of accessibility per number of MoSDs as well as the reported causes of inaccessibility per number of MoSDs; and
 *	a table displays the list of priority areas with inaccessible MoSDs and the main reported cause of inaccessibility.
 
 .. image:: media/img/HeRAMS_dashboard_accessibility.png
@@ -303,7 +303,7 @@ The **Management & support** page displays information on the management of the 
 
 * External support:
 
-  * A donout  chart to illustrate the level of support provided by partners.
+  * A donut  chart to illustrate the level of support provided by partners.
 
 .. image:: media/img/HeRAMS_dashboard_management_support.png
    :height: 300px
@@ -328,7 +328,7 @@ Service Availability
 The **Service Availability** page displays multiple pages per type of service. Each page displays:
 
 *	a map to spot the distribution of the MoSDs providing the selected health service;
-*	donout charts to summarize the level of service availability as well as the underlying causes of unavailability of the service; and
+*	donut charts to summarize the level of service availability as well as the underlying causes of unavailability of the service; and
 *	a table displaying the list of priority areas per service unavailability and the main reported underlying causes.
 
 .. image:: media/img/HeRAMS_dashboard_service_availability.png
