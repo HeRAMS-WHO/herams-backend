@@ -1,0 +1,38 @@
+title: Project
+type: object
+description: |
+  This model represents a HeRAMS project
+x-examples:
+  Simple:
+    value:
+      id: 1
+      name: test
+      updated_at: 0
+  Location:
+    value:
+      id: 1
+      name: test
+      updated_at: 0
+      location:
+        latitude: 50.12
+        longitude: 5.012
+properties:
+  id:
+    type: integer
+    description: Project ID
+  name:
+    type: string
+    description: Project name
+  location:
+    $ref: ./longlat.v1.yaml
+  updated_at:
+    type: integer
+    description: The UNIX timestamp that indicates when the data was last updated
+  dashboard_url:
+    type: string
+    format: uri
+    description: The URL for the project dashboard
+required:
+  - id
+  - name
+  - updated_at
