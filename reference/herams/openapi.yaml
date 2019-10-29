@@ -8,6 +8,8 @@ info:
 servers:
   - description: Stoplight Studio
     url: ' http://127.0.0.1:3100'
+  - url: 'https://herams.org/api'
+    description: herams.org
 paths:
   /projects:
     get:
@@ -39,7 +41,13 @@ paths:
 components:
   schemas: {}
   securitySchemes:
-    Bearer:
+    bearer:
       name: API Key
       type: apiKey
       in: header
+      description: |
+        API Key authentication
+    user:
+      type: http
+      scheme: Basic
+      description: Standard user authentication

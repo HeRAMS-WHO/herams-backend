@@ -8,14 +8,16 @@ x-examples:
       id: 1
       name: test
       updated_at: 0
+      healthfacility_count: 14
   Location:
     value:
       id: 1
       name: test
-      updated_at: 0
+      updated_at: 12311450
       location:
         latitude: 50.12
         longitude: 5.012
+      healthfacility_count: 143
 properties:
   id:
     type: integer
@@ -41,3 +43,4 @@ required:
   - id
   - name
   - updated_at
+  - healthfacility_count
