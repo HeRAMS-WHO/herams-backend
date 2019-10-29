@@ -28,10 +28,15 @@ properties:
   updated_at:
     type: integer
     description: The UNIX timestamp that indicates when the data was last updated
+    minimum: 0
   dashboard_url:
     type: string
     format: uri
     description: The URL for the project dashboard
+  healthfacility_count:
+    type: integer
+    description: The number of health facilities in this project
+    minimum: 0
 required:
   - id
   - name
