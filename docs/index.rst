@@ -7,13 +7,13 @@
 Introduction
 ============
 
-Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login/>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`__ section.
+Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`__ section.
 For more advanced topics related to user management and project administration, please consult the `Project Administration`__ section.
 
 .. __: `Edit Data`_
 .. __: `HeRAMS Administration`_
 
-It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/user/login/>`_. 
+It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/user/login>`_. 
 For general information on the HeRAMS approach and for technical guidance please consult the official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. For additional questions that are not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
 
 
@@ -23,13 +23,13 @@ Getting started
 Creating a User Account
 --------------------
 
-This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/user/login/>`_, create a user account and update your user profile.
+This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/user/login>`_, create a user account and update your user profile.
 
 1. To register as a new user, open the link `herams.org <https://herams.org>`_ in your browser.
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
-2. On the sign-in page, click the `sign up <https://herams.org/user/register/>`_ link located just above the |login| button.
+2. On the sign-in page, click the `sign up <https://herams.org/user/register>`_ link located just above the |login| button.
 
 .. image:: media/img/HeRAMS_register.png
    :alt: HeRAMS Login
@@ -76,7 +76,7 @@ In case you forgot your password, the instruction below will guide you through t
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
-2. On the sign in page, click the `reset password <https://herams.org/user/forgot/>`_ link located below the password field.
+2. On the sign in page, click the `reset password <https://herams.org/user/forgot>`_ link located below the password field.
 3. Enter your email address in the top field.
 4. Below the email field, you will see an image similar to this one: |captcha|
 5. Enter the the characters displayed into the field below the image.
@@ -87,7 +87,7 @@ In case you forgot your password, the instruction below will guide you through t
 
 7. On the page that opens, enter your new password.
 8. Click the |submit| button to confirm your new password.
-9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login/>`_.
+9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login>`_.
 
 .. image:: media/vid/HeRAMS_password_reset.gif
    :alt: Password reset
