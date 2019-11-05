@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  title: HeRAMS
+  version: '1.0'
+  license:
+    name: MIT
+  description: HeRAMS Platform API
+servers:
+  - description: Stoplight Studio
+    url: ' http://127.0.0.1:3100'
+  - url: 'https://herams.org/api'
+    description: herams.org
+paths:
+  /projects:
+    get:
+      summary: List projects
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/project.v1.yaml
+              examples:
+                example-1:
+                  value:
+                    - id: 1
+                      name: test
+                      updated_at: 0
+                    - id: 1
+                      name: test
+                      updated_at: 0
+                      location:
+                        latitude: 50.12
+                        longitude: 5.012
+      description: |
+        Retrieve a list of all projects to which you have access
+components:
+  schemas: {}
+  securitySchemes:
+    bearer:
+      name: API Key
+      type: apiKey
+      in: header
+      description: |
+        API Key authentication
+    user:
+      type: http
+      scheme: Basic
+      description: Standard user authentication

@@ -7,13 +7,13 @@
 Introduction
 ============
 
-Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login/>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`__ section.
+Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`__ section.
 For more advanced topics related to user management and project administration, please consult the `Project Administration`__ section.
 
 .. __: `Edit Data`_
 .. __: `HeRAMS Administration`_
 
-It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/user/login/>`_. 
+It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/user/login>`_. 
 For general information on the HeRAMS approach and for technical guidance please consult the official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. For additional questions that are not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
 
 
@@ -23,13 +23,13 @@ Getting started
 Creating a User Account
 --------------------
 
-This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/user/login/>`_, create a user account and update your user profile.
+This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/user/login>`_, create a user account and update your user profile.
 
 1. To register as a new user, open the link `herams.org <https://herams.org>`_ in your browser.
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
-2. On the sign-in page, click the `sign up <https://herams.org/user/register/>`_ link located just above the |login| button.
+2. On the sign-in page, click the `sign up <https://herams.org/user/register>`_ link located just above the |login| button.
 
 .. image:: media/img/HeRAMS_register.png
    :alt: HeRAMS Login
@@ -76,7 +76,7 @@ In case you forgot your password, the instruction below will guide you through t
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
-2. On the sign in page, click the `reset password <https://herams.org/user/forgot/>`_ link located below the password field.
+2. On the sign in page, click the `reset password <https://herams.org/user/forgot>`_ link located below the password field.
 3. Enter your email address in the top field.
 4. Below the email field, you will see an image similar to this one: |captcha|
 5. Enter the the characters displayed into the field below the image.
@@ -87,7 +87,7 @@ In case you forgot your password, the instruction below will guide you through t
 
 7. On the page that opens, enter your new password.
 8. Click the |submit| button to confirm your new password.
-9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login/>`_.
+9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login>`_.
 
 .. image:: media/vid/HeRAMS_password_reset.gif
    :alt: Password reset
@@ -231,9 +231,9 @@ Overview
 The **Overview** page provides a summary, in form of:
 
 *	a map to spot the distribution and number of health facilities by level of care (i.e. primary, secondary and tertiary health care facilities); and
-*	donout charts to summarize different indicators, such as level of damage, functionality status, accessibility and service availability in the assessed health facility.
+*	donut charts to summarize different indicators, such as level of damage, functionality status, accessibility and service availability in the assessed health facility.
 
-.. note:: Service availability is country-specific. Thus, direct comparisons from one country to another should be avoided.
+.. note:: The service availability indicator is country-specific. Thus, direct comparisons from one country to another should be avoided.
 
 .. image:: media/img/HeRAMS_dashboard_overview.png
    :height: 300px
@@ -245,7 +245,7 @@ Infrastructure
 The **Infrastructure** page displays a descriptive analysis, including:
 
 * a map to spot the distribution and number of health facilities by type;
-* donout charts to illustrate **Mo**\des of **S**\ervice **D**\elivery (**MoSD**\s) by type as well as the modality of the building structure (permanent vs. temporary); and
+* donut charts to illustrate **Mo**\des of **S**\ervice **D**\elivery (**MoSD**\s) by type as well as the modality of the building structure (permanent vs. temporary); and
 * a table to illustrate reported accessibility barriers.
 
 .. image:: media/img/HeRAMS_dashboard_infastructure.png
@@ -258,7 +258,7 @@ Condition
 The **Condition** page displays the level of reported damage to MoSD buildings following a standard classification and scale (Not Damaged to Fully Damaged). Information is visualized as:
 
 *	a map to spot the distribution and number of health facilities according to the level of building damage (i.e. condition);
-*	donout charts summarizing the reported level of building damage by level of severity as well as the distribution of MoSD by type; and
+*	donut charts summarizing the reported level of building damage by level of severity as well as the distribution of MoSD by type; and
 *	a table to provide the name of the prioritized localities in terms of damage and their main causes.
 
 .. image:: media/img/HeRAMS_dashboard_condition.png
@@ -271,7 +271,7 @@ Functionality
 The **Functionality** page displays the level of functionality of the MoSDs following a standard classification and scale (Fully Functioning to Not Functioning) represented as:
 
 *	a map to spot the distribution and number of MoSDs according to the functionality status;
-*	donout charts to summarize the level of functionality as well as main causes of non-functionality; and
+*	donut charts to summarize the level of functionality as well as main causes of non-functionality; and
 *	a table displays the list of priority areas in terms of non-functional health facilities and reported causes.
 
 .. image:: media/img/HeRAMS_dashboard_functionality.png
@@ -284,7 +284,7 @@ Accessibility
 The **Accessibility** page displays the level of accessibility to MoSDs following a standard classification and scale (Fully Accessible to Not Accessible) in the form of:
 
 *	a map to spot the distribution and number of MoSDs according to the accessibility status;
-*	donout charts to summarize the level of accessibility per number of MoSDs as well as the reported causes of inaccessibility per number of MoSDs; and
+*	donut charts to summarize the level of accessibility per number of MoSDs as well as the reported causes of inaccessibility per number of MoSDs; and
 *	a table displays the list of priority areas with inaccessible MoSDs and the main reported cause of inaccessibility.
 
 .. image:: media/img/HeRAMS_dashboard_accessibility.png
@@ -299,11 +299,11 @@ The **Management & support** page displays information on the management of the 
 * Ownership:
 
   * A map to spot the distribution of MoSDs according to their ownership (i.e. public, private, faith-based and, NGO/iNGO).
-  * A donout  chart to highlighting the categories of ownership as a percentage of the total number of MoSDs.
+  * A donut chart to highlight the categories of ownership as a percentage of the total number of MoSDs.
 
 * External support:
 
-  * A donout  chart to illustrate the level of support provided by partners.
+  * A donut  chart to illustrate the level of support provided by partners.
 
 .. image:: media/img/HeRAMS_dashboard_management_support.png
    :height: 300px
@@ -312,10 +312,10 @@ The **Management & support** page displays information on the management of the 
 Basic Amenities
 ~~~~~~~~~~~~~~
 
-Inforamtion on **Basic Amenities** is presented in a series of subpages. Each subpage is dedicated to a partiucular category and includes:
+Information on **Basic Amenities** is presented in a series of subpages. Each subpage is dedicated to a particular category and includes:
 
 * a map displying the availability and sufficiency of the basic amenity; and
-* donut charts hightlighting the percentage of MoSDs with sufficient availability of the amenity as well as main sources.
+* donut charts highlighting the percentage of MoSDs with sufficient availability of the amenity as well as main sources.
 
 
 .. image:: media/img/HeRAMS_dashboard_basic_amenities.png
@@ -328,8 +328,8 @@ Service Availability
 The **Service Availability** page displays multiple pages per type of service. Each page displays:
 
 *	a map to spot the distribution of the MoSDs providing the selected health service;
-*	donout charts to summarize the level of service availability as well as the underlying causes of unavailability of the service; and
-*	a table displays the list of priority areas per service unavailability and the main reported underlying cause.
+*	donut charts to summarize the level of service availability as well as the underlying causes of unavailability of the service; and
+*	a table displaying the list of priority areas per service unavailability and the main reported underlying causes.
 
 .. image:: media/img/HeRAMS_dashboard_service_availability.png
    :height: 300px
@@ -354,7 +354,7 @@ Access the Data Update Interface
 
 4. In the last column of the table, click the |workspace| icon. This will open a new page displaying a list of all available workspace.
 
-.. note:: HeRAMS uses so called **Workspaces** to manage access permission to the underlying data. A workspace might for example constitute a specific organization or a geographic region. For more information on **Workspaces** click `here`__.
+.. note:: HeRAMS uses so-called **Workspaces** to manage access permission to the underlying data. A workspace might represent, for example, a specific organization or a geographic region. For more information on **Workspaces** click `here`__.
 
 .. __: `workspaces`_
 
@@ -376,8 +376,8 @@ The video below summarizes the steps to access the data entry interface.
    :align: center
    
 
-Edit a Health Facility
-----------------------
+Edit a Health Facility Record
+-----------------------------
 
 .. Caution:: Editing a record will overwrite the existing record. If you would like to update the status of a health facility while keeping the history of changes, follow the instructions in the section below.
 
@@ -403,12 +403,12 @@ Edit a Health Facility
    :alt: edit records
    :align: center
 
-Update a Health Facility
-------------------------
+Update a Health Facility Record
+-------------------------------
 
 If HeRAMS is used as a monitoring tool, you can record changes to a health facility while keeping the existing information.
 
-.. note:: The ability to update health facilities is not enabled in all projects. Contact your country focal point or send an email to `herams@who.int <mailto:herams@who.int?>`_ for further information.
+.. note:: The feature to update health facilities is not enabled in all projects. Contact your country focal point or send an email to `herams@who.int <mailto:herams@who.int?>`_ for further information.
 
 1. To update the status of a health facility, use the |update-blue| button to open the record.
 2. You should now be able to edit the selected record. Use the |next| buttons in the lower right corner to move to the next page of the questionnaire or return to the previous page. You can also use the navigation pane on the left to access a specific section of the questionnaire.
@@ -425,8 +425,8 @@ Register a New Health Facility
 4. If you would like to discard your edits, click the |clear| button in the lower right corner of the page.
 
 
-Delete a Health Facility
-------------------------
+Delete a Health Facility Record
+-------------------------------
 
 1. To delete a record, click the |delete-blue| icon in the first column.
 
@@ -436,16 +436,16 @@ Delete a Health Facility
 Download Data
 =============
 
-It is possible to download part of the data as **CSV** for further analysis in-depth analysis. In rare cases, permission have been granted to download the entire data set. To download the entire data set please follow the instructions `here`__, otherwise see the section below.
+It is possible to download part of the data as **CSV** for further in-depth analysis. In rare cases, permissions could be granted to download the entire data set. To download the entire data set please follow the instructions `here`__, otherwise see the section below.
 
 .. __: `Download the Entire Data Set`_
 
 Download Workspace Data
 -----------------------
 
-Follow the instructions below to download data for a single workspaces. If you require data from multiple workspace, follow the below steps for each workspace. You can then merge the data in your analysis tool of choice.
+Follow the instructions below to download data for a single workspace. If you require data from multiple workspaces, follow the below steps for each workspace. You can then merge the data in your analysis tool of choice.
 
-.. note:: In order to download data, you will require access to the corresponding workspace. Contact your system administrator to elevate your access rights if needed.
+.. note:: In order to download data, you will require access to your workspace. Contact your system administrator to elevate your access rights if needed.
 
 1. Navigate to the workspace page of your project (see `Access the Data Update Interface`__ steps 1 - 4 for detailed instructions).
 2. In the rightmost column, click the |download| button. This will download all records of this workspace.
@@ -459,7 +459,7 @@ Follow the instructions below to download data for a single workspaces. If you r
 Download the Entire Data Set
 ----------------------------
 
-.. note:: Users are advised to download data for individual workspace as outlined above. The ability to download the entire data set is restricted to few users. Contact your system administrator for further information.
+.. note:: Users are advised to download data for individual workspace as outlined above. The permission to download the entire data set is restricted to a few users. Contact your system administrator for further information.
 
 *Coming soon*
 
@@ -467,8 +467,7 @@ Data Encoding in Excel
 ----------------------
 If data is downloaded for further analysis in Excel or a statistical software of choice (e.g. R or STATA), data encoding should always be set to UTF-8.
 
-.. tip:: Encoding issues are particullary prevalent in languages with special character and can results in the data being unreadable. For examples instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**.
-
+.. tip:: Encoding issues are particularly prevalent in languages with special character and can result in the data being unreadable. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**.
 The below instructions guide users through the steps to define the data encoding in Excel. 
 
 1. Open a new Excel file.
@@ -492,18 +491,18 @@ This chapter provides an overview of the admin pages in HeRAMS and offers step-b
  .. __: `Projects`_
  .. __: `Project Dashboard`_
 
-.. note:: If you require your permissions to be changed, kindly contact your country focal point or send an email to `HeRAMS Support Team <mailto:herams@who.int?>`_ specifying your function and role as well as a brief explanation why you would like your access permissions to altered.
+.. note:: If you require your permissions to be changed, kindly contact your country focal point or send an email to `HeRAMS Support Team <mailto:herams@who.int?>`_ specifying your function and role as well as a brief explanation of why you would like your access permissions to altered.
 
 
 Workspaces
 ----------
 
-HeRAMS uses the concept of workspaces to manage user permissions. Each workspace consists of several health facilities and has a dedicated focal point responsible for updating these records. A workspace might for example include all health facilities of a geographical region, health facilities managed by a specific partner or any other logical category. Thus, the use of workspaces in combination with different levels of permission (see below) assures granular, role-based access control to a project and the underlying data. While most users only have access to a single workspace, project administrators might have access to several or all workspaces.
+HeRAMS uses the concept of workspaces to manage user permissions. Each workspace consists of several health facilities and has a dedicated focal point responsible for updating these records. A workspace might, for example, include all MoSDs of a geographical region, MoSDs managed by a specific partner or any other logical category. Thus, the use of workspaces in combination with different levels of permissions (see below) assures granular, role-based access control to a project and the underlying data. While most users only have access to a single workspace, project administrators might have access to several or all workspaces.
 
-* |refresh| **Refresh Data Cache**: This button allows users to manually refresh the data cache of a workspace. Data is automatically refreshed every 30 minutes. This means if a record is updated, the changes are not immediately reflected on the dashboard. Thus, by manually refreshing the data cash of a workspace the time lag limitation can be overcome and the changes made will become visible immediately.
+* |refresh| **Refresh Data Cache**: This button allows users to manually refresh the data cache of a workspace. Data is automatically refreshed every 30 minutes. This means if a record is updated, the changes are not immediately reflected on the dashboard. Thus, by manually refreshing the data cache of a workspace the time lag limitation can be overcome and the changes made will become visible immediately.
 * |pencil-thin| **Update Workspace**:  allows to change the title or token of a workspace.
 * |share-icon| **Share Workspace**: To grant a user access to workspace, the workspace must be shared with the user. For more information on how to add users to a workspace click `here`__.
-* |delete-black| **Delete Workspace**: Permanetly removes a workspace from a project. See `Delete a Workspace`__ for more information.
+* |delete-black| **Delete Workspace**: Permanently removes a workspace from a project. See `Delete a Workspace`__ for more information.
 * |download| **Download Data**: Downloads all records belonging to the selected workspace. See `Download Data`__ for more information.
 * |pencil-black| **Data Update**: This opens the data edit interface. More information on data editing and updating is available `here`__.
   
@@ -519,8 +518,8 @@ Workspace Permissions
 
 There are two permission levels for workspaces:
 
-1. access to manage the underlying response data; and
-2. full access (includes editing the workspace properties, token and response data).
+1. access to manage the underlying responses’ data; and
+2. full access (includes editing the workspace properties, token and responses’ data).
 
 Users with the role of **Data Editor** have access to update the response data (option 1) while **Workspace Owners** might be given elevated permission (option 2) allowing them to add additional users to their workspace as well as to manage the underlying response data.
 
@@ -532,7 +531,7 @@ Add a User to a Workspace
 3. In the rightmost column of the table, you should see several **Action** buttons. Click the |workspace| icon. This will open the workspace of the selected project.
 4. You should now see a table with all workspaces of your project. For each workspace the table provides information on the last time data was synced with the underlying database, the number of contributors, health facilities and responses. Alike the **Projects** table, the last column contains several **Action** buttons.
 5. To grant a user access to a workspace (e.g. to update the data), you have to share the workspace with them. Click the |share-icon| icon in the **Actions** column.
-6. You should now see a page similar to the image below. On the bottom half of the page you can see a list of all users currently having access to the workspace including their permission level. In the top half of the page you have the option to add a new user. Start typing the users name in the top field. You will notice that the list of users is dynamically filtering. Select the user you would like to add.
+6. You should now see a page similar to the image below. On the bottom half of the page, you can see a list of all users currently having access to the workspace including their permission level. In the top half of the page, you have the option to add a new user. Start typing the user’s name in the top field. You will notice that the list of available users dynamically filters as you are typing. Select the user you would like to add.
   
 .. image:: media/img/HeRAMS_workspace_share.png
 	:height: 200px
@@ -611,7 +610,7 @@ The `Projects <https://herams.org/project/index>`_ page provides a brief overvie
 	
 * |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here`__ for more information on workspaces. 
 * |dashboard| **Dashboard**: By clicking the dashboard icon, the project `dashboard`__ will be opened.
-* |pencil-thin| **Edit Project Properties**: Permits users with appropriate permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`__ for more information on editing the project properties. For addtional information on how to configuring the dashboard, consult the section `Configure the Project Dashboard`__.
+* |pencil-thin| **Edit Project Properties**: Permits users with specific permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`__ for more information on editing the project properties. For additional information on how to configure the dashboard, consult the section `Configure the Project Dashboard`__.
 * |check| **Check Data**: Can be used for a quick review of the data to identify invalid responses.
 * |share-icon| **Share**: The sharing function is used to grant users access to a project. See `below`__ for further details.
 
@@ -691,9 +690,7 @@ Modify a Project
 Configure the Project Dashboard
 -------------------------------
 
-For each HeRAMS Project, an interactive dashboard can be configured providing summarizing key indicators and findings of a project.
-This section provides project administrators with detailed description on how to edit these dashboards.
-An overview of the standard dashboard pages is available `here`__.
+For each HeRAMS Project, an interactive dashboard can be configured providing summarizing key indicators and findings of a project. This section provides project administrators with a detailed description on how to edit these dashboards. An overview of the standard dashboard pages is available `here`__.
 
 .. __: `Default dashboard pages`_
    
@@ -707,9 +704,9 @@ Users with the permissions to edit dashboards can modify charts and maps directl
    .. __: `Update a Dashboard Page`_
    
 1. Open the dashboard and navigate to the element you would like to change.
-2. In the top right corner of the element you should see a |pencil-thin| icon. Right click the icon to open the element's configuration page.
+2. In the top right corner of the element you would like to change, you should see a |pencil-thin| icon. Right-click the icon to open the element's configuration page.
 3. You should now be able:
-	* to change the variable displayed;
+	* to change the variables displayed;
 	* to change the colors of a map or a chart; and
 	* to rename the element.
 
@@ -788,11 +785,11 @@ Remove an element from the dashboard
 
 1. Open the Project's property page (Follow steps 1 - 3 in the `Modify a Project`__ section.
 2. In the bottom half of the page you will see a list of all available dashboard pages. Click the |pencil-thin| icon to open the page you would like to modify.
-3. In the lower lalf of the page you will see a list of all elements displayed on the dashbaord page. Use the |delete-black| to permanently delete the element.
+3. In the lower half of the page you will see a list of all elements displayed on the dashboard page. Use the |delete-black| to permanently delete the element.
 
 .. __: `Modify a Project`_
 
-  .. warning:: Be careful deleting dashboard elements. Deleted elements cannot be restored.
+  .. warning:: Be careful when deleting dashboard elements. Deleted elements cannot be restored.
 
 Add a New Page to a Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -821,8 +818,8 @@ Add a New Page to a Dashboard
 Update a Dashboard Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To alter an existing page, click the |pencil-black| icon next to the page's name. This will open the page's setting page. You are now able to change the title and the order of the page. See `above`__ for further details.
-2. On the page that opens you should now be able to alter the page name, and display order.
+1. To alter an existing page, click the |pencil-black| icon next to the page's name. This will open the page's settings. You are now able to change the title and the order of the page. See `above`__ for further details.
+2. On the page that opens, you should now be able to alter the page name and the display order.
 3. Save your changes by clicking the |update-page| button.
 
 .. __: `Add a New Page to a Dashboard`_
@@ -848,15 +845,15 @@ This section aims to help users troubleshoot frequently encountered issues. In c
   * `Confirmation email not received`_
   * `How to reset your password?`_
   
-* `View a project/dashbaord`_
+* `View a project/dashboard`_
 
-  * `Can't access a project dashbaord`_
+  * `Can't access a project dashboard`_
   * `Who has access to your project?`_
   
 * `Data editing & downloading`_
 
   * `Data updates don't appear on the dashboard`_
-  * `Data export is unreadable / contains weird characters`_
+  * `Exported data is unreadable / contains strange characters`_
   
  
 General
@@ -865,29 +862,28 @@ General
 Confirmation email not received
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you did not receive an email upon registering or resetting your password, follow the steps below to troubleshoot the issue.
-1. Refresh your inbox. It might take a few minutes for email to appear.
-2. Check your spam/junk folder.
-3. Try to register again. You might have accidentally misspelled your email.
-4. If the above steps did not solve your issues, please contact your system administrator or send and emails to `hearms@who.int <mailto:herams@who.int?>`_.
+If you did not receive an email upon registering or resetting your password, follow the steps below to troubleshoot the issue. 
 
+1. Refresh your inbox. It might take a few minutes for the email to appear. 
+2. Check your spam/junk folder. 
+3. Try to register again. You might have accidentally misspelled your email. 
+4. If the above steps did not solve your issue, please contact your system administrator or send an email to `hearms@who.int <mailto:herams@who.int?>`_.
 
 How to reset your password?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you forgot your password, follow the instructions porvided `here`__ to reset your password.
+If you forgot your password, follow the instructions provided `here`__ to reset your password.
 
  .. __: `Reset password`_
 
 
-View a project/dashbaord
+View a project/dashboard
 --------------
 
-Can't access a project dashbaord
+Can't access a project dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For data protection reasons, access to the project dashbaords is only granted upon request. 
-If you require access to a project, please contact your country focal point or send an email to `hearms@who.int <mailto:herams@who.int?>`_, specifying why you require access to the project.
+For data protection reasons, access to the project dashboards is only granted upon request. If you require access to a project, please contact your country focal point or send an email to `hearms@who.int <mailto:herams@who.int?>`_, specifying why you require access to the project.
 
 Who has access to your project?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -911,12 +907,10 @@ It is important to note that the data displayed on the interactive dashboards ar
 
  .. __: `Workspaces`_
  
-Data export is unreadable / contains weird characters
+Exported data is unreadable / contains strange characters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. 
-The reason for this is that Excel is not using the correct encoding type to read you data.
-To correct the issue, follow the instruction outlined `here`__.
+If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here`__.
 
  .. __: `Data Encoding in Excel`_
 

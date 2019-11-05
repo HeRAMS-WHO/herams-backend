@@ -1,0 +1,13 @@
+title: LongLat
+type: object
+properties:
+  longitude:
+    type: number
+  latitude:
+    type: number
+x-examples:
+  Eindhoven:
+    value:
+      latitude: 51.44093
+      longitude: 5.47779
+description: GPS Coordinates
