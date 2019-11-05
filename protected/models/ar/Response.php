@@ -105,6 +105,9 @@ class Response extends ActiveRecord implements HeramsResponseInterface
                 } else {
                     $transformed[$matches[1]] = [$value];
                 }
+            } elseif (strpos($key, '[') === false && strpos($key, '_') !== false) {
+                [$base, $sub] = explode('_', $key, 2);
+                $transformed["{$base}[{$sub}]"] = $value;
             } else {
                 $transformed[$key] = $value;
             }
