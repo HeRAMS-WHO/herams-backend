@@ -8,6 +8,7 @@ use prime\components\NotificationService;
 use prime\models\ar\Project;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
+use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\rbac\CheckAccessInterface;
 use yii\web\ForbiddenHttpException;
@@ -23,7 +24,7 @@ class Share extends Action
         Request $request,
         User $user,
         NotificationService $notificationService,
-        CheckAccessInterface $authManager,
+        AuthManager $abacManager,
         int $id
     ) {
         $project = Project::findOne(['id' => $id]);
@@ -35,7 +36,7 @@ class Share extends Action
             throw new ForbiddenHttpException('You cannot share');
         }
         $model = new ShareForm(
-            $project, $authManager, $user->identity, [
+            $project, $abacManager, $user->identity, [
             'permissions' => [
                 Permission::PERMISSION_READ => 'Allow access to the project dashboard from the world map',
                 Permission::PERMISSION_WRITE => 'Allows full access to all workspaces in this project as well as creating new ones or deleting existing ones',
@@ -43,7 +44,8 @@ class Share extends Action
             ]
         ]);
         if($request->isPost) {
-            if($model->load($request->bodyParams) && $model->createRecords()) {
+            if($model->load($request->bodyParams) && $model->validate()) {
+                $model->createRecords($abacManager);
                 $notificationService->success(\Yii::t('app',
                             "Project {modelName} has been shared with: {users}",
                             [

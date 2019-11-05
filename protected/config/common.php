@@ -63,9 +63,10 @@ return [
             'paramsParam' => 'p',
             'expirationParam' => 'e'
         ],
-        'authManager' => function() {
+        'abacManager' => function() {
             $engine = new \SamIT\abac\engines\SimpleEngine([
                 new \prime\rules\AdminRule(),
+                new \prime\rules\WorkspaceRule(),
                 new ImpliedPermission(Permission::PERMISSION_ADMIN, [
                     Permission::PERMISSION_SHARE,
                     Permission::PERMISSION_WRITE
@@ -81,9 +82,12 @@ return [
             $resolver = new ActiveRecordResolver();
             $environment = new class extends ArrayObject implements Environment {};
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            $manager = new \SamIT\abac\AuthManager($engine, $repo, $resolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $repo, $resolver, $environment);
+        },
+        'authManager' => function() {
 
-            return new \prime\components\AuthManager($manager, [
+
+            return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
                 'userClass' => \prime\models\ar\User::class,
                 'globalId' => AccessChecker::GLOBAL,
                 'globalName' => AccessChecker::BUILTIN,

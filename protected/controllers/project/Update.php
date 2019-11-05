@@ -9,6 +9,7 @@ use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\User;
 
@@ -21,10 +22,13 @@ class Update extends Action
         int $id
     )
     {
-        $model = Project::loadOne($id);
+        $model = Project::findOne(['id' => $id]);
+        if (!isset($model)) {
+            throw new NotFoundHttpException();
+        }
 
-        if (!$user->can(Permission::PERMISSION_ADMIN, $model)) {
-            throw new ForbiddenHttpException();
+        if (!$user->can(Permission::PERMISSION_WRITE, $model)) {
+            throw new ForbiddenHttpException('You do not have write permission');
         }
 
         $model->validate();

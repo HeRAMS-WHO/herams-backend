@@ -3,9 +3,11 @@
 
 namespace prime\tests\functional\controllers\workspace;
 
+use PHPUnit\Framework\SkippedTestError;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
+use SamIT\abac\AuthManager;
 
 class ShareCest
 {
@@ -19,7 +21,7 @@ class ShareCest
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(403);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(403);
@@ -27,12 +29,13 @@ class ShareCest
 
     public function testShareWithProjectWriteAccess(FunctionalTester $I)
     {
+        throw new SkippedTestError();
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
         $user1 = User::findOne(['id' => TEST_USER_ID]);
         $user2 = User::findOne(['id' => TEST_ADMIN_ID]);
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
         $I->seeResponseCodeIsSuccessful();
@@ -55,8 +58,12 @@ class ShareCest
         $workspace = $I->haveWorkspace();
         $user1 = User::findOne(['id' => TEST_USER_ID]);
         $user2 = User::findOne(['id' => TEST_ADMIN_ID]);
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
-
+        /** @var AuthManager $abacManager */
+        $abacManager = \Yii::$app->abacManager;
+        $I->assertFalse($abacManager->check($user1, $workspace, Permission::PERMISSION_SHARE));
+        Permission::grant($user1, $project, Permission::PERMISSION_ADMIN);
+        $I->assertTrue($abacManager->check($user1, $project, Permission::PERMISSION_ADMIN));
+        $I->assertTrue($abacManager->check($user1, $workspace, Permission::PERMISSION_SHARE));
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
 
         $I->seeResponseCodeIsSuccessful();

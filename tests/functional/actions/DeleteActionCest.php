@@ -8,6 +8,7 @@ use prime\models\ar\Response;
 use prime\tests\FunctionalTester;
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
+use yii\web\Request;
 
 class DeleteActionCest
 {
@@ -21,10 +22,16 @@ class DeleteActionCest
 
     public function testRecordNotFound(FunctionalTester $I)
     {
+        \Yii::$app->set('request', new class extends Request {
+            public function getIsDelete()
+            {
+                return true;
+            }
+        });
         $action = new DeleteAction('delete', null, [
             'query' => Response::find()->andWhere('0 = 1')
         ]);
-        $I->expectException(NotFoundHttpException::class, function() use ($action) {
+        $I->expectThrowable(NotFoundHttpException::class, function() use ($action) {
             $action->run(\Yii::$app->user, \Yii::$app->notificationService, 51);
         });
     }

@@ -116,7 +116,9 @@ class Permission extends ActiveRecord
                 'target_id' => $target->id,
                 'permission' => $permission
             ]);
-            $p->save();
+            if (!$p->save()) {
+                throw new \RuntimeException('Grant failed: ' . print_r($p->errors, true));
+            }
         }
     }
 
@@ -231,7 +233,6 @@ class Permission extends ActiveRecord
             [['source', 'source_id', 'target', 'target_id', 'permission'], RequiredValidator::class],
             [['source', 'source_id', 'target', 'target_id', 'permission'], UniqueValidator::class,
                 'targetAttribute' => ['source', 'source_id', 'target', 'target_id', 'permission']],
-            [['permission'], 'in', 'range' => array_keys(self::permissionLabels())]
         ];
     }
 
