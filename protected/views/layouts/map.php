@@ -79,6 +79,7 @@ $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
                 z-index: 2;
                 background-color: white;
                 display: grid;
+                position: relative;
                 max-width: 710px;
                 grid-template-columns: 1fr;
                 grid-template-rows: 1fr auto auto var(--status-height);

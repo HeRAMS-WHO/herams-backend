@@ -63,6 +63,9 @@ class CacheController extends \yii\console\controllers\CacheController
                     'survey_id' => $response->getSurveyId()
                 ];
 
+                print_r($response->getData());
+                die();
+
                 /**
                  * @var Response $dataResponse
                  */

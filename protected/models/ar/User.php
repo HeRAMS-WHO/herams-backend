@@ -7,7 +7,12 @@ use prime\assets\IconBundle;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
+use yii\validators\DefaultValueValidator;
+use yii\validators\RegularExpressionValidator;
+use yii\validators\StringValidator;
+use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
 
 /**
@@ -21,24 +26,16 @@ use yii\web\IdentityInterface;
  * @property string $gravatarUrl
  * @property string $name
  */
-class User extends \dektrium\user\models\User implements IdentityInterface {
+class User extends ActiveRecord implements IdentityInterface {
 
-    public $last_login_at;
-    public function getUserName()
+    public function behaviors()
     {
-        return null;
+        return array_merge(parent::behaviors(), [
+            'timestamp' => [
+                'class' => TimestampBehavior::class
+            ]
+        ]);
     }
-
-    public function getFirstName(): ?string
-    {
-        return $this->profile->first_name ?? null;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->profile->last_name ?? null;
-    }
-
     /**
      * The project find function only returns projects a user has at least read access to
      */
@@ -49,18 +46,15 @@ class User extends \dektrium\user\models\User implements IdentityInterface {
 
     public function rules()
     {
-        $rules = parent::rules();
-        unset($rules['usernameRequired']);
-        unset($rules['usernameMatch']);
-        unset($rules['usernameLength']);
-        unset($rules['usernameUnique']);
-        unset($rules['usernameTrim']);
-        return $rules;
-    }
-
-    public function setPassword(string $password): void
-    {
-        $this->password_hash = password_hash($password, PASSWORD_DEFAULT);
+        return [
+            ['email', UniqueValidator::class,
+                'targetClass' => User::class,
+                'targetAttribute' => 'email',
+                'message' => \Yii::t('app', "Email already taken")
+            ],
+            ['name', StringValidator::class, 'max' => 50],
+            ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
+        ];
     }
 
     public static function getDb()
@@ -74,4 +68,50 @@ class User extends \dektrium\user\models\User implements IdentityInterface {
     }
 
 
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentity($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getId()
+    {
+        return $this->getAttribute('id');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAuthKey()
+    {
+        return '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return false;
+    }
+
+    public function setPassword($value): void
+    {
+        if (!empty($value)) {
+            $this->password_hash = \Yii::$app->security->generatePasswordHash($value);
+        }
+    }
 }

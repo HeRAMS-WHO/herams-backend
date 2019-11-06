@@ -159,6 +159,9 @@ return [
         ],
         'mailer' => [
             'class' => Mailer::class,
+            'messageConfig' => [
+                'from' => ['support@herams.org' => 'HeRAMS Support']
+            ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
                 'username' => $env->get('SMTP_USER'),
@@ -204,7 +207,6 @@ return [
 //        ],
     ],
     'params' => [
-        'sender' => 'support@herams.org',
         'defaultSettings' => [
             'icons.globalMonitor' => 'globe',
             'icons.projects' => 'tasks',
