@@ -11,6 +11,7 @@ use yii\base\InvalidConfigException;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecordInterface;
 use yii\web\ForbiddenHttpException;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Session;
 use yii\web\User;
@@ -20,7 +21,7 @@ class DeleteAction extends Action
     /** @var ActiveQueryInterface */
     public $query;
     /** @var string|\Closure */
-    public $permission = Permission::PERMISSION_ADMIN;
+    public $permission = Permission::PERMISSION_DELETE;
 
     public $redirect;
 
@@ -37,6 +38,9 @@ class DeleteAction extends Action
         NotificationService $notificationService,
         int $id
     ) {
+        if (!\Yii::$app->request->isDelete) {
+            throw new MethodNotAllowedHttpException();
+        }
         /** @var ActiveRecordInterface $model */
         $model = $this->query->andWhere(['id' => $id])->one();
         if (!isset($model)) {
@@ -59,6 +63,6 @@ class DeleteAction extends Action
             $redirect = $this->redirect;
         }
 
-        return $this->controller->redirect($redirect);
+        return $this->controller->redirect($redirect ?? [$this->controller->defaultAction]);
     }
 }

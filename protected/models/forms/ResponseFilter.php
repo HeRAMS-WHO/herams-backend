@@ -138,9 +138,6 @@ class ResponseFilter extends Model
                 $result[$answer->getCode()] = $title;
             }
         }
-//        echo '<pre>';
-//        print_r($result);
-//        die();
         return $result;
     }
 

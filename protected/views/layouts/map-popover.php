@@ -14,6 +14,7 @@ $this->beginContent('@views/layouts/map.php');
 
 ?>
 <div class="popover">
+    <a href="/" style="position: absolute; right: 10px; top: 10px;"><?= Icon::close(); ?></a>
     <div class="intro">
         <?=Html::img('@web/img/HeRAMS.png'); ?>
         <p>

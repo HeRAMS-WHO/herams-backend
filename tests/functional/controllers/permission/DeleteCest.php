@@ -36,6 +36,9 @@ class DeleteCest
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect'=> '/']));
         $I->seeResponseCodeIs(200);
+        $I->dontSeeRecord(Permission::class, [
+            'id' => $permission->id
+        ]);
         $I->assertFalse($permission->refresh());
 
     }

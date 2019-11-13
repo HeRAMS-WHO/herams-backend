@@ -20,6 +20,7 @@ class NewAppAsset extends AssetBundle
     ];
 
     public $depends = [
-        IconBundle::class
+        IconBundle::class,
+//        BootstrapBundle::class
     ];
 }

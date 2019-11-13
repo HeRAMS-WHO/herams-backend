@@ -37,6 +37,7 @@ class ShareCest
 
         $project = $I->haveProject();
         Permission::grant($user1, $project, Permission::PERMISSION_ADMIN);
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);

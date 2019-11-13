@@ -155,4 +155,6 @@ INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (324, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 152, 'admin');
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (326, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 153, 'admin');
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (328, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 154, 'admin');
+INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (330, 'prime\\models\\ar\\User', 1, '{builtin}', 0, 'admin');
+INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (331, 'prime\\models\\ar\\User', 3, '{builtin}', 0, 'admin');
 SET FOREIGN_KEY_CHECKS=1;

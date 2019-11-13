@@ -19,6 +19,7 @@ use yii\helpers\Inflector;
  * @method static string clipboardList(array $options = [])
  * @method static string signOutAlt(array $options = [])
  * @method static string windowMaximize(array $options = [])
+ * @method static string admin(array $options = [])
  *
  * // NovelT icons
  * @method static string project(array $options = [])

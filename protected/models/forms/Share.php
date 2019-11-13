@@ -8,32 +8,43 @@ use kartik\widgets\Select2;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
+use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
+use yii\rbac\CheckAccessInterface;
 use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
+use yii\web\IdentityInterface;
 
 class Share extends Model {
     protected $_permissions = [];
     public $userIds;
-    public $userListIds;
     public $permission;
-    protected $excludeUserIds;
     protected $model;
 
-    public function __construct(ActiveRecord $model, array $excludeUserIds = [], array $config = [])
-    {
-        parent::__construct($config);
-        $this->model = $model;
-        $this->excludeUserIds = $excludeUserIds;
-        if($this->model->getIsNewRecord()) {
+    /** @var AuthManager */
+    private $abacManager;
+    /** @var IdentityInterface */
+    private $user;
+
+    public function __construct(
+        ActiveRecord $model,
+        AuthManager $abacManager,
+        IdentityInterface $identity,
+        $config = []
+    ) {
+        if($model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
+        parent::__construct($config);
+        $this->model = $model;
+        $this->abacManager = $abacManager;
+        $this->user = $identity;
     }
 
     public function attributeLabels()
@@ -43,28 +54,18 @@ class Share extends Model {
         ];
     }
 
-    /**
-     * @return bool
-     */
-    public function createRecords()
+    public function createRecords(): void
     {
-        if($this->validate()) {
-            $transaction = app()->db->beginTransaction();
-            try {
-                foreach ($this->getUsers()->all() as $user) {
-                    foreach($this->permission as $permission) {
-                        Permission::grant($user, $this->model, $permission);
+        if ($this->validate()) {
+            foreach ($this->getUsers()->all() as $user) {
+                foreach ($this->permission as $permission) {
+                    if ($this->abacManager->check($this->user, $this->model, $permission)) {
+                        $this->abacManager->grant($user, $this->model, $permission);
                     }
-                }
-                $transaction->commit();
-                return true;
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                throw $e;
-            }
 
+                }
+            }
         }
-        return false;
     }
 
     public function setPermissions(array $options)
@@ -74,7 +75,7 @@ class Share extends Model {
 
     public function getPermissionOptions(): array
     {
-        $permissions = empty($this->_permissions)? Permission::permissionLabels() : $this->_permissions;
+        $permissions = empty($this->_permissions) ? Permission::permissionLabels() : $this->_permissions;
 
         // Add labels if needed.
         foreach($permissions as $key => $value) {
@@ -83,7 +84,9 @@ class Share extends Model {
                 $permissions[$value] = Permission::permissionLabels()[$value];
             }
         }
-        return $permissions;
+        return array_filter($permissions, function(string $permission) {
+            return $this->abacManager->check($this->user, $this->model, $permission);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     public function getUserOptions()
@@ -135,14 +138,13 @@ class Share extends Model {
                 [
                     'label' => \Yii::t('app', 'User'),
                     'value' => function($model){
-
-                        return $model->sourceObject->name;
+                        return isset($model->sourceObject) ? $model->sourceObject->name : 'Deleted user';
                     }
                 ],
                 'permissionLabel' => [
                     'attribute' => 'permissionLabel',
                     'value' => function(Permission $model) {
-                        return $this->getPermissionOptions()[$model->permission];
+                        return $this->getPermissionOptions()[$model->permission] ?? $model->permission;
                     }
                 ],
                 [
@@ -165,7 +167,7 @@ class Share extends Model {
                                     'data-method' => 'delete',
                                     'data-confirm' => \Yii::t('app', 'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>', [
                                         'modelName' => $model->targetObject->displayField,
-                                        'userName' => $model->sourceObject->name
+                                        'userName' => isset($model->sourceObject) ? $model->sourceObject->name : 'Deleted user'
                                     ]),
                                     'title' => \Yii::t('app', 'Remove')
                                 ]

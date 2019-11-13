@@ -26,7 +26,7 @@ trait AuthorizationScopes
         // Check if we are interested in the current user; and if the current user is admin.
         if (!$authManager->checkAccess($userId,'admin')) {
             $this->_required = true;
-            $this->_operations[] = [$operation, $user];
+            $this->_operations[] = [true, $operation, $user];
         }
         return $this;
     }
@@ -62,8 +62,8 @@ trait AuthorizationScopes
         $this->offset = null;
 
         $filtered = array_filter(parent::all($db), function($element) {
-            foreach ($this->_operations as $params) {
-                if (!$this->checkOperation($element, $params)) {
+            foreach ($this->_operations as list($result, $permission, $user)) {
+                if (!$this->checkOperation($element, $result, $permission, $user)) {
                     return false;
                 }
             }
@@ -103,8 +103,8 @@ trait AuthorizationScopes
         } elseif ($this->_empty) {
             return null;
         } elseif (null !== $element = parent::one($db)) {
-            foreach($this->_operations as $params) {
-                if (!$this->checkOperation($element, $params)) {
+            foreach($this->_operations as list($result, $permission, $user)) {
+                if (!$this->checkOperation($element, $result, $permission, $user)) {
                     throw new HttpException(403, "Operation not allowed");
                 }
             }
@@ -123,17 +123,12 @@ trait AuthorizationScopes
         return ArrayHelper::getColumn($this->all(), is_array($this->select) ? reset($this->select) : $this->select);
     }
 
-    private function checkOperation($element, $operation)
+    private function checkOperation($element, bool $result, string $permission, object $user)
     {
-        if (count($operation) == 2) {
-            array_unshift($operation, true);
-        }
+        /** @var \SamIT\abac\AuthManager $abac */
+        $abac = \Yii::$app->abacManager;
 
-        if(!is_bool($userCanResult = $element->userCan($operation[1], $operation[2]))) {
-            throw new \Exception('userCan must be boolean, did you implement it in ' . get_class($this) . '?');
-        }
-
-        return $operation[0] === $userCanResult;
+        return $result === $abac->check($user, $element, $permission);
     }
     /** 
      * From Yii docs:

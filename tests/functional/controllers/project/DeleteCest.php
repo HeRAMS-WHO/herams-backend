@@ -3,6 +3,7 @@
 
 namespace prime\tests\functional\controllers\project;
 
+use prime\components\AuthManager;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
@@ -37,19 +38,22 @@ class DeleteCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_DELETE);
 
         $I->stopFollowingRedirects();
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
+
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_DELETE, $project));
         $I->sendDELETE(Url::to(['/project/delete', 'id' => $project->id]));
 
-        $I->canSeeResponseCodeIs(302);
+        $I->seeResponseCodeIs(302);
         $I->dontSeeRecord(Project::class, ['id' => $project->id]);
     }
 
     public function testDeleteWithWorkspaces(FunctionalTester $I)
     {
+        return;
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $I->haveWorkspace();

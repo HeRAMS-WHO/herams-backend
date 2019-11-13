@@ -69,13 +69,11 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'pattern' => '<controller>/<id:\d+>/<action:[\w-]+>',
                     'route' => '<controller>/<action>'
                 ],
+
                 // For testing.
                 [
                     'pattern' => '/',
-                    'route' => 'site/world-map',
-                    'defaults' => [
-                        'id' => 1
-                    ]
+                    'route' => 'site/world-map'
                 ]
 
             ]
@@ -107,19 +105,11 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             // http://www.yiiframework.com/doc-2.0/guide-structure-assets.html#cache-busting
             'appendTimestamp' => true,
             'forceCopy' =>  YII_DEBUG,
-            'converter' => [
-                'class' => AssetConverter::class,
-                'commands' => [
-                    'sass' => ['css', 'sassc {from} {to}'],
-                    'scss' => ['css', 'sassc {from} {to}'],
-                ]
-            ],
             'bundles' => [
                 // Override bootstrap
                 \yii\bootstrap\BootstrapAsset::class => [
                     'css' => []
                 ],
-                //TODO remove if Yii issue 10973 is fixed
                 \yii\web\JqueryAsset::class => [
                     'sourcePath' => '@bower/jquery/dist',
                     'js' => [
@@ -141,12 +131,6 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         ]
     ],
     'modules' => [
-        'api' => [
-            'class' => \prime\api\v1\Api::class
-        ],
-        'v2' => [
-            'class' => \prime\api\v2\Module::class
-        ],
         'gridview' => [
             'class' => \kartik\grid\Module::class
         ]

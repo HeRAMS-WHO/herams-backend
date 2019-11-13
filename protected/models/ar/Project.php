@@ -308,11 +308,6 @@ class Project extends ActiveRecord {
         return $result;
     }
 
-    public function userCan($operation, User $user)
-    {
-        return $user->isAdmin || Permission::isAllowed($user, $this, $operation);
-    }
-
     public function getPermissions()
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])

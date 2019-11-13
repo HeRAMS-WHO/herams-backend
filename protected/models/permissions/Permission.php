@@ -34,6 +34,8 @@ class Permission extends ActiveRecord
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
     const PERMISSION_ADMIN = 'admin';
+    const PERMISSION_SHARE = 'share';
+    const PERMISSION_DELETE = 'delete';
 
 
     public static function loadCache($sourceModel, $sourceId)
@@ -114,7 +116,9 @@ class Permission extends ActiveRecord
                 'target_id' => $target->id,
                 'permission' => $permission
             ]);
-            $p->save();
+            if (!$p->save()) {
+                throw new \RuntimeException('Grant failed: ' . print_r($p->errors, true));
+            }
         }
     }
 
@@ -223,22 +227,12 @@ class Permission extends ActiveRecord
         ];
     }
 
-    public static function permissionLevels()
-    {
-        return [
-            self::PERMISSION_READ => 0,
-            self::PERMISSION_WRITE => 2,
-            self::PERMISSION_ADMIN => 4,
-        ];
-    }
-
     public function rules()
     {
         return [
             [['source', 'source_id', 'target', 'target_id', 'permission'], RequiredValidator::class],
             [['source', 'source_id', 'target', 'target_id', 'permission'], UniqueValidator::class,
                 'targetAttribute' => ['source', 'source_id', 'target', 'target_id', 'permission']],
-            [['permission'], 'in', 'range' => array_keys(self::permissionLabels())]
         ];
     }
 

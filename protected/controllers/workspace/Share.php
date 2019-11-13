@@ -8,6 +8,7 @@ use prime\components\NotificationService;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
+use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -19,6 +20,7 @@ class Share extends Action
     public function run(
         NotificationService $notificationService,
         Request $request,
+        AuthManager $abacManager,
         User $user,
         int $id
     )
@@ -27,14 +29,10 @@ class Share extends Action
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!(
-                $user->can(Permission::PERMISSION_ADMIN, $workspace)
-                || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
-            )
-        ) {
+        if (!($user->can(Permission::PERMISSION_SHARE, $workspace))) {
             throw new ForbiddenHttpException();
         }
-        $model = new ShareForm($workspace, [], [
+        $model = new ShareForm($workspace, $abacManager, $user->identity, [
             'permissions' => [
                 Permission::PERMISSION_WRITE => \Yii::t('app', 'Manage the underlying response data'),
                 Permission::PERMISSION_ADMIN => \Yii::t('app', 'Full access, includes editing the workspace properties, token and response data'),
@@ -42,7 +40,8 @@ class Share extends Action
         ]);
 
         if ($request->isPost) {
-            if ($model->load($request->bodyParams) && $model->createRecords()) {
+            if ($model->load($request->bodyParams)) {
+                $model->createRecords();
                 $notificationService->success(\Yii::t('app',
                     "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
                     [

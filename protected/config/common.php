@@ -2,9 +2,17 @@
 
 use dektrium\user\controllers\RegistrationController;
 use prime\components\JwtSso;
+use prime\models\permissions\Permission;
 use prime\objects\Deferred;
+use SamIT\abac\interfaces\Environment;
+use SamIT\abac\rules\ImpliedPermission;
+use SamIT\abac\values\Authorizable;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
+use SamIT\Yii2\abac\AccessChecker;
+use SamIT\Yii2\abac\ActiveRecordRepository;
+use SamIT\Yii2\abac\ActiveRecordResolver;
+use yii\swiftmailer\Mailer;
 
 /** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
@@ -48,11 +56,47 @@ return [
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
             }
         ],
-        'authManager' => [
-            'class' => \prime\components\AuthManager::class,
-            'cache' => 'cache',
-            'defaultRoles' => ['user']
+        'urlSigner' => [
+            'class' => \SamIT\Yii2\UrlSigner\UrlSigner::class,
+            'secret' => $env->get('URL_SIGNING_SECRET'),
+            'hmacParam' => 'h',
+            'paramsParam' => 'p',
+            'expirationParam' => 'e'
         ],
+        'abacManager' => function() {
+            $engine = new \SamIT\abac\engines\SimpleEngine([
+                new \prime\rules\AdminRule(),
+                new \prime\rules\WorkspaceRule(),
+                new ImpliedPermission(Permission::PERMISSION_ADMIN, [
+                    Permission::PERMISSION_SHARE,
+                    Permission::PERMISSION_WRITE
+                ])
+            ]);
+            $repo = new ActiveRecordRepository(Permission::class, [
+                ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
+                ActiveRecordRepository::SOURCE_NAME => 'source',
+                ActiveRecordRepository::TARGET_ID => ActiveRecordRepository::TARGET_ID,
+                ActiveRecordRepository::TARGET_NAME => 'target',
+                ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
+            ]);
+            $resolver = new ActiveRecordResolver();
+            $environment = new class extends ArrayObject implements Environment {};
+            $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
+            return new \SamIT\abac\AuthManager($engine, $repo, $resolver, $environment);
+        },
+        'authManager' => function() {
+
+
+            return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
+                'userClass' => \prime\models\ar\User::class,
+                'globalId' => AccessChecker::GLOBAL,
+                'globalName' => AccessChecker::BUILTIN,
+                'guestName' => AccessChecker::BUILTIN,
+                'guestId' => AccessChecker::GUEST,
+            ]);
+        },
+
+
         'limesurveyCache' => [
             'class' => \yii\caching\FileCache::class,
             'cachePath' => '@runtime/limesurveyCache'
@@ -103,6 +147,7 @@ return [
         ],
         'user' => [
             'class' => \yii\web\User::class,
+            'loginUrl' => '/session/create',
             'identityClass' => \prime\models\ar\User::class
         ],
         'i18n' => [
@@ -113,7 +158,10 @@ return [
             ]
         ],
         'mailer' => [
-            'class' => \yii\swiftmailer\Mailer::class,
+            'class' => Mailer::class,
+            'messageConfig' => [
+                'from' => ['support@herams.org' => 'HeRAMS Support']
+            ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
                 'username' => $env->get('SMTP_USER'),
@@ -125,43 +173,38 @@ return [
                 ]
             ]
         ],
-
     ],
     'modules' => [
-        'user' => [
-            'class' => \dektrium\user\Module::class,
-            'layout' => '//map-popover',
-            'controllerMap' => [
-                'admin' => [
-                    'class' => \dektrium\user\controllers\AdminController::class,
-                    'layout' => '//admin'
-                ],
-                'registration' => [
-                    'class' => RegistrationController::class,
-                    'on ' . RegistrationController::EVENT_AFTER_CONFIRM => function() {
-                        \Yii::$app->end(0, \Yii::$app->response->redirect('/'));
-                    }
-                ]
-            ],
-            'modelMap' => [
-                'User' => \prime\models\ar\User::class,
-                'Profile' => \prime\models\ar\Profile::class,
-                'RegistrationForm' => \prime\models\forms\user\Registration::class,
-                'RecoveryForm' => \prime\models\forms\user\Recovery::class,
-                'SettingsForm' => \prime\models\forms\user\Settings::class
-            ],
-            'adminPermission' => 'admin',
-            'mailer' => [
-                'class' => \dektrium\user\Mailer::class,
-                'sender' => 'support@herams.org',
-                'confirmationSubject' => new Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
-                'recoverySubject' => new Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
-                'welcomeSubject' => new Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Health Resources and Services Availability Monitoring System', ['0' => app()->name]);}),            ]
-        ],
-        'rbac' => [
-            'class' => dektrium\rbac\RbacWebModule::class,
-            'layout' => '//admin'
-        ],
+//        'user' => [
+//            'class' => \dektrium\user\Module::class,
+//            'layout' => '//map-popover',
+//            'controllerMap' => [
+//                'admin' => [
+//                    'class' => \dektrium\user\controllers\AdminController::class,
+//                    'layout' => '//admin'
+//                ],
+//                'registration' => [
+//                    'class' => RegistrationController::class,
+//                    'on ' . RegistrationController::EVENT_AFTER_CONFIRM => function() {
+//                        \Yii::$app->end(0, \Yii::$app->response->redirect('/'));
+//                    }
+//                ]
+//            ],
+//            'modelMap' => [
+//                'User' => \prime\models\ar\User::class,
+//                'Profile' => \prime\models\ar\Profile::class,
+//                'RegistrationForm' => \prime\models\forms\user\Registration::class,
+//                'RecoveryForm' => \prime\models\forms\user\Recovery::class,
+//                'SettingsForm' => \prime\models\forms\user\Settings::class
+//            ],
+//            'adminPermission' => 'admin',
+//            'mailer' => [
+//                'class' => \dektrium\user\Mailer::class,
+//                'sender' => 'support@herams.org',
+//                'confirmationSubject' => new Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
+//                'recoverySubject' => new Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
+//                'welcomeSubject' => new Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Health Resources and Services Availability Monitoring System', ['0' => app()->name]);}),            ]
+//        ],
     ],
     'params' => [
         'defaultSettings' => [

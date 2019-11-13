@@ -5,14 +5,14 @@ use yii\helpers\Html;
 
 ?>
 <div class="user-menu">
-    <?= Html::a(Icon::signOutAlt(), ['/user/security/logout'], ['data-method' => 'POST']); ?>
+    <?= Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']); ?>
     <?php
     /** @var \prime\models\ar\User $user */
     $user = \Yii::$app->user->identity;
     ?>
 
     <div>
-        <?= Html::a("{$user->firstName} {$user->lastName}", ['/user/settings/profile'], [
+        <?= Html::a($user->name, ['/user/account'], [
             'class' => 'name'
         ]); ?>
         <div class="email"><?= $user->email ?></div>

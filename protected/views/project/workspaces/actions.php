@@ -112,7 +112,9 @@ var handler = function(e){
         title: "Download data in CSV format",
         message: "Do you prefer answer as text or as code?",
         buttons: [
-            
+            [
+                
+            ]
         ]    
     });
     bootbox.dialog({
