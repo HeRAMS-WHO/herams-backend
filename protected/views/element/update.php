@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'enableClientValidation' => true
     ]);
 
     echo Form::widget([
@@ -114,11 +115,13 @@ $this->params['breadcrumbs'][] = $this->title;
     $this->registerJs(<<<JS
 $('#element-code, #element-transpose').on('change', function(e) {
     // Refresh page on change.
-    window.location.href = $url.replace("__value__", e.target.value).replace("__key__", e.target.name);
+    console.log('Refreshing page');
+    window.location.href = ${url}.replace("__value__", e.target.value).replace("__key__", e.target.name);
 });
 
 $('form').on('change', function() {
     $('.col-xs-4 iframe').attr('src', '/element/{$model->id}/preview?' + $('form').serialize());
+    console.log('Updating preview');
 });
 JS
     );
@@ -148,13 +151,13 @@ JS
             Html::submitButton($this->title,
                 [
                     'class' => 'btn btn-primary',
-                    'name' => 'submit',
+                    'name' => 'action',
                     'value' => 'refresh'
                 ]
             ),
             Html::submitButton(\Yii::t('app', 'Update & go to dashboard'), [
                 'class' => 'btn btn-success',
-                'name' => 'submit',
+                'name' => 'action',
                 'value' => 'dashboard'
             ]),
             Html::a(\Yii::t('app', 'Discard changes & go to dashboard'),

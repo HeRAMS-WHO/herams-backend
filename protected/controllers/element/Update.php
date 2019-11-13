@@ -41,7 +41,7 @@ class Update extends Action
         if ($request->isPost) {
             if ($model->load($request->bodyParams) && $model->save()) {
                 $notificationService->success(\Yii::t('app', "Element updated"));
-                switch($request->bodyParams['submit']) {
+                switch($request->bodyParams['action']) {
                     case 'dashboard':
                         return $this->controller->redirect([
                             'project/view',
