@@ -120,9 +120,12 @@ $('#element-code, #element-transpose').on('change', function(e) {
 });
 
 $('form').on('change', function() {
-    $('.col-xs-4 iframe').attr('src', '/element/{$model->id}/preview?' + $('form').serialize());
+    $('#preview-frame').attr('src', '/element/{$model->id}/preview?' + $('form').serialize());
     console.log('Updating preview');
 });
+$('form').on('beforeSubmit', function() {
+    $('#preview-frame').remove();   
+})
 JS
     );
 
@@ -185,6 +188,7 @@ JS
             }
             $params['id'] = $model->id;
             echo Html::tag('iframe', '', [
+                'id' => 'preview-frame',
                 'src' => Url::to($params),
                 'style' => [
                     'border' => 'none',
