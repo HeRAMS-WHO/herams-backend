@@ -116,6 +116,11 @@ class Workspace extends ActiveRecord
         return $this->_token;
     }
 
+    public function getLatestUpdate()
+    {
+        return $this->getResponses()->orderBy(['last_updated' => SORT_DESC])->limit(1)->one()->last_updated ?? null;
+    }
+
 
     public function getLimesurveyDataProvider(): LimesurveyDataProvider
     {

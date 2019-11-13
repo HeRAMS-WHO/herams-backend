@@ -89,6 +89,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'label' => 'Latest update',
+                'value' => function(Workspace $workspace) {
+                    return $workspace->getPermissions()->count();
+                }
+            ],
+            [
+                'attribute' => 'latestUpdate',
+            ],
+            [
+                'label' => '# Contributors',
+                'value' => function(Workspace $project) {
+                    return $project->getPermissions()->count();
+                }
+            ],
+            [
                 'label' => '# Contributors',
                 'value' => function(Workspace $project) {
                     return $project->getPermissions()->count();
