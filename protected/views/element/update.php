@@ -115,17 +115,12 @@ $this->params['breadcrumbs'][] = $this->title;
     $this->registerJs(<<<JS
 $('#element-code, #element-transpose').on('change', function(e) {
     // Refresh page on change.
-    console.log('Refreshing page');
     window.location.href = ${url}.replace("__value__", e.target.value).replace("__key__", e.target.name);
 });
 
 $('form').on('change', function() {
     $('#preview-frame').attr('src', '/element/{$model->id}/preview?' + $('form').serialize());
-    console.log('Updating preview');
 });
-$('form').on('beforeSubmit', function() {
-    $('#preview-frame').remove();   
-})
 JS
     );
 
