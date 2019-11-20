@@ -3,12 +3,22 @@ html[lang=ar] {
     direction: rtl;
 }
 
-html[lang=ar] .wy-nav-content-wrap {
+.wy-nav-content-wrap:dir(rtl) {
     margin-left: unset;
     margin-right: 300px;
 }
 
-html[lang=ar] .rst-versions, html[lang=ar] .wy-nav-side {
+.rst-versions:dir(rtl), .wy-nav-side:dir(rtl) {
     left: unset;
     right: 0;
+}
+
+.rst-content .admonition-title:dir(rtl)::before {
+    margin-right: unset;
+    margin-left: 4px;
+}
+
+.rst-content .section ol li:dir(rtl), .rst-content .section ul li:dir(rtl) {
+    margin-left: unset;
+    margin-right: 24px;
 }
