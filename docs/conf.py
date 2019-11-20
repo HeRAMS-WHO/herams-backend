@@ -52,7 +52,7 @@ exclude_patterns = []
 html_static_path = ['_static']
 
 html_css_files = [
-    'css/custom.css'
+    'custom.css'
 ]
 locale_dirs = ['../locales/']
 gettext_compact = False
