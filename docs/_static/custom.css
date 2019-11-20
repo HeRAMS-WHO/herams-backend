@@ -22,3 +22,11 @@ html[lang=ar] {
     margin-left: unset;
     margin-right: 24px;
 }
+
+.wy-menu-vertical li span.toctree-expand:dir(rtl), .wy-menu-vertical li span.toctree-collapse:dir(rtl)
+{
+    margin: 0;
+    position: absolute;
+    top: 0.4em;
+    right: 0.4em;
+}
