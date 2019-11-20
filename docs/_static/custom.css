@@ -1,0 +1,14 @@
+
+html[lang=ar] {
+    direction: rtl;
+}
+
+html[lang=ar] .wy-nav-content-wrap {
+    margin-left: unset;
+    margin-right: 300px;
+}
+
+html[lang=ar] .rst-versions, html[lang=ar] .wy-nav-side {
+    left: unset;
+    right: 0;
+}
