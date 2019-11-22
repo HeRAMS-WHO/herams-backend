@@ -3,28 +3,27 @@ html[lang=ar] {
     direction: rtl;
 }
 
-.wy-nav-content-wrap:dir(rtl) {
+html[lang=ar] .wy-nav-content-wrap {
     margin-left: unset;
     margin-right: 300px;
 }
 
-.rst-versions:dir(rtl), .wy-nav-side:dir(rtl) {
+html[lang=ar] .rst-versions, html[lang=ar] .wy-nav-side {
     left: unset;
     right: 0;
 }
 
-.rst-content .admonition-title:dir(rtl)::before {
+html[lang=ar] .rst-content .admonition-title::before {
     margin-right: unset;
     margin-left: 4px;
 }
 
-.rst-content .section ol li:dir(rtl), .rst-content .section ul li:dir(rtl) {
+html[lang=ar] .rst-content .section ol li, html[lang=ar] .rst-content .section ul li {
     margin-left: unset;
     margin-right: 24px;
 }
 
-.wy-menu-vertical li span.toctree-expand:dir(rtl), .wy-menu-vertical li span.toctree-collapse:dir(rtl)
-{
+html[lang=ar] .wy-menu-vertical li span.toctree-expand, html[lang=ar] .wy-menu-vertical li span.toctree-collapse {
     margin: 0;
     position: absolute;
     top: 0.4em;
