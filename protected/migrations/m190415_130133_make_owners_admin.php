@@ -23,8 +23,14 @@ class m190415_130133_make_owners_admin extends Migration
             }
             Permission::grant($user, $workspace, Permission::PERMISSION_ADMIN);
             if (!Permission::find()
-                ->andWithSource($user)
-                ->andWithTarget($workspace)
+                ->andWhere([
+                    'source_id' => $user->id,
+                    'source' => get_class($user)
+                ])
+                ->andWhere([
+                    'target_id' => $workspace->id,
+                    'target' => get_class($workspace)
+                ])
                 ->andWhere(['permission' => Permission::PERMISSION_ADMIN])
                 ->exists()
             ) {
