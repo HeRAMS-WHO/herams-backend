@@ -25,8 +25,8 @@ x-env:
       LS_USER: ${LS_USER}
       RUNTIME_PATH: /runtime
       SMTP_HOST: mailcatcher
-      RESPONSE_SUBMISSION_KEY: $RESPONSE_SUBMISSION_KEY
-      URL_SIGNING_SECRET: 'test123'
+      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       PRIVATE_KEY_FILE: /project/local/testkey
       SMTP_PORT: 1025
     user: ${UID-0}:${GID-0}

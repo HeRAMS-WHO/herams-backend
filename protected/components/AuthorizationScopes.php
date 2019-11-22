@@ -31,21 +31,6 @@ trait AuthorizationScopes
         return $this;
     }
 
-    public function userCannot($operation, $user = null)
-    {
-        $authManager = app()->authManager;
-        $userId = $user instanceof IdentityInterface ? $user->getId() : (is_int($user) ? $user : app()->user->identity->id);
-        $user = $user ?: app()->user->identity;
-        // Check if we are interested in the current user; and if the current user is admin.
-        if (!$authManager->checkAccess($userId,'admin')) {
-            $this->_required = true;
-            $this->_operations[] = [false, $operation, $user];
-        } else {
-            $this->_empty = true;
-        }
-        return $this;
-    }
-
     public function all($db = null)
     {
         if ($this->_empty) {

@@ -25,7 +25,6 @@ use function iter\toArrayWithKeys;
  * @property array $data
  * @property Workspace $workspace
  * @property Project $project
- * @method static ResponseQuery find()
  */
 class Response extends ActiveRecord implements HeramsResponseInterface
 {

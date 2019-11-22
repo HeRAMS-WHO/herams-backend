@@ -11,6 +11,7 @@ use yii\web\HttpException;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
+    public const SCENARIO_SEARCH = 'search';
     /**
      * @return ActiveQuery
      * @throws \yii\base\InvalidConfigException
@@ -23,6 +24,15 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
         return \Yii::createObject($class, [get_called_class()]);
     }
+
+    public function beforeSave($insert)
+    {
+        if ($this->scenario === self::SCENARIO_SEARCH) {
+            throw new \Exception('Cannot save a model that was meant for search');
+        }
+        return parent::beforeSave($insert);
+    }
+
 
     public function loadFromAttributeData()
     {

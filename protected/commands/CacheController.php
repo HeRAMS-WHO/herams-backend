@@ -20,14 +20,11 @@ class CacheController extends \yii\console\controllers\CacheController
     public function actionWarmup(
         LimesurveyDataProvider $limesurveyDataProvider
     ) {
-        $totalFacilityCount = 0;
-        $lastUpdatedProject = null;
-        $lastUpdatedTimestamp = null;
         /** @var Project $project */
         foreach(Project::find()->each() as $project) {
             $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);
             try {
-                $this->warmupProject($limesurveyDataProvider, $project, $lastUpdatedTimestamp, $totalFacilityCount, $lastUpdatedProject);
+                $this->warmupProject($limesurveyDataProvider, $project);
             } catch (\Throwable $t) {
                 $this->stderr($t->getMessage(), Console::FG_RED);
             }
@@ -64,7 +61,6 @@ class CacheController extends \yii\console\controllers\CacheController
                 ];
 
                 print_r($response->getData());
-                die();
 
                 /**
                  * @var Response $dataResponse

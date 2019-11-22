@@ -128,7 +128,7 @@ class Share extends Model {
         ]);
     }
 
-    public function renderTable($deleteAction = '/permission/delete')
+    public function renderTable(string $deleteAction = '/permission/delete')
     {
         return \kartik\grid\GridView::widget([
             'dataProvider' => new ActiveDataProvider([
@@ -152,9 +152,6 @@ class Share extends Model {
                     'template' => '{delete}',
                     'buttons' => [
                         'delete' => function($url, $model, $key) use ($deleteAction) {
-                            if($deleteAction == '') {
-                                return '';
-                            }
                             return Html::a(
                                 Html::icon('trash'),
                                 [

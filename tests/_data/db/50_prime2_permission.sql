@@ -1,7 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
 SET NAMES 'utf8';
-INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (8, 'prime\\models\\ar\\User', 6, 'prime\\models\\ar\\Project', 1, 'write');
-INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (15, 'prime\\models\\ar\\User', 8, 'prime\\models\\ar\\Project', 1, 'admin');
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (24, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 2, 'admin');
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (26, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 3, 'admin');
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (28, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 4, 'admin');
@@ -157,4 +155,9 @@ INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (328, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 154, 'admin');
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (330, 'prime\\models\\ar\\User', 1, '{builtin}', 0, 'admin');
 INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (331, 'prime\\models\\ar\\User', 3, '{builtin}', 0, 'admin');
+INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (332, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Project', 1, 'write');
+INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (334, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Project', 1, 'admin');
+INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (335, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Project', 1, 'read');
+INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (337, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 1200, 'write');
+INSERT INTO `prime2_permission` (`id`, `source`, `source_id`, `target`, `target_id`, `permission`) VALUES (338, 'prime\\models\\ar\\User', 1, 'prime\\models\\ar\\Workspace', 1200, 'admin');
 SET FOREIGN_KEY_CHECKS=1;

@@ -1,21 +1,21 @@
- <?php
+<?php
 
- use prime\helpers\Icon;
+use kartik\grid\ActionColumn;
+use prime\helpers\Icon;
  use prime\models\ar\Workspace;
  use prime\models\permissions\Permission;
  use yii\bootstrap\Html;
  use yii\helpers\Url;
+
 return [
-    'class' => \kartik\grid\ActionColumn::class,
+    'class' => ActionColumn::class,
     'width' => '150px',
     'controller' => 'workspace',
     'template' => '{refresh} {update} {share} {delete} {download} {limesurvey}',
     'buttons' => [
         'refresh' => function($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)
-                || \Yii::$app->user->can(Permission::PERMISSION_WRITE, $model->project)
-            ) {
+            if (false && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
                 $result = Html::a(Icon::sync(), $url, [
                     'title' => \Yii::t('app', 'Refresh data from limesurvey')
                 ]);
@@ -24,9 +24,7 @@ return [
         },
         'limesurvey' => function($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_WRITE, $model)
-                || \Yii::$app->user->can(Permission::PERMISSION_WRITE, $model->project)
-            ) {
+            if (false && \Yii::$app->user->can(Permission::PERMISSION_WRITE, $model)) {
                 $result = Html::a(
                     Icon::pencilAlt(),
                     $url,
@@ -39,9 +37,7 @@ return [
         },
         'update' => function($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)
-                || \Yii::$app->user->can(Permission::PERMISSION_WRITE, $model->project)
-            ) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
                 $result = Html::a(
                     Icon::edit(),
                     $url,
@@ -55,7 +51,7 @@ return [
         'share' => function($url, Workspace $model, $key) {
             $result = '';
             /** @var Workspace $model */
-            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model->project)) {
+            if (false && \Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
                 $result = Html::a(
                     Icon::share(),
                     $url,
@@ -67,9 +63,7 @@ return [
             return $result;
         },
         'delete' => function($url, Workspace $model, $key) {
-            if (app()->user->can(Permission::PERMISSION_ADMIN, $model)
-                || app()->user->can(Permission::PERMISSION_WRITE, $model->project)
-            ) {
+            if (false &&  \Yii::$app->user->can(Permission::PERMISSION_DELETE, $model)) {
                 return Html::a(
                     Icon::delete(),
                     $url,
@@ -81,9 +75,7 @@ return [
             }
         },
         'download' => function($url, Workspace $model, $key) {
-            if (app()->user->can(Permission::PERMISSION_ADMIN, $model)
-                || app()->user->can(Permission::PERMISSION_WRITE, $model->project)
-            ) {
+            if (false && \Yii::$app->user->can(Permission::PERMISSION_READ, $model)) {
                 $result = Html::a(
                     Icon::download(),
                     "#",

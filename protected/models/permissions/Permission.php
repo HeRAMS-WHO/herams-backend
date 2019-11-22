@@ -34,6 +34,9 @@ class Permission extends ActiveRecord
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
     const PERMISSION_ADMIN = 'admin';
+    const PERMISSION_CREATE_PAGE = 'create-page';
+    const PERMISSION_CREATE_WORKSPACE = 'create-workspace';
+    const PERMISSION_CREATE_PROJECT = 'create-page';
     const PERMISSION_SHARE = 'share';
     const PERMISSION_DELETE = 'delete';
 

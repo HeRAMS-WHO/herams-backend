@@ -1,10 +1,9 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\models\forms;
 
 
-use app\queries\ResponseQuery;
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ar\Response;
@@ -14,11 +13,9 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
-use yii\base\Security;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\StringHelper;
-use yii\helpers\Url;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
 use function iter\all;
@@ -152,7 +149,7 @@ class ResponseFilter extends Model
 
     }
 
-    public function filterQuery(ResponseQuery $query): ActiveQuery
+    public function filterQuery(ActiveQuery $query): ActiveQuery
     {
         // Find the latest response per HF.
         $left = clone $query;

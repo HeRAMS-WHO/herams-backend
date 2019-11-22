@@ -11,6 +11,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
 use yii\validators\DefaultValueValidator;
 use yii\validators\RegularExpressionValidator;
+use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
@@ -36,17 +37,11 @@ class User extends ActiveRecord implements IdentityInterface {
             ]
         ]);
     }
-    /**
-     * The project find function only returns projects a user has at least read access to
-     */
-    public function getProjects(): WorkspaceQuery
-    {
-        return Workspace::find()->notClosed()->userCan(Permission::PERMISSION_READ);
-    }
 
     public function rules()
     {
         return [
+            [['email', 'name'], RequiredValidator::class],
             ['email', UniqueValidator::class,
                 'targetClass' => User::class,
                 'targetAttribute' => 'email',

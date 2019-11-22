@@ -5,11 +5,9 @@ namespace prime\models\ar;
 
 
 use prime\interfaces\Exportable;
-use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\objects\GroupPage;
-use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\InvalidArgumentException;
@@ -24,13 +22,12 @@ use yii\validators\StringValidator;
  * @package prime\models\ar
  * @property Page[] $children
  * @property Element[] $elements
- * @property int $tool_id
+ * @property int $project_id
  * @property Project $project
  * @property ?Page $parent
  */
 class Page extends ActiveRecord implements PageInterface, Exportable
 {
-    use LoadOneAuthTrait;
 
     public function init()
     {
@@ -41,7 +38,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'tool_id']);
+        return $this->hasOne(Project::class, ['id' => 'project_id']);
     }
 
     public function getChildren()
@@ -83,16 +80,15 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getChildElements(): iterable
     {
-        foreach($this->elements as $element) {
-            yield $element;
-        }
+        yield from $this->elements;
     }
 
-    public function getElements(): ActiveQuery {
+    public function getElements(): ActiveQuery
+    {
         return $this->hasMany(Element::class, ['page_id' => 'id'])->orderBy(['sort' => SORT_ASC]);
     }
 
-    public function getParent()
+    public function getParent(): ActiveQuery
     {
         return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()]);
     }
@@ -100,20 +96,20 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     public function rules()
     {
         return [
-            [['title', 'sort'], RequiredValidator::class],
+            [['title', 'sort', 'project_id'], RequiredValidator::class],
             [['sort'], NumberValidator::class],
             [['title'], StringValidator::class],
             [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id', 'filter' => function(ActiveQuery $query) {
-                return $query->andWhere(['tool_id' => $this->tool_id]);
+                return $query->andWhere(['project_id' => $this->project_id]);
             }],
-            [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
+            [['project_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
         ];
     }
 
     public function scenarios()
     {
         $result = parent::scenarios();
-        $result[self::SCENARIO_DEFAULT][] = '!tool_id';
+        $result[self::SCENARIO_DEFAULT][] = '!project_id';
         return $result;
     }
 
@@ -131,23 +127,11 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return parent::beforeDelete();
     }
 
-    public function prepareData(array $data)
-    {
-        $result = [];
-        /** @var HeramsResponseInterface $response */
-        foreach($data as $response) {
-            foreach($response->getSubjects() as $subject) {
-                $result[] = $subject;
-            }
-        }
-        return $result;
-    }
-
     public function parentOptions()
     {
         $result = $this->find()
             ->andWhere([
-                'tool_id' => $this->tool_id,
+                'tool_id' => $this->project_id,
                 'parent_id' => null
             ])
             ->andFilterWhere(['not', ['id' => $this->id]])
@@ -170,6 +154,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function export(): array
     {
+        if (!$this->validate()) {
+            throw new \LogicException('Cannot export an invalid page: ' . print_r($this->errors, true));
+        }
         $attributes = $this->attributes;
         foreach ($this->primaryKey() as $key) {
             unset($attributes[$key]);
@@ -204,14 +191,14 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         $result = new Page();
         $result->setAttributes($data['attributes']);
         if ($parent instanceof Page) {
-            $result->tool_id = $parent->tool_id;
+            $result->project_id = $parent->project_id;
             $result->parent_id = $parent->id;
         } else {
-            $result->tool_id = $parent->id;
+            $result->project_id = $parent->id;
         }
 
         if (!$result->validate()) {
-            throw new InvalidArgumentException('Validation failed');
+            throw new InvalidArgumentException('Validation failed: ' . print_r($result->errors, true));
         }
 
         $result->save(false);

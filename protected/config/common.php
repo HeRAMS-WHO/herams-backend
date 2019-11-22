@@ -1,9 +1,7 @@
 <?php
 
-use dektrium\user\controllers\RegistrationController;
 use prime\components\JwtSso;
 use prime\models\permissions\Permission;
-use prime\objects\Deferred;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\rules\ImpliedPermission;
 use SamIT\abac\values\Authorizable;
@@ -17,7 +15,6 @@ use yii\swiftmailer\Mailer;
 /** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
 ini_set('memory_limit','4096M');
-
 return [
     'id' => 'herams',
     'name' => 'HeRAMS',
@@ -50,7 +47,7 @@ return [
         'limesurveySSo' => [
             'class' => JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => $env->offsetExists('PRIVATE_KEY_FILE') ? file_get_contents($env->get('PRIVATE_KEY_FILE')) : null,
+            'privateKey' => $env->get('PRIVATE_KEY_FILE', false) ? file_get_contents($env->get('PRIVATE_KEY_FILE')) : null,
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
@@ -79,10 +76,11 @@ return [
                 ActiveRecordRepository::TARGET_NAME => 'target',
                 ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
             ]);
+            $cachedRepo = new \SamIT\abac\repositories\CachedReadRepository($repo);
             $resolver = new ActiveRecordResolver();
             $environment = new class extends ArrayObject implements Environment {};
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $repo, $resolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $cachedRepo, $resolver, $environment);
         },
         'authManager' => function() {
 

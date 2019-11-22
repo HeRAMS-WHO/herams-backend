@@ -13,6 +13,10 @@ use yii\db\Query;
 use yii\db\TableSchema;
 use yii\helpers\Console;
 
+/**
+ * Class DatabaseController
+ * @codeCoverageIgnore This file is not used in production
+ */
 class DatabaseController extends Controller
 {
     use ActionInjectionTrait;
@@ -46,6 +50,7 @@ class DatabaseController extends Controller
         $db->open();
         $this->stdout(". OK\n", Console::FG_GREEN);
     }
+
     public function actionUpdateTest(Connection $db, int $redo = 0)
     {
         if (YII_ENV != 'test') {

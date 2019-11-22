@@ -1,50 +1,22 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\components;
 
 
-use ArrayAccess;
-
-class Environment implements ArrayAccess {
+class Environment {
     private $data = [];
 
     public function __construct(?string $file = null)
     {
         $this->data = getenv();
-        if (file_exists($file)) {
+        if (isset($file) && file_exists($file)) {
             $this->data = array_merge($this->data, json_decode(file_get_contents($file), true));
         }
     }
 
-    public function get($name, $default = null)
+    public function get(string $name, $default = null)
     {
-        return $this->offsetGet($name) ?? $default;
+        return $this->data[$name] ?? getenv($name) ?: $default;
     }
-
-    public function offsetExists($offset)
-    {
-        return array_key_exists($offset, $this->data);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->data[$offset] ?? getenv($offset) ?: null;
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        throw new \Exception('Not supported');
-    }
-
-    public function offsetUnset($offset)
-    {
-        throw new \Exception('Not supported');
-    }
-
-//    public function __debugInfo()
-//    {
-//        return ['data' => '** MASKED **'];
-//    }
-
 }

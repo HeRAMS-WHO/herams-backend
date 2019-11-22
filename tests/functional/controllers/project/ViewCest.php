@@ -36,7 +36,7 @@ class ViewCest
         $project = $I->haveProject();
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id]);
@@ -52,7 +52,7 @@ class ViewCest
         $I->save($project);
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id]);
@@ -65,7 +65,7 @@ class ViewCest
         $project = $I->haveProject();
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $page->id + 1]);
@@ -80,12 +80,12 @@ class ViewCest
 
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
 
         $otherPage = new Page();
         $otherPage->title = 'Other page';
-        $otherPage->tool_id = $project->id;
+        $otherPage->project_id = $project->id;
         $I->save($otherPage);
 
         $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $otherPage->id]);
@@ -101,13 +101,13 @@ class ViewCest
 
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
 
         $child = new Page();
         $child->parent_id = $page->id;
         $child->title = 'Child page';
-        $child->tool_id = $project->id;
+        $child->project_id = $project->id;
         $I->save($child);
 
         $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $child->id, 'parent_id' => $child->parent_id]);

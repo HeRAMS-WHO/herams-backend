@@ -19,7 +19,7 @@ class WorkspaceRule implements Rule
      */
     public function getPermissions(): array
     {
-        return ['admin'];
+        return [Permission::PERMISSION_ADMIN];
     }
 
     /**
@@ -56,6 +56,7 @@ class WorkspaceRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
+        die('no');
         return $target instanceof Workspace
             && $accessChecker->check($source, $target->project, Permission::PERMISSION_ADMIN);
     }

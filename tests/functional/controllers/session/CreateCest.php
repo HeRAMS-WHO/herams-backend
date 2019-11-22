@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\session;
 
@@ -25,11 +25,26 @@ class CreateCest
         $I->save($user);
         $I->fillField(['css' => '[autocomplete=username]'], $user->email);
         $I->fillField(['css' => '[autocomplete=current-password]'], 'test123');
+        $I->assertTrue(\Yii::$app->user->isGuest);
         $I->click('Log in');
         $I->seeResponseCodeIsSuccessful();
-        $I->seeInSource(substr(json_encode('Workspace <strong>Cool stuff</strong> created'), 1, -1));
+        $I->assertFalse(\Yii::$app->user->isGuest);
+
     }
 
+    public function testRedirectIfAlreadyLoggedIn(FunctionalTester $I)
+    {
+        $I->amOnPage('/');
+        $I->seeCurrentUrlEquals('/session/create');
+        $I->amLoggedInAs(TEST_ADMIN_ID);
+        $I->stopFollowingRedirects();
+        $I->amOnPage($I->grabFromCurrentUrl());
+        $I->seeResponseCodeIsRedirection();
+        $I->startFollowingRedirects();
+        $I->amOnPage($I->grabFromCurrentUrl());
+        $I->seeCurrentUrlEquals('/');
+
+    }
     public function testCreateNewToken(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);

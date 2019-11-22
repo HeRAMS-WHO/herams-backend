@@ -5,21 +5,19 @@ namespace prime\models\search;
 use app\queries\ProjectQuery;
 use prime\components\ActiveQuery;
 use prime\models\ar\Project;
+use prime\models\ar\Response;
 use yii\data\ActiveDataProvider;
+use yii\data\Sort;
+use yii\db\Expression;
+use yii\db\Query;
+use yii\validators\NumberValidator;
+use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 
 class Workspace extends \prime\models\ar\Workspace
 {
-    /**
-     * @var \Closure
-     */
-    public $queryCallback;
-
-    /** @var ActiveQuery */
-    public $query;
-
-
     private $project;
+
     public function __construct(
         Project $project,
         array $config = []
@@ -31,76 +29,80 @@ class Workspace extends \prime\models\ar\Workspace
     public function init()
     {
         parent::init();
-        $this->query = \prime\models\ar\Workspace::find();
-
-        if (isset($this->queryCallback)) {
-            $this->query = call_user_func($this->queryCallback, $this->query);
-        }
-
-
-        $this->scenario = 'search';
-
+        $this->scenario = self::SCENARIO_SEARCH;
     }
 
     public function rules()
     {
         return [
-            [['created'], 'safe'],
+            [['created'], SafeValidator::class],
             [['title'], StringValidator::class],
+            [['id'], NumberValidator::class],
         ];
-    }
-
-    public function save($runValidation = true, $attributeNames = null)
-    {
-        throw new \Exception('You cannot save a search model');
     }
 
     public function scenarios()
     {
         return [
-            'search' => [
+            self::SCENARIO_SEARCH => [
                 'project_id',
                 'title',
                 'created',
+                'id'
             ]
         ];
     }
 
     public function search($params)
     {
-        $this->query->joinWith(['project']);
-        $this->query->andFilterWhere(['tool_id' => $this->project->id]);
-        
+        $baseTable = self::tableName();
+        $query = \prime\models\ar\Workspace::find();
+
+        $query->with('project');
+        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'permissionCount');
+        $query->andFilterWhere(["$baseTable.[[tool_id]]" => $this->project->id]);
+//        $query->addSelect([
+//            "$baseTable.*"
+//        ]);
+
         $dataProvider = new ActiveDataProvider([
-            'query' => $this->query,
+            'query' => $query,
             'id' => 'project-data-provider',
             'pagination' => [
                 'pageSize' => 10
             ]
         ]);
 
-        $dataProvider->setSort([
+        $sort = new Sort([
             'attributes' => [
                 'id',
                 'title',
                 'created',
+                'latestUpdate' => [
+                    'asc' => ['last_update' => SORT_ASC],
+                    'desc' => ['last_update' => SORT_DESC],
+                    'default' => SORT_DESC,
+                ]
             ]
         ]);
-
+        $dataProvider->setSort($sort);
         if(!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
 
+
+
         $interval = explode(' - ', $this->created);
         if(count($interval) == 2) {
-            $this->query->andFilterWhere([
+            $query->andFilterWhere([
                 'and',
                 ['>=', 'created', $interval[0]],
                 ['<=', 'created', $interval[1] . ' 23:59:59']
             ]);
         }
 
-        $this->query->andFilterWhere(['like', \prime\models\ar\Workspace::tableName() . '.title', $this->title]);
+        $query->andFilterWhere(['like', "$baseTable.[[title]]", $this->title]);
+        $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
         return $dataProvider;
     }
 }

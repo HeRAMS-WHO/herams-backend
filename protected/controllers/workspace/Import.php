@@ -10,6 +10,8 @@ use prime\models\ar\Project;
 use prime\models\forms\workspace\Import as ImportModel;
 use prime\models\permissions\Permission;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\User;
 
@@ -23,7 +25,13 @@ class Import extends Action
         NotificationService $notificationService,
         int $project_id
     ) {
-        $project = Project::loadOne($project_id, [], Permission::PERMISSION_WRITE);
+        $project = Project::findOne(['id' => $project_id]);
+        if (!isset($project)) {
+            throw new NotFoundHttpException();
+        }
+        if (!$user->can(Permission::PERMISSION_CREATE_WORKSPACE, $project)) {
+            throw new ForbiddenHttpException();
+        }
 
         /** @var array $tokens */
         $samples = $limesurveyDataProvider->getTokens($project->base_survey_eid);

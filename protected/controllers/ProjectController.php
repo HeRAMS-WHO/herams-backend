@@ -18,6 +18,7 @@ use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
+use prime\models\permissions\Permission;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -32,7 +33,6 @@ class ProjectController extends Controller
             'export-dashboard' => ExportDashboard::class,
             'import-dashboard' => ImportDashboard::class,
             'filter' => Filter::class,
-            'check' => Check::class,
             'create' => Create::class,
             'update' => Update::class,
             'index' => Index::class,
@@ -88,7 +88,14 @@ class ProjectController extends Controller
                             ],
                             'roles' => ['@'],
                         ],
-                    ]
+                        [
+                            'allow' => true,
+                            'actions' => [
+                                'create'
+                            ],
+                            'roles' => [Permission::PERMISSION_CREATE_PROJECT]
+                        ]
+                    ],
                 ]
             ]
         );

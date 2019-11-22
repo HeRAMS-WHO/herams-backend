@@ -42,7 +42,7 @@ class Table extends Element
 
     public function setReasonCode(string $value)
     {
-        $config = $this->getWidgetConfig();
+        $config = $this->config;
         if (empty($value)) {
             unset($config['reasonCode']);
         } else {
@@ -58,7 +58,7 @@ class Table extends Element
 
     public function setGroupCode(string $value)
     {
-        $config = $this->getWidgetConfig();
+        $config = $this->config;
         if (empty($value)) {
             unset($config['groupCode']);
         } else {

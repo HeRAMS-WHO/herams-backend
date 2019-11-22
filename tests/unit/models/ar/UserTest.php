@@ -1,6 +1,8 @@
 <?php
 namespace prime\tests\unit\models\ar;
 
+use prime\models\ar\User;
+
 class UserTest extends ActiveRecordTest
 {
     public function validSamples(): array
@@ -20,7 +22,7 @@ class UserTest extends ActiveRecordTest
         return [
             [
                 'attributes' => [],
-                'scenario' => 'create'
+                'scenario' => User::SCENARIO_DEFAULT
             ]
         ];
     }

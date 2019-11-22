@@ -44,7 +44,7 @@ class SummaryCest
         $project = $I->haveProject();
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         $I->amOnPage(['project/summary', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
@@ -58,7 +58,7 @@ class SummaryCest
         Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         $I->amOnPage(['project/summary', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
@@ -72,7 +72,7 @@ class SummaryCest
         Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         $I->amOnPage(['project/summary', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
@@ -86,7 +86,7 @@ class SummaryCest
         Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         $I->amOnPage(['project/summary', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
@@ -99,7 +99,7 @@ class SummaryCest
         $project = $I->haveProject();
         $page = new Page();
         $page->title = 'Main page';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
         $I->amOnPage(['project/summary', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);

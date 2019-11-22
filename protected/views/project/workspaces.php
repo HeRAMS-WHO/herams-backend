@@ -76,38 +76,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $workspaceProvider,
         'columns' => [
             [
-                'attribute' => 'id'
-            ],
-            [ 'label' => 'Title', 'attribute' => 'title', 'value' => 'title' ],
-            [
-                'label' => 'Cache status',
-                'value' => function(Workspace $workspace) {
-                    /** @var \prime\components\LimesurveyDataProvider $provider */
-                    $provider = \Yii::$app->limesurveyDataProvider;
-                    $timestamp = $provider->tokenCacheTime($workspace->project->base_survey_eid, $workspace->getAttribute('token'));
-                    return isset($timestamp) ? \Carbon\Carbon::createFromTimestamp($timestamp)->diffForHumans() : null;
-                }
+                'attribute' => 'id',
             ],
             [
-                'label' => 'Latest update',
-                'value' => function(Workspace $workspace) {
-                    return $workspace->getPermissions()->count();
-                }
+                'attribute' => 'title'
             ],
             [
                 'attribute' => 'latestUpdate',
             ],
             [
                 'label' => '# Contributors',
-                'value' => function(Workspace $project) {
-                    return $project->getPermissions()->count();
-                }
-            ],
-            [
-                'label' => '# Contributors',
-                'value' => function(Workspace $project) {
-                    return $project->getPermissions()->count();
-                }
+                'attribute' => 'permissionCount'
             ],
             [
                 'label' => '# Health facilities',
@@ -117,25 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => '# Responses',
                 'value' => 'responseCount'
             ],
-            [
-                'class' => \kartik\grid\DataColumn::class,
-                'attribute' => 'closed',
-                'format' => 'date',
-                'filterType' => GridView::FILTER_DATE_RANGE,
-                'filterWidgetOptions' => [
-                    'pluginOptions' => [
-                        'locale' => [
-                            'format' => 'YYYY-MM-DD',
-                        ],
-                        'allowClear'=>true,
-                    ],
-                    'pluginEvents' => [
-                        "apply.daterangepicker" => "function() { $('.grid-view').yiiGridView('applyFilter'); }"
-                    ]
-                ],
-                'visible' => app()->controller->action->id === 'list-closed'
-            ],
-            'actions' => include('workspaces/actions.php')
+            'actions' => require('workspaces/actions.php')
         ]
     ]);
     ?>

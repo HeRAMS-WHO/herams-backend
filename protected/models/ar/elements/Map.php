@@ -20,7 +20,7 @@ class Map extends Element
 
     public function setMarkerRadius($value)
     {
-        $config = $this->getWidgetConfig();
+        $config = $this->config;
         if (empty($value)) {
             unset($config['markerRadius']);
         } else {

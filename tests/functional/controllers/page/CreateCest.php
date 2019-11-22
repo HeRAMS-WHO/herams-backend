@@ -1,7 +1,7 @@
 <?php
 
 
-namespace prime\tests\functional\controllers\project;
+namespace prime\tests\functional\controllers\page;
 
 use prime\models\ar\Project;
 use prime\tests\FunctionalTester;

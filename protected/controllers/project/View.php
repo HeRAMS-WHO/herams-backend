@@ -52,7 +52,7 @@ class View extends Action
             }
         } elseif (isset($page_id)) {
             $page = Page::findOne(['id' => $page_id]);
-            if (!isset($page) || $page->tool_id !== $project->id) {
+            if (!isset($page) || $page->project_id !== $project->id) {
                 throw new NotFoundHttpException();
             }
         } elseif (!empty($project->pages)) {

@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
-use app\queries\ProjectQuery;
-use app\queries\ResponseQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
@@ -12,9 +10,9 @@ use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
-use prime\traits\LoadOneAuthTrait;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\NotSupportedException;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
@@ -32,14 +30,13 @@ use function iter\filter;
  * @property int $id
  * @property int $base_survey_eid
  * @property string $title
- * @method static ProjectQuery find()
+ * @method static ActiveQuery find()
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
  * @property-read SurveyInterface $survey
  */
 class Project extends ActiveRecord {
-    use LoadOneAuthTrait;
     public const STATUS_ONGOING = 0;
     public const STATUS_BASELINE = 1;
     public const STATUS_TARGET = 2;
@@ -191,7 +188,7 @@ class Project extends ActiveRecord {
         ];
     }
 
-    public function  getResponses(): ResponseQuery
+    public function  getResponses(): ActiveQuery
     {
         return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
     }
@@ -345,12 +342,12 @@ class Project extends ActiveRecord {
     }
 
     public function getPages() {
-        return $this->hasMany(Page::class, ['tool_id' => 'id'])->andWhere(['parent_id' => null])->orderBy('sort');
+        return $this->hasMany(Page::class, ['project_id' => 'id'])->andWhere(['parent_id' => null])->orderBy('sort');
     }
 
     public function getAllPages()
     {
-        return $this->hasMany(Page::class, ['tool_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
+        return $this->hasMany(Page::class, ['project_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
     }
 
    public function getContributorCount(): int

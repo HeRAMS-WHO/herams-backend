@@ -1,19 +1,22 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models\ar;
 
-use app\queries\WorkspaceQuery;
 use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
-use prime\traits\LoadOneAuthTrait;
+use prime\objects\HeramsCodeMap;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
+use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
+use SamIT\Yii2\VirtualFields\VirtualFieldQueryBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 use yii\db\Query;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
@@ -31,14 +34,12 @@ use yii\validators\UniqueValidator;
  * @property string $description
  * @property int $tool_id
  * @property int $id
- * @property datetime $created
+ * @property \DateTimeImmutable $created
  *
- * @method static WorkspaceQuery find()
  * @property HeramsResponseInterface[] $responses
  */
 class Workspace extends ActiveRecord
 {
-    use LoadOneAuthTrait;
     /**
      * @var WritableTokenInterface
      */
@@ -48,6 +49,66 @@ class Workspace extends ActiveRecord
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
+    }
+
+    public function behaviors()
+    {
+        return [
+
+            VirtualFieldBehavior::class => [
+                'class' => VirtualFieldBehavior::class,
+                'virtualFields' => [
+                    'latestUpdate' => [
+                        VirtualFieldBehavior::GREEDY => Response::find()
+                            ->limit(1)->select('max(last_updated)')
+                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
+                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
+                            return $workspace->getResponses()->orderBy(['last_updated' => SORT_DESC])->limit(1)
+                                ->one()->last_updated ?? null;
+                        }
+                    ],
+                    'facilityCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY =>
+                            (new Query())->from(['sub' => Response::find()
+                                ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])])
+                            ->select('count(*)'),
+                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
+                            $filter = new ResponseFilter(null, new HeramsCodeMap());
+                            return (int) $filter->filterQuery($workspace->getResponses())->count();
+                        }
+                    ],
+                    'permissionCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(*)')
+                        ->where(['target' => self::class, 'target_id' => new Expression(self::tableName() . '.[[id]]')]),
+                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
+                            return $workspace->getPermissions()->count();
+                        }
+                    ],
+                    'responseCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('count(*)')
+                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
+                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
+                            return $workspace->getResponses()->count();
+                        }
+                    ]
+                ]
+            ]
+        ];
+    }
+
+
+    public static function find(): ActiveQuery
+    {
+        $result = new ActiveQuery(self::class);
+        $result->attachBehaviors([
+            VirtualFieldQueryBehavior::class => [
+                'class' => VirtualFieldQueryBehavior::class
+            ]
+        ]);
+        return $result;
     }
 
     public function getPermissionParent(): ?ActiveRecord
@@ -116,12 +177,6 @@ class Workspace extends ActiveRecord
         return $this->_token;
     }
 
-    public function getLatestUpdate()
-    {
-        return $this->getResponses()->orderBy(['last_updated' => SORT_DESC])->limit(1)->one()->last_updated ?? null;
-    }
-
-
     public function getLimesurveyDataProvider(): LimesurveyDataProvider
     {
         return \Yii::$app->get('limesurveyDataProvider');
@@ -145,7 +200,6 @@ class Workspace extends ActiveRecord
         return $result;
     }
 
-
     public function getIsClosed()
     {
         return isset($this->closed);
@@ -158,15 +212,9 @@ class Workspace extends ActiveRecord
         ])->inverseOf('workspace');
     }
 
-    public function getFacilityCount(): int
-    {
-        $filter = new ResponseFilter(null, $this->project->getMap());
-        return $filter->filterQuery($this->getResponses())->count();
-    }
-
     public function getResponseCount(): int
     {
-        return $this->getResponses()->count();
+        return (int) $this->getResponses()->count();
     }
 
     public function tokenOptions(): array

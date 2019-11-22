@@ -38,7 +38,7 @@ class IndexCest
 
         $page = new Page();
         $page->title = 'test';
-        $page->tool_id = $project->id;
+        $page->project_id = $project->id;
         $I->save($page);
 
         $I->amOnPage(['project/index']);

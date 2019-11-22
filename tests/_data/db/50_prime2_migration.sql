@@ -90,4 +90,5 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190828_131450
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m190925_131139_response_table_foreign_keys', 1571216010);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m191024_124402_assignments_to_permissions', 1571928494);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m191025_093828_drop_profile', 1571998475);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m191114_143505_page_rename_project', 1573742161);
 SET FOREIGN_KEY_CHECKS=1;

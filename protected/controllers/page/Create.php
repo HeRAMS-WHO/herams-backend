@@ -29,13 +29,12 @@ class Create extends Action
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+        if (!$user->can(Permission::PERMISSION_CREATE_PAGE, $project)) {
             throw new ForbiddenHttpException();
         }
 
-
         $model = new Page();
-        $model->tool_id=  $project->id;
+        $model->project_id = $project->id;
 
         if ($request->isPost) {
             if ($model->load($request->bodyParams) && $model->save()) {

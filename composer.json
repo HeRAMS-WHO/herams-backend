@@ -41,11 +41,15 @@
         "fortawesome/font-awesome": "^5.7",
         "npm-asset/izitoast": "^1.4",
         "npm-asset/bootstrap": "^3.4",
-        "sam-it/yii2-abac": "dev-master",
+        "sam-it/yii2-abac": ">=1.0.0",
         "yiisoft/yii2-bootstrap": "> 2",
         "kartik-v/yii2-password": "^1.5",
         "kartik-v/yii2-builder": "^1.6",
-        "sam-it/yii2-urlsigner": "^2.0"
+        "sam-it/yii2-urlsigner": "^2.0",
+        "sam-it/yii2-virtual-fields": "^2.0",
+        "codeception/module-rest": "^1.0",
+        "codeception/module-yii2": "^1.0",
+        "codeception/module-asserts": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -66,7 +70,7 @@
     },
     "require-dev": {
         "yiisoft/yii2-debug": "2.0.x-dev",
-        "codeception/codeception": "> 3.1",
+        "codeception/codeception": "> 4",
         "ifsnop/mysqldump-php": "^2",
         "phpunit/phpunit": "8.1.*"
     },
