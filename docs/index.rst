@@ -829,6 +829,7 @@ Below is a sample button, it should be localized:
 .. image:: media/img/bt_next.png
 
 Below is a sample button |sample-button|, it should be localized:
+
 .. |sample-button| image:: media/img/bt_next.png
 
 
