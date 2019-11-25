@@ -48,7 +48,7 @@ This chapter provides step-by-step instructions on how to access the `HeRAMS pla
 Logging in
 ----------
 
-.. note:: New users without an existing account, will have to register before being able to login to the HeRAMS platform. To create a user account, follow the instruction `here <#creating-a-user-account>`_.
+.. note:: New users without an existing account, will have to register before being able to login to the HeRAMS platform. To create a user account, follow the instructions `here <#creating-a-user-account>`_.
 
 1. Open the link `herams.org <https://herams.org>`_ in your browser.
 2. Enter your email address and password in the designated fields.
@@ -65,7 +65,7 @@ To logout click the |logout| button in the top right corner of the screen.
 Reset password
 --------------
 
-In case you forgot your password, the instruction below will guide you through the steps to reset your password.
+In case you forgot your password, the instructions below will guide you through the steps to reset your password.
 
 1. Open the link `herams.org <https://herams.org>`_ in your browser.
 
@@ -347,9 +347,7 @@ Access the Data Update Interface
 
 4. In the last column of the table, click the |workspace| icon. This will open a new page displaying a list of all available workspace.
 
-.. note:: HeRAMS uses so-called **Workspaces** to manage access permission to the underlying data. A workspace might represent, for example, a specific organization or a geographic region. For more information on **Workspaces** click `here`__.
-
-.. __: `workspaces`_
+.. note:: HeRAMS uses so-called **Workspaces** to manage access permission to the underlying data. A workspace might represent, for example, a specific organization or a geographic region. For more information on **Workspaces** click `here <#workspaces>`_.
 
 5. To view the health facilities that are part of a specific workspace, click the |update-data| icon in the Action column.
 6. Use the |forward-page| buttons to move to the next page or filter the workspaces by typing the workspace name in the field below the header row.
@@ -826,6 +824,10 @@ Exported data is unreadable / contains strange characters
 
 If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here <#data-encoding-in-excel>`_.
 
+Below is a sample button, it should be localized:
+
+.. image:: media/img/bt_next.png
+
 
 .. |applyfilter| image:: media/img/bt_apply_filter.png
    :height: 1.5em
@@ -926,7 +928,7 @@ If you open data downloaded from HeRAMS in Excel, you might experience an issue 
    :alt: next
    :align: top
 
-.. |new-record| image:: media/img/bt_new_record.png
+.. |new-record| image:: media/img/bt_new_record_en.png
    :height: 1.5em
    :alt: submit
    :align: top
