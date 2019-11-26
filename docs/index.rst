@@ -831,6 +831,8 @@ Below is a sample button, it should be localized:
 Below is a sample button |sample-button|, it should be localized:
 
 .. |sample-button| image:: media/img/bt_next.png
+   :height: 1.5em
+   :align: top
 
 
 .. |applyfilter| image:: media/img/bt_apply_filter.png
@@ -927,7 +929,7 @@ Below is a sample button |sample-button|, it should be localized:
    :alt: logout
    :align: top   
 
-.. |next| image:: media/img/bt_next_en.png
+.. |next| image:: media/img/bt_next.png
    :height: 1.5em
    :alt: next
    :align: top
