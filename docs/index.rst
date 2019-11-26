@@ -824,17 +824,6 @@ Exported data is unreadable / contains strange characters
 
 If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here <#data-encoding-in-excel>`_.
 
-Below is a sample button, it should be localized:
-
-.. image:: media/img/bt_next.png
-
-Below is a sample button |sample-button|, it should be localized:
-
-.. |sample-button| image:: media/img/bt_next.png
-   :height: 1.5em
-   :align: top
-
-
 .. |applyfilter| image:: media/img/bt_apply_filter.png
    :height: 1.5em
    :align: top
@@ -850,7 +839,7 @@ Below is a sample button |sample-button|, it should be localized:
    :alt: check data
    :align: top
    
-.. |clear| image:: media/img/bt_clear_en.png
+.. |clear| image:: media/img/bt_clear.png
    :height: 1.5em
    :alt: clear
    :align: top	
@@ -934,7 +923,7 @@ Below is a sample button |sample-button|, it should be localized:
    :alt: next
    :align: top
 
-.. |new-record| image:: media/img/bt_new_record_en.png
+.. |new-record| image:: media/img/bt_new_record.png
    :height: 1.5em
    :alt: submit
    :align: top
@@ -979,7 +968,7 @@ Below is a sample button |sample-button|, it should be localized:
    :align: top
    :alt: sign-up
    
-.. |submit| image:: media/img/bt_submit_en.png
+.. |submit| image:: media/img/bt_submit.png
    :height: 1.5em
    :alt: submit
    :align: top
