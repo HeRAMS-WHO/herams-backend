@@ -75,18 +75,19 @@ In case you forgot your password, the instructions below will guide you through 
 3. Enter your email address in the top field.
 4. Below the email field, you will see an image similar to this one: |captcha|
 5. Enter the the characters displayed into the field below the image.
-6. Click the |submit| button.
+6. Click the |submit-en| button.
 7. You will receive an email with a password reset link. Click the link to open the password reset page. 
 
 .. note:: If you did not receive this email within a few minutes, check your spam folder.
 
 7. On the page that opens, enter your new password.
-8. Click the |submit| button to confirm your new password.
+8. Click the |submit-en| button to confirm your new password.
 9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login>`_.
 
 .. image:: media/vid/HeRAMS_password_reset.gif
    :alt: Password reset
    :height: 300px
+   :align: center
 
 
 Update your User Profile
@@ -104,9 +105,10 @@ Change Password
 1. To alter your password, open your user profile as explained `above <#update-your-user-profile>`_.
 2. Click on the `Account <https://herams.org/user/settings/account>`_ link to access your account information.
 3. On the page opening, you should be able to change your email address and enter a new password.
-4. Make sure to click the |submit| button to confirm your changes.
+4. Make sure to click the |submit-en| button to confirm your changes.
 
 .. image:: media/vid/HeRAMS_change_password.gif
+   :alt: change password video
    :align: center
    :height: 300px
 
@@ -126,6 +128,7 @@ In addition, a brief summary on the number of projects available in HeRAMS, the 
 .. image:: media/img/HeRAMS_worldview.png
    :alt: HeRAMS Worldview
    :height: 300px
+   :align: center
 
 
 Project Dashboard
@@ -140,6 +143,7 @@ Each project in HeRAMS has a custom interactive dashboard providing an instant a
 .. image:: media/img/HeRAMS_dashboard_overview.png
    :alt: HeRAMS Register
    :height: 300px
+   :align: center
 
 4. To open a page, click the page name in the navigation pane.
 
@@ -972,6 +976,11 @@ If you open data downloaded from HeRAMS in Excel, you might experience an issue 
    :height: 1.5em
    :alt: submit
    :align: top
+   
+.. |submit-en| image:: media/img/bt_submit_en.png
+   :height: 1.5em
+   :alt: submit
+   :align: top   
 
 .. |update-blue| image:: media/img/icon_data_update_blue.png
    :height: 1.5em
