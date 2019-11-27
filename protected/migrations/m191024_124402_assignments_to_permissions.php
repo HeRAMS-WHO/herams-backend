@@ -15,8 +15,15 @@ class m191024_124402_assignments_to_permissions extends Migration
 
         foreach((new \yii\db\Query())->from('{{%auth_assignment}}')->all() as $assignment)
         {
-            \Yii::$app->authManager->assign(\Yii::$app->authManager->createRole($assignment['item_name']), $assignment['user_id']);
+            try {
+                \Yii::$app->authManager->assign(\Yii::$app->authManager->createRole($assignment['item_name']),
+                    $assignment['user_id']);
+            } catch (\Throwable $t)
+            {
+
+            }
         }
+        $this->dropTable('{{%auth_assignment}}');
     }
 
     /**
