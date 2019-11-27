@@ -18,7 +18,7 @@ Getting started
 ===============
 
 Creating a User Account
---------------------
+-----------------------
 
 This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/user/login>`_, create a user account and update your user profile.
 
@@ -197,12 +197,12 @@ Tooltips
 If you hover with your mouse over a point on a map or a chart, a small pop-up message will appear, displaying additional details.
 
 Adjust the Map Zoom Level and Focus Area
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can adjust the zoom level of a map by using the scroll button on your mouse. To change the focus area of a map, position you mouse in the map element. Right click (hold) and drag the map in the desired direction. This will move the map focus area.
 
 Remove a Category from Charts or Maps
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By clicking the icons in the legend, you can remove a category from a chart or map. To add it again, simply click the circle again.
 
@@ -216,7 +216,7 @@ Depending on the zoom level applied to a map, it may happen that several points 
 
 
 Default dashboard pages
--------------
+-----------------------
 
 The below section provides an overview of the standard pages available in a dashboard. Each page refers to a HeRAMS standard information pillar.
 
@@ -250,7 +250,7 @@ The **Infrastructure** page displays a descriptive analysis, including:
    :align: center
 
 Condition
-~~~~~~~~
+~~~~~~~~~
 
 The **Condition** page displays the level of reported damage to MoSD buildings following a standard classification and scale (Not Damaged to Fully Damaged). Information is visualized as:
 
@@ -307,7 +307,7 @@ The **Management & support** page displays information on the management of the 
    :align: center
    
 Basic Amenities
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 Information on **Basic Amenities** is presented in a series of subpages. Each subpage is dedicated to a particular category and includes:
 
@@ -351,7 +351,7 @@ Access the Data Update Interface
 
 4. In the last column of the table, click the |workspace| icon. This will open a new page displaying a list of all available workspace.
 
-.. note:: HeRAMS uses so-called **Workspaces** to manage access permission to the underlying data. A workspace might represent, for example, a specific organization or a geographic region. For more information on **Workspaces** click `here <#workspaces>`_.
+.. note:: HeRAMS uses so-called **Workspaces** to manage access permission to the underlying data. A workspace might represent, for example, a specific organization or a geographic region. For more information on **Workspaces** click `here <#workspaces>`__.
 
 5. To view the health facilities that are part of a specific workspace, click the |update-data| icon in the Action column.
 6. Use the |forward-page| buttons to move to the next page or filter the workspaces by typing the workspace name in the field below the header row.
@@ -376,7 +376,7 @@ Edit a Health Facility Record
 
 .. Caution:: Editing a record will overwrite the existing record. If you would like to update the status of a health facility while keeping the history of changes, follow the instructions in the section below.
 
-1. Open the data update interface as outlined `above <#access-the-data-update-interface>`_.
+1. Open the data update interface as outlined `above <#access-the-data-update-interface>`__.
 2. To edit a record, click the |pencil-blue| icon in the left most column.
  
 .. tip:: Keep in mind that the table might have multiple pages. Use the button in the bottom right corner to advance to the next page. You can also reduce the number of records displayed by applying filters.
@@ -426,9 +426,9 @@ Delete a Health Facility Record
 
 
 Download Data
-=============
+==============
 
-It is possible to download part of the data as **CSV** for further in-depth analysis. In rare cases, permissions could be granted to download the entire data set. To download the entire data set please follow the instructions `here <#download-the-entire-data-set>`_, otherwise see the section below.
+It is possible to download part of the data as **CSV** for further in-depth analysis. In rare cases, permissions could be granted to download the entire data set. To download the entire data set please follow the instructions `here <#download-the-entire-data-set>`__, otherwise see the section below.
 
 Download Workspace Data
 -----------------------
@@ -454,6 +454,7 @@ Data Encoding in Excel
 If data is downloaded for further analysis in Excel or a statistical software of choice (e.g. R or STATA), data encoding should always be set to UTF-8.
 
 .. tip:: Encoding issues are particularly prevalent in languages with special character and can result in the data being unreadable. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**.
+
 The below instructions guide users through the steps to define the data encoding in Excel. 
 
 1. Open a new Excel file.
@@ -483,15 +484,15 @@ HeRAMS uses the concept of workspaces to manage user permissions. Each workspace
 
 * |refresh| **Refresh Data Cache**: This button allows users to manually refresh the data cache of a workspace. Data is automatically refreshed every 30 minutes. This means if a record is updated, the changes are not immediately reflected on the dashboard. Thus, by manually refreshing the data cache of a workspace the time lag limitation can be overcome and the changes made will become visible immediately.
 * |pencil-thin| **Update Workspace**:  allows to change the title or token of a workspace.
-* |share-icon| **Share Workspace**: To grant a user access to workspace, the workspace must be shared with the user. For more information on how to add users to a workspace click `here <#add-a-user-to-a-workspace>`_.
+* |share-icon| **Share Workspace**: To grant a user access to workspace, the workspace must be shared with the user. For more information on how to add users to a workspace click `here <#add-a-user-to-a-workspace>`__.
 * |delete-black| **Delete Workspace**: Permanently removes a workspace from a project. See `Delete a Workspace`_ for more information.
 * |download| **Download Data**: Downloads all records belonging to the selected workspace. See `Download Data`_ for more information.
-* |pencil-black| **Data Update**: This opens the data edit interface. More information on data editing and updating is available `here <#edit-date>`_.
+* |pencil-black| **Data Update**: This opens the data edit interface. More information on data editing and updating is available `here <#edit-date>`__.
 
 .. note: The number of buttons visible to users depends on your access rights and might vary from one workspace to another.
 
 Workspace Permissions
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 There are two permission levels for workspaces:
 
@@ -501,16 +502,16 @@ There are two permission levels for workspaces:
 Users with the role of **Data Editor** have access to update the response data (option 1) while **Workspace Owners** might be given elevated permission (option 2) allowing them to add additional users to their workspace as well as to manage the underlying response data.
 
 Add a User to a Workspace
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. To grant a user access to a workspace, open the admin interface by clicking the |settings| icon in the top right corner of the screen.
-2. In the navigation pane on the left, click `Projects <https://herams.org/project/index>`_ to open the **Projects** overview table. 
+2. In the navigation pane on the left, click `Projects <https://herams.org/project/index>`__ to open the **Projects** overview table. 
 3. In the rightmost column of the table, you should see several **Action** buttons. Click the |workspace| icon. This will open the workspace of the selected project.
 4. You should now see a table with all workspaces of your project. For each workspace the table provides information on the last time data was synced with the underlying database, the number of contributors, health facilities and responses. Alike the **Projects** table, the last column contains several **Action** buttons.
 5. To grant a user access to a workspace (e.g. to update the data), you have to share the workspace with them. Click the |share-icon| icon in the **Actions** column.
 6. You should now see a page similar to the image below. On the bottom half of the page, you can see a list of all users currently having access to the workspace including their permission level. In the top half of the page, you have the option to add a new user. Start typing the user’s name in the top field. You will notice that the list of available users dynamically filters as you are typing. Select the user you would like to add.
   
-.. image:: media/img/HeRAMS_workspace_share.png
+  .. image:: media/img/HeRAMS_workspace_share.png
 	:height: 200px
 	:alt: share workspace
 	:align: center
@@ -530,28 +531,28 @@ Add a User to a Workspace
 Remove a User from a Workspace
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To remove a user from a workspace, navigate to the workspace from which you would like to remove the user. (Follow steps 1 - 5 outlined `above <#add-a-user-to-a-workspace>`_ to access the workspace).
+1. To remove a user from a workspace, navigate to the workspace from which you would like to remove the user. (Follow steps 1 - 5 outlined `above <#add-a-user-to-a-workspace>`__ to access the workspace).
 2. On the second half of the page you will see a list of all users having access to the workspace. Click the |delete-black| icon to remove the user permanently.
 
 Change a User's Workspace Permission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To change a user's permission, remove the user from the workspace as outlined `above <#remove-a-user-from-a-workspace>`_
+1. To change a user's permission, remove the user from the workspace as outlined `above <#remove-a-user-from-a-workspace>`__.
 2. Now add the user again using the new permission level (see `Add a User to a Workspace`_ for details).
 
 Create a New Workspace
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
-1. To create a new workspace, access the workspace page of your project. (Follow steps 1 - 5 outlined `above <#add-a-user-to-a-workspace>`_ to access the workspace).
+1. To create a new workspace, access the workspace page of your project. (Follow steps 1 - 5 outlined `above <#add-a-user-to-a-workspace>`__ to access the workspace).
 2. In the upper left corner, you will see a button labelled |create-workspace|.
 3. On the page that opens, you should now be able to create a new workspace.
 4. Enter the workspace's name into the title field.
 5. Use the dropdown list to select the corresponding **Token** or create a new token by selecting **Create new token**.
   
-.. image:: media/img/HeRAMS_workspace_create.png
-   :height: 250px
-   :alt: create-workspace
-   :align: center
+  .. image:: media/img/HeRAMS_workspace_create.png
+     :height: 250px
+     :alt: create-workspace
+     :align: center
      
   .. Note: Tokens are unique identifiers that link health facilities to workspaces. To add a health facility to a workspace the token of the record in question has to be manually changed. Contact your system administrator for guidance on how to change a record's token.
 
@@ -572,11 +573,11 @@ The `Projects <https://herams.org/project/index>`_ page provides a brief overvie
   	:height: 300px
 	:align: center
 	
-* |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here <#workspaces>`_ for more information on workspaces. 
+* |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here <#workspaces>`__ for more information on workspaces. 
 * |dashboard| **Dashboard**: By clicking the dashboard icon, the `Project Dashboard`_ will be opened.
 * |pencil-thin| **Edit Project Properties**: Permits users with specific permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`_ for more information on editing the project properties. For additional information on how to configure the dashboard, consult the section `Configure the Project Dashboard`_.
 * |check| **Check Data**: Can be used for a quick review of the data to identify invalid responses.
-* |share-icon| **Share**: The sharing function is used to grant users access to a project. See `below <#add-a-user-to-a-project>`_ for further details.
+* |share-icon| **Share**: The sharing function is used to grant users access to a project. See `below <#add-a-user-to-a-project>`__ for further details.
 
   .. note: The number of buttons visible to users depends on your access rights to a specific project is likely to vary from one project to another.
 
@@ -597,7 +598,7 @@ Add a User to a Project
 
   .. note: If you cannot find a user, it means the user has not yet created an account. Ask the user to create an account by registering on the HeRAMS platform and then retry. Should the issue persist, contact your system administrator or send an email to `herams@who.int <mailto:herams@who.int?>`_.
 
-5. Use the checkboxes to select the appropriate permission level. See `above <#project-permissions>`_ for further details on project level permissions.
+5. Use the checkboxes to select the appropriate permission level. See `above <#project-permissions>`__ for further details on project level permissions.
 6. Click the |share-button| button to share the project with the selected user(s).
 
   .. image:: media/vid/HeRAMS_project_share.gif
@@ -607,19 +608,19 @@ Add a User to a Project
     
     
 Remove a User from a Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To remove a user from a Project, follow steps 1-3 outlined in the `previous section <#add-a-user-to-a-project>`_ to access the project sharing page.
+1. To remove a user from a Project, follow steps 1-3 outlined in the `previous section <#add-a-user-to-a-project>`__ to access the project sharing page.
 2. On the second half of the page you will see a list of all users having access to the workspace. Click the |delete-black| icon to remove the user permanently.
 
 Change a User's Project Permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To change a user's permission, remove the user from the project as outlined `above <#remove-a-user-from-a-project>`_
+1. To change a user's permission, remove the user from the project as outlined `above <#remove-a-user-from-a-project>`__
 2. Now add the user again using the new permission level (see `Add a User to a Project`_ for details).
 
 Modify a Project
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 1. To modify the project properties, open the admin interface by clicking the |settings| button in the top right corner of the page.
   
@@ -631,13 +632,13 @@ Modify a Project
 	* to change the centroids (latitude and longitude) of the blue dot shown on the world map;
 	* to update the status of the project;
 	* to configure the pop-up information displayed on the main page; and
-	* to configure the project dashboard. Additional information on how to configure the project dashboard is available `here <#configure-the-project-dashboard>`_.
+	* to configure the project dashboard. Additional information on how to configure the project dashboard is available `here <#configure-the-project-dashboard>`__.
 5. Make sure you save your changes by clicking the |update-project| button.
 
 Configure the Project Dashboard
 -------------------------------
 
-For each HeRAMS Project, an interactive dashboard can be configured providing summarizing key indicators and findings of a project. This section provides project administrators with a detailed description on how to edit these dashboards. An overview of the standard dashboard pages is available `here <#default-dashboard-pages>`_.
+For each HeRAMS Project, an interactive dashboard can be configured providing summarizing key indicators and findings of a project. This section provides project administrators with a detailed description on how to edit these dashboards. An overview of the standard dashboard pages is available `here <#default-dashboard-pages>`__.
     
 Modify an Existing Dashboard Element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -653,7 +654,7 @@ Users with the permissions to edit dashboards can modify charts and maps directl
 	* to change the colors of a map or a chart; and
 	* to rename the element.
 
-  .. note: See the section `below <#add-a-new-element-to-a-page>`__ for further details on how to create and modify dashboard elements.
+  .. note: See the section `below <#add-a-new-element-to-a-page>`_ for further details on how to create and modify dashboard elements.
 
 4. Save your changes by clicking the |update-element| button.
 
@@ -663,7 +664,7 @@ Users with the permissions to edit dashboards can modify charts and maps directl
    :align: center
 
 Add a New Element to a Page
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This section covers the steps required to add a new element to an existing dashboard page. If you would like to extend your dashboard by adding additional pages, please see `Add a New Page to a Dashboard`_ for further information.
 
@@ -728,7 +729,7 @@ Remove an element from the dashboard
   .. warning:: Be careful when deleting dashboard elements. Deleted elements cannot be restored.
 
 Add a New Page to a Dashboard
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. To add a new page to a dashboard, open the Project's property page. (Follow steps 1 - 3 in the `Modify a Project`_ section.
 2. You should now see a page similar to the one displayed below.
@@ -747,9 +748,9 @@ Add a New Page to a Dashboard
   .. note: You only created an empty page. To add elements to your page, see section `Add a New Element to a Page`_.
 
 Update a Dashboard Page
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To alter an existing page, click the |pencil-black| icon next to the page's name. This will open the page's settings. You are now able to change the title and the order of the page. See `above <#add-a-new-page-to-a-dashboard>`_ for further details.
+1. To alter an existing page, click the |pencil-black| icon next to the page's name. This will open the page's settings. You are now able to change the title and the order of the page. See `above <#add-a-new-page-to-a-dashboard>`__ for further details.
 2. On the page that opens, you should now be able to alter the page name and the display order.
 3. Save your changes by clicking the |update-page| button.
 
@@ -786,7 +787,7 @@ General
 -------
 
 Confirmation email not received
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you did not receive an email upon registering or resetting your password, follow the steps below to troubleshoot the issue. 
 
@@ -796,27 +797,27 @@ If you did not receive an email upon registering or resetting your password, fol
 4. If the above steps did not solve your issue, please contact your system administrator or send an email to `hearms@who.int <mailto:herams@who.int?>`_.
 
 How to reset your password?
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you forgot your password, follow the instructions provided `here <#reset-password>`_ to reset your password.
+If you forgot your password, follow the instructions provided `here <#reset-password>`__ to reset your password.
 
 View a project/dashboard
---------------
+------------------------
 
 Can't access a project dashboard
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For data protection reasons, access to the project dashboards is only granted upon request. If you require access to a project, please contact your country focal point or send an email to `hearms@who.int <mailto:herams@who.int?>`_, specifying why you require access to the project.
 
 Who has access to your project?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In-country administrators and users responsible for a project or workspace can verify the list of users having access to the
 project and/or workspace as well as their permission levels.
 See `HeRAMS Administration`_ for more information on sharing `Projects`_ and `Workspaces`_.
 
 Data editing & downloading
--------------------------
+--------------------------
 
 Data updates don't appear on the dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -824,14 +825,14 @@ Data updates don't appear on the dashboard
 It is important to note that the data displayed on the interactive dashboards are only synchronized every 30 minutes. Thus, is it is possible that updates to the data don't show immediately on the dashboards. To solve the issue, manually sync the data cache of the workspace. For more information on data caching read the section on `Workspaces`_.
  
 Exported data is unreadable / contains strange characters
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here <#data-encoding-in-excel>`_.
+If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here <#data-encoding-in-excel>`__.
 
-.. |applyfilter| image:: media/img/bt_apply_filter.png
-   :height: 1.5em
-   :align: top
-   :alt: apply filter
+  .. |applyfilter| image:: media/img/bt_apply_filter.png
+     :height: 1.5em
+     :align: top
+     :alt: apply filter
 
 .. |captcha| image:: media/img/img_captcha.png
    :alt: HeRAMS Login
@@ -1010,4 +1011,4 @@ If you open data downloaded from HeRAMS in Excel, you might experience an issue 
 .. |workspace| image:: media/img/icon_workspace.png
    :height: 1.5em
    :alt: workspace
-   :align: top 
+   :align: top
