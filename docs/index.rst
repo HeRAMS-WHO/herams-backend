@@ -7,11 +7,8 @@
 Introduction
 ============
 
-Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`__ section.
-For more advanced topics related to user management and project administration, please consult the `Project Administration`__ section.
-
-.. __: `Edit Data`_
-.. __: `HeRAMS Administration`_
+Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`_ section.
+For more advanced topics related to user management and project administration, please consult the `HeRAMS Administration`_ section.
 
 It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/user/login>`_. 
 For general information on the HeRAMS approach and for technical guidance please consult the official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. For additional questions that are not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
@@ -51,9 +48,7 @@ This chapter provides step-by-step instructions on how to access the `HeRAMS pla
 Logging in
 ----------
 
-.. note:: New users without an existing account, will have to register before being able to login to the HeRAMS platform. To create a user account, follow the instruction `here`__.
-
-.. __: `Creating a User Account`_
+.. note:: New users without an existing account, will have to register before being able to login to the HeRAMS platform. To create a user account, follow the instructions `here <#creating-a-user-account>`_.
 
 1. Open the link `herams.org <https://herams.org>`_ in your browser.
 2. Enter your email address and password in the designated fields.
@@ -70,7 +65,7 @@ To logout click the |logout| button in the top right corner of the screen.
 Reset password
 --------------
 
-In case you forgot your password, the instruction below will guide you through the steps to reset your password.
+In case you forgot your password, the instructions below will guide you through the steps to reset your password.
 
 1. Open the link `herams.org <https://herams.org>`_ in your browser.
 
@@ -80,18 +75,19 @@ In case you forgot your password, the instruction below will guide you through t
 3. Enter your email address in the top field.
 4. Below the email field, you will see an image similar to this one: |captcha|
 5. Enter the the characters displayed into the field below the image.
-6. Click the |submit| button.
+6. Click the |submit-en| button.
 7. You will receive an email with a password reset link. Click the link to open the password reset page. 
 
 .. note:: If you did not receive this email within a few minutes, check your spam folder.
 
 7. On the page that opens, enter your new password.
-8. Click the |submit| button to confirm your new password.
+8. Click the |submit-en| button to confirm your new password.
 9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login>`_.
 
 .. image:: media/vid/HeRAMS_password_reset.gif
    :alt: Password reset
    :height: 300px
+   :align: center
 
 
 Update your User Profile
@@ -106,14 +102,13 @@ Each user has a profile associated with their account. This permits you do to cu
 Change Password
 ---------------
 
-1. To alter your password, open your user profile as explained `above`__.
+1. To alter your password, open your user profile as explained `above <#update-your-user-profile>`_.
 2. Click on the `Account <https://herams.org/user/settings/account>`_ link to access your account information.
 3. On the page opening, you should be able to change your email address and enter a new password.
-4. Make sure to click the |submit| button to confirm your changes.
-
-.. __: `Update your User Profile`_
+4. Make sure to click the |submit-en| button to confirm your changes.
 
 .. image:: media/vid/HeRAMS_change_password.gif
+   :alt: change password video
    :align: center
    :height: 300px
 
@@ -133,6 +128,7 @@ In addition, a brief summary on the number of projects available in HeRAMS, the 
 .. image:: media/img/HeRAMS_worldview.png
    :alt: HeRAMS Worldview
    :height: 300px
+   :align: center
 
 
 Project Dashboard
@@ -147,6 +143,7 @@ Each project in HeRAMS has a custom interactive dashboard providing an instant a
 .. image:: media/img/HeRAMS_dashboard_overview.png
    :alt: HeRAMS Register
    :height: 300px
+   :align: center
 
 4. To open a page, click the page name in the navigation pane.
 
@@ -354,9 +351,7 @@ Access the Data Update Interface
 
 4. In the last column of the table, click the |workspace| icon. This will open a new page displaying a list of all available workspace.
 
-.. note:: HeRAMS uses so-called **Workspaces** to manage access permission to the underlying data. A workspace might represent, for example, a specific organization or a geographic region. For more information on **Workspaces** click `here`__.
-
-.. __: `workspaces`_
+.. note:: HeRAMS uses so-called **Workspaces** to manage access permission to the underlying data. A workspace might represent, for example, a specific organization or a geographic region. For more information on **Workspaces** click `here <#workspaces>`_.
 
 5. To view the health facilities that are part of a specific workspace, click the |update-data| icon in the Action column.
 6. Use the |forward-page| buttons to move to the next page or filter the workspaces by typing the workspace name in the field below the header row.
@@ -381,12 +376,9 @@ Edit a Health Facility Record
 
 .. Caution:: Editing a record will overwrite the existing record. If you would like to update the status of a health facility while keeping the history of changes, follow the instructions in the section below.
 
-1. Open the data update interface as outlined `above`__.
+1. Open the data update interface as outlined `above <#access-the-data-update-interface>`_.
 2. To edit a record, click the |pencil-blue| icon in the left most column.
-
-.. __: `Access the Data Update Interface`_
-
-  
+ 
 .. tip:: Keep in mind that the table might have multiple pages. Use the button in the bottom right corner to advance to the next page. You can also reduce the number of records displayed by applying filters.
 
 .. image:: media/img/HeRAMS_data_update_table.png
@@ -436,9 +428,7 @@ Delete a Health Facility Record
 Download Data
 =============
 
-It is possible to download part of the data as **CSV** for further in-depth analysis. In rare cases, permissions could be granted to download the entire data set. To download the entire data set please follow the instructions `here`__, otherwise see the section below.
-
-.. __: `Download the Entire Data Set`_
+It is possible to download part of the data as **CSV** for further in-depth analysis. In rare cases, permissions could be granted to download the entire data set. To download the entire data set please follow the instructions `here <#download-the-entire-data-set>`_, otherwise see the section below.
 
 Download Workspace Data
 -----------------------
@@ -447,14 +437,10 @@ Follow the instructions below to download data for a single workspace. If you re
 
 .. note:: In order to download data, you will require access to your workspace. Contact your system administrator to elevate your access rights if needed.
 
-1. Navigate to the workspace page of your project (see `Access the Data Update Interface`__ steps 1 - 4 for detailed instructions).
+1. Navigate to the workspace page of your project (see `Access the Data Update Interface`_ steps 1 - 4 for detailed instructions).
 2. In the rightmost column, click the |download| button. This will download all records of this workspace.
-
-.. __: `Access the Data Update Interface`_
   
-.. tip:: For surveys in languages other than English, make sure to correctly define the encoding when opening the data in Excel (see `Data Encoding in Excel`__ for details).
-
-.. __: `Data Encoding in Excel`_
+.. tip:: For surveys in languages other than English, make sure to correctly define the encoding when opening the data in Excel (see `Data Encoding in Excel`_ for details).
 
 Download the Entire Data Set
 ----------------------------
@@ -485,11 +471,7 @@ The below instructions guide users through the steps to define the data encoding
 HeRAMS Administration
 =====================
 
-This chapter provides an overview of the admin pages in HeRAMS and offers step-by-step instructions for common tasks performed by advanced users and project administrators. The first part of the chapter introduces the concept of `Workspaces`__ while the second part focuses on `Project`__ level administration and the configuration of project specific `Dashboard`__.
-
- .. __: `Workspaces`_
- .. __: `Projects`_
- .. __: `Project Dashboard`_
+This chapter provides an overview of the admin pages in HeRAMS and offers step-by-step instructions for common tasks performed by advanced users and project administrators. The first part of the chapter introduces the concept of `Workspaces`_ while the second part focuses on `Projects`_ level administration and the configuration of project specific `Project Dashboard`_.
 
 .. note:: If you require your permissions to be changed, kindly contact your country focal point or send an email to `HeRAMS Support Team <mailto:herams@who.int?>`_ specifying your function and role as well as a brief explanation of why you would like your access permissions to altered.
 
@@ -501,15 +483,10 @@ HeRAMS uses the concept of workspaces to manage user permissions. Each workspace
 
 * |refresh| **Refresh Data Cache**: This button allows users to manually refresh the data cache of a workspace. Data is automatically refreshed every 30 minutes. This means if a record is updated, the changes are not immediately reflected on the dashboard. Thus, by manually refreshing the data cache of a workspace the time lag limitation can be overcome and the changes made will become visible immediately.
 * |pencil-thin| **Update Workspace**:  allows to change the title or token of a workspace.
-* |share-icon| **Share Workspace**: To grant a user access to workspace, the workspace must be shared with the user. For more information on how to add users to a workspace click `here`__.
-* |delete-black| **Delete Workspace**: Permanently removes a workspace from a project. See `Delete a Workspace`__ for more information.
-* |download| **Download Data**: Downloads all records belonging to the selected workspace. See `Download Data`__ for more information.
-* |pencil-black| **Data Update**: This opens the data edit interface. More information on data editing and updating is available `here`__.
-  
-.. __: `Add a User to a Workspace`_
-.. __: `Delete a Workspace`_
-.. __: `Download Data`_
-.. __: `Edit Data`_
+* |share-icon| **Share Workspace**: To grant a user access to workspace, the workspace must be shared with the user. For more information on how to add users to a workspace click `here <#add-a-user-to-a-workspace>`_.
+* |delete-black| **Delete Workspace**: Permanently removes a workspace from a project. See `Delete a Workspace`_ for more information.
+* |download| **Download Data**: Downloads all records belonging to the selected workspace. See `Download Data`_ for more information.
+* |pencil-black| **Data Update**: This opens the data edit interface. More information on data editing and updating is available `here <#edit-date>`_.
 
 .. note: The number of buttons visible to users depends on your access rights and might vary from one workspace to another.
 
@@ -542,10 +519,8 @@ Add a User to a Workspace
 
   .. note: If you cannot find a user, it means the user has not yet created an account. Ask the user to create an account by registering on the HeRAMS platform and then retry. Should the issue persist, contact your system administrator or send an email to `herams@who.int <mailto:herams@who.int?>`_.
 
-7. Use the checkboxes to select the appropriate permission level. See `above`__ for further details on workspace permissions.
+7. Use the checkboxes to select the appropriate permission level. See `above <#workspace-permissions>`__ for further details on workspace permissions.
 8. Click the |share-button| button to share the workspace with the selected user(s).
-
-.. __: `Workspace Permissions`_
 
 .. image:: media/vid/HeRAMS_workspace_share.gif
     :height: 300px
@@ -555,33 +530,24 @@ Add a User to a Workspace
 Remove a User from a Workspace
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To remove a user from a workspace, navigate to the workspace from which you would like to remove the user. (Follow steps 1 - 5 outlined `above`__ to access the workspace).
+1. To remove a user from a workspace, navigate to the workspace from which you would like to remove the user. (Follow steps 1 - 5 outlined `above <#add-a-user-to-a-workspace>`_ to access the workspace).
 2. On the second half of the page you will see a list of all users having access to the workspace. Click the |delete-black| icon to remove the user permanently.
-
-.. __: `Add a User to a Workspace`_
-
 
 Change a User's Workspace Permission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To change a user's permission, remove the user from the workspace as outlined `above`__
-2. Now add the user again using the new permission level (see `Add a User to a Workspace`__ for details).
-
-.. __: `Remove a User from a Workspace`_
-
-.. __: `Add a User to a Workspace`_
+1. To change a user's permission, remove the user from the workspace as outlined `above <#remove-a-user-from-a-workspace>`_
+2. Now add the user again using the new permission level (see `Add a User to a Workspace`_ for details).
 
 Create a New Workspace
 ~~~~~~~~~~~~~~~~~~~~
 
-1. To create a new workspace, access the workspace page of your project. (Follow steps 1 - 5 outlined `above`__ to access the workspace).
+1. To create a new workspace, access the workspace page of your project. (Follow steps 1 - 5 outlined `above <#add-a-user-to-a-workspace>`_ to access the workspace).
 2. In the upper left corner, you will see a button labelled |create-workspace|.
 3. On the page that opens, you should now be able to create a new workspace.
 4. Enter the workspace's name into the title field.
 5. Use the dropdown list to select the corresponding **Token** or create a new token by selecting **Create new token**.
-
-.. __: `Add a User to a Workspace`_
-   
+  
 .. image:: media/img/HeRAMS_workspace_create.png
    :height: 250px
    :alt: create-workspace
@@ -594,9 +560,7 @@ Delete a Workspace
 
 1. You can remove a workspace by clicking the |delete-black| icon in the **Actions** column next to the selected workspace.
    
-  .. note: Deleting workspace will not affect the underlying data. See the `Delete a health facility`__ to learn how to permanently a record from your project.
-
-   .. __: `Delete a Health Facility`_
+  .. note: Deleting workspace will not affect the underlying data. See the `Delete a health facility`_ to learn how to permanently a record from your project.
 
 
 Projects
@@ -608,17 +572,11 @@ The `Projects <https://herams.org/project/index>`_ page provides a brief overvie
   	:height: 300px
 	:align: center
 	
-* |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here`__ for more information on workspaces. 
-* |dashboard| **Dashboard**: By clicking the dashboard icon, the project `dashboard`__ will be opened.
-* |pencil-thin| **Edit Project Properties**: Permits users with specific permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`__ for more information on editing the project properties. For additional information on how to configure the dashboard, consult the section `Configure the Project Dashboard`__.
+* |workspace| **Workspaces**: This opens the list of all available workspace belonging to the project. See `here <#workspaces>`_ for more information on workspaces. 
+* |dashboard| **Dashboard**: By clicking the dashboard icon, the `Project Dashboard`_ will be opened.
+* |pencil-thin| **Edit Project Properties**: Permits users with specific permission to alter the project properties as well as to configure the project dashboard. See `Modify a Project`_ for more information on editing the project properties. For additional information on how to configure the dashboard, consult the section `Configure the Project Dashboard`_.
 * |check| **Check Data**: Can be used for a quick review of the data to identify invalid responses.
-* |share-icon| **Share**: The sharing function is used to grant users access to a project. See `below`__ for further details.
-
-.. __: `Workspaces`_   
-.. __: `Project Dashboard`_
-.. __: `Modify a Project`_
-.. __: `Configure the Project Dashboard`_
-.. __: `Add a User to a Project`_
+* |share-icon| **Share**: The sharing function is used to grant users access to a project. See `below <#add-a-user-to-a-project>`_ for further details.
 
   .. note: The number of buttons visible to users depends on your access rights to a specific project is likely to vary from one project to another.
 
@@ -639,10 +597,8 @@ Add a User to a Project
 
   .. note: If you cannot find a user, it means the user has not yet created an account. Ask the user to create an account by registering on the HeRAMS platform and then retry. Should the issue persist, contact your system administrator or send an email to `herams@who.int <mailto:herams@who.int?>`_.
 
-5. Use the checkboxes to select the appropriate permission level. See `above`__ for further details on project level permissions.
+5. Use the checkboxes to select the appropriate permission level. See `above <#project-permissions>`_ for further details on project level permissions.
 6. Click the |share-button| button to share the project with the selected user(s).
-
-.. __: `Project Permissions`
 
   .. image:: media/vid/HeRAMS_project_share.gif
     :height: 300px
@@ -653,20 +609,14 @@ Add a User to a Project
 Remove a User from a Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To remove a user from a Project, follow steps 1-3 outlined in the `previous section`__ to access the project sharing page.
+1. To remove a user from a Project, follow steps 1-3 outlined in the `previous section <#add-a-user-to-a-project>`_ to access the project sharing page.
 2. On the second half of the page you will see a list of all users having access to the workspace. Click the |delete-black| icon to remove the user permanently.
-
-.. __: `Add a User to a Project`_
 
 Change a User's Project Permissions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To change a user's permission, remove the user from the project as outlined `above`__
-2. Now add the user again using the new permission level (see `Add a User to a Project`__ for details).
-
-.. __: `Remove a User from a Project`_
-.. __: `Add a User to a Project`_
-
+1. To change a user's permission, remove the user from the project as outlined `above <#remove-a-user-from-a-project>`_
+2. Now add the user again using the new permission level (see `Add a User to a Project`_ for details).
 
 Modify a Project
 ~~~~~~~~~~~~~~~~~~
@@ -681,27 +631,20 @@ Modify a Project
 	* to change the centroids (latitude and longitude) of the blue dot shown on the world map;
 	* to update the status of the project;
 	* to configure the pop-up information displayed on the main page; and
-	* to configure the project dashboard. Additional information on how to configure the project dashboard is available `here`__.
+	* to configure the project dashboard. Additional information on how to configure the project dashboard is available `here <#configure-the-project-dashboard>`_.
 5. Make sure you save your changes by clicking the |update-project| button.
-
-.. __: `Configure the Project Dashboard`_	
-
 
 Configure the Project Dashboard
 -------------------------------
 
-For each HeRAMS Project, an interactive dashboard can be configured providing summarizing key indicators and findings of a project. This section provides project administrators with a detailed description on how to edit these dashboards. An overview of the standard dashboard pages is available `here`__.
-
-.. __: `Default dashboard pages`_
-   
-   
+For each HeRAMS Project, an interactive dashboard can be configured providing summarizing key indicators and findings of a project. This section provides project administrators with a detailed description on how to edit these dashboards. An overview of the standard dashboard pages is available `here <#default-dashboard-pages>`_.
+    
 Modify an Existing Dashboard Element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Users with the permissions to edit dashboards can modify charts and maps directly from within the dashboard.
 
- .. tip: To modify the order of dashboard pages or rename a page, see `here`__.
-   .. __: `Update a Dashboard Page`_
+ .. tip: To modify the order of dashboard pages or rename a page, see `here <#update-a-dashboard-page>`_.
    
 1. Open the dashboard and navigate to the element you would like to change.
 2. In the top right corner of the element you would like to change, you should see a |pencil-thin| icon. Right-click the icon to open the element's configuration page.
@@ -710,9 +653,7 @@ Users with the permissions to edit dashboards can modify charts and maps directl
 	* to change the colors of a map or a chart; and
 	* to rename the element.
 
-  .. note: See the section `below`__ for further details on how to create and modify dashboard elements.
-
-    .. __: `Add a New Element to a Page`_
+  .. note: See the section `below <#add-a-new-element-to-a-page>`__ for further details on how to create and modify dashboard elements.
 
 4. Save your changes by clicking the |update-element| button.
 
@@ -724,18 +665,15 @@ Users with the permissions to edit dashboards can modify charts and maps directl
 Add a New Element to a Page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section covers the steps required to add a new element to an existing dashboard page. If you would like to extend your dashboard by adding additional pages, please see `Add a New Page to a Dashboard`__ for further information.
+This section covers the steps required to add a new element to an existing dashboard page. If you would like to extend your dashboard by adding additional pages, please see `Add a New Page to a Dashboard`_ for further information.
 
-.. __: `Add a New Page to a Dashboard`_
 
-1. Open the Project's property page (Follow steps 1 - 3 in the `Modify a Project`__ section.
+1. Open the Project's property page (Follow steps 1 - 3 in the `Modify a Project`_ section.
 2. In the bottom half of the page you will see a list of all available dashboard pages. For each page, the table displays the:
 	* page ID;
 	* title;
 	* parent page; and 
 	* sort ID.
-
-.. __: `Modify a Project`_
 
 .. image:: media/img/HeRAMS_dashboard_pages_table.png
 	:height: 350px
@@ -783,21 +721,17 @@ This section covers the steps required to add a new element to an existing dashb
 Remove an element from the dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Open the Project's property page (Follow steps 1 - 3 in the `Modify a Project`__ section.
+1. Open the Project's property page (Follow steps 1 - 3 in the `Modify a Project`_ section.
 2. In the bottom half of the page you will see a list of all available dashboard pages. Click the |pencil-thin| icon to open the page you would like to modify.
 3. In the lower half of the page you will see a list of all elements displayed on the dashboard page. Use the |delete-black| to permanently delete the element.
-
-.. __: `Modify a Project`_
 
   .. warning:: Be careful when deleting dashboard elements. Deleted elements cannot be restored.
 
 Add a New Page to a Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To add a new page to a dashboard, open the Project's property page. (Follow steps 1 - 3 in the `Modify a Project`__ section.
+1. To add a new page to a dashboard, open the Project's property page. (Follow steps 1 - 3 in the `Modify a Project`_ section.
 2. You should now see a page similar to the one displayed below.
-
-.. __: `Modify a Project`_
 
 .. image:: media/img/HeRAMS_dashboard_create_page.png
 	:height: 250px
@@ -810,28 +744,20 @@ Add a New Page to a Dashboard
 6. Click the |create-page| button to add the page to the dashboard.
 7. If you return to the previous page, you will see the page appearing in the list of available pages.
 
-  .. note: You only created an empty page. To add elements to your page, see section `Add a New Element to a Page`__.
-  
-    .. __: `Add a New Element to a Page`_
-
+  .. note: You only created an empty page. To add elements to your page, see section `Add a New Element to a Page`_.
 
 Update a Dashboard Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To alter an existing page, click the |pencil-black| icon next to the page's name. This will open the page's settings. You are now able to change the title and the order of the page. See `above`__ for further details.
+1. To alter an existing page, click the |pencil-black| icon next to the page's name. This will open the page's settings. You are now able to change the title and the order of the page. See `above <#add-a-new-page-to-a-dashboard>`_ for further details.
 2. On the page that opens, you should now be able to alter the page name and the display order.
 3. Save your changes by clicking the |update-page| button.
-
-.. __: `Add a New Page to a Dashboard`_
-
 
 Delete a Dashboard Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. To delete a dashboard page, open the Project's property page. (Follow steps 1 - 3 in the `Modify a Project`__ section.
+1. To delete a dashboard page, open the Project's property page. (Follow steps 1 - 3 in the `Modify a Project`_ section.
 2. In the list of available page, use the |delete-black| icon next to the page you would like to delete.
-
-.. __: `Modify a Project`_
 
   .. warning:: Be careful when deleting pages or elements. Deleting dashboard pages will permanetly delete the page including potential sub-pages. 
 
@@ -872,10 +798,7 @@ If you did not receive an email upon registering or resetting your password, fol
 How to reset your password?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you forgot your password, follow the instructions provided `here`__ to reset your password.
-
- .. __: `Reset password`_
-
+If you forgot your password, follow the instructions provided `here <#reset-password>`_ to reset your password.
 
 View a project/dashboard
 --------------
@@ -890,12 +813,7 @@ Who has access to your project?
 
 In-country administrators and users responsible for a project or workspace can verify the list of users having access to the
 project and/or workspace as well as their permission levels.
-See `HeRAMS Administration`__ for more information on sharing `project`__ and `workspaces`__.
- 
- .. __: `HeRAMS Administration`_
- .. __: `Projects`_
- .. __: `Workspaces`_
-
+See `HeRAMS Administration`_ for more information on sharing `Projects`_ and `Workspaces`_.
 
 Data editing & downloading
 -------------------------
@@ -903,17 +821,12 @@ Data editing & downloading
 Data updates don't appear on the dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is important to note that the data displayed on the interactive dashboards are only synchronized every 30 minutes. Thus, is it is possible that updates to the data don't show immediately on the dashboards. To solve the issue, manually sync the data cache of the workspace. For more information on data caching read the section on `Workspaces`__.
-
- .. __: `Workspaces`_
+It is important to note that the data displayed on the interactive dashboards are only synchronized every 30 minutes. Thus, is it is possible that updates to the data don't show immediately on the dashboards. To solve the issue, manually sync the data cache of the workspace. For more information on data caching read the section on `Workspaces`_.
  
 Exported data is unreadable / contains strange characters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here`__.
-
- .. __: `Data Encoding in Excel`_
-
+If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here <#data-encoding-in-excel>`_.
 
 .. |applyfilter| image:: media/img/bt_apply_filter.png
    :height: 1.5em
@@ -930,7 +843,7 @@ If you open data downloaded from HeRAMS in Excel, you might experience an issue 
    :alt: check data
    :align: top
    
-.. |clear| image:: media/img/bt_clear_en.png
+.. |clear| image:: media/img/bt_clear.png
    :height: 1.5em
    :alt: clear
    :align: top	
@@ -1009,12 +922,12 @@ If you open data downloaded from HeRAMS in Excel, you might experience an issue 
    :alt: logout
    :align: top   
 
-.. |next| image:: media/img/bt_next_en.png
+.. |next| image:: media/img/bt_next.png
    :height: 1.5em
    :alt: next
    :align: top
 
-.. |new-record| image:: media/img/bt_new_record_en.png
+.. |new-record| image:: media/img/bt_new_record.png
    :height: 1.5em
    :alt: submit
    :align: top
@@ -1059,10 +972,15 @@ If you open data downloaded from HeRAMS in Excel, you might experience an issue 
    :align: top
    :alt: sign-up
    
-.. |submit| image:: media/img/bt_submit_en.png
+.. |submit| image:: media/img/bt_submit.png
    :height: 1.5em
    :alt: submit
    :align: top
+   
+.. |submit-en| image:: media/img/bt_submit_en.png
+   :height: 1.5em
+   :alt: submit
+   :align: top   
 
 .. |update-blue| image:: media/img/icon_data_update_blue.png
    :height: 1.5em
