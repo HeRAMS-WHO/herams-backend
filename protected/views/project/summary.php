@@ -115,7 +115,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
 <div class="stat"><?=
     implode(" ", [
         \prime\helpers\Icon::contributors(),
-        Html::tag('b', $project->getContributorCount()),
+        Html::tag('b', $project->->contributorCount()),
         \Yii::t('app', 'Contributors')
     ])
 ?></div>
