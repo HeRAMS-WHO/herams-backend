@@ -29,7 +29,7 @@ echo Html::beginForm(['project/filter', 'id' => $project->id,
     <div class="count">
         <?php
         echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
-        echo Html::tag('em', $project->contributorCount());
+        echo Html::tag('em', $project->contributorCount);
         ?>
     </div>
     <div class="count">
