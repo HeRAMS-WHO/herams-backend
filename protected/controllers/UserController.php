@@ -49,6 +49,11 @@ class UserController extends Controller
                    [
                        'allow' => true,
                        'actions' => ['request-account', 'create', 'request-reset', 'reset-password']
+                   ],
+                   [
+                       'allow' => true,
+                       'roles' => ['@'],
+                       'actions' => ['account']
                    ]
                ]
            ]
