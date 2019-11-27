@@ -9,6 +9,7 @@ class AccountCest
 
     public function testPageLoad(FunctionalTester $I)
     {
+        \Yii::$app->urlSigner;
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['user/account']);
         $I->seeResponseCodeIs(200);

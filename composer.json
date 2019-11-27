@@ -46,11 +46,10 @@
         "kartik-v/yii2-password": "^1.5",
         "kartik-v/yii2-builder": "^1.6",
         "sam-it/yii2-urlsigner": "^2.0",
-        "sam-it/yii2-virtual-fields": "^2.0",
-        "codeception/module-rest": "^1.0",
-        "codeception/module-yii2": "^1.0",
-        "codeception/module-asserts": "^1.1"
+        "sam-it/yii2-virtual-fields": "^2.0"
+
     },
+
     "autoload": {
         "psr-4": {
             "prime\\": [
@@ -72,7 +71,10 @@
         "yiisoft/yii2-debug": "2.0.x-dev",
         "codeception/codeception": "> 4",
         "ifsnop/mysqldump-php": "^2",
-        "phpunit/phpunit": "8.1.*"
+        "phpunit/phpunit": "8.1.*",
+        "codeception/module-rest": "^1.0",
+        "codeception/module-yii2": "^1.0",
+        "codeception/module-asserts": "^1.1"
     },
     "repositories": [
         {

@@ -108,7 +108,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
 <div class="stat"><?=
     implode(" ", [
         \prime\helpers\Icon::healthFacility(),
-        Html::tag('b', $project->getFacilityCount()),
+        Html::tag('b', $project->facilityCount),
         \Yii::t('app', 'Health facilities')
     ])
 ?></div>

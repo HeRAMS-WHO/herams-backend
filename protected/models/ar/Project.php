@@ -79,11 +79,7 @@ class Project extends ActiveRecord {
             "" => 'Other',
         ];
 
-        $this->overrides = [
-            'facilityCount' => null,
-            'typeCounts' => null,
-            'contributorCount' => null
-        ];
+        $this->overrides = [];
         $this->status = self::STATUS_ONGOING;
     }
 
