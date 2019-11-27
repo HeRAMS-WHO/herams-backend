@@ -23,7 +23,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(403);
@@ -36,7 +36,7 @@ class ShareCest
         $user2 = User::findOne(['id' => TEST_ADMIN_ID]);
 
         $project = $I->haveProject();
-        Permission::grant($user1, $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant($user1, $project, Permission::PERMISSION_ADMIN);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
 
         $I->amOnPage(['project/share', 'id' => $project->id]);

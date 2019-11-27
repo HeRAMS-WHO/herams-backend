@@ -47,7 +47,7 @@ class IndexCest
             'href' => Url::to(['project/view', 'id' => $project->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
@@ -65,21 +65,21 @@ class IndexCest
             'href' => Url::to(['project/update', 'id' => $project->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
             'href' => Url::to(['project/update', 'id' => $project->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
             'href' => Url::to(['project/update', 'id' => $project->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
@@ -97,21 +97,21 @@ class IndexCest
             'href' => Url::to(['project/share', 'id' => $project->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
             'href' => Url::to(['project/share', 'id' => $project->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
             'href' => Url::to(['project/share', 'id' => $project->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [

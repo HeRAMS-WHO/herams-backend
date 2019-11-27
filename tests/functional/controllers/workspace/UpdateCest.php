@@ -31,7 +31,7 @@ class UpdateCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
@@ -42,7 +42,7 @@ class UpdateCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
@@ -52,7 +52,7 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);

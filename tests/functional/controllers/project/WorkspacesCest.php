@@ -20,7 +20,7 @@ class WorkspacesCest
         $I->dontSeeLink('Import workspaces', Url::to(['/workspace/import', 'project_id' => $project->id]));
         $I->dontSeeLink('Create workspace', Url::to(['/workspace/create', 'project_id' => $project->id]));
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->seeLink('Import workspaces', Url::to(['/workspace/import', 'project_id' => $project->id]));
@@ -46,8 +46,8 @@ class WorkspacesCest
             'href' => Url::to(['workspace/limesurvey', 'id' => $workspace->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
-
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $workspace));
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
         $I->seeElement('a', [
@@ -60,14 +60,14 @@ class WorkspacesCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $workspace =  $I->haveWorkspace();
+
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
         $I->dontSeeElement('a', [
             'href' => Url::to(['workspace/limesurvey', 'id' => $workspace->id]),
         ]);
-
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
-
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $workspace));
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
         $I->seeElement('a', [
@@ -88,7 +88,7 @@ class WorkspacesCest
             'href' => Url::to(['workspace/update', 'id' => $workspace->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
@@ -108,7 +108,7 @@ class WorkspacesCest
             'href' => Url::to(['workspace/update', 'id' => $workspace->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
@@ -130,7 +130,7 @@ class WorkspacesCest
             'href' => Url::to(['workspace/update', 'id' => $workspace->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
@@ -150,7 +150,7 @@ class WorkspacesCest
             'href' => Url::to(['workspace/delete', 'id' => $workspace->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
@@ -179,7 +179,7 @@ class WorkspacesCest
             'href' => Url::to(['workspace/download', 'id' => $workspace->id]),
         ]);
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 

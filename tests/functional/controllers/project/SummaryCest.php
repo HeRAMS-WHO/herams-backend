@@ -55,7 +55,7 @@ class SummaryCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $page = new Page();
         $page->title = 'Main page';
         $page->project_id = $project->id;
@@ -69,7 +69,7 @@ class SummaryCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $page = new Page();
         $page->title = 'Main page';
         $page->project_id = $project->id;
@@ -83,7 +83,7 @@ class SummaryCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
         $page = new Page();
         $page->title = 'Main page';
         $page->project_id = $project->id;

@@ -25,7 +25,7 @@ class ViewCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id]);
         $I->seeResponseCodeIs(404);
     }
@@ -38,7 +38,7 @@ class ViewCest
         $page->title = 'Main page';
         $page->project_id = $project->id;
         $I->save($page);
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->assertSame($page->title, $I->grabTextFrom(['class' => 'header']));
@@ -54,7 +54,7 @@ class ViewCest
         $page->title = 'Main page';
         $page->project_id = $project->id;
         $I->save($page);
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->assertSame($page->title, $I->grabTextFrom(['class' => 'header']));
@@ -67,7 +67,7 @@ class ViewCest
         $page->title = 'Main page';
         $page->project_id = $project->id;
         $I->save($page);
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $page->id + 1]);
         $I->seeResponseCodeIs(404);
     }
@@ -76,7 +76,7 @@ class ViewCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
 
         $page = new Page();
         $page->title = 'Main page';
@@ -97,7 +97,7 @@ class ViewCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
 
         $page = new Page();
         $page->title = 'Main page';

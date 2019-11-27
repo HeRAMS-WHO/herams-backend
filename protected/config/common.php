@@ -61,14 +61,7 @@ return [
             'expirationParam' => 'e'
         ],
         'abacManager' => function() {
-            $engine = new \SamIT\abac\engines\SimpleEngine([
-                new \prime\rules\AdminRule(),
-                new \prime\rules\WorkspaceRule(),
-                new ImpliedPermission(Permission::PERMISSION_ADMIN, [
-                    Permission::PERMISSION_SHARE,
-                    Permission::PERMISSION_WRITE
-                ])
-            ]);
+            $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
             $repo = new ActiveRecordRepository(Permission::class, [
                 ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
                 ActiveRecordRepository::SOURCE_NAME => 'source',

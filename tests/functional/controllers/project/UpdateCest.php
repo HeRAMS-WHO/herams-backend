@@ -25,7 +25,7 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project));
 
         $I->amOnPage(['project/update', 'id' => $project->id]);
@@ -36,7 +36,7 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project));
@@ -48,7 +48,7 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/update', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);

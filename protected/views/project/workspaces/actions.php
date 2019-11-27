@@ -15,7 +15,7 @@ return [
     'buttons' => [
         'refresh' => function($url, Workspace $model, $key) {
             $result = '';
-            if (false && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
                 $result = Html::a(Icon::sync(), $url, [
                     'title' => \Yii::t('app', 'Refresh data from limesurvey')
                 ]);
@@ -24,7 +24,7 @@ return [
         },
         'limesurvey' => function($url, Workspace $model, $key) {
             $result = '';
-            if (false && \Yii::$app->user->can(Permission::PERMISSION_WRITE, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(
                     Icon::pencilAlt(),
                     $url,
@@ -51,7 +51,7 @@ return [
         'share' => function($url, Workspace $model, $key) {
             $result = '';
             /** @var Workspace $model */
-            if (false && \Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
                 $result = Html::a(
                     Icon::share(),
                     $url,
@@ -63,7 +63,7 @@ return [
             return $result;
         },
         'delete' => function($url, Workspace $model, $key) {
-            if (false &&  \Yii::$app->user->can(Permission::PERMISSION_DELETE, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_DELETE, $model)) {
                 return Html::a(
                     Icon::delete(),
                     $url,
@@ -75,7 +75,7 @@ return [
             }
         },
         'download' => function($url, Workspace $model, $key) {
-            if (false && \Yii::$app->user->can(Permission::PERMISSION_READ, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_READ, $model)) {
                 $result = Html::a(
                     Icon::download(),
                     "#",

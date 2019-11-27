@@ -24,11 +24,11 @@ class DeleteCest
         $I->sendDELETE(Url::to(['/project/delete', 'id' => $project->id]));
         $I->seeResponseCodeIs(403);
 
-        Permission::grant($user, $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_READ);
         $I->sendDELETE(Url::to(['/project/delete', 'id' => $project->id]));
         $I->seeResponseCodeIs(403);
 
-        Permission::grant($user, $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_WRITE);
         $I->sendDELETE(Url::to(['/project/delete', 'id' => $project->id]));
         $I->seeResponseCodeIs(403);
     }
@@ -38,7 +38,7 @@ class DeleteCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_DELETE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_DELETE);
 
         $I->stopFollowingRedirects();
         $I->createAndSetCsrfCookie('abc');
@@ -58,7 +58,7 @@ class DeleteCest
         $project = $I->haveProject();
         $I->haveWorkspace();
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));

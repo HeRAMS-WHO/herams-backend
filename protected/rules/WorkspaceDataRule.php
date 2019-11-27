@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\rules;
 
 
+use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
@@ -11,7 +12,7 @@ use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class WorkspaceRule implements Rule
+class WorkspaceDataRule implements Rule
 {
 
     /**
@@ -19,7 +20,7 @@ class WorkspaceRule implements Rule
      */
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_ADMIN];
+        return [Permission::PERMISSION_LIMESURVEY];
     }
 
     /**
@@ -43,7 +44,7 @@ class WorkspaceRule implements Rule
      */
     public function getDescription(): string
     {
-        return 'you can administer the project it belongs to';
+        return "you can write the project it belongs to";
     }
 
     /**
@@ -56,7 +57,9 @@ class WorkspaceRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        return $target instanceof Workspace
+        return $permission === Permission::PERMISSION_LIMESURVEY
+            && $target instanceof Workspace
             && $accessChecker->check($source, $target->project, Permission::PERMISSION_WRITE);
+
     }
 }

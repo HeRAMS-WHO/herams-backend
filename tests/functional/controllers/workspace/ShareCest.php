@@ -61,7 +61,7 @@ class ShareCest
         /** @var AuthManager $abacManager */
         $abacManager = \Yii::$app->abacManager;
         $I->assertFalse($abacManager->check($user1, $workspace, Permission::PERMISSION_SHARE));
-        Permission::grant($user1, $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant($user1, $project, Permission::PERMISSION_ADMIN);
         $I->assertTrue($abacManager->check($user1, $project, Permission::PERMISSION_ADMIN));
         $I->assertTrue($abacManager->check($user1, $workspace, Permission::PERMISSION_SHARE));
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
@@ -86,7 +86,7 @@ class ShareCest
 
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
-        Permission::grant($user1, $workspace, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant($user1, $workspace, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);

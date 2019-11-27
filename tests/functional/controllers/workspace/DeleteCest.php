@@ -24,15 +24,15 @@ class DeleteCest
         $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
         $I->seeResponseCodeIs(403);
 
-        Permission::grant($user, $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_READ);
         $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
         $I->seeResponseCodeIs(403);
 
-        Permission::grant($user, $workspace, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant($user, $workspace, Permission::PERMISSION_READ);
         $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
         $I->seeResponseCodeIs(403);
 
-        Permission::grant($user, $workspace, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant($user, $workspace, Permission::PERMISSION_WRITE);
         $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
         $I->seeResponseCodeIs(403);
     }
@@ -43,7 +43,7 @@ class DeleteCest
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
 
         $I->stopFollowingRedirects();
         $I->createAndSetCsrfCookie('abc');
@@ -60,7 +60,7 @@ class DeleteCest
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
 
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->stopFollowingRedirects();
         $I->createAndSetCsrfCookie('abc');

@@ -7,6 +7,7 @@ use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
+use SamIT\abac\AuthManager;
 use yii\helpers\Json;
 
 class ConfigureCest
@@ -26,7 +27,9 @@ class ConfigureCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        /** @var AuthManager $manager */
+        $manager = \Yii::$app->abacManager;
+        $manager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['workspace/configure', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
@@ -37,7 +40,7 @@ class ConfigureCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/configure', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
@@ -54,7 +57,7 @@ class ConfigureCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        Permission::grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/configure', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);

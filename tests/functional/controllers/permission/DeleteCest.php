@@ -7,6 +7,7 @@ use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
+use SamIT\abac\AuthManager;
 use yii\helpers\Url;
 use yii\web\Request;
 
@@ -21,7 +22,7 @@ class DeleteCest
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
-        Permission::grant($user, $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_READ);
 
         $I->assertFalse(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
 
@@ -32,7 +33,9 @@ class DeleteCest
 
         $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect' => '/']));
         $I->seeResponseCodeIs(403);
-        Permission::grant($user, $project, Permission::PERMISSION_ADMIN);
+        /** @var AuthManager $manager */
+        $manager = \Yii::$app->abacManager;
+        $manager->grant($user, $project, Permission::PERMISSION_ADMIN);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect'=> '/']));
         $I->seeResponseCodeIs(200);
@@ -52,7 +55,7 @@ class DeleteCest
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
-        Permission::grant($user, $workspace, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant($user, $workspace, Permission::PERMISSION_WRITE);
         $permission = Permission::findOne([
             'target_id' => $workspace->id,
             'target'=> get_class($workspace)
@@ -61,7 +64,10 @@ class DeleteCest
         $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect' => '/']));
         $I->seeResponseCodeIs(403);
 
-        Permission::grant($user, $project, Permission::PERMISSION_WRITE);
+        /** @var AuthManager $manager */
+        $manager = \Yii::$app->abacManager;
+        $manager->grant($user, $project, Permission::PERMISSION_ADMIN);
+
         $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect'=> '/']));
         $I->seeResponseCodeIs(200);
         $I->assertFalse($permission->refresh());
