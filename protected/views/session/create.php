@@ -12,7 +12,7 @@ use yii\helpers\Html;
 
     $form = ActiveForm::begin([
         'id' => 'login-form',
-        'enableAjaxValidation' => true,
+        'enableAjaxValidation' => false,
         'validateOnBlur' => false,
         'validateOnType' => false,
         'validateOnChange' => false,
