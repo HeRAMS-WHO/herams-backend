@@ -15,7 +15,7 @@ $stats[] = [
 $stats[] = [
     'icon' => Icon::contributors(),
     'count' => \iter\reduce(function(int $accumulator, Project $project) {
-        return $accumulator + $project->getContributorCount();
+        return $accumulator + $project->contributorCount;
     }, $projects, 0),
     'subject' => \Yii::t('app', 'Contributors')
 ];

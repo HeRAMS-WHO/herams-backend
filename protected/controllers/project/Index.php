@@ -14,6 +14,7 @@ class Index extends Action
     {
         $projectProvider = new ActiveDataProvider([
             'query' => Project::find()
+                ->withFields('workspaceCount', 'facilityCount', 'responseCount')
                 ->with('workspaces')
         ]);
 

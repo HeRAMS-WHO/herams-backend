@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d36db5374fc98f5ad20afe8c11302cdc",
+    "content-hash": "fc58e1c4f083949098050332f895ede9",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -70,7 +70,7 @@
             "version": "v4.4.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:makeusabrew/bootbox.git",
+                "url": "https://github.com/makeusabrew/bootbox.git",
                 "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3"
             },
             "dist": {
@@ -100,7 +100,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
+                "url": "git@github.com:twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -121,7 +121,7 @@
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobinHerbots/Inputmask.git",
+                "url": "git@github.com:RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -290,12 +290,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "0e78454efa97e61ddd4bd5392730b773b523ecfb"
+                "reference": "5cac5e66a31b76857dd8e592262c9735add17f41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/0e78454efa97e61ddd4bd5392730b773b523ecfb",
-                "reference": "0e78454efa97e61ddd4bd5392730b773b523ecfb",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/5cac5e66a31b76857dd8e592262c9735add17f41",
+                "reference": "5cac5e66a31b76857dd8e592262c9735add17f41",
                 "shasum": ""
             },
             "require": {
@@ -361,7 +361,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2019-11-21T14:45:07+00:00"
+            "time": "2019-11-24T14:09:31+00:00"
         },
         {
             "name": "codeception/lib-asserts",
@@ -410,23 +410,23 @@
         },
         {
             "name": "codeception/lib-innerbrowser",
-            "version": "1.1.0",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/lib-innerbrowser.git",
-                "reference": "8f7383ded41c9f76df9aeb6efb839b7af48ad278"
+                "reference": "289028f011dcc954c530e946ea34bb7ce4ec2721"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/lib-innerbrowser/zipball/8f7383ded41c9f76df9aeb6efb839b7af48ad278",
-                "reference": "8f7383ded41c9f76df9aeb6efb839b7af48ad278",
+                "url": "https://api.github.com/repos/Codeception/lib-innerbrowser/zipball/289028f011dcc954c530e946ea34bb7ce4ec2721",
+                "reference": "289028f011dcc954c530e946ea34bb7ce4ec2721",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "*@dev",
                 "php": ">=5.6.0 <8.0",
-                "symfony/browser-kit": ">=2.7 <5.0",
-                "symfony/dom-crawler": ">=2.7 <5.0"
+                "symfony/browser-kit": ">=2.7 <6.0",
+                "symfony/dom-crawler": ">=2.7 <6.0"
             },
             "conflict": {
                 "codeception/codeception": "<4.0"
@@ -459,7 +459,7 @@
             "keywords": [
                 "codeception"
             ],
-            "time": "2019-11-21T15:50:27+00:00"
+            "time": "2019-11-26T16:50:12+00:00"
         },
         {
             "name": "codeception/module-asserts",
@@ -616,16 +616,16 @@
         },
         {
             "name": "codeception/phpunit-wrapper",
-            "version": "8.0.4",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/phpunit-wrapper.git",
-                "reference": "7090736f36b4398cae6ef838b9a2bdfe8d8d104b"
+                "reference": "ee0c1fa08ef6e7f86e3592eccb57139110e5913d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/7090736f36b4398cae6ef838b9a2bdfe8d8d104b",
-                "reference": "7090736f36b4398cae6ef838b9a2bdfe8d8d104b",
+                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/ee0c1fa08ef6e7f86e3592eccb57139110e5913d",
+                "reference": "ee0c1fa08ef6e7f86e3592eccb57139110e5913d",
                 "shasum": ""
             },
             "require": {
@@ -656,7 +656,7 @@
                 }
             ],
             "description": "PHPUnit classes used by Codeception",
-            "time": "2019-02-27T12:58:57+00:00"
+            "time": "2019-11-24T15:30:35+00:00"
         },
         {
             "name": "codeception/stub",
@@ -2390,16 +2390,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-select2",
-            "version": "v2.1.6",
+            "version": "v2.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "6a1a5e4bc80fff9c3341e1d9b718051db646031a"
+                "reference": "b8cdb76b8dcc363e1e25b8f04f69aeabe98c6be3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/6a1a5e4bc80fff9c3341e1d9b718051db646031a",
-                "reference": "6a1a5e4bc80fff9c3341e1d9b718051db646031a",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/b8cdb76b8dcc363e1e25b8f04f69aeabe98c6be3",
+                "reference": "b8cdb76b8dcc363e1e25b8f04f69aeabe98c6be3",
                 "shasum": ""
             },
             "require": {
@@ -2440,7 +2440,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2019-11-01T20:09:46+00:00"
+            "time": "2019-11-15T16:16:16+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -4080,16 +4080,16 @@
         },
         {
             "name": "sam-it/yii2-abac",
-            "version": "v1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/yii2-abac.git",
-                "reference": "fa1cf1dc7a67c2c9fea5f4b251679afb4f9ea782"
+                "reference": "6715f9cb0370b9127c261482080bf4374c77682d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/yii2-abac/zipball/fa1cf1dc7a67c2c9fea5f4b251679afb4f9ea782",
-                "reference": "fa1cf1dc7a67c2c9fea5f4b251679afb4f9ea782",
+                "url": "https://api.github.com/repos/SAM-IT/yii2-abac/zipball/6715f9cb0370b9127c261482080bf4374c77682d",
+                "reference": "6715f9cb0370b9127c261482080bf4374c77682d",
                 "shasum": ""
             },
             "require": {
@@ -4118,7 +4118,7 @@
                     "email": "sam@mousa.nl"
                 }
             ],
-            "time": "2019-11-22T13:23:50+00:00"
+            "time": "2019-11-27T13:16:37+00:00"
         },
         {
             "name": "sam-it/yii2-magic",
@@ -4913,27 +4913,27 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v4.4.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "e19e465c055137938afd40cfddd687e7511bbbf0"
+                "reference": "a195f83b0ba20e622a5baa726af96826b8f5616b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/e19e465c055137938afd40cfddd687e7511bbbf0",
-                "reference": "e19e465c055137938afd40cfddd687e7511bbbf0",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/a195f83b0ba20e622a5baa726af96826b8f5616b",
+                "reference": "a195f83b0ba20e622a5baa726af96826b8f5616b",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
-                "symfony/dom-crawler": "^3.4|^4.0|^5.0"
+                "php": "^7.2.5",
+                "symfony/dom-crawler": "^4.4|^5.0"
             },
             "require-dev": {
-                "symfony/css-selector": "^3.4|^4.0|^5.0",
-                "symfony/http-client": "^4.3|^5.0",
-                "symfony/mime": "^4.3|^5.0",
-                "symfony/process": "^3.4|^4.0|^5.0"
+                "symfony/css-selector": "^4.4|^5.0",
+                "symfony/http-client": "^4.4|^5.0",
+                "symfony/mime": "^4.4|^5.0",
+                "symfony/process": "^4.4|^5.0"
             },
             "suggest": {
                 "symfony/process": ""
@@ -4941,7 +4941,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.4-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
@@ -4968,7 +4968,7 @@
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-28T20:30:34+00:00"
+            "time": "2019-11-18T17:27:11+00:00"
         },
         {
             "name": "symfony/console",
@@ -5101,20 +5101,20 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v4.4.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "36bbcab9369fc2f583220890efd43bf262d563fd"
+                "reference": "0a0a73a0836926898b6fcd6817fe697487a73d97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/36bbcab9369fc2f583220890efd43bf262d563fd",
-                "reference": "36bbcab9369fc2f583220890efd43bf262d563fd",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/0a0a73a0836926898b6fcd6817fe697487a73d97",
+                "reference": "0a0a73a0836926898b6fcd6817fe697487a73d97",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
+                "php": "^7.2.5",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-mbstring": "~1.0"
             },
@@ -5123,7 +5123,7 @@
             },
             "require-dev": {
                 "masterminds/html5": "^2.6",
-                "symfony/css-selector": "^3.4|^4.0|^5.0"
+                "symfony/css-selector": "^4.4|^5.0"
             },
             "suggest": {
                 "symfony/css-selector": ""
@@ -5131,7 +5131,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.4-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
@@ -5158,7 +5158,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-29T11:38:30+00:00"
+            "time": "2019-11-18T17:27:11+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -5981,31 +5981,29 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4"
+                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/88e6d84706d09a236046d686bbea96f07b3a34f4",
-                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/573381c0a64f155a0d9a23f4b0c797194805b925",
+                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.3.3 || ^7.0",
                 "symfony/polyfill-ctype": "^1.8"
             },
+            "conflict": {
+                "vimeo/psalm": "<3.6.0"
+            },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.36 || ^7.5.13"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Webmozart\\Assert\\": "src/"
@@ -6027,7 +6025,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2019-08-24T08:43:50+00:00"
+            "time": "2019-11-24T13:36:37+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -6589,6 +6587,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kartik-v/yii2-tabs-x": 20,
+        "sam-it/yii2-abac": 20,
         "yiisoft/yii2-debug": 20
     },
     "prefer-stable": true,

@@ -11,8 +11,12 @@ use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
+use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
+use SamIT\Yii2\VirtualFields\VirtualFieldQueryBehavior;
 use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
@@ -30,13 +34,13 @@ use function iter\filter;
  * @property int $id
  * @property int $base_survey_eid
  * @property string $title
- * @method static ActiveQuery find()
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
  * @property-read SurveyInterface $survey
  */
 class Project extends ActiveRecord {
+
     public const STATUS_ONGOING = 0;
     public const STATUS_BASELINE = 1;
     public const STATUS_TARGET = 2;
@@ -49,6 +53,19 @@ class Project extends ActiveRecord {
     {
         return $this->statusOptions()[$this->status];
     }
+
+    public static function find()
+    {
+        $result = new ActiveQuery(self::class);
+        $result->attachBehaviors([
+            VirtualFieldQueryBehavior::class => [
+                'class' => VirtualFieldQueryBehavior::class
+            ]
+        ]);
+        return $result;
+    }
+
+
     public function init()
     {
         parent::init();
@@ -129,7 +146,7 @@ class Project extends ActiveRecord {
 
     public function canBeDeleted(): bool
     {
-        return $this->getWorkspaceCount() === 0;
+        return $this->workspaceCount === 0;
     }
 
     public function beforeDelete()
@@ -140,10 +157,6 @@ class Project extends ActiveRecord {
     public function getWorkspaces()
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
-    }
-    public function getWorkspaceCount(): int
-    {
-        return $this->isRelationPopulated('workspaces') ? count($this->workspaces) : (int)$this->getWorkspaces()->count();
     }
 
     public function getTypemapAsJson()
@@ -161,20 +174,15 @@ class Project extends ActiveRecord {
         $this->typemap = Json::decode($value);
     }
 
-    public function setOverridesAsJson($value)
+    public function setOverridesAsJson(string $value)
     {
-        $this->overrides= Json::decode($value);
+        $this->overrides = array_filter(Json::decode($value));
     }
 
 
     public function rules()
     {
         return [
-            [['overrides'], DefaultValueValidator::class, 'value' => [
-                'facilityCount' => null,
-                'typeCounts' => null,
-                'contributorCount' => null
-            ]],
             [[
                 'title', 'base_survey_eid'
             ], RequiredValidator::class],
@@ -187,6 +195,80 @@ class Project extends ActiveRecord {
             [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())]
         ];
     }
+
+    public function behaviors()
+    {
+        return [
+            'virtualFields' => [
+                'class' => VirtualFieldBehavior::class,
+                'virtualFields' => [
+                    'workspaceCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Workspace::find()->limit(1)->select('count(*)')
+                            ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                            return (int) $model->getWorkspaces()->count();
+                        }
+                    ],
+                    'facilityCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
+                                'workspace_id' => Workspace::find()->select('id')
+                                    ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                            ])->addParams([':path' => '$.facilityCount'])->
+                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[hf_id]]))')),
+                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                            if ($model->workspaceCount === 0) {
+                                return 0;
+                            }
+                            return (int) ($model->getOverride('facilityCount')
+                                ?? $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]')));
+                        }
+                    ],
+                    'responseCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
+                            'workspace_id' => Workspace::find()->select('id')
+                                ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                        ])->addParams([':path' => '$.responseCount'])->
+                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(*))'))
+                        ,
+                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                            if ($model->workspaceCount === 0) {
+                                return 0;
+                            }
+                            return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
+                        }
+                    ],
+                    'contributorCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                            $result = $model->getOverride('contributorCount');
+                            if (!isset($result)) {
+                                if ($model->workspaceCount === 0) {
+                                    return 0;
+                                }
+                                $result = Permission::find()->where([
+                                    'target' => Workspace::class,
+                                    'target_id' => $model->getWorkspaces()->select('id'),
+                                    'source' => User::class,
+                                    'permission' => [
+                                        Permission::PERMISSION_WRITE,
+                                        Permission::PERMISSION_ADMIN
+                                    ]
+                                ])  ->distinct()
+                                    ->select('source_id')
+                                    ->count();
+
+                            }
+                            return (int) $result;
+                        }
+                    ]
+                ]
+            ]
+        ];
+    }
+
 
     public function  getResponses(): ActiveQuery
     {
@@ -350,37 +432,7 @@ class Project extends ActiveRecord {
         return $this->hasMany(Page::class, ['project_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
     }
 
-   public function getContributorCount(): int
-    {
-        $result = $this->getOverride('contributorCount');
-        if (!isset($result)) {
-            $result = (int) Permission::find()->where([
-                'target' => Workspace::class,
-                'target_id' => $this->getWorkspaces()->select('id')->column(),
-                'source' => User::class,
-                'permission' => [
-                    Permission::PERMISSION_WRITE,
-                    Permission::PERMISSION_ADMIN
-                ]
-            ])->
-            distinct()
-                ->select('source_id')
-                ->count();
 
-        }
-        return $result;
-    }
-
-    public function getFacilityCount(): int
-    {
-        return (int) ($this->getOverride('facilityCount')
-            ?? (new ResponseFilter(null, $this->getMap()))->filterQuery($this->getResponses())->count());
-    }
-
-    public function getResponseCount(): int
-    {
-        return (int) ($this->getOverride('responseCount') ?? $this->getResponses()->count());
-    }
 
     /**
      * @param $name

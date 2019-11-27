@@ -41,7 +41,7 @@
         "fortawesome/font-awesome": "^5.7",
         "npm-asset/izitoast": "^1.4",
         "npm-asset/bootstrap": "^3.4",
-        "sam-it/yii2-abac": ">=1.0.0",
+        "sam-it/yii2-abac": "dev-master",
         "yiisoft/yii2-bootstrap": "> 2",
         "kartik-v/yii2-password": "^1.5",
         "kartik-v/yii2-builder": "^1.6",
