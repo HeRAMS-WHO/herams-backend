@@ -627,6 +627,7 @@ Modify a Project
 2. Open the **Projects** page by selecting `Projects <https://herams.org/project/index>`_ in the navigation pane on the left.
 3. Click the |pencil-thin| icon in the **Actions** column of your project. This will open the project properties page.
 4. You should now see a page similar to the one displayed below, which permits you:
+
 	* to update the project title;
 	* to alter the survey linked to this project;
 	* to change the centroids (latitude and longitude) of the blue dot shown on the world map;
@@ -789,11 +790,11 @@ General
 Confirmation email not received
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you did not receive an email upon registering or resetting your password, follow the steps below to troubleshoot the issue. 
+If you did not receive an email upon registering or resetting your password, follow the steps below to troubleshoot the issue.
 
-1. Refresh your inbox. It might take a few minutes for the email to appear. 
-2. Check your spam/junk folder. 
-3. Try to register again. You might have accidentally misspelled your email. 
+1. Refresh your inbox. It might take a few minutes for the email to appear.
+2. Check your spam/junk folder.
+3. Try to register again. You might have accidentally misspelled your email.
 4. If the above steps did not solve your issue, please contact your system administrator or send an email to `hearms@who.int <mailto:herams@who.int?>`_.
 
 How to reset your password?
@@ -829,7 +830,7 @@ Exported data is unreadable / contains strange characters
 
 If you open data downloaded from HeRAMS in Excel, you might experience an issue with special characters not displaying correctly, resulting in unreadable text. For example, instead of **camp de réfugiés** you get **Camp de rÃ©fugiÃ©s**. The reason for this is that Excel is not using the correct encoding type to read your data. To correct the issue, follow the instruction outlined `here <#data-encoding-in-excel>`__.
 
-  .. |applyfilter| image:: media/img/bt_apply_filter.png
+.. |applyfilter| image:: media/img/bt_apply_filter.png
      :height: 1.5em
      :align: top
      :alt: apply filter
