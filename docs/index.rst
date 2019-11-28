@@ -651,9 +651,10 @@ Users with the permissions to edit dashboards can modify charts and maps directl
 1. Open the dashboard and navigate to the element you would like to change.
 2. In the top right corner of the element you would like to change, you should see a |pencil-thin| icon. Right-click the icon to open the element's configuration page.
 3. You should now be able:
-	* to change the variables displayed;
-	* to change the colors of a map or a chart; and
-	* to rename the element.
+
+	- to change the variables displayed;
+	- to change the colors of a map or a chart; and
+	- to rename the element.
 
   .. note: See the section `below <#add-a-new-element-to-a-page>`_ for further details on how to create and modify dashboard elements.
 
@@ -672,10 +673,11 @@ This section covers the steps required to add a new element to an existing dashb
 
 1. Open the Project's property page (Follow steps 1 - 3 in the `Modify a Project`_ section.
 2. In the bottom half of the page you will see a list of all available dashboard pages. For each page, the table displays the:
-	* page ID;
-	* title;
-	* parent page; and 
-	* sort ID.
+
+	- page ID;
+	- title;
+	- parent page; and 
+	- sort ID.
 
 .. image:: media/img/HeRAMS_dashboard_pages_table.png
 	:height: 350px
