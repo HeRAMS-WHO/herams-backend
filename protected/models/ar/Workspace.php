@@ -69,10 +69,9 @@ class Workspace extends ActiveRecord
                     ],
                     'facilityCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY =>
-                            (new Query())->from(['sub' => Response::find()
-                                ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])])
-                            ->select('count(*)'),
+                        VirtualFieldBehavior::GREEDY => Response::find()
+                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
+                            ->select('count(distinct hf_id)'),
                         VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
                             $filter = new ResponseFilter(null, new HeramsCodeMap());
                             return (int) $filter->filterQuery($workspace->getResponses())->count();
