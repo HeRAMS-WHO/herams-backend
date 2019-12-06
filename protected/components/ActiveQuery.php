@@ -4,5 +4,4 @@ namespace prime\components;
 
 class ActiveQuery extends \yii\db\ActiveQuery
 {
-    use AuthorizationScopes;
 }

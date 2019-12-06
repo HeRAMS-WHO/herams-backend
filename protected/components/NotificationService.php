@@ -39,8 +39,8 @@ class NotificationService extends Component
             return;
         }
 
-        if (\Yii::$app->requestedAction instanceof AuthAction
-            || !\Yii::$app->has('session', true)
+        if (
+            !\Yii::$app->has('session', true)
         ) {
             return;
         }

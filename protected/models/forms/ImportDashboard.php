@@ -8,7 +8,6 @@ use prime\components\JsonValidator;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use yii\base\Model;
-use yii\validators\FileValidator;
 
 class ImportDashboard extends Model
 {

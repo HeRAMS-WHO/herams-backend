@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
-
-namespace prime\controllers;
+namespace prime\controllers\response;
 
 
 use prime\models\ar\Project;
 use prime\models\ar\Response as HeramsResponse;
 use prime\models\ar\Workspace;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
-use yii\web\Controller;
+use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -16,14 +15,10 @@ use yii\web\Response;
 use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
 
-/**
- * This controller handles response update notifications from LS
- */
-class ResponseController extends Controller
+class Update extends Action
 {
-    use ActionInjectionTrait;
-    public $enableCsrfValidation = false;
-    public function actionUpdate(
+
+    public function run(
         Request $request,
         Response $response
     ) {
@@ -68,6 +63,4 @@ class ResponseController extends Controller
 
         return $response;
     }
-
-
 }
