@@ -133,7 +133,7 @@ class Element extends ActiveRecord implements Exportable
 
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'tool_id'])->via('page');
+        return $this->hasOne(Project::class, ['id' => 'project_id'])->via('page');
     }
 
     public function getConfigAsJson()
