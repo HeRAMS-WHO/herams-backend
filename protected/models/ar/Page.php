@@ -131,7 +131,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     {
         $result = $this->find()
             ->andWhere([
-                'tool_id' => $this->project_id,
+                'project_id' => $this->project_id,
                 'parent_id' => null
             ])
             ->andFilterWhere(['not', ['id' => $this->id]])
@@ -161,7 +161,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         foreach ($this->primaryKey() as $key) {
             unset($attributes[$key]);
         }
-        unset($attributes['tool_id'], $attributes['parent_id']);
+        unset($attributes['project_id'], $attributes['parent_id']);
         $elements = [];
         foreach ($this->elements as $element) {
             $elements[] = $element->export();
