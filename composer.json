@@ -45,7 +45,8 @@
         "kartik-v/yii2-password": "^1.5",
         "kartik-v/yii2-builder": "^1.6",
         "sam-it/yii2-urlsigner": "^2.0",
-        "sam-it/yii2-virtual-fields": "^2.0"
+        "sam-it/yii2-virtual-fields": "^2.0",
+        "yiisoft/yii2-swiftmailer": "^2.1"
 
     },
 
