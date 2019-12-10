@@ -7,6 +7,7 @@ namespace prime\controllers;
 use prime\components\Controller;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
+use SamIT\abac\AuthManager;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\ForbiddenHttpException;
@@ -24,20 +25,17 @@ class PermissionController extends Controller
         if (!isset($permission)) {
             throw new NotFoundHttpException();
         }
+
         /** @var ActiveRecord $target */
         $target = $permission->targetObject;
         if (!isset($target)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_ADMIN, $target)) {
-            $parent = $target->getPermissionParent();
-            if (!isset($parent) || !$user->can(Permission::PERMISSION_WRITE, $parent)) {
-                throw new ForbiddenHttpException();
-            }
+        if (!$user->can(Permission::PERMISSION_UNSHARE, $target)) {
+            throw new ForbiddenHttpException();
         }
 
         $permission->delete();
-
         return $this->redirect($redirect);
     }
 

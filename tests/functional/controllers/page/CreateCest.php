@@ -3,6 +3,7 @@
 
 namespace prime\tests\functional\controllers\page;
 
+use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\tests\FunctionalTester;
 
@@ -16,26 +17,57 @@ class CreateCest
 
     public function testAccessControl(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_ADMIN_ID);
+        $project = $I->haveProject();
+
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['project/create']);
+        $I->amOnPage(['page/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(403);
     }
 
-    public function testCreate(FunctionalTester $I)
+    public function testCreateRootPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $I->amOnPage(['project/create']);
+        $project = $I->haveProject();
+        $I->amOnPage(['page/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => 'Project[title]'], 'Cool stuff');
-        $I->selectOption(['name' => 'Project[base_survey_eid]'], 11111);
-        $I->click('Create project');
+        $I->fillField(['name' => 'Page[title]'], 'Test');
+        $I->click('Create page');
         $I->seeResponseCodeIsSuccessful();
-        $I->seeRecord(Project::class, [
-            'title' => 'Cool stuff',
-            'base_survey_eid' => 11111
+        $I->seeRecord(Page::class, [
+            'project_id' => $project->id,
+            'title' => 'Test',
         ]);
-
-        $I->seeInSource(substr(json_encode('Project <strong>Cool stuff</strong> created'), 1, -1));
     }
+
+    public function testCreateInvalidProject(FunctionalTester $I)
+    {
+        $I->amLoggedInAs(TEST_ADMIN_ID);
+        $I->amOnPage(['page/create', 'project_id' => 1245]);
+        $I->seeResponseCodeIs(404);
+    }
+
+    public function testCreateSubPage(FunctionalTester $I)
+    {
+        $I->amLoggedInAs(TEST_ADMIN_ID);
+        $project = $I->haveProject();
+        $parentPage = new Page();
+        $parentPage->title = 'parent';
+        $parentPage->project_id = $project->id;
+        $I->save($parentPage);
+        $I->amOnPage(['page/create', 'project_id' => $project->id]);
+        $I->seeResponseCodeIs(200);
+        $I->fillField(['name' => 'Page[title]'], 'Test');
+        $I->selectOption(['name' => 'Page[parent_id]'], $parentPage->id);
+        $I->click('Create page');
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeRecord(Page::class, [
+            'project_id' => $project->id,
+            'parent_id' => $parentPage->id,
+            'title' => 'Test',
+        ]);
+    }
+
+
 
 }

@@ -17,50 +17,10 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         'urlManager' => [
             'class' => \yii\web\UrlManager::class,
             'cache' => false,
+            'enableStrictParsing' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                [
-                    'class' => \yii\web\GroupUrlRule::class,
-                    'prefix' => 'api',
-                    'rules' => [
-                        [
-                            'class' => \yii\rest\UrlRule::class,
-                            'controller' => ['api/surveys', 'api/collections', 'api/maps', 'api/countries',
-                                'api/coordinates', 'api/categories', 'api/charts', 'api/filters', 'api/locations'],
-                            'tokens' => [
-                                '{id}' => '<id:\\w[\\w,]*>'
-                            ]
-                        ],
-                    ]
-                ],
-//                [
-//                    'class' => \yii\web\GroupUrlRule::class,
-//                    'prefix' => 'v2',
-//                    'rules' => [
-//                        [
-//                            'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>',
-//                            'route' => '<controller>/<action>'
-//                        ]
-//
-//                    ]
-//                ],
-                [
-                    'class' => \yii\rest\UrlRule::class,
-//                    'only' => [
-//                        'view',
-//                        'index'
-//                    ],
-
-                    'extraPatterns' => [
-                        'GET {id}/<action:\w+>' => '<action>'
-                    ],
-                    'controller' => [
-                        'v2/project',
-                        'v2/workspace',
-                        'v2/facility'
-                    ],
-                ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view'
@@ -69,12 +29,16 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'pattern' => '<controller>/<id:\d+>/<action:[\w-]+>',
                     'route' => '<controller>/<action>'
                 ],
-
+                [
+                    'pattern' => '<controller>/<action:\w+>',
+                    'route' => '<controller>/<action>'
+                ],
                 // For testing.
                 [
                     'pattern' => '/',
                     'route' => 'site/world-map'
-                ]
+                ],
+                \prime\modules\Api\Module::urlRule()
 
             ]
         ],
@@ -117,14 +81,6 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     ]
                 ]
             ]
-        ],
-        'view' => [
-            'theme' => [
-                'pathMap' => [
-                    '@dektrium/user/views/mail' => '@app/mail',
-                    '@dektrium/user/views' => '@app/views/user',
-                ]
-            ],
         ],
         'errorHandler' => [
             'errorAction' => '/site/error'

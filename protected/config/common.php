@@ -2,6 +2,7 @@
 
 use prime\components\JwtSso;
 use prime\models\permissions\Permission;
+use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\rules\ImpliedPermission;
 use SamIT\abac\values\Authorizable;
@@ -166,6 +167,16 @@ return [
         ],
     ],
     'modules' => [
+        'api' => [
+            'class' => \prime\modules\Api\Module::class,
+            'components' => [
+                'user' => [
+                    'class' => \yii\web\User::class,
+                    'enableSession' => false,
+                    'identityClass'=> Key::class
+                ]
+            ]
+        ]
 //        'user' => [
 //            'class' => \dektrium\user\Module::class,
 //            'layout' => '//map-popover',

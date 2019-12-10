@@ -5,7 +5,6 @@
 
 /**
  *
- * @return \app\components\WebApplication;
  */
 function app()
 {

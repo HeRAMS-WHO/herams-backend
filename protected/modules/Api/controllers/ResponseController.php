@@ -1,14 +1,15 @@
 <?php
 
 
-namespace prime\controllers;
+namespace prime\modules\Api\controllers;
 
 
-use prime\controllers\response\Delete;
-use prime\controllers\response\Update;
+use prime\modules\Api\controllers\response\Delete;
+use prime\modules\Api\controllers\response\Update;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+
 
 /**
  * This controller handles response update notifications from LS
@@ -16,14 +17,19 @@ use yii\web\Controller;
 class ResponseController extends Controller
 {
     use ActionInjectionTrait;
-    public $enableCsrfValidation = false;
 
+    public $layout = '@app/views/layouts/simple';
     public function actions()
     {
         return [
             'update' => Update::class,
             'delete' => Delete::class
         ];
+    }
+
+    public function actionView()
+    {
+        return ['abc'];
     }
 
     public function behaviors()

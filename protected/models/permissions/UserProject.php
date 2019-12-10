@@ -36,19 +36,6 @@ class UserProject extends Permission
         return $result;
     }
 
-    public static function grant(\yii\db\ActiveRecord $source, \yii\db\ActiveRecord $target, $permission, $strict = false): void
-    {
-        if(!($source instanceOf User)) {
-            throw new \DomainException('Source should be instance of ' . User::class);
-        }
-
-        if(!($target instanceOf Workspace)) {
-            throw new \DomainException('Target should be instance of ' . Workspace::class);
-        }
-
-        parent::grant($source, $target, $permission, $strict);
-    }
-
     public function getProject()
     {
         return $this->hasOne(Workspace::class, ['id' => 'target_id']);

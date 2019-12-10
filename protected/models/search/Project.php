@@ -2,28 +2,18 @@
 
 namespace prime\models\search;
 
-use app\queries\ProjectQuery;
-use prime\components\ActiveQuery;
-use prime\models\ar\Project;
-use prime\models\ar\Response;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
-use yii\db\Expression;
-use yii\db\Query;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 
-class Workspace extends \prime\models\ar\Workspace
+class Project extends \prime\models\ar\Project
 {
-    private $project;
-
     public function __construct(
-        Project $project,
         array $config = []
     ) {
         parent::__construct($config);
-        $this->project = $project;
     }
 
     public function init()
@@ -45,7 +35,6 @@ class Workspace extends \prime\models\ar\Workspace
     {
         return [
             self::SCENARIO_SEARCH => [
-                'project_id',
                 'title',
                 'created',
                 'id'
@@ -56,14 +45,10 @@ class Workspace extends \prime\models\ar\Workspace
     public function search($params)
     {
         $baseTable = self::tableName();
-        $query = \prime\models\ar\Workspace::find();
 
-        $query->with('project');
-        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'permissionCount');
-        $query->andFilterWhere(["$baseTable.[[tool_id]]" => $this->project->id]);
-//        $query->addSelect([
-//            "$baseTable.*"
-//        ]);
+        $query = \prime\models\ar\Project::find()
+            ->withFields('workspaceCount', 'facilityCount', 'responseCount')
+            ->with('workspaces');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -76,15 +61,16 @@ class Workspace extends \prime\models\ar\Workspace
         $sort = new Sort([
             'attributes' => [
                 'id',
-                'title',
+                'title' => [
+                    'asc' => ['title' => SORT_ASC],
+                    'desc' => ['title' => SORT_DESC],
+                ],
                 'created',
-                'latestUpdate' => [
-                    'asc' => ['latestUpdate' => SORT_ASC],
-                    'desc' => ['latestUpdate' => SORT_DESC],
-                    'default' => SORT_DESC,
-                ]
+                'workspaceCount',
+                'facilityCount',
+                'responseCount',
             ],
-            'defaultOrder' => ['latestUpdate' => SORT_DESC]
+            'defaultOrder' => ['title' => SORT_ASC]
         ]);
         $dataProvider->setSort($sort);
         if(!$this->load($params) || !$this->validate()) {
@@ -93,17 +79,17 @@ class Workspace extends \prime\models\ar\Workspace
 
 
 
-        $interval = explode(' - ', $this->created);
-        if(count($interval) == 2) {
-            $query->andFilterWhere([
-                'and',
-                ['>=', 'created', $interval[0]],
-                ['<=', 'created', $interval[1] . ' 23:59:59']
-            ]);
-        }
-
-        $query->andFilterWhere(['like', "$baseTable.[[title]]", $this->title]);
-        $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
+//        $interval = explode(' - ', $this->created);
+//        if(count($interval) == 2) {
+//            $query->andFilterWhere([
+//                'and',
+//                ['>=', 'created', $interval[0]],
+//                ['<=', 'created', $interval[1] . ' 23:59:59']
+//            ]);
+//        }
+//
+//        $query->andFilterWhere(['like', "$baseTable.[[title]]", $this->title]);
+//        $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
         return $dataProvider;
     }
 }

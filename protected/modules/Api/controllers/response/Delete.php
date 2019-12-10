@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace prime\controllers\response;
+namespace prime\modules\Api\controllers\response;
 
 
 use yii\base\Action;

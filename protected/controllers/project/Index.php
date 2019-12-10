@@ -4,21 +4,21 @@
 namespace prime\controllers\project;
 
 
-use prime\models\ar\Project;
+use prime\models\search\Project as ProjectSearch;
 use yii\base\Action;
-use yii\data\ActiveDataProvider;
+use yii\web\Request;
 
 class Index extends Action
 {
-    public function run()
+    public function run(
+        Request $request
+    )
     {
-        $projectProvider = new ActiveDataProvider([
-            'query' => Project::find()
-                ->withFields('workspaceCount', 'facilityCount', 'responseCount')
-                ->with('workspaces')
-        ]);
+        $projectSearch = new ProjectSearch();
 
+        $projectProvider = $projectSearch->search($request->queryParams);
         return $this->controller->render('index', [
+            'projectSearch' => $projectSearch,
             'projectProvider' => $projectProvider
         ]);
     }

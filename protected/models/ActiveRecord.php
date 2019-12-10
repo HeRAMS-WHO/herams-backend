@@ -33,31 +33,11 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
-
-    public function loadFromAttributeData()
-    {
-        $criteria = array_filter($this->attributes, function($value) {return $value !== null;});
-        $results = $this::findAll($criteria);
-
-        switch(count($results)) {
-            case 0:
-                $result = $this;
-                break;
-            case 1:
-                $result = $results[0];
-                break;
-            default:
-                throw new \Exception('Multiple records found');
-        }
-
-        return $result;
-    }
-
     /**
      * Returns a field useful for displaying this record
      * @return string
      */
-    public function getDisplayField()
+    public function getDisplayField(): string
     {
         foreach(['title', 'name'] as $attribute) {
             if ($this->hasAttribute($attribute)) {
@@ -73,9 +53,5 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
 
         return "No title for " . get_class($this) . "($pk)";
-    }
-
-    public function getPermissionParent(): ?ActiveRecord {
-        return null;
     }
 }

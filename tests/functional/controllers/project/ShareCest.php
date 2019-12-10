@@ -6,6 +6,7 @@ namespace prime\tests\functional\controllers\project;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
+use SamIT\abac\AuthManager;
 
 class ShareCest
 {
@@ -48,9 +49,9 @@ class ShareCest
 
         $I->checkOption(['css' => '[name="Share[permission][]"][value=admin]']);
         $I->stopFollowingRedirects();
-        $I->assertFalse(Permission::isAllowed($user2, $project, Permission::PERMISSION_ADMIN));
+        $I->assertTrue(\Yii::$app->abacManager->check($user2, $project, Permission::PERMISSION_ADMIN));
         $I->click('.btn-primary');
         $I->seeResponseCodeIs(302);
-        $I->assertTrue(Permission::isAllowed($user2, $project, Permission::PERMISSION_ADMIN));
+        $I->assertTrue(\Yii::$app->abacManager->check($user2, $project, Permission::PERMISSION_ADMIN));
     }
 }

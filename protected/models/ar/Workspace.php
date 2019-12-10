@@ -110,11 +110,6 @@ class Workspace extends ActiveRecord
         return $result;
     }
 
-    public function getPermissionParent(): ?ActiveRecord
-    {
-        return $this->project;
-    }
-
     /**
      * @return ResponseInterface[]
      */

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace prime\models\ar;
+namespace prime\modules\Api\models;
 
 
 use prime\models\ActiveRecord;
@@ -25,13 +25,13 @@ class Key extends ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         // Split the token in to id and hash.
-        if (preg_match('^(?P<id>\d+)\|(?P<secret>.*)$', $token, $matches)) {
-            $token = self::findIdentity($matches['id']);
-            if (password_verify($token['secret'], $token->hash)) {
-                return $token;
+        if (preg_match('/^(?P<id>\d+)\|(?P<secret>.*)$/', $token, $matches)) {
+            $model = self::findIdentity($matches['id']);
+
+            if (isset($model) && password_verify($matches['secret'], $model->hash)) {
+                return $model;
             }
         }
-        return self::findOne(['token' => $token]);
     }
 
     /**

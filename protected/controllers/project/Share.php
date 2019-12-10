@@ -45,7 +45,7 @@ class Share extends Action
         ]);
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->validate()) {
-                $model->createRecords($abacManager);
+                $model->createRecords();
                 $notificationService->success(\Yii::t('app',
                             "Project {modelName} has been shared with: {users}",
                             [

@@ -22,7 +22,6 @@
         "ext-json": "*",
         "bower-asset/bootbox": "^4.4",
         "bower-asset/is-loading": "^1",
-        "dektrium/yii2-user": "^0.9.13",
         "guzzlehttp/psr7": "^1.2",
         "kartik-v/yii2-date-range": "^1.6",
         "kartik-v/yii2-grid": "^3.0",

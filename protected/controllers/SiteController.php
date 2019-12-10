@@ -2,6 +2,7 @@
     namespace prime\controllers;
     use prime\components\Controller;
     use prime\controllers\site\Admin;
+    use prime\controllers\site\LimeSurvey;
     use prime\controllers\site\WorldMap;
     use prime\interfaces\TicketingInterface;
     use yii\captcha\CaptchaAction;
@@ -12,17 +13,7 @@
 
     class SiteController extends Controller
     {
-        public function actionLimeSurvey(
-            TicketingInterface $limesurveySSo,
-            ?string $error = null
-        ) {
-            if (isset($error)) {
-                throw new BadRequestHttpException($error);
-            }
-            $limesurveySSo->loginAndRedirectCurrentUser();
-        }
-
-        public function actions()
+             public function actions()
         {
             return [
                 'error' => [
@@ -30,13 +21,12 @@
                     'layout' => 'map-popover',
                     'view' => 'error'
                 ],
-                'captcha' => [
-                    'class' => CaptchaAction::class,
-                    'fixedVerifyCode' => php_sapi_name() == 'cli-server' ? 'test' : null
-                ],
                 'world-map' => [
                     'class' => WorldMap::class
                 ],
+                'lime-survey' => [
+                    'class' => LimeSurvey::class
+                ]
             ];
         }
 
