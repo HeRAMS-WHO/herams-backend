@@ -13,7 +13,7 @@ class NewAppAsset extends AssetBundle
 
     public $css = [
         'css/common.css',
-        'css/form.css'
+        'css/map.css'
     ];
 
     public $js = [

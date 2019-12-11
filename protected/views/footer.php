@@ -1,58 +1,62 @@
 <div class="footer">
-<?php
-
-use Carbon\Carbon;
-use prime\helpers\Icon;
-use prime\models\ar\Project;
-use yii\helpers\Html;
-// Render all statistics.
-$projects = Project::find()->all();
-$stats[] = [
-    'icon' => Icon::project(),
-    'count' => count($projects),
-    'subject' => \Yii::t('app', 'HeRAMS projects')
-];
-$stats[] = [
-    'icon' => Icon::contributors(),
-    'count' =>
-        \iter\reduce(function(int $accumulator, Project $project) {
-        return $accumulator + $project->contributorCount;
-    }, $projects, 0),
-    'subject' => \Yii::t('app', 'Contributors')
-];
-
-$stats[] = [
-    'icon' => Icon::healthFacility(),
-    'count' => \Yii::$app->cache->get('totalFacilityCount') ?: '?',
-    'subject' => \Yii::t('app', 'Health facilities')
-];
-echo Html::beginTag('div', ['class' => 'stats']);
-foreach($stats as $stat) {
-    echo Html::beginTag('div');
-    echo $stat['icon'];
-    echo Html::tag('div', $stat['count'], ['class' => 'counter']);
-    echo Html::tag('div', $stat['subject'], ['class' => 'subject']);
-    echo Html::endTag('div');
-}
-echo Html::endTag('div');
-?>
-<div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
-            <?php
-            $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
-            if (isset($latestResponse)) {
-                echo "{$latestResponse->project->title} / {$latestResponse->date}";
-            } else {
-                echo "No data loaded";
-            }
-            ?></span>
-</div>
     <?php
 
-echo Html::a(Icon::chevronLeft(), '#', ['class' => 'left', 'id' => 'footer-left']);
-echo Html::a(Icon::chevronRight(), '#', ['class' => 'right', 'id' => 'footer-right']);
+    use Carbon\Carbon;
+    use prime\helpers\Icon;
+    use prime\models\ar\Project;
+    use yii\helpers\Html;
+    // Render all statistics.
+    $projects = Project::find()->all();
+    $stats[] = [
+        'icon' => Icon::project(),
+        'count' => count($projects),
+        'subject' => \Yii::t('app', 'HeRAMS projects')
+    ];
+    $stats[] = [
+        'icon' => Icon::contributors(),
+        'count' =>
+        \iter\reduce(function (int $accumulator, Project $project) {
+            return $accumulator + $project->contributorCount;
+        }, $projects, 0),
+        'subject' => \Yii::t('app', 'Contributors')
+    ];
 
-echo Html::endTag('div');
-$this->registerJs(<<<JS
+    $stats[] = [
+        'icon' => Icon::healthFacility(),
+        'count' => \Yii::$app->cache->get('totalFacilityCount') ?: '?',
+        'subject' => \Yii::t('app', 'Health facilities')
+    ];
+    echo Html::beginTag('div', ['class' => 'stats']);
+    foreach ($stats as $stat) {
+        echo Html::beginTag('div');
+        echo $stat['icon'];
+        echo Html::tag('div', $stat['count'], ['class' => 'counter']);
+        echo Html::tag('div', $stat['subject'], ['class' => 'subject']);
+        echo Html::endTag('div');
+    }
+    echo Html::endTag('div');
+    ?>
+    <div class="status">
+        <div class="status-content">
+            <?= Icon::sync() ?> Latest update: <span class="value">
+                <?php
+                $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
+                if (isset($latestResponse)) {
+                    echo "{$latestResponse->project->title} / {$latestResponse->date}";
+                } else {
+                    echo "No data loaded";
+                }
+                ?></span>
+        </div>
+    </div>
+    <?php
+
+    echo Html::a(Icon::chevronLeft(), '#', ['class' => 'left', 'id' => 'footer-left']);
+    echo Html::a(Icon::chevronRight(), '#', ['class' => 'right', 'id' => 'footer-right']);
+
+    echo Html::endTag('div');
+    $this->registerJs(
+        <<<JS
 const footer = document.querySelector('.footer .stats');
 let timer;
 const moveRight = function() {
@@ -71,7 +75,7 @@ document.getElementById('footer-left').addEventListener('click', function() {
 
 JS
 
-);
-?>
+    );
+    ?>
 
 </div>

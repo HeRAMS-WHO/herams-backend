@@ -17,3 +17,4 @@ _generated
 c3.php
 .env
 /protected/config/env.json
+/gulp/node_modules/

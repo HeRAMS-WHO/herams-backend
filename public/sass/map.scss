@@ -1,0 +1,31 @@
+/*
+*
+* Contains styles usefull for pages using maps as background
+*
+*/
+@import "partials/_popover";
+
+.map {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 1;
+}
+
+
+
+.prime_widgets_map_Map.content {
+    background:rgb(208, 207, 212) !important;
+}
+
+
+            
+@media (min-width: 710px) {
+    
+    .map {
+        visibility: visible;
+    }
+}

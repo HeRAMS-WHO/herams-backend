@@ -5,7 +5,8 @@ use yii\helpers\Html;
 
 echo Html::beginTag('div', ['class' => 'menu']);
     echo Html::img("/img/HeRAMS.png");
-    echo Html::tag('hr');
+    echo Html::beginTag('div',['class'=>'line']);
+    echo Html::endTag('div');
     echo Html::beginTag('nav');
         $projects = [];
         echo Html::a('Projects', ['/project/index']);

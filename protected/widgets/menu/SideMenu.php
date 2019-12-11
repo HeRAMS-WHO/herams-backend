@@ -44,8 +44,8 @@ JS;
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
         echo Html::tag('h1', $this->project->getDisplayField());
-//
-        echo Html::tag('hr');
+        echo Html::beginTag('div',['class'=>'line']);
+        echo Html::endTag('div');
         echo Html::beginTag('nav');
         foreach($this->project->pages as $page) {
             $this->renderPageMenu($page);

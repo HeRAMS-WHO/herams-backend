@@ -26,17 +26,7 @@ $this->title = Yii::t('app', 'Create account');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['hideMenu'] = true;
 
-?>
-<style>
-    body, input {
-        text-align: center;
-    }
-    .panel {
-        min-width: 200px;
-        margin: 10px;
-    }
-</style>
-<?php
+
 echo Html::tag('header', $this->title);
         echo Form::widget([
             'model' => $model,

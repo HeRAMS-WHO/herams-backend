@@ -8,7 +8,7 @@ use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
 $this->beginPage();
 
 $this->registerAssetBundle(CdnFreeAssetBundle::class);
-$this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+//$this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
 
 ?>
     <!DOCTYPE HTML>

@@ -41,6 +41,7 @@ while(!empty($stack)) {
     ];
 }
 
+
 if ($project->pages[0]->getId() !== $page->getId()) {
     $this->params['breadcrumbs'][] = [
         'label' => $page->getTitle(),

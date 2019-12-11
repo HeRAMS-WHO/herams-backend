@@ -1,0 +1,40 @@
+$header-background-color: #42424b;
+$header-color: white;
+$background-color: #878787;
+$primary-color: #4177c1;
+$highlight-background-color: #3e75c4; //#5791e1;
+$highlight-color: white;
+$main-background-color: #e0e0e0;
+$content-background-color: white;
+$breadcrumbs-color: #878787;
+$primary-button-hover-color: #3f86e6;
+$header-light-background-color: #4f4e54;
+$header-light-color: white;
+$gutter-size: 20px;
+$dark-color: white;
+$dark-background-color: #424348;
+$darker-background-color: #424242;
+$darker-color: $dark-color;
+$status-height: 30px;
+$height: 50px;
+$animation-duration: 500ms;
+
+
+$primary-button-background-color: #4177c1;
+$primary-button-color: white;
+
+$link-color: black;
+$validation-error-color: #bc0000;
+$border-color: grey;
+$font-size: 16px;
+
+
+
+@keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

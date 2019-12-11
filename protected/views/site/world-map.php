@@ -47,7 +47,8 @@ foreach($projects as $project) {
 }
 echo Html::beginTag('div', ['class' => 'menu']);
 echo Html::img("/img/HeRAMS.png");
-echo Html::tag('hr');
+echo Html::beginTag('div',['class'=>'line']);
+echo Html::endTag('div');
 echo Html::beginTag('nav');
 foreach($projects as $project) {
     echo Html::button($project->getDisplayField(), [
@@ -103,30 +104,3 @@ echo Map::widget([
 ]);
 
 ?>
-<style>
-    .leaflet-popup-content {
-        margin: 0;
-        /*background-image: url('/img/loader.svg');*/
-        /*background-repeat: no-repeat;*/
-        /*background-position: center;*/
-        background-color: #42424b;
-
-        padding-bottom: 10px;
-
-    }
-    .leaflet-popup-content-wrapper {
-        overflow: hidden;
-        padding: 0;
-
-    }
-
-    iframe {
-        box-sizing: border-box;
-        max-width: 500px;
-        border-width: 0;
-        width: 400px;
-        min-width: 300px;
-        min-height: 350px;
-        overflow: hidden;
-    }
-</style>

@@ -23,41 +23,6 @@ echo Icon::windowMaximize([
     'id' => 'maximize',
 ]);
 
-$this->registerCss(<<<CSS
-    #maximize {
-        pointer-events: initial;
-        position: absolute;
-        z-index: 1000;
-        top: 5px;
-        font-size: 50px;
-        color: #333333;
-        right: 20px;
-        opacity: 0;
-        
-    }
-
-    iframe {
-        opacity: 0;
-    }
-    iframe.fade-in {
-        opacity: 1;
-        transition: all 3s;
-    }
-    
-    
-    #maximize.focused {
-        opacity: 1;
-        font-size: 15px;
-        transition: all 1s ease-in-out;
-    }
-
-    #maximize:hover {
-        font-size: 50px;
-        transition: none;
-    }
-CSS
-
-);
 
 $this->registerJs(<<<JS
     let frame = document.querySelector('iframe');

@@ -25,7 +25,7 @@ use yii\bootstrap\Html;
 <style>
 html,
 body {
-  font-family: Roboto, "Open Sans", Helvetica, Arial, sans-serif;
+  /*font-family: Roboto, "Open Sans", Helvetica, Arial, sans-serif;*/
   font-size: 14px;
   font-weight: 400;
   padding: 0;

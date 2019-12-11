@@ -1,0 +1,456 @@
+/*
+*
+* Contains styles usefull for all the pages
+*
+*/
+@import "partials/_variables";
+@import "partials/_form";
+@import "partials/_leaflet";
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700");
+
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  width: 100vw;
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: $font-size;
+  color: #212529;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto minmax(400px, 1fr);
+  grid-template-areas:
+    "user"
+    "title"
+    "filters"
+    "sidebar"
+    "main";
+}
+
+body.no-title .title {
+  display: none;
+}
+
+
+body.no-title {
+  .user-menu {
+    .username {
+      .email {
+        color: rgb(66, 66, 75);
+      }
+    }
+  }
+}
+
+a,
+a:hover,
+a:active,
+a:visited,
+a:-webkit-any-link {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+a {
+  color: $link-color;
+  &:hover {
+    color: $primary-button-background-color;
+  }
+}
+
+.btn-primary {
+  background-color: $primary-button-background-color;
+  background-image: none;
+}
+
+.btn {
+  font-size: $font-size;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: none;
+  padding: 10px;
+  margin-right: 10px;
+  text-align: center;
+  width: 100px;
+  border-radius: 5px;
+  transition: color 0.3s, background-color 0.3s;
+  outline: none;
+}
+
+.btn.btn-grey {
+  background-color: gray;
+  color: #fff;
+  border: 1px solid grey;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: none;
+  padding: 10px;
+  margin-right: 10px;
+  text-align: center;
+  width: 100px;
+  border-radius: 5px;
+  transition: color 0.3s, background-color 0.3s;
+  outline: none;
+  &:hover {
+    transition: color 0.3s, background-color 0.3s;
+    background-color: white;
+    color: grey;
+  }
+}
+
+.btn.btn-blue {
+  background-color: $primary-button-background-color;
+  color: $primary-button-color;
+  width: 100px;
+  border: 1px solid $primary-button-background-color;
+  &:hover {
+    transition: color 0.3s, background-color 0.3s;
+    background-color: white;
+    border: 1px solid $primary-button-background-color;
+    color: $primary-button-background-color;
+  }
+}
+
+.btn.btn-clear {
+  display: block;
+  height: fit-content;
+  text-decoration: none;
+  box-shadow: none;
+  background-color: transparent;
+  color: grey;
+  padding: 0;
+  border: none;
+  text-align: center;
+  transition: color 0.3s;
+  outline: none;
+  &:hover {
+    transition: color 0.3s;
+    color: black;
+  }
+}
+
+/* Tables markup */
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+  th {
+    background-color: #e0e0e0;
+    border-bottom: 2px solid $background-color;
+    padding-top: 15px;
+  }
+
+  td {
+    border: 1px solid #dee2e6;
+    font-size: 0.9em;
+    padding-left: 10px;
+    padding-right: 20px;
+  }
+}
+
+.menu {
+  --indicator-width: 3px;
+  --indent: 20px;
+  --item-padding-vertical: 14px;
+  overflow: hidden;
+  padding-top: 10px;
+  position: relative;
+  background-color: white;
+  grid-area: sidebar;
+  font-size: 1em;
+  z-index: 10000;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-areas:
+    "image"
+    "title"
+    "separator"
+    "nav"
+    "footer";
+
+  h1 {
+    color: #4c4c4c;
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 8px;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  img {
+    position: initial;
+    grid-area: image;
+    max-width: 100%;
+    display: block;
+    max-height: 100px;
+    max-width: 170px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .line {
+    margin: 35px 0;
+    height: 1px;
+    background: #e1e0de;
+    width: 100%;
+  }
+
+  nav {
+    padding: 0 0px 30px 0;
+    grid-area: nav;
+    overflow-y: auto;
+    a,
+    button {
+      color: black;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 18px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-left: var(--indicator-width) solid transparent;
+      display: block;
+      text-decoration: none;
+      position: relative;
+      padding-left: 25px;
+      box-sizing: border-box;
+      padding-top: var(--item-padding-vertical);
+      padding-bottom: var(--item-padding-vertical);
+      overflow: hidden;
+      outline: none;
+      transition: max-height $animation-duration,
+        padding-top $animation-duration, padding-bottom $animation-duration,
+        color $animation-duration/2;
+      &.active {
+        border-left: var(--indicator-width) solid $highlight-background-color;
+        color: $highlight-background-color;
+      }
+
+      &:hover {
+        color: $highlight-background-color;
+      }
+    }
+
+    section {
+      a {
+        padding-left: calc(10 * ($indent - $indicator-width)) !important;
+        background-color: #f3f3f3;
+        font-size: 14px;
+        line-height: 14px;
+      }
+
+      header {
+        padding-left: calc(2 * $indent - $indicator-width);
+        position: relative;
+        cursor: pointer;
+        a {
+          background-color: white;
+          font-size: 18px;
+          line-height: 18px;
+        }
+
+        &:after {
+          color: #bbb;
+          font-weight: 900;
+          font-family: "Font Awesome 5 Free";
+          content: "\f067";
+          position: absolute;
+          top: 1px;
+          right: 10px;
+          font-size: 18px;
+          line-height: 18px;
+          margin-right: 10px;
+          margin-top: var(--item-padding-vertical);
+        }
+        &:not(.expanded) ~ a {
+          max-height: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+        &.expanded:after {
+          font-family: "Font Awesome 5 Free";
+          content: "\f068";
+        }
+      }
+    }
+  }
+
+  .footer {
+    background-color: $header-background-color;
+    text-align: center;
+    color: $header-color;
+    position: relative;
+    grid-area: footer;
+    padding-top: 20px;
+    font-size: 48px;
+
+    .counter {
+      font-size: 48px;
+    }
+
+    .subject {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stats > div {
+      display: none;
+      & > svg {
+        font-size: 32px;
+        color: #92929b;
+      }
+      &:first-child {
+        display: block;
+        animation: fadein 2s;
+      }
+    }
+
+    .left,
+    .right {
+      display: inline;
+      font-size: 48px;
+      position: absolute;
+      padding: 0;
+      top: calc((100% - 48px - $status-height) / 2);
+      line-height: 144px;
+      margin: 0;
+      width: auto;
+      color: #92929b;
+      border: none;
+      cursor: pointer;
+      left: 20px;
+
+      &:hover {
+        background-color: #92929b;
+        color: $header-background-color;
+      }
+    }
+
+    .right {
+      right: 20px;
+      left: auto;
+    }
+  }
+}
+
+
+.user-menu {
+  padding: 10px 20px 10px 0;
+  margin: 0;
+  grid-area: user;
+  text-align: right;
+  font-size: 30px;
+  color: $header-color;
+
+  .username {
+    display: inline-block;
+    margin: 0 5px 0 0;
+    background: none;
+    .name {
+      color: inherit;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .email {
+      color: #b3b1b8;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 17px;
+    }
+  }
+
+  .icon-admin, .icon-sign-out-alt {
+    margin: 0 5px 0 0;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/**
+2 Column layout, menu above filters.
+*/
+@media (min-width: 600px) {
+  body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "title user"
+      "sidebar sidebar"
+      "filters filters"
+      "main main";
+  }
+
+  body.no-title {
+    grid-template-rows: 100vh;
+    grid-template-areas: "sidebar main main main";
+    .user-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      background-color: transparent;
+      color: #42424b;
+      z-index: 1000;
+    }
+  }
+
+  .menu img {
+    position: initial;
+    grid-area: image;
+    max-width: 100%;
+    display: block;
+    max-height: 100px;
+    max-width: 170px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/**
+3 column layout.
+*/
+@media (min-width: 800px) {
+  body {
+    background: linear-gradient(
+      to bottom,
+      $header-background-color 0%,
+      $header-background-color 130px,
+      $main-background-color 130px,
+      $main-background-color 100%
+    );
+    grid-template-rows: minmax(100px, auto) auto 1fr;
+    grid-template-columns: 285px 1fr 1fr 1fr;
+    grid-template-areas:
+      "sidebar title title user"
+      "sidebar filters filters filters"
+      "sidebar main main main";
+  }
+
+  .menu {
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+  }
+}

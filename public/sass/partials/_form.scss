@@ -1,0 +1,36 @@
+form {
+  input {
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border-color);
+  }
+  .has-error input {
+    border-color: $validation-error-color;
+  }
+ 
+}
+
+.help-block,
+.error-summary {
+  margin-top: 10px;
+  color: $validation-error-color;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+button[type="submit"] {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  box-shadow: none;
+  background-color: var(--primary-button-background-color);
+  color: var(--primary-button-color);
+  border: none;
+  text-decoration: none;
+}
