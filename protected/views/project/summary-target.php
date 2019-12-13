@@ -4,10 +4,6 @@
 /** @var \yii\web\View $this */
 
 use prime\assets\IconBundle;
-use prime\widgets\chart\ChartBundle;
-use rmrevin\yii\fontawesome\FAR;
-use rmrevin\yii\fontawesome\FAS;
-use yii\helpers\Html;
 
 $bundle = $this->registerAssetBundle(IconBundle::class);
 $font = $bundle->baseUrl . '/fonts/fonts/icomoon.woff';

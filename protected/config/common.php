@@ -4,7 +4,6 @@ use prime\components\JwtSso;
 use prime\models\permissions\Permission;
 use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
-use SamIT\abac\rules\ImpliedPermission;
 use SamIT\abac\values\Authorizable;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
@@ -27,6 +26,7 @@ return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@bower/bootstrap' => '@npm/bootstrap',
         '@prime' => '@app',
         '@views' => '@app/views',
         '@tests' => '@app/../tests',

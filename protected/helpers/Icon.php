@@ -20,6 +20,8 @@ use yii\helpers\Inflector;
  * @method static string signOutAlt(array $options = [])
  * @method static string windowMaximize(array $options = [])
  * @method static string admin(array $options = [])
+ * @method static string chevronRight(array $options = [])
+ * @method static string chevronDown(array $options = [])
  *
  * // NovelT icons
  * @method static string project(array $options = [])
@@ -31,7 +33,6 @@ use yii\helpers\Inflector;
  */
 class Icon
 {
-
     public static function contributors(array $options = []): string
     {
         return self::partner($options);
@@ -47,13 +48,38 @@ class Icon
         );
     }
 
+    private static $icons = null;
+
+    private static $registeredIcons = [];
+
+    /**
+     * @param $name
+     * @return string
+     * @todo Load symbol definitions in head instead of just before use.
+     */
     public static function svgSource($name) {
-        $svg = IconBundle::register(\Yii::$app->view)->baseUrl . '/symbol-defs.svg';
-        return Html::tag('use', '', ['href' => "{$svg}#icon-{$name}"]);
+        if (!isset(self::$icons)) {
+            /** @var \SimpleXMLElement $file */
+            $symbols = simplexml_load_file(\Yii::getAlias('@app/assets/icons/symbol-defs.svg'));
+            foreach($symbols->defs->symbol as $symbol) {
+                self::$icons[(string) $symbol['id']] = $symbol->asXML();
+            }
+        }
+
+        $use = Html::tag('use', '', ['href' => "#icon-{$name}"]);
+        if (!isset(self::$registeredIcons["icon-{$name}"])) {
+            self::$registeredIcons["icon-{$name}"] = true;
+            return self::$icons["icon-{$name}"] . $use;
+        } else {
+            return $use;
+        }
+
     }
 
     public static function __callStatic($name, $arguments)
     {
         return self::icon(Inflector::camel2id($name), $arguments[0] ?? []);
     }
+
+
 }

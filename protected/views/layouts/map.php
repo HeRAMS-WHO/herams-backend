@@ -1,7 +1,6 @@
 <?php
 
 use prime\widgets\map\Map;
-use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
 
 /* @var $this \yii\web\View */
 
@@ -9,7 +8,6 @@ use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
 $this->beginPage();
 
 //$this->registerCssFile('/css/dashboard.css?' . time());
-$this->registerAssetBundle(CdnFreeAssetBundle::class);
 $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
 $this->registerAssetBundle(\prime\assets\NewAppAsset::class);
 ?>

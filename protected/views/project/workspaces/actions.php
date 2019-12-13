@@ -88,7 +88,6 @@ return [
                         'title' => \Yii::t('app', 'Download'),
                     ]
                 );
-                \prime\assets\BootBoxAsset::register($this);
                 $this->registerJs(<<<JS
 var handler = function(e){
     console.log('Clicked');
@@ -104,32 +103,31 @@ var handler = function(e){
         title: "Download data in CSV format",
         message: "Do you prefer answer as text or as code?",
         buttons: [
-            [
-                
-            ]
-        ]    
+            ['<button>Text</button>', (instance, toast) => window.location.href = textUrl],
+            ['<button>Code</button>', (instance, toast) => window.location.href = codeUrl]
+        ]
     });
-    bootbox.dialog({
-        message: "Do you prefer answer as text or as code?",
-        title: "Download data in CSV format",
-        onEscape: function() {
-        },
-        buttons: {
-            text: {
-                label: "Text",
-                callback: function() {
-                    window.location.href = textUrl;
-                }
-            },
-            code: {
-                label: "Code",
-                callback: function() {
-                    window.location.href = codeUrl;
-                }
-            },
-        }
-    
-    });
+    // bootbox.dialog({
+    //     message: "Do you prefer answer as text or as code?",
+    //     title: "Download data in CSV format",
+    //     onEscape: function() {
+    //     },
+    //     buttons: {
+    //         text: {
+    //             label: "Text",
+    //             callback: function() {
+    //                 window.location.href = textUrl;
+    //             }
+    //         },
+    //         code: {
+    //             label: "Code",
+    //             callback: function() {
+    //                 window.location.href = codeUrl;
+    //             }
+    //         },
+    //     }
+    //
+    // });
 };
 $('.download-data').on('click', handler);
 JS

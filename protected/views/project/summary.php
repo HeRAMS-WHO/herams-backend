@@ -5,8 +5,6 @@
 
 use prime\models\permissions\Permission;
 use prime\widgets\chart\ChartBundle;
-use rmrevin\yii\fontawesome\FAR;
-use rmrevin\yii\fontawesome\FAS;
 use yii\helpers\Html;
 
 $this->registerAssetBundle(ChartBundle::class);

@@ -20,12 +20,21 @@ echo Form::widget([
     'attributes' => [
         'currentPassword' => [
             'type' => Form::INPUT_PASSWORD,
+            'options' => [
+                'autocomplete' => 'current-password'
+            ]
         ],
         'newPassword' => [
             'type' => Form::INPUT_PASSWORD,
+            'options' => [
+                'autocomplete' => 'new-password'
+            ]
         ],
         'newPasswordRepeat' => [
             'type' => Form::INPUT_PASSWORD,
+            'options' => [
+                'autocomplete' => 'new-password'
+            ]
         ],
         FormButtonsWidget::embed([
             'buttons' => [

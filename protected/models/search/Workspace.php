@@ -67,7 +67,7 @@ class Workspace extends \prime\models\ar\Workspace
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'id' => 'project-data-provider',
+            'id' => 'workspace-data-provider',
             'pagination' => [
                 'pageSize' => 10
             ]

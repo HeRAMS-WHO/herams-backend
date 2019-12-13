@@ -770,10 +770,8 @@ a > svg {
     position: relative;
     cursor: pointer;
 }
-.menu header:after {
-    font-weight: 900;
-    font-family: "Font Awesome 5 Free";
-    content: "\f054";
+
+.menu header .icon {
     position: absolute;
     top: 0;
     right: 0;
@@ -782,11 +780,12 @@ a > svg {
     margin-top: var(--item-padding-vertical);
 }
 
-.menu header.expanded:after {
-    font-family: "Font Awesome 5 Free";
-    content: "\f078";
+.menu header.expanded .collapsed-only {
+    display: none;
 }
-
+.menu header:not(.expanded) .expanded-only {
+    display: none;
+}
 /*.menu section:not(.expanded) > a:first-child:after {*/
     /*content: '＋';*/
 /*}*/

@@ -19,6 +19,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\User;
 use function iter\toArray;
+use function iter\toArrayWithKeys;
 
 class Download extends Action
 {
@@ -28,7 +29,6 @@ class Download extends Action
         int $id,
         $text = false
     ) {
-        $codeAsText = $text;
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
@@ -51,16 +51,14 @@ class Download extends Action
             }
         }
         $rows = [];
-        $codes = [];
         /** @var HeramsResponseInterface $record */
         foreach($workspace->getResponses()->each() as $record) {
-            $row = [];
-            $rows[] = toArray($this->getRow($survey, $record));
+            echo '<pre>';
+            var_dump($record->getRawData());
+            $rows[] = $row =  toArrayWithKeys($this->getRow($questions, $record));
+            var_dump($row); die();
         }
 
-//        echo '<pre>';
-//        print_r($rows);
-//        die();
         $stream = fopen('php://temp', 'w+');
         // First get all columns.
         $columns = [];
@@ -92,86 +90,70 @@ class Download extends Action
         ]);
     }
 
+    /**
+     * @var QuestionInterface[] $questions
+     */
     private function getRow(
-        SurveyInterface $survey,
+        array $questions,
         HeramsResponseInterface $record
+
     ) {
         $data = $record->getRawData();
 
-        foreach($survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
-                // Extract each question separately.
-                switch ($question->getDimensions()) {
-                    case 0:
-                        if ($question->getAnswers() === null) {
-                            yield $question->getTitle() => $data[$question->getTitle()] ?? null;
+        foreach($questions as $question) {
+            // Extract each question separately.
+            switch ($question->getDimensions()) {
+                case 0:
+                    $answers = $question->getAnswers();
+                    // Open question
+                    if ($answers === null) {
+                        yield $question->getTitle() => $data[$question->getTitle()] ?? null;
+                    } else {
+                    // Single choice
+                        $map = ArrayHelper::map($answers,
+                            function(AnswerInterface $a) { return $a->getCode(); },
+                            function(AnswerInterface $a) { return $a->getText(); }
+                        );
+                        yield $question->getTitle() => $map[$data[$question->getTitle()] ?? null] ?? null;
+                    }
+                    break;
+                case 1:
+                    foreach($question->getQuestions(0) as $subQuestion) {
+                        $answers = $subQuestion->getAnswers();
+                        if ($answers === null) {
+                            // Open question
+                            yield "{$question->getTitle()}[{$subQuestion->getTitle()}]" => $data["{$question->getTitle()}[{$subQuestion->getTitle()}]"] ?? null;
                         } else {
-                            $map = ArrayHelper::map($question->getAnswers(),
+                            // Closed
+                            $value = $data[$question->getTitle()][$subQuestion->getTitle()] ?? null;
+
+                            $map = ArrayHelper::map($subQuestion->getAnswers(),
                                 function(AnswerInterface $a) { return $a->getCode(); },
                                 function(AnswerInterface $a) { return $a->getText(); }
                             );
-                            yield $question->getTitle() => $map[$data[$question->getTitle()] ?? null] ?? null;
-                        }
 
-                        break;
-                    case 1:
-                        foreach($question->getQuestions(0) as $subQuestion) {
-                            if ($subQuestion->getAnswers() === null) {
-                                yield "{$question->getTitle()}[{$subQuestion->getTitle()}]" => $data["{$question->getTitle()}[{$subQuestion->getTitle()}]"] ?? null;
-                            } else {
-                                $map = ArrayHelper::map($subQuestion->getAnswers(),
-                                    function(AnswerInterface $a) { return $a->getCode(); },
-                                    function(AnswerInterface $a) { return $a->getText(); }
-                                );
-                                if (isset($data[$question->getTitle()])) {
-                                    var_dump($question->getTitle());
-
-                                    var_dump($data[$question->getTitle()]);
-                                    var_dump($subQuestion->getTitle());
-                                    var_dump($subQuestion->getText());
-                                    die();
-                                }
-                                yield "{$question->getTitle()}[{$subQuestion->getTitle()}]" => $map[$data[$question->getTitle()] ?? null] ?? null;
-                            }
+                            yield "{$question->getTitle()}[{$subQuestion->getTitle()}]" => $map[$value] ?? $value ?? null;
                         }
-                        break;
-                    case 2:
-                        $rowQuestions = $question->getQuestions(0);
-                        usort($rowQuestions, function(QuestionInterface $a, QuestionInterface $b) {
+                    }
+                    break;
+                case 2:
+                    $rowQuestions = $question->getQuestions(0);
+                    usort($rowQuestions, function(QuestionInterface $a, QuestionInterface $b) {
+                        return $a->getIndex() <=> $b->getIndex();
+                    });
+                    foreach($rowQuestions as $rowQuestion) {
+                        $cells = $rowQuestion->getQuestions(0);
+                        usort($cells, function(QuestionInterface $a, QuestionInterface $b) {
                             return $a->getIndex() <=> $b->getIndex();
                         });
-                        foreach($rowQuestions as $rowQuestion) {
-                            $cells = $rowQuestion->getQuestions(0);
-                            usort($cells, function(QuestionInterface $a, QuestionInterface $b) {
-                                return $a->getIndex() <=> $b->getIndex();
-                            });
-                            foreach($cells as $cell) {
-                                $code = "{$question->getTitle()}[{$rowQuestion->getTitle()}_{$cell->getTitle()}]";
-                                yield $code => $data[$code] ?? null;
-                            }
+                        foreach($cells as $cell) {
+                            $code = "{$question->getTitle()}[{$rowQuestion->getTitle()}_{$cell->getTitle()}]";
+                            yield $code => $data[$code] ?? null;
                         }
-                        break;
-                    default:
-                }
+                    }
+                    break;
+                default:
             }
         }
     }
-
-    private function getAnswer(QuestionInterface $q, $value, $text = false)
-    {
-        if (empty($value)) {
-            return "(not set)";
-        } elseif ($text && (null !== $answers = $q->getAnswers())) {
-            foreach($answers as $answer) {
-                if ($answer->getCode() == $value) {
-                    return $answer->getText();
-                }
-            }
-            return "Invalid answer : `$value`.";
-        } else {
-            return $value;
-        }
-
-    }
-
 }

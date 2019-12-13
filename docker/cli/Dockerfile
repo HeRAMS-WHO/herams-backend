@@ -18,6 +18,7 @@ RUN apk add --no-cache --update \
   php7-session \
   php7-tokenizer \
   php7-xml \
+  php7-simplexml \
   php7-xmlwriter \
   php7-zip \
   --
@@ -39,7 +40,7 @@ ENV COMPOSER_HOME=/composer
 RUN mkdir $COMPOSER_CACHE_DIR && \
     mkdir $COMPOSER_HOME && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('sha384', 'composer-setup.php') === 'a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php -r "if (hash_file('sha384', 'composer-setup.php') === 'baf1608c33254d00611ac1705c1d9958c817a1a33bce370c0595974b342601bd80b92a3f46067da89e3b06bff421f182') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
     php composer-setup.php --filename composer --install-dir /bin && \
     php -r "unlink('composer-setup.php');" && \
     composer global require hirak/prestissimo && \

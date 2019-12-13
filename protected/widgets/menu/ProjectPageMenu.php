@@ -4,6 +4,7 @@
 namespace prime\widgets\menu;
 
 
+use prime\helpers\Icon;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
@@ -112,7 +113,7 @@ JS;
             return $this->renderPageLink($page);
         }
         echo Html::beginTag('section');
-        echo Html::tag('header', Html::a($page->title), $headerOptions);
+        echo Html::tag('header', Html::a($page->title) . Icon::chevronRight(['class' => 'collapsed-only']) . Icon::chevronDown(['class' => 'expanded-only']), $headerOptions);
         echo $sub;
         echo Html::endTag('section');
         return $result;

@@ -1,6 +1,5 @@
 <?php
 
-use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
 use yii\bootstrap\Html;
 use yii\widgets\Breadcrumbs;
 
@@ -20,7 +19,6 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
         'href' => \yii\helpers\Url::to('@web/img/favicon.png'),
         'type' => 'img/x-icon'
     ]);
-    $this->registerAssetBundle(CdnFreeAssetBundle::class);
     ?>
     <title><?=Html::encode($this->title ?: app()->name); ?></title>
 

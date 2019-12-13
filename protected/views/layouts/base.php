@@ -1,13 +1,10 @@
 <?php
 
-use rmrevin\yii\fontawesome\CdnFreeAssetBundle;
-
 /* @var $this \yii\web\View */
 
 /* @var $content string */
 $this->beginPage();
 
-$this->registerAssetBundle(CdnFreeAssetBundle::class);
 $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
 
 ?>

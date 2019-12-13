@@ -34,13 +34,9 @@ $this->params['breadcrumbs'][] = [
 ];
 
 
-
-?>
-<?php Pjax::begin() ?>
-
-<?= GridView::widget([
+echo GridView::widget([
     'dataProvider' 	=> $dataProvider,
-    'filterModel'  	=> $searchModel,
+//    'filterModel'  	=> $searchModel,
     'layout'  		=> "{items}\n{pager}",
     'columns' => [
         'id',
@@ -77,7 +73,5 @@ $this->params['breadcrumbs'][] = [
             ]
         ],
     ],
-]); ?>
-
-<?php Pjax::end() ?>
+]);
 

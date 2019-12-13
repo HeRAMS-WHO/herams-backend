@@ -11,7 +11,9 @@ use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use app\queries\ResponseQuery;
 use yii\validators\RequiredValidator;
+use function iter\apply;
 use function iter\filter;
+use function iter\map;
 use function iter\toArrayWithKeys;
 
 /**
@@ -98,21 +100,32 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         // Transform arrays.
         $transformed = [];
         foreach($data as $key => $value) {
-            if (preg_match('/(.*)\[\d+\]$/', $key, $matches)) {
+            if (preg_match('/(.+)\[\d+]$/', $key, $matches)) {
                 if (isset($transformed[$matches[1]])) {
                     $transformed[$matches[1]][] = $value;
                 } else {
                     $transformed[$matches[1]] = [$value];
                 }
-            } elseif (strpos($key, '[') === false && strpos($key, '_') !== false) {
-                [$base, $sub] = explode('_', $key, 2);
-                $transformed["{$base}[{$sub}]"] = $value;
+            } elseif (preg_match('/(.+)\[(\w+)_(\w+)]$/', $key, $matches)) {
+                // Question with subquestions on 2 axes.
+                $transformed[$matches[1]][$matches[2]][$matches[3]] = $value;
+            } elseif (preg_match('/(.+)\[other]$/', $key, $matches)) {
+                // Other is special; it is always a text question and does.
+                $transformed[$matches[1]. 'other'] = $value;
+            } elseif (preg_match('/(.+)\[([a-zA-Z0-9]+)]$/', $key, $matches)) {
+                $transformed[$matches[1]][$matches[2]] = $value;
             } else {
                 $transformed[$key] = $value;
             }
         }
 
         ksort($transformed);
+        // Recurse 1 level.
+        foreach($transformed as $key => &$value) {
+            if (is_array($value)) {
+                ksort($value);
+            }
+        }
         $this->data = $transformed;
     }
 

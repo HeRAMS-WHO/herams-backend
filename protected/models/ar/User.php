@@ -6,6 +6,8 @@ use app\queries\WorkspaceQuery;
 use prime\assets\IconBundle;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
+use SamIT\abac\AuthManager;
+use SamIT\abac\interfaces\Grant;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
@@ -15,6 +17,8 @@ use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
+use function iter\apply;
+use function iter\chain;
 
 /**
  * Class User
@@ -51,6 +55,21 @@ class User extends ActiveRecord implements IdentityInterface {
             ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
         ];
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        /** @var AuthManager $manager */
+        $manager = \Yii::$app->abacManager;
+        $repository = $manager->getRepository();
+        $subject = $manager->resolveSubject($this);
+        apply(static function(Grant $grant) use ($repository) { $repository->revoke($grant); }, chain(
+            $repository->search($subject, null, null),
+            $repository->search(null, $subject, null)
+        ));
+
+    }
+
 
     public static function getDb()
     {
