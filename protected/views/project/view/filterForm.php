@@ -69,7 +69,6 @@ JS
                         return strtok(strip_tags($answer->getText()), ':(');
                     }
                 );
-//                $renderFilter($question, $group, $filterModel, $items);
 
                 $name = \yii\helpers\Html::getInputName($filterModel, 'advanced');
                 $attribute = "adv_{$question->getTitle()}";
@@ -117,28 +116,6 @@ JS
         }
     }
 
-    $renderFilter = function(
-        QuestionInterface $question,
-        GroupInterface $group,
-        ResponseFilter $filterModel,
-        array $items
-    ) {
-        $title =  strtok( strip_tags($question->getText()), ':(');
-        $name = \yii\helpers\Html::getInputName($filterModel, 'advanced');
-        echo \kartik\select2\Select2::widget([
-            'model' => $filterModel,
-            'name' => "{$name}[{$question->getTitle()}]",
-            'options' => [
-                'multiple' => true,
-                'class' => [
-                    'col-md-2',
-                    'filter',
-                    'filter_where'
-                ]
-            ],
-            'data' => $items
-        ]);
-    };
     $id = Json::encode('#' . Html::getInputId($filterModel, 'date'));
     $this->registerJs("flatpickr($id);");
     echo Html::submitButton(\Yii::t('app', 'Apply'));

@@ -35,6 +35,8 @@ echo $this->render('//user-menu');
 <div class="title">
 <?php
     echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
+        'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() ." </li>\n",
+        'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() ."</li>\n",
         'homeLink' => [
             'label' => \Yii::t('app', 'World overview'),
             'url' => '/'

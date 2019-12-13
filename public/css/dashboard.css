@@ -71,16 +71,6 @@ a {
     min-height: var(--height);
 }
 
-.filter:before {
-    font-smoothing: never;
-    -webkit-font-smoothing : none;
-    margin-right: 0.3em;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    color: #76C62F;
-    background-color: inherit;
-}
-
 .filter > * {
 
     background-color: transparent;
@@ -106,37 +96,16 @@ a {
     padding: 10px;
     margin-bottom: 20px;
 }
+.filter_search .icon {
+    color: #76C62F;
+    background-color: inherit;
+}
 .filter_search > input {
     border-bottom: 1px solid #ccc;
 }
-.filter_search:before {
-    content: "\f002";
-}
-
 .filter .hint{
     font-size: 0.6em;
 }
-.filter_where:before {
-    /* https://fontawesome.com/icons/globe?style=solid */
-    content: '';
-}
-
-.filter_when:before {
-    /* https://fontawesome.com/icons/calendar-alt?style=solid */
-    content: '';
-}
-
-
-.filter_type:before {
-    /* https://fontawesome.com/icons/hospital?style=regular */
-    content: '';
-}
-
-.filter_advanced:before  {
-    /* https://fontawesome.com/icons/filter?style=solid */
-    content: '';
-}
-
 
 .user-menu {
     padding: 10px;
@@ -223,10 +192,13 @@ span.header {
     display: inline-block;
 }
 
-.breadcrumb li:not(:last-child):after {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content:" \f054 ";
+.breadcrumb .icon {
+    margin-left: 3px;
+    margin-right: 3px;
+    height: 1em;
+}
+.breadcrumb li:last-child .icon {
+    display: none;
 }
 
 
@@ -786,13 +758,6 @@ a > svg {
 .menu header:not(.expanded) .expanded-only {
     display: none;
 }
-/*.menu section:not(.expanded) > a:first-child:after {*/
-    /*content: '＋';*/
-/*}*/
-
-/*.menu section.expanded > a:first-child:after {*/
-    /*content: '－';*/
-/*}*/
 
 .menu section > a {
     padding-left: calc(2 * var(--indent) - var(--indicator-width));

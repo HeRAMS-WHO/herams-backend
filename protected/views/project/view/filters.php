@@ -59,6 +59,7 @@ JS
     ?>
     <div class="advanced">
         <div class="filter filter_search">
+            <?= Icon::search(); ?>
             <input id="search-filter">
             <ul class="hint">
                 <li>You may search for multiple terms, only results that contain all terms are shown</li>
