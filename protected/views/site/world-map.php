@@ -45,16 +45,17 @@ foreach($projects as $project) {
 
     ];
 }
-echo Html::beginTag('div', ['class' => 'menu']);
-echo Html::img("/img/HeRAMS.png");
-echo Html::tag('hr');
-echo Html::beginTag('nav');
+\prime\widgets\menu\SideMenu::begin([
+        'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
+]);
+
 foreach($projects as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
             'id' => $project->id
         ]
     ]);
+
 }
 if (app()->user->can(Permission::PERMISSION_ADMIN)) {
     echo Html::a('New project', ['project/create'], [
@@ -63,7 +64,7 @@ if (app()->user->can(Permission::PERMISSION_ADMIN)) {
         ]
     ]);
 }
-echo Html::endTag('nav');
+\prime\widgets\menu\SideMenu::end();
 $this->registerJs(<<<JS
     window.addEventListener('click', function(e) {
         if (e.target.matches('.menu button[data-id]:not(.active)')) {

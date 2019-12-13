@@ -1,3 +1,13 @@
+/**
+ * This CSS file is used by the FormBundle.
+ * The CSS file should contain all formatting related to forms, it is used on the following (types of) pages:
+ * - Login page
+ * - Account settings
+ * - Project / page / element update
+ *
+ */
+
+
 form .has-error input{
     border-color: var(--validation-error-color);
 }

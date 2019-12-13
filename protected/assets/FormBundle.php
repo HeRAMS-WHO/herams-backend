@@ -1,25 +1,20 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\assets;
 
+
 use yii\web\AssetBundle;
 
-class AppAsset extends AssetBundle
+class FormBundle extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
 
     public $css = [
-        'css/main.css',
         'css/form.css'
     ];
 
     public $js = [
-        '/js/main.js'
-    ];
-
-    public $depends = [
-        BootstrapBundle::class,
-        SourceSansProBundle::class
     ];
 }

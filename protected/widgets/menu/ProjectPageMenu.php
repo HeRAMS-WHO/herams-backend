@@ -30,42 +30,19 @@ class ProjectPageMenu extends SideMenu
 
     public $params = [];
 
-    protected function registerClientScript()
+    public function init()
     {
-        $id = Json::encode("#{$this->getId()}");
-
-        $js = <<<JS
-            $($id).on('click', 'header', function() {
-                $(this).toggleClass('expanded');
-            })
-
-
-JS;
-
-        $this->view->registerJs($js);
+        $this->title = $this->project->getDisplayField();
+        parent::init();
     }
-    public function run()
-    {
-        \Yii::beginProfile(__CLASS__);
-        $options = [
-            'id' => $this->getId()
-        ];
 
-        Html::addCssClass($options, 'menu');
-        $this->registerClientScript();
-        echo Html::beginTag('div', $options);
-        echo Html::img("/img/HeRAMS.png");
-        echo Html::tag('h1', $this->project->getDisplayField());
-        echo Html::tag('hr');
-        echo Html::beginTag('nav');
+
+    protected function renderMenu()
+    {
         foreach($this->project->pages as $page) {
             $this->renderPageMenu($page);
         }
-        echo Html::endTag('nav');
-        echo Html::endTag('div');
-        \Yii::endProfile(__CLASS__);
     }
-
     /**
      * @return bool whether the link is active
      */

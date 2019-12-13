@@ -16,6 +16,7 @@ class DashboardBundle extends AssetBundle
 
     public $depends = [
         ToastBundle::class,
-        IconBundle::class
+        IconBundle::class,
+        SourceSansProBundle::class
     ];
 }

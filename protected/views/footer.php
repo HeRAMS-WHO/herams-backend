@@ -53,21 +53,25 @@ echo Html::a(Icon::chevronRight(), '#', ['class' => 'right', 'id' => 'footer-rig
 
 echo Html::endTag('div');
 $this->registerJs(<<<JS
-const footer = document.querySelector('.footer .stats');
-let timer;
-const moveRight = function() {
-    footer.append(footer.firstChild);
-    clearTimeout(timer);
+try {
+    const footer = document.querySelector('.footer .stats');
+    let timer;
+    const moveRight = function() {
+        footer.append(footer.firstChild);
+        clearTimeout(timer);
+        timer = setTimeout(moveRight, 5000);
+    };
     timer = setTimeout(moveRight, 5000);
-};
-timer = setTimeout(moveRight, 5000);
-
-document.getElementById('footer-right').addEventListener('click', moveRight);
-document.getElementById('footer-left').addEventListener('click', function() {
-    footer.prepend(footer.lastChild);
-    clearTimeout(timer);
-    timer = setTimeout(moveRight, 5000);
-});
+    
+    document.getElementById('footer-right').addEventListener('click', moveRight);
+    document.getElementById('footer-left').addEventListener('click', function() {
+        footer.prepend(footer.lastChild);
+        clearTimeout(timer);
+        timer = setTimeout(moveRight, 5000);
+    });
+} catch (error) {
+    console.error("Error in footer JS", error);
+}
 
 JS
 

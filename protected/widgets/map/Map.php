@@ -70,103 +70,103 @@ class Map extends Widget
         $scale = Json::encode($this->colors);
         $this->view->registerJs(<<<JS
         (function() {
-            let map = L.map($id, $config);
-            window.map = map;
-            for (let baseLayer of $baseLayers) {
-                switch (baseLayer.type) {
-                    case 'tileLayer':
-                        L.tileLayer(baseLayer.url, baseLayer.options || {}).addTo(map);
-                        break;
-                }
-            }
-            // /*
-            let bounds = [];
-            let data = $data;
-            let layers = {};
-            let scale = chroma.scale($scale).colors(data.length);
-            for (let set of data) {
-                let color = scale.pop();
-                let layer = L.geoJSON(set.features, {
-                    pointToLayer: function(feature, latlng) {
-                        bounds.push(latlng);
-                        let marker = L.circleMarker(latlng, {
-                            radius: {$this->markerRadius},
-                            color: color,
-                            weight: 2.5,
-                            opacity: 1,
-                            fillOpacity: 0.8
-                        });
-                        
-                        let popup = marker.bindPopup(feature.properties.popup || feature.properties.title, {
-                            maxWidth: "auto",
-                            closeButton: false
-                        });
-                        popup.on('popupopen', function() {
-                            let event = new Event('mapPopupOpen');
-                            event.id = feature.properties.id;
-                            window.dispatchEvent(event);
-                        });
-                        popup.on('popupclose', function() {
-                            let event = new Event('mapPopupClose');
-                            window.dispatchEvent(event);
-                        });
-                        
-                        window.addEventListener('externalPopup', function(e) {
-                            if (e.id == feature.properties.id) {
-                                marker.openPopup(popup);    
-                            }
-                             
-                        });
-                        return marker;
-                    }, 
-                    onEachFeature: function(feature, layer) {
+            try {
+                let map = L.map($id, $config);
+                window.map = map;
+                for (let baseLayer of $baseLayers) {
+                    switch (baseLayer.type) {
+                        case 'tileLayer':
+                            L.tileLayer(baseLayer.url, baseLayer.options || {}).addTo(map);
+                            break;
                     }
-                });
+                }
+                // /*
+                let bounds = [];
+                let data = $data;
+                let layers = {};
+                let scale = chroma.scale($scale).colors(data.length);
+                for (let set of data) {
+                    let color = scale.pop();
+                    let layer = L.geoJSON(set.features, {
+                        pointToLayer: function(feature, latlng) {
+                            bounds.push(latlng);
+                            let marker = L.circleMarker(latlng, {
+                                radius: {$this->markerRadius},
+                                color: color,
+                                weight: 2.5,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            });
+                            
+                            let popup = marker.bindPopup(feature.properties.popup || feature.properties.title, {
+                                maxWidth: "auto",
+                                closeButton: false
+                            });
+                            popup.on('popupopen', function() {
+                                let event = new Event('mapPopupOpen');
+                                event.id = feature.properties.id;
+                                window.dispatchEvent(event);
+                            });
+                            popup.on('popupclose', function() {
+                                let event = new Event('mapPopupClose');
+                                window.dispatchEvent(event);
+                            });
+                            
+                            window.addEventListener('externalPopup', function(e) {
+                                if (e.id == feature.properties.id) {
+                                    marker.openPopup(popup);    
+                                }
+                                 
+                            });
+                            return marker;
+                        }, 
+                        onEachFeature: function(feature, layer) {
+                        }
+                    });
+                    
+                    let tooltip = layer.bindTooltip(function(e) {
+                        return e.feature.properties.title;
+                    });
+                    // let popup = layer.bindPopup(function(e) {
+                    //     console.log(arguments);
+                    //     return e.feature.properties.popup || e.feature.properties.title;
+                    // }, {
+                    //     maxWidth: "auto",
+                    //     closeButton: false
+                    // });
+                    
+                    layer.addTo(map);
+                    
+                    let legend = document.createElement('span');
+                    legend.classList.add('legend');
+                    legend.style.setProperty('--color', color);
+                    legend.title = set.features.length;
+                    //legend.attributeStyleMap.set('--color', color);
+                    legend.textContent = set.title;
+                    
+                    // legend.css
+                    layers[legend.outerHTML] = layer;
+                }
+                if (layers.length > 0) {
+                    L.control.layers([], layers, {
+                        collapsed: false,
+                        position: 'bottomright'
+                    }).addTo(map);
+                }
                 
-                let tooltip = layer.bindTooltip(function(e) {
-                    return e.feature.properties.title;
-                });
-                // let popup = layer.bindPopup(function(e) {
-                //     console.log(arguments);
-                //     return e.feature.properties.popup || e.feature.properties.title;
-                // }, {
-                //     maxWidth: "auto",
-                //     closeButton: false
-                // });
                 
-                layer.addTo(map);
-                
-                let legend = document.createElement('span');
-                legend.classList.add('legend');
-                legend.style.setProperty('--color', color);
-                legend.title = set.features.length;
-                //legend.attributeStyleMap.set('--color', color);
-                legend.textContent = set.title;
-                
-                // legend.css
-                layers[legend.outerHTML] = layer;
-            }
-            if (layers.length > 0) {
-                L.control.layers([], layers, {
-                    collapsed: false,
+                L.control.zoom({
                     position: 'bottomright'
                 }).addTo(map);
-            }
-            
-            
-            L.control.zoom({
-                position: 'bottomright'
-            }).addTo(map);
-            L.control.scale({
-                metric: true,
-                imperial: false
-            }).addTo(map);
-            try {
-            map.fitBounds(bounds, {
-                padding: [50, 50]
-            });
-            } catch(err) {
-                console.error(err);
+                L.control.scale({
+                    metric: true,
+                    imperial: false
+                }).addTo(map);
+                map.fitBounds(bounds, {
+                    padding: [50, 50]
+                });
+            } catch(error) {
+                console.error("Error in map widget JS", error);
             }
         })();
 

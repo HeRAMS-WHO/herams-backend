@@ -18,23 +18,36 @@ use yii\helpers\Json;
 class SideMenu extends Widget
 {
     public $params = [];
+    public $title;
+    public $footer;
 
     protected function registerClientScript()
     {
-        $id = Json::encode("#{$this->getId()}");
+        $id = Json::encode($this->getId());
 
         $js = <<<JS
-            $($id).on('click', 'header', function() {
-                $(this).toggleClass('expanded');
-            })
-
+            document.getElementById($id).addEventListener('click', e =>  {
+                if (e.target.matches('header *')) {
+                    e.target.closest('header').classList.toggle('expanded');
+                }
+            }, {
+                passive: true
+            });
 
 JS;
 
         $this->view->registerJs($js);
+        $this->view->registerAssetBundle(MenuBundle::class);
     }
-    public function run()
+
+    protected function renderMenu()
     {
+        return 'ok';
+    }
+
+    public function init()
+    {
+        parent::init();
         $options = [
             'id' => $this->getId()
         ];
@@ -43,69 +56,21 @@ JS;
         $this->registerClientScript();
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
-        echo Html::tag('h1', $this->project->getDisplayField());
-//
+        echo Html::tag('h1', $this->title);
         echo Html::tag('hr');
         echo Html::beginTag('nav');
-        foreach($this->project->pages as $page) {
-            $this->renderPageMenu($page);
-        }
+    }
+
+
+    public function run()
+    {
+        $this->renderMenu();
         echo Html::endTag('nav');
+        echo $this->footer;
         echo Html::endTag('div');
     }
 
-    /**
-     * @return bool whether the link is active
-     */
-    protected function renderPageLink(PageInterface $page): bool
-    {
-        $options = [];
-        if ($page->getId() === $this->currentPage->getId()
-            && $page->getParentId() === $this->currentPage->getParentId()
-        ) {
-            Html::addCssClass($options, 'active');
-            $result = true;
-        } else {
-            $result = false;
-        }
-        $route = empty($page->children) ? array_merge($this->params, [
-            'project/view',
-            'id' => $this->project->id,
-            'parent_id' => $page->getParentId(),
-            'page_id' => $page->getId()
-        ]) : null;
-        echo Html::a($page->getTitle(), $route, $options);
 
-        return $result;
-    }
-
-    /**
-     * @param Page $page
-     * @return bool whether this menu contains an active child.
-     */
-    protected function renderPageMenu(PageInterface $page): bool
-    {
-        $headerOptions = [];
-        ob_start();
-        $result = false;
-        foreach($page->getChildPages($this->survey) as $child) {
-            if ($this->renderPageMenu($child) && !$result) {
-                $result = true;
-                Html::addCssClass($headerOptions, 'expanded');
-            }
-        }
-
-        $sub = ob_get_clean();
-
-        if (empty($sub)) {
-            return $this->renderPageLink($page);
-        }
-        echo Html::beginTag('section');
-        echo Html::tag('header', Html::a($page->title), $headerOptions);
-        echo $sub;
-        echo Html::endTag('section');
-        return $result;
-    }
 
 
 }
