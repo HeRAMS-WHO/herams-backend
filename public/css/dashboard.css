@@ -55,11 +55,6 @@ a {
   text-decoration: none;
 }
 
-.btn-primary {
-  background-color: #4177c1;
-  background-image: none;
-}
-
 .btn {
   font-size: 16px;
   cursor: pointer;
@@ -68,12 +63,16 @@ a {
   padding: 10px;
   text-align: center;
   width: min-content;
+  height: 40px;
   min-width: 100px;
   border-radius: 5px;
   transition: color 0.3s, background-color 0.3s;
   outline: none;
 }
-
+.btn.btn-primary {
+  background-color: #4177c1;
+  background-image: none;
+}
 .btn.btn-grey {
   background: gray;
   color: #fff;
@@ -94,8 +93,7 @@ a {
   background-color: white;
   color: grey;
 }
-
-.btn-default.btn {
+.btn.btn-default {
   font-weight: 400 !important;
   font-family: "Source Sans Pro", sans-serif !important;
   text-shadow: none;
@@ -454,7 +452,6 @@ span.header {
 .filters .advanced .list .row div {
   float: left;
   width: 100%;
-  padding-left: 15px;
   padding-right: 15px;
 }
 .filters .advanced .list .row .col-sm-3 {
@@ -645,7 +642,6 @@ span.header {
 
 .buttons button {
   color: inherit;
-  height: var(--height);
   border: none;
   background: none;
 }
