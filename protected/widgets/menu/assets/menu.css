@@ -1,204 +1,216 @@
 /**
  * This CSS file is menu widget
  */
-.menu h1 {
-    text-transform: capitalize;
-    font-size: 1em;
-    letter-spacing: 0.6em;
-    /* This centers the text (since we have 0.8em after each char due to letter-spacing*/
-    margin-right: -0.6em;
-    margin-top: 0;
-    text-align: center;
-}
 
-.menu hr {
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
-    grid-area: separator;
-}
-.menu li {
-    list-style: none;
-    padding-left: 2em;
-}
-
-
-.menu ul {
-    margin: 0;
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .menu {
-    overflow: hidden;
-    --animation-duration: 500ms;
-    --indicator-width: 3px;
-    --indent: 20px;
-    --item-padding-vertical: 10px;
-    padding-top: 10px;
-    position: relative;
-    background-color: white;
-    grid-area: sidebar;
-    font-size: 1em;
-    z-index: 10000;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto 1fr auto;
-    grid-template-areas:
-            "image"
-            "title"
-            "separator"
-            "nav"
-            "footer"
+  --indicator-width: 3px;
+  --indent: 20px;
+  --item-padding-vertical: 14px;
+  overflow: hidden;
+  padding-top: 10px;
+  position: relative;
+  background-color: white;
+  grid-area: sidebar;
+  font-size: 1em;
+  z-index: 10000;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-areas: "image" "title" "separator" "nav" "footer";
 }
-
-@keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+.menu h1 {
+  color: #4c4c4c;
+  text-transform: uppercase;
+  font-size: 18px;
+  letter-spacing: 8px;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 400;
 }
-.menu .footer .left, .menu .footer .right {
-    display: inline;
-    font-size: 48px;
-    position: absolute;;
-    padding: 0;
-    top: calc((100% - 48px - var(--status-height)) / 2);
-    line-height: 144px;
-    margin: 0;
-    width: auto;
-    color: #92929b;
-    border: none;
-    cursor: pointer;
-    left: 20px;
-
+.menu img {
+  position: initial;
+  grid-area: image;
+  max-width: 100%;
+  display: block;
+  max-height: 100px;
+  max-width: 170px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-
-.menu .footer .right {
-    right: 20px;
-    left: auto;
-    /*line-height: 144px;*/
+.menu hr {
+  margin: 35px 0;
+  height: 1px;
+  background: #e1e0de;
+  width: 100%;
+  border: none;
 }
-.menu .footer .right svg, .menu .footer .left svg{
-    /*height: 100%;*/
-}
-
-.menu .footer .left:hover, .menu .footer .right:hover {
-    background-color: #92929b;
-    color: var(--header-background-color);
-}
-
-.menu .footer .counter {
-    font-size: 48px;
-}
-
-.menu .footer div.subject {
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
 .menu nav {
-    grid-area: nav;
-    overflow-y: auto;
+  padding: 0 0px 30px 0;
+  grid-area: nav;
+  overflow-y: auto;
+}
+.menu nav a,
+.menu nav button {
+  color: black;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: var(--indicator-width) solid transparent;
+  display: block;
+  text-decoration: none;
+  position: relative;
+  padding-left: 25px;
+  box-sizing: border-box;
+  padding-top: var(--item-padding-vertical);
+  padding-bottom: var(--item-padding-vertical);
+  overflow: hidden;
+  outline: none;
+  transition: max-height 500ms, padding-top 500ms, padding-bottom 500ms,
+    color 250ms;
+}
+.menu nav a.active,
+.menu nav button.active {
+  border-left: var(--indicator-width) solid #3e75c4;
+  color: #3e75c4;
+}
+.menu nav a:hover,
+.menu nav button:hover {
+  color: #3e75c4;
+}
+.menu nav section a {
+  padding-left: calc(10 * (var(--indent) - var(--indicator-width))) !important;
+  background-color: #f3f3f3;
+  font-size: 14px;
+  line-height: 14px;
+}
+.menu nav section header {
+  padding-left: calc(2 * var(--indent) - var(--indicator-width));
+  position: relative;
+  cursor: pointer;
+}
+.menu nav section header a {
+  background-color: white;
+  font-size: 18px;
+  line-height: 18px;
+}
+.menu nav section header:after {
+  color: #bbb;
+  font-weight: 900;
+  font-family: "Font Awesome 5 Free";
+  content: "\f067";
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  font-size: 18px;
+  line-height: 18px;
+  margin-right: 10px;
+  margin-top: var(--item-padding-vertical);
+}
+.menu nav section header:not(.expanded) ~ a {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.menu nav section header.expanded:after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f068";
+}
+.menu .footer {
+  background-color: #42424b;
+  text-align: center;
+  color: white;
+  position: relative;
+  grid-area: footer;
+  padding-top: 20px;
+  font-size: 48px;
+}
+.menu .footer .counter {
+  font-size: 48px;
+}
+.menu .footer .subject {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.footer .stats > div {
+  display: none;
+}
+.menu .footer .stats > div > svg {
+  font-size: 32px;
+  color: #92929b;
+}
+.menu .footer .stats > div:first-child {
+  display: block;
+  animation: fadein 2s;
+}
+.menu .footer .left,
+.menu .footer .right {
+  display: inline;
+  font-size: 48px;
+  position: absolute;
+  padding: 0;
+  top: calc((100% - 48px - var(--status-height) / 2));
+  line-height: 144px;
+  margin: 0;
+  width: auto;
+  color: #92929b;
+  border: none;
+  cursor: pointer;
+  left: 20px;
+}
+.menu .footer .left:hover,
+.menu .footer .right:hover {
+  background-color: #92929b;
+  color: #42424b;
+}
+.menu .footer .right {
+  right: 20px;
+  left: auto;
 }
 
-.menu nav > a, .menu nav > button, .menu nav > section > header > a {
-    font-weight: 600;
+.menu .footer .status {
+  display: block;
+  font-weight: bold;
+  line-height: var(--status-height);
+  height: var(--status-height);
+  grid-area: status;
+  text-align: center;
+  font-size: 14px;
+  background-color: var(--darker-background-color);
+  background-color: black;
+  font-size: 14px;
+  /*color: #92929b;*/
 }
 
-.menu a, .menu button {
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    border-left: var(--indicator-width) solid transparent;
-    display: block;
-    text-decoration: none;
-    position: relative;
-    padding-left: 20px;
-    box-sizing: border-box;
-    padding-top: var(--item-padding-vertical);
-    padding-bottom: var(--item-padding-vertical);
-    overflow: hidden;
-    outline:none;
-    max-height: 3em;
-    transition: max-height var(--animation-duration),
-    padding-top var(--animation-duration),
-    padding-bottom var(--animation-duration);
-}
-
-.menu a, .menu button, .menu a:visited {
-    color: inherit;
-}
-
-.menu a.active, .menu button.active {
-    border-left: var(--indicator-width) solid var(--highlight-background-color);
-    color: var(--highlight-background-color);
-}
-
-.menu header:not(.expanded) ~ a {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.menu header {
-    position: relative;
-    cursor: pointer;
-}
-
-.menu header .icon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 20px;
-    margin-right: 10px;
-    margin-top: var(--item-padding-vertical);
-}
-
-.menu header.expanded .collapsed-only {
-    display: none;
-}
-.menu header:not(.expanded) .expanded-only {
-    display: none;
-}
-
-.menu section > a {
-    padding-left: calc(2 * var(--indent) - var(--indicator-width));
-    background-color: #f3f3f3;
-}
-
-.menu a:hover, .menu button:hover {
-    color: var(--highlight-background-color);
-    /*background-color: var(--highlight-background-color);*/
-    /*color: white;*/
-    /*border-left-color:white;*/
+.footer {
+  display: none;
 }
 
 .menu .footer {
-    background-color: var(--header-background-color);
-    text-align: center;
-    color: var(--header-color);
-    position: relative;
-    grid-area: footer;
-    padding-top: 20px;
-    font-size: 48px;
+  display: block;
 }
 
-.menu .footer .stats div > svg {
-    font-size: 32px;
-    color: #92929b;
-}
-
-.menu .footer .stats > div {
-    display: none;
-}
-.menu .footer .stats > div:first-child {
-    display: block;
-    animation: fadein 2s;
-}
-
-.menu img {
+@media (min-width: 600px) {
+  .menu img {
     position: initial;
     grid-area: image;
+    max-width: 100%;
     display: block;
     max-height: 100px;
     max-width: 170px;
@@ -206,18 +218,11 @@
     margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
+  }
 }
 
-@media (min-width: 600px) {
-    .menu img {
-        position: initial;
-        grid-area: image;
-        display: block;
-        max-height: 100px;
-        max-width: 170px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+@media (min-width: 810px) {
+  .menu {
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+  }
 }

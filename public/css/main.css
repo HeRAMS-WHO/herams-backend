@@ -1,46 +1,97 @@
 :root {
-    --primary-button-background-color: #4177c1;
-    --primary-button-color: white;
-
-
-    --link-color: black;
-    --validation-error-color: #d90001;
-    --border-color: grey;
-    --font-size: 16px;
+  --primary-button-background-color: #4177c1;
+  --primary-button-color: white;
+  --link-color: black;
+  --validation-error-color: #d90001;
+  --border-color: grey;
+  --font-size: 16px;
 }
 
-a, a:hover, a:active, a:visited {
-    text-decoration: none;
-    color: inherit;
+a,
+a:hover,
+a:active,
+a:visited {
+  text-decoration: none;
+  color: inherit;
 }
 
 header {
-    text-align: center;
-    /*font-weight: bold;*/
-    font-size: 2em;
-    margin-bottom: 20px;
+  text-align: center;
+  /*font-weight: bold;*/
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
 body {
-    font-size: var(--font-size);
-    font-family: "Source Sans Pro";
+  font-size: var(--font-size);
+  font-family: "Source Sans Pro";
 }
 
 a {
-    color: var(--link-color);
+  color: var(--link-color);
 }
 
 a:hover {
-    color: var(--primary-button-background-color);
+  color: var(--primary-button-background-color);
 }
 .btn {
-    font-size: var(--font-size);
+  font-size: var(--font-size);
 }
 .btn-primary {
-    background-color: var(--primary-button-background-color);
-    background-image: none;
+  background-color: var(--primary-button-background-color);
+  background-image: none;
 }
 
 .breadcrumb > li + li::before {
-    display: none;
+  display: none;
+}
+
+.leaflet-popup-content-wrapper {
+  overflow: hidden;
+  padding: 0;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+  margin: 0;
+  background-color: #42424b;
+  padding-bottom: 10px;
+}
+.leaflet-popup-content-wrapper iframe {
+  opacity: 1;
+  box-sizing: border-box;
+  max-width: 500px;
+  border-width: 0;
+  width: 400px;
+  min-width: 300px;
+  min-height: 350px;
+  overflow: hidden;
+}
+.leaflet-popup-content-wrapper iframe.fade-in {
+  opacity: 1;
+  transition: all 3s;
+}
+
+#maximize {
+  pointer-events: initial;
+  position: absolute;
+  z-index: 1000;
+  top: 5px;
+  font-size: 50px;
+  color: #333333;
+  right: 20px;
+  opacity: 0;
+}
+
+#maximize.focused {
+  opacity: 1;
+  font-size: 15px;
+  transition: all 1s ease-in-out;
+}
+
+#maximize:hover {
+  font-size: 50px;
+  transition: none;
+}
+
+.leaflet-control-zoom-out {
+  display: block !important;
 }
