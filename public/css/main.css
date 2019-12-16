@@ -95,3 +95,44 @@ a:hover {
 .leaflet-control-zoom-out {
   display: block !important;
 }
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 16px;
+  color: #212529;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto minmax(400px, 1fr);
+  grid-template-areas: "user" "title" "filters" "sidebar" "main";
+}
+
+body.no-title .title {
+  display: none;
+}
+
+body.no-title .user-menu .username .email {
+  color: #42424b;
+}
+
+a,
+a:hover,
+a:active,
+a:visited,
+a:-webkit-any-link {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+a {
+  color: black;
+}
+a:hover {
+  color: #4177c1;
+}
+
+

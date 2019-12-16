@@ -95,13 +95,11 @@
   color: #3e75c4;
 }
 .menu nav section a {
-  padding-left: calc(10 * (var(--indent) - var(--indicator-width))) !important;
   background-color: #f3f3f3;
   font-size: 14px;
   line-height: 14px;
 }
 .menu nav section header {
-  padding-left: calc(2 * var(--indent) - var(--indicator-width));
   position: relative;
   cursor: pointer;
 }
@@ -110,11 +108,8 @@
   font-size: 18px;
   line-height: 18px;
 }
-.menu nav section header:after {
+.menu nav section header .icon {
   color: #bbb;
-  font-weight: 900;
-  font-family: "Font Awesome 5 Free";
-  content: "\f067";
   position: absolute;
   top: 1px;
   right: 10px;
@@ -123,14 +118,26 @@
   margin-right: 10px;
   margin-top: var(--item-padding-vertical);
 }
+.menu nav section header .icon.icon-chevron-right {
+  display: block;
+}
+.menu nav section header .icon.icon-chevron-down {
+  display: none;
+}
+.menu nav section header.expanded .icon.icon-chevron-right {
+  display: none;
+}
+.menu nav section header.expanded .icon.icon-chevron-down {
+  display: block;
+}
 .menu nav section header:not(.expanded) ~ a {
   max-height: 0;
   padding-top: 0;
   padding-bottom: 0;
 }
-.menu nav section header.expanded:after {
-  font-family: "Font Awesome 5 Free";
-  content: "\f068";
+.menu nav section header.expanded .icon {
+  
+  
 }
 .menu .footer {
   background-color: #42424b;
