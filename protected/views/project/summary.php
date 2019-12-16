@@ -21,21 +21,24 @@ $hostInfo = \Yii::$app->request->hostInfo;
 
 ?>
 <style>
-    html {
-        --header-background-color: #212529;
-        --primary-button-background-color: #4177c1;
+     html {
+        --header-background-color: #33333b;
+        --primary-button-background-color: #4a7bc7;
         --primary-button-hover-color: #3f86e6;
-        --color: #eeeeee;
+        --color: white;
 
     }
+
     body {
         margin: 0;
-        background-color: var(--background-color);
+        background-color: transparent;
         color: var(--color);
         font-family: "Source Sans Pro", sans-serif;
+        border-radius: 5px;
     }
 
     .grid {
+        border-radius: 5px;
         display: grid;
         margin-top: 1em;
         margin-left: 10px;
@@ -46,7 +49,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
             "stat stat stat stat stat stat"
             "chart chart chart chart chart chart"
             "button button button button button button"
-    ;
+        ;
 
         grid-row-gap: 1em;
         grid-column-gap: 1em;
@@ -57,12 +60,43 @@ $hostInfo = \Yii::$app->request->hostInfo;
         text-transform: uppercase;
         background-color: var(--header-background-color);
         text-align: center;
+        font-weight: 500;
+        color: var(--color);
+        font-size: 24px;
+        line-height: 24px;
+        padding: 7px 0;
+        border-radius: 5px;
     }
 
     .stat {
         grid-area: stat;
         grid-column: span 3;
         text-align: center;
+        font-weight: 300;
+        text-align: center;
+        border-left: 1px solid #6a696e;
+
+    }
+
+    .stat:first-child {
+        border-left: none !important;
+    }
+
+    .stat div {
+        margin: 0 auto;
+        display: inline-flex;
+        align-items: center;
+
+    }
+
+    .stat div svg {
+        margin: 0 5px 0 0;
+    }
+
+
+    .stat div .number {
+        margin: 0 3px 0 0;
+        font-weight: bold;
     }
 
     .chart {
@@ -74,6 +108,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
 
     .chart canvas {
         height: 100%;
+        color: var(--color);
     }
 
     a {
@@ -83,21 +118,18 @@ $hostInfo = \Yii::$app->request->hostInfo;
         font-weight: 400;
         text-align: center;
         font-size: 1rem;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding: 10px 0;
         border-radius: 0.25rem;
         text-decoration: none;
         color: inherit;
     }
 
-    a:hover, a:visited, a:active {
+    a:hover,
+    a:visited,
+    a:active {
         color: inherit;
         text-decoration: inherit;
     }
-
-
-
-
 
 
 </style>
