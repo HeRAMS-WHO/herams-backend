@@ -111,6 +111,12 @@ body {
   display: flex;
   flex-direction: column;
 }
+.popover .form .btn-group {
+  position: absolute;
+  bottom: 0;
+  left: var(--padding);
+  right: var(--padding);
+}
 .popover .popover-content .form header {
   text-align: center;
   font-size: 24px;
@@ -268,7 +274,6 @@ body {
   margin: auto;
 }
 
-
 @media (min-width: 710px) {
   .popover {
     padding-top: var(--padding);
@@ -337,4 +342,3 @@ body {
     z-index: 400;
   }
 }
-

@@ -11,7 +11,8 @@ class DashboardBundle extends AssetBundle
 
     public $baseUrl = '/css';
     public $css = [
-        'dashboard.css'
+        'dashboard.css',
+        'form.css'
     ];
 
     public $depends = [

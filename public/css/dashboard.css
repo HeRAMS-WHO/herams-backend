@@ -340,7 +340,7 @@ span.header {
   margin-left: 5px;
 }
 
-.filters .btn.icon-edit {
+.filters .btn.icon-edit.btn-grey {
   float: right;
   speak: none;
   font-style: normal;
@@ -354,6 +354,7 @@ span.header {
   z-index: 10000;
   background-color: #707176;
   width: 40px;
+  min-width: unset;
   height: 40px;
   border: none;
   color: #eeeeee;
@@ -593,11 +594,10 @@ span.header {
 }
 
 .content {
-  background-color: var(--main-background-color);
+  background-color: #e0e0e0;
   grid-area: main;
   position: relative;
 }
-
 .content.maximized {
   position: fixed;
   left: 0;
@@ -607,7 +607,6 @@ span.header {
   bottom: 0;
   z-index: 1000000;
 }
-
 .content > .element {
   position: relative;
   border-radius: 3px;

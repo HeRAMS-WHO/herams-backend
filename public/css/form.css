@@ -138,11 +138,3 @@ form .has-error .form-control {
 .nav-tabs li {
   display: inline-block;
 }
-
-/** Popover align form buttons to the button. */
-.popover .form .btn-group {
-  position: absolute;
-  bottom: 0;
-  left: var(--padding);
-  right: var(--padding);
-}
