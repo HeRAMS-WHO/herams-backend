@@ -72,6 +72,7 @@ a {
 .btn.btn-primary {
   background-color: #4177c1;
   background-image: none;
+  padding: 7px 20px;
 }
 .btn.btn-grey {
   background: gray;
@@ -98,11 +99,14 @@ a {
   text-shadow: none;
   background: white !important;
   color: #909092 !important;
+  padding: 7px 20px;
+  border: 1px solid #909092 !important;
 }
-.btn-default.btn:hover {
+.btn.btn-default:hover {
   background: #909092 !important;
   color: #fff !important;
   border: 1px solid #909092 !important;
+  
 }
 
 .btn.btn-blue {
@@ -794,6 +798,55 @@ table td {
   font-size: 0.9em;
   padding-left: 10px;
   padding-right: 20px;
+}
+
+.kv-grid-table {
+  background: white;
+  border-radius: 10px;
+}
+.kv-grid-table .kv-table-caption {
+  margin: 0px 0 40px 0;
+  padding: 0;
+}
+.kv-grid-table .kv-table-caption .btn-primary.btn {
+  width: min-content;
+  border: 1px solid #4177c1;
+  color: white;
+}
+.kv-grid-table .kv-table-caption .btn-primary.btn:hover {
+  background: white;
+  color: #4177c1 !important;
+}
+.kv-grid-table thead tr th {
+  background: #f6f6f6;
+  color: #9d9d9d;
+  font-family: "Source Sans Pro";
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 13px;
+  padding-left: 10px;
+}
+.kv-grid-table thead tr th a.asc,
+.kv-grid-table thead tr th a.desc {
+  color: #4177c1;
+}
+.kv-grid-table thead tr th a.asc::after {
+  content: "";
+}
+.kv-grid-table thead tr th a.desc::after {
+  content: "";
+}
+.kv-grid-table tbody tr td {
+  padding: 12px 5px 12px 10px;
+  font-family: "Source Sans Pro";
+  color: #222222;
+}
+.kv-grid-table tbody tr td a:hover {
+  color: #4177c1;
+  transition: color 0.2s;
+}
+.kv-grid-table tbody tr td.skip-export a {
+  margin-right: 4px;
 }
 
 a > svg {
