@@ -27,7 +27,7 @@ html {
   --darker-color: var(--dark-color);
   --dark-color: white;
   --status-height: 30px;
-}
+}   
 
 /**
  Box sizing reset
@@ -631,12 +631,83 @@ body {
   vertical-align: bottom;
 }
 
-/*.filters > div > * {*/
-/*border: none;*/
-/*!*border-bottom: 1px solid #ccc;*!*/
-/*margin-left: 1em;*/
-/*padding-bottom: 10px;*/
-/*}*/
+/* Tables markup */
+/* Tables markup */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+table th {
+  background-color: #e0e0e0;
+  border-bottom: 2px solid #878787;
+  padding-top: 15px;
+}
+table td {
+  border: 1px solid #dee2e6;
+  font-size: 0.9em;
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.kv-grid-table {
+  background: white;
+  border-radius: 10px;
+}
+.kv-grid-table .kv-table-caption {
+  margin: 0px 0 40px 0;
+  padding: 0;
+}
+.kv-grid-table .kv-table-caption .btn-primary.btn {
+  width: min-content;
+  border: 1px solid #4177c1;
+  color: white;
+}
+.kv-grid-table .kv-table-caption .btn-primary.btn:hover {
+  background: white;
+  color: #4177c1 !important;
+}
+.kv-grid-table thead tr th {
+  background: #f6f6f6;
+  color: #9d9d9d;
+  font-family: "Source Sans Pro";
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding-left: 10px;
+}
+
+.kv-grid-table thead tr th a {
+  width: 100%;
+  position: relative;
+}
+.kv-grid-table thead tr th a.asc,
+.kv-grid-table thead tr th a.desc {
+  color: #4177c1;
+}
+.kv-grid-table thead tr th a.asc::after {
+  content: "\e260";
+  position: absolute;
+  right: 0;
+  font-family: "Glyphicons Halflings";
+}
+.kv-grid-table thead tr th a.desc::after {
+  content: "\e259";
+  position: absolute;
+  right: 0;
+  font-family: "Glyphicons Halflings";
+}
+.kv-grid-table tbody tr td {
+  padding: 12px 5px 12px 10px;
+  font-family: "Source Sans Pro";
+  color: #222222;
+}
+.kv-grid-table tbody tr td a:hover {
+  color: #4177c1;
+  transition: color 0.2s;
+}
+.kv-grid-table tbody tr td.skip-export a {
+  margin-right: 4px;
+}
 
 /**
  2 Column layout, menu above filters.
@@ -827,72 +898,6 @@ body {
   /*.prime_widgets_chart_Chart {*/
   /*grid-row: span 1;*/
   /*}*/
-}
-/* Tables markup */
-/* Tables markup */
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-table th {
-  background-color: #e0e0e0;
-  border-bottom: 2px solid #878787;
-  padding-top: 15px;
-}
-table td {
-  border: 1px solid #dee2e6;
-  font-size: 0.9em;
-  padding-left: 10px;
-  padding-right: 20px;
-}
-
-.kv-grid-table {
-  background: white;
-  border-radius: 10px;
-}
-.kv-grid-table .kv-table-caption {
-  margin: 0px 0 40px 0;
-  padding: 0;
-}
-.kv-grid-table .kv-table-caption .btn-primary.btn {
-  width: min-content;
-  border: 1px solid #4177c1;
-  color: white;
-}
-.kv-grid-table .kv-table-caption .btn-primary.btn:hover {
-  background: white;
-  color: #4177c1 !important;
-}
-.kv-grid-table thead tr th {
-  background: #f6f6f6;
-  color: #9d9d9d;
-  font-family: "Source Sans Pro";
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: 13px;
-  padding-left: 10px;
-}
-.kv-grid-table thead tr th a.asc,
-.kv-grid-table thead tr th a.desc {
-  color: #4177c1;
-}
-.kv-grid-table thead tr th a.asc::after {
-  content: "";
-}
-.kv-grid-table thead tr th a.desc::after {
-  content: "";
-}
-.kv-grid-table tbody tr td {
-  padding: 12px 5px 12px 10px;
-  font-family: "Source Sans Pro";
-  color: #222222;
-}
-.kv-grid-table tbody tr td a:hover {
-  color: #4177c1;
-  transition: color 0.2s;
-}
-.kv-grid-table tbody tr td.skip-export a {
-  margin-right: 4px;
 }
 
 a > svg {
