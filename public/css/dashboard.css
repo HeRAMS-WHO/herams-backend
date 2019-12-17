@@ -106,7 +106,6 @@ a {
   background: #909092 !important;
   color: #fff !important;
   border: 1px solid #909092 !important;
-  
 }
 
 .btn.btn-blue {
@@ -263,13 +262,12 @@ span.header {
   max-width: 100%;
   overflow: hidden;
   display: block;
-  font-size: 42px;
-  line-height: 52px;
+  font-size: 30px;
+  line-height: 33px;
   font-weight: 200;
   white-space: nowrap;
   color: var(--header-color);
   text-overflow: ellipsis;
-  background-color: var(--header-background-color);
   border-bottom: 5px solid var(--highlight-background-color);
 }
 
@@ -295,8 +293,8 @@ span.header {
   color: #878787;
   text-decoration: none;
   transition: color 500ms;
-  font-size: 18px;
-  line-height: 18px;
+  font-size: 15px;
+  line-height: 15px;
 }
 .breadcrumb li a:hover {
   transition: color 500ms;
@@ -320,8 +318,8 @@ span.header {
   background-color: white;
   grid-area: filters;
   margin-bottom: 0;
-  padding: 15px 10px;
-  font-size: 18px;
+  padding: 10px 0px;
+  font-size: 13px;
   --height: 30px;
   display: block;
 }
@@ -334,7 +332,7 @@ span.header {
   display: flex;
   align-items: center;
   float: left;
-  height: 43px;
+  height: 23px;
 }
 
 .filters .filter-items em {
@@ -345,7 +343,7 @@ span.header {
 }
 .filters .filter-items .count {
   vertical-align: middle;
-  padding: 2px 20px;
+  padding: 2px 10px;
   border-left: solid 1px #b7b7b7;
   color: #7c7c7c;
   font-weight: 300;
@@ -421,27 +419,28 @@ span.header {
   width: 100%;
 }
 .filters .advanced .filter_search {
-  display: flex;
-  align-items: center;
+  display: inline-block;
   width: 100%;
   width: -webkit-fill-available;
   min-height: 50px;
   border-radius: 0;
-  padding: 30px 0;
-  margin: 0 30px 30px;
+  padding: 10px 20px;
+  margin: 0;
   text-align: left;
   color: #212529;
   border-bottom: 1px solid #ccc;
 }
 .filters .advanced .filter_search #search-filter {
-  width: 50%;
+  width: 100%;
   float: left;
+  clear: both;
   background-color: #ececec;
   color: #212529;
   border-radius: 30px;
   border: none;
   outline: 0;
   font-family: "Source Sans Pro";
+  font-size: 11px;
 }
 .filters .advanced .filter_search #search-filter:after {
   content: "\f002";
@@ -454,8 +453,10 @@ span.header {
   background-color: inherit;
 }
 .filters .advanced .filter_search .hint {
-  font-size: 12px;
-  width: 50%;
+  font-size: 11px;
+  padding: 10px 15px;
+  width: 100%;
+  clear: both;
   float: left;
   margin: 0;
   color: #212529;
@@ -469,6 +470,7 @@ span.header {
   max-height: 400px;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding: 15px 0;
 }
 .filters .advanced .list .row div {
   float: left;
@@ -679,11 +681,15 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto 1fr;
-    grid-template-areas:
+    /*grid-template-areas:
       "title user"
       "sidebar sidebar"
       "filters filters"
-      "main main";
+      "main main";*/
+    grid-template-areas:
+      "sidebar title title user"
+      "sidebar filters filters filters"
+      "sidebar main main main";
   }
 
   body.no-title {
@@ -752,12 +758,48 @@ body {
     grid-column: span 2;
     grid-row: span 1;
   }
+  .filters {
+    padding: 15px 10px;
+    font-size: 18px;
+  }
+  .filters .filter-items {
+    height: 43px;
+  }
+
+  .filters .filter-items .count {
+    padding: 10px 20px;
+  }
+
+  .filters .advanced .filter_search {
+    padding: 30px 0;
+    margin: 0 0px 0px 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .filters .advanced .filter_search #search-filter {
+    width: 50%;
+    clear: none;
+    font-size: 15px;
+  }
+
+  .filters .advanced .filter_search .hint {
+    width: 50%;
+    clear: none;
+    font-size: 12px;
+    padding: 0 0 0 40px;
+  }
 }
 
 @media (min-width: 900px) {
   .content {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: repeat(auto-fit, minmax(200px, 33%));
+  }
+
+  span.header {
+    font-size: 42px;
+    line-height: 52px;
   }
 
   .prime_widgets_chart_Chart,
@@ -767,6 +809,10 @@ body {
 }
 
 @media (min-width: 1130px) {
+  .breadcrumb li a {
+    font-size: 18px;
+    line-height: 18px;
+  }
   .prime_widgets_chart_Chart,
   .table {
     grid-row: span 1;
