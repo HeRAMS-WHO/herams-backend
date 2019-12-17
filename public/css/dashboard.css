@@ -386,6 +386,14 @@ body {
     /*padding-bottom: 10px;*/
 /*}*/
 
+.workspaces .btn-dashboard {
+    float: right;
+}
+
+.workspaces #w3-pjax {
+    clear: both;
+}
+
 /**
  2 Column layout, menu above filters.
 */

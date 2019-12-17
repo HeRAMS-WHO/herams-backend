@@ -14,7 +14,8 @@ use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
-
+use yii\helpers\Html;
+use prime\helpers\Icon;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -33,10 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 ?>
-<div class="col-xs-12">
-    <?php
-
-
+<div class="col-xs-12 workspaces">
+<a href='<?= Url::to(['project/'.$project->id]);?>' class='btn btn-gray btn-dashboard'><?= Icon::healthFacility(); ?></a>
+<?php
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
@@ -79,13 +79,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id',
             ],
             [
+                'label' => 'Workspace',
                 'attribute' => 'title'
             ],
             [
+                'label' => 'Last update',
                 'attribute' => 'latestUpdate',
             ],
             [
-                'label' => '# Contributors',
+                'label' => '# Users',
                 'attribute' => 'permissionCount'
             ],
             [
