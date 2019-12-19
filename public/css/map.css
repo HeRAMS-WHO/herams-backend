@@ -85,15 +85,16 @@ body {
   transition: color 0.3s;
 }
 .popover .popover-content .intro {
-  padding: 0 var(--padding);
+  padding: 0;
   color: #565656;
   grid-area: intro;
   text-align: justify;
   margin: 0;
   font-weight: 400;
+  width: 100%;
 }
 .popover .popover-content .intro p {
-  padding: 20px 0 0 0;
+  padding: 20px var(--padding) 0; 
   line-height: 2em;
   font-size: 16px;
 }
@@ -104,13 +105,40 @@ body {
 }
 .popover .popover-content .form {
   grid-area: login;
-  padding: var(--padding);
+  padding: 0;
   padding-bottom: 0;
   margin-bottom: var(--padding);
   position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
+
+.popover div.centered {
+  grid-column: span 2;
+  text-align: center;
+  font-size: 40px;
+  color: #bbbbbb;
+}
+
+.popover div.centered span.help {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+.popover div.centered > svg {
+  font-size: 46px;
+  margin-top: 35px;
+}
+.popover div.centered .logo {
+  max-width: 268px;
+}
+.popover div.centered > * {
+  display: block;
+  margin: auto;
+  margin-top: 10px;
+}
+
 .popover .form .btn-group {
   position: absolute;
   bottom: 0;
@@ -123,12 +151,14 @@ body {
   color: #353535;
   font-weight: 600;
   margin: 0 0 20px 0;
+  padding: 0 var(--padding) 0; 
 }
 .popover .popover-content .form > * {
   flex-grow: 0;
 }
 .popover .popover-content .form form {
   flex-grow: 1;
+  padding: 0 var(--padding) 0; 
 }
 .popover .popover-content .form form label {
   display: none;
@@ -195,6 +225,7 @@ body {
   flex-wrap: wrap;
   display: flex;
   justify-content: space-between;
+  padding: 0 var(--padding) 0;
 }
 
 .popover .stats {
@@ -298,7 +329,7 @@ body {
     padding-bottom: 0;
   }
   .popover .popover-content .intro img {
-    max-width: calc(100% - 64px);
+    max-width: calc(100% - 94px);
   }
   .popover .popover-content .form {
     flex-grow: 0;

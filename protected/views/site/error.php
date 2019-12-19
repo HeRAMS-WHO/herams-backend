@@ -28,35 +28,3 @@ switch(get_class( $exception)) {
 echo Html::tag('span', $message, ['class' => 'help']);
 
 echo Html::endTag('div');
-
-$this->registerCss(<<<CSS
-    div.centered {
-        grid-column: span 2;
-        text-align: center;
-        padding-left: 150px;
-        padding-right: 150px;
-        padding-bottom: 40px;
-        font-size: 40px;
-        color: #bbbbbb;
-    }
-    
-    div.centered span.help {
-        margin-top: 30px;
-        font-size: 20px;
-    }
-    
-    div.centered > svg {
-        font-size: 46px;
-        margin-top: 35px;
-    }
-    div.centered .logo {
-        max-width: 268px;
-    }
-    div.centered > * {
-        display: block;
-        margin: auto;
-        margin-top: 10px;
-    }
-
-CSS
-);
