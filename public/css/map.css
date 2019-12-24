@@ -150,7 +150,7 @@ body {
   font-size: 24px;
   color: #353535;
   font-weight: 600;
-  margin: 0 0 20px 0;
+  margin: 40px 0 20px 0;
   padding: 0 var(--padding) 0; 
 }
 .popover .popover-content .form > * {

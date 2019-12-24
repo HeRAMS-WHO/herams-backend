@@ -24,13 +24,15 @@ use yii\helpers\Html;
             'login' =>[
                 'type' => Form::INPUT_TEXT,
                 'options' => [
-                    'autocomplete' => 'username'
+                    'autocomplete' => 'username',
+                    'placeholder' => 'Email'
                 ]
             ],
             'password' => [
                 'type' => Form::INPUT_PASSWORD,
                 'options' => [
-                    'autocomplete' => 'current-password'
+                    'autocomplete' => 'current-password',
+                    'placeholder' => 'Password'
                 ]
             ]
         ]
