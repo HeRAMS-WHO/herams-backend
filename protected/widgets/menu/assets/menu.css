@@ -29,6 +29,7 @@
 }
 
 .menu {
+<<<<<<< HEAD
     overflow: hidden;
     --animation-duration: 500ms;
     --indicator-width: 3px;
@@ -76,6 +77,84 @@
     right: 20px;
     left: auto;
     /*line-height: 144px;*/
+=======
+  --indicator-width: 3px;
+  --indent: 20px;
+  --item-padding-vertical: 14px;
+  overflow: hidden;
+  padding-top: 10px;
+  position: relative;
+  border-radius: 5px;
+  border-top-right-radius: 0px;
+  background-color: white;
+  grid-area: sidebar;
+  font-size: 1em;
+  z-index: 10000;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-areas: "image" "title" "separator" "nav" "footer";
+}
+body.no-title .menu {
+  position: absolute;
+  height: 120px;
+  transition: height 0.2s;
+}
+body.no-title .menu.expanded {
+  position: absolute;
+  height: 100%;
+}
+body.no-title .menu .toggleMenu {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+body.no-title .menu img {
+  max-height: 72px;
+  max-width: 140px;
+  transition: max-width 0.2s, max-height 0.2s;
+}
+body.no-title .menu.expanded img {
+  max-height: 100px;
+  max-width: 170px;
+}
+.menu .toggleMenu {
+  display: none;
+}
+body.no-title .menu.expanded .toggleMenu.icon.icon-chevron-right {
+  display:none;
+}
+body.no-title .menu.expanded .toggleMenu.icon.icon-chevron-down {
+  display:block;
+}
+body.no-title .menu .toggleMenu.icon.icon-chevron-right {
+  display:block;
+}
+body.no-title .menu .toggleMenu.icon.icon-chevron-down {
+  display:none;
+}
+.menu h1 {
+  color: #4c4c4c;
+  text-transform: uppercase;
+  font-size: 18px;
+  letter-spacing: 8px;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 400;
+}
+.menu img {
+  position: initial;
+  grid-area: image;
+  display: block;
+  max-height: 100px;
+  max-width: 170px;
+  width: 100%;
+  margin: 10px auto;
+>>>>>>> 450787b... foldable menu
 }
 .menu .footer .right svg, .menu .footer .left svg{
     /*height: 100%;*/
@@ -96,8 +175,91 @@
 }
 
 .menu nav {
+<<<<<<< HEAD
     grid-area: nav;
     overflow-y: auto;
+=======
+  padding: 0 0px 30px 0;
+  grid-area: nav;
+  overflow-y: auto;
+}
+.menu nav a,
+.menu nav button {
+  color: black;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  cursor: pointer;
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: var(--indicator-width) solid transparent;
+  display: block;
+  text-decoration: none;
+  position: relative;
+  padding-left: 25px;
+  box-sizing: border-box;
+  padding-top: var(--item-padding-vertical);
+  padding-bottom: var(--item-padding-vertical);
+  overflow: hidden;
+  outline: none;
+  transition: max-height 500ms, padding-top 500ms, padding-bottom 500ms,
+    color 250ms;
+}
+.menu nav a.active,
+.menu nav button.active {
+  border-left: var(--indicator-width) solid #3e75c4;
+  color: #3e75c4;
+}
+.menu nav a:hover,
+.menu nav button:hover {
+  color: #3e75c4;
+}
+.menu nav section a {
+  background-color: #f3f3f3;
+  font-size: 14px;
+  line-height: 14px;
+}
+.menu nav section header {
+  position: relative;
+  cursor: pointer;
+}
+.menu nav section header a {
+  background-color: white;
+  font-size: 18px;
+  line-height: 18px;
+}
+.menu nav section header .icon {
+  color: #bbb;
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  font-size: 18px;
+  line-height: 18px;
+  margin-right: 10px;
+  margin-top: var(--item-padding-vertical);
+}
+.menu nav section header .icon.icon-chevron-right {
+  display: block;
+}
+.menu nav section header .icon.icon-chevron-down {
+  display: none;
+}
+.menu nav section header.expanded .icon.icon-chevron-right {
+  display: none;
+}
+.menu nav section header.expanded .icon.icon-chevron-down {
+  display: block;
+}
+.menu nav section header:not(.expanded) ~ a {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.menu nav section header.expanded .icon {
+  
+  
+>>>>>>> 450787b... foldable menu
 }
 
 .menu nav > a, .menu nav > button, .menu nav > section > header > a {
@@ -208,6 +370,7 @@
     margin-right: auto;
 }
 
+<<<<<<< HEAD
 @media (min-width: 600px) {
     .menu img {
         position: initial;
@@ -221,3 +384,11 @@
         margin-right: auto;
     }
 }
+=======
+@media (min-width: 810px) {
+  .menu {
+    width: 285px;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+  }
+}
+>>>>>>> 450787b... foldable menu

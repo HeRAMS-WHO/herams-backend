@@ -6,6 +6,7 @@ namespace prime\widgets\menu;
 
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
+use prime\helpers\Icon;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -26,9 +27,10 @@ class SideMenu extends Widget
         $id = Json::encode($this->getId());
 
         $js = <<<JS
+        
             document.getElementById($id).addEventListener('click', e =>  {
-                if (e.target.matches('header *')) {
-                    e.target.closest('header').classList.toggle('expanded');
+                if (e.target.matches('.toggleMenu')) {
+                    e.target.closest('.menu').classList.toggle('expanded');
                 }
             }, {
                 passive: true
@@ -56,6 +58,8 @@ JS;
         $this->registerClientScript();
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
+        echo Icon::chevronRight(['class'=>'toggleMenu']);
+        echo Icon::chevronDown(['class'=>'toggleMenu']);
         echo Html::tag('h1', $this->title);
         echo Html::tag('hr');
         echo Html::beginTag('nav');

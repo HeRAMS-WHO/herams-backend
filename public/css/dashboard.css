@@ -390,6 +390,64 @@ body {
  2 Column layout, menu above filters.
 */
 @media (min-width: 600px) {
+<<<<<<< HEAD
+=======
+  .title {
+    padding-left: var(--gutter-size);
+  }
+
+  .header {
+    position: absolute;
+    bottom: 0;
+  }
+  .filters {
+    margin-left: var(--gutter-size);
+    margin-right: var(--gutter-size);
+    border-radius: 5px;
+    border-top-left-radius: 0;
+  }
+
+  .filters > div {
+    display: inline-block;
+  }
+
+  .filter {
+    width: auto;
+    display: inline-block;
+  }
+
+  .breadcrumb {
+    margin-bottom: 33px;
+  }
+
+  body {
+    background: linear-gradient(
+      to bottom,
+      var(--header-background-color) 0%,
+      var(--header-background-color) 230px,
+      var(--main-background-color) 230px,
+      var(--main-background-color) 100%
+    );
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    /*grid-template-areas:
+      "title user"
+      "sidebar sidebar"
+      "filters filters"
+      "main main";*/
+    grid-template-areas:
+      "sidebar title title user"
+      "sidebar filters filters filters"
+      "sidebar main main main";
+  }
+
+  body.no-title {
+    grid-template-rows: 100vh;
+    /*grid-template-areas: "sidebar main main main";*/
+    grid-template-areas: "main main main main";
+  }
+>>>>>>> 450787b... foldable menu
 
     .title {
         padding-left: var(--gutter-size);
