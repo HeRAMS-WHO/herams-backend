@@ -765,7 +765,8 @@ table td {
 
   body.no-title {
     grid-template-rows: 100vh;
-    grid-template-areas: "sidebar main main main";
+    /*grid-template-areas: "sidebar main main main";*/
+    grid-template-areas: "main main main main";
   }
 
   body.no-title .user-menu {
