@@ -22,6 +22,10 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'showScriptName' => false,
             'rules' => [
                 [
+                    'pattern' => '<controller>',
+                    'route' => '<controller>'
+                ],
+                [
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view'
                 ],

@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = [
             'actions' => [
                 'class' => ActionColumn::class,
                 'width' => '120px',
-                'template' => '{view} {workspaces} {update} {check} {share} {remove}',
+                'template' => '{view} {workspaces} {update} {check} {share} {remove} {export}',
                 'buttons' => [
                     'workspaces' => function($url, Project $model, $key) {
                         $result = Html::a(
@@ -138,6 +138,17 @@ $this->params['breadcrumbs'][] = [
                             );
                         }
                     },
+                    'export' => function($url, Project $model, $key) {
+                        if (\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $model)) {
+                            return Html::a(
+                                Icon::download(),
+                                $url,
+                                [
+                                    'title' => \Yii::t('app', 'Download'),
+                                ]
+                            );
+                        }
+                    }
                 ]
             ]
         ]

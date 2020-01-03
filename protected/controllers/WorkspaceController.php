@@ -5,6 +5,7 @@ namespace prime\controllers;
 
 
 use prime\actions\DeleteAction;
+use prime\actions\ExportCsvAction;
 use prime\components\Controller;
 use prime\controllers\workspace\Configure;
 use prime\controllers\workspace\Create;
@@ -19,6 +20,7 @@ use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\Request;
 use yii\web\User;
 
 class WorkspaceController extends Controller
@@ -29,12 +31,26 @@ class WorkspaceController extends Controller
     {
         return [
             'configure' => Configure::class,
+            'export' => [
+                'class' => ExportCsvAction::class,
+                'responseIterator' => function(Request $request) {
+                    $workspace = Workspace::findOne(['id' => $request->getQueryParam('id')]);
+                    return $workspace->getResponses()->each();
+                },
+                'surveyFinder' => function(Request $request) {
+                    $workspace = Workspace::findOne(['id' => $request->getQueryParam('id')]);
+                    return $workspace->project->getSurvey();
+                },
+                'checkAccess' => function(Request $request, User $user) {
+                    $workspace = Workspace::findOne(['id' => $request->getQueryParam('id')]);
+                    return $user->can(Permission::PERMISSION_EXPORT, $workspace);
+                }
+            ],
             'limesurvey' => Limesurvey::class,
             'update' => Update::class,
             'create' => Create::class,
             'share' => Share::class,
             'import' => Import::class,
-            'download' => Download::class,
             'refresh' => Refresh::class,
             'delete' => [
                 'class' => DeleteAction::class,

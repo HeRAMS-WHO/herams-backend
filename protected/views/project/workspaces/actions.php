@@ -11,7 +11,7 @@ return [
     'class' => ActionColumn::class,
     'width' => '150px',
     'controller' => 'workspace',
-    'template' => '{refresh} {update} {share} {delete} {download} {limesurvey}',
+    'template' => '{refresh} {update} {share} {delete} {export} {limesurvey}',
     'buttons' => [
         'refresh' => function($url, Workspace $model, $key) {
             $result = '';
@@ -74,65 +74,15 @@ return [
                 );
             }
         },
-        'download' => function($url, Workspace $model, $key) {
-            if (\Yii::$app->user->can(Permission::PERMISSION_READ, $model)) {
-                $result = Html::a(
+        'export' => function($url, Workspace $model, $key) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $model)) {
+                return Html::a(
                     Icon::download(),
-                    "#",
+                    $url,
                     [
-                        'data' => [
-                            'code' => Url::to(['/workspace/download', 'id' => $model->id]),
-                            'text' => Url::to(['/workspace/download', 'id' => $model->id, 'text' => true])
-                        ],
-                        'class' => 'download-data',
                         'title' => \Yii::t('app', 'Download'),
                     ]
                 );
-                $this->registerJs(<<<JS
-var handler = function(e){
-    console.log('Clicked');
-    e.preventDefault();
-    e.stopPropagation();
-    let textUrl = $(this).data('text');
-    let codeUrl = $(this).data('code');
-    iziToast.question({
-        close: true,
-        displayMode: 'once',
-        overlay: true,
-        position: 'center',
-        title: "Download data in CSV format",
-        message: "Do you prefer answer as text or as code?",
-        buttons: [
-            ['<button>Text</button>', (instance, toast) => window.location.href = textUrl],
-            ['<button>Code</button>', (instance, toast) => window.location.href = codeUrl]
-        ]
-    });
-    // bootbox.dialog({
-    //     message: "Do you prefer answer as text or as code?",
-    //     title: "Download data in CSV format",
-    //     onEscape: function() {
-    //     },
-    //     buttons: {
-    //         text: {
-    //             label: "Text",
-    //             callback: function() {
-    //                 window.location.href = textUrl;
-    //             }
-    //         },
-    //         code: {
-    //             label: "Code",
-    //             callback: function() {
-    //                 window.location.href = codeUrl;
-    //             }
-    //         },
-    //     }
-    //
-    // });
-};
-$('.download-data').on('click', handler);
-JS
-                );
-                return $result;
             }
         }
     ]

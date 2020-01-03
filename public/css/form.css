@@ -125,3 +125,7 @@ form .has-error input{
     left: var(--padding);
     right: var(--padding);
 }
+
+.bootstrap-switch {
+    height: 34px;
+}

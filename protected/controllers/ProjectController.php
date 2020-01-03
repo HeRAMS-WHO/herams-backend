@@ -3,6 +3,7 @@
 namespace prime\controllers;
 
 use prime\actions\DeleteAction;
+use prime\actions\ExportCsvAction;
 use prime\components\Controller;
 use prime\controllers\project\Check;
 use prime\controllers\project\Create;
@@ -18,10 +19,13 @@ use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\Request;
+use yii\web\User;
 
 class ProjectController extends Controller
 {
@@ -44,7 +48,24 @@ class ProjectController extends Controller
             'view' => View::class,
             'summary' => Summary::class,
             'share' => Share::class,
-            'workspaces' => Workspaces::class
+            'workspaces' => Workspaces::class,
+            'export' => [
+                'class' => ExportCsvAction::class,
+                'responseIterator' => function(Request $request) {
+                    $project = Project::findOne(['id' => $request->getQueryParam('id')]);
+                    foreach($project->getWorkspaces()->each() as $workspace) {
+                        yield from $workspace->getResponses()->each();
+                    }
+                },
+                'surveyFinder' => function(Request $request) {
+                    $project = Project::findOne(['id' => $request->getQueryParam('id')]);
+                    return $project->getSurvey();
+                },
+                'checkAccess' => function(Request $request, User $user) {
+                    $project = Project::findOne(['id' => $request->getQueryParam('id')]);
+                    return $user->can(Permission::PERMISSION_EXPORT, $project);
+                }
+            ],
         ];
     }
 

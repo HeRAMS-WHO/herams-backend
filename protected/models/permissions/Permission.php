@@ -41,6 +41,7 @@ class Permission extends ActiveRecord
     const PERMISSION_SHARE = 'share';
     const PERMISSION_UNSHARE = 'unshare';
     const PERMISSION_DELETE = 'delete';
+    const PERMISSION_EXPORT = 'export';
 
 
 
