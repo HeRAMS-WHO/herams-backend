@@ -10,7 +10,6 @@ use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
-use yii\rbac\CheckAccessInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -37,9 +36,11 @@ class Share extends Action
         }
         $model = new ShareForm(
             $project, $abacManager, $user->identity, [
-            'permissions' => [
-                Permission::PERMISSION_READ => 'Allow access to the project dashboard from the world map',
-                Permission::PERMISSION_WRITE => 'Allows full access to all workspaces in this project as well as creating new ones or deleting existing ones',
+            'permissionOptions' => [
+                Permission::PERMISSION_READ,
+                Permission::PERMISSION_WRITE => \Yii::t('app', 'Allows full access to all workspaces in this project as well as creating new ones or deleting existing ones'),
+                Permission::PERMISSION_SHARE,
+                Permission::PERMISSION_EXPORT,
                 Permission::PERMISSION_ADMIN,
             ]
         ]);

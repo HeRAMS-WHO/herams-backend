@@ -72,7 +72,7 @@
         "codeception/module-rest": "^1",
         "codeception/module-yii2": "^1",
         "ifsnop/mysqldump-php": "^2",
-        "phpunit/phpunit": "^8",
+        "phpunit/phpunit": "> 8",
         "yiisoft/yii2-debug": "2.0.x-dev"
     },
     "repositories": [

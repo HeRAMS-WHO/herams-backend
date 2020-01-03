@@ -9,12 +9,15 @@ use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\models\forms\ResponseFilter;
+use prime\models\permissions\Permission;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\ServerErrorHttpException;
+use yii\web\User;
 
 class View extends Action
 {
@@ -22,6 +25,7 @@ class View extends Action
 
     public function run(
         Request $request,
+        User $user,
         int $id,
         int $page_id = null,
         int $parent_id = null,
@@ -31,6 +35,9 @@ class View extends Action
         $project = Project::findOne(['id'  => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
+        }
+        if (!$user->can(Permission::PERMISSION_READ, $project)) {
+            throw new ForbiddenHttpException();
         }
         try {
             $survey = $project->getSurvey();

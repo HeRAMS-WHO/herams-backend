@@ -33,6 +33,7 @@ class Permission extends ActiveRecord
 
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
+    const PERMISSION_CREATE = 'create';
     const PERMISSION_ADMIN = 'admin';
     const PERMISSION_CREATE_PAGE = 'create-page';
     const PERMISSION_CREATE_WORKSPACE = 'create-workspace';
@@ -86,6 +87,8 @@ class Permission extends ActiveRecord
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
             self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to children or data'),
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share, allows this users to give other users limited access'),
+            self::PERMISSION_EXPORT => \Yii::t('app', 'Export, allows exporting data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
         ];
     }

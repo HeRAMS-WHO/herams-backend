@@ -8,6 +8,7 @@ use prime\components\Controller;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
+use SamIT\abac\values\Grant;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\ForbiddenHttpException;
@@ -18,6 +19,7 @@ class PermissionController extends Controller
 {
     public function actionDelete(
         User $user,
+        AuthManager $abacManager,
         int $id,
         string $redirect
     ) {
@@ -31,11 +33,16 @@ class PermissionController extends Controller
         if (!isset($target)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_UNSHARE, $target)) {
+        $grant = new Grant(
+            $abacManager->resolveSubject($permission->sourceObject),
+            $abacManager->resolveSubject($permission->targetObject),
+            $permission->permission);
+
+        if (!$user->can(Permission::PERMISSION_DELETE, $grant)) {
             throw new ForbiddenHttpException();
         }
 
-        $permission->delete();
+        $abacManager->revoke($permission->sourceObject, $permission->targetObject, $permission->permission);
         return $this->redirect($redirect);
     }
 

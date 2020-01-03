@@ -61,8 +61,8 @@ $this->params['breadcrumbs'][] = [
             ],
             'actions' => [
                 'class' => ActionColumn::class,
-                'width' => 7 * 25 . 'px',
-                'template' => '{view} {workspaces} {update} {check} {share} {remove} {export}',
+                'width' => 6 * 25 . 'px',
+                'template' => '{view} {workspaces} {update} {share} {remove} {export}',
                 'buttons' => [
                     'workspaces' => function($url, Project $model, $key) {
                         $result = Html::a(
@@ -99,23 +99,11 @@ $this->params['breadcrumbs'][] = [
                         }
 
                     },
-                    'check' => function($url, Project $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
-                            return Html::a(
-                                Icon::checkSquare(),
-                                ['project/check', 'id' => $model->id], [
-                                    'title' => \Yii::t('app', 'Check data')
-                                ]
-                            );
-
-                        }
-
-                    },
                     'share' => function($url, Project $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
+                        if(app()->user->can(Permission::PERMISSION_SHARE, $model)) {
                             $result = Html::a(
                                 Icon::share(),
-                                ['project/share', 'id' => $model->id], [
+                                $url, [
                                     'title' => \Yii::t('app', 'Share')
                                 ]
                             );

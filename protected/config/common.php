@@ -71,7 +71,10 @@ return [
                 ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
             ]);
             $cachedRepo = new \SamIT\abac\repositories\CachedReadRepository($repo);
-            $resolver = new ActiveRecordResolver();
+            $resolver = new \SamIT\abac\resolvers\ChainedResolver(
+                new ActiveRecordResolver(),
+                new \prime\components\GrantResolver()
+            );
             $environment = new class extends ArrayObject implements Environment {};
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
             return new \SamIT\abac\AuthManager($engine, $cachedRepo, $resolver, $environment);

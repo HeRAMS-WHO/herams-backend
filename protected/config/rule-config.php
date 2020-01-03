@@ -9,6 +9,7 @@ return [
     new \prime\rules\WorkspaceRule(),
     new \prime\rules\AdminImpliesRule(),
     new \prime\rules\WorkspaceDataRule(),
+    new \prime\rules\GrantRule(),
     new ImpliedPermission(Permission::PERMISSION_ADMIN, [
         Permission::PERMISSION_SHARE,
         Permission::PERMISSION_WRITE
