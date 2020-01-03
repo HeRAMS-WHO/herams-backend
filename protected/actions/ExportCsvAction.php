@@ -9,12 +9,15 @@ use prime\models\forms\CsvExport;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\Response;
 use yii\web\User;
 
 class ExportCsvAction extends Action
 {
+    /** @var \Closure */
+    public $subject;
     /**
      * @var \Closure
      */
@@ -48,14 +51,17 @@ class ExportCsvAction extends Action
         Response $response,
         User $user
     ) {
-        if (!($this->checkAccess)($request, $user)) {
+        $subject = ($this->subject)($request);
+        if (!isset($subject)) {
+            throw new NotFoundHttpException();
+        } elseif (!($this->checkAccess)($subject, $user)) {
             throw new ForbiddenHttpException();
         }
-        $survey = ($this->surveyFinder)($request);
+        $survey = ($this->surveyFinder)($subject);
 
         $model = new CsvExport($survey);
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
-            $stream = StreamWrapper::getResource($model->run(($this->responseIterator)($request)));
+            $stream = StreamWrapper::getResource($model->run(($this->responseIterator)($subject)));
             return $response->sendStreamAsFile($stream, date('Ymd his') . '.csv', [
                 'mimeType' => 'text/csv'
             ]);

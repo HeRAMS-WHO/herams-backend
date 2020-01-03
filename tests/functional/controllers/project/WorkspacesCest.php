@@ -184,8 +184,7 @@ class WorkspacesCest
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
         $I->seeElement('a', [
-            'data-code' => Url::to(['workspace/download', 'id' => $workspace->id]),
-            'data-text' => Url::to(['workspace/download', 'id' => $workspace->id, 'text' => true]),
+            'href' => Url::to(['workspace/export', 'id' => $workspace->id]),
         ]);
 
 

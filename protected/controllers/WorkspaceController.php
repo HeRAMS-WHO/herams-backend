@@ -33,16 +33,16 @@ class WorkspaceController extends Controller
             'configure' => Configure::class,
             'export' => [
                 'class' => ExportCsvAction::class,
-                'responseIterator' => function(Request $request) {
-                    $workspace = Workspace::findOne(['id' => $request->getQueryParam('id')]);
+                'subject' => function(Request $request) {
+                      return Workspace::findOne(['id' => $request->getQueryParam('id')]);
+                },
+                'responseIterator' => function(Workspace $workspace) {
                     return $workspace->getResponses()->each();
                 },
-                'surveyFinder' => function(Request $request) {
-                    $workspace = Workspace::findOne(['id' => $request->getQueryParam('id')]);
+                'surveyFinder' => function(Workspace $workspace) {
                     return $workspace->project->getSurvey();
                 },
-                'checkAccess' => function(Request $request, User $user) {
-                    $workspace = Workspace::findOne(['id' => $request->getQueryParam('id')]);
+                'checkAccess' => function(Workspace $workspace, User $user) {
                     return $user->can(Permission::PERMISSION_EXPORT, $workspace);
                 }
             ],

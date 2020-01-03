@@ -55,8 +55,10 @@ class LimesurveyStub extends Client
     public function getSurvey($id, $language = null)
     {
         return new \SamIT\LimeSurvey\JsonRpc\Concrete\Survey($this, [
-            'id' => $id
-        ], []);
+            'id' => $id,
+            'languages' => []
+        ], [
+        ]);
     }
 
     public function listSurveys($user = null)
