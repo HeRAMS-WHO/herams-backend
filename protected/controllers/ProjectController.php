@@ -51,18 +51,18 @@ class ProjectController extends Controller
             'workspaces' => Workspaces::class,
             'export' => [
                 'class' => ExportCsvAction::class,
-                'responseIterator' => function(Request $request) {
-                    $project = Project::findOne(['id' => $request->getQueryParam('id')]);
+                'subject' => static function(Request $request) {
+                    return Project::findOne(['id' => $request->getQueryParam('id')]);
+                },
+                'responseIterator' => static function(Project $project) {
                     foreach($project->getWorkspaces()->each() as $workspace) {
                         yield from $workspace->getResponses()->each();
                     }
                 },
-                'surveyFinder' => function(Request $request) {
-                    $project = Project::findOne(['id' => $request->getQueryParam('id')]);
+                'surveyFinder' => function(Project $project) {
                     return $project->getSurvey();
                 },
-                'checkAccess' => function(Request $request, User $user) {
-                    $project = Project::findOne(['id' => $request->getQueryParam('id')]);
+                'checkAccess' => function(Project $project, User $user) {
                     return $user->can(Permission::PERMISSION_EXPORT, $project);
                 }
             ],

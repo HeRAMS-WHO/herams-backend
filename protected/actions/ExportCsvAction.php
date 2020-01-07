@@ -35,6 +35,9 @@ class ExportCsvAction extends Action
     public function init()
     {
         parent::init();
+        if (!$this->subject instanceof \Closure) {
+            throw new InvalidConfigException('Subject must be a closure');
+        }
         if (!$this->responseIterator instanceof \Closure) {
             throw new InvalidConfigException('Response iterator must be a closure');
         }
