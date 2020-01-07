@@ -34,7 +34,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'route' => '<controller>/<action>'
                 ],
                 [
-                    'pattern' => '<controller>/<action:\w+>',
+                    'pattern' => '<controller>/<action:[\w-]+>',
                     'route' => '<controller>/<action>'
                 ],
                 // For testing.
