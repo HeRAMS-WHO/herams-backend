@@ -390,8 +390,6 @@ body {
  2 Column layout, menu above filters.
 */
 @media (min-width: 600px) {
-<<<<<<< HEAD
-=======
   .title {
     padding-left: var(--gutter-size);
   }
@@ -447,7 +445,6 @@ body {
     /*grid-template-areas: "sidebar main main main";*/
     grid-template-areas: "main main main main";
   }
->>>>>>> 450787b... foldable menu
 
     .title {
         padding-left: var(--gutter-size);
@@ -496,12 +493,6 @@ body {
                 "main main";
     }
 
-    body.no-title {
-        grid-template-rows: 100vh;
-        grid-template-areas:
-                "sidebar main main main"
-    ;
-    }
 
     body.no-title .user-menu {
         position: fixed;
