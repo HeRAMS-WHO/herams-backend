@@ -106,6 +106,22 @@ body.no-title .menu .toggleMenu.icon.icon-chevron-down {
   width: 100%;
   margin: 10px auto;
 }
+
+.menu .footer .left, .menu .footer .right {
+  display: inline;
+  font-size: 48px;
+  position: absolute;
+  padding: 0;
+  top: calc((100% - 48px - var(--status-height) / 2));
+  line-height: 144px;
+  margin: 0;
+  width: auto;
+  color: #92929b;
+  border: none;
+  cursor: pointer;
+  left: 20px;
+}
+
 .menu .footer .right svg, .menu .footer .left svg{
     /*height: 100%;*/
 }
