@@ -41,6 +41,18 @@ JS;
 
         $this->view->registerJs($js);
         }
+
+        $js = <<<JS
+            document.getElementById($id).addEventListener('click', e =>  {
+                if (e.target.matches('header *')) {
+                    e.target.closest('header').classList.toggle('expanded');
+                }
+            }, {
+                passive: true
+            });
+
+        JS;
+        $this->view->registerJs($js);
         $this->view->registerAssetBundle(MenuBundle::class);
     }
 
