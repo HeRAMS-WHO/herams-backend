@@ -47,47 +47,6 @@
   grid-template-rows: auto auto auto 1fr auto;
   grid-template-areas: "image" "title" "separator" "nav" "footer";
 }
-body.no-title .menu {
-  position: absolute;
-  height: 120px;
-  transition: height 0.2s;
-}
-body.no-title .menu.expanded {
-  position: absolute;
-  height: 100%;
-}
-body.no-title .menu .toggleMenu {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-body.no-title .menu img {
-  max-height: 72px;
-  max-width: 140px;
-  transition: max-width 0.2s, max-height 0.2s;
-}
-body.no-title .menu.expanded img {
-  max-height: 100px;
-  max-width: 170px;
-}
-.menu .toggleMenu {
-  display: none;
-}
-body.no-title .menu.expanded .toggleMenu.icon.icon-chevron-right {
-  display:none;
-}
-body.no-title .menu.expanded .toggleMenu.icon.icon-chevron-down {
-  display:block;
-}
-body.no-title .menu .toggleMenu.icon.icon-chevron-right {
-  display:block;
-}
-body.no-title .menu .toggleMenu.icon.icon-chevron-down {
-  display:none;
-}
 .menu h1 {
   color: #4c4c4c;
   text-transform: uppercase;
@@ -112,7 +71,7 @@ body.no-title .menu .toggleMenu.icon.icon-chevron-down {
   font-size: 48px;
   position: absolute;
   padding: 0;
-  top: calc((100% - 48px - var(--status-height) / 2));
+  top: 60px;
   line-height: 144px;
   margin: 0;
   width: auto;
@@ -121,7 +80,10 @@ body.no-title .menu .toggleMenu.icon.icon-chevron-down {
   cursor: pointer;
   left: 20px;
 }
-
+.menu .footer .right {
+  right: 20px;
+  left: auto;
+}
 .menu .footer .right svg, .menu .footer .left svg{
     /*height: 100%;*/
 }
@@ -332,6 +294,49 @@ body.no-title .menu .toggleMenu.icon.icon-chevron-down {
     margin-right: auto;
 }
 
+@media (min-width: 600px) {
+  .menu.foldable {
+    position: absolute;
+    height: 120px;
+    transition: height 0.2s;
+  }
+  .menu.foldable.expanded {
+    position: absolute;
+    height: 100%;
+  }
+  .menu.foldable .toggleMenu {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+  .menu.foldable img {
+    max-height: 72px;
+    max-width: 140px;
+    transition: max-width 0.2s, max-height 0.2s;
+  }
+  .menu.foldable.expanded img {
+    max-height: 100px;
+    max-width: 170px;
+  }
+  .menu.foldable .toggleMenu {
+    display: none;
+  }
+  .menu.foldable.expanded .toggleMenu.icon.icon-chevron-right {
+    display:none;
+  }
+  .menu.foldable.expanded .toggleMenu.icon.icon-chevron-down {
+    display:block;
+  }
+  .menu.foldable .toggleMenu.icon.icon-chevron-right {
+    display:block;
+  }
+  .menu.foldable .toggleMenu.icon.icon-chevron-down {
+    display:none;
+  }
+}
 @media (min-width: 810px) {
   .menu {
     width: 285px;

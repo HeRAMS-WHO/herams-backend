@@ -21,11 +21,12 @@ class SideMenu extends Widget
     public $params = [];
     public $title;
     public $footer;
+    public $foldable = false;
 
     protected function registerClientScript()
     {
         $id = Json::encode($this->getId());
-
+        if($this->foldable == true) {
         $js = <<<JS
         
             document.getElementById($id).addEventListener('click', e =>  {
@@ -39,6 +40,7 @@ class SideMenu extends Widget
 JS;
 
         $this->view->registerJs($js);
+        }
         $this->view->registerAssetBundle(MenuBundle::class);
     }
 
@@ -55,11 +57,14 @@ JS;
         ];
 
         Html::addCssClass($options, 'menu');
+        if($this->foldable) Html::addCssClass($options, 'foldable');
         $this->registerClientScript();
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
-        echo Icon::chevronRight(['class'=>'toggleMenu']);
-        echo Icon::chevronDown(['class'=>'toggleMenu']);
+        if($this->foldable == true) {
+            echo Icon::chevronRight(['class'=>'toggleMenu']);
+            echo Icon::chevronDown(['class'=>'toggleMenu']);
+        }
         echo Html::tag('h1', $this->title);
         echo Html::tag('hr');
         echo Html::beginTag('nav');

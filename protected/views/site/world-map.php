@@ -46,7 +46,7 @@ foreach($projects as $project) {
     ];
 }
 \prime\widgets\menu\SideMenu::begin([
-        'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
+        'foldable' => true, 'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
 ]);
 
 foreach($projects as $project) {
