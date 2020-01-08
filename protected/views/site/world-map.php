@@ -91,10 +91,6 @@ $this->registerJs(<<<JS
 JS
     , \yii\web\View::POS_END);
 
-echo $this->render('//footer', [
-        'projects' => $projects
-]);
-
 echo Map::widget([
     'colors' => ["#4075c3"],
     'options' => [
