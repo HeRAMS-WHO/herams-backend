@@ -26,7 +26,7 @@ class SideMenu extends Widget
     protected function registerClientScript()
     {
         $id = Json::encode($this->getId());
-        if($this->foldable == true) {
+        if($this->foldable) {
         $js = <<<JS
         
             document.getElementById($id).addEventListener('click', e =>  {
@@ -69,11 +69,13 @@ JS;
         ];
 
         Html::addCssClass($options, 'menu');
-        if($this->foldable) Html::addCssClass($options, 'foldable');
+        if($this->foldable) {
+            Html::addCssClass($options, 'foldable');
+        }
         $this->registerClientScript();
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
-        if($this->foldable == true) {
+        if($this->foldable) {
             echo Icon::chevronRight(['class'=>'toggleMenu']);
             echo Icon::chevronDown(['class'=>'toggleMenu']);
         }
