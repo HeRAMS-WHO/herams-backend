@@ -1,15 +1,6 @@
 /**
  * This CSS file is menu widget
  */
-.menu h1 {
-    text-transform: capitalize;
-    font-size: 1em;
-    letter-spacing: 0.6em;
-    /* This centers the text (since we have 0.8em after each char due to letter-spacing*/
-    margin-right: -0.6em;
-    margin-top: 0;
-    text-align: center;
-}
 
 .menu hr {
     margin-bottom: 20px;
@@ -275,22 +266,16 @@
     display: none;
 }
 
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 .menu .footer .stats>div:first-child {
     display: block;
     animation: fadein 2s;
 }
 
-.menu img {
-    position: initial;
-    grid-area: image;
-    display: block;
-    max-height: 100px;
-    max-width: 170px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 @media (min-width: 600px) {
     .menu.foldable {
@@ -322,16 +307,16 @@
     .menu.foldable .toggleMenu {
         display: none;
     }
-    .menu.foldable.expanded .toggleMenu.icon.icon-chevron-right {
+    .menu.foldable.expanded .toggleMenu.icon.right {
         display: none;
     }
-    .menu.foldable.expanded .toggleMenu.icon.icon-chevron-down {
+    .menu.foldable.expanded .toggleMenu.icon.down {
         display: block;
     }
-    .menu.foldable .toggleMenu.icon.icon-chevron-right {
+    .menu.foldable .toggleMenu.icon.right {
         display: block;
     }
-    .menu.foldable .toggleMenu.icon.icon-chevron-down {
+    .menu.foldable .toggleMenu.icon.down {
         display: none;
     }
 }

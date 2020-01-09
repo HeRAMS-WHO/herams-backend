@@ -76,8 +76,8 @@ JS;
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
         if($this->foldable) {
-            echo Icon::chevronRight(['class'=>'toggleMenu']);
-            echo Icon::chevronDown(['class'=>'toggleMenu']);
+            echo Icon::chevronRight(['class'=>'toggleMenu right']);
+            echo Icon::chevronDown(['class'=>'toggleMenu down']);
         }
         echo Html::tag('h1', $this->title);
         echo Html::tag('hr');
