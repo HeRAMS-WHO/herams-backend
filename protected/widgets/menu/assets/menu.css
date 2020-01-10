@@ -35,7 +35,12 @@
     height: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto 1fr auto;
-    grid-template-areas: "image" "title" "separator" "nav" "footer";
+    grid-template-areas: 
+        "image"
+        "title"
+        "separator"
+        "nav"
+        "footer";
 }
 .menu h1 {
     color: #4c4c4c;
@@ -195,7 +200,9 @@
     overflow: hidden;
     outline: none;
     max-height: 3em;
-    transition: max-height var(--animation-duration), padding-top var(--animation-duration), padding-bottom var(--animation-duration);
+    transition: max-height var(--animation-duration),
+        padding-top var(--animation-duration),
+        padding-bottom var(--animation-duration);
 }
 
 .menu a, .menu button, .menu a:visited {
