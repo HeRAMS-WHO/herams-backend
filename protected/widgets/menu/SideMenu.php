@@ -21,35 +21,24 @@ class SideMenu extends Widget
     public $params = [];
     public $title;
     public $footer;
-    public $foldable = false;
+    public $collapsible = false;
 
     protected function registerClientScript()
     {
         $id = Json::encode($this->getId());
-        if($this->foldable) {
         $js = <<<JS
-        
-            document.getElementById($id).addEventListener('click', e =>  {
-                if (e.target.matches('.toggleMenu')) {
-                    e.target.closest('.menu').classList.toggle('expanded');
-                }
-            }, {
-                passive: true
-            });
-
-JS;
-
-        $this->view->registerJs($js);
-        }
-
-        $js = <<<JS
-            document.getElementById($id).addEventListener('click', e =>  {
+            let elem = document.getElementById($id);
+            elem.addEventListener('click', e =>  {
+                // Handle header collapse
                 if (e.target.matches('header *')) {
                     e.target.closest('header').classList.toggle('expanded');
+                } else if (e.target.matches('.toggle')) {
+                    elem.classList.toggle('expanded');
                 }
             }, {
                 passive: true
             });
+            
 
         JS;
         $this->view->registerJs($js);
@@ -68,17 +57,17 @@ JS;
             'id' => $this->getId()
         ];
 
-        Html::addCssClass($options, 'menu');
-        if($this->foldable) {
-            Html::addCssClass($options, 'foldable');
+        Html::addCssClass($options, ['expanded', 'menu']);
+        if ($this->collapsible) {
+            Html::addCssClass($options, ['collapsible']);
         }
+
         $this->registerClientScript();
         echo Html::beginTag('div', $options);
         echo Html::img("/img/HeRAMS.png");
-        if($this->foldable) {
-            echo Icon::chevronRight(['class'=>'toggleMenu right']);
-            echo Icon::chevronDown(['class'=>'toggleMenu down']);
-        }
+        // We always render the toggle so we can later enable / disable menu collapsing.
+        echo Html::a(Icon::chevronRight(), '#', ['class' => ['toggle', 'collapsed-only']]);
+        echo Html::a(Icon::chevronDown(), '#', ['class' => ['toggle', 'expanded-only']]);
         echo Html::tag('h1', $this->title);
         echo Html::tag('hr');
         echo Html::beginTag('nav');
