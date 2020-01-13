@@ -35,6 +35,7 @@
     --indicator-width: 3px;
     --indent: 20px;
     --item-padding-vertical: 14px;
+    --side-width: 285px;
     padding-top: 10px;
     position: relative;
     border-bottom-right-radius: 5px;
@@ -258,12 +259,14 @@
  Since we cannot (yet) use variables in media queries, we hard-code the breakpoint for single column layout.
  */
 @media (min-width: 800px) {
+    .menu {
+        width: var(--side-width);
+    }
     .menu.collapsible {
         position: fixed;
         top: 0;
         left: 0;
         box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
-        width: 285px;
     }
 
     .menu .footer {
