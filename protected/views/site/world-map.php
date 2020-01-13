@@ -5,6 +5,7 @@
 use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 use prime\widgets\map\Map;
+use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
 
 $this->title = "World overview";
@@ -45,8 +46,9 @@ foreach($projects as $project) {
 
     ];
 }
-\prime\widgets\menu\SideMenu::begin([
-        'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
+SideMenu::begin([
+    'collapsible' => true,
+    'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
 ]);
 
 foreach($projects as $project) {
@@ -64,7 +66,7 @@ if (app()->user->can(Permission::PERMISSION_ADMIN)) {
         ]
     ]);
 }
-\prime\widgets\menu\SideMenu::end();
+SideMenu::end();
 $this->registerJs(<<<JS
     window.addEventListener('click', function(e) {
         if (e.target.matches('.menu button[data-id]:not(.active)')) {

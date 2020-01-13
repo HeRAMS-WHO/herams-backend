@@ -2,13 +2,13 @@
  * This CSS file is menu widget
  */
 .menu h1 {
-    text-transform: capitalize;
-    font-size: 1em;
-    letter-spacing: 0.6em;
-    /* This centers the text (since we have 0.8em after each char due to letter-spacing*/
-    margin-right: -0.6em;
-    margin-top: 0;
+    color: #4c4c4c;
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 8px;
+    margin: 0 auto;
     text-align: center;
+    font-weight: 400;
 }
 
 .menu hr {
@@ -31,11 +31,13 @@
 .menu {
     overflow: hidden;
     --animation-duration: 500ms;
+    --indicator-color: #3e75c4;
     --indicator-width: 3px;
     --indent: 20px;
-    --item-padding-vertical: 10px;
+    --item-padding-vertical: 14px;
     padding-top: 10px;
     position: relative;
+    border-bottom-right-radius: 5px;
     background-color: white;
     grid-area: sidebar;
     font-size: 1em;
@@ -77,9 +79,6 @@
     left: auto;
     /*line-height: 144px;*/
 }
-.menu .footer .right svg, .menu .footer .left svg{
-    /*height: 100%;*/
-}
 
 .menu .footer .left:hover, .menu .footer .right:hover {
     background-color: #92929b;
@@ -96,6 +95,7 @@
 }
 
 .menu nav {
+    padding: 0 0px 30px 0;
     grid-area: nav;
     overflow-y: auto;
 }
@@ -104,34 +104,76 @@
     font-weight: 600;
 }
 
-.menu a, .menu button {
+.menu nav a, .menu nav button {
     width: 100%;
     text-align: left;
     background: none;
     border: none;
     border-left: var(--indicator-width) solid transparent;
-    display: block;
-    text-decoration: none;
-    position: relative;
-    padding-left: 20px;
     box-sizing: border-box;
-    padding-top: var(--item-padding-vertical);
-    padding-bottom: var(--item-padding-vertical);
-    overflow: hidden;
-    outline:none;
+    cursor: pointer;
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
     max-height: 3em;
-    transition: max-height var(--animation-duration),
-    padding-top var(--animation-duration),
-    padding-bottom var(--animation-duration);
+    outline:none;
+    overflow: hidden;
+    padding-bottom: var(--item-padding-vertical);
+    padding-left: 25px;
+    padding-top: var(--item-padding-vertical);
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: max-height var(--animation-duration), padding-top var(--animation-duration), padding-bottom var(--animation-duration);
+    color: black;
+}
+
+.menu nav a.active, .menu nav button.active {
+    border-left: var(--indicator-width) solid var(--indicator-color);
+    color: var(--indicator-color);
+}
+
+.menu nav a:hover, .menu nav button:hover {
+    color: var(--indicator-color);
+}
+.menu nav section a {
+    background-color: #f3f3f3;
+    font-size: 14px;
+    line-height: 14px;
+}
+.menu nav section header {
+    position: relative;
+    cursor: pointer;
+}
+.menu nav section header a {
+    background-color: white;
+    font-size: 18px;
+    line-height: 18px;
+}
+.menu nav section header .icon {
+    color: #bbb;
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    font-size: 18px;
+    line-height: 18px;
+    margin-right: 10px;
+    margin-top: var(--item-padding-vertical);
+}
+
+.menu nav section header:not(.expanded)~a {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.menu nav>a, .menu nav>button, .menu nav>section>header>a {
+    font-weight: 600;
 }
 
 .menu a, .menu button, .menu a:visited {
     color: inherit;
-}
-
-.menu a.active, .menu button.active {
-    border-left: var(--indicator-width) solid var(--highlight-background-color);
-    color: var(--highlight-background-color);
 }
 
 .menu header:not(.expanded) ~ a {
@@ -154,10 +196,14 @@
     margin-top: var(--item-padding-vertical);
 }
 
-.menu header.expanded .collapsed-only {
+.menu header.expanded .collapsed-only, .menu.expanded > .collapsed-only {
     display: none;
 }
-.menu header:not(.expanded) .expanded-only {
+.menu header:not(.expanded) .expanded-only, .menu:not(.expanded) > .expanded-only {
+    display: none;
+}
+
+.menu:not(.collapsible) > .expanded-only {
     display: none;
 }
 
@@ -178,6 +224,7 @@
     text-align: center;
     color: var(--header-color);
     position: relative;
+    display: none;
     grid-area: footer;
     padding-top: 20px;
     font-size: 48px;
@@ -202,22 +249,48 @@
     display: block;
     max-height: 100px;
     max-width: 170px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    margin: 10px auto;
+    transition: max-width var(--animation-duration), max-height var(--animation-duration);
 }
 
-@media (min-width: 600px) {
-    .menu img {
-        position: initial;
-        grid-area: image;
+/**
+ Since we cannot (yet) use variables in media queries, we hard-code the breakpoint for single column layout.
+ */
+@media (min-width: 800px) {
+    .menu.collapsible {
+        position: fixed;
+        top: 0;
+        left: 0;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+        width: 285px;
+    }
+
+    .menu .footer {
         display: block;
-        max-height: 100px;
-        max-width: 170px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: auto;
-        margin-right: auto;
     }
 }
+
+.menu.collapsible {
+    height: 100%;
+    transition-duration: var(--animation-duration);
+    transition-property: height;
+}
+.menu.collapsible:not(.expanded) {
+    height: 120px;
+}
+
+.menu .toggle {
+    position: absolute;
+    right: 10px;
+    margin: 0;
+    padding: 0;
+    top: 10px;
+    font-size: 30px;
+}
+.menu.collapsible:not(.expanded) img {
+    max-height: 72px;
+    max-width: 140px;
+}
+
+
