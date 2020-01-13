@@ -79,9 +79,6 @@
     left: auto;
     /*line-height: 144px;*/
 }
-.menu .footer .right svg, .menu .footer .left svg{
-    /*height: 100%;*/
-}
 
 .menu .footer .left:hover, .menu .footer .right:hover {
     background-color: #92929b;
@@ -227,6 +224,7 @@
     text-align: center;
     color: var(--header-color);
     position: relative;
+    display: none;
     grid-area: footer;
     padding-top: 20px;
     font-size: 48px;
@@ -256,19 +254,20 @@
     transition: max-width var(--animation-duration), max-height var(--animation-duration);
 }
 
+/**
+ Since we cannot (yet) use variables in media queries, we hard-code the breakpoint for single column layout.
+ */
 @media (min-width: 800px) {
     .menu.collapsible {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
         width: 285px;
     }
-}
 
-@media(max-width: 800px) {
     .menu .footer {
-        display: none;
+        display: block;
     }
 }
 

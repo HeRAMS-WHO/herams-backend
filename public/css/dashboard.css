@@ -362,8 +362,8 @@ body {
     overflow-x: hidden;
     min-width: 100%;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto minmax(400px, 1fr);
+    grid-template-columns: 100vw;
+    grid-template-rows: auto auto auto auto minmax(400px, 1fr);
     grid-template-areas:
         "user"
         "title"
@@ -378,13 +378,6 @@ body {
     display: block;
     vertical-align: bottom;
 }
-
-/*.filters > div > * {*/
-    /*border: none;*/
-    /*!*border-bottom: 1px solid #ccc;*!*/
-    /*margin-left: 1em;*/
-    /*padding-bottom: 10px;*/
-/*}*/
 
 /**
  2 Column layout, menu above filters.
@@ -411,34 +404,6 @@ body {
     margin-bottom: 33px;
   }
 
-  body {
-    background: linear-gradient(
-      to bottom,
-      var(--header-background-color) 0%,
-      var(--header-background-color) 230px,
-      var(--main-background-color) 230px,
-      var(--main-background-color) 100%
-    );
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto 1fr;
-    /*grid-template-areas:
-      "title user"
-      "sidebar sidebar"
-      "filters filters"
-      "main main";*/
-    grid-template-areas:
-      "sidebar title title user"
-      "sidebar filters filters filters"
-      "sidebar main main main";
-  }
-
-  body.no-title {
-    grid-template-rows: 100vh;
-    /*grid-template-areas: "sidebar main main main";*/
-    grid-template-areas: "main main main main";
-  }
-
     .title {
         padding-left: var(--gutter-size);
     }
@@ -463,31 +428,24 @@ body {
 
     body {
         background: linear-gradient(
-                to bottom,
-                var(--header-background-color) 0%,
-                var(--header-background-color) 230px,
-                var(--main-background-color) 230px,
-                var(--main-background-color) 100%)
+            to bottom,
+            var(--header-background-color) 0%,
+            var(--header-background-color) 230px,
+            var(--main-background-color) 230px,
+            var(--main-background-color) 100%)
     ;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto auto 1fr;
+        grid-template-columns: 60vw 40vw;
+        grid-template-rows: auto auto auto minmax(400px, 1fr);
         grid-template-areas:
-                "title user"
-                "sidebar sidebar"
-                "filters filters"
-                "main main";
+            "title user"
+            "filters filters"
+            "sidebar sidebar"
+            "main main"
+    ;
     }
 
 
-    body.no-title .user-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        background-color: transparent;
-        color: #42424b;
-        z-index: 1000;
-    }
+
 
     .content {
         padding: 10px;
@@ -506,13 +464,21 @@ body {
         grid-column: span 2;
         grid-row: span 2;
     }
+
 }
 
 /**
  3 column layout.
 */
 @media (min-width: 800px) {
-
+    body.no-title .user-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: transparent;
+        color: #42424b;
+        z-index: 1000;
+    }
     body {
         background: linear-gradient(
                 to bottom,
@@ -521,7 +487,7 @@ body {
                 var(--main-background-color) 130px,
                 var(--main-background-color) 100%)
     ;
-        grid-template-rows: minmax(100px, auto) auto 1fr;
+        grid-template-rows: auto auto 1fr;
         grid-template-columns: 285px 1fr 1fr 1fr;
         grid-template-areas:
                 "sidebar title title user"

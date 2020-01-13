@@ -13,7 +13,7 @@ use yii\web\View;
 
 echo ProjectPageMenu::widget([
     'project' => $project,
-    'collapsible' => true,
+    'collapsible' => false,
     'footer' => $this->render('//footer', ['projects' => Project::find()->all()]),
     'params' => Yii::$app->request->queryParams,
     'currentPage' => $page,
