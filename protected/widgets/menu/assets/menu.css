@@ -19,6 +19,7 @@
 }
 
 .menu {
+    --animation-duration: 500ms;
     --indicator-width: 3px;
     --indent: 20px;
     --item-padding-vertical: 14px;
@@ -66,7 +67,7 @@
     font-size: 48px;
     position: absolute;
     padding: 0;
-    top: 60px;
+    top: calc((100% - 48px - var(--status-height)) / 2);
     line-height: 144px;
     margin: 0;
     width: auto;
