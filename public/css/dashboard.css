@@ -112,15 +112,22 @@ a {
 .user-menu {
     padding: 10px;
     padding-right: 20px;
-    background-color: var(--header-background-color);
+    padding-left: 0px;
     grid-area: user;
     display: flex;
     align-items: center;
-    flex-direction: row-reverse;
     text-align: right;
     font-size: 30px;
     color: var(--header-color);
+    position: absolute;
+    top: 0;
+    right: 0;  
 }
+
+body.no-title .user-menu {
+    z-index: 1000;
+}
+    
 
 .user-menu a, .user-menu a:visited, .user-menu a:hover {
     text-decoration: inherit;
@@ -131,16 +138,22 @@ a {
     border-radius: 50%;
 }
 .user-menu .name{
-    color: inherit;
+    color: #fefefe;
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 15px;
 }
 .user-menu .email {
-    color: #b3b1b8;
+    color: #bdbdbd;
     font-weight: 600;
-    font-size: 0.7rem;
+    font-size: 13px;
+}
+body.no-title .user-menu .name {
+    color: #42424b;
+}
+body.no-title .user-menu .email {
+    color: #868686
 }
 .user-menu > * {
     margin-left: 5px;
@@ -471,14 +484,6 @@ body {
  3 column layout.
 */
 @media (min-width: 800px) {
-    body.no-title .user-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        background-color: transparent;
-        color: #42424b;
-        z-index: 1000;
-    }
     body {
         background: linear-gradient(
                 to bottom,

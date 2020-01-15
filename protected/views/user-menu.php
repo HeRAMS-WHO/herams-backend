@@ -5,7 +5,6 @@ use yii\helpers\Html;
 
 ?>
 <div class="user-menu">
-    <?= Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']); ?>
     <?php
     /** @var \prime\models\ar\User $user */
     $user = \Yii::$app->user->identity;
@@ -20,4 +19,5 @@ use yii\helpers\Html;
     <?php
         echo Html::a(Icon::admin(), ['/admin/dashboard']);
     ?>
+    <?= Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']); ?>
 </div>
