@@ -22,15 +22,14 @@ $hostInfo = \Yii::$app->request->hostInfo;
 ?>
 <style>
     html {
-        --header-background-color: #212529;
-        --primary-button-background-color: #4177c1;
+        --header-background-color: #33333b;
+        --primary-button-background-color: #4a7bc7;
         --primary-button-hover-color: #3f86e6;
-        --color: #eeeeee;
-
+        --color: #ffffff;
     }
     body {
         margin: 0;
-        background-color: var(--background-color);
+        background-color: transparent;
         color: var(--color);
         font-family: "Source Sans Pro", sans-serif;
     }
@@ -38,12 +37,13 @@ $hostInfo = \Yii::$app->request->hostInfo;
     .grid {
         display: grid;
         margin-top: 1em;
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: auto 200px auto;
+        grid-template-rows: auto auto 200px auto;
         grid-template-areas:
             "stat stat stat stat stat stat"
+            "line line line line line line"
             "chart chart chart chart chart chart"
             "button button button button button button"
     ;
@@ -57,12 +57,47 @@ $hostInfo = \Yii::$app->request->hostInfo;
         text-transform: uppercase;
         background-color: var(--header-background-color);
         text-align: center;
+        font-weight: 500;
+        color: var(--color);
+        font-size: 24px;
+        line-height: 24px;
+        padding: 7px 0;
     }
 
     .stat {
         grid-area: stat;
         grid-column: span 3;
         text-align: center;
+        font-weight: 300;
+        border-left: 1px solid #6a696e;
+    }
+
+    .stat:first-child {
+        border-left: none !important;
+    }
+    .stat div {
+        margin: 0 auto;
+        display: inline-flex;
+        align-items: center;
+    }
+    .stat svg {
+        margin-right: 5px;
+    }
+
+    .stat b {
+        margin-right: 5px;
+        font-size: 19px;
+        line-height: 15px;
+    }
+
+    hr {
+        grid-area: line;
+        grid-column: span 6;
+        width: 100%;
+        height: 1px;
+        border: none;
+        background: #6a696e;
+        margin: 0;
     }
 
     .chart {
@@ -83,9 +118,9 @@ $hostInfo = \Yii::$app->request->hostInfo;
         font-weight: 400;
         text-align: center;
         font-size: 1rem;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border-radius: 0.25rem;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        border-radius: 5px;
         text-decoration: none;
         color: inherit;
     }
@@ -103,21 +138,25 @@ $hostInfo = \Yii::$app->request->hostInfo;
 </style>
 <h1><?= $this->title ?></h1>
 <div class="grid">
-<div class="stat"><?=
+<div class="stat">
+    <div><?=
     implode(" ", [
         \prime\helpers\Icon::healthFacility(),
         Html::tag('b', $project->facilityCount),
         \Yii::t('app', 'Health facilities')
     ])
 ?></div>
-<div class="stat"><?=
+</div>
+<div class="stat">
+    <div><?=
     implode(" ", [
         \prime\helpers\Icon::contributors(),
         Html::tag('b', $project->contributorCount),
         \Yii::t('app', 'Contributors')
     ])
 ?></div>
-
+</div>
+<hr/>
 <?php
     $types = $project->getTypeCounts();
     $total = array_sum($types);

@@ -19,15 +19,15 @@ $hostInfo = \Yii::$app->request->hostInfo;
 ?>
 <style>
     html {
-        --header-background-color: #212529;
-        --primary-button-background-color: #4177c1;
+        --header-background-color: #33333b;
+        --primary-button-background-color: #4a7bc7;
         --primary-button-hover-color: #3f86e6;
-        --color: #eeeeee;
+        --color: #ffffff;
 
     }
     body {
         margin: 0;
-        background-color: var(--background-color);
+        background-color: transparent;
         color: var(--color);
         font-family: "Source Sans Pro", sans-serif;
     }
@@ -37,11 +37,19 @@ $hostInfo = \Yii::$app->request->hostInfo;
         text-transform: uppercase;
         background-color: var(--header-background-color);
         text-align: center;
+        font-weight: 500;
+        color: var(--color);
+        font-size: 24px;
+        line-height: 24px;
+        padding: 7px 0;
     }
 
     h2 {
         background-color: var(--header-background-color);
         text-align: center;
+        font-size: 20px;
+        line-height: 20px;
+        padding: 7px 0;
     }
 
     p {

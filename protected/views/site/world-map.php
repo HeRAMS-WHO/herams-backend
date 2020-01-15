@@ -110,22 +110,26 @@ echo Map::widget([
         /*background-position: center;*/
         background-color: #42424b;
 
-        padding-bottom: 10px;
+        padding-bottom: 20px;
 
     }
     .leaflet-popup-content-wrapper {
         overflow: hidden;
         padding: 0;
-
+        border-radius: 5px;
+    }
+    
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+        background: #42424b;
     }
 
     iframe {
         box-sizing: border-box;
         max-width: 500px;
         border-width: 0;
-        width: 400px;
+        width: 445px;
         min-width: 300px;
-        min-height: 350px;
+        min-height: 361px;
         overflow: hidden;
     }
 </style>
