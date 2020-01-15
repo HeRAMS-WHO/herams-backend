@@ -141,13 +141,15 @@ body.no-title .user-menu {
     color: #fefefe;
     text-decoration: none;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 15px;
+    line-height: 15px;
 }
 .user-menu .email {
     color: #bdbdbd;
-    font-weight: 600;
+    font-weight: 300;
     font-size: 13px;
+    line-height: 15px;
 }
 body.no-title .user-menu .name {
     color: #42424b;
