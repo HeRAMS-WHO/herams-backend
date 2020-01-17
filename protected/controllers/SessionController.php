@@ -24,10 +24,11 @@ class SessionController extends Controller
                             'allow' => 'true',
                             'actions' => ['create']
                         ],
-//                        [
-//                            'allow' => 'true',
-//                            'roles' => ['@']
-//                        ]
+                        [
+                            'allow' => 'true',
+                            'actions' => ['delete'],
+                            'roles' => ['@']
+                        ]
                     ]
                 ]
             ]

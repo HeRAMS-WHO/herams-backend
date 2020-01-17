@@ -22,10 +22,7 @@ class Limesurvey extends Action
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!(
-            $user->can(Permission::PERMISSION_WRITE, $workspace)
-            || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
-        )) {
+        if (!$user->can(Permission::PERMISSION_LIMESURVEY, $workspace)) {
             throw new ForbiddenHttpException();
         }
 

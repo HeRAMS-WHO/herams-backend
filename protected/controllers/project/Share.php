@@ -38,7 +38,9 @@ class Share extends Action
             $project, $abacManager, $user->identity, [
             'permissionOptions' => [
                 Permission::PERMISSION_READ,
-                Permission::PERMISSION_WRITE => \Yii::t('app', 'Allows full access to all workspaces in this project as well as creating new ones or deleting existing ones'),
+                Permission::PERMISSION_LIMESURVEY,
+                Permission::PERMISSION_MANAGE_WORKSPACES,
+                Permission::PERMISSION_WRITE,
                 Permission::PERMISSION_SHARE,
                 Permission::PERMISSION_EXPORT,
                 Permission::PERMISSION_ADMIN,

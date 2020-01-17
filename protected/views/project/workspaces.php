@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
                         'class' => 'btn-default',
                     ],
-                    'visible' => app()->user->can(Permission::PERMISSION_WRITE, $project)
+                    'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
                 ],
                 [
                     'label' => \Yii::t('app', 'Create workspace'),
@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
                         'class' => 'btn-primary',
                     ],
-                    'visible' => app()->user->can(Permission::PERMISSION_WRITE, $project)
+                    'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
                 ],
 
             ]

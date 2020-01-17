@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace prime\rules;
+namespace prime\rules\roles;
 
 
-use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
@@ -12,7 +11,7 @@ use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class WorkspaceDataRule implements Rule
+class WorkspaceContributorRole implements Rule
 {
 
     /**
@@ -20,7 +19,10 @@ class WorkspaceDataRule implements Rule
      */
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_LIMESURVEY];
+        return [
+            Permission::PERMISSION_LIMESURVEY,
+            Permission::PERMISSION_EXPORT
+        ];
     }
 
     /**
@@ -44,7 +46,7 @@ class WorkspaceDataRule implements Rule
      */
     public function getDescription(): string
     {
-        return "you can write the project it belongs to";
+        return 'have the correct role';
     }
 
     /**
@@ -57,9 +59,9 @@ class WorkspaceDataRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        return $permission === Permission::PERMISSION_LIMESURVEY
-            && $target instanceof Workspace
-            && $accessChecker->check($source, $target->project, Permission::PERMISSION_WRITE);
-
+        return in_array(get_class($target), $this->getTargetNames())
+            && in_array(get_class($source), $this->getSourceNames())
+            && in_array($permission, $this->getPermissions())
+            && $accessChecker->check($source, $target, Permission::ROLE_WORKSPACE_CONTRIBUTOR);
     }
 }

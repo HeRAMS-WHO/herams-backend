@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\rules;
 
 
+use prime\helpers\ProposedGrant;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use SamIT\abac\interfaces\AccessChecker;
@@ -56,7 +57,7 @@ class GrantRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        return $target instanceof Grant
+        return $target instanceof ProposedGrant
             && ($permission === Permission::PERMISSION_CREATE || $permission === Permission::PERMISSION_DELETE)
             // This rule will never grant someone permission to create a grant with the share permission
             && $target->getPermission() !== Permission::PERMISSION_SHARE

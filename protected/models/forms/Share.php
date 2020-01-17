@@ -5,6 +5,7 @@ namespace prime\models\forms;
 use kartik\builder\Form;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
+use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
@@ -15,7 +16,6 @@ use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
-use yii\rbac\CheckAccessInterface;
 use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
@@ -61,9 +61,7 @@ class Share extends Model {
             /** @var User $user */
             foreach ($this->getUsers()->all() as $user) {
                 foreach ($this->permissions as $permission) {
-                    $target = $this->abacManager->resolveSubject($this->model);
-                    $source = $this->abacManager->resolveSubject($user);
-                    $grant = new Grant($source, $target, $permission);
+                    $grant = new ProposedGrant($this->model, $user, $permission);
 
                     if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
                         $this->abacManager->grant($user, $this->model, $permission);
@@ -85,11 +83,12 @@ class Share extends Model {
         foreach($permissions as $key => $value) {
             if (is_numeric($key)) {
                 unset($permissions[$key]);
-                $permissions[$value] = Permission::permissionLabels()[$value];
+                $permissions[$value] = Permission::permissionLabels()[$value] ?? $value;
             }
         }
+
         return array_filter($permissions, function(string $permission) {
-            $grant = new Grant($this->abacManager->resolveSubject($this->currentUser), $this->abacManager->resolveSubject($this->model), $permission);
+            $grant = new ProposedGrant($this->currentUser, $this->model, $permission);
             return $this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE);
         }, ARRAY_FILTER_USE_KEY);
     }

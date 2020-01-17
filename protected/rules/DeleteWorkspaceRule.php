@@ -4,14 +4,13 @@ declare(strict_types=1);
 namespace prime\rules;
 
 
-use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class WorkspaceRule implements Rule
+class DeleteWorkspaceRule implements Rule
 {
 
     /**
@@ -19,7 +18,7 @@ class WorkspaceRule implements Rule
      */
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_ADMIN];
+        return [Permission::PERMISSION_DELETE];
     }
 
     /**
@@ -35,7 +34,7 @@ class WorkspaceRule implements Rule
      */
     public function getSourceNames(): array
     {
-        return [User::class];
+        return [];
     }
 
     /**
@@ -43,7 +42,7 @@ class WorkspaceRule implements Rule
      */
     public function getDescription(): string
     {
-        return 'you can administer the project it belongs to';
+        return 'if you can manage workspaces for the project';
     }
 
     /**
@@ -57,6 +56,8 @@ class WorkspaceRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         return $target instanceof Workspace
-            && $accessChecker->check($source, $target->project, Permission::PERMISSION_WRITE);
+            && $permission === Permission::PERMISSION_DELETE
+            && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_WORKSPACES)
+        ;
     }
 }

@@ -29,7 +29,7 @@ class Import extends Action
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_CREATE_WORKSPACE, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
             throw new ForbiddenHttpException();
         }
 

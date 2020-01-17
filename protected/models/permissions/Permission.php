@@ -19,7 +19,6 @@ use yii\validators\UniqueValidator;
  * @property string $target
  * @property int $target_id
  *
- * @method static PermissionQuery find()
  */
 class Permission extends ActiveRecord
 {
@@ -36,7 +35,7 @@ class Permission extends ActiveRecord
     const PERMISSION_CREATE = 'create';
     const PERMISSION_ADMIN = 'admin';
     const PERMISSION_CREATE_PAGE = 'create-page';
-    const PERMISSION_CREATE_WORKSPACE = 'create-workspace';
+    const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
     const PERMISSION_CREATE_PROJECT = 'create-page';
     const PERMISSION_LIMESURVEY = 'update-data';
     const PERMISSION_SHARE = 'share';
@@ -44,6 +43,11 @@ class Permission extends ActiveRecord
     const PERMISSION_DELETE = 'delete';
     const PERMISSION_EXPORT = 'export';
 
+    const ROLE_WORKSPACE_CONTRIBUTOR = 'ROLE_WORKSPACE_CONTRIBUTOR';
+    const ROLE_WORKSPACE_OWNER = 'ROLE_WORKSPACE_OWNER';
+    const ROLE_PROJECT_VIEWER = 'ROLE_PROJECT_VIEWER';
+    const ROLE_PROJECT_OWNER = 'ROLE_PROJECT_OWNER';
+    const ROLE_PROJECT_ADMIN = 'ROLE_PROJECT_ADMIN';
 
 
     public function attributeLabels()
@@ -86,10 +90,12 @@ class Permission extends ActiveRecord
     {
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
-            self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to children or data'),
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to properties'),
             self::PERMISSION_SHARE => \Yii::t('app', 'Share, allows this users to give other users limited access'),
             self::PERMISSION_EXPORT => \Yii::t('app', 'Export, allows exporting data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
+            self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Manage data in LimeSurvey'),
+            self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces in the project')
         ];
     }
 

@@ -55,10 +55,6 @@ class WorkspaceController extends Controller
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Workspace::find(),
-                'permission' => function(User $user, Workspace $model): bool {
-                    return $user->can(Permission::PERMISSION_ADMIN, $model)
-                        || $user->can(Permission::PERMISSION_WRITE, $model->project);
-                },
                 'redirect' => function(Workspace $workspace) {
                     return ['/project/workspaces', 'id' => $workspace->tool_id];
                 }

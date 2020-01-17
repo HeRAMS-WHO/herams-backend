@@ -33,9 +33,13 @@ class Share extends Action
             throw new ForbiddenHttpException();
         }
         $model = new ShareForm($workspace, $abacManager, $user->identity, [
-            'permissions' => [
-                Permission::PERMISSION_WRITE => \Yii::t('app', 'Manage the underlying response data'),
-                Permission::PERMISSION_ADMIN => \Yii::t('app', 'Full access, includes editing the workspace properties, token and response data'),
+            'permissionOptions' => [
+                Permission::PERMISSION_LIMESURVEY,
+                Permission::PERMISSION_EXPORT,
+                Permission::PERMISSION_SHARE,
+//                Permission::ROLE_WORKSPACE_CONTRIBUTOR,
+//                Permission::ROLE_WORKSPACE_OWNER,
+                Permission::PERMISSION_ADMIN,
             ]
         ]);
 
