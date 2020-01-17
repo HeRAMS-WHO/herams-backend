@@ -61,6 +61,12 @@ return [
             'paramsParam' => 'p',
             'expirationParam' => 'e'
         ],
+        'abacResolver' => function(): \SamIT\abac\interfaces\Resolver {
+            return new \SamIT\abac\resolvers\ChainedResolver(
+                new ActiveRecordResolver(),
+                new \prime\components\GrantResolver()
+            );
+        },
         'abacManager' => function() {
             $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
             $repo = new ActiveRecordRepository(Permission::class, [
@@ -71,13 +77,10 @@ return [
                 ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
             ]);
             $cachedRepo = new \SamIT\abac\repositories\CachedReadRepository($repo);
-            $resolver = new \SamIT\abac\resolvers\ChainedResolver(
-                new ActiveRecordResolver(),
-                new \prime\components\GrantResolver()
-            );
+
             $environment = new class extends ArrayObject implements Environment {};
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $cachedRepo, $resolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $cachedRepo, \Yii::$app->abacResolver, $environment);
         },
         'authManager' => function() {
 

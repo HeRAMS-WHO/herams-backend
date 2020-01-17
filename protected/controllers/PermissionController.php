@@ -33,16 +33,12 @@ class PermissionController extends Controller
         if (!isset($target)) {
             throw new NotFoundHttpException();
         }
-        $grant = new Grant(
-            $abacManager->resolveSubject($permission->sourceObject),
-            $abacManager->resolveSubject($permission->targetObject),
-            $permission->permission);
-
+        $grant = $permission->getGrant();
         if (!$user->can(Permission::PERMISSION_DELETE, $grant)) {
             throw new ForbiddenHttpException();
         }
 
-        $abacManager->revoke($permission->sourceObject, $permission->targetObject, $permission->permission);
+        $abacManager->getRepository()->revoke($grant);
         return $this->redirect($redirect);
     }
 

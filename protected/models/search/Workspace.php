@@ -102,7 +102,7 @@ class Workspace extends \prime\models\ar\Workspace
             ]);
         }
 
-        $query->andFilterWhere(['like', "$baseTable.[[title]]", $this->title]);
+        $query->andFilterWhere(['like', "$baseTable.[[title]]", trim($this->title)]);
         $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
         return $dataProvider;
     }

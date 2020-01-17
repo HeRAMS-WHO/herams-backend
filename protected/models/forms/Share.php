@@ -10,6 +10,7 @@ use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
+use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\values\Grant;
 use yii\base\Model;
 use yii\bootstrap\Html;
@@ -26,7 +27,8 @@ class Share extends Model {
     private $_permissionOptions = [];
     public $userIds;
     public $permissions;
-    protected $model;
+
+    private $model;
 
     /** @var AuthManager */
     private $abacManager;
@@ -34,12 +36,12 @@ class Share extends Model {
     private $currentUser;
 
     public function __construct(
-        ActiveRecord $model,
+        object $model,
         AuthManager $abacManager,
         IdentityInterface $identity,
         $config = []
     ) {
-        if($model->getIsNewRecord()) {
+        if($model instanceof ActiveRecord && $model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
         parent::__construct($config);
@@ -141,8 +143,11 @@ class Share extends Model {
             'columns' => [
                 [
                     'label' => \Yii::t('app', 'User'),
-                    'value' => function($model){
-                        return isset($model->sourceObject) ? $model->sourceObject->name : 'Deleted user';
+                    'value' => function(Permission $model) {
+                        /** @var Resolver $resolver */
+                        $resolver = \Yii::$app->abacResolver;
+                        $source = $resolver->toSubject($model->sourceAuthorizable());
+                        return $source->displayField ?? 'Deleted user';
                     }
                 ],
                 'permissionLabel' => [
@@ -158,29 +163,32 @@ class Share extends Model {
                     'template' => '{delete}',
                     'buttons' => [
                         'delete' => function($url, Permission $model, $key) use ($deleteAction) {
-                            $grant = new Grant(
-                                $this->abacManager->resolveSubject($model->sourceObject),
-                                $this->abacManager->resolveSubject($model->targetObject),
-                                $model->permission
-                            );
-                            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_DELETE))
-                            return Html::a(
-                                Html::icon('trash'),
-                                [
-                                    $deleteAction,
-                                    'id' => $model->id,
-                                    'redirect' => \Yii::$app->request->url
-                                ],
-                                [
-                                    'class' => 'text-danger',
-                                    'data-method' => 'delete',
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>', [
-                                        'modelName' => $model->targetObject->displayField,
-                                        'userName' => isset($model->sourceObject) ? $model->sourceObject->name : 'Deleted user'
-                                    ]),
-                                    'title' => \Yii::t('app', 'Remove')
-                                ]
-                            );
+                            $grant = $model->getGrant();
+                            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_DELETE)) {
+                                /** @var Resolver $resolver */
+                                $resolver = \Yii::$app->abacResolver;
+                                $source = $resolver->toSubject($model->sourceAuthorizable());
+                                $target = $resolver->toSubject($model->targetAuthorizable());
+                                return Html::a(
+                                    Html::icon('trash'),
+                                    [
+                                        $deleteAction,
+                                        'id' => $model->id,
+                                        'redirect' => \Yii::$app->request->url
+                                    ],
+                                    [
+                                        'class' => 'text-danger',
+                                        'data-method' => 'delete',
+                                        'data-confirm' => \Yii::t('app',
+                                            'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>',
+                                            [
+                                                'modelName' => $target->displayField ?? "{$model->targetAuthorizable()->getAuthName()} ({$model->targetAuthorizable()->getId()})",
+                                                'userName' => $source->displayField ?? 'Deleted user'
+                                            ]),
+                                        'title' => \Yii::t('app', 'Remove')
+                                    ]
+                                );
+                            }
                         }
                     ]
                 ]

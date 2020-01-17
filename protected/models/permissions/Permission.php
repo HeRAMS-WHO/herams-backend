@@ -2,11 +2,10 @@
 
 namespace prime\models\permissions;
 
-use prime\models\ActiveRecord;
-use prime\models\ar\User;
-use prime\models\ar\Workspace;
 use app\queries\PermissionQuery;
-use yii\db\ActiveRecordInterface;
+use prime\models\ActiveRecord;
+use SamIT\abac\interfaces\Grant;
+use SamIT\abac\values\Authorizable;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
 
@@ -18,7 +17,8 @@ use yii\validators\UniqueValidator;
  * @property int $source_id
  * @property string $target
  * @property int $target_id
- *
+ * @property object $sourceObject
+ * @property object $targetObject
  */
 class Permission extends ActiveRecord
 {
@@ -62,30 +62,6 @@ class Permission extends ActiveRecord
         return $this->permissionLabels()[$this->permission];
     }
 
-    /*
-     * @todo fix for greedy loading
-     */
-    public function getSourceObject()
-    {
-        return $this->hasOne($this->source, ['id' => 'source_id']);
-    }
-
-    /*
-     * @todo fix for greedy loading
-     */
-    public function getTargetObject()
-    {
-        return $this->hasOne($this->target, ['id' => 'target_id']);
-    }
-
-    public static function instantiate($row)
-    {
-        if($row['source'] == User::class && $row['target'] == Workspace::class) {
-            return new UserProject();
-        }
-        return parent::instantiate($row);
-    }
-
     public static function permissionLabels()
     {
         return [
@@ -111,6 +87,21 @@ class Permission extends ActiveRecord
     public static function tableName()
     {
         return '{{%permission}}';
+    }
+
+    public function sourceAuthorizable(): Authorizable
+    {
+        return new Authorizable($this->source_id, $this->source);
+    }
+
+    public function targetAuthorizable(): Authorizable
+    {
+        return new Authorizable($this->target_id, $this->target);
+    }
+
+    public function getGrant(): Grant
+    {
+        return new \SamIT\abac\values\Grant($this->sourceAuthorizable(), $this->targetAuthorizable(), $this->permission);
     }
 
 

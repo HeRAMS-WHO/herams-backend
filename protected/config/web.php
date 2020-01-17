@@ -14,6 +14,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         'notificationService' => [
             'class' => NotificationService::class
         ],
+        'view' => \prime\components\View::class,
         'urlManager' => [
             'class' => \yii\web\UrlManager::class,
             'cache' => false,
