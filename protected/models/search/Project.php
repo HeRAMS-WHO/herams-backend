@@ -2,26 +2,15 @@
 
 namespace prime\models\search;
 
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 
-class Project extends \prime\models\ar\Project
+class Project extends Model
 {
-    public function __construct(
-        array $config = []
-    ) {
-        parent::__construct($config);
-    }
-
-    public function init()
-    {
-        parent::init();
-        $this->scenario = self::SCENARIO_SEARCH;
-    }
-
     public function rules()
     {
         return [
@@ -31,28 +20,13 @@ class Project extends \prime\models\ar\Project
         ];
     }
 
-    public function scenarios()
-    {
-        return [
-            self::SCENARIO_SEARCH => [
-                'title',
-                'created',
-                'id'
-            ]
-        ];
-    }
-
     public function search($params)
     {
-        $baseTable = self::tableName();
-
+        /** @var  $query */
         $query = \prime\models\ar\Project::find()
-            ->withFields('workspaceCount', 'facilityCount', 'responseCount')
-            ->with('workspaces');
-
+            ->withFields('workspaceCount', 'facilityCount', 'responseCount');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'id' => 'project-data-provider',
             'pagination' => [
                 'pageSize' => 50
             ]
@@ -61,10 +35,7 @@ class Project extends \prime\models\ar\Project
         $sort = new Sort([
             'attributes' => [
                 'id',
-                'title' => [
-                    'asc' => ['title' => SORT_ASC],
-                    'desc' => ['title' => SORT_DESC],
-                ],
+                'title',
                 'created',
                 'workspaceCount',
                 'facilityCount',
@@ -88,8 +59,8 @@ class Project extends \prime\models\ar\Project
 //            ]);
 //        }
 //
-//        $query->andFilterWhere(['like', "$baseTable.[[title]]", $this->title]);
-//        $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }
 }
