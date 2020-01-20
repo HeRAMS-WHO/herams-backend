@@ -62,10 +62,10 @@ class User extends ActiveRecord implements IdentityInterface {
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
         $repository = $manager->getRepository();
-        if (!isset($this)) {
+        $subject = $manager->resolveSubject($this);
+        if (!isset($subject)) {
             throw new \RuntimeException('Failed to resolve user');
         }
-        $subject = $manager->resolveSubject($this);
         apply(static function(Grant $grant) use ($repository) { $repository->revoke($grant); }, chain(
             $repository->search($subject, null, null),
             $repository->search(null, $subject, null)
