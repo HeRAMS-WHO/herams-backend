@@ -56,23 +56,23 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
-    public function afterDelete()
+    public function beforeDelete(): bool
     {
-        parent::afterDelete();
-        /** @var AuthManager $manager */
-        $manager = \Yii::$app->abacManager;
-        $repository = $manager->getRepository();
-        $subject = $manager->resolveSubject($this);
-        if (!isset($subject)) {
-            throw new \RuntimeException('Failed to resolve user');
+        if (parent::beforeDelete()) {
+            /** @var AuthManager $manager */
+            $manager = \Yii::$app->abacManager;
+            $subject = $manager->resolveSubject($this);
+            $repository = $manager->getRepository();
+            if (isset($subject)) {
+                apply(static function(Grant $grant) use ($repository) { $repository->revoke($grant); }, chain(
+                    $repository->search($subject, null, null),
+                    $repository->search(null, $subject, null)
+                ));
+            }
+            return true;
         }
-        apply(static function(Grant $grant) use ($repository) { $repository->revoke($grant); }, chain(
-            $repository->search($subject, null, null),
-            $repository->search(null, $subject, null)
-        ));
-
+        return false;
     }
-
 
     public static function getDb()
     {
