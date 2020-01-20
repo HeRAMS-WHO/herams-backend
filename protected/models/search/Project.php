@@ -11,10 +11,11 @@ use yii\validators\StringValidator;
 
 class Project extends Model
 {
+    public $title;
+    public $id;
     public function rules()
     {
         return [
-            [['created'], SafeValidator::class],
             [['title'], StringValidator::class],
             [['id'], NumberValidator::class],
         ];
