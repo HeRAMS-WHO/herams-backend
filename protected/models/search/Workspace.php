@@ -55,15 +55,11 @@ class Workspace extends \prime\models\ar\Workspace
 
     public function search($params)
     {
-        $baseTable = self::tableName();
         $query = \prime\models\ar\Workspace::find();
 
         $query->with('project');
         $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'permissionCount');
-        $query->andFilterWhere(["$baseTable.[[tool_id]]" => $this->project->id]);
-//        $query->addSelect([
-//            "$baseTable.*"
-//        ]);
+        $query->andFilterWhere(['tool_id' => $this->project->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -102,8 +98,8 @@ class Workspace extends \prime\models\ar\Workspace
             ]);
         }
 
-        $query->andFilterWhere(['like', "$baseTable.[[title]]", trim($this->title)]);
-        $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
+        $query->andFilterWhere(['like', 'title', trim($this->title)]);
+        $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }
 }

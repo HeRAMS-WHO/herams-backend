@@ -112,10 +112,7 @@ $this->params['breadcrumbs'][] = [
 
                     },
                     'remove' => function($url, Project $model, $key) {
-                        if(
-                            app()->user->can(Permission::PERMISSION_ADMIN)
-                            && $model->canBeDeleted()
-                        ) {
+                        if(app()->user->can(Permission::PERMISSION_DELETE, $model)) {
                             return Html::a(
                                 Icon::delete(),
                                 ['project/delete', 'id' => $model->id],

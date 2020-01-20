@@ -140,16 +140,6 @@ class Project extends ActiveRecord {
         return $result;
     }
 
-    public function canBeDeleted(): bool
-    {
-        return $this->workspaceCount === 0;
-    }
-
-    public function beforeDelete()
-    {
-        return $this->canBeDeleted();
-    }
-
     public function getWorkspaces()
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
