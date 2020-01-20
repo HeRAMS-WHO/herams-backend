@@ -8,6 +8,7 @@ use prime\components\Controller;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
+use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\values\Grant;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -28,11 +29,6 @@ class PermissionController extends Controller
             throw new NotFoundHttpException();
         }
 
-        /** @var ActiveRecord $target */
-        $target = $permission->targetObject;
-        if (!isset($target)) {
-            throw new NotFoundHttpException();
-        }
         $grant = $permission->getGrant();
         if (!$user->can(Permission::PERMISSION_DELETE, $grant)) {
             throw new ForbiddenHttpException();

@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = [
 
 echo GridView::widget([
     'dataProvider' 	=> $dataProvider,
-//    'filterModel'  	=> $searchModel,
+    'filterModel'  	=> $searchModel,
     'layout'  		=> "{items}\n{pager}",
     'columns' => [
         'id',
