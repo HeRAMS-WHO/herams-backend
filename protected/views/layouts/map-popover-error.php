@@ -29,10 +29,10 @@ $this->beginContent('@views/layouts/map.php');
             <span><?php
                $count = 0;
                /** @var Project $project */
-            foreach(Project::find()->each() as $project) {
+            foreach (Project::find()->each() as $project) {
                    $count += $project->contributorCount;
-                }
-                echo $count;
+            }
+            echo $count;
             ?></span>
             Contributors
         </div>
