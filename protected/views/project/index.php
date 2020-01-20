@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = [
             ]
         ]),
         'dataProvider' => $projectProvider,
+        'filterModel' => $projectSearch,
         'layout' => "{items}\n{pager}",
         'columns' => [
             'id',

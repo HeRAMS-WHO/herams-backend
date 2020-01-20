@@ -54,7 +54,7 @@ class Project extends \prime\models\ar\Project
             'query' => $query,
             'id' => 'project-data-provider',
             'pagination' => [
-                'pageSize' => 10
+                'pageSize' => 50
             ]
         ]);
 
