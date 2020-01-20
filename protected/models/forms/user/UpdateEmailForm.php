@@ -83,7 +83,6 @@ class UpdateEmailForm extends Model
             'url' => Url::to($url, true),
             'user' => $this->user
         ])
-            ->setFrom(\Yii::$app->params['sender'])
             ->send();
 
         if (!$result) {
