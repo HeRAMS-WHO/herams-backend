@@ -18,7 +18,7 @@
             return [
                 'error' => [
                     'class' => ErrorAction::class,
-                    'layout' => 'map-popover',
+                    'layout' => 'map-popover-error',
                     'view' => 'error'
                 ],
                 'world-map' => [
