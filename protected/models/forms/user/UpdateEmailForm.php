@@ -83,6 +83,7 @@ class UpdateEmailForm extends Model
             'url' => Url::to($url, true),
             'user' => $this->user
         ])
+            ->setTo($this->newEmail)
             ->send();
 
         if (!$result) {
