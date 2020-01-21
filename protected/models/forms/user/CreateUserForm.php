@@ -21,6 +21,7 @@ class CreateUserForm extends Model
     public $password;
 
     public $email;
+    public $name;
 
 
 
