@@ -22,13 +22,6 @@ use function iter\chain;
 
 /**
  * Class User
- * @property Profile $profile
- * @property string $firstName
- * @property string $lastName
- * @property string $organization
- * @property string $office
- * @property string $country
- * @property string $gravatarUrl
  * @property string $name
  */
 class User extends ActiveRecord implements IdentityInterface {
