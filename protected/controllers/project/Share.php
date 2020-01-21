@@ -5,6 +5,7 @@ namespace prime\controllers\project;
 
 
 use prime\components\NotificationService;
+use prime\exceptions\NoGrantablePermissions;
 use prime\models\ar\Project;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
@@ -32,19 +33,25 @@ class Share extends Action
         }
 
         if (!$user->can(Permission::PERMISSION_SHARE, $project)) {
-            throw new ForbiddenHttpException('You cannot share');
+            throw new ForbiddenHttpException(\Yii::t('app', 'You are not allowed to share this project'));
         }
-        $model = new ShareForm(
-            $project, $abacManager, $user->identity, [
-                Permission::PERMISSION_READ,
-                Permission::PERMISSION_LIMESURVEY,
-                Permission::PERMISSION_MANAGE_WORKSPACES,
-                Permission::PERMISSION_WRITE,
-                Permission::PERMISSION_SHARE,
-                Permission::PERMISSION_EXPORT,
-                Permission::PERMISSION_ADMIN,
-            ]
-        );
+
+        try {
+            $model = new ShareForm(
+                $project, $abacManager, $user->identity, [
+                    Permission::PERMISSION_READ,
+                    Permission::PERMISSION_LIMESURVEY,
+                    Permission::PERMISSION_MANAGE_WORKSPACES,
+                    Permission::PERMISSION_WRITE,
+                    Permission::PERMISSION_SHARE,
+                    Permission::PERMISSION_EXPORT,
+                    Permission::PERMISSION_ADMIN,
+                ]
+            );
+        } catch (NoGrantablePermissions $e) {
+            $notificationService->error('There are no permissions that you can share for this project');
+            return $this->controller->redirect($request->getReferrer());
+        }
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->validate()) {
                 $model->createRecords();

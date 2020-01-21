@@ -31,7 +31,7 @@ class Share extends Action
             throw new NotFoundHttpException();
         }
         if (!($user->can(Permission::PERMISSION_SHARE, $workspace))) {
-            throw new ForbiddenHttpException();
+            throw new ForbiddenHttpException('You are not allowed to share this workspace');
         }
         try {
             $model = new ShareForm($workspace, $abacManager, $user->identity, [
