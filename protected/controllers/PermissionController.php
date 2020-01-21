@@ -5,6 +5,7 @@ namespace prime\controllers;
 
 
 use prime\components\Controller;
+use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
@@ -20,6 +21,7 @@ class PermissionController extends Controller
 {
     public function actionDelete(
         User $user,
+        Resolver $abacResolver,
         AuthManager $abacManager,
         int $id,
         string $redirect
@@ -29,12 +31,14 @@ class PermissionController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $grant = $permission->getGrant();
+        $source = $abacResolver->toSubject($permission->sourceAuthorizable());
+        $target = $abacResolver->toSubject($permission->targetAuthorizable());
+        $grant = new ProposedGrant($source, $target, $permission->permission);
         if (!$user->can(Permission::PERMISSION_DELETE, $grant)) {
             throw new ForbiddenHttpException();
         }
 
-        $abacManager->getRepository()->revoke($grant);
+        $abacManager->getRepository()->revoke($permission->getGrant());
         return $this->redirect($redirect);
     }
 
