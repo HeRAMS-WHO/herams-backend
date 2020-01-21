@@ -11,7 +11,6 @@ use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
-use SamIT\abac\values\Grant;
 use yii\base\Model;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
@@ -63,7 +62,7 @@ class Share extends Model {
             /** @var User $user */
             foreach ($this->getUsers()->all() as $user) {
                 foreach ($this->permissions as $permission) {
-                    $grant = new ProposedGrant($this->model, $user, $permission);
+                    $grant = new ProposedGrant($user, $this->model, $permission);
 
                     if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
                         $this->abacManager->grant($user, $this->model, $permission);
