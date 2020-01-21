@@ -43,7 +43,7 @@ class Share extends Action
             ]
         ]);
 
-        if ($request->isPost && $model->load($request->bodyParams)) {
+        if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();
             $notificationService->success(\Yii::t('app',
                 "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",

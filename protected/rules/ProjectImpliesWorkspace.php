@@ -62,9 +62,10 @@ class ProjectImpliesWorkspace implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        return $source instanceof User
+        return in_array(get_class($source), $this->getSourceNames())
             && $target instanceof Workspace
             && in_array($permission, $this->getPermissions())
+            && $target->project instanceof Project
             && $accessChecker->check($source, $target->project, $permission);
     }
 }
