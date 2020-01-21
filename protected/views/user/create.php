@@ -56,11 +56,8 @@ echo Html::tag('header', $this->title);
             ]),
             'columns' => 1,
             'attributes' => [
-                'welcome' => [
-                    'type' => Form::INPUT_RAW,
-                    'value' => \Yii::t('app', 'Creating a new acount for email:')
-                ],
                 'email' => [
+                    'label' => \Yii::t('app', 'Creating a new acount for email:'),
                     'type' => Form::INPUT_STATIC,
                 ],
                 'name' => [

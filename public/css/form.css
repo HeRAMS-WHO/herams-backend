@@ -70,10 +70,6 @@ form .has-error input{
     width: 100%;
 }
 
-.btn-primary[form=login-form] {
-    width: 100%;
-}
-
 .form-group {
     margin-bottom: 5px;
 }
@@ -120,10 +116,12 @@ form .has-error input{
 
 /** Popover align form buttons to the button. */
 .popover .form .btn-group {
-    position: absolute;
-    bottom: 0;
     left: var(--padding);
     right: var(--padding);
+}
+
+.popover .btn-primary {
+    width: 100%;
 }
 
 .bootstrap-switch {
