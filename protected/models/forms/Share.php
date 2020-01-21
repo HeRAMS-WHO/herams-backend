@@ -5,6 +5,7 @@ namespace prime\models\forms;
 use kartik\builder\Form;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
+use prime\exceptions\NoGrantablePermissions;
 use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
@@ -16,16 +17,19 @@ use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
-use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\web\IdentityInterface;
 
+/**
+ * Class Share
+ * @package prime\models\forms
+ */
 class Share extends Model {
-    private $_permissionOptions = [];
-    public $userIds;
-    public $permissions;
+    private $permissionOptions = [];
+    public $userIds = [];
+    public $permissions = [];
 
     private $model;
 
@@ -38,15 +42,19 @@ class Share extends Model {
         object $model,
         AuthManager $abacManager,
         IdentityInterface $identity,
-        $config = []
+        ?array $availablePermissions
     ) {
         if($model instanceof ActiveRecord && $model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
-        parent::__construct($config);
+        parent::__construct([]);
         $this->model = $model;
         $this->abacManager = $abacManager;
         $this->currentUser = $identity;
+        $this->setPermissionOptions($availablePermissions);
+        if (empty($this->permissionOptions)) {
+            throw new NoGrantablePermissions();
+        }
     }
 
     public function attributeLabels()
@@ -74,26 +82,19 @@ class Share extends Model {
         }
     }
 
-    public function setPermissionOptions(array $options)
+    private function setPermissionOptions(?array $options)
     {
-        $this->_permissionOptions = $options;
-    }
-
-    private function permissionOptions(): array
-    {
-        $permissions = empty($this->_permissionOptions) ? Permission::permissionLabels() : $this->_permissionOptions;
         // Add labels if needed.
-        foreach($permissions as $key => $value) {
-            if (is_numeric($key)) {
-                unset($permissions[$key]);
-                $permissions[$value] = Permission::permissionLabels()[$value] ?? $value;
+        foreach($options ?? Permission::permissionLabels() as $permission => $label) {
+            if (is_numeric($permission)) {
+                $permission = $label;
+                $label = Permission::permissionLabels()[$permission] ?? $permission;
+            }
+            $grant = new ProposedGrant($this->currentUser, $this->model, $permission);
+            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+                $this->permissionOptions[$permission] = $label;
             }
         }
-
-        return array_filter($permissions, function(string $permission) {
-            $grant = new ProposedGrant($this->currentUser, $this->model, $permission);
-            return $this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE);
-        }, ARRAY_FILTER_USE_KEY);
     }
 
     public function getUserOptions()
@@ -120,7 +121,7 @@ class Share extends Model {
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => Select2::class,
                     'options' => [
-                        'data' => $this->userOptions,
+                        'data' => $this->getUserOptions(),
                         'options' => [
                             'multiple' => true
                         ]
@@ -129,7 +130,7 @@ class Share extends Model {
                 'permissions' => [
                     'label' => \Yii::t('app', 'Permissions'),
                     'type' => Form::INPUT_CHECKBOX_LIST,
-                    'items' => $this->permissionOptions()
+                    'items' => $this->permissionOptions
                 ]
             ]
         ]);
@@ -154,7 +155,7 @@ class Share extends Model {
                 'permissionLabel' => [
                     'attribute' => 'permissionLabel',
                     'value' => function(Permission $model) {
-                        return $this->permissionOptions()[$model->permission]
+                        return $this->permissionOptions[$model->permission]
                             ?? Permission::permissionLabels()[$model->permission]
                             ?? $model->permission;
                     }
@@ -201,8 +202,7 @@ class Share extends Model {
         return [
             [['permissions', 'userIds'], RequiredValidator::class],
             [['userIds'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id', 'allowArray' => true],
-            [['userIds'], DefaultValueValidator::class, 'value' => []],
-            [['permissions'], RangeValidator::class,  'allowArray' => true, 'range' => array_keys($this->permissionOptions())]
+            [['permissions'], RangeValidator::class,  'allowArray' => true, 'range' => array_keys($this->permissionOptions)]
         ];
     }
 }

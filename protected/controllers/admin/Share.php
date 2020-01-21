@@ -27,11 +27,7 @@ class Share extends Action
         if (!($user->can(Permission::PERMISSION_ADMIN))) {
             throw new ForbiddenHttpException();
         }
-        $model = new ShareForm(new GlobalPermission(), $abacManager, $user->identity, [
-            'permissionOptions' => [
-                Permission::PERMISSION_ADMIN,
-            ]
-        ]);
+        $model = new ShareForm(new GlobalPermission(), $abacManager, $user->identity, [Permission::PERMISSION_ADMIN]);
 
         if ($request->isPost) {
             if ($model->load($request->bodyParams)) {

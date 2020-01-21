@@ -36,7 +36,6 @@ class Share extends Action
         }
         $model = new ShareForm(
             $project, $abacManager, $user->identity, [
-            'permissionOptions' => [
                 Permission::PERMISSION_READ,
                 Permission::PERMISSION_LIMESURVEY,
                 Permission::PERMISSION_MANAGE_WORKSPACES,
@@ -45,7 +44,7 @@ class Share extends Action
                 Permission::PERMISSION_EXPORT,
                 Permission::PERMISSION_ADMIN,
             ]
-        ]);
+        );
         if($request->isPost) {
             if($model->load($request->bodyParams) && $model->validate()) {
                 $model->createRecords();

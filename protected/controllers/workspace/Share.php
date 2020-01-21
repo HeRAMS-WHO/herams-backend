@@ -33,14 +33,12 @@ class Share extends Action
             throw new ForbiddenHttpException();
         }
         $model = new ShareForm($workspace, $abacManager, $user->identity, [
-            'permissionOptions' => [
-                Permission::PERMISSION_LIMESURVEY,
-                Permission::PERMISSION_EXPORT,
-                Permission::PERMISSION_SHARE,
+            Permission::PERMISSION_LIMESURVEY,
+            Permission::PERMISSION_EXPORT,
+            Permission::PERMISSION_SHARE,
 //                Permission::ROLE_WORKSPACE_CONTRIBUTOR,
 //                Permission::ROLE_WORKSPACE_OWNER,
-                Permission::PERMISSION_ADMIN,
-            ]
+            Permission::PERMISSION_ADMIN,
         ]);
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
