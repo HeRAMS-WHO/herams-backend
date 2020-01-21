@@ -164,12 +164,12 @@ class Share extends Model {
                     'template' => '{delete}',
                     'buttons' => [
                         'delete' => function($url, Permission $model, $key) use ($deleteAction) {
-                            $grant = $model->getGrant();
+                            /** @var Resolver $resolver */
+                            $resolver = \Yii::$app->abacResolver;
+                            $source = $resolver->toSubject($model->sourceAuthorizable());
+                            $target = $resolver->toSubject($model->targetAuthorizable());
+                            $grant = new ProposedGrant($source, $target, $model->permission);
                             if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_DELETE)) {
-                                /** @var Resolver $resolver */
-                                $resolver = \Yii::$app->abacResolver;
-                                $source = $resolver->toSubject($model->sourceAuthorizable());
-                                $target = $resolver->toSubject($model->targetAuthorizable());
                                 return Html::a(
                                     Html::icon('trash'),
                                     [

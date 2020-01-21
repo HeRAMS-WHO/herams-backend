@@ -25,11 +25,6 @@ class ProposedGrant
         return $this->target;
     }
 
-    public function getSource():object
-    {
-        return $this->source;
-    }
-
     public function getPermission(): string
     {
         return $this->permission;

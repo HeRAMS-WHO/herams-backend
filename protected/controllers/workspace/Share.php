@@ -43,24 +43,20 @@ class Share extends Action
             ]
         ]);
 
-        if ($request->isPost) {
-            if ($model->load($request->bodyParams)) {
-                $model->createRecords();
-                $notificationService->success(\Yii::t('app',
-                    "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
-                    [
-                        'modelName' => $workspace->title,
-                        'users' => implode(', ', array_map(function ($model) {
-                            return $model->name;
-                        }, $model->getUsers()->all()))
-                    ])
+        if ($request->isPost && $model->load($request->bodyParams)) {
+            $model->createRecords();
+            $notificationService->success(\Yii::t('app',
+                "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
+                [
+                    'modelName' => $workspace->title,
+                    'users' => implode(', ', array_map(function ($model) {
+                        return $model->name;
+                    }, $model->getUsers()->all()))
+                ])
 
-                );
-                return $this->controller->refresh();
-            }
-
+            );
+            return $this->controller->refresh();
         }
-
 
         return $this->controller->render('share', [
             'model' => $model,
