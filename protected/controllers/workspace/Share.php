@@ -5,6 +5,7 @@ namespace prime\controllers\workspace;
 
 
 use prime\components\NotificationService;
+use prime\exceptions\NoGrantablePermissions;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\Permission;
@@ -32,14 +33,19 @@ class Share extends Action
         if (!($user->can(Permission::PERMISSION_SHARE, $workspace))) {
             throw new ForbiddenHttpException();
         }
-        $model = new ShareForm($workspace, $abacManager, $user->identity, [
-            Permission::PERMISSION_LIMESURVEY,
-            Permission::PERMISSION_EXPORT,
-            Permission::PERMISSION_SHARE,
+        try {
+            $model = new ShareForm($workspace, $abacManager, $user->identity, [
+                Permission::PERMISSION_LIMESURVEY,
+                Permission::PERMISSION_EXPORT,
+                Permission::PERMISSION_SHARE,
 //                Permission::ROLE_WORKSPACE_CONTRIBUTOR,
 //                Permission::ROLE_WORKSPACE_OWNER,
-            Permission::PERMISSION_ADMIN,
-        ]);
+                Permission::PERMISSION_ADMIN,
+            ]);
+        } catch (NoGrantablePermissions $e) {
+            $notificationService->error('There are no permissions that you can share for this workspace');
+            return $this->controller->redirect($request->getReferrer());
+        }
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();
