@@ -67,7 +67,7 @@ class RequestAccountForm extends Model
 
         ])
             ->setTo($this->email)
-            ->setSubject(\Yii::t('app', "Collecthor email verification"))
+            ->setSubject(\Yii::t('app', "HeRAMS email verification"))
             ->send()
         ;
         $this->cache->set(__CLASS__ . $this->email, Carbon::now()->addMinutes(2)->timestamp);

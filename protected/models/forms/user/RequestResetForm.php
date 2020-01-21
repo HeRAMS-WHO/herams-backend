@@ -43,7 +43,7 @@ class RequestResetForm extends Model
 
         ])
             ->setTo($this->email)
-            ->setSubject(\Yii::t('app', "Collecthor password reset"))
+            ->setSubject(\Yii::t('app', "HeRAMS password reset"))
             ->send()
         ;
         $this->cache->set(__CLASS__ . $this->email, time() + 120);
