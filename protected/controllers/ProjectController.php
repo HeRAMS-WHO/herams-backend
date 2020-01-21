@@ -105,7 +105,8 @@ class ProjectController extends Controller
                                 'check',
                                 'filter',
                                 'export-dashboard',
-                                'import-dashboard'
+                                'import-dashboard',
+                                'export'
                             ],
                             'roles' => ['@'],
                         ],

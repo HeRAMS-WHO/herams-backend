@@ -1,10 +1,8 @@
 <?php
 
-use collecthor\widgets\Panel\Panel;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model collecthor\models\User */
 
 $this->title = Yii::t('app', 'Update account');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];

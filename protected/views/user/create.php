@@ -9,9 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use collecthor\bundles\AppAssetBundle;
-use dektrium\user\models\LoginForm;
-use dektrium\user\widgets\Connect;
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
 use prime\widgets\FormButtonsWidget;
