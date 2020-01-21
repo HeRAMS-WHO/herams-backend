@@ -141,6 +141,7 @@
 
 .menu nav a:hover, .menu nav button:hover {
     color: var(--indicator-color);
+    border-left: var(--indicator-width) solid var(--indicator-color);
 }
 .menu nav section a {
     background-color: #f3f3f3;
