@@ -67,6 +67,8 @@ class Share extends Model {
 
                     if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
                         $this->abacManager->grant($user, $this->model, $permission);
+                    } else {
+                        throw new \RuntimeException('You are not allowed to create this grant');
                     }
                 }
             }
