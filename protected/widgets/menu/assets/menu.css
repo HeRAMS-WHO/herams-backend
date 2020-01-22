@@ -12,11 +12,15 @@
 }
 
 .menu hr {
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-bottom: 35px;
+    margin-top: 35px;
+    margin-left: 0px;
+    margin-right: 0px;
     grid-area: separator;
+    background: #e1e0de;
+    border: none;
+    width: 100%;
+    height: 1px;
 }
 .menu li {
     list-style: none;
@@ -32,9 +36,9 @@
     overflow: hidden;
     --animation-duration: 500ms;
     --indicator-color: #3e75c4;
-    --indicator-width: 3px;
+    --indicator-width: 4px;
     --indent: 20px;
-    --item-padding-vertical: 14px;
+    --item-padding-vertical: 18px;
     --side-width: 285px;
     padding-top: 10px;
     position: relative;
@@ -101,9 +105,7 @@
     overflow-y: auto;
 }
 
-.menu nav > a, .menu nav > button, .menu nav > section > header > a {
-    font-weight: 600;
-}
+
 
 .menu nav a, .menu nav button {
     width: 100%;
@@ -115,7 +117,7 @@
     cursor: pointer;
     display: block;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 18px;
     max-height: 3em;
     outline:none;
@@ -128,20 +130,24 @@
     text-decoration: none;
     transition: max-height var(--animation-duration), padding-top var(--animation-duration), padding-bottom var(--animation-duration);
     color: black;
+    transition: border 0.3s, color 0.3s;
 }
 
 .menu nav a.active, .menu nav button.active {
     border-left: var(--indicator-width) solid var(--indicator-color);
     color: var(--indicator-color);
+    transition: border 0.3s, color 0.3s;
 }
 
 .menu nav a:hover, .menu nav button:hover {
     color: var(--indicator-color);
+    border-left: var(--indicator-width) solid var(--indicator-color);
 }
 .menu nav section a {
     background-color: #f3f3f3;
     font-size: 14px;
     line-height: 14px;
+    max-height: none;
 }
 .menu nav section header {
     position: relative;
@@ -169,9 +175,7 @@
     padding-bottom: 0;
 }
 
-.menu nav>a, .menu nav>button, .menu nav>section>header>a {
-    font-weight: 600;
-}
+
 
 .menu a, .menu button, .menu a:visited {
     color: inherit;

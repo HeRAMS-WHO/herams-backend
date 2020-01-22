@@ -733,11 +733,13 @@ body[data-modal]:after {
     grid-area: status;
     text-align: center;
     font-size: 14px;
-    background-color: var(--darker-background-color);
-    background-color: black;
+    background-color: #22222a;
     font-size: 14px;
     /*color: #92929b;*/
 }
 
+.status .value {
+    color: #92929b;
+}
 
 
