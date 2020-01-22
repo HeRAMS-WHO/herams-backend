@@ -73,6 +73,20 @@ services:
       - phpmyadmin
     entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
     command: ""
+  testcli:
+    <<: *base
+    depends_on:
+      - testdb
+    entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
+    command: ""
+    environment:
+      DB_HOST: testdb
+      DB_USER: $DB_USER
+      DB_NAME: $DB_NAME
+      DB_PASS: $DB_PASS
+      YII_ENV: $YII_ENV
+      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
+      RUNTIME_PATH: /runtime
   composer:
     << : *base
     entrypoint: [

@@ -110,14 +110,6 @@ class Workspace extends ActiveRecord
         return $result;
     }
 
-    /**
-     * @return ResponseInterface[]
-     */
-    public function getRawResponses()
-    {
-        return $this->getLimesurveyDataProvider()->getResponsesByToken($this->project->base_survey_eid, $this->getAttribute('token'));
-    }
-
     public function getProject()
     {
         return $this->hasOne(Project::class, ['id' => 'tool_id'])->inverseOf('workspaces');

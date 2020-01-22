@@ -40,9 +40,8 @@ class Refresh extends Action
 
         $new = $updated = $unchanged = $failed = 0;
         $start = microtime(true);
-        $limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token'));
         $ids = [];
-        foreach($limesurveyDataProvider->getResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+        foreach($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
             $ids[] = $response->getId();
             $key = [
                 'id' => $response->getId(),

@@ -16,7 +16,6 @@ use yii\di\Instance;
 
 class LimesurveyDataProvider extends Component
 {
-    public $cacheResponses;
     /** @var CacheInterface */
     public $cache = 'cache';
 
@@ -50,7 +49,7 @@ class LimesurveyDataProvider extends Component
         return $this->client->getToken($surveyId, $token);
     }
 
-    public function getResponsesByTokenFromCache(int $surveyId, string $token): ?iterable
+    private function getResponsesByTokenFromCache(int $surveyId, string $token): ?iterable
     {
         \Yii::beginProfile(__FUNCTION__);
         $key = $this->responsesCacheKey($surveyId, $token);
@@ -70,12 +69,6 @@ class LimesurveyDataProvider extends Component
         return is_int($result) ? $result : null;
     }
 
-    public function tokenCacheTime(int $surveyId, string $token): ?int
-    {
-        $result = $this->cache->get($this->responsesCacheKey($surveyId, $token). 'present');
-        return is_int($result) ? $result : null;
-    }
-
     protected function responsesCacheKey(int $surveyId, ?string $token = null): string
     {
         return 'LDPrsps' . $surveyId . $token;
@@ -85,40 +78,19 @@ class LimesurveyDataProvider extends Component
      * Get all responses in a survey and store them in the cache.
      * This function never uses the cache for reading.
      * @param int $surveyId
-     * @return iterable
+     * @return iterable|ResponseInterface[]
      */
     public function refreshResponsesByToken(int $surveyId, string $token): iterable
     {
-        \Yii::beginProfile($surveyId. '|| ' . $token, __FUNCTION__);
-        $result = $this->client->getResponsesByToken($surveyId, $token);
-        $key = $this->responsesCacheKey($surveyId, $token);
-        $this->cache->multiSet([
-            $key => $result,
-            "{$key}present" => time()
-        ], $this->responseCacheDuration);
-
-
-        \Yii::endProfile($surveyId. '|| ' . $token, __FUNCTION__);
-        return $result;
+        return $this->client->getResponsesByToken($surveyId, $token);
     }
-
-    /**
-     * @param int $surveyId
-     * @param string $token
-     * @return iterable|ResponseInterface[]
-     */
-    public function getResponsesByToken(int $surveyId, string $token): iterable
-    {
-        return $this->getResponsesByTokenFromCache($surveyId, $token) ?? $this->refreshResponsesByToken($surveyId, $token);
-    }
-
 
     public function getSurvey(int $surveyId): SurveyInterface
     {
         try {
             return $this->client->getSurvey($surveyId);
         } catch (\Exception $e) {
-            throw SurveyDoesNotExist::fromClient($e);
+            throw SurveyDoesNotExist::fromClient($e) ?? $e;
         }
     }
 

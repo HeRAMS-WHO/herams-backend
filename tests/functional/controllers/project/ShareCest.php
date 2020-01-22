@@ -47,7 +47,7 @@ class ShareCest
 
         $I->selectOption(['id' => 'share-userids'], ['value' => TEST_ADMIN_ID]);
 
-        $I->checkOption(['css' => '[name="Share[permission][]"][value=admin]']);
+        $I->checkOption(['css' => '[name="Share[permissions][]"][value=admin]']);
         $I->stopFollowingRedirects();
         $I->assertTrue(\Yii::$app->abacManager->check($user2, $project, Permission::PERMISSION_ADMIN));
         $I->click('.btn-primary');

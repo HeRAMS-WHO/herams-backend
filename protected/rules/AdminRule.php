@@ -5,6 +5,7 @@ namespace prime\rules;
 
 
 use prime\components\AuthManager;
+use prime\models\permissions\GlobalPermission;
 use prime\models\permissions\Permission;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -33,7 +34,7 @@ class AdminRule implements SimpleRule
     ): bool {
         /** @var AuthManager $authManager */
         $authManager = \Yii::$app->authManager;
-        return  !$target instanceof Authorizable
-            && $accessChecker->check($source, $environment['globalAuthorizable'], Permission::PERMISSION_ADMIN);
+        return  !$target instanceof GlobalPermission
+            && $accessChecker->check($source, new GlobalPermission(), Permission::PERMISSION_ADMIN);
     }
 }

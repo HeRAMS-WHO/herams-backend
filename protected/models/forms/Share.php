@@ -33,6 +33,8 @@ class Share extends Model {
 
     private $model;
 
+    public $confirmationMessage;
+
     /** @var AuthManager */
     private $abacManager;
     /** @var IdentityInterface */
@@ -169,6 +171,9 @@ class Share extends Model {
                             $resolver = \Yii::$app->abacResolver;
                             $source = $resolver->toSubject($model->sourceAuthorizable());
                             $target = $resolver->toSubject($model->targetAuthorizable());
+                            if (!isset($source, $target)) {
+                                return '';
+                            }
                             $grant = new ProposedGrant($source, $target, $model->permission);
                             if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_DELETE)) {
                                 return Html::a(
@@ -181,7 +186,7 @@ class Share extends Model {
                                     [
                                         'class' => 'text-danger',
                                         'data-method' => 'delete',
-                                        'data-confirm' => \Yii::t('app',
+                                        'data-confirm' => $this->confirmationMessage ?? \Yii::t('app',
                                             'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>',
                                             [
                                                 'modelName' => $target->displayField ?? "{$model->targetAuthorizable()->getAuthName()} ({$model->targetAuthorizable()->getId()})",

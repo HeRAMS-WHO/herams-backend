@@ -5,12 +5,14 @@ namespace prime\components;
 
 
 use prime\helpers\ProposedGrant;
+use prime\models\permissions\GlobalPermission;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\values\Grant;
+use SamIT\Yii2\abac\AccessChecker;
 use yii\base\NotSupportedException;
 
-class GrantResolver implements Resolver
+class GlobalPermissionResolver implements Resolver
 {
 
     /**
@@ -18,8 +20,8 @@ class GrantResolver implements Resolver
      */
     public function fromSubject(object $object): ?Authorizable
     {
-        if ($object instanceof ProposedGrant) {
-            return null;
+        if ($object instanceof GlobalPermission) {
+            return $object;
         }
         return null;
     }
@@ -29,8 +31,8 @@ class GrantResolver implements Resolver
      */
     public function toSubject(Authorizable $authorizable): ?object
     {
-        if ($authorizable instanceof ProposedGrant) {
-            return $authorizable;
+        if ($authorizable->getAuthName() === AccessChecker::BUILTIN && $authorizable->getId() === AccessChecker::GLOBAL) {
+            return new GlobalPermission();
         }
         return null;
     }

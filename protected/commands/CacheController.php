@@ -32,6 +32,16 @@ class CacheController extends \yii\console\controllers\CacheController
 
     }
 
+    public function actionWarmupSurvey(LimesurveyDataProvider $limesurveyDataProvider, int $id)
+    {
+        $this->stdout('Refreshing survey structure...', Console::FG_CYAN);
+        foreach ($limesurveyDataProvider->getSurvey($id)->getGroups() as $group) {
+            $this->stdout('.', Console::FG_PURPLE);
+            $group->getQuestions();
+        }
+        $this->stdout("OK\n", Console::FG_GREEN);
+    }
+
     public function actionWarmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
         int $id
@@ -49,12 +59,9 @@ class CacheController extends \yii\console\controllers\CacheController
         foreach ($project->getWorkspaces()->each() as $workspace) {
             $token = $workspace->getAttribute('token');
             $this->stdout("Starting cache warmup for workspace {$workspace->title}..\n", Console::FG_CYAN);
-            $limesurveyDataProvider->refreshResponsesByToken($surveyId, $token);
-            $this->stdout("OK\n", Console::FG_GREEN);
-
             $this->stdout("Checking responses for workspace {$workspace->title}..", Console::FG_CYAN);
 
-            foreach($limesurveyDataProvider->getResponsesByToken($project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+            foreach($limesurveyDataProvider->refreshResponsesByToken($project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
                 $key = [
                     'id' => $response->getId(),
                     'survey_id' => $response->getSurveyId()
@@ -77,12 +84,6 @@ class CacheController extends \yii\console\controllers\CacheController
             $this->stdout("OK\n", Console::FG_GREEN);
         }
 
-        $this->stdout('Refreshing survey structure...', Console::FG_CYAN);
-        foreach ($limesurveyDataProvider->getSurvey($project->base_survey_eid)->getGroups() as $group) {
-            $this->stdout('.', Console::FG_PURPLE);
-            $group->getQuestions();
-
-        }
-        $this->stdout("OK\n", Console::FG_GREEN);
+        $this->actionWarmupSurvey($limesurveyDataProvider, $project->base_survey_eid);
     }
 }

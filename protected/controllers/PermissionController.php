@@ -6,11 +6,9 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\helpers\ProposedGrant;
-use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
-use SamIT\abac\values\Grant;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\ForbiddenHttpException;

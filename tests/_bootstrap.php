@@ -5,7 +5,7 @@ namespace {
 
     define('TEST_ADMIN_ID', 1);
     define('TEST_USER_ID', 2);
-
+    define('TEST_OTHER_USER_ID', 3);
 
     call_user_func(function () {
         define('YII_ENV', getenv('YII_ENV'));

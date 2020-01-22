@@ -17,6 +17,7 @@ return [
     new ImpliedPermission(Permission::PERMISSION_ADMIN, [
         Permission::PERMISSION_SHARE,
         Permission::PERMISSION_WRITE,
+        Permission::PERMISSION_DELETE,
         Permission::PERMISSION_EXPORT,
         Permission::PERMISSION_LIMESURVEY,
         Permission::PERMISSION_MANAGE_WORKSPACES

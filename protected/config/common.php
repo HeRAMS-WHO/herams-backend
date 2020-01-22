@@ -64,7 +64,7 @@ return [
         'abacResolver' => function(): \SamIT\abac\interfaces\Resolver {
             return new \SamIT\abac\resolvers\ChainedResolver(
                 new ActiveRecordResolver(),
-                new \prime\components\GrantResolver()
+                new \prime\components\GlobalPermissionResolver()
             );
         },
         'abacManager' => function() {

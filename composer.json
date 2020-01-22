@@ -80,5 +80,14 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "scripts": {
+        "codeception": "docker-compose run --rm codeception",
+        "cli": "docker-compose run --rm cli",
+        "lint": "phpstan analyse -c phpstan.neon src --ansi",
+        "test" : "docker-compose run --rm codeception run",
+        "stan": "phpstan analyse src",
+        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml"
+    }
+
 }

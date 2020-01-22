@@ -9,8 +9,6 @@ use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\GlobalPermission;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
-use SamIT\abac\values\Authorizable;
-use SamIT\Yii2\abac\AccessChecker;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\Request;
@@ -27,15 +25,25 @@ class Share extends Action
         if (!($user->can(Permission::PERMISSION_ADMIN))) {
             throw new ForbiddenHttpException();
         }
-        $model = new ShareForm(new GlobalPermission(), $abacManager, $user->identity, [Permission::PERMISSION_ADMIN]);
+        $permissions = [
+            Permission::PERMISSION_ADMIN,
+            Permission::PERMISSION_EXPORT,
+            Permission::PERMISSION_MANAGE_WORKSPACES,
+            Permission::PERMISSION_LIMESURVEY,
+            Permission::PERMISSION_READ,
+            Permission::PERMISSION_SHARE,
+            Permission::PERMISSION_CREATE_PROJECT,
+            Permission::PERMISSION_CREATE_PROJECT
+        ];
+        $model = new ShareForm(new GlobalPermission(), $abacManager, $user->identity, $permissions);
 
+        $model->confirmationMessage = \Yii::t('app', 'Are you sure you want to revoke this global permission?');
         if ($request->isPost) {
             if ($model->load($request->bodyParams)) {
                 $model->createRecords();
                 $notificationService->success(\Yii::t('app',
-                    "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
+                    "Global permissions granted to {users}",
                     [
-                        'modelName' => 'Global',
                         'users' => implode(', ', array_map(function ($model) {
                             return $model->name;
                         }, $model->getUsers()->all()))
