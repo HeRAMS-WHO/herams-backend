@@ -12,6 +12,7 @@
 a, a:hover, a:active, a:visited {
     text-decoration: none;
     color: inherit;
+    transition: color 0.3s;
 }
 
 header {
@@ -26,12 +27,14 @@ body {
     font-family: "Source Sans Pro";
 }
 
-a {
+a,a:visited {
     color: var(--link-color);
+    text-decoration: none;
 }
 
 a:hover {
     color: var(--primary-button-background-color);
+    text-decoration: none;
 }
 .btn {
     font-size: var(--font-size);
