@@ -84,12 +84,14 @@ class LimesurveyStub extends Client
                 return [
                     new Question($this, [
                         'id' => 1,
+                        'index' => 5,
                         'title' => 'noe',
                         'text' => 'random'
                     ]),
                     new Question($this, [
                         'id' => 'MoSD3',
                         'title' => 'MoSD3',
+                        'index' => 3,
                         'text' => 'Question text',
                     ], [
                         'answers' => [
