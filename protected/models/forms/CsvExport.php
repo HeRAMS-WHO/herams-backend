@@ -5,7 +5,13 @@ namespace prime\models\forms;
 
 
 use GuzzleHttp\Psr7\Stream;
+use prime\helpers\ClosureColumn;
+use prime\helpers\DataTextColumn;
+use prime\helpers\GetterColumn;
+use prime\helpers\RawDataColumn;
+use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
+use prime\models\ar\Response;
 use Psr\Http\Message\StreamInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
@@ -45,12 +51,32 @@ class CsvExport extends Model
 
     /**
      * @param SurveyInterface $survey
-     * @return iterable
+     * @return iterable|ColumnDefinition[]
      * @throws NotSupportedException
      */
     private function getColumns(SurveyInterface $survey): iterable
     {
-//        yield 'subjectId';
+        yield new GetterColumn('id', 'External ID', 'external_id');
+        yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
+            if ($response instanceof Response) {
+                return strtr('https://ls.herams.org/admin/responses?sa=view&surveyid={surveyId}&id={id}', [
+                    '{id}' => $response->getId(),
+                    '{surveyId}' => $response->survey_id
+                ]);
+            }
+            return null;
+
+        }, 'external_url', 'External URL');
+        yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
+            if ($response instanceof Response) {
+                return $response->last_updated;
+            }
+            return null;
+
+        }, 'last_synced', 'Last synced');
+        yield new GetterColumn('subjectId', 'Subject ID');
+        yield new GetterColumn('date', 'Date');
+
         /** @var QuestionInterface[] $questions */
 
         $groups = $survey->getGroups();
@@ -67,17 +93,21 @@ class CsvExport extends Model
                 if (in_array($question->getTitle(), ['UOID', 'Update'])) continue;
                 switch ($question->getDimensions()) {
                     case 0:
-                        yield [$question];
+                        yield $this->answersAsText ? new DataTextColumn($question) : new RawDataColumn($question);
                         break;
                     case 1:
                         foreach($question->getQuestions(0) as $subQuestion) {
-                            yield [$question, $subQuestion];
+                            yield $this->answersAsText
+                                ? new DataTextColumn($question, $subQuestion)
+                                : new RawDataColumn($question, $subQuestion);
                         }
                         break;
                     case 2:
                         foreach($question->getQuestions(0) as $xQuestion) {
                             foreach($xQuestion->getQuestions(0) as $yQuestion) {
-                                yield [$question, $xQuestion, $yQuestion];
+                                yield $this->answersAsText
+                                    ? new DataTextColumn($question, $xQuestion, $yQuestion)
+                                    : new RawDataColumn($question, $xQuestion, $yQuestion);
                             }
                         }
                         break;
@@ -88,35 +118,22 @@ class CsvExport extends Model
         }
     }
 
-    private function writeTextHeader($stream, iterable $questions): int
+    /**
+     * @param $stream
+     * @return int
+     */
+    private function writeTextHeader($stream, ColumnDefinition ...$columns): int
     {
-        return $this->writeHeader($stream, $questions, static function(array $questions): string {
-            /** @var QuestionInterface $question */
-            $question = array_pop($questions);
-            $result = $question->getText();
-            while (null !== $question = array_pop($questions)) {
-                $result .= ' ' . $question->getText();
-            }
-            return $result;
-        });
+        return $this->fputcsv($stream, map(static function(ColumnDefinition $column): string {
+           return $column->getHeaderText();
+        }, $columns));
     }
 
-    private function writeHeader($stream, iterable $questions, \Closure $text): int
+    private function writeCodeHeader($stream, ColumnDefinition ...$columns): int
     {
-        return $this->fputcsv($stream, map($text, $questions));
-    }
-
-    private function writeCodeHeader($stream, iterable $questions): int
-    {
-        return $this->writeHeader($stream, $questions, static function(array $questions): string {
-            /** @var QuestionInterface $question */
-            $question = array_shift($questions);
-            $result = $question->getTitle();
-            while (null !== $question = array_shift($questions)) {
-                $result .= '_' . $question->getTitle();
-            }
-            return $result;
-        });
+        return $this->fputcsv($stream, map(static function(ColumnDefinition $column): string {
+            return $column->getHeaderCode();
+        }, $columns));
     }
 
     /**
@@ -138,15 +155,15 @@ class CsvExport extends Model
         $columns = toArray($this->getColumns($survey));
 
         if ($this->includeTextHeader) {
-            $size += $this->writeTextHeader($file, $columns);
+            $size += $this->writeTextHeader($file, ...$columns);
         }
 
         if ($this->includeCodeHeader) {
-            $size += $this->writeCodeHeader($file, $columns);
+            $size += $this->writeCodeHeader($file, ...$columns);
         }
 
         foreach($records as $record) {
-            $size += $this->writeRecord($file, $columns, $record);
+            $size += $this->writeRecord($file, $record, ...$columns);
         }
         return new Stream($file, ['size' => $size]);
     }
@@ -160,66 +177,11 @@ class CsvExport extends Model
         return $result;
     }
 
-    /**
-     * @var QuestionInterface[][] $columns
-     */
-    private function writeRecord($stream, iterable $columns, HeramsResponseInterface $record): int
+    private function writeRecord($stream, HeramsResponseInterface $record, ColumnDefinition ...$columns): int
     {
-        return $this->fputcsv($stream, map(function($questionPath) use ($record) {
-            if (is_string($questionPath)) {
-                return $record->$questionPath;
-            }
-            if ($this->answersAsText) {
-                return $this->getValueText($record, $questionPath);
-            } else {
-                return $this->getValue($record, $questionPath);
-
-            }
-
+        return $this->fputcsv($stream, map(static function(ColumnDefinition $column) use ($record) {
+            return $column->getValue($record);
         }, $columns));
-    }
-
-    /**
-     * @param HeramsResponseInterface $record
-     * @param QuestionInterface[] $path
-     */
-    private function getValue(HeramsResponseInterface $record, iterable $path): ?string
-    {
-        $data = $record->getRawData();
-        /** @var QuestionInterface $question */
-        foreach($path as $question) {
-            $data = $data[$question->getTitle()] ?? null;
-        }
-        if (is_array($data)) {
-            return "Bad data, got array: " . implode(', ', $data);
-        }
-        return $data;
-    }
-    /**
-     * @param HeramsResponseInterface $record
-     * @param QuestionInterface[] $path
-     */
-    private function getValueText(HeramsResponseInterface $record, iterable $path): ?string
-    {
-        $data = $record->getRawData();
-
-        /** @var QuestionInterface $question */
-        foreach($path as $question) {
-            $data = $data[$question->getTitle()] ?? null;
-        }
-
-        $answers = $question->getAnswers();
-        if (isset($answers)) {
-            foreach($answers as $answer) {
-                if ($answer->getCode() === $data) {
-                    return $answer->getText();
-                }
-            }
-        }
-        if (is_array($data)) {
-            return "Bad data, got array: " . implode(', ', $data);
-        }
-        return $data;
     }
 
     public function getLanguages()

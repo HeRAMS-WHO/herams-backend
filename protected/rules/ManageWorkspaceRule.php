@@ -10,7 +10,7 @@ use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class DeleteWorkspaceRule implements Rule
+class ManageWorkspaceRule implements Rule
 {
 
     /**
@@ -18,7 +18,9 @@ class DeleteWorkspaceRule implements Rule
      */
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_DELETE];
+        return [
+            Permission::PERMISSION_DELETE
+        ];
     }
 
     /**
@@ -56,7 +58,7 @@ class DeleteWorkspaceRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         return $target instanceof Workspace
-            && $permission === Permission::PERMISSION_DELETE
+            && in_array($permission, $this->getPermissions())
             && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_WORKSPACES)
         ;
     }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use prime\models\permissions\Permission;
 use prime\rules\AdminRule;
-use prime\rules\DeleteWorkspaceRule;
+use prime\rules\ManageWorkspaceRule;
 use prime\rules\GrantRule;
 use prime\rules\ProjectImpliesWorkspace;
 use prime\rules\ProjectReadRule;
@@ -27,5 +27,5 @@ return [
     ]),
     new ProjectReadRule(),
     new ProjectImpliesWorkspace(),
-    new DeleteWorkspaceRule(),
+    new ManageWorkspaceRule(),
 ];

@@ -93,6 +93,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
             $data['startlanguage'],
             $data['id'],
             $data['token'],
+            $data['Update'],
             $data['lastpage'],
             $data['UOID']
         );
