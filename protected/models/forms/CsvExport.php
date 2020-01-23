@@ -64,7 +64,7 @@ class CsvExport extends Model
             });
             foreach($questions as $question) {
                 // Don't add column for UOID
-                if ($question->getId() === 'UOID') continue;
+                if (in_array($question->getId(), ['UOID', 'Update'])) continue;
                 switch ($question->getDimensions()) {
                     case 0:
                         yield [$question];
