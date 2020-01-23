@@ -60,7 +60,7 @@ class GrantRule implements Rule
         return $target instanceof ProposedGrant
             && ($permission === Permission::PERMISSION_CREATE || $permission === Permission::PERMISSION_DELETE)
             // This rule will never grant someone permission to create a grant with the share permission
-            && $target->getPermission() !== Permission::PERMISSION_SHARE
+            && !in_array($target->getPermission(), [Permission::PERMISSION_SHARE, Permission::PERMISSION_SUPER_SHARE])
             // To share you must have share permissions
             && $accessChecker->check($source, $target->getTarget(), Permission::PERMISSION_SHARE)
             // To share you must have the permission that you are giving
