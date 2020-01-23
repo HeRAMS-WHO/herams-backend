@@ -7,6 +7,7 @@ namespace prime\models\forms;
 use GuzzleHttp\Psr7\Stream;
 use prime\interfaces\HeramsResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -42,11 +43,28 @@ class CsvExport extends Model
         ];
     }
 
+    /**
+     * @param SurveyInterface $survey
+     * @return iterable
+     * @throws NotSupportedException
+     */
     private function getColumns(SurveyInterface $survey): iterable
     {
+//        yield 'subjectId';
         /** @var QuestionInterface[] $questions */
-        foreach($survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
+
+        $groups = $survey->getGroups();
+        usort($groups, function(GroupInterface $a, GroupInterface $b) {
+            return $a->getIndex() <=> $b->getIndex();
+        });
+        foreach($groups as $group) {
+            $questions = $group->getQuestions();
+            usort($questions, function(QuestionInterface $a, QuestionInterface $b) {
+                return $a->getIndex() <=> $b->getIndex();
+            });
+            foreach($questions as $question) {
+                // Don't add column for UOID
+                if ($question->getId() === 'UOID') continue;
                 switch ($question->getDimensions()) {
                     case 0:
                         yield [$question];
@@ -147,13 +165,17 @@ class CsvExport extends Model
      */
     private function writeRecord($stream, iterable $columns, HeramsResponseInterface $record): int
     {
-        return $this->fputcsv($stream, map(function(array $questionPath) use ($record) {
+        return $this->fputcsv($stream, map(function($questionPath) use ($record) {
+            if (is_string($questionPath)) {
+                return $record->$questionPath;
+            }
             if ($this->answersAsText) {
                 return $this->getValueText($record, $questionPath);
             } else {
                 return $this->getValue($record, $questionPath);
 
             }
+
         }, $columns));
     }
 
