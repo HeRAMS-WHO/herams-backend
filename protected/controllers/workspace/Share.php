@@ -38,8 +38,7 @@ class Share extends Action
                 Permission::PERMISSION_LIMESURVEY,
                 Permission::PERMISSION_EXPORT,
                 Permission::PERMISSION_SHARE,
-//                Permission::ROLE_WORKSPACE_CONTRIBUTOR,
-//                Permission::ROLE_WORKSPACE_OWNER,
+                Permission::PERMISSION_SUPER_SHARE,
                 Permission::PERMISSION_ADMIN,
             ]);
         } catch (NoGrantablePermissions $e) {

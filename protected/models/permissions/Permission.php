@@ -39,6 +39,7 @@ class Permission extends ActiveRecord
     const PERMISSION_CREATE_PROJECT = 'create-page';
     const PERMISSION_LIMESURVEY = 'update-data';
     const PERMISSION_SHARE = 'share';
+    const PERMISSION_SUPER_SHARE = 'super-share';
     const PERMISSION_DELETE = 'delete';
     const PERMISSION_EXPORT = 'export';
 
@@ -66,7 +67,8 @@ class Permission extends ActiveRecord
         return [
             self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
             self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to properties'),
-            self::PERMISSION_SHARE => \Yii::t('app', 'Share, allows this users to give other users limited access'),
+            self::PERMISSION_SHARE => \Yii::t('app', 'Share, allows users to give other users limited access'),
+            self::PERMISSION_SUPER_SHARE => \Yii::t('app', 'Share, allows this user to give other users the share permission'),
             self::PERMISSION_EXPORT => \Yii::t('app', 'Export, allows exporting data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
             self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Manage data in LimeSurvey'),

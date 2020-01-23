@@ -18,9 +18,7 @@ class ManageWorkspaceRule implements Rule
      */
     public function getPermissions(): array
     {
-        return [
-            Permission::PERMISSION_DELETE
-        ];
+        return [];
     }
 
     /**
@@ -58,7 +56,6 @@ class ManageWorkspaceRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         return $target instanceof Workspace
-            && in_array($permission, $this->getPermissions())
             && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_WORKSPACES)
         ;
     }

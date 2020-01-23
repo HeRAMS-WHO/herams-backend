@@ -7,6 +7,7 @@ use prime\rules\ManageWorkspaceRule;
 use prime\rules\GrantRule;
 use prime\rules\ProjectImpliesWorkspace;
 use prime\rules\ProjectReadRule;
+use prime\rules\SuperShareRule;
 use prime\rules\WorkspaceDataRule;
 use prime\rules\WorkspaceRule;
 use SamIT\abac\rules\ImpliedPermission;
@@ -14,6 +15,7 @@ use SamIT\abac\rules\ImpliedPermission;
 return [
     new AdminRule(),
     new GrantRule(),
+    new SuperShareRule(),
     new ImpliedPermission(Permission::PERMISSION_ADMIN, [
         Permission::PERMISSION_SHARE,
         Permission::PERMISSION_WRITE,

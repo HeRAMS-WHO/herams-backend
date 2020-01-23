@@ -44,6 +44,7 @@ class Share extends Action
                     Permission::PERMISSION_MANAGE_WORKSPACES,
                     Permission::PERMISSION_WRITE,
                     Permission::PERMISSION_SHARE,
+                    Permission::PERMISSION_SUPER_SHARE,
                     Permission::PERMISSION_EXPORT,
                     Permission::PERMISSION_ADMIN,
                 ]
