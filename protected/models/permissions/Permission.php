@@ -68,7 +68,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_READ => \Yii::t('app', 'Read, this grants access to the dashboard'),
             self::PERMISSION_WRITE => \Yii::t('app', 'Write, this grants access to properties'),
             self::PERMISSION_SHARE => \Yii::t('app', 'Share, allows users to give other users limited access'),
-            self::PERMISSION_SUPER_SHARE => \Yii::t('app', 'Share, allows this user to give other users the share permission'),
+            self::PERMISSION_SUPER_SHARE => \Yii::t('app', 'Super share, allows this user to give other users the share permission'),
             self::PERMISSION_EXPORT => \Yii::t('app', 'Export, allows exporting data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
             self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Manage data in LimeSurvey'),
