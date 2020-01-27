@@ -20,47 +20,49 @@ echo Html::beginForm(['project/filter', 'id' => $project->id,
 ]);
 
     ?>
-    <div class="count">
-        <?php
-        echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
-        echo Html::tag('em', count($data));
-        ?>
-    </div>
-    <div class="count">
-        <?php
-        echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
-        echo Html::tag('em', $project->contributorCount);
-        ?>
-    </div>
-    <div class="count">
-        <?php
-        echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
-        /** @var HeramsResponseInterface $heramsResponse */
-        $lastUpdate = null;
-        foreach($data as $heramsResponse) {
-            $date = $heramsResponse->getDate();
-            if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
-                $lastUpdate = $date;
+    <div class="filter-items">
+        <div class="count">
+            <?php
+            echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
+            echo Html::tag('em', count($data));
+            ?>
+        </div>
+        <div class="count">
+            <?php
+            echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
+            echo Html::tag('em', $project->contributorCount);
+            ?>
+        </div>
+        <div class="count">
+            <?php
+            echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
+            /** @var HeramsResponseInterface $heramsResponse */
+            $lastUpdate = null;
+            foreach($data as $heramsResponse) {
+                $date = $heramsResponse->getDate();
+                if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
+                    $lastUpdate = $date;
+                }
             }
-        }
-        echo Html::tag('em', $lastUpdate? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
+            echo Html::tag('em', $lastUpdate? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
+            ?>
+        </div>
+        </div>
+        <?php
+            echo Html::a('Filters', '#', ['id' => 'filter-expand']);
+            $this->registerJs(<<<JS
+            $('#filter-expand').on('click', function() {
+                $(this).parent().toggleClass('expanded');
+            });
+
+    JS
+            )
+
         ?>
-    </div>
-    <?php
-        echo Html::a('Filters', '#', ['id' => 'filter-expand']);
-        $this->registerJs(<<<JS
-        $('#filter-expand').on('click', function() {
-            $(this).parent().toggleClass('expanded');
-        });
-
-JS
-        )
-
-    ?>
     <div class="advanced">
         <div class="filter filter_search">
             <?= Icon::search(); ?>
-            <input id="search-filter">
+            <input id="search-filter" placeholder="Search">
             <ul class="hint">
                 <li>You may search for multiple terms, only results that contain all terms are shown</li>
                 <li>Search also uses the group name, for example try typing "Trauma"</li>
