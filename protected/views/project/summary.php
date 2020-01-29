@@ -75,11 +75,6 @@ $hostInfo = \Yii::$app->request->hostInfo;
     .stat:first-child {
         border-left: none !important;
     }
-    .stat div {
-        margin: 0 auto;
-        display: inline-flex;
-        align-items: center;
-    }
     .stat svg {
         margin-right: 5px;
     }
@@ -139,22 +134,22 @@ $hostInfo = \Yii::$app->request->hostInfo;
 <h1><?= $this->title ?></h1>
 <div class="grid">
 <div class="stat">
-    <div><?=
+    <?=
     implode(" ", [
         \prime\helpers\Icon::healthFacility(),
         Html::tag('b', $project->facilityCount),
         \Yii::t('app', 'Health facilities')
     ])
-?></div>
+?>
 </div>
 <div class="stat">
-    <div><?=
+    <?=
     implode(" ", [
         \prime\helpers\Icon::contributors(),
         Html::tag('b', $project->contributorCount),
         \Yii::t('app', 'Contributors')
     ])
-?></div>
+?>
 </div>
 <hr/>
 <?php
