@@ -60,7 +60,7 @@ class RevokeRule implements Rule
         return $target instanceof ProposedGrant
             && $source instanceof User
             && ($proposedSource = $target->getSource()) instanceof User
-            && $source->id === $proposedSource->id
+            && $source->id !== $proposedSource->id
             && ($permission === Permission::PERMISSION_DELETE)
             // To share or revoke you must have share permissions
             && $accessChecker->check($source, $target->getTarget(), Permission::PERMISSION_SHARE)
