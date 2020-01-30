@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\rules;
 
 
+use prime\helpers\ProposedGrant;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use SamIT\abac\interfaces\AccessChecker;
@@ -27,7 +28,7 @@ class RevokeRule implements Rule
      */
     public function getTargetNames(): array
     {
-        return [Grant::class];
+        return [ProposedGrant::class];
     }
 
     /**
@@ -43,7 +44,7 @@ class RevokeRule implements Rule
      */
     public function getDescription(): string
     {
-        return 'you have the share permission on its target and you are not trying to revoke share permissions';
+        return 'you have the share permission on its target and you are not trying to grant share permissions';
     }
 
     /**
@@ -56,13 +57,14 @@ class RevokeRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        return $target instanceof Grant
-            && $permission === Permission::PERMISSION_DELETE
-            // This rule will never grant someone permission to delete a grant with the share permission
-            && $target->getPermission() !== Permission::PERMISSION_SHARE
-            // To revoke a share you must have share permissions
+        return $target instanceof ProposedGrant
+            && $source instanceof User
+            && ($proposedSource = $target->getSource()) instanceof User
+            && $source->id === $proposedSource->id
+            && ($permission === Permission::PERMISSION_DELETE)
+            // To share or revoke you must have share permissions
             && $accessChecker->check($source, $target->getTarget(), Permission::PERMISSION_SHARE)
-            // To revoke a share you must have the permission that you are removing
+            // To share you must have the permission that you are giving
             && $accessChecker->check($source, $target->getTarget(), $target->getPermission());
     }
 }

@@ -20,7 +20,7 @@ class GrantRule implements Rule
      */
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_CREATE, Permission::PERMISSION_DELETE];
+        return [Permission::PERMISSION_CREATE];
     }
 
     /**
@@ -58,8 +58,8 @@ class GrantRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         return $target instanceof ProposedGrant
-            && ($permission === Permission::PERMISSION_CREATE || $permission === Permission::PERMISSION_DELETE)
-            // This rule will never grant someone permission to create a grant with the share permission
+            && ($permission === Permission::PERMISSION_CREATE)
+            // This rule will never grant someone permission to create a grant with a share permission
             && !in_array($target->getPermission(), [Permission::PERMISSION_SHARE, Permission::PERMISSION_SUPER_SHARE])
             // To share you must have share permissions
             && $accessChecker->check($source, $target->getTarget(), Permission::PERMISSION_SHARE)

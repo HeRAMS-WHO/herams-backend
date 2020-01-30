@@ -23,6 +23,7 @@ use function iter\chain;
 /**
  * Class User
  * @property string $name
+ * @property int $id
  */
 class User extends ActiveRecord implements IdentityInterface {
 

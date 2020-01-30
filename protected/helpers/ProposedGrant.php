@@ -25,4 +25,9 @@ class ProposedGrant
     {
         return $this->permission;
     }
+
+    public function getSource(): object
+    {
+        return $this->source;
+    }
 }

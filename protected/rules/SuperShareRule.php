@@ -19,7 +19,7 @@ class SuperShareRule implements Rule
      */
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_CREATE, Permission::PERMISSION_DELETE];
+        return [Permission::PERMISSION_CREATE];
     }
 
     /**

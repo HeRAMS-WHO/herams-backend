@@ -31,8 +31,8 @@ class PermissionController extends Controller
 
         $source = $abacResolver->toSubject($permission->sourceAuthorizable());
         $target = $abacResolver->toSubject($permission->targetAuthorizable());
-        $grant = new ProposedGrant($source, $target, $permission->permission);
-        if (!$user->can(Permission::PERMISSION_DELETE, $grant)) {
+        $proposedGrant = new ProposedGrant($source, $target, $permission->permission);
+        if (!$user->can(Permission::PERMISSION_DELETE, $proposedGrant)) {
             throw new ForbiddenHttpException();
         }
 
