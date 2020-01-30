@@ -101,7 +101,9 @@ class Share extends Model {
 
     public function getUserOptions()
     {
-        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', 'name');
+        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', function(User $user) {
+            return "{$user->name} ({$user->email})";
+        });
     }
 
     public function getUsers(): ActiveQueryInterface
