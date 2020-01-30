@@ -26,7 +26,6 @@ class Share extends Action
             throw new ForbiddenHttpException();
         }
         $permissions = [
-            Permission::PERMISSION_ADMIN,
             Permission::PERMISSION_EXPORT,
             Permission::PERMISSION_MANAGE_WORKSPACES,
             Permission::PERMISSION_LIMESURVEY,
