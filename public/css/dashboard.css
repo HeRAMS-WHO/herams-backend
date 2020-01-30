@@ -230,7 +230,7 @@ span.header {
     background-color: white;
     grid-area: filters;
     margin-bottom: 0;
-    padding: 15px 0 20px;
+    padding: 15px 0 10px;
     font-size: 18px;
     display: block;
     --height: 30px;
@@ -247,7 +247,7 @@ span.header {
 }
 
 .filters a, .filters button{
-    display: inline-block;
+    display: block;
     box-shadow: none;
     background-color: gray;
     color: white;
@@ -256,6 +256,10 @@ span.header {
     border:none;
     text-align: center;
     width: 100px;
+    float: right;
+}
+.filters .row {
+    clear: both;
 }
 .filters .row > div {
     float: left;
@@ -266,7 +270,7 @@ span.header {
     --width: 3
 }
 .filters .row > .col-sm-6 {
-    --width: 6
+    --width: 12
 }
 
 .filters .row > .col-sm-6 .control-label {
@@ -274,12 +278,6 @@ span.header {
     display: block;
 }
 
-.filters .row > .col-sm-6:first-child {
-    padding: 0 15px 0 0;
-}
-.filters .row > .col-sm-6:last-child {
-    padding: 0 0 0 15px;
-}
 .filters .row > .col-md-2 {
     --width: 2
 }
@@ -287,19 +285,42 @@ span.header {
 .filters .row > .col-md-10 {
     --width: 10
 }
+.filters .row .flatpickr-input {
+    background: transparent;
+    width: 100%;
+    padding: 0 12px;
+    height: 32px;
+    line-height: 1.428571429;
+    margin-top: 0;
+    min-width: 5em;
+    color: #999;
+    border-radius: 5px;
+    border: 1px solid;
+    outline: none;
+}
 .filters .advanced {
     display: none;
     margin-top: 20px;
     width: 100%;
     border-top: 1px solid #ddd;
-    padding: 0 20px;
 }
 
 .filters.expanded .advanced {
     display: inline-block;
 }
 
+.filters.expanded .filterlist {
+    padding: 0 20px 40px;
+    height: 50vh;
+    overflow: auto;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
 
+.select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {
+    margin: 0px 0 0 3px;
+}
 
 .filters .count svg {
     vertical-align: middle;
@@ -565,6 +586,15 @@ body {
         border-top-left-radius: 0;
     }
 
+    .filters .row > .col-sm-6 {
+        --width: 6
+    }
+    .filters .row > .col-sm-6:first-child {
+        padding: 0 15px 0 0;
+    }
+    .filters .row > .col-sm-6:last-child {
+        padding: 0 0 0 15px;
+    }
 
 }
 
