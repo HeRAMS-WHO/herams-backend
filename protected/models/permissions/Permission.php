@@ -36,7 +36,7 @@ class Permission extends ActiveRecord
     const PERMISSION_ADMIN = 'admin';
     const PERMISSION_CREATE_PAGE = 'create-page';
     const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
-    const PERMISSION_CREATE_PROJECT = 'create-page';
+    const PERMISSION_CREATE_PROJECT = 'create-project';
     const PERMISSION_LIMESURVEY = 'update-data';
     const PERMISSION_SHARE = 'share';
     const PERMISSION_SUPER_SHARE = 'super-share';
@@ -72,7 +72,8 @@ class Permission extends ActiveRecord
             self::PERMISSION_EXPORT => \Yii::t('app', 'Export, allows exporting data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
             self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Manage data in LimeSurvey'),
-            self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces in the project')
+            self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces in the project'),
+            self::PERMISSION_CREATE_PROJECT => \Yii::t('app', 'Create a new project'),
         ];
     }
 
