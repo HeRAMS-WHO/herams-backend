@@ -107,6 +107,7 @@ a {
     padding: 20px 10px 20px 10px;
     margin: 0 0 20px 0;
     width: 100%;
+    display: inline-block;
 }
 .filter_search .icon {
     color: #76C62F;
@@ -115,7 +116,7 @@ a {
 .filter_search > input {
     border: none;
     background: #ececec;
-    width: 48%;
+    width: 100%;
     height: 40px;
     border-radius: 20px;
     padding: 10px 15px;
@@ -124,10 +125,10 @@ a {
     float: left;
 }
 .filter .hint{
-    font-size: 0.6em;
+    font-size: 10px;
     float: left;
-    width: 50%;
-    margin: 0;
+    width: 100%;
+    margin: 20px 0;
 }
 
 .user-menu {
@@ -239,7 +240,6 @@ span.header {
 .filters .filter-items {
     display: inline-block;
     align-items: center;
-    height: 43px;
     margin-left: 10px;
 }
 .select2-dropdown {
@@ -336,9 +336,6 @@ span.header {
     display: inline-block;
 }
 
-.filters .count ~ .count {
-    border-left: solid 1px #7c7c7c;
-}
 
 .filters em {
     font-style: normal;
@@ -431,8 +428,8 @@ body {
     grid-template-areas:
         "user"
         "title"
-        "filters"
         "sidebar"
+        "filters"
         "main"
     ;
 
@@ -507,8 +504,8 @@ body {
         grid-template-rows: auto auto auto minmax(400px, 1fr);
         grid-template-areas:
             "title user"
-            "filters filters"
             "sidebar sidebar"
+            "filters filters"
             "main main"
     ;
     }
@@ -579,13 +576,22 @@ body {
         grid-column: span 2;
         grid-row: span 1;
     }
+    .filters .count ~ .count {
+        border-left: solid 1px #7c7c7c;
+    }
     .filters {
         margin-left: var(--gutter-size);
         margin-right: var(--gutter-size);
         border-radius: 5px;
         border-top-left-radius: 0;
     }
-
+    .filter_search > input {
+        width: 47%;
+    }
+    .filter .hint {
+        width: 50%;
+        margin: 0;
+    }
     .filters .row > .col-sm-6 {
         --width: 6
     }
