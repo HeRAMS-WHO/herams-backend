@@ -29,7 +29,7 @@ class Create extends Action
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_CREATE_PAGE, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
 

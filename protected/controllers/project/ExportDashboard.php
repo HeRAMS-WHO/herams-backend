@@ -23,7 +23,7 @@ class ExportDashboard extends Action
         if (!isset($project)) {
             throw new NotFoundHttpException('Project not found');
         }
-        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+        if (!$user->can(Permission::PERMISS, $project)) {
             throw new ForbiddenHttpException();
         }
 

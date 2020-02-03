@@ -26,9 +26,6 @@ class ElementController extends Controller
             'preview' => Preview::class,
             'delete' => [
                 'class' => DeleteAction::class,
-                'permission' => function(User $user, Element $element) {
-                    return $user->can(Permission::PERMISSION_ADMIN, $element->page->project);
-                },
                 'query' => Element::find(),
                 'redirect' => function(Element $element) {
                     return ['page/update', 'id' => $element->page_id];

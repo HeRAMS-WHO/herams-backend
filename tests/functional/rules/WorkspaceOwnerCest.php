@@ -33,7 +33,7 @@ class WorkspaceOwnerCest
             Permission::PERMISSION_READ => false,
             Permission::PERMISSION_ADMIN => false,
             Permission::PERMISSION_MANAGE_WORKSPACES => false,
-            Permission::PERMISSION_CREATE_PAGE => false,
+            Permission::PERMISSION_MANAGE_DASHBOARD => false,
         ] as $permission => $result) {
             $proposedGrant = new ProposedGrant(User::findOne(['id' => TEST_OTHER_USER_ID]), $workspace, $permission);
             $I->assertSame($result, $manager->check($user, $proposedGrant, Permission::PERMISSION_CREATE), $result ? "Permission $permission not allowed" : "Permission $permission allowed");

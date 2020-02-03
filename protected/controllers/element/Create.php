@@ -36,7 +36,7 @@ class Create extends Action
 
         $project = $page->project;
 
-        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
 

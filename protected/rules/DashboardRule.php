@@ -4,58 +4,46 @@ declare(strict_types=1);
 namespace prime\rules;
 
 
+use prime\models\ar\Element;
+use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
-use prime\models\permissions\GlobalPermission;
 use prime\models\permissions\Permission;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class GlobalImpliesProject implements Rule
+class DashboardRule implements Rule
 {
 
-    /**
-     * @inheritDoc
-     */
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_SHARE,
-            Permission::PERMISSION_EXPORT,
-            Permission::PERMISSION_LIMESURVEY,
-            Permission::PERMISSION_ADMIN
+            Permission::PERMISSION_DELETE,
+            Permission::PERMISSION_WRITE,
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTargetNames(): array
     {
-        return [Project::class];
+        return [
+            Page::class,
+            Element::class
+        ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSourceNames(): array
     {
-        return [User::class];
+        return [
+            User::class
+        ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
-        return 'if you can share the project it belongs to';
+        return 'if you have manage dashboard permissions for the project';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(
         object $source,
         object $target,
@@ -64,8 +52,10 @@ class GlobalImpliesProject implements Rule
         AccessChecker $accessChecker
     ): bool {
         return in_array(get_class($source), $this->getSourceNames())
-            && $target instanceof Project
+            && in_array(get_class($target), $this->getTargetNames())
             && in_array($permission, $this->getPermissions())
-            && $accessChecker->check($source, new GlobalPermission(), $permission);
+            && $target->project instanceof Project
+            && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_DASHBOARD)
+        ;
     }
 }

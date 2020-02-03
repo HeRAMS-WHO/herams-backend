@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use prime\models\permissions\Permission;
 use prime\rules\AdminRule;
+use prime\rules\DashboardRule;
 use prime\rules\ManageWorkspaceRule;
 use prime\rules\GrantRule;
 use prime\rules\ProjectImpliesWorkspace;
@@ -17,6 +18,7 @@ return [
     new AdminRule(),
     new GrantRule(),
     new RevokeRule(),
+    new DashboardRule(),
     new SuperShareRule(),
     new ImpliedPermission(Permission::PERMISSION_ADMIN, [
         Permission::PERMISSION_SHARE,
@@ -24,7 +26,8 @@ return [
         Permission::PERMISSION_DELETE,
         Permission::PERMISSION_EXPORT,
         Permission::PERMISSION_LIMESURVEY,
-        Permission::PERMISSION_MANAGE_WORKSPACES
+        Permission::PERMISSION_MANAGE_WORKSPACES,
+        Permission::PERMISSION_MANAGE_DASHBOARD
     ]),
     new ImpliedPermission(Permission::PERMISSION_WRITE, [
         Permission::PERMISSION_READ,
