@@ -20,7 +20,7 @@ echo Html::beginForm(['project/filter', 'id' => $project->id,
 ]);
 
     ?>
-    <div class="filter-items">
+    
         <div class="count">
             <?php
             echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
@@ -47,7 +47,7 @@ echo Html::beginForm(['project/filter', 'id' => $project->id,
             echo Html::tag('em', $lastUpdate? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
             ?>
         </div>
-        </div>
+        
         <?php
             echo Html::a('Filters', '#', ['id' => 'filter-expand']);
             $this->registerJs(<<<JS

@@ -330,6 +330,7 @@ span.header {
     padding-right: 0px;
     padding-bottom: 10px;
     padding-top: 10px;
+    margin-left: 10px;
     border-left: none;
     color: #7c7c7c;
     display: block;
@@ -590,6 +591,7 @@ body {
     }
     .filters .count ~ .count {
         border-left: solid 1px #7c7c7c;
+        margin-left: 0px;
     }
     .filters {
         margin-left: var(--gutter-size);
