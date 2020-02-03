@@ -11,7 +11,8 @@ use yii\helpers\Url;
 /* @var \prime\models\ar\Project $project */
 /* @var ResponseFilter $filterModel */
 
-echo Html::beginForm(['project/filter', 'id' => $project->id,
+echo Html::beginForm([
+    'project/filter', 'id' => $project->id,
     'page_id' => \Yii::$app->request->getQueryParam('page_id'),
     'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
 ], 'post', [
@@ -19,64 +20,68 @@ echo Html::beginForm(['project/filter', 'id' => $project->id,
     'class' => 'filters'
 ]);
 
-    ?>
-    <div class="count">
-        <?php
-        echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
-        echo Html::tag('em', count($data));
-        ?>
-    </div>
-    <div class="count">
-        <?php
-        echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
-        echo Html::tag('em', $project->contributorCount);
-        ?>
-    </div>
-    <div class="count">
-        <?php
-        echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
-        /** @var HeramsResponseInterface $heramsResponse */
-        $lastUpdate = null;
-        foreach($data as $heramsResponse) {
-            $date = $heramsResponse->getDate();
-            if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
-                $lastUpdate = $date;
-            }
-        }
-        echo Html::tag('em', $lastUpdate? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
-        ?>
-    </div>
+?>
+<div class="count">
     <?php
-        echo Html::a('Filters', '#', ['id' => 'filter-expand']);
-        $this->registerJs(<<<JS
+    echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
+    echo Html::tag('em', count($data));
+    ?>
+</div>
+<div class="count">
+    <?php
+    echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
+    echo Html::tag('em', $project->contributorCount);
+    ?>
+</div>
+<div class="count">
+    <?php
+    echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
+    /** @var HeramsResponseInterface $heramsResponse */
+    $lastUpdate = null;
+    foreach ($data as $heramsResponse) {
+        $date = $heramsResponse->getDate();
+        if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
+            $lastUpdate = $date;
+        }
+    }
+    echo Html::tag('em', $lastUpdate ? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
+    ?>
+</div>
+<?php
+echo Html::a('Filters', '#', ['id' => 'filter-expand']);
+$this->registerJs(
+    <<<JS
         $('#filter-expand').on('click', function() {
             $(this).parent().toggleClass('expanded');
         });
 
 JS
-        )
+)
 
-    ?>
-    <div class="advanced">
-        <div class="filter filter_search">
+?>
+<div class="advanced">
+    <div class="filter filter_search">
+        <div class="input-container">
             <?= Icon::search(); ?>
             <input id="search-filter" placeholder="Search">
-            <ul class="hint">
-                <li>You may search for multiple terms, only results that contain all terms are shown</li>
-                <li>Search also uses the group name, for example try typing "Trauma"</li>
-                <li>After closing this screen you must click <b>Apply filters</b> to see the changes</li>
-            </ul>
         </div>
-        <?php
-        echo $this->render('filterForm', ['filterModel' => $filterModel, 'project' => $project]);
+        <ul class="hint">
+            <li>You may search for multiple terms, only results that contain all terms are shown</li>
+            <li>Search also uses the group name, for example try typing "Trauma"</li>
+            <li>After closing this screen you must click <b>Apply filters</b> to see the changes</li>
+        </ul>
+    </div>
+    <?php
+    echo $this->render('filterForm', ['filterModel' => $filterModel, 'project' => $project]);
 
-        ?>
+    ?>
 
 
 
-            <?php
+    <?php
 
-            $this->registerJs(<<<JS
+    $this->registerJs(
+        <<<JS
     document.getElementById('search-filter').addEventListener('input', function(e) {
         // Add debounce.
         clearTimeout(window.searchTimer);
@@ -98,27 +103,27 @@ JS
         }, 300);
     });
 JS
-            );
+    );
 
 
-            ?>
+    ?>
 
-        </div>
-    <div class="buttons" style="display: none;">
-        <button type="button" id="clear"><i class="fas fa-times"></i> Clear all</button>
-        <script>
-            document.getElementById('clear').addEventListener('click', function() {
-                window.location.href = <?= Json::encode(Url::to([
-                    'project/view',
-                    'id' => $project->id,
-                    'page_id' => \Yii::$app->request->getQueryParam('page_id'),
-                    'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-                ])) ?>;
-            })
-        </script>
-        <button type="submit"><i class="fas fa-check"></i> Apply all</button>
-    </div>
+</div>
+<div class="buttons" style="display: none;">
+    <button type="button" id="clear"><i class="fas fa-times"></i> Clear all</button>
+    <script>
+        document.getElementById('clear').addEventListener('click', function() {
+            window.location.href = <?= Json::encode(Url::to([
+                                        'project/view',
+                                        'id' => $project->id,
+                                        'page_id' => \Yii::$app->request->getQueryParam('page_id'),
+                                        'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
+                                    ])) ?>;
+        })
+    </script>
+    <button type="submit"><i class="fas fa-check"></i> Apply all</button>
+</div>
 
 
 <?php
-    echo Html::endForm();
+echo Html::endForm();
