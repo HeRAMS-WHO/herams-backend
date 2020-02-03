@@ -497,7 +497,7 @@ body {
                 var(--main-background-color) 100%)
     ;
         grid-template-rows: auto auto 1fr;
-        grid-template-columns: auto 1fr 1fr 0fr;
+        grid-template-columns: auto 1fr 1fr 200px;
         grid-template-areas:
                 "sidebar title title user"
                 "sidebar filters filters filters"
