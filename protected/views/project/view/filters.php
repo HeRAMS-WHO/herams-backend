@@ -38,7 +38,7 @@ echo Html::beginForm(['project/filter', 'id' => $project->id,
             echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
             /** @var HeramsResponseInterface $heramsResponse */
             $lastUpdate = null;
-            foreach($data as $heramsResponse) {
+            foreach ($data as $heramsResponse) {
                 $date = $heramsResponse->getDate();
                 if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
                     $lastUpdate = $date;
