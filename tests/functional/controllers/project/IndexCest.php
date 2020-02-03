@@ -75,13 +75,6 @@ class IndexCest
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $I->amOnPage(['project/index']);
 
-        $I->dontSeeElement('a', [
-            'href' => Url::to(['project/update', 'id' => $project->id]),
-        ]);
-
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
-        $I->amOnPage(['project/index']);
-
         $I->seeElement('a', [
             'href' => Url::to(['project/update', 'id' => $project->id]),
         ]);

@@ -18,25 +18,25 @@ class DeleteCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        $user = User::findOne(['id' => TEST_USER_ID]);
-        $I->createAndSetCsrfCookie('abc');
-        $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
-        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_READ);
-
+        // Create a permission
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_OTHER_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->assertFalse(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
-
         $permission = Permission::findOne([
             'target_id' => $project->id,
             'target'=> get_class($project)
         ]);
+        $I->createAndSetCsrfCookie('abc');
+        $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
         $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect' => '/']));
         $I->seeResponseCodeIs(403);
+
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
-        $manager->grant($user, $project, Permission::PERMISSION_ADMIN);
+        $manager->grant(\Yii::$app->user->identity, $project, Permission::PERMISSION_ADMIN);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_DELETE, $project));
         $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect'=> '/']));
         $I->seeResponseCodeIs(200);
         $I->dontSeeRecord(Permission::class, [
@@ -45,33 +45,4 @@ class DeleteCest
         $I->assertFalse($permission->refresh());
 
     }
-
-    public function testAccessControlImplicit(FunctionalTester $I)
-    {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace = $I->haveWorkspace();
-        $user = User::findOne(['id' => TEST_USER_ID]);
-        $I->createAndSetCsrfCookie('abc');
-        $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
-
-        \Yii::$app->abacManager->grant($user, $workspace, Permission::PERMISSION_WRITE);
-        $permission = Permission::findOne([
-            'target_id' => $workspace->id,
-            'target'=> get_class($workspace)
-        ]);
-
-        $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect' => '/']));
-        $I->seeResponseCodeIs(403);
-
-        /** @var AuthManager $manager */
-        $manager = \Yii::$app->abacManager;
-        $manager->grant($user, $project, Permission::PERMISSION_ADMIN);
-
-        $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect'=> '/']));
-        $I->seeResponseCodeIs(200);
-        $I->assertFalse($permission->refresh());
-
-    }
-
 }
