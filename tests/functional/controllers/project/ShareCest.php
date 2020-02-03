@@ -29,5 +29,4 @@ class ShareCest
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(403);
     }
-
 }
