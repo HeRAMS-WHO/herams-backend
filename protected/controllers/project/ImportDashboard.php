@@ -22,11 +22,12 @@ class ImportDashboard extends Action
         User $user,
         int $id
     ) {
+        /** @var Project $project */
         $project = Project::find()->where(['id' => $id])->one();
         if (!isset($project)) {
             throw new NotFoundHttpException('Project not found');
         }
-        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
         $model = new \prime\models\forms\ImportDashboard($project);
