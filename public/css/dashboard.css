@@ -93,15 +93,6 @@ a {
     /*display:none;*/
 }
 
-.filter .flatpickr-input[readonly] {
-    background: transparent;
-    padding: 0 12px;
-    height: 32px;
-    line-height: 1.428571429;
-    margin-top: 0;
-    min-width: 5em;
-    color: #999;
-    }
 
 .filter_search {
     padding: 20px 10px 20px 10px;
@@ -282,7 +273,7 @@ span.header {
 .filters .row > .col-md-10 {
     --width: 10
 }
-.filters .row .flatpickr-input {
+.filters .row input[type='text'] {
     background: transparent;
     width: 100%;
     padding: 0 12px;
