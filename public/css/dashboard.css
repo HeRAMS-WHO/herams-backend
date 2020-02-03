@@ -252,11 +252,10 @@ span.header {
     background-color: gray;
     color: white;
     padding: 10px;
-    margin-right: 10px;
+    margin: 10px;
     border:none;
     text-align: center;
-    width: 80px;
-    float: right;
+    width: 80px; 
 }
 .filters .row {
     clear: both;
@@ -327,13 +326,13 @@ span.header {
     font-size: 1.2em;
 }
 .filters .count {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
     padding-bottom: 10px;
     padding-top: 10px;
     border-left: none;
     color: #7c7c7c;
-    display: inline-block;
+    display: block;
 }
 
 
@@ -465,6 +464,19 @@ body {
     width: 100%;
     display: inline-block;
   }
+
+  .filters a, .filters button{
+    margin: 0 10px 0 0;
+    float: right;
+}
+
+  .filters .count {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    display: inline-block;
+}
 
   .breadcrumb {
     margin-bottom: 33px;
