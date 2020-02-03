@@ -585,8 +585,9 @@ body {
         border-radius: 5px;
         border-top-left-radius: 0;
     }
-    .filter_search .input-container input {
+    .filter_search .input-container {
         width: 47%;
+        display: inline-block;
     }
     .filter .hint {
         width: 50%;
