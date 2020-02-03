@@ -145,9 +145,6 @@ a {
     line-height: 16px;
 }
 body.no-title .user-menu {
-    position: fixed;
-    right: 0;
-    top: 0;
     z-index: 10001;
     background-color: transparent;
 }
@@ -449,7 +446,7 @@ body {
             var(--main-background-color) 230px,
             var(--main-background-color) 100%)
     ;
-        grid-template-columns: 60vw 40vw;
+        grid-template-columns: 65vw 35vw;
         grid-template-rows: auto auto auto minmax(400px, 1fr);
         grid-template-areas:
             "title user"
@@ -480,6 +477,11 @@ body {
         grid-row: span 2;
     }
 
+    body.no-title .user-menu {
+        position: fixed;
+        right: 0;
+        top: 0;
+    }
 }
 
 /**
