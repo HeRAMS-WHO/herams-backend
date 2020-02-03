@@ -112,7 +112,6 @@ return [
         'limesurveyDataProvider' => [
             'class' => \prime\components\LimesurveyDataProvider::class,
             'client' => 'limesurvey',
-            'cache' => 'limesurveyCache'
         ],
         'limesurvey' => function () use ($env) {
             $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);

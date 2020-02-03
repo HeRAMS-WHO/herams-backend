@@ -10,28 +10,18 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use yii\base\Component;
-use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\di\Instance;
 
 class LimesurveyDataProvider extends Component
 {
-    /** @var CacheInterface */
-    public $cache = 'cache';
-
     /** @var Client */
     public $client = 'limesurvey';
-
-    public $responseCacheDuration = 3600;
 
     public function init()
     {
         parent::init();
-        if ($this->cache === 'cache') {
-            throw new InvalidConfigException();
-        }
         $this->client = Instance::ensure($this->client, Client::class);
-        $this->cache = Instance::ensure($this->cache, CacheInterface::class);
     }
 
     public function createToken(
@@ -47,31 +37,6 @@ class LimesurveyDataProvider extends Component
     public function getToken(int $surveyId, string $token)
     {
         return $this->client->getToken($surveyId, $token);
-    }
-
-    private function getResponsesByTokenFromCache(int $surveyId, string $token): ?iterable
-    {
-        \Yii::beginProfile(__FUNCTION__);
-        $key = $this->responsesCacheKey($surveyId, $token);
-        $result = $this->cache->get($key) ;
-        if ($result === false) {
-            $result = null;
-        }
-
-        \Yii::info('CACHE ' . ($result ? 'HIT' : 'MISS') . ' for ' . $key, __CLASS__);
-        \Yii::endProfile(__FUNCTION__);
-        return $result;
-    }
-
-    public function surveyCacheTime(int $surveyId): ?int
-    {
-        $result = $this->cache->get($this->responsesCacheKey($surveyId). 'present');
-        return is_int($result) ? $result : null;
-    }
-
-    protected function responsesCacheKey(int $surveyId, ?string $token = null): string
-    {
-        return 'LDPrsps' . $surveyId . $token;
     }
 
     /**
@@ -107,6 +72,15 @@ class LimesurveyDataProvider extends Component
     /** @return TokenInterface[] */
     public function getTokens(int $surveyId): array
     {
-        return $this->client->getTokens($surveyId);
+        try {
+            return $this->client->getTokens($surveyId);
+        } catch (\Exception $e) {
+            // Clear the cache, this uses the cache key getSurveyProperties.
+            $key = Client::class . 'getSurveyProperties' . serialize([$surveyId, ['attributedescriptions']]);
+            /** @var CacheInterface $cache */
+            $cache = app()->limesurveyCache;
+            $cache->delete($key);
+        }
+
     }
 }
