@@ -5,6 +5,7 @@ namespace prime\controllers;
 
 
 use prime\components\Controller;
+use prime\controllers\permission\Delete;
 use prime\helpers\ProposedGrant;
 use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
@@ -17,28 +18,13 @@ use yii\web\User;
 
 class PermissionController extends Controller
 {
-    public function actionDelete(
-        User $user,
-        Resolver $abacResolver,
-        AuthManager $abacManager,
-        int $id,
-        string $redirect
-    ) {
-        $permission = Permission::findOne(['id' => $id]);
-        if (!isset($permission)) {
-            throw new NotFoundHttpException();
-        }
-
-        $source = $abacResolver->toSubject($permission->sourceAuthorizable());
-        $target = $abacResolver->toSubject($permission->targetAuthorizable());
-        $proposedGrant = new ProposedGrant($source, $target, $permission->permission);
-        if (!$user->can(Permission::PERMISSION_DELETE, $proposedGrant)) {
-            throw new ForbiddenHttpException();
-        }
-
-        $abacManager->getRepository()->revoke($permission->getGrant());
-        return $this->redirect($redirect);
+    public function actions()
+    {
+        return [
+            'delete' => Delete::class
+        ];
     }
+
 
     public function behaviors()
     {

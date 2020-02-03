@@ -46,7 +46,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function afterFind()
     {
         parent::afterFind();
-        $data = $this->data;
+        $data = $this->data ?? [];
         ksort($data);
         $this->data = $data;
         $this->setOldAttribute('data', $data);
