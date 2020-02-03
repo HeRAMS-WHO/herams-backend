@@ -73,6 +73,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
             self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Manage data in LimeSurvey'),
             self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces in the project'),
+            self::PERMISSION_MANAGE_DASHBOARD => \Yii::t('app', 'Manage dashboards in the project'),
             self::PERMISSION_CREATE_PROJECT => \Yii::t('app', 'Create a new project'),
         ];
     }
