@@ -49,6 +49,7 @@ class ProjectController extends Controller
             'summary' => Summary::class,
             'share' => Share::class,
             'workspaces' => Workspaces::class,
+            'pages' => Pages::class,
             'export' => [
                 'class' => ExportCsvAction::class,
                 'subject' => static function(Request $request) {
