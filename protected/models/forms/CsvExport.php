@@ -26,13 +26,14 @@ use function iter\toArray;
 
 class CsvExport extends Model
 {
+    private const DEFAULT_LANGUAGE = 'default';
     public $includeTextHeader = true;
     public $includeCodeHeader = true;
 
     public $answersAsText = false;
 
     private $survey;
-    private $language;
+    public $language = self::DEFAULT_LANGUAGE;
 
     public function __construct(SurveyInterface $survey, $config = [])
     {
@@ -40,21 +41,11 @@ class CsvExport extends Model
         $this->survey = $survey;
     }
 
-    public function setLanguage(string $language)
-    {
-        $this->language = empty($language) ? $this->survey->getDefaultLanguage() : $language;
-    }
-
-    public function getLanguage(): string
-    {
-        return $this->language;
-    }
-
     public function rules()
     {
         return [
             [['includeTextHeader', 'includeCodeHeader', 'answersAsText'], BooleanValidator::class],
-            [['language'], RangeValidator::class, 'range' => $this->survey->getLanguages()]
+            [['language'], RangeValidator::class, 'range' => array_keys($this->getLanguages())]
         ];
     }
 
@@ -156,7 +147,9 @@ class CsvExport extends Model
         $size = 0;
         $file = fopen('php://temp', 'w');
 
-        if ($this->survey instanceof LocaleAwareInterface) {
+        if ($this->survey instanceof LocaleAwareInterface
+            && $this->language !== self::DEFAULT_LANGUAGE
+        ) {
             $survey = $this->survey->getLocalized($this->language);
         } else {
             $survey = $this->survey;
@@ -201,9 +194,9 @@ class CsvExport extends Model
         }, $codes));
 
         $result =  array_combine($codes, $names);
-        return array_merge(["default" => \Yii::t('app', 'Survey default ({lang})', [
-            'lang' => $names[$this->survey->getDefaultLanguage()]], $result)
-        ]);
+        return array_merge([self::DEFAULT_LANGUAGE => \Yii::t('app', 'Survey default ({lang})', [
+            'lang' => $result[$this->survey->getDefaultLanguage()]
+        ])], $result);
     }
 
 }
