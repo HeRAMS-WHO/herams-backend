@@ -27,7 +27,7 @@ class PageController extends Controller
                 'class' => DeleteAction::class,
                 'query' => Page::find(),
                 'redirect' => function(Page $page) {
-                    return ['project/update', 'id' => $page->project->id];
+                    return ['project/pages', 'id' => $page->project->id];
                 }
             ]
         ];
