@@ -31,8 +31,8 @@ class CsvExport extends Model
 
     public $answersAsText = false;
 
-    public $language;
     private $survey;
+    private $language;
 
     public function __construct(SurveyInterface $survey, $config = [])
     {
@@ -40,6 +40,15 @@ class CsvExport extends Model
         $this->survey = $survey;
     }
 
+    public function setLanguage(string $language)
+    {
+        $this->language = empty($language) ? $this->survey->getDefaultLanguage() : $language;
+    }
+
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
 
     public function rules()
     {
@@ -184,13 +193,17 @@ class CsvExport extends Model
         }, $columns));
     }
 
-    public function getLanguages()
+    public function getLanguages(): array
     {
         $codes = $this->survey->getLanguages();
         $names = toArray(map(static function(string $code): string {
             return \Locale::getDisplayLanguage($code);
         }, $codes));
-        return array_combine($codes, $names);
+
+        $result =  array_combine($codes, $names);
+        return array_merge(["default" => \Yii::t('app', 'Survey default ({lang})', [
+            'lang' => $names[$this->survey->getDefaultLanguage()]], $result)
+        ]);
     }
 
 }
