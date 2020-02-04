@@ -57,7 +57,7 @@ a {
 
 .filter {
     text-align: left;
-    width: calc(100% - 10px);
+    width: 100%;
     display: block;
     font-size: 1.2rem;
     color: #212529;
@@ -95,8 +95,8 @@ a {
 
 
 .filter_search {
-    padding: 20px 10px 20px 10px;
-    margin: 0 0 20px 0;
+    padding: 20px 10px 30px 10px;
+    margin: 0;
     display: block;
 }
 .filter_search .icon {
@@ -229,7 +229,7 @@ span.header {
 .filters {
     background-color: white;
     grid-area: filters;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     padding: 15px 0 10px;
     font-size: 18px;
     --height: 30px;
@@ -300,8 +300,14 @@ span.header {
     margin-top: 20px;
     width: 100%;
     border-top: 1px solid #ddd;
+    background: #f6f6f6;
+    padding-bottom: 10px;
+    border-radius: 5px;
 }
-
+.filters.expanded {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
 .filters.expanded .advanced {
     display: inline-block;
 }
@@ -313,6 +319,7 @@ span.header {
     margin: 0 0 10px;
     border-bottom: 1px solid #ddd;
     font-size: 14px;
+    background: white;
 }
 
 .select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {
