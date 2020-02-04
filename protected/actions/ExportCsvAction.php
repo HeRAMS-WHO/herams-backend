@@ -69,7 +69,7 @@ class ExportCsvAction extends Action
                 'mimeType' => 'text/csv'
             ]);
         } else {
-            return $this->controller->render($this->view, ['model' => $model]);
+            return $this->controller->render($this->view, ['model' => $model, 'subject' => $subject]);
         }
     }
 

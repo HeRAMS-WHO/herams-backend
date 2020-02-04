@@ -7,24 +7,25 @@ use yii\bootstrap\Html;
 /**
  * @var \yii\web\View $this
  * @var \prime\models\forms\CsvExport $model
+ * @var \prime\models\ar\Workspace $subject
  */
 
-//$this->params['breadcrumbs'][] = [
-//    'label' => \Yii::t('app', 'Admin dashboard'),
-//    'url' => ['/admin']
-//];
-//$this->params['breadcrumbs'][] = [
-//    'label' => \Yii::t('app', 'Projects'),
-//    'url' => ['/project']
-//];
-//$this->params['breadcrumbs'][] = [
-//    'label' => \Yii::t('app', 'Workspaces for {project}', [
-//        'project' => $model->project->title
-//    ]),
-//    'url' => ['project/workspaces', 'id' => $model->project->id]
-//];
-//$this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $model->title]);
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Admin dashboard'),
+    'url' => ['/admin']
+];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Projects'),
+    'url' => ['/project']
+];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Workspaces for {project}', [
+        'project' => $subject->project->title
+    ]),
+    'url' => ['project/workspaces', 'id' => $subject->project->id]
+];
+$this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $subject->title]);
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-xs-12"><?php
     $form = ActiveForm::begin([
