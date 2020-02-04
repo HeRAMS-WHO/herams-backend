@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use prime\models\permissions\Permission;
 use prime\rules\AdminRule;
+use prime\rules\AdminShareRule;
 use prime\rules\DashboardRule;
 use prime\rules\ManageWorkspaceRule;
 use prime\rules\GrantRule;
@@ -20,6 +21,7 @@ return [
     new RevokeRule(),
     new DashboardRule(),
     new SuperShareRule(),
+    new AdminShareRule(),
     new ImpliedPermission(Permission::PERMISSION_ADMIN, [
         Permission::PERMISSION_SHARE,
         Permission::PERMISSION_WRITE,

@@ -20,13 +20,6 @@ class Workspaces extends Action
         AuthManager $abacManager,
         int $id
     ) {
-//        \Yii::$app->db->enableLogging = false;
-
-        foreach($abacManager->getRepository()->search($abacManager->resolveSubject($user->identity), null, null) as $grant)
-        {
-            $grant;
-        }
-        \Yii::$app->db->enableLogging = true;
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
