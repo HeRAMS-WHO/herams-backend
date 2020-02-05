@@ -1,12 +1,12 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\assets;
 
 
 use yii\web\AssetBundle;
 
-class NewAppAsset extends AssetBundle
+class MainBundle extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
@@ -18,10 +18,6 @@ class NewAppAsset extends AssetBundle
     public $js = [
     ];
 
-    public $depends = [
-        IconBundle::class,
-        SourceSansProBundle::class,
-        FormBundle::class,
-        MainBundle::class
-    ];
+   
+
 }
