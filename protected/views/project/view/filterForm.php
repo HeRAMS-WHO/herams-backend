@@ -118,13 +118,7 @@ JS
 
     $id = Json::encode('#' . Html::getInputId($filterModel, 'date'));
     $this->registerJs("flatpickr($id);");
-    echo Html::submitButton(\Yii::t('app', 'Apply'));
-    echo Html::a(\Yii::t('app', 'Clear'), [
-        'project/view',
-        'id' => $project->id,
-        'page_id' => \Yii::$app->request->getQueryParam('page_id'),
-        'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-        ]);
+    echo Html::beginTag('div', ['class' => 'filterlist']);
     echo Form::widget([
         'form' => $form,
         'model' => $filterModel,
@@ -139,4 +133,12 @@ JS
             ]
         ], $filters))
     ]);
+    echo Html::endTag('div');
+    echo Html::submitButton(\Yii::t('app', 'Apply'));
+    echo Html::a(\Yii::t('app', 'Clear'), [
+        'project/view',
+        'id' => $project->id,
+        'page_id' => \Yii::$app->request->getQueryParam('page_id'),
+        'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
+        ]);
     $form->end();
