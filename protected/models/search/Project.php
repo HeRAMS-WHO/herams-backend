@@ -5,11 +5,8 @@ namespace prime\models\search;
 use prime\components\FilteredActiveDataProvider;
 use prime\models\permissions\Permission;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use yii\data\DataProviderInterface;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
-use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 
 class Project extends Model

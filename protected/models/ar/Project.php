@@ -6,7 +6,6 @@ namespace prime\models\ar;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
-use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
@@ -16,11 +15,9 @@ use SamIT\Yii2\VirtualFields\VirtualFieldQueryBehavior;
 use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
-use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\validators\BooleanValidator;
-use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -65,9 +62,9 @@ class Project extends ActiveRecord {
     public function visibilityOptions()
     {
         return [
-            self::VISIBILITY_HIDDEN => 'This project is only visible to people with permissions',
-            self::VISIBILITY_PUBLIC => 'Anyone can view this project',
-            self::VISIBILITY_PRIVATE => 'This project is visible on the map and in the list, but people need permission to view it'
+            self::VISIBILITY_HIDDEN => 'Hidden, this project is only visible to people with permissions',
+            self::VISIBILITY_PUBLIC => 'Public, anyone can view this project',
+            self::VISIBILITY_PRIVATE => 'Private, this project is visible on the map and in the list, but people need permission to view it'
         ];
     }
     public static function find()
