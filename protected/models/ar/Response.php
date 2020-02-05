@@ -132,22 +132,12 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getLatitude(): ?float
     {
-        if (isset($this->data[$this->getMap()->getLatitude()])
-            && !is_numeric($this->data[$this->getMap()->getLatitude()])
-        ) {
-            return null;
-        }
-        return $this->data[$this->getMap()->getLatitude()] ?? null;
+        return $this->data['MoSDGPS']['SQ001'] ?? null;
     }
 
     public function getLongitude(): ?float
     {
-        if (isset($this->data[$this->getMap()->getLongitude()])
-            && !is_numeric($this->data[$this->getMap()->getLongitude()])
-        ) {
-            return null;
-        }
-        return $this->data[$this->getMap()->getLongitude()] ?? null;
+        return $this->data['MoSDGPS']['SQ002'] ?? null;
     }
 
     public function getId(): int
