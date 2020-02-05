@@ -69,41 +69,42 @@ class DashboardMap extends Element
         $collections = [];
         /** @var HeramsResponseInterface $response */
         foreach($data as $response) {
-            $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
-            $latitude = $response->getLatitude();
-            $longitude = $response->getLongitude();
-            if (abs($latitude) < 0.0000001
-                || abs($longitude) < 0.0000001
-                || abs($latitude) > 90
-                || abs($longitude) > 180
+            try {
+                $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
+                $latitude = $response->getLatitude();
+                $longitude = $response->getLongitude();
+                if (abs($latitude) < 0.0000001
+                    || abs($longitude) < 0.0000001
+                    || abs($latitude) > 90
+                    || abs($longitude) > 180
 
-            ) {
-                continue;
-            }
+                ) {
+                    continue;
+                }
 
-            if (is_array($value)) {
-                $value = array_shift($value);
-            }
-            if (!isset($collections[$value])) {
-                $collections[$value] = [
-                    "type" => "FeatureCollection",
-                    'features' => [],
-                    "title" => $types[$value] ?? $value ?? 'Unknown',
-                    'value' => $value,
-                    'color' => $this->colors[$value] ?? '#000000'
-                ];
-            }
+                if (is_array($value)) {
+                    $value = array_shift($value);
+                }
+                if (!isset($collections[$value])) {
+                    $collections[$value] = [
+                        "type" => "FeatureCollection",
+                        'features' => [],
+                        "title" => $types[$value] ?? $value ?? 'Unknown',
+                        'value' => $value,
+                        'color' => $this->colors[$value] ?? '#000000'
+                    ];
+                }
 
-            $point = [
-                "type" => "Feature",
-                "geometry" => [
-                    "type" => "Point",
-                    "coordinates" => [$longitude, $latitude]
-                ],
-                "properties" => [
-                    'title' => $response->getName() ?? 'No name',
-                    'id' => $response->getId()
-                ]
+                $point = [
+                    "type" => "Feature",
+                    "geometry" => [
+                        "type" => "Point",
+                        "coordinates" => [$longitude, $latitude]
+                    ],
+                    "properties" => [
+                        'title' => $response->getName() ?? 'No name',
+                        'id' => $response->getId()
+                    ]
 
 //                'subtitle' => '',
 //                'items' => [
@@ -111,8 +112,11 @@ class DashboardMap extends Element
 //                    'building damage',
 //                    'functionality'
 //                ]
-            ];
-            $collections[$value]['features'][] = $point;
+                ];
+                $collections[$value]['features'][] = $point;
+            } catch (\Throwable $t) {
+                new \RuntimeException('An error occured while checking response: ' . $response->getId(), 0, $t);
+            }
         }
         uksort($collections, function($a, $b) {
             if ($a === "" || $a === "-oth-") {
