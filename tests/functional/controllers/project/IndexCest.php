@@ -4,6 +4,7 @@
 namespace prime\tests\functional\controllers\project;
 
 use prime\models\ar\Page;
+use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
@@ -30,6 +31,8 @@ class IndexCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
+        $project->visibility = Project::VISIBILITY_PRIVATE;
+        $I->save($project);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
