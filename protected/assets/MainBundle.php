@@ -16,5 +16,4 @@ class MainBundle extends AssetBundle
 
     public $js = [
     ];
-
 }
