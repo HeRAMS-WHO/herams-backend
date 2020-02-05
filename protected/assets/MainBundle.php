@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class MainBundle extends AssetBundle
@@ -17,7 +16,5 @@ class MainBundle extends AssetBundle
 
     public $js = [
     ];
-
-   
 
 }
