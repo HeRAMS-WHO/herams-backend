@@ -280,6 +280,7 @@ CREATE TABLE `prime2_project` (
   `status` int(11) NOT NULL,
   `typemap` json NOT NULL,
   `overrides` json NOT NULL,
+  `visibility` varchar(10) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'public',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`),
   UNIQUE KEY `survey` (`base_survey_eid`)
@@ -306,7 +307,7 @@ CREATE TABLE `prime2_response` (
   KEY `date` (`date`,`hf_id`),
   KEY `date_2` (`hf_id`,`date`) USING BTREE,
   KEY `workspace` (`workspace_id`),
-  CONSTRAINT `project` FOREIGN KEY (`survey_id`) REFERENCES `prime2_project` (`base_survey_eid`),
+  CONSTRAINT `project` FOREIGN KEY (`survey_id`) REFERENCES `prime2_project` (`base_survey_eid`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `workspace` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -443,7 +444,7 @@ CREATE TABLE `prime2_user` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `prime2_user_unique_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

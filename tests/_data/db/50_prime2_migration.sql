@@ -95,4 +95,6 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m191203_140540
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200117_083725_workspace_token_per_project', 1579684496);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200120_142141_permission_id_string', 1579684496);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200120_154544_workspace_project_foreign_key', 1579684496);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200204_101056_response_project_foreign_key', 1580908837);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200205_123138_project_visibility', 1580908837);
 SET FOREIGN_KEY_CHECKS=1;
