@@ -2,8 +2,11 @@
 
 namespace prime\models\search;
 
+use prime\components\FilteredActiveDataProvider;
+use prime\models\permissions\Permission;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\DataProviderInterface;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
@@ -21,12 +24,15 @@ class Project extends Model
         ];
     }
 
-    public function search($params)
+    public function search($params, \yii\web\User $user): FilteredActiveDataProvider
     {
         /** @var  $query */
         $query = \prime\models\ar\Project::find()
             ->withFields('workspaceCount', 'facilityCount', 'responseCount');
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new FilteredActiveDataProvider([
+            'filter' => function(\prime\models\ar\Project $project) use ($user) {
+                return !$project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
+            },
             'query' => $query,
             'pagination' => [
                 'pageSize' => 50

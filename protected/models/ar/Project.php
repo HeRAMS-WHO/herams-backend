@@ -34,13 +34,16 @@ use function iter\filter;
  * @property int $id
  * @property int $base_survey_eid
  * @property string $title
+ * @property string $visibility
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
  * @property-read SurveyInterface $survey
  */
 class Project extends ActiveRecord {
-
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_PRIVATE = 'private';
+    public const VISIBILITY_HIDDEN = 'hidden';
     public const STATUS_ONGOING = 0;
     public const STATUS_BASELINE = 1;
     public const STATUS_TARGET = 2;
@@ -54,6 +57,19 @@ class Project extends ActiveRecord {
         return $this->statusOptions()[$this->status];
     }
 
+    public function isHidden(): bool
+    {
+        return $this->visibility === self::VISIBILITY_HIDDEN;
+    }
+
+    public function visibilityOptions()
+    {
+        return [
+            self::VISIBILITY_HIDDEN => 'This project is only visible to people with permissions',
+            self::VISIBILITY_PUBLIC => 'Anyone can view this project',
+            self::VISIBILITY_PRIVATE => 'This project is visible on the map and in the list, but people need permission to view it'
+        ];
+    }
     public static function find()
     {
         $result = new ActiveQuery(self::class);
@@ -178,7 +194,8 @@ class Project extends ActiveRecord {
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
-            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())]
+            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())],
+            [['visibility'], RangeValidator::class, 'range' => array_keys($this->visibilityOptions())]
         ];
     }
 

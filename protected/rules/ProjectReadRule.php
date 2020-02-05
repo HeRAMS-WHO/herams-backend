@@ -44,7 +44,7 @@ class ProjectReadRule implements Rule
      */
     public function getDescription(): string
     {
-        return 'if you can read ony of the workspaces';
+        return 'if you can read any of the workspaces';
     }
 
     /**

@@ -1,10 +1,10 @@
 <div class="footer">
 <?php
 
-use Carbon\Carbon;
 use prime\helpers\Icon;
 use prime\models\ar\Project;
 use yii\helpers\Html;
+
 // Render all statistics.
 $projects = Project::find()->all();
 $stats[] = [

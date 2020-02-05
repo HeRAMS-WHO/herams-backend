@@ -52,6 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->statusOptions()
             ],
+            'visibility' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->visibilityOptions()
+            ],
             'typemapAsJson' => [
                 'type' => Form::INPUT_TEXTAREA,
                 'options' => [

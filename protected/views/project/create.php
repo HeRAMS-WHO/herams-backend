@@ -43,6 +43,10 @@ $this->params['breadcrumbs'][] = [
                     'prompt' => ''
                 ]
             ],
+            'visibility' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->visibilityOptions()
+            ],
             [
                 'type' => Form::INPUT_RAW,
                 'value' => \yii\bootstrap\ButtonGroup::widget([

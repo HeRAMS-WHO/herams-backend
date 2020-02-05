@@ -9,6 +9,7 @@ use prime\rules\ManageWorkspaceRule;
 use prime\rules\GrantRule;
 use prime\rules\ProjectImpliesWorkspace;
 use prime\rules\ProjectReadRule;
+use prime\rules\PublicProjectRule;
 use prime\rules\RevokeRule;
 use prime\rules\SuperShareRule;
 use prime\rules\WorkspaceDataRule;
@@ -35,6 +36,7 @@ return [
         Permission::PERMISSION_READ,
     ]),
     new ProjectReadRule(),
+    new PublicProjectRule(),
     new ProjectImpliesWorkspace(),
     new ManageWorkspaceRule(),
 ];

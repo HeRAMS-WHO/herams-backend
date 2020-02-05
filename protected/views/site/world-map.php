@@ -1,6 +1,6 @@
 <?php
 
-/** @var Project[] $projects */
+/** @var \yii\data\DataProviderInterface $projects */
 
 use prime\models\ar\Project;
 use prime\models\permissions\Permission;
@@ -22,7 +22,7 @@ $this->params['body'] = [
 ];
 // Order projects by status.
 $collections = [];
-foreach($projects as $project) {
+foreach($projects->getModels() as $project) {
     if (!isset($collections[$project->status])) {
         $collections[$project->status] = [
             "type" => "FeatureCollection",
@@ -48,10 +48,10 @@ foreach($projects as $project) {
 }
 SideMenu::begin([
     'collapsible' => true,
-    'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
+    'footer' => $this->render('//footer')
 ]);
 
-foreach($projects as $project) {
+foreach($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
             'id' => $project->id
