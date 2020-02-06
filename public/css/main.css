@@ -7,6 +7,46 @@
     --validation-error-color: #d90001;
     --border-color: grey;
     --font-size: 16px;
+
+    --header-background-color: #42424b;
+    --header-color: white;
+    --background-color: #878787;
+    --primary-color: #4177c1;
+
+    --highlight-background-color: #5791e1;
+    --highlight-color: white;
+
+    --main-background-color: #e0e0e0;
+    --content-background-color: white;
+    --breadcrumbs-color: #878787;
+    --primary-button-hover-color: #3f86e6;
+
+    --header-light-background-color: #4f4e54;
+    --header-light-color: white;
+
+    --gutter-size: 10px;
+
+    --dark-background-color: #424348;
+    --darker-background-color: #424242;
+    --darker-color: var(--dark-color);
+    --dark-color: white;
+    --status-height: 30px;
+}
+
+/**
+ Box sizing reset
+ */
+html {
+    box-sizing: border-box;
+    width: 100vw;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+input {
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 a, a:hover, a:active, a:visited {
@@ -25,6 +65,8 @@ header {
 body {
     font-size: var(--font-size);
     font-family: "Source Sans Pro";
+    margin: 0;
+    min-height: 100vh;
 }
 
 a,a:visited {
