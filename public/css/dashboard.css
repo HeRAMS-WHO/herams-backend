@@ -373,7 +373,6 @@ span.header {
 
 body {
     color: #212529;
-    font-family: "Source Sans Pro";
     min-height: 100vh;
     margin: 0;
     overflow-x: hidden;
@@ -618,7 +617,6 @@ table caption, .kv-table-caption {
 table thead tr th, .table thead tr th {
   background: #f6f6f6;
   color: #9d9d9d;
-  font-family: "Source Sans Pro";
   font-weight: 400;
   text-transform: uppercase;
   font-size: 11px;
@@ -653,7 +651,6 @@ table thead tr th a.desc::after {
 }
 .table tbody tr td {
   padding: 10px 5px 10px 10px;
-  font-family: "Source Sans Pro";
   color: #222222;
   vertical-align: middle;
 }
