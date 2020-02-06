@@ -765,21 +765,5 @@ body[data-modal]:after {
 
 }
 
-.status {
-    display: block;
-    font-weight: bold;
-    line-height: var(--status-height);
-    height: var(--status-height);
-    grid-area: status;
-    text-align: center;
-    font-size: 14px;
-    background-color: #22222a;
-    font-size: 14px;
-    /*color: #92929b;*/
-}
-
-.status .value {
-    color: #92929b;
-}
 
 

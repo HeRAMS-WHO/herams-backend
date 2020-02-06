@@ -88,6 +88,26 @@
 
 }
 
+.popover .status {
+    line-height: var(--status-height);
+    text-align: center;
+    font-size: 16px;
+    grid-area: status;
+    font-weight: bold;
+    background-color: #222229;
+    color: #ffffff;
+}
+
+.popover .status .value {
+    color: #92929b;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.popover .status .icon {
+    vertical-align: middle;
+}
+
 .form {
     grid-area: login;
     padding: var(--padding);
@@ -215,24 +235,4 @@
     font-size: 48px;
 }
 
-.status {
-    line-height: var(--status-height);
-    text-align: center;
-    font-size: 16px;
-    grid-area: status;
-    font-weight: bold;
-    background-color: #222229;
-    color: #ffffff;
-}
 
-.status .value {
-    color: #92929b;
-    font-size: 14px;
-
-
-    font-weight: normal;
-}
-
-.status .icon {
-    vertical-align: middle;
-}
