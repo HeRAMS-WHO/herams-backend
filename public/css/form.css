@@ -18,59 +18,7 @@ form .has-error input{
     color: var(--validation-error-color);
 }
 
-.btn {
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: none;
-    background-image: none;
-    border: none;
-    text-decoration: none;
-}
 
-.btn-primary {
-    background-color: var(--primary-button-background-color);
-    color: var(--primary-button-color);
-    border: 1px solid var(--primary-button-background-color);
-    transition: color 0.2s, background 0.2s, border 0.2s;
-    text-shadow: none;
-}
-
-.btn-primary:hover {
-    background-color: white;
-    color: var(--primary-button-background-color);
-    transition: color 0.2s, background 0.2s, border 0.2s;
-}
-
-.btn-default,.btn-default:visited {
-    background-color: white;
-    color: #9d9d9d;
-    border: 1px solid white;
-    transition: color 0.2s, background 0.2s, border 0.2s;
-    text-shadow: none;
-}
-
-.btn-default:hover {
-    background-color: #f6f6f6;
-    color: #212529;
-    border: 1px solid #212529;
-    transition: color 0.2s, background 0.2s, border 0.2s;
-}
-
-.btn-clear,.btn-clear:visited {
-    background-color: transparent;
-    color: #999999;
-    border: 1px solid transparent;
-    transition: color 0.2s;
-    text-shadow: none;
-}
-
-.btn-clear:hover {
-    background-color: transparent;
-    color: var(--primary-button-background-color);
-    border: 1px solid transparent;
-    transition: color 0.2s;
-}
 
 .form-control {
     box-sizing: border-box;
