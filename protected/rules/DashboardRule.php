@@ -52,7 +52,7 @@ class DashboardRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         return in_array(get_class($source), $this->getSourceNames())
-            && in_array(get_class($target), $this->getTargetNames())
+            && ($target instanceof Element || $target instanceof Page)
             && in_array($permission, $this->getPermissions())
             && $target->project instanceof Project
             && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_DASHBOARD)

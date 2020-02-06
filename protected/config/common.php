@@ -63,6 +63,7 @@ return [
         ],
         'abacResolver' => function(): \SamIT\abac\interfaces\Resolver {
             return new \SamIT\abac\resolvers\ChainedResolver(
+                new \prime\components\SingleTableInheritanceResolver(),
                 new ActiveRecordResolver(),
                 new \prime\components\GlobalPermissionResolver()
             );
