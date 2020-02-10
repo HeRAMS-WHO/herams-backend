@@ -89,3 +89,41 @@ a:hover {
 .breadcrumb > li + li::before {
     display: none;
 }
+
+
+.user-menu {
+    padding: 10px;
+    padding-right: 20px;
+    background-color: var(--header-background-color);
+    grid-area: user;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    text-align: right;
+    font-size: 30px;
+    color: var(--header-color);
+}
+
+.user-menu a, .user-menu a:visited, .user-menu a:hover {
+    text-decoration: inherit;
+    color: inherit;
+}
+.user-menu img {
+    max-height: 50px;
+    border-radius: 50%;
+}
+.user-menu .name{
+    color: inherit;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.user-menu .email {
+    color: #b3b1b8;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+.user-menu > * {
+    margin-left: 5px;
+}

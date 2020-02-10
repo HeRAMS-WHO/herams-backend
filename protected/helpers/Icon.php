@@ -64,10 +64,10 @@ class Icon
         if (!isset(self::$icons)) {
             \Yii::beginProfile('loadIcons');
             /** @var \SimpleXMLElement $file */
-            /*$symbols = simplexml_load_file(\Yii::getAlias('@app/assets/icons/symbol-defs.svg'));
+            $symbols = simplexml_load_file(\Yii::getAlias('@app/assets/icons/symbol-defs.svg'));
             foreach($symbols->defs->symbol as $symbol) {
                 self::$icons[(string) $symbol['id']] = $symbol->asXML();
-            }*/
+            }
             \Yii::endProfile('loadIcons');
         }
 
