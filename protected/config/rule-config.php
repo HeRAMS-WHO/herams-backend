@@ -12,8 +12,6 @@ use prime\rules\ProjectReadRule;
 use prime\rules\PublicProjectRule;
 use prime\rules\RevokeRule;
 use prime\rules\SuperShareRule;
-use prime\rules\WorkspaceDataRule;
-use prime\rules\WorkspaceRule;
 use SamIT\abac\rules\ImpliedPermission;
 
 return [
