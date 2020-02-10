@@ -27,6 +27,12 @@ class Module extends \yii\base\Module
                     'verb' => 'get'
                 ],
                 [
+                    'class' => UrlRule::class,
+                    'pattern' => 'response/update',
+                    'route' => 'response/update',
+                    'verb' => 'post'
+                ],
+                [
                     'pattern' => '<p:.*>',
                     'route' => '',
                 ]
