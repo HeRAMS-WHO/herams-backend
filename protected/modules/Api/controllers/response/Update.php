@@ -8,6 +8,7 @@ use prime\models\ar\Project;
 use prime\models\ar\Response as HeramsResponse;
 use prime\models\ar\Workspace;
 use yii\base\Action;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -34,6 +35,10 @@ class Update extends Action
             throw new ForbiddenHttpException();
         }
         $data = $request->getBodyParam('response');
+
+        if (!isset($data['id'], $request->bodyParams['surveyId'])) {
+            throw new BadRequestHttpException();
+        }
         $key = [
             'survey_id' => $request->getBodyParam('surveyId'),
             'id' => $data['id']
@@ -45,7 +50,7 @@ class Update extends Action
             throw new NotFoundHttpException('Unknown survey ID');
         }
 
-        $workspace = Workspace::find()->inProject($project)->andWhere(['token' => $data['token']])->one();
+        $workspace = Workspace::find()->andWhere(['token' => $data['token'], 'tool_id' => $project->id])->one();
         if (!isset($workspace)) {
             throw new NotFoundHttpException('Unknown token');
         }
