@@ -36,7 +36,7 @@ class Update extends Action
         }
         $data = $request->getBodyParam('response');
 
-        if (!isset($data['id'], $request->bodyParams['surveyId'])) {
+        if (!isset($data, $data['id'], $data['token'], $request->bodyParams['surveyId'])) {
             throw new BadRequestHttpException();
         }
         $key = [
