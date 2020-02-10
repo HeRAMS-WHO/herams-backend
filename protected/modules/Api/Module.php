@@ -50,9 +50,7 @@ class Module extends \yii\base\Module
             ContentNegotiator::class => [
                 'class' => ContentNegotiator::class,
                 'formats' => [
-                    Response::FORMAT_JSON,
-                    Response::FORMAT_XML,
-
+                    'application/json' => Response::FORMAT_JSON,
                 ]
             ]
         ];
