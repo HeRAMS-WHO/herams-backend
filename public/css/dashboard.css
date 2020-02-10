@@ -186,24 +186,25 @@ body.no-title .title {
 span.header {
     max-width: 100%;
     overflow: hidden;
-    font-weight: bold;
+    font-weight: 200;
     white-space: nowrap;
-    font-size: 25px;
+    font-size: 35px;
+    line-height: 25px;
     display: block;
     color: var(--header-color);
     text-overflow: ellipsis;
-    background-color: var(--header-background-color);
-    border-bottom: 5px solid var(--highlight-background-color);
+    border-bottom: 5px solid var(--primary-color);
+    padding: 12px 0;
 }
 .breadcrumb {
     background-color: var(--header-background-color);
-    padding: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 15px 0 0;
     margin-top: 0;
     margin-bottom: 0;
     color: var(--breadcrumbs-color);
     list-style-type: none;
+    font-size: 16px;
+    font-weight: 300;
 }
 
 .breadcrumb a:not(:hover), .breadcrumb a:not(:hover):visited, .breadcrumb a:not(:hover):active {
@@ -480,7 +481,7 @@ body {
 }
 
   .breadcrumb {
-    margin-bottom: 33px;
+    margin-bottom: 60px;
   }
 
     .title {
@@ -497,9 +498,6 @@ body {
     }
 
 
-    .breadcrumb {
-        margin-bottom: 33px;
-    }
 
     body {
         background: linear-gradient(
