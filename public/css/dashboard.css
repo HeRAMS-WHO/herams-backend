@@ -194,17 +194,19 @@ span.header {
     color: var(--header-color);
     text-overflow: ellipsis;
     border-bottom: 5px solid var(--primary-color);
-    padding: 12px 0;
+    padding: 12px 0 12px 10px;
+    background-color: var(--header-background-color);
 }
 .breadcrumb {
     background-color: var(--header-background-color);
-    padding: 15px 0 0;
+    padding: 15px 0 0 10px;
     margin-top: 0;
     margin-bottom: 0;
     color: var(--breadcrumbs-color);
     list-style-type: none;
     font-size: 16px;
     font-weight: 300;
+    border-radius: 0;
 }
 
 .breadcrumb a:not(:hover), .breadcrumb a:not(:hover):visited, .breadcrumb a:not(:hover):active {
@@ -457,6 +459,9 @@ body {
     padding-left: var(--gutter-size);
   }
 
+  span.header {
+    padding: 12px 0;
+  }
   .header {
     position: absolute;
     bottom: 0;
@@ -482,6 +487,7 @@ body {
 
   .breadcrumb {
     margin-bottom: 60px;
+     padding: 15px 0 0 0px;
   }
 
     .title {
