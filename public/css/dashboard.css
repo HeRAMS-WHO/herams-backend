@@ -219,9 +219,9 @@ span.header {
 }
 
 .breadcrumb .icon {
-    margin-left: 3px;
+    margin-left: 5px;
     margin-right: 3px;
-    height: 1em;
+    vertical-align: middle;
 }
 .breadcrumb li:last-child .icon {
     display: none;
