@@ -39,8 +39,10 @@ ENV COMPOSER_CACHE_DIR=/composer-cache
 ENV COMPOSER_HOME=/composer
 RUN mkdir $COMPOSER_CACHE_DIR && \
     mkdir $COMPOSER_HOME && \
+    EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('sha384', 'composer-setup.php') === 'c5b9b6d368201a9db6f74e2611495f369991b72d9c8cbd3ffbc63edff210eb73d46ffbfce88669ad33695ef77dc76976') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")" && \
+    if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then exit 1; fi && \
     php composer-setup.php --filename composer --install-dir /bin && \
     php -r "unlink('composer-setup.php');" && \
     composer global require hirak/prestissimo && \
