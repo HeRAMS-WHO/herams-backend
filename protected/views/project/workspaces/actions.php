@@ -15,7 +15,7 @@ return [
     'buttons' => [
         'refresh' => function($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(Icon::sync(), $url, [
                     'title' => \Yii::t('app', 'Refresh data from limesurvey')
                 ]);

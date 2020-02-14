@@ -97,4 +97,6 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200120_142141
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200120_154544_workspace_project_foreign_key', 1579684496);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200204_101056_response_project_foreign_key', 1580908837);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200205_123138_project_visibility', 1580908837);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200210_092104_change_write_to_ls', 1581673484);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200214_094238_drop_social_account', 1581673484);
 SET FOREIGN_KEY_CHECKS=1;
