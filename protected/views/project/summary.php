@@ -6,6 +6,7 @@
 use prime\models\permissions\Permission;
 use prime\widgets\chart\ChartBundle;
 use yii\helpers\Html;
+use prime\helpers\Icon;
 
 $this->registerAssetBundle(ChartBundle::class);
 $bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
@@ -106,18 +107,31 @@ $hostInfo = \Yii::$app->request->hostInfo;
         height: 100%;
     }
 
-    a {
+    .actions {
         grid-area: button;
         grid-column: span 6;
+    }
+    a {
         background-color: var(--primary-button-background-color);
         font-weight: 400;
         text-align: center;
         font-size: 1rem;
-        padding-top: 8px;
-        padding-bottom: 8px;
+        padding: 8px 10px;
         border-radius: 5px;
         text-decoration: none;
         color: inherit;
+        width: 70%;
+        display: inline-block;
+        transition: background 0.2s;
+    }
+    a:hover {
+        background-color: var(--primary-button-hover-color);
+        transition: background 0.2s;
+    }
+    a:first-child {
+        margin-right: 2%;
+        width: 18%;
+        
     }
 
     a:hover, a:visited, a:active {
@@ -372,7 +386,10 @@ JS;
     }
 
     if (!empty($project->pages) && (true || \Yii::$app->user->can(Permission::PERMISSION_READ, $project))) {
+       echo Html::beginTag('div', ['class' => 'actions']);
+       echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['target' => '_top']);
        echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
+       echo Html::endTag('div');
     }
 
     ?>
