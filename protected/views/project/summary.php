@@ -386,10 +386,10 @@ JS;
     }
 
     if (!empty($project->pages) && (true || \Yii::$app->user->can(Permission::PERMISSION_READ, $project))) {
-       echo Html::beginTag('div', ['class' => 'actions']);
-       echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['target' => '_top']);
-       echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
-       echo Html::endTag('div');
+        echo Html::beginTag('div', ['class' => 'actions']);
+        echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['target' => '_top']);
+        echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
+        echo Html::endTag('div');
     }
 
     ?>
