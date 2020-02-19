@@ -36,7 +36,7 @@ class Module extends \yii\base\Module
                     'class' => UrlRule::class,
                     'pattern' => 'response',
                     'route' => 'response/delete',
-                    'verb' => 'verb'
+                    'verb' => 'delete'
                 ],
                 [
                     'pattern' => '<p:.*>',

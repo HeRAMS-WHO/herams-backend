@@ -22,6 +22,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                \prime\modules\Api\Module::urlRule(),
                 [
                     'pattern' => '<controller>',
                     'route' => '<controller>'
@@ -43,7 +44,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'pattern' => '/',
                     'route' => 'site/world-map'
                 ],
-                \prime\modules\Api\Module::urlRule()
+
 
             ]
         ],
