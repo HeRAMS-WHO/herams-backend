@@ -47,7 +47,7 @@ class Update extends Action
         // Find the project.
         $project = Project::find()->andWhere(['base_survey_eid' => $request->getBodyParam('surveyId')])->one();
         if (!(isset($project))) {
-            throw new NotFoundHttpException('Unknown survey ID');
+            throw new NotFoundHttpException('Unknown survey ID: ' . $request->getBodyParam('surveyId'));
         }
 
         $workspace = Workspace::find()->andWhere(['token' => $data['token'], 'tool_id' => $project->id])->one();
