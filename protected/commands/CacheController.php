@@ -60,13 +60,12 @@ class CacheController extends \yii\console\controllers\CacheController
             $token = $workspace->getAttribute('token');
             $this->stdout("Starting cache warmup for workspace {$workspace->title}..\n", Console::FG_CYAN);
             $this->stdout("Checking responses for workspace {$workspace->title}..", Console::FG_CYAN);
-
+            $ids = [];
             foreach($limesurveyDataProvider->refreshResponsesByToken($project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
                 $key = [
                     'id' => $response->getId(),
                     'survey_id' => $response->getSurveyId()
                 ];
-
                 /**
                  * @var Response $dataResponse
                  */
@@ -79,8 +78,14 @@ class CacheController extends \yii\console\controllers\CacheController
                 } else {
                     $this->stdout($dataResponse->save() ? '+' : '-', Console::FG_YELLOW);
                 }
-
+                $ids[] = $response->getId();
             }
+            // Remove old records
+            Response::deleteAll([
+                'survey_id' => $project->base_survey_eid,
+                'id' => ['not', $ids],
+                'workspace_id' => $workspace->id
+            ]);
             $this->stdout("OK\n", Console::FG_GREEN);
         }
 
