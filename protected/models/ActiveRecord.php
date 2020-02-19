@@ -3,11 +3,6 @@
 namespace prime\models;
 
 use prime\components\ActiveQuery;
-use prime\injection\SetterInjectionInterface;
-use prime\injection\SetterInjectionTrait;
-use prime\models\ar\User;
-use prime\models\permissions\Permission;
-use yii\web\HttpException;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
