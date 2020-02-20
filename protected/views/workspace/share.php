@@ -2,6 +2,7 @@
 
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
+
 /**
  * @var \prime\models\ar\Workspace $workspace
  * @var \prime\models\forms\Share $model
@@ -28,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="col-xs-12 share-form">
-    <div class="col-xs-12 col-lg-6 permissions-form">
+    <div class="col-xs-12 permissions-form">
         <?php
         echo Html::tag('h2', \Yii::t('app', 'Users and permissions'));
         $form = ActiveForm::begin([
@@ -45,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <button type="submit" class="btn btn-primary">Share</button>
     </div>
-    <div class="col-xs-12 col-lg-5 list-shared">
+    <div class="col-xs-12 list-shared">
         <h2><?=\Yii::t('app', 'Already shared with')?></h2>
         <?php
         echo $model->renderTable();
