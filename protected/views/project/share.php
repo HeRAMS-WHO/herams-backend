@@ -34,16 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
 
         echo $model->renderForm($form);
-
+        $form->end();
     ?>
         <button type="submit" class="btn btn-primary">Share</button>
     </div>
     <div class="col-xs-12 col-lg-5 list-shared">
+        <h2><?=\Yii::t('app', 'Already shared with')?></h2>
         <?php
-        $form->end();
-
-
-        echo Html::tag('h2', \Yii::t('app', 'Already shared with'));
         echo $model->renderTable();
         ?>
     </div>
