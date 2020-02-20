@@ -21,26 +21,31 @@ $this->title = \Yii::t('app', 'Share {project}', ['project' => $project->title])
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12">
-    <?php
-    $form = ActiveForm::begin([
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false
-        ]
-    ]);
+<div class="col-xs-12 share-form">
+    <div class="col-xs-12 col-lg-6 permissions-form">
+        <?php
+        echo Html::tag('h2', \Yii::t('app', 'Users and permissions'));
+        $form = ActiveForm::begin([
+            "type" => ActiveForm::TYPE_HORIZONTAL,
+            'formConfig' => [
+                'showLabels' => true,
+                'defaultPlaceholder' => false
+            ]
+        ]);
 
-    echo $model->renderForm($form);
+        echo $model->renderForm($form);
 
     ?>
-    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary">Share</button></div>
-    <?php
-    $form->end();
+        <button type="submit" class="btn btn-primary">Share</button>
+    </div>
+    <div class="col-xs-12 col-lg-5 list-shared">
+        <?php
+        $form->end();
 
 
-    echo Html::tag('h2', \Yii::t('app', 'Already shared with'));
-    echo $model->renderTable();
-    ?>
+        echo Html::tag('h2', \Yii::t('app', 'Already shared with'));
+        echo $model->renderTable();
+        ?>
+    </div>
 </div>
 

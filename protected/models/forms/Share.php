@@ -153,7 +153,16 @@ class Share extends Model {
                         /** @var Resolver $resolver */
                         $resolver = \Yii::$app->abacResolver;
                         $source = $resolver->toSubject($model->sourceAuthorizable());
-                        return $source->displayField ?? 'Deleted user';
+                        return "{$source->displayField}" ?? 'Deleted user';
+                    }
+                ],
+                [
+                    'label' => \Yii::t('app', 'Email'),
+                    'value' => function(Permission $model) {
+                        /** @var Resolver $resolver */
+                        $resolver = \Yii::$app->abacResolver;
+                        $user = $resolver->toSubject($model->sourceAuthorizable());
+                        return "{$user->email}" ?? 'Deleted user';
                     }
                 ],
                 'permissionLabel' => [

@@ -837,4 +837,28 @@ body[data-modal]:after {
     color: #92929b;
 }
 
+.share-form {
+    padding: 0;
+    margin: 30px 0;
+}
+.share-form .permissions-form, .share-form .list-shared {
+    background: white;
+    padding: 0px 25px 25px;
+    border-radius: 7px;
+    margin: 0 0 30px;
+}
 
+.share-form .permissions-form h2 {
+    margin-bottom: 30px;
+}
+
+.share-form .permissions-form button {
+    float: right;
+    margin-right: 5px;
+}
+
+@media (min-width: 1200px) {
+    .share-form .list-shared {
+        margin: 0 0 0 20px;
+    }
+}
