@@ -31,7 +31,7 @@ class ResetPasswordForm extends Model
     {
         return [
             [['password', 'password_repeat'], RequiredValidator::class],
-            ['password', StrengthValidator::class, 'usernameValue' => $this->user->handle, 'preset' => StrengthValidator::NORMAL],
+            ['password', StrengthValidator::class, 'usernameValue' => $this->user->email, 'preset' => StrengthValidator::NORMAL],
             [['password_repeat'], CompareValidator::class, 'compareAttribute' => 'password'],
         ];
     }
