@@ -114,7 +114,7 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * @inheritDoc
      */
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return false;
     }
@@ -124,5 +124,14 @@ class User extends ActiveRecord implements IdentityInterface {
         if (!empty($value)) {
             $this->password_hash = \Yii::$app->security->generatePasswordHash($value);
         }
+    }
+
+    public function updatePassword(string $newPassword): void
+    {
+        $this->setPassword($newPassword);
+        if (!$this->update(true, ['password_hash'])) {
+            throw new \RuntimeException(\Yii::t('app', 'Password update failed'));
+        }
+
     }
 }

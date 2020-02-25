@@ -13,6 +13,7 @@ use prime\controllers\user\Impersonate;
 use prime\controllers\user\Index;
 use prime\controllers\user\RequestAccount;
 use prime\controllers\user\RequestReset;
+use prime\controllers\user\ResetPassword;
 use prime\controllers\user\Roles;
 use prime\controllers\user\UpdateEmail;
 use prime\models\ar\User;
@@ -34,6 +35,7 @@ class UserController extends Controller
             'impersonate' => Impersonate::class,
             'request-account' => RequestAccount::class,
             'request-reset' => RequestReset::class,
+            'reset-password' => ResetPassword::class,
             'roles' => Roles::class,
             'create' => Create::class,
             'delete' => [
