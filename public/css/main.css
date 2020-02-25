@@ -3,6 +3,7 @@
     --primary-button-color: white;
     --default-button-background-color: #42424b;
     --default-button-color: white;
+    --clear-button-color: #999999;
     --link-color: black;
     --validation-error-color: #d90001;
     --border-color: grey;
@@ -92,8 +93,8 @@ a:hover {
 
 .btn-clear,.btn-clear:visited {
     background-color: transparent;
-    color: #999999;
-    border: 1px solid #999999;
+    color: var(--clear-button-color);
+    border: 1px solid var(--clear-button-color);
     text-shadow: none;
     transition: color 0.2s, border 0.2s;
 }
