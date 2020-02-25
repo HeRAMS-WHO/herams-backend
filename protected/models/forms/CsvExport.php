@@ -68,12 +68,11 @@ class CsvExport extends Model
 
         }, 'external_url', 'External URL');
         yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
-            if ($response instanceof Response) {
-                return $response->last_updated;
-            }
-            return null;
-
+            return $response->last_updated ?? null;
         }, 'last_synced', 'Last synced');
+        yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
+            return $response->workspace_id ?? null;
+        }, 'workspaceId', 'Workspace ID');
         yield new GetterColumn('subjectId', 'Subject ID');
         yield new GetterColumn('date', 'Date');
 
