@@ -120,8 +120,10 @@ $hostInfo = \Yii::$app->request->hostInfo;
         border-radius: 5px;
         text-decoration: none;
         color: inherit;
-        width: 70%;
-        display: inline-block;
+        width: 58%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         transition: background 0.2s;
     }
     a:hover {
@@ -130,7 +132,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
     }
     a:first-child {
         margin-right: 2%;
-        width: 18%;
+        width: 30%;
         
     }
 
@@ -139,7 +141,10 @@ $hostInfo = \Yii::$app->request->hostInfo;
         text-decoration: inherit;
     }
 
+    a svg {
+        margin-right: 5px;
 
+    }
 
 
 
@@ -387,8 +392,8 @@ JS;
 
     if (!empty($project->pages) && (true || \Yii::$app->user->can(Permission::PERMISSION_READ, $project))) {
         echo Html::beginTag('div', ['class' => 'actions']);
-        echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['target' => '_top']);
-        echo Html::a('Details', ['project/view', 'id' => $project->id], ['target' => '_top']);
+        echo Html::a(Icon::list().'Workspaces', ['project/workspaces', 'id' => $project->id], ['target' => '_top']);
+        echo Html::a(Icon::project().'Dashboard', ['project/view', 'id' => $project->id], ['target' => '_top']);
         echo Html::endTag('div');
     }
 
