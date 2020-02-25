@@ -27,11 +27,6 @@ class ResponseController extends Controller
         ];
     }
 
-    public function actionView()
-    {
-        return ['abc'];
-    }
-
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [

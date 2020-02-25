@@ -26,7 +26,7 @@ class Configure extends Action
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_WRITE, $workspace->project)) {
+        if (!$user->can(Permission::PERMISSION_ADMIN, $workspace)) {
             throw new ForbiddenHttpException();
         }
         // Form model.
