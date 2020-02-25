@@ -74,6 +74,8 @@ class Workspace extends \prime\models\ar\Workspace
                 'id',
                 'title',
                 'created',
+                'permissionCount',
+                'facilityCount',
                 'latestUpdate' => [
                     'asc' => ['latestUpdate' => SORT_ASC],
                     'desc' => ['latestUpdate' => SORT_DESC],
