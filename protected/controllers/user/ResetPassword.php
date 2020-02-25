@@ -49,7 +49,6 @@ class ResetPassword extends Action
             $notificationService->success(\Yii::t('app', 'Your password has been reset!'));
             return $this->controller->goHome();
         }
-        $this->controller->layout = 'simple';
         return $this->controller->render('reset-password', ['model' => $model]);
     }
 }
