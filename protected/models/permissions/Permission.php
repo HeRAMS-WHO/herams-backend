@@ -71,7 +71,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_SUPER_SHARE => \Yii::t('app', 'Grant admin permissions'),
             self::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
-            self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Manage data in LimeSurvey'),
+            self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Edit data'),
             self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces'),
             self::PERMISSION_MANAGE_DASHBOARD => \Yii::t('app', 'Configure dashboard'),
             self::PERMISSION_CREATE_PROJECT => \Yii::t('app', 'Create a new project'),
