@@ -3,13 +3,9 @@
 namespace prime\models\search;
 
 use app\queries\ProjectQuery;
-use prime\components\ActiveQuery;
 use prime\models\ar\Project;
-use prime\models\ar\Response;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
-use yii\db\Expression;
-use yii\db\Query;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;

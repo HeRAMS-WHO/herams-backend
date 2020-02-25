@@ -4,14 +4,11 @@
 namespace prime\commands;
 
 
-use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
-use yii\base\ErrorException;
-use yii\caching\CacheInterface;
 use yii\helpers\Console;
 
 class CacheController extends \yii\console\controllers\CacheController

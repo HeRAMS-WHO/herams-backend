@@ -19,7 +19,6 @@ use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;

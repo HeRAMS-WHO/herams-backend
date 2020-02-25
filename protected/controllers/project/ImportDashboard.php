@@ -11,7 +11,6 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\Response;
-use yii\web\UploadedFile;
 use yii\web\User;
 
 class ImportDashboard extends Action

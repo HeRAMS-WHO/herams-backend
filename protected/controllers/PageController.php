@@ -9,10 +9,8 @@ use prime\components\Controller;
 use prime\controllers\page\Create;
 use prime\controllers\page\Update;
 use prime\models\ar\Page;
-use prime\models\permissions\Permission;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\User;
 
 class PageController extends Controller
 {

@@ -5,7 +5,7 @@ use kartik\form\ActiveForm;
 use yii\helpers\Html;
 
 
-    $this->title = \Yii::$app->name;
+$this->title = \Yii::$app->name;
     echo Html::tag('header', \Yii::t('app', 'Log in to HeRAMS'));
     $this->params['breadcrumbs'] = [];
     /** @var \yii\web\View $this */

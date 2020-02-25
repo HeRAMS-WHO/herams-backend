@@ -7,7 +7,6 @@ namespace prime\helpers;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
-use function foo\func;
 use function iter\map;
 use function iter\toArray;
 

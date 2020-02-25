@@ -10,7 +10,6 @@ use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
-use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;

@@ -15,7 +15,6 @@ use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Refresh;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
-use prime\models\ar\Project;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\filters\VerbFilter;

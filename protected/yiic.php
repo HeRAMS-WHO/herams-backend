@@ -1,6 +1,7 @@
 <?php
 
 use prime\components\Environment;
+
 define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 define('YII_ENV', getenv('YII_ENV'));
 defined('CONSOLE') or define('CONSOLE', true);

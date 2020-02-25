@@ -4,16 +4,14 @@
 namespace prime\models\ar;
 
 
+use app\queries\ResponseQuery;
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
-use app\queries\ResponseQuery;
 use yii\validators\RequiredValidator;
-use function iter\apply;
 use function iter\filter;
-use function iter\map;
 use function iter\toArrayWithKeys;
 
 /**

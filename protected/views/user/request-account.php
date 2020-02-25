@@ -11,7 +11,6 @@
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
-use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
 /**

@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace prime\modules\Api;
 
 
-use yii\base\BootstrapInterface;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
 use yii\web\Response;
-use yii\web\UrlManager;
 use yii\web\UrlRule;
 
 class Module extends \yii\base\Module
