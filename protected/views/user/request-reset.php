@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['hideMenu'] = true;
     echo Html::tag('header', $this->title);
     echo Form::widget([
-        'id' => 'reset-form',
         'model' => $model,
         'form' => $form = ActiveForm::begin([
+            'id' => 'reset-form',
             'enableAjaxValidation' => false,
             'enableClientValidation' => true,
             'validateOnBlur' => true,
