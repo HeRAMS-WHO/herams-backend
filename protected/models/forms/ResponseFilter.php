@@ -188,6 +188,10 @@ class ResponseFilter extends Model
             'id' => "max([[left]].[[id]])"
         ])->andWhere([
             '[[right]].[[id]]' => null
+        ])->andFilterWhere([
+            '<=',
+            '[[left]].[[date]]',
+            $this->date
         ]);
 
 
