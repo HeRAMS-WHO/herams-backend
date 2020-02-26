@@ -120,7 +120,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
         border-radius: 5px;
         text-decoration: none;
         color: inherit;
-        width: 58%;
+        width: 30%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -132,7 +132,7 @@ $hostInfo = \Yii::$app->request->hostInfo;
     }
     a:first-child {
         margin-right: 2%;
-        width: 30%;
+        width: 58%;
         
     }
 
@@ -392,8 +392,8 @@ JS;
 
     if (!empty($project->pages) && (true || \Yii::$app->user->can(Permission::PERMISSION_READ, $project))) {
         echo Html::beginTag('div', ['class' => 'actions']);
-        echo Html::a(Icon::list().'Workspaces', ['project/workspaces', 'id' => $project->id], ['target' => '_top']);
         echo Html::a(Icon::project().'Dashboard', ['project/view', 'id' => $project->id], ['target' => '_top']);
+        echo Html::a(Icon::list().'Workspaces', ['project/workspaces', 'id' => $project->id], ['target' => '_top']);
         echo Html::endTag('div');
     }
 
