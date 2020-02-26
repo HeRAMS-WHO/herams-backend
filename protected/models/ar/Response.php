@@ -3,16 +3,13 @@
 
 namespace prime\models\ar;
 
-
-use app\queries\ResponseQuery;
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
+use prime\queries\ResponseQuery;
 use yii\validators\RequiredValidator;
-use function iter\filter;
-use function iter\toArrayWithKeys;
 
 /**
  * Class Response
@@ -41,6 +38,12 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         return parent::beforeSave($insert);
     }
 
+    public static function find(): ResponseQuery
+    {
+        return new ResponseQuery(self::class);
+    }
+
+
     public function afterFind()
     {
         parent::afterFind();
@@ -67,65 +70,6 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function getProject()
     {
         return $this->hasOne(Project::class, ['id' => 'tool_id'])->via('workspace');
-    }
-
-    public function loadData(array $data, Workspace $workspace)
-    {
-        $data = toArrayWithKeys(filter(function($value) {
-            return !empty($value); //$value !== null;
-        }, $data));
-
-        $this->workspace_id = $workspace->id;
-        $this->survey_id = $workspace->project->base_survey_eid;
-        $this->id = (int) $data['id'] ?? null;
-
-        if (isset($data['Update'])) {
-            $this->date = Carbon::createFromFormat('Y-m-d H:i:s', $data['Update'])->format('Y-m-d');
-        }
-        $this->hf_id = $data['UOID'] ?? null;
-        // Remove some keys from the data.
-        unset(
-            $data['submitdate'],
-            $data['startdate'],
-            $data['datestamp'],
-            $data['startlanguage'],
-            $data['id'],
-            $data['token'],
-            $data['Update'],
-            $data['lastpage'],
-            $data['UOID']
-        );
-
-        // Transform arrays.
-        $transformed = [];
-        foreach($data as $key => $value) {
-            if (preg_match('/(.+)\[\d+]$/', $key, $matches)) {
-                if (isset($transformed[$matches[1]])) {
-                    $transformed[$matches[1]][] = $value;
-                } else {
-                    $transformed[$matches[1]] = [$value];
-                }
-            } elseif (preg_match('/(.+)\[(\w+)_(\w+)]$/', $key, $matches)) {
-                // Question with subquestions on 2 axes.
-                $transformed[$matches[1]][$matches[2]][$matches[3]] = $value;
-            } elseif (preg_match('/(.+)\[other]$/', $key, $matches)) {
-                // Other is special; it is always a text question and does.
-                $transformed[$matches[1]. 'other'] = $value;
-            } elseif (preg_match('/(.+)\[([a-zA-Z0-9]+)]$/', $key, $matches)) {
-                $transformed[$matches[1]][$matches[2]] = $value;
-            } else {
-                $transformed[$key] = $value;
-            }
-        }
-
-        ksort($transformed);
-        // Recurse 1 level.
-        foreach($transformed as $key => &$value) {
-            if (is_array($value)) {
-                ksort($value);
-            }
-        }
-        $this->data = $transformed;
     }
 
     public function getLatitude(): ?float

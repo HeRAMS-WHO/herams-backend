@@ -2,7 +2,6 @@
 
 namespace prime\models\search;
 
-use app\queries\ProjectQuery;
 use prime\models\ar\Project;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;

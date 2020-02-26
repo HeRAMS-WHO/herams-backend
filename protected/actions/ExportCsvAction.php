@@ -25,7 +25,7 @@ class ExportCsvAction extends Action
     /**
      * @var \Closure
      */
-    public $responseIterator;
+    public $responseQuery;
     /**
      * @var \Closure
      */
@@ -38,7 +38,7 @@ class ExportCsvAction extends Action
         if (!$this->subject instanceof \Closure) {
             throw new InvalidConfigException('Subject must be a closure');
         }
-        if (!$this->responseIterator instanceof \Closure) {
+        if (!$this->responseQuery instanceof \Closure) {
             throw new InvalidConfigException('Response iterator must be a closure');
         }
         if (!$this->surveyFinder instanceof \Closure) {
@@ -64,7 +64,7 @@ class ExportCsvAction extends Action
 
         $model = new CsvExport($survey);
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
-            $stream = StreamWrapper::getResource($model->run(($this->responseIterator)($subject)));
+            $stream = StreamWrapper::getResource($model->run(($this->responseQuery)($subject)));
             return $response->sendStreamAsFile($stream, date('Ymd his') . '.csv', [
                 'mimeType' => 'text/csv'
             ]);

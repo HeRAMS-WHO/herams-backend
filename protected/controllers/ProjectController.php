@@ -19,7 +19,9 @@ use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
 use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
+use prime\models\ar\Response;
 use prime\models\permissions\Permission;
+use prime\queries\ResponseQuery;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -54,10 +56,8 @@ class ProjectController extends Controller
                 'subject' => static function(Request $request) {
                     return Project::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseIterator' => static function(Project $project) {
-                    foreach($project->getWorkspaces()->each() as $workspace) {
-                        yield from $workspace->getResponses()->each();
-                    }
+                'responseQuery' => static function(Project $project): ResponseQuery {
+                    return Response::find()->project($project)->with('workspace');
                 },
                 'surveyFinder' => function(Project $project) {
                     return $project->getSurvey();

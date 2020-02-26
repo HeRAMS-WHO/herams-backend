@@ -2,7 +2,6 @@
 
 namespace prime\models\permissions;
 
-use app\queries\PermissionQuery;
 use prime\models\ActiveRecord;
 use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;

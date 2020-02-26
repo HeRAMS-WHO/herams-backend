@@ -5,6 +5,7 @@ namespace prime\commands;
 
 
 use prime\components\LimesurveyDataProvider;
+use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
@@ -48,7 +49,8 @@ class CacheController extends \yii\console\controllers\CacheController
 
     protected function warmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
-        Project $project
+        Project $project,
+        LimesurveyDataLoader $loader
     ) {
         $surveyId = $project->base_survey_eid;
 
@@ -67,7 +69,7 @@ class CacheController extends \yii\console\controllers\CacheController
                  * @var Response $dataResponse
                  */
                 $dataResponse = Response::findOne($key) ?? new Response($key);
-                $dataResponse->loadData($response->getData(), $workspace);
+                $loader->loadData($response->getData(), $workspace, $dataResponse);
                 if ($dataResponse->isNewRecord) {
                     $this->stdout($dataResponse->save() ? '+' : '-', Console::FG_RED);
                 } elseif (empty($dataResponse->dirtyAttributes)) {

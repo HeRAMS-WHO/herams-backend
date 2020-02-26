@@ -2,7 +2,6 @@
 
 namespace prime\models\ar;
 
-use app\queries\WorkspaceQuery;
 use prime\models\ActiveRecord;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;

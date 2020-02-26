@@ -10,6 +10,7 @@ use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
+use prime\queries\ResponseQuery;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
@@ -190,7 +191,7 @@ class Workspace extends ActiveRecord
         return isset($this->closed);
     }
 
-    public function  getResponses(): ActiveQuery
+    public function  getResponses(): ResponseQuery
     {
         return $this->hasMany(Response::class, [
             'workspace_id' => 'id',

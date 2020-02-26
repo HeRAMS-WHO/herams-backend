@@ -26,6 +26,7 @@ use function iter\filter;
 /**
  * Class ResponseFilter implements filtering for Response Collections
  * @package prime\models\forms
+ * @property Carbon $date
  */
 class ResponseFilter extends Model
 {
@@ -46,9 +47,17 @@ class ResponseFilter extends Model
      */
     private $advancedFilterMap = [];
 
+    public function attributes()
+    {
+        $attributes = parent::attributes();
+        $attributes[] = 'date';
+        return $attributes;
+    }
+
+
     public function setDate($date)
     {
-        $this->date = new Carbon($date);
+        $this->date = empty($date) ? null: new Carbon($date);
     }
 
     public function getDate(): ?Carbon

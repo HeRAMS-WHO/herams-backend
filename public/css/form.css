@@ -56,6 +56,10 @@ form .has-error input{
     width: 100%;
 }
 
+.form-group .btn-group {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 .form-group {
     margin-bottom: 5px;
 }
