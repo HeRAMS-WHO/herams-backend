@@ -73,7 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => \Yii::t('app', 'Report date'),
                 'type' => Form::INPUT_HTML5,
                 'html5type' => 'date',
-                'hint' => Html::tag('p', \Yii::t('app', 'This will only export the last record before this date for each health facility'))
             ],
             FormButtonsWidget::embed([
                 'options' => [
