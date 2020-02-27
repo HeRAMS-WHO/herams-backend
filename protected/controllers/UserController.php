@@ -16,6 +16,7 @@ use prime\controllers\user\RequestReset;
 use prime\controllers\user\ResetPassword;
 use prime\controllers\user\Roles;
 use prime\controllers\user\UpdateEmail;
+use prime\controllers\user\UpdatePassword;
 use prime\models\ar\User;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\helpers\ArrayHelper;
@@ -36,6 +37,7 @@ class UserController extends Controller
             'request-account' => RequestAccount::class,
             'request-reset' => RequestReset::class,
             'reset-password' => ResetPassword::class,
+            'update-password' => UpdatePassword::class,
             'roles' => Roles::class,
             'create' => Create::class,
             'delete' => [
