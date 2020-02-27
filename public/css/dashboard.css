@@ -251,7 +251,7 @@ span.header {
 
 .filters a, .filters button{
     margin: 10px;
-    float: right;
+    display: inline-block;
 }
 .filters .row {
     clear: both;
@@ -474,6 +474,7 @@ body {
 
   .filters a, .filters button{
     margin: 0 10px 0 0;
+    float: right;
 }
 
   .filters .count {
