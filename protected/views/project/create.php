@@ -2,7 +2,7 @@
 /** @var \prime\models\ar\Project $model */
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = [

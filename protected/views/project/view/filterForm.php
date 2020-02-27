@@ -5,7 +5,7 @@
 
 use app\components\Form;
 use kartik\select2\Select2;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use yii\helpers\Html;

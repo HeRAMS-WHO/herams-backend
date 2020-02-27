@@ -3,7 +3,7 @@
 namespace prime\models\forms;
 
 use kartik\builder\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use kartik\widgets\Select2;
 use prime\exceptions\NoGrantablePermissions;
 use prime\helpers\ProposedGrant;

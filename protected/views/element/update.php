@@ -6,7 +6,7 @@
 
 use app\components\Form;
 use kartik\select2\Select2;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
