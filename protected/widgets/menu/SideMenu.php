@@ -62,7 +62,7 @@ class SideMenu extends Widget
 
         $this->registerClientScript();
         echo Html::beginTag('div', $options);
-        echo Html::img("/img/HeRAMS.png");
+        echo Html::img("/img/HeRAMS_Horizontal_withoutbaseline.png");
         // We always render the toggle so we can later enable / disable menu collapsing.
         echo Html::a(Icon::chevronRight(), '#', ['class' => ['toggle', 'collapsed-only']]);
         echo Html::a(Icon::chevronDown(), '#', ['class' => ['toggle', 'expanded-only']]);
