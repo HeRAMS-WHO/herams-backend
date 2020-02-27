@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.7'
 volumes:
   runtime:
 x-env:
@@ -71,13 +71,15 @@ services:
       - devdb
       - mailcatcher
       - phpmyadmin
-    entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
+    entrypoint: ["/project/protected/yiic"]
+    init: true
     command: ""
   testcli:
     <<: *base
     depends_on:
       - testdb
-    entrypoint: ["/sbin/tini", "--", "/project/protected/yiic"]
+    entrypoint: ["/project/protected/yiic"]
+    init: true
     command: ""
     environment:
       DB_HOST: testdb
@@ -89,11 +91,8 @@ services:
       RUNTIME_PATH: /runtime
   composer:
     << : *base
-    entrypoint: [
-      "/sbin/tini",
-      "--",
-      "composer"
-    ]
+    init: true
+    entrypoint: ["composer"]
     volumes:
       - /composer-cache
       - .:/project:rw
@@ -101,9 +100,8 @@ services:
     << : *base
     depends_on:
       - testdb
+    init: true
     entrypoint: [
-      "/sbin/tini",
-      "--",
       "wait-for-it",
       "30",
       "testdb",
