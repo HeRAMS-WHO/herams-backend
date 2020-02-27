@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bda45bee4dc91b0f6c820676889ef391",
+    "content-hash": "b4baac6f9e42f0e7ef21695fd316bef5",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -1263,7 +1263,7 @@
         },
         {
             "name": "sam-it/abac",
-            "version": "v3.x-dev",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/abac.git",
@@ -1383,21 +1383,21 @@
         },
         {
             "name": "sam-it/yii2-abac",
-            "version": "dev-master",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/yii2-abac.git",
-                "reference": "4dccac2114a10eae99b416bf8c5e8ec6e2c3b2ff"
+                "reference": "47d52aa8a13691b11ebc2cbe71ddbcb7c9a028c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/yii2-abac/zipball/4dccac2114a10eae99b416bf8c5e8ec6e2c3b2ff",
-                "reference": "4dccac2114a10eae99b416bf8c5e8ec6e2c3b2ff",
+                "url": "https://api.github.com/repos/SAM-IT/yii2-abac/zipball/47d52aa8a13691b11ebc2cbe71ddbcb7c9a028c5",
+                "reference": "47d52aa8a13691b11ebc2cbe71ddbcb7c9a028c5",
                 "shasum": ""
             },
             "require": {
                 "php": "> 7.3",
-                "sam-it/abac": "v3.x-dev"
+                "sam-it/abac": ">= 3, < 4"
             },
             "require-dev": {
                 "codeception/codeception": "> 3.1",
@@ -1421,7 +1421,7 @@
                     "email": "sam@mousa.nl"
                 }
             ],
-            "time": "2020-01-20T13:44:33+00:00"
+            "time": "2020-02-27T14:34:13+00:00"
         },
         {
             "name": "sam-it/yii2-magic",
@@ -5317,7 +5317,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "sam-it/yii2-abac": 20,
         "yiisoft/yii2-debug": 20
     },
     "prefer-stable": true,
