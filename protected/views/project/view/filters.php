@@ -48,7 +48,7 @@ echo Html::beginForm([
     ?>
 </div>
 <?php
-echo Html::a('Filters', '#', ['id' => 'filter-expand']);
+echo Html::a('Filters', '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
 $this->registerJs(
     <<<JS
         $('#filter-expand').on('click', function() {

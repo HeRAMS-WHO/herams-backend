@@ -131,11 +131,11 @@ JS
         ], $filters))
     ]);
     echo Html::endTag('div');
-    echo Html::submitButton(\Yii::t('app', 'Apply'));
+    echo Html::submitButton(\Yii::t('app', 'Apply'),['class' => 'btn btn-primary']);
     echo Html::a(\Yii::t('app', 'Clear'), [
         'project/view',
         'id' => $project->id,
         'page_id' => \Yii::$app->request->getQueryParam('page_id'),
         'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-        ]);
+        ],['class' => 'btn btn-clear']);
     $form->end();
