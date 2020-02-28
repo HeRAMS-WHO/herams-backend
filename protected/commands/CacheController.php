@@ -15,7 +15,7 @@ use yii\helpers\Console;
 class CacheController extends \yii\console\controllers\CacheController
 {
     use ActionInjectionTrait;
-    public function actionResync(LimesurveyDataProvider $limesurveyDataProvider)
+    public function actionResync(LimesurveyDataProvider $limesurveyDataProvider, LimesurveyDataLoader $dataLoader)
     {
         /** @var Project $project */
         foreach(Project::find()->each() as $project) {
@@ -25,7 +25,7 @@ class CacheController extends \yii\console\controllers\CacheController
             ]);
             $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);
             try {
-                $this->warmupProject($limesurveyDataProvider, $project);
+                $this->warmupProject($limesurveyDataProvider, $project, $dataLoader);
             } catch (\Throwable $t) {
                 $this->stderr($t->getMessage(), Console::FG_RED);
             }
