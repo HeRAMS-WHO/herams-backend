@@ -13,6 +13,7 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
+use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\StringHelper;
@@ -168,15 +169,46 @@ class ResponseFilter extends Model
 
     public function filterQuery(ActiveQuery $query): ActiveQuery
     {
+        // Add filtering rules
+        $query->andFilterWhere([
+            '<=',
+            'date',
+            (string) $this->date
+        ]);
+
+
+        // Clone the primary query
+        $sub = clone $query;
+        $sub
+            ->alias('sub')
+            ->andWhere([
+                '[[sub]].[[workspace_id]]' => new Expression("{$query->primaryTableName}.[[workspace_id]]"),
+                '[[sub]].[[hf_id]]' => new Expression("{$query->primaryTableName}.[[hf_id]]"),
+            ])->andWhere([
+                '>',
+                "[[sub]].[[date]]",
+                new Expression("{$query->primaryTableName}.[[date]]")
+            ]);
+
+        $query->andWhere(['not exists', $sub]);
+
+
+        echo '<pre>';
+        var_dump($query->createCommand()->rawSql);
+        die();
         // Find the latest response per HF.
         $left = clone $query;
         $left->alias('left');
+
         $right = Response::find()
+            ->andFilterWhere($query->where)
             ->andFilterWhere([
                 '<=',
                 'date',
                 $this->date
             ]);
+
+
         $left->leftJoin(['right' => $right], [
             'and',
             [
