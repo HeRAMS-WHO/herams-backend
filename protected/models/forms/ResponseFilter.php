@@ -185,9 +185,25 @@ class ResponseFilter extends Model
                 '[[sub]].[[workspace_id]]' => new Expression("{$query->primaryTableName}.[[workspace_id]]"),
                 '[[sub]].[[hf_id]]' => new Expression("{$query->primaryTableName}.[[hf_id]]"),
             ])->andWhere([
-                '>',
-                "[[sub]].[[date]]",
-                new Expression("{$query->primaryTableName}.[[date]]")
+                'or',
+                [
+                    '>',
+                    "[[sub]].[[date]]",
+                    new Expression("{$query->primaryTableName}.[[date]]")
+                ],
+                [
+                    'and',
+                    [
+                        '=',
+                        "[[sub]].[[date]]",
+                        new Expression("{$query->primaryTableName}.[[date]]")
+                    ],
+                    [
+                        '>',
+                        "[[sub]].[[id]]",
+                        new Expression("{$query->primaryTableName}.[[id]]")
+                    ],
+                ]
             ]);
 
         $query->andWhere(['not exists', $sub]);
@@ -202,7 +218,7 @@ class ResponseFilter extends Model
         return $query;
     }
 
-    public function filter(iterable $responses): iterable
+    private function filter(iterable $responses): iterable
     {
         \Yii::beginProfile('filter');
         // Index by UOID.
