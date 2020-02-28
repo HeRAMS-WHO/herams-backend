@@ -4,7 +4,7 @@ namespace prime\models\forms;
 
 use kartik\builder\Form;
 use app\components\ActiveForm;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use prime\exceptions\NoGrantablePermissions;
 use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
