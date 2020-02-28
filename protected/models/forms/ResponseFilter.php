@@ -192,10 +192,8 @@ class ResponseFilter extends Model
 
         $query->andWhere(['not exists', $sub]);
 
+        return $query;
 
-        echo '<pre>';
-        var_dump($query->createCommand()->rawSql);
-        die();
         // Find the latest response per HF.
         $left = clone $query;
         $left->alias('left');
