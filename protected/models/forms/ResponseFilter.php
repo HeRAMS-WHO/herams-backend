@@ -192,51 +192,6 @@ class ResponseFilter extends Model
 
         $query->andWhere(['not exists', $sub]);
 
-        return $query;
-
-        // Find the latest response per HF.
-        $left = clone $query;
-        $left->alias('left');
-
-        $right = Response::find()
-            ->andFilterWhere($query->where)
-            ->andFilterWhere([
-                '<=',
-                'date',
-                $this->date
-            ]);
-
-
-        $left->leftJoin(['right' => $right], [
-            'and',
-            [
-                '[[left]].[[workspace_id]]' => new Expression('[[right]].[[workspace_id]]'),
-                '[[left]].[[hf_id]]' => new Expression('[[right]].[[hf_id]]'),
-            ],
-            [
-                '<',
-                "[[left]].[[date]]",
-                new Expression("[[right]].[[date]]")
-            ],
-
-        ])->groupBy([
-            '[[left]].[[workspace_id]]',
-            '[[left]].[[hf_id]]'
-        ])->select([
-            'id' => "max([[left]].[[id]])"
-        ])->andWhere([
-            '[[right]].[[id]]' => null
-        ])->andFilterWhere([
-            '<=',
-            '[[left]].[[date]]',
-            $this->date
-        ]);
-
-
-        $query->andWhere([
-            'id' => $left
-        ]);
-
         foreach($this->advanced as $key => $value) {
             if (!empty($value)) {
                 $query->andWhere([
