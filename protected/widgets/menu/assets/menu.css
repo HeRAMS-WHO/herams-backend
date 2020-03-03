@@ -12,8 +12,8 @@
 }
 
 .menu hr {
-    margin-bottom: 35px;
-    margin-top: 35px;
+    margin-bottom: 15px;
+    margin-top: 15px;
     margin-left: 0px;
     margin-right: 0px;
     grid-area: separator;
@@ -252,11 +252,24 @@
     position: initial;
     grid-area: image;
     display: block;
-    max-height: 100px;
-    max-width: 170px;
+    max-height: 50px;
+    max-width: 190px;
     width: 100%;
     margin: 10px auto;
     transition: max-width var(--animation-duration), max-height var(--animation-duration);
+}
+
+
+@media (min-width: 600px) {
+    .menu img {
+        position: initial;
+        grid-area: image;
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 25px;
+        margin-right: auto;
+    }
 }
 
 /**
@@ -284,20 +297,20 @@
     transition-property: height;
 }
 .menu.collapsible:not(.expanded) {
-    height: 120px;
+    height: 85px;
 }
 
 .menu .toggle {
     position: absolute;
-    right: 10px;
+    right: 22px;
     margin: 0;
     padding: 0;
-    top: 10px;
+    top: 26px;
     font-size: 30px;
 }
-.menu.collapsible:not(.expanded) img {
-    max-height: 72px;
-    max-width: 140px;
+.menu .toggle svg.icon {
+    fill:#a5a5a5;
 }
-
-
+.menu.collapsible:not(.expanded) {
+    
+}
