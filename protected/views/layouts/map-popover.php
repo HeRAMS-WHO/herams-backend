@@ -44,7 +44,7 @@ $this->beginContent('@views/layouts/map.php');
             <?= Icon::healthFacility(); ?>
             <span>
             <?php
-            echo \prime\models\ar\Response::find()->select('count(distinct [[workspace_id]], [[hf_id]])')->scalar();
+            echo \prime\models\ar\Response::find()->cache(600)->select('count(distinct [[workspace_id]], [[hf_id]])')->scalar();
             ?>
             </span>
             Health Facilities
