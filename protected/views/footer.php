@@ -23,7 +23,7 @@ $stats[] = [
 
 $stats[] = [
     'icon' => Icon::healthFacility(),
-    'count' => \Yii::$app->cache->get('totalFacilityCount') ?: '?',
+    'count' => \prime\models\ar\Response::find()->select('count(distinct [[workspace_id]], [[hf_id]])')->scalar(),
     'subject' => \Yii::t('app', 'Health facilities')
 ];
 echo Html::beginTag('div', ['class' => 'stats']);

@@ -35,7 +35,7 @@ $this->beginContent('@views/layouts/map.php');
             <?= Icon::healthFacility(); ?>
             <span>
             <?php
-            echo \Yii::$app->cache->get('totalFacilityCount') ?: '?';
+            echo \prime\models\ar\Response::find()->select('count(distinct [[workspace_id]], [[hf_id]])')->scalar();
             ?>
             </span>
             Health Facilities
