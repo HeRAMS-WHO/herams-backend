@@ -448,6 +448,14 @@ body {
     vertical-align: bottom;
 }
 
+.form-layout {
+    display: block;
+    padding: 30px 0px;
+    border-radius: 10px;
+    width: 100%;
+    float: left;
+}
+
 /**
  2 Column layout, menu above filters.
 */
