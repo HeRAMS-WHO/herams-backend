@@ -230,7 +230,7 @@ class Project extends ActiveRecord {
                                 'workspace_id' => Workspace::find()->select('id')
                                     ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                             ])->addParams([':path' => '$.facilityCount'])->
-                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[hf_id]]))')),
+                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[workspace_id]], [[hf_id]]))')),
                         VirtualFieldBehavior::LAZY => static function(self $model): int {
                             if ($model->workspaceCount === 0) {
                                 return 0;
@@ -262,7 +262,7 @@ class Project extends ActiveRecord {
                                 if ($model->workspaceCount === 0) {
                                     return 0;
                                 }
-                                $result = Permission::find()->where([
+                                $uniqueUsersWithPermission = Permission::find()->where([
                                     'target' => Workspace::class,
                                     'target_id' => $model->getWorkspaces()->select('id'),
                                     'source' => User::class,
@@ -273,6 +273,8 @@ class Project extends ActiveRecord {
                                 ])  ->distinct()
                                     ->select('source_id')
                                     ->count();
+
+                                $result = max($this->workspaceCount, $uniqueUsersWithPermission);
 
                             }
                             return (int) $result;
