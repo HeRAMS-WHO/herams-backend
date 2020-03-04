@@ -454,6 +454,7 @@ body {
     border-radius: 10px;
     width: 100%;
     float: left;
+    max-width: 800px;
 }
 
 /**
