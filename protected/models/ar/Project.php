@@ -274,7 +274,7 @@ class Project extends ActiveRecord {
                                     ->select('source_id')
                                     ->count();
 
-                                $result = max($this->workspaceCount, $uniqueUsersWithPermission);
+                                $result = max($model->workspaceCount, $uniqueUsersWithPermission);
 
                             }
                             return (int) $result;
