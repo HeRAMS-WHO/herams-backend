@@ -10,10 +10,8 @@ use prime\controllers\element\Create;
 use prime\controllers\element\Preview;
 use prime\controllers\element\Update;
 use prime\models\ar\Element;
-use prime\models\permissions\Permission;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\User;
 
 class ElementController extends Controller
 {

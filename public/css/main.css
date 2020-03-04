@@ -1,8 +1,9 @@
 :root {
     --primary-button-background-color: #4177c1;
     --primary-button-color: white;
-
-
+    --default-button-background-color: #42424b;
+    --default-button-color: white;
+    --clear-button-color: #999999;
     --link-color: black;
     --validation-error-color: #d90001;
     --border-color: grey;
@@ -86,10 +87,66 @@ a:hover {
     background-image: none;
 }
 
+.btn {
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    height: 35px;
+    font-size: 14px;
+    box-shadow: none;
+    background-image: none;
+    border: none;
+    text-decoration: none;
+    outline: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-button-background-color);
+    color: var(--primary-button-color);
+    border: 1px solid var(--primary-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    color: var(--primary-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-default,.btn-default:visited {
+    background-color: white;
+    color: var(--default-button-background-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+}
+
+.btn-default:hover {
+    background-color: var(--default-button-background-color);
+    color: var(--default-button-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-clear,.btn-clear:visited {
+    background-color: transparent;
+    color: var(--clear-button-color);
+    border: 1px solid var(--clear-button-color);
+    text-shadow: none;
+    transition: color 0.2s, border 0.2s;
+}
+
+.btn-clear:hover {
+    background-color: transparent;
+    color: var(--primary-button-background-color);
+    border: 1px solid var(--primary-button-background-color);
+    transition: color 0.2s, border 0.2s;
+}
+
 .breadcrumb > li + li::before {
     display: none;
 }
-
 
 .user-menu {
     padding: 10px;

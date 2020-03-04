@@ -18,21 +18,7 @@ form .has-error input{
     color: var(--validation-error-color);
 }
 
-.btn {
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: none;
-    background-image: none;
-    border: none;
-    text-decoration: none;
-}
 
-.btn-primary {
-    background-color: var(--primary-button-background-color);
-    color: var(--primary-button-color);
-
-}
 
 .form-control {
     box-sizing: border-box;
@@ -70,6 +56,10 @@ form .has-error input{
     width: 100%;
 }
 
+.form-group .btn-group {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 .form-group {
     margin-bottom: 5px;
 }

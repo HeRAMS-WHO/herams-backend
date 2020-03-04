@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace prime\controllers\user;
 
 
-use prime\models\ar\User;
 use yii\base\Action;
-use yii\data\ActiveDataProvider;
 use yii\web\Request;
 
 class Index extends Action

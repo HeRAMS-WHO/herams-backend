@@ -4,7 +4,6 @@
 namespace prime\components;
 
 
-use yii\helpers\Json;
 use yii\validators\Validator;
 
 class JsonValidator extends Validator

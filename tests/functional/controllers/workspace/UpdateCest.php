@@ -26,6 +26,7 @@ class UpdateCest
         $I->amOnPage(['workspace/update', 'id' => 12345]);
         $I->seeResponseCodeIs(404);
     }
+
     public function testAccessControlWithWriteAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
@@ -34,7 +35,7 @@ class UpdateCest
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
-        $I->seeResponseCodeIs(200);
+        $I->seeResponseCodeIs(403);
     }
 
     public function testAccessControlWithAdminAccess(FunctionalTester $I)

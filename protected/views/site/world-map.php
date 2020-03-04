@@ -2,7 +2,6 @@
 
 /** @var \yii\data\DataProviderInterface $projects */
 
-use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;

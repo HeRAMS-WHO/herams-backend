@@ -1,7 +1,8 @@
 <?php
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
+use prime\widgets\FormButtonsWidget;
 use yii\bootstrap\Html;
 
 /**
@@ -21,8 +22,7 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = \Yii::t('app', 'Export data from project {project}', ['project' => $subject->title]);
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="col-xs-6"><?php
+
     $form = ActiveForm::begin([
         'id' => 'export',
         'method' => 'POST',
@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'defaultPlaceholder' => false
         ],
         'options' => [
+            'class' => 'col-xs-6',
             'style' => [
                 'column-span' => 4
             ]
@@ -61,18 +62,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'items' => $model->getLanguages()
 
             ],
-        ]
-    ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
-        'options' => [
-            'class' => [
-                'pull-right'
-            ],
-        ],
-        'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
 
         ]
     ]);
+    echo Form::widget([
+        'form' => $form,
+        'model' => $model->getFilterModel(),
+        'attributes' => [
+            'date' => [
+                'label' => \Yii::t('app', 'Report date'),
+                'type' => Form::INPUT_HTML5,
+                'html5type' => 'date',
+            ],
+            FormButtonsWidget::embed([
+                'options' => [
+                    'class' => [
+                        'pull-right'
+                    ],
+                ],
+                'buttons' => [
+                    Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
+                ]
+            ])
+        ]
+    ]);
     $form->end();
-?></div>

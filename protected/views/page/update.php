@@ -6,7 +6,6 @@ use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\helpers\Html;
 use prime\helpers\Icon;
-use prime\models\ar\Page;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;

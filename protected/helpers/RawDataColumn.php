@@ -7,7 +7,6 @@ namespace prime\helpers;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
-use function foo\func;
 use function iter\map;
 use function iter\toArray;
 
@@ -19,8 +18,8 @@ class RawDataColumn implements ColumnDefinition
 
     public function __construct(QuestionInterface ...$questionPath)
     {
-        $this->path = toArray(map(function(QuestionInterface $question) { return $question->getTitle(); }, $questionPath));
-        $this->headerText = implode(' ', toArray(map(function(QuestionInterface $question) { return $question->getText(); }, $questionPath)));
+        $this->path = toArray(map(static function(QuestionInterface $question) { return $question->getTitle(); }, $questionPath));
+        $this->headerText = implode(' ', toArray(map(static function(QuestionInterface $question) { return $question->getText(); }, $questionPath)));
     }
 
     public function getHeaderText(): string

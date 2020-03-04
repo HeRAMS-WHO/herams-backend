@@ -5,15 +5,12 @@
 
 use app\components\Form;
 use kartik\select2\Select2;
-use kartik\widgets\ActiveForm;
-use prime\models\forms\ResponseFilter as ResponseFilter;
+use app\components\ActiveForm;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface as QuestionInterface;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
 use function iter\chain;
-use yii\helpers\Url;
 
 $form = ActiveForm::begin([
         'method' => 'GET',

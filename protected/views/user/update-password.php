@@ -9,6 +9,7 @@ use yii\bootstrap\Html;
 echo Form::widget([
     'model' => $model,
     'form' => ActiveForm::begin([
+        'action' => ['/user/update-password'],
         'formConfig' => [
             'showLabels' => true
         ],

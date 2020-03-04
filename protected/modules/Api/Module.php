@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace prime\modules\Api;
 
 
-use yii\base\BootstrapInterface;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
 use yii\web\Response;
-use yii\web\UrlManager;
 use yii\web\UrlRule;
 
 class Module extends \yii\base\Module
@@ -25,6 +22,18 @@ class Module extends \yii\base\Module
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view',
                     'verb' => 'get'
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => 'response',
+                    'route' => 'response/update',
+                    'verb' => 'post'
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => 'response',
+                    'route' => 'response/delete',
+                    'verb' => 'delete'
                 ],
                 [
                     'pattern' => '<p:.*>',
@@ -44,9 +53,7 @@ class Module extends \yii\base\Module
             ContentNegotiator::class => [
                 'class' => ContentNegotiator::class,
                 'formats' => [
-                    Response::FORMAT_JSON,
-                    Response::FORMAT_XML,
-
+                    'application/json' => Response::FORMAT_JSON,
                 ]
             ]
         ];

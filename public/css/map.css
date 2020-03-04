@@ -13,19 +13,6 @@
     top: 0;
     z-index: 1;
 }
-@media (min-width: 600px) {
-    .menu img {
-        position: initial;
-        grid-area: image;
-        display: block;
-        max-height: 100px;
-        max-width: 170px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
 
 @media (min-width: 710px) {
     body {

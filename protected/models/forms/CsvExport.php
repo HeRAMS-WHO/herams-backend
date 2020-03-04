@@ -12,6 +12,8 @@ use prime\helpers\RawDataColumn;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ar\Response;
+use prime\objects\HeramsCodeMap;
+use prime\queries\ResponseQuery;
 use Psr\Http\Message\StreamInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
@@ -35,10 +37,17 @@ class CsvExport extends Model
     private $survey;
     public $language = self::DEFAULT_LANGUAGE;
 
+    private $filter;
+
+    public function getFilterModel(): ResponseFilter
+    {
+        return $this->filter;
+    }
     public function __construct(SurveyInterface $survey, $config = [])
     {
         parent::__construct($config);
         $this->survey = $survey;
+        $this->filter = new ResponseFilter($survey, new HeramsCodeMap());
     }
 
     public function rules()
@@ -49,6 +58,15 @@ class CsvExport extends Model
         ];
     }
 
+    public function load($data, $formName = null)
+    {
+        if ($formName === null) {
+            $this->filter->load($data);
+        }
+        return parent::load($data, $formName);
+    }
+
+
     /**
      * @param SurveyInterface $survey
      * @return iterable|ColumnDefinition[]
@@ -57,23 +75,30 @@ class CsvExport extends Model
     private function getColumns(SurveyInterface $survey): iterable
     {
         yield new GetterColumn('id', 'External ID', 'external_id');
+//        yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
+//            if ($response instanceof Response) {
+//                return strtr('https://ls.herams.org/admin/responses?sa=view&surveyid={surveyId}&id={id}', [
+//                    '{id}' => $response->getId(),
+//                    '{surveyId}' => $response->survey_id
+//                ]);
+//            }
+//            return null;
+//
+//        }, 'external_url', 'External URL');
         yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
-            if ($response instanceof Response) {
-                return strtr('https://ls.herams.org/admin/responses?sa=view&surveyid={surveyId}&id={id}', [
-                    '{id}' => $response->getId(),
-                    '{surveyId}' => $response->survey_id
-                ]);
-            }
-            return null;
-
-        }, 'external_url', 'External URL');
-        yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
-            if ($response instanceof Response) {
-                return $response->last_updated;
-            }
-            return null;
-
+            return $response->last_updated ?? null;
         }, 'last_synced', 'Last synced');
+
+        if ($this->answersAsText) {
+            yield new ClosureColumn(static function(HeramsResponseInterface $response): string {
+                return (string) $response->workspace->title;
+            }, 'workspace_id', 'Workspace ID');
+        } else {
+            yield new ClosureColumn(static function(HeramsResponseInterface $response): string {
+                return (string) $response->workspace_id;
+            }, 'workspace_id', 'Workspace ID');
+
+        }
         yield new GetterColumn('subjectId', 'Subject ID');
         yield new GetterColumn('date', 'Date');
 
@@ -137,15 +162,15 @@ class CsvExport extends Model
     }
 
     /**
-     * @param SurveyInterface $survey
-     * @param HeramsResponseInterface[]|iterable $records
      * @throws NotSupportedException
      */
     public function run(
-        iterable $records
+        ResponseQuery $responseQuery
     ): StreamInterface {
         $size = 0;
         $file = fopen('php://temp', 'w');
+
+        $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 
         if ($this->survey instanceof LocaleAwareInterface
             && $this->language !== self::DEFAULT_LANGUAGE
@@ -164,7 +189,7 @@ class CsvExport extends Model
             $size += $this->writeCodeHeader($file, ...$columns);
         }
 
-        foreach($records as $record) {
+        foreach($query->each() as $record) {
             $size += $this->writeRecord($file, $record, ...$columns);
         }
         return new Stream($file, ['size' => $size]);

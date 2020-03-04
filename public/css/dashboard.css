@@ -623,6 +623,10 @@ table thead tr th a.desc::after {
   vertical-align: middle;
 }
 
+.table tbody tr td a {
+    display: inline-block;
+}
+
 
 a > svg {
     pointer-events: none;

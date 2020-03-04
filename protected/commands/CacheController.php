@@ -4,22 +4,36 @@
 namespace prime\commands;
 
 
-use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
+use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
-use yii\base\ErrorException;
-use yii\caching\CacheInterface;
 use yii\helpers\Console;
 
 class CacheController extends \yii\console\controllers\CacheController
 {
     use ActionInjectionTrait;
-    public function actionWarmup(
-        LimesurveyDataProvider $limesurveyDataProvider
-    ) {
+    public function actionResync(LimesurveyDataProvider $limesurveyDataProvider, LimesurveyDataLoader $dataLoader)
+    {
+        /** @var Project $project */
+        foreach(Project::find()->each() as $project) {
+            $this->stdout("Removing all responses for project {$project->title}\n", Console::FG_CYAN);
+            Response::deleteAll([
+                'workspace_id' => $project->getWorkspaces()->select('id')
+            ]);
+            $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);
+            try {
+                $this->warmupProject($limesurveyDataProvider, $project, $dataLoader);
+            } catch (\Throwable $t) {
+                $this->stderr($t->getMessage(), Console::FG_RED);
+            }
+        }
+    }
+
+    public function actionWarmup(LimesurveyDataProvider $limesurveyDataProvider)
+    {
         /** @var Project $project */
         foreach(Project::find()->each() as $project) {
             $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);
@@ -51,7 +65,8 @@ class CacheController extends \yii\console\controllers\CacheController
 
     protected function warmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
-        Project $project
+        Project $project,
+        LimesurveyDataLoader $loader
     ) {
         $surveyId = $project->base_survey_eid;
 
@@ -60,18 +75,17 @@ class CacheController extends \yii\console\controllers\CacheController
             $token = $workspace->getAttribute('token');
             $this->stdout("Starting cache warmup for workspace {$workspace->title}..\n", Console::FG_CYAN);
             $this->stdout("Checking responses for workspace {$workspace->title}..", Console::FG_CYAN);
-
+            $ids = [];
             foreach($limesurveyDataProvider->refreshResponsesByToken($project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
                 $key = [
                     'id' => $response->getId(),
                     'survey_id' => $response->getSurveyId()
                 ];
-
                 /**
                  * @var Response $dataResponse
                  */
                 $dataResponse = Response::findOne($key) ?? new Response($key);
-                $dataResponse->loadData($response->getData(), $workspace);
+                $loader->loadData($response->getData(), $workspace, $dataResponse);
                 if ($dataResponse->isNewRecord) {
                     $this->stdout($dataResponse->save() ? '+' : '-', Console::FG_RED);
                 } elseif (empty($dataResponse->dirtyAttributes)) {
@@ -79,8 +93,14 @@ class CacheController extends \yii\console\controllers\CacheController
                 } else {
                     $this->stdout($dataResponse->save() ? '+' : '-', Console::FG_YELLOW);
                 }
-
+                $ids[] = $response->getId();
             }
+            // Remove old records
+            Response::deleteAll([
+                'survey_id' => $project->base_survey_eid,
+                'id' => ['not', $ids],
+                'workspace_id' => $workspace->id
+            ]);
             $this->stdout("OK\n", Console::FG_GREEN);
         }
 

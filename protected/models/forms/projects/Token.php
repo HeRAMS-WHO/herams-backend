@@ -7,7 +7,6 @@ use yii\base\Model;
 use yii\validators\DateValidator;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 
 /**
  * Class Token
