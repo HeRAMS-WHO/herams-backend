@@ -35,6 +35,9 @@ use function iter\filter;
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
+ * @property int $workspaceCount
+ * @property int $contributorCount
+ * @property int $facilityCount
  * @property-read SurveyInterface $survey
  */
 class Project extends ActiveRecord {
@@ -67,6 +70,8 @@ class Project extends ActiveRecord {
             self::VISIBILITY_PRIVATE => 'Private, this project is visible on the map and in the list, but people need permission to view it'
         ];
     }
+
+
     public static function find()
     {
         $result = new ActiveQuery(self::class);
@@ -202,6 +207,15 @@ class Project extends ActiveRecord {
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => [
+                    'latestDate' => [
+                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
+                            ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
+                                'tool_id' => new Expression(self::tableName() . '.[[id]]')])
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function(self $model): ?string {
+                            return $model->getResponses()->select('max([[date]])')->scalar();
+                        }
+                    ],
                     'workspaceCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::GREEDY => Workspace::find()->limit(1)->select('count(*)')

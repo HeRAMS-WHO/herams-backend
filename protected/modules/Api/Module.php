@@ -19,6 +19,12 @@ class Module extends \yii\base\Module
             'rules' => [
                 [
                     'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>s',
+                    'verb' => 'get',
+                    'route' => '<controller>/index'
+                ],
+                [
+                    'class' => UrlRule::class,
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view',
                     'verb' => 'get'
