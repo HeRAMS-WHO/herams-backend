@@ -19,6 +19,7 @@ class Index extends Action
                     ->each() as $project) {
             $result[] = [
                 'id' => $project->id,
+                'name' => $project->title,
                 'url' => $urlManager->createAbsoluteUrl(['project/view', 'id' => $project->id]),
                 'facilityCount' => $project->facilityCount,
                 'workspaceCount' => $project->workspaceCount,
