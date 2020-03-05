@@ -61,7 +61,7 @@ class Map extends Widget
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 18,
+            'maxZoom' => 16,
             'minZoom' => 3
         ]);
 
