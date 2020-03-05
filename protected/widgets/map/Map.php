@@ -162,8 +162,10 @@ class Map extends Widget
                     metric: true,
                     imperial: false
                 }).addTo(map);
+                let menuWidth = document.getElementById("w0").offsetWidth;
                 map.fitBounds(bounds, {
-                    padding: [50, 50]
+                    padding: [50, 50],
+                    paddingTopLeft: [menuWidth,0]
                 });
             } catch(error) {
                 console.error("Error in map widget JS", error);
