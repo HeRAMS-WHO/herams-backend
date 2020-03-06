@@ -37,6 +37,7 @@ use function iter\filter;
  * @property Workspace[] $workspaces
  * @property-read int $workspaceCount
  * @property-read int $contributorCount
+ * @property-read string $latestDate
  * @property-read int $facilityCount
  * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey

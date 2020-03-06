@@ -6,7 +6,8 @@ use prime\models\ar\Project;
 use yii\helpers\Html;
 
 // Render all statistics.
-$projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount')->all();
+/** @var Project[] $projects */
+$projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate')->all();
 $stats[] = [
     'icon' => Icon::project(),
     'count' => count($projects),
@@ -29,6 +30,7 @@ $stats[] = [
 
     'subject' => \Yii::t('app', 'Health facilities')
 ];
+
 echo Html::beginTag('div', ['class' => 'stats']);
 foreach($stats as $stat) {
     echo Html::beginTag('div');
@@ -41,9 +43,16 @@ echo Html::endTag('div');
 ?>
 <div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
-            $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
-            if (isset($latestResponse)) {
-                echo "{$latestResponse->project->title} / {$latestResponse->date}";
+            if (!empty($project)) {
+                $latest = $projects[0];
+
+                foreach($projects as $project) {
+                    if ($project->latestDate < $latest->latestDate) {
+                        $latest = $project;
+                    };
+                }
+                $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
+                echo "{$latest->title} / {$latest->latestDate}";
             } else {
                 echo "No data loaded";
             }
