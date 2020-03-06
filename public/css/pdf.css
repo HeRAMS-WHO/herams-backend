@@ -1,0 +1,43 @@
+/**
+ * This CSS file is used by the pdf layout.
+ * It is for print only
+ */
+
+body, html {
+    background: none;
+}
+.content {
+    grid-template-rows: repeat(200, minmax(200px, 33%));
+}
+
+.title span.header {
+    background: none;
+    color:var(--primary-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.title {
+    margin: 0;
+    padding: 0;
+    height: 70px;
+}
+
+.filters .count {
+    display: inline-block;
+}
+
+.content > .element {
+    margin-bottom: 10px;
+    padding: 10px 20px 20px;
+    width: 100%;
+}
+
+.map {
+    width: 100% !important;
+    display: block;
+}
+
+.leaflet-container a, .content > .element a {
+    display: none;
+}

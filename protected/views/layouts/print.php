@@ -1,14 +1,14 @@
 <?php
 /* @var $this \yii\web\View */
 
-use prime\assets\DashboardBundle;
+use prime\assets\PdfBundle;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 /* @var $content string */
     $this->beginPage();
 
-    $this->registerAssetBundle(DashboardBundle::class);
+    $this->registerAssetBundle(PdfBundle::class);
     $this->registerAssetBundle(\yii\web\YiiAsset::class);
 
 ?>

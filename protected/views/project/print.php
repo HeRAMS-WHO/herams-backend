@@ -5,51 +5,44 @@
 /** @var Page $page */
 
 use prime\interfaces\PageInterface;
-use prime\models\ar\Page;
-use prime\models\ar\Project;
-use prime\widgets\menu\ProjectPageMenu;
+use prime\helpers\Icon;
 use yii\helpers\Html;
-use yii\web\View;
 
 
-$this->params['breadcrumbs'] = [
-    [
-        'label' => $project->getDisplayField(),
-        'url' => ['project/view', 'id' => $project->id]
-    ],
-];
 
-// Get page stack.
-$stack = [];
-$parent = $page;
-while (null !== ($parent = $parent->getParentPage())) {
-    $stack[] = $parent;
-}
 
-while(!empty($stack)) {
-    /** @var PageInterface $p */
-    $p = array_pop($stack);
-    $this->params['breadcrumbs'][] = [
-        'label' => $p->getTitle(),
-    ];
-}
-
-if ($project->pages[0]->getId() !== $page->getId()) {
-    $this->params['breadcrumbs'][] = [
-        'label' => $page->getTitle(),
-    ];
-}
 
 $this->title = $project->getDisplayField();
-
-
-echo $this->render('view/filters', [
-    'types' => $types,
-    'survey' => $survey,
-    'project' => $project,
-    'filterModel' => $filterModel,
-    'data' => $data
-]);
+?>
+<div class="filters">
+    <div class="count">
+        <?php
+        echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
+        echo Html::tag('em', count($data));
+        ?>
+    </div>
+    <div class="count">
+        <?php
+        echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
+        echo Html::tag('em', $project->contributorCount);
+        ?>
+    </div>
+    <div class="count">
+        <?php
+        echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
+        /** @var HeramsResponseInterface $heramsResponse */
+        $lastUpdate = null;
+        foreach ($data as $heramsResponse) {
+            $date = $heramsResponse->getDate();
+            if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
+                $lastUpdate = $date;
+            }
+        }
+        echo Html::tag('em', $lastUpdate ? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
+        ?>
+    </div>
+</div>
+<?php
 echo Html::beginTag('div', ['class' => 'content']);
 
     foreach($page->getChildElements() as $element) {
