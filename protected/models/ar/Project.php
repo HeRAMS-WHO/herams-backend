@@ -35,9 +35,10 @@ use function iter\filter;
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
- * @property int $workspaceCount
- * @property int $contributorCount
- * @property int $facilityCount
+ * @property-read int $workspaceCount
+ * @property-read int $contributorCount
+ * @property-read int $facilityCount
+ * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
  */
 class Project extends ActiveRecord {
@@ -268,7 +269,7 @@ class Project extends ActiveRecord {
                                 'target' => Workspace::class,
                                 'target_id' => $model->getWorkspaces()->select('id'),
                                 'source' => User::class,
-                            ])->count();
+                            ])->count('distinct [[source_id]]');
                         }
                     ],
                     'contributorCount' => [

@@ -6,7 +6,7 @@ use prime\models\ar\Project;
 use yii\helpers\Html;
 
 // Render all statistics.
-$projects = Project::find()->all();
+$projects = Project::find()->withFields('contributorPermissionCount')->all();
 $stats[] = [
     'icon' => Icon::project(),
     'count' => count($projects),
