@@ -15,6 +15,7 @@ use prime\controllers\project\Share;
 use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
+use prime\controllers\project\Pdf;
 use prime\controllers\project\Workspaces;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
@@ -45,6 +46,7 @@ class ProjectController extends Controller
                 'redirect' => ['/project']
             ],
             'view' => View::class,
+            'pdf' => Pdf::class,
             'summary' => Summary::class,
             'share' => Share::class,
             'workspaces' => Workspaces::class,
@@ -95,6 +97,7 @@ class ProjectController extends Controller
                             'actions' => [
                                 'share',
                                 'view',
+                                'pdf',
                                 'summary',
                                 'index',
                                 'update',

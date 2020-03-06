@@ -49,6 +49,7 @@ echo Html::beginForm([
 </div>
 <?php
 echo Html::a('Filters', '#', ['id' => 'filter-expand']);
+echo Html::a('PDF',['project/pdf', 'id' => $project->id],['title' => 'Workspaces']);
 $this->registerJs(
     <<<JS
         $('#filter-expand').on('click', function() {
