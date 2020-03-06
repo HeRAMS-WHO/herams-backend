@@ -268,7 +268,8 @@ class Project extends ActiveRecord {
                                     'source' => User::class,
                                     'permission' => [
                                         Permission::PERMISSION_WRITE,
-                                        Permission::PERMISSION_ADMIN
+                                        Permission::PERMISSION_ADMIN,
+                                        Permission::PERMISSION_LIMESURVEY
                                     ]
                                 ])  ->distinct()
                                     ->select('source_id')
