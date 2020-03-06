@@ -15,7 +15,7 @@ class Index extends Action
         $result = [];
         /** @var Project $project */
         foreach(Project::find()
-                ->withFields('latestDate', 'workspaceCount', 'facilityCount')
+                ->withFields('latestDate', 'workspaceCount', 'facilityCount', 'contributorPermissionCount')
                     ->each() as $project) {
             $result[] = [
                 'id' => $project->id,

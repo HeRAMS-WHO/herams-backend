@@ -254,31 +254,27 @@ class Project extends ActiveRecord {
                             return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
                         }
                     ],
+                    'contributorPermissionCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                            'target' => Workspace::class,
+                            'target_id' => Workspace::find()->select('id')
+                                ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                            'source' => User::class,
+                        ])->select('count(distinct [[target_id]])')
+                        ,
+                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                            return (int) Permission::find()->where([
+                                'target' => Workspace::class,
+                                'target_id' => $model->getWorkspaces()->select('id'),
+                                'source' => User::class,
+                            ])->count();
+                        }
+                    ],
                     'contributorCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::LAZY => static function(self $model): int {
-                            $result = $model->getOverride('contributorCount');
-                            if (!isset($result)) {
-                                if ($model->workspaceCount === 0) {
-                                    return 0;
-                                }
-                                $uniqueUsersWithPermission = Permission::find()->where([
-                                    'target' => Workspace::class,
-                                    'target_id' => $model->getWorkspaces()->select('id'),
-                                    'source' => User::class,
-                                    'permission' => [
-                                        Permission::PERMISSION_WRITE,
-                                        Permission::PERMISSION_ADMIN,
-                                        Permission::PERMISSION_LIMESURVEY
-                                    ]
-                                ])  ->distinct()
-                                    ->select('source_id')
-                                    ->count();
-
-                                $result = max($model->workspaceCount, $uniqueUsersWithPermission);
-
-                            }
-                            return (int) $result;
+                            return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
                         }
                     ]
                 ]
