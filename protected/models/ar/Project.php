@@ -261,7 +261,7 @@ class Project extends ActiveRecord {
                             'target_id' => Workspace::find()->select('id')
                                 ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                             'source' => User::class,
-                        ])->select('count(distinct [[target_id]])')
+                        ])->select('count(distinct [[source_id]])')
                         ,
                         VirtualFieldBehavior::LAZY => static function(self $model): int {
                             return (int) Permission::find()->where([
