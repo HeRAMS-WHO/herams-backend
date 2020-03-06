@@ -6,7 +6,7 @@ use prime\models\ar\Project;
 use yii\helpers\Html;
 
 // Render all statistics.
-$projects = Project::find()->withFields('contributorPermissionCount')->all();
+$projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount')->all();
 $stats[] = [
     'icon' => Icon::project(),
     'count' => count($projects),
@@ -23,7 +23,10 @@ $stats[] = [
 
 $stats[] = [
     'icon' => Icon::healthFacility(),
-    'count' => \prime\models\ar\Response::find()->cache(600)->select('count(distinct [[workspace_id]], [[hf_id]])')->scalar(),
+    'count' => \iter\reduce(function(int $accumulator, Project $project) {
+        return $accumulator + $project->facilityCount;
+    }, $projects, 0),
+
     'subject' => \Yii::t('app', 'Health facilities')
 ];
 echo Html::beginTag('div', ['class' => 'stats']);
