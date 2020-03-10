@@ -22,6 +22,7 @@ class Update extends Action
         int $id
     )
     {
+        $this->controller->layout = 'form';
         $model = Project::findOne(['id' => $id]);
         if (!isset($model)) {
             throw new NotFoundHttpException();
