@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2bd905cadfc7d5afb10ed92ef9e4bdad",
+    "content-hash": "222aead1cca90bd81f0101a414207b31",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -5256,16 +5256,16 @@
         },
         {
             "name": "yiisoft/yii2-debug",
-            "version": "dev-master",
+            "version": "2.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "6221e311bbaa4e9cd87f3ce92f807545a5535796"
+                "reference": "696712a2a3565b1a072ad3c9d298e262967e8282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/6221e311bbaa4e9cd87f3ce92f807545a5535796",
-                "reference": "6221e311bbaa4e9cd87f3ce92f807545a5535796",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/696712a2a3565b1a072ad3c9d298e262967e8282",
+                "reference": "696712a2a3565b1a072ad3c9d298e262967e8282",
                 "shasum": ""
             },
             "require": {
@@ -5310,14 +5310,12 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2020-01-17T13:40:46+00:00"
+            "time": "2020-01-17T13:40:32+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "yiisoft/yii2-debug": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
