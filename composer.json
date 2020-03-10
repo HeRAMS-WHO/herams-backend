@@ -2,7 +2,7 @@
     "name": "who/prime2",
     "description": "WHO Prime 2",
     "license": "proprietary",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "authors": [
         {
