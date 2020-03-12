@@ -26,6 +26,7 @@ class Share extends Action
         int $id
     )
     {
+        $this->controller->layout = 'form';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
