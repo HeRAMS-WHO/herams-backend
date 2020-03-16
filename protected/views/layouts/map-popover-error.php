@@ -8,7 +8,7 @@ $this->beginContent('@views/layouts/map.php');
 
 
 ?>
-<div class="popover">
+<div class="popover popover-error">
     <a href="/" style="position: absolute; right: 10px; top: 10px;"><?= Icon::close(); ?></a>
     <div class="form">
         <?=$content; ?>
