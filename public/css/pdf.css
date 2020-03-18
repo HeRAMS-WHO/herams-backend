@@ -10,6 +10,16 @@ body, html {
     max-width: 1024px;
     margin: 0 auto;
     padding: 0;
+    display: block;
+}
+
+.title {
+    grid-area: unset;
+    width: 100%;
+}
+
+.filters {
+    grid-area: unset;
 }
 
 .content {
@@ -37,11 +47,10 @@ body, html {
 }
 
 .content>.element {
-    margin: 10px;
-    padding: 10px;
-    width: 40%;
+    margin: 0px;
+    padding: 10px 20px;
+    width: 50%;
     float: left;
-    clear: none;
     grid-row: unset !important;
     grid-column: unset !important;
 }
@@ -50,12 +59,16 @@ body, html {
     width: 100% !important;
     display: block;
     grid-column: unset !important;
-    clear: both !important;
     height: 300px;
 }
 
 .leaflet-container a, .content>.element a {
     display: none;
+}
+
+canvas {
+    object-fit: contain;
+    width: 100% !important;
 }
 
 @media (min-width: 800px) {
