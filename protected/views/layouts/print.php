@@ -46,7 +46,7 @@ $this->beginBody();
         ],
         'links' => $this->params['breadcrumbs'] ?? []
     ]);
-echo Html::tag('span', $this->title, ['class' => 'header']);
+    echo Html::tag('span', $this->title, ['class' => 'header']);
 ?></div>
 <?php
     echo $content;

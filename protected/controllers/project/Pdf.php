@@ -1,8 +1,6 @@
 <?php
 
-
 namespace prime\controllers\project;
-
 
 use prime\exceptions\SurveyDoesNotExist;
 use prime\interfaces\PageInterface;
@@ -109,7 +107,7 @@ class Pdf extends Action
         $answers = $question->getAnswers();
 
         $map = [];
-        foreach($answers as $answer) {
+        foreach ($answers as $answer) {
             $map[$answer->getCode()] = trim(strtok($answer->getText(), ':('));
         }
 
@@ -119,8 +117,8 @@ class Pdf extends Action
 
     private function findQuestionByCode(SurveyInterface $survey, string $text): ?QuestionInterface
     {
-        foreach($survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
+        foreach ($survey->getGroups() as $group) {
+            foreach ($group->getQuestions() as $question) {
                 if ($question->getTitle() === $text) {
                     return $question;
                 }
@@ -129,7 +127,4 @@ class Pdf extends Action
         }
         return null;
     }
-
-
-
 }
