@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "222aead1cca90bd81f0101a414207b31",
+    "content-hash": "b930d8a251798eea4be231bea2f6eb1f",
     "packages": [
         {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobinHerbots/Inputmask.git",
+                "url": "git@github.com:RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -1169,6 +1169,18 @@
             "type": "npm-asset",
             "license": [
                 "Apache-2.0"
+            ]
+        },
+        {
+            "name": "npm-asset/pretty-checkbox",
+            "version": "3.0.3",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/pretty-checkbox/-/pretty-checkbox-3.0.3.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
             ]
         },
         {

@@ -10,11 +10,14 @@ use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
+use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use yii\base\Model;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
 use yii\validators\ExistValidator;
@@ -142,66 +145,82 @@ class Share extends Model {
 
     public function renderTable(string $deleteAction = '/permission/delete')
     {
+        /** @var Resolver $resolver */
+        $resolver = \Yii::$app->abacResolver;
+        $target = $resolver->fromSubject($this->model);
+        $permissions = [];
+        $columns = [];
+        foreach($this->permissionOptions as $permission => $label) {
+            $columns[] = [
+                'class' => PermissionColumn::class,
+                'permission' => $permission,
+                'target' => $target,
+                'label' => $label,
+                'attribute' => "permissions.{$permission}"
+            ];
+        }
+
+        /** @var Permission $permission */
+        foreach($this->model->getPermissions()->each() as $permission) {
+            $source = $permission->sourceAuthorizable();
+            $key = $source->getAuthName() . '|' . $source->getId();
+            if (!isset($permissions[$key])) {
+               $permissions[$key] = [
+                   'source' => $source,
+                   'user' => $resolver->toSubject($source)->displayField ?? \Yii::t('app', 'Deleted user'),
+                   'permissions' => []
+               ];
+            }
+            $permissions[$key]['permissions'][$permission->permission] = $permission;
+
+        }
         return \kartik\grid\GridView::widget([
-            'dataProvider' => new ActiveDataProvider([
-                'query' => $this->model->getPermissions()
+            'dataProvider' => new ArrayDataProvider([
+                'allModels' => $permissions
             ]),
-            'columns' => [
+            'columns' => array_merge([
                 [
-                    'label' => \Yii::t('app', 'User'),
-                    'value' => function(Permission $model) {
-                        /** @var Resolver $resolver */
-                        $resolver = \Yii::$app->abacResolver;
-                        $source = $resolver->toSubject($model->sourceAuthorizable());
-                        return $source->displayField ?? 'Deleted user';
-                    }
+//                    'attribute' => \Yii::t('app', 'User'),
+                    'attribute' => 'user'
                 ],
-                'permissionLabel' => [
-                    'attribute' => 'permissionLabel',
-                    'value' => function(Permission $model) {
-                        return $this->permissionOptions[$model->permission]
-                            ?? Permission::permissionLabels()[$model->permission]
-                            ?? $model->permission;
-                    }
-                ],
-                [
-                    'class' => \kartik\grid\ActionColumn::class,
-                    'template' => '{delete}',
-                    'buttons' => [
-                        'delete' => function($url, Permission $model, $key) use ($deleteAction) {
-                            /** @var Resolver $resolver */
-                            $resolver = \Yii::$app->abacResolver;
-                            $source = $resolver->toSubject($model->sourceAuthorizable());
-                            $target = $resolver->toSubject($model->targetAuthorizable());
-                            if (!isset($source, $target)) {
-                                return '';
-                            }
-                            $grant = new ProposedGrant($source, $target, $model->permission);
-                            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_DELETE)) {
-                                return Html::a(
-                                    Html::icon('trash'),
-                                    [
-                                        $deleteAction,
-                                        'id' => $model->id,
-                                        'redirect' => \Yii::$app->request->url
-                                    ],
-                                    [
-                                        'class' => 'text-danger',
-                                        'data-method' => 'delete',
-                                        'data-confirm' => $this->confirmationMessage ?? \Yii::t('app',
-                                            'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>',
-                                            [
-                                                'modelName' => $target->displayField ?? "{$model->targetAuthorizable()->getAuthName()} ({$model->targetAuthorizable()->getId()})",
-                                                'userName' => $source->displayField ?? 'Deleted user'
-                                            ]),
-                                        'title' => \Yii::t('app', 'Remove')
-                                    ]
-                                );
-                            }
-                        }
-                    ]
-                ]
-            ]
+//                [
+//                    'class' => \kartik\grid\ActionColumn::class,
+//                    'template' => '{delete}',
+//                    'buttons' => [
+//                        'delete' => function($url, Permission $model, $key) use ($deleteAction) {
+//                            /** @var Resolver $resolver */
+//                            $resolver = \Yii::$app->abacResolver;
+//                            $source = $resolver->toSubject($model->sourceAuthorizable());
+//                            $target = $resolver->toSubject($model->targetAuthorizable());
+//                            if (!isset($source, $target)) {
+//                                return '';
+//                            }
+//                            $grant = new ProposedGrant($source, $target, $model->permission);
+//                            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_DELETE)) {
+//                                return Html::a(
+//                                    Html::icon('trash'),
+//                                    [
+//                                        $deleteAction,
+//                                        'id' => $model->id,
+//                                        'redirect' => \Yii::$app->request->url
+//                                    ],
+//                                    [
+//                                        'class' => 'text-danger',
+//                                        'data-method' => 'delete',
+//                                        'data-confirm' => $this->confirmationMessage ?? \Yii::t('app',
+//                                            'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>',
+//                                            [
+//                                                'modelName' => $target->displayField ?? "{$model->targetAuthorizable()->getAuthName()} ({$model->targetAuthorizable()->getId()})",
+//                                                'userName' => $source->displayField ?? 'Deleted user'
+//                                            ]),
+//                                        'title' => \Yii::t('app', 'Remove')
+//                                    ]
+//                                );
+//                            }
+//                        }
+//                    ]
+//                ]
+            ], $columns)
         ]);
     }
 
