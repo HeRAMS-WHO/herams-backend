@@ -54,6 +54,7 @@ class ExportCsvAction extends Action
         Response $response,
         User $user
     ) {
+        $this->controller->layout = 'form';
         $subject = ($this->subject)($request);
         if (!isset($subject)) {
             throw new NotFoundHttpException();
