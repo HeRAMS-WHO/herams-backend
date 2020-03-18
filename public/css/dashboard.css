@@ -100,10 +100,10 @@ a {
     display: block;
 }
 .filter_search .icon {
-    color: #76C62F;
+    color: var(--highlight-background-color);
     background-color: inherit;
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 10px;
     z-index: 1;
 }
@@ -122,12 +122,15 @@ a {
     color: #4f4e54;
     width: 100%;
     position: relative;
+    font-weight: 300;
 }
 .filter .hint{
     font-size: 10px;
     display: inline-block;
     width: 100%;
     margin: 20px 0;
+    line-height: 12px;
+    vertical-align: middle;
 }
 
 .user-menu {
@@ -232,6 +235,9 @@ span.header {
     padding: 15px 0 10px;
     font-size: 18px;
     --height: 30px;
+    -moz-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
+    -webkit-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
+    box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
 }
 
 .filters .filter-items {
@@ -244,15 +250,8 @@ span.header {
 }
 
 .filters a, .filters button{
-    display: inline-block;
-    box-shadow: none;
-    background-color: gray;
-    color: white;
-    padding: 10px;
     margin: 10px;
-    border:none;
-    text-align: center;
-    width: 80px; 
+    display: inline-block;
 }
 .filters .row {
     clear: both;
@@ -270,8 +269,10 @@ span.header {
 }
 
 .filters .row > .col-sm-6 .control-label {
-    padding: 10px 0 5px 0;
+    padding: 20px 0 5px 0;
     display: block;
+    font-size: 15px;
+    line-height: 17px;
 }
 
 .filters .row > .col-md-2 {
@@ -306,6 +307,9 @@ span.header {
     max-height: 100vh;
     overflow: hidden;
     margin: 10px 0;
+    -moz-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
+    -webkit-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
+    box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
 }
 .filters.expanded {
     position: relative;
@@ -315,7 +319,7 @@ span.header {
 }
 
 .filters.expanded .filterlist {
-    padding: 0 20px 40px;
+    padding: 10px 20px 40px;
     margin: 0 0 10px;
     font-size: 14px;
     background: white;
@@ -340,8 +344,10 @@ span.header {
     padding-top: 10px;
     margin-left: 10px;
     border-left: none;
-    color: #7c7c7c;
+    color: #919191;
     display: block;
+    font-size: 17px;
+    line-height: 17px;
 }
 
 
@@ -446,6 +452,15 @@ body {
 .filters > div {
     display: block;
     vertical-align: bottom;
+}
+
+.form-layout {
+    display: block;
+    padding: 30px 0px;
+    border-radius: 10px;
+    width: 100%;
+    float: left;
+    max-width: 800px;
 }
 
 /**

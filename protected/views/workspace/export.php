@@ -44,41 +44,59 @@ $form = ActiveForm::begin([
         ]
     ]
 ]);
+echo \yii\bootstrap\Collapse::widget([
+    'autoCloseItems' => false,
+    'items' => [
+        [
+            'label' => 'Settings',
+            // open its content by default
+            'contentOptions' => ['class' => 'in'],
+            'content' => \app\components\Form::widget([
+                'form' => $form,
+                'model' => $model,
+                'columns' => 1,
+                "attributes" => [
+                    'includeTextHeader' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                    ],
+                    'includeCodeHeader' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                    ],
+                    'answersAsText' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                    ],
+                    'language' => [
+                        'type' => Form::INPUT_DROPDOWN_LIST,
+                        'items' => $model->getLanguages()
 
-echo \app\components\Form::widget([
-    'form' => $form,
-    'model' => $model,
-    'columns' => 1,
-    "attributes" => [
-        'includeTextHeader' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => \kartik\switchinput\SwitchInput::class
-        ],
-        'includeCodeHeader' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => \kartik\switchinput\SwitchInput::class
-        ],
-        'answersAsText' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => \kartik\switchinput\SwitchInput::class
-        ],
-        'language' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $model->getLanguages()
+                    ],
 
+                ]
+            ])
         ],
-
+        [
+            'label' => 'Advanced settings',
+            'content' => Form::widget([
+                'form' => $form,
+                'model' => $model->getFilterModel(),
+                'attributes' => [
+                    'date' => [
+                        'label' => \Yii::t('app', 'Report date'),
+                        'type' => Form::INPUT_HTML5,
+                        'html5type' => 'date',
+                    ],
+                ]
+            ])
+        ]
     ]
 ]);
 echo Form::widget([
     'form' => $form,
     'model' => $model->getFilterModel(),
     'attributes' => [
-        'date' => [
-            'label' => \Yii::t('app', 'Report date'),
-            'type' => Form::INPUT_HTML5,
-            'html5type' => 'date',
-        ],
         FormButtonsWidget::embed([
             'options' => [
                 'class' => [

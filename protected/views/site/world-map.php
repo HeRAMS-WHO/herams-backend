@@ -50,10 +50,19 @@ SideMenu::begin([
     'footer' => $this->render('//footer')
 ]);
 
+/** @var \prime\models\ar\Project $project */
 foreach($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
-            'id' => $project->id
+            'id' => $project->id,
+            'facilityCount' => $project->facilityCount,
+            'contributorCount' => $project->contributorCount,
+            'status' => $project->status,
+            'typeCounts' => $project->getTypeCounts(),
+            'functionalityCounts' => $project->getFunctionalityCounts(),
+            'availabilityCounts' => $project->getSubjectAvailabilityCounts()
+
+
         ]
     ]);
 

@@ -44,7 +44,7 @@ form .has-error input{
     font-size: 1em;
 }
 
-.control-label.has-star::after {
+.required .control-label.has-star::after {
     content: '*';
     color: red;
 }

@@ -21,6 +21,7 @@ class ImportDashboard extends Action
         User $user,
         int $id
     ) {
+        $this->controller->layout = 'form';
         /** @var Project $project */
         $project = Project::find()->where(['id' => $id])->one();
         if (!isset($project)) {
