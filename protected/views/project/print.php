@@ -41,7 +41,7 @@ $this->title = $project->getDisplayField();
 <?php
 echo Html::beginTag('div', ['class' => 'content']);
 
-foreach($page->getChildElements() as $element) {
+foreach ($page->getChildElements() as $element) {
     Yii::beginProfile('Render element ' . $element->id);
     echo "<!-- Begin chart {$element->id} -->";
     $level = ob_get_level();
