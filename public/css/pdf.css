@@ -3,16 +3,25 @@
  * It is for print only
  */
 
+/*@media print {*/
+
 body, html {
     background: none;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0;
 }
+
 .content {
-    grid-template-rows: repeat(200, minmax(200px, 33%));
+    grid-template-rows: unset !important;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .title span.header {
     background: none;
-    color:var(--primary-color);
+    color: var(--primary-color);
     margin: 0;
     padding: 20px;
 }
@@ -27,17 +36,38 @@ body, html {
     display: inline-block;
 }
 
-.content > .element {
-    margin-bottom: 10px;
-    padding: 10px 20px 20px;
-    width: 100%;
+.content>.element {
+    margin: 10px;
+    padding: 10px;
+    width: 40%;
+    float: left;
+    clear: none;
+    grid-row: unset !important;
+    grid-column: unset !important;
 }
 
 .map {
     width: 100% !important;
     display: block;
+    grid-column: unset !important;
+    clear: both !important;
+    height: 300px;
 }
 
-.leaflet-container a, .content > .element a {
+.leaflet-container a, .content>.element a {
     display: none;
 }
+
+@media (min-width: 800px) {
+    .content {
+        grid-template-columns: unset !important;
+    }
+}
+
+@media (min-width: 1460px) {
+    .content {
+        grid-template-columns: unset !important;
+    }
+}
+
+/*}*/
