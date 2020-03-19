@@ -28,7 +28,6 @@ $this->registerAssetBundle(MapLayoutBundle::class);
     <?php
 
     $this->beginBody();
-    echo $this->render('//flash.php');
     echo Map::widget();
     echo $content;
     $this->endBody();

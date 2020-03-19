@@ -4,15 +4,13 @@
 namespace prime\controllers\workspace;
 
 
-use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
+use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
-use prime\models\forms\projects\Token;
 use prime\models\permissions\Permission;
 use yii\base\Action;
-use yii\helpers\Console;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -25,6 +23,7 @@ class Refresh extends Action
         User $user,
         NotificationService $notificationService,
         LimesurveyDataProvider $limesurveyDataProvider,
+        LimesurveyDataLoader $loader,
         int $id
     ) {
         $workspace = Workspace::findOne(['id' => $id]);
@@ -46,7 +45,7 @@ class Refresh extends Action
             ];
 
             $dataResponse = Response::findOne($key) ?? new Response($key);
-            $dataResponse->loadData($response->getData(), $workspace);
+            $loader->loadData($response->getData(), $workspace, $dataResponse);
             if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
             } elseif (empty($dataResponse->dirtyAttributes)) {

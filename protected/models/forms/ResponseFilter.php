@@ -13,6 +13,7 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
+use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\StringHelper;
@@ -26,6 +27,7 @@ use function iter\filter;
 /**
  * Class ResponseFilter implements filtering for Response Collections
  * @package prime\models\forms
+ * @property Carbon $date
  */
 class ResponseFilter extends Model
 {
@@ -46,9 +48,17 @@ class ResponseFilter extends Model
      */
     private $advancedFilterMap = [];
 
+    public function attributes()
+    {
+        $attributes = parent::attributes();
+        $attributes[] = 'date';
+        return $attributes;
+    }
+
+
     public function setDate($date)
     {
-        $this->date = new Carbon($date);
+        $this->date = empty($date) ? null: new Carbon($date);
     }
 
     public function getDate(): ?Carbon
@@ -138,6 +148,14 @@ class ResponseFilter extends Model
         return $result;
     }
 
+    public function attributeHints()
+    {
+        return [
+            'date' => \Yii::t('app', 'Enter a date to limit the export to the last record before or equal to the selected date for each health facility. To export all historic records of a health facility, leave the field blank.')
+        ];
+    }
+
+
     public function getAttributeLabel($attribute)
     {
         if (strncmp($attribute, 'adv_', 4) !== 0) {
@@ -151,40 +169,44 @@ class ResponseFilter extends Model
 
     public function filterQuery(ActiveQuery $query): ActiveQuery
     {
-        // Find the latest response per HF.
-        $left = clone $query;
-        $left->alias('left');
-        $right = Response::find()
-            ->andFilterWhere([
-                '<=',
-                'date',
-                $this->date
+        // Add filtering rules
+        $query->andFilterWhere([
+            '<=',
+            'date',
+            (string) $this->date
+        ]);
+
+
+        // Clone the primary query
+        $sub = clone $query;
+        $sub
+            ->alias('sub')
+            ->andWhere([
+                '[[sub]].[[workspace_id]]' => new Expression("{$query->primaryTableName}.[[workspace_id]]"),
+                '[[sub]].[[hf_id]]' => new Expression("{$query->primaryTableName}.[[hf_id]]"),
+            ])->andWhere([
+                'or',
+                [
+                    '>',
+                    "[[sub]].[[date]]",
+                    new Expression("{$query->primaryTableName}.[[date]]")
+                ],
+                [
+                    'and',
+                    [
+                        '=',
+                        "[[sub]].[[date]]",
+                        new Expression("{$query->primaryTableName}.[[date]]")
+                    ],
+                    [
+                        '>',
+                        "[[sub]].[[id]]",
+                        new Expression("{$query->primaryTableName}.[[id]]")
+                    ],
+                ]
             ]);
-        $left->leftJoin(['right' => $right], [
-            'and',
-            [
-                '[[left]].[[workspace_id]]' => new Expression('[[right]].[[workspace_id]]'),
-                '[[left]].[[hf_id]]' => new Expression('[[right]].[[hf_id]]'),
-            ],
-            [
-                '<',
-                "[[left]].[[date]]",
-                new Expression("[[right]].[[date]]")
-            ],
 
-        ])->groupBy([
-            '[[left]].[[workspace_id]]',
-            '[[left]].[[hf_id]]'
-        ])->select([
-            'id' => "max([[left]].[[id]])"
-        ])->andWhere([
-            '[[right]].[[id]]' => null
-        ]);
-
-
-        $query->andWhere([
-            'id' => $left
-        ]);
+        $query->andWhere(['not exists', $sub]);
 
         foreach($this->advanced as $key => $value) {
             if (!empty($value)) {
@@ -196,7 +218,7 @@ class ResponseFilter extends Model
         return $query;
     }
 
-    public function filter(iterable $responses): iterable
+    private function filter(iterable $responses): iterable
     {
         \Yii::beginProfile('filter');
         // Index by UOID.

@@ -23,6 +23,7 @@ class Update extends Action
         int $id
 
     ) {
+        $this->controller->layout = 'form';
         $page = Page::findOne(['id' => $id]);
         if (!isset($page)) {
             throw new NotFoundHttpException();

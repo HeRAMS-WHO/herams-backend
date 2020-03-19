@@ -5,7 +5,6 @@ namespace prime\controllers;
 use prime\actions\DeleteAction;
 use prime\actions\ExportCsvAction;
 use prime\components\Controller;
-use prime\controllers\project\Check;
 use prime\controllers\project\Create;
 use prime\controllers\project\ExportDashboard;
 use prime\controllers\project\Filter;
@@ -17,10 +16,10 @@ use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
-use prime\factories\GeneratorFactory;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\Response;
 use prime\models\permissions\Permission;
+use prime\queries\ResponseQuery;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -55,10 +54,8 @@ class ProjectController extends Controller
                 'subject' => static function(Request $request) {
                     return Project::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseIterator' => static function(Project $project) {
-                    foreach($project->getWorkspaces()->each() as $workspace) {
-                        yield from $workspace->getResponses()->each();
-                    }
+                'responseQuery' => static function(Project $project): ResponseQuery {
+                    return Response::find()->project($project)->with('workspace');
                 },
                 'surveyFinder' => function(Project $project) {
                     return $project->getSurvey();

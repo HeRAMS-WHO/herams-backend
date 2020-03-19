@@ -15,9 +15,9 @@ use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Refresh;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
-use prime\models\ar\Project;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
+use prime\queries\ResponseQuery;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
@@ -36,8 +36,8 @@ class WorkspaceController extends Controller
                 'subject' => function(Request $request) {
                       return Workspace::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseIterator' => function(Workspace $workspace) {
-                    return $workspace->getResponses()->each();
+                'responseQuery' => static function(Workspace $workspace): ResponseQuery {
+                    return $workspace->getResponses();
                 },
                 'surveyFinder' => function(Workspace $workspace) {
                     return $workspace->project->getSurvey();

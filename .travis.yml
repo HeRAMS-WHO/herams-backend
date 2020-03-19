@@ -20,6 +20,11 @@ jobs:
         - (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 messages.pot) > app.pot
         - rm messages.pot
         - sphinx-intl update -p .
+        # BEGIN Do one more pull to reduce chances of getting a conflict
+        - git stash
+        - git pull
+        - git stash apply
+        # END
         - git add .
         - git commit -a -m "Update translation templates" || echo "No changes"
         - git push

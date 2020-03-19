@@ -8,7 +8,6 @@ use prime\models\ar\Element;
 use prime\widgets\element\Element as ElementWidget;
 use prime\widgets\map\DashboardMap as MapWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\helpers\Json;
 use yii\validators\NumberValidator;
 
 class Map extends Element

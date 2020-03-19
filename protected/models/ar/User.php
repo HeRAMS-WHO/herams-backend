@@ -2,16 +2,11 @@
 
 namespace prime\models\ar;
 
-use app\queries\WorkspaceQuery;
-use prime\assets\IconBundle;
 use prime\models\ActiveRecord;
-use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\helpers\Url;
-use yii\validators\DefaultValueValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
@@ -114,7 +109,7 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * @inheritDoc
      */
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return false;
     }
@@ -124,5 +119,14 @@ class User extends ActiveRecord implements IdentityInterface {
         if (!empty($value)) {
             $this->password_hash = \Yii::$app->security->generatePasswordHash($value);
         }
+    }
+
+    public function updatePassword(string $newPassword): void
+    {
+        $this->setPassword($newPassword);
+        if (!$this->update(true, ['password_hash'])) {
+            throw new \RuntimeException(\Yii::t('app', 'Password update failed'));
+        }
+
     }
 }

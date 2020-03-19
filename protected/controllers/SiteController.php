@@ -4,11 +4,8 @@
     use prime\controllers\site\Admin;
     use prime\controllers\site\LimeSurvey;
     use prime\controllers\site\WorldMap;
-    use prime\interfaces\TicketingInterface;
-    use yii\captcha\CaptchaAction;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
-    use yii\web\BadRequestHttpException;
     use yii\web\ErrorAction;
 
     class SiteController extends Controller

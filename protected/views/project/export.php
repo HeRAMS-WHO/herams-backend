@@ -1,7 +1,8 @@
 <?php
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
+use prime\widgets\FormButtonsWidget;
 use yii\bootstrap\Html;
 
 /**
@@ -21,58 +22,86 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = \Yii::t('app', 'Export data from project {project}', ['project' => $subject->title]);
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="col-xs-6"><?php
-    $form = ActiveForm::begin([
-        'id' => 'export',
-        'method' => 'POST',
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'labelSpan' => 6,
-            'defaultPlaceholder' => false
+
+$form = ActiveForm::begin([
+    'id' => 'export',
+    'method' => 'POST',
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig' => [
+        'showLabels' => true,
+        'labelSpan' => 6,
+        'defaultPlaceholder' => false
+    ],
+    'options' => [
+        'class' => 'col-xs-6',
+        'style' => [
+            'column-span' => 4
+        ]
+    ]
+]);
+echo \yii\bootstrap\Collapse::widget([
+    'autoCloseItems' => false,
+    'items' => [
+        [
+            'label' => 'Settings',
+            // open its content by default
+            'contentOptions' => ['class' => 'in'],
+            'content' => \app\components\Form::widget([
+                'form' => $form,
+                'model' => $model,
+                'columns' => 1,
+                "attributes" => [
+                    'includeTextHeader' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                    ],
+                    'includeCodeHeader' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                    ],
+                    'answersAsText' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                    ],
+                    'language' => [
+                        'type' => Form::INPUT_DROPDOWN_LIST,
+                        'items' => $model->getLanguages()
+
+                    ],
+
+                ]
+            ])
         ],
-        'options' => [
-            'style' => [
-                'column-span' => 4
+        [
+            'label' => 'Advanced settings',
+            'content' => Form::widget([
+                'form' => $form,
+                'model' => $model->getFilterModel(),
+                'attributes' => [
+                    'date' => [
+                        'label' => \Yii::t('app', 'Report date'),
+                        'type' => Form::INPUT_HTML5,
+                        'html5type' => 'date',
+                    ],
+                ]
+            ])
+        ]
+    ]
+]);
+echo Form::widget([
+    'form' => $form,
+    'model' => $model->getFilterModel(),
+    'attributes' => [
+        FormButtonsWidget::embed([
+            'options' => [
+                'class' => [
+                    'pull-right'
+                ],
+            ],
+            'buttons' => [
+                Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
             ]
-        ]
-    ]);
-
-    echo \app\components\Form::widget([
-        'form' => $form,
-        'model' => $model,
-        'columns' => 1,
-        "attributes" => [
-            'includeTextHeader' => [
-                'type' => Form::INPUT_WIDGET,
-                'widgetClass' => \kartik\switchinput\SwitchInput::class
-            ],
-            'includeCodeHeader' => [
-                'type' => Form::INPUT_WIDGET,
-                'widgetClass' => \kartik\switchinput\SwitchInput::class
-            ],
-            'answersAsText' => [
-                'type' => Form::INPUT_WIDGET,
-                'widgetClass' => \kartik\switchinput\SwitchInput::class
-            ],
-            'language' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->getLanguages()
-
-            ],
-        ]
-    ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
-        'options' => [
-            'class' => [
-                'pull-right'
-            ],
-        ],
-        'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
-
-        ]
-    ]);
-    $form->end();
-?></div>
+        ])
+    ]
+]);
+$form->end();

@@ -22,6 +22,7 @@ class Share extends Action
         AuthManager $abacManager,
         User $user
     ) {
+        $this->controller->layout = 'form';
         if (!($user->can(Permission::PERMISSION_ADMIN))) {
             throw new ForbiddenHttpException();
         }

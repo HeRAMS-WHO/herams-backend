@@ -24,6 +24,7 @@ class Create extends Action
         int $project_id
 
     ) {
+        $this->controller->layout = 'form';
         $project = Project::findOne(['id' => $project_id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();

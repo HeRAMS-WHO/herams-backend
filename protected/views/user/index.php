@@ -15,9 +15,7 @@ use kartik\grid\GridView;
 use prime\models\permissions\Permission;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\web\View;
-use yii\widgets\Pjax;
 
 /**
  * @var View $this

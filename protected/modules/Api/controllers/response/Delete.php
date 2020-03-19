@@ -19,7 +19,7 @@ class Delete extends Action
     {
         // Hardcoded bearer check.
         if (!$request->headers->has('Authorization')) {
-            throw new UnauthorizedHttpException();
+            throw new UnauthorizedHttpException("No authorization header found");
         }
         $key = \Yii::$app->params['responseSubmissionKey'];
         if (empty($key)) {

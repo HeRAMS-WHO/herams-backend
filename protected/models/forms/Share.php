@@ -3,18 +3,21 @@
 namespace prime\models\forms;
 
 use kartik\builder\Form;
-use kartik\widgets\ActiveForm;
-use kartik\widgets\Select2;
+use app\components\ActiveForm;
+use kartik\select2\Select2;
 use prime\exceptions\NoGrantablePermissions;
 use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;
+use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use yii\base\Model;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
 use yii\validators\ExistValidator;
@@ -142,19 +145,43 @@ class Share extends Model {
 
     public function renderTable(string $deleteAction = '/permission/delete')
     {
+        /** @var Resolver $resolver */
+        $resolver = \Yii::$app->abacResolver;
+        $target = $resolver->fromSubject($this->model);
+        $permissions = [];
+        $columns = [];
+        foreach($this->permissionOptions as $permission => $label) {
+            $columns[] = [
+                'class' => PermissionColumn::class,
+                'permission' => $permission,
+                'target' => $target,
+                'label' => $label,
+                'attribute' => "permissions.{$permission}"
+            ];
+        }
+
+        /** @var Permission $permission */
+        foreach($this->model->getPermissions()->each() as $permission) {
+            $source = $permission->sourceAuthorizable();
+            $key = $source->getAuthName() . '|' . $source->getId();
+            if (!isset($permissions[$key])) {
+               $permissions[$key] = [
+                   'source' => $source,
+                   'user' => $resolver->toSubject($source)->displayField ?? \Yii::t('app', 'Deleted user'),
+                   'permissions' => []
+               ];
+            }
+            $permissions[$key]['permissions'][$permission->permission] = $permission;
+
+        }
         return \kartik\grid\GridView::widget([
-            'dataProvider' => new ActiveDataProvider([
-                'query' => $this->model->getPermissions()
+            'dataProvider' => new ArrayDataProvider([
+                'allModels' => $permissions
             ]),
-            'columns' => [
+            'columns' => array_merge([
                 [
-                    'label' => \Yii::t('app', 'User'),
-                    'value' => function(Permission $model) {
-                        /** @var Resolver $resolver */
-                        $resolver = \Yii::$app->abacResolver;
-                        $source = $resolver->toSubject($model->sourceAuthorizable());
-                        return $source->displayField ?? 'Deleted user';
-                    }
+//                    'attribute' => \Yii::t('app', 'User'),
+                    'attribute' => 'user'
                 ],
                 [
                     'label' => \Yii::t('app', 'Email'),

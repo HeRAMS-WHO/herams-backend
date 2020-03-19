@@ -2,7 +2,6 @@
 
 /** @var \yii\data\DataProviderInterface $projects */
 
-use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;
@@ -51,10 +50,19 @@ SideMenu::begin([
     'footer' => $this->render('//footer')
 ]);
 
+/** @var \prime\models\ar\Project $project */
 foreach($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
-            'id' => $project->id
+            'id' => $project->id,
+            'facilityCount' => $project->facilityCount,
+            'contributorCount' => $project->contributorCount,
+            'status' => $project->status,
+            'typeCounts' => $project->getTypeCounts(),
+            'functionalityCounts' => $project->getFunctionalityCounts(),
+            'availabilityCounts' => $project->getSubjectAvailabilityCounts()
+
+
         ]
     ]);
 

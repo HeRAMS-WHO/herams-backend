@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace prime\modules\Api;
 
 
-use yii\base\BootstrapInterface;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
 use yii\web\Response;
-use yii\web\UrlManager;
 use yii\web\UrlRule;
 
 class Module extends \yii\base\Module
@@ -20,6 +17,12 @@ class Module extends \yii\base\Module
             'class' => GroupUrlRule::class,
             'prefix' => 'api/',
             'rules' => [
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>s',
+                    'verb' => 'get',
+                    'route' => '<controller>/index'
+                ],
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller>/<id:\d+>',

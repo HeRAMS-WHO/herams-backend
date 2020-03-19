@@ -17,6 +17,7 @@ class Create extends Action
         NotificationService $notificationService,
         Request $request
     ) {
+        $this->controller->layout = 'form';
         $model = new Project();
 
         if($request->isPost) {

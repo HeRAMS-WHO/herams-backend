@@ -1,38 +1,27 @@
-FROM alpine
-RUN apk add --no-cache --update \
-  git \
-  tini \
-  sassc \
-  php7 \
-  php7-ctype \
-  php7-curl \
-  php7-dom \
-  php7-phpdbg \
-  php7-gd \
-  php7-intl \
-  php7-json \
-  php7-mbstring \
-  php7-pdo_mysql \
-  php7-phar \
-  php7-posix \
-  php7-session \
-  php7-tokenizer \
-  php7-xml \
-  php7-simplexml \
-  php7-xmlwriter \
-  php7-zip \
+FROM php:alpine
+RUN php --version && sleep 10
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+RUN install-php-extensions \
+  ctype \
+  curl \
+  dom \
+  gd \
+  intl \
+  json \
+  mbstring \
+  pdo_mysql \
+  phar \
+  posix \
+  session \
+  tokenizer \
+  xml \
+  simplexml \
+  xmlwriter \
+  zip \
+  pcov \
   --
-RUN apk add --no-cache php7-pear php7-dev build-base \
-    && pecl install pcov \
-    && apk del php7-pear php7-dev build-base
 
-# Add php.ini directives.
-RUN echo $'memory_limit=1G \n\
-\n\
-variables_order = "GPCSE" \n\
-\n\
-extension = pcov.so \n\
-' >> /etc/php7/php.ini
 ADD wait.sh /bin/wait-for-it
 ADD init.sh /sbin/init.sh
 ENV COMPOSER_CACHE_DIR=/composer-cache

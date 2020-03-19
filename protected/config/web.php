@@ -2,7 +2,6 @@
 /** @var \prime\components\Environment $env */
 
 use prime\components\NotificationService;
-use yii\web\AssetConverter;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
