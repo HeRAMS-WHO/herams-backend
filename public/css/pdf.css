@@ -55,6 +55,10 @@ body, html {
     grid-row: unset !important;
     grid-column: unset !important;
 }
+.content>.element.table {
+    padding: 0;
+    margin: 30px 0 30px 20px !important;
+}
 
 .map {
     width: 100% !important;
