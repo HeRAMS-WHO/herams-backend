@@ -3,16 +3,9 @@
 /** @var \prime\models\ar\Project $model */
 
 use app\components\Form;
-use kartik\grid\ActionColumn;
-use kartik\grid\GridView;
-use kartik\widgets\ActiveForm;
-use prime\helpers\Icon;
-use prime\models\ar\Page;
-use prime\models\permissions\Permission;
+use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
-use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
 
 
 $this->params['breadcrumbs'][] = [

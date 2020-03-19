@@ -10,7 +10,6 @@ use prime\models\ar\Page;
 use prime\models\ar\Project;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Html;
-use yii\helpers\Json;
 
 /**
  * Class Menu

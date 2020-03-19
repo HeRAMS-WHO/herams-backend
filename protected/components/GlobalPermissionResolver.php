@@ -4,13 +4,10 @@ declare(strict_types=1);
 namespace prime\components;
 
 
-use prime\helpers\ProposedGrant;
 use prime\models\permissions\GlobalPermission;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Resolver;
-use SamIT\abac\values\Grant;
 use SamIT\Yii2\abac\AccessChecker;
-use yii\base\NotSupportedException;
 
 class GlobalPermissionResolver implements Resolver
 {

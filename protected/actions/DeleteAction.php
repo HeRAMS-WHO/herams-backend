@@ -13,7 +13,6 @@ use yii\db\ActiveRecordInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\Session;
 use yii\web\User;
 
 class DeleteAction extends Action

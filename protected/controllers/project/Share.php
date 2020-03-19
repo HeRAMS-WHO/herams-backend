@@ -27,6 +27,7 @@ class Share extends Action
         AuthManager $abacManager,
         int $id
     ) {
+        $this->controller->layout = 'form';
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
@@ -41,12 +42,12 @@ class Share extends Action
                 $project, $abacManager, $user->identity, [
                     Permission::PERMISSION_READ,
                     Permission::PERMISSION_LIMESURVEY,
+                    Permission::PERMISSION_EXPORT,
                     Permission::PERMISSION_MANAGE_WORKSPACES,
                     Permission::PERMISSION_MANAGE_DASHBOARD,
                     Permission::PERMISSION_WRITE,
                     Permission::PERMISSION_SHARE,
                     Permission::PERMISSION_SUPER_SHARE,
-                    Permission::PERMISSION_EXPORT,
                 ]
             );
         } catch (NoGrantablePermissions $e) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers\response;
 
 
+use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
 use prime\models\ar\Response as HeramsResponse;
 use prime\models\ar\Workspace;
@@ -21,7 +22,8 @@ class Update extends Action
 
     public function run(
         Request $request,
-        Response $response
+        Response $response,
+        LimesurveyDataLoader $loader
     ) {
         // Hardcoded bearer check.
         if (!$request->headers->has('Authorization')) {
@@ -56,7 +58,8 @@ class Update extends Action
         }
 
         $heramsResponse = HeramsResponse::findOne($key) ?? new HeramsResponse($key);
-        $heramsResponse->loadData($data, $workspace);
+
+        $loader->loadData($data, $workspace, $heramsResponse);
 
         if ($heramsResponse->save()) {
             $response->setStatusCode(204);

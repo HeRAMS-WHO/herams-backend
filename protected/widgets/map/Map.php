@@ -61,7 +61,8 @@ class Map extends Widget
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 18
+            'maxZoom' => 16,
+            'minZoom' => 3
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
@@ -162,8 +163,10 @@ class Map extends Widget
                     metric: true,
                     imperial: false
                 }).addTo(map);
+                let menuWidth = document.getElementById("w0").offsetWidth;
                 map.fitBounds(bounds, {
-                    padding: [50, 50]
+                    padding: [50, 50],
+                    paddingTopLeft: [menuWidth,0]
                 });
             } catch(error) {
                 console.error("Error in map widget JS", error);

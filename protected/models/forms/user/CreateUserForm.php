@@ -4,11 +4,9 @@
 namespace prime\models\forms\user;
 
 
-use Carbon\Carbon;
 use kartik\password\StrengthValidator;
 use prime\models\ar\User;
 use yii\base\Model;
-use yii\behaviors\TimestampBehavior;
 use yii\validators\CompareValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;

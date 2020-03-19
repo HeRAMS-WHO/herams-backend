@@ -30,7 +30,8 @@ class Account extends Action
         }
 
         $changePassword = new ChangePasswordForm($model);
-        if ($changePassword->load($request->getBodyParams())) {
+        if ($changePassword->load($request->getBodyParams())
+            && $changePassword->validate()) {
             $changePassword->run();
             $notificationService->success(\Yii::t('app', 'Password changed'));
             return $this->controller->refresh();

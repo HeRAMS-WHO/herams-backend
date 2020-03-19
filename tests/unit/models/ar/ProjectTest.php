@@ -1,8 +1,6 @@
 <?php
 namespace prime\tests\unit\models\ar;
 
-use PHPUnit\Framework\TestResult;
-
 class ProjectTest extends ActiveRecordTest
 {
     public function validSamples(): array

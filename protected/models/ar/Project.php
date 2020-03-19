@@ -35,6 +35,11 @@ use function iter\filter;
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
+ * @property-read int $workspaceCount
+ * @property-read int $contributorCount
+ * @property-read string $latestDate
+ * @property-read int $facilityCount
+ * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
  */
 class Project extends ActiveRecord {
@@ -67,6 +72,8 @@ class Project extends ActiveRecord {
             self::VISIBILITY_PRIVATE => 'Private, this project is visible on the map and in the list, but people need permission to view it'
         ];
     }
+
+
     public static function find()
     {
         $result = new ActiveQuery(self::class);
@@ -202,6 +209,15 @@ class Project extends ActiveRecord {
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => [
+                    'latestDate' => [
+                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
+                            ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
+                                'tool_id' => new Expression(self::tableName() . '.[[id]]')])
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function(self $model): ?string {
+                            return $model->getResponses()->select('max([[date]])')->scalar();
+                        }
+                    ],
                     'workspaceCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::GREEDY => Workspace::find()->limit(1)->select('count(*)')
@@ -216,7 +232,7 @@ class Project extends ActiveRecord {
                                 'workspace_id' => Workspace::find()->select('id')
                                     ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                             ])->addParams([':path' => '$.facilityCount'])->
-                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[hf_id]]))')),
+                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[workspace_id]], [[hf_id]]))')),
                         VirtualFieldBehavior::LAZY => static function(self $model): int {
                             if ($model->workspaceCount === 0) {
                                 return 0;
@@ -240,28 +256,27 @@ class Project extends ActiveRecord {
                             return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
                         }
                     ],
+                    'contributorPermissionCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                            'target' => Workspace::class,
+                            'target_id' => Workspace::find()->select('id')
+                                ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                            'source' => User::class,
+                        ])->select('count(distinct [[source_id]])')
+                        ,
+                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                            return (int) Permission::find()->where([
+                                'target' => Workspace::class,
+                                'target_id' => $model->getWorkspaces()->select('id'),
+                                'source' => User::class,
+                            ])->count('distinct [[source_id]]');
+                        }
+                    ],
                     'contributorCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::LAZY => static function(self $model): int {
-                            $result = $model->getOverride('contributorCount');
-                            if (!isset($result)) {
-                                if ($model->workspaceCount === 0) {
-                                    return 0;
-                                }
-                                $result = Permission::find()->where([
-                                    'target' => Workspace::class,
-                                    'target_id' => $model->getWorkspaces()->select('id'),
-                                    'source' => User::class,
-                                    'permission' => [
-                                        Permission::PERMISSION_WRITE,
-                                        Permission::PERMISSION_ADMIN
-                                    ]
-                                ])  ->distinct()
-                                    ->select('source_id')
-                                    ->count();
-
-                            }
-                            return (int) $result;
+                            return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
                         }
                     ]
                 ]

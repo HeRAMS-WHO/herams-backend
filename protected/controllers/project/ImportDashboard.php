@@ -11,7 +11,6 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\Response;
-use yii\web\UploadedFile;
 use yii\web\User;
 
 class ImportDashboard extends Action
@@ -22,6 +21,7 @@ class ImportDashboard extends Action
         User $user,
         int $id
     ) {
+        $this->controller->layout = 'form';
         /** @var Project $project */
         $project = Project::find()->where(['id' => $id])->one();
         if (!isset($project)) {

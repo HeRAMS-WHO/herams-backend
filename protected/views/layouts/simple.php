@@ -80,7 +80,6 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
             <div class="container">
             <?php echo $this->render('//subMenu'); ?>
             <?php
-            echo $this->render('//flash.php');
 
             $defaultContainerOptions = [
                 'class' => 'row'

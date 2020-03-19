@@ -8,8 +8,6 @@ use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\values\Grant;
 use yii\base\Action;
-use yii\bootstrap\Html;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\ForbiddenHttpException;
 use yii\web\User;

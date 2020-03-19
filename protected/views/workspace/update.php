@@ -1,7 +1,7 @@
 <?php
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\bootstrap\Html;
 
 /**

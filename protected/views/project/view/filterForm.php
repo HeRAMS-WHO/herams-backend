@@ -5,15 +5,12 @@
 
 use app\components\Form;
 use kartik\select2\Select2;
-use kartik\widgets\ActiveForm;
-use prime\models\forms\ResponseFilter as ResponseFilter;
+use app\components\ActiveForm;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface as QuestionInterface;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
 use function iter\chain;
-use yii\helpers\Url;
 
 $form = ActiveForm::begin([
         'method' => 'GET',
@@ -134,11 +131,11 @@ JS
         ], $filters))
     ]);
     echo Html::endTag('div');
-    echo Html::submitButton(\Yii::t('app', 'Apply'));
+    echo Html::submitButton(\Yii::t('app', 'Apply'), ['class' => 'btn btn-primary']);
     echo Html::a(\Yii::t('app', 'Clear'), [
         'project/view',
         'id' => $project->id,
         'page_id' => \Yii::$app->request->getQueryParam('page_id'),
         'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-        ]);
+        ], ['class' => 'btn btn-clear']);
     $form->end();

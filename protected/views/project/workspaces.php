@@ -10,7 +10,6 @@
  */
 
 use kartik\grid\GridView;
-use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
