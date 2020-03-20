@@ -389,6 +389,13 @@ span.header {
     /*min-height: 0;*/
 }
 
+.content > .element canvas {
+    width: 100% !important;
+    object-fit: contain !important;
+    padding: 10px;
+    margin: 0;
+}
+
 .map {
     border: 3px solid white;
     height: 400px;
