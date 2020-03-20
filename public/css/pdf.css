@@ -71,8 +71,10 @@ body, html {
     display: none;
 }
 
-canvas {
+.content>.element canvas {
     object-fit: contain;
+}
+.content>.element:not(.map) canvas {
     width: 100% !important;
 }
 
