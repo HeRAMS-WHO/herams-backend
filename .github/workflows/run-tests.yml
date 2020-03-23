@@ -19,6 +19,16 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+      - name: Get Docker Images Directory
+        id: docker-images
+        run: |
+          echo "::set-output name=dir::$(docker info --format '{{ .DockerRootDir}}')"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-docker
+          restore-keys: |
+            ${{ runner.os }}-docker
       - run: cp .env.default .env
       - run: composer install
       - run: docker-compose build
