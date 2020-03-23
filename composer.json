@@ -90,12 +90,14 @@
         "lint": "phpcs",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse src",
-        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml"
+        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
+        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-update-cmd": "cghooks update"
     },
     "extra": {
         "hooks": {
             "pre-commit": [
-                "git diff --name-only | xargs vendor/bin/phpbf"
+                "git diff-index --name-only --cached HEAD | xargs vendor/bin/phpcs"
             ],
             "post-merge": [
                 "composer install"
