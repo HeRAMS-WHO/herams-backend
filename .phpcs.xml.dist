@@ -6,7 +6,7 @@
     <file>public</file>
     <file>tests</file>
 
-<!--    <exclude-pattern>*/src/Standards/*/Tests/*\.(inc|css|js)$</exclude-pattern>-->
+    <exclude-pattern>protected/migrations/*</exclude-pattern>
 <!--    <exclude-pattern>*/tests/Core/*/*Test\.(inc|css|js)$</exclude-pattern>-->
 
     <arg name="basepath" value="."/>
