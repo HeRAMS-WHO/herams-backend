@@ -23,12 +23,10 @@ jobs:
           path: 'herams-i18n'
           ssh-key: ${{ secrets.i18n_private_key }}
         name: Checkout i18n repo
-      - name: Install composer parallel install
-        run: composer global require hirak/prestissimo
-      - name: Install composer deps
-        run: composer install --no-dev
+      - name: Install Yii2 CLI
+        run: composer global require yiisoft/yii2
       - name: Extract translations
-        run: protected/yiic message/extract protected/config/i18n.php --message-path .
+        run: ~/.composer/vendor/bin/yiic message/extract protected/config/i18n.php --message-path .
         # Fix bad Yii header in pot file by copying header from another file
       - name: Create app.pot
         run: (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 ../messages.pot) > app.pot
