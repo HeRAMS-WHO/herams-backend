@@ -12,4 +12,11 @@
     <arg value="np"/>
 
     <rule ref="PSR2"/>
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <exclude-pattern>protected/migrations/</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <exclude-pattern>protected/migrations/</exclude-pattern>
+    </rule>
+
 </ruleset>
