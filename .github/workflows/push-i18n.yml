@@ -36,7 +36,7 @@ jobs:
       - name: Configure git
         run: git config --global user.name "Github Action" && git config --global user.email '<>'
       - name: Commit changes
-        run: git commit app.pot -m "Updated application strings" --allow-empty || echo "No changes"
+        run: git commit app.pot -m "Updated application strings" || echo "No changes"
         working-directory: herams-i18n
       - name: Push changes
         run: git push
