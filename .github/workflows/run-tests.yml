@@ -20,6 +20,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: cp .env.default .env
+      - run: composer install
       - run: docker-compose build
       - run: docker-compose run --rm codeception run --coverage-xml
       - run: get https://scrutinizer-ci.com/ocular.phar
