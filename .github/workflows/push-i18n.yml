@@ -33,8 +33,10 @@ jobs:
       - name: Create app.pot
         run: (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 ../messages.pot) > app.pot
         working-directory: herams-i18n
+      - name: Configure git
+        run: git config --global user.name "Github Action" && git config --global user.email '<>'
       - name: Commit changes
-        run: git commit app.pot -c user.name="Github Action" -c user.email="action@github" -m "Updated application strings" --allow-empty || echo "No changes"
+        run: git commit app.pot -m "Updated application strings" --allow-empty || echo "No changes"
         working-directory: herams-i18n
       - name: Push changes
         run: git push
