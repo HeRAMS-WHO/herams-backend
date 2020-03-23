@@ -34,7 +34,7 @@ jobs:
         run: (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 ../messages.pot) > app.pot
         working-directory: herams-i18n
       - name: Commit changes
-        run: git commit app.pot -m "Updated application strings" --allow-empty || echo "No changes"
+        run: git commit app.pot --author "Github Action <>" -m "Updated application strings" --allow-empty || echo "No changes"
         working-directory: herams-i18n
       - name: Push changes
         run: git push
