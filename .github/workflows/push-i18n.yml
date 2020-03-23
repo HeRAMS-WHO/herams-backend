@@ -1,0 +1,23 @@
+name: Push messages to i18n repo
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          path: 'herams-i18n'
+          ssh-key: ${{ secrets.i18n_private_key }}
+        name: Checkout i18n repo
+      - name: Install composer parallel install
+        run: composer global require hirak/prestissimo
+      - name: Install composer deps
+        run: composer install --no-dev
+      - name: Extract translations
+        run: protected/yiic message/extract protected/config/i18n.php --message-path herams-i18n
+      - name: Show git status
+        run: git status
+        working-directory: herams-i18n
