@@ -31,6 +31,7 @@ jobs:
             ${{ runner.os }}-docker
       - run: cp .env.default .env
       - run: composer install
+      - run: composer lint
       - run: docker-compose build
       - run: docker-compose run --rm codeception run --coverage-xml
       - run: wget https://scrutinizer-ci.com/ocular.phar
