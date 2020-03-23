@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -31,7 +33,7 @@ jobs:
             ${{ runner.os }}-docker
       - run: cp .env.default .env
       - run: composer install
-      - run: git diff --name-only master
+      - run: git fetch master && git diff --name-only master
         name: List changed files
       - run: git diff --name-only master | xargs vendor/bin/phpcs --report=summary
         name: Run PHPCS for changed files
