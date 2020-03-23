@@ -31,6 +31,8 @@ jobs:
             ${{ runner.os }}-docker
       - run: cp .env.default .env
       - run: composer install
+      - run: git diff --name-only master
+        name: List changed files
       - run: git diff --name-only master | xargs vendor/bin/phpcs --report=summary
         name: Run PHPCS for changed files
       - run: docker-compose build
