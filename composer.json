@@ -75,7 +75,8 @@
         "ifsnop/mysqldump-php": "> 2",
         "phpunit/phpunit": ">= 9",
         "yiisoft/yii2-debug": "> 2",
-        "squizlabs/php_codesniffer": "^3.5"
+        "squizlabs/php_codesniffer": "^3.5",
+        "brainmaestro/composer-git-hooks": "^2.8"
     },
     "repositories": [
         {
@@ -90,6 +91,16 @@
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse src",
         "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml"
+    },
+    "extra": {
+        "hooks": {
+            "pre-commit": [
+                "git diff --name-only | xargs vendor/bin/phpbf"
+            ],
+            "post-merge": [
+                "composer install"
+            ]
+        }
     }
 
 }
