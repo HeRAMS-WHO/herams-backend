@@ -456,10 +456,13 @@ body {
 
 .form-layout {
     display: block;
-    padding: 30px 0px;
+    padding: 15px 0px;
     border-radius: 10px;
     width: 100%;
     float: left;
+}
+
+.form-layout .form-content {
     max-width: 800px;
 }
 
@@ -858,14 +861,19 @@ body[data-modal]:after {
 
 .share-form {
     padding: 0;
-    margin: 30px 0;
+    margin: 0;
 }
+
+
+.share-form .list-shared {
+    max-width: 1200px;
+}
+
 .share-form .permissions-form, .share-form .list-shared {
     background: white;
     padding: 0px 25px 25px;
     border-radius: 7px;
     margin: 0 0 30px;
-    max-width: 1200px;
 }
 
 .share-form .permissions-form h2 {
