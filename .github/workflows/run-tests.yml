@@ -1,6 +1,8 @@
-name: Push messages to i18n repo
+name: Run tests
 on:
   push:
+    branches: [ master ]
+  pull_request:
     branches: [ master ]
 jobs:
   build:
