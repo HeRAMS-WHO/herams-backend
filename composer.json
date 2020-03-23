@@ -74,7 +74,8 @@
         "codeception/module-yii2": "> 1",
         "ifsnop/mysqldump-php": "> 2",
         "phpunit/phpunit": ">= 9",
-        "yiisoft/yii2-debug": "> 2"
+        "yiisoft/yii2-debug": "> 2",
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "repositories": [
         {
