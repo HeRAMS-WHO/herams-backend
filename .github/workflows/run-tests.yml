@@ -22,7 +22,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer global require "squizlabs/php_codesniffer=*"
-      - run: git diff --name-only master
+      - run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs phpcs
   test:
     runs-on: ubuntu-18.04
     steps:
