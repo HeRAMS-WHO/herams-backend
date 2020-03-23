@@ -22,7 +22,7 @@ jobs:
         # Fix bad Yii header in pot file by copying header from another file
       - name: Create app.pot
         run: (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 ../messages.pot) > app.pot
-        working_directory: herams-i18n
+        working-directory: herams-i18n
       - name: Show git status
         run: git status
         working-directory: herams-i18n
