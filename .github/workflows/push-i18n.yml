@@ -9,6 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/checkout@v2
         with:
+          repository: 'WorldHealthOrganization/herams-i18n'
           path: 'herams-i18n'
           ssh-key: ${{ secrets.i18n_private_key }}
         name: Checkout i18n repo
