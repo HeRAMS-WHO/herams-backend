@@ -1,0 +1,93 @@
+/**
+ * This CSS file is used by the pdf layout.
+ * It is for print only
+ */
+
+/*@media print {*/
+
+body, html {
+    background: none;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+}
+
+.title {
+    grid-area: unset;
+    width: 100%;
+}
+
+.filters {
+    grid-area: unset;
+    box-shadow: none;
+}
+
+.content {
+    grid-template-rows: unset !important;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.title span.header {
+    background: none;
+    color: var(--primary-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.title {
+    margin: 0;
+    padding: 0;
+    height: 70px;
+}
+
+.filters .count {
+    display: inline-block;
+}
+
+.content>.element {
+    margin: 0px;
+    padding: 10px 20px;
+    width: 50%;
+    float: left;
+    grid-row: unset !important;
+    grid-column: unset !important;
+}
+.content>.element.table {
+    padding: 0;
+    margin: 30px 0 30px 20px !important;
+}
+
+.map {
+    width: 100% !important;
+    display: block;
+    grid-column: unset !important;
+    height: 300px;
+}
+
+.leaflet-container a, .content>.element a {
+    display: none;
+}
+
+.content>.element canvas {
+    object-fit: contain;
+}
+.content>.element:not(.map) canvas {
+    width: 100% !important;
+}
+
+@media (min-width: 800px) {
+    .content {
+        grid-template-columns: unset !important;
+    }
+}
+
+@media (min-width: 1460px) {
+    .content {
+        grid-template-columns: unset !important;
+    }
+}
+
+/*}*/

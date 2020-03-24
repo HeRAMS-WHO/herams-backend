@@ -50,6 +50,8 @@ echo Html::beginForm([
 <?php
 echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white']);
 echo Html::a('Filters', '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
+echo Html::a('PDF', ['project/pdf', 'id' => $project->id], ['class' => 'btn btn-default', 'title' => 'Pdf export']);
+
 $this->registerJs(
     <<<JS
         $('#filter-expand').on('click', function() {
