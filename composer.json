@@ -74,7 +74,9 @@
         "codeception/module-yii2": "> 1",
         "ifsnop/mysqldump-php": "> 2",
         "phpunit/phpunit": ">= 9",
-        "yiisoft/yii2-debug": "> 2"
+        "yiisoft/yii2-debug": "> 2",
+        "squizlabs/php_codesniffer": "^3.5",
+        "brainmaestro/composer-git-hooks": "^2.8"
     },
     "repositories": [
         {
@@ -85,10 +87,23 @@
     "scripts": {
         "codeception": "docker-compose run --rm codeception",
         "cli": "docker-compose run --rm cli",
-        "lint": "phpstan analyse -c phpstan.neon src --ansi",
+        "lint": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcs",
+        "lint-fix": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse src",
-        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml"
+        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
+        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-update-cmd": "cghooks update"
+    },
+    "extra": {
+        "hooks": {
+            "pre-commit": [
+                "git diff --name-only --cached HEAD | xargs -r vendor/bin/phpcs"
+            ],
+            "post-merge": [
+                "composer install"
+            ]
+        }
     }
 
 }
