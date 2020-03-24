@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<div class="col-xs-12">
+<div class="col-xs-12 col-md-6">
     <?php
     $form = ActiveForm::begin([
         'id' => 'create-workspace',

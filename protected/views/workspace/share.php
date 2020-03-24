@@ -1,6 +1,6 @@
 <?php
 
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\helpers\Html;
 
 /**
@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="col-xs-12 share-form">
-    <div class="col-xs-12 permissions-form">
+    <div class="col-xs-12 col-md-6 permissions-form">
         <?php
-        echo Html::tag('h2', \Yii::t('app', 'Users and permissions'));
+        echo Html::tag('h2', \Yii::t('app', 'Add permissions'));
         $form = ActiveForm::begin([
             'method' => 'POST',
             "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <button type="submit" class="btn btn-primary">Share</button>
     </div>
     <div class="col-xs-12 list-shared">
-        <h2><?=\Yii::t('app', 'Already shared with')?></h2>
+        <h2><?=\Yii::t('app', 'View user permissions')?></h2>
         <?php
         echo $model->renderTable();
         ?>

@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = Yii::t('app', 'Update workspace token');
 $this->params['breadcrumbs'][] = $this->title;
-
+?>
+<div class="col-xs-12 col-md-6">
+<?php
 $form = ActiveForm::begin([
     'method' => 'PUT',
     "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -57,4 +59,5 @@ echo ButtonGroup::widget([
     ]
 ]);
 $form->end();
-
+?>
+</div>
