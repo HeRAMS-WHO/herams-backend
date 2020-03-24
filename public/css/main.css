@@ -28,6 +28,12 @@ body {
     font-family: "Source Sans Pro";
 }
 
+.content {
+    display: block;
+    position: relative;
+    padding: 10px;
+}
+
 a,a:visited {
     color: var(--link-color);
     text-decoration: none;
@@ -118,4 +124,19 @@ a:hover {
     color: var(--primary-button-background-color);
     border: 1px solid var(--primary-button-background-color) !important;
     transition: color 0.2s, border 0.2s;
+}
+
+
+@media (min-width: 800px) {
+    body {
+        overflow-y:hidden;
+    }
+
+    .content {
+        display: block;
+        overflow-y: auto;
+        position: relative;
+        height: 100vh;
+        padding: 30px 10px 100px 10px;
+    }
 }
