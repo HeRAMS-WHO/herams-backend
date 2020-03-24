@@ -87,8 +87,8 @@
     "scripts": {
         "codeception": "docker-compose run --rm codeception",
         "cli": "docker-compose run --rm cli",
-        "lint": "phpcs",
-        "lint-fix": "phpcbf",
+        "lint": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcs",
+        "lint-fix": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse src",
         "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
@@ -98,7 +98,7 @@
     "extra": {
         "hooks": {
             "pre-commit": [
-                "git diff-index --name-only --cached HEAD | xargs vendor/bin/phpcs"
+                "git diff --name-only --cached HEAD | xargs -r vendor/bin/phpcs"
             ],
             "post-merge": [
                 "composer install"
