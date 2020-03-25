@@ -19,6 +19,7 @@
         "ext-gd": "*",
         "ext-pdo_mysql": "*",
         "ext-intl": "*",
+        "ext-zip": "*",
         "ext-json": "*",
         "fortawesome/font-awesome": "> 5",
         "guzzlehttp/psr7": "^1.2",

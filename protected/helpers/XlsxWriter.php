@@ -31,7 +31,7 @@ class XlsxWriter implements WriterInterface
     private function reset()
     {
         $this->file = new Spreadsheet();
-        $this->rows = 0;
+        $this->rows = 1;
     }
 
 
