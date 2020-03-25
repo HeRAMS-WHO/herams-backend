@@ -16,7 +16,6 @@ use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
@@ -34,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 ?>
-<div class="col-xs-12">
+<div class="col-xs-12 col-md-6 form-bg">
     <?php
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
@@ -78,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'parent_id' => [
                 'attribute' => 'parent_id',
-                'value' => function(Page $model) {
+                'value' => function (Page $model) {
                     return isset($model->parent_id) ? "{$model->parent->title} ({$model->parent_id})" : null;
                 }
             ],
@@ -88,28 +87,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width' => '100px',
                 'template' => '{update} {delete}',
                 'visibleButtons' => [
-                    'update' => function(Page $page) {
+                    'update' => function (Page $page) {
                         return app()->user->can(Permission::PERMISSION_WRITE, $page);
                     },
-                    'delete' => function(Page $page) {
+                    'delete' => function (Page $page) {
                         return app()->user->can(Permission::PERMISSION_DELETE, $page);
                     },
                 ],
                 'buttons' => [
-                    'delete' => function($url, Page $page, $key) {
+                    'delete' => function ($url, Page $page, $key) {
                         return Html::a(
                             Icon::delete(),
-                            ['page/delete', 'id' => $page->id], [
+                            [
+                                'page/delete',
+                                'id' => $page->id
+                            ],
+                            [
                                 'title' => \Yii::t('app', 'Delete'),
                                 'data-method' => 'delete',
                                 'data-confirm' => \Yii::t('app', 'Are you sure you want to delete this page?')
                             ]
                         );
                     },
-                    'update' => function($url, Page $page, $key) {
+                    'update' => function ($url, Page $page, $key) {
                         return Html::a(
                             Icon::edit(),
-                            ['page/update', 'id' => $page->id], [
+                            [
+                                'page/update',
+                                'id' => $page->id
+                            ],
+                            [
                                 'title' => \Yii::t('app', 'Edit')
                             ]
                         );

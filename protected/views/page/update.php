@@ -30,7 +30,7 @@ $this->title = $page->title;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12">
+<div class="col-xs-12 col-md-6 form-bg">
     <?php
 
 
@@ -124,8 +124,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width' => '100px',
                 'template' => '{update} {remove}',
                 'buttons' => [
-                    'remove' => function($url, \prime\models\ar\Element $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
+                    'remove' => function ($url, \prime\models\ar\Element $model, $key) {
+                        if (app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
                             return Html::a(
                                 Icon::delete(),
                                 ['element/delete', 'id' => $model->id],

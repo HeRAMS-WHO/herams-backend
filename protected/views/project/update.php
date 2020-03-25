@@ -7,7 +7,6 @@ use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
-
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
@@ -20,7 +19,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-xs-12">
+<div class="col-xs-12 col-md-6 form-bg">
     <?php
     $form = ActiveForm::begin([
         'method' => 'PUT',

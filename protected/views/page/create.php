@@ -24,7 +24,7 @@ $this->title = \Yii::t('app', 'Create page');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12">
+<div class="col-xs-12 col-md-6 form-bg">
     <?php
 
 
