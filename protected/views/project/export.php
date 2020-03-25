@@ -99,7 +99,14 @@ echo Form::widget([
                 ],
             ],
             'buttons' => [
-                Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
+                Html::submitButton(\Yii::t('app', 'Export CSV'), [
+                    'class' => 'btn btn-primary',
+                    'formaction' => '?_format=csv'
+                ]),
+                Html::submitButton(\Yii::t('app', 'Export XLSX'), [
+                    'class' => 'btn btn-default',
+                    'formaction' => '?_format=xlsx'
+                ]),
             ]
         ])
     ]
