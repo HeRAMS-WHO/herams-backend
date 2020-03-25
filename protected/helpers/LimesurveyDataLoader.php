@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-
 use Carbon\Carbon;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
@@ -18,11 +17,11 @@ class LimesurveyDataLoader
         Workspace $workspace,
         Response $response
     ): void {
-        
-        $data = toArrayWithKeys(filter(function($value) {
+
+
+        $data = toArrayWithKeys(filter(function ($value) {
             return !empty($value); //$value !== null;
         }, $data));
-
         $response->workspace_id = $workspace->id;
         $response->survey_id = $workspace->project->base_survey_eid;
         $response->id = (int) $data['id'] ?? null;
@@ -46,13 +45,9 @@ class LimesurveyDataLoader
 
         // Transform arrays.
         $transformed = [];
-        foreach($data as $key => $value) {
-            if (preg_match('/(.+)\[\d+]$/', $key, $matches)) {
-                if (isset($transformed[$matches[1]])) {
-                    $transformed[$matches[1]][] = $value;
-                } else {
-                    $transformed[$matches[1]] = [$value];
-                }
+        foreach ($data as $key => $value) {
+            if (preg_match('/(.+)\[(\d+)]$/', $key, $matches)) {
+                $transformed[$matches[1]][$matches[2]] = $value;
             } elseif (preg_match('/(.+)\[(\w+)_(\w+)]$/', $key, $matches)) {
                 // Question with subquestions on 2 axes.
                 $transformed[$matches[1]][$matches[2]][$matches[3]] = $value;
@@ -68,7 +63,7 @@ class LimesurveyDataLoader
 
         ksort($transformed);
         // Recurse 1 level.
-        foreach($transformed as $key => &$value) {
+        foreach ($transformed as $key => &$value) {
             if (is_array($value)) {
                 ksort($value);
             }

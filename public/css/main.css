@@ -70,6 +70,12 @@ body {
     min-height: 100vh;
 }
 
+.content {
+    display: block;
+    position: relative;
+    padding: 10px;
+}
+
 a,a:visited {
     color: var(--link-color);
     text-decoration: none;
@@ -89,15 +95,15 @@ a:hover {
 
 .btn {
     cursor: pointer;
-    padding: 6px 12px;
+    padding: 8px 12px;
     border-radius: 6px;
-    height: 35px;
     font-size: 14px;
     box-shadow: none;
     background-image: none;
     border: none;
     text-decoration: none;
     outline: none;
+    text-align: center;
 }
 
 .btn-primary {
@@ -115,6 +121,21 @@ a:hover {
 }
 
 .btn-default,.btn-default:visited {
+    background-color: var(--default-button-background-color);
+    color: var(--default-button-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+}
+
+.btn-default:hover {
+    background-color: white;
+    color: var(--default-button-background-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-white,.btn-white:visited {
     background-color: white;
     color: var(--default-button-background-color);
     border: 1px solid var(--default-button-background-color);
@@ -122,27 +143,27 @@ a:hover {
     text-shadow: none;
 }
 
-.btn-default:hover {
+.btn-white:hover {
     background-color: var(--default-button-background-color);
-    color: var(--default-button-color);
+    color: white;
     border: 1px solid var(--default-button-background-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 
 .btn-clear,.btn-clear:visited {
-    background-color: transparent;
+    background-color: transparent !important;
     color: var(--clear-button-color);
-    border: 1px solid var(--clear-button-color);
+    border: 1px solid transparent !important;
     text-shadow: none;
     transition: color 0.2s, border 0.2s;
 }
 
 .btn-clear:hover {
-    background-color: transparent;
     color: var(--primary-button-background-color);
-    border: 1px solid var(--primary-button-background-color);
+    border: 1px solid var(--primary-button-background-color) !important;
     transition: color 0.2s, border 0.2s;
 }
+
 
 .breadcrumb > li + li::before {
     display: none;
@@ -183,4 +204,18 @@ a:hover {
 }
 .user-menu > * {
     margin-left: 5px;
+}
+
+@media (min-width: 800px) {
+    body {
+        overflow-y:hidden;
+    }
+
+    .content {
+        display: block;
+        overflow-y: auto;
+        position: relative;
+        height: 100vh;
+        padding: 30px 10px 100px 10px;
+    }
 }

@@ -35,9 +35,15 @@ use function iter\filter;
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
+ * @property-read int $workspaceCount
+ * @property-read int $contributorCount
+ * @property-read string $latestDate
+ * @property-read int $facilityCount
+ * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
  */
-class Project extends ActiveRecord {
+class Project extends ActiveRecord
+{
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_PRIVATE = 'private';
     public const VISIBILITY_HIDDEN = 'hidden';
@@ -67,6 +73,8 @@ class Project extends ActiveRecord {
             self::VISIBILITY_PRIVATE => 'Private, this project is visible on the map and in the list, but people need permission to view it'
         ];
     }
+
+
     public static function find()
     {
         $result = new ActiveQuery(self::class);
@@ -119,14 +127,15 @@ class Project extends ActiveRecord {
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
             'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
-            'status' => \Yii::t('app','Project status is shown on the world map')
+            'status' => \Yii::t('app', 'Project status is shown on the world map')
         ];
     }
 
     /**
      * @return LimesurveyDataProvider
      */
-    protected function limesurveyDataProvider() {
+    protected function limesurveyDataProvider()
+    {
         return app()->limesurveyDataProvider;
     }
 
@@ -142,7 +151,7 @@ class Project extends ActiveRecord {
     {
         $existing = Project::find()->select('base_survey_eid')->indexBy('base_survey_eid')->column();
 
-        $surveys = filter(function($details) use ($existing) {
+        $surveys = filter(function ($details) use ($existing) {
             return $this->base_survey_eid == $details['sid'] || !isset($existing[$details['sid']]);
         }, $this->limesurveyDataProvider()->listSurveys());
 
@@ -202,11 +211,20 @@ class Project extends ActiveRecord {
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => [
+                    'latestDate' => [
+                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
+                            ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
+                                'tool_id' => new Expression(self::tableName() . '.[[id]]')])
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function (self $model): ?string {
+                            return $model->getResponses()->select('max([[date]])')->scalar();
+                        }
+                    ],
                     'workspaceCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::GREEDY => Workspace::find()->limit(1)->select('count(*)')
                             ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
                             return (int) $model->getWorkspaces()->count();
                         }
                     ],
@@ -216,8 +234,8 @@ class Project extends ActiveRecord {
                                 'workspace_id' => Workspace::find()->select('id')
                                     ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                             ])->addParams([':path' => '$.facilityCount'])->
-                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[hf_id]]))')),
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[workspace_id]], [[hf_id]]))')),
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
                             if ($model->workspaceCount === 0) {
                                 return 0;
                             }
@@ -233,35 +251,34 @@ class Project extends ActiveRecord {
                         ])->addParams([':path' => '$.responseCount'])->
                         select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(*))'))
                         ,
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
                             if ($model->workspaceCount === 0) {
                                 return 0;
                             }
                             return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
                         }
                     ],
+                    'contributorPermissionCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                            'target' => Workspace::class,
+                            'target_id' => Workspace::find()->select('id')
+                                ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                            'source' => User::class,
+                        ])->select('count(distinct [[source_id]])')
+                        ,
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) Permission::find()->where([
+                                'target' => Workspace::class,
+                                'target_id' => $model->getWorkspaces()->select('id'),
+                                'source' => User::class,
+                            ])->count('distinct [[source_id]]');
+                        }
+                    ],
                     'contributorCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
-                            $result = $model->getOverride('contributorCount');
-                            if (!isset($result)) {
-                                if ($model->workspaceCount === 0) {
-                                    return 0;
-                                }
-                                $result = Permission::find()->where([
-                                    'target' => Workspace::class,
-                                    'target_id' => $model->getWorkspaces()->select('id'),
-                                    'source' => User::class,
-                                    'permission' => [
-                                        Permission::PERMISSION_WRITE,
-                                        Permission::PERMISSION_ADMIN
-                                    ]
-                                ])  ->distinct()
-                                    ->select('source_id')
-                                    ->count();
-
-                            }
-                            return (int) $result;
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
                         }
                     ]
                 ]
@@ -270,7 +287,7 @@ class Project extends ActiveRecord {
     }
 
 
-    public function  getResponses(): ActiveQuery
+    public function getResponses(): ActiveQuery
     {
         return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
     }
@@ -289,7 +306,7 @@ class Project extends ActiveRecord {
         }
         // Initialize counts
         $counts = [];
-        foreach($map as $key => $value) {
+        foreach ($map as $key => $value) {
             $counts[$value] = 0;
         }
 
@@ -304,7 +321,7 @@ class Project extends ActiveRecord {
              ->indexBy('type')
             ->asArray();
 
-        foreach($query->column() as $type => $count) {
+        foreach ($query->column() as $type => $count) {
             if (empty($map)) {
                 $counts[$type] = ($counts[$type] ?? 0) + 1;
             } elseif (isset($map[$type])) {
@@ -340,7 +357,7 @@ class Project extends ActiveRecord {
         ];
 
         $result = [];
-        foreach($query->column() as $key => $value) {
+        foreach ($query->column() as $key => $value) {
             $label = isset($map[$key]) ? $map[$key] : $map[HeramsResponseInterface::UNKNOWN_VALUE];
             $result[$label] = ($result[$label] ?? 0) + $value;
         }
@@ -358,8 +375,7 @@ class Project extends ActiveRecord {
             HeramsSubject::NOT_PROVIDED=> 0,
         ];
         /** @var HeramsResponseInterface $heramsResponse */
-        foreach ($this->getResponses()->each() as $heramsResponse)
-        {
+        foreach ($this->getResponses()->each() as $heramsResponse) {
             foreach ($heramsResponse->getSubjects() as $subject) {
                 $subjectAvailability = $subject->getAvailability();
                 if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
@@ -377,7 +393,7 @@ class Project extends ActiveRecord {
         ];
 
         $result = [];
-        foreach($counts as $key => $value) {
+        foreach ($counts as $key => $value) {
             if (isset($map[$key])) {
                 $result[$map[$key]] = $value;
             }
@@ -423,7 +439,8 @@ class Project extends ActiveRecord {
         return new HeramsCodeMap();
     }
 
-    public function getPages() {
+    public function getPages()
+    {
         return $this->hasMany(Page::class, ['project_id' => 'id'])->andWhere(['parent_id' => null])->orderBy('sort');
     }
 

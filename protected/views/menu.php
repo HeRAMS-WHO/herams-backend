@@ -9,6 +9,8 @@ SideMenu::begin([
 ]);
 /** @var \prime\components\Controller $controller */
 $controller = $this->context;
+echo Html::a(\Yii::t('app','Admin dashboard'), ['/admin'],
+    ['class' => $controller->action->uniqueId === 'admin/dashboard' ? 'active' : null]);
 echo Html::a('Projects', ['/project/index'],
     ['class' => $controller->action->uniqueId === 'project/index' ? 'active' : null]);
 if (\Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {

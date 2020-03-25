@@ -4,6 +4,7 @@
 namespace prime\widgets\map;
 
 
+use http\QueryString;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -47,6 +48,25 @@ class Map extends Widget
         $this->colors = $this->colors ?? new JsExpression('chroma.brewer.OrRd');
         parent::init();
     }
+
+    /**
+     * This is the popup content that will be shown while the data is being fetched.
+     * @return string
+     */
+    private function renderPopupLoader(): string
+    {
+        return <<<HTML
+    <div style="
+        background-image: url('/img/loader.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+    ">
+    <h1>Loading popup</h1>
+        <p>We're getting your summary ready...</p>
+    </div>
+HTML;
+    }
+
     public function run()
     {
         $this->registerClientScript();
@@ -54,6 +74,8 @@ class Map extends Widget
         Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
         $options['id'] = $this->getId();
         echo Html::beginTag('div', $options);
+        echo Html::tag('template', $this->renderPopupLoader());
+
         $id = Json::encode($this->getId());
 
         $config = Json::encode([
@@ -61,7 +83,8 @@ class Map extends Widget
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 18
+            'maxZoom' => 16,
+            'minZoom' => 3
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
@@ -98,23 +121,38 @@ class Map extends Widget
                                 fillOpacity: 0.8
                             });
                             
-                            let popup = marker.bindPopup(feature.properties.popup || feature.properties.title, {
+                            
+                            let popup = marker.bindPopup((layer => document.querySelector("#" + {$id} + " template").content.cloneNode(true)), {
                                 maxWidth: "auto",
                                 closeButton: false
-                            });
-                            popup.on('popupopen', function() {
+                            }).getPopup();
+
+                            let fetched = false;
+                            // On the first open fetch remote content
+                            marker.on('popupopen', function() {
+                                if (fetched) {
+                                    return;
+                                }
+                                fetch(feature.properties.url)
+                                    .then((r) => r.json())
+                                    .then((json) => {
+                                        
+                                        popup.setContent('<pre>' + JSON.stringify(json) + '</pre>');
+                                        popup.update();
+                                    });
+                                fetched = true;
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
                             });
-                            popup.on('popupclose', function() {
+                            marker.on('popupclose', function() {
                                 let event = new Event('mapPopupClose');
                                 window.dispatchEvent(event);
                             });
                             
                             window.addEventListener('externalPopup', function(e) {
                                 if (e.id == feature.properties.id) {
-                                    marker.openPopup(popup);    
+                                    marker.openPopup();    
                                 }
                                  
                             });
@@ -162,8 +200,10 @@ class Map extends Widget
                     metric: true,
                     imperial: false
                 }).addTo(map);
+                let menuWidth = document.getElementById("w0").offsetWidth;
                 map.fitBounds(bounds, {
-                    padding: [50, 50]
+                    padding: [50, 50],
+                    paddingTopLeft: [menuWidth,0]
                 });
             } catch(error) {
                 console.error("Error in map widget JS", error);
