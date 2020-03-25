@@ -21,7 +21,7 @@ $this->params['body'] = [
 ];
 // Order projects by status.
 $collections = [];
-foreach($projects->getModels() as $project) {
+foreach ($projects->getModels() as $project) {
     if (!isset($collections[$project->status])) {
         $collections[$project->status] = [
             "type" => "FeatureCollection",
@@ -51,23 +51,14 @@ SideMenu::begin([
 ]);
 
 /** @var \prime\models\ar\Project $project */
-foreach($projects->getModels() as $project) {
+foreach ($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
             'id' => $project->id,
-            'facilityCount' => $project->facilityCount,
-            'contributorCount' => $project->contributorCount,
-            'status' => $project->status,
-            'typeCounts' => $project->getTypeCounts(),
-            'functionalityCounts' => $project->getFunctionalityCounts(),
-            'availabilityCounts' => $project->getSubjectAvailabilityCounts()
-
-
         ]
     ]);
-
 }
-if (app()->user->can(Permission::PERMISSION_ADMIN)) {
+if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
     echo Html::a('New project', ['project/create'], [
         'style' => [
             'color' => '#737373'

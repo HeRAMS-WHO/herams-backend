@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\modules\Api;
 
-
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
 use yii\web\Response;
@@ -27,6 +26,12 @@ class Module extends \yii\base\Module
                     'class' => UrlRule::class,
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view',
+                    'verb' => 'get'
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller>/<id:\d+>/<action:\w+>',
+                    'route' => '<controller>/<action>',
                     'verb' => 'get'
                 ],
                 [
