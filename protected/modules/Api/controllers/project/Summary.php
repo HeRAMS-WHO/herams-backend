@@ -28,6 +28,8 @@ class Summary extends Action
         }
 
         return $this->controller->asJson([
+            'id' => $project->id,
+            'title' => $project->title,
             'subjectAvailabilityCounts' => $project->getSubjectAvailabilityCounts(),
             'functionalityCounts' => $project->getFunctionalityCounts(),
             'typeCounts' => $project->getTypeCounts(),

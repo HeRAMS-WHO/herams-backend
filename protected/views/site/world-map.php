@@ -38,6 +38,7 @@ foreach ($projects->getModels() as $project) {
         "properties" => [
             'id' => $project->id,
             'title' => $project->getDisplayField(),
+            'url' => \yii\helpers\Url::to(['/api/project/summary', 'id' => $project->id]),
             'popup' => Html::tag('iframe', '', [
                 'src' => \yii\helpers\Url::to(['project/summary', 'id' => $project->id]),
             ])
@@ -99,32 +100,3 @@ echo Map::widget([
     ],
     'data' => $collections
 ]);
-
-?>
-<style>
-    .leaflet-popup-content {
-        margin: 0;
-        /*background-image: url('/img/loader.svg');*/
-        /*background-repeat: no-repeat;*/
-        /*background-position: center;*/
-        background-color: #42424b;
-
-        padding-bottom: 10px;
-
-    }
-    .leaflet-popup-content-wrapper {
-        overflow: hidden;
-        padding: 0;
-
-    }
-
-    iframe {
-        box-sizing: border-box;
-        max-width: 500px;
-        border-width: 0;
-        width: 400px;
-        min-width: 300px;
-        min-height: 350px;
-        overflow: hidden;
-    }
-</style>
