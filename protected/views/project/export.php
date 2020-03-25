@@ -7,7 +7,7 @@ use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\forms\CsvExport $model
+ * @var \prime\models\forms\Export $model
  * @var \prime\models\ar\Project $subject
  */
 

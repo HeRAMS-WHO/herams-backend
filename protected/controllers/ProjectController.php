@@ -3,7 +3,7 @@
 namespace prime\controllers;
 
 use prime\actions\DeleteAction;
-use prime\actions\ExportCsvAction;
+use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\ExportDashboard;
@@ -52,17 +52,17 @@ class ProjectController extends Controller
             'workspaces' => Workspaces::class,
             'pages' => Pages::class,
             'export' => [
-                'class' => ExportCsvAction::class,
-                'subject' => static function(Request $request) {
+                'class' => ExportAction::class,
+                'subject' => static function (Request $request) {
                     return Project::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseQuery' => static function(Project $project): ResponseQuery {
+                'responseQuery' => static function (Project $project): ResponseQuery {
                     return Response::find()->project($project)->with('workspace');
                 },
-                'surveyFinder' => function(Project $project) {
+                'surveyFinder' => function (Project $project) {
                     return $project->getSurvey();
                 },
-                'checkAccess' => function(Project $project, User $user) {
+                'checkAccess' => function (Project $project, User $user) {
                     return $user->can(Permission::PERMISSION_EXPORT, $project);
                 }
             ],
@@ -71,7 +71,8 @@ class ProjectController extends Controller
 
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'verbs' => [
                     'class' => VerbFilter::class,
@@ -123,6 +124,5 @@ class ProjectController extends Controller
                 ]
             ]
         );
-
     }
 }

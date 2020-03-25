@@ -3,7 +3,6 @@
 
 namespace prime\widgets\map;
 
-
 use http\QueryString;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -221,5 +220,4 @@ JS
     {
         $this->view->registerAssetBundle(MapBundle::class);
     }
-
 }
