@@ -84,6 +84,7 @@ class WorkspaceController extends Controller
                 ],
                 ContentNegotiator::class => [
                     'class' => ContentNegotiator::class,
+                    'only' => ['export'],
                     'formats' => [
                         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
                         'text/csv' => 'csv',

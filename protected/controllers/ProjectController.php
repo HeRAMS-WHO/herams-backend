@@ -21,6 +21,7 @@ use prime\models\ar\Project;
 use prime\models\ar\Response;
 use prime\models\permissions\Permission;
 use prime\queries\ResponseQuery;
+use yii\filters\ContentNegotiator;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -90,6 +91,15 @@ class ProjectController extends Controller
                         \Yii::$app->request->getQueryParam('id')
                     ],
                     'duration' => 120,
+                ],
+                ContentNegotiator::class => [
+                    'class' => ContentNegotiator::class,
+                    'only' => ['export'],
+                    'formats' => [
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+                        'text/csv' => 'csv',
+                        'text/html' => 'html'
+                    ]
                 ],
                 'access' => [
                     'rules' => [
