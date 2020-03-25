@@ -1,0 +1,876 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: messages\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgctxt "app"
+msgid "# Contributors"
+msgstr ""
+
+msgctxt "app"
+msgid "# Health facilities"
+msgstr ""
+
+msgctxt "app"
+msgid "# Responses"
+msgstr ""
+
+msgctxt "app"
+msgid "# Workspaces"
+msgstr ""
+
+msgctxt "app"
+msgid "25 - 50%"
+msgstr ""
+
+msgctxt "app"
+msgid "50 - 75%"
+msgstr ""
+
+msgctxt "app"
+msgid "< 25%"
+msgstr ""
+
+msgctxt "app"
+msgid "> 75%"
+msgstr ""
+
+msgctxt "app"
+msgid "A bar chart"
+msgstr ""
+
+msgctxt "app"
+msgid "A chart"
+msgstr ""
+
+msgctxt "app"
+msgid "A dashboard element that shows a map"
+msgstr ""
+
+msgctxt "app"
+msgid "A password reset email has beent sent to your address"
+msgstr ""
+
+msgctxt "app"
+msgid "A table"
+msgstr ""
+
+msgctxt "app"
+msgid "A verification email has beent sent to your address"
+msgstr ""
+
+msgctxt "app"
+msgid "Admin dashboard"
+msgstr ""
+
+msgctxt "app"
+msgid "Allow everything"
+msgstr ""
+
+msgctxt "app"
+msgid "Already have an account? Sign in!"
+msgstr ""
+
+msgctxt "app"
+msgid "Already shared with"
+msgstr ""
+
+msgctxt "app"
+msgid "Apply"
+msgstr ""
+
+msgctxt "app"
+msgid "Apply changes"
+msgstr ""
+
+msgctxt "app"
+msgid "Are you sure you want to delete this page?"
+msgstr ""
+
+msgctxt "app"
+msgid "Are you sure you want to revoke this global permission?"
+msgstr ""
+
+msgctxt "app"
+msgid "Are you sure you wish to remove this project from the system?"
+msgstr ""
+
+msgctxt "app"
+msgid "Are you sure you wish to remove this tool from the system?"
+msgstr ""
+
+msgctxt "app"
+msgid "Are you sure you wish to remove this workspace from the system?"
+msgstr ""
+
+msgctxt "app"
+msgid "Back to sign in"
+msgstr ""
+
+msgctxt "app"
+msgid "Backend administration"
+msgstr ""
+
+msgctxt "app"
+msgid "Causes of unavailability"
+msgstr ""
+
+msgctxt "app"
+msgid "Clear"
+msgstr ""
+
+msgctxt "app"
+msgid "Configure dashboard"
+msgstr ""
+
+msgctxt "app"
+msgid "Confirmation"
+msgstr ""
+
+msgctxt "app"
+msgid "Contributors"
+msgstr ""
+
+msgctxt "app"
+msgid "Create a new project"
+msgstr ""
+
+msgctxt "app"
+msgid "Create account"
+msgstr ""
+
+msgctxt "app"
+msgid "Create chart"
+msgstr ""
+
+msgctxt "app"
+msgid "Create element"
+msgstr ""
+
+msgctxt "app"
+msgid "Create map"
+msgstr ""
+
+msgctxt "app"
+msgid "Create page"
+msgstr ""
+
+msgctxt "app"
+msgid "Create project"
+msgstr ""
+
+msgctxt "app"
+msgid "Create table"
+msgstr ""
+
+msgctxt "app"
+msgid "Create workspace"
+msgstr ""
+
+msgctxt "app"
+msgid "Created {success} workspaces, failed to create {fail} workspaces"
+msgstr ""
+
+msgctxt "app"
+msgid "Creating a new acount for email:"
+msgstr ""
+
+msgctxt "app"
+msgid "Current password"
+msgstr ""
+
+msgctxt "app"
+msgid "Data update"
+msgstr ""
+
+msgctxt "app"
+msgid "Delete"
+msgstr ""
+
+msgctxt "app"
+msgid "Deleted user"
+msgstr ""
+
+msgctxt "app"
+msgid "Determines the order of elements on a page, elements shown in ascending order"
+msgstr ""
+
+msgctxt "app"
+msgid "Discard changes & go to dashboard"
+msgstr ""
+
+msgctxt "app"
+msgid "Download"
+msgstr ""
+
+msgctxt "app"
+msgid "Download data"
+msgstr ""
+
+msgctxt "app"
+msgid "Edit"
+msgstr ""
+
+msgctxt "app"
+msgid "Edit dashboard"
+msgstr ""
+
+msgctxt "app"
+msgid "Edit data"
+msgstr ""
+
+msgctxt "app"
+msgid "Edit settings"
+msgstr ""
+
+msgctxt "app"
+msgid "Edit token"
+msgstr ""
+
+msgctxt "app"
+msgid "Element created"
+msgstr ""
+
+msgctxt "app"
+msgid "Element not created"
+msgstr ""
+
+msgctxt "app"
+msgid "Element not updated"
+msgstr ""
+
+msgctxt "app"
+msgid "Element updated"
+msgstr ""
+
+msgctxt "app"
+msgid "Email"
+msgstr ""
+
+msgctxt "app"
+msgid "Email already taken"
+msgstr ""
+
+msgctxt "app"
+msgid "Enter a date to limit the export to the last record before or equal to the selected date for each health facility. To export all historic records of a health facility, leave the field blank."
+msgstr ""
+
+msgctxt "app"
+msgid "Error!"
+msgstr ""
+
+msgctxt "app"
+msgid "Export"
+msgstr ""
+
+msgctxt "app"
+msgid "Export all"
+msgstr ""
+
+msgctxt "app"
+msgid "Export data from project {project}"
+msgstr ""
+
+msgctxt "app"
+msgid "Export data from workspace {workspace}"
+msgstr ""
+
+msgctxt "app"
+msgid "Failed to update email address"
+msgstr ""
+
+msgctxt "app"
+msgid "Full"
+msgstr ""
+
+msgctxt "app"
+msgid "Fully available"
+msgstr ""
+
+msgctxt "app"
+msgid "Global admin"
+msgstr ""
+
+msgctxt "app"
+msgid "Global permissions granted to {users}"
+msgstr ""
+
+msgctxt "app"
+msgid "Grant admin permissions"
+msgstr ""
+
+msgctxt "app"
+msgid "HeRAMS email verification"
+msgstr ""
+
+msgctxt "app"
+msgid "HeRAMS password reset"
+msgstr ""
+
+msgctxt "app"
+msgid "HeRAMS projects"
+msgstr ""
+
+msgctxt "app"
+msgid "Health Facilities"
+msgstr ""
+
+msgctxt "app"
+msgid "Health facilities"
+msgstr ""
+
+msgctxt "app"
+msgid "Import"
+msgstr ""
+
+msgctxt "app"
+msgid "Import pages"
+msgstr ""
+
+msgctxt "app"
+msgid "Import workspaces"
+msgstr ""
+
+msgctxt "app"
+msgid "In progress"
+msgstr ""
+
+msgctxt "app"
+msgid "Info"
+msgstr ""
+
+msgctxt "app"
+msgid "Is the service fully available"
+msgstr ""
+
+msgctxt "app"
+msgid "Lack of finances"
+msgstr ""
+
+msgctxt "app"
+msgid "Lack of health staff"
+msgstr ""
+
+msgctxt "app"
+msgid "Lack of medical equipment"
+msgstr ""
+
+msgctxt "app"
+msgid "Lack of medical supplies"
+msgstr ""
+
+msgctxt "app"
+msgid "Lack of training of health staff"
+msgstr ""
+
+msgctxt "app"
+msgid "Latest update"
+msgstr ""
+
+msgctxt "app"
+msgid "Log in to HeRAMS"
+msgstr ""
+
+msgctxt "app"
+msgid "Manage users"
+msgstr ""
+
+msgctxt "app"
+msgid "Manage workspaces"
+msgstr ""
+
+msgctxt "app"
+msgid "Map facility types for use in the world map"
+msgstr ""
+
+msgctxt "app"
+msgid "N/A"
+msgstr ""
+
+msgctxt "app"
+msgid "New email address"
+msgstr ""
+
+msgctxt "app"
+msgid "New password"
+msgstr ""
+
+msgctxt "app"
+msgid "New workspace"
+msgstr ""
+
+msgctxt "app"
+msgid "No"
+msgstr ""
+
+msgctxt "app"
+msgid "No data loaded"
+msgstr ""
+
+msgctxt "app"
+msgid "No extra information is available at this time"
+msgstr ""
+
+msgctxt "app"
+msgid "None"
+msgstr ""
+
+msgctxt "app"
+msgid "Not available"
+msgstr ""
+
+msgctxt "app"
+msgid "Not normally provided"
+msgstr ""
+
+msgctxt "app"
+msgid "Old email address"
+msgstr ""
+
+msgctxt "app"
+msgid "Page <strong>{page}</strong> created"
+msgstr ""
+
+msgctxt "app"
+msgid "Page <strong>{page}</strong> updated"
+msgstr ""
+
+msgctxt "app"
+msgid "Pages"
+msgstr ""
+
+msgctxt "app"
+msgid "Partial"
+msgstr ""
+
+msgctxt "app"
+msgid "Partially available"
+msgstr ""
+
+msgctxt "app"
+msgid "Password"
+msgstr ""
+
+msgctxt "app"
+msgid "Password changed"
+msgstr ""
+
+msgctxt "app"
+msgid "Password confirmation"
+msgstr ""
+
+msgctxt "app"
+msgid "Password update failed"
+msgstr ""
+
+msgctxt "app"
+msgid "Passwords don't match"
+msgstr ""
+
+msgctxt "app"
+msgid "Permission"
+msgstr ""
+
+msgctxt "app"
+msgid "Permissions"
+msgstr ""
+
+msgctxt "app"
+msgid "Please check your mailbox"
+msgstr ""
+
+msgctxt "app"
+msgid "Project <strong>{project}</strong> created"
+msgstr ""
+
+msgctxt "app"
+msgid "Project dashboard"
+msgstr ""
+
+msgctxt "app"
+msgid "Project status is shown on the world map"
+msgstr ""
+
+msgctxt "app"
+msgid "Project updated"
+msgstr ""
+
+msgctxt "app"
+msgid "Project {modelName} has been shared with: {users}"
+msgstr ""
+
+msgctxt "app"
+msgid "Projects"
+msgstr ""
+
+msgctxt "app"
+msgid "Question code containing the name (case sensitive)"
+msgstr ""
+
+msgctxt "app"
+msgid "Question code containing the type (case sensitive)"
+msgstr ""
+
+msgctxt "app"
+msgid "Refresh data from limesurvey"
+msgstr ""
+
+msgctxt "app"
+msgid "Refreshing data took {time} seconds; \n        {new} new records, \n        {updated} existing records, \n        {deleted} deleted records, \n        {unchanged} unchanged records, \n        {failed} invalid records"
+msgstr ""
+
+msgctxt "app"
+msgid "Repeat password"
+msgstr ""
+
+msgctxt "app"
+msgid "Report date"
+msgstr ""
+
+msgctxt "app"
+msgid "Request password reset"
+msgstr ""
+
+msgctxt "app"
+msgid "Reset password"
+msgstr ""
+
+msgctxt "app"
+msgid "Reset your password"
+msgstr ""
+
+msgctxt "app"
+msgid "Save"
+msgstr ""
+
+msgctxt "app"
+msgid "Send confirmation"
+msgstr ""
+
+msgctxt "app"
+msgid "Service availability"
+msgstr ""
+
+msgctxt "app"
+msgid "Share"
+msgstr ""
+
+msgctxt "app"
+msgid "Share workspace {workspace}"
+msgstr ""
+
+msgctxt "app"
+msgid "Share {project}"
+msgstr ""
+
+msgctxt "app"
+msgid "Sign up"
+msgstr ""
+
+msgctxt "app"
+msgid "Sign up for the HeRAMS platform"
+msgstr ""
+
+msgctxt "app"
+msgid "Success!"
+msgstr ""
+
+msgctxt "app"
+msgid "Survey"
+msgstr ""
+
+msgctxt "app"
+msgid "Survey default ({lang})"
+msgstr ""
+
+msgctxt "app"
+msgid "Survey {id} does not exist"
+msgstr ""
+
+msgctxt "app"
+msgid "The aggregate availability of services per HF"
+msgstr ""
+
+msgctxt "app"
+msgid "The page you are looking for doesn't exist"
+msgstr ""
+
+msgctxt "app"
+msgid "The token field that is used as the workspace name, empty token attributes are ignored"
+msgstr ""
+
+msgctxt "app"
+msgid "This link is no longer valid; your password has been changed since it was issued"
+msgstr ""
+
+msgctxt "app"
+msgid "This will reload the page losing all other changes!!"
+msgstr ""
+
+msgctxt "app"
+msgid "Token updated."
+msgstr ""
+
+msgctxt "app"
+msgid "Too many attempts, try again in {seconds} seconds"
+msgstr ""
+
+msgctxt "app"
+msgid "Unknown"
+msgstr ""
+
+msgctxt "app"
+msgid "Unknown email"
+msgstr ""
+
+msgctxt "app"
+msgid "Update"
+msgstr ""
+
+msgctxt "app"
+msgid "Update & go to dashboard"
+msgstr ""
+
+msgctxt "app"
+msgid "Update account"
+msgstr ""
+
+msgctxt "app"
+msgid "Update account information"
+msgstr ""
+
+msgctxt "app"
+msgid "Update data for {workspace}"
+msgstr ""
+
+msgctxt "app"
+msgid "Update element"
+msgstr ""
+
+msgctxt "app"
+msgid "Update page"
+msgstr ""
+
+msgctxt "app"
+msgid "Update password"
+msgstr ""
+
+msgctxt "app"
+msgid "Update project"
+msgstr ""
+
+msgctxt "app"
+msgid "Update token"
+msgstr ""
+
+msgctxt "app"
+msgid "Update workspace token"
+msgstr ""
+
+msgctxt "app"
+msgid "Update workspace {workspace}"
+msgstr ""
+
+msgctxt "app"
+msgid "User not found"
+msgstr ""
+
+msgctxt "app"
+msgid "User updated"
+msgstr ""
+
+msgctxt "app"
+msgid "Users"
+msgstr ""
+
+msgctxt "app"
+msgid "Validation failed"
+msgstr ""
+
+msgctxt "app"
+msgid "View dashboard"
+msgstr ""
+
+msgctxt "app"
+msgid "Warning!"
+msgstr ""
+
+msgctxt "app"
+msgid "We use this field to store the country for the project."
+msgstr ""
+
+msgctxt "app"
+msgid "We use this field to store the last name of the project owner."
+msgstr ""
+
+msgctxt "app"
+msgid "We will send a confirmation message to this address"
+msgstr ""
+
+msgctxt "app"
+msgid "We will send you a secure link to the reset form"
+msgstr ""
+
+msgctxt "app"
+msgid "We will send you a secure link to the sign up form"
+msgstr ""
+
+msgctxt "app"
+msgid "Whether this element needs data at facility (HF) or subject (service) level"
+msgstr ""
+
+msgctxt "app"
+msgid "Workspace <strong>{modelName}</strong> created"
+msgstr ""
+
+msgctxt "app"
+msgid "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>"
+msgstr ""
+
+msgctxt "app"
+msgid "Workspace <strong>{modelName}</strong> has been updated."
+msgstr ""
+
+msgctxt "app"
+msgid "Workspace {workspace}"
+msgstr ""
+
+msgctxt "app"
+msgid "Workspaces"
+msgstr ""
+
+msgctxt "app"
+msgid "Workspaces for {project}"
+msgstr ""
+
+msgctxt "app"
+msgid "World overview"
+msgstr ""
+
+msgctxt "app"
+msgid "Yes"
+msgstr ""
+
+msgctxt "app"
+msgid "You are not allowed to share this project"
+msgstr ""
+
+msgctxt "app"
+msgid "You do not have permission to change these values."
+msgstr ""
+
+msgctxt "app"
+msgid "Your account has been created"
+msgstr ""
+
+msgctxt "app"
+msgid "Your email address has already been changed"
+msgstr ""
+
+msgctxt "app"
+msgid "Your email address has been updated"
+msgstr ""
+
+msgctxt "app"
+msgid "Your password has been reset!"
+msgstr ""
+
+msgctxt "user"
+msgid "Are you sure you want to switch to this user for the rest of this Session?"
+msgstr ""
+
+msgctxt "user"
+msgid "Become this user"
+msgstr ""
+
+msgctxt "user"
+msgid "Hello"
+msgstr ""
+
+msgctxt "user"
+msgid "If you cannot click the link, please try pasting the text into your browser"
+msgstr ""
+
+msgctxt "user"
+msgid "If you did not make this request you can ignore this email"
+msgstr ""
+
+msgctxt "user"
+msgid "If you don't want to change your password or didn't request this, just ignore and delete this message"
+msgstr ""
+
+msgctxt "user"
+msgid "In order to complete your registration, please click the link below"
+msgstr ""
+
+msgctxt "user"
+msgid "In order to complete your request, please click the link below"
+msgstr ""
+
+msgctxt "user"
+msgid "Manage users"
+msgstr ""
+
+msgctxt "user"
+msgid "Please click the link below to complete your password reset"
+msgstr ""
+
+msgctxt "user"
+msgid "Please use the following link to log in"
+msgstr ""
+
+msgctxt "user"
+msgid "Thank you for signing up on {0}"
+msgstr ""
+
+msgctxt "user"
+msgid "The Prime Team"
+msgstr ""
+
+msgctxt "user"
+msgid "This email address has already been taken"
+msgstr ""
+
+msgctxt "user"
+msgid "To keep your account secure, please don't forward this email to anyone"
+msgstr ""
+
+msgctxt "user"
+msgid "To reset your password please follow this link:"
+msgstr ""
+
+msgctxt "user"
+msgid "We have generated a password for you"
+msgstr ""
+
+msgctxt "user"
+msgid "We have received a request to change the email address for your account on {0}"
+msgstr ""
+
+msgctxt "user"
+msgid "We have received a request to reset the password for your account on {0}"
+msgstr ""
+
+msgctxt "user"
+msgid "We have received a request to reset your {0} password"
+msgstr ""
+
+msgctxt "user"
+msgid "Your account on {0} has been created"
+msgstr ""
+
+msgctxt "user"
+msgid "Your {0} account has successfully been activated."
+msgstr ""
+
+msgctxt "user"
+msgid "{0, date, MMMM dd, YYYY HH:mm}"
+msgstr ""
+

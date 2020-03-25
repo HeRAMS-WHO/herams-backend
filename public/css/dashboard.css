@@ -131,40 +131,57 @@ a {
 }
 
 .user-menu {
+    --username-color: #fefefe;
+    --username-color-dark: #42424b;
+    --email-color: #bdbdbd;
+    --email-color-dark: #868686;
     padding: 10px;
-    padding-right: 20px;
-    background-color: var(--header-background-color);
     grid-area: user;
-    display: flex;
     align-items: center;
-    flex-direction: row-reverse;
-    text-align: right;
+    text-align: left;
     font-size: 30px;
     color: var(--header-color);
+    background-color: var(--header-background-color);
+}
+
+.user-menu > div {
+    display: inline-block
 }
 
 .user-menu a, .user-menu a:visited, .user-menu a:hover {
     text-decoration: inherit;
     color: inherit;
+    display: inline-block;
 }
 
 .user-menu img {
     max-height: 50px;
     border-radius: 50%;
 }
-
-.user-menu .name {
-    color: inherit;
+.user-menu .name{
+    color: var(--username-color);
     text-decoration: none;
     text-transform: uppercase;
-    font-weight: 700;
-    font-size: 0.9rem;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
 }
 
 .user-menu .email {
-    color: #b3b1b8;
-    font-weight: 600;
-    font-size: 0.7rem;
+    color: var(--email-color);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+}
+body.no-title .user-menu {
+    z-index: 10001;
+    background-color: transparent;
+}
+body.no-title .user-menu .name {
+    color: var(--username-color-dark);
+}
+body.no-title .user-menu .email {
+    color: var(--email-color-dark);
 }
 
 .user-menu>* {
@@ -534,8 +551,14 @@ body {
         margin-bottom: 33px;
     }
     body {
-        background: linear-gradient( to bottom, var(--header-background-color) 0%, var(--header-background-color) 230px, var(--main-background-color) 230px, var(--main-background-color) 100%);
-        grid-template-columns: 60vw 40vw;
+        background: linear-gradient(
+            to bottom,
+            var(--header-background-color) 0%,
+            var(--header-background-color) 230px,
+            var(--main-background-color) 230px,
+            var(--main-background-color) 100%)
+    ;
+        grid-template-columns: 65vw 35vw;
         grid-template-rows: auto auto auto minmax(400px, 1fr);
         grid-template-areas: "title user" "sidebar sidebar" "filters filters" "main main";
     }
@@ -555,6 +578,18 @@ body {
         grid-column: span 2;
         grid-row: span 2;
     }
+
+    .user-menu {
+        text-align: right;
+        padding: 20px 10px 20px 0;  
+    }
+
+    body.no-title .user-menu {
+        position: fixed;
+        right: 0;
+        top: 0;
+    }
+
 }
 
 /**
@@ -562,14 +597,6 @@ body {
 */
 
 @media (min-width: 800px) {
-    body.no-title .user-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        background-color: transparent;
-        color: #42424b;
-        z-index: 1000;
-    }
     body {
         background: linear-gradient( to bottom, var(--header-background-color) 0%, var(--header-background-color) 130px, var(--main-background-color) 130px, var(--main-background-color) 100%);
         grid-template-rows: auto auto 1fr;

@@ -89,6 +89,8 @@
         "cli": "docker-compose run --rm cli",
         "lint": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcs",
         "lint-fix": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcbf",
+        "lint-u": "git diff-index --name-only HEAD | xargs -r vendor/bin/phpcs",
+        "lint-ufix": "git diff-index --name-only HEAD | xargs -r vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse src",
         "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",

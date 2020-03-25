@@ -3,7 +3,6 @@
 
 namespace prime\commands;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
@@ -18,7 +17,7 @@ class CacheController extends \yii\console\controllers\CacheController
     public function actionResync(LimesurveyDataProvider $limesurveyDataProvider, LimesurveyDataLoader $dataLoader)
     {
         /** @var Project $project */
-        foreach(Project::find()->each() as $project) {
+        foreach (Project::find()->each() as $project) {
             $this->stdout("Removing all responses for project {$project->title}\n", Console::FG_CYAN);
             Response::deleteAll([
                 'workspace_id' => $project->getWorkspaces()->select('id')
@@ -35,7 +34,7 @@ class CacheController extends \yii\console\controllers\CacheController
     public function actionWarmup(LimesurveyDataProvider $limesurveyDataProvider)
     {
         /** @var Project $project */
-        foreach(Project::find()->each() as $project) {
+        foreach (Project::find()->each() as $project) {
             $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);
             try {
                 $this->warmupProject($limesurveyDataProvider, $project);
@@ -43,7 +42,6 @@ class CacheController extends \yii\console\controllers\CacheController
                 $this->stderr($t->getMessage(), Console::FG_RED);
             }
         }
-
     }
 
     public function actionWarmupSurvey(LimesurveyDataProvider $limesurveyDataProvider, int $id)
@@ -76,7 +74,7 @@ class CacheController extends \yii\console\controllers\CacheController
             $this->stdout("Starting cache warmup for workspace {$workspace->title}..\n", Console::FG_CYAN);
             $this->stdout("Checking responses for workspace {$workspace->title}..", Console::FG_CYAN);
             $ids = [];
-            foreach($limesurveyDataProvider->refreshResponsesByToken($project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+            foreach ($limesurveyDataProvider->refreshResponsesByToken($project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
                 $key = [
                     'id' => $response->getId(),
                     'survey_id' => $response->getSurveyId()
@@ -97,10 +95,15 @@ class CacheController extends \yii\console\controllers\CacheController
             }
             // Remove old records
             Response::deleteAll([
-                'survey_id' => $project->base_survey_eid,
-                'id' => ['not', $ids],
-                'workspace_id' => $workspace->id
+                'and',
+                [
+                    'survey_id' => $project->base_survey_eid,
+                    'workspace_id' => $workspace->id,
+                ],
+                ['not in', 'id', $ids],
+
             ]);
+
             $this->stdout("OK\n", Console::FG_GREEN);
         }
 

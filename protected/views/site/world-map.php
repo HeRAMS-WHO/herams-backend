@@ -21,7 +21,7 @@ $this->params['body'] = [
 ];
 // Order projects by status.
 $collections = [];
-foreach($projects->getModels() as $project) {
+foreach ($projects->getModels() as $project) {
     if (!isset($collections[$project->status])) {
         $collections[$project->status] = [
             "type" => "FeatureCollection",
@@ -38,6 +38,7 @@ foreach($projects->getModels() as $project) {
         "properties" => [
             'id' => $project->id,
             'title' => $project->getDisplayField(),
+            'url' => \yii\helpers\Url::to(['/api/project/summary', 'id' => $project->id]),
             'popup' => Html::tag('iframe', '', [
                 'src' => \yii\helpers\Url::to(['project/summary', 'id' => $project->id]),
             ])
@@ -51,23 +52,14 @@ SideMenu::begin([
 ]);
 
 /** @var \prime\models\ar\Project $project */
-foreach($projects->getModels() as $project) {
+foreach ($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
             'id' => $project->id,
-            'facilityCount' => $project->facilityCount,
-            'contributorCount' => $project->contributorCount,
-            'status' => $project->status,
-            'typeCounts' => $project->getTypeCounts(),
-            'functionalityCounts' => $project->getFunctionalityCounts(),
-            'availabilityCounts' => $project->getSubjectAvailabilityCounts()
-
-
         ]
     ]);
-
 }
-if (app()->user->can(Permission::PERMISSION_ADMIN)) {
+if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
     echo Html::a('New project', ['project/create'], [
         'style' => [
             'color' => '#737373'
@@ -108,32 +100,3 @@ echo Map::widget([
     ],
     'data' => $collections
 ]);
-
-?>
-<style>
-    .leaflet-popup-content {
-        margin: 0;
-        /*background-image: url('/img/loader.svg');*/
-        /*background-repeat: no-repeat;*/
-        /*background-position: center;*/
-        background-color: #42424b;
-
-        padding-bottom: 10px;
-
-    }
-    .leaflet-popup-content-wrapper {
-        overflow: hidden;
-        padding: 0;
-
-    }
-
-    iframe {
-        box-sizing: border-box;
-        max-width: 500px;
-        border-width: 0;
-        width: 400px;
-        min-width: 300px;
-        min-height: 350px;
-        overflow: hidden;
-    }
-</style>
