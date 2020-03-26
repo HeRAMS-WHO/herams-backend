@@ -323,11 +323,11 @@ class Project extends ActiveRecord
 
         foreach ($query->column() as $type => $count) {
             if (empty($map)) {
-                $counts[$type] = ($counts[$type] ?? 0) + 1;
+                $counts[$type] = ($counts[$type] ?? 0) + $count;
             } elseif (isset($map[$type])) {
-                $counts[$map[$type]]++;
+                $counts[$map[$type]] += $count;
             } else {
-                $counts[$map[HeramsResponseInterface::UNKNOWN_VALUE]]++;
+                $counts[$map[HeramsResponseInterface::UNKNOWN_VALUE]] += $count;
             }
         }
 
