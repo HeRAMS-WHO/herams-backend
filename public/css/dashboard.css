@@ -451,7 +451,7 @@ body {
             var(--main-background-color) 230px,
             var(--main-background-color) 100%)
     ;
-        grid-template-columns: 60vw 40vw;
+        grid-template-columns: 65vw 35vw;
         grid-template-rows: auto auto auto minmax(400px, 1fr);
         grid-template-areas:
             "title user"
@@ -481,20 +481,22 @@ body {
         grid-row: span 2;
     }
 
+    .user-menu {
+        text-align: right;
+        padding: 20px 10px 20px 0;  
+    }
+
+    body.no-title .user-menu {
+        position: fixed;
+        right: 0;
+        top: 0;
+    }
 }
 
 /**
  3 column layout.
 */
 @media (min-width: 800px) {
-    body.no-title .user-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        background-color: transparent;
-        color: #42424b;
-        z-index: 1000;
-    }
     body {
         background: linear-gradient(
                 to bottom,

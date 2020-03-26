@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
-
 use GuzzleHttp\Psr7\Stream;
 use prime\helpers\ClosureColumn;
 use prime\helpers\DataTextColumn;
@@ -11,6 +10,7 @@ use prime\helpers\GetterColumn;
 use prime\helpers\RawDataColumn;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
+use prime\interfaces\WriterInterface;
 use prime\models\ar\Response;
 use prime\objects\HeramsCodeMap;
 use prime\queries\ResponseQuery;
@@ -26,7 +26,7 @@ use yii\validators\RangeValidator;
 use function iter\map;
 use function iter\toArray;
 
-class CsvExport extends Model
+class Export extends Model
 {
     private const DEFAULT_LANGUAGE = 'default';
     public $includeTextHeader = true;
@@ -85,19 +85,18 @@ class CsvExport extends Model
 //            return null;
 //
 //        }, 'external_url', 'External URL');
-        yield new ClosureColumn(static function(HeramsResponseInterface $response): ?string {
+        yield new ClosureColumn(static function (HeramsResponseInterface $response): ?string {
             return $response->last_updated ?? null;
         }, 'last_synced', 'Last synced');
 
         if ($this->answersAsText) {
-            yield new ClosureColumn(static function(HeramsResponseInterface $response): string {
+            yield new ClosureColumn(static function (HeramsResponseInterface $response): string {
                 return (string) $response->workspace->title;
             }, 'workspace_id', 'Workspace ID');
         } else {
-            yield new ClosureColumn(static function(HeramsResponseInterface $response): string {
+            yield new ClosureColumn(static function (HeramsResponseInterface $response): string {
                 return (string) $response->workspace_id;
             }, 'workspace_id', 'Workspace ID');
-
         }
         yield new GetterColumn('subjectId', 'Subject ID');
         yield new GetterColumn('date', 'Date');
@@ -105,31 +104,33 @@ class CsvExport extends Model
         /** @var QuestionInterface[] $questions */
 
         $groups = $survey->getGroups();
-        usort($groups, function(GroupInterface $a, GroupInterface $b) {
+        usort($groups, function (GroupInterface $a, GroupInterface $b) {
             return $a->getIndex() <=> $b->getIndex();
         });
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             $questions = $group->getQuestions();
-            usort($questions, function(QuestionInterface $a, QuestionInterface $b) {
+            usort($questions, function (QuestionInterface $a, QuestionInterface $b) {
                 return $a->getIndex() <=> $b->getIndex();
             });
-            foreach($questions as $question) {
+            foreach ($questions as $question) {
                 // Don't add column for UOID
-                if (in_array($question->getTitle(), ['UOID', 'Update'])) continue;
+                if (in_array($question->getTitle(), ['UOID', 'Update'])) {
+                    continue;
+                }
                 switch ($question->getDimensions()) {
                     case 0:
                         yield $this->answersAsText ? new DataTextColumn($question) : new RawDataColumn($question);
                         break;
                     case 1:
-                        foreach($question->getQuestions(0) as $subQuestion) {
+                        foreach ($question->getQuestions(0) as $subQuestion) {
                             yield $this->answersAsText
                                 ? new DataTextColumn($question, $subQuestion)
                                 : new RawDataColumn($question, $subQuestion);
                         }
                         break;
                     case 2:
-                        foreach($question->getQuestions(0) as $xQuestion) {
-                            foreach($xQuestion->getQuestions(0) as $yQuestion) {
+                        foreach ($question->getQuestions(0) as $xQuestion) {
+                            foreach ($xQuestion->getQuestions(0) as $yQuestion) {
                                 yield $this->answersAsText
                                     ? new DataTextColumn($question, $xQuestion, $yQuestion)
                                     : new RawDataColumn($question, $xQuestion, $yQuestion);
@@ -144,31 +145,12 @@ class CsvExport extends Model
     }
 
     /**
-     * @param $stream
-     * @return int
-     */
-    private function writeTextHeader($stream, ColumnDefinition ...$columns): int
-    {
-        return $this->fputcsv($stream, map(static function(ColumnDefinition $column): string {
-           return $column->getHeaderText();
-        }, $columns));
-    }
-
-    private function writeCodeHeader($stream, ColumnDefinition ...$columns): int
-    {
-        return $this->fputcsv($stream, map(static function(ColumnDefinition $column): string {
-            return $column->getHeaderCode();
-        }, $columns));
-    }
-
-    /**
      * @throws NotSupportedException
      */
     public function run(
+        WriterInterface $writer,
         ResponseQuery $responseQuery
-    ): StreamInterface {
-        $size = 0;
-        $file = fopen('php://temp', 'w');
+    ): void {
 
         $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 
@@ -182,39 +164,22 @@ class CsvExport extends Model
         $columns = toArray($this->getColumns($survey));
 
         if ($this->includeTextHeader) {
-            $size += $this->writeTextHeader($file, ...$columns);
+            $writer->writeTextHeader(...$columns);
         }
 
         if ($this->includeCodeHeader) {
-            $size += $this->writeCodeHeader($file, ...$columns);
+            $writer->writeCodeHeader(...$columns);
         }
 
-        foreach($query->each() as $record) {
-            $size += $this->writeRecord($file, $record, ...$columns);
+        foreach ($query->each() as $record) {
+            $writer->writeRecord($record, ...$columns);
         }
-        return new Stream($file, ['size' => $size]);
-    }
-
-    private function fputcsv($resource, iterable $data): int
-    {
-        $result = fputcsv($resource, is_array($data) ? $data : toArray($data));
-        if ($result === false) {
-            throw new \RuntimeException('Write failed');
-        }
-        return $result;
-    }
-
-    private function writeRecord($stream, HeramsResponseInterface $record, ColumnDefinition ...$columns): int
-    {
-        return $this->fputcsv($stream, map(static function(ColumnDefinition $column) use ($record) {
-            return $column->getValue($record);
-        }, $columns));
     }
 
     public function getLanguages(): array
     {
         $codes = $this->survey->getLanguages();
-        $names = toArray(map(static function(string $code): string {
+        $names = toArray(map(static function (string $code): string {
             return \Locale::getDisplayLanguage($code);
         }, $codes));
 
@@ -223,5 +188,4 @@ class CsvExport extends Model
             'lang' => $result[$this->survey->getDefaultLanguage()]
         ])], $result);
     }
-
 }
