@@ -96,9 +96,9 @@ class ProjectController extends Controller
                     'class' => ContentNegotiator::class,
                     'only' => ['export'],
                     'formats' => [
+                        'text/html' => 'html',
                         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
                         'text/csv' => 'csv',
-                        'text/html' => 'html'
                     ]
                 ],
                 'access' => [

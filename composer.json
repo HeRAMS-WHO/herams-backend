@@ -97,15 +97,20 @@
         "stan": "phpstan analyse src",
         "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
         "post-install-cmd": "cghooks add --ignore-lock",
-        "post-update-cmd": "cghooks update"
+        "post-update-cmd": "cghooks update",
+        "dlint-fix": "docker-compose run --rm --user=$(id -u):$(id -g) composer lint-fix",
+        "git-pre-commit": ["composer dlint-fix"],
+        "git-post-merge": [
+            "composer install"
+        ]
     },
     "extra": {
         "hooks": {
             "pre-commit": [
-                "git diff --name-only --cached HEAD | xargs -r vendor/bin/phpcs"
+                "composer git-pre-commit"
             ],
             "post-merge": [
-                "composer install"
+                "composer git-post-merge"
             ]
         }
     }

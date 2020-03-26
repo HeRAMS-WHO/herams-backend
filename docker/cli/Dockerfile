@@ -1,5 +1,6 @@
 FROM php:alpine
 RUN php --version && sleep 10
+RUN apk add --update --no-cache git
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 RUN install-php-extensions \
