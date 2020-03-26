@@ -146,14 +146,21 @@ HTML;
                                             '<div class="stat">' +
                                                 json.contributorCount +
                                             ' Contributors</div>' +
-                                            '<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
+                                            '<hr/>' +
+                                            //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
+                                            '<div class="chart"><canvas id="chart1"></div>' +
                                             '<div class="chart"></div>' +
                                             '<div class="chart"></div>' +
-                                            '<a href="/project/'+json.id+'">Détails</a>' +
+                                            '<a href="/project/'+json.id+'">Dashboard</a>' +
+                                            '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
                                         '</div>' +
                                         '</div>'
                                         );
                                         popup.update();
+
+                                    
+                                        let canvas = document.getElementById('chart3').getContext('2d');
+                                       
                                     });
                                 fetched = true;
                                 let event = new Event('mapPopupOpen');
