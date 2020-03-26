@@ -175,12 +175,13 @@ a:hover {
 .project-summary .grid {
     display: grid;
     margin-top: 1em;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
     grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: auto 200px auto;
+    grid-template-rows: auto auto 200px auto;
     grid-template-areas:
         "stat stat stat stat stat stat"
+        "line line line line line line"
         "chart chart chart chart chart chart"
         "button button button button button button"
 ;
@@ -194,12 +195,42 @@ a:hover {
     text-transform: uppercase;
     background-color: var(--header-background-color);
     text-align: center;
+    font-weight: 500;
+    color: var(--color);
+    font-size: 24px;
+    line-height: 24px;
+    padding: 7px 0;
 }
 
 .project-summary .stat {
     grid-area: stat;
     grid-column: span 3;
     text-align: center;
+    font-weight: 300;
+    border-left: 1px solid #6a696e;
+}
+
+.project-summary .stat:first-child {
+    border-left: none !important;
+}
+.project-summary .stat svg {
+    margin-right: 5px;
+}
+
+.project-summary .stat b {
+    margin-right: 5px;
+    font-size: 19px;
+    line-height: 15px;
+}
+
+.project-summary  hr {
+    grid-area: line;
+    grid-column: span 6;
+    width: 100%;
+    height: 1px;
+    border: none;
+    background: #6a696e;
+    margin: 0;
 }
 
 .project-summary .chart {
@@ -215,19 +246,35 @@ a:hover {
 
 .project-summary a {
     grid-area: button;
-    grid-column: span 6;
+    grid-column: span 2;
     background-color: var(--primary-button-background-color);
     font-weight: 400;
     text-align: center;
     font-size: 1rem;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 0.25rem;
+    padding: 8px 10px;
+    border-radius: 5px;
     text-decoration: none;
     color: inherit;
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.project-summary a:hover {
+    background-color: var(--primary-button-hover-color);
+    transition: background 0.2s;
+}
+.project-summary a:first-of-type {
+    grid-column: span 4;
 }
 
 .project-summary a:hover, .project-summary a:visited, .project-summary a:active {
     color: inherit;
     text-decoration: inherit;
+}
+
+.project-summary a svg {
+    margin-right: 5px;
+
 }
