@@ -8,6 +8,7 @@ use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
+use prime\widgets\chart\ChartBundle;
 
 class Map extends Widget
 {
@@ -55,14 +56,11 @@ class Map extends Widget
     private function renderPopupLoader(): string
     {
         return <<<HTML
-    <div style="
-        background-image: url('/img/loader.svg');
-        background-repeat: no-repeat;
-        background-position: center;
-    ">
-    <h1>Loading popup</h1>
-        <p>We're getting your summary ready...</p>
-    </div>
+        <div class="loader-wrapper">
+            <h1>Loading project summary</h1>
+            <p>We're getting your summary ready...</p>
+            <div class="loader-anim" style="background-image: url('/img/loader.svg');"></div>
+        </div>
 HTML;
     }
 
@@ -102,6 +100,7 @@ HTML;
                             break;
                     }
                 }
+                
                 // /*
                 let bounds = [];
                 let data = $data;
@@ -135,7 +134,6 @@ HTML;
                                 fetch(feature.properties.url)
                                     .then((r) => r.json())
                                     .then((json) => {
-                                        console.log(json);
                                         popup.setContent(
                                         '<div class="project-summary">' + 
                                         '<h1>' + json.title + '</h1>' +
@@ -149,8 +147,8 @@ HTML;
                                             '<hr/>' +
                                             //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
                                             '<div class="chart"><canvas id="chart1"></div>' +
-                                            '<div class="chart"></div>' +
-                                            '<div class="chart"></div>' +
+                                            '<div class="chart"><canvas id="chart2"></div>' +
+                                            '<div class="chart"><canvas id="chart3"></div>' +
                                             '<a href="/project/'+json.id+'">Dashboard</a>' +
                                             '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
                                         '</div>' +
@@ -158,10 +156,52 @@ HTML;
                                         );
                                         popup.update();
 
-                                    
-                                        let canvas = document.getElementById('chart1').getContext('2d');
-                                       
-                                    });
+                                        console.log(json);
+                                        var values,bgColor,icon,title,jsonConfig,canvas;
+
+                                        var types = Object.keys(json.typeCounts);
+                                        if(types.length > 0) {    
+                                            values = [];
+                                            types.forEach(function(type) {
+                                                values.push(json.typeCounts[type]+" "+type);
+                                            })
+                                            bgColor = chroma.scale(['blue', 'white']).colors(types.length);
+                                            icon = "\u{e90b}";
+                                            title = "Type";
+                                            jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
+                                            canvas = document.getElementById('chart1').getContext('2d');
+                                            new Chart(canvas, jsonConfig);
+                                        }
+
+                                        types = Object.keys(json.subjectAvailabilityCounts);
+                                        if(types.length > 0) {   
+                                            values = [];
+                                            types.forEach(function(type) {
+                                                values.push(json.subjectAvailabilityCounts[type]+" "+type);
+                                            })
+                                            bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
+                                            icon = "\u{e90a}";
+                                            title = 'Functionality';
+                                            jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
+                                            canvas = document.getElementById('chart2').getContext('2d');
+                                            new Chart(canvas, jsonConfig);
+                                        }
+
+                                        types = Object.keys(json.functionalityCounts);
+                                        if(types.length > 0) {   
+                                            values = [];
+                                            types.forEach(function(type) {
+                                                values.push(json.functionalityCounts[type]+" "+type);
+                                            })
+                                            bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
+                                            icon = "\u{e901}";
+                                            title = 'Service availability';
+                                            jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
+                                            canvas = document.getElementById('chart3').getContext('2d');
+                                            new Chart(canvas, jsonConfig);
+                                        }
+
+                                });
                                 fetched = true;
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
@@ -230,6 +270,61 @@ HTML;
             } catch(error) {
                 console.error("Error in map widget JS", error);
             }
+
+            function getCanvasConfig(types,bgColor,values,icon,title) {
+                var jsonConfig = 
+                {
+                    'type' : 'doughnut',
+                    'data': {
+                        'datasets' : [
+                            {
+                                'data' : types,
+                                'backgroundColor' : bgColor,
+                                'label' : 'Types'
+                            }],
+                        'labels' : values
+                    },
+                    'options' : {
+                        'tooltips' : {
+                                'enabled' : false,
+                        },
+                        'elements' : {
+                            'arc' : {
+                                'borderWidth': 0
+                            },
+                            'center': {
+                                'sidePadding': 40,
+                                'color': '#a5a5a5',
+                                'fontWeight': "normal",
+                                'fontStyle': "icomoon",
+                                // Facility
+                                'text': icon
+                            }
+                        },
+                        'cutoutPercentage': 95,
+                        'responsive': true,
+                        'maintainAspectRatio': false,
+                        'legend': {
+                            'display': true,
+                            'position': 'bottom',
+                            'labels': {
+                                'boxWidth': 12,
+                                'fontSize': 12,
+                            }
+                        },
+                        'title': {
+                            'display': true,
+                            'text': title
+                        },
+                        'animation': {
+                            'animateScale': true,
+                            'animateRotate': true
+                        }
+                    }
+                };
+                return jsonConfig;
+            }
+
         })();
 
 JS
@@ -241,6 +336,7 @@ JS
 
     protected function registerClientScript()
     {
+        $this->view->registerAssetBundle(ChartBundle::class);
         $this->view->registerAssetBundle(MapBundle::class);
     }
 }
