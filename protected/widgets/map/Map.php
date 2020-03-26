@@ -140,12 +140,12 @@ HTML;
                                         '<div class="project-summary">' + 
                                         '<h1>' + json.title + '</h1>' +
                                         '<div class="grid">' +
-                                            '<div class="stat">' +
+                                            '<div class="stat"><strong>' +
                                                 json.facilityCount +
-                                            ' Health facilities</div>' +
-                                            '<div class="stat">' +
+                                            '</strong> Health facilities</div>' +
+                                            '<div class="stat"><strong>' +
                                                 json.contributorCount +
-                                            ' Contributors</div>' +
+                                            '</strong> Contributors</div>' +
                                             '<hr/>' +
                                             //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
                                             '<div class="chart"><canvas id="chart1"></div>' +
@@ -159,7 +159,7 @@ HTML;
                                         popup.update();
 
                                     
-                                        let canvas = document.getElementById('chart3').getContext('2d');
+                                        let canvas = document.getElementById('chart1').getContext('2d');
                                        
                                     });
                                 fetched = true;

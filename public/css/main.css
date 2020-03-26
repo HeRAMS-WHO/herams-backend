@@ -146,18 +146,19 @@ a:hover {
 
 
 
-
-.leaflet-popup .leaflet-popup-content-wrapper {
+.leaflet-popup {
     --header-background-color: #212529;
     --primary-button-background-color: #4177c1;
     --primary-button-hover-color: #3f86e6;
     --color: #eeeeee;
     --background-color: #42424b;
+}
+
+.leaflet-popup .leaflet-popup-content-wrapper {
     margin: 0;
     background-color: var(--background-color);
     color: var(--color);
     font-family: "Source Sans Pro", sans-serif;
-
     box-sizing: border-box;
     max-width: 500px;
     border-width: 0;
@@ -170,6 +171,10 @@ a:hover {
 .leaflet-popup .leaflet-popup-content {
     margin: 0;
     padding: 0;
+}
+
+.leaflet-popup .leaflet-popup-tip {
+    background: var(--background-color);
 }
 
 .project-summary .grid {
@@ -209,6 +214,7 @@ a:hover {
     text-align: center;
     font-weight: 300;
     border-left: 1px solid #6a696e;
+    font-size: 15px;
 }
 
 .project-summary .stat:first-child {
