@@ -129,11 +129,15 @@ HTML;
                             // On the first open fetch remote content
                             marker.on('popupopen', function() {
                                 if (fetched) {
+                                    console.log(feature);
+                                    loadChartsForCountry(feature.json);
                                     return;
                                 }
                                 fetch(feature.properties.url)
                                     .then((r) => r.json())
                                     .then((json) => {
+                                        feature.json = json;
+                                        
                                         popup.setContent(
                                         '<div class="project-summary">' + 
                                         '<h1>' + json.title + '</h1>' +
@@ -155,52 +159,7 @@ HTML;
                                         '</div>'
                                         );
                                         popup.update();
-
-                                        console.log(json);
-                                        var values,bgColor,icon,title,jsonConfig,canvas;
-
-                                        var types = Object.keys(json.typeCounts);
-                                        if(types.length > 0) {    
-                                            values = [];
-                                            types.forEach(function(type) {
-                                                values.push(json.typeCounts[type]+" "+type);
-                                            })
-                                            bgColor = chroma.scale(['blue', 'white']).colors(types.length);
-                                            icon = "\u{e90b}";
-                                            title = "Type";
-                                            jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
-                                            canvas = document.getElementById('chart1').getContext('2d');
-                                            new Chart(canvas, jsonConfig);
-                                        }
-
-                                        types = Object.keys(json.subjectAvailabilityCounts);
-                                        if(types.length > 0) {   
-                                            values = [];
-                                            types.forEach(function(type) {
-                                                values.push(json.subjectAvailabilityCounts[type]+" "+type);
-                                            })
-                                            bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
-                                            icon = "\u{e90a}";
-                                            title = 'Functionality';
-                                            jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
-                                            canvas = document.getElementById('chart2').getContext('2d');
-                                            new Chart(canvas, jsonConfig);
-                                        }
-
-                                        types = Object.keys(json.functionalityCounts);
-                                        if(types.length > 0) {   
-                                            values = [];
-                                            types.forEach(function(type) {
-                                                values.push(json.functionalityCounts[type]+" "+type);
-                                            })
-                                            bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
-                                            icon = "\u{e901}";
-                                            title = 'Service availability';
-                                            jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
-                                            canvas = document.getElementById('chart3').getContext('2d');
-                                            new Chart(canvas, jsonConfig);
-                                        }
-
+                                        loadChartsForCountry(feature.json);
                                 });
                                 fetched = true;
                                 let event = new Event('mapPopupOpen');
@@ -269,6 +228,52 @@ HTML;
                 });
             } catch(error) {
                 console.error("Error in map widget JS", error);
+            }
+
+            function loadChartsForCountry(json) {
+                var values,bgColor,icon,title,jsonConfig,canvas;
+                            
+                var types = Object.keys(json.typeCounts);
+                if(types.length > 0) {    
+                    values = [];
+                    types.forEach(function(type) {
+                        values.push(json.typeCounts[type]+" "+type);
+                    })
+                    bgColor = chroma.scale(['blue', 'white']).colors(types.length);
+                    icon = "\u{e90b}";
+                    title = "Type";
+                    jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
+                    canvas = document.getElementById('chart1').getContext('2d');
+                    new Chart(canvas, jsonConfig);
+                }
+
+                types = Object.keys(json.subjectAvailabilityCounts);
+                if(types.length > 0) {   
+                    values = [];
+                    types.forEach(function(type) {
+                        values.push(json.subjectAvailabilityCounts[type]+" "+type);
+                    })
+                    bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
+                    icon = "\u{e90a}";
+                    title = 'Functionality';
+                    jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
+                    canvas = document.getElementById('chart2').getContext('2d');
+                    new Chart(canvas, jsonConfig);
+                }
+
+                types = Object.keys(json.functionalityCounts);
+                if(types.length > 0) {   
+                    values = [];
+                    types.forEach(function(type) {
+                        values.push(json.functionalityCounts[type]+" "+type);
+                    })
+                    bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
+                    icon = "\u{e901}";
+                    title = 'Service availability';
+                    jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
+                    canvas = document.getElementById('chart3').getContext('2d');
+                    new Chart(canvas, jsonConfig);
+                }
             }
 
             function getCanvasConfig(types,bgColor,values,icon,title) {
