@@ -136,7 +136,7 @@ HTML;
                                     .then((r) => r.json())
                                     .then((json) => {
                                         
-                                        popup.setContent('<pre>' + JSON.stringify(json) + '</pre>');
+                                        popup.setContent('<pre>' + JSON.stringify(json, null, 2) + '</pre>');
                                         popup.update();
                                     });
                                 fetched = true;
