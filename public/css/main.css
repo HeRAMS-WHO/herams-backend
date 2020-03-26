@@ -140,3 +140,94 @@ a:hover {
         padding: 30px 10px 100px 10px;
     }
 }
+
+
+
+
+
+
+
+.leaflet-popup .leaflet-popup-content-wrapper {
+    --header-background-color: #212529;
+    --primary-button-background-color: #4177c1;
+    --primary-button-hover-color: #3f86e6;
+    --color: #eeeeee;
+    --background-color: #42424b;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--color);
+    font-family: "Source Sans Pro", sans-serif;
+
+    box-sizing: border-box;
+    max-width: 500px;
+    border-width: 0;
+    width: 400px;
+    min-width: 300px;
+    min-height: 350px;
+    overflow: hidden;
+}
+
+.leaflet-popup .leaflet-popup-content {
+    margin: 0;
+    padding: 0;
+}
+
+.project-summary .grid {
+    display: grid;
+    margin-top: 1em;
+    margin-left: 10px;
+    margin-right: 10px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto 200px auto;
+    grid-template-areas:
+        "stat stat stat stat stat stat"
+        "chart chart chart chart chart chart"
+        "button button button button button button"
+;
+
+    grid-row-gap: 1em;
+    grid-column-gap: 1em;
+}
+
+.project-summary h1 {
+    margin: 0;
+    text-transform: uppercase;
+    background-color: var(--header-background-color);
+    text-align: center;
+}
+
+.project-summary .stat {
+    grid-area: stat;
+    grid-column: span 3;
+    text-align: center;
+}
+
+.project-summary .chart {
+    grid-area: chart;
+    grid-column: span 2;
+    height: 200px;
+    overflow: hidden;
+}
+
+.project-summary .chart canvas {
+    height: 100%;
+}
+
+.project-summary a {
+    grid-area: button;
+    grid-column: span 6;
+    background-color: var(--primary-button-background-color);
+    font-weight: 400;
+    text-align: center;
+    font-size: 1rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.project-summary a:hover, .project-summary a:visited, .project-summary a:active {
+    color: inherit;
+    text-decoration: inherit;
+}

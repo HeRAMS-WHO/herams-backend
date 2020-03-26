@@ -135,8 +135,24 @@ HTML;
                                 fetch(feature.properties.url)
                                     .then((r) => r.json())
                                     .then((json) => {
-                                        
-                                        popup.setContent('<pre>' + JSON.stringify(json, null, 2) + '</pre>');
+                                        console.log(json);
+                                        popup.setContent(
+                                        '<div class="project-summary">' + 
+                                        '<h1>' + json.title + '</h1>' +
+                                        '<div class="grid">' +
+                                            '<div class="stat">' +
+                                                json.facilityCount +
+                                            ' Health facilities</div>' +
+                                            '<div class="stat">' +
+                                                json.contributorCount +
+                                            ' Contributors</div>' +
+                                            '<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
+                                            '<div class="chart"></div>' +
+                                            '<div class="chart"></div>' +
+                                            '<a href="/project/'+json.id+'">Détails</a>' +
+                                        '</div>' +
+                                        '</div>'
+                                        );
                                         popup.update();
                                     });
                                 fetched = true;
