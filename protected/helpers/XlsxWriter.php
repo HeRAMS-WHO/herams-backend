@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
+use GuzzleHttp\Psr7\LazyOpenStream;
 use GuzzleHttp\Psr7\Stream;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -70,12 +71,10 @@ class XlsxWriter implements WriterInterface
     public function getStream(): StreamInterface
     {
         $writer = new Xlsx($this->file);
-        ob_start();
-        $writer->save('php://output');
-        $data = ob_get_clean();
-        $result =  stream_for($data, ['size' => strlen($data)]);
+        $tmpfile = tempnam(sys_get_temp_dir(), 'xlsx');
+        $writer->save($tmpfile);
         $this->reset();
-        return $result;
+        return new LazyOpenStream($tmpfile, 'r');
     }
 
     public function getMimeType(): string
