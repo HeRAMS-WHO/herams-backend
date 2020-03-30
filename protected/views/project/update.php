@@ -19,60 +19,54 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="col-xs-12">
-    <?php
-    $form = ActiveForm::begin([
-        'method' => 'PUT',
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-    ]);
 
-    echo Form::widget([
-        'form' => $form,
-        'model' => $model,
-        'columns' => 1,
-        "attributes" => [
-            'title' => [
-                'type' => Form::INPUT_TEXT,
-            ],
-            'latitude' => [
-                'type' => Form::INPUT_TEXT
-            ],
-            'longitude' => [
-                'type' => Form::INPUT_TEXT
-            ],
-            'status' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->statusOptions()
-            ],
-            'visibility' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->visibilityOptions()
-            ],
-            'typemapAsJson' => [
-                'type' => Form::INPUT_TEXTAREA,
-                'options' => [
-                    'rows' => 10
-                ]
-            ],
-            'overridesAsJson' => [
-                'type' => Form::INPUT_TEXTAREA,
-                'options' => [
-                    'rows' => 10
-                ]
-            ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => ButtonGroup::widget([
-                    'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update project'), ['class' => 'btn btn-primary'])
-                    ]
-                ])
-            ],
+$form = ActiveForm::begin([
+    'method' => 'PUT',
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+]);
 
-        ]
-    ]);
-    $form->end();
-
-    ?>
-</div>
+echo Form::widget([
+    'form' => $form,
+    'model' => $model,
+    'columns' => 1,
+    "attributes" => [
+        'title' => [
+            'type' => Form::INPUT_TEXT,
+        ],
+        'latitude' => [
+            'type' => Form::INPUT_TEXT
+        ],
+        'longitude' => [
+            'type' => Form::INPUT_TEXT
+        ],
+        'status' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' => $model->statusOptions()
+        ],
+        'visibility' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' => $model->visibilityOptions()
+        ],
+        'typemapAsJson' => [
+            'type' => Form::INPUT_TEXTAREA,
+            'options' => [
+                'rows' => 10
+            ]
+        ],
+        'overridesAsJson' => [
+            'type' => Form::INPUT_TEXTAREA,
+            'options' => [
+                'rows' => 10
+            ]
+        ],
+        \prime\widgets\FormButtonsWidget::embed([
+            'buttons' => [
+                [
+                    'label' => \Yii::t('app', 'Update project'),
+                    'options' => ['class' => 'btn btn-primary'],
+                ],
+            ]
+        ])
+    ]
+]);
+$form->end();
