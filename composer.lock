@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20b3d48b42b45d64da73ed8e5774db98",
+    "content-hash": "a7b1c0281071dd60b9e37849f3958bea",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -1576,16 +1576,16 @@
         },
         {
             "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "71918abfc3ce72d9ab8d20ef733f390eacb8af45"
+                "reference": "cc5ed708d538fca813af1791c356f5c08a30a7e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/71918abfc3ce72d9ab8d20ef733f390eacb8af45",
-                "reference": "71918abfc3ce72d9ab8d20ef733f390eacb8af45",
+                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/cc5ed708d538fca813af1791c356f5c08a30a7e9",
+                "reference": "cc5ed708d538fca813af1791c356f5c08a30a7e9",
                 "shasum": ""
             },
             "require": {
@@ -1615,7 +1615,7 @@
                 }
             ],
             "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "time": "2020-03-26T15:55:59+00:00"
+            "time": "2020-03-30T11:08:03+00:00"
         },
         {
             "name": "sam-it/yii2-abac",
