@@ -41,6 +41,7 @@ use function iter\filter;
  * @property-read int $facilityCount
  * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
+ * @property array $overrides
  */
 class Project extends ActiveRecord
 {
@@ -84,6 +85,12 @@ class Project extends ActiveRecord
             ]
         ]);
         return $result;
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->overrides = array_filter($this->overrides);
+        return parent::beforeSave($insert);
     }
 
 
