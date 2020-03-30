@@ -19,6 +19,7 @@
         "ext-gd": "*",
         "ext-pdo_mysql": "*",
         "ext-intl": "*",
+        "ext-zip": "*",
         "ext-json": "*",
         "fortawesome/font-awesome": "> 5",
         "guzzlehttp/psr7": "^1.2",
@@ -32,7 +33,7 @@
         "npm-asset/bootstrap": "^3.4",
         "npm-asset/izitoast": "^1.4",
         "psr/http-message": "^1.0",
-        "sam-it/ls2-jsonrpc-client": "^1.1.1",
+        "sam-it/ls2-jsonrpc-client": "^1.2.0",
         "sam-it/yii2-abac": ">= 1.0.2",
         "sam-it/yii2-magic": "^2",
         "sam-it/yii2-urlsigner": "^2.0",
@@ -44,7 +45,8 @@
         "kartik-v/yii2-widget-activeform": "^1.5",
         "kartik-v/yii2-widget-switchinput": "^1.3",
         "kartik-v/yii2-widget-select2": "^2.1",
-        "npm-asset/pretty-checkbox": "^3.0"
+        "npm-asset/pretty-checkbox": "^3.0",
+        "phpoffice/phpspreadsheet": "^1.11"
     },
 
     "autoload": {
@@ -88,20 +90,27 @@
         "codeception": "docker-compose run --rm codeception",
         "cli": "docker-compose run --rm cli",
         "lint": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcs",
-        "lint-fix": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcbf",
+        "lint-fix": "git diff-index --diff-filter d --name-only --cached HEAD | xargs -r vendor/bin/phpcbf",
+        "lint-u": "git diff-index --name-only HEAD | xargs -r vendor/bin/phpcs",
+        "lint-ufix": "git diff-index --name-only HEAD | xargs -r vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse src",
         "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
         "post-install-cmd": "cghooks add --ignore-lock",
-        "post-update-cmd": "cghooks update"
+        "post-update-cmd": "cghooks update",
+        "dlint-fix": "docker-compose run --rm --user=$(id -u):$(id -g) composer lint-fix",
+        "git-pre-commit": ["composer dlint-fix"],
+        "git-post-merge": [
+            "composer install"
+        ]
     },
     "extra": {
         "hooks": {
             "pre-commit": [
-                "git diff --name-only --cached HEAD | xargs -r vendor/bin/phpcs"
+                "composer git-pre-commit"
             ],
             "post-merge": [
-                "composer install"
+                "composer git-post-merge"
             ]
         }
     }

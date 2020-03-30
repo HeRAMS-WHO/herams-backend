@@ -7,7 +7,7 @@ use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\forms\CsvExport $model
+ * @var \prime\models\forms\Export $model
  * @var \prime\models\ar\Workspace $subject
  */
 
@@ -51,7 +51,7 @@ echo \yii\bootstrap\Collapse::widget([
             'label' => 'Settings',
             // open its content by default
             'contentOptions' => ['class' => 'in'],
-            'content' => \app\components\Form::widget([
+            'content' => Form::widget([
                 'form' => $form,
                 'model' => $model,
                 'columns' => 1,
@@ -71,9 +71,7 @@ echo \yii\bootstrap\Collapse::widget([
                     'language' => [
                         'type' => Form::INPUT_DROPDOWN_LIST,
                         'items' => $model->getLanguages()
-
                     ],
-
                 ]
             ])
         ],
@@ -104,7 +102,14 @@ echo Form::widget([
                 ],
             ],
             'buttons' => [
-                Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
+                Html::submitButton(\Yii::t('app', 'Export CSV'), [
+                    'class' => 'btn btn-primary',
+                    'formaction' => '?_format=csv'
+                ]),
+//                Html::submitButton(\Yii::t('app', 'Export XLSX'), [
+//                    'class' => 'btn btn-default',
+//                    'formaction' => '?_format=xlsx'
+//                ]),
             ]
         ])
     ]

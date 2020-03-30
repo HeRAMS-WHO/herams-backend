@@ -3,9 +3,8 @@
 
 namespace prime\controllers;
 
-
 use prime\actions\DeleteAction;
-use prime\actions\ExportCsvAction;
+use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\workspace\Configure;
 use prime\controllers\workspace\Create;
@@ -18,6 +17,7 @@ use prime\controllers\workspace\Update;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use prime\queries\ResponseQuery;
+use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
@@ -32,17 +32,17 @@ class WorkspaceController extends Controller
         return [
             'configure' => Configure::class,
             'export' => [
-                'class' => ExportCsvAction::class,
-                'subject' => function(Request $request) {
+                'class' => ExportAction::class,
+                'subject' => function (Request $request) {
                       return Workspace::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseQuery' => static function(Workspace $workspace): ResponseQuery {
+                'responseQuery' => static function (Workspace $workspace): ResponseQuery {
                     return $workspace->getResponses();
                 },
-                'surveyFinder' => function(Workspace $workspace) {
+                'surveyFinder' => function (Workspace $workspace) {
                     return $workspace->project->getSurvey();
                 },
-                'checkAccess' => function(Workspace $workspace, User $user) {
+                'checkAccess' => function (Workspace $workspace, User $user) {
                     return $user->can(Permission::PERMISSION_EXPORT, $workspace);
                 }
             ],
@@ -55,7 +55,7 @@ class WorkspaceController extends Controller
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Workspace::find(),
-                'redirect' => function(Workspace $workspace) {
+                'redirect' => function (Workspace $workspace) {
                     return ['/project/workspaces', 'id' => $workspace->tool_id];
                 }
             ],
@@ -65,7 +65,8 @@ class WorkspaceController extends Controller
 
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'verb' => [
                     'class' => VerbFilter::class,
@@ -80,11 +81,18 @@ class WorkspaceController extends Controller
                             'roles' => ['@'],
                         ],
                     ]
+                ],
+                ContentNegotiator::class => [
+                    'class' => ContentNegotiator::class,
+                    'only' => ['export'],
+                    'formats' => [
+                        'text/html' => 'html',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+                        'text/csv' => 'csv',
+
+                    ]
                 ]
             ]
         );
     }
-
-
-
 }
