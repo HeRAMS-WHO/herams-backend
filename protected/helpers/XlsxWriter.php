@@ -3,24 +3,24 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use GuzzleHttp\Psr7\Stream;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\XLSX\Writer;
+use GuzzleHttp\Psr7\LazyOpenStream;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
 use Psr\Http\Message\StreamInterface;
 use function GuzzleHttp\Psr7\stream_for;
 use function iter\map;
-use function iter\toArray;
 
 class XlsxWriter implements WriterInterface
 {
     /**
-     * @var Spreadsheet
+     * @var Writer
      */
-    private $file;
-    private $rows;
+    private $writer;
+
+    private $filename;
 
     public function __construct()
     {
@@ -30,20 +30,22 @@ class XlsxWriter implements WriterInterface
 
     private function reset()
     {
-        $this->file = new Spreadsheet();
-        $this->rows = 1;
+        ini_set('max_execution_time', '0');
+        // Set up the cache
+        $this->writer = WriterEntityFactory::createXLSXWriter();
+        $this->stream = stream_for('');
+        $this->filename = tempnam(sys_get_temp_dir(), 'xslx');
+        $this->writer->openToFile($this->filename);
     }
 
 
     private function writeRow(iterable $data): void
     {
-        $sheet = $this->file->getActiveSheet();
-        $column = 0;
-        foreach ($data as $value) {
-            $sheet->setCellValueByColumnAndRow($column, $this->rows, $value);
-            $column++;
+        $row = WriterEntityFactory::createRow([]);
+        foreach($data as $value) {
+            $row->addCell(WriterEntityFactory::createCell($value));
         }
-        $this->rows++;
+        $this->writer->addRow($row);
     }
 
     public function writeRecord(HeramsResponseInterface $record, ColumnDefinition ...$columns): void
@@ -69,13 +71,8 @@ class XlsxWriter implements WriterInterface
 
     public function getStream(): StreamInterface
     {
-        $writer = new Xlsx($this->file);
-        ob_start();
-        $writer->save('php://output');
-        $data = ob_get_clean();
-        $result =  stream_for($data, ['size' => strlen($data)]);
-        $this->reset();
-        return $result;
+        $this->writer->close();
+        return new LazyOpenStream($this->filename, 'r');
     }
 
     public function getMimeType(): string

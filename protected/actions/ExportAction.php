@@ -11,6 +11,7 @@ use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\filters\ContentNegotiator;
 use yii\helpers\FileHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -69,7 +70,7 @@ class ExportAction extends Action
 
         $model = new Export($survey);
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
-            switch ($response->format) {
+            switch ($request->getBodyParam('format', 'csv')) {
                 case 'xlsx':
                     $writer = new XlsxWriter();
                     break;
@@ -77,7 +78,7 @@ class ExportAction extends Action
                     $writer = new CsvWriter();
                     break;
                 default:
-                    die($response->format);
+                    throw new BadRequestHttpException();
             }
 
             $model->run($writer, ($this->responseQuery)($subject));
