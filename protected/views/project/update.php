@@ -7,7 +7,6 @@ use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
-
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']

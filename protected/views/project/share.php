@@ -2,6 +2,7 @@
 
 use app\components\ActiveForm;
 use app\components\Form;
+use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
 /**
@@ -22,34 +23,33 @@ $this->title = \Yii::t('app', 'Manage user permissions for {project}', ['project
 $this->params['breadcrumbs'][] = $this->title;
 
 echo Html::tag('h2', \Yii::t('app', 'Add permissions'));
-        $form = ActiveForm::begin([
-            "type" => ActiveForm::TYPE_HORIZONTAL,
-            'formConfig' => [
-                'showLabels' => true,
-                'defaultPlaceholder' => false
+$form = ActiveForm::begin([
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig' => [
+        'showLabels' => true,
+        'defaultPlaceholder' => false
+    ]
+]);
+echo $model->renderForm($form);
+echo Form::widget([
+    'form' => $form,
+    'model' => $model,
+    'attributes' => [
+        FormButtonsWidget::embed([
+            'buttons' => [
+                ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
             ]
-        ]);
+        ])
+    ]
+]);
 
-        echo $model->renderForm($form);
-        echo Form::widget([
-            'form' => $form,
-            'model' => $model,
-            'attributes' => [
-                \prime\widgets\FormButtonsWidget::embed([
-                    'buttons' => [
-                        '<button type="submit" class="btn btn-primary">Add</button>'
-                    ]
-                ])
-            ]
-        ]);
-
-        $form->end();
-        ?>
-    <div class="col-xs-12 list-shared">
-        <h2><?=\Yii::t('app', 'View user permissions')?></h2>
-        <?php
-        echo $model->renderTable();
-        ?>
-    </div>
+$form->end();
+?>
+<div class="col-xs-12 list-shared">
+    <h2><?=\Yii::t('app', 'View user permissions')?></h2>
+    <?php
+    echo $model->renderTable();
+    ?>
+</div>
 
 
