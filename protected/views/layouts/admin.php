@@ -9,7 +9,7 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
 
 echo $this->render('//menu');
 
-echo Html::tag('div', $content, ['class' => ['content'], 'style' => [
+echo Html::tag('div', $content, ['class' => ['content', "{layout-{$this->context->layout}"], 'style' => [
     'display' => 'block',
 //    'grid-template-columns' => 'auto',
 //    'grid-template-rows' => 'auto'
