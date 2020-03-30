@@ -300,10 +300,6 @@ class Project extends ActiveRecord
         }
         \Yii::beginProfile(__FUNCTION__);
         $map = is_array($this->typemap) ? $this->typemap : [];
-        // Always have a mapping for the empty / unknown value.
-        if (!empty($map) && !isset($map[HeramsResponseInterface::UNKNOWN_VALUE])) {
-            $map[HeramsResponseInterface::UNKNOWN_VALUE] = "Unknown";
-        }
         // Initialize counts
         $counts = [];
         foreach ($map as $key => $value) {
@@ -326,8 +322,6 @@ class Project extends ActiveRecord
                 $counts[$type] = ($counts[$type] ?? 0) + $count;
             } elseif (isset($map[$type])) {
                 $counts[$map[$type]] += $count;
-            } else {
-                $counts[$map[HeramsResponseInterface::UNKNOWN_VALUE]] += $count;
             }
         }
 
