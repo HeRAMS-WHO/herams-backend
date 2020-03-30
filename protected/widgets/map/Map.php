@@ -158,7 +158,7 @@ HTML;
                                         '</div>' +
                                         '</div>'
                                         );
-                                        popup.update();
+                                        popup.update();             
                                         loadChartsForCountry(feature.json);
                                 });
                                 fetched = true;
@@ -237,7 +237,7 @@ HTML;
                 if(types.length > 0) {    
                     values = [];
                     types.forEach(function(type) {
-                        values.push(json.typeCounts[type]+" "+type);
+                        values.push(json.typeCounts[type]);
                     })
                     bgColor = chroma.scale(['blue', 'white']).colors(types.length);
                     icon = "\u{e90b}";
@@ -251,8 +251,8 @@ HTML;
                 if(types.length > 0) {   
                     values = [];
                     types.forEach(function(type) {
-                        values.push(json.subjectAvailabilityCounts[type]+" "+type);
-                    })
+                        values.push(json.subjectAvailabilityCounts[type]);
+                    });
                     bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
                     icon = "\u{e90a}";
                     title = 'Functionality';
@@ -265,7 +265,7 @@ HTML;
                 if(types.length > 0) {   
                     values = [];
                     types.forEach(function(type) {
-                        values.push(json.functionalityCounts[type]+" "+type);
+                        values.push(json.functionalityCounts[type]);
                     })
                     bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
                     icon = "\u{e901}";
@@ -283,11 +283,11 @@ HTML;
                     'data': {
                         'datasets' : [
                             {
-                                'data' : types,
+                                'data' : values,
                                 'backgroundColor' : bgColor,
                                 'label' : 'Types'
                             }],
-                        'labels' : values
+                        'labels' : types
                     },
                     'options' : {
                         'tooltips' : {
