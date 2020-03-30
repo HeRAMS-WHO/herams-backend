@@ -346,14 +346,15 @@ class Project extends ActiveRecord
         $map = [
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
-            'A3' => \Yii::t('app', 'None'),
-            HeramsResponseInterface::UNKNOWN_VALUE => \Yii::t('app', 'Unknown'),
+            'A3' => \Yii::t('app', 'None')
         ];
 
         $result = [];
         foreach ($query->column() as $key => $value) {
-            $label = isset($map[$key]) ? $map[$key] : $map[HeramsResponseInterface::UNKNOWN_VALUE];
-            $result[$label] = ($result[$label] ?? 0) + $value;
+            if (isset($map[$key])) {
+                $label = $map[$key];
+                $result[$label] = ($result[$label] ?? 0) + $value;
+            }
         }
         return $result;
     }
