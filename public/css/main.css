@@ -209,8 +209,9 @@ a:hover {
     font-weight: 500;
     color: var(--color);
     font-size: 24px;
-    line-height: 24px;
-    padding: 7px 0;
+    line-height: 26px;
+    padding: 5px 10px;
+    word-wrap: break-word;
 }
 
 .project-summary .stat {
