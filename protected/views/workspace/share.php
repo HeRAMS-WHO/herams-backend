@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 ?>
-<div class="col-xs-12 share-form">
     <div class="col-xs-12 permissions-form">
         <?php
         echo Html::tag('h2', \Yii::t('app', 'Users and permissions'));
@@ -64,5 +63,5 @@ $this->params['breadcrumbs'][] = $this->title;
         echo $model->renderTable();
         ?>
     </div>
-</div>
+
 
