@@ -1,6 +1,8 @@
 <?php
 
 use app\components\ActiveForm;
+use app\components\Form;
+use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
 /**
@@ -42,9 +44,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
 
         echo $model->renderForm($form);
+        echo Form::widget([
+            'form' => $form,
+            'model' => $model,
+            'attributes' => [
+                FormButtonsWidget::embed([
+                    'buttons' => [
+                        ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                    ]
+                ])
+            ]
+        ]);
         $form->end();
         ?>
-        <button type="submit" class="btn btn-primary">Share</button>
     </div>
     <div class="col-xs-12 list-shared form-bg">
         <h2><?=\Yii::t('app', 'View user permissions')?></h2>
@@ -53,4 +65,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
 </div>
+
 
