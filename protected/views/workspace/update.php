@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<div class="col-xs-12  col-md-6 form-bg">
+<div class="col-xs-12 col-md-8 col-lg-6 form-bg">
     <?php
     $form = ActiveForm::begin([
         'id' => 'update-project',

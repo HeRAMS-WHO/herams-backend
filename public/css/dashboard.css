@@ -489,15 +489,8 @@ body {
     vertical-align: bottom;
 }
 
-.form-layout {
-    display: block;
-    padding: 15px 0px;
-    border-radius: 10px;
-    width: 100%;
-    float: left;
-}
 
-.form-layout .form-content {
+.layout-form .form-content {
     max-width: 800px;
 }
 

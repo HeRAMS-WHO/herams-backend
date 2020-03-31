@@ -1,6 +1,8 @@
 <?php
 
 use app\components\ActiveForm;
+use app\components\Form;
+use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
 /**
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="col-xs-12 share-form">
-    <div class="col-xs-12 col-md-6 permissions-form form-bg">
+    <div class="col-xs-12 col-md-8 col-lg-6 permissions-form form-bg">
         <?php
         echo Html::tag('h2', \Yii::t('app', 'Add permissions'));
         $form = ActiveForm::begin([
@@ -30,19 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'formConfig' => [
                 'showLabels' => true,
                 'defaultPlaceholder' => false
+
             ]
         ]);
-
         echo $model->renderForm($form);
         $form->end();
         ?>
         <button type="submit" class="btn btn-primary">Add</button>
     </div>
     <div class="col-xs-12 list-shared form-bg">
-        <h2><?=\Yii::t('app', 'View user permissions')?></h2>
+        <h2><?= \Yii::t('app', 'View user permissions') ?></h2>
         <?php
         echo $model->renderTable();
         ?>
     </div>
 </div>
-

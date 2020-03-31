@@ -36,7 +36,7 @@ $this->title = $model->isNewRecord
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-8 form-bg">
+<div class="col-xs-12 col-md-8 form-bg">
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -177,7 +177,7 @@ JS
 
     ?>
 </div>
-<div class="col-xs-4">
+<div class="col-xs-12 col-md-4">
     <?php
     if (isset($model->id)) {
         $params = ['element/preview'];

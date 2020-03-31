@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="col-xs-12 share-form">
-    <div class="col-xs-12 col-md-6 permissions-form form-bg">
+    <div class="col-xs-12 col-md-8 col-lg-6 permissions-form form-bg">
         <?php
         echo Html::tag('h2', \Yii::t('app', 'Add permissions'));
         $form = ActiveForm::begin([
