@@ -198,7 +198,7 @@ a:hover {
     grid-template-rows: auto auto 200px auto;
     grid-template-areas: "stat stat stat stat stat stat" "line line line line line line" "chart chart chart chart chart chart" "button button button button button button";
     grid-row-gap: 1em;
-    grid-column-gap: 1em;
+    grid-column-gap: 5px;
 }
 
 .project-summary h1 {
@@ -252,6 +252,7 @@ a:hover {
     grid-column: span 2;
     height: 200px;
     overflow: hidden;
+    width: 100%;
 }
 
 .project-summary .chart .container-chart {
@@ -278,6 +279,7 @@ a:hover {
 .project-summary .chart .legend li {
     margin-bottom: 3px;
     color: #a5a5a5;
+    font-size: 11px;
 }
 
 .project-summary .chart .legend span {
