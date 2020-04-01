@@ -1,4 +1,4 @@
-name: Run tests
+name: Check code style
 on:
   pull_request:
     branches: [ master ]
@@ -7,8 +7,6 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -20,4 +18,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer global require "squizlabs/php_codesniffer=*"
-      - run: git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.head_ref }} ${{ github.base_ref }} | xargs ~/.composer/vendor/bin/phpcs
+      - run: git fetch origin master --depth 1
+      - run: git diff --diff-filter=d --name-only origin/master | xargs ~/.composer/vendor/bin/phpcs
