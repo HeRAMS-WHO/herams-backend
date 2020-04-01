@@ -20,4 +20,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer global require "squizlabs/php_codesniffer=*"
-      - run: git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} ${{ github.base_ref }} | xargs ~/.composer/vendor/bin/phpcs
+      - run: git diff --diff-filter=d --name-only ${{ github.event.pull_request.head.sha }} ${{ github.base_ref }} | xargs ~/.composer/vendor/bin/phpcs
