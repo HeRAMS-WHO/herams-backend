@@ -254,9 +254,36 @@ a:hover {
     overflow: hidden;
 }
 
-.project-summary .chart canvas {
-    height: 100%;
+.project-summary .chart .container-chart {
+    height: 115px;
     width: 100%;
+}
+
+.project-summary .chart .legend {
+    margin-top: 10px;
+}
+
+.project-summary .chart .legend:before {
+    content: "";
+    display: none;
+}
+
+.project-summary .chart .legend ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-summary .chart .legend li {
+    margin-bottom: 3px;
+    color: #a5a5a5;
+}
+
+.project-summary .chart .legend span {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin-right: 5px;
 }
 
 .project-summary a {

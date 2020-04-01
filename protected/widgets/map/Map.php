@@ -129,7 +129,6 @@ HTML;
                             // On the first open fetch remote content
                             marker.on('popupopen', function() {
                                 if (fetched) {
-                                    console.log(feature);
                                     loadChartsForCountry(feature.json);
                                     return;
                                 }
@@ -150,9 +149,12 @@ HTML;
                                             '</strong> Contributors</div>' +
                                             '<hr/>' +
                                             //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
-                                            '<div class="chart"><canvas id="chart1"></div>' +
-                                            '<div class="chart"><canvas id="chart2"></div>' +
-                                            '<div class="chart"><canvas id="chart3"></div>' +
+                                            '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
+                                            '<div id="js-legend-1" class="legend"></div></div>' +
+                                            '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
+                                            '<div id="js-legend-2" class="legend"></div></div>' +
+                                            '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
+                                            '<div id="js-legend-3" class="legend"></div></div>' +
                                             '<a href="/project/'+json.id+'">Dashboard</a>' +
                                             '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
                                         '</div>' +
@@ -244,7 +246,8 @@ HTML;
                     title = "Type";
                     jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
                     canvas = document.getElementById('chart1').getContext('2d');
-                    new Chart(canvas, jsonConfig);
+                    let chart = new Chart(canvas, jsonConfig);
+                    document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
                 }
 
                 types = Object.keys(json.subjectAvailabilityCounts);
@@ -258,7 +261,8 @@ HTML;
                     title = 'Functionality';
                     jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
                     canvas = document.getElementById('chart2').getContext('2d');
-                    new Chart(canvas, jsonConfig);
+                    chart = new Chart(canvas, jsonConfig);
+                    document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
                 }
 
                 types = Object.keys(json.functionalityCounts);
@@ -272,7 +276,8 @@ HTML;
                     title = 'Service availability';
                     jsonConfig = getCanvasConfig(types,bgColor,values,icon,title);
                     canvas = document.getElementById('chart3').getContext('2d');
-                    new Chart(canvas, jsonConfig);
+                    chart = new Chart(canvas, jsonConfig);
+                    document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
                 }
             }
 
@@ -307,10 +312,10 @@ HTML;
                             }
                         },
                         'cutoutPercentage': 95,
-                        'responsive': true,
-                        'maintainAspectRatio': false,
+                        'responsive' : true,
+                        'maintainAspectRatio' : false,
                         'legend': {
-                            'display': true,
+                            'display': false,
                             'position': 'bottom',
                             'labels': {
                                 'boxWidth': 12,
