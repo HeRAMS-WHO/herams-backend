@@ -8,6 +8,7 @@ use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
+use prime\widgets\chart\ChartBundle;
 
 class Map extends Widget
 {
@@ -55,14 +56,11 @@ class Map extends Widget
     private function renderPopupLoader(): string
     {
         return <<<HTML
-    <div style="
-        background-image: url('/img/loader.svg');
-        background-repeat: no-repeat;
-        background-position: center;
-    ">
-    <h1>Loading popup</h1>
-        <p>We're getting your summary ready...</p>
-    </div>
+        <div class="loader-wrapper">
+            <h1>Loading project summary</h1>
+            <p>We're getting your summary ready...</p>
+            <div class="loader-anim" style="background-image: url('/img/loader.svg');"></div>
+        </div>
 HTML;
     }
 
@@ -102,6 +100,7 @@ HTML;
                             break;
                     }
                 }
+                
                 // /*
                 let bounds = [];
                 let data = $data;
@@ -130,15 +129,40 @@ HTML;
                             // On the first open fetch remote content
                             marker.on('popupopen', function() {
                                 if (fetched) {
+                                    loadChartsForCountry(feature.json);
                                     return;
                                 }
                                 fetch(feature.properties.url)
                                     .then((r) => r.json())
                                     .then((json) => {
+                                        feature.json = json;
                                         
-                                        popup.setContent('<pre>' + JSON.stringify(json, null, 2) + '</pre>');
-                                        popup.update();
-                                    });
+                                        popup.setContent(
+                                        '<div class="project-summary">' + 
+                                        '<h1>' + json.title + '</h1>' +
+                                        '<div class="grid">' +
+                                            '<div class="stat"><strong>' +
+                                                json.facilityCount +
+                                            '</strong> Health facilities</div>' +
+                                            '<div class="stat"><strong>' +
+                                                json.contributorCount +
+                                            '</strong> Contributors</div>' +
+                                            '<hr/>' +
+                                            //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
+                                            '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
+                                            '<div id="js-legend-1" class="legend"></div></div>' +
+                                            '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
+                                            '<div id="js-legend-2" class="legend"></div></div>' +
+                                            '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
+                                            '<div id="js-legend-3" class="legend"></div></div>' +
+                                            '<a href="/project/'+json.id+'">Dashboard</a>' +
+                                            '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
+                                        '</div>' +
+                                        '</div>'
+                                        );
+                                        popup.update();             
+                                        loadChartsForCountry(feature.json);
+                                });
                                 fetched = true;
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
@@ -207,6 +231,95 @@ HTML;
             } catch(error) {
                 console.error("Error in map widget JS", error);
             }
+
+            function loadChartsForCountry(json) {
+                var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
+
+                jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primary","Secondary","Tertiary","Other"], ['blue', 'white']);
+                canvas = document.getElementById('chart1').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
+                
+                jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                canvas = document.getElementById('chart2').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
+                
+                jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                canvas = document.getElementById('chart3').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
+            }
+               
+            
+            function buildChart(title,icon,types, items, colors) {
+                if(Object.keys(types).length > 0) {   
+                    labels = [];
+                    sum = Object.keys(types).reduce((sum,key)=>sum+parseFloat(types[key]||0),0);
+                    items.forEach(function(key) {
+                        let percent = Math.round(((types[key]/sum) * 100));
+                        if(isNaN(percent)) percent = 0;
+                        labels[percent+"% "+key] = percent;
+                    });
+                    bgColor = chroma.scale(colors).colors(Object.keys(items).length);
+                    return getChartConfig(Object.keys(labels),bgColor,Object.values(labels),icon,title);
+                }
+            }
+
+            function getChartConfig(labels,bgColor,values,icon,title) {
+                var jsonConfig = 
+                {
+                    'type' : 'doughnut',
+                    'data': {
+                        'datasets' : [
+                            {
+                                'data' : values,
+                                'backgroundColor' : bgColor,
+                                'label' : 'Types'
+                            }],
+                        'labels' : labels
+                    },
+                    'options' : {
+                        'tooltips' : {
+                                'enabled' : false,
+                        },
+                        'elements' : {
+                            'arc' : {
+                                'borderWidth': 0
+                            },
+                            'center': {
+                                'sidePadding': 40,
+                                'color': '#a5a5a5',
+                                'fontWeight': "normal",
+                                'fontStyle': "icomoon",
+                                // Facility
+                                'text': icon
+                            }
+                        },
+                        'cutoutPercentage': 95,
+                        'responsive' : true,
+                        'maintainAspectRatio' : false,
+                        'legend': {
+                            'display': false,
+                            'position': 'bottom',
+                            'labels': {
+                                'boxWidth': 12,
+                                'fontSize': 12,
+                            }
+                        },
+                        'title': {
+                            'display': true,
+                            'text': title
+                        },
+                        'animation': {
+                            'animateScale': true,
+                            'animateRotate': true
+                        }
+                    }
+                };
+                return jsonConfig;
+            }
+
         })();
 
 JS
@@ -218,6 +331,7 @@ JS
 
     protected function registerClientScript()
     {
+        $this->view->registerAssetBundle(ChartBundle::class);
         $this->view->registerAssetBundle(MapBundle::class);
     }
 }
