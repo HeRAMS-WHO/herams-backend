@@ -129,39 +129,14 @@ HTML;
                             // On the first open fetch remote content
                             marker.on('popupopen', function() {
                                 if (fetched) {
-                                    loadChartsForCountry(feature.json);
+                                    loadChartsForCountry(popup, feature.json);
                                     return;
                                 }
                                 fetch(feature.properties.url)
                                     .then((r) => r.json())
                                     .then((json) => {
                                         feature.json = json;
-                                        
-                                        popup.setContent(
-                                        '<div class="project-summary">' + 
-                                        '<h1>' + json.title + '</h1>' +
-                                        '<div class="grid">' +
-                                            '<div class="stat"><strong>' +
-                                                json.facilityCount +
-                                            '</strong> Health facilities</div>' +
-                                            '<div class="stat"><strong>' +
-                                                json.contributorCount +
-                                            '</strong> Contributors</div>' +
-                                            '<hr/>' +
-                                            //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
-                                            '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
-                                            '<div id="js-legend-1" class="legend"></div></div>' +
-                                            '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
-                                            '<div id="js-legend-2" class="legend"></div></div>' +
-                                            '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
-                                            '<div id="js-legend-3" class="legend"></div></div>' +
-                                            '<a href="/project/'+json.id+'">Dashboard</a>' +
-                                            '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
-                                        '</div>' +
-                                        '</div>'
-                                        );
-                                        popup.update();             
-                                        loadChartsForCountry(feature.json);
+                                        loadChartsForCountry(popup, feature.json);
                                 });
                                 fetched = true;
                                 let event = new Event('mapPopupOpen');
@@ -232,7 +207,39 @@ HTML;
                 console.error("Error in map widget JS", error);
             }
 
-            function loadChartsForCountry(json) {
+            function cleanPopup(popup) {
+                let popin = document.getElementById("popup");
+                if(popin)
+                    popin.remove();
+            }
+
+            function loadChartsForCountry(popup, json) {
+                cleanPopup(popup);
+                popup.setContent(
+                    '<div class="project-summary" id="popup">' + 
+                    '<h1>' + json.title + '</h1>' +
+                    '<div class="grid">' +
+                        '<div class="stat"><strong>' +
+                            json.facilityCount +
+                        '</strong> Health facilities</div>' +
+                        '<div class="stat"><strong>' +
+                            json.contributorCount +
+                        '</strong> Contributors</div>' +
+                        '<hr/>' +
+                        //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
+                        '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
+                        '<div id="js-legend-1" class="legend"></div></div>' +
+                        '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
+                        '<div id="js-legend-2" class="legend"></div></div>' +
+                        '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
+                        '<div id="js-legend-3" class="legend"></div></div>' +
+                        '<a href="/project/'+json.id+'">Dashboard</a>' +
+                        '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
+                    '</div>' +
+                    '</div>'
+                );
+                popup.update();  
+
                 var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
 
                 jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primary","Secondary","Tertiary","Other"], ['blue', 'white']);
