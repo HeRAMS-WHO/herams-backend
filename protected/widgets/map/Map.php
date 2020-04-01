@@ -233,70 +233,40 @@ HTML;
             }
 
             function loadChartsForCountry(json) {
-                var values,sum,labels,bgColor,icon,title,jsonConfig,canvas;
-                            
-                var types = Object.keys(json.typeCounts);
-                if(types.length > 0) {    
-                    values = [];
-                    labels = [];
-                    sum = Object.keys(json.typeCounts).reduce((sum,key)=>sum+parseFloat(json.typeCounts[key]||0),0);
-                    types.forEach(function(type) {
-                        values.push(json.typeCounts[type]);
-                        let percent = Math.round(((json.typeCounts[type]/sum) * 100));
-                        if(isNaN(percent)) percent = 0;
-                        labels.push(percent + "% " + type);
-                    });
-                    bgColor = chroma.scale(['blue', 'white']).colors(types.length);
-                    icon = "\u{e90b}";
-                    title = "Type";
-                    jsonConfig = getCanvasConfig(labels,bgColor,values,icon,title);
-                    canvas = document.getElementById('chart1').getContext('2d');
-                    let chart = new Chart(canvas, jsonConfig);
-                    document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
-                }
+                var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
 
-                types = Object.keys(json.subjectAvailabilityCounts);
-                if(types.length > 0) {   
-                    values = [];
+                jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primaire","Secondaire","Tertiaire","Other"], ['blue', 'white']);
+                canvas = document.getElementById('chart1').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
+                
+                jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                canvas = document.getElementById('chart2').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
+                
+                jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                canvas = document.getElementById('chart3').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
+            }
+               
+            
+            function buildChart(title,icon,types, items, colors) {
+                if(Object.keys(types).length > 0) {   
                     labels = [];
-                    sum = Object.keys(json.subjectAvailabilityCounts).reduce((sum,key)=>sum+parseFloat(json.subjectAvailabilityCounts[key]||0),0);
-                    types.forEach(function(type) {
-                        values.push(json.subjectAvailabilityCounts[type]);
-                        let percent = Math.round(((json.subjectAvailabilityCounts[type]/sum) * 100));
+                    sum = Object.keys(types).reduce((sum,key)=>sum+parseFloat(types[key]||0),0);
+                    items.forEach(function(key) {
+                        let percent = Math.round(((types[key]/sum) * 100));
                         if(isNaN(percent)) percent = 0;
-                        labels.push(percent + "% " + type);
+                        labels[percent+"% "+key] = percent;
                     });
-                    bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
-                    icon = "\u{e90a}";
-                    title = 'Functionality';
-                    jsonConfig = getCanvasConfig(labels,bgColor,values,icon,title);
-                    canvas = document.getElementById('chart2').getContext('2d');
-                    chart = new Chart(canvas, jsonConfig);
-                    document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
-                }
-
-                types = Object.keys(json.functionalityCounts);
-                if(types.length > 0) {   
-                    values = [];
-                    labels = [];
-                    sum = Object.keys(json.functionalityCounts).reduce((sum,key)=>sum+parseFloat(json.functionalityCounts[key]||0),0);
-                    types.forEach(function(type) {
-                        values.push(json.functionalityCounts[type]);
-                        let percent = Math.round(((json.functionalityCounts[type]/sum) * 100));
-                        if(isNaN(percent)) percent = 0;
-                        labels.push(percent + "% " + type);
-                    });
-                    bgColor = chroma.scale(['green', 'orange', 'red']).colors(types.length);
-                    icon = "\u{e901}";
-                    title = 'Service availability';
-                    jsonConfig = getCanvasConfig(labels,bgColor,values,icon,title);
-                    canvas = document.getElementById('chart3').getContext('2d');
-                    chart = new Chart(canvas, jsonConfig);
-                    document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
+                    bgColor = chroma.scale(colors).colors(Object.keys(items).length);
+                    return getChartConfig(Object.keys(labels),bgColor,Object.values(labels),icon,title);
                 }
             }
 
-            function getCanvasConfig(labels,bgColor,values,icon,title) {
+            function getChartConfig(labels,bgColor,values,icon,title) {
                 var jsonConfig = 
                 {
                     'type' : 'doughnut',
