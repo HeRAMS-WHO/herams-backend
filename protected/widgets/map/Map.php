@@ -235,7 +235,7 @@ HTML;
             function loadChartsForCountry(json) {
                 var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
 
-                jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primaire","Secondaire","Tertiaire","Other"], ['blue', 'white']);
+                jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primary","Secondary","Tertiary","Other"], ['blue', 'white']);
                 canvas = document.getElementById('chart1').getContext('2d');
                 chart = new Chart(canvas, jsonConfig);
                 document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
