@@ -8,7 +8,6 @@ use prime\widgets\InlineUpload\InlineUpload;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
-
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
@@ -21,7 +20,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = 'Import pages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-xs-12">
+<div class="col-xs-12 col-md-8 col-lg-6 form-bg">
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,

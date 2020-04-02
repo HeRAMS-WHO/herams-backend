@@ -42,7 +42,7 @@ class XlsxWriter implements WriterInterface
     private function writeRow(iterable $data): void
     {
         $row = WriterEntityFactory::createRow([]);
-        foreach($data as $value) {
+        foreach ($data as $value) {
             $row->addCell(WriterEntityFactory::createCell($value));
         }
         $this->writer->addRow($row);
