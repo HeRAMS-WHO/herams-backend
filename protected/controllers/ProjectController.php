@@ -92,15 +92,6 @@ class ProjectController extends Controller
                     ],
                     'duration' => 120,
                 ],
-                ContentNegotiator::class => [
-                    'class' => ContentNegotiator::class,
-                    'only' => ['export'],
-                    'formats' => [
-                        'text/html' => 'html',
-                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
-                        'text/csv' => 'csv',
-                    ]
-                ],
                 'access' => [
                     'rules' => [
                         [

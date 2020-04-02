@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\rules;
 
-
 use prime\components\AuthManager;
 use prime\models\permissions\GlobalPermission;
 use prime\models\permissions\Permission;

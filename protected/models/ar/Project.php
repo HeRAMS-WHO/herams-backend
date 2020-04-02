@@ -41,6 +41,7 @@ use function iter\filter;
  * @property-read int $facilityCount
  * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
+ * @property array $overrides
  */
 class Project extends ActiveRecord
 {
@@ -84,6 +85,12 @@ class Project extends ActiveRecord
             ]
         ]);
         return $result;
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->overrides = array_filter($this->overrides);
+        return parent::beforeSave($insert);
     }
 
 
@@ -300,10 +307,6 @@ class Project extends ActiveRecord
         }
         \Yii::beginProfile(__FUNCTION__);
         $map = is_array($this->typemap) ? $this->typemap : [];
-        // Always have a mapping for the empty / unknown value.
-        if (!empty($map) && !isset($map[HeramsResponseInterface::UNKNOWN_VALUE])) {
-            $map[HeramsResponseInterface::UNKNOWN_VALUE] = "Unknown";
-        }
         // Initialize counts
         $counts = [];
         foreach ($map as $key => $value) {
@@ -326,8 +329,6 @@ class Project extends ActiveRecord
                 $counts[$type] = ($counts[$type] ?? 0) + $count;
             } elseif (isset($map[$type])) {
                 $counts[$map[$type]] += $count;
-            } else {
-                $counts[$map[HeramsResponseInterface::UNKNOWN_VALUE]] += $count;
             }
         }
 
@@ -352,14 +353,15 @@ class Project extends ActiveRecord
         $map = [
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
-            'A3' => \Yii::t('app', 'None'),
-            HeramsResponseInterface::UNKNOWN_VALUE => \Yii::t('app', 'Unknown'),
+            'A3' => \Yii::t('app', 'None')
         ];
 
         $result = [];
         foreach ($query->column() as $key => $value) {
-            $label = isset($map[$key]) ? $map[$key] : $map[HeramsResponseInterface::UNKNOWN_VALUE];
-            $result[$label] = ($result[$label] ?? 0) + $value;
+            if (isset($map[$key])) {
+                $label = $map[$key];
+                $result[$label] = ($result[$label] ?? 0) + $value;
+            }
         }
         return $result;
     }

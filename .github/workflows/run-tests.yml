@@ -5,24 +5,6 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  style:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-      - run: composer global require "squizlabs/php_codesniffer=*"
-      - run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs ~/.composer/vendor/bin/phpcs
   test:
     runs-on: ubuntu-18.04
     steps:

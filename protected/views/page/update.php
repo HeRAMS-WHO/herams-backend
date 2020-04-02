@@ -6,6 +6,7 @@ use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\helpers\Html;
 use prime\helpers\Icon;
+use prime\models\ar\Element;
 use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
@@ -22,60 +23,51 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/project']
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/update', 'id' => $project->id]
+    'label' => $page->project->title,
+    'url' => ['project/update', 'id' => $page->project->id]
 ];
 
 $this->title = $page->title;
 $this->params['breadcrumbs'][] = $this->title;
 
-?>
-<div class="col-xs-12">
-    <?php
+$form = ActiveForm::begin([
+    'id' => 'update-page',
+    'method' => 'PUT',
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+]);
 
+echo Form::widget([
+    'form' => $form,
+    'model' => $page,
+    'columns' => 1,
+    "attributes" => [
+        'title' => [
+            'type' => Form::INPUT_TEXT,
+        ],
+        'parent_id' => [
+            'attribute' => 'parent_id' ,
+            'type' => Form::INPUT_DROPDOWN_LIST,
 
-    $form = ActiveForm::begin([
-        'id' => 'update-page',
-        'method' => 'PUT',
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-    ]);
-
-    echo Form::widget([
-        'form' => $form,
-        'model' => $page,
-        'columns' => 1,
-        "attributes" => [
-            'title' => [
-                'type' => Form::INPUT_TEXT,
-            ],
-            'parent_id' => [
-                'attribute' => 'parent_id' ,
-                'type' => Form::INPUT_DROPDOWN_LIST,
-
-                'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
-            ],
-            'add_services' => [
-                 'type' => Form::INPUT_CHECKBOX
-            ],
-            'sort' => [
-                'type' => Form::INPUT_TEXT,
-            ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => \yii\bootstrap\ButtonGroup::widget([
-                    'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update page'), ['class' => 'btn btn-primary'])
-                    ]
-                ])
-            ]
+            'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
+        ],
+        'add_services' => [
+             'type' => Form::INPUT_CHECKBOX
+        ],
+        'sort' => [
+            'type' => Form::INPUT_TEXT,
+        ],
+        [
+            'type' => Form::INPUT_RAW,
+            'value' => ButtonGroup::widget([
+                'buttons' => [
+                    ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                ]
+            ])
         ]
-    ]);
-    $form->end();
+    ]
+]);
+$form->end();
 
-    ?>
-</div>
-<div class="col-xs-12">
-    <?php
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
@@ -124,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width' => '100px',
                 'template' => '{update} {remove}',
                 'buttons' => [
-                    'remove' => function($url, \prime\models\ar\Element $model, $key) {
+                    'remove' => function($url, Element $model, $key) {
                         if(app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
                             return Html::a(
                                 Icon::delete(),
@@ -140,6 +132,3 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ]
     ]);
-
-    ?>
-</div>
