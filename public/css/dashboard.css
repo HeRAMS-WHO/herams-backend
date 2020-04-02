@@ -586,7 +586,7 @@ body {
 
     .user-menu {
         text-align: right;
-        padding: 20px 10px 20px 0;  
+        padding: 20px 10px 20px 0;
     }
 
     body.no-title .user-menu {
@@ -615,6 +615,7 @@ body {
                 "sidebar filters filters filters"
                 "sidebar main main main"
         ;
+        height: 100vh;
     }
 
     .content {
