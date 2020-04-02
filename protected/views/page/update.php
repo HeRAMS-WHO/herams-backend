@@ -1,4 +1,5 @@
 <?php
+
 /** @var \prime\models\ar\Page $page */
 
 use app\components\Form;
@@ -29,44 +30,46 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = $page->title;
 $this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="col-xs-12 col-md-8 col-lg-6 form-bg">
+    <?php
+    $form = ActiveForm::begin([
+        'id' => 'update-page',
+        'method' => 'PUT',
+        "type" => ActiveForm::TYPE_HORIZONTAL,
+    ]);
 
-$form = ActiveForm::begin([
-    'id' => 'update-page',
-    'method' => 'PUT',
-    "type" => ActiveForm::TYPE_HORIZONTAL,
-]);
+    echo Form::widget([
+        'form' => $form,
+        'model' => $page,
+        'columns' => 1,
+        "attributes" => [
+            'title' => [
+                'type' => Form::INPUT_TEXT,
+            ],
+            'parent_id' => [
+                'attribute' => 'parent_id',
+                'type' => Form::INPUT_DROPDOWN_LIST,
 
-echo Form::widget([
-    'form' => $form,
-    'model' => $page,
-    'columns' => 1,
-    "attributes" => [
-        'title' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'parent_id' => [
-            'attribute' => 'parent_id' ,
-            'type' => Form::INPUT_DROPDOWN_LIST,
-
-            'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
-        ],
-        'add_services' => [
-             'type' => Form::INPUT_CHECKBOX
-        ],
-        'sort' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        [
-            'type' => Form::INPUT_RAW,
-            'value' => ButtonGroup::widget([
-                'buttons' => [
-                    ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]]
-                ]
-            ])
+                'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
+            ],
+            'add_services' => [
+                'type' => Form::INPUT_CHECKBOX
+            ],
+            'sort' => [
+                'type' => Form::INPUT_TEXT,
+            ],
+            [
+                'type' => Form::INPUT_RAW,
+                'value' => ButtonGroup::widget([
+                    'buttons' => [
+                        ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                    ]
+                ])
+            ]
         ]
-    ]
-]);
-$form->end();
+    ]);
+    $form->end();
 
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
@@ -116,8 +119,8 @@ $form->end();
                 'width' => '100px',
                 'template' => '{update} {remove}',
                 'buttons' => [
-                    'remove' => function($url, Element $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
+                    'remove' => function ($url, Element $model, $key) {
+                        if (app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
                             return Html::a(
                                 Icon::delete(),
                                 ['element/delete', 'id' => $model->id],
@@ -132,3 +135,5 @@ $form->end();
             ]
         ]
     ]);
+    ?>
+</div>
