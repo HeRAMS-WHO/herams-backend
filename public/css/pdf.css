@@ -11,6 +11,7 @@ body, html {
     margin: 0 auto;
     padding: 0;
     display: block;
+    overflow: auto;
 }
 
 .title {
@@ -28,6 +29,7 @@ body, html {
     display: block;
     margin: 0 auto;
     padding: 0;
+    overflow: unset;
 }
 
 .title span.header {
