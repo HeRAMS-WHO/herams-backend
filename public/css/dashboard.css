@@ -148,10 +148,22 @@ a {
     display: inline-block
 }
 
-.user-menu a, .user-menu a:visited, .user-menu a:hover {
+.user-menu a, .user-menu a:visited {
     text-decoration: inherit;
     color: inherit;
     display: inline-block;
+}
+
+.user-menu a:hover {
+    color: var(--email-color);
+}
+
+body.no-title .user-menu a, body.no-title .user-menu a:visited {
+    color: var(--username-color-dark);
+}
+
+body.no-title .user-menu a:hover {
+    color: black;
 }
 
 .user-menu img {
