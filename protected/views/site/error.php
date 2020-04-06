@@ -18,7 +18,7 @@ if (empty($exception->getMessage()) && $exception instanceof \yii\web\HttpExcept
     echo Html::tag('span', $exception->getMessage(), ['class' => 'error']);
 }
 
-switch(get_class( $exception)) {
+switch (get_class($exception)) {
     case \yii\web\NotFoundHttpException::class:
         $message = \Yii::t('app', 'The page you are looking for doesn\'t exist');
         break;
@@ -26,7 +26,6 @@ switch(get_class( $exception)) {
         $message = \Yii::t('app', 'No extra information is available at this time');
 }
 echo Html::tag('span', $message, ['class' => 'help']);
-echo Html::a(Icon::back()."Back", ['/'], ['target' => '_top', 'class' => 'btn btn-white btn-back']);
 echo Html::a(Icon::home()."Home", ['/'], ['target' => '_top', 'class' => 'btn btn-primary btn-home']);
 
 echo Html::endTag('div');
