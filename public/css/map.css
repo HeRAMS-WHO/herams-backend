@@ -104,12 +104,8 @@ body {
    margin-right: 5px;
 }
 
-.popover-error .btn-back {
-    width: fit-content;
-}
-
 .popover-error .btn-home {
-    width: fit-content;
+    width: auto;
     color: white;
 }
 
