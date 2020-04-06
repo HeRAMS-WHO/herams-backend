@@ -7,7 +7,7 @@ use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\forms\CsvExport $model
+ * @var \prime\models\forms\Export $model
  * @var \prime\models\ar\Workspace $subject
  */
 
@@ -38,7 +38,7 @@ $form = ActiveForm::begin([
         'defaultPlaceholder' => false
     ],
     'options' => [
-        'class' => 'col-xs-6',
+        'class' => 'col-xs-12 col-md-6',
         'style' => [
             'column-span' => 4
         ]
@@ -51,7 +51,7 @@ echo \yii\bootstrap\Collapse::widget([
             'label' => 'Settings',
             // open its content by default
             'contentOptions' => ['class' => 'in'],
-            'content' => \app\components\Form::widget([
+            'content' => Form::widget([
                 'form' => $form,
                 'model' => $model,
                 'columns' => 1,
@@ -71,9 +71,7 @@ echo \yii\bootstrap\Collapse::widget([
                     'language' => [
                         'type' => Form::INPUT_DROPDOWN_LIST,
                         'items' => $model->getLanguages()
-
                     ],
-
                 ]
             ])
         ],
@@ -104,7 +102,16 @@ echo Form::widget([
                 ],
             ],
             'buttons' => [
-                Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
+                Html::submitButton(\Yii::t('app', 'Export CSV'), [
+                    'class' => 'btn btn-primary',
+                    'name' => 'format',
+                    'value' => 'csv',
+                ]),
+//                Html::submitButton(\Yii::t('app', 'Export XLSX'), [
+//                    'class' => 'btn btn-default',
+//                    'name' => 'format',
+//                    'value' => 'xlsx'
+//                ]),
             ]
         ])
     ]

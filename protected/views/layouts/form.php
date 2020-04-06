@@ -7,6 +7,6 @@ use yii\helpers\Html;
 $this->beginContent('@views/layouts/admin.php');
 
 
-echo Html::tag('div', $content, ['class' => ['form-layout']]);
+echo $content;
 
 $this->endContent();

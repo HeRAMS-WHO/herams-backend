@@ -7,7 +7,6 @@ use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
-
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
@@ -20,7 +19,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-xs-12">
+<div class="col-xs-12 col-md-8 col-lg-6 form-bg">
     <?php
     $form = ActiveForm::begin([
         'method' => 'PUT',
@@ -61,18 +60,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'rows' => 10
                 ]
             ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => ButtonGroup::widget([
-                    'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update project'), ['class' => 'btn btn-primary'])
-                    ]
-                ])
-            ],
-
+            \prime\widgets\FormButtonsWidget::embed([
+                'buttons' => [
+                    [
+                        'label' => \Yii::t('app', 'Update project'),
+                        'options' => ['class' => 'btn btn-primary'],
+                    ],
+                ]
+            ])
         ]
     ]);
     $form->end();
-
     ?>
 </div>

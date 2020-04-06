@@ -19,6 +19,7 @@
         "ext-gd": "*",
         "ext-pdo_mysql": "*",
         "ext-intl": "*",
+        "ext-zip": "*",
         "ext-json": "*",
         "fortawesome/font-awesome": "> 5",
         "guzzlehttp/psr7": "^1.2",
@@ -32,7 +33,7 @@
         "npm-asset/bootstrap": "^3.4",
         "npm-asset/izitoast": "^1.4",
         "psr/http-message": "^1.0",
-        "sam-it/ls2-jsonrpc-client": "^1.1.1",
+        "sam-it/ls2-jsonrpc-client": "^1.2.4",
         "sam-it/yii2-abac": ">= 1.0.2",
         "sam-it/yii2-magic": "^2",
         "sam-it/yii2-urlsigner": "^2.0",
@@ -43,7 +44,10 @@
         "ext-simplexml": "*",
         "kartik-v/yii2-widget-activeform": "^1.5",
         "kartik-v/yii2-widget-switchinput": "^1.3",
-        "kartik-v/yii2-widget-select2": "^2.1"
+        "kartik-v/yii2-widget-select2": "^2.1",
+        "npm-asset/pretty-checkbox": "^3.0",
+        "kodus/file-cache": "^1.1",
+        "box/spout": "^3.1"
     },
 
     "autoload": {
@@ -73,7 +77,10 @@
         "codeception/module-yii2": "> 1",
         "ifsnop/mysqldump-php": "> 2",
         "phpunit/phpunit": ">= 9",
-        "yiisoft/yii2-debug": "> 2"
+        "yiisoft/yii2-debug": "> 2",
+        "squizlabs/php_codesniffer": "^3.5",
+        "brainmaestro/composer-git-hooks": "^2.8",
+        "phpstan/phpstan": "^0.12.18"
     },
     "repositories": [
         {
@@ -84,10 +91,30 @@
     "scripts": {
         "codeception": "docker-compose run --rm codeception",
         "cli": "docker-compose run --rm cli",
-        "lint": "phpstan analyse -c phpstan.neon src --ansi",
+        "lint": "git diff-index --name-only --cached HEAD | xargs -r vendor/bin/phpcs",
+        "lint-fix": "git diff-index --diff-filter d --name-only --cached HEAD | xargs -r vendor/bin/phpcbf",
+        "lint-u": "git diff-index --name-only HEAD | xargs -r vendor/bin/phpcs",
+        "lint-ufix": "git diff-index --name-only HEAD | xargs -r vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
-        "stan": "phpstan analyse src",
-        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml"
+        "stan": "phpstan analyse protected",
+        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
+        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-update-cmd": "cghooks update",
+        "dlint-fix": "docker-compose run --rm --user=$(id -u):$(id -g) composer lint-fix",
+        "git-pre-commit": ["composer dlint-fix"],
+        "git-post-merge": [
+            "composer install"
+        ]
+    },
+    "extra": {
+        "hooks": {
+            "pre-commit": [
+                "composer git-pre-commit"
+            ],
+            "post-merge": [
+                "composer git-post-merge"
+            ]
+        }
     }
 
 }

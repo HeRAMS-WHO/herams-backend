@@ -3,7 +3,7 @@
 namespace prime\controllers;
 
 use prime\actions\DeleteAction;
-use prime\actions\ExportCsvAction;
+use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\ExportDashboard;
@@ -15,11 +15,13 @@ use prime\controllers\project\Share;
 use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
+use prime\controllers\project\Pdf;
 use prime\controllers\project\Workspaces;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
 use prime\models\permissions\Permission;
 use prime\queries\ResponseQuery;
+use yii\filters\ContentNegotiator;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -45,22 +47,23 @@ class ProjectController extends Controller
                 'redirect' => ['/project']
             ],
             'view' => View::class,
+            'pdf' => Pdf::class,
             'summary' => Summary::class,
             'share' => Share::class,
             'workspaces' => Workspaces::class,
             'pages' => Pages::class,
             'export' => [
-                'class' => ExportCsvAction::class,
-                'subject' => static function(Request $request) {
+                'class' => ExportAction::class,
+                'subject' => static function (Request $request) {
                     return Project::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseQuery' => static function(Project $project): ResponseQuery {
+                'responseQuery' => static function (Project $project): ResponseQuery {
                     return Response::find()->project($project)->with('workspace');
                 },
-                'surveyFinder' => function(Project $project) {
+                'surveyFinder' => function (Project $project) {
                     return $project->getSurvey();
                 },
-                'checkAccess' => function(Project $project, User $user) {
+                'checkAccess' => function (Project $project, User $user) {
                     return $user->can(Permission::PERMISSION_EXPORT, $project);
                 }
             ],
@@ -69,7 +72,8 @@ class ProjectController extends Controller
 
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'verbs' => [
                     'class' => VerbFilter::class,
@@ -95,6 +99,7 @@ class ProjectController extends Controller
                             'actions' => [
                                 'share',
                                 'view',
+                                'pdf',
                                 'summary',
                                 'index',
                                 'update',
@@ -120,6 +125,5 @@ class ProjectController extends Controller
                 ]
             ]
         );
-
     }
 }

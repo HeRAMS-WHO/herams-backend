@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\rules;
 
-
 use prime\helpers\ProposedGrant;
 use prime\models\ar\User;
 use prime\models\permissions\Permission;

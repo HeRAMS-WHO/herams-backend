@@ -3,11 +3,12 @@
 
 namespace prime\widgets\map;
 
-
+use http\QueryString;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
+use prime\widgets\chart\ChartBundle;
 
 class Map extends Widget
 {
@@ -47,6 +48,22 @@ class Map extends Widget
         $this->colors = $this->colors ?? new JsExpression('chroma.brewer.OrRd');
         parent::init();
     }
+
+    /**
+     * This is the popup content that will be shown while the data is being fetched.
+     * @return string
+     */
+    private function renderPopupLoader(): string
+    {
+        return <<<HTML
+        <div class="loader-wrapper">
+            <h1>Loading project summary</h1>
+            <p>We're getting your summary ready...</p>
+            <div class="loader-anim" style="background-image: url('/img/loader.svg');"></div>
+        </div>
+HTML;
+    }
+
     public function run()
     {
         $this->registerClientScript();
@@ -54,6 +71,8 @@ class Map extends Widget
         Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
         $options['id'] = $this->getId();
         echo Html::beginTag('div', $options);
+        echo Html::tag('template', $this->renderPopupLoader());
+
         $id = Json::encode($this->getId());
 
         $config = Json::encode([
@@ -61,7 +80,8 @@ class Map extends Widget
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 18
+            'maxZoom' => 16,
+            'minZoom' => 3
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
@@ -80,6 +100,7 @@ class Map extends Widget
                             break;
                     }
                 }
+                
                 // /*
                 let bounds = [];
                 let data = $data;
@@ -98,23 +119,38 @@ class Map extends Widget
                                 fillOpacity: 0.8
                             });
                             
-                            let popup = marker.bindPopup(feature.properties.popup || feature.properties.title, {
+                            
+                            let popup = marker.bindPopup((layer => document.querySelector("#" + {$id} + " template").content.cloneNode(true)), {
                                 maxWidth: "auto",
                                 closeButton: false
-                            });
-                            popup.on('popupopen', function() {
+                            }).getPopup();
+
+                            let fetched = false;
+                            // On the first open fetch remote content
+                            marker.on('popupopen', function() {
+                                if (fetched) {
+                                    loadChartsForCountry(popup, feature.json);
+                                    return;
+                                }
+                                fetch(feature.properties.url)
+                                    .then((r) => r.json())
+                                    .then((json) => {
+                                        feature.json = json;
+                                        loadChartsForCountry(popup, feature.json);
+                                });
+                                fetched = true;
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
                             });
-                            popup.on('popupclose', function() {
+                            marker.on('popupclose', function() {
                                 let event = new Event('mapPopupClose');
                                 window.dispatchEvent(event);
                             });
                             
                             window.addEventListener('externalPopup', function(e) {
                                 if (e.id == feature.properties.id) {
-                                    marker.openPopup(popup);    
+                                    marker.openPopup();    
                                 }
                                  
                             });
@@ -162,12 +198,135 @@ class Map extends Widget
                     metric: true,
                     imperial: false
                 }).addTo(map);
+                let menuWidth = document.getElementById("w0").offsetWidth;
                 map.fitBounds(bounds, {
-                    padding: [50, 50]
+                    padding: [50, 50],
+                    paddingTopLeft: [menuWidth,0]
                 });
             } catch(error) {
                 console.error("Error in map widget JS", error);
             }
+
+            function cleanPopup(popup) {
+                let popin = document.getElementById("popup");
+                if(popin)
+                    popin.remove();
+            }
+
+            function loadChartsForCountry(popup, json) {
+                cleanPopup(popup);
+                popup.setContent(
+                    '<div class="project-summary" id="popup">' + 
+                    '<h1>' + json.title + '</h1>' +
+                    '<div class="grid">' +
+                        '<div class="stat"><strong>' +
+                            json.facilityCount +
+                        '</strong> Health facilities</div>' +
+                        '<div class="stat"><strong>' +
+                            json.contributorCount +
+                        '</strong> Contributors</div>' +
+                        '<hr/>' +
+                        //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
+                        '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
+                        '<div id="js-legend-1" class="legend"></div></div>' +
+                        '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
+                        '<div id="js-legend-2" class="legend"></div></div>' +
+                        '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
+                        '<div id="js-legend-3" class="legend"></div></div>' +
+                        '<a href="/project/'+json.id+'">Dashboard</a>' +
+                        '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
+                    '</div>' +
+                    '</div>'
+                );
+                popup.update();  
+
+                var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
+
+                jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primary","Secondary","Tertiary","Other"], ['blue', 'white']);
+                canvas = document.getElementById('chart1').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
+                
+                jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                canvas = document.getElementById('chart2').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
+                
+                jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                canvas = document.getElementById('chart3').getContext('2d');
+                chart = new Chart(canvas, jsonConfig);
+                document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
+            }
+               
+            
+            function buildChart(title,icon,types, items, colors) {
+                if(Object.keys(types).length > 0) {   
+                    labels = [];
+                    sum = Object.keys(types).reduce((sum,key)=>sum+parseFloat(types[key]||0),0);
+                    items.forEach(function(key) {
+                        let percent = Math.round(((types[key]/sum) * 100));
+                        if(isNaN(percent)) percent = 0;
+                        labels[percent+"% "+key] = percent;
+                    });
+                    bgColor = chroma.scale(colors).colors(Object.keys(items).length);
+                    return getChartConfig(Object.keys(labels),bgColor,Object.values(labels),icon,title);
+                }
+            }
+
+            function getChartConfig(labels,bgColor,values,icon,title) {
+                var jsonConfig = 
+                {
+                    'type' : 'doughnut',
+                    'data': {
+                        'datasets' : [
+                            {
+                                'data' : values,
+                                'backgroundColor' : bgColor,
+                                'label' : 'Types'
+                            }],
+                        'labels' : labels
+                    },
+                    'options' : {
+                        'tooltips' : {
+                                'enabled' : false,
+                        },
+                        'elements' : {
+                            'arc' : {
+                                'borderWidth': 0
+                            },
+                            'center': {
+                                'sidePadding': 40,
+                                'color': '#a5a5a5',
+                                'fontWeight': "normal",
+                                'fontStyle': "icomoon",
+                                // Facility
+                                'text': icon
+                            }
+                        },
+                        'cutoutPercentage': 95,
+                        'responsive' : true,
+                        'maintainAspectRatio' : false,
+                        'legend': {
+                            'display': false,
+                            'position': 'bottom',
+                            'labels': {
+                                'boxWidth': 12,
+                                'fontSize': 12,
+                            }
+                        },
+                        'title': {
+                            'display': true,
+                            'text': title
+                        },
+                        'animation': {
+                            'animateScale': true,
+                            'animateRotate': true
+                        }
+                    }
+                };
+                return jsonConfig;
+            }
+
         })();
 
 JS
@@ -179,7 +338,7 @@ JS
 
     protected function registerClientScript()
     {
+        $this->view->registerAssetBundle(ChartBundle::class);
         $this->view->registerAssetBundle(MapBundle::class);
     }
-
 }

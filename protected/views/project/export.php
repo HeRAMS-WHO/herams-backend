@@ -7,7 +7,7 @@ use yii\bootstrap\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\forms\CsvExport $model
+ * @var \prime\models\forms\Export $model
  * @var \prime\models\ar\Project $subject
  */
 
@@ -99,7 +99,16 @@ echo Form::widget([
                 ],
             ],
             'buttons' => [
-                Html::submitButton(\Yii::t('app', 'Export'), ['class' => 'btn btn-primary']),
+                Html::submitButton(\Yii::t('app', 'Export CSV'), [
+                    'class' => 'btn btn-primary',
+                    'name' => 'format',
+                    'value' => 'csv',
+                ]),
+//                Html::submitButton(\Yii::t('app', 'Export XLSX'), [
+//                    'class' => 'btn btn-default',
+//                    'name' => 'format',
+//                    'value' => 'xlsx'
+//                ]),
             ]
         ])
     ]
