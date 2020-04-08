@@ -68,7 +68,9 @@ body {
     background-color: white;
     display: grid;
     position: relative;
-    max-width: 710px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto auto var(--status-height);
     grid-template-areas:
@@ -80,9 +82,9 @@ body {
 
 }
 .popover-error {
-    margin: 0 auto;
-    width: 100%;
     max-width: 800px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto var(--status-height);
     grid-template-areas:
         "login"
         "stat"
@@ -116,8 +118,6 @@ body {
 .popover div.centered {
     grid-column: span 2;
     text-align: center;
-    padding-left: 150px;
-    padding-right: 150px;
     padding-bottom: 40px;
     font-size: 40px;
     color: #bbbbbb;
@@ -154,7 +154,7 @@ body {
 
 .form {
     grid-area: login;
-    padding: var(--padding);
+    padding: 0 var(--padding) var(--padding);
     padding-bottom: 0;
     margin-bottom: var(--padding);
     position: relative;
@@ -172,7 +172,6 @@ body {
 
 .intro {
     padding: var(--padding);
-    padding-top: 0;
     color: #565656;
     grid-area: intro;
     text-align: justify;
@@ -214,10 +213,11 @@ body {
         border-right: var(--gutter-width) solid var(--gutter-color);
         margin-bottom: var(--padding);
         padding-bottom: 0;
+        padding-top: 0;
     }
 
     .form {
-
+        padding: var(--padding);
         flex-grow: 0;
     }
 
