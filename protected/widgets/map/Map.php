@@ -242,17 +242,17 @@ HTML;
 
                 var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
 
-                jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primary","Secondary","Tertiary","Other"], ['blue', 'white']);
+                jsonConfig = buildChart('Type',"\u{e90b}", json.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']);
                 canvas = document.getElementById('chart1').getContext('2d');
                 chart = new Chart(canvas, jsonConfig);
                 document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
                 
-                jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']);
                 canvas = document.getElementById('chart2').getContext('2d');
                 chart = new Chart(canvas, jsonConfig);
                 document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
                 
-                jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
+                jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']);
                 canvas = document.getElementById('chart3').getContext('2d');
                 chart = new Chart(canvas, jsonConfig);
                 document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
@@ -263,10 +263,14 @@ HTML;
                 if(Object.keys(types).length > 0) {   
                     labels = [];
                     sum = Object.keys(types).reduce((sum,key)=>sum+parseFloat(types[key]||0),0);
-                    items.forEach(function(key) {
-                        let percent = Math.round(((types[key]/sum) * 100));
-                        if(isNaN(percent)) percent = 0;
-                        labels[percent+"% "+key] = percent;
+                    items.forEach(function(item) {
+                        let percent = Math.round((types[item.key]/sum) * 100);
+                        var valueLabel = percent+"%";
+                        if(isNaN(percent))
+                            valueLabel = "--";
+                        else if(percent < 1)
+                            valueLabel = "< 1%";
+                        labels[valueLabel+" "+item.label] = percent;
                     });
                     bgColor = chroma.scale(colors).colors(Object.keys(items).length);
                     return getChartConfig(Object.keys(labels),bgColor,Object.values(labels),icon,title);

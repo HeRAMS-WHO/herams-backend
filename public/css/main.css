@@ -155,9 +155,8 @@ a:hover {
     color: var(--color);
     font-family: "Source Sans Pro", sans-serif;
     box-sizing: border-box;
-    max-width: 500px;
     border-width: 0;
-    width: 400px;
+    width: 420px;
     min-width: 300px;
     min-height: 350px;
     overflow: hidden;
@@ -191,9 +190,9 @@ a:hover {
 .project-summary .grid {
     display: grid;
     margin-top: 1em;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: auto auto 200px auto;
     grid-template-areas: "stat stat stat stat stat stat" "line line line line line line" "chart chart chart chart chart chart" "button button button button button button";
@@ -262,7 +261,6 @@ a:hover {
 
 .project-summary .chart .legend {
     margin-top: 12px;
-    margin-left: 10px;
 }
 
 .project-summary .chart .legend:before {
@@ -273,13 +271,14 @@ a:hover {
 .project-summary .chart .legend ul {
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
+    width: max-content;
 }
 
 .project-summary .chart .legend li {
     margin-bottom: 3px;
     color: #a5a5a5;
-    font-size: 11px;
+    font-size: 11.2px;
 }
 
 .project-summary .chart .legend span {
