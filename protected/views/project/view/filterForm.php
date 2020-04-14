@@ -114,7 +114,7 @@ JS
     }
 
     $id = Json::encode('#' . Html::getInputId($filterModel, 'date'));
-    $this->registerJs("flatpickr($id);");
+    $this->registerJs("flatpickr($id,{maxDate:'today'});");
     echo Html::beginTag('div', ['class' => 'filterlist']);
     echo Form::widget([
         'form' => $form,
