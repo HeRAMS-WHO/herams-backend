@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-
 use Box\Spout\Common\Entity\Style\Style;
 
 class StyleRegistry extends \Box\Spout\Writer\XLSX\Manager\Style\StyleRegistry

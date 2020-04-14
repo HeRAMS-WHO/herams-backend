@@ -37,7 +37,6 @@ class XlsxWriter implements WriterInterface
 
     private function reset()
     {
-        ini_set('max_execution_time', '0');
         // Set up the cache
         $styleBuilder = new StyleBuilder();
         $optionsManager = new XLSXOptionsManager($styleBuilder);

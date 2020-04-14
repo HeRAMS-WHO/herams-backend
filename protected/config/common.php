@@ -14,7 +14,6 @@ use yii\swiftmailer\Mailer;
 
 /** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
-ini_set('memory_limit','4096M');
 return [
     'id' => 'herams',
     'name' => 'HeRAMS',

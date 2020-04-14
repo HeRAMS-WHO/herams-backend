@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-
 use Box\Spout\Common\Manager\OptionsManagerInterface;
 use Box\Spout\Writer\Common\Creator\InternalEntityFactory;
 use Box\Spout\Writer\Common\Creator\ManagerFactoryInterface;
