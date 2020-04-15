@@ -215,47 +215,80 @@ HTML;
 
             function loadChartsForCountry(popup, json) {
                 cleanPopup(popup);
-                popup.setContent(
-                    '<div class="project-summary" id="popup">' + 
-                    '<h1>' + json.title + '</h1>' +
-                    '<div class="grid">' +
-                        '<div class="stat"><strong>' +
+                
+                let content = "";
+                
+                if(json.status == "ongoing") {
+                
+                    let btns;
+                    if(json.dashboard_url) 
+                        btns = '<a href="'+json.dashboard_url+'">Dashboard</a>' +
+                        '<a href="/project/'+json.id+'/workspaces">Workspaces</a>';
+                    else 
+                        btns = '<a href="/project/'+json.id+'/workspaces" class="full-width">Workspaces</a>';
+                    content = '<div class="stat"><strong>' +
                             json.facilityCount +
-                        '</strong> Health facilities</div>' +
-                        '<div class="stat"><strong>' +
-                            json.contributorCount +
-                        '</strong> Contributors</div>' +
-                        '<hr/>' +
-                        //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
-                        '<div id="js-legend-1" class="legend"></div></div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
-                        '<div id="js-legend-2" class="legend"></div></div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
-                        '<div id="js-legend-3" class="legend"></div></div>' +
-                        '<a href="/project/'+json.id+'">Dashboard</a>' +
-                        '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
-                    '</div>' +
-                    '</div>'
-                );
-                popup.update();  
+                            '</strong> Health facilities</div>' +
+                            '<div class="stat"><strong>' +
+                                json.contributorCount +
+                            '</strong> Contributors</div>' +
+                            '<hr/>';
 
-                var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
 
-                jsonConfig = buildChart('Type',"\u{e90b}", json.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']);
-                canvas = document.getElementById('chart1').getContext('2d');
-                chart = new Chart(canvas, jsonConfig);
-                document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
+                    if(json.facilityCount > 0 && json.contributorCount > 0) 
+                        content +=
+                            '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
+                            '<div id="js-legend-1" class="legend"></div></div>' +
+                            '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
+                            '<div id="js-legend-2" class="legend"></div></div>' +
+                            '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
+                            '<div id="js-legend-3" class="legend"></div></div>' +
+                            btns;
+
+                    else 
+                        content += '<div class="no-data full-width">No datas yet</div>' +
+                            btns;
                 
-                jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']);
-                canvas = document.getElementById('chart2').getContext('2d');
-                chart = new Chart(canvas, jsonConfig);
-                document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
-                
-                jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']);
-                canvas = document.getElementById('chart3').getContext('2d');
-                chart = new Chart(canvas, jsonConfig);
-                document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
+                    popup.setContent(
+                        '<div class="project-summary" id="popup">' + 
+                        '<h1>' + json.title + '</h1>' +
+                        '<div class="grid">' +
+                            content +
+                        '</div>' +
+                        '</div>'
+                    );
+                    popup.update(); 
+
+                    if(json.facilityCount > 0 && json.contributorCount > 0) {
+                        var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
+                        
+                        jsonConfig = buildChart('Type',"\u{e90b}", json.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']);
+                        canvas = document.getElementById('chart1').getContext('2d');
+                        chart = new Chart(canvas, jsonConfig);
+                        document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
+                        
+                        jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']);
+                        canvas = document.getElementById('chart2').getContext('2d');
+                        chart = new Chart(canvas, jsonConfig);
+                        document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
+                        
+                        jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']);
+                        canvas = document.getElementById('chart3').getContext('2d');
+                        chart = new Chart(canvas, jsonConfig);
+                        document.getElementById('js-legend-3').innerHTML = chart.generateLegend(); 
+                    }
+
+
+                } else {
+                    popup.setContent(
+                        '<div class="project-summary" id="popup">' + 
+                        '<h1>' + json.title + '</h1>' +
+                        '<h2>In Progress</h2>' +
+                        '<p>This project is in the process of being set up. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>' +
+                        '</div>'
+                    );
+                    popup.update(); 
+                }
             }
                
             
