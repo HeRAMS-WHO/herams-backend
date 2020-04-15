@@ -38,7 +38,7 @@ $form = ActiveForm::begin([
         'defaultPlaceholder' => false
     ],
     'options' => [
-        'class' => 'col-xs-6',
+        'class' => 'col-xs-12 col-md-6',
         'style' => [
             'column-span' => 4
         ]
@@ -107,11 +107,11 @@ echo Form::widget([
                     'name' => 'format',
                     'value' => 'csv',
                 ]),
-//                Html::submitButton(\Yii::t('app', 'Export XLSX'), [
-//                    'class' => 'btn btn-default',
-//                    'name' => 'format',
-//                    'value' => 'xlsx'
-//                ]),
+                Html::submitButton(\Yii::t('app', 'Export XLSX'), [
+                    'class' => 'btn btn-default',
+                    'name' => 'format',
+                    'value' => 'xlsx'
+                ]),
             ]
         ])
     ]

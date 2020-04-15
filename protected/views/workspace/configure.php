@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = Yii::t('app', 'Update workspace token');
 $this->params['breadcrumbs'][] = $this->title;
-
+?>
+<div class="col-xs-12 col-md-8 col-lg-6 form-bg">
+<?php
 $form = ActiveForm::begin([
     'method' => 'PUT',
     "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -38,9 +40,9 @@ $form = ActiveForm::begin([
         'defaultPlaceholder' => false
     ]
 ]);
-foreach($token->attributes() as $attribute) {
+foreach ($token->attributes() as $attribute) {
     if ($token->isAttributeSafe($attribute)) {
-       echo $form->field($token, $attribute);
+        echo $form->field($token, $attribute);
     } else {
         echo $form->field($token, $attribute)->textInput([
             'readonly' => true
@@ -57,4 +59,5 @@ echo ButtonGroup::widget([
     ]
 ]);
 $form->end();
-
+?>
+</div>

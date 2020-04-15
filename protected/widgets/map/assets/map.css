@@ -11,6 +11,11 @@
     vertical-align: middle;
     user-select: none;
 }
+
+.content.leaflet-container {
+    overflow:hidden;
+}
+
 .leaflet-control-layers-selector {
     /*height: 30px;*/
 }

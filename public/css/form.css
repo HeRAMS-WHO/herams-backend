@@ -18,7 +18,9 @@ form .has-error input{
     color: var(--validation-error-color);
 }
 
-
+.kv-table-caption {
+    border: none;
+}
 
 .form-control {
     box-sizing: border-box;

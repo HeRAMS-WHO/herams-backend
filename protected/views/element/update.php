@@ -36,7 +36,7 @@ $this->title = $model->isNewRecord
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-8">
+<div class="col-xs-12 col-md-8 form-bg">
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -126,7 +126,7 @@ JS
 
 
     $attributes = [];
-    foreach($model->colorAttributes() as $attribute) {
+    foreach ($model->colorAttributes() as $attribute) {
         $attributes[$attribute] = [
             'type' => Form::INPUT_HTML5,
             'html5type' =>'color',
@@ -146,7 +146,8 @@ JS
     }
     echo ButtonGroup::widget([
         'buttons' => [
-            Html::submitButton($this->title,
+            Html::submitButton(
+                $this->title,
                 [
                     'class' => 'btn btn-primary',
                     'name' => 'action',
@@ -158,7 +159,8 @@ JS
                 'name' => 'action',
                 'value' => 'dashboard'
             ]),
-            Html::a(\Yii::t('app', 'Discard changes & go to dashboard'),
+            Html::a(
+                \Yii::t('app', 'Discard changes & go to dashboard'),
                 [
                     'project/view',
                     'page_id' => $model->page->id,
@@ -167,31 +169,32 @@ JS
                 [
                 'class' => 'btn btn-warning',
 
-            ])
+                ]
+            )
         ]
     ]);
     $form->end();
 
     ?>
 </div>
-<div class="col-xs-4">
+<div class="col-xs-12 col-md-4">
     <?php
-        if (isset($model->id)) {
-            $params = ['element/preview'];
-            foreach($model->safeAttributes() as $attribute) {
-                $params[Html::getInputName($model, $attribute)] = $model->$attribute;
-            }
-            $params['id'] = $model->id;
-            echo Html::tag('iframe', '', [
-                'id' => 'preview-frame',
-                'src' => Url::to($params),
-                'style' => [
-                    'border' => 'none',
-                    'width' => '100%',
-                    'min-height' => '500px',
-                    'background-color' => 'white'
-                ]
-            ]);
+    if (isset($model->id)) {
+        $params = ['element/preview'];
+        foreach ($model->safeAttributes() as $attribute) {
+            $params[Html::getInputName($model, $attribute)] = $model->$attribute;
         }
+        $params['id'] = $model->id;
+        echo Html::tag('iframe', '', [
+            'id' => 'preview-frame',
+            'src' => Url::to($params),
+            'style' => [
+                'border' => 'none',
+                'width' => '100%',
+                'min-height' => '500px',
+                'background-color' => 'white'
+            ]
+        ]);
+    }
     ?>
 </div>

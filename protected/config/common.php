@@ -14,7 +14,6 @@ use yii\swiftmailer\Mailer;
 
 /** @var \prime\components\Environment $env */
 require_once __DIR__ . '/../helpers/functions.php';
-ini_set('memory_limit','4096M');
 return [
     'id' => 'herams',
     'name' => 'HeRAMS',
@@ -50,7 +49,7 @@ return [
             'errorRoute' => ['site/lime-survey'],
             'privateKey' => $env->get('PRIVATE_KEY_FILE', false) ? file_get_contents($env->get('PRIVATE_KEY_FILE')) : null,
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
-            'userNameGenerator' => function($id) use ($env) {
+            'userNameGenerator' => function ($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
             }
         ],
@@ -61,14 +60,14 @@ return [
             'paramsParam' => 'p',
             'expirationParam' => 'e'
         ],
-        'abacResolver' => function(): \SamIT\abac\interfaces\Resolver {
+        'abacResolver' => function (): \SamIT\abac\interfaces\Resolver {
             return new \SamIT\abac\resolvers\ChainedResolver(
                 new \prime\components\SingleTableInheritanceResolver(),
                 new ActiveRecordResolver(),
                 new \prime\components\GlobalPermissionResolver()
             );
         },
-        'abacManager' => function() {
+        'abacManager' => function () {
             $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
             $repo = new ActiveRecordRepository(Permission::class, [
                 ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
@@ -79,11 +78,12 @@ return [
             ]);
             $cachedRepo = new \SamIT\abac\repositories\CachedReadRepository($repo);
 
-            $environment = new class extends ArrayObject implements Environment {};
+            $environment = new class extends ArrayObject implements Environment {
+            };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
             return new \SamIT\abac\AuthManager($engine, $cachedRepo, \Yii::$app->abacResolver, $environment);
         },
-        'authManager' => function() {
+        'authManager' => function () {
 
 
             return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
@@ -117,7 +117,7 @@ return [
         'limesurvey' => function () use ($env) {
             $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);
             $result = new Client($json, $env->get('LS_USER'), $env->get('LS_PASS'));
-            $result->setCache(function($key, $value, $duration) {
+            $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 return app()->get('limesurveyCache')->set($key, $value, $duration);
             }, function ($key) {

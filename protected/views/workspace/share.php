@@ -30,9 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 ?>
-    <div class="col-xs-12 permissions-form">
+<div class="col-xs-12 share-form">
+    <div class="col-xs-12 col-md-8 col-lg-6 permissions-form form-bg">
         <?php
-        echo Html::tag('h2', \Yii::t('app', 'Users and permissions'));
+        echo Html::tag('h2', \Yii::t('app', 'Add permissions'));
         $form = ActiveForm::begin([
             'method' => 'POST',
             "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -57,11 +58,12 @@ $this->params['breadcrumbs'][] = $this->title;
         $form->end();
         ?>
     </div>
-    <div class="col-xs-12 list-shared">
-        <h2><?=\Yii::t('app', 'Already shared with')?></h2>
+    <div class="col-xs-12 list-shared form-bg">
+        <h2><?=\Yii::t('app', 'View user permissions')?></h2>
         <?php
         echo $model->renderTable();
         ?>
     </div>
+</div>
 
 

@@ -9,7 +9,6 @@ use prime\helpers\XlsxWriter;
 use prime\models\forms\Export;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
-use yii\filters\ContentNegotiator;
 use yii\helpers\FileHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
@@ -69,8 +68,9 @@ class ExportAction extends Action
         $survey = ($this->surveyFinder)($subject);
 
         $model = new Export($survey);
-        if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
-            switch ($request->getBodyParam('format', 'csv')) {
+        $params = $request->bodyParams;
+        if ($model->load($params) && $model->validate()) {
+            switch ($params['format'] ?? 'csv') {
                 case 'xlsx':
                     $writer = new XlsxWriter();
                     break;
