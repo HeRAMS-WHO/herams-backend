@@ -3,9 +3,16 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
+use Box\Spout\Common\Helper\GlobalFunctionsHelper;
+use Box\Spout\Writer\Common\Creator\InternalEntityFactory;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\XLSX\Creator\HelperFactory as XLSXHelperFactory;
+use Box\Spout\Writer\XLSX\Creator\ManagerFactory as XLSXManagerFactory;
+use Box\Spout\Writer\XLSX\Manager\OptionsManager as XLSXOptionsManager;
 use Box\Spout\Writer\XLSX\Writer;
 use GuzzleHttp\Psr7\LazyOpenStream;
+use prime\components\ManagerFactory;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
@@ -30,9 +37,15 @@ class XlsxWriter implements WriterInterface
 
     private function reset()
     {
-        ini_set('max_execution_time', '0');
         // Set up the cache
-        $this->writer = WriterEntityFactory::createXLSXWriter();
+        $styleBuilder = new StyleBuilder();
+        $optionsManager = new XLSXOptionsManager($styleBuilder);
+        $globalFunctionsHelper = new GlobalFunctionsHelper();
+
+        $helperFactory = new XLSXHelperFactory();
+        $managerFactory = new ManagerFactory(new InternalEntityFactory(), $helperFactory);
+
+        $this->writer = new Writer($optionsManager, $globalFunctionsHelper, $helperFactory, $managerFactory);
         $this->stream = stream_for('');
         $this->filename = tempnam(sys_get_temp_dir(), 'xslx');
         $this->writer->openToFile($this->filename);
