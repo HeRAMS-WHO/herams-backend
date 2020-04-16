@@ -43,32 +43,6 @@ class Pdf extends Action
             throw new ServerErrorHttpException($e->getMessage());
         }
 
-        if (isset($parent_id, $page_id)) {
-            /** @var PageInterface $parent */
-            $parent = Page::findOne(['id' => $parent_id]);
-            foreach ($parent->getChildPages($survey) as $childPage) {
-                if ($childPage->getid() === $page_id) {
-                    $page = $childPage;
-                    break;
-                }
-            }
-            if (!isset($page)) {
-                throw new NotFoundHttpException();
-            }
-        } elseif (isset($page_id)) {
-            $page = Page::findOne(['id' => $page_id]);
-            if (!isset($page) || $page->project_id !== $project->id) {
-                throw new NotFoundHttpException();
-            }
-        } elseif (!empty($project->pages)) {
-            $page = $project->pages[0];
-        } else {
-            throw new NotFoundHttpException('No reporting has been set up for this project');
-        }
-
-
-
-
         $responses = $project->getResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
@@ -90,7 +64,6 @@ class Pdf extends Action
             'data' => $filtered,
             'filterModel' => $filterModel,
             'project' => $project,
-            'page' => $page,
             'survey' => $survey
         ]);
     }
@@ -122,7 +95,6 @@ class Pdf extends Action
                 if ($question->getTitle() === $text) {
                     return $question;
                 }
-
             }
         }
         return null;

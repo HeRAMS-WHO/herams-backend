@@ -13,14 +13,16 @@ $this->title = $project->getDisplayField();
 <div class="filters">
     <div class="count">
         <?php
-        echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
+        echo Icon::healthFacility();
         echo Html::tag('em', count($data));
+        echo ' ' . \Yii::t('app', 'Health Facilities');
         ?>
     </div>
     <div class="count">
         <?php
-        echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
+        echo Icon::contributors();
         echo Html::tag('em', $project->contributorCount);
+        echo ' ' . \Yii::t('app', 'Contributors');
         ?>
     </div>
     <div class="count">
@@ -39,8 +41,9 @@ $this->title = $project->getDisplayField();
     </div>
 </div>
 <?php
-echo Html::beginTag('div', ['class' => 'content']);
-foreach($project->pages as $page) {
+foreach ($project->pages as $page) {
+    echo Html::beginTag('div', ['class' => 'content']);
+    echo "<h2 class='page-title'>".$this->title.' - '.$page->title."</h2>";
     foreach ($page->getChildElements() as $element) {
         Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Begin chart {$element->id} -->";
@@ -53,17 +56,10 @@ foreach($project->pages as $page) {
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }
-            \Yii::error($t);
-            echo Html::tag(
-                'div',
-                "Rendering this element caused an error: <strong>{$t->getMessage()}</strong>. The most common reason for the error is an invalid question code in its configuration. You can edit the element " . Html::a('here', ['/element/update', 'id' => $element->id]) . '.',
-                [
-                    'class' => 'element',
-                ]
-            );
         }
         echo "<!-- End chart {$element->id} -->";
         Yii::endProfile('Render element ' . $element->id);
     }
+    echo Html::endTag('div');
+    echo "<div class='page-break'></div>";
 }
-echo Html::endTag('div');
