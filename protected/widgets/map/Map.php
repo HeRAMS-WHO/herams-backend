@@ -246,7 +246,9 @@ HTML;
                             btns;
 
                     else 
-                        content += '<div class="no-data full-width">No datas yet</div>' +
+                        content += '<div class="no-data full-width"><h2>In Progress</h2>' +
+                            '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>'+
+                            '</div>' +
                             btns;
                 
                     popup.setContent(
