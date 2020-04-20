@@ -29,18 +29,37 @@ body {
 
 .title {
     width: 100%;
-    padding: 0;
+    align-items: center;
     overflow: unset;
     background-color: white;
+    color: var(--primary-color);
+    margin: 0;
+    padding: 15px 10px 15px 10px;
+    max-width: 100%;
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 25px;
+    text-overflow: ellipsis;
+    border-bottom: 5px solid var(--highlight-background-color);
 }
 
 .filters {
     box-shadow: none;
+    padding: 0;
+    float: right;
 }
 
 .filters .count {
-    display: inline-block;
+    display: inline-flex;
     margin-left: 0;
+    font-size: 15px;
+    line-height: 15px;
+    padding-top: 5px;
+    align-items: center;
+}
+
+.filters .count em {
+    padding:0 3px;
 }
 
 .title span.header {
@@ -50,7 +69,18 @@ body {
     margin: 0;
     padding: 20px;
 }
+.filters-list {
+    padding: 10px 10px 0 10px;
+    font-size: 12px;
+}
 
+.filters-list span.list-title {
+    text-decoration: underline;
+}
+
+.filters-list span.values {
+    padding-right: 3px;
+}
 .content {
     display: grid;
     grid-template-columns: 1fr 1fr;

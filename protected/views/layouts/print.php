@@ -3,7 +3,6 @@
 
 use prime\assets\PdfBundle;
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 
 /* @var $content string */
     $this->beginPage();
@@ -32,25 +31,8 @@ use yii\widgets\Breadcrumbs;
 <?php
 echo Html::beginTag('body', $this->params['body'] ?? []);
 $this->beginBody();
-
-
-?>
-<div class="title">
-<?php
-    echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
-        'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() ." </li>\n",
-        'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() ."</li>\n",
-        'homeLink' => [
-            'label' => \Yii::t('app', 'World overview'),
-            'url' => '/'
-        ],
-        'links' => $this->params['breadcrumbs'] ?? []
-    ]);
-    echo Html::tag('span', $this->title, ['class' => 'header']);
-?></div>
-<?php
     echo $content;
-    $this->endBody();
+$this->endBody();
 ?>
 </body>
 
