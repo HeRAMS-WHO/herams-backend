@@ -41,6 +41,7 @@
     --item-padding-vertical: 18px;
     --side-width: 285px;
     padding-top: 10px;
+    height: 100vh;
     position: relative;
     border-bottom-right-radius: 5px;
     background-color: white;
@@ -292,7 +293,7 @@
 }
 
 .menu.collapsible {
-    height: 100%;
+    height: 100vh;
     transition-duration: var(--animation-duration);
     transition-property: height;
 }
