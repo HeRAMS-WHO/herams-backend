@@ -26,15 +26,21 @@ class Summary extends Action
         if (!$project->isHidden() && !$user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
+        $dashboardUrl = '';
+        if (!empty($project->pages)) {
+            $dashboardUrl = '/project/'.$project->id;
+        }
 
         return $this->controller->asJson([
             'id' => $project->id,
             'title' => $project->title,
+            'status' => $project->status == Project::STATUS_TARGET ? 'target':'ongoing',
+            'dashboard_url' => $dashboardUrl,
             'subjectAvailabilityCounts' => $project->getSubjectAvailabilityCounts(),
             'functionalityCounts' => $project->getFunctionalityCounts(),
             'typeCounts' => $project->getTypeCounts(),
             'facilityCount' => $project->facilityCount,
-            'contributorCount' => $project->contributorCount
+            'contributorCount' => $project->contributorCount,
         ]);
     }
 }
