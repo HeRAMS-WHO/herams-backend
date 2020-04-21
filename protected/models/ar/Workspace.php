@@ -93,14 +93,6 @@ class Workspace extends ActiveRecord
                             ])->count('distinct [[source_id]]');
                         }
                     ],
-                    'permissionCount' => [
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(*)')
-                        ->where(['target' => self::class, 'target_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
-                            return $workspace->getPermissions()->count();
-                        }
-                    ],
                     'responseCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('count(*)')
