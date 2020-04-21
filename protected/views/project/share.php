@@ -36,9 +36,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ]);
         echo $model->renderForm($form);
+        echo Form::widget([
+            'form' => $form,
+            'model' => $model,
+            'attributes' => [
+                FormButtonsWidget::embed([
+                    'buttons' => [
+                        ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                    ]
+                ])
+            ]
+        ]);
         $form->end();
         ?>
-        <button type="submit" class="btn btn-primary">Add</button>
     </div>
     <div class="col-xs-12 list-shared form-bg">
         <h2><?= \Yii::t('app', 'View user permissions') ?></h2>
