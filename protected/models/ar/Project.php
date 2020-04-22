@@ -241,13 +241,13 @@ class Project extends ActiveRecord
                                 'workspace_id' => Workspace::find()->select('id')
                                     ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                             ])->addParams([':path' => '$.facilityCount'])->
-                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[workspace_id]], [[hf_id]]))')),
+                        select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(distinct [[workspace_id]], [[hf_id]]))')),
                         VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            if ($model->workspaceCount === 0) {
-                                return 0;
+                            $override = $model->getOverride('facilityCount');
+                            if (isset($override)) {
+                                return (int)$override;
                             }
-                            return (int) ($model->getOverride('facilityCount')
-                                ?? $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]')));
+                            return $model->workspaceCount === 0 ? 0 : $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
                         }
                     ],
                     'responseCount' => [
@@ -256,7 +256,7 @@ class Project extends ActiveRecord
                             'workspace_id' => Workspace::find()->select('id')
                                 ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                         ])->addParams([':path' => '$.responseCount'])->
-                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(*))'))
+                        select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))'))
                         ,
                         VirtualFieldBehavior::LAZY => static function (self $model): int {
                             if ($model->workspaceCount === 0) {

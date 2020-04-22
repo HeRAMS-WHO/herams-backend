@@ -53,7 +53,7 @@ class Workspace extends \prime\models\ar\Workspace
         $query = \prime\models\ar\Workspace::find();
 
         $query->with('project');
-        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'permissionCount');
+        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'contributorCount');
         $query->andFilterWhere(['tool_id' => $this->project->id]);
 
         $dataProvider = new ActiveDataProvider([
