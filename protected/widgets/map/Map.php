@@ -223,8 +223,7 @@ HTML;
                 let content = "";
                 let hasDatas = json.facilityCount > 0 || json.contributorCount > 0;
                 let btns;
-                json.facilityCount = (isNaN(json.facilityCount) ? '--' : json.facilityCount);
-                json.contributorCount = (isNaN(json.contributorCount) ? '--' : json.contributorCount);
+
                 if(json.dashboard_url) 
                     btns = '<a href="'+json.dashboard_url+'">Dashboard</a>' +
                     '<a href="/project/'+json.id+'/workspaces">Workspaces</a>';
@@ -239,23 +238,32 @@ HTML;
                         '</strong> Contributors</div>' +
                         '<hr/>';
 
+                json.facilityCount = (isNaN(json.facilityCount) ? '--' : json.facilityCount);
+                json.contributorCount = (isNaN(json.contributorCount) ? '--' : json.contributorCount);
 
-                if(hasDatas) 
-                    content +=
-                        '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
-                        '<div id="js-legend-1" class="legend"></div></div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
-                        '<div id="js-legend-2" class="legend"></div></div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
-                        '<div id="js-legend-3" class="legend"></div></div>' +
-                        btns;
+                var jsonConfigs = [];
+                if(hasDatas) {
 
-                else 
+                    if(sumObj(json.typeCounts) > 0) 
+                        jsonConfigs.push(buildChart('Type',"\u{e90b}", json.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']));
+                    if(sumObj(json.functionalityCounts) > 0) 
+                        jsonConfigs.push(buildChart('Functionality',"\u{e90a}", json.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']));
+                    if(sumObj(json.subjectAvailabilityCounts) > 0) 
+                        jsonConfigs.push(buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']));
+                    var span = 6 / jsonConfigs.length;
+                    jsonConfigs.forEach(function(jsonConfig, index) {
+                        content +=
+                        '<div class="chart span'+span+'"><div class="container-chart"><canvas id="chart'+index+'"></div>' +
+                        '<div id="js-legend-'+index+'" class="legend"></div></div>';
+                    });
+                    content += btns;
+                }
+                else  {
                     content += '<div class="no-data full-width"><h2>In Progress</h2>' +
                         '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics.</p>'+
                         '</div>' +
                         btns;
-            
+                }
                 popup.setContent(
                     '<div class="project-summary" id="popup">' + 
                     '<h1>' + json.title + '</h1>' +
@@ -266,23 +274,13 @@ HTML;
                 );
                 popup.update(); 
 
-                if(hasDatas) {
+                if(jsonConfigs.length > 0) {
                     var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
-                    
-                    jsonConfig = buildChart('Type',"\u{e90b}", json.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']);
-                    canvas = document.getElementById('chart1').getContext('2d');
-                    chart = new Chart(canvas, jsonConfig);
-                    document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
-                    
-                    jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']);
-                    canvas = document.getElementById('chart2').getContext('2d');
-                    chart = new Chart(canvas, jsonConfig);
-                    document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
-                    
-                    jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']);
-                    canvas = document.getElementById('chart3').getContext('2d');
-                    chart = new Chart(canvas, jsonConfig);
-                    document.getElementById('js-legend-3').innerHTML = chart.generateLegend(); 
+                    jsonConfigs.forEach(function(jsonConfig, index) {
+                        canvas = document.getElementById('chart'+index).getContext('2d');
+                        chart = new Chart(canvas, jsonConfig);
+                        document.getElementById('js-legend-'+index).innerHTML = chart.generateLegend();
+                    });
                 }
             }
 
@@ -304,12 +302,15 @@ HTML;
                 );
                 popup.update(); 
             }
-               
+            
+            function sumObj(obj) {
+                return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
+            }
             
             function buildChart(title,icon,types, items, colors) {
                 if(Object.keys(types).length > 0) {   
                     labels = [];
-                    sum = Object.keys(types).reduce((sum,key)=>sum+parseFloat(types[key]||0),0);
+                    sum = sumObj(types);
                     items.forEach(function(item) {
                         let percent = Math.round((types[item.key]/sum) * 100);
                         var valueLabel = percent+"%";

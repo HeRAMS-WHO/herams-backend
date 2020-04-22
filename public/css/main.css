@@ -288,6 +288,18 @@ a:hover {
     width: 100%;
 }
 
+.project-summary .chart.span2 {
+    grid-column: span 2;
+}
+
+.project-summary .chart.span3 {
+    grid-column: span 3;
+}
+
+.project-summary .chart.span6 {
+    grid-column: span 6;
+}
+
 .project-summary .chart .container-chart {
     height: 115px;
     width: 100%;
