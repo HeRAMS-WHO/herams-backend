@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<div class="col-xs-12 col-md-8 col-lg-6 form-bg">
+<div class="col-xs-12 col-md-8 col-lg-6 form-content form-bg">
+    <h3><?=\Yii::t('app', 'Update Workspace')?></h3>
     <?php
     $form = ActiveForm::begin([
         'id' => 'update-project',
@@ -64,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
                 'class' => ['btn btn-default']
             ]),
-            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
+            Html::submitButton(\Yii::t('app', 'Update'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
 
         ]
     ]);
