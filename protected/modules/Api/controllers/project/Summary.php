@@ -9,7 +9,6 @@ use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\UrlManager;
 use yii\web\User;
 
 class Summary extends Action
@@ -24,10 +23,9 @@ class Summary extends Action
             throw new NotFoundHttpException();
         }
 
-        if (!$project->isHidden() && !$user->can(Permission::PERMISSION_READ, $project)) {
+        if (!$user->can(Permission::PERMISSION_SUMMARY, $project)) {
             throw new ForbiddenHttpException();
         }
-
         return $this->controller->asJson([
             'id' => $project->id,
             'title' => $project->title,

@@ -12,14 +12,26 @@ class PopupRenderer {
         this.#url = url;
     }
 
-    renderInactive()
-    {
+    renderInactive() {
         let content = document.createElement('div');
+        content.classList.add('project-summary');
         let title = document.createElement('h1');
         title.textContent = this.#data.title;
         content.appendChild(title);
         content.innerHTML += '<h2>In Progress</h2>';
         content.innerHTML += '<p>This project is in the process of being set up. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>';
+        this.#popup.setContent(content);
+        this.#popup.update();
+    }
+
+    renderFailed() {
+        let content = document.createElement('div');
+        content.classList.add('project-summary');
+        let title = document.createElement('h1');
+        title.textContent = 'Loading failed';
+        content.appendChild(title);
+        content.innerHTML += '<h2>In Progress</h2>';
+        content.innerHTML += '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>';
         this.#popup.setContent(content);
         this.#popup.update();
     }
@@ -40,7 +52,11 @@ class PopupRenderer {
     {
         if (!this.#data) {
             let response = await fetch(this.#url);
-            this.#data = await response.json();
+            if (response.ok) {
+                this.#data = await response.json();
+            } else {
+                return this.renderFailed();
+            }
         }
 
         if (this.#data.status !== 'ongoing') {
@@ -62,24 +78,11 @@ class PopupRenderer {
         grid.appendChild(PopupRenderer.#createStat('Contributors', this.#data.contributorCount));
         grid.append(document.createElement('hr'));
 
-        grid.appendChild(PopupRenderer.#buildChart('Type', "\u{e90b}", this.#data.typeCounts, [
-            {"key": "Tertiary", "label": "Tertiary"},
-            {"key": "Secondary", "label": "Secondary"},
-            {"key": "Primary", "label": "Primary"},
-            {"key": "Other", "label": "Other"}
-        ], ['blue', 'white']));
+        grid.appendChild(PopupRenderer.#buildChart('Type', "\u{e90b}", this.#data.typeCounts, ['blue', 'white']));
 
-        grid.appendChild(PopupRenderer.#buildChart('Functionality', "\u{e90b}", this.#data.functionalityCounts, [
-            {"key": "Full", "label":"Fully functional"},
-            {"key": "Partial", "label":"Partially functional"},
-            {"key": "None", "label":"Not functional"}
-        ], ['green', 'orange', 'red']));
+        grid.appendChild(PopupRenderer.#buildChart('Functionality', "\u{e90b}", this.#data.functionalityCounts, ['green', 'orange', 'red']));
 
-        grid.appendChild(PopupRenderer.#buildChart('Service availability', "\u{e90b}", this.#data.subjectAvailabilityCounts, [
-            {"key":"Full","label":"Fully available"},
-            {"key":"Partial","label":"Partially available"},
-            {"key":"None","label":"Not available"}
-        ], ['green', 'orange', 'red']));
+        grid.appendChild(PopupRenderer.#buildChart('Service availability', "\u{e90b}", this.#data.subjectAvailabilityCounts, ['green', 'orange', 'red']));
 
         if (this.#data.links.dashboard) {
             let a = document.createElement('a');
@@ -95,9 +98,6 @@ class PopupRenderer {
             grid.appendChild(a);
         }
 
-                // content += '<div class="no-data full-width"><h2>In Progress</h2>' +
-                //     '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>'+
-                //     '</div>';
         this.#popup.setContent(content);
         this.#popup.update();
     }
@@ -156,25 +156,21 @@ class PopupRenderer {
         };
     }
 
-    static #buildChart = (title, icon, typeCounts, items, colors) => {
-        if (Object.keys(typeCounts).length > 0) {
-            let sum = Object.values(typeCounts).reduce((sum, value) => sum + value, 0);
+    static #buildChart = (title, icon, counts, colors) => {
+        if (Object.keys(counts).length > 0) {
+            let sum = Object.values(counts).reduce((sum, value) => sum + value, 0);
             let labels = {};
 
-            items.forEach((item) => {
-                if (typeCounts[item.key]) {
-                    let percent = Math.round((typeCounts[item.key] / sum) * 100);
-                    if (percent < 1) {
-                        labels[`< 1% ${item.label}`] = percent;
-                    } else {
-                        labels[`${percent}% ${item.label}`] = percent;
-                    }
+            for(let label in counts) {
+                let percent = Math.round((counts[label] / sum) * 100);
+                if (percent < 1) {
+                    labels[`< 1% ${label}`] = percent;
                 } else {
-                    labels[`-- ${item.label}`] = 0;
+                    labels[`${percent}% ${label}`] = percent;
                 }
-            });
+            }
 
-            let config = PopupRenderer.#getChartConfig(Object.keys(labels), chroma.scale(colors).colors(items.length), Object.values(labels), icon, title);
+            let config = PopupRenderer.#getChartConfig(Object.keys(labels), chroma.scale(colors).colors(Object.values(labels).length), Object.values(labels), icon, title);
 
             let canvas = document.createElement('canvas');
 
