@@ -68,7 +68,6 @@ HTML;
         echo Html::tag('template', $this->renderPopupLoader());
 
         $id = Json::encode($this->getId());
-
         $config = Json::encode([
             'preferCanvas' => true,
             'center' => $this->center,
@@ -120,13 +119,9 @@ HTML;
                             }).getPopup();
 
                             // On the first open fetch remote content
-                            marker.on('popupopen', async () => {
-                                if (typeof feature.json === 'undefined') {
-                                    let response = await fetch(feature.properties.url);
-                                    feature.json = await response.json();
-                                }
-                                     
-                                loadChartsForCountry(popup, feature.json);
+                            let renderer = new PopupRenderer(popup, feature.properties.url);
+                            marker.on('popupopen', () => {
+                                renderer.render();
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
@@ -195,171 +190,13 @@ HTML;
                 console.error("Error in map widget JS", error);
             }
 
-            function cleanPopup(popup) {
-                let popin = document.getElementById("popup");
-                if(popin)
-                    popin.remove();
-            }
-
-            function loadChartsForCountry(popup, json) {
-                cleanPopup(popup);
-                
-                let content = "";
-                
-                if(json.status === "ongoing") {
-                
-                    let buttons = [];
-                    if (json.links.dashboard) {
-                       let a = document.createElement('a');
-                       a.textContent = 'Dashboard';
-                       a.href = json.links.dashboard;
-                       buttons.push(a);
-                    }
-                    
-                    if (json.links.workspaces) {
-                       let a = document.createElement('a');
-                       a.textContent = 'Workspaces';
-                       a.href = json.links.workspaces;
-                       buttons.push(a);
-                    }
-                    
-                    content = '<div class="stat"><strong>' +
-                            json.facilityCount +
-                            '</strong> Health facilities</div>' +
-                            '<div class="stat"><strong>' +
-                                json.contributorCount +
-                            '</strong> Contributors</div>' +
-                            '<hr/>';
-
-
-                    if(json.facilityCount > 0 && json.contributorCount > 0) 
-                        content +=
-                            '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
-                            '<div id="js-legend-1" class="legend"></div></div>' +
-                            '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
-                            '<div id="js-legend-2" class="legend"></div></div>' +
-                            '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
-                            '<div id="js-legend-3" class="legend"></div></div>';
-
-                    else 
-                        content += '<div class="no-data full-width"><h2>In Progress</h2>' +
-                            '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>'+
-                            '</div>';
-                
-                    popup.setContent(
-                        '<div class="project-summary" id="popup">' + 
-                        '<h1>' + json.title + '</h1>' +
-                        '<div class="grid">' +
-                            content + buttons.map(element => element.outerHTML).join('') +
-                        '</div>' +
-                        '</div>'
-                    );
-                    popup.update(); 
-
-                    if(json.facilityCount > 0 && json.contributorCount > 0) {
-                        var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
-                        
-                        jsonConfig = buildChart('Type',"\u{e90b}", json.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']);
-                        canvas = document.getElementById('chart1').getContext('2d');
-                        chart = new Chart(canvas, jsonConfig);
-                        document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
-                        
-                        jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']);
-                        canvas = document.getElementById('chart2').getContext('2d');
-                        chart = new Chart(canvas, jsonConfig);
-                        document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
-                        
-                        jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']);
-                        canvas = document.getElementById('chart3').getContext('2d');
-                        chart = new Chart(canvas, jsonConfig);
-                        document.getElementById('js-legend-3').innerHTML = chart.generateLegend(); 
-                    }
-
-
-                } else {
-                    popup.setContent(
-                        '<div class="project-summary" id="popup">' + 
-                        '<h1>' + json.title + '</h1>' +
-                        '<h2>In Progress</h2>' +
-                        '<p>This project is in the process of being set up. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>' +
-                        '</div>'
-                    );
-                    popup.update(); 
-                }
-            }
-               
             
-            function buildChart(title,icon,types, items, colors) {
-                if(Object.keys(types).length > 0) {   
-                    labels = [];
-                    sum = Object.keys(types).reduce((sum,key)=>sum+parseFloat(types[key]||0),0);
-                    items.forEach(function(item) {
-                        let percent = Math.round((types[item.key]/sum) * 100);
-                        var valueLabel = percent+"%";
-                        if(isNaN(percent))
-                            valueLabel = "--";
-                        else if(percent < 1)
-                            valueLabel = "< 1%";
-                        labels[valueLabel+" "+item.label] = percent;
-                    });
-                    bgColor = chroma.scale(colors).colors(Object.keys(items).length);
-                    return getChartConfig(Object.keys(labels),bgColor,Object.values(labels),icon,title);
-                }
-            }
 
-            function getChartConfig(labels,bgColor,values,icon,title) {
-                var jsonConfig = 
-                {
-                    'type' : 'doughnut',
-                    'data': {
-                        'datasets' : [
-                            {
-                                'data' : values,
-                                'backgroundColor' : bgColor,
-                                'label' : 'Types'
-                            }],
-                        'labels' : labels
-                    },
-                    'options' : {
-                        'tooltips' : {
-                                'enabled' : false,
-                        },
-                        'elements' : {
-                            'arc' : {
-                                'borderWidth': 0
-                            },
-                            'center': {
-                                'sidePadding': 40,
-                                'color': '#a5a5a5',
-                                'fontWeight': "normal",
-                                'fontStyle': "icomoon",
-                                // Facility
-                                'text': icon
-                            }
-                        },
-                        'cutoutPercentage': 95,
-                        'responsive' : true,
-                        'maintainAspectRatio' : false,
-                        'legend': {
-                            'display': false,
-                            'position': 'bottom',
-                            'labels': {
-                                'boxWidth': 12,
-                                'fontSize': 12,
-                            }
-                        },
-                        'title': {
-                            'display': true,
-                            'text': title
-                        },
-                        'animation': {
-                            'animateScale': true,
-                            'animateRotate': true
-                        }
-                    }
-                };
-                return jsonConfig;
-            }
+            
+            
+            
+
+            
 
         })();
 

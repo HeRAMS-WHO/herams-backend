@@ -14,7 +14,8 @@ $font = $bundle->baseUrl . '/fonts/fonts/icomoon.woff';
 $this->registerLinkTag([
     'rel' => 'preload',
     'href' => $font,
-    'as' => 'font'
+    'as' => 'font',
+    'crossorigin' => 'anonymous'
 ], 'icomoon');
 
 $this->params['body'] = [

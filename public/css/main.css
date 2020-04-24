@@ -186,7 +186,7 @@ a:hover {
     margin: 0 auto;
 }
 
-.project-summary .grid {
+.project-summary > div {
     display: grid;
     margin-top: 1em;
     margin-left: 10px;
@@ -194,7 +194,11 @@ a:hover {
     margin-bottom: 15px;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: auto auto 200px auto;
-    grid-template-areas: "stat stat stat stat stat stat" "line line line line line line" "chart chart chart chart chart chart" "button button button button button button";
+    grid-template-areas:
+            "stat stat stat stat stat stat"
+            "line line line line line line"
+            "chart chart chart chart chart chart"
+            "button button button button button button";
     grid-row-gap: 1em;
     grid-column-gap: 5px;
 }
@@ -288,7 +292,7 @@ a:hover {
     width: 100%;
 }
 
-.project-summary .chart .container-chart {
+.project-summary .chart > div:first-child{
     height: 115px;
     width: 100%;
 }
@@ -302,14 +306,14 @@ a:hover {
     display: none;
 }
 
-.project-summary .chart .legend ul {
+.project-summary .chart ul {
     list-style-type: none;
     padding: 0;
     margin: 0 auto;
     width: max-content;
 }
 
-.project-summary .chart .legend li {
+.project-summary .chart li {
     margin-bottom: 3px;
     color: #a5a5a5;
     font-size: 11.2px;
