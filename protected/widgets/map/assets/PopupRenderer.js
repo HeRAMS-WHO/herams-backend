@@ -78,12 +78,12 @@ class PopupRenderer {
         grid.appendChild(PopupRenderer.#createStat('Contributors', this.#data.contributorCount));
         grid.append(document.createElement('hr'));
 
-        grid.appendChild(PopupRenderer.#buildChart('Type', "\u{e90b}", this.#data.typeCounts, ['blue', 'white']));
+        let charts = [];
+        charts.push(PopupRenderer.#buildChart('Type', "\u{e90b}", this.#data.typeCounts, ['blue', 'white']));
+        charts.push(PopupRenderer.#buildChart('Functionality', "\u{e90b}", this.#data.functionalityCounts, ['green', 'orange', 'red']));
+        charts.push(PopupRenderer.#buildChart('Service availability', "\u{e90b}", this.#data.subjectAvailabilityCounts, ['green', 'orange', 'red']));
 
-        grid.appendChild(PopupRenderer.#buildChart('Functionality', "\u{e90b}", this.#data.functionalityCounts, ['green', 'orange', 'red']));
-
-        grid.appendChild(PopupRenderer.#buildChart('Service availability', "\u{e90b}", this.#data.subjectAvailabilityCounts, ['green', 'orange', 'red']));
-
+        grid.append(...charts);
         if (this.#data.links.dashboard) {
             let a = document.createElement('a');
             a.textContent = 'Dashboard';
@@ -157,8 +157,8 @@ class PopupRenderer {
     }
 
     static #buildChart = (title, icon, counts, colors) => {
-        if (Object.keys(counts).length > 0) {
-            let sum = Object.values(counts).reduce((sum, value) => sum + value, 0);
+        let sum = Object.values(counts).reduce((sum, value) => sum + value, 0);
+        if (sum > 0) {
             let labels = {};
 
             for(let label in counts) {
@@ -184,6 +184,7 @@ class PopupRenderer {
             container.insertAdjacentHTML('beforeend', chart.generateLegend());
             return container;
         }
+        return document.createTextNode('No data');
     }
 
 }
