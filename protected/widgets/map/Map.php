@@ -3,12 +3,11 @@
 
 namespace prime\widgets\map;
 
-use http\QueryString;
+use prime\widgets\chart\ChartBundle;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
-use prime\widgets\chart\ChartBundle;
 
 class Map extends Widget
 {
@@ -16,17 +15,12 @@ class Map extends Widget
     public $baseLayers = [
         [
             "type" => self::TILE_LAYER,
-            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
                 'maxNativeZoom' => 17
             ]
         ],
-//        [
-//            "type" => self::TILE_LAYER,
-//            "url" => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-//        ]
     ];
 
     public $options = [
@@ -125,20 +119,14 @@ HTML;
                                 closeButton: false
                             }).getPopup();
 
-                            let fetched = false;
                             // On the first open fetch remote content
-                            marker.on('popupopen', function() {
-                                if (fetched) {
-                                    loadChartsForCountry(popup, feature.json);
-                                    return;
+                            marker.on('popupopen', async () => {
+                                if (typeof feature.json === 'undefined') {
+                                    let response = await fetch(feature.properties.url);
+                                    feature.json = await response.json();
                                 }
-                                fetch(feature.properties.url)
-                                    .then((r) => r.json())
-                                    .then((json) => {
-                                        feature.json = json;
-                                        loadChartsForCountry(popup, feature.json);
-                                });
-                                fetched = true;
+                                     
+                                loadChartsForCountry(popup, feature.json);
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
@@ -218,14 +206,23 @@ HTML;
                 
                 let content = "";
                 
-                if(json.status == "ongoing") {
+                if(json.status === "ongoing") {
                 
-                    let btns;
-                    if(json.dashboard_url) 
-                        btns = '<a href="'+json.dashboard_url+'">Dashboard</a>' +
-                        '<a href="/project/'+json.id+'/workspaces">Workspaces</a>';
-                    else 
-                        btns = '<a href="/project/'+json.id+'/workspaces" class="full-width">Workspaces</a>';
+                    let buttons = [];
+                    if (json.links.dashboard) {
+                       let a = document.createElement('a');
+                       a.textContent = 'Dashboard';
+                       a.href = json.links.dashboard;
+                       buttons.push(a);
+                    }
+                    
+                    if (json.links.workspaces) {
+                       let a = document.createElement('a');
+                       a.textContent = 'Workspaces';
+                       a.href = json.links.workspaces;
+                       buttons.push(a);
+                    }
+                    
                     content = '<div class="stat"><strong>' +
                             json.facilityCount +
                             '</strong> Health facilities</div>' +
@@ -242,20 +239,18 @@ HTML;
                             '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
                             '<div id="js-legend-2" class="legend"></div></div>' +
                             '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
-                            '<div id="js-legend-3" class="legend"></div></div>' +
-                            btns;
+                            '<div id="js-legend-3" class="legend"></div></div>';
 
                     else 
                         content += '<div class="no-data full-width"><h2>In Progress</h2>' +
                             '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>'+
-                            '</div>' +
-                            btns;
+                            '</div>';
                 
                     popup.setContent(
                         '<div class="project-summary" id="popup">' + 
                         '<h1>' + json.title + '</h1>' +
                         '<div class="grid">' +
-                            content +
+                            content + buttons.map(element => element.outerHTML).join('') +
                         '</div>' +
                         '</div>'
                     );

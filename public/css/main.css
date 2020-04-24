@@ -347,8 +347,11 @@ a:hover {
 .project-summary a:first-of-type {
     grid-column: span 4;
 }
+.project-summary a:only-of-type {
+    grid-column: span 6;
+}
 
-.project-summary a.full-width, .project-summary .full-width {
+.project-summary .full-width {
     grid-column: span 6;
 }
 

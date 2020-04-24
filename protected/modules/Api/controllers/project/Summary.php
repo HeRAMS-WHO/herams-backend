@@ -6,6 +6,7 @@ namespace prime\modules\Api\controllers\project;
 use prime\models\ar\Project;
 use prime\models\permissions\Permission;
 use yii\base\Action;
+use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\UrlManager;
@@ -26,16 +27,16 @@ class Summary extends Action
         if (!$project->isHidden() && !$user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
-        $dashboardUrl = '';
-        if (!empty($project->pages)) {
-            $dashboardUrl = '/project/'.$project->id;
-        }
 
         return $this->controller->asJson([
             'id' => $project->id,
             'title' => $project->title,
             'status' => $project->status == Project::STATUS_TARGET ? 'target':'ongoing',
-            'dashboard_url' => $dashboardUrl,
+            'links' => array_filter([
+                'dashboard' => $project->getPages()->exists() && \Yii::$app->user->can(Permission::PERMISSION_READ, $project)
+                    ? Url::to(['/project/view', 'id' => $project->id]) : null,
+                'workspaces' => Url::to(['/project/workspaces', 'id' => $project->id])
+            ]),
             'subjectAvailabilityCounts' => $project->getSubjectAvailabilityCounts(),
             'functionalityCounts' => $project->getFunctionalityCounts(),
             'typeCounts' => $project->getTypeCounts(),

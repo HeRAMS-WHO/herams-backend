@@ -6,6 +6,7 @@ use prime\models\permissions\Permission;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = "World overview";
 $bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
@@ -38,10 +39,7 @@ foreach ($projects->getModels() as $project) {
         "properties" => [
             'id' => $project->id,
             'title' => $project->getDisplayField(),
-            'url' => \yii\helpers\Url::to(['/api/project/summary', 'id' => $project->id]),
-            'popup' => Html::tag('iframe', '', [
-                'src' => \yii\helpers\Url::to(['project/summary', 'id' => $project->id]),
-            ])
+            'url' => Url::to(['/api/project/summary', 'id' => $project->id])
         ]
 
     ];
