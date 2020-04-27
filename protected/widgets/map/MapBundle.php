@@ -5,6 +5,7 @@ namespace prime\widgets\map;
 
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 class MapBundle extends AssetBundle
 {
@@ -22,6 +23,11 @@ class MapBundle extends AssetBundle
             'integrity' => 'sha256-A6e6m2HRvOpsUi37pgdyPYK2rbumr3kp6WcvGUMQ5Bc=',
             'crossorigin' => 'anonymous'
         ],
+        [
+            'PopupRenderer.js',
+            'position' => View::POS_HEAD
+        ]
+
     ];
     public $css = [
         'map.css'
