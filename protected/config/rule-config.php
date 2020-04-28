@@ -16,7 +16,7 @@ use prime\rules\SuperShareRule;
 use SamIT\abac\rules\ImpliedPermission;
 
 return [
-//    new AdminRule(),
+    new AdminRule(),
     new GrantRule(),
     new ProjectSummaryRule(),
     new RevokeRule(),
