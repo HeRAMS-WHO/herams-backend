@@ -7,10 +7,10 @@
 Introduction
 ============
 
-Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/user/login>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`_ section.
+Welcome to the **HeRAMS User Guide**. This user guide was designed for users of the `HeRAMS platform <https://herams.org/>`_. It provides step-by-step instruction on how to register and access the platform as well as a brief overview on key components of the platform, including detailed information on how to explore the available data using the interactive dashboards. Data managers can find additional information on how edit data in the `Edit Data`_ section.
 For more advanced topics related to user management and project administration, please consult the `HeRAMS Administration`_ section.
 
-It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/user/login>`_. 
+It should be noted that the guide only addresses issues related to the `HeRAMS platform <https://herams.org/>`_. 
 For general information on the HeRAMS approach and for technical guidance please consult the official `WHO HeRAMS webpage <https://www.who.int/hac/herams/en//>`_. For additional questions that are not covered in this guide, please contact the `HeRAMS Support Team <mailto:herams@who.int?>`_.
 
 
@@ -20,13 +20,13 @@ Getting started
 Creating a User Account
 -----------------------
 
-This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/user/login>`_, create a user account and update your user profile.
+This chapter provides step-by-step instructions on how to access the `HeRAMS platform <https://herams.org/>`_, create a user account and update your user profile.
 
 1. To register as a new user, open the link `herams.org <https://herams.org>`_ in your browser.
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
-2. On the sign-in page, click the `sign up <https://herams.org/user/register>`_ link located just above the |login| button.
+2. On the sign-in page, click the `sign up <https://herams.org/user/request-account>`_ link located just above the |login| button.
 
 .. image:: media/img/HeRAMS_register.png
    :alt: HeRAMS Login
@@ -71,7 +71,7 @@ In case you forgot your password, the instructions below will guide you through 
 
 .. tip:: It is strongly recommended to either user FireFox or Chrome.
 
-2. On the sign in page, click the `reset password <https://herams.org/user/forgot>`_ link located below the password field.
+2. On the sign in page, click the `reset password <https://herams.org/user/request-reset>`_ link located below the password field.
 3. Enter your email address in the top field.
 4. Below the email field, you will see an image similar to this one: |captcha|
 5. Enter the the characters displayed into the field below the image.
@@ -82,7 +82,7 @@ In case you forgot your password, the instructions below will guide you through 
 
 7. On the page that opens, enter your new password.
 8. Click the |submit-en| button to confirm your new password.
-9. To login into HeRAMS, return to the `sign in page <https://herams.org/user/login>`_.
+9. To login into HeRAMS, return to the `sign in page <https://herams.org>`_.
 
 .. image:: media/vid/HeRAMS_password_reset.gif
    :alt: Password reset
@@ -95,7 +95,7 @@ Update your User Profile
 Each user has a profile associated with their account. This permits you do to customize your profile, change your email address or password without requiring additional support.
 
 1. To update your user profile or account details, click your username shown on the top right corner of the page.
-2. This opens your `user profile <https://herams.org/user/settings/profile>`_ and allows you to change your personal information such as your name, organization and contact details.
+2. This opens your `user profile <https://herams.org/user/account>`_ and allows you to change your personal information such as your name, organization and contact details.
 
 .. note:: First name, last name and organization are mandatory fields.
 
@@ -103,7 +103,7 @@ Change Password
 ---------------
 
 1. To alter your password, open your user profile as explained `above <#update-your-user-profile>`_.
-2. Click on the `Account <https://herams.org/user/settings/account>`_ link to access your account information.
+2. Click on the `Account <https://herams.org/user/account>`_ link to access your account information.
 3. On the page opening, you should be able to change your email address and enter a new password.
 4. Make sure to click the |submit-en| button to confirm your changes.
 
