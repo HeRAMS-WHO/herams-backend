@@ -247,7 +247,7 @@ class Project extends ActiveRecord
                             if (isset($override)) {
                                 return (int)$override;
                             }
-                            return $model->workspaceCount === 0 ? 0 : $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
+                            return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
                         }
                     ],
                     'responseCount' => [

@@ -3,12 +3,11 @@
 
 namespace prime\widgets\map;
 
-use http\QueryString;
+use prime\widgets\chart\ChartBundle;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
-use prime\widgets\chart\ChartBundle;
 
 class Map extends Widget
 {
@@ -16,17 +15,12 @@ class Map extends Widget
     public $baseLayers = [
         [
             "type" => self::TILE_LAYER,
-            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
                 'maxNativeZoom' => 17
             ]
         ],
-//        [
-//            "type" => self::TILE_LAYER,
-//            "url" => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-//        ]
     ];
 
     public $options = [
@@ -74,7 +68,6 @@ HTML;
         echo Html::tag('template', $this->renderPopupLoader());
 
         $id = Json::encode($this->getId());
-
         $config = Json::encode([
             'preferCanvas' => true,
             'center' => $this->center,
@@ -125,24 +118,10 @@ HTML;
                                 closeButton: false
                             }).getPopup();
 
-                            let fetched = false;
                             // On the first open fetch remote content
-                            marker.on('popupopen', function() {
-                                if (fetched) {
-                                    loadChartsForCountry(popup, feature.json);
-                                    return;
-                                }
-                                fetch(feature.properties.url)
-                                    .then((r) => r.json())
-                                    .then((json) => {
-                                        feature.json = json;
-                                        if(feature.json != null && feature.json.type != "TypeError") {
-                                            fetched = true;
-                                            loadChartsForCountry(popup, feature.json);
-                                        }
-                                        else loadErrorPopup(popup);
-                                });
-                                
+                            let renderer = new PopupRenderer(popup, feature.properties.url);
+                            marker.on('popupopen', () => {
+                                renderer.render();
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
@@ -211,173 +190,13 @@ HTML;
                 console.error("Error in map widget JS", error);
             }
 
-            function cleanPopup(popup) {
-                let popin = document.getElementById("popup");
-                if(popin)
-                    popin.remove();
-            }
-
-            function loadChartsForCountry(popup, json) {
-                cleanPopup(popup);
-                
-                let content = "";
-                let hasDatas = json.facilityCount > 0 || json.contributorCount > 0;
-                let btns;
-
-                if(json.dashboard_url) 
-                    btns = '<a href="'+json.dashboard_url+'">Dashboard</a>' +
-                    '<a href="/project/'+json.id+'/workspaces">Workspaces</a>';
-                else 
-                    btns = '<a href="/project/'+json.id+'/workspaces" class="full-width">Workspaces</a>';
-                
-                content = '<div class="stat"><strong>' +
-                        json.facilityCount +
-                        '</strong> Health facilities</div>' +
-                        '<div class="stat"><strong>' +
-                            json.contributorCount +
-                        '</strong> Contributors</div>' +
-                        '<hr/>';
-
-                json.facilityCount = (isNaN(json.facilityCount) ? '--' : json.facilityCount);
-                json.contributorCount = (isNaN(json.contributorCount) ? '--' : json.contributorCount);
-
-                var jsonConfigs = [];
-                if(hasDatas) {
-
-                    if(sumObj(json.typeCounts) > 0) 
-                        jsonConfigs.push(buildChart('Type',"\u{e90b}", json.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']));
-                    if(sumObj(json.functionalityCounts) > 0) 
-                        jsonConfigs.push(buildChart('Functionality',"\u{e90a}", json.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']));
-                    if(sumObj(json.subjectAvailabilityCounts) > 0) 
-                        jsonConfigs.push(buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']));
-                    var span = 6 / jsonConfigs.length;
-                    jsonConfigs.forEach(function(jsonConfig, index) {
-                        content +=
-                        '<div class="chart span'+span+'"><div class="container-chart"><canvas id="chart'+index+'"></div>' +
-                        '<div id="js-legend-'+index+'" class="legend"></div></div>';
-                    });
-                    content += btns;
-                }
-                else  {
-                    content += '<div class="no-data full-width"><h2>In Progress</h2>' +
-                        '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics.</p>'+
-                        '</div>' +
-                        btns;
-                }
-                popup.setContent(
-                    '<div class="project-summary" id="popup">' + 
-                    '<h1>' + json.title + '</h1>' +
-                    '<div class="grid">' +
-                        content +
-                    '</div>' +
-                    '</div>'
-                );
-                popup.update(); 
-
-                if(jsonConfigs.length > 0) {
-                    var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
-                    jsonConfigs.forEach(function(jsonConfig, index) {
-                        canvas = document.getElementById('chart'+index).getContext('2d');
-                        chart = new Chart(canvas, jsonConfig);
-                        document.getElementById('js-legend-'+index).innerHTML = chart.generateLegend();
-                    });
-                }
-            }
-
-            function loadErrorPopup(popup) {
-                popup.setContent(
-                    '<div class="project-summary" id="popup">' + 
-                    '<h1></h1>' +
-                    '<div class="grid">' +
-                    '<div class="stat"><strong>' +
-                    '</strong> Health facilities</div>' +
-                    '<div class="stat"><strong>' +
-                    '</strong> Contributors</div>' +
-                    '<hr/>' +
-                    '<div class="no-data full-width"><h2></h2>' +
-                    '<p>Error loading datas for this project. Please try again later</p>'+
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-                );
-                popup.update(); 
-            }
             
-            function sumObj(obj) {
-                return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
-            }
-            
-            function buildChart(title,icon,types, items, colors) {
-                if(Object.keys(types).length > 0) {   
-                    labels = [];
-                    sum = sumObj(types);
-                    items.forEach(function(item) {
-                        let percent = Math.round((types[item.key]/sum) * 100);
-                        var valueLabel = percent+"%";
-                        if(isNaN(percent))
-                            valueLabel = "--";
-                        else if(percent < 1)
-                            valueLabel = "< 1%";
-                        labels[valueLabel+" "+item.label] = percent;
-                    });
-                    bgColor = chroma.scale(colors).colors(Object.keys(items).length);
-                    return getChartConfig(Object.keys(labels),bgColor,Object.values(labels),icon,title);
-                }
-            }
 
-            function getChartConfig(labels,bgColor,values,icon,title) {
-                var jsonConfig = 
-                {
-                    'type' : 'doughnut',
-                    'data': {
-                        'datasets' : [
-                            {
-                                'data' : values,
-                                'backgroundColor' : bgColor,
-                                'label' : 'Types'
-                            }],
-                        'labels' : labels
-                    },
-                    'options' : {
-                        'tooltips' : {
-                                'enabled' : false,
-                        },
-                        'elements' : {
-                            'arc' : {
-                                'borderWidth': 0
-                            },
-                            'center': {
-                                'sidePadding': 40,
-                                'color': '#a5a5a5',
-                                'fontWeight': "normal",
-                                'fontStyle': "icomoon",
-                                // Facility
-                                'text': icon
-                            }
-                        },
-                        'cutoutPercentage': 95,
-                        'responsive' : true,
-                        'maintainAspectRatio' : false,
-                        'legend': {
-                            'display': false,
-                            'position': 'bottom',
-                            'labels': {
-                                'boxWidth': 12,
-                                'fontSize': 12,
-                            }
-                        },
-                        'title': {
-                            'display': true,
-                            'text': title
-                        },
-                        'animation': {
-                            'animateScale': true,
-                            'animateRotate': true
-                        }
-                    }
-                };
-                return jsonConfig;
-            }
+            
+            
+            
+
+            
 
         })();
 
