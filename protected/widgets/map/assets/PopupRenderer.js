@@ -81,11 +81,26 @@ class PopupRenderer {
         grid.append(document.createElement('hr'));
 
         let charts = [];
-        charts.push(PopupRenderer.#buildChart('Type', "\u{e90b}", this.#data.typeCounts, ['blue', 'white']));
-        charts.push(PopupRenderer.#buildChart('Functionality', "\u{e90b}", this.#data.functionalityCounts, ['green', 'orange', 'red']));
-        charts.push(PopupRenderer.#buildChart('Service availability', "\u{e90b}", this.#data.subjectAvailabilityCounts, ['green', 'orange', 'red']));
+        charts.push(PopupRenderer.#buildChart('Type', "\u{e90b}", this.#data.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']));
+        charts.push(PopupRenderer.#buildChart('Functionality', "\u{e90b}", this.#data.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']));
+        charts.push(PopupRenderer.#buildChart('Service availability', "\u{e90b}", this.#data.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']));
+        charts = charts.filter(function (el) {
+            return el.innerHTML !== "";
+        });
+        
+        if (charts.length > 0) {
+            let span = 'span'+(6 / charts.length);
+            charts.map(container => container.classList.add(span));
+            grid.append(...charts);
+        } else {
+            let content = document.createElement('div');
+            content.classList.add('full-width');
+            content.innerHTML += '<h2>In Progress</h2>';
+            content.innerHTML += '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics</p>';
+            grid.append(content);
+        }
 
-        grid.append(...charts);
+        
         if (this.#data.links.dashboard) {
             let a = document.createElement('a');
             a.textContent = 'Dashboard';
@@ -158,17 +173,22 @@ class PopupRenderer {
         };
     }
 
-    static #buildChart = (title, icon, counts, colors) => {
-        let sum = Object.values(counts).reduce((sum, value) => sum + value, 0);
+    static #buildChart = (title, icon, datas, legends, colors) => {
+        let sum = Object.values(datas).reduce((sum, value) => sum + value, 0);
         if (sum > 0) {
             let labels = {};
-
-            for (let label in counts) {
-                let percent = Math.round((counts[label] / sum) * 100);
+            
+            for (let i in legends) {
+                if (!(legends[i].key in datas)) {
+                    labels[`-- ${legends[i].label}`] = 0;
+                    continue;
+                }
+                
+                let percent =  Math.round((datas[legends[i].key] / sum) * 100);
                 if (percent < 1) {
-                    labels[`< 1% ${label}`] = percent;
+                    labels[`< 1% ${legends[i].label}`] = percent;
                 } else {
-                    labels[`${percent}% ${label}`] = percent;
+                    labels[`${percent}% ${legends[i].label}`] = percent;
                 }
             }
 
@@ -186,7 +206,7 @@ class PopupRenderer {
             container.insertAdjacentHTML('beforeend', chart.generateLegend());
             return container;
         }
-        return document.createTextNode('No data');
+        return document.createElement('div');
     }
 
 }

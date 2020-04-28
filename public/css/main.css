@@ -240,17 +240,6 @@ a:hover {
     word-wrap: break-word;
 }
 
-.project-summary .no-data {
-    margin: 0;
-    text-align: center;
-    font-weight: 500;
-    color: var(--color);
-    font-size: 14px;
-    line-height: 16px;
-    padding: 5px 20px;
-    word-wrap: break-word;
-}
-
 .project-summary .stat {
     grid-area: stat;
     grid-column: span 3;
@@ -289,6 +278,11 @@ a:hover {
     grid-column: span 2;
     height: 200px;
     overflow: hidden;
+    width: 100%;
+}
+
+.project-summary .chart > div:first-child{
+    height: 115px;
     width: 100%;
 }
 
