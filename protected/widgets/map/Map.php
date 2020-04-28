@@ -73,7 +73,7 @@ HTML;
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 16,
+            'maxZoom' => 6,
             'minZoom' => 3
         ]);
 
