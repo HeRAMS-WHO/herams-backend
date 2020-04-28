@@ -106,6 +106,4 @@ class Permission extends ActiveRecord
     {
         return new \SamIT\abac\values\Grant($this->sourceAuthorizable(), $this->targetAuthorizable(), $this->permission);
     }
-
-
 }

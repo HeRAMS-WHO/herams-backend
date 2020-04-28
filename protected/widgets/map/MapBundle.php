@@ -3,7 +3,6 @@
 
 namespace prime\widgets\map;
 
-
 use yii\web\AssetBundle;
 use yii\web\View;
 
@@ -32,5 +31,4 @@ class MapBundle extends AssetBundle
     public $css = [
         'map.css'
     ];
-
 }

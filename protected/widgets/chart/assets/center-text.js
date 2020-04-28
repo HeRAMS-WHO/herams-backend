@@ -46,7 +46,6 @@ Chart.pluginService.register({
 
             //Draw text in center
             ctx.fillText(txt, centerX, centerY);
-
         }
     }
 });

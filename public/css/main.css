@@ -240,17 +240,6 @@ a:hover {
     word-wrap: break-word;
 }
 
-.project-summary .no-data {
-    margin: 0;
-    text-align: center;
-    font-weight: 500;
-    color: var(--color);
-    font-size: 14px;
-    line-height: 16px;
-    padding: 5px 20px;
-    word-wrap: break-word;
-}
-
 .project-summary .stat {
     grid-area: stat;
     grid-column: span 3;
@@ -293,6 +282,23 @@ a:hover {
 }
 
 .project-summary .chart > div:first-child{
+    height: 115px;
+    width: 100%;
+}
+
+.project-summary .chart.span2 {
+    grid-column: span 2;
+}
+
+.project-summary .chart.span3 {
+    grid-column: span 3;
+}
+
+.project-summary .chart.span6 {
+    grid-column: span 6;
+}
+
+.project-summary .chart .container-chart {
     height: 115px;
     width: 100%;
 }
