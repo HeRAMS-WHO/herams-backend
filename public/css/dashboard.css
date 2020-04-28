@@ -502,15 +502,23 @@ body {
 }
 
 
-.layout-form .form-content {
-    max-width: 800px;
+.form-content {
+    max-width: 750px;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+.form-content h3 {
+    margin: 0 0 30px;
+}
+.layout-form .form-content button {
+    float: right;
+    margin-right: 0px;
 }
 
 .form-bg {
     background: white;
-    padding: 25px;
     border-radius: 7px;
-    margin: 0 0 30px;
 }
 
 /**
@@ -878,6 +886,11 @@ body[data-modal]:after {
     color: #92929b;
 }
 
+.form-horizontal .control-label {
+    word-break: break-word;
+    padding-right: 4px;
+}
+
 .share-form {
     padding: 0;
     margin: 0;
@@ -887,18 +900,8 @@ body[data-modal]:after {
     max-width: 1200px;
 }
 
-.share-form .permissions-form, .share-form .list-shared {
-    padding: 0px 25px 25px;
-}
 
-.share-form .permissions-form h2 {
-    margin-bottom: 30px;
-}
 
-.share-form .permissions-form button {
-    float: right;
-    margin-right: 5px;
-}
 
 @media (min-width: 2706px) {
     .share-form .list-shared {

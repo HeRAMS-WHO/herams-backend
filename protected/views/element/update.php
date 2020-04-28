@@ -36,7 +36,8 @@ $this->title = $model->isNewRecord
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12 col-md-8 form-bg">
+<div class="col-xs-12 col-md-8 form-content form-bg">
+    <h3><?=\Yii::t('app', 'Update element')?></h3>
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,

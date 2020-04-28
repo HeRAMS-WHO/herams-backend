@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => '# Contributors',
-                'attribute' => 'permissionCount'
+                'attribute' => 'contributorCount'
             ],
             [
                 'label' => '# Health facilities',

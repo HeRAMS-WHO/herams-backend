@@ -9,6 +9,7 @@ use prime\rules\GrantRule;
 use prime\rules\ManageWorkspaceRule;
 use prime\rules\ProjectImpliesWorkspace;
 use prime\rules\ProjectReadRule;
+use prime\rules\ProjectSummaryRule;
 use prime\rules\PublicProjectRule;
 use prime\rules\RevokeRule;
 use prime\rules\SuperShareRule;
@@ -17,6 +18,7 @@ use SamIT\abac\rules\ImpliedPermission;
 return [
     new AdminRule(),
     new GrantRule(),
+    new ProjectSummaryRule(),
     new RevokeRule(),
     new DashboardRule(),
     new SuperShareRule(),

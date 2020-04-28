@@ -19,8 +19,9 @@ $this->params['breadcrumbs'][] = [
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-xs-12 col-md-8 col-lg-6 form-bg">
+<div class="col-xs-12 col-md-8 col-lg-6  form-content form-bg">
     <?php
+    echo Html::tag('h3', \Yii::t('app', 'Update ').' '.$this->title);
     $form = ActiveForm::begin([
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,

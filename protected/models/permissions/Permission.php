@@ -30,6 +30,7 @@ class Permission extends ActiveRecord
     private static $cache = [];
 
     const PERMISSION_READ = 'read';
+    const PERMISSION_SUMMARY = 'summary';
     const PERMISSION_WRITE = 'write';
     const PERMISSION_CREATE = 'create';
     const PERMISSION_ADMIN = 'admin';
