@@ -14,7 +14,6 @@ use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
-
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
@@ -85,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => '# Contributors',
-                'attribute' => 'permissionCount'
+                'attribute' => 'contributorCount'
             ],
             [
                 'label' => '# Health facilities',

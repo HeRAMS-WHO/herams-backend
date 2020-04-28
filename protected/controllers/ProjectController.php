@@ -48,7 +48,6 @@ class ProjectController extends Controller
             ],
             'view' => View::class,
             'pdf' => Pdf::class,
-            'summary' => Summary::class,
             'share' => Share::class,
             'workspaces' => Workspaces::class,
             'pages' => Pages::class,

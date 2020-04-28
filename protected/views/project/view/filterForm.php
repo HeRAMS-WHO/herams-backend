@@ -18,7 +18,7 @@ $form = ActiveForm::begin([
     ]);
     /** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
     $groups = $project->getSurvey()->getGroups();
-    usort($groups, function(GroupInterface $a, GroupInterface $b) {
+    usort($groups, function (GroupInterface $a, GroupInterface $b) {
         return $a->getIndex() <=> $b->getIndex();
     });
 
@@ -54,15 +54,16 @@ $form = ActiveForm::begin([
 JS
     );
 
-    foreach($groups as $group) {
+    foreach ($groups as $group) {
         foreach ($group->getQuestions() as $question) {
             if (($answers = $question->getAnswers()) !== null
                 && $question->getDimensions() === 0) {
                 $items = \yii\helpers\ArrayHelper::map(
-                    $answers, function(AnswerInterface $answer) {
+                    $answers,
+                    function (AnswerInterface $answer) {
                         return $answer->getCode();
                     },
-                    function(AnswerInterface $answer) {
+                    function (AnswerInterface $answer) {
                         return strtok(strip_tags($answer->getText()), ':(');
                     }
                 );
@@ -108,13 +109,11 @@ JS
                 ]);
                 continue;
             }
-
-
         }
     }
 
     $id = Json::encode('#' . Html::getInputId($filterModel, 'date'));
-    $this->registerJs("flatpickr($id);");
+    $this->registerJs("flatpickr($id,{maxDate:'today'});");
     echo Html::beginTag('div', ['class' => 'filterlist']);
     echo Form::widget([
         'form' => $form,

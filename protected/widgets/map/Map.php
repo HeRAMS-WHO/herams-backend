@@ -3,12 +3,11 @@
 
 namespace prime\widgets\map;
 
-use http\QueryString;
+use prime\widgets\chart\ChartBundle;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
-use prime\widgets\chart\ChartBundle;
 
 class Map extends Widget
 {
@@ -16,17 +15,12 @@ class Map extends Widget
     public $baseLayers = [
         [
             "type" => self::TILE_LAYER,
-            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
                 'maxNativeZoom' => 17
             ]
         ],
-//        [
-//            "type" => self::TILE_LAYER,
-//            "url" => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-//        ]
     ];
 
     public $options = [
@@ -74,7 +68,6 @@ HTML;
         echo Html::tag('template', $this->renderPopupLoader());
 
         $id = Json::encode($this->getId());
-
         $config = Json::encode([
             'preferCanvas' => true,
             'center' => $this->center,
@@ -125,20 +118,10 @@ HTML;
                                 closeButton: false
                             }).getPopup();
 
-                            let fetched = false;
                             // On the first open fetch remote content
-                            marker.on('popupopen', function() {
-                                if (fetched) {
-                                    loadChartsForCountry(popup, feature.json);
-                                    return;
-                                }
-                                fetch(feature.properties.url)
-                                    .then((r) => r.json())
-                                    .then((json) => {
-                                        feature.json = json;
-                                        loadChartsForCountry(popup, feature.json);
-                                });
-                                fetched = true;
+                            let renderer = new PopupRenderer(popup, feature.properties.url);
+                            marker.on('popupopen', () => {
+                                renderer.render();
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
@@ -207,125 +190,13 @@ HTML;
                 console.error("Error in map widget JS", error);
             }
 
-            function cleanPopup(popup) {
-                let popin = document.getElementById("popup");
-                if(popin)
-                    popin.remove();
-            }
-
-            function loadChartsForCountry(popup, json) {
-                cleanPopup(popup);
-                popup.setContent(
-                    '<div class="project-summary" id="popup">' + 
-                    '<h1>' + json.title + '</h1>' +
-                    '<div class="grid">' +
-                        '<div class="stat"><strong>' +
-                            json.facilityCount +
-                        '</strong> Health facilities</div>' +
-                        '<div class="stat"><strong>' +
-                            json.contributorCount +
-                        '</strong> Contributors</div>' +
-                        '<hr/>' +
-                        //'<div class="chart">'+ JSON.stringify(json, null, 2) +'</div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart1"></div>' +
-                        '<div id="js-legend-1" class="legend"></div></div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart2"></div>' +
-                        '<div id="js-legend-2" class="legend"></div></div>' +
-                        '<div class="chart"><div class="container-chart"><canvas id="chart3"></div>' +
-                        '<div id="js-legend-3" class="legend"></div></div>' +
-                        '<a href="/project/'+json.id+'">Dashboard</a>' +
-                        '<a href="/project/'+json.id+'/workspaces">Workspaces</a>' +
-                    '</div>' +
-                    '</div>'
-                );
-                popup.update();  
-
-                var values,sum,labels,items,bgColor,icon,title,jsonConfig,canvas;
-
-                jsonConfig = buildChart('Service availability',"\u{e90b}", json.typeCounts, ["Primary","Secondary","Tertiary","Other"], ['blue', 'white']);
-                canvas = document.getElementById('chart1').getContext('2d');
-                chart = new Chart(canvas, jsonConfig);
-                document.getElementById('js-legend-1').innerHTML = chart.generateLegend();
-                
-                jsonConfig = buildChart('Functionality',"\u{e90a}", json.functionalityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
-                canvas = document.getElementById('chart2').getContext('2d');
-                chart = new Chart(canvas, jsonConfig);
-                document.getElementById('js-legend-2').innerHTML = chart.generateLegend();
-                
-                jsonConfig = buildChart('Service availability',"\u{e901}", json.subjectAvailabilityCounts, ["Full","Partial","None"], ['green', 'orange', 'red']);
-                canvas = document.getElementById('chart3').getContext('2d');
-                chart = new Chart(canvas, jsonConfig);
-                document.getElementById('js-legend-3').innerHTML = chart.generateLegend();
-            }
-               
             
-            function buildChart(title,icon,types, items, colors) {
-                if(Object.keys(types).length > 0) {   
-                    labels = [];
-                    sum = Object.keys(types).reduce((sum,key)=>sum+parseFloat(types[key]||0),0);
-                    items.forEach(function(key) {
-                        let percent = Math.round(((types[key]/sum) * 100));
-                        if(isNaN(percent)) percent = 0;
-                        labels[percent+"% "+key] = percent;
-                    });
-                    bgColor = chroma.scale(colors).colors(Object.keys(items).length);
-                    return getChartConfig(Object.keys(labels),bgColor,Object.values(labels),icon,title);
-                }
-            }
 
-            function getChartConfig(labels,bgColor,values,icon,title) {
-                var jsonConfig = 
-                {
-                    'type' : 'doughnut',
-                    'data': {
-                        'datasets' : [
-                            {
-                                'data' : values,
-                                'backgroundColor' : bgColor,
-                                'label' : 'Types'
-                            }],
-                        'labels' : labels
-                    },
-                    'options' : {
-                        'tooltips' : {
-                                'enabled' : false,
-                        },
-                        'elements' : {
-                            'arc' : {
-                                'borderWidth': 0
-                            },
-                            'center': {
-                                'sidePadding': 40,
-                                'color': '#a5a5a5',
-                                'fontWeight': "normal",
-                                'fontStyle': "icomoon",
-                                // Facility
-                                'text': icon
-                            }
-                        },
-                        'cutoutPercentage': 95,
-                        'responsive' : true,
-                        'maintainAspectRatio' : false,
-                        'legend': {
-                            'display': false,
-                            'position': 'bottom',
-                            'labels': {
-                                'boxWidth': 12,
-                                'fontSize': 12,
-                            }
-                        },
-                        'title': {
-                            'display': true,
-                            'text': title
-                        },
-                        'animation': {
-                            'animateScale': true,
-                            'animateRotate': true
-                        }
-                    }
-                };
-                return jsonConfig;
-            }
+            
+            
+            
+
+            
 
         })();
 

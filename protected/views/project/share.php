@@ -24,9 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="col-xs-12 share-form">
-    <div class="col-xs-12 col-md-8 col-lg-6 permissions-form form-bg">
+    <div class="col-xs-12 form-content permissions-form form-bg">
         <?php
-        echo Html::tag('h2', \Yii::t('app', 'Add permissions'));
+        echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
         $form = ActiveForm::begin([
             "type" => ActiveForm::TYPE_HORIZONTAL,
             'formConfig' => [
@@ -36,12 +36,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ]);
         echo $model->renderForm($form);
+        echo Form::widget([
+            'form' => $form,
+            'model' => $model,
+            'attributes' => [
+                FormButtonsWidget::embed([
+                    'buttons' => [
+                        ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                    ]
+                ])
+            ]
+        ]);
         $form->end();
         ?>
-        <button type="submit" class="btn btn-primary">Add</button>
     </div>
-    <div class="col-xs-12 list-shared form-bg">
-        <h2><?= \Yii::t('app', 'View user permissions') ?></h2>
+    <div class="col-xs-12 form-content list-shared form-bg">
+        <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
         <?php
         echo $model->renderTable();
         ?>
