@@ -26,6 +26,6 @@ switch (get_class($exception)) {
         $message = \Yii::t('app', 'No extra information is available at this time');
 }
 echo Html::tag('span', $message, ['class' => 'help']);
-echo Html::a(Icon::home()."Home", ['/'], ['target' => '_top', 'class' => 'btn btn-primary btn-home']);
+echo Html::a(Icon::home().\Yii::t('app', 'Home'), ['/'], ['target' => '_top', 'class' => 'btn btn-primary btn-home']);
 
 echo Html::endTag('div');
