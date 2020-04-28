@@ -68,7 +68,9 @@ body {
     background-color: white;
     display: grid;
     position: relative;
-    max-width: 710px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto auto var(--status-height);
     grid-template-areas:
@@ -79,10 +81,80 @@ body {
 ;
 
 }
+.popover-error {
+    max-width: 800px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto var(--status-height);
+    grid-template-areas:
+        "login"
+        "stat"
+        "status";
+}
+
+.popover-error div.centered {
+    padding-bottom: 10px !important;
+}
+
+.popover-error .btn {
+    margin-top: 30px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.popover-error .btn .icon {
+   margin-right: 5px;
+}
+
+.popover-error .btn-home {
+    width: auto;
+    color: white;
+}
+
+.popover-error .btn-home:hover {
+    color:var(--primary-button-background-color);
+}
+
+.popover div.centered {
+    grid-column: span 2;
+    text-align: center;
+    padding-bottom: 40px;
+    font-size: 40px;
+    color: #bbbbbb;
+}
+
+.popover div.centered span.logo {
+    margin-bottom: 30px;
+}
+
+.popover div.centered span.error {
+    color: #565656;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.popover div.centered span.help {
+    margin-top: 5px;
+    font-size: 20px;
+    color: #565656;
+}
+    
+.popover div.centered > svg {
+    font-size: 46px;
+    margin-top: 35px;
+}
+.popover div.centered .logo {
+    max-width: 268px;
+}
+.popover div.centered > * {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
 
 .form {
     grid-area: login;
-    padding: var(--padding);
+    padding: 0 var(--padding) var(--padding);
     padding-bottom: 0;
     margin-bottom: var(--padding);
     position: relative;
@@ -100,7 +172,6 @@ body {
 
 .intro {
     padding: var(--padding);
-    padding-top: 0;
     color: #565656;
     grid-area: intro;
     text-align: justify;
@@ -130,14 +201,23 @@ body {
     ;
     }
 
+    .popover-error {
+        grid-template-areas:
+                "login  login"
+                "stat   stat"
+                "status status"
+    ;
+    }
+
     .intro {
         border-right: var(--gutter-width) solid var(--gutter-color);
         margin-bottom: var(--padding);
         padding-bottom: 0;
+        padding-top: 0;
     }
 
     .form {
-
+        padding: var(--padding);
         flex-grow: 0;
     }
 
