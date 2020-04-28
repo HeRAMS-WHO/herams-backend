@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
                 'class' => ['btn btn-default']
             ]),
-            Html::submitButton(\Yii::t('app', 'Update'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
+            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
 
         ]
     ]);
