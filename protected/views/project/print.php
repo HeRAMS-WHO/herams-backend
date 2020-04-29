@@ -6,6 +6,7 @@
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
+use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 
 $this->params['body'] = [
@@ -21,19 +22,19 @@ $this->title = $project->getDisplayField();
         <?php
         echo Icon::healthFacility();
         echo Html::tag('em', count($data));
-        echo ' ' . \Yii::t('app', 'Health Facilities');
+        echo \Yii::t('app', 'Health Facilities');
         ?>
     </div>
     <div class="count">
         <?php
         echo Icon::contributors();
         echo Html::tag('em', $project->contributorCount);
-        echo ' ' . \Yii::t('app', 'Contributors');
+        echo \Yii::t('app', 'Contributors');
         ?>
     </div>
     <div class="count">
         <?php
-        echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
+        echo Icon::sync() . \Yii::t('app', 'Latest update');
         /** @var HeramsResponseInterface $heramsResponse */
         $lastUpdate = null;
         foreach ($data as $heramsResponse) {
@@ -50,11 +51,11 @@ $this->title = $project->getDisplayField();
 <?php
 $date = $filterModel->attributes['date'];
 $filters = $filterModel->attributes['advanced'];
-if ($date != null || (is_array($filters) && count($filters) > 0)) {
+if (isset($date) || (is_array($filters) && count($filters) > 0)) {
     echo Html::beginTag('div', ['class' => 'filters-list']);
-    echo "<span class='list-title'>Filters</span> : ";
-    if ($date != null) {
-        echo "<strong>Date</strong> ".$date." ";
+    echo "<span class='list-title'>".\Yii::t('app', 'Filters')."</span> : ";
+    if (isset($date)) {
+        echo "<strong>".\Yii::t('app', 'Date')."</strong> {$date} ";
     }
     if (is_array($filters) && count($filters) > 0) {
         $groups = $project->getSurvey()->getGroups();
@@ -65,15 +66,24 @@ if ($date != null || (is_array($filters) && count($filters) > 0)) {
             foreach ($group->getQuestions() as $question) {
                 if (($answers = $question->getAnswers()) !== null
                     && $question->getDimensions() === 0) {
+                    $items = \yii\helpers\ArrayHelper::map(
+                        $answers,
+                        function (AnswerInterface $answer) {
+                            return $answer->getCode();
+                        },
+                        function (AnswerInterface $answer) {
+                            return strtok(strip_tags($answer->getText()), ':(');
+                        }
+                    );
                     if (array_key_exists($question->getTitle(), $filters)) {
                         $attribute = "adv_{$question->getTitle()}";
-                        echo "<strong>".$filterModel->getAttributeLabel($attribute)." : </strong> ";
-                        $labels = $filterModel->advancedOptions($question->getTitle());
-                        $answers = [];
+                        echo "<strong>{$filterModel->getAttributeLabel($attribute)} : </strong> ";
+                        $answersList = [];
                         foreach ($filters[$question->getTitle()] as $filter) {
-                            $answers[] = $labels[$filter];
+                            $answersList[] = $items[$filter];
                         }
-                        echo "<span class='values'>".implode(" / ", $answers)."</span>";
+                        $answersList = implode(" -- ", $answersList);
+                        echo "<span class='values'>{$answersList}</span>";
                     }
                 }
             }
@@ -84,7 +94,7 @@ if ($date != null || (is_array($filters) && count($filters) > 0)) {
     
 foreach ($project->pages as $page) {
     echo Html::beginTag('div', ['class' => 'content']);
-    echo "<h2 class='page-title'>".$this->title.' - '.$page->title."</h2>";
+    echo "<h2 class='page-title'>{$this->title} - {$page->title}</h2>";
     foreach ($page->getChildElements() as $element) {
         Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Begin chart {$element->id} -->";
