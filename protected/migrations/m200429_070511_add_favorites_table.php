@@ -20,7 +20,7 @@ class m200429_070511_add_favorites_table extends Migration
             ]);
         }
 
-        $this->addPrimaryKey('primary', '{{%favorite}}', [
+        $this->addPrimaryKey('favorite_primary', '{{%favorite}}', [
             'user_id',
             'target_class',
             'target_id'
