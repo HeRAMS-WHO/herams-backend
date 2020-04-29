@@ -43,7 +43,6 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         return new ResponseQuery(self::class);
     }
 
-
     public function afterFind()
     {
         parent::afterFind();

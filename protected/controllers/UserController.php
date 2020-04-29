@@ -9,6 +9,7 @@ use prime\components\Controller;
 use prime\controllers\user\Account;
 use prime\controllers\user\ConfirmEmail;
 use prime\controllers\user\Create;
+use prime\controllers\user\Favorites;
 use prime\controllers\user\Impersonate;
 use prime\controllers\user\Index;
 use prime\controllers\user\RequestAccount;
@@ -34,6 +35,7 @@ class UserController extends Controller
             'index' => Index::class,
             'account' => Account::class,
             'impersonate' => Impersonate::class,
+            'favorites' => Favorites::class,
             'request-account' => RequestAccount::class,
             'request-reset' => RequestReset::class,
             'reset-password' => ResetPassword::class,

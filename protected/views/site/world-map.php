@@ -27,7 +27,7 @@ foreach ($projects->getModels() as $project) {
     if (!isset($collections[$project->status])) {
         $collections[$project->status] = [
             "type" => "FeatureCollection",
-            "title" => $project->statusText(),
+            "title" => $project->statusText,
             "features" => []
         ];
     }

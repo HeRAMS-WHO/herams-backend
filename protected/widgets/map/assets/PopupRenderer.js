@@ -58,7 +58,7 @@ class PopupRenderer {
             }
         }
 
-        if (this.data.status !== 'ongoing') {
+        if (this.data.status !== 0) {
             return this.renderInactive();
         }
 
@@ -98,17 +98,17 @@ class PopupRenderer {
         }
 
         
-        if (this.data.links.dashboard) {
+        if (this.data._links.dashboard) {
             let a = document.createElement('a');
-            a.textContent = 'Dashboard';
-            a.href = this.data.links.dashboard;
+            a.textContent = this.data._links.dashboard.title;
+            a.href = this.data._links.dashboard.href;
             grid.appendChild(a);
         }
 
-        if (this.data.links.workspaces) {
+        if (this.data._links.workspaces) {
             let a = document.createElement('a');
-            a.textContent = 'Workspaces';
-            a.href = this.data.links.workspaces;
+            a.textContent = this.data._links.workspaces.title;
+            a.href = this.data._links.workspaces.href;
             grid.appendChild(a);
         }
 

@@ -30,9 +30,15 @@ class Module extends \yii\base\Module
                 ],
                 [
                     'class' => UrlRule::class,
+                    'pattern' => '<controller>/<id:\d+>/<action:\w+>/<target_id:\d+>',
+                    'route' => '<controller>/<action>',
+                    'verb' => ['put', 'delete']
+                ],
+                [
+                    'class' => UrlRule::class,
                     'pattern' => '<controller>/<id:\d+>/<action:\w+>',
                     'route' => '<controller>/<action>',
-                    'verb' => 'get'
+                    'verb' => ['get']
                 ],
                 [
                     'class' => UrlRule::class,

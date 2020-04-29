@@ -8,6 +8,8 @@ use yii\helpers\Html;
     <?php
     /** @var \prime\models\ar\User $user */
     $user = \Yii::$app->user->identity;
+
+    echo Html::a(Icon::heart(), ['/user/favorites']);
     ?>
 
     <div>
@@ -18,6 +20,6 @@ use yii\helpers\Html;
     </div>
     <?php
         echo Html::a(Icon::admin(), ['/admin/dashboard']);
+        echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
     ?>
-    <?= Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']); ?>
 </div>

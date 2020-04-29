@@ -26,20 +26,11 @@ class Summary extends Action
         if (!$user->can(Permission::PERMISSION_SUMMARY, $project)) {
             throw new ForbiddenHttpException();
         }
-        return $this->controller->asJson([
-            'id' => $project->id,
-            'title' => $project->title,
-            'status' => $project->status == Project::STATUS_TARGET ? 'target':'ongoing',
-            'links' => array_filter([
-                'dashboard' => $project->getPages()->exists() && \Yii::$app->user->can(Permission::PERMISSION_READ, $project)
-                    ? Url::to(['/project/view', 'id' => $project->id]) : null,
-                'workspaces' => Url::to(['/project/workspaces', 'id' => $project->id])
-            ]),
-            'subjectAvailabilityCounts' => $project->getSubjectAvailabilityCounts(),
-            'functionalityCounts' => $project->getFunctionalityCounts(),
-            'typeCounts' => $project->getTypeCounts(),
-            'facilityCount' => $project->facilityCount,
-            'contributorCount' => $project->contributorCount,
-        ]);
+        return $this->controller->asJson($project->toArray([], [
+            'typeCounts',
+            'functionalityCounts',
+            'subjectAvailabilityCounts',
+            'statusText'
+        ]));
     }
 }

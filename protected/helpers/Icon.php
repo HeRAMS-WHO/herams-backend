@@ -24,6 +24,8 @@ use yii\helpers\Inflector;
  * @method static string chevronDown(array $options = [])
  * @method static string chevronUp(array $options = [])
  *
+ * @method static string heart(array $options = [])
+ *
  * // NovelT icons
  * @method static string project(array $options = [])
  * @method static string healthFacility(array $options = [])

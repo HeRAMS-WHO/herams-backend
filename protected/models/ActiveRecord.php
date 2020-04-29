@@ -7,18 +7,6 @@ use prime\components\ActiveQuery;
 class ActiveRecord extends \yii\db\ActiveRecord
 {
     public const SCENARIO_SEARCH = 'search';
-    /**
-     * @return ActiveQuery
-     * @throws \yii\base\InvalidConfigException
-     */
-    public static function find()
-    {
-        $class = "app\\queries\\" . (new \ReflectionClass(get_called_class()))->getShortName() . 'Query';
-        if (!class_exists($class)) {
-            $class = ActiveQuery::class;
-        }
-        return \Yii::createObject($class, [get_called_class()]);
-    }
 
     public function beforeSave($insert)
     {

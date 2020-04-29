@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use prime\components\LimesurveyDataProvider;
+use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
@@ -17,6 +18,7 @@ use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
@@ -24,6 +26,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+use yii\web\Linkable;
 use function iter\filter;
 
 /**
@@ -43,7 +46,7 @@ use function iter\filter;
  * @property-read SurveyInterface $survey
  * @property array $overrides
  */
-class Project extends ActiveRecord
+class Project extends ActiveRecord implements Linkable
 {
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_PRIVATE = 'private';
@@ -56,7 +59,7 @@ class Project extends ActiveRecord
     const PROGRESS_ABSOLUTE = 'absolute';
     const PROGRESS_PERCENTAGE = 'percentage';
 
-    public function statusText(): string
+    public function getStatusText(): string
     {
         return $this->statusOptions()[$this->status];
     }
@@ -93,6 +96,32 @@ class Project extends ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    public function fields(): array
+    {
+        $fields = parent::fields();
+        $fields['name'] = 'title';
+
+        /** @var VirtualFieldBehavior $virtualFields */
+        $virtualFields = $this->getBehavior('virtualFields');
+        foreach($virtualFields->virtualFields as  $key => $definition) {
+            $fields[$key] = $key;
+        }
+        foreach(['overrides', 'typemap', 'title', 'contributorPermissionCount', 'responseCount'] as $hidden) {
+            unset($fields[$hidden]);
+        }
+        return $fields;
+    }
+
+    public function extraFields(): array
+    {
+        $result = parent::extraFields();
+        $result['subjectAvailabilityCounts'] = 'subjectAvailabilityCounts';
+        $result['functionalityCounts'] = 'functionalityCounts';
+        $result['typeCounts'] = 'typeCounts';
+        $result['statusText'] = 'statusText';
+
+        return $result;
+    }
 
     public function init()
     {
@@ -299,7 +328,6 @@ class Project extends ActiveRecord
         return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
     }
 
-
     public function getTypeCounts()
     {
         if (null !== $result = $this->getOverride('typeCounts')) {
@@ -469,5 +497,27 @@ class Project extends ActiveRecord
             $pages[] = $page->export();
         }
         return $pages;
+    }
+
+    public function getLinks(): array
+    {
+        $result = [];
+        $result[Link::REL_SELF] = Url::to(['project/view', 'id' => $this->id]);
+        $result['summary'] = Url::to(['project/summary', 'id' => $this->id]);
+
+        if ($this->getPages()->exists() && \Yii::$app->user->can(Permission::PERMISSION_READ, $this)) {
+            $result['dashboard'] = new Link([
+                'title' => \Yii::t('app', 'Dashboard'),
+                'type' => 'text/html',
+                'href' => Url::to(['/project/view', 'id' => $this->id]),
+            ]);
+        }
+
+        $result['workspaces'] = new Link([
+            'title' => \Yii::t('app', 'Workspaces'),
+            'type' => 'text/html',
+            'href' => Url::to(['/project/workspaces', 'id' => $this->id])
+        ]);
+        return $result;
     }
 }

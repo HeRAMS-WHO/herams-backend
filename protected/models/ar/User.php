@@ -3,6 +3,7 @@
 namespace prime\models\ar;
 
 use prime\models\ActiveRecord;
+use prime\queries\FavoriteQuery;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\base\NotSupportedException;
@@ -12,6 +13,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
+use yii\web\Linkable;
 use function iter\apply;
 use function iter\chain;
 
@@ -19,6 +21,7 @@ use function iter\chain;
  * Class User
  * @property string $name
  * @property int $id
+ * @property Favorite[] $favorites
  */
 class User extends ActiveRecord implements IdentityInterface {
 
@@ -128,5 +131,20 @@ class User extends ActiveRecord implements IdentityInterface {
             throw new \RuntimeException(\Yii::t('app', 'Password update failed'));
         }
 
+    }
+
+    public function getFavorites(): FavoriteQuery
+    {
+        return $this->hasMany(Favorite::class, ['user_id' => 'id'])->inverseOf('user');
+    }
+
+    public function isFavorite(ActiveRecord $target): bool
+    {
+        foreach($this->favorites as $favorite) {
+            if ($favorite->matches($target)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
