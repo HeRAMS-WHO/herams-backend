@@ -4,28 +4,33 @@
 /** @var Project $project */
 /** @var Page $page */
 
-use prime\interfaces\PageInterface;
 use prime\helpers\Icon;
 use yii\helpers\Html;
+use SamIT\LimeSurvey\Interfaces\AnswerInterface;
+use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 
 $this->title = $project->getDisplayField();
 ?>
-<div class="filters">
+<div class='title'>
+    <?= $project->getDisplayField(); ?>
+    <div class="filters">
     <div class="count">
         <?php
-        echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
+        echo Icon::healthFacility();
         echo Html::tag('em', count($data));
+        echo \Yii::t('app', 'Health Facilities');
         ?>
     </div>
     <div class="count">
         <?php
-        echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
+        echo Icon::contributors();
         echo Html::tag('em', $project->contributorCount);
+        echo \Yii::t('app', 'Contributors');
         ?>
     </div>
     <div class="count">
         <?php
-        echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
+        echo Icon::sync() . \Yii::t('app', 'Latest update');
         /** @var HeramsResponseInterface $heramsResponse */
         $lastUpdate = null;
         foreach ($data as $heramsResponse) {
@@ -38,9 +43,54 @@ $this->title = $project->getDisplayField();
         ?>
     </div>
 </div>
+</div>
 <?php
-echo Html::beginTag('div', ['class' => 'content']);
-foreach($project->pages as $page) {
+$date = $filterModel->attributes['date'];
+$filters = $filterModel->attributes['advanced'];
+if (isset($date) || (is_array($filters) && count($filters) > 0)) {
+    echo Html::beginTag('div', ['class' => 'filters-list']);
+    echo "<span class='list-title'>".\Yii::t('app', 'Filters')."</span> : ";
+    if (isset($date)) {
+        echo "<strong>".\Yii::t('app', 'Date')."</strong> {$date} ";
+    }
+    if (is_array($filters) && count($filters) > 0) {
+        $groups = $project->getSurvey()->getGroups();
+        usort($groups, function (GroupInterface $a, GroupInterface $b) {
+            return $a->getIndex() <=> $b->getIndex();
+        });
+        foreach ($groups as $group) {
+            foreach ($group->getQuestions() as $question) {
+                if (($answers = $question->getAnswers()) !== null
+                    && $question->getDimensions() === 0) {
+                    $items = \yii\helpers\ArrayHelper::map(
+                        $answers,
+                        function (AnswerInterface $answer) {
+                            return $answer->getCode();
+                        },
+                        function (AnswerInterface $answer) {
+                            return strtok(strip_tags($answer->getText()), ':(');
+                        }
+                    );
+                    if (array_key_exists($question->getTitle(), $filters)) {
+                        $attribute = "adv_{$question->getTitle()}";
+                        echo "<strong>{$filterModel->getAttributeLabel($attribute)} : </strong> ";
+                        $answersList = [];
+                        foreach ($filters[$question->getTitle()] as $filter) {
+                            $answersList[] = $items[$filter];
+                        }
+                        $answersList = implode(" -- ", $answersList);
+                        echo "<span class='values'>{$answersList}</span>";
+                    }
+                }
+            }
+        }
+    }
+    echo Html::endTag('div');
+}
+    
+foreach ($project->pages as $page) {
+    echo Html::beginTag('div', ['class' => 'content']);
+    echo "<h2 class='page-title'>{$this->title} - {$page->title}</h2>";
     foreach ($page->getChildElements() as $element) {
         Yii::beginProfile('Render element ' . $element->id);
         echo "<!-- Begin chart {$element->id} -->";
@@ -53,17 +103,10 @@ foreach($project->pages as $page) {
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }
-            \Yii::error($t);
-            echo Html::tag(
-                'div',
-                "Rendering this element caused an error: <strong>{$t->getMessage()}</strong>. The most common reason for the error is an invalid question code in its configuration. You can edit the element " . Html::a('here', ['/element/update', 'id' => $element->id]) . '.',
-                [
-                    'class' => 'element',
-                ]
-            );
         }
         echo "<!-- End chart {$element->id} -->";
         Yii::endProfile('Render element ' . $element->id);
     }
+    echo Html::endTag('div');
+    echo "<div class='page-break'></div>";
 }
-echo Html::endTag('div');
