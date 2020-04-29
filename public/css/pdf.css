@@ -25,6 +25,7 @@ body {
         "title title title"
         "filters filters filters"
         "main main main";
+    height: auto;
 }
 
 .title {

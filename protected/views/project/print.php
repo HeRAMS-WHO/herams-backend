@@ -9,10 +9,6 @@ use yii\helpers\Html;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 
-$this->params['body'] = [
-    'class' => ['print']
-];
-
 $this->title = $project->getDisplayField();
 ?>
 <div class='title'>

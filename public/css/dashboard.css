@@ -620,9 +620,6 @@ body {
         ;
         height: 100vh;
     }
-    body.print {
-        height: auto;
-    }
     .content {
         grid-template-columns: 1fr 1fr;
     }
