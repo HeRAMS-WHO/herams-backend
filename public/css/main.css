@@ -214,6 +214,7 @@ a:hover {
     line-height: 26px;
     padding: 5px 10px;
     word-wrap: break-word;
+    min-height: 30px;
 }
 
 

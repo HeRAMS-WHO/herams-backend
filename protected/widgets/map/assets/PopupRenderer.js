@@ -13,7 +13,7 @@ class PopupRenderer {
         let content = document.createElement('div');
         content.classList.add('project-summary');
         let title = document.createElement('h1');
-        title.textContent = this.data.title;
+        title.textContent = this.data.name;
         content.appendChild(title);
         content.innerHTML += '<h2>In Progress</h2>';
         content.innerHTML += '<p>This project is in the process of being set up. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>';
@@ -68,7 +68,7 @@ class PopupRenderer {
         let content = document.createElement('div');
         content.classList.add('project-summary');
         let title = document.createElement('h1');
-        title.textContent = this.data.title;
+        title.textContent = this.data.name;
         content.appendChild(title);
         let grid = document.createElement('div');
         content.appendChild(grid);
