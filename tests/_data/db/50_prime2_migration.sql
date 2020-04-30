@@ -99,4 +99,7 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200204_101056
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200205_123138_project_visibility', 1580908837);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200210_092104_change_write_to_ls', 1581673484);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200214_094238_drop_social_account', 1581673484);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200330_105922_project_fix_overrides', 1588236574);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200429_070511_add_favorites_table', 1588236574);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200429_082155_project_use_float', 1588236575);
 SET FOREIGN_KEY_CHECKS=1;

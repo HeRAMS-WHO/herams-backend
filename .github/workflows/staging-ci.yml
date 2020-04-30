@@ -1,0 +1,47 @@
+name: Continuous deployment for staging
+on:
+  push:
+    branches: [ master ]
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Get Docker Images Directory
+        id: docker-images
+        run: |
+          echo "::set-output name=dir::$(docker info --format '{{ .DockerRootDir}}')"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-docker
+          restore-keys: |
+            ${{ runner.os }}-docker
+      - run: cp .env.default .env
+      - run: composer install
+      - run: docker-compose build
+      - run: docker-compose run --rm codeception run --coverage-xml
+      - run: wget https://scrutinizer-ci.com/ocular.phar
+      - run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
+  deploy:
+    name: Deploy to STAGING
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: |
+            ${{ secrets.STAGING_DEPLOY }}
+      - run: echo "herams-staging.org ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDvYhotLJl/CzLAArRIBkg9mnAlAvVeWEM80qMdcCYYmVcoSy5lppFJKqIcpHxipBLZd5ak0RN4LgAVXNZJvz20aQf8b7DsABhCJAshEeyJRywDJo9lOSeA2VJtKwWybxKIwlq0WcMkbNKvfT1MemmNJWcsvaZB1qhiBixpfIGvFEUvWIsviRN3rumasL4LZ52KzP/OZO5xA7QeVdM3+mjtkqdkdc8Y4XV0yfQSV8oj8dxYTmNv2cOCEZM2YjLm1GQnrzhnPR5zA7W1ZKMXj4nF0jwNLGGy1DZRDSlAUGyT1pnP3kaE865v5tWSJCVZhdxAK5Btqngc9icEn1RWuXdj" >> ~/.ssh/known_hosts
+      - run: ssh www@herams-staging.org "$GITHUB_SHA"
