@@ -115,13 +115,14 @@ body {
 .content>.element {
     margin: 0;
     padding: 0;
-    max-height: 180px;
+    max-height: 190px;
     page-break-inside:avoid;
     page-break-after:auto;
     border: none;
 }
 .content>.element.table {
     margin-top: 20px;
+    max-height: unset;
 }
 .content>.element.table h1 {
     font-size: 16px;
