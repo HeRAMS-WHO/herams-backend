@@ -1,7 +1,5 @@
 name: Run tests
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 jobs:
@@ -33,5 +31,3 @@ jobs:
       - run: composer install
       - run: docker-compose build
       - run: docker-compose run --rm codeception run --coverage-xml
-      - run: wget https://scrutinizer-ci.com/ocular.phar
-      - run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
