@@ -1,5 +1,4 @@
 # who-herams
-WHO - WHE - HeRAMS Nigeria
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/herams-who/herams-backend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/herams-who/herams-backend/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/herams-who/herams-backend/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/herams-who/herams-backend/?branch=master)
 [![Continuous deployment for staging](https://github.com/HeRAMS-WHO/herams-backend/workflows/Continuous%20deployment%20for%20staging/badge.svg)](https://github.com/HeRAMS-WHO/herams-backend/actions?query=workflow%3A%22Continuous+deployment+for+staging%22)
