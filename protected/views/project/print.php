@@ -47,7 +47,12 @@ $this->title = $project->getDisplayField();
             </div>
         </div>
     </div>
-    <?php
+    </td></tr>
+</thead>
+<tbody>
+<tr><td>
+<?php
+foreach ($project->pages as $key => $page) {
     $date = $filterModel->attributes['date'];
     $filters = $filterModel->attributes['advanced'];
     if (isset($date) || (is_array($filters) && count($filters) > 0)) {
@@ -90,13 +95,9 @@ $this->title = $project->getDisplayField();
             }
         }
         echo Html::endTag('div');
-    } ?>
-    </td></tr>
-</thead>
-<tbody>
-<tr><td>
-<?php
-foreach ($project->pages as $key => $page) {
+    }
+
+
     echo Html::beginTag('div', ['class' => 'content']);
     echo "<h2 class='page-title'>{$page->title}</h2>";
     $subpages = [];
