@@ -11,10 +11,10 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 
 $this->title = $project->getDisplayField();
 ?>
-<?php
-foreach ($project->pages as $key => $page) {
-    ?>
-    <div class='title'>
+<table>
+<thead>
+<tr><td>
+<div class='title'>
         <?= $project->getDisplayField(); ?>
         <div class="filters">
             <div class="count">
@@ -90,8 +90,13 @@ foreach ($project->pages as $key => $page) {
             }
         }
         echo Html::endTag('div');
-    }
-
+    } ?>
+    </td></tr>
+</thead>
+<tbody>
+<tr><td>
+<?php
+foreach ($project->pages as $key => $page) {
     echo Html::beginTag('div', ['class' => 'content']);
     echo "<h2 class='page-title'>{$page->title}</h2>";
     $subpages = [];
@@ -125,3 +130,7 @@ foreach ($project->pages as $key => $page) {
         echo "<div class='page-break'></div>";
     }
 }
+?>
+</td></tr>
+</tbody>
+</table>
