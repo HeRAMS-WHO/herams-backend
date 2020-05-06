@@ -152,6 +152,7 @@ a {
     text-decoration: inherit;
     color: inherit;
     display: inline-block;
+    margin-right: 4px;
 }
 
 .user-menu a:hover {
@@ -479,6 +480,12 @@ span.header {
     height: var(--height);
     border: none;
     background: none;
+}
+
+.table button.FavoriteButton svg {
+    fill: white;
+    stroke-width: 2px;
+    stroke: #212529;
 }
 
 body {

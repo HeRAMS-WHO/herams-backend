@@ -23,7 +23,7 @@ class FavoriteColumn extends Column
         parent::init();
         $this->content = static function ($model, $key, $index, self $column) use ($targetIds) {
 
-            return Html::button(Icon::heart(), [
+            return Html::button(Icon::star(), [
                 'title' => \Yii::t('app', 'Favorites'),
                 'class' => [
                     'FavoriteButton',
