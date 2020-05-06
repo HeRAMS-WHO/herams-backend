@@ -16,7 +16,6 @@ class PopupRenderer {
         title.textContent = this.data.name;
         content.appendChild(title);
         content.innerHTML += '<h2>In Progress</h2>';
-        content.innerHTML += '<p>This project is in the process of being set up. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>';
         this.popup.setContent(content);
         this.popup.update();
     }
@@ -28,8 +27,13 @@ class PopupRenderer {
         let title = document.createElement('h1');
         title.textContent = 'Loading failed';
         content.appendChild(title);
-        content.innerHTML += '<h2>In Progress</h2>';
-        content.innerHTML += '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics and allow access to the project dashboard.</p>';
+        content.innerHTML += '<h2>Loading Error</h2>';
+        content.innerHTML += '<p>Try refreshing the project</p>';
+        let button = document.createElement('button');
+        button.classList.add('btn');
+        button.textContent = 'Refresh';
+        button.addEventListener("click", _ => this.render());
+        content.appendChild(button);
         this.popup.setContent(content);
         this.popup.update();
     }
@@ -93,7 +97,6 @@ class PopupRenderer {
             let content = document.createElement('div');
             content.classList.add('full-width');
             content.innerHTML += '<h2>In Progress</h2>';
-            content.innerHTML += '<p>Datas for this project are being collected. When it becomes active this popup will show key metrics</p>';
             grid.append(content);
         }
 
