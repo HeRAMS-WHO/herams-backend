@@ -96,7 +96,6 @@ body {
 .content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-auto-rows: auto;
     grid-template-rows: auto;
     grid-auto-flow: dense;
     grid-row-gap: var(--gutter-size);
@@ -109,7 +108,7 @@ body {
 }
 
 .content:not(:first-child)  {
-    margin-top: 0px;
+    margin-top:60px;
 }
 
 .page-title {
@@ -144,8 +143,7 @@ body {
 }
 
 .content>.element.map {
-    min-height: 310px;
-    grid-row: auto !important;
+    max-height: none;
 }
 
 .leaflet-container a, .content>.element a {
