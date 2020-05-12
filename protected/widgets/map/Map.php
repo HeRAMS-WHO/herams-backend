@@ -51,8 +51,8 @@ class Map extends Widget
     {
         return <<<HTML
         <div class="loader-wrapper">
+            <div class="loader-anim" style="background-image: url('/img/herams_icon.png');"></div>
             <h1>Loading project summary</h1>
-            <p>We're getting your summary ready...</p>
             <div class="loader-anim" style="background-image: url('/img/loader.svg');"></div>
         </div>
 HTML;

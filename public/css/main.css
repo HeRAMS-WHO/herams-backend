@@ -219,7 +219,7 @@ a:hover {
 
 
 .project-summary h2 {
-    margin: 20px 0;
+    margin: 80px 0 10px;
     text-align: center;
     font-weight: 500;
     color: var(--color);
@@ -229,6 +229,11 @@ a:hover {
     word-wrap: break-word;
 }
 
+
+.project-summary button {
+    margin: 20px auto 0;
+    display: block;
+}
 
 .project-summary p {
     margin: 0;
