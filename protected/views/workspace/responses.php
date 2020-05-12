@@ -107,7 +107,7 @@ echo GridView::widget([
             'controller' => 'response',
             'template' => '{compare}',
             'buttons' => [
-                'compare' => function($url, \prime\models\ar\Response $model, $key) {
+                'compare' => function ($url, \prime\models\ar\Response $model, $key) {
                     $result = Html::a(Icon::eye(), $url, [
                         'title' => \Yii::t('app', 'Refresh data from limesurvey')
                     ]);

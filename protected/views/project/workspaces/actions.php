@@ -12,7 +12,7 @@ return [
     'controller' => 'workspace',
     'template' => '{refresh} {update} {share} {delete} {export} {limesurvey} {responses}',
     'buttons' => [
-        'refresh' => function($url, Workspace $model, $key) {
+        'refresh' => function ($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(Icon::sync(), $url, [
@@ -21,7 +21,7 @@ return [
             }
             return $result;
         },
-        'limesurvey' => function($url, Workspace $model, $key) {
+        'limesurvey' => function ($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(
@@ -34,7 +34,7 @@ return [
             }
             return $result;
         },
-        'update' => function($url, Workspace $model, $key) {
+        'update' => function ($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
                 $result = Html::a(
@@ -47,7 +47,7 @@ return [
             }
             return $result;
         },
-        'share' => function($url, Workspace $model, $key) {
+        'share' => function ($url, Workspace $model, $key) {
             $result = '';
             /** @var Workspace $model */
             if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
@@ -61,7 +61,7 @@ return [
             }
             return $result;
         },
-        'delete' => function($url, Workspace $model, $key) {
+        'delete' => function ($url, Workspace $model, $key) {
             if (\Yii::$app->user->can(Permission::PERMISSION_DELETE, $model)) {
                 return Html::a(
                     Icon::delete(),
@@ -73,7 +73,7 @@ return [
                 );
             }
         },
-        'export' => function($url, Workspace $model, $key) {
+        'export' => function ($url, Workspace $model, $key) {
             if (\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $model)) {
                 return Html::a(
                     Icon::download(),
@@ -84,7 +84,7 @@ return [
                 );
             }
         },
-        'responses' => function($url, Workspace $model, $key) {
+        'responses' => function ($url, Workspace $model, $key) {
             if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
                 return Html::a(
                     Icon::list(),

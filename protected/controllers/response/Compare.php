@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\response;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Response;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
@@ -28,7 +27,7 @@ class Compare extends Action
         $limesurveyData = $dataProvider->refreshResponsesByToken($response->survey_id, $response->workspace->getAttribute('token'));
         // Find the correct response.
         /** @var ResponseInterface $limesurveyResponse */
-        foreach($limesurveyData as $limesurveyResponse) {
+        foreach ($limesurveyData as $limesurveyResponse) {
             if ((int)$limesurveyResponse->getId() === $id) {
                 return $this->controller->render('compare', [
                     'limesurveyResponse' => $limesurveyResponse,
@@ -38,5 +37,4 @@ class Compare extends Action
         }
         throw new NotFoundHttpException('Response not found in limesurvey');
     }
-
 }

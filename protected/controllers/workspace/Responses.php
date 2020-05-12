@@ -3,7 +3,6 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\models\ar\Workspace;
 use prime\models\search\Response as ResponseSearch;
 use SamIT\abac\AuthManager;
