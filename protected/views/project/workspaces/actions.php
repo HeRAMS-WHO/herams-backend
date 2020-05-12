@@ -10,7 +10,7 @@ return [
     'class' => ActionColumn::class,
     'width' => '150px',
     'controller' => 'workspace',
-    'template' => '{refresh} {update} {share} {delete} {export} {limesurvey}',
+    'template' => '{refresh} {update} {share} {delete} {export} {limesurvey} {responses}',
     'buttons' => [
         'refresh' => function($url, Workspace $model, $key) {
             $result = '';
@@ -80,6 +80,17 @@ return [
                     $url,
                     [
                         'title' => \Yii::t('app', 'Download'),
+                    ]
+                );
+            }
+        },
+        'responses' => function($url, Workspace $model, $key) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+                return Html::a(
+                    Icon::list(),
+                    $url,
+                    [
+                        'title' => \Yii::t('app', 'Responses'),
                     ]
                 );
             }

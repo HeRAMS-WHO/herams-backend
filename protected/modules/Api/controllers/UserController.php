@@ -23,8 +23,6 @@ class UserController extends Controller
         int $target_id
     ) {
         $userModel = User::findOne(['id' => $id]);
-
-
         if (!$user->can(Permission::PERMISSION_WRITE, $userModel)) {
             throw new ForbiddenHttpException();
         }

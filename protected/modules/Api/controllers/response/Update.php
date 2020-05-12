@@ -52,6 +52,7 @@ class Update extends Action
             throw new NotFoundHttpException('Unknown survey ID: ' . $request->getBodyParam('surveyId'));
         }
 
+        /** @var Workspace $workspace */
         $workspace = Workspace::find()->andWhere(['token' => $data['token'], 'tool_id' => $project->id])->one();
         if (!isset($workspace)) {
             throw new NotFoundHttpException('Unknown token');

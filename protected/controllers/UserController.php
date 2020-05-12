@@ -56,12 +56,12 @@ class UserController extends Controller
                'rules' => [
                    [
                        'allow' => true,
-                       'actions' => ['request-account', 'create', 'request-reset', 'reset-password', 'update-password']
+                       'actions' => ['request-account', 'create', 'request-reset', 'reset-password']
                    ],
                    [
                        'allow' => true,
                        'roles' => ['@'],
-                       'actions' => ['account']
+                       'actions' => ['account', 'favorites', 'update-password']
                    ]
                ]
            ]
