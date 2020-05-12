@@ -43,25 +43,15 @@ class CsvWriter implements WriterInterface
         }, $columns));
     }
 
-    public function writeTextHeader(ColumnDefinition ...$columns): void
+    public function writeHeader(string ...$headers): void
     {
-        $this->fputcsv(map(static function (ColumnDefinition $column): string {
-            return $column->getHeaderText();
-        }, $columns));
-    }
-
-    public function writeCodeHeader(ColumnDefinition ...$columns): void
-    {
-        $this->fputcsv(map(static function (ColumnDefinition $column): string {
-            return $column->getHeaderCode();
-        }, $columns));
+        $this->fputcsv($headers);
     }
 
     public function getStream(): StreamInterface
     {
         rewind($this->stream);
         $result = new Stream($this->stream, ['size' => $this->size]);
-        ;
         $this->reset();
         return $result;
     }

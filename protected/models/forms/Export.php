@@ -34,7 +34,7 @@ class Export extends Model
 
     public $answersAsText = false;
 
-    private $survey;
+    private SurveyInterface $survey;
     public $language = self::DEFAULT_LANGUAGE;
 
     private $filter;
@@ -164,11 +164,15 @@ class Export extends Model
         $columns = toArray($this->getColumns($survey));
 
         if ($this->includeTextHeader) {
-            $writer->writeTextHeader(...$columns);
+            $writer->writeHeader(...toArray(map(function (ColumnDefinition $column): string {
+                return $column->getHeaderText();
+            }, $columns)));
         }
 
         if ($this->includeCodeHeader) {
-            $writer->writeCodeHeader(...$columns);
+            $writer->writeHeader(...toArray(map(function (ColumnDefinition $column): string {
+                return $column->getHeaderCode();
+            }, $columns)));
         }
 
         foreach ($query->each() as $record) {
