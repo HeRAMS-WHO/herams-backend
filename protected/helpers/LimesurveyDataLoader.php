@@ -17,10 +17,8 @@ class LimesurveyDataLoader
         Workspace $workspace,
         Response $response
     ): void {
-
-
         $data = toArrayWithKeys(filter(function ($value) {
-            return !empty($value); //$value !== null;
+            return $value !== "" && $value !== null; //$value !== null;
         }, $data));
         $response->workspace_id = $workspace->id;
         $response->survey_id = $workspace->project->base_survey_eid;
@@ -33,6 +31,7 @@ class LimesurveyDataLoader
         // Remove some keys from the data.
         unset(
             $data['submitdate'],
+            $data['ipaddr'],
             $data['startdate'],
             $data['datestamp'],
             $data['startlanguage'],

@@ -12,6 +12,7 @@ use prime\controllers\workspace\Download;
 use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Refresh;
+use prime\controllers\workspace\Responses;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
 use prime\models\ar\Workspace;
@@ -30,6 +31,7 @@ class WorkspaceController extends Controller
     public function actions()
     {
         return [
+            'responses' => Responses::class,
             'configure' => Configure::class,
             'export' => [
                 'class' => ExportAction::class,

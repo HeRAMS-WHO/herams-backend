@@ -8,8 +8,7 @@ use Psr\Http\Message\StreamInterface;
 interface WriterInterface
 {
     public function writeRecord(HeramsResponseInterface $record, ColumnDefinition ...$columns): void;
-    public function writeTextHeader(ColumnDefinition ...$columns): void;
-    public function writeCodeHeader(ColumnDefinition ...$columns): void;
+    public function writeHeader(string ...$headers): void;
 
     /**
      * This should relinquish any underlying resources.

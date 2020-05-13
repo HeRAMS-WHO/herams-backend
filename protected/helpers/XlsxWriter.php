@@ -68,20 +68,10 @@ class XlsxWriter implements WriterInterface
         }, $columns));
     }
 
-    public function writeTextHeader(ColumnDefinition ...$columns): void
+    public function writeHeader(string ...$headers): void
     {
-        $this->writeRow(map(static function (ColumnDefinition $column): string {
-            return $column->getHeaderText();
-        }, $columns));
+        $this->writeRow($headers);
     }
-
-    public function writeCodeHeader(ColumnDefinition ...$columns): void
-    {
-        $this->writeRow(map(static function (ColumnDefinition $column): string {
-            return $column->getHeaderCode();
-        }, $columns));
-    }
-
     public function getStream(): StreamInterface
     {
         $this->writer->close();
