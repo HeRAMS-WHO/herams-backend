@@ -16,6 +16,24 @@
     overflow:hidden;
 }
 
+.leaflet-div-icon {
+    width: 30px !important;
+    height: 30px !important;
+    background-color: transparent;
+    border: none;
+}
+.leaflet-div-icon span {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-width: 2px;
+    border-style: solid;
+    color: white;
+    font-weight: 500;
+}
 .leaflet-control-layers-selector {
     /*height: 30px;*/
 }
