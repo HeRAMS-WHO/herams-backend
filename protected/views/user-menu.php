@@ -2,6 +2,7 @@
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 ?>
 <div class="user-menu">
@@ -10,6 +11,12 @@ use yii\helpers\Html;
     $user = \Yii::$app->user->identity;
 
     ?>
+    <?php
+        echo Html::a(Icon::star(), ['/user/favorites']);
+        echo Html::a(Icon::admin(), ['/admin/dashboard']);
+        echo Html::a(Icon::question(), Url::to('https://docs.herams.org/'), ['target'=> '_blank']);
+        echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
+    ?>
 
     <div>
         <?= Html::a($user->name, ['/user/account'], [
@@ -17,9 +24,4 @@ use yii\helpers\Html;
         ]); ?>
         <div class="email"><?= $user->email ?></div>
     </div>
-    <?php
-        echo Html::a(Icon::admin(), ['/admin/dashboard']);
-        echo Html::a(Icon::star(), ['/user/favorites']);
-        echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
-    ?>
 </div>
