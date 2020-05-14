@@ -138,20 +138,32 @@ a {
     padding: 10px;
     grid-area: user;
     align-items: center;
+    display: flex;
+    justify-content: flex-end;
     text-align: left;
-    font-size: 30px;
+    font-size: 20px;
     color: var(--header-color);
     background-color: var(--header-background-color);
 }
 
 .user-menu > div {
-    display: inline-block
+    display: inline-block;
+    margin: 0 0 0 10px;
 }
 
 .user-menu a, .user-menu a:visited {
     text-decoration: inherit;
     color: inherit;
     display: inline-block;
+    border-left: 1px solid var(--email-color-dark);
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+.user-menu a:first-child{
+    border-left: none;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .user-menu a:hover {
@@ -175,15 +187,18 @@ body.no-title .user-menu a:hover {
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 16px;
+    font-size: 15px;
+    line-height: 15px;
+    border:none;
+    margin: 0;
+    padding: 0;
 }
 
 .user-menu .email {
     color: var(--email-color);
     font-weight: 300;
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 13px;
+    line-height: 13px;
 }
 body.no-title .user-menu {
     z-index: 10001;
@@ -194,10 +209,6 @@ body.no-title .user-menu .name {
 }
 body.no-title .user-menu .email {
     color: var(--email-color-dark);
-}
-
-.user-menu>* {
-    margin-left: 5px;
 }
 
 .title {
