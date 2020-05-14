@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
     ?>
     <?php
-        echo Html::a(Icon::heart(), ['/user/favorites']);
+        echo Html::a(Icon::star(), ['/user/favorites']);
         echo Html::a(Icon::admin(), ['/admin/dashboard']);
         echo Html::a(Icon::question(), Url::to('https://docs.herams.org/'), ['target'=> '_blank']);
         echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);

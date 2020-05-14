@@ -492,6 +492,12 @@ span.header {
     background: none;
 }
 
+.table button.FavoriteButton svg {
+    fill: white;
+    stroke-width: 2px;
+    stroke: #212529;
+}
+
 body {
     color: #212529;
     font-family: "Source Sans Pro";
