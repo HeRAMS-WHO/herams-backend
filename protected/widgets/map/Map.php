@@ -177,7 +177,9 @@ HTML;
                 {
                     zoomToBoundsOnClick : true,
                     spiderfyOnMaxZoom: false,
+                    showCoverageOnHover: false,
                     disableClusteringAtZoom: $this->maxZoom,
+                    maxClusterRadius: 10,
                     iconCreateFunction: function(cluster) {
                         return L.divIcon({ html: '<span style="background-color:'+color+'; border-color:'+color+';">' + cluster.getChildCount() + '</span>' });
                     }
