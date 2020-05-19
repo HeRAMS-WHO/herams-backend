@@ -9,12 +9,24 @@ use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use prime\models\permissions\Permission;
 use yii\db\IntegrityException;
+use yii\filters\AccessControl;
+use yii\filters\AccessRule;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Request;
 
 class UserController extends Controller
 {
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        array_unshift($behaviors['access']['rules'], [
+            'allow' => true,
+            'roles' => ['@'],
+        ]);
+        return $behaviors;
+    }
 
     public function actionWorkspaces(
         \yii\web\User $user,
