@@ -20,6 +20,7 @@
         "ext-pdo_mysql": "*",
         "ext-intl": "*",
         "ext-zip": "*",
+        "ext-xlswriter": "*",
         "ext-json": "*",
         "fortawesome/font-awesome": "> 5",
         "guzzlehttp/psr7": "^1.2",
@@ -80,7 +81,8 @@
         "yiisoft/yii2-debug": "> 2",
         "squizlabs/php_codesniffer": "^3.5",
         "brainmaestro/composer-git-hooks": "^2.8",
-        "phpstan/phpstan": "^0.12.18"
+        "phpstan/phpstan": "^0.12.18",
+        "viest/php-ext-xlswriter-ide-helper": "dev-master"
     },
     "repositories": [
         {

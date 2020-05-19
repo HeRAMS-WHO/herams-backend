@@ -1,6 +1,6 @@
 FROM php:alpine
 RUN php --version && sleep 10
-RUN apk add --update --no-cache git
+RUN apk add --update --no-cache git zlib
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 RUN install-php-extensions \
@@ -20,9 +20,9 @@ RUN install-php-extensions \
   simplexml \
   xmlwriter \
   zip \
+  xlswriter \
   pcov \
   --
-
 ADD wait.sh /bin/wait-for-it
 ADD init.sh /sbin/init.sh
 ENV COMPOSER_CACHE_DIR=/composer-cache
