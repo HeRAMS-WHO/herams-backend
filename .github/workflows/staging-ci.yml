@@ -29,7 +29,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-docker
       - run: cp .env.default .env
-      - run: composer install
+      - run: composer install --ignore-platform-reqs
       - run: docker-compose build
       - run: docker-compose run --rm codeception run --coverage-xml
       - run: wget https://scrutinizer-ci.com/ocular.phar
