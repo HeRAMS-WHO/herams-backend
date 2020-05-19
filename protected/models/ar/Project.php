@@ -103,10 +103,10 @@ class Project extends ActiveRecord implements Linkable
 
         /** @var VirtualFieldBehavior $virtualFields */
         $virtualFields = $this->getBehavior('virtualFields');
-        foreach($virtualFields->virtualFields as  $key => $definition) {
+        foreach ($virtualFields->virtualFields as $key => $definition) {
             $fields[$key] = $key;
         }
-        foreach(['overrides', 'typemap', 'title', 'contributorPermissionCount', 'responseCount'] as $hidden) {
+        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount', 'responseCount'] as $hidden) {
             unset($fields[$hidden]);
         }
         return $fields;
@@ -322,7 +322,6 @@ class Project extends ActiveRecord implements Linkable
         ];
     }
 
-
     public function getResponses(): ActiveQuery
     {
         return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
@@ -505,12 +504,20 @@ class Project extends ActiveRecord implements Linkable
         $result[Link::REL_SELF] = Url::to(['project/view', 'id' => $this->id]);
         $result['summary'] = Url::to(['project/summary', 'id' => $this->id]);
 
-        if ($this->getPages()->exists() && \Yii::$app->user->can(Permission::PERMISSION_READ, $this)) {
-            $result['dashboard'] = new Link([
-                'title' => \Yii::t('app', 'Dashboard'),
-                'type' => 'text/html',
-                'href' => Url::to(['/project/view', 'id' => $this->id]),
-            ]);
+        if (\Yii::$app->user->can(Permission::PERMISSION_READ, $this)) {
+            if ($this->getOverride('dashboard')) {
+                $result['dashboard'] = new Link([
+                    'title' => \Yii::t('app', 'Dashboard'),
+                    'type' => 'text/html',
+                    'href' => Url::to(['/project/external-dashboard', 'id' => $this->id]),
+                ]);
+            } elseif ($this->getPages()->exists()) {
+                $result['dashboard'] = new Link([
+                    'title' => \Yii::t('app', 'Dashboard'),
+                    'type' => 'text/html',
+                    'href' => Url::to(['/project/view', 'id' => $this->id]),
+                ]);
+            }
         }
 
         $result['workspaces'] = new Link([

@@ -7,6 +7,7 @@ use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\ExportDashboard;
+use prime\controllers\project\ExternalDashboard;
 use prime\controllers\project\Filter;
 use prime\controllers\project\ImportDashboard;
 use prime\controllers\project\Index;
@@ -37,6 +38,7 @@ class ProjectController extends Controller
         return [
             'export-dashboard' => ExportDashboard::class,
             'import-dashboard' => ImportDashboard::class,
+            'external-dashboard' => ExternalDashboard::class,
             'filter' => Filter::class,
             'create' => Create::class,
             'update' => Update::class,
