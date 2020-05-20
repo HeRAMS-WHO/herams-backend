@@ -103,6 +103,7 @@ HTML;
                 let scale = chroma.scale($scale).colors(data.length);
                 var color;
                 for (let set of data) {
+                    console.log(set);
                     color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
