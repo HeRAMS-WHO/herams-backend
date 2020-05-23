@@ -51,8 +51,12 @@ class LimesurveyDataLoader
                 // Question with subquestions on 2 axes.
                 $transformed[$matches[1]][$matches[2]][$matches[3]] = $value;
             } elseif (preg_match('/(.+)\[other]$/', $key, $matches)) {
-                // Other is special; it is always a text question and does.
-                $transformed[$matches[1]. 'other'] = $value;
+                // Other is special; it is always a text question.
+                $transformed[$matches[1] . 'other'] = $value;
+            } elseif (preg_match('/(.+)\[comment]$/', $key, $matches)) {
+                // Other is special; it is always a text question.
+                $transformed[$matches[1] . 'comment'] = $value;
+
             } elseif (preg_match('/(.+)\[([a-zA-Z0-9]+)]$/', $key, $matches)) {
                 $transformed[$matches[1]][$matches[2]] = $value;
             } else {
