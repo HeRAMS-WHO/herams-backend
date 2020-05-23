@@ -7,6 +7,7 @@ use prime\models\ActiveRecord;
 use prime\queries\FavoriteQuery;
 use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
+use yii\validators\RangeValidator;
 
 /**
  * Class Favorite
@@ -41,5 +42,17 @@ class Favorite extends ActiveRecord
     public function matches(ActiveRecord $target): bool
     {
         return $this->target_class === get_class($target) && $this->target_id === (int) $target->getAttribute('id');
+    }
+
+
+    public function rules()
+    {
+        return [
+            [['target_class'], RangeValidator::class, 'range' => [Workspace::class]],
+            [['user_id'], ExistValidator::class, 'targetRelation' => 'user'],
+            [['target_id'], ExistValidator::class, 'targetAttribute' => 'id', 'targetClass' => Workspace::class, 'when' => static function(Favorite $model) {
+                return $model->target_class === Workspace::class;
+            }]
+        ];
     }
 }

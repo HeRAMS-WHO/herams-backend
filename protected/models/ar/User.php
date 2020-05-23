@@ -24,7 +24,6 @@ use function iter\chain;
  * @property Favorite[] $favorites
  */
 class User extends ActiveRecord implements IdentityInterface {
-
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
