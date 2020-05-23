@@ -8,6 +8,7 @@ use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\validators\RangeValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
@@ -44,6 +45,7 @@ class User extends ActiveRecord implements IdentityInterface {
             ],
             ['name', StringValidator::class, 'max' => 50],
             ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
+            ['language', RangeValidator::class, 'range' => \Yii::$app->params['languages']]
         ];
     }
 

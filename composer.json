@@ -82,12 +82,25 @@
         "squizlabs/php_codesniffer": "^3.5",
         "brainmaestro/composer-git-hooks": "^2.8",
         "phpstan/phpstan": "^0.12.18",
-        "viest/php-ext-xlswriter-ide-helper": "dev-master"
+        "viest/php-ext-xlswriter-ide-helper": "dev-master",
+        "herams-i18n": "dev-master"
     },
     "repositories": [
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "herams-i18n",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/HeRAMS-WHO/herams-i18n",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
         }
     ],
     "scripts": {
