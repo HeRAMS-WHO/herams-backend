@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace prime\models\permissions;
 
 
-use prime\components\ActiveQuery;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\Yii2\abac\AccessChecker;
+use yii\db\ActiveQuery;
 
 class GlobalPermission implements Authorizable
 {
