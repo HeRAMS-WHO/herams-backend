@@ -22,6 +22,7 @@ call_user_func(function() {
     require_once $autoload;
     $env = new Environment(__DIR__ . '/config/env.json');
     $config = require __DIR__ . '/config/web.php';
+    \Yii::$container->setDefinitions(require __DIR__ . '/config/di.php');
     \Yii::$container->set(\yii\web\Application::class, $config);
     $app = \Yii::$container->get(\yii\web\Application::class);
     $app->run();

@@ -68,6 +68,7 @@ return [
                     $url,
                     [
                         'data-method' => 'delete',
+                        'title' => \Yii::t('app', 'Delete'),
                         'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?')
                     ]
                 );

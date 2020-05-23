@@ -128,6 +128,19 @@ class Workspace extends ActiveRecord
         return true;
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => \Yii::t('app', 'ID'),
+            'title' => \Yii::t('app', 'Title'),
+            'latestUpdate' => \Yii::t('app', 'Latest update'),
+            'contributorCount' => \Yii::t('app', 'Contributor count'),
+            'facilityCount' => \Yii::t('app', 'Facility count'),
+            'responseCount' => \Yii::t('app', 'Response count')
+        ];
+    }
+
+
     public function rules()
     {
         return [

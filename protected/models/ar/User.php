@@ -94,6 +94,15 @@ class User extends ActiveRecord implements IdentityInterface {
         return null;
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'name' => \Yii::t('app', 'Name'),
+            'language' => \Yii::t('app', 'Language'),
+        ];
+    }
+
+
     /**
      * @inheritDoc
      */

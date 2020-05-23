@@ -13,15 +13,15 @@ echo Html::beginTag('div', [
 echo \yii\bootstrap\Tabs::widget([
     'items' => [
         [
-            'label' => 'Profile',
+            'label' => \Yii::t('app', 'Profile'),
             'content' => $this->render('_accountForm', ['model' => $model])
         ],
         [
-            'label' => 'Password',
+            'label' =>  \Yii::t('app', 'Password'),
             'content' => $this->render('update-password', ['model' => $changePassword])
         ],
         [
-            'label' => 'Email',
+            'label' =>  \Yii::t('app', 'Email'),
             'content' => $this->render('update-email', ['model' => $changeMail])
         ]
     ]

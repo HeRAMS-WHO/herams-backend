@@ -153,7 +153,8 @@ class Project extends ActiveRecord implements Linkable
     public function attributeLabels()
     {
         return [
-            'base_survey_eid' => \Yii::t('app', 'Survey')
+            'base_survey_eid' => \Yii::t('app', 'Survey'),
+            'title' => \Yii::t('app', 'Title'),
         ];
     }
 
