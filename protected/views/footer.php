@@ -43,7 +43,7 @@ echo Html::endTag('div');
 ?>
 <div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
             <?php
-            if (!empty($project)) {
+            if (!empty($projects)) {
                 $latest = $projects[0];
 
                 foreach($projects as $project) {
