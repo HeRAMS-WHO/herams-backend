@@ -100,6 +100,8 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200205_123138
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200210_092104_change_write_to_ls', 1581673484);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200214_094238_drop_social_account', 1581673484);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200330_105922_project_fix_overrides', 1588236574);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200409_110543_rbac_update_mssql_trigger', 1590232591);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200429_070511_add_favorites_table', 1588236574);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200429_082155_project_use_float', 1588236575);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200523_093050_user_add_language', 1590232591);
 SET FOREIGN_KEY_CHECKS=1;

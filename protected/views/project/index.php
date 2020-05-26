@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = [
                         return Html::a(
                             Icon::list(),
                             ['project/workspaces', 'id' => $model->id],
-                            ['title' => 'Workspaces']
+                            ['title' => \Yii::t('app', 'Workspaces')]
 
                         );
                     },
@@ -131,6 +131,7 @@ $this->params['breadcrumbs'][] = [
                             ['project/delete', 'id' => $model->id],
                             [
                                 'data-method' => 'delete',
+                                'title' => \Yii::t('app', 'Delete'),
                                 'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?')
                             ]
                         );

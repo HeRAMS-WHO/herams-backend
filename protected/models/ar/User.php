@@ -8,6 +8,7 @@ use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\validators\RangeValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
@@ -24,7 +25,6 @@ use function iter\chain;
  * @property Favorite[] $favorites
  */
 class User extends ActiveRecord implements IdentityInterface {
-
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -45,6 +45,7 @@ class User extends ActiveRecord implements IdentityInterface {
             ],
             ['name', StringValidator::class, 'max' => 50],
             ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
+            ['language', RangeValidator::class, 'range' => \Yii::$app->params['languages']]
         ];
     }
 
@@ -92,6 +93,15 @@ class User extends ActiveRecord implements IdentityInterface {
     {
         return null;
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'name' => \Yii::t('app', 'Name'),
+            'language' => \Yii::t('app', 'Language'),
+        ];
+    }
+
 
     /**
      * @inheritDoc

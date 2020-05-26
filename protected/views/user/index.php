@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
 ];
-$this->title = Yii::t('user', 'Manage users');
+$this->title = Yii::t('app', 'Manage users');
 $this->params['breadcrumbs'][] = [
     'label' => $this->title
 ];
@@ -44,7 +44,7 @@ echo GridView::widget([
             'attribute' => 'created_at',
             'value' => function ($model) {
                 if (extension_loaded('intl')) {
-                    return Yii::t('user', '{0, date, MMMM dd, YYYY HH:mm}', [$model->created_at]);
+                    return Yii::t('app', '{0, date, MMMM dd, YYYY HH:mm}', [$model->created_at]);
                 } else {
                     return date('Y-m-d G:i:s', $model->created_at);
                 }
@@ -62,8 +62,8 @@ echo GridView::widget([
                 'impersonate' => function ($url, $model) {
                     if(\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ['/user/impersonate', 'id' => $model->id], [
-                            'title' => Yii::t('user', 'Become this user'),
-                            'data-confirm' => Yii::t('user', 'Are you sure you want to switch to this user for the rest of this Session?'),
+                            'title' => Yii::t('app', 'Become this user'),
+                            'data-confirm' => Yii::t('app', 'Are you sure you want to switch to this user for the rest of this Session?'),
                             'data-method' => 'post',
                         ]);
                     }

@@ -88,9 +88,6 @@ class Module extends \yii\base\Module
 
     public function beforeAction($action)
     {
-        if (\Yii::$app->has('session', true)) {
-            throw new \Exception('Session already instantiated, this should not happen');
-        }
         \Yii::$app->request->enableCsrfCookie = false;
         return parent::beforeAction($action);
     }

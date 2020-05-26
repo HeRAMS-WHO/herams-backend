@@ -11,6 +11,7 @@
 
 use kartik\grid\GridView;
 use prime\models\permissions\Permission;
+use prime\widgets\FavoriteColumn\FavoriteColumn;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
@@ -76,19 +77,16 @@ echo GridView::widget([
             'attribute' => 'latestUpdate',
         ],
         [
-            'label' => '# Contributors',
             'attribute' => 'contributorCount'
         ],
         [
-            'label' => '# Health facilities',
             'attribute' => 'facilityCount',
         ],
         [
-            'label' => '# Responses',
-            'value' => 'responseCount'
+            'attribute' => 'responseCount'
         ],
         [
-            'class' => \prime\widgets\FavoriteColumn\FavoriteColumn::class
+            'class' => FavoriteColumn::class
         ],
         'actions' => require('workspaces/actions.php')
     ]

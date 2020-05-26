@@ -3,7 +3,6 @@
 
 namespace prime\widgets\map;
 
-
 use yii\web\AssetBundle;
 
 class LeafletBundle extends AssetBundle
@@ -14,6 +13,10 @@ class LeafletBundle extends AssetBundle
             'url' => 'https://unpkg.com/leaflet@1.4.0/dist/leaflet.css',
             'integrity' => "sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==",
             'crossorigin' => 'anonymous'
+        ],
+         [
+            'url' => 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css',
+            'crossorigin' => 'anonymous'
         ]
     ];
 
@@ -22,7 +25,10 @@ class LeafletBundle extends AssetBundle
             "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js",
             'integrity' => "sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==",
             'crossorigin' => 'anonymous'
+        ],
+        [
+            'url' => 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js',
+            'crossorigin' => 'anonymous'
         ]
     ];
-
 }

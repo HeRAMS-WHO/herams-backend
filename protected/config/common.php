@@ -10,6 +10,7 @@ use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
+use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 
 /** @var \prime\components\Environment $env */
@@ -30,7 +31,10 @@ return [
         '@views' => '@app/views',
         '@tests' => '@app/../tests',
     ],
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+
+    ],
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
@@ -146,12 +150,23 @@ return [
         'user' => [
             'class' => \yii\web\User::class,
             'loginUrl' => '/session/create',
-            'identityClass' => \prime\models\ar\User::class
+            'identityClass' => \prime\models\ar\User::class,
+            'on ' . \yii\web\User::EVENT_AFTER_LOGIN => function(\yii\web\UserEvent $event) {
+                if (isset($event->identity->language)) {
+                    \Yii::$app->language = $event->identity->language;
+                }
+            }
         ],
         'i18n' => [
             'translations' => [
-                '*' => [
-                    'class' => \yii\i18n\DbMessageSource::class
+                'app' => [
+                    'class' => \yii\i18n\GettextMessageSource::class,
+                    'useMoFile' => false,
+                    'basePath' => '@vendor/herams-i18n/locales',
+                    'catalog' => 'LC_MESSAGES/app',
+                    'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function(MissingTranslationEvent $event) {
+                        $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
+                    }
                 ]
             ]
         ],
@@ -215,6 +230,12 @@ return [
 //        ],
     ],
     'params' => [
+        'languages' => [
+            'en-US',
+            'ar',
+            'nl-NL',
+            'fr-FR'
+        ],
         'defaultSettings' => [
             'icons.globalMonitor' => 'globe',
             'icons.projects' => 'tasks',

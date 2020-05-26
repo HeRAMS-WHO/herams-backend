@@ -11,12 +11,12 @@ SideMenu::begin([
 $controller = $this->context;
 echo Html::a(\Yii::t('app','Admin dashboard'), ['/admin'],
     ['class' => $controller->action->uniqueId === 'admin/dashboard' ? 'active' : null]);
-echo Html::a('Projects', ['/project/index'],
+echo Html::a(\Yii::t('app', 'Projects'), ['/project/index'],
     ['class' => $controller->action->uniqueId === 'project/index' ? 'active' : null]);
 if (\Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
-    echo Html::a('Users', ['/user/index'],
+    echo Html::a(\Yii::t('app', 'Users'), ['/user/index'],
         ['class' => $controller->action->uniqueId === 'user/index' ? 'active' : null]);
-    echo Html::a('Global admins', ['/admin/share'],
+    echo Html::a(\Yii::t('app', 'Global admins'), ['/admin/share'],
         ['class' => $controller->action->uniqueId === 'admin/share' ? 'active' : null]);
 }
 echo Html::a(\Yii::t('app', 'Backend administration'), ['/admin/limesurvey'],

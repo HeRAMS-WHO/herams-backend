@@ -5,6 +5,8 @@ namespace prime\actions;
 
 use GuzzleHttp\Psr7\StreamWrapper;
 use prime\helpers\CsvWriter;
+use prime\helpers\OdsWriter;
+use prime\helpers\PeclWriter;
 use prime\helpers\XlsxWriter;
 use prime\models\forms\Export;
 use yii\base\Action;
@@ -72,14 +74,19 @@ class ExportAction extends Action
         if ($model->load($params) && $model->validate()) {
             switch ($params['format'] ?? 'csv') {
                 case 'xlsx':
-                    $writer = new XlsxWriter();
+                    $writer = new PeclWriter();
+//                    $writer = new XlsxWriter();
                     break;
                 case 'csv':
                     $writer = new CsvWriter();
                     break;
+                case 'ods':
+                    $writer = new OdsWriter();
+                    break;
                 default:
                     throw new BadRequestHttpException();
             }
+            set_time_limit(300);
 
             $model->run($writer, ($this->responseQuery)($subject));
             $stream = $writer->getStream();

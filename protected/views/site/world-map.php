@@ -93,7 +93,7 @@ JS
     , \yii\web\View::POS_END);
 
 echo Map::widget([
-    'colors' => ["#4075c3"],
+    'colors' => ["#4075c3","#60cb03"],
     'options' => [
         'class' => 'content',
     ],

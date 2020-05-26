@@ -1,15 +1,20 @@
 <?php
 /** @var \prime\components\Environment $env */
 
+use prime\components\LanguageSelector;
 use prime\components\NotificationService;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
         'notificationService',
+        'languageSelector'
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'languageSelector' => [
+            'class' => LanguageSelector::class
+        ],
         'notificationService' => [
             'class' => NotificationService::class
         ],

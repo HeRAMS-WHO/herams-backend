@@ -40,25 +40,29 @@ foreach($stats as $stat) {
     echo Html::endTag('div');
 }
 echo Html::endTag('div');
-?>
-<div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
-            <?php
-            if (!empty($project)) {
-                $latest = $projects[0];
 
-                foreach($projects as $project) {
-                    if ($project->latestDate < $latest->latestDate) {
-                        $latest = $project;
-                    };
-                }
-                $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
-                echo "{$latest->title} / {$latest->latestDate}";
-            } else {
-                echo "No data loaded";
-            }
-            ?></span>
-</div>
-    <?php
+if (!empty($projects)) {
+    $latest = $projects[0];
+
+    foreach ($projects as $project) {
+        if ($project->latestDate > $latest->latestDate) {
+            $latest = $project;
+        };
+    }
+    $localizedDate = \Yii::$app->formatter->asDate($latest->latestDate, 'short');
+    $status = "{$latest->title} / {$localizedDate}";
+} else {
+    $status = \Yii::t('app', "No data loaded");
+}
+
+echo Html::beginTag('div', [
+    'class' => 'status',
+    'title' => $status
+]);
+    echo Icon::sync() . ' ';
+    echo \Yii::t('app', 'Latest update') . ': ';
+    echo Html::tag('span', $status, ['class' => 'value']);
+echo Html::endTag('div');
 
 echo Html::a(Icon::chevronLeft(), '#', ['class' => 'left', 'id' => 'footer-left']);
 echo Html::a(Icon::chevronRight(), '#', ['class' => 'right', 'id' => 'footer-right']);

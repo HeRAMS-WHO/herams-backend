@@ -31,6 +31,8 @@ class Map extends Widget
 
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
+    public $minZoom = 3;
+    public $maxZoom = 6;
 
     public $colors;
 
@@ -73,8 +75,8 @@ HTML;
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 6,
-            'minZoom' => 3
+            'maxZoom' => $this->maxZoom,
+            'minZoom' => $this->minZoom
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
@@ -97,10 +99,12 @@ HTML;
                 // /*
                 let bounds = [];
                 let data = $data;
-                let layers = {};
+                let layers = [];
                 let scale = chroma.scale($scale).colors(data.length);
+                var color;
                 for (let set of data) {
-                    let color = scale.pop();
+                    console.log(set);
+                    color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
                             bounds.push(latlng);
@@ -133,16 +137,20 @@ HTML;
                             
                             window.addEventListener('externalPopup', function(e) {
                                 if (e.id == feature.properties.id) {
-                                    marker.openPopup();    
+                                    map.once('moveend', function(){
+                                        marker.openPopup();
+                                    } );
+                                    map.flyTo(marker.getLatLng(), $this->maxZoom, {
+                                        animate: true,
+                                        duration: 0.5
+                                    });
                                 }
-                                 
                             });
                             return marker;
                         }, 
                         onEachFeature: function(feature, layer) {
                         }
                     });
-                    
                     let tooltip = layer.bindTooltip(function(e) {
                         return e.feature.properties.title;
                     });
@@ -153,10 +161,9 @@ HTML;
                     //     maxWidth: "auto",
                     //     closeButton: false
                     // });
+                    layers.push(layer);
                     
-                    layer.addTo(map);
-                    
-                    let legend = document.createElement('span');
+                    /*let legend = document.createElement('span');
                     legend.classList.add('legend');
                     legend.style.setProperty('--color', color);
                     legend.title = set.features.length;
@@ -164,8 +171,22 @@ HTML;
                     legend.textContent = set.title;
                     
                     // legend.css
-                    layers[legend.outerHTML] = layer;
+                    layers[legend.outerHTML] = layer;*/
                 }
+                
+                let markerCluster = L.markerClusterGroup(
+                {
+                    zoomToBoundsOnClick : true,
+                    spiderfyOnMaxZoom: false,
+                    showCoverageOnHover: false,
+                    disableClusteringAtZoom: $this->maxZoom,
+                    maxClusterRadius: 10,
+                    iconCreateFunction: function(cluster) {
+                        return L.divIcon({ html: '<span style="background-color:'+color+'; border-color:'+color+';">' + cluster.getChildCount() + '</span>' });
+                    }
+                });
+                markerCluster.addLayers(layers);
+                map.addLayer(markerCluster);
                 if (layers.length > 0) {
                     L.control.layers([], layers, {
                         collapsed: false,
@@ -193,11 +214,6 @@ HTML;
             
 
             
-            
-            
-
-            
-
         })();
 
 JS

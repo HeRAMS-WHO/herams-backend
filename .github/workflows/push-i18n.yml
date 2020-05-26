@@ -23,7 +23,7 @@ jobs:
           path: 'herams-i18n'
           ssh-key: ${{ secrets.i18n_private_key }}
         name: Checkout i18n repo
-      - run: composer install
+      - run: composer install --ignore-platform-reqs
       - name: Extract translations
         run: protected/yiic message/extract protected/config/i18n.php --message-path .
         # Fix bad Yii header in pot file by copying header from another file

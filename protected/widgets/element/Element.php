@@ -51,7 +51,7 @@ class Element extends Widget
     {
         parent::run();
 
-        if (isset($this->element->id, $this->element->page->project) && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $this->element->page->project)) {
+        if (isset($this->element->id, $this->element->page->project) && \Yii::$app->user->can(Permission::PERMISSION_WRITE, $this->element)) {
             echo Html::a(Icon::edit(), ['/element/update', 'id' => $this->element->id], [
                 'style' => [
                     'position' => 'absolute',

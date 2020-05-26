@@ -48,9 +48,9 @@ echo Html::beginForm([
     ?>
 </div>
 <?php
-echo Html::a('PDF', array_merge(Yii::$app->request->queryParams, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white', 'title' => 'Pdf export']);
+echo Html::a(\Yii::t('app', 'PDF'), array_merge(Yii::$app->request->queryParams, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white', 'title' => 'Pdf export']);
 echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white']);
-echo Html::a('Filters', '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
+echo Html::a(\Yii::t('app', 'Filters'), '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
 
 $this->registerJs(
     <<<JS
@@ -65,13 +65,22 @@ JS
 <div class="advanced">
     <div class="filter filter_search">
         <div class="input-container">
-            <?= Icon::search(); ?>
-            <input id="search-filter" placeholder="Search">
+            <?php
+                echo Icon::search();
+                echo Html::textInput('search', null, [
+                    'id' => 'search-filter',
+                    'placeholder' => \Yii::t('app', 'Search')
+                ]);
+            ?>
         </div>
         <ul class="hint">
-            <li>You may search for multiple terms, only results that contain all terms are shown</li>
-            <li>Search also uses the group name, for example try typing "Trauma"</li>
-            <li>After closing this screen you must click <b>Apply filters</b> to see the changes</li>
+            <?php
+                echo Html::tag('li', \Yii::t('app', 'You may search for multiple terms, only results that contain all terms are shown'));
+                echo Html::tag('li', \Yii::t('app', 'Search also uses the group name, for example try typing "Trauma"'));
+                echo Html::tag('li', \Yii::t('app', 'After closing this screen you must click {{apply}} to see the changes', [
+                    'apply' => Html::tag('em', \Yii::t('app', 'Apply filters'))
+                ]));
+            ?>
         </ul>
     </div>
     <?php

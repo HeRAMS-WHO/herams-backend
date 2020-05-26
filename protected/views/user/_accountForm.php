@@ -3,6 +3,7 @@
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
 use prime\widgets\FormButtonsWidget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -28,6 +29,18 @@ use yii\helpers\Html;
             ],
             'name' => [
                 'type' => Form::INPUT_TEXT
+            ],
+            'language' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => array_merge([
+                    '' => \Yii::t('app', 'Autodetected ({language}', [
+                        'language' => \Yii::$app->request->getPreferredLanguage(\Yii::$app->params['languages'])
+                    ])
+                ], ArrayHelper::map(
+                    \Yii::$app->params['languages'],
+                    static function(string $language): string { return $language; },
+                    static function(string $language): string { return locale_get_display_name($language); }
+                    ))
             ],
             FormButtonsWidget::embed([
                 'buttons' => [

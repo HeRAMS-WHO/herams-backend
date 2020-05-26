@@ -28,7 +28,7 @@ class Preview extends Action
         if (!isset($element)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_ADMIN, $element->page->project)) {
+        if (!$user->can(Permission::PERMISSION_WRITE, $element)) {
             throw new ForbiddenHttpException();
         }
         $element->load($request->queryParams);
