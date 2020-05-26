@@ -83,18 +83,6 @@ class Response extends \prime\models\ar\Response
         if (!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
-
-
-
-        $interval = explode(' - ', $this->created);
-        if (count($interval) == 2) {
-            $query->andFilterWhere([
-                'and',
-                ['>=', 'created', $interval[0]],
-                ['<=', 'created', $interval[1] . ' 23:59:59']
-            ]);
-        }
-
         $query->andFilterWhere(['like', 'title', trim($this->title)]);
         $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
