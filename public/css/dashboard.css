@@ -492,10 +492,22 @@ span.header {
     background: none;
 }
 
+.FavoriteButton {
+    display: block;
+    margin: auto;
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+}
+
 .table button.FavoriteButton svg {
     fill: white;
     stroke-width: 2px;
     stroke: #212529;
+}
+
+.table button.FavoriteButton.favorite svg {
+    fill: #212529;
 }
 
 body {

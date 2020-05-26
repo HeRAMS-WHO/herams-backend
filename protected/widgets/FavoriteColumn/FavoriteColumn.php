@@ -36,20 +36,7 @@ class FavoriteColumn extends Column
         };
 
         $id = json_encode($this->grid->options['id']);
-        $this->grid->view->registerCss(<<<CSS
-            .FavoriteButton {
-                display: block;
-                margin: auto;
-                text-decoration: none;
-                border: none;
-                background-color: transparent;
-            }
-            
-            .FavoriteButton.favorite {
-                color: green;
-            }
-CSS
-        );
+        
 
         $this->grid->view->registerJs(<<<JS
 
