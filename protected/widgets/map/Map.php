@@ -32,7 +32,7 @@ class Map extends Widget
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
     public $minZoom = 3;
-    public $maxZoom = 6;
+    public $maxZoom = 5;
 
     public $colors;
 
@@ -103,7 +103,6 @@ HTML;
                 let scale = chroma.scale($scale).colors(data.length);
                 var color;
                 for (let set of data) {
-                    console.log(set);
                     color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
@@ -115,7 +114,7 @@ HTML;
                                 opacity: 1,
                                 fillOpacity: 0.8
                             });
-                            
+                            marker.feature = feature;
                             
                             let popup = marker.bindPopup((layer => document.querySelector("#" + {$id} + " template").content.cloneNode(true)), {
                                 maxWidth: "auto",
@@ -140,7 +139,7 @@ HTML;
                                     map.once('moveend', function(){
                                         marker.openPopup();
                                     } );
-                                    map.flyTo(marker.getLatLng(), $this->maxZoom, {
+                                    map.flyTo(marker.getLatLng(), $this->maxZoom + 1, {
                                         animate: true,
                                         duration: 0.5
                                     });
@@ -179,12 +178,26 @@ HTML;
                     zoomToBoundsOnClick : true,
                     spiderfyOnMaxZoom: false,
                     showCoverageOnHover: false,
-                    disableClusteringAtZoom: $this->maxZoom,
+                    disableClusteringAtZoom: $this->maxZoom + 1,
                     maxClusterRadius: 10,
                     iconCreateFunction: function(cluster) {
                         return L.divIcon({ html: '<span style="background-color:'+color+'; border-color:'+color+';">' + cluster.getChildCount() + '</span>' });
                     }
                 });
+
+                markerCluster.on('clusterclick', function (a) {
+                    var latLngBounds = a.layer.getBounds();
+                    let list = "<div>";
+                    for(let marker of a.layer.getAllChildMarkers()) {
+                        console.log(marker);
+                        list += "<div>"+marker.feature.properties.title+"</div>";
+                    }
+                    var popup = L.popup()
+                    .setLatLng(a.latlng)
+                    .setContent(list)
+                    .openOn(map);
+                });
+
                 markerCluster.addLayers(layers);
                 map.addLayer(markerCluster);
                 if (layers.length > 0) {
