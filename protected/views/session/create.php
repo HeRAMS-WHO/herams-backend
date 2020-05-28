@@ -6,10 +6,7 @@ use yii\helpers\Html;
 
 $this->title = \Yii::$app->name;
     echo Html::tag('header', \Yii::t('app', 'Log in to HeRAMS'));
-    echo Html::beginTag('div', ['class' => 'signup']);
-    echo Html::tag('span', \Yii::t('app', "Not a member ?"), ['class' => 'title']);
-    echo Html::a(\Yii::t('app', "Sign up"), ['/user/request-account'], ['class' => 'btn btn-primary']);
-    echo Html::endTag('div');
+    
     $this->params['breadcrumbs'] = [];
     /** @var \yii\web\View $this */
 
@@ -41,6 +38,12 @@ $this->title = \Yii::$app->name;
 
     ActiveForm::end();
     echo Html::beginTag('div', ['class' => 'actions']);
-    echo Html::a(\Yii::t('app', "Reset password"), ['/user/request-reset']);
-    echo Html::submitButton('Log in', ['class' => 'btn btn-primary', 'form' => 'login-form']);
+    echo Html::submitButton(\Yii::t('app', 'Log in'), ['class' => 'btn btn-primary', 'form' => 'login-form']);
+    echo Html::a(\Yii::t('app', 'Reset password'), ['/user/request-reset']);
+    echo Html::endTag('div');
+
+    echo Html::beginTag('div', ['class' => 'signup']);
+    echo Html::tag('span', \Yii::t('app', "Don't have an account?"), ['class' => 'title']);
+    echo Html::a(\Yii::t('app', "Request account"), ['/user/request-account'], ['class' => 'btn btn-primary']);
+    
     echo Html::endTag('div');

@@ -147,9 +147,9 @@ body {
 }
 
 .popover .signup {
-    margin: 0 0 20px 0;
-    border-bottom: 1px solid #dddddd;
-    padding: 0 0 20px;
+    margin: 20px 0 0 0;
+    border-top: 1px solid #dddddd;
+    padding: 20px 0 0;
     flex-wrap: wrap;
     display: flex;
     justify-content: space-between;
@@ -240,7 +240,7 @@ body {
     font-size: 13px;
     color: var(--link-color);
     display: block;
-    margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 .popover header {
