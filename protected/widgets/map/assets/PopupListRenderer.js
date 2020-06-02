@@ -2,9 +2,8 @@
 class PopupListRenderer {
 
     
-    constructor(markers, popup)
+    constructor(popup)
     {
-        this.markers = markers;
         this.popup = popup;
     }
 
@@ -30,8 +29,9 @@ class PopupListRenderer {
         return project;
     }
 
-    async render()
+    async render(markers)
     {
+        this.markers = markers;
         if (!this.markers || this.markers.length === 0) {
             return this.renderFailed();
         }
