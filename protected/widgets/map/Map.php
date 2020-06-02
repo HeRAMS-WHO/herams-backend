@@ -32,7 +32,7 @@ class Map extends Widget
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
     public $minZoom = 3;
-    public $maxZoom = 6;
+    public $maxZoom = 5;
 
     public $colors;
 
@@ -103,7 +103,6 @@ HTML;
                 let scale = chroma.scale($scale).colors(data.length);
                 var color;
                 for (let set of data) {
-                    console.log(set);
                     color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
@@ -115,7 +114,7 @@ HTML;
                                 opacity: 1,
                                 fillOpacity: 0.8
                             });
-                            
+                            marker.feature = feature;
                             
                             let popup = marker.bindPopup((layer => document.querySelector("#" + {$id} + " template").content.cloneNode(true)), {
                                 maxWidth: "auto",
@@ -135,12 +134,13 @@ HTML;
                                 window.dispatchEvent(event);
                             });
                             
+                            let tooltip = marker.bindTooltip(feature.properties.title, {className: 'tooltip'});
                             window.addEventListener('externalPopup', function(e) {
                                 if (e.id == feature.properties.id) {
                                     map.once('moveend', function(){
                                         marker.openPopup();
                                     } );
-                                    map.flyTo(marker.getLatLng(), $this->maxZoom, {
+                                    map.flyTo(marker.getLatLng(), $this->maxZoom + 1, {
                                         animate: true,
                                         duration: 0.5
                                     });
@@ -150,9 +150,6 @@ HTML;
                         }, 
                         onEachFeature: function(feature, layer) {
                         }
-                    });
-                    let tooltip = layer.bindTooltip(function(e) {
-                        return e.feature.properties.title;
                     });
                     // let popup = layer.bindPopup(function(e) {
                     //     console.log(arguments);
@@ -179,12 +176,29 @@ HTML;
                     zoomToBoundsOnClick : true,
                     spiderfyOnMaxZoom: false,
                     showCoverageOnHover: false,
-                    disableClusteringAtZoom: $this->maxZoom,
+                    disableClusteringAtZoom: $this->maxZoom + 1,
                     maxClusterRadius: 10,
                     iconCreateFunction: function(cluster) {
                         return L.divIcon({ html: '<span style="background-color:'+color+'; border-color:'+color+';">' + cluster.getChildCount() + '</span>' });
                     }
                 });
+
+                markerCluster.on('clusterclick', function (a) {
+                    var popup = L.popup().setLatLng(a.latlng);
+                    let renderer = new PopupListRenderer(a.layer.getAllChildMarkers(), popup);
+                    renderer.render();
+                    popup.openOn(map);
+                });
+
+                window.addEventListener('click', function(e) {
+                    if (e.target.matches('.project-list .project-item[data-id]')) {
+                        map.closePopup();
+                        let event = new Event('externalPopup');
+                        event.id = e.target.getAttribute('data-id');
+                        window.dispatchEvent(event);
+                    }
+                });
+
                 markerCluster.addLayers(layers);
                 map.addLayer(markerCluster);
                 if (layers.length > 0) {
