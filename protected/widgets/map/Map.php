@@ -67,7 +67,7 @@ HTML;
         Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
         $options['id'] = $this->getId();
         echo Html::beginTag('div', $options);
-        echo Html::tag('template', $this->renderPopupLoader());
+        //echo Html::tag('template', $this->renderPopupLoader());
 
         $id = Json::encode($this->getId());
         $config = Json::encode([
@@ -100,6 +100,7 @@ HTML;
                 let bounds = [];
                 let data = $data;
                 let layers = [];
+                let markers = [];
                 let scale = chroma.scale($scale).colors(data.length);
                 var color;
                 for (let set of data) {
@@ -116,15 +117,15 @@ HTML;
                             });
                             marker.feature = feature;
                             
-                            let popup = marker.bindPopup((layer => document.querySelector("#" + {$id} + " template").content.cloneNode(true)), {
+                            let popup = marker.bindPopup("", {
                                 maxWidth: "auto",
                                 closeButton: false
                             }).getPopup();
 
                             // On the first open fetch remote content
-                            let renderer = new PopupRenderer(popup, feature.properties.url);
+                            marker.renderer = new PopupRenderer(popup, feature.properties.url);
                             marker.on('popupopen', () => {
-                                renderer.render();
+                                marker.renderer.render();
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
@@ -137,27 +138,15 @@ HTML;
                             let tooltip = marker.bindTooltip(feature.properties.title, {className: 'tooltip'});
                             window.addEventListener('externalPopup', function(e) {
                                 if (e.id == feature.properties.id) {
-                                    map.once('moveend', function(){
-                                        marker.openPopup();
-                                    } );
-                                    map.flyTo(marker.getLatLng(), $this->maxZoom + 1, {
-                                        animate: true,
-                                        duration: 0.5
-                                    });
+                                    showPopupForMarker(marker);
                                 }
                             });
+                            markers[feature.properties.id] = marker;
                             return marker;
                         }, 
                         onEachFeature: function(feature, layer) {
                         }
                     });
-                    // let popup = layer.bindPopup(function(e) {
-                    //     console.log(arguments);
-                    //     return e.feature.properties.popup || e.feature.properties.title;
-                    // }, {
-                    //     maxWidth: "auto",
-                    //     closeButton: false
-                    // });
                     layers.push(layer);
                     
                     /*let legend = document.createElement('span');
@@ -173,29 +162,35 @@ HTML;
                 
                 let markerCluster = L.markerClusterGroup(
                 {
-                    zoomToBoundsOnClick : true,
+                    zoomToBoundsOnClick : false,
                     spiderfyOnMaxZoom: false,
                     showCoverageOnHover: false,
-                    disableClusteringAtZoom: $this->maxZoom + 1,
                     maxClusterRadius: 10,
                     iconCreateFunction: function(cluster) {
                         return L.divIcon({ html: '<span style="background-color:'+color+'; border-color:'+color+';">' + cluster.getChildCount() + '</span>' });
                     }
                 });
 
+                var popupList = L.popup( {
+                                    maxWidth: "auto",
+                                    closeButton: false
+                                });
+                let renderer = new PopupListRenderer(popupList);                
                 markerCluster.on('clusterclick', function (a) {
-                    var popup = L.popup().setLatLng(a.latlng);
-                    let renderer = new PopupListRenderer(a.layer.getAllChildMarkers(), popup);
-                    renderer.render();
-                    popup.openOn(map);
+                    map.flyTo(a.latlng, map.getZoom(), {
+                        animate: true,
+                        duration: 0.5
+                    });
+                    popupList.setLatLng(a.latlng);
+                    renderer.render(a.layer.getAllChildMarkers());
+                    popupList.openOn(map);
                 });
+
 
                 window.addEventListener('click', function(e) {
                     if (e.target.matches('.project-list .project-item[data-id]')) {
-                        map.closePopup();
-                        let event = new Event('externalPopup');
-                        event.id = e.target.getAttribute('data-id');
-                        window.dispatchEvent(event);
+                        let marker = markers[e.target.getAttribute('data-id')];
+                        showPopupForMarker(marker);
                     }
                 });
 
@@ -226,12 +221,21 @@ HTML;
             }
 
             
-
+            function showPopupForMarker(marker) {
+                let popup = marker.getPopup();
+                map.once('moveend', function(){
+                    popup.setLatLng(marker.getLatLng());
+                    popup.openOn(map);
+                } );
+                map.flyTo(marker.getLatLng(), map.getZoom(), {
+                    animate: true,
+                    duration: 0.5
+                });
+            }
             
         })();
 
-JS
-        );
+JS);
 
         echo Html::endTag('div');
     }
