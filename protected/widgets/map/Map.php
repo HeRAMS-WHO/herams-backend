@@ -134,6 +134,7 @@ HTML;
                                 window.dispatchEvent(event);
                             });
                             
+                            let tooltip = marker.bindTooltip(feature.properties.title, {className: 'tooltip'});
                             window.addEventListener('externalPopup', function(e) {
                                 if (e.id == feature.properties.id) {
                                     map.once('moveend', function(){
@@ -149,9 +150,6 @@ HTML;
                         }, 
                         onEachFeature: function(feature, layer) {
                         }
-                    });
-                    let tooltip = layer.bindTooltip(function(e) {
-                        return e.feature.properties.title;
                     });
                     // let popup = layer.bindPopup(function(e) {
                     //     console.log(arguments);
@@ -186,16 +184,19 @@ HTML;
                 });
 
                 markerCluster.on('clusterclick', function (a) {
-                    var latLngBounds = a.layer.getBounds();
-                    let list = "<div>";
-                    for(let marker of a.layer.getAllChildMarkers()) {
-                        console.log(marker);
-                        list += "<div>"+marker.feature.properties.title+"</div>";
+                    var popup = L.popup().setLatLng(a.latlng);
+                    let renderer = new PopupListRenderer(a.layer.getAllChildMarkers(), popup);
+                    renderer.render();
+                    popup.openOn(map);
+                });
+
+                window.addEventListener('click', function(e) {
+                    if (e.target.matches('.project-list .project-item[data-id]')) {
+                        map.closePopup();
+                        let event = new Event('externalPopup');
+                        event.id = e.target.getAttribute('data-id');
+                        window.dispatchEvent(event);
                     }
-                    var popup = L.popup()
-                    .setLatLng(a.latlng)
-                    .setContent(list)
-                    .openOn(map);
                 });
 
                 markerCluster.addLayers(layers);
