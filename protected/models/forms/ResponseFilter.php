@@ -148,14 +148,6 @@ class ResponseFilter extends Model
         return $result;
     }
 
-    public function attributeHints()
-    {
-        return [
-            'date' => \Yii::t('app', 'Enter a date to limit the export to the last record before or equal to the selected date for each health facility. To export all historic records of a health facility, leave the field blank.')
-        ];
-    }
-
-
     public function getAttributeLabel($attribute)
     {
         if (strncmp($attribute, 'adv_', 4) !== 0) {

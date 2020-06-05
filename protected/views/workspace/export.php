@@ -83,6 +83,7 @@ echo \yii\bootstrap\Collapse::widget([
                 'attributes' => [
                     'date' => [
                         'label' => \Yii::t('app', 'Report date'),
+                        'hint' => \Yii::t('app', 'Enter a date to limit the export to the last record before or equal to the selected date for each health facility. To export all historic records of a health facility, leave the field blank.'),
                         'type' => Form::INPUT_HTML5,
                         'html5type' => 'date',
                     ],
