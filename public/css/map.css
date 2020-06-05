@@ -29,7 +29,6 @@ body {
     .map {
         visibility: visible;
     }
-
     .map:after {
         content: " ";
         position: fixed;
@@ -48,6 +47,7 @@ body {
         box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
     }
 }
+
 .popover {
     --color: #505050;
     --padding: 40px;
@@ -73,22 +73,14 @@ body {
     margin: 0 auto;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto auto var(--status-height);
-    grid-template-areas:
-            "intro"
-            "login"
-            "stat"
-            "status"
-;
-
+    grid-template-areas: "intro" "login" "stat" "status";
 }
+
 .popover-error {
     max-width: 800px;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto var(--status-height);
-    grid-template-areas:
-        "login"
-        "stat"
-        "status";
+    grid-template-areas: "login" "stat" "status";
 }
 
 .popover-error div.centered {
@@ -103,7 +95,7 @@ body {
 }
 
 .popover-error .btn .icon {
-   margin-right: 5px;
+    margin-right: 5px;
 }
 
 .popover-error .btn-home {
@@ -112,7 +104,7 @@ body {
 }
 
 .popover-error .btn-home:hover {
-    color:var(--primary-button-background-color);
+    color: var(--primary-button-background-color);
 }
 
 .popover div.centered {
@@ -138,18 +130,43 @@ body {
     font-size: 20px;
     color: #565656;
 }
-    
-.popover div.centered > svg {
+
+.popover div.centered>svg {
     font-size: 46px;
     margin-top: 35px;
 }
+
 .popover div.centered .logo {
     max-width: 268px;
 }
-.popover div.centered > * {
+
+.popover div.centered>* {
     display: block;
     margin: auto;
     margin-top: 10px;
+}
+
+.popover .signup {
+    margin: 20px 0 0 0;
+    border-top: 1px solid #dddddd;
+    padding: 20px 0 0;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popover .signup span.title {
+    margin-bottom: 10px;
+}
+
+.popover .signup .btn-primary {
+    background: white;
+    color: var(--link-color);
+}
+
+.popover .signup .btn-primary:hover {
+    background: var(--link-color);
+    color: white;
 }
 
 .form {
@@ -162,11 +179,11 @@ body {
     flex-direction: column;
 }
 
-.form > * {
+.form>* {
     flex-grow: 0;
 }
 
-.form > form {
+.form>form {
     flex-grow: 1;
 }
 
@@ -191,36 +208,23 @@ body {
     .popover {
         padding-top: var(--padding);
         border-radius: 3px;
-
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr auto var(--status-height);
-        grid-template-areas:
-                "intro  login"
-                "stat   stat"
-                "status status"
-    ;
+        grid-template-areas: "intro  login" "stat   stat" "status status";
     }
-
     .popover-error {
-        grid-template-areas:
-                "login  login"
-                "stat   stat"
-                "status status"
-    ;
+        grid-template-areas: "login  login" "stat   stat" "status status";
     }
-
     .intro {
         border-right: var(--gutter-width) solid var(--gutter-color);
         margin-bottom: var(--padding);
         padding-bottom: 0;
         padding-top: 0;
     }
-
     .form {
         padding: var(--padding);
         flex-grow: 0;
     }
-
     .intro img {
         max-width: calc(100% - 64px);
     }
@@ -232,17 +236,13 @@ body {
     justify-content: space-between;
 }
 
-
-
-
-
-
 .popover a {
     font-size: 13px;
     color: var(--link-color);
     display: block;
-    margin-bottom: 5px;
+    margin-top: 10px;
 }
+
 .popover header {
     font-size: 24px;
     color: #353535;
@@ -257,6 +257,7 @@ body {
     padding-bottom: 25px;
     background-color: var(--dark-background-color);
 }
+
 .stat {
     flex-grow: 1;
     flex-basis: 0;
@@ -281,6 +282,7 @@ body {
     display: block;
     margin: auto;
 }
+
 .stat span {
     display: block;
     margin: auto;
@@ -300,8 +302,6 @@ body {
 .status .value {
     color: #92929b;
     font-size: 14px;
-
-
     font-weight: normal;
 }
 

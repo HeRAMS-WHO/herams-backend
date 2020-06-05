@@ -8,6 +8,25 @@ class PopupRenderer {
         this.url = url;
     }
 
+    renderLoading()
+    {
+        let content = document.createElement('div');
+        content.classList.add('loader-wrapper');
+        let logo = document.createElement('div');
+        logo.classList.add('loader-anim');
+        logo.setAttribute('style' , "background-image: url('/img/herams_icon.png');");
+        content.appendChild(logo);
+        let title = document.createElement('h1');
+        title.textContent = "Loading project summary";
+        content.appendChild(title);
+        let loader = document.createElement('div');
+        loader.classList.add('loader-anim');
+        loader.setAttribute('style' , "background-image: url('/img/loader.svg');");
+        content.appendChild(loader);
+        this.popup.setContent(content);
+        this.popup.update();
+    }
+
     renderInactive()
     {
         let content = document.createElement('div');
@@ -53,6 +72,7 @@ class PopupRenderer {
 
     async render()
     {
+        this.renderLoading();
         if (!this.data) {
             let response = await fetch(this.url);
             if (response.ok) {
@@ -65,9 +85,6 @@ class PopupRenderer {
         if (this.data.status !== 0) {
             return this.renderInactive();
         }
-
-        let buttons = [];
-
 
         let content = document.createElement('div');
         content.classList.add('project-summary');

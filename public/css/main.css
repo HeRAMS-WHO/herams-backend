@@ -140,6 +140,29 @@ a:hover {
     }
 }
 
+.leaflet-tooltip-pane {
+    --header-background-color: #212529;
+}
+
+.leaflet-tooltip-pane .tooltip {
+    background-color: var(--header-background-color);
+    border-color: var(--header-background-color);
+    color: #eeeeee;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.7px;
+    padding: 7px 10px;
+    ;
+}
+
+.leaflet-tooltip-left.tooltip::before {
+    border-left-color: var(--header-background-color);
+}
+
+.leaflet-tooltip-right.tooltip::before {
+    border-right-color: var(--header-background-color);
+}
+
 .leaflet-popup {
     --header-background-color: #212529;
     --primary-button-background-color: #4177c1;
@@ -155,9 +178,6 @@ a:hover {
     font-family: "Source Sans Pro", sans-serif;
     box-sizing: border-box;
     border-width: 0;
-    width: 420px;
-    min-width: 300px;
-    min-height: 350px;
     overflow: hidden;
 }
 
@@ -171,9 +191,8 @@ a:hover {
 }
 
 .leaflet-popup .loader-wrapper {
-    width: 100%;
     text-align: center;
-    margin: 50px 0 0;
+    padding: 50px 0 0;
 }
 
 .leaflet-popup .loader-wrapper .loader-anim {
@@ -186,19 +205,43 @@ a:hover {
     margin: 0 auto;
 }
 
-.project-summary > div {
+.project-list {
+    padding: 10px 0;
+    min-width: 230px;
+}
+
+.project-list h1, .project-list h2 {
+    text-align: center;
+}
+
+.project-list div {
+    padding: 7px 15px;
+    cursor: pointer;
+    font-size: 13px;
+    width: 100%;
+    border-left: 4px solid transparent;
+}
+
+.project-list div:hover {
+    background-color: #22222a;
+    border-left: 4px solid var(--primary-button-background-color);
+}
+
+.project-summary, .leaflet-popup .loader-wrapper {
+    width: 420px;
+    min-width: 300px;
+    min-height: 350px;
+}
+
+.project-summary>div {
     display: grid;
     margin-top: 1em;
     margin-left: 10px;
     margin-right: 10px;
-    margin-bottom: 15px;
+    padding-bottom: 10px;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: auto auto 200px auto;
-    grid-template-areas:
-            "stat stat stat stat stat stat"
-            "line line line line line line"
-            "chart chart chart chart chart chart"
-            "button button button button button button";
+    grid-template-areas: "stat stat stat stat stat stat" "line line line line line line" "chart chart chart chart chart chart" "button button button button button button";
     grid-row-gap: 1em;
     grid-column-gap: 5px;
 }
@@ -217,7 +260,6 @@ a:hover {
     min-height: 30px;
 }
 
-
 .project-summary h2 {
     margin: 80px 0 10px;
     text-align: center;
@@ -228,7 +270,6 @@ a:hover {
     padding: 5px 10px;
     word-wrap: break-word;
 }
-
 
 .project-summary button {
     margin: 20px auto 0;
@@ -287,7 +328,7 @@ a:hover {
     width: 100%;
 }
 
-.project-summary .chart > div:first-child{
+.project-summary .chart>div:first-child {
     height: 115px;
     width: 100%;
 }
@@ -309,24 +350,19 @@ a:hover {
     width: 100%;
 }
 
-.project-summary ul {
-
-}
-
 .project-summary ul:before {
     content: "";
     display: none;
 }
 
 .project-summary ul {
-
     list-style-type: none;
     padding: 0;
     margin: 12px auto;
     width: max-content;
 }
 
-.project-summary  li {
+.project-summary li {
     margin-bottom: 3px;
     color: #a5a5a5;
     font-size: 11.2px;
@@ -364,6 +400,7 @@ a:hover {
 .project-summary a:first-of-type {
     grid-column: span 4;
 }
+
 .project-summary a:only-of-type {
     grid-column: span 6;
 }

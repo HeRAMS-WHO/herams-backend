@@ -32,7 +32,7 @@ class Map extends Widget
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
     public $minZoom = 3;
-    public $maxZoom = 6;
+    public $maxZoom = 5;
 
     public $colors;
 
@@ -67,7 +67,7 @@ HTML;
         Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
         $options['id'] = $this->getId();
         echo Html::beginTag('div', $options);
-        echo Html::tag('template', $this->renderPopupLoader());
+        //echo Html::tag('template', $this->renderPopupLoader());
 
         $id = Json::encode($this->getId());
         $config = Json::encode([
@@ -100,10 +100,10 @@ HTML;
                 let bounds = [];
                 let data = $data;
                 let layers = [];
+                let markers = [];
                 let scale = chroma.scale($scale).colors(data.length);
                 var color;
                 for (let set of data) {
-                    console.log(set);
                     color = scale.pop();
                     let layer = L.geoJSON(set.features, {
                         pointToLayer: function(feature, latlng) {
@@ -115,17 +115,17 @@ HTML;
                                 opacity: 1,
                                 fillOpacity: 0.8
                             });
+                            marker.feature = feature;
                             
-                            
-                            let popup = marker.bindPopup((layer => document.querySelector("#" + {$id} + " template").content.cloneNode(true)), {
+                            let popup = marker.bindPopup("", {
                                 maxWidth: "auto",
                                 closeButton: false
                             }).getPopup();
 
                             // On the first open fetch remote content
-                            let renderer = new PopupRenderer(popup, feature.properties.url);
+                            marker.renderer = new PopupRenderer(popup, feature.properties.url);
                             marker.on('popupopen', () => {
-                                renderer.render();
+                                marker.renderer.render();
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
                                 window.dispatchEvent(event);
@@ -135,32 +135,18 @@ HTML;
                                 window.dispatchEvent(event);
                             });
                             
+                            let tooltip = marker.bindTooltip(feature.properties.title, {className: 'tooltip'});
                             window.addEventListener('externalPopup', function(e) {
                                 if (e.id == feature.properties.id) {
-                                    map.once('moveend', function(){
-                                        marker.openPopup();
-                                    } );
-                                    map.flyTo(marker.getLatLng(), $this->maxZoom, {
-                                        animate: true,
-                                        duration: 0.5
-                                    });
+                                    showPopupForMarker(marker);
                                 }
                             });
+                            markers[feature.properties.id] = marker;
                             return marker;
                         }, 
                         onEachFeature: function(feature, layer) {
                         }
                     });
-                    let tooltip = layer.bindTooltip(function(e) {
-                        return e.feature.properties.title;
-                    });
-                    // let popup = layer.bindPopup(function(e) {
-                    //     console.log(arguments);
-                    //     return e.feature.properties.popup || e.feature.properties.title;
-                    // }, {
-                    //     maxWidth: "auto",
-                    //     closeButton: false
-                    // });
                     layers.push(layer);
                     
                     /*let legend = document.createElement('span');
@@ -176,15 +162,38 @@ HTML;
                 
                 let markerCluster = L.markerClusterGroup(
                 {
-                    zoomToBoundsOnClick : true,
+                    zoomToBoundsOnClick : false,
                     spiderfyOnMaxZoom: false,
                     showCoverageOnHover: false,
-                    disableClusteringAtZoom: $this->maxZoom,
                     maxClusterRadius: 10,
                     iconCreateFunction: function(cluster) {
                         return L.divIcon({ html: '<span style="background-color:'+color+'; border-color:'+color+';">' + cluster.getChildCount() + '</span>' });
                     }
                 });
+
+                var popupList = L.popup( {
+                                    maxWidth: "auto",
+                                    closeButton: false
+                                });
+                let renderer = new PopupListRenderer(popupList);                
+                markerCluster.on('clusterclick', function (a) {
+                    map.flyTo(a.latlng, map.getZoom(), {
+                        animate: true,
+                        duration: 0.5
+                    });
+                    popupList.setLatLng(a.latlng);
+                    renderer.render(a.layer.getAllChildMarkers());
+                    popupList.openOn(map);
+                });
+
+
+                window.addEventListener('click', function(e) {
+                    if (e.target.matches('.project-list .project-item[data-id]')) {
+                        let marker = markers[e.target.getAttribute('data-id')];
+                        showPopupForMarker(marker);
+                    }
+                });
+
                 markerCluster.addLayers(layers);
                 map.addLayer(markerCluster);
                 if (layers.length > 0) {
@@ -212,12 +221,21 @@ HTML;
             }
 
             
-
+            function showPopupForMarker(marker) {
+                let popup = marker.getPopup();
+                map.once('moveend', function(){
+                    popup.setLatLng(marker.getLatLng());
+                    popup.openOn(map);
+                } );
+                map.flyTo(marker.getLatLng(), map.getZoom(), {
+                    animate: true,
+                    duration: 0.5
+                });
+            }
             
         })();
 
-JS
-        );
+JS);
 
         echo Html::endTag('div');
     }
