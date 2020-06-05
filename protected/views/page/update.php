@@ -46,7 +46,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => 1,
         "attributes" => [
             'title' => [
-                'type' => Form::INPUT_TEXT,
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\typeahead\Typeahead::class,
+                'hint' => \Yii::t('app', 'If you use a predefined option it will automatically be translated'),
+                'options' => [
+                    'useHandleBars' => false,
+                    'defaultSuggestions' => $page->titleOptions(),
+                    'dataset' => [
+                        [
+                            'local' => $page->titleOptions(),
+                            'sufficient' => 0
+                        ]
+
+                    ],
+                    ]
+
+
             ],
             'parent_id' => [
                 'attribute' => 'parent_id',

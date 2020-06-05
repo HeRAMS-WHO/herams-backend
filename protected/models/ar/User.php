@@ -94,12 +94,14 @@ class User extends ActiveRecord implements IdentityInterface {
         return null;
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'name' => \Yii::t('app', 'Name'),
+            'email' => \Yii::t('app', 'Email'),
+            'password_hash' => \Yii::t('app', 'Password hash'),
             'language' => \Yii::t('app', 'Language'),
-        ];
+        ]);
     }
 
 

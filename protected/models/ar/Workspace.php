@@ -130,14 +130,15 @@ class Workspace extends ActiveRecord
 
     public function attributeLabels(): array
     {
-        return [
-            'id' => \Yii::t('app', 'ID'),
-            'title' => \Yii::t('app', 'Title'),
+        return array_merge(parent::attributeLabels(), [
             'latestUpdate' => \Yii::t('app', 'Latest update'),
+            'tool_id' => \Yii::t('app', 'Project'),
+            'closed' => \Yii::t('app', 'Closed'),
+            'token' => \Yii::t('app', 'Token'),
             'contributorCount' => \Yii::t('app', 'Contributor count'),
             'facilityCount' => \Yii::t('app', 'Facility count'),
             'responseCount' => \Yii::t('app', 'Response count')
-        ];
+        ]);
     }
 
 
@@ -205,11 +206,6 @@ class Workspace extends ActiveRecord
         $result = parent::scenarios();
         $result[self::SCENARIO_DEFAULT][] = '!tool_id';
         return $result;
-    }
-
-    public function getIsClosed()
-    {
-        return isset($this->closed);
     }
 
     public function  getResponses(): ResponseQuery

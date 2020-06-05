@@ -3,7 +3,6 @@
 
 namespace prime\tests\unit\models;
 
-
 use Codeception\Test\Unit;
 use yii\base\Model;
 
@@ -57,13 +56,12 @@ abstract class ModelTest extends Unit
         $model = $this->getModel();
         $this->assertInstanceOf(Model::class, $model);
         $model->scenario = $scenario ?? Model::SCENARIO_DEFAULT;
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             if ($value instanceof \Closure) {
                 $model->$key = $value();
             } else {
                 $model->$key = $value;
             }
-
         }
         $this->assertTrue($model->validate(), print_r($model->errors, true));
     }
@@ -77,14 +75,21 @@ abstract class ModelTest extends Unit
         $model = $this->getModel();
         $this->assertInstanceOf(Model::class, $model);
         $model->scenario = $scenario ?? Model::SCENARIO_DEFAULT;
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             if ($value instanceof \Closure) {
                 $model->$key = $value();
             } else {
                 $model->$key = $value;
             }
-
         }
         $this->assertFalse($model->validate(), "Validation expected to fail with attributes: " . print_r($model->attributes, true));
+    }
+
+    public function testAttributeLabels(): void
+    {
+        $model = $this->getModel();
+        $labels = $model->attributeLabels();
+        $diff = array_diff($model->attributes(), array_keys($labels));
+        $this->assertEmpty($diff, print_r($diff, true));
     }
 }

@@ -39,6 +39,17 @@ class Export extends Model
 
     private $filter;
 
+    public function attributeLabels(): array
+    {
+        return [
+            'includeTextHeader' => \Yii::t('app', 'Include text header'),
+            'includeCodeHeader' => \Yii::t('app', 'Include code header'),
+            'answersAsText' => \Yii::t('app', 'Answers as text'),
+            'language' => \Yii::t('app', 'Language')
+        ];
+    }
+
+
     public function getFilterModel(): ResponseFilter
     {
         return $this->filter;
@@ -189,7 +200,7 @@ class Export extends Model
 
         $result =  array_combine($codes, $names);
         return array_merge([self::DEFAULT_LANGUAGE => \Yii::t('app', 'Survey default ({lang})', [
-            'lang' => $result[$this->survey->getDefaultLanguage()]
+            'lang' => \Locale::getDisplayLanguage($this->survey->getDefaultLanguage())
         ])], $result);
     }
 }

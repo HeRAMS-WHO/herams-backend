@@ -9,7 +9,7 @@ use prime\controllers\response\Compare;
 class ResponseController extends Controller
 {
     public $layout = '//admin';
-    public function actions()
+    public function actions(): array
     {
         return [
             'compare' => Compare::class

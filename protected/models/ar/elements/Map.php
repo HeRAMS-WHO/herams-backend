@@ -17,6 +17,18 @@ class Map extends Element
         return $this->getWidgetConfig()['markerRadius'] ?? null;
     }
 
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['markerRadius']);
+    }
+
+    public function attributeLabels(): array
+    {
+        return array_merge(parent::attributeLabels(), [
+            'markerRadius' => \Yii::t('app', 'Marker radius')
+        ]);
+    }
+
     public function setMarkerRadius($value)
     {
         $config = $this->config;

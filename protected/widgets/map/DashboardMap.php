@@ -41,12 +41,15 @@ class DashboardMap extends Element
      * @var HeramsResponseInterface[]
      */
     public $data = [];
-    /** @var SurveyInterface */
-    public $survey;
 
     public $colors;
 
     public $code;
+
+    public function setSurvey(SurveyInterface $survey): void
+    {
+        $this->survey = $survey;
+    }
 
     private function getCollections(iterable $data)
     {

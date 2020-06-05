@@ -43,7 +43,7 @@ echo \yii\bootstrap\Collapse::widget([
     'autoCloseItems' => false,
     'items' => [
         [
-            'label' => 'Settings',
+            'label' => \Yii::t('app', 'Settings'),
             // open its content by default
             'contentOptions' => ['class' => 'in'],
             'content' => \app\components\Form::widget([
@@ -73,7 +73,7 @@ echo \yii\bootstrap\Collapse::widget([
             ])
         ],
         [
-            'label' => 'Advanced settings',
+            'label' => \Yii::t('app', 'Advanced settings'),
             'content' => Form::widget([
                 'form' => $form,
                 'model' => $model->getFilterModel(),

@@ -189,11 +189,18 @@ class Element extends ActiveRecord implements Exportable
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
-            'colors.code' => 'Answer code'
-        ];
+        return array_merge(parent::attributeLabels(), [
+            'colors.code' => 'Answer code',
+            'type' => \Yii::t('app', 'Type'),
+            'page_id' => \Yii::t('app', 'Page'),
+            'config' => \Yii::t('app', 'Config'),
+            'sort' => \Yii::t('app', 'Sort'),
+            'transpose' => \Yii::t('app', 'Transpose'),
+            'width' => \Yii::t('app', 'Width'),
+            'height' => \Yii::t('app', 'Height')
+        ]);
     }
 
 

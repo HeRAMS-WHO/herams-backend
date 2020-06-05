@@ -12,7 +12,7 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 trait SurveyHelper
 {
     /** @var SurveyInterface */
-    public $survey;
+    private $survey;
 
     private function findQuestionByCode(string $code): QuestionInterface
     {

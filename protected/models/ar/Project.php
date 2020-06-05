@@ -150,12 +150,18 @@ class Project extends ActiveRecord implements Linkable
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'base_survey_eid' => \Yii::t('app', 'Survey'),
-            'title' => \Yii::t('app', 'Title'),
-        ];
+            'hidden' => \Yii::t('app', 'Hidden'),
+            'latitude' => \Yii::t('app', 'Latitude'),
+            'longitude' => \Yii::t('app', 'Longitude'),
+            'status' => \Yii::t('app', 'Status'),
+            'typemap' => \Yii::t('app','Typemap'),
+            'visibility' => \Yii::t('app', 'Visibility'),
+            'overrides' => \Yii::t('app', 'Overrides')
+        ]);
     }
 
     public function attributeHints()

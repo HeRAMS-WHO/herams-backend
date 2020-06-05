@@ -58,7 +58,7 @@ echo \yii\bootstrap\Collapse::widget([
                 "attributes" => [
                     'includeTextHeader' => [
                         'type' => Form::INPUT_WIDGET,
-                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class,
                     ],
                     'includeCodeHeader' => [
                         'type' => Form::INPUT_WIDGET,
@@ -66,7 +66,7 @@ echo \yii\bootstrap\Collapse::widget([
                     ],
                     'answersAsText' => [
                         'type' => Form::INPUT_WIDGET,
-                        'widgetClass' => \kartik\switchinput\SwitchInput::class
+                        'widgetClass' => \kartik\switchinput\SwitchInput::class,
                     ],
                     'language' => [
                         'type' => Form::INPUT_DROPDOWN_LIST,

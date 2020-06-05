@@ -36,6 +36,17 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     }
 
 
+    public function titleOptions(): array
+    {
+        $sourceLanguage = \Yii::$app->sourceLanguage;
+        return [
+            \Yii::t('app', 'Overview', null, $sourceLanguage),
+            \Yii::t('app', 'Infrastructure', null, $sourceLanguage),
+            \Yii::t('app', 'Condition', null, $sourceLanguage),
+            \Yii::t('app', 'Functionality', null, $sourceLanguage),
+            \Yii::t('app', 'Accessibility', null, $sourceLanguage)
+        ];
+    }
     public function getProject()
     {
         return $this->hasOne(Project::class, ['id' => 'project_id']);
@@ -50,6 +61,17 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     {
         return $this->getAttribute('parent_id');
     }
+
+    public function attributeLabels(): array
+    {
+        return array_merge(parent::attributeLabels(), [
+            'parent_id' => \Yii::t('app', 'Parent page'),
+            'sort' => \Yii::t('app', 'Sort index'),
+            'add_services' => \Yii::t('app', 'Add services'),
+            'project_id' => \Yii::t('app', 'Project')
+        ]);
+    }
+
 
     public function getId(): int
     {

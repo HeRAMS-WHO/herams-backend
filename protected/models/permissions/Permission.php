@@ -51,11 +51,11 @@ class Permission extends ActiveRecord
     const ROLE_PROJECT_ADMIN = 'ROLE_PROJECT_ADMIN';
 
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'permissionLabel' => \Yii::t('app', 'Permission')
-        ];
+        ]);
     }
 
     public function getPermissionLabel()

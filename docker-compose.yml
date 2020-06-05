@@ -102,11 +102,10 @@ services:
       - testdb
     init: true
     entrypoint: [
-      "wait-for-it",
-      "30",
-      "testdb",
-      "3306",
-      "/project/vendor/bin/codecept"
+      "sh",
+      "-c",
+      "wait4ports -s 30 tcp://testdb:3306 && exec /project/vendor/bin/codecept $$*",
+      "-"
     ]
     command: "run"
     environment:
