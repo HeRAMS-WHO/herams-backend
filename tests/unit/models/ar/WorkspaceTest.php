@@ -3,6 +3,9 @@ namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Project;
 
+/**
+ * @covers \prime\models\ar\Workspace
+ */
 class WorkspaceTest extends ActiveRecordTest
 {
     public function validSamples(): array

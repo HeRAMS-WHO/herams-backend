@@ -7,6 +7,9 @@ namespace prime\tests\unit\models\ar;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 
+/**
+ * @covers \prime\models\ar\Page
+ */
 class PageTest  extends ActiveRecordTest
 {
     /**

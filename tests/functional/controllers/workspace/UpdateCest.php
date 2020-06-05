@@ -9,6 +9,9 @@ use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Json;
 
+/**
+ * @covers \prime\controllers\workspace\Update
+ */
 class UpdateCest
 {
 

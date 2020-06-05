@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace prime\tests\unit\controllers;
 
 use Codeception\Test\Unit;
-use prime\controllers\ResponseController;
 use yii\base\Action;
 use yii\base\Controller;
-use yii\base\Model;
 use yii\db\ActiveRecord;
 
+/**
+ * @coversNothing
+ */
 abstract class ControllerTest extends Unit
 {
     /**

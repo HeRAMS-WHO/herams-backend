@@ -8,6 +8,9 @@ use prime\tests\_helpers\Survey;
 use prime\tests\unit\models\ModelTest;
 use yii\base\Model;
 
+/**
+ * @covers \prime\models\forms\Export
+ */
 class ExportTest extends ModelTest
 {
     public function validSamples(): array

@@ -10,6 +10,9 @@ use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 use yii\helpers\Json;
 
+/**
+ * @covers \prime\controllers\workspace\Configure
+ */
 class ConfigureCest
 {
 

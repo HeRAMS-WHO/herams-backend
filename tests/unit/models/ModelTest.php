@@ -6,6 +6,9 @@ namespace prime\tests\unit\models;
 use Codeception\Test\Unit;
 use yii\base\Model;
 
+/**
+ * @coversNothing
+ */
 abstract class ModelTest extends Unit
 {
     /**

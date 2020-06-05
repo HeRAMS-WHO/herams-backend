@@ -9,6 +9,9 @@ use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
+/**
+ * @covers \prime\controllers\workspace\Share
+ */
 class ShareCest
 {
 
