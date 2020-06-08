@@ -7,6 +7,8 @@ parameters:
       - CONSOLE
     excludes_analyse:
       - protected/console/DevController.php
+      - protected/components/Form.php
+      - protected/widgets/FormButtonsWidget.php
       - */tests/*
     checkMaybeUndefinedVariables: true
     ignoreErrors:
@@ -18,5 +20,3 @@ parameters:
           path: '*/views/*'
         - message: '#^Variable .* might not be defined\.$#'
           path: '*/mail/*'
-        - message: '#^Undefined variable: \$env#'
-          path: '*/config/*'
