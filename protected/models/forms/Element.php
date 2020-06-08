@@ -3,7 +3,6 @@
 
 namespace prime\models\forms;
 
-
 use prime\traits\SurveyHelper;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
@@ -72,6 +71,7 @@ class Element extends Model
     public function attributeLabels()
     {
         $result = $this->element->attributeLabels();
+        $result['survey'] = \Yii::t('app', 'Survey');
         // Add color labels.
         if ($this->element->code !== null) {
             foreach ($this->getAnswers($this->element->getCode()) as $code => $answer) {
@@ -98,14 +98,15 @@ class Element extends Model
         } catch (UnknownMethodException $e) {
             return $this->element->$name(... $params);
         }
-
     }
 
     public function rules()
     {
         return array_merge($this->element->rules(), [
             $this->colorRule(),
-            [['code'], RangeValidator::class, 'range' => function() { return array_keys($this->codeOptions()); }]
+            [['code'], RangeValidator::class, 'range' => function () {
+                return array_keys($this->codeOptions());
+            }]
         ]);
     }
 
@@ -139,7 +140,7 @@ class Element extends Model
         if (!$this->element->isAttributeSafe('colors')) {
             return [];
         }
-        return array_map(function($code) {
+        return array_map(function ($code) {
             return strtr("color.$code", ['-' => '_']);
         }, $this->answerCodes());
     }
@@ -152,8 +153,8 @@ class Element extends Model
     public function codeOptions(): array
     {
         $codeOptions = [];
-        foreach($this->survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
+        foreach ($this->survey->getGroups() as $group) {
+            foreach ($group->getQuestions() as $question) {
                 if ($question->getAnswers() !== null
                     ||($question->getDimensions() === 1 && $question->getQuestions(0)[0]->getAnswers() !== null)
                 ) {
@@ -193,11 +194,11 @@ class Element extends Model
 
     private function getAnswers(string $code)
     {
-        switch($code) {
+        switch ($code) {
             case 'causes':
                 $expr = strtr($this->element->project->getMap()->getSubjectExpression(), ['$' => 'x$']);
-                foreach($this->survey->getGroups() as $group) {
-                    foreach($group->getQuestions() as $question) {
+                foreach ($this->survey->getGroups() as $group) {
+                    foreach ($group->getQuestions() as $question) {
                         if (preg_match($expr, $question->getTitle())) {
                             return $this->getQuestionAnswers($question->getTitle());
                         }
@@ -210,7 +211,6 @@ class Element extends Model
                 } catch (\Throwable $t) {
                     return [];
                 }
-
         }
     }
 }

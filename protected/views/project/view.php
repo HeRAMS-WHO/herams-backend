@@ -76,6 +76,9 @@ echo Html::beginTag('div', ['class' => 'content']);
             echo $element->getWidget($survey, $data, $page)->run();
             echo ob_get_clean();
         } catch (Throwable $t) {
+            if (!YII_ENV_PROD) {
+                throw $t;
+            }
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }

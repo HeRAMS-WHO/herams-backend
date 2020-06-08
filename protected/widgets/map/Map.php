@@ -31,14 +31,14 @@ class Map extends Widget
 
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
-    public $minZoom = 3;
-    public $maxZoom = 5;
+    public float $minZoom = 3;
+    public float $maxZoom = 5;
 
     public $colors;
 
     public $data = [];
 
-    public $markerRadius = 12.5;
+    public float $markerRadius = 12.5;
     public function init()
     {
         $this->colors = $this->colors ?? new JsExpression('chroma.brewer.OrRd');
@@ -66,9 +66,6 @@ HTML;
         $options = $this->options;
         Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
         $options['id'] = $this->getId();
-        echo Html::beginTag('div', $options);
-        //echo Html::tag('template', $this->renderPopupLoader());
-
         $id = Json::encode($this->getId());
         $config = Json::encode([
             'preferCanvas' => true,
@@ -237,7 +234,7 @@ HTML;
 
 JS);
 
-        echo Html::endTag('div');
+        return Html::tag('div', '', $options);
     }
 
 

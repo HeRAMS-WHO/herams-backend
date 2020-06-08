@@ -3,7 +3,6 @@
 
 namespace prime\widgets\map;
 
-
 use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
@@ -55,7 +54,7 @@ class DashboardMap extends Element
     {
         $method  = 'get' . ucfirst($this->code);
         if (method_exists(HeramsResponseInterface::class, $method)) {
-            $getter = function($response) use ($method) {
+            $getter = function ($response) use ($method) {
                 return $response->$method();
             };
         } else {
@@ -63,7 +62,7 @@ class DashboardMap extends Element
              * @param HeramsResponseInterface|HeramsSubject $response
              * @return mixed
              */
-            $getter = function($response) {
+            $getter = function ($response) {
                 return $response->getValueForCode($this->code);
             };
         }
@@ -71,7 +70,7 @@ class DashboardMap extends Element
         $types = $this->getAnswers($this->code);
         $collections = [];
         /** @var HeramsResponseInterface $response */
-        foreach($data as $response) {
+        foreach ($data as $response) {
             try {
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
@@ -121,7 +120,7 @@ class DashboardMap extends Element
                 new \RuntimeException('An error occured while checking response: ' . $response->getId(), 0, $t);
             }
         }
-        uksort($collections, function($a, $b) {
+        uksort($collections, function ($a, $b) {
             if ($a === "" || $a === "-oth-") {
                 return 1;
             } elseif ($b === "" || $b === "-oth-") {
@@ -132,7 +131,7 @@ class DashboardMap extends Element
         return array_values($collections);
     }
 
-    public function run()
+    public function run(): string
     {
         $this->registerClientScript();
         $id = Json::encode($this->getId());
@@ -240,7 +239,7 @@ class DashboardMap extends Element
 JS
         );
 
-        parent::run();
+        return parent::run();
     }
 
 
@@ -248,5 +247,4 @@ JS
     {
         $this->view->registerAssetBundle(MapBundle::class);
     }
-
 }
