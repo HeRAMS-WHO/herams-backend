@@ -40,7 +40,6 @@ body {
     display: grid;
     position: relative;
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -361,6 +360,10 @@ body {
         pointer-events: none;
         z-index: 400;
     }
+    .popover {
+        max-width: 700px;
+        margin: 20px auto;
+    }
     .popover.session {
         border-radius: 3px;
         grid-template-columns: 1fr;
@@ -382,9 +385,17 @@ body {
         display: inline-block;
         max-width: 350px;
     }
+    .intro .logo-small {
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+    }
+    .intro .logo-small img {
+        width: 100%;
+    }
     .intro header {
-        padding: 40px 66px 40px;
-        max-width: 450px;
+        padding: 66px;
+        max-width: 350px;
         line-height: 30px;
         font-size: 16px;
     }
@@ -414,6 +425,9 @@ body {
 }
 
 @media(min-width: 1024px) {
+    .popover {
+        max-width: 900px;
+    }
     .popover.session {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
@@ -440,6 +454,9 @@ body {
 }
 
 @media(min-width: 1200px) {
+    .popover {
+        max-width: 1000px;
+    }
     .popover.session {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
