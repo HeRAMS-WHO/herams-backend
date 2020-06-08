@@ -41,8 +41,9 @@ use yii\helpers\Html;
     }
 
     if (!empty($projects)) {
+        $latest = array_pop($projects);
         foreach($projects as $project) {
-            if (!isset($latest) || $project->latestDate > $latest->latestDate) {
+            if ($project->latestDate > $latest->latestDate) {
                 $latest = $project;
             };
         }

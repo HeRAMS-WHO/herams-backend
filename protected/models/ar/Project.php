@@ -44,6 +44,7 @@ use function iter\filter;
  * @property-read int $facilityCount
  * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
+ * @property array<string, string> $typemap
  * @property array $overrides
  */
 class Project extends ActiveRecord implements Linkable
@@ -198,7 +199,7 @@ class Project extends ActiveRecord implements Linkable
             return $this->base_survey_eid == $details['sid'] || !isset($existing[$details['sid']]);
         }, $this->limesurveyDataProvider()->listSurveys());
 
-        $result = ArrayHelper::map($surveys, 'sid', function ($details) use ($existing) {
+        $result = ArrayHelper::map($surveys, 'sid', function ($details) {
                 return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
         });
 

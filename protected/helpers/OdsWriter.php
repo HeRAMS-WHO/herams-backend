@@ -33,7 +33,6 @@ class OdsWriter implements WriterInterface
         // Set up the cache
 
         $this->writer = WriterEntityFactory::createODSWriter();
-        $this->stream = stream_for('');
         $this->filename = tempnam(sys_get_temp_dir(), 'ods');
         $this->writer->openToFile($this->filename);
     }

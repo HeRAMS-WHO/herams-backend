@@ -14,6 +14,8 @@ use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 
 /** @var \prime\components\Environment $env */
+assert(isset($env) && $env instanceof \prime\components\Environment);
+
 require_once __DIR__ . '/../helpers/functions.php';
 return [
     'id' => 'herams',

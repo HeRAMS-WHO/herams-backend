@@ -26,9 +26,6 @@ class Chart extends Element
 
     public $type = self::TYPE_DOUGHNUT;
 
-    /** @var SurveyInterface */
-    public $survey;
-
     /** @var ?string The title to use, if not set will fall back to retrieving it from the survey */
     public $title;
 

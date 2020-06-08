@@ -17,7 +17,7 @@ class Compare extends Action
         int $id,
         int $survey_id
     ) {
-        /** @var Response $response */
+        /** @var Response|null $response */
         $response = Response::find()->with('workspace')->andWhere(['id' => $id, 'survey_id' => $survey_id])->one();
         if (!isset($response)) {
             throw new NotFoundHttpException();

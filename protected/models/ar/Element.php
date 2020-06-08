@@ -84,16 +84,16 @@ class Element extends ActiveRecord implements Exportable
         return $this->getWidgetInternal($survey, $page->filterResponses($this->prepareData($data)));
     }
 
-    protected function findQuestionByCode(SurveyInterface $survey, string $text): ?QuestionInterface
+    final protected function findQuestionByCode(SurveyInterface $survey, string $text): ?QuestionInterface
     {
         foreach($survey->getGroups() as $group) {
             foreach($group->getQuestions() as $question) {
                 if ($question->getTitle() === $text) {
                     return $question;
                 }
-
             }
         }
+        return null;
     }
 
     public function formName()

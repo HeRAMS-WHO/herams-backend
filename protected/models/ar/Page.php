@@ -24,6 +24,9 @@ use yii\validators\StringValidator;
  * @property Element[] $elements
  * @property int $project_id
  * @property Project $project
+ * @property int $sort
+ * @property bool $add_services
+ * @property int $id
  * @property ?Page $parent
  */
 class Page extends ActiveRecord implements PageInterface, Exportable

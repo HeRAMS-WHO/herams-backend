@@ -19,9 +19,6 @@ class Table extends Element
         'class' => 'table'
     ];
 
-    /** @var SurveyInterface */
-    public $survey;
-
     /** @var string */
     public $code;
 

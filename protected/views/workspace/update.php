@@ -5,9 +5,11 @@ use app\components\ActiveForm;
 use yii\bootstrap\Html;
 
 /**
- * @var \yii\web\View $this
+ * @var  \prime\components\View $this
  * @var \prime\models\ar\Workspace $model
  */
+assert($this instanceof \prime\components\View);
+assert($model instanceof \prime\models\ar\Workspace);
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),

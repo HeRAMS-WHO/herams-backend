@@ -2,7 +2,8 @@
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
-
+/** @var \Throwable $exception */
+assert($exception instanceof \Throwable);
 echo Html::beginTag('div', [
     'class' => 'centered',
 
@@ -11,7 +12,7 @@ echo Html::img("/img/HeRAMS.png", [
     'class' => 'logo',
 ]);
 echo Icon::bug();
-/** @var \Throwable $exception */
+
 if (empty($exception->getMessage()) && $exception instanceof \yii\web\HttpException) {
     echo Html::tag('span', $exception->getName(), ['class' => 'error']);
 } else {

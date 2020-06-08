@@ -22,6 +22,7 @@ use function iter\chain;
  * Class User
  * @property string $name
  * @property int $id
+ * @property string $password_hash
  * @property Favorite[] $favorites
  */
 class User extends ActiveRecord implements IdentityInterface {
