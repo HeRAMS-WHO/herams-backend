@@ -7,7 +7,7 @@ echo Html::beginTag('div', [
     'class' => 'centered',
 
 ]);
-echo Html::img("/img/HeRAMS.png", [
+echo Html::img("/img/HeRAMS.svg", [
     'class' => 'logo',
 ]);
 echo Icon::bug();

@@ -77,7 +77,7 @@ body {
 .popover div.centered {
     grid-column: span 2;
     text-align: center;
-    padding: 66px;
+    padding: 80px;
     font-size: 40px;
     color: #bbbbbb;
 }
@@ -215,14 +215,15 @@ body {
 .intro .logo {
     grid-area: logo;
     margin: 0 auto;
-    padding: 30px 0 0;
+    padding: 66px 0 0;
     width: 80%;
     max-width: 350px;
+    display: none;
 }
 
 .intro header {
     padding: 40px 30px;
-    margin: 0 auto;
+    margin: 0 auto 50px auto;
     line-height: 26px;
     font-size: 15px;
     letter-spacing: 1px;
@@ -360,7 +361,7 @@ body {
         pointer-events: none;
         z-index: 400;
     }
-    .popover {
+    .popover.session {
         border-radius: 3px;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
@@ -371,6 +372,7 @@ body {
     }
     .intro {
         border-right: var(--gutter-width) solid var(--gutter-color);
+        padding: 0;
     }
     .form {
         padding: 80px 66px 0;
@@ -380,14 +382,11 @@ body {
         display: inline-block;
         max-width: 350px;
     }
-    .intro {
-        padding: 66px 0 0;
-    }
     .intro header {
-        padding: 66px 66px 100px;
+        padding: 40px 66px 40px;
         max-width: 450px;
-        line-height: 35px;
-        font-size: 19px;
+        line-height: 30px;
+        font-size: 16px;
     }
     .form span {
         display: inline-block;
@@ -400,11 +399,11 @@ body {
         justify-content: space-between;
     }
     .stat {
-        font-size: 17px;
+        font-size: 15px;
     }
     .stat svg, .stat span {
-        font-size: 45px;
-        line-height: 45px;
+        font-size: 35px;
+        line-height: 35px;
     }
 }
 
@@ -415,9 +414,54 @@ body {
 }
 
 @media(min-width: 1024px) {
-    .popover {
-        grid-template-columns: 1fr ;
-        grid-template-rows: 1fr auto;
-        grid-template-areas: "intro" "login";
+    .popover.session {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "intro login";
+        margin: 0 40px;
+    }
+    .popover .signup, .popover .signin {
+        display: block;
+    }
+    .form {
+        padding: 70px 40px 0;
+        display: block;
+    }
+    .form .logo {
+        display: none;
+    }
+    .form span {
+        width: 100%;
+    }
+    .intro .logo {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+@media(min-width: 1200px) {
+    .popover.session {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "intro login";
+        margin: 0 40px;
+    }
+    .form {
+        padding: 86px 66px 0;
+    }
+    .popover .signup, .popover .signin {
+        display: flex;
+    }
+    .intro .logo {
+        padding: 86px 0 0;
+    }
+    .form span {
+        width: 30%;
+    }
+    .form .signin {
+        margin-bottom: 66px;
+    }
+    .form .signup {
+        margin-top: 66px;
     }
 }

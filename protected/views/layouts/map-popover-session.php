@@ -9,7 +9,7 @@ $this->beginContent('@views/layouts/map.php');
 
 
 ?>
-<div class="popover">
+<div class="popover session">
     <div class="intro">
         <div class='logo white'>
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 245.2 53.4" style="enable-background:new 0 0 245.2 53.4;" xml:space="preserve">
