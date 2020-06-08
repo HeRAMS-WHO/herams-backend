@@ -7,7 +7,6 @@ use GuzzleHttp\Psr7\StreamWrapper;
 use prime\helpers\CsvWriter;
 use prime\helpers\OdsWriter;
 use prime\helpers\PeclWriter;
-use prime\helpers\XlsxWriter;
 use prime\models\forms\Export;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
@@ -75,7 +74,6 @@ class ExportAction extends Action
             switch ($params['format'] ?? 'csv') {
                 case 'xlsx':
                     $writer = new PeclWriter();
-//                    $writer = new XlsxWriter();
                     break;
                 case 'csv':
                     $writer = new CsvWriter();

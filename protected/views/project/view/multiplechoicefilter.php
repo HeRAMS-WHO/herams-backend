@@ -15,9 +15,8 @@ if (empty($answers)) {
 
 foreach($question->getQuestions(0) as $subQuestion) {
     if (($answers = $subQuestion->getAnswers()) !== null) {
-        $items = \yii\helpers\ArrayHelper::map(
-            $answers, \iter\fn\method('getCode'),
-            function(AnswerInterface $answer) {
+        $items = \yii\helpers\ArrayHelper::map($answers, \iter\func\method('getCode'),
+            static function(AnswerInterface $answer) {
                 return strtok( $answer->getText(), ':(');
             }
         );

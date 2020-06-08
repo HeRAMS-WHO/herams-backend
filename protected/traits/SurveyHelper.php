@@ -3,7 +3,6 @@
 
 namespace prime\traits;
 
-
 use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -11,8 +10,7 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 trait SurveyHelper
 {
-    /** @var SurveyInterface */
-    public $survey;
+    public SurveyInterface $survey;
 
     private function findQuestionByCode(string $code): QuestionInterface
     {
@@ -22,7 +20,6 @@ trait SurveyHelper
                 if ($question->getTitle() === $code) {
                     return $question;
                 }
-
             }
         }
         throw new \InvalidArgumentException("Question code $code not found");
@@ -77,7 +74,7 @@ trait SurveyHelper
                 $map = [];
                 foreach ($answers as $answer) {
                     $code = $answer->getCode() === "" ? HeramsSubject::UNKNOWN_VALUE : $answer->getCode();
-                    $map[$code] = trim(strtok($answer->getText(),':('));
+                    $map[$code] = trim(strtok($answer->getText(), ':('));
                 }
                 ksort($map);
                 if (!isset($map[HeramsSubject::UNKNOWN_VALUE])) {
@@ -85,7 +82,6 @@ trait SurveyHelper
                 }
                 return $map;
         }
-
     }
 
     protected function getTitleFromCode(string $code): string
@@ -93,14 +89,13 @@ trait SurveyHelper
         $codeOptions['availability'] = \Yii::t('app', 'Service availability');
         $codeOptions['subjectAvailabilityBucket'] = \Yii::t('app', 'The aggregate availability of services per HF');
         $codeOptions['fullyAvailable'] = \Yii::t('app', 'Is the service fully available');
-        $codeOptions['causes'] = \Yii::t('app','Causes of unavailability');
+        $codeOptions['causes'] = \Yii::t('app', 'Causes of unavailability');
         if (isset($codeOptions[$code])) {
             return $codeOptions[$code];
         }
         try {
             $question = $this->findQuestionByCode($code);
             return $this->normalizeQuestionText($question->getText());
-
         } catch (\InvalidArgumentException $e) {
             return $this->normalizeQuestionText($code);
         }

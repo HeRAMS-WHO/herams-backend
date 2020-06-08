@@ -17,7 +17,7 @@ class Summary extends Action
         User $user,
         int $id
     ) {
-        /** @var Project $project */
+        /** @var null|Project $project */
         $project = Project::find()->with('pages')->where(['id' => $id])->one();
         if (!isset($project)) {
             throw new NotFoundHttpException();

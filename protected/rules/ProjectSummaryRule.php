@@ -29,7 +29,7 @@ class ProjectSummaryRule implements Rule
 
     public function getDescription(): string
     {
-        'it is not hidden (so public or private), or you have the READ permission';
+        return 'it is not hidden (so public or private), or you have the READ permission';
     }
 
     public function execute(

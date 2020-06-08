@@ -26,31 +26,45 @@ $form = ActiveForm::begin([
 
     $matcher = new \yii\web\JsExpression(<<<JS
     function(params, data) {
-            if (typeof params.term === 'undefined' || params.term.length === 0) {
-                return data;
-            }
-            if (typeof data.text === 'undefined') {
-                return null;
-            }
-            
-            // Tokenize string.
-            let matches = 0;
-            let tokens = params.term.toLowerCase().split(' ');
+        if (typeof params.term === 'undefined' || params.term.length === 0) {
+            return data;
+        }
+        if (typeof data.text === 'undefined') {
+            return null;
+        }
+        let tokens = params.term.toLowerCase().split(' ').map(s => s.trim());
+        
+        let stringMatcher = (subject) => {
+            let data = subject.text.toLowerCase();
             for (let i = tokens.length - 1; i >= 0; i--) {
                 // Match a token.
                 if (tokens[i].length === 0) {
                     continue;
                 }
                 
-                if (data.text.toLowerCase().indexOf(tokens[i]) > -1) {
-                    matches++;
-                } else {
-                    return null;
+                if (!data.includes(tokens[i])) {
+                    return false;
                 }
             }
-            data.matchCount = matches;
+            return true;
+        };
+        
+        // Check if we have children
+        if (data.children) {
+            // filter the children instead.
+            let filtered = data.children.filter(stringMatcher);
+            if (filtered.length > 0) {
+                let result = {};
+                Object.assign(result, data);
+                result.children = filtered;
+                return result;
+            }
+        } else if (stringMatcher(data)) {
             return data;
-        }
+        } 
+        
+        return null;
+    }
 JS
     );
 

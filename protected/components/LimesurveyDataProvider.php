@@ -80,7 +80,7 @@ class LimesurveyDataProvider extends Component
             /** @var CacheInterface $cache */
             $cache = app()->limesurveyCache;
             $cache->delete($key);
+            throw $e;
         }
-
     }
 }

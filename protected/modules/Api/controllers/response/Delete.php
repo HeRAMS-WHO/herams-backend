@@ -30,7 +30,7 @@ class Delete extends Action
         }
 
         $heramsResponse = HeramsResponse::findOne(['id' => $responseId, 'survey_id' => $surveyId]);
-        if (!isset($response)) {
+        if (!isset($heramsResponse)) {
             throw new NotFoundHttpException();
         }
 

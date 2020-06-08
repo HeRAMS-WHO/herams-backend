@@ -22,7 +22,7 @@ class ImportDashboard extends Action
         int $id
     ) {
         $this->controller->layout = 'form';
-        /** @var Project $project */
+        /** @var Project|null $project */
         $project = Project::find()->where(['id' => $id])->one();
         if (!isset($project)) {
             throw new NotFoundHttpException('Project not found');

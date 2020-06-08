@@ -2,47 +2,31 @@
 
 namespace prime\models\search;
 
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
 use yii\validators\StringValidator;
 
-class Response extends \prime\models\ar\Response
+class Response extends Model
 {
-    private $workspace;
+    private \prime\models\ar\Workspace $workspace;
+    public string $hf_id = '';
+    public string $date = '';
+    public string $last_updated = '';
+    public $id;
 
-    public function __construct(
-        \prime\models\ar\Workspace $workspace,
-        array $config = []
-    ) {
-        parent::__construct($config);
+    public function __construct(\prime\models\ar\Workspace $workspace)
+    {
+        parent::__construct([]);
         $this->workspace = $workspace;
     }
 
-    public function init()
-    {
-        parent::init();
-        $this->scenario = self::SCENARIO_SEARCH;
-    }
-
-    public function rules()
+    public function rules(): array
     {
         return [
-//            [['created'], SafeValidator::class],
             [['hf_id', 'date', 'last_updated'], StringValidator::class],
             [['id'], NumberValidator::class],
-        ];
-    }
-
-    public function scenarios()
-    {
-        return [
-            self::SCENARIO_SEARCH => [
-                'last_updated',
-                'hf_id',
-                'date',
-                'id'
-            ]
         ];
     }
 
@@ -83,7 +67,9 @@ class Response extends \prime\models\ar\Response
         if (!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
-        $query->andFilterWhere(['like', 'title', trim($this->title)]);
+        $query->andFilterWhere(['like', 'hf_id', trim($this->hf_id)]);
+        $query->andFilterWhere(['like', 'date', trim($this->date)]);
+        $query->andFilterWhere(['like', 'last_updated', trim($this->last_updated)]);
         $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }

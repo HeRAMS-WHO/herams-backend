@@ -8,9 +8,7 @@ namespace {
     define('TEST_OTHER_USER_ID', 3);
 
     call_user_func(function () {
-        define('YII_ENV', getenv('YII_ENV'));
-        defined('YII_DEBUG') or define('YII_DEBUG', true);
-        defined('CONSOLE') or define('CONSOLE', true);
+        require_once 'constants.php';
 
         $autoload = __DIR__ . '/../vendor/autoload.php';
         if (!file_exists($autoload)) {

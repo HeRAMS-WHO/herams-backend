@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\widgets;
 
@@ -12,10 +12,8 @@ use yii\helpers\Html;
 
 class FormButtonsWidget extends Widget
 {
-    /**
-     * @var Form
-     */
-    public $form;
+    public Form $form;
+
     public $buttons = [];
 
     public function init()

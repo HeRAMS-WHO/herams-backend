@@ -6,7 +6,7 @@ use yii\bootstrap\NavBar;
 /**
  * @var \yii\web\View $this
  */
-
+assert($this instanceof \prime\components\View);
 $visible = false;
 
 if (isset($this->params['subMenu'], $this->params['subMenu']['items'])) {

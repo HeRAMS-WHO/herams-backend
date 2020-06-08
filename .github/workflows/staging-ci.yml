@@ -32,6 +32,7 @@ jobs:
       - run: composer install --ignore-platform-reqs
       - run: docker-compose build
       - run: docker-compose run --rm codeception run --coverage-xml
+      - run: composer stan
       - run: wget https://scrutinizer-ci.com/ocular.phar
       - run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
   deploy:

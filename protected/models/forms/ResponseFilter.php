@@ -134,10 +134,11 @@ class ResponseFilter extends Model
             $title = strtok(strip_tags($answer->getText()), ':(');
             if (is_string($title) && strpos($title, '/') !== false) {
                 $parts = explode('/', $title, 2);
-                if (isset($result[$parts[0]])) {
-                    $result[$parts[0]][$answer->getCode()] = $title;
+                $group = trim($parts[0]);
+                if (isset($result[$group])) {
+                    $result[$group][$answer->getCode()] = $title;
                 } else {
-                    $result[$parts[0]] = [
+                    $result[$group] = [
                         $answer->getCode() => $title
                     ];
                 }
@@ -147,14 +148,6 @@ class ResponseFilter extends Model
         }
         return $result;
     }
-
-    public function attributeHints()
-    {
-        return [
-            'date' => \Yii::t('app', 'Enter a date to limit the export to the last record before or equal to the selected date for each health facility. To export all historic records of a health facility, leave the field blank.')
-        ];
-    }
-
 
     public function getAttributeLabel($attribute)
     {

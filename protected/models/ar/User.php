@@ -22,6 +22,7 @@ use function iter\chain;
  * Class User
  * @property string $name
  * @property int $id
+ * @property string $password_hash
  * @property Favorite[] $favorites
  */
 class User extends ActiveRecord implements IdentityInterface {
@@ -94,12 +95,14 @@ class User extends ActiveRecord implements IdentityInterface {
         return null;
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'name' => \Yii::t('app', 'Name'),
+            'email' => \Yii::t('app', 'Email'),
+            'password_hash' => \Yii::t('app', 'Password hash'),
             'language' => \Yii::t('app', 'Language'),
-        ];
+        ]);
     }
 
 

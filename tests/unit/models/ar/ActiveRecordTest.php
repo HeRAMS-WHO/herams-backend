@@ -8,8 +8,7 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 
 /**
- * Class ActiveRecordTest
- * @package prime\tests\unit\models\ar
+ * @covers \prime\models\ActiveRecord
  */
 abstract class ActiveRecordTest extends ModelTest
 {

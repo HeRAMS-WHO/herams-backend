@@ -10,6 +10,9 @@ use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Json;
 
+/**
+ * @covers \prime\actions\ExportAction
+ */
 class ExportCest
 {
     public function testNotFound(FunctionalTester $I)

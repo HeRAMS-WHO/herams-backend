@@ -20,6 +20,7 @@ use yii\validators\RequiredValidator;
  * @property string|\DateTimeInterface $date The date of the information
  * @property int $survey_id
  * @property array $data
+ * @property string $hf_id
  * @property Workspace $workspace
  * @property Project $project
  */

@@ -16,6 +16,19 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => \Yii::t('app', 'Id'),
+            'title' => \Yii::t('app', 'Title'),
+            'created' => \Yii::t('app', 'Created at'),
+            'created_at' => \Yii::t('app', 'Created at'),
+            'last_login_at' => \Yii::t('app', 'Last login at'),
+            'updated_at' => \Yii::t('app', 'Updated at'),
+        ];
+    }
+
+
     /**
      * Returns a field useful for displaying this record
      * @return string

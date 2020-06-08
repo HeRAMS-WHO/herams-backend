@@ -20,5 +20,4 @@ class Form extends \kartik\builder\Form
         }
         return parent::renderActiveInput($form, $model, $attribute, $settings);
     }
-
 }

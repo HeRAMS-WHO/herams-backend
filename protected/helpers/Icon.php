@@ -20,9 +20,20 @@ use yii\helpers\Inflector;
  * @method static string signOutAlt(array $options = [])
  * @method static string windowMaximize(array $options = [])
  * @method static string admin(array $options = [])
+ * @method static string partner(array $options = [])
+ * @method static string bug(array $options = [])
+ * @method static string close(array $options = [])
+ * @method static string home(array $options = [])
+ * @method static string chevronLeft(array $options = [])
  * @method static string chevronRight(array $options = [])
  * @method static string chevronDown(array $options = [])
  * @method static string chevronUp(array $options = [])
+ * @method static string star(array $options = [])
+ * @method static string question(array $options = [])
+ * @method static string paintBrush(array $options = [])
+ * @method static string search(array $options = [])
+ * @method static string list(array $options = [])
+ *
  *
  * @method static string heart(array $options = [])
  *

@@ -10,6 +10,17 @@ return [
         }
         $result = new \kartik\grid\ActionColumn($config);
         return $result;
+    },
+    \kartik\switchinput\SwitchInput::class => static function(Container $container, array $params, array $config) {
+        $config = \yii\helpers\ArrayHelper::merge([
+            'pluginOptions' => [
+                'offText' => \Yii::t('app', 'Off'),
+                'onText' => \Yii::t('app', 'On'),
+            ]
+        ], $config);
+        return new \kartik\switchinput\SwitchInput($config);
     }
+
+
 
 ];

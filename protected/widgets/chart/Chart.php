@@ -3,7 +3,6 @@
 
 namespace prime\widgets\chart;
 
-
 use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
@@ -25,9 +24,6 @@ class Chart extends Element
     public $code;
 
     public $type = self::TYPE_DOUGHNUT;
-
-    /** @var SurveyInterface */
-    public $survey;
 
     /** @var ?string The title to use, if not set will fall back to retrieving it from the survey */
     public $title;
@@ -61,15 +57,15 @@ class Chart extends Element
                     die('unknown' . $question->getDimensions());
             }
         } catch (\InvalidArgumentException $e) {
-            switch($this->code) {
+            switch ($this->code) {
                 case 'subjectAvailabilityBucket':
                 case 'availability':
                 case 'fullyAvailable':
                     return $this->getAnswers($this->code);
                 case 'causes':
                     $expr = strtr($this->element->project->getMap()->getSubjectExpression(), ['$' => 'x$']);
-                    foreach($this->survey->getGroups() as $group) {
-                        foreach($group->getQuestions() as $question) {
+                    foreach ($this->survey->getGroups() as $group) {
+                        foreach ($group->getQuestions() as $question) {
                             if (preg_match($expr, $question->getTitle())) {
                                 return $this->getAnswers($question->getTitle());
                             }
@@ -79,7 +75,6 @@ class Chart extends Element
                 default:
                     $map = [];
             }
-
         }
         return array_merge($this->map ?? [], $map);
     }
@@ -109,19 +104,17 @@ class Chart extends Element
 
             // Call this method on each response.
             $counts = [];
-            foreach($responses as $response) {
+            foreach ($responses as $response) {
                 $value = $response->$getter();
                 if (!$this->skipEmpty || !empty($value)) {
                     if (is_scalar($value)) {
                         $counts[$value] = ($counts[$value] ?? 0) + 1;
                     } else {
-                        foreach($value as $subValue) {
+                        foreach ($value as $subValue) {
                             $counts[$subValue] = ($counts[$subValue] ?? 0) + 1;
                         }
                     }
-
                 }
-
             }
             ksort($counts);
             return $counts;
@@ -132,7 +125,7 @@ class Chart extends Element
     {
         $result = [];
 
-        foreach($map as $key => $label) {
+        foreach ($map as $key => $label) {
             if ($this->skipEmpty && !array_key_exists($key, $counts)) {
                 continue;
             }
@@ -141,7 +134,7 @@ class Chart extends Element
             unset($counts[$key]);
         }
 
-        foreach($counts as $key => $value) {
+        foreach ($counts as $key => $value) {
             $result[$key] = $value;
         }
 
@@ -157,11 +150,11 @@ class Chart extends Element
     private function getCounts(iterable $responses, string $code, int $top = 3): array
     {
         $result = [];
-        foreach($responses as $response) {
+        foreach ($responses as $response) {
             $value = $response->getValueForCode($code);
             if (!empty($value)) {
                 if (is_array($value)) {
-                    foreach(take($top, $value) as $answer) {
+                    foreach (take($top, $value) as $answer) {
                         $result[$answer] = ($result[$answer] ?? 0) + 1;
                     }
                 } else {
@@ -175,7 +168,7 @@ class Chart extends Element
         return $result;
     }
 
-    public function run()
+    public function run(): string
     {
         $this->registerClientScript();
 
@@ -194,7 +187,7 @@ class Chart extends Element
 
         $colorMap = $this->colors;
 
-        foreach($unmappedData as $code => $count) {
+        foreach ($unmappedData as $code => $count) {
             $colors[] = $colorMap[strtr($code, ['-' => '_'])] ?? '#000000';
         }
 
@@ -279,10 +272,6 @@ class Chart extends Element
         $jsConfig = Json::encode($config);
 
 
-        echo Html::tag('canvas', '', [
-            'id' => "{$this->getId()}-canvas"
-        ]);
-
         $canvasId = Json::encode("{$this->getId()}-canvas");
         $this->view->registerJs(<<<JS
         (function() {
@@ -292,16 +281,18 @@ class Chart extends Element
         })();
 JS
         );
-        parent::run();
+
+        // Remove closing </div>
+        $parent = substr(parent::run(), 0, -6);
+        $parent .= Html::tag('canvas', '', [
+            'id' => "{$this->getId()}-canvas"
+        ]);
+        $parent .= '</div>';
+        return $parent;
     }
 
     protected function registerClientScript()
     {
-       $this->view->registerAssetBundle(ChartBundle::class);
-
-
-
+        $this->view->registerAssetBundle(ChartBundle::class);
     }
-
-
 }

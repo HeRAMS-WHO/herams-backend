@@ -17,7 +17,7 @@ return [
     'sort' => false,
     // boolean, whether to remove messages that no longer appear in the source code.
     // Defaults to false, which means these messages will NOT be removed.
-    'removeUnused' => false,
+    'removeUnused' => true,
     // boolean, whether to mark messages that no longer appear in the source code.
     // Defaults to true, which means each of these messages will be enclosed with a pair of '@@' marks.
     'markUnused' => true,

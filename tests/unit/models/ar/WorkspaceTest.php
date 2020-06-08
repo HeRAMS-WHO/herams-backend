@@ -3,6 +3,9 @@ namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Project;
 
+/**
+ * @covers \prime\models\ar\Workspace
+ */
 class WorkspaceTest extends ActiveRecordTest
 {
     public function validSamples(): array
@@ -11,8 +14,7 @@ class WorkspaceTest extends ActiveRecordTest
             [
                 [
                     'title' => 'test',
-                    'owner_id' => TEST_USER_ID,
-                    'tool_id' => function() {
+                    'tool_id' => function () {
                         $tool = new Project();
                         $tool->title = 'Test Tool';
                         $tool->base_survey_eid = '12345';
@@ -35,6 +37,4 @@ class WorkspaceTest extends ActiveRecordTest
             ]
         ];
     }
-
-
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
@@ -10,11 +11,10 @@ use prime\models\ActiveRecord;
 use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
+use prime\queries\ResponseQuery;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use SamIT\Yii2\VirtualFields\VirtualFieldQueryBehavior;
 use yii\base\NotSupportedException;
-use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -44,6 +44,7 @@ use function iter\filter;
  * @property-read int $facilityCount
  * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
+ * @property array<string, string> $typemap
  * @property array $overrides
  */
 class Project extends ActiveRecord implements Linkable
@@ -79,18 +80,12 @@ class Project extends ActiveRecord implements Linkable
     }
 
 
-    public static function find()
+    public static function find(): ActiveQuery
     {
-        $result = new ActiveQuery(self::class);
-        $result->attachBehaviors([
-            VirtualFieldQueryBehavior::class => [
-                'class' => VirtualFieldQueryBehavior::class
-            ]
-        ]);
-        return $result;
+        return new ActiveQuery(get_called_class());
     }
 
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
         $this->overrides = array_filter($this->overrides);
         return parent::beforeSave($insert);
@@ -123,7 +118,7 @@ class Project extends ActiveRecord implements Linkable
         return $result;
     }
 
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->typemap = [
@@ -140,7 +135,7 @@ class Project extends ActiveRecord implements Linkable
         $this->status = self::STATUS_ONGOING;
     }
 
-    public function statusOptions()
+    public function statusOptions(): array
     {
         return [
             self::STATUS_ONGOING => 'Ongoing',
@@ -150,12 +145,18 @@ class Project extends ActiveRecord implements Linkable
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'base_survey_eid' => \Yii::t('app', 'Survey'),
-            'title' => \Yii::t('app', 'Title'),
-        ];
+            'hidden' => \Yii::t('app', 'Hidden'),
+            'latitude' => \Yii::t('app', 'Latitude'),
+            'longitude' => \Yii::t('app', 'Longitude'),
+            'status' => \Yii::t('app', 'Status'),
+            'typemap' => \Yii::t('app','Typemap'),
+            'visibility' => \Yii::t('app', 'Visibility'),
+            'overrides' => \Yii::t('app', 'Overrides')
+        ]);
     }
 
     public function attributeHints()
@@ -168,23 +169,17 @@ class Project extends ActiveRecord implements Linkable
         ];
     }
 
-    /**
-     * @return LimesurveyDataProvider
-     */
-    protected function limesurveyDataProvider()
+    private function limesurveyDataProvider(): LimesurveyDataProvider
     {
         return app()->limesurveyDataProvider;
     }
 
-    /**
-     * @return \SamIT\LimeSurvey\Interfaces\SurveyInterface
-     */
     public function getSurvey(): SurveyInterface
     {
         return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
     }
 
-    public function dataSurveyOptions()
+    public function dataSurveyOptions(): array
     {
         $existing = Project::find()->select('base_survey_eid')->indexBy('base_survey_eid')->column();
 
@@ -192,40 +187,40 @@ class Project extends ActiveRecord implements Linkable
             return $this->base_survey_eid == $details['sid'] || !isset($existing[$details['sid']]);
         }, $this->limesurveyDataProvider()->listSurveys());
 
-        $result = ArrayHelper::map($surveys, 'sid', function ($details) use ($existing) {
+        $result = ArrayHelper::map($surveys, 'sid', function ($details) {
                 return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
         });
 
         return $result;
     }
 
-    public function getWorkspaces()
+    public function getWorkspaces(): ActiveQuery
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
 
-    public function getTypemapAsJson()
+    public function getTypemapAsJson(): string
     {
         return Json::encode($this->typemap, JSON_PRETTY_PRINT);
     }
 
-    public function getOverridesAsJson()
+    public function getOverridesAsJson(): string
     {
         return Json::encode($this->overrides, JSON_PRETTY_PRINT);
     }
 
-    public function setTypemapAsJson($value)
+    public function setTypemapAsJson($value): void
     {
         $this->typemap = Json::decode($value);
     }
 
-    public function setOverridesAsJson(string $value)
+    public function setOverridesAsJson(string $value): void
     {
         $this->overrides = array_filter(Json::decode($value));
     }
 
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [[
@@ -242,7 +237,7 @@ class Project extends ActiveRecord implements Linkable
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'virtualFields' => [
@@ -323,12 +318,12 @@ class Project extends ActiveRecord implements Linkable
         ];
     }
 
-    public function getResponses(): ActiveQuery
+    public function getResponses(): ResponseQuery
     {
         return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
     }
 
-    public function getTypeCounts()
+    public function getTypeCounts(): array
     {
         if (null !== $result = $this->getOverride('typeCounts')) {
             return $result;

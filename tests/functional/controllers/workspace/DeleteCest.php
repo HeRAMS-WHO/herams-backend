@@ -10,6 +10,9 @@ use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;
 
+/**
+ * @coversNothing
+ */
 class DeleteCest
 {
 

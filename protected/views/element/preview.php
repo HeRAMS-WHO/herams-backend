@@ -7,6 +7,7 @@
 use prime\models\ar\Element;
 
 $this->registerAssetBundle(\prime\assets\DashboardBundle::class);
+$this->registerAssetBundle(\yii\web\JqueryAsset::class);
 $this->registerCss(<<<CSS
     body {
         display: block;

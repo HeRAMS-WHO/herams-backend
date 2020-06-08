@@ -7,6 +7,9 @@ use prime\models\ar\Workspace;
 use prime\models\forms\projects\Token;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\workspace\Import
+ */
 class ImportCest
 {
 
