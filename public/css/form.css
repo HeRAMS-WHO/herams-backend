@@ -112,9 +112,6 @@ form .has-error input{
     right: var(--padding);
 }
 
-.popover .btn-primary {
-    width: 100%;
-}
 
 .bootstrap-switch {
     height: 34px;

@@ -19,35 +19,6 @@ body {
     z-index: 1;
 }
 
-@media (min-width: 710px) {
-    body {
-        display: flex;
-        margin: 0;
-        align-items: center;
-        justify-content: center;
-    }
-    .map {
-        visibility: visible;
-    }
-    .map:after {
-        content: " ";
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        pointer-events: none;
-        z-index: 400;
-    }
-}
-
-@media(min-width: 810px) {
-    .menu {
-        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
-    }
-}
-
 .popover {
     --color: #505050;
     --padding: 40px;
@@ -69,11 +40,11 @@ body {
     display: grid;
     position: relative;
     width: 100%;
-    max-width: 700px;
+    max-width: 1200px;
     margin: 0 auto;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto var(--status-height);
-    grid-template-areas: "intro" "login" "stat" "status";
+    grid-template-rows: 1fr;
+    grid-template-areas: "login" "intro";
 }
 
 .popover-error {
@@ -81,10 +52,6 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto var(--status-height);
     grid-template-areas: "login" "stat" "status";
-}
-
-.popover-error div.centered {
-    padding-bottom: 10px !important;
 }
 
 .popover-error .btn {
@@ -110,7 +77,7 @@ body {
 .popover div.centered {
     grid-column: span 2;
     text-align: center;
-    padding-bottom: 40px;
+    padding: 66px;
     font-size: 40px;
     color: #bbbbbb;
 }
@@ -126,7 +93,7 @@ body {
 }
 
 .popover div.centered span.help {
-    margin-top: 5px;
+    margin-top: 10px;
     font-size: 20px;
     color: #565656;
 }
@@ -146,13 +113,8 @@ body {
     margin-top: 10px;
 }
 
-.popover .signup {
-    margin: 20px 0 0 0;
-    border-top: 1px solid #dddddd;
-    padding: 20px 0 0;
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: space-between;
+.popover .signup, .popover .signin {
+    display: block;
 }
 
 .popover .signup span.title {
@@ -169,11 +131,18 @@ body {
     color: white;
 }
 
+.popover hr {
+    width: 100%;
+    height: 1px;
+    background-color: #c2c2c2;
+    border: none;
+}
+
 .form {
     grid-area: login;
-    padding: 0 var(--padding) var(--padding);
+    padding: 50px 20px 0;
     padding-bottom: 0;
-    margin-bottom: var(--padding);
+    margin-bottom: var(--status-height);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -187,47 +156,109 @@ body {
     flex-grow: 1;
 }
 
-.intro {
-    padding: var(--padding);
-    color: #565656;
-    grid-area: intro;
-    text-align: justify;
-    margin: 0;
-    line-height: 2em;
-    font-size: 16px;
-    padding-bottom: 0;
-}
-
-.intro img {
-    max-width: 200px;
+.form .logo {
+    margin: 0 auto 70px;
+    width: 100%;
+    max-width: 350px;
     display: block;
-    margin: auto;
 }
 
-@media (min-width: 710px) {
-    .popover {
-        padding-top: var(--padding);
-        border-radius: 3px;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr auto var(--status-height);
-        grid-template-areas: "intro  login" "stat   stat" "status status";
-    }
-    .popover-error {
-        grid-template-areas: "login  login" "stat   stat" "status status";
-    }
-    .intro {
-        border-right: var(--gutter-width) solid var(--gutter-color);
-        margin-bottom: var(--padding);
-        padding-bottom: 0;
-        padding-top: 0;
-    }
-    .form {
-        padding: var(--padding);
-        flex-grow: 0;
-    }
-    .intro img {
-        max-width: calc(100% - 64px);
-    }
+.form span {
+    color: var(--primary-button-background-color);
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form .signin {
+    margin-bottom: 40px;
+}
+
+.form .signup {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.form form {
+    display: block;
+    width: 100%;
+}
+
+.form .hint {
+    color: #a09fa4;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0 0 30px;
+}
+
+.form a.request-reset {
+    margin: 25px 0;
+    text-align: right;
+}
+
+.intro {
+    background-color: var(--dark-background-color);
+    grid-area: intro;
+    margin: 0;
+    padding: 30px 0 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto var(--status-height);
+    grid-template-areas: "logo" "description" "stats" "status";
+}
+
+.intro .logo {
+    grid-area: logo;
+    margin: 0 auto;
+    padding: 30px 0 0;
+    width: 80%;
+    max-width: 350px;
+}
+
+.intro header {
+    padding: 40px 30px;
+    margin: 0 auto;
+    line-height: 26px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #ffffff;
+    max-width: 380px;
+    grid-area: description;
+    text-align: left;
+}
+
+.logo .st0 {
+    fill: #4075C3;
+}
+
+.logo .st1 {
+    fill: #4D4D4D;
+}
+
+.logo.white .st1 {
+    fill: #d4d3d1 !important;
+}
+
+.logo .st2 {
+    fill: #D4D3D1;
+}
+
+.logo .st3 {
+    fill: #FFFFFF;
+}
+
+.logo .st4 {
+    fill: #868686;
+}
+
+.intro .stats {
+    padding: 0 20px 20px;
+    grid-area: stats;
 }
 
 .actions {
@@ -243,19 +274,12 @@ body {
     margin-top: 10px;
 }
 
-.popover header {
-    font-size: 24px;
-    color: #353535;
-    font-weight: 600;
-}
-
 .stats {
     display: flex;
     flex-wrap: wrap;
     grid-area: stat;
-    padding-top: 25px;
-    padding-bottom: 25px;
     background-color: var(--dark-background-color);
+    padding: 30px;
 }
 
 .stat {
@@ -263,30 +287,35 @@ body {
     flex-basis: 0;
     color: var(--dark-color);
     text-align: center;
-    font-size: 16px;
+    font-size: 11px;
     border-right: calc(var(--gutter-width) / 2) solid var(--gutter-color);
     /*border-left: calc(var(--gutter-width) / 2) solid var(--gutter-color);*/
+    padding: 0 5px;
 }
 
 .stat:first-child {
     border-left: none;
+    padding: 0 10px 0 0;
 }
 
 .stat:last-child {
     border-right: none;
+    padding: 0 0 0 10px;
 }
 
 .stat svg {
     color: var(--stat-icon-color);
-    font-size: 40px;
+    font-size: 30px;
     display: block;
     margin: auto;
+    width: 100%;
 }
 
 .stat span {
     display: block;
-    margin: auto;
-    font-size: 48px;
+    font-size: 30px;
+    margin: 7px auto 3px;
+    line-height: 30px;
 }
 
 .status {
@@ -297,6 +326,7 @@ body {
     font-weight: bold;
     background-color: #222229;
     color: #ffffff;
+    padding: 0 20px;
 }
 
 .status .value {
@@ -307,4 +337,87 @@ body {
 
 .status .icon {
     vertical-align: middle;
+}
+
+@media (min-width: 768px) {
+    body {
+        display: flex;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+    }
+    .map {
+        visibility: visible;
+    }
+    .map:after {
+        content: " ";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+        z-index: 400;
+    }
+    .popover {
+        border-radius: 3px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "login" "intro";
+    }
+    .popover-error {
+        grid-template-areas: "login  login" "stat   stat" "status status";
+    }
+    .intro {
+        border-right: var(--gutter-width) solid var(--gutter-color);
+    }
+    .form {
+        padding: 80px 66px 0;
+        margin-bottom: var(--status-height);
+    }
+    .form form {
+        display: inline-block;
+        max-width: 350px;
+    }
+    .intro {
+        padding: 66px 0 0;
+    }
+    .intro header {
+        padding: 66px 66px 100px;
+        max-width: 450px;
+        line-height: 35px;
+        font-size: 19px;
+    }
+    .form span {
+        display: inline-block;
+        vertical-align: top;
+        width: 30%;
+    }
+    .popover .signup, .popover .signin {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    .stat {
+        font-size: 17px;
+    }
+    .stat svg, .stat span {
+        font-size: 45px;
+        line-height: 45px;
+    }
+}
+
+@media(min-width: 810px) {
+    .menu {
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+    }
+}
+
+@media(min-width: 1024px) {
+    .popover {
+        grid-template-columns: 1fr ;
+        grid-template-rows: 1fr auto;
+        grid-template-areas: "intro" "login";
+    }
 }
