@@ -75,7 +75,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
-            'title',
+            'title' => [
+                'attribute' => 'title',
+                'value' => static function (Page $model): string {
+                    return \Yii::t('app.pagetitle', $model->title);
+                }
+            ],
+
             'parent_id' => [
                 'attribute' => 'parent_id',
                 'value' => function (Page $model) {

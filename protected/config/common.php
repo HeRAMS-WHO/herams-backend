@@ -160,8 +160,9 @@ return [
             }
         ],
         'i18n' => [
+            'class' => \yii\i18n\I18N::class,
             'translations' => [
-                'app' => [
+                'app*' => [
                     'class' => \yii\i18n\GettextMessageSource::class,
                     'useMoFile' => false,
                     'basePath' => '@vendor/herams-i18n/locales',
@@ -169,7 +170,7 @@ return [
                     'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function(MissingTranslationEvent $event) {
                         $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
                     }
-                ]
+                ],
             ]
         ],
         'mailer' => [

@@ -43,11 +43,11 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     {
         $sourceLanguage = \Yii::$app->sourceLanguage;
         return [
-            \Yii::t('app', 'Overview', null, $sourceLanguage),
-            \Yii::t('app', 'Infrastructure', null, $sourceLanguage),
-            \Yii::t('app', 'Condition', null, $sourceLanguage),
-            \Yii::t('app', 'Functionality', null, $sourceLanguage),
-            \Yii::t('app', 'Accessibility', null, $sourceLanguage)
+            \Yii::t('app.pagetitle', 'Overview', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Infrastructure', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Condition', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Functionality', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Accessibility', null, $sourceLanguage)
         ];
     }
     public function getProject()
