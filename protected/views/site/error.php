@@ -2,6 +2,7 @@
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
+
 /** @var \Throwable $exception */
 assert($exception instanceof \Throwable);
 echo Html::beginTag('div', [
