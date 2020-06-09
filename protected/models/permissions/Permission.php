@@ -54,6 +54,7 @@ class Permission extends ActiveRecord
     public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
+            'user' => \Yii::t('app', 'User'),
             'permissionLabel' => \Yii::t('app', 'Permission')
         ]);
     }
