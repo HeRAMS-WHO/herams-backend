@@ -5,10 +5,9 @@ namespace prime\widgets\PermissionColumn;
 
 
 use prime\assets\PrettyCheckbox;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
-use yii\helpers\Json;
 use yii\helpers\Url;
 
 class PermissionColumn extends DataColumn

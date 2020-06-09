@@ -2,7 +2,7 @@
 
 /** @var \yii\data\DataProviderInterface $projects */
 
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;

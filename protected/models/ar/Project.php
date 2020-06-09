@@ -8,7 +8,6 @@ use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
-use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseQuery;

@@ -1,7 +1,7 @@
 <?php
 
 use prime\components\JwtSso;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\values\Authorizable;

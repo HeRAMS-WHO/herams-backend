@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use prime\rules\AdminRule;
 use prime\rules\AdminShareRule;
 use prime\rules\DashboardRule;

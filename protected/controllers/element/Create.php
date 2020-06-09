@@ -8,7 +8,7 @@ use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;

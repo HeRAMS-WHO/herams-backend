@@ -3,10 +3,9 @@
 
 namespace prime\tests\functional\controllers\project;
 
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
-use SamIT\abac\AuthManager;
 
 class ShareCest
 {

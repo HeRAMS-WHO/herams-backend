@@ -3,7 +3,7 @@
 namespace prime\models\search;
 
 use prime\components\FilteredActiveDataProvider;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Model;
 use yii\data\Sort;
 use yii\validators\NumberValidator;

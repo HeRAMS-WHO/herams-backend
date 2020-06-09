@@ -2,22 +2,20 @@
 
 namespace prime\models\forms;
 
-use kartik\builder\Form;
 use app\components\ActiveForm;
+use kartik\builder\Form;
+use kartik\grid\GridView;
 use kartik\select2\Select2;
 use prime\exceptions\NoGrantablePermissions;
 use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use yii\base\Model;
-use yii\bootstrap\Html;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
-use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
 use yii\validators\ExistValidator;
@@ -160,7 +158,7 @@ class Share extends Model {
             ];
         }
 
-        /** @var Permission $permission */
+        /** @var \prime\models\ar\Permission $permission */
         foreach($this->model->getPermissions()->each() as $permission) {
             $source = $permission->sourceAuthorizable();
             $key = $source->getAuthName() . '|' . $source->getId();
@@ -174,15 +172,12 @@ class Share extends Model {
             $permissions[$key]['permissions'][$permission->permission] = $permission;
 
         }
-        return \kartik\grid\GridView::widget([
+        return GridView::widget([
             'dataProvider' => new ArrayDataProvider([
                 'allModels' => $permissions
             ]),
             'columns' => array_merge([
-                [
-//                    'attribute' => \Yii::t('app', 'User'),
-                    'attribute' => 'user'
-                ],
+                'user',
 //                [
 //                    'class' => \kartik\grid\ActionColumn::class,
 //                    'template' => '{delete}',

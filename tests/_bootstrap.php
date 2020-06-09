@@ -17,7 +17,7 @@ namespace {
         }
 
         require_once $autoload;
-        \prime\models\permissions\Permission::$enableCaching = false;
+        \prime\models\ar\Permission::$enableCaching = false;
 
         $config = require __DIR__ . '/../protected/config/codeception.php';
 

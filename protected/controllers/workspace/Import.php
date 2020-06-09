@@ -6,9 +6,9 @@ namespace prime\controllers\workspace;
 
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\workspace\Import as ImportModel;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

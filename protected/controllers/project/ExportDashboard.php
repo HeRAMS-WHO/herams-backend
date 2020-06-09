@@ -4,8 +4,8 @@
 namespace prime\controllers\project;
 
 
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

@@ -3,8 +3,8 @@
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Url;

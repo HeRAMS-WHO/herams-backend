@@ -6,9 +6,9 @@ namespace prime\rules;
 
 use prime\models\ar\Element;
 use prime\models\ar\Page;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;

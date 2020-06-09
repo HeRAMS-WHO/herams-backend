@@ -1,6 +1,6 @@
 <?php
 
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\db\Migration;
 
 /**

@@ -10,7 +10,7 @@
  */
 
 use kartik\grid\GridView;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;

@@ -9,7 +9,6 @@ use prime\components\LimesurveyDataProvider;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
-use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\queries\ResponseQuery;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;

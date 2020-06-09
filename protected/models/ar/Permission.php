@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\models\permissions;
+namespace prime\models\ar;
 
 use prime\models\ActiveRecord;
 use SamIT\abac\interfaces\Grant;
@@ -54,7 +54,11 @@ class Permission extends ActiveRecord
     public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
-            'user' => \Yii::t('app', 'User'),
+            'source' => \Yii::t('app.permission', 'Source type'),
+            'source_id' => \Yii::t('app.permission', 'Source ID'),
+            'target' => \Yii::t('app.permission', 'Target type'),
+            'target_id' => \Yii::t('app.permission', 'Target ID'),
+            'permission' => \Yii::t('app.permission', 'Permission'),
             'permissionLabel' => \Yii::t('app', 'Permission')
         ]);
     }

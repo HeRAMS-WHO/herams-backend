@@ -13,7 +13,7 @@ echo Html::a(\Yii::t('app','Admin dashboard'), ['/admin'],
     ['class' => $controller->action->uniqueId === 'admin/dashboard' ? 'active' : null]);
 echo Html::a(\Yii::t('app', 'Projects'), ['/project/index'],
     ['class' => $controller->action->uniqueId === 'project/index' ? 'active' : null]);
-if (\Yii::$app->user->can(\prime\models\permissions\Permission::PERMISSION_ADMIN)) {
+if (\Yii::$app->user->can(\prime\models\ar\Permission::PERMISSION_ADMIN)) {
     echo Html::a(\Yii::t('app', 'Users'), ['/user/index'],
         ['class' => $controller->action->uniqueId === 'user/index' ? 'active' : null]);
     echo Html::a(\Yii::t('app', 'Global admins'), ['/admin/share'],

@@ -12,10 +12,9 @@
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),

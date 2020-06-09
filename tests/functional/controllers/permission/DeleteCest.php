@@ -3,9 +3,8 @@
 
 namespace prime\tests\functional\controllers\permission;
 
-use prime\models\ar\Project;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 use yii\helpers\Url;

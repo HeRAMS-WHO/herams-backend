@@ -5,7 +5,7 @@ namespace prime\actions;
 
 
 use prime\components\NotificationService;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQueryInterface;

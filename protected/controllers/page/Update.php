@@ -6,7 +6,7 @@ namespace prime\controllers\page;
 
 use prime\components\NotificationService;
 use prime\models\ar\Page;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

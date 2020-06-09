@@ -4,7 +4,7 @@
 namespace prime\widgets\element;
 
 use prime\helpers\Icon;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Widget;
 use yii\helpers\Html;
 

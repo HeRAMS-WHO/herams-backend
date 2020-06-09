@@ -5,9 +5,9 @@ namespace prime\controllers\workspace;
 
 
 use prime\components\NotificationService;
+use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\workspace\CreateUpdate;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

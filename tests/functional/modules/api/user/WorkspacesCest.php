@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace prime\tests\functional\modules\api\user;
 
 use prime\models\ar\Favorite;
+use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 

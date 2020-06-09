@@ -8,7 +8,7 @@ use kartik\grid\GridView;
 use kartik\helpers\Html;
 use prime\helpers\Icon;
 use prime\models\ar\Element;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;

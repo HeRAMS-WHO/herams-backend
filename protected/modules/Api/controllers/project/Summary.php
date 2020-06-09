@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\project;
 
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
 use yii\base\Action;
-use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\User;

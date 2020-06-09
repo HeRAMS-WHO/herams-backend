@@ -7,7 +7,7 @@ declare(strict_types=1);
  */
 
 
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = [

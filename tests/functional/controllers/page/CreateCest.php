@@ -4,8 +4,7 @@
 namespace prime\tests\functional\controllers\page;
 
 use prime\models\ar\Page;
-use prime\models\ar\Project;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use prime\tests\FunctionalTester;
 
 class CreateCest

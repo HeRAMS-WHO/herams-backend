@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers\user;
 
 use prime\models\ar\Favorite;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\db\IntegrityException;
 use yii\web\ForbiddenHttpException;

@@ -12,7 +12,7 @@
 use dektrium\user\models\UserSearch;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\web\View;

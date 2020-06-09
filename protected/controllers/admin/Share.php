@@ -5,9 +5,9 @@ namespace prime\controllers\admin;
 
 
 use prime\components\NotificationService;
+use prime\models\ar\Permission;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\GlobalPermission;
-use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;

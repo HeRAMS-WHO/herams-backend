@@ -5,7 +5,7 @@ namespace prime\controllers\permission;
 
 
 use prime\helpers\ProposedGrant;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use yii\base\Action;

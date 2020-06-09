@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\controllers\user;
 
 
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\values\Grant;
 use yii\base\Action;

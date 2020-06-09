@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\rules;
 
-use prime\helpers\ProposedGrant;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
