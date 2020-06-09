@@ -116,6 +116,11 @@ body {
     display: block;
 }
 
+
+.popover .signin .btn-primary {
+    width: 100%;
+}
+
 .popover .signup span.title {
     margin-bottom: 10px;
 }
@@ -123,6 +128,7 @@ body {
 .popover .signup .btn-primary {
     background: white;
     color: var(--link-color);
+    margin: 0;
 }
 
 .popover .signup .btn-primary:hover {
@@ -216,7 +222,7 @@ body {
     margin: 0 auto;
     padding: 66px 0 0;
     width: 80%;
-    max-width: 350px;
+    max-width: 370px;
     display: none;
 }
 
@@ -395,14 +401,14 @@ body {
     }
     .intro header {
         padding: 66px;
-        max-width: 350px;
+        max-width: 380px;
         line-height: 30px;
         font-size: 16px;
     }
     .form span {
         display: inline-block;
         vertical-align: top;
-        width: 30%;
+        width: 40%;
     }
     .popover .signup, .popover .signin {
         display: flex;
@@ -464,7 +470,7 @@ body {
         margin: 0 40px;
     }
     .form {
-        padding: 86px 66px 0;
+        padding: 96px 66px 0;
     }
     .popover .signup, .popover .signin {
         display: flex;
@@ -473,7 +479,7 @@ body {
         padding: 86px 0 0;
     }
     .form span {
-        width: 30%;
+        width: 40%;
     }
     .form .signin {
         margin-bottom: 66px;
