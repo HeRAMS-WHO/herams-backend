@@ -2,13 +2,14 @@
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
+
 /** @var \Throwable $exception */
 assert($exception instanceof \Throwable);
 echo Html::beginTag('div', [
     'class' => 'centered',
 
 ]);
-echo Html::img("/img/HeRAMS.png", [
+echo Html::img("/img/HeRAMS.svg", [
     'class' => 'logo',
 ]);
 echo Icon::bug();

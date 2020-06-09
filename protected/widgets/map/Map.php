@@ -31,14 +31,14 @@ class Map extends Widget
 
     public $center = [8.6753, 9.0820];
     public $zoom = 5.4;
-    public float $minZoom = 3;
-    public float $maxZoom = 5;
+    public $minZoom = 3;
+    public $maxZoom = 5;
 
     public $colors;
 
     public $data = [];
 
-    public float $markerRadius = 12.5;
+    public $markerRadius = 12.5;
     public function init()
     {
         $this->colors = $this->colors ?? new JsExpression('chroma.brewer.OrRd');
