@@ -39,7 +39,7 @@ $this->title = \Yii::$app->name;
         ]
     ]);
 
-    echo Html::a(\Yii::t('app', 'Reset password'), ['/user/request-reset'], ['class' => 'request-reset']);
+    echo Html::a(\Yii::t('app', 'Forgot your password ?'), ['/user/request-reset'], ['class' => 'request-reset']);
     echo Html::submitButton(\Yii::t('app', 'Log in'), ['class' => 'btn btn-primary', 'form' => 'login-form']);
     ActiveForm::end();
     
@@ -47,11 +47,7 @@ $this->title = \Yii::$app->name;
     echo Html::tag('hr');
     echo Html::beginTag('div', ['class' => 'signup']);
     echo Html::tag('span', \Yii::t('app', "Register"), ['class' => 'title']);
-    
     echo Html::beginTag('form');
-    echo Html::tag('p', \Yii::t('app', 'Enter your email to receive a secure link to the 
-sign up form'), ['class' => 'hint']);
-
-    echo Html::a(\Yii::t('app', "Request account"), ['/user/request-account'], ['class' => 'btn btn-primary']);
+    echo Html::a(\Yii::t('app', "Register"), ['/user/request-account'], ['class' => 'btn btn-primary']);
     echo Html::endTag('div');
     echo Html::endTag('div');
