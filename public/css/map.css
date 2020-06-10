@@ -222,7 +222,7 @@ body {
     margin: 0 auto;
     padding: 66px 0 0;
     width: 80%;
-    max-width: 370px;
+    max-width: 380px;
     display: none;
 }
 
@@ -231,7 +231,7 @@ body {
     margin: 0 auto 50px auto;
     line-height: 26px;
     font-size: 15px;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
     color: #ffffff;
     max-width: 380px;
     grid-area: description;
@@ -242,11 +242,8 @@ body {
     fill: #4075C3;
 }
 
-.logo .st1 {
-    fill: #4D4D4D;
-}
 
-.logo.white .st1 {
+svg .st1 {
     fill: #d4d3d1 !important;
 }
 
@@ -402,7 +399,7 @@ body {
     .intro header {
         padding: 66px;
         max-width: 380px;
-        line-height: 30px;
+        line-height: 32px;
         font-size: 16px;
     }
     .form span {
