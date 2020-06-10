@@ -45,22 +45,6 @@ class Map extends Widget
         parent::init();
     }
 
-    /**
-     * This is the popup content that will be shown while the data is being fetched.
-     * @return string
-     */
-    private function renderPopupLoader(): string
-    {
-        \Yii::t('app', 'Loading project summary');
-        return <<<HTML
-        <div class="loader-wrapper">
-            <div class="loader-anim" style="background-image: url('/img/herams_icon.png');"></div>
-            <h1><$loading</h1>
-            <div class="loader-anim" style="background-image: url('/img/loader.svg');"></div>
-        </div>
-HTML;
-    }
-
     public function run()
     {
         $this->registerClientScript();
