@@ -540,10 +540,6 @@ body {
 .form-content h3 {
     margin: 0 0 30px;
 }
-.layout-form .form-content button {
-    float: right;
-    margin-right: 0px;
-}
 
 .form-bg {
     background: white;

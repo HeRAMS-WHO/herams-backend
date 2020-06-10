@@ -5,20 +5,23 @@ namespace prime\controllers\session;
 
 
 use prime\models\forms\LoginForm;
+use prime\models\forms\user\RequestAccountForm;
 use yii\base\Action;
+use yii\caching\CacheInterface;
 use yii\web\Request;
 use yii\web\User;
 
 class Create extends Action
 {
 
-    public function run(User $user, Request $request)
+    public function run(User $user, Request $request, CacheInterface $cache)
     {
         if (!$user->getIsGuest()) {
             return $this->controller->goHome();
         }
 
         $model = new LoginForm();
+
 
         if ($model->load($request->getBodyParams())
             && $model->login()
@@ -27,7 +30,8 @@ class Create extends Action
         }
 
         return $this->controller->render('create', [
-            'model' => $model
+            'model' => $model,
+            'requestAccountForm' => new RequestAccountForm($cache)
         ]);
     }
 }
