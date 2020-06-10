@@ -14,7 +14,7 @@ $this->beginContent('@views/layouts/map.php');
     <div class="intro">
         <?php
             echo Html::img('@web/img/HeRAMS.png');
-            echo Html::tag('p', \Yii::t('app', "The Health Resources and Services Availability Monitoring System is a collaborative process for the monitoring of essential health resources and services in support to the identification of needs, gaps and priorities"));
+            echo Html::tag('p', \Yii::t('app', "The Health Resources and Services Availability Monitoring System (HeRAMS) is a collaborative approach aimed at ensuring that core information on essential health resources and services is systematically shared and readily available to decision makers at country, regional and global levels"));
         ?>
     </div>
     <div class="form">
