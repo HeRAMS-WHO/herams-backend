@@ -227,8 +227,8 @@ body {
 }
 
 .intro header {
-    padding: 40px 30px;
-    margin: 0 auto 50px auto;
+    padding: 40px 20px;
+    margin: 0 auto;
     line-height: 26px;
     font-size: 15px;
     letter-spacing: 1.2px;
@@ -378,11 +378,12 @@ svg .st1 {
     }
     .intro {
         border-right: var(--gutter-width) solid var(--gutter-color);
-        padding: 0;
+        padding: 7vh 0 0;
     }
     .form {
-        padding: 80px 66px 0;
+        padding: 66px 20px;
         margin-bottom: var(--status-height);
+        margin: auto 0;
     }
     .form form {
         display: inline-block;
@@ -397,7 +398,7 @@ svg .st1 {
         width: 100%;
     }
     .intro header {
-        padding: 66px;
+        padding: 10vh 0;
         max-width: 380px;
         line-height: 32px;
         font-size: 16px;
@@ -441,7 +442,6 @@ svg .st1 {
         display: block;
     }
     .form {
-        padding: 70px 40px 0;
         display: block;
     }
     .form .logo {
@@ -467,13 +467,12 @@ svg .st1 {
         margin: 0 40px;
     }
     .form {
-        padding: 96px 66px 0;
     }
     .popover .signup, .popover .signin {
         display: flex;
     }
     .intro .logo {
-        padding: 86px 0 0;
+        padding: 0;
     }
     .form span {
         width: 40%;
