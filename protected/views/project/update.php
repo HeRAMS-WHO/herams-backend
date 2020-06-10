@@ -4,6 +4,7 @@
 
 use app\components\Form;
 use app\components\ActiveForm;
+use prime\widgets\FormButtonsWidget;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
@@ -61,12 +62,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'rows' => 10
                 ]
             ],
-            \prime\widgets\FormButtonsWidget::embed([
+            FormButtonsWidget::embed([
+                'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
                 'buttons' => [
                     [
                         'label' => \Yii::t('app', 'Update project'),
                         'options' => ['class' => 'btn btn-primary'],
                     ],
+                    Html::a(\Yii::t('app', 'Back to list'), ['/project'], ['class' => 'btn btn-default']),
                 ]
             ])
         ]

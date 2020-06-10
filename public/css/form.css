@@ -58,10 +58,10 @@ form .has-error input{
     width: 100%;
 }
 
-.form-group .btn-group {
-    padding-left: 15px;
-    padding-right: 15px;
-}
+/*.form-group .btn-group {*/
+/*    padding-left: 15px;*/
+/*    padding-right: 15px;*/
+/*}*/
 .form-group {
     margin-bottom: 5px;
 }
@@ -116,3 +116,30 @@ form .has-error input{
 .bootstrap-switch {
     height: 34px;
 }
+
+/**
+ * BEGIN CSS for formbuttons widget
+ */
+.formbuttons {
+    display: block;
+}
+.formbuttons.orientation-right {
+    float: right;
+
+}
+.formbuttons > *, .popover .formbuttons > * {
+    display: inline-block;
+}
+.formbuttons.orientation-block > * {
+    display: block;
+    width: 100%;
+    float: none;
+    border-radius: 6px !important;
+}
+
+.formbuttons.orientation-block > a {
+    text-align: right;
+}
+/**
+ * END CSS for formbuttons widget
+ */

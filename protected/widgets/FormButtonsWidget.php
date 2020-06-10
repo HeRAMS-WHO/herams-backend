@@ -12,45 +12,23 @@ use yii\helpers\Html;
 
 class FormButtonsWidget extends Widget
 {
+    public const ORIENTATION_RIGHT = 'right';
+    public const ORIENTATION_LEFT = 'left';
+    public const ORIENTATION_BLOCK = 'block';
     public Form $form;
 
     public $buttons = [];
 
-    public function init()
+    public string $orientation = self::ORIENTATION_RIGHT;
+
+    public function run(): string
     {
-        parent::init();
-        if (!$this->form instanceof Form) {
-            throw new InvalidConfigException("Form must be an instance of Form");
-        }
-    }
-
-    public function run()
-    {
-        if (isset($this->form->form)) {
-            if (!isset($this->form->form->formConfig['deviceSize'])) {
-                $this->form->form->formConfig['deviceSize'] = null;
-            }
-            if (!isset($this->form->form->formConfig['labelSpan'])) {
-                $this->form->form->formConfig['labelSpan'] = null;
-            }
-
-            $class = $this->form->form->getFormLayoutStyle()['offsetCss'] ?? [];
-            Html::addCssClass($this->options, $class);
-        }
-
-
         return $this->renderButtons();
     }
 
-    protected function renderButtons()
+    protected function renderButtons(): string
     {
-        if (isset($this->form->form->staticOnly)
-            && $this->form->form->staticOnly
-        ) {
-            return Html::tag('p', \Yii::t('app', "You do not have permission to change these values."));
-        }
-
-        Html::addCssStyle($this->options, ['display' => 'block'], false);
+        Html::addCssClass($this->options, 'formbuttons orientation-' . $this->orientation);
         return Html::tag('div', ButtonGroup::widget([
             'buttons' => $this->buttons,
             'options' => $this->options
@@ -63,10 +41,7 @@ class FormButtonsWidget extends Widget
 
         return [
             'type' => Form::INPUT_RAW,
-            'value' => function($model, $index, Form $form) use ($config) {
-                $config['form'] = $form;
-                return static::widget($config);
-            }
+            'value' => static::widget($config)
         ];
     }
 

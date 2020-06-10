@@ -2,6 +2,7 @@
 
 use app\components\Form;
 use kartik\form\ActiveForm;
+use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
 $this->title = \Yii::$app->name;
@@ -35,19 +36,46 @@ $this->title = \Yii::$app->name;
                 'options' => [
                     'autocomplete' => 'current-password'
                 ]
-            ]
+            ],
+            FormButtonsWidget::embed([
+                'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
+                'buttons' => [
+                    Html::a(\Yii::t('app', 'Forgot your password ?'), ['/user/request-reset'], ['class' => 'request-reset']),
+                    Html::submitButton(\Yii::t('app', 'Log in'), ['class' => 'btn btn-primary', 'form' => 'login-form'])
+                ]
+            ])
         ]
     ]);
 
-    echo Html::a(\Yii::t('app', 'Forgot your password ?'), ['/user/request-reset'], ['class' => 'request-reset']);
-    echo Html::submitButton(\Yii::t('app', 'Log in'), ['class' => 'btn btn-primary', 'form' => 'login-form']);
     ActiveForm::end();
     
     echo Html::endTag('div');
     echo Html::tag('hr');
-    echo Html::beginTag('div', ['class' => 'signup']);
-    echo Html::tag('span', \Yii::t('app', "Register"), ['class' => 'title']);
-    echo Html::beginTag('form');
-    echo Html::a(\Yii::t('app', "Register"), ['/user/request-account'], ['class' => 'btn btn-primary']);
-    echo Html::endTag('div');
+        echo Html::beginTag('div', ['class' => 'signup']);
+        echo Html::tag('span', \Yii::t('app', "Register"), ['class' => 'title']);
+        echo Form::widget([
+            'model' => $requestAccountForm,
+            'form' => $form = ActiveForm::begin([
+                'action' => ['/user/request-account'],
+                'id' => 'request-form',
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
+                'validateOnBlur' => true,
+                'validateOnType' => false,
+                'validateOnChange' => false,
+                'type' => ActiveForm::TYPE_VERTICAL,
+            ]),
+            'columns' => 1,
+            'attributes' => [
+                'email' => ['type' => Form::INPUT_TEXT],
+                FormButtonsWidget::embed([
+                    'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
+                    'buttons' => [
+                        Html::submitButton(\Yii::t('app', 'Register'), ['class' => 'btn btn-primary'])
+                    ]
+                ])
+            ]
+        ]);
+        ActiveForm::end();
+        echo Html::endTag('div');
     echo Html::endTag('div');
