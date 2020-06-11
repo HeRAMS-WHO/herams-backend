@@ -18,7 +18,7 @@ class BarChart extends Element
     {
         return new ChartWidget($this, array_merge(
             [
-//                'type' => ChartWidget::TYPE_BAR,
+                'type' => ChartWidget::TYPE_BAR,
                 'skipEmpty' => true,
                 'data' => $data,
                 'survey' => $survey,

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use League\ISO3166\ISO3166;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
@@ -14,11 +15,13 @@ use prime\queries\ResponseQuery;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\base\NotSupportedException;
+use yii\db\DefaultValueConstraint;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\validators\BooleanValidator;
+use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -41,6 +44,7 @@ use function iter\filter;
  * @property-read int $contributorCount
  * @property-read string $latestDate
  * @property-read int $facilityCount
+ * @property ?string $country
  * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
  * @property array<string, string> $typemap
@@ -147,6 +151,7 @@ class Project extends ActiveRecord implements Linkable
     public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
+            'country' => \Yii::t('app', 'Country'),
             'base_survey_eid' => \Yii::t('app', 'Survey'),
             'hidden' => \Yii::t('app', 'Hidden'),
             'latitude' => \Yii::t('app', 'Latitude'),
@@ -161,6 +166,8 @@ class Project extends ActiveRecord implements Linkable
     public function attributeHints()
     {
         return [
+            'country' => \Yii::t('app', 'Only countries with an ISO3166 Alpha-3:wq
+             code are listed'),
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
             'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
@@ -232,7 +239,16 @@ class Project extends ActiveRecord implements Linkable
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
             [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())],
-            [['visibility'], RangeValidator::class, 'range' => array_keys($this->visibilityOptions())]
+            [['visibility'], RangeValidator::class, 'range' => array_keys($this->visibilityOptions())],
+            [['country'], function() {
+                $data = new ISO3166();
+                try {
+                    $data->alpha3($this->country);
+                } catch (\Throwable $t) {
+                    $this->addError('country', $t->getMessage());
+                }
+            }],
+            [['country'], DefaultValueValidator::class, 'value' => null]
         ];
     }
 

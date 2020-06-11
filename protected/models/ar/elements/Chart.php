@@ -3,7 +3,6 @@
 
 namespace prime\models\ar\elements;
 
-
 use prime\models\ar\Element;
 use prime\widgets\chart\Chart as ChartWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -23,15 +22,12 @@ class Chart extends Element
     protected function getWidgetInternal(
         SurveyInterface $survey,
         iterable $data
-    ): Widget
-    {
+    ): Widget {
         return new ChartWidget($this, array_merge($this->getWidgetConfig(), [
             'data' => $data,
             'skipEmpty' => true,
             'survey' => $survey,
         ]));
-
-
     }
 
     public function setChartType(string $value): void
