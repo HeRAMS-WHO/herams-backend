@@ -79,7 +79,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_RAW,
                 'value' => ButtonGroup::widget([
                     'buttons' => [
-                        ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                        ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]],
+                        Html::a(\Yii::t('app', 'Back to list'), ['project/pages', 'id' => $page->project_id], ['class' => ['btn', 'btn-default']])
                     ]
                 ])
             ]
