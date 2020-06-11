@@ -120,7 +120,7 @@ CREATE TABLE `prime2_element` (
   `width` tinyint unsigned NOT NULL DEFAULT '1',
   `height` tinyint unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=290 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,6 +296,7 @@ CREATE TABLE `prime2_project` (
   `typemap` json NOT NULL,
   `overrides` json NOT NULL,
   `visibility` varchar(10) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'public',
+  `country` char(3) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`),
   UNIQUE KEY `survey` (`base_survey_eid`)

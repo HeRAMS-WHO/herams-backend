@@ -122,7 +122,6 @@ services:
       - devdb
     environment:
       PMA_HOSTS: testdb,devdb
-      PMA_HOST: devdb
       PMA_PASSWORD: $DB_PASS
       PMA_USER: $DB_USER
     ports:

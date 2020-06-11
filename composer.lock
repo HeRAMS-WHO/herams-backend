@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "455000ec78e2a732d7a0ddb09eff4f2e",
+    "content-hash": "858f1e6e901fed9d261f58cf6a58fe73",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -3457,6 +3457,57 @@
             "time": "2020-02-07T18:42:28+00:00"
         },
         {
+            "name": "comcast/php-legal-licenses",
+            "version": "v1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Comcast/php-legal-licenses.git",
+                "reference": "827c2b335a451d76bea74d172a9453767f7f58a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Comcast/php-legal-licenses/zipball/827c2b335a451d76bea74d172a9453767f7f58a6",
+                "reference": "827c2b335a451d76bea74d172a9453767f7f58a6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^5.6 || ^7.1 || ^7.2 || ^7.3 || ^7.4",
+                "symfony/console": "~2.3|~3.0|~4.0|~5.0",
+                "symfony/process": "~2.3|~3.0|~4.0|~5.0"
+            },
+            "bin": [
+                "bin/php-legal-licenses"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Marshall",
+                    "email": "adam_marshall2@comcast.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "A utility to generate a Licenses file containing the full license text for every dependency in your project for legal purposes.",
+            "homepage": "https://github.com/Comcast/php-legal-licenses",
+            "keywords": [
+                "binary",
+                "legal",
+                "license",
+                "licenses",
+                "utility"
+            ],
+            "time": "2020-01-22T22:43:35+00:00"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.3.1",
             "source": {
@@ -6328,6 +6379,70 @@
                 }
             ],
             "time": "2020-05-12T16:47:27+00:00"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "7f6378c1fa2147eeb1b4c385856ce9de0d46ebd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/7f6378c1fa2147eeb1b4c385856ce9de0d46ebd1",
+                "reference": "7f6378c1fa2147eeb1b4c385856ce9de0d46ebd1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/polyfill-php80": "^1.15"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-05-30T20:35:19+00:00"
         },
         {
             "name": "symfony/service-contracts",

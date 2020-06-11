@@ -90,7 +90,8 @@
         "brainmaestro/composer-git-hooks": "^2.8",
         "phpstan/phpstan": "^0.12",
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
-        "herams-i18n": "dev-master"
+        "herams-i18n": "dev-master",
+        "comcast/php-legal-licenses": "^1.1"
     },
     "repositories": [
         {
@@ -123,7 +124,11 @@
         "post-install-cmd": "cghooks add --ignore-lock",
         "post-update-cmd": "cghooks update",
         "dlint-fix": "docker-compose run --rm --user=$(id -u):$(id -g) composer lint-fix",
-        "git-pre-commit": ["composer dlint-fix"],
+        "git-pre-commit": [
+            "composer dlint-fix",
+            "composer stan",
+            "composer test"
+        ],
         "git-post-merge": [
             "composer install"
         ]
