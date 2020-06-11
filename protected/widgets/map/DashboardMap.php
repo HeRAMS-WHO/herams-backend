@@ -97,6 +97,10 @@ class DashboardMap extends Element
                     ];
                 }
 
+                $pointData = [];
+                foreach(['MoSD2', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                    $pointData[$key] = $response->getValueForCode($key);
+                }
                 $point = [
                     "type" => "Feature",
                     "geometry" => [
@@ -105,7 +109,8 @@ class DashboardMap extends Element
                     ],
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
-                        'id' => $response->getId()
+                        'id' => $response->getId(),
+                        'data' => $pointData
                     ]
 
 //                'subtitle' => '',
@@ -178,7 +183,8 @@ class DashboardMap extends Element
                             return e.feature.properties.title;
                         }),
                         layer.bindPopup(function(e) {
-                            return e.feature.properties.title;
+                            // Added data for #408
+                            return JSON.stringify(e.feature.properties.data);
                         });
                         layer.addTo(map);
                         
