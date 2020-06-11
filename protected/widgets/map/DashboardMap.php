@@ -93,7 +93,7 @@ class DashboardMap extends Element
                         'features' => [],
                         "title" => $types[$value] ?? $value ?? 'Unknown',
                         'value' => $value,
-                        'color' => $this->colors[$value] ?? '#000000'
+                        'color' => $this->colors[strtr($value, ['-' => '_'])] ?? '#000000'
                     ];
                 }
 

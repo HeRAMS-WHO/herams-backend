@@ -23,5 +23,5 @@ $this->registerCss(<<<CSS
 CSS
 );
 echo \yii\helpers\Html::beginTag('div', ['class'=> 'content']);
-$element->getWidget($survey, $data, $element->page)->run();
+echo $element->getWidget($survey, $data, $element->page)->run();
 echo \yii\helpers\Html::endTag('div');

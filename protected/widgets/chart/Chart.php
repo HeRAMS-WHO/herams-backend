@@ -291,7 +291,7 @@ JS
         return $parent;
     }
 
-    protected function registerClientScript()
+    protected function registerClientScript(): void
     {
         $this->view->registerAssetBundle(ChartBundle::class);
     }

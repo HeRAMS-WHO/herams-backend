@@ -82,7 +82,7 @@ class Element extends Model
     }
 
 
-    public function attributeHints()
+    public function attributeHints(): array
     {
         $result = $this->element->attributeHints();
         $result['transpose'] = \Yii::t('app', 'This will reload the page losing all other changes!!');

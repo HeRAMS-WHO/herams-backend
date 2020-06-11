@@ -17,7 +17,7 @@ class Map extends Element
         return $this->getWidgetConfig()['markerRadius'] ?? null;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return array_merge(parent::attributes(), ['markerRadius']);
     }
