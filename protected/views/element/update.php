@@ -109,6 +109,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'visible' => $model->isAttributeSafe('markerRadius')
             ],
+            'chartType' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->isAttributeSafe('chartType') ? $model->chartTypeOptions() : [],
+                'visible' => $model->isAttributeSafe('chartType')
+            ],
         ]
     ]);
 

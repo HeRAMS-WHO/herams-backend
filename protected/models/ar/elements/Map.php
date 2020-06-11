@@ -3,7 +3,6 @@
 
 namespace prime\models\ar\elements;
 
-
 use prime\models\ar\Element;
 use prime\widgets\element\Element as ElementWidget;
 use prime\widgets\map\DashboardMap as MapWidget;
@@ -15,11 +14,6 @@ class Map extends Element
     public function getMarkerRadius(): ?int
     {
         return $this->getWidgetConfig()['markerRadius'] ?? null;
-    }
-
-    public function attributes(): array
-    {
-        return array_merge(parent::attributes(), ['markerRadius']);
     }
 
     public function attributeLabels(): array
@@ -42,14 +36,11 @@ class Map extends Element
     protected function getWidgetInternal(
         SurveyInterface $survey,
         iterable $data
-    ): ElementWidget
-    {
+    ): ElementWidget {
         return new MapWidget($this, array_merge([
             'data' => $data,
             'survey' => $survey,
-        ], $this->getWidgetConfig()
-        ));
-
+        ], $this->getWidgetConfig()));
     }
 
     public function rules()

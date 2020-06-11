@@ -23,7 +23,7 @@ class Chart extends Element
     public $data = [];
     public $code;
 
-    public $type = self::TYPE_DOUGHNUT;
+    public string $chartType = self::TYPE_DOUGHNUT;
 
     /** @var ?string The title to use, if not set will fall back to retrieving it from the survey */
     public $title;
@@ -180,7 +180,7 @@ class Chart extends Element
 
         $pointCount = count($dataSet);
         if ($pointCount > 30) {
-            $this->type = self::TYPE_BAR;
+            $this->chartType = self::TYPE_BAR;
         }
 
         $colors = [];
@@ -192,7 +192,7 @@ class Chart extends Element
         }
 
         $config = [
-            'type' => $this->type,
+            'type' => $this->chartType,
             'data' => [
                 'datasets' => [
                     [
@@ -233,7 +233,7 @@ class Chart extends Element
                 ],
                 'legend' => [
                     'position' => 'right',
-                    'display' => $this->type === self::TYPE_DOUGHNUT,
+                    'display' => $this->chartType === self::TYPE_DOUGHNUT,
                     'labels' => [
                         'boxWidth' => 15
                     ]
@@ -241,7 +241,7 @@ class Chart extends Element
                 'cutoutPercentage' => 80,
 
                 'title' => [
-                    'display' => $this->type === self::TYPE_DOUGHNUT,
+                    'display' => true,
                     'text' => $this->title ?? $this->getTitleFromCode($this->code)
                 ],
                 'responsive' => true,

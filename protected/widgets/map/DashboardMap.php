@@ -98,7 +98,7 @@ class DashboardMap extends Element
                 }
 
                 $pointData = [];
-                foreach(['MoSD2', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                foreach (['MoSD2', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
                     $pointData[$key] = $response->getValueForCode($key);
                 }
                 $point = [
