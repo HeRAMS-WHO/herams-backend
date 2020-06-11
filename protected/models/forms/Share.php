@@ -177,7 +177,10 @@ class Share extends Model {
                 'allModels' => $permissions
             ]),
             'columns' => array_merge([
-                'user',
+                [
+                    'attribute' => 'user',
+                    'label' => \Yii::t('app', 'User')
+                ],
 //                [
 //                    'class' => \kartik\grid\ActionColumn::class,
 //                    'template' => '{delete}',
