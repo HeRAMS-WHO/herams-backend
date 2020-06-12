@@ -116,7 +116,6 @@ body {
     display: block;
 }
 
-
 .popover .signin .btn-primary {
     width: 100%;
 }
@@ -234,13 +233,12 @@ body {
     color: #ffffff;
     max-width: 380px;
     grid-area: description;
-    text-align: left;
+    text-align: justify;
 }
 
 .logo .st0 {
     fill: #4075C3;
 }
-
 
 svg .st1 {
     fill: #d4d3d1 !important;
@@ -324,6 +322,7 @@ svg .st1 {
     line-height: var(--status-height);
     text-align: center;
     font-size: 16px;
+    letter-spacing: 0.4px;
     grid-area: status;
     font-weight: bold;
     background-color: #222229;
@@ -375,7 +374,6 @@ svg .st1 {
     .popover-error {
         grid-template-areas: "login  login" "stat   stat" "status status";
     }
-   
     .form {
         padding: 66px;
         margin-bottom: var(--status-height);
@@ -428,80 +426,9 @@ svg .st1 {
     }
 }
 
-@media(min-width: 1024px) {
+@media (min-width: 1024px)  {
     .popover {
-        max-width: 900px;
-    }
-    .popover.session {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr;
-        grid-template-areas: "intro login";
-        margin: 0 40px;
-    }
-    .popover .signup, .popover .signin {
-        display: block;
-    }
-
-    .intro header {
-        padding: 5vh 0;
-        max-width: 380px;
-    }
-
-    .intro .logo {
-        padding: 0;
-    }
-
-    .form {
-        display: block;
-    }
-    .form .logo {
-        display: none;
-    }
-    .form span {
-        width: 100%;
-    }
-    .intro .logo {
-        display: block;
-        margin: 0 auto;
-    }
-}
-
-@media(min-width: 1200px) {
-    .popover {
-        max-width: 1000px;
-    }
-    .popover.session {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr;
-        grid-template-areas: "intro login";
-        margin: 0 40px;
-    }
-    .form {
-        padding: 5vh 40px;
-    }
-    .popover .signup, .popover .signin {
-        display: flex;
-    }
-    .intro .logo {
-        padding: 0;
-    }
-    .form span {
-        width: 40%;
-    }
-    .form .signin {
-        margin-bottom: 5vh;
-    }
-    .form .signup {
-        margin-top: 5vh;
-    }
-}
-
-
-
-
-@media (min-width: 1200px) and (max-height: 600px) {
-    .popover {
-        max-width: 1000px;
+        max-width: 840px;
     }
     .popover.session {
         grid-template-columns: 1fr 1fr;
@@ -515,17 +442,27 @@ svg .st1 {
     .form {
         padding: 0px 40px;
     }
+
+    .form .logo {
+        display: none;
+    }
     .popover .signup, .popover .signin {
         display: flex;
     }
     .intro .logo {
         padding: 0;
+        max-width: 300px;
+        display: block;
+        margin: 0 auto;
+    }
+    #login-form .control-label, #request-form .control-label {
+        display: none;
     }
     .intro header {
-        padding: 20px 0;
-        max-width: 380px;
-        font-size: 14px;
-        line-height: 27px;
+        padding: 20px 0 40px;
+        max-width: 330px;
+        font-size: 13px;
+        line-height: 24px;
     }
     .form span {
         width: 40%;
@@ -535,5 +472,25 @@ svg .st1 {
     }
     .form .signup {
         margin-top: 20px;
+    }
+    .intro .stats {
+        padding: 0 0 10px;
+    }
+    .stat svg, .stat span {
+        font-size: 23px;
+        line-height: 27px;
+    }
+    .stat {
+        font-size: 13px;
+    }
+    .status {
+        font-size: 13px;
+    }
+    .form span {
+        font-size: 15px;
+        line-height: 15px;
+    }
+    .form a.request-reset {
+        margin: 15px 0;
     }
 }

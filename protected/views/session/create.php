@@ -28,13 +28,15 @@ $this->title = \Yii::$app->name;
             'login' =>[
                 'type' => Form::INPUT_TEXT,
                 'options' => [
-                    'autocomplete' => 'username'
+                    'autocomplete' => 'username',
+                    'placeholder' => 'email'
                 ]
             ],
             'password' => [
                 'type' => Form::INPUT_PASSWORD,
                 'options' => [
-                    'autocomplete' => 'current-password'
+                    'autocomplete' => 'current-password',
+                    'placeholder' => 'password'
                 ]
             ],
             FormButtonsWidget::embed([
@@ -67,7 +69,12 @@ $this->title = \Yii::$app->name;
             ]),
             'columns' => 1,
             'attributes' => [
-                'email' => ['type' => Form::INPUT_TEXT],
+                'email' => [
+                    'type' => Form::INPUT_TEXT,
+                    'options' => [
+                        'placeholder' => 'email'
+                    ]
+                ],
                 FormButtonsWidget::embed([
                     'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
                     'buttons' => [
@@ -78,4 +85,4 @@ $this->title = \Yii::$app->name;
         ]);
         ActiveForm::end();
         echo Html::endTag('div');
-    echo Html::endTag('div');
+        echo Html::endTag('div');
