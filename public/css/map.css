@@ -233,7 +233,7 @@ body {
     color: #ffffff;
     max-width: 380px;
     grid-area: description;
-    text-align: left;
+    text-align: justify;
 }
 
 .logo .st0 {
