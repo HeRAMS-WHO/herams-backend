@@ -8,6 +8,12 @@ class ActiveRecord extends \yii\db\ActiveRecord
 {
     public const SCENARIO_SEARCH = 'search';
 
+    public static function find()
+    {
+        return new ActiveQuery(self::class);
+    }
+
+
     public function beforeSave($insert)
     {
         if ($this->scenario === self::SCENARIO_SEARCH) {
