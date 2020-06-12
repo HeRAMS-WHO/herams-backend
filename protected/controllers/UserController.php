@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
 class UserController extends Controller
 {
     use ActionInjectionTrait;
-    public $layout = 'map-popover-session';
+    public $layout = 'map-popover';
 
     public function actions()
     {
