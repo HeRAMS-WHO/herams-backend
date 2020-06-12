@@ -346,6 +346,7 @@ svg .st1 {
         margin: 0;
         align-items: center;
         justify-content: center;
+        overflow: auto;
     }
     .map {
         visibility: visible;
@@ -425,6 +426,9 @@ svg .st1 {
 }
 
 @media (min-width: 1024px) {
+    body {
+        overflow: hidden;
+    }
     .popover {
         max-width: 840px;
         grid-template-columns: 1fr 1fr;
@@ -439,8 +443,10 @@ svg .st1 {
         padding: 30px 0 0;
     }
     .form {
-        padding: 0px 40px;
+        padding: 66px 40px;
+        margin: 0;
     }
+    
     .form .logo {
         display: none;
     }
