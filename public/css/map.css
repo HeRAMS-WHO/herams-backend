@@ -272,6 +272,7 @@ svg .st1 {
     color: var(--link-color);
     display: block;
     margin-top: 10px;
+    z-index: 1;
 }
 
 .stats {
