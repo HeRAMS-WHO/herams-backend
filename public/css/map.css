@@ -185,7 +185,6 @@ body {
 
 .form .signup {
     margin-top: 40px;
-    margin-bottom: 40px;
 }
 
 .form form {
@@ -213,7 +212,7 @@ body {
     padding: 30px 0 0;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto var(--status-height);
+    grid-template-rows: 90px auto auto var(--status-height);
     grid-template-areas: "logo" "description" "stats" "status";
 }
 
@@ -260,7 +259,7 @@ svg .st1 {
 }
 
 .intro .stats {
-    padding: 0 20px 20px;
+    padding: 0 20px 10px;
     grid-area: stats;
 }
 
@@ -376,18 +375,19 @@ svg .st1 {
     .popover-error {
         grid-template-areas: "login  login" "stat   stat" "status status";
     }
-    .intro {
-        border-right: var(--gutter-width) solid var(--gutter-color);
-        padding: 7vh 0 0;
-    }
+   
     .form {
-        padding: 66px 20px;
+        padding: 66px;
         margin-bottom: var(--status-height);
         margin: auto 0;
     }
     .form form {
         display: inline-block;
         max-width: 350px;
+    }
+    .intro {
+        border-right: var(--gutter-width) solid var(--gutter-color);
+        padding: 5vh 0 0;
     }
     .intro .logo-small {
         width: 100px;
@@ -398,9 +398,9 @@ svg .st1 {
         width: 100%;
     }
     .intro header {
-        padding: 10vh 0;
-        max-width: 380px;
-        line-height: 32px;
+        padding: 0 0 66px;
+        max-width: 370px;
+        line-height: 30px;
         font-size: 16px;
     }
     .form span {
@@ -441,6 +441,16 @@ svg .st1 {
     .popover .signup, .popover .signin {
         display: block;
     }
+
+    .intro header {
+        padding: 5vh 0;
+        max-width: 380px;
+    }
+
+    .intro .logo {
+        padding: 0;
+    }
+
     .form {
         display: block;
     }
@@ -467,6 +477,7 @@ svg .st1 {
         margin: 0 40px;
     }
     .form {
+        padding: 5vh 40px;
     }
     .popover .signup, .popover .signin {
         display: flex;
@@ -478,9 +489,51 @@ svg .st1 {
         width: 40%;
     }
     .form .signin {
-        margin-bottom: 66px;
+        margin-bottom: 5vh;
     }
     .form .signup {
-        margin-top: 66px;
+        margin-top: 5vh;
+    }
+}
+
+
+
+
+@media (min-width: 1200px) and (max-height: 600px) {
+    .popover {
+        max-width: 1000px;
+    }
+    .popover.session {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "intro login";
+        margin: 0 40px;
+    }
+    .intro {
+        padding: 30px 0 0;
+    }
+    .form {
+        padding: 0px 40px;
+    }
+    .popover .signup, .popover .signin {
+        display: flex;
+    }
+    .intro .logo {
+        padding: 0;
+    }
+    .intro header {
+        padding: 20px 0;
+        max-width: 380px;
+        font-size: 14px;
+        line-height: 27px;
+    }
+    .form span {
+        width: 40%;
+    }
+    .form .signin {
+        margin-bottom: 20px;
+    }
+    .form .signup {
+        margin-top: 20px;
     }
 }
