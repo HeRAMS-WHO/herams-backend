@@ -10,7 +10,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     public static function find()
     {
-        return new ActiveQuery(self::class);
+        return new ActiveQuery(static::class);
     }
 
 
@@ -41,15 +41,14 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getDisplayField(): string
     {
-        foreach(['title', 'name'] as $attribute) {
+        foreach (['title', 'name'] as $attribute) {
             if ($this->hasAttribute($attribute)) {
                 return $this->getAttribute($attribute);
             }
         }
 
         $pk = $this->getPrimaryKey();
-        if (is_array($pk))
-        {
+        if (is_array($pk)) {
             $pk = print_r($pk, true);
         }
 
