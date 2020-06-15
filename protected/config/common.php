@@ -165,10 +165,12 @@ return [
                 'app*' => [
                     'class' => \yii\i18n\GettextMessageSource::class,
                     'useMoFile' => false,
-                    'basePath' => '@vendor/herams-i18n/locales',
+                    'basePath' => '@vendor/herams/i18n/locales',
                     'catalog' => 'LC_MESSAGES/app',
                     'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function(MissingTranslationEvent $event) {
-                        $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
+                        if (YII_DEBUG) {
+                            $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
+                        }
                     }
                 ],
             ]

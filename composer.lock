@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "858f1e6e901fed9d261f58cf6a58fe73",
+    "content-hash": "59cc3bb944c4f1f304cc2fae3e4ed253",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -899,21 +899,21 @@
         },
         {
             "name": "kartik-v/yii2-password",
-            "version": "v1.5.4",
+            "version": "v1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-password.git",
-                "reference": "ba94ef669a350bf5cff2d9d2b6c1d771e288de96"
+                "reference": "d3770610abc65f4b442c9575345c4cd06f1b2c1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-password/zipball/ba94ef669a350bf5cff2d9d2b6c1d771e288de96",
-                "reference": "ba94ef669a350bf5cff2d9d2b6c1d771e288de96",
+                "url": "https://api.github.com/repos/kartik-v/yii2-password/zipball/d3770610abc65f4b442c9575345c4cd06f1b2c1e",
+                "reference": "d3770610abc65f4b442c9575345c4cd06f1b2c1e",
                 "shasum": ""
             },
             "require": {
                 "kartik-v/strength-meter": "~1.1",
-                "kartik-v/yii2-krajee-base": ">=1.9"
+                "kartik-v/yii2-krajee-base": ">=2.0"
             },
             "type": "yii2-extension",
             "extra": {
@@ -951,7 +951,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-09-07T05:19:50+00:00"
+            "time": "2020-06-08T16:56:12+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -2452,7 +2452,7 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
@@ -3619,15 +3619,35 @@
             "time": "2019-07-15T17:23:22+00:00"
         },
         {
-            "name": "herams-i18n",
+            "name": "herams/i18n",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/HeRAMS-WHO/herams-i18n",
-                "reference": "master"
+                "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
+                "reference": "bc720d803a268d74a9f46af168c094b5019682ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/bc720d803a268d74a9f46af168c094b5019682ce",
+                "reference": "bc720d803a268d74a9f46af168c094b5019682ce",
+                "shasum": ""
             },
             "type": "library",
-            "time": "2020-05-23T09:53:43+00:00"
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Localizations for HeRAMS",
+            "support": {
+                "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master",
+                "issues": "https://github.com/HeRAMS-WHO/herams-i18n/issues"
+            },
+            "time": "2020-06-15T09:09:31+00:00"
         },
         {
             "name": "ifsnop/mysqldump-php",
@@ -4174,16 +4194,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.26",
+            "version": "0.12.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f108dabe757a584fafc3baabc0fabf4d45e040f1"
+                "reference": "9771daaf6b95c6313b908d0bcdee0afcd51f838a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f108dabe757a584fafc3baabc0fabf4d45e040f1",
-                "reference": "f108dabe757a584fafc3baabc0fabf4d45e040f1",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9771daaf6b95c6313b908d0bcdee0afcd51f838a",
+                "reference": "9771daaf6b95c6313b908d0bcdee0afcd51f838a",
                 "shasum": ""
             },
             "require": {
@@ -4226,7 +4246,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-07T22:01:45+00:00"
+            "time": "2020-06-14T14:10:59+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5497,7 +5517,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -5570,16 +5590,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "00bed125812716d09b163f0727ef33bb49bf3448"
+                "reference": "0f0a271bc9b7d02a053d36fcdcb12662e2a8096e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/00bed125812716d09b163f0727ef33bb49bf3448",
-                "reference": "00bed125812716d09b163f0727ef33bb49bf3448",
+                "url": "https://api.github.com/repos/symfony/console/zipball/0f0a271bc9b7d02a053d36fcdcb12662e2a8096e",
+                "reference": "0f0a271bc9b7d02a053d36fcdcb12662e2a8096e",
                 "shasum": ""
             },
             "require": {
@@ -5659,11 +5679,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-30T20:35:19+00:00"
+            "time": "2020-06-07T19:47:44+00:00"
         },
         {
             "name": "symfony/css-selector",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -5790,7 +5810,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -5866,7 +5886,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -6024,7 +6044,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -6382,7 +6402,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -6518,16 +6538,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "90c2a5103f07feb19069379f3abdcdbacc7753a9"
+                "reference": "ac70459db781108db7c6d8981dd31ce0e29e3298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/90c2a5103f07feb19069379f3abdcdbacc7753a9",
-                "reference": "90c2a5103f07feb19069379f3abdcdbacc7753a9",
+                "url": "https://api.github.com/repos/symfony/string/zipball/ac70459db781108db7c6d8981dd31ce0e29e3298",
+                "reference": "ac70459db781108db7c6d8981dd31ce0e29e3298",
                 "shasum": ""
             },
             "require": {
@@ -6599,11 +6619,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-20T17:43:50+00:00"
+            "time": "2020-06-11T12:16:36+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -6724,12 +6744,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/viest/php-ext-xlswriter-ide-helper.git",
-                "reference": "1f01ef4346c844f8a6fc4d6304f5a494bcc132f0"
+                "reference": "0d9c2d39802e6c1ebbad7d515d860a50c131f12e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/viest/php-ext-xlswriter-ide-helper/zipball/1f01ef4346c844f8a6fc4d6304f5a494bcc132f0",
-                "reference": "1f01ef4346c844f8a6fc4d6304f5a494bcc132f0",
+                "url": "https://api.github.com/repos/viest/php-ext-xlswriter-ide-helper/zipball/0d9c2d39802e6c1ebbad7d515d860a50c131f12e",
+                "reference": "0d9c2d39802e6c1ebbad7d515d860a50c131f12e",
                 "shasum": ""
             },
             "require": {
@@ -6752,7 +6772,7 @@
                 }
             ],
             "description": "PHP Extension Xlswriter IDE Helper",
-            "time": "2020-05-25T15:21:00+00:00"
+            "time": "2020-06-08T13:56:32+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -6865,7 +6885,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "viest/php-ext-xlswriter-ide-helper": 20,
-        "herams-i18n": 20
+        "herams/i18n": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

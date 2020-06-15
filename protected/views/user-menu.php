@@ -12,7 +12,10 @@ use yii\helpers\Url;
 
     ?>
     <?php
-        echo Html::tag('span', "DEBUG CURRENT LANGUAGE: " . \Yii::$app->language);
+        if (YII_DEBUG) {
+            echo Html::tag('span', "DEBUG CURRENT LANGUAGE: " . \Yii::$app->language);
+        }
+
         echo Html::a(Icon::star(), ['/user/favorites']);
         echo Html::a(Icon::admin(), ['/admin/dashboard']);
         echo Html::a(Icon::question(), Url::to('https://docs.herams.org/'), ['target'=> '_blank']);
