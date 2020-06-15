@@ -3,8 +3,10 @@
 
 namespace prime\tests\unit\models\ar;
 
+use prime\models\ar\Favorite;
 use prime\tests\unit\models\ModelTest;
 use yii\base\Model;
+use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 
 /**
@@ -41,13 +43,52 @@ abstract class ActiveRecordTest extends ModelTest
     /**
      * @return ActiveRecord
      */
-    final protected function getModel(): Model
+    final protected function getModel(): \prime\models\ActiveRecord
     {
         $class = strtr(get_class($this), [
             __NAMESPACE__ => 'prime\models\ar',
             'Test' => ''
         ]);
         return new $class;
+    }
+
+
+    public function testGetDisplayField(): void
+    {
+        $this->assertNotEmpty($this->getModel()->getDisplayField());
+    }
+
+    public function testGetDisplayFieldCascade(): void
+    {
+        $model = new class extends \prime\models\ActiveRecord {
+            public function attributes()
+            {
+                return ['name', 'email'];
+            }
+
+            public function getPrimaryKey($asArray = false)
+            {
+                throw new NotSupportedException('This should not be called from the test');
+            }
+
+            public function getAttribute($name)
+            {
+                switch ($name) {
+                    case 'email':
+                        return 'email';
+                    case 'title':
+                        throw new NotSupportedException();
+                    case 'name':
+                        return null;
+                    default:
+                        return parent::getAttribute($name);
+                }
+            }
+        };
+        $this->assertFalse($model->hasAttribute('title'));
+        $this->assertTrue($model->hasAttribute('name'));
+        $this->assertTrue($model->hasAttribute('email'));
+        $this->assertSame('email', $model->displayField);
     }
 
 }

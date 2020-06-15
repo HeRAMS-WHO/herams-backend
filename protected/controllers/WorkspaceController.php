@@ -34,7 +34,7 @@ class WorkspaceController extends Controller
             'configure' => Configure::class,
             'export' => [
                 'class' => ExportAction::class,
-                'subject' => function (Request $request) {
+                'subject' => static function (Request $request) {
                       return Workspace::findOne(['id' => $request->getQueryParam('id')]);
                 },
                 'responseQuery' => static function (Workspace $workspace): ResponseQuery {

@@ -23,6 +23,7 @@ use function iter\chain;
  * @property string $name
  * @property int $id
  * @property string $password_hash
+ * @property ?string $language
  * @property Favorite[] $favorites
  */
 class User extends ActiveRecord implements IdentityInterface {
@@ -66,11 +67,6 @@ class User extends ActiveRecord implements IdentityInterface {
             return true;
         }
         return false;
-    }
-
-    public static function getDb()
-    {
-        return ActiveRecord::getDb();
     }
 
     public function getIsAdmin()
