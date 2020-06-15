@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59cc3bb944c4f1f304cc2fae3e4ed253",
+    "content-hash": "4d95afad0816e58f20650e90f4c6f407",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -536,6 +536,37 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "herams/i18n",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
+                "reference": "bc720d803a268d74a9f46af168c094b5019682ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/bc720d803a268d74a9f46af168c094b5019682ce",
+                "reference": "bc720d803a268d74a9f46af168c094b5019682ce",
+                "shasum": ""
+            },
+            "type": "library",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Localizations for HeRAMS",
+            "support": {
+                "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master",
+                "issues": "https://github.com/HeRAMS-WHO/herams-i18n/issues"
+            },
+            "time": "2020-06-15T09:09:31+00:00"
         },
         {
             "name": "kartik-v/strength-meter",
@@ -3617,37 +3648,6 @@
             ],
             "description": "JSONPath implementation for parsing, searching and flattening arrays",
             "time": "2019-07-15T17:23:22+00:00"
-        },
-        {
-            "name": "herams/i18n",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
-                "reference": "bc720d803a268d74a9f46af168c094b5019682ce"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/bc720d803a268d74a9f46af168c094b5019682ce",
-                "reference": "bc720d803a268d74a9f46af168c094b5019682ce",
-                "shasum": ""
-            },
-            "type": "library",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sam Mousa",
-                    "email": "sam@mousa.nl"
-                }
-            ],
-            "description": "Localizations for HeRAMS",
-            "support": {
-                "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master",
-                "issues": "https://github.com/HeRAMS-WHO/herams-i18n/issues"
-            },
-            "time": "2020-06-15T09:09:31+00:00"
         },
         {
             "name": "ifsnop/mysqldump-php",
@@ -6884,8 +6884,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "viest/php-ext-xlswriter-ide-helper": 20,
-        "herams/i18n": 20
+        "herams/i18n": 20,
+        "viest/php-ext-xlswriter-ide-helper": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

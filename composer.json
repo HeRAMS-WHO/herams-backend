@@ -51,7 +51,8 @@
         "box/spout": "^3.1",
         "kartik-v/yii2-widget-typeahead": "^1.0",
         "npm-asset/i18next": "^19.4",
-        "league/iso3166": "^2.1"
+        "league/iso3166": "^2.1",
+        "herams/i18n": "dev-master"
     },
 
     "autoload": {
@@ -90,7 +91,6 @@
         "brainmaestro/composer-git-hooks": "^2.8",
         "phpstan/phpstan": "^0.12",
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
-        "herams/i18n": "dev-master",
         "comcast/php-legal-licenses": "^1.1"
     },
     "repositories": [
