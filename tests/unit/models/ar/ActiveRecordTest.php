@@ -29,7 +29,7 @@ abstract class ActiveRecordTest extends ModelTest
     {
         $model = $this->getModel();
         $model->scenario = $scenario ?? Model::SCENARIO_DEFAULT;
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             if ($value instanceof \Closure) {
                 $model->$key = $value();
             } else {
@@ -90,5 +90,4 @@ abstract class ActiveRecordTest extends ModelTest
         $this->assertTrue($model->hasAttribute('email'));
         $this->assertSame('email', $model->displayField);
     }
-
 }

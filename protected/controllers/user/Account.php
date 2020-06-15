@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\User;
 use prime\models\forms\user\ChangePasswordForm;

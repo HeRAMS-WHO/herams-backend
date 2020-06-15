@@ -50,6 +50,4 @@ class AccountCest
         $I->assertSame('fr-FR', $user->language);
         $I->assertSame('fr-FR', \Yii::$app->language);
     }
-
-
 }

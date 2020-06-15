@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\user;
 
-
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 

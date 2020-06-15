@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace prime\models\ar;
 
@@ -26,7 +26,8 @@ use function iter\chain;
  * @property ?string $language
  * @property Favorite[] $favorites
  */
-class User extends ActiveRecord implements IdentityInterface {
+class User extends ActiveRecord implements IdentityInterface
+{
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -59,7 +60,9 @@ class User extends ActiveRecord implements IdentityInterface {
             $subject = $manager->resolveSubject($this);
             $repository = $manager->getRepository();
             if (isset($subject)) {
-                apply(static function(Grant $grant) use ($repository) { $repository->revoke($grant); }, chain(
+                apply(static function (Grant $grant) use ($repository) {
+                    $repository->revoke($grant);
+                }, chain(
                     $repository->search($subject, null, null),
                     $repository->search(null, $subject, null)
                 ));
@@ -139,7 +142,6 @@ class User extends ActiveRecord implements IdentityInterface {
         if (!$this->update(true, ['password_hash'])) {
             throw new \RuntimeException(\Yii::t('app', 'Password update failed'));
         }
-
     }
 
     public function getFavorites(): FavoriteQuery
@@ -149,7 +151,7 @@ class User extends ActiveRecord implements IdentityInterface {
 
     public function isFavorite(ActiveRecord $target): bool
     {
-        foreach($this->favorites as $favorite) {
+        foreach ($this->favorites as $favorite) {
             if ($favorite->matches($target)) {
                 return true;
             }
