@@ -2,9 +2,10 @@
 class PopupListRenderer {
 
     
-    constructor(popup)
+    constructor(popup, translations)
     {
         this.popup = popup;
+        this.translations = translations;
     }
 
 
@@ -13,9 +14,9 @@ class PopupListRenderer {
         let content = document.createElement('div');
         content.classList.add('project-list');
         let title = document.createElement('h1');
-        title.textContent = 'Loading failed';
+        title.textContent = this.translations["loading-failed"];
         content.appendChild(title);
-        content.innerHTML += '<h2>Loading Error</h2>';
+        content.innerHTML += '<h2>'+this.translations["loading-error"]+'</h2>';
         this.popup.setContent(content);
         this.popup.update();
     }

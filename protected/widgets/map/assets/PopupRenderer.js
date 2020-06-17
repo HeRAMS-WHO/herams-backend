@@ -2,10 +2,11 @@
 class PopupRenderer {
 
     
-    constructor(popup, url)
+    constructor(popup, url, translations)
     {
         this.popup = popup;
         this.url = url;
+        this.translations = translations;
     }
 
     renderLoading()
@@ -17,7 +18,7 @@ class PopupRenderer {
         logo.setAttribute('style' , "background-image: url('/img/herams_icon.png');");
         content.appendChild(logo);
         let title = document.createElement('h1');
-        title.textContent = "Loading project summary";
+        title.textContent = this.translations["loading-text"];
         content.appendChild(title);
         let loader = document.createElement('div');
         loader.classList.add('loader-anim');
@@ -34,7 +35,7 @@ class PopupRenderer {
         let title = document.createElement('h1');
         title.textContent = this.data.name;
         content.appendChild(title);
-        content.innerHTML += '<h2>In Progress</h2>';
+        content.innerHTML += '<h2>'+this.translations["inactive"]+'</h2>';
         this.popup.setContent(content);
         this.popup.update();
     }
@@ -44,13 +45,13 @@ class PopupRenderer {
         let content = document.createElement('div');
         content.classList.add('project-summary');
         let title = document.createElement('h1');
-        title.textContent = 'Loading failed';
+        title.textContent = this.translations["loading-failed"];
         content.appendChild(title);
-        content.innerHTML += '<h2>Loading Error</h2>';
-        content.innerHTML += '<p>Try refreshing the project</p>';
+        content.innerHTML += '<h2>'+this.translations["loading-error"]+'</h2>';
+        content.innerHTML += '<p>'+this.translations["refresh-infos"]+'</p>';
         let button = document.createElement('button');
         button.classList.add('btn');
-        button.textContent = 'Refresh';
+        button.textContent = this.translations["refresh"];
         button.addEventListener("click", _ => this.render());
         content.appendChild(button);
         this.popup.setContent(content);
@@ -94,14 +95,14 @@ class PopupRenderer {
         let grid = document.createElement('div');
         content.appendChild(grid);
 
-        grid.appendChild(PopupRenderer.createStat('Health facilities', this.data.facilityCount));
-        grid.appendChild(PopupRenderer.createStat('Contributors', this.data.contributorCount));
+        grid.appendChild(PopupRenderer.createStat(this.translations["health-facilities"], this.data.facilityCount));
+        grid.appendChild(PopupRenderer.createStat(this.translations["contributors"], this.data.contributorCount));
         grid.append(document.createElement('hr'));
 
         let charts = [];
-        charts.push(PopupRenderer.buildChart('Type', "\u{e90b}", this.data.typeCounts, [{"key":"Tertiary",label:"Tertiary"},{"key":"Secondary","label":"Secondary"},{"key":"Primary","label":"Primary"},{"key":"Other","label":"Other"}], ['blue', 'white']));
-        charts.push(PopupRenderer.buildChart('Functionality', "\u{e90a}", this.data.functionalityCounts, [{"key":"Full","label":"Fully functional"},{"key":"Partial","label":"Partially functional"},{"key":"None","label":"Not functional"}], ['green', 'orange', 'red']));
-        charts.push(PopupRenderer.buildChart('Service availability', "\u{e901}", this.data.subjectAvailabilityCounts, [{"key":"Full","label":"Fully available"},{"key":"Partial","label":"Partially available"},{"key":"None","label":"Not available"}], ['green', 'orange', 'red']));
+        charts.push(PopupRenderer.buildChart(this.translations["type"], "\u{e90b}", this.data.typeCounts, [{"key":"Tertiary",label:this.translations["tertiary"]},{"key":"Secondary","label":this.translations["secondary"]},{"key":"Primary","label":this.translations["primary"]},{"key":"Other","label":this.translations["other"]}], ['blue', 'white']));
+        charts.push(PopupRenderer.buildChart(this.translations["functionality"], "\u{e90a}", this.data.functionalityCounts, [{"key":"Full","label":this.translations["fully-functional"]},{"key":"Partial","label":this.translations["partially-functional"]},{"key":"None","label":this.translations["not-functional"]}], ['green', 'orange', 'red']));
+        charts.push(PopupRenderer.buildChart(this.translations["service-availability"], "\u{e901}", this.data.subjectAvailabilityCounts, [{"key":"Full","label":this.translations["fully-available"]},{"key":"Partial","label":this.translations["partially-available"]},{"key":"None","label":this.translations["not-available"]}], ['green', 'orange', 'red']));
         charts = charts.filter(function (el) {
             return el.innerHTML !== "";
         });
@@ -113,7 +114,7 @@ class PopupRenderer {
         } else {
             let content = document.createElement('div');
             content.classList.add('full-width');
-            content.innerHTML += '<h2>In Progress</h2>';
+            content.innerHTML += '<h2>'+this.translations["in-progress"]+'</h2>';
             grid.append(content);
         }
 
