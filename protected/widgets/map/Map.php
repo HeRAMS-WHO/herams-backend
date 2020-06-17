@@ -110,7 +110,13 @@ class Map extends Widget
                                 marker.renderer.render();
                                 let event = new Event('mapPopupOpen');
                                 event.id = feature.properties.id;
-                                window.dispatchEvent(event);
+                                map.once('moveend', function(){
+                                    window.dispatchEvent(event);
+                                } );
+                                map.flyTo(marker.getLatLng(), map.getZoom(), {
+                                    animate: true,
+                                    duration: 0.3
+                                });
                             });
                             marker.on('popupclose', function() {
                                 let event = new Event('mapPopupClose');
@@ -178,12 +184,12 @@ class Map extends Widget
 
                 markerCluster.addLayers(layers);
                 map.addLayer(markerCluster);
-                if (layers.length > 0) {
+                /*if (layers.length > 0) {
                     L.control.layers([], layers, {
                         collapsed: false,
                         position: 'bottomright'
                     }).addTo(map);
-                }
+                }*/
                 
                 
                 L.control.zoom({
