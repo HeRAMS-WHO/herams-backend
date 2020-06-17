@@ -101,8 +101,8 @@ class PopupRenderer {
 
         let charts = [];
         charts.push(PopupRenderer.buildChart(this.translations["type"], "\u{e90b}", this.data.typeCounts, [{"key":"Tertiary",label:this.translations["tertiary"]},{"key":"Secondary","label":this.translations["secondary"]},{"key":"Primary","label":this.translations["primary"]},{"key":"Other","label":this.translations["other"]}], ['blue', 'white']));
-        charts.push(PopupRenderer.buildChart(this.translations["functionality"], "\u{e90a}", this.data.functionalityCounts, [{"key":"Full","label":this.translations["fully-functional"]},{"key":"Partial","label":this.translations["partially-functional"]},{"key":"None","label":this.translations["not-functional"]}], ['green', 'orange', 'red']));
-        charts.push(PopupRenderer.buildChart(this.translations["service-availability"], "\u{e901}", this.data.subjectAvailabilityCounts, [{"key":"Full","label":this.translations["fully-available"]},{"key":"Partial","label":this.translations["partially-available"]},{"key":"None","label":this.translations["not-available"]}], ['green', 'orange', 'red']));
+        charts.push(PopupRenderer.buildChart(this.translations["functionality"], "\u{e90a}", this.data.functionalityCounts, [{"key":this.translations["full"],"label":this.translations["fully-functional"]},{"key":this.translations["partial"],"label":this.translations["partially-functional"]},{"key":this.translations["none"],"label":this.translations["not-functional"]}], ['green', 'orange', 'red']));
+        charts.push(PopupRenderer.buildChart(this.translations["service-availability"], "\u{e901}", this.data.subjectAvailabilityCounts, [{"key":this.translations["full"],"label":this.translations["fully-available"]},{"key":this.translations["partial"],"label":this.translations["partially-available"]},{"key":this.translations["none"],"label":this.translations["not-available"]}], ['green', 'orange', 'red']));
         charts = charts.filter(function (el) {
             return el.innerHTML !== "";
         });
