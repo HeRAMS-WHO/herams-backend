@@ -60,6 +60,33 @@ class Map extends Widget
             'maxZoom' => $this->maxZoom,
             'minZoom' => $this->minZoom
         ]);
+        $translations = Json::encode([
+            'health-facilities' => \Yii::t('app', 'Health facilities'),
+            'contributors' => \Yii::t('app', 'Contributors'),
+            'type' => \Yii::t('app', 'Type'),
+            'functionality' => \Yii::t('app', 'Functionality'),
+            'service-availability' => \Yii::t('app', 'Service Availability'),
+            'full' => \Yii::t('app', 'Full'),
+            'partial' => \Yii::t('app', 'Partial'),
+            'none' => \Yii::t('app', 'None'),
+            'tertiary' => \Yii::t('app', 'Tertiary'),
+            'secondary' => \Yii::t('app', 'Secondary'),
+            'primary' => \Yii::t('app', 'Primary'),
+            'other' => \Yii::t('app', 'Other'),
+            'fully-functional' => \Yii::t('app', 'Fully functional'),
+            'partially-functional' => \Yii::t('app', 'Partially functional'),
+            'not-functional' => \Yii::t('app', 'Not functional'),
+            'fully-available' => \Yii::t('app', 'Fully available'),
+            'partially-available' => \Yii::t('app', 'Partially available'),
+            'not-available' => \Yii::t('app', 'Not available'),
+            'loading-text' => \Yii::t('app', 'Loading project summary'),
+            'inactive' => \Yii::t('app', 'in progress'),
+            'loading-failed' => \Yii::t('app', 'Loading failed'),
+            'loading-error' => \Yii::t('app', 'Loading Error'),
+            'refresh' => \Yii::t('app', 'Refresh'),
+            'refresh-infos' => \Yii::t('app', 'Try refreshing the project'),
+            'in-progress' => \Yii::t('app', 'In Progress')
+        ]);
 
         $baseLayers = Json::encode($this->baseLayers);
         $data = Json::encode(array_values($this->data));
@@ -105,7 +132,7 @@ class Map extends Widget
                             }).getPopup();
 
                             // On the first open fetch remote content
-                            marker.renderer = new PopupRenderer(popup, feature.properties.url);
+                            marker.renderer = new PopupRenderer(popup, feature.properties.url, $translations);
                             marker.on('popupopen', () => {
                                 marker.renderer.render();
                                 let event = new Event('mapPopupOpen');
@@ -163,7 +190,7 @@ class Map extends Widget
                                     maxWidth: "auto",
                                     closeButton: false
                                 });
-                let renderer = new PopupListRenderer(popupList);                
+                let renderer = new PopupListRenderer(popupList, $translations);                
                 markerCluster.on('clusterclick', function (a) {
                     map.flyTo(a.latlng, map.getZoom(), {
                         animate: true,
