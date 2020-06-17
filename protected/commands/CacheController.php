@@ -87,7 +87,8 @@ class CacheController extends \yii\console\controllers\CacheController
         $this->stdout("Starting cache warmup for workspace {$workspace->title}..\n", Console::FG_CYAN);
         $this->stdout("Checking responses for workspace {$workspace->title}..", Console::FG_CYAN);
         $ids = [];
-        foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+        foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response)
+        {
             $key = [
                 'id' => $response->getId(),
                 'survey_id' => $response->getSurveyId()

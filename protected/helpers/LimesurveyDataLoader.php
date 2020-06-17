@@ -18,7 +18,7 @@ class LimesurveyDataLoader
         Response $response
     ): void {
         $data = toArrayWithKeys(filter(function ($value) {
-            return $value !== "" && $value !== null; //$value !== null;
+            return $value !== "" && $value !== null;
         }, $data));
         $response->workspace_id = $workspace->id;
         $response->survey_id = $workspace->project->base_survey_eid;

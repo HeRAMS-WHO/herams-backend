@@ -47,7 +47,14 @@ class LimesurveyDataProvider extends Component
      */
     public function refreshResponsesByToken(int $surveyId, string $token): iterable
     {
-        return $this->client->getResponsesByToken($surveyId, $token);
+        /**
+         * @var ResponseInterface $value
+         */
+        foreach($this->client->getResponsesByToken($surveyId, $token) as $key => $value) {
+            if ($value->getSubmitDate() !== null) {
+                yield $value;
+            }
+        }
     }
 
     public function getSurvey(int $surveyId): SurveyInterface

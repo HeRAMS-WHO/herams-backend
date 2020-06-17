@@ -9,8 +9,6 @@ use prime\interfaces\WriterInterface;
 use Psr\Http\Message\StreamInterface;
 use Vtiful\Kernel\Excel;
 use function GuzzleHttp\Psr7\stream_for;
-use function iter\map;
-use function iter\toArray;
 
 class PeclWriter implements WriterInterface
 {
