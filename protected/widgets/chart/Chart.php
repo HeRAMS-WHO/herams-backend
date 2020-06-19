@@ -233,19 +233,62 @@ class Chart extends Element
                 ],
                 'legend' => [
                     'position' => 'right',
-                    'display' => $this->chartType === self::TYPE_DOUGHNUT,
+                    'display' => false,//$this->chartType === self::TYPE_DOUGHNUT,
                     'labels' => [
                         'boxWidth' => 15
                     ]
                 ],
-                'cutoutPercentage' => 80,
+                'legendCallback' => new JsExpression('(chart) => {
+                    
+                    let legend = document.createElement("div");
+                    legend.classList.add("legend-html");
+                    let title = document.createElement("div");
+                    title.classList.add("legend-title");
+                    title.textContent = chart.options.title.text;
+                    legend.appendChild(title);
+                    let list = document.createElement("div");
+                    list.classList.add("legend-list");
+                    
+                    let dataset = chart.data.datasets[0];
+                    let items = dataset._meta[chart.id].data;
+                    let value = dataset.data[chart.id];
+                    
+                    let sum = items.reduce((sum, elem) => {
+                        return elem.hidden ? sum : sum + dataset.data[elem._index]
+                    }, 0);
+                    
+                    let item;
+                    let color;
+                    let label;
+                    
+                    for (i in  items) {
+                        if(items[i].hidden === false) {
+                            item = document.createElement("div");
+                            item.classList.add("legend-item");
+                            color = document.createElement("div");
+                            color.classList.add("color");
+                            color.style.backgroundColor = items[i]._model.backgroundColor;
+                            label = document.createElement("div");
+                            label.classList.add("label");
+                            let percentage = Math.round(dataset.data[items[i]._index] / sum * 100);
+                            label.innerHTML = `${items[i]._model.label} <span>(${percentage}%)</span>`;
+                            item.appendChild(color);
+                            item.appendChild(label);
+                            list.appendChild(item);
+                        }
+                    }
+                    legend.appendChild(list);
+                    return legend.outerHTML;
+                }'),
+                'cutoutPercentage' => 83,
 
                 'title' => [
-                    'display' => true,
+                    'display' => false,
                     'text' => $this->title ?? $this->getTitleFromCode($this->code)
                 ],
                 'responsive' => true,
                 'maintainAspectRatio' => false,
+                'aspectRatio' => 1,
                 'tooltips' => [
                     'callbacks' => [
                         'label' => new JsExpression('function(item, data) { 
@@ -277,7 +320,7 @@ class Chart extends Element
         (function() {
             let ctx = document.getElementById($canvasId).getContext('2d');
             let chart = new Chart(ctx, $jsConfig);
-            
+            document.getElementById($canvasId).closest('.element').insertAdjacentHTML('beforeend', chart.generateLegend());
         })();
 JS
         );

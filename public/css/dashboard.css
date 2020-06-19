@@ -438,20 +438,77 @@ span.header {
 
 .content>.element {
     position: relative;
-    ;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-flow: row;
+    justify-content: center;
     border-radius: 3px;
     min-width: 0;
-    /*min-height: 0;*/
 }
 
 .content>.element canvas {
     object-fit: contain !important;
-    padding: 10px;
+    padding: 0;
     margin: 0;
 }
 
 .content>.element:not(.map) canvas {
-    width: 100% !important;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.content>.element .legend-html {
+    margin: 0 0 0 5%;
+    background: white;
+    padding: 5px 5px 5px 5px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+
+.content>.element .legend-title {
+    font-size: 13px;
+    line-height: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+    max-width: 130px;
+    width: fit-content;
+}
+
+
+.content>.element .legend-list {
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+}
+
+.content>.element .legend-item {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+.content>.element .legend-item .label {
+    width: fit-content;
+    font-size: 11px;
+    line-height: 12px;
+    letter-spacing: 0.2px;
+    max-width: 100px !important;
+    line-break: auto;
+}
+
+
+.content>.element .legend-item .label span {
+    display: none;
+}
+
+
+.content>.element .legend-item div.color {
+    margin-right: 7px;
+    height: 10px;
+    width: 10px;
+    display: block;
 }
 
 .map {
@@ -686,19 +743,13 @@ body {
     }
 }
 
-@media (min-width: 900px) {
+@media(min-width: 1200px) {
     .content {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: repeat(auto-fit, minmax(200px, 33%));
     }
     .prime_widgets_chart_Chart, .table {
         grid-row: span 2;
-    }
-}
-
-@media(min-width: 1130px) {
-    .prime_widgets_chart_Chart, .table {
-        grid-row: span 1;
     }
 }
 
