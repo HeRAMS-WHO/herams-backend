@@ -244,7 +244,7 @@ class Chart extends Element
                     legend.classList.add("legend-html");
                     let title = document.createElement("div");
                     title.classList.add("legend-title");
-                    title.textContent = chart.options.title.text;
+                    title.innerHTML = chart.options.title.text;
                     legend.appendChild(title);
                     let list = document.createElement("div");
                     list.classList.add("legend-list");
@@ -260,9 +260,15 @@ class Chart extends Element
                     let item;
                     let color;
                     let label;
-                    
+                    let column;
+
                     for (i in  items) {
                         if(items[i].hidden === false) {
+                            if(i%5 == 0) {
+                                column = document.createElement("div");
+                                column.classList.add("column");
+                                list.appendChild(column);
+                            }
                             item = document.createElement("div");
                             item.classList.add("legend-item");
                             color = document.createElement("div");
@@ -274,7 +280,7 @@ class Chart extends Element
                             label.innerHTML = `${items[i]._model.label} <span>(${percentage}%)</span>`;
                             item.appendChild(color);
                             item.appendChild(label);
-                            list.appendChild(item);
+                            column.appendChild(item);
                         }
                     }
                     legend.appendChild(list);

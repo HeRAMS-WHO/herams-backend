@@ -447,6 +447,10 @@ span.header {
     min-width: 0;
 }
 
+.content>.element.table {
+    display: block;
+}
+
 .content>.element canvas {
     object-fit: contain !important;
     padding: 0;
@@ -472,7 +476,7 @@ span.header {
     line-height: 15px;
     margin-bottom: 7px;
     font-weight: bold;
-    max-width: 130px;
+    max-width: 160px;
     width: fit-content;
 }
 
@@ -481,6 +485,11 @@ span.header {
     margin: 0;
     padding: 0;
     width: fit-content;
+    display: flex;
+}
+
+.content>.element .legend-list .column{
+    margin-right: 5px;
 }
 
 .content>.element .legend-item {
@@ -494,7 +503,7 @@ span.header {
     font-size: 11px;
     line-height: 12px;
     letter-spacing: 0.2px;
-    max-width: 100px !important;
+    max-width: 160px !important;
     line-break: auto;
 }
 
