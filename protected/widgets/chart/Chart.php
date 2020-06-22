@@ -257,14 +257,17 @@ class Chart extends Element
                         return elem.hidden ? sum : sum + dataset.data[elem._index]
                     }, 0);
                     
-                    let item;
-                    let color;
-                    let label;
-                    let column;
-
+                    let count = items.length;
+                    if(count > 5)
+                        count = Math.ceil(count/2);
+                    console.log(count);
+                    
+                    let item, color, label;
+                    let column = document.createElement("div");
+                    list.appendChild(column);
                     for (i in  items) {
                         if(items[i].hidden === false) {
-                            if(i%5 == 0) {
+                            if(i == count) {
                                 column = document.createElement("div");
                                 column.classList.add("column");
                                 list.appendChild(column);
