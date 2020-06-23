@@ -133,8 +133,8 @@ class Token extends Model
     public function attributeHints()
     {
         return [
-            'firstName' => \Yii::t('app', 'We use this field to store the country for the project.'),
-            'lastName' => \Yii::t('app', 'We use this field to store the last name of the project owner.')
+            'firstName' => \Yii::t('app', 'We use this field to store the country for the project'),
+            'lastName' => \Yii::t('app', 'We use this field to store the last name of the project owner')
         ];
     }
 

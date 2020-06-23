@@ -543,12 +543,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
-                "reference": "763e99dba0919c7ab9c0bb25313a5e7ec6957f1d"
+                "reference": "1805a1c93386f184ba9f9bf46e94c45a684a7a1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/763e99dba0919c7ab9c0bb25313a5e7ec6957f1d",
-                "reference": "763e99dba0919c7ab9c0bb25313a5e7ec6957f1d",
+                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/1805a1c93386f184ba9f9bf46e94c45a684a7a1f",
+                "reference": "1805a1c93386f184ba9f9bf46e94c45a684a7a1f",
                 "shasum": ""
             },
             "type": "library",
@@ -566,7 +566,7 @@
                 "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master",
                 "issues": "https://github.com/HeRAMS-WHO/herams-i18n/issues"
             },
-            "time": "2020-06-23T07:36:21+00:00"
+            "time": "2020-06-23T08:18:13+00:00"
         },
         {
             "name": "kartik-v/strength-meter",

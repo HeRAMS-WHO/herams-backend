@@ -34,7 +34,7 @@ class Configure extends Action
         $token = new Token($workspace->getToken());
 
         if ($request->isPut && $token->load($request->bodyParams) && $token->save(true)) {
-            $notificationService->success(\Yii::t('app', "Token updated."));
+            $notificationService->success(\Yii::t('app', "Token updated"));
             $this->controller->refresh();
         }
         return $this->controller->render('configure', [

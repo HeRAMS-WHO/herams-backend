@@ -9,6 +9,7 @@ use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\workspace\CreateUpdate;
 use yii\base\Action;
+use yii\helpers\Html;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -34,8 +35,8 @@ class Update extends Action
 
         if($request->isPut) {
             if($workspace->load($request->bodyParams) && $workspace->save()) {
-                $notificationService->success(\Yii::t('app', "Workspace <strong>{modelName}</strong> has been updated.", [
-                    'modelName' => $workspace->title
+                $notificationService->success(\Yii::t('app', "Workspace {workspace} has been updated", [
+                    'workspace' => Html::tag('strong', $workspace->title)
                 ]));
 
                 return $this->controller->redirect(['project/workspaces', 'id' => $workspace->project->id]);
