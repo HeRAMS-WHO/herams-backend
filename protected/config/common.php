@@ -13,7 +13,7 @@ use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 
-/** @var \prime\components\Environment $env */
+/** @var \prime\components\Environment|null $env */
 assert(isset($env) && $env instanceof \prime\components\Environment);
 
 require_once __DIR__ . '/../helpers/functions.php';

@@ -12,10 +12,10 @@ parameters:
       - */tests/*
     checkMaybeUndefinedVariables: true
     ignoreErrors:
-        - message: '#^Using \$this outside a class#'
-          path: '*/views/*'
-        - message: '#^Using \$this outside a class#'
-          path: '*/mail/*'
+        #- message: '#^Using \$this outside a class#'
+        #  path: '*/views/*'
+        #- message: '#^Using \$this outside a class#'
+        #  path: '*/mail/*'
         - message: '#^Variable .* might not be defined\.$#'
           path: '*/views/*'
         - message: '#^Variable .* might not be defined\.$#'
