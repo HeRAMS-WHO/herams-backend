@@ -54,7 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_WIDGET,
                 'widgetClass' => \kartik\select2\Select2::class,
                 'options' => [
-                'data' => \yii\helpers\ArrayHelper::map((new League\ISO3166\ISO3166())->all(), 'alpha3', 'name')
+                'data' => \yii\helpers\ArrayHelper::map(
+                        [['alpha3' => '', 'name' => \Yii::t('app', '(Not set)')]] +
+                        (new League\ISO3166\ISO3166())->all(), 'alpha3', 'name')
                 ]
             ],
             'typemapAsJson' => [
