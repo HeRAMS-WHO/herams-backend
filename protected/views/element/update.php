@@ -36,7 +36,7 @@ $this->title = $model->isNewRecord
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12 col-md-8 form-content form-bg">
+<div class="col-xs-12 col-md-4 form-content form-bg">
     <h3><?=\Yii::t('app', 'Update element')?></h3>
     <?php
     $form = ActiveForm::begin([
@@ -166,7 +166,7 @@ JS
                 'value' => 'dashboard'
             ]),
             Html::a(
-                \Yii::t('app', 'Discard changes & go to dashboard'),
+                \Yii::t('app', 'Discard & go to dashboard'),
                 [
                     'project/view',
                     'page_id' => $model->page->id,
@@ -183,7 +183,7 @@ JS
 
     ?>
 </div>
-<div class="col-xs-12 col-md-4">
+<div class="col-xs-12 col-md-8">
     <?php
     if (isset($model->id)) {
         $params = ['element/preview'];
@@ -194,10 +194,12 @@ JS
         echo Html::tag('iframe', '', [
             'id' => 'preview-frame',
             'src' => Url::to($params),
+            'class' => ['form-bg'],
             'style' => [
                 'border' => 'none',
                 'width' => '100%',
                 'min-height' => '500px',
+                'height' => '100%',
                 'background-color' => 'white'
             ]
         ]);
