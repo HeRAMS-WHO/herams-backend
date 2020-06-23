@@ -16,18 +16,17 @@ body, html {
         max-width: 820px;
     }
 }
+
 table tr td {
     padding: 0;
     border: none;
 }
+
 body {
     display: block;
     grid-template-rows: auto auto 1fr;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-        "title title title"
-        "filters filters filters"
-        "main main main";
+    grid-template-areas: "title title title" "filters filters filters" "main main main";
     height: auto;
 }
 
@@ -52,7 +51,7 @@ body {
     box-shadow: none;
     padding: 0;
     float: right;
-    margin-top:5px;
+    margin-top: 5px;
 }
 
 .filters .count {
@@ -71,7 +70,7 @@ body {
 }
 
 .filters .count em {
-    padding:0 3px;
+    padding: 0 3px;
 }
 
 .title span.header {
@@ -81,6 +80,7 @@ body {
     margin: 0;
     padding: 20px;
 }
+
 .filters-list {
     padding: 10px 10px 0 10px;
     font-size: 12px;
@@ -93,6 +93,7 @@ body {
 .filters-list span.values {
     padding-right: 3px;
 }
+
 .content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -104,11 +105,10 @@ body {
     padding: 5px 10px 0px;
     overflow: unset;
     height: auto;
-    
 }
 
-.content:not(:first-child)  {
-    margin-top:60px;
+.content:not(:first-child) {
+    margin-top: 60px;
 }
 
 .page-title {
@@ -125,18 +125,21 @@ body {
     margin: 0;
     padding: 0;
     max-height: 190px;
-    page-break-inside:auto;
-    page-break-after:auto;
+    page-break-inside: auto;
+    page-break-after: auto;
     border: none;
     background: none;
 }
+
 .content>.element.table {
     margin-top: 20px;
     max-height: unset;
 }
+
 .content>.element.table table {
     background: none !important;
 }
+
 .content>.element.table h1 {
     font-size: 16px;
     line-height: 16px;
@@ -156,6 +159,12 @@ body {
 
 .content>.element .legend-item .label span {
     display: initial;
+}
+
+.color {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 .page-break {
