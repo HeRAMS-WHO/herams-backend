@@ -178,7 +178,7 @@ return [
         'mailer' => [
             'class' => Mailer::class,
             'messageConfig' => [
-                'from' => ['support@herams.org' => 'HeRAMS Support']
+                'from' => [$env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support']
             ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
