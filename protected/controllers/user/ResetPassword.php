@@ -46,7 +46,7 @@ class ResetPassword extends Action
             && $model->validate()
         ) {
             $model->resetPassword();
-            $notificationService->success(\Yii::t('app', 'Your password has been reset!'));
+            $notificationService->success(\Yii::t('app', 'Your password has been reset'));
             return $this->controller->goHome();
         }
         return $this->controller->render('reset-password', ['model' => $model]);

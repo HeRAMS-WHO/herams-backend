@@ -85,8 +85,8 @@ class Element extends Model
     public function attributeHints(): array
     {
         $result = $this->element->attributeHints();
-        $result['transpose'] = \Yii::t('app', 'This will reload the page losing all other changes!!');
-        $result['code'] = \Yii::t('app', 'This will reload the page losing all other changes!!');
+        $result['transpose'] = \Yii::t('app', 'This will reload the page losing all other changes');
+        $result['code'] = \Yii::t('app', 'This will reload the page losing all other changes');
         return $result;
     }
 
