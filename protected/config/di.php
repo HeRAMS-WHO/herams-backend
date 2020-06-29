@@ -19,8 +19,10 @@ return [
             ]
         ], $config);
         return new \kartik\switchinput\SwitchInput($config);
-    }
-
+    },
+    \kartik\grid\GridView::class => [
+        'export' => false
+    ],
 
 
 ];
