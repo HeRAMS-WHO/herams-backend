@@ -264,6 +264,7 @@ class Chart extends Element
                     
                     let item, color, label;
                     let column = document.createElement("div");
+                    column.classList.add("column");
                     list.appendChild(column);
                     for (i in  items) {
                         if(items[i].hidden === false) {
@@ -280,6 +281,7 @@ class Chart extends Element
                             label = document.createElement("div");
                             label.classList.add("label");
                             let percentage = Math.round(dataset.data[items[i]._index] / sum * 100);
+                            if(percentage < 1) percentage = "<1";
                             label.innerHTML = `${items[i]._model.label} <span>(${percentage}%)</span>`;
                             item.appendChild(color);
                             item.appendChild(label);

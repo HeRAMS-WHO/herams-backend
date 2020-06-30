@@ -458,12 +458,17 @@ span.header {
 }
 
 .content>.element:not(.map) canvas {
-    max-width: 150px;
+    max-width: 160px;
     max-height: 150px;
 }
 
+.content>.element.map .leaflet-control-layers p {
+    max-width: 200px;
+    font-size: 1.15em !important;
+}
+
 .content>.element .legend-html {
-    margin: 0 0 0 5%;
+    margin: 0 0 0 3%;
     background: white;
     padding: 5px 5px 5px 5px;
     border: 2px solid rgba(0,0,0,0.2);
