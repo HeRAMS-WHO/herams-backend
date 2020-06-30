@@ -40,9 +40,9 @@ class FavoriteColumn extends Column
 
         $this->grid->view->registerJs(<<<JS
 
-            document.getElementById($id).addEventListener('click', async (e) => {
-                if (e.target.matches('.FavoriteButton, .FavoriteButton *')) {
-                    let button = e.target.closest('.FavoriteButton');
+            document.addEventListener('click', async (e) => {
+                let button = e.target.closest('#w3 .FavoriteButton');
+                if (button) {
                     let className = 'favorite';
                     let desiredState = !button.classList.contains(className);
                     // Match!
@@ -58,7 +58,6 @@ class FavoriteColumn extends Column
                         referrer: 'no-referrer',
                         credentials: 'same-origin'
                     });
-                    
                     
                     button.disabled = false;
                     if (response.ok) {
