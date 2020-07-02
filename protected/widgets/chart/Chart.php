@@ -239,9 +239,10 @@ class Chart extends Element
                     ]
                 ],
                 'legendCallback' => new JsExpression('(chart) => {
-                    
+                    let chartArea = chart.chartArea;
                     let legend = document.createElement("div");
                     legend.classList.add("legend-html");
+                    legend.style.left = chartArea.right+"px";
                     let title = document.createElement("div");
                     title.classList.add("legend-title");
                     title.innerHTML = chart.options.title.text;
@@ -260,7 +261,6 @@ class Chart extends Element
                     let count = items.length;
                     if(count > 5)
                         count = Math.ceil(count/2);
-                    console.log(count);
                     
                     let item, color, label;
                     let column = document.createElement("div");
@@ -301,24 +301,23 @@ class Chart extends Element
                 'maintainAspectRatio' => false,
                 'aspectRatio' => 1,
                 'tooltips' => [
-                    'callbacks' => [
-                        'label' => new JsExpression('function(item, data) { 
-                        console.log(this, item, data);
+                    'enabled' => false,
+                    'bodyFontSize' => 20,
+                    /*'callbacks' => [
+                        'label' => new JsExpression('function(item, data) {
                             let value = data.datasets[item.datasetIndex].data[item.index];
                             let label = data.labels[item.index] || "";
                             let meta = this._chart.data.datasets[0]._meta;
                             for (let key in meta) {
                                 let sum = meta[key].data.reduce((sum, elem) => {
                                     return elem.hidden ? sum : sum + data.datasets[item.datasetIndex].data[elem._index]
-                               
-                               
                                 }, 0);
                                 let percentage = Math.round(100 * value / sum) + "%";
                                 return `${label}: ${value} (${percentage})`;
                             }
                         }'),
 
-                    ]
+                    ]*/
 
                 ]
             ]
@@ -332,6 +331,84 @@ class Chart extends Element
             let ctx = document.getElementById($canvasId).getContext('2d');
             let chart = new Chart(ctx, $jsConfig);
             document.getElementById($canvasId).closest('.element').insertAdjacentHTML('beforeend', chart.generateLegend());
+            chart.options.tooltips.custom = function(tooltip) {
+                // Tooltip Element
+                let tooltipId = 'chartjs-tooltip'+$canvasId;
+                var tooltipEl = document.getElementById(tooltipId);
+                if(tooltipEl == null) {
+                    tooltipEl = document.createElement("div");
+                    tooltipEl.classList.add('tooltip');
+                    tooltipEl.id = tooltipId;
+                    document.getElementById($canvasId).closest('.element').appendChild(tooltipEl);
+                }    
+                // Hide if no tooltip
+                if (tooltip.opacity === 0) {
+                    tooltipEl.style.opacity = 0;
+                    return;
+                }
+
+                // Set caret Position
+                tooltipEl.classList.remove('above', 'below', 'no-transform');
+                if (tooltip.yAlign) {
+                    tooltipEl.classList.add(tooltip.yAlign);
+                } else {
+                    tooltipEl.classList.add('no-transform');
+                }
+
+                function getBody(bodyItem) {
+                    return bodyItem.lines;
+                }
+
+                // Set Text
+                if (tooltip.body) {
+                    let meta = chart.data.datasets[0]._meta;
+                    let percentage;
+                    for (let key in meta) {
+                        let sum = meta[key].data.reduce((sum, elem) => {
+                            return elem.hidden ? sum : sum + chart.data.datasets[tooltip.dataPoints[0].datasetIndex].data[elem._index]
+                        }, 0);
+                         percentage = Math.round(100 * chart.data.datasets[tooltip.dataPoints[0].datasetIndex].data[tooltip.dataPoints[0].index] / sum) + "%";
+                    }
+                    
+
+                    var titleLines = tooltip.title || [];
+                    var bodyLines = tooltip.body.map(getBody);
+
+                    var innerHtml = '<thead>';
+
+                    titleLines.forEach(function(title) {
+                        innerHtml += '<tr><th>' + title + '</th></tr>';
+                    });
+                    innerHtml += '</thead><tbody>';
+
+                    bodyLines.forEach(function(body, i) {
+                        var colors = tooltip.labelColors[i];
+                        var style = 'background:' + colors.backgroundColor;
+                        var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
+                        innerHtml += '<tr><td>' + span + body + ' ('+percentage+')</td></tr>';
+                    });
+                    innerHtml += '</tbody>';
+
+                    var tableRoot = tooltipEl.querySelector('table');
+                    if(tableRoot == null) {
+                        tableRoot = document.createElement("table");
+                        tooltipEl.appendChild(tableRoot);
+                    }
+                    tableRoot.innerHTML = innerHtml;
+                }
+
+                var positionY = this._chart.canvas.offsetTop;
+                var positionX = this._chart.canvas.offsetLeft;
+
+                // Display, position, and set styles for font
+                tooltipEl.style.opacity = 1;
+                tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+                tooltipEl.style.top = positionY + tooltip.caretY + 'px';
+                tooltipEl.style.fontFamily = tooltip._bodyFontFamily;
+                tooltipEl.style.fontSize = tooltip.bodyFontSize;
+                tooltipEl.style.fontStyle = tooltip._bodyFontStyle;
+                tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
+            };
         })();
 JS
         );
