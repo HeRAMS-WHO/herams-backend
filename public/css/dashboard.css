@@ -458,7 +458,7 @@ span.header {
 }
 
 .content>.element:not(.map) canvas {
-    max-width: 180px;
+    max-width: 160px;
     max-height: 150px;
 }
 
@@ -498,11 +498,10 @@ span.header {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 1 !important;
 }
 
 .content>.element .tooltip table {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.7);
     padding: 4px 6px 3px !important;
     display: block;
     border-radius: 3px;
