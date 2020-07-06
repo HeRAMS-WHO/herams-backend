@@ -151,6 +151,11 @@ a {
     margin: 0 0 0 10px;
 }
 
+
+.user-menu span {
+    font-size: 11px;
+}
+
 .user-menu a, .user-menu a:visited {
     text-decoration: inherit;
     color: inherit;
@@ -423,7 +428,6 @@ span.header {
     background-color: var(--main-background-color);
     grid-area: main;
     position: relative;
-    ;
 }
 
 .content.maximized {
@@ -633,11 +637,12 @@ body {
     vertical-align: bottom;
 }
 
-
 .form-content {
-    max-width: 750px;
     margin-bottom: 30px;
     padding: 20px;
+    height: max-content;
+    grid-row: auto;
+    grid-column: span 3;
 }
 
 .form-content h3 {
@@ -710,6 +715,14 @@ body {
         grid-auto-flow: dense;
         grid-row-gap: var(--gutter-size);
         grid-column-gap: var(--gutter-size);
+    }
+    .content.layout-admin {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .content.layout-admin.action-update {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: repeat(auto-fit, minmax(200px, 33%));
     }
     .map {
         grid-column: span 1;
