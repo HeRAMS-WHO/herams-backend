@@ -11,11 +11,11 @@ $this->registerAssetBundle(\yii\web\JqueryAsset::class);
 $this->registerCss(<<<CSS
     body {
         display: block;
+        background: none;
     }
 
 .content {
     padding: 0;
-    display: block;
 }
 CSS
 );

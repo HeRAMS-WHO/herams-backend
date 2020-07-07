@@ -3,7 +3,6 @@
 
 namespace prime\controllers;
 
-
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\element\Create;
@@ -15,7 +14,7 @@ use yii\helpers\ArrayHelper;
 
 class ElementController extends Controller
 {
-    public $layout = 'admin';
+    public $layout = 'form';
     public function actions()
     {
         return [
@@ -25,7 +24,7 @@ class ElementController extends Controller
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Element::find(),
-                'redirect' => function(Element $element) {
+                'redirect' => function (Element $element) {
                     return ['page/update', 'id' => $element->page_id];
                 }
             ]
@@ -34,7 +33,8 @@ class ElementController extends Controller
 
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'verbs' => [
                     'class' => VerbFilter::class,

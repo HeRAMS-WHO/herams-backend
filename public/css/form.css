@@ -62,8 +62,8 @@ form .has-error input{
 /*    padding-left: 15px;*/
 /*    padding-right: 15px;*/
 /*}*/
-.form-group {
-    margin-bottom: 5px;
+.form-group, .form-horizontal .form-group {
+    margin: 0;
 }
 
 .tab-pane {

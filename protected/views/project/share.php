@@ -23,37 +23,36 @@ $this->title = \Yii::t('app', 'Manage user permissions for {project}', ['project
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12 share-form">
-    <div class="form-content permissions-form form-bg">
-        <?php
-        echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
-        $form = ActiveForm::begin([
-            "type" => ActiveForm::TYPE_HORIZONTAL,
-            'formConfig' => [
-                'showLabels' => true,
-                'defaultPlaceholder' => false
 
-            ]
-        ]);
-        echo $model->renderForm($form);
-        echo Form::widget([
-            'form' => $form,
-            'model' => $model,
-            'attributes' => [
-                FormButtonsWidget::embed([
-                    'buttons' => [
-                        ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
-                    ]
-                ])
-            ]
-        ]);
-        $form->end();
-        ?>
-    </div>
-    <div class="col-xs-12 form-content list-shared form-bg">
-        <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
-        <?php
-        echo $model->renderTable();
-        ?>
-    </div>
+<div class="form-content form-bg">
+    <?php
+    echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
+    $form = ActiveForm::begin([
+        "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false
+
+        ]
+    ]);
+    echo $model->renderForm($form);
+    echo Form::widget([
+        'form' => $form,
+        'model' => $model,
+        'attributes' => [
+            FormButtonsWidget::embed([
+                'buttons' => [
+                    ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                ]
+            ])
+        ]
+    ]);
+    $form->end();
+    ?>
+</div>
+<div class="form-content form-bg full-width">
+    <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
+    <?php
+    echo $model->renderTable();
+    ?>
 </div>
