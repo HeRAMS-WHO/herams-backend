@@ -16,7 +16,7 @@ echo Html::tag('div', $content, ['class' => [
     "action-{$this->context->action->id}"
 
 ], 'style' => [
-    'display' => 'block',
+    //'display' => 'block',
 //    'grid-template-columns' => 'auto',
 //    'grid-template-rows' => 'auto'
 //        grid-auto-rows: 200px;

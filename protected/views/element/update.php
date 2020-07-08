@@ -34,9 +34,31 @@ $this->title = $model->isNewRecord
     ? \Yii::t('app', 'Create element')
     : \Yii::t('app', 'Update element');
 $this->params['breadcrumbs'][] = $this->title;
-
+$grid = $model->type  == 'map' ? 'grid-column: span 2; grid-row: span 2;' : 'grid-row: span 1; grid-column: span 2;';
 ?>
-<div class="col-xs-12 col-md-4 form-content form-bg">
+<div style='<?= $grid; ?>'>
+    <?php
+    if (isset($model->id)) {
+        $params = ['element/preview'];
+        foreach ($model->safeAttributes() as $attribute) {
+            $params[Html::getInputName($model, $attribute)] = $model->$attribute;
+        }
+        $params['id'] = $model->id;
+        echo Html::tag('iframe', '', [
+            'id' => 'preview-frame',
+            'src' => Url::to($params),
+            'class' => ['form-bg'],
+            'style' => [
+                'border' => 'none',
+                'width' => '100%',
+                'height' => '100%',
+                'background-color' => 'white'
+            ]
+        ]);
+    }
+    ?>
+</div>
+<div class="form-content form-bg">
     <h3><?=\Yii::t('app', 'Update element')?></h3>
     <?php
     $form = ActiveForm::begin([
@@ -181,28 +203,5 @@ JS
     ]);
     $form->end();
 
-    ?>
-</div>
-<div class="col-xs-12 col-md-8">
-    <?php
-    if (isset($model->id)) {
-        $params = ['element/preview'];
-        foreach ($model->safeAttributes() as $attribute) {
-            $params[Html::getInputName($model, $attribute)] = $model->$attribute;
-        }
-        $params['id'] = $model->id;
-        echo Html::tag('iframe', '', [
-            'id' => 'preview-frame',
-            'src' => Url::to($params),
-            'class' => ['form-bg'],
-            'style' => [
-                'border' => 'none',
-                'width' => '100%',
-                'min-height' => '500px',
-                'height' => '100%',
-                'background-color' => 'white'
-            ]
-        ]);
-    }
     ?>
 </div>

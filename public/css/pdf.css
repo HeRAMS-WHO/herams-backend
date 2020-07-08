@@ -97,7 +97,7 @@ body {
 .content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
+    grid-template-rows: min-content;
     grid-auto-flow: dense;
     grid-row-gap: var(--gutter-size);
     grid-column-gap: var(--gutter-size);
@@ -147,6 +147,7 @@ body {
 
 .content>.element.map {
     max-height: none;
+    height: 400px;
 }
 
 .leaflet-container a, .content>.element a {

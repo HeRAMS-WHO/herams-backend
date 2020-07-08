@@ -26,44 +26,38 @@ $this->params['breadcrumbs'][] = [
 $this->title = \Yii::t('app', 'Share workspace {workspace}', ['workspace' => $workspace->title]);
 $this->params['breadcrumbs'][] = $this->title;
 
-
-
-
 ?>
-<div class="col-xs-12 share-form">
-    <div class="col-xs-12 form-content permissions-form form-bg">
-        <?php
-        echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
-        $form = ActiveForm::begin([
-            'method' => 'POST',
-            "type" => ActiveForm::TYPE_HORIZONTAL,
-            'formConfig' => [
-                'showLabels' => true,
-                'defaultPlaceholder' => false
-            ]
-        ]);
 
-        echo $model->renderForm($form);
-        echo Form::widget([
-            'form' => $form,
-            'model' => $model,
-            'attributes' => [
-                FormButtonsWidget::embed([
-                    'buttons' => [
-                        ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
-                    ]
-                ])
-            ]
-        ]);
-        $form->end();
-        ?>
-    </div>
-    <div class="col-xs-12 form-content list-shared form-bg">
-        <h3><?=\Yii::t('app', 'View user permissions')?></h3>
-        <?php
-        echo $model->renderTable();
-        ?>
-    </div>
+<div class="form-content form-bg">
+    <?php
+    echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
+    $form = ActiveForm::begin([
+        'method' => 'POST',
+        "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false
+        ]
+    ]);
+
+    echo $model->renderForm($form);
+    echo Form::widget([
+        'form' => $form,
+        'model' => $model,
+        'attributes' => [
+            FormButtonsWidget::embed([
+                'buttons' => [
+                    ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                ]
+            ])
+        ]
+    ]);
+    $form->end();
+    ?>
 </div>
-
-
+<div class="form-content form-bg full-width">
+    <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
+    <?php
+    echo $model->renderTable();
+    ?>
+</div>

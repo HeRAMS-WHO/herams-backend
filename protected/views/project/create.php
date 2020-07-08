@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 ?>
-<div class="col-xs-12 col-md-8 col-lg-6 form-content form-bg">
+<div class="form-content form-bg">
     <h3><?=\Yii::t('app', 'Create Project')?></h3>
     <?php
     $form = ActiveForm::begin([

@@ -136,7 +136,7 @@ a:hover {
         display: block;
         overflow-y: auto;
         position: relative;
-        padding: 10px 10px 100px 10px;
+        padding: 10px;
     }
 }
 
@@ -359,7 +359,7 @@ a:hover {
     list-style-type: none;
     padding: 0;
     margin: 12px auto;
-    width: max-content;
+    width: fit-content;
 }
 
 .project-summary li {

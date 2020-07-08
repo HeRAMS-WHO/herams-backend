@@ -11,16 +11,11 @@ $this->registerAssetBundle(\yii\web\JqueryAsset::class);
 $this->registerCss(<<<CSS
     body {
         display: block;
+        background: none;
     }
 
 .content {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    width: 100vw;
     padding: 0;
-    height: 100vh;
-    
 }
 CSS
 );

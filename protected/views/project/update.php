@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-xs-12 col-md-8 col-lg-6  form-content form-bg">
+<div class="form-content form-bg">
     <?php
     echo Html::tag('h3', \Yii::t('app', 'Update ').' '.$this->title);
     $form = ActiveForm::begin([
@@ -55,8 +55,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'widgetClass' => \kartik\select2\Select2::class,
                 'options' => [
                 'data' => \yii\helpers\ArrayHelper::map(
-                        [['alpha3' => '', 'name' => \Yii::t('app', '(Not set)')]] +
-                        (new League\ISO3166\ISO3166())->all(), 'alpha3', 'name')
+                    [['alpha3' => '', 'name' => \Yii::t('app', '(Not set)')]] +
+                    (new League\ISO3166\ISO3166())->all(),
+                    'alpha3',
+                    'name'
+                )
                 ]
             ],
             'typemapAsJson' => [
