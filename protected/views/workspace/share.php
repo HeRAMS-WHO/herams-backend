@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $form->end();
     ?>
 </div>
-<div class="form-content form-bg">
+<div class="form-content form-bg full-width">
     <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
     <?php
     echo $model->renderTable();

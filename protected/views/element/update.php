@@ -34,7 +34,7 @@ $this->title = $model->isNewRecord
     ? \Yii::t('app', 'Create element')
     : \Yii::t('app', 'Update element');
 $this->params['breadcrumbs'][] = $this->title;
-$grid = $model->type  == 'map' ? 'grid-column: span 2; grid-row: span 2; height: 400px;' : 'grid-row: span 1; grid-column: span 2;';
+$grid = $model->type  == 'map' ? 'grid-column: span 2; grid-row: span 2;' : 'grid-row: span 1; grid-column: span 2;';
 ?>
 <div style='<?= $grid; ?>'>
     <?php
