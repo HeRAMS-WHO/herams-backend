@@ -240,7 +240,7 @@ body.no-title .title {
 span.header {
     max-width: 100%;
     overflow: hidden;
-    font-weight: bold;
+    font-weight: 300;
     white-space: nowrap;
     font-size: 25px;
     display: block;
@@ -248,17 +248,17 @@ span.header {
     text-overflow: ellipsis;
     background-color: var(--header-background-color);
     border-bottom: 5px solid var(--highlight-background-color);
+    padding-left: var(--gutter-size);
 }
 
 .breadcrumb {
     background-color: var(--header-background-color);
-    padding: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: var(--gutter-size);
     margin-top: 0;
     margin-bottom: 0;
     color: var(--breadcrumbs-color);
     list-style-type: none;
+    border-radius: 0;
 }
 
 .breadcrumb a:not(:hover), .breadcrumb a:not(:hover):visited, .breadcrumb a:not(:hover):active {
@@ -267,13 +267,16 @@ span.header {
 }
 
 .breadcrumb li {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 13px;
 }
 
 .breadcrumb .icon {
-    margin-left: 3px;
-    margin-right: 3px;
-    height: 1em;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 12px;
 }
 
 .breadcrumb li:last-child .icon {
@@ -672,6 +675,9 @@ body {
         position: absolute;
         bottom: 0;
     }
+    span.header {
+        padding-left: 0;
+    }
     .filters>div {
         display: inline-block;
     }
@@ -687,20 +693,15 @@ body {
         display: inline-block;
     }
     .breadcrumb {
+        background-color: transparent;
+        padding-left: 0;
         margin-bottom: 33px;
     }
     .title {
         padding-left: var(--gutter-size);
     }
-    .header {
-        position: absolute;
-        bottom: 0;
-    }
     .filters>div {
         display: inline-block;
-    }
-    .breadcrumb {
-        margin-bottom: 33px;
     }
     body {
          background: linear-gradient(
