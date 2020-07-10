@@ -646,7 +646,7 @@ body {
     padding: 20px;
     height: min-content;
     grid-row: auto;
-    grid-column: span 3;
+    grid-column: span 2;
 }
 
 .form-content.full-width {
@@ -723,6 +723,12 @@ body {
         grid-auto-flow: dense;
         grid-row-gap: var(--gutter-size);
         grid-column-gap: var(--gutter-size);
+    }
+
+    .content.layout-form {
+        grid-auto-rows: min-content;
+        grid-auto-columns: min-content;
+        grid-template-rows: min-content;
     }
 
     .content.layout-admin {
@@ -810,18 +816,11 @@ body {
     .prime_widgets_chart_Chart, .table {
         grid-row: span 2;
     }
-    .form-content {
-        max-width: 730px;
-    }
 }
 
 @media(min-width: 1460px) {
     .content {
         grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-    
-    .form-content {
-        max-width: 680px;
     }
     /*.prime_widgets_chart_Chart {*/
     /*grid-row: span 1;*/
