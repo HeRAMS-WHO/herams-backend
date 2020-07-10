@@ -725,8 +725,9 @@ body {
     }
 
     .content.layout-form {
-        grid-auto-rows: repeat( auto-fill, minmax(200px, min-content) );
-        grid-template-rows: auto;
+        grid-auto-rows: min-content;
+        grid-auto-columns: min-content;
+        grid-template-rows: min-content;
     }
 
     .content.layout-admin {
