@@ -34,10 +34,9 @@ $this->title = $model->isNewRecord
     ? \Yii::t('app', 'Create element')
     : \Yii::t('app', 'Update element');
 $this->params['breadcrumbs'][] = $this->title;
-$grid = $model->type  == 'map' ? 'grid-column: span 2; grid-row: span 2; height:400px;' : 'grid-row: span 1; grid-column: span 2; height:200px;';
 ?>
 <div class="form-content form-bg">
-    <h3><?=\Yii::t('app', 'Update element')?></h3>
+    <h3><?= \Yii::t('app', 'Update element'); ?></h3>
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -135,7 +134,7 @@ JS
     foreach ($model->colorAttributes() as $attribute) {
         $attributes[$attribute] = [
             'type' => Form::INPUT_HTML5,
-            'html5type' =>'color',
+            'html5type' => 'color',
             'allowUnsafe' => true,
         ];
     }
@@ -173,8 +172,7 @@ JS
                     'id' => $model->project->id
                 ],
                 [
-                'class' => 'btn btn-warning',
-
+                    'class' => 'btn btn-warning',
                 ]
             )
         ]
@@ -183,7 +181,7 @@ JS
 
     ?>
 </div>
-<div style='<?= $grid; ?>'>
+<div class='form-element <?= $model->type; ?>'>
     <?php
     if (isset($model->id)) {
         $params = ['element/preview'];

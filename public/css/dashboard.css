@@ -151,7 +151,6 @@ a {
     margin: 0 0 0 10px;
 }
 
-
 .user-menu span {
     font-size: 11px;
 }
@@ -654,6 +653,31 @@ body {
     grid-column: span 4;
 }
 
+.form-element, .form-element.table {
+    grid-column: span 2;
+    grid-row: auto;
+    min-height: 300px;
+    width: auto;
+    overflow: auto;
+}
+
+.form-element.table iframe {
+    min-height: 300px;
+}
+
+.form-element.chart {
+    grid-row: span 1;
+    height: 200px;
+    min-height: unset;
+}
+
+.form-element.map {
+    grid-row: span 2;
+    height: 400px;
+    min-height: unset;
+    border:none;
+}
+
 .form-content h3 {
     margin: 0 0 30px;
 }
@@ -715,7 +739,6 @@ body {
         grid-template-rows: auto auto auto minmax(400px, 1fr);
         grid-template-areas: "title user" "sidebar sidebar" "filters filters" "main main";
     }
-
     .content {
         display: grid;
         grid-template-columns: 1fr;
@@ -724,24 +747,14 @@ body {
         grid-row-gap: var(--gutter-size);
         grid-column-gap: var(--gutter-size);
     }
-
     .content.layout-form {
-        grid-auto-rows: min-content;
+        grid-auto-rows: 1fr;
         grid-auto-columns: min-content;
         grid-template-rows: min-content;
     }
 
     .content.layout-admin {
         display: block;
-    }
-
-    .map {
-        grid-column: span 1;
-        grid-row: span 2;
-    }
-    .table {
-        grid-column: span 2;
-        grid-row: span 2;
     }
     .user-menu {
         text-align: right;
@@ -770,15 +783,7 @@ body {
         ;
         height: 100vh;
     }
-    .map {
-        grid-column: span 2;
-        grid-row: span 2;
-        height: 100%;
-    }
-    .table {
-        grid-column: span 2;
-        grid-row: span 1;
-    }
+
     .filters .count~.count {
         border-left: solid 1px #7c7c7c;
         margin-left: 0px;
@@ -812,8 +817,7 @@ body {
     .content {
         grid-template-columns: 1fr 1fr 1fr;
     }
-    
-    .prime_widgets_chart_Chart, .table {
+    .prime_widgets_chart_Chart {
         grid-row: span 2;
     }
 }
