@@ -182,10 +182,11 @@ class DashboardMap extends Element
                         layer.bindTooltip(function(e) {
                             return e.feature.properties.title;
                         }),
-                        layer.bindPopup(function(e) {
+                        /*layer.bindPopup(function(e) {
                             // Added data for #408
-                            return JSON.stringify(e.feature.properties.data);
-                        });
+                            console.log(JSON.stringify(e.feature.properties.data));
+                            return "<div style='padding:20px;'>"+e.feature.properties.title+"</div>";
+                        });*/
                         layer.addTo(map);
                         
                         let legend = document.createElement('span');
