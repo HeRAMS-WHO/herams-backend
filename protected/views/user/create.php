@@ -73,6 +73,11 @@ echo Html::tag('header', $this->title);
                     ]
                 ],
                 FormButtonsWidget::embed([
+                    'options' => [
+                        'class' => [
+                            'pull-right'
+                        ],
+                    ],
                     'buttons' => [
                         Html::submitButton(Yii::t('app', 'Create account'), ['class' => ['btn', 'btn-primary', 'btn-block']])
                     ]

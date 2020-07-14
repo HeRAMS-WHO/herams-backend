@@ -26,6 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
     $form = ActiveForm::begin([
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([
@@ -74,16 +79,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     'rows' => 10
                 ]
             ],
-            FormButtonsWidget::embed([
-                'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
-                'buttons' => [
-                    [
-                        'label' => \Yii::t('app', 'Update project'),
-                        'options' => ['class' => 'btn btn-primary'],
+            [
+                'type' => Form::INPUT_RAW,
+                'value' => \yii\bootstrap\ButtonGroup::widget([
+                    'options' => [
+                        'class' => [
+                            'pull-right'
+                        ],
                     ],
-                    Html::a(\Yii::t('app', 'Back to list'), ['/project'], ['class' => 'btn btn-default']),
-                ]
-            ])
+                    'buttons' => [
+                        [
+                            'label' => \Yii::t('app', 'Update project'),
+                            'options' => ['class' => 'btn btn-primary'],
+                        ],
+                        Html::a(\Yii::t('app', 'Back to list'), ['/project'], ['class' => 'btn btn-default']),
+                    ]
+                ])
+            ]
         ]
     ]);
     $form->end();

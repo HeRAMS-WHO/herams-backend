@@ -44,24 +44,17 @@ a:hover {
     text-decoration: none;
 }
 
-.btn {
-    font-size: var(--font-size);
-}
-
-.btn-primary {
-    background-color: var(--primary-button-background-color);
-    background-image: none;
-}
-
 .breadcrumb>li+li::before {
     display: none;
 }
 
 .btn {
     cursor: pointer;
-    padding: 8px 12px;
+    padding: 10px 11px;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 12px;
+    line-height: 12px;
+    min-width:80px;
     box-shadow: none;
     background-image: none;
     border: none;
@@ -72,10 +65,13 @@ a:hover {
 
 .btn-primary {
     background-color: var(--primary-button-background-color);
+    background-image: none;
     color: var(--primary-button-color);
     border: 1px solid var(--primary-button-background-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
     text-shadow: none;
+    font-size: 13px;
+    outline: none;
 }
 
 .btn-primary:hover {
@@ -126,6 +122,45 @@ a:hover {
     color: var(--primary-button-background-color);
     border: 1px solid var(--primary-button-background-color) !important;
     transition: color 0.2s, border 0.2s;
+}
+
+.btn-success {
+    font-size: 13px;
+    outline: none;
+    background-color: #5cb85c;
+    border: 1px solid #5cb85c;
+    text-shadow: none;
+    color: white;
+    transition: color 0.2s, background-color 0.2s;
+}
+.btn-success:hover {
+    background-color: white;
+    color: #5cb85c;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-warning {
+    font-size: 13px;
+    outline: none;
+    border: 1px solid #f0ad4e;
+    color: white !important;
+    text-shadow: none;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-warning:hover {
+    background-color: white;
+    color: #f0ad4e !important;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-radio, .btn-radio label {
+    font-size: 12px;
+    min-width: 50px;
+}
+
+.checkbox, .checkbox label {
+    font-size: 14px;
 }
 
 @media (min-width: 800px) {

@@ -14,7 +14,7 @@ form .has-error input{
 
 
 .help-block, .error-summary  {
-    margin-top: 10px;
+    margin: 0;
     color: var(--validation-error-color);
 }
 
@@ -43,7 +43,9 @@ form .has-error input{
 /*}*/
 
 .control-label {
-    font-size: 1em;
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 600;
 }
 
 .required .control-label.has-star::after {
@@ -51,7 +53,9 @@ form .has-error input{
     color: red;
 }
 .hint-block {
-    font-size: 0.8em;
+    font-size: 12px;
+    margin-top: 3px;
+    color: grey;
 }
 .btn-block {
     display: block;
@@ -122,10 +126,6 @@ form .has-error input{
  */
 .formbuttons {
     display: block;
-}
-.formbuttons.orientation-right {
-    float: right;
-
 }
 .formbuttons > *, .popover .formbuttons > * {
     display: inline-block;

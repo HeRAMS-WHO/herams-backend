@@ -18,6 +18,9 @@ $this->registerCss(<<<CSS
         display: block;
         height: min-content;
     }
+    .map {
+        min-height: 400px;
+    }
 CSS);
 echo \yii\helpers\Html::beginTag('div', ['class' => 'content']);
 echo $element->getWidget($survey, $data, $element->page)->run();
