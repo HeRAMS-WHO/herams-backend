@@ -310,6 +310,16 @@ span.header {
     display: inline-block;
 }
 
+.filters a span {
+    background: #222222;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-left: 5px;
+}
+.filters a:hover span {
+    color: white !important;
+}
+
 .filters .row {
     clear: both;
 }
