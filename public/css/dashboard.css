@@ -314,57 +314,10 @@ span.header {
     background: #222222;
     padding: 4px 10px;
     border-radius: 20px;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 .filters a:hover span {
     color: white !important;
-}
-
-.filters .row {
-    clear: both;
-}
-
-.filters .row>div {
-    float: left;
-    --width: 12;
-    width: calc(100% / 12 * var(--width));
-}
-
-.filters .row>.col-sm-3 {
-    --width: 3
-}
-
-.filters .row>.col-sm-6 {
-    --width: 12
-}
-
-.filters .row>.col-sm-6 .control-label {
-    padding: 20px 0 5px 0;
-    display: block;
-    font-size: 15px;
-    line-height: 17px;
-}
-
-.filters .row>.col-md-2 {
-    --width: 2
-}
-
-.filters .row>.col-md-10 {
-    --width: 10
-}
-
-.filters .row input[type='text'], .filters .row input[type='date'] {
-    background: transparent;
-    width: 100%;
-    padding: 0 12px;
-    height: 32px;
-    line-height: 1.428571429;
-    margin-top: 0;
-    min-width: 5em;
-    color: #999;
-    border-radius: 5px;
-    border: 1px solid;
-    outline: none;
 }
 
 .filters .advanced {
@@ -393,8 +346,8 @@ span.header {
 }
 
 .filters.expanded .filterlist {
-    padding: 10px 20px 40px;
-    margin: 0 0 10px;
+    padding: 10px 20px 40px 20px;
+    margin-bottom: 10px;
     font-size: 14px;
     background: white;
     display: inherit;
@@ -402,6 +355,60 @@ span.header {
     max-height: 60vh;
     overflow: auto;
 }
+
+.filters.expanded .filterlist .group {
+    width: 100%;
+    display: inline-block;
+    max-width: 800px;
+    margin-bottom: 25px;
+}
+
+.filters.expanded .filterlist .group .group-title {
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: bold;
+    float: left;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.filters.expanded .filterlist .group .row {
+    display: inline-block;
+    width: 100%;
+}
+
+.filters.expanded .filterlist .group .form-group {
+    width: 50%;
+    float: left;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.filters.expanded .filterlist .row {
+    clear: both;
+}
+
+.filters.expanded .filterlist .form-group label {
+    padding: 0 0 10px 0;
+    display: block;
+    font-size: 15px;
+    line-height: 17px;
+}
+
+.filters.expanded .filterlist input[type='text'], .filters.expanded input[type='date'] {
+    background: transparent;
+    width: 100%;
+    padding: 0 12px;
+    height: 32px;
+    line-height: 1.428571429;
+    margin-top: 0;
+    min-width: 5em;
+    color: #999;
+    border-radius: 5px;
+    border: 1px solid;
+    outline: none;
+}
+
 
 .select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {
     margin: 0px 0 0 3px;
@@ -811,15 +818,6 @@ body {
     .filter .hint {
         width: 50%;
         margin: 0;
-    }
-    .filters .row>.col-sm-6 {
-        --width: 6
-    }
-    .filters .row>.col-sm-6:first-child {
-        padding: 0 15px 0 0;
-    }
-    .filters .row>.col-sm-6:last-child {
-        padding: 0 0 0 15px;
     }
 }
 
