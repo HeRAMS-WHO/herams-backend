@@ -128,6 +128,27 @@ a:hover {
     transition: color 0.2s, border 0.2s;
 }
 
+.btn-close, .btn-close:visited {
+    padding: 2px 0;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+    line-height: initial;
+    color: #888;
+    display: inline-block;
+    background-color: white !important;
+    border: 1px solid #888;
+    transition: color 0.2s, border 0.2s, background-color 0.2s;
+}
+
+.btn-close:hover{
+    background-color: #555 !important;
+    color: white;
+    border: 1px solid #555;
+    transition: color 0.2s, border 0.2s, background-color 0.2s;
+}
+
 @media (min-width: 800px) {
     body {
         overflow-y: hidden;
