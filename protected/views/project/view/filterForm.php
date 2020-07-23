@@ -76,7 +76,7 @@ JS
         echo Html::beginTag('div', ['class' => 'selected-filters-list']);
         echo "<span class='list-title'>" . \Yii::t('app', 'Filters') . "</span> : ";
         if (isset($date)) {
-            echo \Yii::t('app', 'Date') ." {$date} ";
+            echo "<span class='label'>" .\Yii::t('app', 'Date') ." : </span> <span class='value'>{$date}</span> ";
         }
         if (is_array($filtersList) && count($filtersList) > 0) {
             foreach ($groups as $group) {
