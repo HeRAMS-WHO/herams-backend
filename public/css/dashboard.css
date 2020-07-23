@@ -728,6 +728,11 @@ body {
         padding: 20px;
         font-size: 13px;
     }
+
+    .filters .advanced .selected-filters-list .list-title {
+        color: #999;
+    }
+
     .filters .advanced .selected-filters-list .label {
         font-size: 13px;
         margin-right: 4px;

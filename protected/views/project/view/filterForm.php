@@ -74,7 +74,7 @@ JS
     $filtersList = $filterModel->advanced;
     if (isset($date) || (is_array($filtersList) && count($filtersList) > 0)) {
         echo Html::beginTag('div', ['class' => 'selected-filters-list']);
-        echo "<span class='list-title'>" . \Yii::t('app', 'Filters') . "</span> : ";
+        echo "<span class='list-title'>" . \Yii::t('app', 'Filters') . " :</span>";
         if (isset($date)) {
             echo "<span class='label'>" .\Yii::t('app', 'Date') ." : </span> <span class='value'>{$date}</span> ";
         }
