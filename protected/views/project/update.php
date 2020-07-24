@@ -79,23 +79,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'rows' => 10
                 ]
             ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => \yii\bootstrap\ButtonGroup::widget([
-                    'options' => [
-                        'class' => [
-                            'pull-right'
-                        ],
+            FormButtonsWidget::embed([
+                'orientation' => FormButtonsWidget::ORIENTATION_RIGHT,
+                'buttons' => [
+                    [
+                        'label' => \Yii::t('app', 'Update project'),
+                        'options' => ['class' => 'btn btn-primary'],
                     ],
-                    'buttons' => [
-                        [
-                            'label' => \Yii::t('app', 'Update project'),
-                            'options' => ['class' => 'btn btn-primary'],
-                        ],
-                        Html::a(\Yii::t('app', 'Back to list'), ['/project'], ['class' => 'btn btn-default']),
-                    ]
-                ])
-            ]
+                    Html::a(\Yii::t('app', 'Back to list'), ['/project'], ['class' => 'btn btn-default']),
+                ]
+            ])
         ]
     ]);
     $form->end();

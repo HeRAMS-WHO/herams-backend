@@ -127,6 +127,9 @@ form .has-error input{
 .formbuttons {
     display: block;
 }
+.formbuttons.orientation-right {
+    float: right;
+}
 .formbuttons > *, .popover .formbuttons > * {
     display: inline-block;
 }
@@ -140,6 +143,10 @@ form .has-error input{
 .formbuttons.orientation-block > a {
     text-align: right;
 }
+.form-horizontal .row .form-group.formbuttons-container {
+    display: block;
+}
+
 /**
  * END CSS for formbuttons widget
  */
