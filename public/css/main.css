@@ -129,6 +129,7 @@ a:hover {
     border-radius: 50%;
     width: 20px;
     height: 20px;
+    min-width: unset;
     font-size: 11px;
     line-height: initial;
     color: #888;
