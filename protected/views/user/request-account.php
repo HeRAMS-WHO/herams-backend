@@ -40,6 +40,11 @@ echo Html::tag('header', $this->title);
             'email' => ['type' => Form::INPUT_TEXT],
             FormButtonsWidget::embed([
                 'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
+                'options' => [
+                    'class' => [
+                        'pull-right'
+                    ],
+                ],
                 'buttons' => [
                     Html::a(Yii::t('app', 'Already have an account? Sign in!'), ['/session/create']),
                     Html::submitButton(\Yii::t('app', 'Register'), ['class' => 'btn btn-primary'])

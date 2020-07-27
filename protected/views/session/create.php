@@ -41,6 +41,11 @@ $this->title = \Yii::$app->name;
             ],
             FormButtonsWidget::embed([
                 'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
+                'options' => [
+                    'class' => [
+                        'pull-right'
+                    ],
+                ],
                 'buttons' => [
                     Html::a(\Yii::t('app', 'Forgot your password ?'), ['/user/request-reset'], ['class' => 'request-reset']),
                     Html::submitButton(\Yii::t('app', 'Log in'), ['class' => 'btn btn-primary', 'form' => 'login-form'])
@@ -77,6 +82,11 @@ $this->title = \Yii::$app->name;
                 ],
                 FormButtonsWidget::embed([
                     'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
+                    'options' => [
+                        'class' => [
+                            'pull-right'
+                        ],
+                    ],
                     'buttons' => [
                         Html::submitButton(\Yii::t('app', 'Register'), ['class' => 'btn btn-primary'])
                     ]

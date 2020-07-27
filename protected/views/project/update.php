@@ -26,6 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
     $form = ActiveForm::begin([
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([
@@ -75,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             FormButtonsWidget::embed([
-                'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
+                'orientation' => FormButtonsWidget::ORIENTATION_RIGHT,
                 'buttons' => [
                     [
                         'label' => \Yii::t('app', 'Update project'),

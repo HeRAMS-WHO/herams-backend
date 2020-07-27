@@ -24,6 +24,11 @@ echo Form::widget([
             'type' => Form::INPUT_TEXT,
         ],
         FormButtonsWidget::embed([
+            'options' => [
+                'class' => [
+                    'pull-right'
+                ],
+            ],
             'buttons' => [
                 Html::submitButton(
                     Yii::t('app', 'Send confirmation'),
