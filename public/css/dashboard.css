@@ -305,6 +305,17 @@ span.header {
     z-index: 10051;
 }
 
+.select2 .select2-selection {
+    font-size: 13px;
+    line-height: 13px;
+}
+
+.form-content .btn-group.buttons-row .btn {
+    padding: 10px 11px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
 .filters a, .filters button {
     margin: 10px;
     display: inline-block;
@@ -582,7 +593,6 @@ span.header {
 
 .map {
     border: 3px solid white;
-    height: 400px;
 }
 
 /**/
@@ -690,7 +700,7 @@ body {
     grid-row: span 2;
     height: 400px;
     min-height: unset;
-    border:none;
+    border: none;
 }
 
 .form-content h3 {
@@ -780,13 +790,7 @@ body {
         display: inline-block;
     }
     body {
-         background: linear-gradient(
-            to bottom,
-            var(--header-background-color) 0%,
-            var(--header-background-color) 230px,
-            var(--main-background-color) 230px,
-            var(--main-background-color) 100%)
-    ;
+        background: linear-gradient( to bottom, var(--header-background-color) 0%, var(--header-background-color) 230px, var(--main-background-color) 230px, var(--main-background-color) 100%);
         grid-template-columns: 65vw 35vw;
         grid-template-rows: auto auto auto minmax(400px, 1fr);
         grid-template-areas: "title user" "sidebar sidebar" "filters filters" "main main";
@@ -804,7 +808,6 @@ body {
         grid-auto-columns: min-content;
         grid-template-rows: min-content;
     }
-
     .content.layout-admin {
         display: block;
     }
@@ -828,14 +831,9 @@ body {
         background: linear-gradient( to bottom, var(--header-background-color) 0%, var(--header-background-color) 130px, var(--main-background-color) 130px, var(--main-background-color) 100%);
         grid-template-rows: auto auto 1fr;
         grid-template-columns: auto 1fr 1fr 1fr;
-         grid-template-areas:
-                "sidebar title title user"
-                "sidebar filters filters filters"
-                "sidebar main main main"
-        ;
+        grid-template-areas: "sidebar title title user" "sidebar filters filters filters" "sidebar main main main";
         height: 100vh;
     }
-
     .filters .count~.count {
         border-left: solid 1px #7c7c7c;
         margin-left: 0px;
@@ -1074,7 +1072,59 @@ body[data-modal]:after {
     color: #92929b;
 }
 
-.form-horizontal .control-label {
+.form-horizontal {
+    margin: 0;
+    max-width: 600px;
+}
+
+.form-horizontal .row {
+    margin: 0 0 25px 0;
+    padding: 0;
+}
+
+.form-horizontal input[type='text'], .form-horizontal .select2 {
+    margin: 0;
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-horizontal input[type="color"] {
+    max-width: 40px;
+    padding: 5px;
+    height: 40px;
+}
+
+.form-horizontal .col-sm-6 label {
+    padding: 7px 15px 0 5px;
+    max-width: none;
+}
+
+.form-horizontal .form-group .col-md-3 {
     word-break: break-word;
-    padding-right: 4px;
+    padding: 0;
+    margin-right: 20px;
+    width: max-content;
+    min-width: 110px;
+}
+
+.form-horizontal .form-group .col-md-9 {
+    width: 100%;
+}
+
+.form-horizontal .row .form-group {
+    display: flex;
+    align-items: flex-start;
+}
+
+.form-horizontal .row div {
+    padding: 0;
+}
+
+.form-content table {
+    margin-bottom: 0;
+}
+
+.form-content .grid-view .summary {
+    margin-bottom: 15px;
+    font-size: 13px;
 }

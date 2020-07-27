@@ -40,7 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
-        'enableClientValidation' => true
+        'enableClientValidation' => true,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([
@@ -55,7 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'items' => [
                     1 => \Yii::t('app', 'Yes'),
                     0 => \Yii::t('app', 'No')
-                ]
+                ],
+                'options' => [
+                    'class' => 'btn-radio',
+                ],
             ],
             'code' => [
                 'type' => Form::INPUT_WIDGET,
@@ -140,16 +148,21 @@ JS
     }
 
     if (!empty($attributes)) {
-        $form->formConfig['labelSpan'] = 4;
+        $form->formConfig['labelSpan'] = 8;
         echo Form::widget([
             'form' => $form,
             'model' => $model,
             'columns' => 2,
             'attributes' => $attributes
-
         ]);
     }
     echo ButtonGroup::widget([
+        'options' => [
+            'class' => [
+                'pull-right',
+                'buttons-row'
+            ],
+        ],
         'buttons' => [
             Html::submitButton(
                 $this->title,

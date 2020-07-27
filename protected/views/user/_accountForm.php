@@ -38,11 +38,20 @@ use yii\helpers\Html;
                     ])
                 ], ArrayHelper::map(
                     \Yii::$app->params['languages'],
-                    static function(string $language): string { return $language; },
-                    static function(string $language): string { return locale_get_display_name($language); }
-                    ))
+                    static function (string $language): string {
+                        return $language;
+                    },
+                    static function (string $language): string {
+                        return locale_get_display_name($language);
+                    }
+                ))
             ],
             FormButtonsWidget::embed([
+                'options' => [
+                    'class' => [
+                        'pull-right'
+                    ],
+                ],
                 'buttons' => [
                     Html::submitButton(Yii::t('app', 'Update account information'), ['class' => 'btn btn-primary btn-block'])
                 ]

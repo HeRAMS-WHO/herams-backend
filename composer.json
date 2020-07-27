@@ -39,7 +39,7 @@
         "sam-it/yii2-magic": "^2",
         "sam-it/yii2-urlsigner": "^2.0",
         "sam-it/yii2-virtual-fields": "^2.0",
-        "yiisoft/yii2": "^2.0.16.1",
+        "yiisoft/yii2": "dev-master",
         "yiisoft/yii2-bootstrap": "> 2",
         "yiisoft/yii2-swiftmailer": "^2.1",
         "ext-simplexml": "*",

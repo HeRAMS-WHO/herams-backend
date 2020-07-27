@@ -40,7 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
-            'defaultPlaceholder' => false
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
         ]
     ]);
 
