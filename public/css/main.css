@@ -95,6 +95,21 @@ a:hover {
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 
+.btn-save-back, .btn-save-back:visited {
+    background-color: var(--default-button-background-color);
+    color: var(--default-button-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+}
+
+.btn-save-back:hover {
+    background-color: white;
+    color: var(--primary-button-background-color);
+    border: 1px solid var(--primary-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
 .btn-white, .btn-white:visited {
     background-color: white;
     color: var(--default-button-background-color);
@@ -104,9 +119,9 @@ a:hover {
 }
 
 .btn-white:hover {
-    background-color: var(--default-button-background-color);
-    color: white;
-    border: 1px solid var(--default-button-background-color);
+    background-color: white;
+    color: var(--clear-button-color);
+    border: 1px solid var(--clear-button-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 

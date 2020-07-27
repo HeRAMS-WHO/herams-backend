@@ -173,7 +173,7 @@ JS
                 ]
             ),
             Html::submitButton(\Yii::t('app', 'Update & go to dashboard'), [
-                'class' => 'btn btn-success',
+                'class' => 'btn btn-save-back',
                 'name' => 'action',
                 'value' => 'dashboard'
             ]),
@@ -185,7 +185,7 @@ JS
                     'id' => $model->project->id
                 ],
                 [
-                    'class' => 'btn btn-warning',
+                    'class' => 'btn btn-white',
                 ]
             )
         ]
