@@ -48,9 +48,12 @@ echo Html::beginForm([
     ?>
 </div>
 <?php
+$filterCount = !empty($filterModel->date) ? 1 : 0;
+$filterCount += count($filterModel->advanced);
+$filterCountSpan = "<span>{$filterCount}</span>";
 echo Html::a(\Yii::t('app', 'PDF'), array_merge(Yii::$app->request->queryParams, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white', 'title' => 'Pdf export']);
 echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white']);
-echo Html::a(\Yii::t('app', 'Filters'), '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
+echo Html::a(\Yii::t('app', 'Filters').$filterCountSpan, '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
 
 $this->registerJs(
     <<<JS
@@ -71,7 +74,7 @@ JS
                     'id' => 'search-filter',
                     'placeholder' => \Yii::t('app', 'Search')
                 ]);
-            ?>
+                ?>
         </div>
         <ul class="hint">
             <?php
@@ -80,7 +83,7 @@ JS
                 echo Html::tag('li', \Yii::t('app', 'After closing this screen you must click {{apply}} to see the changes', [
                     'apply' => Html::tag('em', \Yii::t('app', 'Apply filters'))
                 ]));
-            ?>
+                ?>
         </ul>
     </div>
     <?php
