@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
-
 use kartik\builder\Form;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonGroup;
@@ -32,18 +31,17 @@ class FormButtonsWidget extends Widget
         return Html::tag('div', ButtonGroup::widget([
             'buttons' => $this->buttons,
             'options' => $this->options
-        ]), ['class' => 'form-group']);
+        ]), ['class' => 'form-group formbuttons-container']);
     }
     /**
      * Returns a closure for embedding this in a form.
      */
-    public static function embed(array $config): array {
+    public static function embed(array $config): array
+    {
 
         return [
             'type' => Form::INPUT_RAW,
             'value' => static::widget($config)
         ];
     }
-
-
 }

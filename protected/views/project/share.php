@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
-            'defaultPlaceholder' => false
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
 
         ]
     ]);
@@ -41,6 +42,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             FormButtonsWidget::embed([
+                'options' => [
+                    'class' => [
+                        'pull-right'
+                    ],
+                ],
                 'buttons' => [
                     ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
                 ]

@@ -32,12 +32,17 @@ $this->title = $page->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-content form-bg">
-    <h3><?=\Yii::t('app', 'Update Page')?></h3>
+    <h3><?= \Yii::t('app', 'Update Page') ?></h3>
     <?php
     $form = ActiveForm::begin([
         'id' => 'update-page',
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([
@@ -59,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]
 
                     ],
-                    ]
+                ]
 
 
             ],
@@ -78,6 +83,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'type' => Form::INPUT_RAW,
                 'value' => ButtonGroup::widget([
+                    'options' => [
+                        'class' => 'pull-right'
+                    ],
                     'buttons' => [
                         ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]],
                         Html::a(\Yii::t('app', 'Back to list'), ['project/pages', 'id' => $page->project_id], ['class' => ['btn', 'btn-default']])
@@ -87,7 +95,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]);
     $form->end();
-
+    ?>
+</div>
+<div class="form-content form-bg">
+    <?php
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
