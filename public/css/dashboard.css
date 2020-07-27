@@ -1090,6 +1090,7 @@ body[data-modal]:after {
 
 .form-horizontal input[type="color"] {
     max-width: 40px;
+    width: 40px;
     padding: 5px;
     height: 40px;
 }
