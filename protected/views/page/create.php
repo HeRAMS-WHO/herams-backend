@@ -32,6 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
     $form = ActiveForm::begin([
         'id' => 'update-page',
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([
