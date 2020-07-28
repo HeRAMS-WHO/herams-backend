@@ -41,8 +41,9 @@ class FavoriteColumn extends Column
         $this->grid->view->registerJs(<<<JS
 
             document.addEventListener('click', async (e) => {
-                let button = e.target.closest('#w3 .FavoriteButton');
+                let button = e.target.closest('td .FavoriteButton');
                 if (button) {
+                    
                     let className = 'favorite';
                     let desiredState = !button.classList.contains(className);
                     // Match!
