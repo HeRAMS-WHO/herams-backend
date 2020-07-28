@@ -38,7 +38,8 @@ $form = ActiveForm::begin([
     "type" => ActiveForm::TYPE_HORIZONTAL,
     'formConfig' => [
         'showLabels' => true,
-        'defaultPlaceholder' => false
+        'defaultPlaceholder' => false,
+        'labelSpan' => 3
     ]
 ]);
 foreach ($token->attributes() as $attribute) {

@@ -27,7 +27,8 @@ $this->params['breadcrumbs'][] = [
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
-            'defaultPlaceholder' => false
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
         ]
     ]);
     echo \app\components\Form::widget([

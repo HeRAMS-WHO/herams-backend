@@ -59,7 +59,7 @@ class ExportAction extends Action
         Response $response,
         User $user
     ) {
-        $this->controller->layout = 'form';
+        $this->controller->layout = 'admin';
         $subject = ($this->subject)($request);
         if (!isset($subject)) {
             throw new NotFoundHttpException();

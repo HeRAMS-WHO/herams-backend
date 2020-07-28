@@ -22,7 +22,9 @@ $this->params['hideMenu'] = true;
             'validateOnChange' => false,
             'type' => ActiveForm::TYPE_VERTICAL,
             'formConfig' => [
-                'showLabels' => ActiveForm::SCREEN_READER
+                'showLabels' => ActiveForm::SCREEN_READER,
+                'defaultPlaceholder' => false,
+                'labelSpan' => 3
             ],
             'fieldConfig' => [
                 'autoPlaceholder' => true,
