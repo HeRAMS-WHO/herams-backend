@@ -177,6 +177,16 @@ JS
 
     $id = Json::encode('#' . Html::getInputId($filterModel, 'date'));
     $this->registerJs("flatpickr($id,{maxDate:'today'});");
+    $this->registerJs("document.getElementById('search-filter').addEventListener('keydown', function(e) {
+    if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+        e.preventDefault();
+        return false;
+    }
+    }, true);");
+
+
+
+    
     echo Html::beginTag('div', ['class' => 'filterlist']);
     
     echo Html::beginTag('div', ['class' => 'group']);
