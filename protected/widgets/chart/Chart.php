@@ -282,7 +282,7 @@ class Chart extends Element
                             label.classList.add("label");
                             let percentage = Math.round(dataset.data[items[i]._index] / sum * 100);
                             if(percentage < 1) percentage = "<1";
-                            label.innerHTML = `${items[i]._model.label} (${dataset.data[items[i]._index]}<span> / ${percentage}%</span>)`;
+                            label.innerHTML = `${items[i]._model.label} <span>(${dataset.data[items[i]._index]} / ${percentage}%)</span>`;
                             item.appendChild(color);
                             item.appendChild(label);
                             column.appendChild(item);

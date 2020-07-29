@@ -190,7 +190,8 @@ class Workspace extends ActiveRecord
             $this->project->base_survey_eid,
             [
                 'token' => $this->getAttribute('token'),
-                'newtest' => 'Y'
+                'newtest' => 'Y',
+                'lang' => \Yii::$app->language
             ]
         );
     }
