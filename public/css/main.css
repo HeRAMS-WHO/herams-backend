@@ -44,6 +44,10 @@ a:hover {
     text-decoration: none;
 }
 
+input[type="text"] {
+    outline: none;
+}
+
 .breadcrumb>li+li::before {
     display: none;
 }

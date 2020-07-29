@@ -88,7 +88,7 @@ a {
 }
 
 .filter_search {
-    padding: 20px 10px 30px 10px;
+    padding: 20px 20px 30px;
     margin: 0;
     display: block;
 }
@@ -308,6 +308,10 @@ span.header {
 .select2 .select2-selection {
     font-size: 13px;
     line-height: 13px;
+}
+
+.select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {
+    line-height: 14px;
 }
 
 .form-content .btn-group.buttons-row .btn {
