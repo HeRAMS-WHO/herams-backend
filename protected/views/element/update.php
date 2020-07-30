@@ -124,6 +124,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]);
 
+    //echo $form->field($model, 'referrer')->hiddenInput(['value'=> Yii::$app->request->referrer])->label(false);
+
     $url = \yii\helpers\Json::encode($url);
     $this->registerJs(<<<JS
 $('#element-code, #element-transpose').on('change', function(e) {
@@ -172,20 +174,16 @@ JS
                     'value' => 'refresh'
                 ]
             ),
-            Html::submitButton(\Yii::t('app', 'Update & go to dashboard'), [
+            Html::submitButton(\Yii::t('app', 'Update & go back'), [
                 'class' => 'btn btn-save-back',
                 'name' => 'action',
                 'value' => 'dashboard'
             ]),
             Html::a(
-                \Yii::t('app', 'Discard & go to dashboard'),
+                \Yii::t('app', 'Discard & go back'),
+                Yii::$app->request->referrer,
                 [
-                    'project/view',
-                    'page_id' => $model->page->id,
-                    'id' => $model->project->id
-                ],
-                [
-                    'class' => 'btn btn-white',
+                    'class' => 'btn btn-white'
                 ]
             )
         ]

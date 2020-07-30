@@ -9,6 +9,7 @@ use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 class DashboardMap extends Element
 {
@@ -110,6 +111,8 @@ class DashboardMap extends Element
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
                         'id' => $response->getId(),
+                        'workspace_url' => Url::to(['/project/workspaces', 'id' => $response['workspace_id']]),
+                        'workspace_title' => \Yii::t('app', 'Workspaces'),
                         'data' => $pointData
                     ]
 
@@ -182,11 +185,14 @@ class DashboardMap extends Element
                         layer.bindTooltip(function(e) {
                             return e.feature.properties.title;
                         }),
-                        /*layer.bindPopup(function(e) {
+                        layer.bindPopup(function(e) {
                             // Added data for #408
-                            console.log(JSON.stringify(e.feature.properties.data));
-                            return "<div style='padding:20px;'>"+e.feature.properties.title+"</div>";
-                        });*/
+                            //console.log(JSON.stringify(e.feature));
+                            return "<div class='hf-summary'>"+
+                                "<h2>"+e.feature.properties.title+"</h2>" +
+                                "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
+                            "</div>";
+                        });
                         layer.addTo(map);
                         
                         let legend = document.createElement('span');
