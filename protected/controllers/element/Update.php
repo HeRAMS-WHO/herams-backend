@@ -3,7 +3,6 @@
 
 namespace prime\controllers\element;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\models\ar\Element;
@@ -41,13 +40,14 @@ class Update extends Action
         if ($request->isPost) {
             if ($model->load($request->bodyParams) && $model->save()) {
                 $notificationService->success(\Yii::t('app', "Element updated"));
-                switch($request->bodyParams['action']) {
+                switch ($request->bodyParams['action']) {
                     case 'dashboard':
                         return $this->controller->redirect([
                             'project/view',
                             'page_id' => $element->page->id,
                             'id' => $element->project->id
                         ]);
+                        /*return $this->controller->redirect($request->bodyParams['Element']['referrer']);*/
                     case 'refresh':
                     default:
                         return $this->controller->refresh();
@@ -70,5 +70,4 @@ class Update extends Action
             ]))
         ]);
     }
-
 }
