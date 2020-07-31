@@ -116,23 +116,8 @@ body {
     display: block;
 }
 
-.popover .signin .btn-primary {
-    width: 100%;
-}
-
 .popover .signup span.title {
     margin-bottom: 10px;
-}
-
-.popover .signup .btn-primary {
-    background: white;
-    color: var(--link-color);
-    margin: 0;
-}
-
-.popover .signup .btn-primary:hover {
-    background: var(--link-color);
-    color: white;
 }
 
 .popover hr {

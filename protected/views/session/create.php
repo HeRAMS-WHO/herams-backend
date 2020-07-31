@@ -88,7 +88,7 @@ $this->title = \Yii::$app->name;
                         ],
                     ],
                     'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Register'), ['class' => 'btn btn-primary'])
+                        Html::submitButton(\Yii::t('app', 'Register'), ['class' => 'btn btn-primary inverse'])
                     ]
                 ])
             ]

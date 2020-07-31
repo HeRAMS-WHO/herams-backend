@@ -14,8 +14,9 @@ form .has-error input{
 
 
 .help-block, .error-summary  {
-    margin: 0;
+    margin: 5px 0 0;
     color: var(--validation-error-color);
+    font-size: 12px;
 }
 
 .kv-table-caption {

@@ -84,6 +84,17 @@ input[type="text"] {
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 
+.btn-primary.inverse {
+    background: white;
+    color: var(--link-color);
+    margin: 0;
+}
+
+.btn-primary.inverse:hover {
+    background: var(--link-color);
+    color: white !important;
+}
+
 .btn-default, .btn-default:visited {
     background-color: var(--default-button-background-color);
     color: var(--default-button-color);
