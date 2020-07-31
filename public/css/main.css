@@ -207,6 +207,18 @@ input[type="text"] {
     transition: color 0.2s, background-color 0.2s;
 }
 
+.btn.btn-circle {
+    border-radius: 50%;
+    min-width: auto;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .btn-radio, .btn-radio label {
     font-size: 12px;
     min-width: 50px;

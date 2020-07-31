@@ -12,8 +12,9 @@
 use kartik\grid\GridView;
 use prime\models\ar\Permission;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
-use yii\bootstrap\ButtonGroup;
+use prime\helpers\Icon;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -29,33 +30,54 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = \Yii::t('app', 'Workspaces');
 $this->params['breadcrumbs'][] = $this->title;
-echo GridView::widget([
-    'caption' => ButtonGroup::widget([
-        'options' => [
-            'class' => 'pull-right',
-        ],
-        'buttons' => [
-            [
-                'label' => \Yii::t('app', 'Import workspaces'),
-                'tagName' => 'a',
-                'options' => [
-                    'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
-                    'class' => 'btn-default',
-                ],
-                'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
-            ],
-            [
-                'label' => \Yii::t('app', 'Create workspace'),
-                'tagName' => 'a',
-                'options' => [
-                    'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
-                    'class' => 'btn-primary',
-                ],
-                'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
-            ],
 
-        ]
-    ]),
+echo Html::beginTag('div', ['class' => 'topbar']);
+echo Html::beginTag('div', ['class' => 'pull-left']);
+/*echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::healthFacility();
+echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
+echo Html::tag('em', 14);
+echo Html::endTag('div');*/
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'btn-group']);
+if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
+    echo Html::a(\Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default']);
+    echo Html::a(\Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary']);
+}
+echo Html::endTag('div');
+echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
+echo Html::a(Icon::project(), ['project/view', 'id' => $project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
+echo Html::endTag('div');
+echo Html::endTag('div');
+echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo GridView::widget([
+    /*'caption' => ButtonGroup::widget([
+            'options' => [
+                'class' => 'pull-right',
+            ],
+            'buttons' => [
+                [
+                    'label' => \Yii::t('app', 'Import workspaces'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
+                        'class' => 'btn-default',
+                    ],
+                    'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
+                ],
+                [
+                    'label' => \Yii::t('app', 'Create workspace'),
+                    'tagName' => 'a',
+                    'options' => [
+                        'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
+                        'class' => 'btn-primary',
+                    ],
+                    'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
+                ],
+
+            ]
+        ]),*/
     'pjax' => true,
     'pjaxSettings' => [
         'options' => [
@@ -91,3 +113,5 @@ echo GridView::widget([
         'actions' => require('workspaces/actions.php')
     ]
 ]);
+
+echo Html::endTag('div');

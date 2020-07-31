@@ -17,25 +17,28 @@ echo Html::beginForm([
     'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
 ], 'post', [
     'autocomplete' => 'off',
-    'class' => 'filters'
+    'class' => 'filters topbar'
 ]);
 
 ?>
 <div class="count">
     <?php
-    echo Icon::healthFacility() . ' ' . \Yii::t('app', 'Health Facilities');
+    echo Icon::healthFacility();
+    echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
     echo Html::tag('em', count($data));
     ?>
 </div>
 <div class="count">
     <?php
-    echo Icon::contributors() . ' ' . \Yii::t('app', 'Contributors');
+    echo Icon::contributors();
+    echo Html::tag('span', \Yii::t('app', 'Contributors'));
     echo Html::tag('em', $project->contributorCount);
     ?>
 </div>
 <div class="count">
     <?php
-    echo Icon::sync() . ' ' . \Yii::t('app', 'Latest update');
+    echo Icon::sync();
+    echo Html::tag('span', \Yii::t('app', 'Latest update'));
     /** @var HeramsResponseInterface $heramsResponse */
     $lastUpdate = null;
     foreach ($data as $heramsResponse) {
