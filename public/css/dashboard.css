@@ -146,7 +146,7 @@ a {
     background-color: var(--header-background-color);
 }
 
-.user-menu > div {
+.user-menu>div {
     display: inline-block;
     margin: 0 0 0 10px;
 }
@@ -284,15 +284,42 @@ span.header {
 
 /**/
 
-.filters {
+.topbar {
+    grid-area: topbar;
     background-color: white;
-    grid-area: filters;
-    padding: 15px 0 10px;
+    padding: 15px;
     font-size: 18px;
+    text-align: right;
+    position: relative;
+    z-index: 999;
+    margin-bottom: 10px;
     --height: 30px;
     -moz-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
     -webkit-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
     box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
+}
+
+.topbar .btn, .topbar .btn-group {
+    margin-left: 10px;
+}
+
+.filters {
+    text-align: left;
+}
+
+.filters a, .filters button {
+    display: inline-block;
+}
+
+.filters a span {
+    background: #222222;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+.filters a:hover span {
+    color: white !important;
 }
 
 .filters .filter-items {
@@ -320,24 +347,10 @@ span.header {
     line-height: 12px;
 }
 
-.filters a, .filters button {
-    margin: 10px;
-    display: inline-block;
-}
-
-.filters a span {
-    background: #222222;
-    padding: 4px 10px;
-    border-radius: 20px;
-    margin-left: 10px;
-}
-.filters a:hover span {
-    color: white !important;
-}
-
 .filters .advanced {
     display: none;
     width: 100%;
+    left: 0;
     border-top: 1px solid #ddd;
     background: #f6f6f6;
     border-radius: 5px;
@@ -422,36 +435,36 @@ span.header {
     outline: none;
 }
 
-
 .select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {
     margin: 0px 0 0 3px;
 }
 
-.filters .count svg {
-    vertical-align: middle;
-    font-size: 1.2em;
-}
-
-.filters .count {
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    margin-left: 10px;
+.topbar .count {
+    display: inline-flex;
+    padding: 7px 0px;
     border-left: none;
     color: #919191;
-    display: block;
+    align-items: center;
     font-size: 17px;
     line-height: 17px;
 }
 
-.filters em {
+.topbar .count svg {
+    height: 20px;
+    width: 25px;
+    vertical-align: middle;
+    font-size: 1.2em;
+    margin-right: 5px;
+}
+
+.topbar em {
     font-style: normal;
     color: black;
     font-weight: bold;
+    margin-left: 5px;
 }
 
-.filters em::before {
+.topbar em::before {
     content: " "
 }
 
@@ -660,7 +673,7 @@ body {
     display: grid;
     grid-template-columns: 100vw;
     grid-template-rows: auto auto auto auto minmax(400px, 1fr);
-    grid-template-areas: "user" "title" "sidebar" "filters" "main";
+    grid-template-areas: "user" "title" "sidebar" "topbar" "main";
 }
 
 /**/
@@ -731,22 +744,16 @@ body {
     span.header {
         padding-left: 0;
     }
-    .filters>div {
-        display: inline-block;
-    }
     .filters a, .filters button {
-        margin: 0 10px 0 0;
         float: right;
     }
     .filters .advanced .selected-filters-list {
         padding: 20px;
         font-size: 13px;
     }
-
     .filters .advanced .selected-filters-list .list-title {
         color: #999;
     }
-
     .filters .advanced .selected-filters-list .label {
         font-size: 13px;
         margin-right: 4px;
@@ -760,27 +767,20 @@ body {
         float: none;
         margin-left: 15px;
     }
-
     .filters .advanced .actions {
         width: 100%;
         padding: 20px;
         text-align: center;
         border-top: 1px solid #ccc;
     }
-
     .filters .advanced .actions a, .filters .advanced .actions button {
         float: none;
     }
-
     .filters .advanced .actions button {
         margin-right: 20px;
     }
-    .filters .count {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-        padding-top: 10px;
-        display: inline-block;
+    .topbar .count {
+        padding: 7px 10px 7px 0;
     }
     .breadcrumb {
         background-color: transparent;
@@ -797,7 +797,7 @@ body {
         background: linear-gradient( to bottom, var(--header-background-color) 0%, var(--header-background-color) 230px, var(--main-background-color) 230px, var(--main-background-color) 100%);
         grid-template-columns: 65vw 35vw;
         grid-template-rows: auto auto auto minmax(400px, 1fr);
-        grid-template-areas: "title user" "sidebar sidebar" "filters filters" "main main";
+        grid-template-areas: "title user" "sidebar sidebar" "topbar topbar" "main main";
     }
     .content {
         display: grid;
@@ -812,7 +812,7 @@ body {
         grid-auto-columns: min-content;
         grid-template-rows: min-content;
     }
-    .content.layout-admin {
+    .content.layout-admin-topbar,.content.layout-admin {
         display: block;
     }
     .user-menu {
@@ -835,18 +835,20 @@ body {
         background: linear-gradient( to bottom, var(--header-background-color) 0%, var(--header-background-color) 130px, var(--main-background-color) 130px, var(--main-background-color) 100%);
         grid-template-rows: auto auto 1fr;
         grid-template-columns: auto 1fr 1fr 1fr;
-        grid-template-areas: "sidebar title title user" "sidebar filters filters filters" "sidebar main main main";
+        grid-template-areas: "sidebar title title user" "sidebar topbar topbar topbar" "sidebar main main main";
         height: 100vh;
     }
-    .filters .count~.count {
-        border-left: solid 1px #7c7c7c;
-        margin-left: 0px;
-    }
-    .filters {
+
+    .topbar {
         margin-left: var(--gutter-size);
         margin-right: var(--gutter-size);
         border-radius: 5px;
         border-top-left-radius: 0;
+    }
+    .topbar .count~.count {
+        border-left: solid 1px #7c7c7c;
+        margin-left: 0px;
+        padding: 7px 10px;
     }
     .filter_search .input-container {
         width: 47%;

@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = [
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $projectProvider
  */
+
+ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
@@ -65,67 +68,66 @@ $this->params['breadcrumbs'][] = [
                 'width' => 6 * 25 . 'px',
                 'template' => '{view} {workspaces} {update} {pages} {share} {remove} {export}',
                 'visibleButtons' => [
-                    'pages' => function(Project $project) {
+                    'pages' => function (Project $project) {
                         return app()->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project);
                     },
-                    'view' => function(Project $project) {
+                    'view' => function (Project $project) {
                         return !empty($project->pages) && app()->user->can(Permission::PERMISSION_READ, $project);
                     },
-                    'update' => function(Project $project) {
+                    'update' => function (Project $project) {
                         return app()->user->can(Permission::PERMISSION_WRITE, $project);
                     },
-                    'share' => function(Project $project) {
+                    'share' => function (Project $project) {
                         return app()->user->can(Permission::PERMISSION_SHARE, $project);
                     },
-                    'remove' => function(Project $project) {
+                    'remove' => function (Project $project) {
                         return app()->user->can(Permission::PERMISSION_DELETE, $project);
                     },
-                    'export' => function(Project $project) {
+                    'export' => function (Project $project) {
                         return app()->user->can(Permission::PERMISSION_EXPORT, $project);
                     },
                 ],
                 'buttons' => [
-                    'workspaces' => function($url, Project $model, $key) {
+                    'workspaces' => function ($url, Project $model, $key) {
                         return Html::a(
                             Icon::list(),
                             ['project/workspaces', 'id' => $model->id],
                             ['title' => \Yii::t('app', 'Workspaces')]
-
                         );
                     },
-                    'view' => function($url, Project $model, $key) {
+                    'view' => function ($url, Project $model, $key) {
                         return Html::a(
                             Icon::project(),
                             ['project/view', 'id' => $model->id],
                             ['title' => \Yii::t('app', 'Project dashboard')]
-
                         );
                     },
-                    'pages' => function($url, Project $model, $key) {
+                    'pages' => function ($url, Project $model, $key) {
                         return Html::a(
                             Icon::paintBrush(),
                             ['project/pages', 'id' => $model->id],
                             ['title' => \Yii::t('app', 'Edit dashboard')]
-
                         );
                     },
-                    'update' => function($url, Project $model, $key) {
+                    'update' => function ($url, Project $model, $key) {
                         return Html::a(
                             Icon::edit(),
-                            ['project/update', 'id' => $model->id], [
+                            ['project/update', 'id' => $model->id],
+                            [
                                 'title' => \Yii::t('app', 'Edit')
                             ]
                         );
                     },
-                    'share' => function($url, Project $model, $key) {
+                    'share' => function ($url, Project $model, $key) {
                         return Html::a(
                             Icon::share(),
-                            $url, [
+                            $url,
+                            [
                                 'title' => \Yii::t('app', 'Share')
                             ]
                         );
                     },
-                    'remove' => function($url, Project $model, $key) {
+                    'remove' => function ($url, Project $model, $key) {
                         return Html::a(
                             Icon::delete(),
                             ['project/delete', 'id' => $model->id],
@@ -136,7 +138,7 @@ $this->params['breadcrumbs'][] = [
                             ]
                         );
                     },
-                    'export' => function($url, Project $model, $key) {
+                    'export' => function ($url, Project $model, $key) {
                         return Html::a(
                             Icon::download(),
                             $url,
@@ -149,3 +151,5 @@ $this->params['breadcrumbs'][] = [
             ]
         ]
     ]);
+
+    echo Html::endTag('div');

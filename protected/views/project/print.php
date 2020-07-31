@@ -16,7 +16,7 @@ $this->title = $project->getDisplayField();
 <tr><td>
 <div class='title'>
         <?= $project->getDisplayField(); ?>
-        <div class="filters">
+        <div class="filters topbar">
             <div class="count">
                 <?php
                 echo Icon::healthFacility();
