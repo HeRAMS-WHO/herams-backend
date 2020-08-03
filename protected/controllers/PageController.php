@@ -3,7 +3,6 @@
 
 namespace prime\controllers;
 
-
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\page\Create;
@@ -14,7 +13,7 @@ use yii\helpers\ArrayHelper;
 
 class PageController extends Controller
 {
-    public $layout = 'admin';
+    public $layout = 'admin-content';
 
     public function actions()
     {
@@ -24,7 +23,7 @@ class PageController extends Controller
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Page::find(),
-                'redirect' => function(Page $page) {
+                'redirect' => function (Page $page) {
                     return ['project/pages', 'id' => $page->project->id];
                 }
             ]
@@ -33,7 +32,8 @@ class PageController extends Controller
 
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'access' => [
                     'rules' => [

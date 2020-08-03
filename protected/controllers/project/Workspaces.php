@@ -19,7 +19,7 @@ class Workspaces extends Action
         AuthManager $abacManager,
         int $id
     ) {
-        $this->controller->layout = 'admin-topbar';
+        $this->controller->layout = 'admin';
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();

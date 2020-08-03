@@ -8,7 +8,7 @@ use prime\controllers\response\Compare;
 
 class ResponseController extends Controller
 {
-    public $layout = 'admin';
+    public $layout = 'admin-content';
     public function actions(): array
     {
         return [

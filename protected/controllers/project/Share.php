@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
 use prime\models\ar\Permission;
@@ -27,7 +26,7 @@ class Share extends Action
         AuthManager $abacManager,
         int $id
     ) {
-        $this->controller->layout = 'form';
+        $this->controller->layout = 'admin-content';
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
@@ -39,7 +38,10 @@ class Share extends Action
 
         try {
             $model = new ShareForm(
-                $project, $abacManager, $user->identity, [
+                $project,
+                $abacManager,
+                $user->identity,
+                [
                     Permission::PERMISSION_READ,
                     Permission::PERMISSION_LIMESURVEY,
                     Permission::PERMISSION_EXPORT,
@@ -54,16 +56,19 @@ class Share extends Action
             $notificationService->error('There are no permissions that you can share for this project');
             return $this->controller->redirect($request->getReferrer());
         }
-        if($request->isPost) {
-            if($model->load($request->bodyParams) && $model->validate()) {
+        if ($request->isPost) {
+            if ($model->load($request->bodyParams) && $model->validate()) {
                 $model->createRecords();
-                $notificationService->success(\Yii::t('app',
-                            "Project {modelName} has been shared with: {users}",
-                            [
+                $notificationService->success(\Yii::t(
+                    'app',
+                    "Project {modelName} has been shared with: {users}",
+                    [
                                 'modelName' => $project->title,
-                                'users' => implode(', ', array_map(function($model){return $model->name;}, $model->getUsers()->all()))
-                            ])
-                );
+                                'users' => implode(', ', array_map(function ($model) {
+                                    return $model->name;
+                                }, $model->getUsers()->all()))
+                    ]
+                ));
                 return $this->controller->refresh();
             }
         }

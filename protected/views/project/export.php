@@ -33,7 +33,7 @@ $form = ActiveForm::begin([
         'defaultPlaceholder' => false
     ],
     'options' => [
-        'class' => 'col-xs-6',
+        'class' => 'col-xs-6 full-width',
         'style' => [
             'column-span' => 4
         ]

@@ -3,7 +3,6 @@
 
 namespace prime\controllers\admin;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
 use prime\models\forms\Share as ShareForm;
@@ -22,7 +21,7 @@ class Share extends Action
         AuthManager $abacManager,
         User $user
     ) {
-        $this->controller->layout = 'form';
+        
         if (!($user->can(Permission::PERMISSION_ADMIN))) {
             throw new ForbiddenHttpException();
         }
@@ -40,18 +39,17 @@ class Share extends Action
         if ($request->isPost) {
             if ($model->load($request->bodyParams)) {
                 $model->createRecords();
-                $notificationService->success(\Yii::t('app',
+                $notificationService->success(\Yii::t(
+                    'app',
                     "Global permissions granted to {users}",
                     [
                         'users' => implode(', ', array_map(function ($model) {
                             return $model->name;
                         }, $model->getUsers()->all()))
-                    ])
-
-                );
+                    ]
+                ));
                 return $this->controller->refresh();
             }
-
         }
 
 

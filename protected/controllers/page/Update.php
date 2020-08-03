@@ -3,7 +3,6 @@
 
 namespace prime\controllers\page;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
@@ -21,9 +20,8 @@ class Update extends Action
         NotificationService $notificationService,
         User $user,
         int $id
-
     ) {
-        $this->controller->layout = 'form';
+        $this->controller->layout = 'admin-content';
         $page = Page::findOne(['id' => $id]);
         if (!isset($page)) {
             throw new NotFoundHttpException();
@@ -48,5 +46,4 @@ class Update extends Action
             'project' => $page->project
         ]);
     }
-
 }

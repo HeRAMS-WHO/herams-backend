@@ -228,6 +228,17 @@ input[type="text"] {
     font-size: 14px;
 }
 
+.grid-view {
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.full-width {
+    max-width: 100%;
+    grid-column: span 4;
+}
+
 @media (min-width: 800px) {
     body {
         overflow-y: hidden;

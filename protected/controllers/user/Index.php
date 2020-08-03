@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-
 use yii\base\Action;
 use yii\web\Request;
 
@@ -12,7 +11,7 @@ class Index extends Action
 
     public function run(Request $request)
     {
-        $this->controller->layout = 'admin';
+        $this->controller->layout = 'admin-content';
         $search = new \prime\models\search\User();
 
 
@@ -22,5 +21,4 @@ class Index extends Action
             'searchModel' => $search
         ]);
     }
-
 }
