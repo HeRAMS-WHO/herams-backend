@@ -47,7 +47,7 @@ class Update extends Action
                             'page_id' => $element->page->id,
                             'id' => $element->project->id
                         ]);
-                        /*return $this->controller->redirect($request->bodyParams['Element']['referrer']);*/
+                        //return $this->controller->redirect($request->bodyParams['Element']['referrer']);
                     case 'refresh':
                     default:
                         return $this->controller->refresh();

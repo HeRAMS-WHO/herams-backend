@@ -47,6 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelSpan' => 3
         ]
     ]);
+    //echo Html::activeHiddenInput($model, 'referrer', ['value' => Yii::$app->request->referrer]);
+    //echo $form->hiddenField($model, ['value'=> Yii::$app->request->referrer])->label(false);
 
     echo Form::widget([
 
@@ -124,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]);
 
-    //echo $form->field($model, 'referrer')->hiddenInput(['value'=> Yii::$app->request->referrer])->label(false);
+    
 
     $url = \yii\helpers\Json::encode($url);
     $this->registerJs(<<<JS
