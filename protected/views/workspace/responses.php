@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = \Yii::t('app', 'Responses');
 $this->params['breadcrumbs'][] = $this->title;
+echo Html::beginTag('div', ['class' => 'full-width']);
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [
@@ -116,3 +117,4 @@ echo GridView::widget([
         ]
     ]
 ]);
+echo Html::endTag('div');
