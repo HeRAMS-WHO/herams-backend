@@ -3,7 +3,6 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
 use prime\models\ar\Permission;
@@ -24,9 +23,8 @@ class Share extends Action
         AuthManager $abacManager,
         User $user,
         int $id
-    )
-    {
-        $this->controller->layout = 'form';
+    ) {
+        $this->controller->layout = 'admin-content';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
@@ -48,16 +46,16 @@ class Share extends Action
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();
-            $notificationService->success(\Yii::t('app',
+            $notificationService->success(\Yii::t(
+                'app',
                 "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
                 [
                     'modelName' => $workspace->title,
                     'users' => implode(', ', array_map(function ($model) {
                         return $model->name;
                     }, $model->getUsers()->all()))
-                ])
-
-            );
+                ]
+            ));
             return $this->controller->refresh();
         }
 

@@ -3,7 +3,6 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
@@ -22,7 +21,7 @@ class Configure extends Action
         NotificationService $notificationService,
         int $id
     ) {
-        $this->controller->layout = 'form';
+        $this->controller->layout = 'admin-content';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
@@ -42,5 +41,4 @@ class Configure extends Action
             'model' => $workspace
         ]);
     }
-
 }

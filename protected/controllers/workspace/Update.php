@@ -3,7 +3,6 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
@@ -24,7 +23,7 @@ class Update extends Action
         NotificationService $notificationService,
         $id
     ) {
-        $this->controller->layout = 'form';
+        $this->controller->layout = 'admin-content';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
@@ -33,8 +32,8 @@ class Update extends Action
             throw new ForbiddenHttpException();
         }
 
-        if($request->isPut) {
-            if($workspace->load($request->bodyParams) && $workspace->save()) {
+        if ($request->isPut) {
+            if ($workspace->load($request->bodyParams) && $workspace->save()) {
                 $notificationService->success(\Yii::t('app', "Workspace {workspace} has been updated", [
                     'workspace' => Html::tag('strong', $workspace->title)
                 ]));
@@ -47,6 +46,4 @@ class Update extends Action
             'model' => $workspace
         ]);
     }
-
-
 }

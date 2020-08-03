@@ -30,7 +30,7 @@ use yii\web\User;
 
 class ProjectController extends Controller
 {
-    public $layout = 'admin';
+    public $layout = 'admin-content';
 
     public function actions()
     {

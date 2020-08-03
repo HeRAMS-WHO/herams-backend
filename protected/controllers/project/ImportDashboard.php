@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use yii\base\Action;
@@ -21,7 +20,7 @@ class ImportDashboard extends Action
         User $user,
         int $id
     ) {
-        $this->controller->layout = 'form';
+        $this->controller->layout = 'admin-content';
         /** @var Project|null $project */
         $project = Project::find()->where(['id' => $id])->one();
         if (!isset($project)) {
@@ -43,5 +42,4 @@ class ImportDashboard extends Action
 
         return $this->controller->render('import', ['model' => $model]);
     }
-
 }

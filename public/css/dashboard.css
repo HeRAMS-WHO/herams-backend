@@ -305,6 +305,8 @@ span.header {
 
 .filters {
     text-align: left;
+    position: relative;
+    z-index: 100000;
 }
 
 .filters a, .filters button {
@@ -364,10 +366,6 @@ span.header {
     box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
 }
 
-.filters.expanded {
-    position: relative;
-}
-
 .filters.expanded .advanced {
     display: block;
 }
@@ -378,7 +376,7 @@ span.header {
     background: white;
     display: inherit;
     width: 100%;
-    max-height: 57vh;
+    max-height: 50vh;
     overflow: auto;
 }
 
@@ -838,7 +836,6 @@ body {
         grid-template-areas: "sidebar title title user" "sidebar topbar topbar topbar" "sidebar main main main";
         height: 100vh;
     }
-
     .topbar {
         margin-left: var(--gutter-size);
         margin-right: var(--gutter-size);

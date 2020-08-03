@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Project;
 use yii\base\Action;
@@ -17,12 +16,11 @@ class Create extends Action
         NotificationService $notificationService,
         Request $request
     ) {
-        $this->controller->layout = 'form';
+        $this->controller->layout = 'admin-content';
         $model = new Project();
 
-        if($request->isPost) {
-            if($model->load($request->bodyParams) && $model->save())
-            {
+        if ($request->isPost) {
+            if ($model->load($request->bodyParams) && $model->save()) {
                 $notificationService->success(\Yii::t('app', "Project <strong>{project}</strong> created", [
                     'project' => $model->title
                 ]));

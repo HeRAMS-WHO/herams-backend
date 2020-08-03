@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
@@ -20,9 +19,8 @@ class Update extends Action
         NotificationService $notificationService,
         User $user,
         int $id
-    )
-    {
-        $this->controller->layout = 'form';
+    ) {
+        $this->controller->layout = 'admin-content';
         $model = Project::findOne(['id' => $id]);
         if (!isset($model)) {
             throw new NotFoundHttpException();
