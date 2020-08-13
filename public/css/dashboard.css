@@ -306,7 +306,7 @@ span.header {
 .filters {
     text-align: left;
     position: relative;
-    z-index: 100000;
+    z-index: 10050;
 }
 
 .filters a, .filters button {
