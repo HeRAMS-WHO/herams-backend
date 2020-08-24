@@ -7,6 +7,8 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
+use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -76,6 +78,7 @@ class DashboardMap extends Element
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
                 $longitude = $response->getLongitude();
+                $workspace_url = \Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, Workspace::findOne(['id' => $response['workspace_id']])) ? Url::to(['/workspace/responses', 'id' => $response['workspace_id']]) : Url::to(['/project/workspaces','id' => $this->element->page->project->id]);
                 if (abs($latitude) < 0.0000001
                     || abs($longitude) < 0.0000001
                     || abs($latitude) > 90
@@ -111,7 +114,7 @@ class DashboardMap extends Element
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
                         'id' => $response->getId(),
-                        'workspace_url' => Url::to(['/project/workspaces', 'id' => $response['workspace_id']]),
+                        'workspace_url' => $workspace_url,
                         'workspace_title' => \Yii::t('app', 'Workspaces'),
                         'data' => $pointData
                     ]
