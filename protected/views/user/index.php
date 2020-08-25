@@ -30,12 +30,13 @@ $this->title = Yii::t('app', 'Manage users');
 $this->params['breadcrumbs'][] = [
     'label' => $this->title
 ];
-
-
+?>
+<div class="form-content form-bg full-width">
+<?php
 echo GridView::widget([
-    'dataProvider' 	=> $dataProvider,
-    'filterModel'  	=> $searchModel,
-    'layout'  		=> "{items}\n{pager}",
+    'dataProvider'  => $dataProvider,
+    'filterModel'   => $searchModel,
+    'layout'        => "{items}\n{pager}",
     'columns' => [
         'id',
         'name',
@@ -61,7 +62,7 @@ echo GridView::widget([
             ],
             'buttons' => [
                 'impersonate' => function ($url, $model) {
-                    if(\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
+                    if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ['/user/impersonate', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Become this user'),
                             'data-confirm' => Yii::t('app', 'Are you sure you want to switch to this user for the rest of this Session?'),
@@ -73,4 +74,5 @@ echo GridView::widget([
         ],
     ],
 ]);
-
+?>
+</div>
