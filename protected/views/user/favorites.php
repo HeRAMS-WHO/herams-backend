@@ -9,6 +9,9 @@ use yii\bootstrap\ButtonGroup;
  */
 
 $this->title = \Yii::t('app', 'Favorite workspaces');
+?>
+<div class="form-content form-bg full-width">
+<?php
 $this->params['breadcrumbs'][] = $this->title;
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
@@ -60,3 +63,5 @@ echo GridView::widget([
         'actions' => require(__DIR__ . '/../project/workspaces/actions.php')
     ]
 ]);
+?>
+</div>
