@@ -259,6 +259,12 @@ input[type="text"] {
     --background-color: #42424b;
 }
 
+.leaflet-popup.hf-popup  {
+    --background-color: white;
+    --color: #42424b;
+    
+}
+
 .leaflet-popup .leaflet-popup-content-wrapper {
     margin: 0;
     background-color: var(--background-color);

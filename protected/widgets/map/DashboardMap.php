@@ -182,17 +182,15 @@ class DashboardMap extends Element
                                 });
                             }
                         });
+                        
+                        var popup = L.popup({'className' : "hf-popup"}).setContent("<div class='hf-summary'>"+
+                                "<h2>"+set.features[0].properties.title+"</h2>" +
+                                "<a href='"+set.features[0].properties.workspace_url+"' class='btn btn-primary'>"+set.features[0].properties.workspace_title+"</a>"+
+                            "</div>");
                         layer.bindTooltip(function(e) {
                             return e.feature.properties.title;
                         }),
-                        layer.bindPopup(function(e) {
-                            // Added data for #408
-                            //console.log(JSON.stringify(e.feature));
-                            return "<div class='hf-summary'>"+
-                                "<h2>"+e.feature.properties.title+"</h2>" +
-                                "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
-                            "</div>";
-                        });
+                        layer.bindPopup(popup);
                         layer.addTo(map);
                         
                         let legend = document.createElement('span');
