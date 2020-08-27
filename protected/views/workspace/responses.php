@@ -39,7 +39,25 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = \Yii::t('app', 'Responses');
 $this->params['breadcrumbs'][] = $this->title;
-echo Html::beginTag('div', ['class' => 'full-width']);
+
+
+
+echo Html::beginTag('div', ['class' => 'topbar']);
+echo Html::beginTag('div', ['class' => 'pull-left']);
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::healthFacility();
+echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
+echo Html::tag('em', $workspace->facilityCount);
+echo Html::endTag('div');
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
+echo Html::a(Icon::project(), ['project/view', 'id' => $workspace->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
+echo Html::endTag('div');
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [
@@ -117,4 +135,5 @@ echo GridView::widget([
         ]
     ]
 ]);
+
 echo Html::endTag('div');
