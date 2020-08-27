@@ -23,7 +23,7 @@ class Update extends Action
         NotificationService $notificationService,
         $id
     ) {
-        $this->controller->layout = 'admin-content';
+        $this->controller->layout = 'admin';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();

@@ -2,11 +2,9 @@
 
 use app\components\ActiveForm;
 use app\components\Form;
-use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
 use prime\helpers\Icon;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /**
  * @var \prime\models\ar\Workspace $workspace
@@ -89,6 +87,5 @@ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} 
 </div>
 
 <?php
-
 echo Html::endTag('div');
 ?>
