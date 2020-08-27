@@ -524,6 +524,7 @@ span.header {
     padding: 5px 3px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    z-index: 10000;
 }
 
 .content>.element .legend-title {
@@ -585,6 +586,15 @@ span.header {
     display: flex;
     align-items: center;
     width: fit-content;
+    cursor: pointer;
+}
+
+.content>.element .legend-item:hover .label {
+    text-decoration: underline;
+}
+
+.content>.element .legend-item.meta-hidden .label {
+    text-decoration: line-through;
 }
 
 .content>.element .legend-item .label {
