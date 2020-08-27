@@ -192,7 +192,6 @@ class DashboardMap extends Element
                     let popup = layer.bindPopup(function(e) {
                         return "<div class='hf-summary'>"+
                             "<h2>"+e.feature.properties.title+"</h2>" +
-                            "<div>"+e.feature.data+"</div>" +
                             "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
                         "</div>";
                     }, {'className' : "hf-popup"}).getPopup();
