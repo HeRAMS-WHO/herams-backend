@@ -3,6 +3,9 @@ namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\User;
 
+/**
+ * @covers \prime\models\ar\User
+ */
 class UserTest extends ActiveRecordTest
 {
     public function validSamples(): array
@@ -26,5 +29,4 @@ class UserTest extends ActiveRecordTest
             ]
         ];
     }
-
 }

@@ -3,12 +3,11 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\workspace\Import as ImportModel;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -29,7 +28,7 @@ class Import extends Action
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_CREATE_WORKSPACE, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
             throw new ForbiddenHttpException();
         }
 
@@ -38,8 +37,8 @@ class Import extends Action
 
         $model = new ImportModel($project, $samples);
 
-        if($request->isPost) {
-            if($model->load($request->bodyParams)
+        if ($request->isPost) {
+            if ($model->load($request->bodyParams)
                 && $model->validate()
             ) {
                 $result = $model->run();
@@ -56,6 +55,4 @@ class Import extends Action
             'project' => $project
         ]);
     }
-
-
 }

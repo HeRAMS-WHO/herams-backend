@@ -3,9 +3,9 @@
 
 namespace prime\tests\functional\controllers\project;
 
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Json;
 
@@ -75,24 +75,24 @@ class UpdateCest
             ], JSON_PRETTY_PRINT)
         ];
 
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $I->fillField(['name' => "Project[$key]"], $value);
         }
 
         $options = [
             'status' => Project::STATUS_EMERGENCY_SPECIFIC,
         ];
-        foreach($options as $key => $value) {
+        foreach ($options as $key => $value) {
             $I->selectOption(['name' => "Project[$key]"], $value);
         }
         $I->click('Update project');
         $I->seeResponseCodeIsSuccessful();
         $project->refresh();
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $I->assertEquals($value, $project->$key, '', 0.001);
         }
 
-        foreach($options as $key => $value) {
+        foreach ($options as $key => $value) {
             $I->assertEquals($value, $project->$key, '', 0.001);
         }
     }

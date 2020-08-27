@@ -3,12 +3,11 @@
 
 namespace prime\controllers\element;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
@@ -27,7 +26,6 @@ class Create extends Action
         User $user,
         int $page_id,
         string $type
-
     ) {
         $page = Page::findOne(['id' => $page_id]);
         if (!isset($page)) {
@@ -36,7 +34,7 @@ class Create extends Action
 
         $project = $page->project;
 
-        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
 
@@ -75,5 +73,4 @@ class Create extends Action
             ]))
         ]);
     }
-
 }

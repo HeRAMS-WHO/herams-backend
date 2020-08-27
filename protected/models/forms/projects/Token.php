@@ -7,7 +7,6 @@ use yii\base\Model;
 use yii\validators\DateValidator;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 
 /**
  * Class Token
@@ -35,9 +34,7 @@ class Token extends Model
             return $this->_token->$getter();
         } elseif (array_key_exists(ucfirst($name), $this->_token->getCustomAttributes())) {
             return $this->_token->getCustomAttributes()[ucfirst($name)];
-        }
-
-        else {
+        } else {
             return parent::__get($name);
         }
     }
@@ -52,11 +49,13 @@ class Token extends Model
         }
     }
 
-    public function setValidFrom($string) {
+    public function setValidFrom($string)
+    {
         $this->_token->setValidFrom(!empty($string) ? new Carbon($string) : null);
     }
 
-    public function setValidUntil($string) {
+    public function setValidUntil($string)
+    {
         $this->_token->setValidUntil(!empty($string) ? new Carbon($string) : null);
     }
     public function __set($name, $value)
@@ -72,25 +71,25 @@ class Token extends Model
         } else {
             return parent::__set($name, $value);
         }
-
     }
 
     public function attributes()
     {
         $attributes = $this->_token->getCustomAttributes();
-        foreach(get_class_methods(WritableTokenInterface::class) as $method) {
+        foreach (get_class_methods(WritableTokenInterface::class) as $method) {
             if (preg_match('/(get|set)Custom.*/', $method)) {
                 continue;
-            } elseif (strncmp('set',$method, 3) === 0) {
+            } elseif (strncmp('set', $method, 3) === 0) {
                 $attributes[substr($method, 3)] = true;
-            } elseif (strncmp('get',$method, 3) === 0) {
+            } elseif (strncmp('get', $method, 3) === 0) {
                 $attributes[substr($method, 3)] = true;
             }
         };
         return array_map('lcfirst', array_keys($attributes));
     }
 
-    public function isCustomAttribute($name) {
+    public function isCustomAttribute($name)
+    {
         return array_key_exists($name, $this->_token->getCustomAttributes());
     }
 
@@ -114,7 +113,6 @@ class Token extends Model
             [['validFrom', 'validUntil'], DateValidator::class, 'format' => 'php:Y-m-d H:i:s'],
             [['usesLeft'], NumberValidator::class, 'min' => 1]
         ];
-
     }
     /**
      * Save the token to limesurvey.
@@ -127,17 +125,16 @@ class Token extends Model
     /**
      * @return WritableTokenInterface The token object that this form model wraps.
      */
-    public function getToken() {
+    public function getToken()
+    {
         return $this->_token;
     }
 
     public function attributeHints()
     {
         return [
-            'firstName' => \Yii::t('app', 'We use this field to store the country for the project.'),
-            'lastName' => \Yii::t('app', 'We use this field to store the last name of the project owner.')
+            'firstName' => \Yii::t('app', 'We use this field to store the country for the project'),
+            'lastName' => \Yii::t('app', 'We use this field to store the last name of the project owner')
         ];
     }
-
-
 }

@@ -3,12 +3,13 @@
 
 namespace prime\tests\functional\controllers\workspace;
 
-use PHPUnit\Framework\SkippedTestError;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
-use SamIT\abac\AuthManager;
 
+/**
+ * @covers \prime\controllers\workspace\Share
+ */
 class ShareCest
 {
 

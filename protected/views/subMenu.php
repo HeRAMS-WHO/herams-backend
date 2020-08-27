@@ -6,17 +6,17 @@ use yii\bootstrap\NavBar;
 /**
  * @var \yii\web\View $this
  */
-
+assert($this instanceof \prime\components\View);
 $visible = false;
 
 if (isset($this->params['subMenu'], $this->params['subMenu']['items'])) {
-    foreach($this->params['subMenu']['items'] as $item) {
+    foreach ($this->params['subMenu']['items'] as $item) {
         $visible = $visible || !isset($item['visible']) || $item['visible'];
     }
 }
 
 
-if($visible) {
+if ($visible) {
     NavBar::begin([
         'renderInnerContainer' => true,
         'options' => [
@@ -38,4 +38,3 @@ if($visible) {
     );
     NavBar::end();
 }
-?>

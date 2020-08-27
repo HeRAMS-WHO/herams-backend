@@ -3,7 +3,6 @@
 
 namespace prime\models\ar;
 
-
 use prime\interfaces\Exportable;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
@@ -24,6 +23,10 @@ use yii\validators\StringValidator;
  * @property Element[] $elements
  * @property int $project_id
  * @property Project $project
+ * @property int $sort
+ * @property bool $add_services
+ * @property string $title
+ * @property int $id
  * @property ?Page $parent
  */
 class Page extends ActiveRecord implements PageInterface, Exportable
@@ -36,6 +39,28 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     }
 
 
+    public function titleOptions(): array
+    {
+        $sourceLanguage = \Yii::$app->sourceLanguage;
+        return [
+            \Yii::t('app.pagetitle', 'Overview', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Infrastructure', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Condition', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Functionality', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Accessibility', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Building and equipment condition', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Management and support', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Basic Amenities', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Water', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Sanitation', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Communication', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Cold chain', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Power', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Service availability', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Waste management', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Health Information', null, $sourceLanguage),
+        ];
+    }
     public function getProject()
     {
         return $this->hasOne(Project::class, ['id' => 'project_id']);
@@ -51,6 +76,17 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return $this->getAttribute('parent_id');
     }
 
+    public function attributeLabels(): array
+    {
+        return array_merge(parent::attributeLabels(), [
+            'parent_id' => \Yii::t('app', 'Parent page'),
+            'sort' => \Yii::t('app', 'Sort index'),
+            'add_services' => \Yii::t('app', 'Add services'),
+            'project_id' => \Yii::t('app', 'Project')
+        ]);
+    }
+
+
     public function getId(): int
     {
         return $this->getAttribute('id');
@@ -63,7 +99,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getChildPages(SurveyInterface $survey): iterable
     {
-        foreach($this->children as $page) {
+        foreach ($this->children as $page) {
             yield $page;
         }
 
@@ -99,7 +135,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             [['title', 'sort', 'project_id'], RequiredValidator::class],
             [['sort'], NumberValidator::class],
             [['title'], StringValidator::class],
-            [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id', 'filter' => function(ActiveQuery $query) {
+            [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id', 'filter' => function (ActiveQuery $query) {
                 return $query->andWhere(['project_id' => $this->project_id]);
             }],
             [['project_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
@@ -117,11 +153,11 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     public function beforeDelete()
     {
         /** @var Page $child */
-        foreach($this->getChildren()->each() as $child) {
+        foreach ($this->getChildren()->each() as $child) {
             $child->delete();
         }
         /** @var Element $element */
-        foreach($this->getElements()->each() as $element) {
+        foreach ($this->getElements()->each() as $element) {
             $element->delete();
         }
         return parent::beforeDelete();
@@ -167,7 +203,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             $elements[] = $element->export();
         }
         $pages = [];
-        foreach($this->children as $page) {
+        foreach ($this->children as $page) {
             $pages[] = $page->export();
         }
         return [
@@ -203,11 +239,11 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
         $result->save(false);
 
-        foreach($data['elements'] as $elementData) {
+        foreach ($data['elements'] as $elementData) {
             Element::import($result, $elementData);
         }
 
-        foreach($data['pages'] as $pageData) {
+        foreach ($data['pages'] as $pageData) {
             Page::import($result, $pageData);
         }
 

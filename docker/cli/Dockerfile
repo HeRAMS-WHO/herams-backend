@@ -1,46 +1,37 @@
-FROM alpine
-RUN apk add --no-cache --update \
-  git \
-  tini \
-  sassc \
-  php7 \
-  php7-ctype \
-  php7-curl \
-  php7-dom \
-  php7-phpdbg \
-  php7-gd \
-  php7-intl \
-  php7-json \
-  php7-mbstring \
-  php7-pdo_mysql \
-  php7-phar \
-  php7-posix \
-  php7-session \
-  php7-tokenizer \
-  php7-xml \
-  php7-simplexml \
-  php7-xmlwriter \
-  php7-zip \
+FROM php:alpine
+RUN php --version && sleep 10
+RUN apk add --update --no-cache git zlib wait4ports
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+RUN install-php-extensions \
+  ctype \
+  curl \
+  dom \
+  gd \
+  intl \
+  json \
+  mbstring \
+  pdo_mysql \
+  phar \
+  posix \
+  session \
+  tokenizer \
+  xml \
+  simplexml \
+  xmlwriter \
+  zip \
+  xlswriter \
+  pcov \
   --
-RUN apk add --no-cache php7-pear php7-dev build-base \
-    && pecl install pcov \
-    && apk del php7-pear php7-dev build-base
-
-# Add php.ini directives.
-RUN echo $'memory_limit=1G \n\
-\n\
-variables_order = "GPCSE" \n\
-\n\
-extension = pcov.so \n\
-' >> /etc/php7/php.ini
-ADD wait.sh /bin/wait-for-it
 ADD init.sh /sbin/init.sh
 ENV COMPOSER_CACHE_DIR=/composer-cache
 ENV COMPOSER_HOME=/composer
 RUN mkdir $COMPOSER_CACHE_DIR && \
     mkdir $COMPOSER_HOME && \
+    EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('sha384', 'composer-setup.php') === 'baf1608c33254d00611ac1705c1d9958c817a1a33bce370c0595974b342601bd80b92a3f46067da89e3b06bff421f182') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")" && \
+    if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then exit 1; fi && \
     php composer-setup.php --filename composer --install-dir /bin && \
     php -r "unlink('composer-setup.php');" && \
     composer global require hirak/prestissimo && \

@@ -2,7 +2,7 @@
 /** @var \prime\models\ar\Project $model */
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = [
@@ -20,13 +20,15 @@ $this->params['breadcrumbs'][] = [
 ];
 
 ?>
-<div class="col-xs-12">
+<div class="form-content form-bg">
+    <h3><?=\Yii::t('app', 'Create Project')?></h3>
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
-            'defaultPlaceholder' => false
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
         ]
     ]);
     echo \app\components\Form::widget([
@@ -42,6 +44,10 @@ $this->params['breadcrumbs'][] = [
                 'options' => [
                     'prompt' => ''
                 ]
+            ],
+            'visibility' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->visibilityOptions()
             ],
             [
                 'type' => Form::INPUT_RAW,

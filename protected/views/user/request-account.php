@@ -37,11 +37,19 @@ echo Html::tag('header', $this->title);
         ]),
         'columns' => 1,
         'attributes' => [
-            'email' => ['type' => Form::INPUT_TEXT]
+            'email' => ['type' => Form::INPUT_TEXT],
+            FormButtonsWidget::embed([
+                'orientation' => FormButtonsWidget::ORIENTATION_BLOCK,
+                'options' => [
+                    'class' => [
+                        'pull-right'
+                    ],
+                ],
+                'buttons' => [
+                    Html::a(Yii::t('app', 'Already have an account? Sign in!'), ['/session/create']),
+                    Html::submitButton(\Yii::t('app', 'Register'), ['class' => 'btn btn-primary'])
+                ]
+            ])
         ]
     ]);
     ActiveForm::end();
-    echo Html::beginTag('div', ['class' => 'actions']);
-    echo Html::a(Yii::t('app', 'Already have an account? Sign in!'), ['/session/create']);
-    echo Html::submitButton('Request account', ['class' => 'btn btn-primary', 'form' => 'request-form']);
-    echo Html::endTag('div');

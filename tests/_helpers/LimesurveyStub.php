@@ -3,7 +3,6 @@
 
 namespace prime\tests\_helpers;
 
-
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Answer;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Group;
@@ -55,8 +54,11 @@ class LimesurveyStub extends Client
     public function getSurvey($id, $language = null)
     {
         return new \SamIT\LimeSurvey\JsonRpc\Concrete\Survey($this, [
-            'id' => $id
-        ], []);
+            'id' => $id,
+            'languages' => ['en', 'nl', 'fr'],
+            'language' => 'en'
+        ], [
+        ]);
     }
 
     public function listSurveys($user = null)
@@ -77,17 +79,19 @@ class LimesurveyStub extends Client
 
     public function getQuestions($surveyId, $groupId, $language)
     {
-        switch([$surveyId, $groupId]) {
+        switch ([$surveyId, $groupId]) {
             case [12345, 1]:
                 return [
                     new Question($this, [
                         'id' => 1,
+                        'index' => 5,
                         'title' => 'noe',
                         'text' => 'random'
                     ]),
                     new Question($this, [
                         'id' => 'MoSD3',
                         'title' => 'MoSD3',
+                        'index' => 3,
                         'text' => 'Question text',
                     ], [
                         'answers' => [
@@ -117,6 +121,4 @@ class LimesurveyStub extends Client
     {
         return $this->tokens[$surveyId][$token];
     }
-
-
 }

@@ -12,12 +12,10 @@
 use dektrium\user\models\UserSearch;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\web\View;
-use yii\widgets\Pjax;
 
 /**
  * @var View $this
@@ -28,25 +26,27 @@ $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
 ];
-$this->title = Yii::t('user', 'Manage users');
+$this->title = Yii::t('app', 'Manage users');
 $this->params['breadcrumbs'][] = [
     'label' => $this->title
 ];
-
-
+?>
+<div class="form-content form-bg full-width">
+<?php
 echo GridView::widget([
-    'dataProvider' 	=> $dataProvider,
-//    'filterModel'  	=> $searchModel,
-    'layout'  		=> "{items}\n{pager}",
+    'dataProvider'  => $dataProvider,
+    'filterModel'   => $searchModel,
+    'layout'        => "{items}\n{pager}",
     'columns' => [
         'id',
         'name',
         'email:email',
         [
             'attribute' => 'created_at',
+
             'value' => function ($model) {
                 if (extension_loaded('intl')) {
-                    return Yii::t('user', '{0, date, MMMM dd, YYYY HH:mm}', [$model->created_at]);
+                    return Yii::t('app', '{0, date, MMMM dd, YYYY HH:mm}', [$model->created_at]);
                 } else {
                     return date('Y-m-d G:i:s', $model->created_at);
                 }
@@ -62,10 +62,10 @@ echo GridView::widget([
             ],
             'buttons' => [
                 'impersonate' => function ($url, $model) {
-                    if(\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
+                    if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ['/user/impersonate', 'id' => $model->id], [
-                            'title' => Yii::t('user', 'Become this user'),
-                            'data-confirm' => Yii::t('user', 'Are you sure you want to switch to this user for the rest of this Session?'),
+                            'title' => Yii::t('app', 'Become this user'),
+                            'data-confirm' => Yii::t('app', 'Are you sure you want to switch to this user for the rest of this Session?'),
                             'data-method' => 'post',
                         ]);
                     }
@@ -74,4 +74,5 @@ echo GridView::widget([
         ],
     ],
 ]);
-
+?>
+</div>

@@ -1,38 +1,33 @@
-<?php 
+<?php
 
 namespace prime\models\ar;
 
-use app\queries\WorkspaceQuery;
-use prime\assets\IconBundle;
 use prime\models\ActiveRecord;
-use prime\models\permissions\Permission;
+use prime\queries\FavoriteQuery;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\helpers\Url;
-use yii\validators\DefaultValueValidator;
+use yii\validators\RangeValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
+use yii\web\Linkable;
 use function iter\apply;
 use function iter\chain;
 
 /**
  * Class User
- * @property Profile $profile
- * @property string $firstName
- * @property string $lastName
- * @property string $organization
- * @property string $office
- * @property string $country
- * @property string $gravatarUrl
  * @property string $name
+ * @property int $id
+ * @property string $password_hash
+ * @property ?string $language
+ * @property Favorite[] $favorites
  */
-class User extends ActiveRecord implements IdentityInterface {
-
+class User extends ActiveRecord implements IdentityInterface
+{
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -53,27 +48,28 @@ class User extends ActiveRecord implements IdentityInterface {
             ],
             ['name', StringValidator::class, 'max' => 50],
             ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
+            ['language', RangeValidator::class, 'range' => \Yii::$app->params['languages']]
         ];
     }
 
-    public function afterDelete()
+    public function beforeDelete(): bool
     {
-        parent::afterDelete();
-        /** @var AuthManager $manager */
-        $manager = \Yii::$app->abacManager;
-        $repository = $manager->getRepository();
-        $subject = $manager->resolveSubject($this);
-        apply(static function(Grant $grant) use ($repository) { $repository->revoke($grant); }, chain(
-            $repository->search($subject, null, null),
-            $repository->search(null, $subject, null)
-        ));
-
-    }
-
-
-    public static function getDb()
-    {
-        return ActiveRecord::getDb();
+        if (parent::beforeDelete()) {
+            /** @var AuthManager $manager */
+            $manager = \Yii::$app->abacManager;
+            $subject = $manager->resolveSubject($this);
+            $repository = $manager->getRepository();
+            if (isset($subject)) {
+                apply(static function (Grant $grant) use ($repository) {
+                    $repository->revoke($grant);
+                }, chain(
+                    $repository->search($subject, null, null),
+                    $repository->search(null, $subject, null)
+                ));
+            }
+            return true;
+        }
+        return false;
     }
 
     public function getIsAdmin()
@@ -98,6 +94,17 @@ class User extends ActiveRecord implements IdentityInterface {
         return null;
     }
 
+    public function attributeLabels(): array
+    {
+        return array_merge(parent::attributeLabels(), [
+            'name' => \Yii::t('app', 'Name'),
+            'email' => \Yii::t('app', 'Email'),
+            'password_hash' => \Yii::t('app', 'Password hash'),
+            'language' => \Yii::t('app', 'Language'),
+        ]);
+    }
+
+
     /**
      * @inheritDoc
      */
@@ -117,7 +124,7 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * @inheritDoc
      */
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return false;
     }
@@ -127,5 +134,28 @@ class User extends ActiveRecord implements IdentityInterface {
         if (!empty($value)) {
             $this->password_hash = \Yii::$app->security->generatePasswordHash($value);
         }
+    }
+
+    public function updatePassword(string $newPassword): void
+    {
+        $this->setPassword($newPassword);
+        if (!$this->update(true, ['password_hash'])) {
+            throw new \RuntimeException(\Yii::t('app', 'Password update failed'));
+        }
+    }
+
+    public function getFavorites(): FavoriteQuery
+    {
+        return $this->hasMany(Favorite::class, ['user_id' => 'id'])->inverseOf('user');
+    }
+
+    public function isFavorite(ActiveRecord $target): bool
+    {
+        foreach ($this->favorites as $favorite) {
+            if ($favorite->matches($target)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

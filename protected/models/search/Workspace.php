@@ -2,14 +2,9 @@
 
 namespace prime\models\search;
 
-use app\queries\ProjectQuery;
-use prime\components\ActiveQuery;
 use prime\models\ar\Project;
-use prime\models\ar\Response;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
-use yii\db\Expression;
-use yii\db\Query;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
@@ -55,15 +50,11 @@ class Workspace extends \prime\models\ar\Workspace
 
     public function search($params)
     {
-        $baseTable = self::tableName();
         $query = \prime\models\ar\Workspace::find();
 
         $query->with('project');
-        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'permissionCount');
-        $query->andFilterWhere(["$baseTable.[[tool_id]]" => $this->project->id]);
-//        $query->addSelect([
-//            "$baseTable.*"
-//        ]);
+        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'contributorCount');
+        $query->andFilterWhere(['tool_id' => $this->project->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -78,6 +69,8 @@ class Workspace extends \prime\models\ar\Workspace
                 'id',
                 'title',
                 'created',
+                'permissionCount',
+                'facilityCount',
                 'latestUpdate' => [
                     'asc' => ['latestUpdate' => SORT_ASC],
                     'desc' => ['latestUpdate' => SORT_DESC],
@@ -87,14 +80,14 @@ class Workspace extends \prime\models\ar\Workspace
             'defaultOrder' => ['latestUpdate' => SORT_DESC]
         ]);
         $dataProvider->setSort($sort);
-        if(!$this->load($params) || !$this->validate()) {
+        if (!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
 
 
 
         $interval = explode(' - ', $this->created);
-        if(count($interval) == 2) {
+        if (count($interval) == 2) {
             $query->andFilterWhere([
                 'and',
                 ['>=', 'created', $interval[0]],
@@ -102,8 +95,8 @@ class Workspace extends \prime\models\ar\Workspace
             ]);
         }
 
-        $query->andFilterWhere(['like', "$baseTable.[[title]]", $this->title]);
-        $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
+        $query->andFilterWhere(['like', 'title', trim($this->title)]);
+        $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }
 }

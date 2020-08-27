@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\response;
 
-
+use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
 use prime\models\ar\Response as HeramsResponse;
 use prime\models\ar\Workspace;
 use yii\base\Action;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -20,7 +21,8 @@ class Update extends Action
 
     public function run(
         Request $request,
-        Response $response
+        Response $response,
+        LimesurveyDataLoader $loader
     ) {
         // Hardcoded bearer check.
         if (!$request->headers->has('Authorization')) {
@@ -34,6 +36,10 @@ class Update extends Action
             throw new ForbiddenHttpException();
         }
         $data = $request->getBodyParam('response');
+
+        if (!isset($data, $data['id'], $data['token'], $request->bodyParams['surveyId'])) {
+            throw new BadRequestHttpException();
+        }
         $key = [
             'survey_id' => $request->getBodyParam('surveyId'),
             'id' => $data['id']
@@ -42,16 +48,18 @@ class Update extends Action
         // Find the project.
         $project = Project::find()->andWhere(['base_survey_eid' => $request->getBodyParam('surveyId')])->one();
         if (!(isset($project))) {
-            throw new NotFoundHttpException('Unknown survey ID');
+            throw new NotFoundHttpException('Unknown survey ID: ' . $request->getBodyParam('surveyId'));
         }
 
-        $workspace = Workspace::find()->inProject($project)->andWhere(['token' => $data['token']])->one();
+        /** @var Workspace|null $workspace */
+        $workspace = Workspace::find()->andWhere(['token' => $data['token'], 'tool_id' => $project->id])->one();
         if (!isset($workspace)) {
             throw new NotFoundHttpException('Unknown token');
         }
 
         $heramsResponse = HeramsResponse::findOne($key) ?? new HeramsResponse($key);
-        $heramsResponse->loadData($data, $workspace);
+
+        $loader->loadData($data, $workspace, $heramsResponse);
 
         if ($heramsResponse->save()) {
             $response->setStatusCode(204);

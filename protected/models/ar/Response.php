@@ -3,18 +3,13 @@
 
 namespace prime\models\ar;
 
-
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
-use app\queries\ResponseQuery;
+use prime\queries\ResponseQuery;
 use yii\validators\RequiredValidator;
-use function iter\apply;
-use function iter\filter;
-use function iter\map;
-use function iter\toArrayWithKeys;
 
 /**
  * Class Response
@@ -25,6 +20,7 @@ use function iter\toArrayWithKeys;
  * @property string|\DateTimeInterface $date The date of the information
  * @property int $survey_id
  * @property array $data
+ * @property string $hf_id
  * @property Workspace $workspace
  * @property Project $project
  */
@@ -43,10 +39,15 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         return parent::beforeSave($insert);
     }
 
+    public static function find(): ResponseQuery
+    {
+        return new ResponseQuery(self::class);
+    }
+
     public function afterFind()
     {
         parent::afterFind();
-        $data = $this->data;
+        $data = $this->data ?? [];
         ksort($data);
         $this->data = $data;
         $this->setOldAttribute('data', $data);
@@ -71,82 +72,14 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         return $this->hasOne(Project::class, ['id' => 'tool_id'])->via('workspace');
     }
 
-    public function loadData(array $data, Workspace $workspace)
-    {
-        $data = toArrayWithKeys(filter(function($value) {
-            return !empty($value); //$value !== null;
-        }, $data));
-
-        $this->workspace_id = $workspace->id;
-        $this->survey_id = $workspace->project->base_survey_eid;
-        $this->id = (int) $data['id'] ?? null;
-
-        if (isset($data['Update'])) {
-            $this->date = Carbon::createFromFormat('Y-m-d H:i:s', $data['Update'])->format('Y-m-d');
-        }
-        $this->hf_id = $data['UOID'] ?? null;
-        // Remove some keys from the data.
-        unset(
-            $data['submitdate'],
-            $data['startdate'],
-            $data['datestamp'],
-            $data['startlanguage'],
-            $data['id'],
-            $data['token'],
-            $data['lastpage'],
-            $data['UOID']
-        );
-
-        // Transform arrays.
-        $transformed = [];
-        foreach($data as $key => $value) {
-            if (preg_match('/(.+)\[\d+]$/', $key, $matches)) {
-                if (isset($transformed[$matches[1]])) {
-                    $transformed[$matches[1]][] = $value;
-                } else {
-                    $transformed[$matches[1]] = [$value];
-                }
-            } elseif (preg_match('/(.+)\[(\w+)_(\w+)]$/', $key, $matches)) {
-                // Question with subquestions on 2 axes.
-                $transformed[$matches[1]][$matches[2]][$matches[3]] = $value;
-            } elseif (preg_match('/(.+)\[other]$/', $key, $matches)) {
-                // Other is special; it is always a text question and does.
-                $transformed[$matches[1]. 'other'] = $value;
-            } elseif (preg_match('/(.+)\[([a-zA-Z0-9]+)]$/', $key, $matches)) {
-                $transformed[$matches[1]][$matches[2]] = $value;
-            } else {
-                $transformed[$key] = $value;
-            }
-        }
-
-        ksort($transformed);
-        // Recurse 1 level.
-        foreach($transformed as $key => &$value) {
-            if (is_array($value)) {
-                ksort($value);
-            }
-        }
-        $this->data = $transformed;
-    }
-
     public function getLatitude(): ?float
     {
-        if (isset($this->data[$this->getMap()->getLatitude()])
-            && !is_numeric($this->data[$this->getMap()->getLatitude()])
-        ) {
-            return null;
-        }
-        return $this->data[$this->getMap()->getLatitude()] ?? null;
+        return $this->data['MoSDGPS']['SQ001'] ?? null;
     }
 
     public function getLongitude(): ?float
     {
-        if (isset($this->data[$this->getMap()->getLongitude()])
-            && !is_numeric($this->data[$this->getMap()->getLongitude()])
-        ) {
-            return null;
-        }
-        return $this->data[$this->getMap()->getLongitude()] ?? null;
+        return $this->data['MoSDGPS']['SQ002'] ?? null;
     }
 
     public function getId(): int
@@ -189,7 +122,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         if (!isset(self::$surveySubjectKeys[$this->survey_id])) {
             self::$surveySubjectKeys[$this->survey_id] = [];
         }
-        foreach($this->data as $key => $dummy) {
+        foreach ($this->data as $key => $dummy) {
             if (isset(self::$surveySubjectKeys[$this->survey_id][$key])) {
                 continue;
             }
@@ -197,11 +130,9 @@ class Response extends ActiveRecord implements HeramsResponseInterface
             if (preg_match($this->getMap()->getSubjectExpression(), $key)) {
                 self::$surveySubjectKeys[$this->survey_id][$key] = true;
             }
-
         }
 
         return array_keys(self::$surveySubjectKeys[$this->survey_id]);
-
     }
 
     /**
@@ -236,7 +167,6 @@ class Response extends ActiveRecord implements HeramsResponseInterface
                     $score += 0;
                     $limit += 1;
                     break;
-
             }
         }
 
@@ -252,7 +182,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     {
         $reasons = [];
         $services = [];
-        foreach($this->data as $key => $value) {
+        foreach ($this->data as $key => $value) {
             if (preg_match('/^(QHeRAMS\d+)x\[\d+\]$/', $key, $matches)) {
                 if (empty($value)) {
                     continue;
@@ -285,7 +215,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getSubjectAvailabilityBucket(): int
     {
-        switch(intdiv($this->getSubjectAvailability(), 25)) {
+        switch (intdiv($this->getSubjectAvailability(), 25)) {
             case 0:
                 return HeramsResponseInterface::BUCKET25;
             case 1:

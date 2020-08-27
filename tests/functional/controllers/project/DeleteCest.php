@@ -3,10 +3,9 @@
 
 namespace prime\tests\functional\controllers\project;
 
-use prime\components\AuthManager;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;
@@ -66,6 +65,5 @@ class DeleteCest
         $I->seeRecord(Project::class, ['id' => $project->id]);
         $I->seeResponseCodeIsSuccessful();
         $I->seeInSource('Deletion failed');
-
     }
 }

@@ -2,7 +2,7 @@
 
 namespace app\components;
 
-class ActiveForm extends \kartik\widgets\ActiveForm
+class ActiveForm extends \kartik\form\ActiveForm
 {
 
 }

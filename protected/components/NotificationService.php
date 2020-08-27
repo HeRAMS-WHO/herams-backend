@@ -3,7 +3,6 @@
 
 namespace prime\components;
 
-
 use prime\assets\ToastBundle;
 use yii\authclient\AuthAction;
 use yii\base\Component;
@@ -25,7 +24,7 @@ class NotificationService extends Component
         });
     }
 
-    protected  function getSession(): Session
+    protected function getSession(): Session
     {
         return \Yii::$app->get('session');
     }
@@ -39,8 +38,7 @@ class NotificationService extends Component
             return;
         }
 
-        if (
-            !\Yii::$app->has('session', true)
+        if (!\Yii::$app->has('session', true)
         ) {
             return;
         }
@@ -88,7 +86,7 @@ class NotificationService extends Component
             [
                 'type' => 'success',
                 'message' => $message,
-                'title' => $title ?? \Yii::t('app', 'Success!'),
+                'title' => $title ?? \Yii::t('app', 'Success'),
             ]
         );
     }
@@ -100,7 +98,7 @@ class NotificationService extends Component
             [
                 'type' => 'error',
                 'message' => $message,
-                'title' => $title ?? \Yii::t('app', 'Error!'),
+                'title' => $title ?? \Yii::t('app', 'Error'),
             ]
         );
     }
@@ -112,7 +110,7 @@ class NotificationService extends Component
             [
                 'type' => 'warning',
                 'message' => $message,
-                'title' => $title ?? \Yii::t('app', 'Warning!'),
+                'title' => $title ?? \Yii::t('app', 'Warning'),
             ]
         );
     }

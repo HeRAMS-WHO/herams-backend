@@ -3,11 +3,10 @@
 
 namespace prime\controllers\page;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Page;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -22,14 +21,14 @@ class Create extends Action
         NotificationService $notificationService,
         User $user,
         int $project_id
-
     ) {
+        $this->controller->layout = 'admin-content';
         $project = Project::findOne(['id' => $project_id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_CREATE_PAGE, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
 
@@ -51,5 +50,4 @@ class Create extends Action
             'project' => $project
         ]);
     }
-
 }

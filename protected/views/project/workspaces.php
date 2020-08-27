@@ -10,12 +10,11 @@
  */
 
 use kartik\grid\GridView;
-use prime\models\ar\Workspace;
-use prime\models\permissions\Permission;
-use yii\bootstrap\ButtonGroup;
+use prime\models\ar\Permission;
+use prime\widgets\FavoriteColumn\FavoriteColumn;
+use prime\helpers\Icon;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use prime\helpers\Icon;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -32,13 +31,29 @@ $this->params['breadcrumbs'][] = [
 $this->title = \Yii::t('app', 'Workspaces');
 $this->params['breadcrumbs'][] = $this->title;
 
+echo Html::beginTag('div', ['class' => 'topbar']);
+echo Html::beginTag('div', ['class' => 'pull-left']);
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::list();
+echo Html::tag('span', \Yii::t('app', 'Workspaces'));
+echo Html::tag('em', $workspaceProvider->getTotalCount());
+echo Html::endTag('div');
+echo Html::endTag('div');
 
-?>
-<div class="col-xs-12 workspaces">
-<a href='<?= Url::to(['project/'.$project->id]);?>' class='btn btn-gray btn-dashboard'><?= Icon::healthFacility(); ?></a>
-<?php
-    echo GridView::widget([
-        'caption' => ButtonGroup::widget([
+echo Html::beginTag('div', ['class' => 'btn-group']);
+if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
+    echo Html::a(\Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default']);
+    echo Html::a(\Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary']);
+}
+echo Html::endTag('div');
+echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
+echo Html::a(Icon::project(), ['project/view', 'id' => $project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
+echo Html::endTag('div');
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo GridView::widget([
+    /*'caption' => ButtonGroup::widget([
             'options' => [
                 'class' => 'pull-right',
             ],
@@ -50,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
                         'class' => 'btn-default',
                     ],
-                    'visible' => app()->user->can(Permission::PERMISSION_WRITE, $project)
+                    'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
                 ],
                 [
                     'label' => \Yii::t('app', 'Create workspace'),
@@ -59,47 +74,45 @@ $this->params['breadcrumbs'][] = $this->title;
                         'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
                         'class' => 'btn-primary',
                     ],
-                    'visible' => app()->user->can(Permission::PERMISSION_WRITE, $project)
+                    'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
                 ],
 
             ]
-        ]),
-        'pjax' => true,
-        'pjaxSettings' => [
-            'options' => [
-                // Just links in the header.
-                'linkSelector' => 'th a'
-            ]
-        ],
-        'layout' => "{items}\n{pager}",
-        'filterModel' => $workspaceSearch,
-        'dataProvider' => $workspaceProvider,
-        'columns' => [
-            [
-                'attribute' => 'id',
-            ],
-            [
-                'label' => 'Workspace',
-                'attribute' => 'title'
-            ],
-            [
-                'label' => 'Last update',
-                'attribute' => 'latestUpdate',
-            ],
-            [
-                'label' => '# Users',
-                'attribute' => 'permissionCount'
-            ],
-            [
-                'label' => '# Health facilities',
-                'attribute' => 'facilityCount',
-            ],
-            [
-                'label' => '# Responses',
-                'value' => 'responseCount'
-            ],
-            'actions' => require('workspaces/actions.php')
+        ]),*/
+    'pjax' => true,
+    'pjaxSettings' => [
+        'options' => [
+            // Just links in the header.
+            'linkSelector' => 'th a'
         ]
-    ]);
-    ?>
-</div>
+    ],
+    'layout' => "{items}\n{pager}",
+    'filterModel' => $workspaceSearch,
+    'dataProvider' => $workspaceProvider,
+    'columns' => [
+        [
+            'attribute' => 'id',
+        ],
+        [
+            'attribute' => 'title'
+        ],
+        [
+            'attribute' => 'latestUpdate',
+        ],
+        [
+            'attribute' => 'contributorCount'
+        ],
+        [
+            'attribute' => 'facilityCount',
+        ],
+        [
+            'attribute' => 'responseCount'
+        ],
+        [
+            'class' => FavoriteColumn::class
+        ],
+        'actions' => require('workspaces/actions.php')
+    ]
+]);
+
+echo Html::endTag('div');

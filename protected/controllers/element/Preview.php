@@ -3,11 +3,10 @@
 
 namespace prime\controllers\element;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Element;
+use prime\models\ar\Permission;
 use prime\models\forms\ResponseFilter;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -28,16 +27,15 @@ class Preview extends Action
         if (!isset($element)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_ADMIN, $element->page->project)) {
+        if (!$user->can(Permission::PERMISSION_WRITE, $element)) {
             throw new ForbiddenHttpException();
         }
         $element->load($request->queryParams);
         // Hack for colors
         $colors = [];
-        foreach($request->queryParams['Element'] ?? [] as $key => $value) {
-            if (strncmp($key, 'color.', 6) === 0 ) {
+        foreach ($request->queryParams['Element'] ?? [] as $key => $value) {
+            if (strncmp($key, 'color.', 6) === 0) {
                 $colors[substr($key, 6)] = $value;
-
             }
         }
         $element->setColors($colors);
@@ -56,7 +54,5 @@ class Preview extends Action
             'element' => $element,
             'data' => $filter->filterQuery($responses)->all()
         ]);
-
     }
-
 }

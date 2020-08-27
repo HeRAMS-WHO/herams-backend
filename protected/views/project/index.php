@@ -3,8 +3,8 @@
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = [
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $projectProvider
  */
+
+ echo Html::beginTag('div', ['class' => 'full-width']);
+
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
@@ -39,6 +42,7 @@ $this->params['breadcrumbs'][] = [
             ]
         ]),
         'dataProvider' => $projectProvider,
+        'filterModel' => $projectSearch,
         'layout' => "{items}\n{pager}",
         'columns' => [
             'id',
@@ -61,84 +65,91 @@ $this->params['breadcrumbs'][] = [
             ],
             'actions' => [
                 'class' => ActionColumn::class,
-                'width' => '120px',
-                'template' => '{view} {workspaces} {update} {check} {share} {remove}',
+                'width' => 6 * 25 . 'px',
+                'template' => '{view} {workspaces} {update} {pages} {share} {remove} {export}',
+                'visibleButtons' => [
+                    'pages' => function (Project $project) {
+                        return app()->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project);
+                    },
+                    'view' => function (Project $project) {
+                        return !empty($project->pages) && app()->user->can(Permission::PERMISSION_READ, $project);
+                    },
+                    'update' => function (Project $project) {
+                        return app()->user->can(Permission::PERMISSION_WRITE, $project);
+                    },
+                    'share' => function (Project $project) {
+                        return app()->user->can(Permission::PERMISSION_SHARE, $project);
+                    },
+                    'remove' => function (Project $project) {
+                        return app()->user->can(Permission::PERMISSION_DELETE, $project);
+                    },
+                    'export' => function (Project $project) {
+                        return app()->user->can(Permission::PERMISSION_EXPORT, $project);
+                    },
+                ],
                 'buttons' => [
-                    'workspaces' => function($url, Project $model, $key) {
-                        $result = Html::a(
+                    'workspaces' => function ($url, Project $model, $key) {
+                        return Html::a(
                             Icon::list(),
                             ['project/workspaces', 'id' => $model->id],
-                            ['title' => 'Workspaces']
-
+                            ['title' => \Yii::t('app', 'Workspaces')]
                         );
-                        return $result;
                     },
-                    'view' => function($url, Project $model, $key) {
-                        if (!empty($model->pages)
-                            && app()->user->can(Permission::PERMISSION_READ, $model)
-                        ) {
-                            $result = Html::a(
-                                Icon::project(),
-                                ['project/view', 'id' => $model->id],
-                                ['title' => \Yii::t('app', 'Project dashboard')]
-
-                            );
-                            return $result;
-                        }
-
+                    'view' => function ($url, Project $model, $key) {
+                        return Html::a(
+                            Icon::project(),
+                            ['project/view', 'id' => $model->id],
+                            ['title' => \Yii::t('app', 'Project dashboard')]
+                        );
                     },
-                    'update' => function($url, Project $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
-                            return Html::a(
-                                Icon::edit(),
-                                ['project/update', 'id' => $model->id], [
-                                    'title' => \Yii::t('app', 'Edit')
-                                ]
-                            );
-
-                        }
-
+                    'pages' => function ($url, Project $model, $key) {
+                        return Html::a(
+                            Icon::paintBrush(),
+                            ['project/pages', 'id' => $model->id],
+                            ['title' => \Yii::t('app', 'Edit dashboard')]
+                        );
                     },
-                    'check' => function($url, Project $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
-                            return Html::a(
-                                Icon::checkSquare(),
-                                ['project/check', 'id' => $model->id], [
-                                    'title' => \Yii::t('app', 'Check data')
-                                ]
-                            );
-
-                        }
-
+                    'update' => function ($url, Project $model, $key) {
+                        return Html::a(
+                            Icon::edit(),
+                            ['project/update', 'id' => $model->id],
+                            [
+                                'title' => \Yii::t('app', 'Edit')
+                            ]
+                        );
                     },
-                    'share' => function($url, Project $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model)) {
-                            $result = Html::a(
-                                Icon::share(),
-                                ['project/share', 'id' => $model->id], [
-                                    'title' => \Yii::t('app', 'Share')
-                                ]
-                            );
-                            return $result;
-                        }
-
+                    'share' => function ($url, Project $model, $key) {
+                        return Html::a(
+                            Icon::share(),
+                            $url,
+                            [
+                                'title' => \Yii::t('app', 'Share')
+                            ]
+                        );
                     },
-                    'remove' => function($url, Project $model, $key) {
-                        if(
-                            app()->user->can(Permission::PERMISSION_ADMIN)
-                            && $model->canBeDeleted()
-                        ) {
-                            return Html::a(
-                                Icon::delete(),
-                                ['project/delete', 'id' => $model->id],
-                                [
-                                    'data-method' => 'delete',
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?')
-                                ]
-                            );
-                        }
+                    'remove' => function ($url, Project $model, $key) {
+                        return Html::a(
+                            Icon::delete(),
+                            ['project/delete', 'id' => $model->id],
+                            [
+                                'data-method' => 'delete',
+                                'title' => \Yii::t('app', 'Delete'),
+                                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?')
+                            ]
+                        );
                     },
+                    'export' => function ($url, Project $model, $key) {
+                        return Html::a(
+                            Icon::download(),
+                            $url,
+                            [
+                                'title' => \Yii::t('app', 'Download'),
+                            ]
+                        );
+                    }
                 ]
             ]
         ]
     ]);
+
+    echo Html::endTag('div');

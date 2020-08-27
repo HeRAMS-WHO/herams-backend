@@ -1,12 +1,13 @@
 <div class="footer">
 <?php
 
-use Carbon\Carbon;
 use prime\helpers\Icon;
 use prime\models\ar\Project;
 use yii\helpers\Html;
+
 // Render all statistics.
-$projects = Project::find()->all();
+/** @var Project[] $projects */
+$projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate')->all();
 $stats[] = [
     'icon' => Icon::project(),
     'count' => count($projects),
@@ -15,19 +16,23 @@ $stats[] = [
 $stats[] = [
     'icon' => Icon::contributors(),
     'count' =>
-        \iter\reduce(function(int $accumulator, Project $project) {
-        return $accumulator + $project->contributorCount;
-    }, $projects, 0),
-    'subject' => \Yii::t('app', 'Contributors')
+        \iter\reduce(function (int $accumulator, Project $project) {
+            return $accumulator + $project->contributorCount;
+        }, $projects, 0),
+        'subject' => \Yii::t('app', 'Contributors')
 ];
 
 $stats[] = [
     'icon' => Icon::healthFacility(),
-    'count' => \Yii::$app->cache->get('totalFacilityCount') ?: '?',
+    'count' => \iter\reduce(function (int $accumulator, Project $project) {
+        return $accumulator + $project->facilityCount;
+    }, $projects, 0),
+
     'subject' => \Yii::t('app', 'Health facilities')
 ];
+
 echo Html::beginTag('div', ['class' => 'stats']);
-foreach($stats as $stat) {
+foreach ($stats as $stat) {
     echo Html::beginTag('div');
     echo $stat['icon'];
     echo Html::tag('div', $stat['count'], ['class' => 'counter']);
@@ -35,18 +40,29 @@ foreach($stats as $stat) {
     echo Html::endTag('div');
 }
 echo Html::endTag('div');
-?>
-<div class="status"><?= Icon::sync() ?> Latest update: <span class="value">
-            <?php
-            $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
-            if (isset($latestResponse)) {
-                echo "{$latestResponse->project->title} / {$latestResponse->date}";
-            } else {
-                echo "No data loaded";
-            }
-            ?></span>
-</div>
-    <?php
+
+if (!empty($projects)) {
+    $latest = $projects[0];
+
+    foreach ($projects as $project) {
+        if ($project->latestDate > $latest->latestDate) {
+            $latest = $project;
+        };
+    }
+    $localizedDate = \Yii::$app->formatter->asDate($latest->latestDate, 'short');
+    $status = "{$latest->title} / {$localizedDate}";
+} else {
+    $status = \Yii::t('app', "No data loaded");
+}
+
+echo Html::beginTag('div', [
+    'class' => 'status',
+    'title' => $status
+]);
+    echo Icon::sync() . ' ';
+    echo \Yii::t('app', 'Latest update') . ': ';
+    echo Html::tag('span', $status, ['class' => 'value']);
+echo Html::endTag('div');
 
 echo Html::a(Icon::chevronLeft(), '#', ['class' => 'left', 'id' => 'footer-left']);
 echo Html::a(Icon::chevronRight(), '#', ['class' => 'right', 'id' => 'footer-right']);

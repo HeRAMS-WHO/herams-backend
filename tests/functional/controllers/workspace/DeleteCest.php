@@ -3,13 +3,16 @@
 
 namespace prime\tests\functional\controllers\workspace;
 
+use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;
 
+/**
+ * @coversNothing
+ */
 class DeleteCest
 {
 
@@ -23,44 +26,14 @@ class DeleteCest
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
         $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
         $I->seeResponseCodeIs(403);
-
-        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_READ);
-        $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
-        $I->seeResponseCodeIs(403);
-
-        \Yii::$app->abacManager->grant($user, $workspace, Permission::PERMISSION_READ);
-        $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
-        $I->seeResponseCodeIs(403);
-
-        \Yii::$app->abacManager->grant($user, $workspace, Permission::PERMISSION_WRITE);
-        $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
-        $I->seeResponseCodeIs(403);
     }
 
     public function testDelete(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
-
-        $I->stopFollowingRedirects();
-        $I->createAndSetCsrfCookie('abc');
-        $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
-        $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
-
-        $I->seeResponseCodeIs(302);
-        $I->dontSeeRecord(Workspace::class, ['id' => $workspace->id]);
-    }
-
-    public function testDeleteProjectWrite(FunctionalTester $I)
-    {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace = $I->haveWorkspace();
-
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_DELETE);
 
         $I->stopFollowingRedirects();
         $I->createAndSetCsrfCookie('abc');

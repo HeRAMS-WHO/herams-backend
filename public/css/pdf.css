@@ -1,0 +1,178 @@
+/**
+ * This CSS file is used by the pdf layout.
+ * It is for print only
+ */
+
+body, html {
+    background: none;
+    margin: 0 auto;
+    padding: 0;
+    width: unset;
+    overflow: auto;
+}
+
+@media screen {
+    body, html {
+        max-width: 820px;
+    }
+}
+
+table tr td {
+    padding: 0;
+    border: none;
+}
+
+body {
+    display: block;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "title title title" "filters filters filters" "main main main";
+    height: auto;
+}
+
+.title {
+    width: 100%;
+    height: 60px;
+    align-items: center;
+    overflow: unset;
+    background-color: white;
+    color: var(--primary-color);
+    margin: 0;
+    padding: 10px 10px 15px;
+    max-width: 100%;
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 25px;
+    text-overflow: ellipsis;
+    border-bottom: 5px solid var(--highlight-background-color);
+}
+
+.filters {
+    box-shadow: none;
+    padding: 0;
+    float: right;
+    margin-top: 5px;
+}
+
+.filters .count {
+    display: inline-flex;
+    margin-left: 0;
+    font-size: 14px;
+    line-height: 14px;
+    padding-top: 5px;
+    align-items: center;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+.filters .count~.count {
+    border: none;
+}
+
+.filters .count em {
+    padding: 0 3px;
+}
+
+.title span.header {
+    position: relative;
+    color: var(--primary-color);
+    background: none;
+    margin: 0;
+    padding: 20px;
+}
+
+.filters-list {
+    padding: 10px 10px 0 10px;
+    font-size: 12px;
+}
+
+.filters-list span.list-title {
+    text-decoration: underline;
+}
+
+.filters-list span.values {
+    padding-right: 3px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: min-content;
+    grid-auto-flow: dense;
+    grid-row-gap: var(--gutter-size);
+    grid-column-gap: var(--gutter-size);
+    background: none;
+    padding: 5px 10px 0px;
+    overflow: unset;
+    height: auto;
+}
+
+.content:not(:first-child) {
+    margin-top: 60px;
+}
+
+.page-title {
+    grid-column: span 2;
+    font-size: 20px;
+    line-height: 20px;
+    padding: 0;
+    margin: 0;
+    padding: 10px 0;
+    color: var(--header-background-color);
+}
+
+.content>.element {
+    margin: 0;
+    padding: 0;
+    max-height: 190px;
+    page-break-inside: auto;
+    page-break-after: auto;
+    border: none;
+    background: none;
+}
+
+.content>.element.table {
+    margin-top: 20px;
+    max-height: unset;
+}
+
+.content>.element.table table {
+    background: none !important;
+}
+
+.content>.element.table h1 {
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.content>.element.map {
+    max-height: none;
+    height: 400px;
+}
+
+.leaflet-container a, .content>.element a {
+    display: none;
+}
+
+.content>.element canvas {
+    padding: 0;
+}
+
+.content>.element .legend-item .label span {
+    display: initial;
+}
+
+.color {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page-break {
+    display: block;
+    float: none;
+    break-after: always;
+    page-break-after: always;
+}
+
+/*}*/

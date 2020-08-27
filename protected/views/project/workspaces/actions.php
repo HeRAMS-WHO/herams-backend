@@ -2,27 +2,26 @@
 
 use kartik\grid\ActionColumn;
 use prime\helpers\Icon;
- use prime\models\ar\Workspace;
- use prime\models\permissions\Permission;
- use yii\bootstrap\Html;
- use yii\helpers\Url;
+use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
+use yii\bootstrap\Html;
 
 return [
     'class' => ActionColumn::class,
     'width' => '150px',
     'controller' => 'workspace',
-    'template' => '{refresh} {update} {share} {delete} {download} {limesurvey}',
+    'template' => '{refresh} {update} {share} {delete} {export} {limesurvey} {responses}',
     'buttons' => [
-        'refresh' => function($url, Workspace $model, $key) {
+        'refresh' => function ($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(Icon::sync(), $url, [
                     'title' => \Yii::t('app', 'Refresh data from limesurvey')
                 ]);
             }
             return $result;
         },
-        'limesurvey' => function($url, Workspace $model, $key) {
+        'limesurvey' => function ($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(
@@ -35,7 +34,7 @@ return [
             }
             return $result;
         },
-        'update' => function($url, Workspace $model, $key) {
+        'update' => function ($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
                 $result = Html::a(
@@ -48,7 +47,7 @@ return [
             }
             return $result;
         },
-        'share' => function($url, Workspace $model, $key) {
+        'share' => function ($url, Workspace $model, $key) {
             $result = '';
             /** @var Workspace $model */
             if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
@@ -62,77 +61,39 @@ return [
             }
             return $result;
         },
-        'delete' => function($url, Workspace $model, $key) {
+        'delete' => function ($url, Workspace $model, $key) {
             if (\Yii::$app->user->can(Permission::PERMISSION_DELETE, $model)) {
                 return Html::a(
                     Icon::delete(),
                     $url,
                     [
                         'data-method' => 'delete',
+                        'title' => \Yii::t('app', 'Delete'),
                         'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?')
                     ]
                 );
             }
         },
-        'download' => function($url, Workspace $model, $key) {
-            if (\Yii::$app->user->can(Permission::PERMISSION_READ, $model)) {
-                $result = Html::a(
+        'export' => function ($url, Workspace $model, $key) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $model)) {
+                return Html::a(
                     Icon::download(),
-                    "#",
+                    $url,
                     [
-                        'data' => [
-                            'code' => Url::to(['/workspace/download', 'id' => $model->id]),
-                            'text' => Url::to(['/workspace/download', 'id' => $model->id, 'text' => true])
-                        ],
-                        'class' => 'download-data',
                         'title' => \Yii::t('app', 'Download'),
                     ]
                 );
-                $this->registerJs(<<<JS
-var handler = function(e){
-    console.log('Clicked');
-    e.preventDefault();
-    e.stopPropagation();
-    let textUrl = $(this).data('text');
-    let codeUrl = $(this).data('code');
-    iziToast.question({
-        close: true,
-        displayMode: 'once',
-        overlay: true,
-        position: 'center',
-        title: "Download data in CSV format",
-        message: "Do you prefer answer as text or as code?",
-        buttons: [
-            ['<button>Text</button>', (instance, toast) => window.location.href = textUrl],
-            ['<button>Code</button>', (instance, toast) => window.location.href = codeUrl]
-        ]
-    });
-    // bootbox.dialog({
-    //     message: "Do you prefer answer as text or as code?",
-    //     title: "Download data in CSV format",
-    //     onEscape: function() {
-    //     },
-    //     buttons: {
-    //         text: {
-    //             label: "Text",
-    //             callback: function() {
-    //                 window.location.href = textUrl;
-    //             }
-    //         },
-    //         code: {
-    //             label: "Code",
-    //             callback: function() {
-    //                 window.location.href = codeUrl;
-    //             }
-    //         },
-    //     }
-    //
-    // });
-};
-$('.download-data').on('click', handler);
-JS
+            }
+        },
+        'responses' => function ($url, Workspace $model, $key) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+                return Html::a(
+                    Icon::list(),
+                    $url,
+                    [
+                        'title' => \Yii::t('app', 'Responses'),
+                    ]
                 );
-                return $result;
             }
         }
     ]

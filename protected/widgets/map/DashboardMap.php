@@ -3,13 +3,15 @@
 
 namespace prime\widgets\map;
 
-
 use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
+use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 class DashboardMap extends Element
 {
@@ -41,18 +43,21 @@ class DashboardMap extends Element
      * @var HeramsResponseInterface[]
      */
     public $data = [];
-    /** @var SurveyInterface */
-    public $survey;
 
     public $colors;
 
     public $code;
 
+    public function setSurvey(SurveyInterface $survey): void
+    {
+        $this->survey = $survey;
+    }
+
     private function getCollections(iterable $data)
     {
         $method  = 'get' . ucfirst($this->code);
         if (method_exists(HeramsResponseInterface::class, $method)) {
-            $getter = function($response) use ($method) {
+            $getter = function ($response) use ($method) {
                 return $response->$method();
             };
         } else {
@@ -60,7 +65,7 @@ class DashboardMap extends Element
              * @param HeramsResponseInterface|HeramsSubject $response
              * @return mixed
              */
-            $getter = function($response) {
+            $getter = function ($response) {
                 return $response->getValueForCode($this->code);
             };
         }
@@ -68,42 +73,51 @@ class DashboardMap extends Element
         $types = $this->getAnswers($this->code);
         $collections = [];
         /** @var HeramsResponseInterface $response */
-        foreach($data as $response) {
-            $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
-            $latitude = $response->getLatitude();
-            $longitude = $response->getLongitude();
-            if (abs($latitude) < 0.0000001
-                || abs($longitude) < 0.0000001
-                || abs($latitude) > 90
-                || abs($longitude) > 180
+        foreach ($data as $response) {
+            try {
+                $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
+                $latitude = $response->getLatitude();
+                $longitude = $response->getLongitude();
+                $workspace_url = \Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, Workspace::findOne(['id' => $response['workspace_id']])) ? Url::to(['/workspace/limesurvey', 'id' => $response['workspace_id']]) : Url::to(["/project/workspaces",'id' => $this->element->page->project->id, 'Workspace[id]' => $response['workspace_id']]);
+                if (abs($latitude) < 0.0000001
+                    || abs($longitude) < 0.0000001
+                    || abs($latitude) > 90
+                    || abs($longitude) > 180
 
-            ) {
-                continue;
-            }
+                ) {
+                    continue;
+                }
 
-            if (is_array($value)) {
-                $value = array_shift($value);
-            }
-            if (!isset($collections[$value])) {
-                $collections[$value] = [
-                    "type" => "FeatureCollection",
-                    'features' => [],
-                    "title" => $types[$value] ?? $value ?? 'Unknown',
-                    'value' => $value,
-                    'color' => $this->colors[$value] ?? '#000000'
-                ];
-            }
+                if (is_array($value)) {
+                    $value = array_shift($value);
+                }
+                if (!isset($collections[$value])) {
+                    $collections[$value] = [
+                        "type" => "FeatureCollection",
+                        'features' => [],
+                        "title" => $types[$value] ?? $value ?? 'Unknown',
+                        'value' => $value,
+                        'color' => $this->colors[strtr($value, ['-' => '_'])] ?? '#000000'
+                    ];
+                }
 
-            $point = [
-                "type" => "Feature",
-                "geometry" => [
-                    "type" => "Point",
-                    "coordinates" => [$longitude, $latitude]
-                ],
-                "properties" => [
-                    'title' => $response->getName() ?? 'No name',
-                    'id' => $response->getId()
-                ]
+                $pointData = [];
+                foreach (['MoSD2', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                    $pointData[$key] = $response->getValueForCode($key);
+                }
+                $point = [
+                    "type" => "Feature",
+                    "geometry" => [
+                        "type" => "Point",
+                        "coordinates" => [$longitude, $latitude]
+                    ],
+                    "properties" => [
+                        'title' => $response->getName() ?? 'No name',
+                        'id' => $response->getId(),
+                        'workspace_url' => $workspace_url,
+                        'workspace_title' => \Yii::t('app', 'Workspaces'),
+                        'data' => $pointData
+                    ]
 
 //                'subtitle' => '',
 //                'items' => [
@@ -111,10 +125,13 @@ class DashboardMap extends Element
 //                    'building damage',
 //                    'functionality'
 //                ]
-            ];
-            $collections[$value]['features'][] = $point;
+                ];
+                $collections[$value]['features'][] = $point;
+            } catch (\Throwable $t) {
+                new \RuntimeException('An error occured while checking response: ' . $response->getId(), 0, $t);
+            }
         }
-        uksort($collections, function($a, $b) {
+        uksort($collections, function ($a, $b) {
             if ($a === "" || $a === "-oth-") {
                 return 1;
             } elseif ($b === "" || $b === "-oth-") {
@@ -125,7 +142,7 @@ class DashboardMap extends Element
         return array_values($collections);
     }
 
-    public function run()
+    public function run(): string
     {
         $this->registerClientScript();
         $id = Json::encode($this->getId());
@@ -168,12 +185,20 @@ class DashboardMap extends Element
                                 });
                             }
                         });
+                        
+                        /*var popup = L.popup({'className' : "hf-popup"}).setContent("<div class='hf-summary'>"+
+                                "<h2>"+set.features[0].properties.title+"</h2>" +
+                                "<a href='"+set.features[0].properties.workspace_url+"' class='btn btn-primary'>"+set.features[0].properties.workspace_title+"</a>"+
+                            "</div>");*/
                         layer.bindTooltip(function(e) {
                             return e.feature.properties.title;
-                        }),
-                        layer.bindPopup(function(e) {
-                            return e.feature.properties.title;
                         });
+                        let popup = layer.bindPopup(function(e) {
+                            return "<div class='hf-summary'>"+
+                                "<h2>"+e.feature.properties.title+"</h2>" +
+                                "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
+                            "</div>";
+                        }, {'className' : "hf-popup"}).getPopup();
                         layer.addTo(map);
                         
                         let legend = document.createElement('span');
@@ -233,7 +258,7 @@ class DashboardMap extends Element
 JS
         );
 
-        parent::run();
+        return parent::run();
     }
 
 
@@ -241,5 +266,4 @@ JS
     {
         $this->view->registerAssetBundle(MapBundle::class);
     }
-
 }

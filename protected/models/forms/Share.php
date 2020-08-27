@@ -2,49 +2,63 @@
 
 namespace prime\models\forms;
 
+use app\components\ActiveForm;
 use kartik\builder\Form;
-use kartik\widgets\ActiveForm;
-use kartik\widgets\Select2;
+use kartik\grid\GridView;
+use kartik\select2\Select2;
+use prime\exceptions\NoGrantablePermissions;
+use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
+use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
+use SamIT\abac\interfaces\Resolver;
 use yii\base\Model;
-use yii\bootstrap\Html;
-use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
-use yii\rbac\CheckAccessInterface;
-use yii\validators\DefaultValueValidator;
 use yii\validators\ExistValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\web\IdentityInterface;
 
-class Share extends Model {
-    protected $_permissions = [];
-    public $userIds;
-    public $permission;
-    protected $model;
+/**
+ * Class Share
+ * @package prime\models\forms
+ */
+class Share extends Model
+{
+    private $permissionOptions = [];
+    public $userIds = [];
+    public $permissions = [];
+
+    private $model;
+
+    public $confirmationMessage;
 
     /** @var AuthManager */
     private $abacManager;
     /** @var IdentityInterface */
-    private $user;
+    private $currentUser;
 
     public function __construct(
-        ActiveRecord $model,
+        object $model,
         AuthManager $abacManager,
         IdentityInterface $identity,
-        $config = []
+        ?array $availablePermissions
     ) {
-        if($model->getIsNewRecord()) {
+        if ($model instanceof ActiveRecord && $model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
-        parent::__construct($config);
+        parent::__construct([]);
         $this->model = $model;
         $this->abacManager = $abacManager;
-        $this->user = $identity;
+        $this->currentUser = $identity;
+        $this->setPermissionOptions($availablePermissions);
+        if (empty($this->permissionOptions)) {
+            throw new NoGrantablePermissions();
+        }
     }
 
     public function attributeLabels()
@@ -57,41 +71,41 @@ class Share extends Model {
     public function createRecords(): void
     {
         if ($this->validate()) {
+            /** @var User $user */
             foreach ($this->getUsers()->all() as $user) {
-                foreach ($this->permission as $permission) {
-                    if ($this->abacManager->check($this->user, $this->model, $permission)) {
-                        $this->abacManager->grant($user, $this->model, $permission);
-                    }
+                foreach ($this->permissions as $permission) {
+                    $grant = new ProposedGrant($user, $this->model, $permission);
 
+                    if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+                        $this->abacManager->grant($user, $this->model, $permission);
+                    } else {
+                        throw new \RuntimeException('You are not allowed to create this grant');
+                    }
                 }
             }
         }
     }
 
-    public function setPermissions(array $options)
+    private function setPermissionOptions(?array $options)
     {
-        $this->_permissions = $options;
-    }
-
-    public function getPermissionOptions(): array
-    {
-        $permissions = empty($this->_permissions) ? Permission::permissionLabels() : $this->_permissions;
-
         // Add labels if needed.
-        foreach($permissions as $key => $value) {
-            if (is_numeric($key)) {
-                unset($permissions[$key]);
-                $permissions[$value] = Permission::permissionLabels()[$value];
+        foreach ($options ?? Permission::permissionLabels() as $permission => $label) {
+            if (is_numeric($permission)) {
+                $permission = $label;
+                $label = Permission::permissionLabels()[$permission] ?? $permission;
+            }
+            $grant = new ProposedGrant($this->currentUser, $this->model, $permission);
+            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+                $this->permissionOptions[$permission] = $label;
             }
         }
-        return array_filter($permissions, function(string $permission) {
-            return $this->abacManager->check($this->user, $this->model, $permission);
-        }, ARRAY_FILTER_USE_KEY);
     }
 
     public function getUserOptions()
     {
-        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', 'name');
+        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', function (User $user) {
+            return "{$user->name} ({$user->email})";
+        });
     }
 
     public function getUsers(): ActiveQueryInterface
@@ -113,14 +127,14 @@ class Share extends Model {
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => Select2::class,
                     'options' => [
-                        'data' => $this->userOptions,
+                        'data' => $this->getUserOptions(),
                         'options' => [
                             'multiple' => true
                         ]
                     ]
                 ],
-                'permission' => [
-                    'label' => \Yii::t('app', 'Permission'),
+                'permissions' => [
+                    'label' => \Yii::t('app', 'Permissions'),
                     'type' => Form::INPUT_CHECKBOX_LIST,
                     'items' => $this->permissionOptions
                 ]
@@ -130,58 +144,90 @@ class Share extends Model {
 
     public function renderTable(string $deleteAction = '/permission/delete')
     {
-        return \kartik\grid\GridView::widget([
-            'dataProvider' => new ActiveDataProvider([
-                'query' => $this->model->getPermissions()
+        /** @var Resolver $resolver */
+        $resolver = \Yii::$app->abacResolver;
+        $target = $resolver->fromSubject($this->model);
+        $permissions = [];
+        $columns = [];
+        foreach ($this->permissionOptions as $permission => $label) {
+            $columns[] = [
+                'class' => PermissionColumn::class,
+                'permission' => $permission,
+                'target' => $target,
+                'label' => $label,
+                'attribute' => "permissions.{$permission}"
+            ];
+        }
+
+        /** @var \prime\models\ar\Permission $permission */
+        foreach ($this->model->getPermissions()->each() as $permission) {
+            $source = $permission->sourceAuthorizable();
+            $key = $source->getAuthName() . '|' . $source->getId();
+            if (!isset($permissions[$key])) {
+                $permissions[$key] = [
+                   'source' => $source,
+                   'user' => $resolver->toSubject($source)->displayField ?? \Yii::t('app', 'Deleted user'),
+                   'permissions' => []
+                ];
+            }
+            $permissions[$key]['permissions'][$permission->permission] = $permission;
+        }
+        return GridView::widget([
+            'dataProvider' => new ArrayDataProvider([
+                'allModels' => $permissions
             ]),
-            'columns' => [
+            'columns' => array_merge([
                 [
-                    'label' => \Yii::t('app', 'User'),
-                    'value' => function($model){
-                        return isset($model->sourceObject) ? $model->sourceObject->name : 'Deleted user';
-                    }
+                    'attribute' => 'user',
+                    'label' => \Yii::t('app', 'User')
                 ],
-                'permissionLabel' => [
-                    'attribute' => 'permissionLabel',
-                    'value' => function(Permission $model) {
-                        return $this->getPermissionOptions()[$model->permission] ?? $model->permission;
-                    }
-                ],
-                [
-                    'class' => \kartik\grid\ActionColumn::class,
-                    'template' => '{delete}',
-                    'buttons' => [
-                        'delete' => function($url, $model, $key) use ($deleteAction) {
-                            return Html::a(
-                                Html::icon('trash'),
-                                [
-                                    $deleteAction,
-                                    'id' => $model->id,
-                                    'redirect' => \Yii::$app->request->url
-                                ],
-                                [
-                                    'class' => 'text-danger',
-                                    'data-method' => 'delete',
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>', [
-                                        'modelName' => $model->targetObject->displayField,
-                                        'userName' => isset($model->sourceObject) ? $model->sourceObject->name : 'Deleted user'
-                                    ]),
-                                    'title' => \Yii::t('app', 'Remove')
-                                ]
-                            );
-                        }
-                    ]
-                ]
-            ]
+//                [
+//                    'class' => \kartik\grid\ActionColumn::class,
+//                    'template' => '{delete}',
+//                    'buttons' => [
+//                        'delete' => function($url, Permission $model, $key) use ($deleteAction) {
+//                            /** @var Resolver $resolver */
+//                            $resolver = \Yii::$app->abacResolver;
+//                            $source = $resolver->toSubject($model->sourceAuthorizable());
+//                            $target = $resolver->toSubject($model->targetAuthorizable());
+//                            if (!isset($source, $target)) {
+//                                return '';
+//                            }
+//                            $grant = new ProposedGrant($source, $target, $model->permission);
+//                            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_DELETE)) {
+//                                return Html::a(
+//                                    Html::icon('trash'),
+//                                    [
+//                                        $deleteAction,
+//                                        'id' => $model->id,
+//                                        'redirect' => \Yii::$app->request->url
+//                                    ],
+//                                    [
+//                                        'class' => 'text-danger',
+//                                        'data-method' => 'delete',
+//                                        'data-confirm' => $this->confirmationMessage ?? \Yii::t('app',
+//                                            'Are you sure you want to stop sharing <strong>{modelName}</strong> with <strong>{userName}</strong>',
+//                                            [
+//                                                'modelName' => $target->displayField ?? "{$model->targetAuthorizable()->getAuthName()} ({$model->targetAuthorizable()->getId()})",
+//                                                'userName' => $source->displayField ?? 'Deleted user'
+//                                            ]),
+//                                        'title' => \Yii::t('app', 'Remove')
+//                                    ]
+//                                );
+//                            }
+//                        }
+//                    ]
+//                ]
+            ], $columns)
         ]);
     }
 
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['permission', 'userIds'], RequiredValidator::class],
+            [['permissions', 'userIds'], RequiredValidator::class],
             [['userIds'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id', 'allowArray' => true],
-            [['userIds'], DefaultValueValidator::class, 'value' => []],
-            [['permission'], RangeValidator::class,  'allowArray' => true, 'range' => array_keys($this->getPermissionOptions())]
+            [['permissions'], RangeValidator::class,  'allowArray' => true, 'range' => array_keys($this->permissionOptions)]
         ];
     }
 }

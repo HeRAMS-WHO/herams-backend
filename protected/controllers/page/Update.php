@@ -3,10 +3,9 @@
 
 namespace prime\controllers\page;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Page;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -21,15 +20,15 @@ class Update extends Action
         NotificationService $notificationService,
         User $user,
         int $id
-
     ) {
+        $this->controller->layout = 'admin-content';
         $page = Page::findOne(['id' => $id]);
         if (!isset($page)) {
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_ADMIN, $page->project)) {
-            throw new ForbiddenHttpException("You do not have admin permissions on project {$page->project->title} ({$page->project->id})");
+        if (!$user->can(Permission::PERMISSION_WRITE, $page)) {
+            throw new ForbiddenHttpException();
         }
 
         if ($request->isPut) {
@@ -47,5 +46,4 @@ class Update extends Action
             'project' => $page->project
         ]);
     }
-
 }

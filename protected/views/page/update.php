@@ -1,4 +1,5 @@
 <?php
+
 /** @var \prime\models\ar\Page $page */
 
 use app\components\Form;
@@ -6,8 +7,8 @@ use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\helpers\Html;
 use prime\helpers\Icon;
-use prime\models\ar\Page;
-use prime\models\permissions\Permission;
+use prime\models\ar\Element;
+use prime\models\ar\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -23,22 +24,25 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/project']
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/update', 'id' => $project->id]
+    'label' => $page->project->title,
+    'url' => ['project/update', 'id' => $page->project->id]
 ];
 
 $this->title = $page->title;
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
-<div class="col-xs-12">
+<div class="form-content form-bg">
+    <h3><?= \Yii::t('app', 'Update Page') ?></h3>
     <?php
-
-
     $form = ActiveForm::begin([
         'id' => 'update-page',
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([
@@ -47,35 +51,53 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => 1,
         "attributes" => [
             'title' => [
-                'type' => Form::INPUT_TEXT,
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\typeahead\Typeahead::class,
+                'hint' => \Yii::t('app', 'If you use a predefined option it will automatically be translated'),
+                'options' => [
+                    'useHandleBars' => false,
+                    'defaultSuggestions' => $page->titleOptions(),
+                    'dataset' => [
+                        [
+                            'local' => $page->titleOptions(),
+                            'sufficient' => 0
+                        ]
+
+                    ],
+                ]
+
+
             ],
             'parent_id' => [
-                'attribute' => 'parent_id' ,
+                'attribute' => 'parent_id',
                 'type' => Form::INPUT_DROPDOWN_LIST,
 
                 'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
             ],
             'add_services' => [
-                 'type' => Form::INPUT_CHECKBOX
+                'type' => Form::INPUT_CHECKBOX
             ],
             'sort' => [
                 'type' => Form::INPUT_TEXT,
             ],
             [
                 'type' => Form::INPUT_RAW,
-                'value' => \yii\bootstrap\ButtonGroup::widget([
+                'value' => ButtonGroup::widget([
+                    'options' => [
+                        'class' => 'pull-right'
+                    ],
                     'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update page'), ['class' => 'btn btn-primary'])
+                        ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]],
+                        Html::a(\Yii::t('app', 'Back to list'), ['project/pages', 'id' => $page->project_id], ['class' => ['btn', 'btn-default']])
                     ]
                 ])
             ]
         ]
     ]);
     $form->end();
-
     ?>
 </div>
-<div class="col-xs-12">
+<div class="form-content form-bg">
     <?php
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
@@ -125,8 +147,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width' => '100px',
                 'template' => '{update} {remove}',
                 'buttons' => [
-                    'remove' => function($url, \prime\models\ar\Element $model, $key) {
-                        if(app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
+                    'remove' => function ($url, Element $model, $key) {
+                        if (app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
                             return Html::a(
                                 Icon::delete(),
                                 ['element/delete', 'id' => $model->id],
@@ -141,6 +163,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ]
     ]);
-
     ?>
 </div>

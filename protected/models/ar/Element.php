@@ -3,7 +3,6 @@
 
 namespace prime\models\ar;
 
-
 use prime\interfaces\Exportable;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\PageInterface;
@@ -42,7 +41,6 @@ class Element extends ActiveRecord implements Exportable
         $this->width = 1;
         $this->height = 1;
         parent::__construct($config);
-
     }
 
     protected function getWidgetConfig(): array
@@ -65,10 +63,14 @@ class Element extends ActiveRecord implements Exportable
         }
 
         switch ($row['type']) {
-            case 'map': return new Map();
-            case 'chart': return new Chart();
-            case 'barchart': return new BarChart();
-            case 'table': return new Table();
+            case 'map':
+                return new Map();
+            case 'chart':
+                return new Chart();
+            case 'barchart':
+                return new BarChart();
+            case 'table':
+                return new Table();
             default:
                 throw new \InvalidArgumentException('Unknown type: ' . $row['type']);
         }
@@ -84,16 +86,16 @@ class Element extends ActiveRecord implements Exportable
         return $this->getWidgetInternal($survey, $page->filterResponses($this->prepareData($data)));
     }
 
-    protected function findQuestionByCode(SurveyInterface $survey, string $text): ?QuestionInterface
+    final protected function findQuestionByCode(SurveyInterface $survey, string $text): ?QuestionInterface
     {
-        foreach($survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
+        foreach ($survey->getGroups() as $group) {
+            foreach ($group->getQuestions() as $question) {
                 if ($question->getTitle() === $text) {
                     return $question;
                 }
-
             }
         }
+        return null;
     }
 
     public function formName()
@@ -139,7 +141,7 @@ class Element extends ActiveRecord implements Exportable
     public function getConfigAsJson()
     {
         $result = [];
-        foreach($this->config ?? [] as $key => $value) {
+        foreach ($this->config ?? [] as $key => $value) {
             if (!$this->canGetProperty($key)) {
                 $result[$key] = $value;
             }
@@ -154,7 +156,7 @@ class Element extends ActiveRecord implements Exportable
     private function prepareData(iterable $data)
     {
         if ($this->transpose) {
-            foreach($data as $key => $value) {
+            foreach ($data as $key => $value) {
                 yield from $value->getSubjects();
             }
         } else {
@@ -189,11 +191,18 @@ class Element extends ActiveRecord implements Exportable
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
-            'colors.code' => 'Answer code'
-        ];
+        return array_merge(parent::attributeLabels(), [
+            'colors.code' => 'Answer code',
+            'type' => \Yii::t('app', 'Type'),
+            'page_id' => \Yii::t('app', 'Page'),
+            'config' => \Yii::t('app', 'Config'),
+            'sort' => \Yii::t('app', 'Sort'),
+            'transpose' => \Yii::t('app', 'Transpose'),
+            'width' => \Yii::t('app', 'Width'),
+            'height' => \Yii::t('app', 'Height')
+        ]);
     }
 
 
@@ -205,8 +214,8 @@ class Element extends ActiveRecord implements Exportable
         return [
             'map' => \Yii::t('app', 'A dashboard element that shows a map'),
             'chart' => \Yii::t('app', 'A chart'),
-            'barchart' => \Yii::t('app','A bar chart'),
-            'table' => \Yii::t('app','A table')
+            'barchart' => \Yii::t('app', 'A bar chart'),
+            'table' => \Yii::t('app', 'A table')
         ];
     }
 
@@ -222,7 +231,7 @@ class Element extends ActiveRecord implements Exportable
     public function export(): array
     {
         $attributes = $this->attributes;
-        foreach($this->primaryKey() as $key) {
+        foreach ($this->primaryKey() as $key) {
             unset($attributes[$key]);
         }
         unset($attributes['page_id']);

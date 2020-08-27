@@ -5,21 +5,18 @@ namespace {
 
     define('TEST_ADMIN_ID', 1);
     define('TEST_USER_ID', 2);
-
+    define('TEST_OTHER_USER_ID', 3);
 
     call_user_func(function () {
-        define('YII_ENV', getenv('YII_ENV'));
-        defined('YII_DEBUG') or define('YII_DEBUG', true);
-        defined('CONSOLE') or define('CONSOLE', true);
+        require_once 'constants.php';
 
         $autoload = __DIR__ . '/../vendor/autoload.php';
         if (!file_exists($autoload)) {
             die("Could not locate composer autoloader");
-
         }
 
         require_once $autoload;
-        \prime\models\permissions\Permission::$enableCaching = false;
+        \prime\models\ar\Permission::$enableCaching = false;
 
         $config = require __DIR__ . '/../protected/config/codeception.php';
 

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\User;
 use prime\models\forms\user\ChangePasswordForm;
@@ -29,15 +28,9 @@ class Account extends Action
             return $this->controller->refresh();
         }
 
-        $changePassword = new ChangePasswordForm($model);
-        if ($changePassword->load($request->getBodyParams())) {
-            $changePassword->run();
-            $notificationService->success(\Yii::t('app', 'Password changed'));
-            return $this->controller->refresh();
-        }
         return $this->controller->render('account', [
             'model' => $model,
-            'changePassword' => $changePassword,
+            'changePassword' => new ChangePasswordForm($model),
             'changeMail' => new UpdateEmailForm($mailer, $user->identity, $urlSigner)
         ]);
     }

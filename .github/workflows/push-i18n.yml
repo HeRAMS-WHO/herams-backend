@@ -1,0 +1,40 @@
+name: Push messages to i18n repo
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - uses: actions/checkout@v2
+        with:
+          repository: 'WorldHealthOrganization/herams-i18n'
+          path: 'herams-i18n'
+          ssh-key: ${{ secrets.i18n_private_key }}
+        name: Checkout i18n repo
+      - run: composer install --ignore-platform-reqs
+      - name: Extract translations
+        run: protected/yiic message/extract protected/config/i18n.php --message-path .
+        # Fix bad Yii header in pot file by copying header from another file
+      - name: Create app.pot
+        run: (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 ../messages.pot) > app.pot
+        working-directory: herams-i18n
+      - name: Configure git
+        run: git config --global user.name "Github Action" && git config --global user.email '<>'
+      - name: Commit changes
+        run: git commit app.pot -m "Updated application strings" || echo "No changes"
+        working-directory: herams-i18n
+      - name: Push changes
+        run: git push
+        working-directory: herams-i18n

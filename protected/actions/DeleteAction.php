@@ -3,9 +3,8 @@
 
 namespace prime\actions;
 
-
 use prime\components\NotificationService;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQueryInterface;
@@ -13,7 +12,6 @@ use yii\db\ActiveRecordInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\Session;
 use yii\web\User;
 
 class DeleteAction extends Action
@@ -41,7 +39,7 @@ class DeleteAction extends Action
         if (!\Yii::$app->request->isDelete) {
             throw new MethodNotAllowedHttpException();
         }
-        /** @var ActiveRecordInterface $model */
+        /** @var ActiveRecordInterface| null $model */
         $model = $this->query->andWhere(['id' => $id])->one();
         if (!isset($model)) {
             throw new NotFoundHttpException();

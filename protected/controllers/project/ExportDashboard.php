@@ -3,9 +3,8 @@
 
 namespace prime\controllers\project;
 
-
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -23,7 +22,7 @@ class ExportDashboard extends Action
         if (!isset($project)) {
             throw new NotFoundHttpException('Project not found');
         }
-        if (!$user->can(Permission::PERMISSION_ADMIN, $project)) {
+        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
 
@@ -33,5 +32,4 @@ class ExportDashboard extends Action
         $response->setDownloadHeaders("Dashboard {$project->title}.json");
         return $response;
     }
-
 }

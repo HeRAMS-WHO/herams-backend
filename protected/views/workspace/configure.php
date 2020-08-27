@@ -1,6 +1,6 @@
 <?php
 
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
@@ -29,18 +29,22 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = Yii::t('app', 'Update workspace token');
 $this->params['breadcrumbs'][] = $this->title;
-
+?>
+<div class="form-content form-bg">
+    <h3><?=\Yii::t('app', 'Update workspace token')?></h3>
+<?php
 $form = ActiveForm::begin([
     'method' => 'PUT',
     "type" => ActiveForm::TYPE_HORIZONTAL,
     'formConfig' => [
         'showLabels' => true,
-        'defaultPlaceholder' => false
+        'defaultPlaceholder' => false,
+        'labelSpan' => 3
     ]
 ]);
-foreach($token->attributes() as $attribute) {
+foreach ($token->attributes() as $attribute) {
     if ($token->isAttributeSafe($attribute)) {
-       echo $form->field($token, $attribute);
+        echo $form->field($token, $attribute);
     } else {
         echo $form->field($token, $attribute)->textInput([
             'readonly' => true
@@ -57,4 +61,5 @@ echo ButtonGroup::widget([
     ]
 ]);
 $form->end();
-
+?>
+</div>

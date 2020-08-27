@@ -3,22 +3,23 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use League\ISO3166\ISO3166;
+use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
+use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
-use prime\models\forms\ResponseFilter;
-use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
+use prime\queries\ResponseQuery;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use SamIT\Yii2\VirtualFields\VirtualFieldQueryBehavior;
 use yii\base\NotSupportedException;
-use yii\db\ActiveQuery;
+use yii\db\DefaultValueConstraint;
 use yii\db\Expression;
-use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\NumberValidator;
@@ -27,6 +28,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+use yii\web\Linkable;
 use function iter\filter;
 
 /**
@@ -34,13 +36,25 @@ use function iter\filter;
  * @property int $id
  * @property int $base_survey_eid
  * @property string $title
+ * @property string $visibility
  * @property Page[] $pages
  * @property int $status
  * @property Workspace[] $workspaces
+ * @property-read int $workspaceCount
+ * @property-read int $contributorCount
+ * @property-read string $latestDate
+ * @property-read int $facilityCount
+ * @property ?string $country
+ * @property-read int $contributorPermissionCount
  * @property-read SurveyInterface $survey
+ * @property array<string, string> $typemap
+ * @property array $overrides
  */
-class Project extends ActiveRecord {
-
+class Project extends ActiveRecord implements Linkable
+{
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_PRIVATE = 'private';
+    public const VISIBILITY_HIDDEN = 'hidden';
     public const STATUS_ONGOING = 0;
     public const STATUS_BASELINE = 1;
     public const STATUS_TARGET = 2;
@@ -49,24 +63,65 @@ class Project extends ActiveRecord {
     const PROGRESS_ABSOLUTE = 'absolute';
     const PROGRESS_PERCENTAGE = 'percentage';
 
-    public function statusText(): string
+    public function getStatusText(): string
     {
         return $this->statusOptions()[$this->status];
     }
 
-    public static function find()
+    public function isHidden(): bool
     {
-        $result = new ActiveQuery(self::class);
-        $result->attachBehaviors([
-            VirtualFieldQueryBehavior::class => [
-                'class' => VirtualFieldQueryBehavior::class
-            ]
-        ]);
-        return $result;
+        return $this->visibility === self::VISIBILITY_HIDDEN;
+    }
+
+    public function visibilityOptions()
+    {
+        return [
+            self::VISIBILITY_HIDDEN => 'Hidden, this project is only visible to people with permissions',
+            self::VISIBILITY_PUBLIC => 'Public, anyone can view this project',
+            self::VISIBILITY_PRIVATE => 'Private, this project is visible on the map and in the list, but people need permission to view it'
+        ];
     }
 
 
-    public function init()
+    public static function find(): ActiveQuery
+    {
+        return new ActiveQuery(get_called_class());
+    }
+
+    public function beforeSave($insert): bool
+    {
+        $this->overrides = array_filter($this->overrides);
+        return parent::beforeSave($insert);
+    }
+
+    public function fields(): array
+    {
+        $fields = parent::fields();
+        $fields['name'] = 'title';
+
+        /** @var VirtualFieldBehavior $virtualFields */
+        $virtualFields = $this->getBehavior('virtualFields');
+        foreach ($virtualFields->virtualFields as $key => $definition) {
+            $fields[$key] = $key;
+        }
+        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount', 'responseCount'] as $hidden) {
+            unset($fields[$hidden]);
+        }
+        return $fields;
+    }
+
+    public function extraFields(): array
+    {
+        $result = parent::extraFields();
+        $result['subjectAvailabilityCounts'] = 'subjectAvailabilityCounts';
+        $result['functionalityCounts'] = 'functionalityCounts';
+        $result['typeCounts'] = 'typeCounts';
+        $result['statusText'] = 'statusText';
+
+        return $result;
+    }
+
+    public function init(): void
     {
         parent::init();
         $this->typemap = [
@@ -83,7 +138,7 @@ class Project extends ActiveRecord {
         $this->status = self::STATUS_ONGOING;
     }
 
-    public function statusOptions()
+    public function statusOptions(): array
     {
         return [
             self::STATUS_ONGOING => 'Ongoing',
@@ -93,90 +148,85 @@ class Project extends ActiveRecord {
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return [
-            'base_survey_eid' => \Yii::t('app', 'Survey')
-        ];
+        return array_merge(parent::attributeLabels(), [
+            'country' => \Yii::t('app', 'Country'),
+            'base_survey_eid' => \Yii::t('app', 'Survey'),
+            'hidden' => \Yii::t('app', 'Hidden'),
+            'latitude' => \Yii::t('app', 'Latitude'),
+            'longitude' => \Yii::t('app', 'Longitude'),
+            'status' => \Yii::t('app', 'Status'),
+            'typemap' => \Yii::t('app', 'Typemap'),
+            'visibility' => \Yii::t('app', 'Visibility'),
+            'overrides' => \Yii::t('app', 'Overrides')
+        ]);
     }
 
     public function attributeHints()
     {
         return [
+            'country' => \Yii::t('app', 'Only countries with an ISO3166 Alpha-3:wq
+             code are listed'),
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
             'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
-            'status' => \Yii::t('app','Project status is shown on the world map')
+            'status' => \Yii::t('app', 'Project status is shown on the world map')
         ];
     }
 
-    /**
-     * @return LimesurveyDataProvider
-     */
-    protected function limesurveyDataProvider() {
+    private function limesurveyDataProvider(): LimesurveyDataProvider
+    {
         return app()->limesurveyDataProvider;
     }
 
-    /**
-     * @return \SamIT\LimeSurvey\Interfaces\SurveyInterface
-     */
     public function getSurvey(): SurveyInterface
     {
         return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
     }
 
-    public function dataSurveyOptions()
+    public function dataSurveyOptions(): array
     {
         $existing = Project::find()->select('base_survey_eid')->indexBy('base_survey_eid')->column();
 
-        $surveys = filter(function($details) use ($existing) {
+        $surveys = filter(function ($details) use ($existing) {
             return $this->base_survey_eid == $details['sid'] || !isset($existing[$details['sid']]);
         }, $this->limesurveyDataProvider()->listSurveys());
 
-        $result = ArrayHelper::map($surveys, 'sid', function ($details) use ($existing) {
+        $result = ArrayHelper::map($surveys, 'sid', function ($details) {
                 return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
         });
 
         return $result;
     }
 
-    public function canBeDeleted(): bool
-    {
-        return $this->workspaceCount === 0;
-    }
-
-    public function beforeDelete()
-    {
-        return $this->canBeDeleted();
-    }
-
-    public function getWorkspaces()
+    public function getWorkspaces(): ActiveQuery
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
 
-    public function getTypemapAsJson()
+    public function getTypemapAsJson(): string
     {
         return Json::encode($this->typemap, JSON_PRETTY_PRINT);
     }
 
-    public function getOverridesAsJson()
+    public function getOverridesAsJson(): string
     {
         return Json::encode($this->overrides, JSON_PRETTY_PRINT);
     }
 
-    public function setTypemapAsJson($value)
+    public function setTypemapAsJson($value): void
     {
         $this->typemap = Json::decode($value);
     }
 
-    public function setOverridesAsJson(string $value)
+    public function setOverridesAsJson(string $value): void
     {
         $this->overrides = array_filter(Json::decode($value));
     }
 
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [[
@@ -188,21 +238,40 @@ class Project extends ActiveRecord {
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
-            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())]
+            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())],
+            [['visibility'], RangeValidator::class, 'range' => array_keys($this->visibilityOptions())],
+            [['country'], function () {
+                $data = new ISO3166();
+                try {
+                    $data->alpha3($this->country);
+                } catch (\Throwable $t) {
+                    $this->addError('country', $t->getMessage());
+                }
+            }],
+            [['country'], DefaultValueValidator::class, 'value' => null]
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => [
+                    'latestDate' => [
+                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
+                            ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
+                                'tool_id' => new Expression(self::tableName() . '.[[id]]')])
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function (self $model): ?string {
+                            return $model->getResponses()->select('max([[date]])')->scalar();
+                        }
+                    ],
                     'workspaceCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::GREEDY => Workspace::find()->limit(1)->select('count(*)')
                             ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
                             return (int) $model->getWorkspaces()->count();
                         }
                     ],
@@ -212,13 +281,13 @@ class Project extends ActiveRecord {
                                 'workspace_id' => Workspace::find()->select('id')
                                     ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                             ])->addParams([':path' => '$.facilityCount'])->
-                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(distinct [[hf_id]]))')),
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
-                            if ($model->workspaceCount === 0) {
-                                return 0;
+                        select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(distinct [[workspace_id]], [[hf_id]]))')),
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            $override = $model->getOverride('facilityCount');
+                            if (isset($override)) {
+                                return (int)$override;
                             }
-                            return (int) ($model->getOverride('facilityCount')
-                                ?? $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]')));
+                            return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
                         }
                     ],
                     'responseCount' => [
@@ -227,37 +296,36 @@ class Project extends ActiveRecord {
                             'workspace_id' => Workspace::find()->select('id')
                                 ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                         ])->addParams([':path' => '$.responseCount'])->
-                        select(new Expression('coalesce(json_unquote(json_extract([[overrides]], :path)), count(*))'))
+                        select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))'))
                         ,
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
                             if ($model->workspaceCount === 0) {
                                 return 0;
                             }
                             return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
                         }
                     ],
+                    'contributorPermissionCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                            'target' => Workspace::class,
+                            'target_id' => Workspace::find()->select('id')
+                                ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                            'source' => User::class,
+                        ])->select('count(distinct [[source_id]])')
+                        ,
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) Permission::find()->where([
+                                'target' => Workspace::class,
+                                'target_id' => $model->getWorkspaces()->select('id'),
+                                'source' => User::class,
+                            ])->count('distinct [[source_id]]');
+                        }
+                    ],
                     'contributorCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::LAZY => static function(self $model): int {
-                            $result = $model->getOverride('contributorCount');
-                            if (!isset($result)) {
-                                if ($model->workspaceCount === 0) {
-                                    return 0;
-                                }
-                                $result = Permission::find()->where([
-                                    'target' => Workspace::class,
-                                    'target_id' => $model->getWorkspaces()->select('id'),
-                                    'source' => User::class,
-                                    'permission' => [
-                                        Permission::PERMISSION_WRITE,
-                                        Permission::PERMISSION_ADMIN
-                                    ]
-                                ])  ->distinct()
-                                    ->select('source_id')
-                                    ->count();
-
-                            }
-                            return (int) $result;
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
                         }
                     ]
                 ]
@@ -265,27 +333,21 @@ class Project extends ActiveRecord {
         ];
     }
 
-
-    public function  getResponses(): ActiveQuery
+    public function getResponses(): ResponseQuery
     {
         return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
     }
 
-
-    public function getTypeCounts()
+    public function getTypeCounts(): array
     {
         if (null !== $result = $this->getOverride('typeCounts')) {
             return $result;
         }
         \Yii::beginProfile(__FUNCTION__);
         $map = is_array($this->typemap) ? $this->typemap : [];
-        // Always have a mapping for the empty / unknown value.
-        if (!empty($map) && !isset($map[HeramsResponseInterface::UNKNOWN_VALUE])) {
-            $map[HeramsResponseInterface::UNKNOWN_VALUE] = "Unknown";
-        }
         // Initialize counts
         $counts = [];
-        foreach($map as $key => $value) {
+        foreach ($map as $key => $value) {
             $counts[$value] = 0;
         }
 
@@ -300,13 +362,11 @@ class Project extends ActiveRecord {
              ->indexBy('type')
             ->asArray();
 
-        foreach($query->column() as $type => $count) {
+        foreach ($query->column() as $type => $count) {
             if (empty($map)) {
-                $counts[$type] = ($counts[$type] ?? 0) + 1;
+                $counts[$type] = ($counts[$type] ?? 0) + $count;
             } elseif (isset($map[$type])) {
-                $counts[$map[$type]]++;
-            } else {
-                $counts[$map[HeramsResponseInterface::UNKNOWN_VALUE]]++;
+                $counts[$map[$type]] += $count;
             }
         }
 
@@ -331,14 +391,15 @@ class Project extends ActiveRecord {
         $map = [
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
-            'A3' => \Yii::t('app', 'None'),
-            HeramsResponseInterface::UNKNOWN_VALUE => \Yii::t('app', 'Unknown'),
+            'A3' => \Yii::t('app', 'None')
         ];
 
         $result = [];
-        foreach($query->column() as $key => $value) {
-            $label = isset($map[$key]) ? $map[$key] : $map[HeramsResponseInterface::UNKNOWN_VALUE];
-            $result[$label] = ($result[$label] ?? 0) + $value;
+        foreach ($query->column() as $key => $value) {
+            if (isset($map[$key])) {
+                $label = $map[$key];
+                $result[$label] = ($result[$label] ?? 0) + $value;
+            }
         }
         return $result;
     }
@@ -354,8 +415,7 @@ class Project extends ActiveRecord {
             HeramsSubject::NOT_PROVIDED=> 0,
         ];
         /** @var HeramsResponseInterface $heramsResponse */
-        foreach ($this->getResponses()->each() as $heramsResponse)
-        {
+        foreach ($this->getResponses()->each() as $heramsResponse) {
             foreach ($heramsResponse->getSubjects() as $subject) {
                 $subjectAvailability = $subject->getAvailability();
                 if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
@@ -373,7 +433,7 @@ class Project extends ActiveRecord {
         ];
 
         $result = [];
-        foreach($counts as $key => $value) {
+        foreach ($counts as $key => $value) {
             if (isset($map[$key])) {
                 $result[$map[$key]] = $value;
             }
@@ -419,7 +479,8 @@ class Project extends ActiveRecord {
         return new HeramsCodeMap();
     }
 
-    public function getPages() {
+    public function getPages()
+    {
         return $this->hasMany(Page::class, ['project_id' => 'id'])->andWhere(['parent_id' => null])->orderBy('sort');
     }
 
@@ -446,5 +507,35 @@ class Project extends ActiveRecord {
             $pages[] = $page->export();
         }
         return $pages;
+    }
+
+    public function getLinks(): array
+    {
+        $result = [];
+        $result[Link::REL_SELF] = Url::to(['project/view', 'id' => $this->id]);
+        $result['summary'] = Url::to(['project/summary', 'id' => $this->id]);
+
+        if (\Yii::$app->user->can(Permission::PERMISSION_READ, $this)) {
+            if ($this->getOverride('dashboard')) {
+                $result['dashboard'] = new Link([
+                    'title' => \Yii::t('app', 'Dashboard'),
+                    'type' => 'text/html',
+                    'href' => Url::to(['/project/external-dashboard', 'id' => $this->id]),
+                ]);
+            } elseif ($this->getPages()->exists()) {
+                $result['dashboard'] = new Link([
+                    'title' => \Yii::t('app', 'Dashboard'),
+                    'type' => 'text/html',
+                    'href' => Url::to(['/project/view', 'id' => $this->id]),
+                ]);
+            }
+        }
+
+        $result['workspaces'] = new Link([
+            'title' => \Yii::t('app', 'Workspaces'),
+            'type' => 'text/html',
+            'href' => Url::to(['/project/workspaces', 'id' => $this->id])
+        ]);
+        return $result;
     }
 }

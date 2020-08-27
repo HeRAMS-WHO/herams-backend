@@ -1,11 +1,12 @@
 <?php
 
-/** @var Project[] $projects */
+/** @var \yii\data\DataProviderInterface $projects */
 
-use prime\models\ar\Project;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use prime\widgets\map\Map;
+use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = "World overview";
 $bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);
@@ -13,7 +14,8 @@ $font = $bundle->baseUrl . '/fonts/fonts/icomoon.woff';
 $this->registerLinkTag([
     'rel' => 'preload',
     'href' => $font,
-    'as' => 'font'
+    'as' => 'font',
+    'crossorigin' => 'anonymous'
 ], 'icomoon');
 
 $this->params['body'] = [
@@ -21,11 +23,11 @@ $this->params['body'] = [
 ];
 // Order projects by status.
 $collections = [];
-foreach($projects as $project) {
+foreach ($projects->getModels() as $project) {
     if (!isset($collections[$project->status])) {
         $collections[$project->status] = [
             "type" => "FeatureCollection",
-            "title" => $project->statusText(),
+            "title" => $project->statusText,
             "features" => []
         ];
     }
@@ -38,33 +40,32 @@ foreach($projects as $project) {
         "properties" => [
             'id' => $project->id,
             'title' => $project->getDisplayField(),
-            'popup' => Html::tag('iframe', '', [
-                'src' => \yii\helpers\Url::to(['project/summary', 'id' => $project->id]),
-            ])
+            'url' => Url::to(['/api/project/summary', 'id' => $project->id])
         ]
 
     ];
 }
-\prime\widgets\menu\SideMenu::begin([
-        'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
+SideMenu::begin([
+    'collapsible' => true,
+    'footer' => $this->render('//footer')
 ]);
 
-foreach($projects as $project) {
+/** @var \prime\models\ar\Project $project */
+foreach ($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
-            'id' => $project->id
+            'id' => $project->id,
         ]
     ]);
-
 }
-if (app()->user->can(Permission::PERMISSION_ADMIN)) {
+if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
     echo Html::a('New project', ['project/create'], [
         'style' => [
             'color' => '#737373'
         ]
     ]);
 }
-\prime\widgets\menu\SideMenu::end();
+SideMenu::end();
 $this->registerJs(<<<JS
     window.addEventListener('click', function(e) {
         if (e.target.matches('.menu button[data-id]:not(.active)')) {
@@ -91,10 +92,6 @@ $this->registerJs(<<<JS
 JS
     , \yii\web\View::POS_END);
 
-echo $this->render('//footer', [
-        'projects' => $projects
-]);
-
 echo Map::widget([
     'colors' => ["#4075c3"],
     'options' => [
@@ -102,32 +99,3 @@ echo Map::widget([
     ],
     'data' => $collections
 ]);
-
-?>
-<style>
-    .leaflet-popup-content {
-        margin: 0;
-        /*background-image: url('/img/loader.svg');*/
-        /*background-repeat: no-repeat;*/
-        /*background-position: center;*/
-        background-color: #42424b;
-
-        padding-bottom: 10px;
-
-    }
-    .leaflet-popup-content-wrapper {
-        overflow: hidden;
-        padding: 0;
-
-    }
-
-    iframe {
-        box-sizing: border-box;
-        max-width: 500px;
-        border-width: 0;
-        width: 400px;
-        min-width: 300px;
-        min-height: 350px;
-        overflow: hidden;
-    }
-</style>

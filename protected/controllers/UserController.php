@@ -3,17 +3,20 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
-
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\user\Account;
 use prime\controllers\user\ConfirmEmail;
 use prime\controllers\user\Create;
+use prime\controllers\user\Favorites;
 use prime\controllers\user\Impersonate;
 use prime\controllers\user\Index;
 use prime\controllers\user\RequestAccount;
 use prime\controllers\user\RequestReset;
+use prime\controllers\user\ResetPassword;
+use prime\controllers\user\Roles;
 use prime\controllers\user\UpdateEmail;
+use prime\controllers\user\UpdatePassword;
 use prime\models\ar\User;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\helpers\ArrayHelper;
@@ -31,8 +34,12 @@ class UserController extends Controller
             'index' => Index::class,
             'account' => Account::class,
             'impersonate' => Impersonate::class,
+            'favorites' => Favorites::class,
             'request-account' => RequestAccount::class,
             'request-reset' => RequestReset::class,
+            'reset-password' => ResetPassword::class,
+            'update-password' => UpdatePassword::class,
+            'roles' => Roles::class,
             'create' => Create::class,
             'delete' => [
                 'class' => DeleteAction::class,
@@ -53,12 +60,10 @@ class UserController extends Controller
                    [
                        'allow' => true,
                        'roles' => ['@'],
-                       'actions' => ['account']
+                       'actions' => ['account', 'favorites', 'update-password']
                    ]
                ]
            ]
         ]);
     }
-
-
 }

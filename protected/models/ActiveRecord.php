@@ -3,27 +3,16 @@
 namespace prime\models;
 
 use prime\components\ActiveQuery;
-use prime\injection\SetterInjectionInterface;
-use prime\injection\SetterInjectionTrait;
-use prime\models\ar\User;
-use prime\models\permissions\Permission;
-use yii\web\HttpException;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
     public const SCENARIO_SEARCH = 'search';
-    /**
-     * @return ActiveQuery
-     * @throws \yii\base\InvalidConfigException
-     */
+
     public static function find()
     {
-        $class = "app\\queries\\" . (new \ReflectionClass(get_called_class()))->getShortName() . 'Query';
-        if (!class_exists($class)) {
-            $class = ActiveQuery::class;
-        }
-        return \Yii::createObject($class, [get_called_class()]);
+        return new ActiveQuery(static::class);
     }
+
 
     public function beforeSave($insert)
     {
@@ -33,25 +22,32 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => \Yii::t('app', 'Id'),
+            'title' => \Yii::t('app', 'Title'),
+            'created' => \Yii::t('app', 'Created at'),
+            'created_at' => \Yii::t('app', 'Created at'),
+            'last_login_at' => \Yii::t('app', 'Last login at'),
+            'updated_at' => \Yii::t('app', 'Updated at'),
+        ];
+    }
+
+
     /**
      * Returns a field useful for displaying this record
      * @return string
      */
     public function getDisplayField(): string
     {
-        foreach(['title', 'name'] as $attribute) {
-            if ($this->hasAttribute($attribute)) {
-                return $this->getAttribute($attribute);
+        foreach (['title', 'name', 'email'] as $attribute) {
+            if ($this->hasAttribute($attribute) && !empty($result = $this->getAttribute($attribute))) {
+                return $result;
             }
         }
 
-        $pk = $this->getPrimaryKey();
-        if (is_array($pk))
-        {
-            $pk = print_r($pk, true);
-        }
-
-
+        $pk = implode(', ', $this->getPrimaryKey(true));
         return "No title for " . get_class($this) . "($pk)";
     }
 }

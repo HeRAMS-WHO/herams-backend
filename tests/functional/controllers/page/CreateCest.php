@@ -4,15 +4,15 @@
 namespace prime\tests\functional\controllers\page;
 
 use prime\models\ar\Page;
-use prime\models\ar\Project;
+use prime\models\ar\Permission;
 use prime\tests\FunctionalTester;
 
 class CreateCest
 {
     public function _before(FunctionalTester $I)
     {
-        $I->assertTrue(\Yii::$app->authManager->checkAccess(TEST_ADMIN_ID, 'admin'));
-        $I->assertFalse(\Yii::$app->authManager->checkAccess(TEST_USER_ID, 'admin'));
+        $I->assertTrue(\Yii::$app->authManager->checkAccess(TEST_ADMIN_ID, Permission::PERMISSION_ADMIN));
+        $I->assertFalse(\Yii::$app->authManager->checkAccess(TEST_USER_ID, Permission::PERMISSION_ADMIN));
     }
 
     public function testAccessControl(FunctionalTester $I)
@@ -67,7 +67,4 @@ class CreateCest
             'title' => 'Test',
         ]);
     }
-
-
-
 }

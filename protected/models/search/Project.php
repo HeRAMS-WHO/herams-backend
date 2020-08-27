@@ -2,69 +2,44 @@
 
 namespace prime\models\search;
 
-use yii\data\ActiveDataProvider;
+use prime\components\FilteredActiveDataProvider;
+use prime\models\ar\Permission;
+use yii\base\Model;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
-use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 
-class Project extends \prime\models\ar\Project
+class Project extends Model
 {
-    public function __construct(
-        array $config = []
-    ) {
-        parent::__construct($config);
-    }
-
-    public function init()
-    {
-        parent::init();
-        $this->scenario = self::SCENARIO_SEARCH;
-    }
-
+    public $title;
+    public $id;
     public function rules()
     {
         return [
-            [['created'], SafeValidator::class],
             [['title'], StringValidator::class],
             [['id'], NumberValidator::class],
         ];
     }
 
-    public function scenarios()
+    public function search($params, \yii\web\User $user): FilteredActiveDataProvider
     {
-        return [
-            self::SCENARIO_SEARCH => [
-                'title',
-                'created',
-                'id'
-            ]
-        ];
-    }
-
-    public function search($params)
-    {
-        $baseTable = self::tableName();
-
+        /** @var  $query */
         $query = \prime\models\ar\Project::find()
-            ->withFields('workspaceCount', 'facilityCount', 'responseCount')
-            ->with('workspaces');
-
-        $dataProvider = new ActiveDataProvider([
+            ->withFields('workspaceCount', 'facilityCount', 'responseCount');
+        $dataProvider = new FilteredActiveDataProvider([
+            'filter' => function (\prime\models\ar\Project $project) use ($user) {
+                return !$project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
+            },
             'query' => $query,
-            'id' => 'project-data-provider',
             'pagination' => [
-                'pageSize' => 10
+                'pageSize' => 50
             ]
         ]);
 
         $sort = new Sort([
             'attributes' => [
                 'id',
-                'title' => [
-                    'asc' => ['title' => SORT_ASC],
-                    'desc' => ['title' => SORT_DESC],
-                ],
+                'title',
                 'created',
                 'workspaceCount',
                 'facilityCount',
@@ -73,7 +48,7 @@ class Project extends \prime\models\ar\Project
             'defaultOrder' => ['title' => SORT_ASC]
         ]);
         $dataProvider->setSort($sort);
-        if(!$this->load($params) || !$this->validate()) {
+        if (!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
 
@@ -88,8 +63,8 @@ class Project extends \prime\models\ar\Project
 //            ]);
 //        }
 //
-//        $query->andFilterWhere(['like', "$baseTable.[[title]]", $this->title]);
-//        $query->andFilterWhere(["$baseTable.[[id]]" => $this->id]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }
 }

@@ -7,6 +7,9 @@ use prime\models\ar\Workspace;
 use prime\models\forms\projects\Token;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\workspace\Create
+ */
 class CreateCest
 {
 
@@ -59,5 +62,4 @@ class CreateCest
         ]);
         $I->seeInSource(substr(json_encode('Workspace <strong>Cool stuff</strong> created'), 1, -1));
     }
-
 }

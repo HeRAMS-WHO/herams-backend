@@ -3,7 +3,6 @@
 
 namespace prime\models\forms\user;
 
-
 use prime\models\ar\User;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Model;
@@ -43,7 +42,7 @@ class RequestResetForm extends Model
 
         ])
             ->setTo($this->email)
-            ->setSubject(\Yii::t('app', "Collecthor password reset"))
+            ->setSubject(\Yii::t('app', "HeRAMS password reset"))
             ->send()
         ;
         $this->cache->set(__CLASS__ . $this->email, time() + 120);
@@ -54,15 +53,15 @@ class RequestResetForm extends Model
         return [
             [['email'], RequiredValidator::class],
             [['email'], EmailValidator::class],
-            [['email'], function() {
+            [['email'], function () {
                 $lastAttempt = $this->cache->get(__CLASS__ . $this->email);
                 if ($lastAttempt > time()) {
-                    $this->addError('email',\Yii::t('app', "Too many attempts, try again in {seconds} seconds", [
+                    $this->addError('email', \Yii::t('app', "Too many attempts, try again in {seconds} seconds", [
                         'seconds' => $lastAttempt - time()
                     ]));
                 }
                 if (!User::find()->andWhere(['email' => $this->email])->exists()) {
-                    $this->addError('email',"This user is not known or not yet verified");
+                    $this->addError('email', "This user is not known or not yet verified");
                 }
             }]
         ];

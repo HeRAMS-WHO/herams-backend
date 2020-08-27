@@ -3,7 +3,6 @@
 
 namespace prime\models\forms\user;
 
-
 use Carbon\Carbon;
 use prime\models\ar\User;
 use SamIT\Yii2\UrlSigner\UrlSigner;
@@ -23,7 +22,7 @@ class RequestAccountForm extends Model
     public function attributeHints()
     {
         return [
-            'email' => \Yii::t('app', 'We will send you a secure link to the sign up form')
+            'email' => ''//\Yii::t('app', 'We will send you a secure link to the sign up form')
         ];
     }
 
@@ -40,10 +39,10 @@ class RequestAccountForm extends Model
             [['email'], RequiredValidator::class],
             [['email'], EmailValidator::class],
             [['email'], UniqueValidator::class, 'targetClass' => User::class],
-            [['email'], function() {
+            [['email'], function () {
                 $lastAttempt = $this->cache->get(__CLASS__ . $this->email);
                 if (is_int($lastAttempt) && Carbon::createFromTimestamp($lastAttempt)->isFuture()) {
-                    $this->addError('email',\Yii::t('app', "Too many attempts, try again in {seconds} seconds", [
+                    $this->addError('email', \Yii::t('app', "Too many attempts, try again in {seconds} seconds", [
                         'seconds' => $lastAttempt - Carbon::now()->timestamp
                     ]));
                 }
@@ -67,14 +66,10 @@ class RequestAccountForm extends Model
 
         ])
             ->setTo($this->email)
-            ->setSubject(\Yii::t('app', "Collecthor email verification"))
+            ->setSubject(\Yii::t('app', "HeRAMS email verification"))
             ->send()
         ;
         $this->cache->set(__CLASS__ . $this->email, Carbon::now()->addMinutes(2)->timestamp);
         return true;
     }
-
-
-
-
 }

@@ -3,12 +3,13 @@
 
 namespace prime\tests\functional\controllers\workspace;
 
-use prime\models\ar\Project;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
-use yii\helpers\Json;
 
+/**
+ * @covers \prime\controllers\workspace\Limesurvey
+ */
 class LimesurveyCest
 {
 
@@ -23,29 +24,7 @@ class LimesurveyCest
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_READ);
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(403);
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_WRITE);
-        $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
-        $I->seeResponseCodeIs(200);
-    }
-
-    public function testAccessControlWithWriteAccess(FunctionalTester $I)
-    {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace = $I->haveWorkspace();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
-
-        $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
-        $I->seeResponseCodeIs(200);
-    }
-
-    public function testAccessControlWithAdminAccess(FunctionalTester $I)
-    {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace = $I->haveWorkspace();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
-
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_LIMESURVEY);
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
     }
@@ -61,7 +40,7 @@ class LimesurveyCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_LIMESURVEY);
 
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);

@@ -2,13 +2,24 @@
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 ?>
 <div class="user-menu">
-    <?= Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']); ?>
     <?php
     /** @var \prime\models\ar\User $user */
     $user = \Yii::$app->user->identity;
+
+    ?>
+    <?php
+    if (YII_DEBUG) {
+        echo Html::tag('span', "DEBUG CURRENT LANGUAGE: " . \Yii::$app->language);
+    }
+
+        echo Html::a(Icon::star(), ['/user/favorites']);
+        echo Html::a(Icon::admin(), ['/admin/dashboard']);
+        echo Html::a(Icon::question(), Url::to('https://docs.herams.org/'), ['target'=> '_blank']);
+        echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
     ?>
 
     <div>
@@ -17,7 +28,4 @@ use yii\helpers\Html;
         ]); ?>
         <div class="email"><?= $user->email ?></div>
     </div>
-    <?php
-        echo Html::a(Icon::admin(), ['/admin/dashboard']);
-    ?>
 </div>

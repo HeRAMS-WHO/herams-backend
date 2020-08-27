@@ -1,7 +1,7 @@
 <?php
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
@@ -26,14 +26,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<div class="col-xs-12">
+<div class="form-content form-bg">
+    <h3><?=\Yii::t('app', 'Create Workspace')?></h3>
     <?php
     $form = ActiveForm::begin([
         'id' => 'create-workspace',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
-            'defaultPlaceholder' => false
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
         ]
     ]);
 

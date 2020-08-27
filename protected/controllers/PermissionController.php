@@ -3,50 +3,38 @@
 
 namespace prime\controllers;
 
-
 use prime\components\Controller;
-use prime\models\ActiveRecord;
-use prime\models\permissions\Permission;
-use SamIT\abac\AuthManager;
+use prime\controllers\permission\Delete;
+use prime\controllers\permission\Grant;
+use prime\controllers\permission\Revoke;
+use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
-use yii\web\User;
 
 class PermissionController extends Controller
 {
-    public function actionDelete(
-        User $user,
-        int $id,
-        string $redirect
-    ) {
-        $permission = Permission::findOne(['id' => $id]);
-        if (!isset($permission)) {
-            throw new NotFoundHttpException();
-        }
-
-        /** @var ActiveRecord $target */
-        $target = $permission->targetObject;
-        if (!isset($target)) {
-            throw new NotFoundHttpException();
-        }
-        if (!$user->can(Permission::PERMISSION_UNSHARE, $target)) {
-            throw new ForbiddenHttpException();
-        }
-
-        $permission->delete();
-        return $this->redirect($redirect);
+    use ActionInjectionTrait;
+    public function actions()
+    {
+        return [
+            'delete' => Delete::class,
+            'grant' => Grant::class,
+            'revoke' => Revoke::class,
+        ];
     }
+
 
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'delete' => ['delete']
+                        'delete' => ['delete'],
+                        'grant' => ['post'],
+                        'revoke' => ['post']
                     ]
                 ],
                 'access' => [

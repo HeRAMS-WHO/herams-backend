@@ -10,6 +10,7 @@ use yii\bootstrap\Html;
 echo Form::widget([
     'model' => $model,
     'form' => ActiveForm::begin([
+        'action' => ['/user/update-email'],
         'formConfig' => [
             'showLabels' => true
         ],
@@ -23,6 +24,11 @@ echo Form::widget([
             'type' => Form::INPUT_TEXT,
         ],
         FormButtonsWidget::embed([
+            'options' => [
+                'class' => [
+                    'pull-right'
+                ],
+            ],
             'buttons' => [
                 Html::submitButton(
                     Yii::t('app', 'Send confirmation'),

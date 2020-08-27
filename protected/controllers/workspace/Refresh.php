@@ -3,16 +3,13 @@
 
 namespace prime\controllers\workspace;
 
-
-use Carbon\Carbon;
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
+use prime\helpers\LimesurveyDataLoader;
+use prime\models\ar\Permission;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
-use prime\models\forms\projects\Token;
-use prime\models\permissions\Permission;
 use yii\base\Action;
-use yii\helpers\Console;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -25,24 +22,21 @@ class Refresh extends Action
         User $user,
         NotificationService $notificationService,
         LimesurveyDataProvider $limesurveyDataProvider,
+        LimesurveyDataLoader $loader,
         int $id
     ) {
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!(
-            $user->can(Permission::PERMISSION_ADMIN, $workspace)
-            || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
-        )) {
+        if (!$user->can(Permission::PERMISSION_LIMESURVEY, $workspace)) {
             throw new ForbiddenHttpException();
         }
 
         $new = $updated = $unchanged = $failed = 0;
         $start = microtime(true);
-        $limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token'));
         $ids = [];
-        foreach($limesurveyDataProvider->getResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+        foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
             $ids[] = $response->getId();
             $key = [
                 'id' => $response->getId(),
@@ -50,7 +44,7 @@ class Refresh extends Action
             ];
 
             $dataResponse = Response::findOne($key) ?? new Response($key);
-            $dataResponse->loadData($response->getData(), $workspace);
+            $loader->loadData($response->getData(), $workspace, $dataResponse);
             if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
             } elseif (empty($dataResponse->dirtyAttributes)) {
@@ -83,5 +77,4 @@ class Refresh extends Action
 
         return $this->controller->redirect($request->getReferrer());
     }
-
 }

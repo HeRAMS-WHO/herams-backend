@@ -24,6 +24,7 @@ Chart.pluginService.register({
 
             //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
             let stringWidth = ctx.measureText(txt).width;
+
             let elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
 
             // Find out how much the font can grow in width.
@@ -45,7 +46,6 @@ Chart.pluginService.register({
 
             //Draw text in center
             ctx.fillText(txt, centerX, centerY);
-
         }
     }
 });

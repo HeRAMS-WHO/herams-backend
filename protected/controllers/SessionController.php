@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
-
 use prime\components\Controller;
 use prime\controllers\session\Create;
 use prime\controllers\session\Delete;
@@ -12,10 +11,11 @@ use yii\helpers\ArrayHelper;
 
 class SessionController extends Controller
 {
-    public $layout = 'map-popover';
+    public $layout = 'map-popover-session';
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'access' => [
                     'class' => AccessControl::class,
@@ -24,10 +24,11 @@ class SessionController extends Controller
                             'allow' => 'true',
                             'actions' => ['create']
                         ],
-//                        [
-//                            'allow' => 'true',
-//                            'roles' => ['@']
-//                        ]
+                        [
+                            'allow' => 'true',
+                            'actions' => ['delete'],
+                            'roles' => ['@']
+                        ]
                     ]
                 ]
             ]
@@ -41,6 +42,4 @@ class SessionController extends Controller
             'delete' => Delete::class
         ];
     }
-
-
 }

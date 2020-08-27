@@ -1,6 +1,8 @@
 <?php
 
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
+use app\components\Form;
+use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
 /**
@@ -17,30 +19,46 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/project']
 ];
 
-$this->title = \Yii::t('app', 'Share {project}', ['project' => $project->title]);
+$this->title = \Yii::t('app', 'Manage user permissions for {project}', ['project' => $project->title]);
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12">
+
+<div class="form-content form-bg">
     <?php
+    echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
-            'defaultPlaceholder' => false
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+
         ]
     ]);
-
     echo $model->renderForm($form);
-
-    ?>
-    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary">Share</button></div>
-    <?php
+    echo Form::widget([
+        'form' => $form,
+        'model' => $model,
+        'attributes' => [
+            FormButtonsWidget::embed([
+                'options' => [
+                    'class' => [
+                        'pull-right'
+                    ],
+                ],
+                'buttons' => [
+                    ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                ]
+            ])
+        ]
+    ]);
     $form->end();
-
-
-    echo Html::tag('h2', \Yii::t('app', 'Already shared with'));
+    ?>
+</div>
+<div class="form-content form-bg full-width">
+    <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
+    <?php
     echo $model->renderTable();
     ?>
 </div>
-

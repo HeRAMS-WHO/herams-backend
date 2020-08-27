@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\models\ar\Project;
 use prime\models\search\Workspace as WorkspaceSearch;
 use SamIT\abac\AuthManager;
@@ -20,21 +19,13 @@ class Workspaces extends Action
         AuthManager $abacManager,
         int $id
     ) {
-//        \Yii::$app->db->enableLogging = false;
-
-        foreach($abacManager->getRepository()->search($abacManager->resolveSubject($user->identity), null, null) as $grant)
-        {
-            $grant;
-        }
-        \Yii::$app->db->enableLogging = true;
+        $this->controller->layout = 'admin';
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
         $workspaceSearch = new WorkspaceSearch($project);
-
         $workspaceProvider = $workspaceSearch->search($request->queryParams);
-
         return $this->controller->render('workspaces', [
             'workspaceSearch' => $workspaceSearch,
             'workspaceProvider' => $workspaceProvider,

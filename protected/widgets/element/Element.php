@@ -3,29 +3,23 @@
 
 namespace prime\widgets\element;
 
-
 use prime\helpers\Icon;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Widget;
 use yii\helpers\Html;
 
-/**
- * Class Element
- * @package prime\widgets\element
- */
 class Element extends Widget
 {
     public $options = [];
-    /** @var \prime\models\ar\Element  */
-    protected $element;
+    protected \prime\models\ar\Element $element;
 
-    public $width = 1;
-    public $height = 1;
+    public int $width = 1;
+    public int $height = 1;
 
     public function __construct(\prime\models\ar\Element $element, array $config = [])
     {
         $this->element = $element;
-        foreach($config as $key => $value) {
+        foreach ($config as $key => $value) {
             if ($this->canSetProperty($key)) {
                 $this->$key = $value;
             }
@@ -33,26 +27,20 @@ class Element extends Widget
         parent::__construct();
     }
 
-    public function init()
+    public function run(): string
     {
-        parent::init();
         $options = $this->options;
         Html::addCssClass($options, strtr(get_class($this), ['\\' => '_']));
         Html::addCssClass($options, 'element');
         $options['id'] = $this->getId();
         $options['style'] = array_merge($options['style'] ?? [], [
-           'grid-row' => 'span ' . $this->height ,
-           'grid-column' => 'span ' . $this->width
+            'grid-row' => 'span ' . $this->height ,
+            'grid-column' => 'span ' . $this->width
         ]);
-        echo Html::beginTag('div', $options);
-    }
+        $result = Html::beginTag('div', $options);
 
-    public function run()
-    {
-        parent::run();
-
-        if (isset($this->element->id, $this->element->page->project) && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $this->element->page->project)) {
-            echo Html::a(Icon::edit(), ['/element/update', 'id' => $this->element->id], [
+        if (isset($this->element->id, $this->element->page->project) && \Yii::$app->user->can(Permission::PERMISSION_WRITE, $this->element)) {
+            $result .= Html::a(Icon::edit(), ['/element/update', 'id' => $this->element->id], [
                 'style' => [
                     'position' => 'absolute',
                     'right' => '5px',
@@ -65,8 +53,8 @@ class Element extends Widget
                 ]
             ]);
         }
-        echo Html::endTag('div');
+        $result .= Html::endTag('div');
+
+        return $result;
     }
-
-
 }

@@ -3,13 +3,9 @@ declare(strict_types=1);
 
 namespace prime\modules\Api;
 
-
-use yii\base\BootstrapInterface;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
 use yii\web\Response;
-use yii\web\UrlManager;
 use yii\web\UrlRule;
 
 class Module extends \yii\base\Module
@@ -22,9 +18,39 @@ class Module extends \yii\base\Module
             'rules' => [
                 [
                     'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>s',
+                    'verb' => 'get',
+                    'route' => '<controller>/index'
+                ],
+                [
+                    'class' => UrlRule::class,
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view',
                     'verb' => 'get'
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller>/<id:\d+>/<action:\w+>/<target_id:\d+>',
+                    'route' => '<controller>/<action>',
+                    'verb' => ['put', 'delete']
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller>/<id:\d+>/<action:\w+>',
+                    'route' => '<controller>/<action>',
+                    'verb' => ['get']
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => 'response',
+                    'route' => 'response/update',
+                    'verb' => 'post'
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => 'response',
+                    'route' => 'response/delete',
+                    'verb' => 'delete'
                 ],
                 [
                     'pattern' => '<p:.*>',
@@ -44,9 +70,7 @@ class Module extends \yii\base\Module
             ContentNegotiator::class => [
                 'class' => ContentNegotiator::class,
                 'formats' => [
-                    Response::FORMAT_JSON,
-                    Response::FORMAT_XML,
-
+                    'application/json' => Response::FORMAT_JSON,
                 ]
             ]
         ];
@@ -64,9 +88,6 @@ class Module extends \yii\base\Module
 
     public function beforeAction($action)
     {
-        if (\Yii::$app->has('session', true)) {
-            throw new \Exception('Session already instantiated, this should not happen');
-        }
         \Yii::$app->request->enableCsrfCookie = false;
         return parent::beforeAction($action);
     }

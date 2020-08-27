@@ -15,5 +15,6 @@ class SurveyDoesNotExist extends \Exception
             $id = $e->getTrace()[0]['args'][0];
             return new self($id, $e->getPrevious());
         }
+        return null;
     }
 }

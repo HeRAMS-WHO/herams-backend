@@ -10,17 +10,6 @@ namespace prime\objects;
  */
 class HeramsCodeMap
 {
-
-    public function getLatitude(): string
-    {
-        return 'MoSDGPS[SQ001]';
-    }
-
-    public function getLongitude(): string
-    {
-        return 'MoSDGPS[SQ002]';
-    }
-
     public function getType(): string
     {
         return 'MoSD3';

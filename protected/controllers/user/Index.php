@@ -3,25 +3,22 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-
-use prime\models\ar\User;
 use yii\base\Action;
-use yii\data\ActiveDataProvider;
+use yii\web\Request;
 
 class Index extends Action
 {
 
-    public function run()
+    public function run(Request $request)
     {
-        $this->controller->layout = 'admin';
+        $this->controller->layout = 'admin-content';
+        $search = new \prime\models\search\User();
+
+
 
         return $this->controller->render('index', [
-            'dataProvider' => new ActiveDataProvider([
-                'query' => User::find(),
-
-            ]),
-            'searchModel' => new User()
+            'dataProvider' => $search->search($request->queryParams),
+            'searchModel' => $search
         ]);
     }
-
 }

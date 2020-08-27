@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
-
-
 use Carbon\Carbon;
 use prime\models\ar\User;
 use SamIT\Yii2\UrlSigner\UrlSigner;
@@ -36,7 +34,6 @@ class UpdateEmailForm extends Model
         MailerInterface $mailer,
         User $user,
         UrlSigner $urlSigner
-
     ) {
         parent::__construct();
         $this->user = $user;
@@ -83,13 +80,11 @@ class UpdateEmailForm extends Model
             'url' => Url::to($url, true),
             'user' => $this->user
         ])
-            ->setFrom(\Yii::$app->params['sender'])
+            ->setTo($this->newEmail)
             ->send();
 
         if (!$result) {
             throw new \RuntimeException('Failed to send email');
         }
     }
-
-
 }

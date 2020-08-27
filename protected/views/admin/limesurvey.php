@@ -60,16 +60,18 @@ CSS
 );
 
 $this->registerJs(<<<JS
-    let frame = document.querySelector('iframe');
-    frame.addEventListener('load', function() {
-        frame.classList.add('fade-in');
-        elem.classList.add('focused');
-    });
-    let elem = document.getElementById('maximize');
-    elem.addEventListener('click', function() {
-       document.querySelector('div.content').classList.toggle('maximized'); 
-        
-    });
+    (() => {
+        let frame = document.querySelector('iframe');
+        frame.addEventListener('load', function() {
+            frame.classList.add('fade-in');
+            elem.classList.add('focused');
+        });
+        let elem = document.getElementById('maximize');
+        elem.addEventListener('click', function() {
+           document.querySelector('div.content').classList.toggle('maximized'); 
+            
+        });
+    })();
     
 
 

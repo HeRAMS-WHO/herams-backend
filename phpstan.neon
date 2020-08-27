@@ -1,0 +1,22 @@
+
+parameters:
+    level: 1
+    bootstrapFiles:
+      - 'tests/constants.php'
+    dynamicConstantNames:
+      - CONSOLE
+    excludes_analyse:
+      - protected/console/DevController.php
+      - protected/components/Form.php
+      - protected/widgets/FormButtonsWidget.php
+      - */tests/*
+    checkMaybeUndefinedVariables: true
+    ignoreErrors:
+        #- message: '#^Using \$this outside a class#'
+        #  path: '*/views/*'
+        #- message: '#^Using \$this outside a class#'
+        #  path: '*/mail/*'
+        - message: '#^Variable .* might not be defined\.$#'
+          path: '*/views/*'
+        - message: '#^Variable .* might not be defined\.$#'
+          path: '*/mail/*'

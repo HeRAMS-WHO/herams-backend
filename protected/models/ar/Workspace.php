@@ -4,18 +4,16 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use Carbon\Carbon;
+use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
-use prime\models\permissions\Permission;
 use prime\objects\HeramsCodeMap;
-use SamIT\LimeSurvey\Interfaces\ResponseInterface;
+use prime\queries\ResponseQuery;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use SamIT\Yii2\VirtualFields\VirtualFieldQueryBehavior;
-use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\validators\ExistValidator;
@@ -33,6 +31,7 @@ use yii\validators\UniqueValidator;
  * @property string $title
  * @property string $description
  * @property int $tool_id
+ * @property string $token
  * @property int $id
  * @property \DateTimeImmutable $created
  *
@@ -62,7 +61,7 @@ class Workspace extends ActiveRecord
                         VirtualFieldBehavior::GREEDY => Response::find()
                             ->limit(1)->select('max(last_updated)')
                             ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                             return $workspace->getResponses()->orderBy(['last_updated' => SORT_DESC])->limit(1)
                                 ->one()->last_updated ?? null;
                         }
@@ -72,24 +71,32 @@ class Workspace extends ActiveRecord
                         VirtualFieldBehavior::GREEDY => Response::find()
                             ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
                             ->select('count(distinct hf_id)'),
-                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                             $filter = new ResponseFilter(null, new HeramsCodeMap());
                             return (int) $filter->filterQuery($workspace->getResponses())->count();
                         }
                     ],
-                    'permissionCount' => [
+                    'contributorCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(*)')
-                        ->where(['target' => self::class, 'target_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
-                            return $workspace->getPermissions()->count();
+                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                            'target' => Workspace::class,
+                            'target_id' => new Expression(self::tableName() . '.[[id]]'),
+                            'source' => User::class,
+                        ])->select('count(distinct [[source_id]])')
+                        ,
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) Permission::find()->where([
+                                'target' => Workspace::class,
+                                'target_id' => $model->id,
+                                'source' => User::class,
+                            ])->count('distinct [[source_id]]');
                         }
                     ],
                     'responseCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('count(*)')
                             ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function(Workspace $workspace) {
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                             return $workspace->getResponses()->count();
                         }
                     ]
@@ -98,24 +105,9 @@ class Workspace extends ActiveRecord
         ];
     }
 
-
     public static function find(): ActiveQuery
     {
-        $result = new ActiveQuery(self::class);
-        $result->attachBehaviors([
-            VirtualFieldQueryBehavior::class => [
-                'class' => VirtualFieldQueryBehavior::class
-            ]
-        ]);
-        return $result;
-    }
-
-    /**
-     * @return ResponseInterface[]
-     */
-    public function getRawResponses()
-    {
-        return $this->getLimesurveyDataProvider()->getResponsesByToken($this->project->base_survey_eid, $this->getAttribute('token'));
+        return new ActiveQuery(self::class);
     }
 
     public function getProject()
@@ -128,6 +120,20 @@ class Workspace extends ActiveRecord
         return true;
     }
 
+    public function attributeLabels(): array
+    {
+        return array_merge(parent::attributeLabels(), [
+            'latestUpdate' => \Yii::t('app', 'Latest update'),
+            'tool_id' => \Yii::t('app', 'Project'),
+            'closed' => \Yii::t('app', 'Closed'),
+            'token' => \Yii::t('app', 'Token'),
+            'contributorCount' => \Yii::t('app', 'Contributor count'),
+            'facilityCount' => \Yii::t('app', 'Facility count'),
+            'responseCount' => \Yii::t('app', 'Response count')
+        ]);
+    }
+
+
     public function rules()
     {
         return [
@@ -135,7 +141,9 @@ class Workspace extends ActiveRecord
             [['title'], StringValidator::class, 'min' => 1],
             [['tool_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
             [['tool_id'], NumberValidator::class],
-            [['token'], UniqueValidator::class, 'filter' => function(Query $query) { $query->andWhere(['tool_id' => $this->tool_id]); }],
+            [['token'], UniqueValidator::class, 'filter' => function (Query $query) {
+                $query->andWhere(['tool_id' => $this->tool_id]);
+            }],
         ];
     }
 
@@ -182,7 +190,8 @@ class Workspace extends ActiveRecord
             $this->project->base_survey_eid,
             [
                 'token' => $this->getAttribute('token'),
-                'newtest' => 'Y'
+                'newtest' => 'Y',
+                'lang' => \Yii::$app->language
             ]
         );
     }
@@ -194,12 +203,7 @@ class Workspace extends ActiveRecord
         return $result;
     }
 
-    public function getIsClosed()
-    {
-        return isset($this->closed);
-    }
-
-    public function  getResponses(): ActiveQuery
+    public function getResponses(): ResponseQuery
     {
         return $this->hasMany(Response::class, [
             'workspace_id' => 'id',
@@ -226,15 +230,13 @@ class Workspace extends ActiveRecord
             }
             if (!empty($token->getToken())) {
                 $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
-                        ', ',
-                        array_filter($token->getCustomAttributes())
-                    );
+                    ', ',
+                    array_filter($token->getCustomAttributes())
+                );
             }
         }
         asort($result);
 
         return array_merge(['' => 'Create new token'], $result);
     }
-
 }
-

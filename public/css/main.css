@@ -1,8 +1,9 @@
 :root {
     --primary-button-background-color: #4177c1;
     --primary-button-color: white;
-
-
+    --default-button-background-color: #42424b;
+    --default-button-color: white;
+    --clear-button-color: #999999;
     --link-color: black;
     --validation-error-color: #d90001;
     --border-color: grey;
@@ -12,6 +13,7 @@
 a, a:hover, a:active, a:visited {
     text-decoration: none;
     color: inherit;
+    transition: color 0.3s;
 }
 
 header {
@@ -26,21 +28,531 @@ body {
     font-family: "Source Sans Pro";
 }
 
-a {
+.content {
+    display: block;
+    position: relative;
+    padding: 10px;
+}
+
+a, a:visited {
     color: var(--link-color);
+    text-decoration: none;
 }
 
 a:hover {
     color: var(--primary-button-background-color);
-}
-.btn {
-    font-size: var(--font-size);
-}
-.btn-primary {
-    background-color: var(--primary-button-background-color);
-    background-image: none;
+    text-decoration: none;
 }
 
-.breadcrumb > li + li::before {
+input[type="text"] {
+    outline: none;
+}
+
+.breadcrumb>li+li::before {
     display: none;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 10px 11px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 12px;
+    min-width: 80px;
+    box-shadow: none;
+    background-image: none;
+    border: none;
+    text-decoration: none;
+    outline: none;
+    text-align: center;
+}
+
+.btn-primary, .btn-primary:visited {
+    background-color: var(--primary-button-background-color);
+    background-image: none;
+    color: var(--primary-button-color);
+    border: 1px solid var(--primary-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+    font-size: 13px;
+    outline: none;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    color: var(--primary-button-background-color) !important;
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-primary.inverse {
+    background: white;
+    color: var(--link-color);
+    margin: 0;
+}
+
+.btn-primary.inverse:hover {
+    background: var(--link-color);
+    color: white !important;
+}
+
+.btn-default, .btn-default:visited {
+    background-color: var(--default-button-background-color);
+    color: var(--default-button-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+}
+
+.btn-default:hover {
+    background-color: white;
+    color: var(--default-button-background-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-save-back, .btn-save-back:visited {
+    background-color: var(--default-button-background-color);
+    color: var(--default-button-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+}
+
+.btn-save-back:hover {
+    background-color: white;
+    color: var(--primary-button-background-color);
+    border: 1px solid var(--primary-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-white, .btn-white:visited {
+    background-color: white;
+    color: var(--default-button-background-color);
+    border: 1px solid var(--default-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+    text-shadow: none;
+}
+
+.btn-white:hover {
+    background-color: white;
+    color: var(--clear-button-color);
+    border: 1px solid var(--clear-button-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-clear, .btn-clear:visited {
+    background-color: transparent !important;
+    color: var(--clear-button-color);
+    border: 1px solid transparent !important;
+    text-shadow: none;
+    transition: color 0.2s, border 0.2s;
+}
+
+.btn-clear:hover {
+    color: var(--primary-button-background-color);
+    border: 1px solid var(--primary-button-background-color) !important;
+    transition: color 0.2s, border 0.2s;
+}
+
+.btn-close, .btn-close:visited {
+    padding: 2px 0;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    min-width: unset;
+    font-size: 11px;
+    line-height: initial;
+    color: #888;
+    display: inline-block;
+    background-color: white !important;
+    border: 1px solid #888;
+    transition: color 0.2s, border 0.2s, background-color 0.2s;
+}
+
+.btn-close:hover {
+    background-color: #555 !important;
+    color: white;
+    border: 1px solid #555;
+    transition: color 0.2s, border 0.2s, background-color 0.2s;
+}
+
+.btn-success {
+    font-size: 13px;
+    outline: none;
+    background-color: #5cb85c;
+    border: 1px solid #5cb85c;
+    text-shadow: none;
+    color: white;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-success:hover {
+    background-color: white;
+    color: #5cb85c;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-warning {
+    font-size: 13px;
+    outline: none;
+    border: 1px solid #f0ad4e;
+    color: white !important;
+    text-shadow: none;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-warning:hover {
+    background-color: white;
+    color: #f0ad4e !important;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn.btn-circle {
+    border-radius: 50%;
+    min-width: auto;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-radio, .btn-radio label {
+    font-size: 12px;
+    min-width: 50px;
+}
+
+.checkbox, .checkbox label {
+    font-size: 14px;
+}
+
+.grid-view {
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.full-width {
+    max-width: 100%;
+    grid-column: span 4;
+}
+
+@media (min-width: 800px) {
+    body {
+        overflow-y: hidden;
+    }
+    .content {
+        display: block;
+        overflow-y: auto;
+        position: relative;
+        padding: 10px;
+    }
+}
+
+.leaflet-tooltip-pane {
+    --header-background-color: #212529;
+}
+
+.leaflet-tooltip-pane .tooltip {
+    background-color: var(--header-background-color);
+    border-color: var(--header-background-color);
+    color: #eeeeee;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.7px;
+    padding: 7px 10px;
+    ;
+}
+
+.leaflet-tooltip-left.tooltip::before {
+    border-left-color: var(--header-background-color);
+}
+
+.leaflet-tooltip-right.tooltip::before {
+    border-right-color: var(--header-background-color);
+}
+
+.leaflet-popup {
+    --header-background-color: #212529;
+    --primary-button-background-color: #4177c1;
+    --primary-button-hover-color: #3f86e6;
+    --color: #eeeeee;
+    --background-color: #42424b;
+}
+
+.leaflet-popup.hf-popup  {
+    --background-color: white;
+    --color: #42424b;
+    
+}
+
+.leaflet-popup .leaflet-popup-content-wrapper {
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--color);
+    font-family: "Source Sans Pro", sans-serif;
+    box-sizing: border-box;
+    border-width: 0;
+    overflow: hidden;
+}
+
+.leaflet-popup .leaflet-popup-content {
+    margin: 0;
+    padding: 0;
+}
+
+.leaflet-popup .leaflet-popup-tip {
+    background: var(--background-color);
+}
+
+.leaflet-popup .loader-wrapper {
+    text-align: center;
+    padding: 50px 0 0;
+}
+
+.leaflet-popup .loader-wrapper .loader-anim {
+    background-position: center;
+    background-size: contain;
+    display: block;
+    background-repeat: no-repeat;
+    height: 50px;
+    width: 50px;
+    margin: 0 auto;
+}
+
+.project-list {
+    padding: 10px 0;
+    min-width: 230px;
+}
+
+.project-list h1, .project-list h2 {
+    text-align: center;
+}
+
+.project-list div {
+    padding: 7px 15px;
+    cursor: pointer;
+    font-size: 13px;
+    width: 100%;
+    border-left: 4px solid transparent;
+}
+
+.project-list div:hover {
+    background-color: #22222a;
+    border-left: 4px solid var(--primary-button-background-color);
+}
+
+.project-summary, .leaflet-popup .loader-wrapper {
+    width: 420px;
+    min-width: 300px;
+    min-height: 350px;
+}
+
+.project-summary>div {
+    display: grid;
+    margin-top: 1em;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-bottom: 10px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto auto 200px auto;
+    grid-template-areas: "stat stat stat stat stat stat" "line line line line line line" "chart chart chart chart chart chart" "button button button button button button";
+    grid-row-gap: 1em;
+    grid-column-gap: 5px;
+}
+
+.project-summary h1 {
+    margin: 0;
+    text-transform: uppercase;
+    background-color: var(--header-background-color);
+    text-align: center;
+    font-weight: 500;
+    color: var(--color);
+    font-size: 24px;
+    line-height: 26px;
+    padding: 5px 10px;
+    word-wrap: break-word;
+    min-height: 30px;
+}
+
+.project-summary h2 {
+    margin: 80px 0 10px;
+    text-align: center;
+    font-weight: 500;
+    color: var(--color);
+    font-size: 20px;
+    line-height: 21px;
+    padding: 5px 10px;
+    word-wrap: break-word;
+}
+
+.project-summary button {
+    margin: 20px auto 0;
+    display: block;
+}
+
+.project-summary p {
+    margin: 0;
+    text-align: center;
+    font-weight: 500;
+    color: var(--color);
+    font-size: 14px;
+    line-height: 16px;
+    padding: 5px 20px;
+    word-wrap: break-word;
+}
+
+.project-summary .stat {
+    grid-area: stat;
+    grid-column: span 3;
+    text-align: center;
+    font-weight: 300;
+    border-left: 1px solid #6a696e;
+    font-size: 15px;
+}
+
+.project-summary .stat:first-child {
+    border-left: none !important;
+}
+
+.project-summary .stat svg {
+    margin-right: 5px;
+}
+
+.project-summary .stat b {
+    margin-right: 5px;
+    font-size: 19px;
+    line-height: 15px;
+}
+
+.project-summary hr {
+    grid-area: line;
+    grid-column: span 6;
+    width: 100%;
+    height: 1px;
+    border: none;
+    background: #6a696e;
+    margin: 0;
+}
+
+.project-summary .chart {
+    grid-area: chart;
+    grid-column: span 2;
+    height: 200px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.project-summary .chart>div:first-child {
+    height: 115px;
+    width: 100%;
+}
+
+.project-summary .chart.span2 {
+    grid-column: span 2;
+}
+
+.project-summary .chart.span3 {
+    grid-column: span 3;
+}
+
+.project-summary .chart.span6 {
+    grid-column: span 6;
+}
+
+.project-summary .chart .container-chart {
+    height: 115px;
+    width: 100%;
+}
+
+.project-summary ul:before {
+    content: "";
+    display: none;
+}
+
+.project-summary ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 12px auto;
+    width: fit-content;
+}
+
+.project-summary li {
+    margin-bottom: 3px;
+    color: #a5a5a5;
+    font-size: 11.2px;
+}
+
+.project-summary ul span {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.project-summary a {
+    grid-area: button;
+    grid-column: span 2;
+    background-color: var(--primary-button-background-color);
+    font-weight: 400;
+    text-align: center;
+    font-size: 1rem;
+    padding: 8px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.project-summary a:hover {
+    background-color: var(--primary-button-hover-color);
+    transition: background 0.2s;
+}
+
+.project-summary a:first-of-type {
+    grid-column: span 4;
+}
+
+.project-summary a:only-of-type {
+    grid-column: span 6;
+}
+
+.project-summary .full-width {
+    grid-column: span 6;
+}
+
+.project-summary a:hover, .project-summary a:visited, .project-summary a:active {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.project-summary a svg {
+    margin-right: 5px;
+}
+
+.hf-summary {
+    padding: 20px 20px 15px;
+}
+
+.hf-summary h2 {
+    text-align: center;
+    font-weight: 500;
+    color: var(--color);
+    font-size: 16px;
+    line-height: 18px;
+    margin: 0 0 20px;
+    padding: 0;
+    word-wrap: break-word;
+}
+
+.hf-summary a, .hf-summary a:visited {
+    display: block;
+    width: max-content;
+    margin: 0 auto;
+    color: white;
 }

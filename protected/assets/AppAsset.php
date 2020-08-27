@@ -3,6 +3,7 @@
 namespace prime\assets;
 
 use yii\web\AssetBundle;
+use yii\web\YiiAsset;
 
 class AppAsset extends AssetBundle
 {
@@ -10,8 +11,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/main.css',
-        'css/form.css'
+        'css/main.css'
     ];
 
     public $js = [
@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
 
     public $depends = [
         BootstrapBundle::class,
+        YiiAsset::class,
         SourceSansProBundle::class
     ];
 }

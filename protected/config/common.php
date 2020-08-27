@@ -1,7 +1,7 @@
 <?php
 
 use prime\components\JwtSso;
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\values\Authorizable;
@@ -10,11 +10,13 @@ use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
+use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 
-/** @var \prime\components\Environment $env */
+/** @var \prime\components\Environment|null $env */
+assert(isset($env) && $env instanceof \prime\components\Environment);
+
 require_once __DIR__ . '/../helpers/functions.php';
-ini_set('memory_limit','4096M');
 return [
     'id' => 'herams',
     'name' => 'HeRAMS',
@@ -31,7 +33,10 @@ return [
         '@views' => '@app/views',
         '@tests' => '@app/../tests',
     ],
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+
+    ],
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
@@ -50,7 +55,7 @@ return [
             'errorRoute' => ['site/lime-survey'],
             'privateKey' => $env->get('PRIVATE_KEY_FILE', false) ? file_get_contents($env->get('PRIVATE_KEY_FILE')) : null,
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
-            'userNameGenerator' => function($id) use ($env) {
+            'userNameGenerator' => function ($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
             }
         ],
@@ -61,7 +66,14 @@ return [
             'paramsParam' => 'p',
             'expirationParam' => 'e'
         ],
-        'abacManager' => function() {
+        'abacResolver' => function (): \SamIT\abac\interfaces\Resolver {
+            return new \SamIT\abac\resolvers\ChainedResolver(
+                new \prime\components\SingleTableInheritanceResolver(),
+                new ActiveRecordResolver(),
+                new \prime\components\GlobalPermissionResolver()
+            );
+        },
+        'abacManager' => function () {
             $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
             $repo = new ActiveRecordRepository(Permission::class, [
                 ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
@@ -71,12 +83,13 @@ return [
                 ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
             ]);
             $cachedRepo = new \SamIT\abac\repositories\CachedReadRepository($repo);
-            $resolver = new ActiveRecordResolver();
-            $environment = new class extends ArrayObject implements Environment {};
+
+            $environment = new class extends ArrayObject implements Environment {
+            };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $cachedRepo, $resolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $cachedRepo, \Yii::$app->abacResolver, $environment);
         },
-        'authManager' => function() {
+        'authManager' => function () {
 
 
             return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
@@ -106,12 +119,11 @@ return [
         'limesurveyDataProvider' => [
             'class' => \prime\components\LimesurveyDataProvider::class,
             'client' => 'limesurvey',
-            'cache' => 'limesurveyCache'
         ],
         'limesurvey' => function () use ($env) {
             $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);
             $result = new Client($json, $env->get('LS_USER'), $env->get('LS_PASS'));
-            $result->setCache(function($key, $value, $duration) {
+            $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 return app()->get('limesurveyCache')->set($key, $value, $duration);
             }, function ($key) {
@@ -140,19 +152,33 @@ return [
         'user' => [
             'class' => \yii\web\User::class,
             'loginUrl' => '/session/create',
-            'identityClass' => \prime\models\ar\User::class
+            'identityClass' => \prime\models\ar\User::class,
+            'on ' . \yii\web\User::EVENT_AFTER_LOGIN => function (\yii\web\UserEvent $event) {
+                if (isset($event->identity->language)) {
+                    \Yii::$app->language = $event->identity->language;
+                }
+            }
         ],
         'i18n' => [
+            'class' => \yii\i18n\I18N::class,
             'translations' => [
-                '*' => [
-                    'class' => \yii\i18n\DbMessageSource::class
-                ]
+                'app*' => [
+                    'class' => \yii\i18n\GettextMessageSource::class,
+                    'useMoFile' => false,
+                    'basePath' => '@vendor/herams/i18n/locales',
+                    'catalog' => 'LC_MESSAGES/app',
+                    'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function (MissingTranslationEvent $event) {
+                        if (YII_DEBUG) {
+                            $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
+                        }
+                    }
+                ],
             ]
         ],
         'mailer' => [
             'class' => Mailer::class,
             'messageConfig' => [
-                'from' => ['support@herams.org' => 'HeRAMS Support']
+                'from' => [$env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support']
             ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
@@ -209,6 +235,12 @@ return [
 //        ],
     ],
     'params' => [
+        'languages' => [
+            'en-US',
+            'ar',
+            'nl-NL',
+            'fr-FR'
+        ],
         'defaultSettings' => [
             'icons.globalMonitor' => 'globe',
             'icons.projects' => 'tasks',

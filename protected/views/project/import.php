@@ -3,11 +3,10 @@
 /** @var \prime\models\ar\Project $model */
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use prime\widgets\InlineUpload\InlineUpload;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
-
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -21,7 +20,8 @@ $this->params['breadcrumbs'][] = [
 $this->title = 'Import pages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-xs-12">
+<div class="form-content form-bg">
+    <h3><?=\Yii::t('app', 'Import Project')?></h3>
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,

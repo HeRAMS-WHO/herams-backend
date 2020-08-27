@@ -3,9 +3,8 @@
 
 namespace prime\controllers\workspace;
 
-
+use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
-use prime\models\permissions\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -16,16 +15,13 @@ class Limesurvey extends Action
 
     public function run(
         User $user,
-        int $id)
-    {
+        int $id
+    ) {
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!(
-            $user->can(Permission::PERMISSION_WRITE, $workspace)
-            || $user->can(Permission::PERMISSION_WRITE, $workspace->project)
-        )) {
+        if (!$user->can(Permission::PERMISSION_LIMESURVEY, $workspace)) {
             throw new ForbiddenHttpException();
         }
 

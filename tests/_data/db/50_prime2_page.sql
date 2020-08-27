@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 SET NAMES 'utf8';
-INSERT INTO `prime2_page` (`id`, `title`, `project_id`, `parent_id`, `sort`, `add_services`) VALUES (12, 'Main', 5, NULL, 0, 0);
+INSERT INTO `prime2_page` (`id`, `title`, `project_id`, `parent_id`, `sort`, `add_services`) VALUES (12, 'Overview', 5, NULL, 0, 0);
 INSERT INTO `prime2_page` (`id`, `title`, `project_id`, `parent_id`, `sort`, `add_services`) VALUES (13, 'test', 6, NULL, 0, 0);
 INSERT INTO `prime2_page` (`id`, `title`, `project_id`, `parent_id`, `sort`, `add_services`) VALUES (14, 'test', 7, NULL, 0, 0);
 INSERT INTO `prime2_page` (`id`, `title`, `project_id`, `parent_id`, `sort`, `add_services`) VALUES (15, 'Overview', 8, NULL, 0, 0);

@@ -1,19 +1,24 @@
 <?php
 /** @var \prime\components\Environment $env */
 
+use prime\components\LanguageSelector;
 use prime\components\NotificationService;
-use yii\web\AssetConverter;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
         'notificationService',
+        'languageSelector'
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'languageSelector' => [
+            'class' => LanguageSelector::class
+        ],
         'notificationService' => [
             'class' => NotificationService::class
         ],
+        'view' => \prime\components\View::class,
         'urlManager' => [
             'class' => \yii\web\UrlManager::class,
             'cache' => false,
@@ -21,6 +26,11 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                \prime\modules\Api\Module::urlRule(),
+                [
+                    'pattern' => '<controller>',
+                    'route' => '<controller>'
+                ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view'
@@ -30,7 +40,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'route' => '<controller>/<action>'
                 ],
                 [
-                    'pattern' => '<controller>/<action:\w+>',
+                    'pattern' => '<controller>/<action:[\w-]+>',
                     'route' => '<controller>/<action>'
                 ],
                 // For testing.
@@ -38,7 +48,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'pattern' => '/',
                     'route' => 'site/world-map'
                 ],
-                \prime\modules\Api\Module::urlRule()
+
 
             ]
         ],

@@ -3,17 +3,10 @@
 /** @var \prime\models\ar\Project $model */
 
 use app\components\Form;
-use kartik\grid\ActionColumn;
-use kartik\grid\GridView;
-use kartik\widgets\ActiveForm;
-use prime\helpers\Icon;
-use prime\models\ar\Page;
-use prime\models\permissions\Permission;
+use app\components\ActiveForm;
+use prime\widgets\FormButtonsWidget;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
-use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
-
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -27,11 +20,17 @@ $this->params['breadcrumbs'][] = [
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-xs-12">
+<div class="form-content form-bg">
     <?php
+    echo Html::tag('h3', \Yii::t('app', 'Update ').' '.$this->title);
     $form = ActiveForm::begin([
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([
@@ -52,6 +51,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->statusOptions()
             ],
+            'visibility' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => $model->visibilityOptions()
+            ],
+            'country' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \kartik\select2\Select2::class,
+                'options' => [
+                'data' => \yii\helpers\ArrayHelper::map(
+                    [['alpha3' => '', 'name' => \Yii::t('app', '(Not set)')]] +
+                    (new League\ISO3166\ISO3166())->all(),
+                    'alpha3',
+                    'name'
+                )
+                ]
+            ],
             'typemapAsJson' => [
                 'type' => Form::INPUT_TEXTAREA,
                 'options' => [
@@ -64,105 +79,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     'rows' => 10
                 ]
             ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => ButtonGroup::widget([
-                    'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Update project'), ['class' => 'btn btn-primary'])
-                    ]
-                ])
-            ],
-
+            FormButtonsWidget::embed([
+                'orientation' => FormButtonsWidget::ORIENTATION_RIGHT,
+                'buttons' => [
+                    [
+                        'label' => \Yii::t('app', 'Update project'),
+                        'options' => ['class' => 'btn btn-primary'],
+                    ],
+                    Html::a(\Yii::t('app', 'Back to list'), ['/project'], ['class' => 'btn btn-default']),
+                ]
+            ])
         ]
     ]);
     $form->end();
-
-    ?>
-</div>
-<div class="col-xs-12">
-    <?php
-        echo GridView::widget([
-            'caption' => ButtonGroup::widget([
-                'options' => [
-                    'class' => 'pull-right',
-                    'style' => [
-                        'margin-bottom' => '10px'
-                    ]
-                ],
-                'buttons' => [
-                    [
-                        'label' => \Yii::t('app', 'Create page'),
-                        'tagName' => 'a',
-                        'options' => [
-                            'href' => Url::to(['page/create', 'project_id' => $model->id]),
-                            'class' => 'btn-primary',
-                        ],
-                    ],
-                    [
-                        'label' => \Yii::t('app', 'Export all'),
-                        'tagName' => 'a',
-                        'options' => [
-                            'href' => Url::to(['project/export-dashboard', 'id' => $model->id]),
-                            'download' => true,
-                            'class' => 'btn-default',
-                        ],
-                    ],
-                    [
-                        'label' => \Yii::t('app', 'Import pages'),
-                        'tagName' => 'a',
-                        'options' => [
-                            'href' => Url::to(['project/import-dashboard', 'id' => $model->id]),
-                            'class' => 'btn-default',
-                        ],
-                    ],
-                ]
-            ]),
-            'dataProvider' => new ActiveDataProvider(['query' => $model->getAllPages()]),
-            'columns' => [
-                'id',
-                'title',
-                'parent_id' => [
-                    'attribute' => 'parent_id',
-                    'value' => function(Page $model) {
-                        return isset($model->parent_id) ? "{$model->parent->title} ({$model->parent_id})" : null;
-                    }
-                ],
-                'sort',
-                'actions' => [
-                    'class' => ActionColumn::class,
-                    'width' => '100px',
-                    'template' => '{update} {delete}',
-                    'visibleButtons' => [
-                        'update' => function(Page $page) {
-                            return app()->user->can(Permission::PERMISSION_ADMIN, $page->project);
-                        },
-                        'delete' => function(Page $page) {
-                            return app()->user->can(Permission::PERMISSION_ADMIN, $page->project);
-                        },
-                    ],
-                    'buttons' => [
-                        'delete' => function($url, Page $page, $key) {
-                            return Html::a(
-                                Icon::delete(),
-                                ['page/delete', 'id' => $page->id], [
-                                    'title' => \Yii::t('app', 'Delete'),
-                                    'data-method' => 'delete',
-                                    'data-confirm' => \Yii::t('app', 'Are you sure you want to delete this page?')
-                                ]
-                            );
-                        },
-                        'update' => function($url, Page $page, $key) {
-                            return Html::a(
-                                Icon::edit(),
-                                ['page/update', 'id' => $page->id], [
-                                    'title' => \Yii::t('app', 'Edit')
-                                ]
-                            );
-                        },
-                    ]
-                ]
-            ]
-        ]);
-
     ?>
 </div>

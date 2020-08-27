@@ -1,8 +1,9 @@
 <?php
 namespace prime\tests\unit\models\ar;
 
-use PHPUnit\Framework\TestResult;
-
+/**
+ * @covers \prime\models\ar\Project
+ */
 class ProjectTest extends ActiveRecordTest
 {
     public function validSamples(): array
@@ -25,5 +26,4 @@ class ProjectTest extends ActiveRecordTest
             ]
         ];
     }
-
 }

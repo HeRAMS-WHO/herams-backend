@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-
-use prime\models\permissions\Permission;
+use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\MethodNotAllowedHttpException;
@@ -36,5 +35,4 @@ class Impersonate extends Action
         $user->login($targetUser);
         return $this->controller->goHome();
     }
-
 }

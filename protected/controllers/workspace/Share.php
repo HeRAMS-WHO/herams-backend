@@ -3,11 +3,11 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\components\NotificationService;
+use prime\exceptions\NoGrantablePermissions;
+use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
-use prime\models\permissions\Permission;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
@@ -23,40 +23,41 @@ class Share extends Action
         AuthManager $abacManager,
         User $user,
         int $id
-    )
-    {
+    ) {
+        $this->controller->layout = 'admin';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
         if (!($user->can(Permission::PERMISSION_SHARE, $workspace))) {
-            throw new ForbiddenHttpException();
+            throw new ForbiddenHttpException('You are not allowed to share this workspace');
         }
-        $model = new ShareForm($workspace, $abacManager, $user->identity, [
-            'permissions' => [
-                Permission::PERMISSION_WRITE => \Yii::t('app', 'Manage the underlying response data'),
-                Permission::PERMISSION_ADMIN => \Yii::t('app', 'Full access, includes editing the workspace properties, token and response data'),
-            ]
-        ]);
-
-        if ($request->isPost) {
-            if ($model->load($request->bodyParams)) {
-                $model->createRecords();
-                $notificationService->success(\Yii::t('app',
-                    "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
-                    [
-                        'modelName' => $workspace->title,
-                        'users' => implode(', ', array_map(function ($model) {
-                            return $model->name;
-                        }, $model->getUsers()->all()))
-                    ])
-
-                );
-                return $this->controller->refresh();
-            }
-
+        try {
+            $model = new ShareForm($workspace, $abacManager, $user->identity, [
+                Permission::PERMISSION_LIMESURVEY,
+                Permission::PERMISSION_EXPORT,
+                Permission::PERMISSION_SHARE,
+                Permission::PERMISSION_SUPER_SHARE,
+            ]);
+        } catch (NoGrantablePermissions $e) {
+            $notificationService->error('There are no permissions that you can share for this workspace');
+            return $this->controller->redirect($request->getReferrer());
         }
 
+        if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
+            $model->createRecords();
+            $notificationService->success(\Yii::t(
+                'app',
+                "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong>",
+                [
+                    'modelName' => $workspace->title,
+                    'users' => implode(', ', array_map(function ($model) {
+                        return $model->name;
+                    }, $model->getUsers()->all()))
+                ]
+            ));
+            return $this->controller->refresh();
+        }
 
         return $this->controller->render('share', [
             'model' => $model,

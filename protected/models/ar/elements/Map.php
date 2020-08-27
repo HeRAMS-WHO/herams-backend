@@ -3,12 +3,10 @@
 
 namespace prime\models\ar\elements;
 
-
 use prime\models\ar\Element;
 use prime\widgets\element\Element as ElementWidget;
 use prime\widgets\map\DashboardMap as MapWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\helpers\Json;
 use yii\validators\NumberValidator;
 
 class Map extends Element
@@ -16,6 +14,13 @@ class Map extends Element
     public function getMarkerRadius(): ?int
     {
         return $this->getWidgetConfig()['markerRadius'] ?? null;
+    }
+
+    public function attributeLabels(): array
+    {
+        return array_merge(parent::attributeLabels(), [
+            'markerRadius' => \Yii::t('app', 'Marker radius')
+        ]);
     }
 
     public function setMarkerRadius($value)
@@ -31,14 +36,11 @@ class Map extends Element
     protected function getWidgetInternal(
         SurveyInterface $survey,
         iterable $data
-    ): ElementWidget
-    {
+    ): ElementWidget {
         return new MapWidget($this, array_merge([
             'data' => $data,
             'survey' => $survey,
-        ], $this->getWidgetConfig()
-        ));
-
+        ], $this->getWidgetConfig()));
     }
 
     public function rules()

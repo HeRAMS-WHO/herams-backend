@@ -3,13 +3,13 @@
 
 namespace prime\tests\functional\controllers\workspace;
 
-use prime\models\ar\Project;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\permissions\Permission;
 use prime\tests\FunctionalTester;
-use SamIT\abac\AuthManager;
-use yii\helpers\Json;
 
+/**
+ * @covers \prime\controllers\workspace\Configure
+ */
 class ConfigureCest
 {
 
@@ -22,18 +22,6 @@ class ConfigureCest
         $I->seeResponseCodeIs(403);
     }
 
-    public function testAccessControlWithWriteAccess(FunctionalTester $I)
-    {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace = $I->haveWorkspace();
-        /** @var AuthManager $manager */
-        $manager = \Yii::$app->abacManager;
-        $manager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
-
-        $I->amOnPage(['workspace/configure', 'id' => $workspace->id]);
-        $I->seeResponseCodeIs(200);
-    }
 
     public function testAccessControlWithAdminAccess(FunctionalTester $I)
     {
@@ -59,6 +47,7 @@ class ConfigureCest
         $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
 
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $workspace));
         $I->amOnPage(['workspace/configure', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
 

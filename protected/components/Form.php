@@ -9,8 +9,7 @@ class Form extends \kartik\builder\Form
     use HighlightUnsafeAttributesTrait;
     protected function renderActiveInput($form, $model, $attribute, $settings)
     {
-        if(
-            !isset($settings['options']['placeholder']) &&
+        if (!isset($settings['options']['placeholder']) &&
             isset($form->formConfig['defaultPlaceholder']) &&
             $form->formConfig['defaultPlaceholder'] &&
             isset($settings['type']) &&
@@ -20,5 +19,4 @@ class Form extends \kartik\builder\Form
         }
         return parent::renderActiveInput($form, $model, $attribute, $settings);
     }
-
 }

@@ -9,9 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use collecthor\bundles\AppAssetBundle;
-use dektrium\user\models\LoginForm;
-use dektrium\user\widgets\Connect;
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
 use prime\widgets\FormButtonsWidget;
@@ -56,11 +53,8 @@ echo Html::tag('header', $this->title);
             ]),
             'columns' => 1,
             'attributes' => [
-                'welcome' => [
-                    'type' => Form::INPUT_RAW,
-                    'value' => \Yii::t('app', 'Creating a new acount for email:')
-                ],
                 'email' => [
+                    'label' => \Yii::t('app', 'Creating a new acount for email:'),
                     'type' => Form::INPUT_STATIC,
                 ],
                 'name' => [
@@ -79,6 +73,11 @@ echo Html::tag('header', $this->title);
                     ]
                 ],
                 FormButtonsWidget::embed([
+                    'options' => [
+                        'class' => [
+                            'pull-right'
+                        ],
+                    ],
                     'buttons' => [
                         Html::submitButton(Yii::t('app', 'Create account'), ['class' => ['btn', 'btn-primary', 'btn-block']])
                     ]

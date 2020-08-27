@@ -3,17 +3,22 @@
 
 namespace prime\models\forms\user;
 
-
-use Carbon\Carbon;
 use kartik\password\StrengthValidator;
 use prime\models\ar\User;
-use yii\behaviors\TimestampBehavior;
+use yii\base\Model;
 use yii\validators\CompareValidator;
+use yii\validators\RegularExpressionValidator;
+use yii\validators\RequiredValidator;
+use yii\validators\StringValidator;
+use yii\validators\UniqueValidator;
 
-class CreateUserForm extends User
+class CreateUserForm extends Model
 {
     public $confirm_password;
-    private $_password;
+    public $password;
+
+    public $email;
+    public $name;
 
 
 
@@ -30,22 +35,29 @@ class CreateUserForm extends User
 
     public function rules()
     {
-        $result = parent::rules();
-        $result[] = [['newPassword'], StrengthValidator::class, 'usernameValue' => $this->user->email, 'preset' => 'normal'];
-        $result[] = [['confirm_password'], CompareValidator::class, 'compareAttribute' => 'password',
-            'message' => \Yii::t('app', "Passwords don't match")];
-        return $result;
+        return [
+            [['email', 'name', 'password'], RequiredValidator::class],
+            ['email', UniqueValidator::class,
+                'targetClass' => User::class,
+                'targetAttribute' => 'email',
+                'message' => \Yii::t('app', "Email already taken")
+            ],
+            ['name', StringValidator::class, 'max' => 50],
+            ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
+            [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => 'normal'],
+            [['confirm_password'], CompareValidator::class, 'compareAttribute' => 'password',
+            'message' => \Yii::t('app', "Passwords don't match")],
+        ];
     }
 
-    public function setPassword($value): void
+    public function run()
     {
-        $this->_password = $value;
-        parent::setPassword($value);
+        $user = new User();
+        $user->email = $this->email;
+        $user->name = $this->name;
+        $user->setPassword($this->password);
+        if (!$user->save()) {
+            throw new \RuntimeException('Failed to create user');
+        }
     }
-
-    public function getPassword()
-    {
-        return $this->_password;
-    }
-
 }

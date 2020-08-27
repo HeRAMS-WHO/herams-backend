@@ -17,6 +17,11 @@ echo Form::widget([
             'type' => Form::INPUT_STATIC,
         ],
         FormButtonsWidget::embed([
+            'options' => [
+                'class' => [
+                    'pull-right'
+                ],
+            ],
             'buttons' => [
                 Html::submitButton(
                     Yii::t('app', 'Apply changes'),

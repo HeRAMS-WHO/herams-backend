@@ -1,8 +1,8 @@
 <?php
 
+use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
-use prime\models\permissions\Permission;
 use yii\db\Migration;
 
 /**
@@ -16,7 +16,7 @@ class m190415_130133_make_owners_admin extends Migration
     public function safeUp()
     {
         /** @var Workspace $workspace */
-        foreach( Workspace::find()->each() as $workspace) {
+        foreach (Workspace::find()->each() as $workspace) {
             $user = User::findOne(['id' => $workspace->owner_id]);
             if (!isset($user)) {
                 continue;

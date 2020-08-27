@@ -14,24 +14,13 @@ form .has-error input{
 
 
 .help-block, .error-summary  {
-    margin-top: 10px;
+    margin: 5px 0 0;
     color: var(--validation-error-color);
+    font-size: 12px;
 }
 
-.btn {
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: none;
-    background-image: none;
+.kv-table-caption {
     border: none;
-    text-decoration: none;
-}
-
-.btn-primary {
-    background-color: var(--primary-button-background-color);
-    color: var(--primary-button-color);
-
 }
 
 .form-control {
@@ -55,27 +44,31 @@ form .has-error input{
 /*}*/
 
 .control-label {
-    font-size: 1em;
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 600;
 }
 
-.control-label.has-star::after {
+.required .control-label.has-star::after {
     content: '*';
     color: red;
 }
 .hint-block {
-    font-size: 0.8em;
+    font-size: 12px;
+    margin-top: 3px;
+    color: grey;
 }
 .btn-block {
     display: block;
     width: 100%;
 }
 
-.btn-primary[form=login-form] {
-    width: 100%;
-}
-
-.form-group {
-    margin-bottom: 5px;
+/*.form-group .btn-group {*/
+/*    padding-left: 15px;*/
+/*    padding-right: 15px;*/
+/*}*/
+.form-group, .form-horizontal .form-group {
+    margin: 0;
 }
 
 .tab-pane {
@@ -120,8 +113,41 @@ form .has-error input{
 
 /** Popover align form buttons to the button. */
 .popover .form .btn-group {
-    position: absolute;
-    bottom: 0;
     left: var(--padding);
     right: var(--padding);
 }
+
+
+.bootstrap-switch {
+    height: 34px;
+}
+
+/**
+ * BEGIN CSS for formbuttons widget
+ */
+.formbuttons {
+    display: block;
+}
+.formbuttons.orientation-right {
+    float: right;
+}
+.formbuttons > *, .popover .formbuttons > * {
+    display: inline-block;
+}
+.formbuttons.orientation-block > * {
+    display: block;
+    width: 100%;
+    float: none;
+    border-radius: 6px !important;
+}
+
+.formbuttons.orientation-block > a {
+    text-align: right;
+}
+.form-horizontal .row .form-group.formbuttons-container {
+    display: block;
+}
+
+/**
+ * END CSS for formbuttons widget
+ */

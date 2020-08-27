@@ -18,49 +18,7 @@ body {
     top: 0;
     z-index: 1;
 }
-@media (min-width: 600px) {
-    .menu img {
-        position: initial;
-        grid-area: image;
-        display: block;
-        max-height: 100px;
-        max-width: 170px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
 
-@media (min-width: 710px) {
-    body {
-        display: flex;
-        margin: 0;
-        align-items: center;
-        justify-content: center;
-    }
-    .map {
-        visibility: visible;
-    }
-
-    .map:after {
-        content: " ";
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        pointer-events: none;
-        z-index: 400;
-    }
-}
-
-@media(min-width: 810px) {
-    .menu {
-        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
-    }
-}
 .popover {
     --color: #505050;
     --padding: 40px;
@@ -81,82 +39,215 @@ body {
     background-color: white;
     display: grid;
     position: relative;
-    max-width: 710px;
+    width: 100%;
+    margin: 0 auto;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto var(--status-height);
-    grid-template-areas:
-            "intro"
-            "login"
-            "stat"
-            "status"
-;
+    grid-template-rows: 1fr;
+    grid-template-areas: "login" "intro";
+}
 
+.popover-error {
+    max-width: 800px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto var(--status-height);
+    grid-template-areas: "login" "stat" "status";
+}
+
+.popover-error .btn {
+    margin-top: 30px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.popover-error .btn .icon {
+    margin-right: 5px;
+}
+
+.popover-error .btn-home {
+    width: auto;
+    color: white;
+}
+
+.popover-error .btn-home:hover {
+    color: var(--primary-button-background-color);
+}
+
+.popover div.centered {
+    grid-column: span 2;
+    text-align: center;
+    padding: 80px;
+    font-size: 40px;
+    color: #bbbbbb;
+}
+
+.popover div.centered span.logo {
+    margin-bottom: 30px;
+}
+
+.popover div.centered span.error {
+    color: #565656;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.popover div.centered span.help {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #565656;
+}
+
+.popover div.centered>svg {
+    font-size: 46px;
+    margin-top: 35px;
+}
+
+.popover div.centered .logo {
+    max-width: 268px;
+}
+
+.popover div.centered>* {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.popover .signup, .popover .signin {
+    display: block;
+}
+
+.popover .signup span.title {
+    margin-bottom: 10px;
+}
+
+.popover hr {
+    width: 100%;
+    height: 1px;
+    background-color: #c2c2c2;
+    border: none;
 }
 
 .form {
     grid-area: login;
-    padding: var(--padding);
+    padding: 50px 20px 0;
     padding-bottom: 0;
-    margin-bottom: var(--padding);
+    margin-bottom: var(--status-height);
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-.form > * {
+.form>* {
     flex-grow: 0;
 }
 
-.form > form {
+.form>form {
     flex-grow: 1;
 }
 
-.intro {
-    padding: var(--padding);
-    padding-top: 0;
-    color: #565656;
-    grid-area: intro;
-    text-align: justify;
-    margin: 0;
-    line-height: 2em;
-    font-size: 16px;
-    padding-bottom: 0;
-}
-
-.intro img {
-    max-width: 200px;
+.form .logo {
+    margin: 0 auto 70px;
+    width: 100%;
+    max-width: 350px;
     display: block;
-    margin: auto;
 }
 
-@media (min-width: 710px) {
-    .popover {
-        padding-top: var(--padding);
-        border-radius: 3px;
+.form span {
+    color: var(--primary-button-background-color);
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
 
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr auto var(--status-height);
-        grid-template-areas:
-                "intro  login"
-                "stat   stat"
-                "status status"
-    ;
-    }
+.form .signin {
+    margin-bottom: 40px;
+}
 
-    .intro {
-        border-right: var(--gutter-width) solid var(--gutter-color);
-        margin-bottom: var(--padding);
-        padding-bottom: 0;
-    }
+.form .signup {
+    margin-top: 40px;
+}
 
-    .form {
+.form .signup .row, .form .signin .row {
+    margin-bottom: 15px;
+}
 
-        flex-grow: 0;
-    }
+.form form {
+    display: block;
+    width: 100%;
+}
 
-    .intro img {
-        max-width: calc(100% - 64px);
-    }
+.form .hint {
+    color: #a09fa4;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0 0 30px;
+}
+
+.form a.request-reset {
+    margin: 25px 0;
+    text-align: right;
+}
+
+.intro {
+    background-color: var(--dark-background-color);
+    grid-area: intro;
+    margin: 0;
+    padding: 30px 0 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 90px auto auto var(--status-height);
+    grid-template-areas: "logo" "description" "stats" "status";
+}
+
+.intro .logo {
+    grid-area: logo;
+    margin: 0 auto;
+    padding: 66px 0 0;
+    width: 80%;
+    max-width: 380px;
+    display: none;
+}
+
+.intro header {
+    padding: 40px 20px;
+    margin: 0 auto;
+    line-height: 26px;
+    font-size: 15px;
+    letter-spacing: 1.2px;
+    color: #ffffff;
+    max-width: 380px;
+    grid-area: description;
+    text-align: justify;
+}
+
+.logo .st0 {
+    fill: #4075C3;
+}
+
+svg .st1 {
+    fill: #d4d3d1 !important;
+}
+
+.logo .st2 {
+    fill: #D4D3D1;
+}
+
+.logo .st3 {
+    fill: #FFFFFF;
+}
+
+.logo .st4 {
+    fill: #868686;
+}
+
+.intro .stats {
+    padding: 0 20px 10px;
+    grid-area: stats;
 }
 
 .actions {
@@ -165,79 +256,237 @@ body {
     justify-content: space-between;
 }
 
-
-
-
-
-
 .popover a {
     font-size: 13px;
     color: var(--link-color);
     display: block;
-    margin-bottom: 5px;
-}
-.popover header {
-    font-size: 24px;
-    color: #353535;
-    font-weight: 600;
+    margin-top: 10px;
+    z-index: 1;
 }
 
 .stats {
     display: flex;
     flex-wrap: wrap;
     grid-area: stat;
-    padding-top: 25px;
-    padding-bottom: 25px;
     background-color: var(--dark-background-color);
+    padding: 30px;
 }
+
 .stat {
     flex-grow: 1;
     flex-basis: 0;
     color: var(--dark-color);
     text-align: center;
-    font-size: 16px;
+    font-size: 11px;
     border-right: calc(var(--gutter-width) / 2) solid var(--gutter-color);
     /*border-left: calc(var(--gutter-width) / 2) solid var(--gutter-color);*/
+    padding: 0 5px;
 }
 
 .stat:first-child {
     border-left: none;
+    padding: 0 10px 0 0;
 }
 
 .stat:last-child {
     border-right: none;
+    padding: 0 0 0 10px;
 }
 
 .stat svg {
     color: var(--stat-icon-color);
-    font-size: 40px;
+    font-size: 30px;
     display: block;
     margin: auto;
+    width: 100%;
 }
+
 .stat span {
     display: block;
-    margin: auto;
-    font-size: 48px;
+    font-size: 30px;
+    margin: 7px auto 3px;
+    line-height: 30px;
 }
 
 .status {
     line-height: var(--status-height);
     text-align: center;
     font-size: 16px;
+    letter-spacing: 0.4px;
     grid-area: status;
     font-weight: bold;
     background-color: #222229;
     color: #ffffff;
+    padding: 0 20px;
 }
 
 .status .value {
     color: #92929b;
     font-size: 14px;
-
-
     font-weight: normal;
 }
 
 .status .icon {
     vertical-align: middle;
+}
+
+@media (min-width: 768px) {
+    body {
+        display: flex;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        overflow: auto;
+    }
+    .map {
+        visibility: visible;
+    }
+    .map:after {
+        content: " ";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+        z-index: 400;
+    }
+    .popover {
+        max-width: 700px;
+        margin: 20px auto;
+        border-radius: 3px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "login" "intro";
+    }
+    .popover-error {
+        grid-template-areas: "login  login" "stat   stat" "status status";
+    }
+    .form {
+        padding: 66px;
+        margin-bottom: var(--status-height);
+        margin: auto 0;
+    }
+    .form form {
+        display: inline-block;
+        max-width: 350px;
+    }
+    .intro {
+        border-right: var(--gutter-width) solid var(--gutter-color);
+        padding: 5vh 0 0;
+    }
+    .intro .logo-small {
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+    }
+    .intro .logo-small img {
+        width: 100%;
+    }
+    .intro header {
+        padding: 0 0 66px;
+        max-width: 370px;
+        line-height: 30px;
+        font-size: 16px;
+    }
+    .form span {
+        display: inline-block;
+        vertical-align: top;
+        width: 40%;
+        padding-right: 10px;
+    }
+    .popover .signup, .popover .signin {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    .stat {
+        font-size: 15px;
+    }
+    .stat svg, .stat span {
+        font-size: 35px;
+        line-height: 35px;
+    }
+}
+
+@media(min-width: 810px) {
+    .menu {
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+    }
+}
+
+@media (min-width: 1024px) {
+    body {
+        overflow: hidden;
+    }
+    .popover {
+        max-width: 840px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "intro login";
+        margin: 0 40px;
+    }
+    .popover-error {
+        grid-template-areas: "login  login" "stat   stat" "status status";
+    }
+    .intro {
+        padding: 30px 0 0;
+    }
+    .form {
+        padding: 66px 34px;
+        margin: 0;
+    }
+    
+    .form .logo {
+        display: none;
+    }
+    .popover .signup, .popover .signin {
+        display: flex;
+    }
+    .intro .logo {
+        padding: 0;
+        max-width: 300px;
+        display: block;
+        margin: 0 auto;
+    }
+    #login-form .control-label, #request-form .control-label {
+        display: none;
+    }
+    .intro header {
+        padding: 20px 0 40px;
+        max-width: 330px;
+        font-size: 13px;
+        line-height: 24px;
+    }
+    .form span {
+        width: 40%;
+        padding-right: 5px;
+    }
+    .form .signin {
+        margin-bottom: 20px;
+    }
+    .form .signup {
+        margin-top: 20px;
+    }
+    .intro .stats {
+        padding: 0 0 10px;
+    }
+    .stat svg, .stat span {
+        font-size: 23px;
+        line-height: 27px;
+    }
+    .stat {
+        font-size: 13px;
+    }
+    .status {
+        font-size: 13px;
+    }
+    .form span {
+        font-size: 15px;
+        line-height: 15px;
+    }
+    .form a.request-reset {
+        margin: 15px 0;
+    }
 }

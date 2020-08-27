@@ -3,18 +3,20 @@
 
 namespace prime\controllers\project;
 
-
 use prime\exceptions\SurveyDoesNotExist;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\ResponseFilter;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\ServerErrorHttpException;
+use yii\web\User;
 
 class View extends Action
 {
@@ -22,6 +24,7 @@ class View extends Action
 
     public function run(
         Request $request,
+        User $user,
         int $id,
         int $page_id = null,
         int $parent_id = null,
@@ -31,6 +34,9 @@ class View extends Action
         $project = Project::findOne(['id'  => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
+        }
+        if (!$user->can(Permission::PERMISSION_READ, $project)) {
+            throw new ForbiddenHttpException();
         }
         try {
             $survey = $project->getSurvey();
@@ -102,7 +108,7 @@ class View extends Action
         $answers = $question->getAnswers();
 
         $map = [];
-        foreach($answers as $answer) {
+        foreach ($answers as $answer) {
             $map[$answer->getCode()] = trim(strtok($answer->getText(), ':('));
         }
 
@@ -112,17 +118,13 @@ class View extends Action
 
     private function findQuestionByCode(SurveyInterface $survey, string $text): ?QuestionInterface
     {
-        foreach($survey->getGroups() as $group) {
-            foreach($group->getQuestions() as $question) {
+        foreach ($survey->getGroups() as $group) {
+            foreach ($group->getQuestions() as $question) {
                 if ($question->getTitle() === $text) {
                     return $question;
                 }
-
             }
         }
         return null;
     }
-
-
-
 }

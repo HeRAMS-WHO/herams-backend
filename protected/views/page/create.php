@@ -24,13 +24,19 @@ $this->title = \Yii::t('app', 'Create page');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="col-xs-12">
+<div class="form-content form-bg">
+    <h3><?=\Yii::t('app', 'Create Page')?></h3>
     <?php
 
 
     $form = ActiveForm::begin([
         'id' => 'update-page',
         "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
     ]);
 
     echo Form::widget([

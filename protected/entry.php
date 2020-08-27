@@ -12,16 +12,16 @@ define('YII_ENV', getenv('YII_ENV'));
 defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 
 
-call_user_func(function() {
+call_user_func(function () {
     $autoload = __DIR__ . '/../vendor/autoload.php';
     if (!file_exists($autoload)) {
         die("Could not locate composer autoloader");
-
     }
 
     require_once $autoload;
     $env = new Environment(__DIR__ . '/config/env.json');
     $config = require __DIR__ . '/config/web.php';
+    \Yii::$container->setDefinitions(require __DIR__ . '/config/di.php');
     \Yii::$container->set(\yii\web\Application::class, $config);
     $app = \Yii::$container->get(\yii\web\Application::class);
     $app->run();

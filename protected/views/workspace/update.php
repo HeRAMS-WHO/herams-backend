@@ -1,13 +1,15 @@
 <?php
 
 use app\components\Form;
-use kartik\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\bootstrap\Html;
 
 /**
- * @var \yii\web\View $this
+ * @var  \prime\components\View $this
  * @var \prime\models\ar\Workspace $model
  */
+assert($this instanceof \prime\components\View);
+assert($model instanceof \prime\models\ar\Workspace);
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -29,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<div class="col-xs-12">
+<div class="form-content form-bg">
+    <h3><?=\Yii::t('app', 'Update Workspace')?></h3>
     <?php
     $form = ActiveForm::begin([
         'id' => 'update-project',
@@ -37,7 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
             'showLabels' => true,
-            'defaultPlaceholder' => false
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
         ]
     ]);
 
