@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\rules;
 
-
 use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;

@@ -3,7 +3,6 @@
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class NewAppAsset extends AssetBundle

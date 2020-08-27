@@ -3,7 +3,6 @@
 
 namespace prime\components;
 
-
 use prime\exceptions\SurveyDoesNotExist;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -50,7 +49,7 @@ class LimesurveyDataProvider extends Component
         /**
          * @var ResponseInterface $value
          */
-        foreach($this->client->getResponsesByToken($surveyId, $token) as $key => $value) {
+        foreach ($this->client->getResponsesByToken($surveyId, $token) as $key => $value) {
             if ($value->getSubmitDate() !== null) {
                 yield $value;
             }

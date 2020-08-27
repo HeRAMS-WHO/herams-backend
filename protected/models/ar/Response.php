@@ -122,7 +122,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
         if (!isset(self::$surveySubjectKeys[$this->survey_id])) {
             self::$surveySubjectKeys[$this->survey_id] = [];
         }
-        foreach($this->data as $key => $dummy) {
+        foreach ($this->data as $key => $dummy) {
             if (isset(self::$surveySubjectKeys[$this->survey_id][$key])) {
                 continue;
             }
@@ -130,11 +130,9 @@ class Response extends ActiveRecord implements HeramsResponseInterface
             if (preg_match($this->getMap()->getSubjectExpression(), $key)) {
                 self::$surveySubjectKeys[$this->survey_id][$key] = true;
             }
-
         }
 
         return array_keys(self::$surveySubjectKeys[$this->survey_id]);
-
     }
 
     /**
@@ -169,7 +167,6 @@ class Response extends ActiveRecord implements HeramsResponseInterface
                     $score += 0;
                     $limit += 1;
                     break;
-
             }
         }
 
@@ -185,7 +182,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     {
         $reasons = [];
         $services = [];
-        foreach($this->data as $key => $value) {
+        foreach ($this->data as $key => $value) {
             if (preg_match('/^(QHeRAMS\d+)x\[\d+\]$/', $key, $matches)) {
                 if (empty($value)) {
                     continue;
@@ -218,7 +215,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getSubjectAvailabilityBucket(): int
     {
-        switch(intdiv($this->getSubjectAvailability(), 25)) {
+        switch (intdiv($this->getSubjectAvailability(), 25)) {
             case 0:
                 return HeramsResponseInterface::BUCKET25;
             case 1:

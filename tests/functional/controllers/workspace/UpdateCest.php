@@ -63,16 +63,15 @@ class UpdateCest
             'title' => 'test123',
         ];
 
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $I->fillField(['name' => "Workspace[$key]"], $value);
         }
 
         $I->click('Save');
         $I->seeResponseCodeIsSuccessful();
         $workspace->refresh();
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $I->assertEquals($value, $workspace->$key, '', 0.001);
         }
-
     }
 }

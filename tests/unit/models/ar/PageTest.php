@@ -3,14 +3,13 @@
 
 namespace prime\tests\unit\models\ar;
 
-
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 
 /**
  * @covers \prime\models\ar\Page
  */
-class PageTest  extends ActiveRecordTest
+class PageTest extends ActiveRecordTest
 {
     /**
      * @inheritDoc
@@ -55,7 +54,7 @@ class PageTest  extends ActiveRecordTest
     {
         $page = new Page();
         $this->tester->assertFalse($page->validate());
-        $this->tester->expectThrowable(\LogicException::class, function() use ($page) {
+        $this->tester->expectThrowable(\LogicException::class, function () use ($page) {
             $page->export();
         });
     }

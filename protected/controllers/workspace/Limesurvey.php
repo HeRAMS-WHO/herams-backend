@@ -3,7 +3,6 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use yii\base\Action;
@@ -16,8 +15,8 @@ class Limesurvey extends Action
 
     public function run(
         User $user,
-        int $id)
-    {
+        int $id
+    ) {
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();

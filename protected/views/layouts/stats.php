@@ -17,7 +17,7 @@ use yii\helpers\Html;
     ];
     $stats[] = [
         'icon' => Icon::healthFacility(),
-        'count' =>  \iter\reduce(static function(int $accumulator, Project $project) {
+        'count' =>  \iter\reduce(static function (int $accumulator, Project $project) {
             return $accumulator + $project->facilityCount;
         }, $projects, 0),
         'label' => \Yii::t('app', 'Health Facilities')
@@ -25,14 +25,14 @@ use yii\helpers\Html;
 
     $stats[] = [
         'icon' => Icon::contributors(),
-        'count' =>\iter\reduce(static function(int $accumulator, Project $project) {
+        'count' =>\iter\reduce(static function (int $accumulator, Project $project) {
             return $accumulator + $project->contributorCount;
         }, $projects, 0),
         'label' => \Yii::t('app', 'Contributors')
     ];
 
 
-    foreach($stats as $stat) {
+    foreach ($stats as $stat) {
         echo Html::beginTag('div', ['class' => 'stat']);
         echo $stat['icon'];
         echo Html::tag('span', $stat['count']);
@@ -42,7 +42,7 @@ use yii\helpers\Html;
 
     if (!empty($projects)) {
         $latest = array_pop($projects);
-        foreach($projects as $project) {
+        foreach ($projects as $project) {
             if ($project->latestDate > $latest->latestDate) {
                 $latest = $project;
             };

@@ -3,7 +3,6 @@
 
 namespace prime\controllers;
 
-
 use prime\components\Controller;
 use prime\controllers\permission\Delete;
 use prime\controllers\permission\Grant;
@@ -27,7 +26,8 @@ class PermissionController extends Controller
 
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(),
+        return ArrayHelper::merge(
+            parent::behaviors(),
             [
                 'verbs' => [
                     'class' => VerbFilter::class,

@@ -62,5 +62,4 @@ class CreateCest
         ]);
         $I->seeInSource(substr(json_encode('Workspace <strong>Cool stuff</strong> created'), 1, -1));
     }
-
 }

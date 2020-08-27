@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\rules;
 
-
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;

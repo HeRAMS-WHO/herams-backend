@@ -46,8 +46,8 @@ echo $this->render('//user-menu');
         ],
         'links' => $this->params['breadcrumbs'] ?? []
     ]);
-echo Html::tag('span', $this->title, ['class' => 'header']);
-?></div>
+    echo Html::tag('span', $this->title, ['class' => 'header']);
+    ?></div>
 <?php
     echo $content;
     $this->endBody();

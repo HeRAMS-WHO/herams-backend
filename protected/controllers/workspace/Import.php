@@ -3,7 +3,6 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
@@ -38,8 +37,8 @@ class Import extends Action
 
         $model = new ImportModel($project, $samples);
 
-        if($request->isPost) {
-            if($model->load($request->bodyParams)
+        if ($request->isPost) {
+            if ($model->load($request->bodyParams)
                 && $model->validate()
             ) {
                 $result = $model->run();
@@ -56,6 +55,4 @@ class Import extends Action
             'project' => $project
         ]);
     }
-
-
 }

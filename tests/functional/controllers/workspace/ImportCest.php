@@ -42,6 +42,4 @@ class ImportCest
             'token' => 'token2'
         ]);
     }
-
-
 }

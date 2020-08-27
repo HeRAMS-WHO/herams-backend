@@ -11,7 +11,7 @@ return [
         $result = new \kartik\grid\ActionColumn($config);
         return $result;
     },
-    \kartik\switchinput\SwitchInput::class => static function(Container $container, array $params, array $config) {
+    \kartik\switchinput\SwitchInput::class => static function (Container $container, array $params, array $config) {
         $config = \yii\helpers\ArrayHelper::merge([
             'pluginOptions' => [
                 'offText' => \Yii::t('app', 'Off'),

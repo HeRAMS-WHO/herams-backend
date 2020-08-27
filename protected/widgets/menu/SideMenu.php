@@ -3,7 +3,6 @@
 
 namespace prime\widgets\menu;
 
-
 use prime\helpers\Icon;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -79,5 +78,4 @@ class SideMenu extends Widget
         echo $this->footer;
         echo Html::endTag('div');
     }
-
 }

@@ -157,7 +157,7 @@ class Project extends ActiveRecord implements Linkable
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
             'status' => \Yii::t('app', 'Status'),
-            'typemap' => \Yii::t('app','Typemap'),
+            'typemap' => \Yii::t('app', 'Typemap'),
             'visibility' => \Yii::t('app', 'Visibility'),
             'overrides' => \Yii::t('app', 'Overrides')
         ]);
@@ -240,7 +240,7 @@ class Project extends ActiveRecord implements Linkable
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
             [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())],
             [['visibility'], RangeValidator::class, 'range' => array_keys($this->visibilityOptions())],
-            [['country'], function() {
+            [['country'], function () {
                 $data = new ISO3166();
                 try {
                     $data->alpha3($this->country);

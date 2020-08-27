@@ -12,11 +12,10 @@ define('YII_ENV', getenv('YII_ENV'));
 defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 
 
-call_user_func(function() {
+call_user_func(function () {
     $autoload = __DIR__ . '/../vendor/autoload.php';
     if (!file_exists($autoload)) {
         die("Could not locate composer autoloader");
-
     }
 
     require_once $autoload;

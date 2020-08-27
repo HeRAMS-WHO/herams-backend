@@ -3,7 +3,6 @@
 
 namespace prime\tests\_helpers;
 
-
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Answer;
 use SamIT\LimeSurvey\JsonRpc\Concrete\Group;
@@ -80,7 +79,7 @@ class LimesurveyStub extends Client
 
     public function getQuestions($surveyId, $groupId, $language)
     {
-        switch([$surveyId, $groupId]) {
+        switch ([$surveyId, $groupId]) {
             case [12345, 1]:
                 return [
                     new Question($this, [
@@ -122,6 +121,4 @@ class LimesurveyStub extends Client
     {
         return $this->tokens[$surveyId][$token];
     }
-
-
 }

@@ -42,6 +42,5 @@ class DeleteCest
             'id' => $permission->id
         ]);
         $I->assertFalse($permission->refresh());
-
     }
 }

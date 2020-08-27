@@ -3,12 +3,10 @@
 
 namespace prime\controllers\user;
 
-
 use prime\components\NotificationService;
 use prime\models\forms\user\CreateUserForm;
 use yii\base\Action;
 use yii\web\Request;
-
 
 class Create extends Action
 {

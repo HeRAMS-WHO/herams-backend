@@ -17,7 +17,6 @@ class m191203_140540_CreateKeyTable extends Migration
             'title' => $this->string()->notNull(),
             'hash' => $this->string(255)->notNull()->append('COLLATE ascii_bin'),
         ]);
-
     }
 
     /**

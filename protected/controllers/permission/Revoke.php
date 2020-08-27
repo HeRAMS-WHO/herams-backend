@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\permission;
 
-
 use prime\helpers\ProposedGrant;
 use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;
@@ -32,7 +31,8 @@ class Revoke extends Action
         $proposedGrant = new ProposedGrant(
             $abacResolver->toSubject($source),
             $abacResolver->toSubject($target),
-            $permission);
+            $permission
+        );
         if (!$user->can(Permission::PERMISSION_DELETE, $proposedGrant)) {
             throw new ForbiddenHttpException();
         }

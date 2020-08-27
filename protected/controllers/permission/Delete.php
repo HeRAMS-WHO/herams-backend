@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\permission;
 
-
 use prime\helpers\ProposedGrant;
 use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;

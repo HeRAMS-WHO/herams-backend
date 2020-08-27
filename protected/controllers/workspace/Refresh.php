@@ -3,7 +3,6 @@
 
 namespace prime\controllers\workspace;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\helpers\LimesurveyDataLoader;
@@ -37,7 +36,7 @@ class Refresh extends Action
         $new = $updated = $unchanged = $failed = 0;
         $start = microtime(true);
         $ids = [];
-        foreach($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+        foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
             $ids[] = $response->getId();
             $key = [
                 'id' => $response->getId(),
@@ -78,5 +77,4 @@ class Refresh extends Action
 
         return $this->controller->redirect($request->getReferrer());
     }
-
 }

@@ -3,13 +3,11 @@
 
 namespace prime\modules\Api\controllers;
 
-
 use prime\modules\Api\controllers\response\Delete;
 use prime\modules\Api\controllers\response\Update;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
-
 
 /**
  * This controller handles response update notifications from LS
@@ -39,6 +37,4 @@ class ResponseController extends Controller
             ]
         ]);
     }
-
-
 }

@@ -692,10 +692,13 @@ body {
 }
 
 .form-content {
+    display: inline-block;
     padding: 20px;
+    width: 100%;
     height: min-content;
     grid-row: auto;
     grid-column: span 2;
+    margin-bottom: 10px;
 }
 
 .form-content.full-width {
@@ -735,6 +738,14 @@ body {
 .form-bg {
     background: white;
     border-radius: 7px;
+}
+
+.workspaces .btn-dashboard {
+    float: right;
+}
+
+.workspaces #w3-pjax {
+    clear: both;
 }
 
 /**

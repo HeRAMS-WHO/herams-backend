@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\project;
 
-
 use prime\models\ar\Project;
 use yii\base\Action;
 use yii\web\UrlManager;

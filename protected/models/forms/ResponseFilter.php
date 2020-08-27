@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
-
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ar\Response;
@@ -79,10 +78,10 @@ class ResponseFilter extends Model
     private function initAdvancedFilterMap(SurveyInterface $survey)
     {
         $groups = $survey->getGroups();
-        usort($groups, function(GroupInterface $a, GroupInterface $b) {
+        usort($groups, function (GroupInterface $a, GroupInterface $b) {
             return $a->getIndex() <=> $b->getIndex();
         });
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             foreach ($group->getQuestions() as $question) {
                 if (null !== $answers = $question->getAnswers()) {
                     $this->advancedFilterMap[$question->getTitle()] = $question;
@@ -97,11 +96,13 @@ class ResponseFilter extends Model
         $rules[] = [['date'], DateValidator::class, 'format' => 'php:Y-m-d'];
 //        $rules[] = [['locations'], RangeValidator::class, 'range' => array_values($this->nestedLocationOptions()), 'allowArray' => true];
 //        $rules[] = [['types'], RangeValidator::class, 'range' => array_values($this->typeOptions()), 'allowArray' => true];
-        foreach($this->advancedFilterMap as $code => $question) {
+        foreach ($this->advancedFilterMap as $code => $question) {
             $rules[] = [
                 ["adv_{$question->getTitle()}"],
                 RangeValidator::class,
-                'range' => array_map(function(AnswerInterface $answer) { return $answer->getCode(); }, $question->getAnswers())
+                'range' => array_map(function (AnswerInterface $answer) {
+                    return $answer->getCode();
+                }, $question->getAnswers())
             ];
         }
         return $rules;
@@ -124,13 +125,12 @@ class ResponseFilter extends Model
         } else {
             $this->advanced[substr($name, 4)] = $value;
         }
-
     }
 
     public function advancedOptions(string $fieldName): array
     {
         $result = [];
-        foreach($this->advancedFilterMap[$fieldName]->getAnswers() as $answer) {
+        foreach ($this->advancedFilterMap[$fieldName]->getAnswers() as $answer) {
             $title = strtok(strip_tags($answer->getText()), ':(');
             if (is_string($title) && strpos($title, '/') !== false) {
                 $parts = explode('/', $title, 2);
@@ -157,7 +157,6 @@ class ResponseFilter extends Model
         $code = substr($attribute, 4);
 
         return trim(html_entity_decode(strtok(strip_tags($this->advancedFilterMap[$code]->getText()), ':(')));
-
     }
 
     public function filterQuery(ActiveQuery $query): ActiveQuery
@@ -201,7 +200,7 @@ class ResponseFilter extends Model
 
         $query->andWhere(['not exists', $sub]);
 
-        foreach($this->advanced as $key => $value) {
+        foreach ($this->advanced as $key => $value) {
             if (!empty($value)) {
                 $query->andWhere([
                     "json_unquote(json_extract([[data]],'$.{$key}'))" => $value
@@ -218,37 +217,38 @@ class ResponseFilter extends Model
         /** @var HeramsResponseInterface[] $indexed */
         $indexed = [];
 
-                apply(function(HeramsResponseInterface $response) use (&$indexed) {
-            $id = $response->getSubjectId();
-            if (!isset($indexed[$id])
-                || $indexed[$id]->getDate()->lessThan($response->getDate())
-                || ($indexed[$id]->getDate()->equalTo($response->getDate()) && $indexed[$id]->getId() < $response->getId())
+                apply(function (HeramsResponseInterface $response) use (&$indexed) {
+                    $id = $response->getSubjectId();
+                    if (!isset($indexed[$id])
+                    || $indexed[$id]->getDate()->lessThan($response->getDate())
+                    || ($indexed[$id]->getDate()->equalTo($response->getDate()) && $indexed[$id]->getId() < $response->getId())
 
-            ) {
-                $indexed[$id] = $response;
-            }
-        }, filter(function(HeramsResponseInterface $response) {
-            // Date filter
-            if (isset($this->date) && !$this->date->greaterThanOrEqualTo($response->getDate())) {
-                return false;
-            }
+                    ) {
+                        $indexed[$id] = $response;
+                    }
+                }, filter(function (HeramsResponseInterface $response) {
+                    // Date filter
+                    if (isset($this->date) && !$this->date->greaterThanOrEqualTo($response->getDate())) {
+                        return false;
+                    }
 
-            // Advanced filter.
-            if (!all(function(array $pair) use ($response) {
-                list($key, $allowedValues) = $pair;
-                // Ignore empty filters.
-                if (empty($allowedValues)) return true;
-                $chosenValue = $response->getValueForCode($key);
-                $chosenValues = is_array($chosenValue) ? $chosenValue : [$chosenValue];
-                // We need overlap.
-                return !empty(array_intersect($allowedValues, $chosenValues));
-            }, enumerate($this->advanced))) {
-                return false;
-            }
+                    // Advanced filter.
+                    if (!all(function (array $pair) use ($response) {
+                        list($key, $allowedValues) = $pair;
+                        // Ignore empty filters.
+                        if (empty($allowedValues)) {
+                            return true;
+                        }
+                        $chosenValue = $response->getValueForCode($key);
+                        $chosenValues = is_array($chosenValue) ? $chosenValue : [$chosenValue];
+                        // We need overlap.
+                        return !empty(array_intersect($allowedValues, $chosenValues));
+                    }, enumerate($this->advanced))) {
+                        return false;
+                    }
 
-            return true;
-
-        }, $responses));
+                    return true;
+                }, $responses));
 
         \Yii::endProfile('filter');
         return array_values($indexed);

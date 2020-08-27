@@ -80,14 +80,14 @@ class Workspace extends \prime\models\ar\Workspace
             'defaultOrder' => ['latestUpdate' => SORT_DESC]
         ]);
         $dataProvider->setSort($sort);
-        if(!$this->load($params) || !$this->validate()) {
+        if (!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
 
 
 
         $interval = explode(' - ', $this->created);
-        if(count($interval) == 2) {
+        if (count($interval) == 2) {
             $query->andFilterWhere([
                 'and',
                 ['>=', 'created', $interval[0]],

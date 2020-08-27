@@ -61,6 +61,4 @@ class WorkspacesCest
         $I->amOnPage(['project/workspaces', 'id' => 12345]);
         $I->seePageNotFound();
     }
-
-
 }

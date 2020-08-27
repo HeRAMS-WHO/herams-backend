@@ -13,7 +13,8 @@ class m200210_092104_change_write_to_ls extends Migration
      */
     public function safeUp()
     {
-        $this->update('{{%permission}}',
+        $this->update(
+            '{{%permission}}',
             ['permission' => Permission::PERMISSION_LIMESURVEY],
             ['permission' => Permission::PERMISSION_WRITE]
         );

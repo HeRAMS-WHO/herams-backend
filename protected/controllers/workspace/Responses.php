@@ -19,6 +19,7 @@ class Responses extends Action
         AuthManager $abacManager,
         int $id
     ) {
+        $this->controller->layout = 'admin';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();

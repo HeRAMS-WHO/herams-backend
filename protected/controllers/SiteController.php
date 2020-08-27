@@ -1,5 +1,6 @@
 <?php
     namespace prime\controllers;
+
     use prime\components\Controller;
     use prime\controllers\site\Admin;
     use prime\controllers\site\LimeSurvey;
@@ -8,43 +9,44 @@
     use yii\helpers\ArrayHelper;
     use yii\web\ErrorAction;
 
-    class SiteController extends Controller
+class SiteController extends Controller
+{
+    public function actions()
     {
-             public function actions()
-        {
-            return [
-                'error' => [
-                    'class' => ErrorAction::class,
-                    'layout' => 'map-popover-error',
-                    'view' => 'error'
-                ],
-                'world-map' => [
-                    'class' => WorldMap::class
-                ],
-                'lime-survey' => [
-                    'class' => LimeSurvey::class
-                ]
-            ];
-        }
+        return [
+        'error' => [
+          'class' => ErrorAction::class,
+          'layout' => 'map-popover-error',
+          'view' => 'error'
+             ],
+             'world-map' => [
+          'class' => WorldMap::class
+             ],
+             'lime-survey' => [
+          'class' => LimeSurvey::class
+             ]
+        ];
+    }
 
-        public function behaviors()
-        {
-            return ArrayHelper::merge(parent::behaviors(),
-                [
-                    'access' => [
-                        'class' => AccessControl::class,
-                        'rules' => [
-                            [
-                                'allow' => 'true',
-                                'actions' => ['captcha', 'logout', 'error']
-                            ],
-                            [
-                                'allow' => 'true',
-                                'roles' => ['@']
-                            ]
+    public function behaviors()
+    {
+        return ArrayHelper::merge(
+            parent::behaviors(),
+            [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => 'true',
+                            'actions' => ['captcha', 'logout', 'error']
+                        ],
+                        [
+                            'allow' => 'true',
+                            'roles' => ['@']
                         ]
                     ]
                 ]
-            );
-        }
+            ]
+        );
     }
+}
