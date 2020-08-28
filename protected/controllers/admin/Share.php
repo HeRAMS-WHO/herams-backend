@@ -32,6 +32,7 @@ class Share extends Action
             Permission::PERMISSION_READ,
             Permission::PERMISSION_SHARE,
             Permission::PERMISSION_CREATE_PROJECT,
+            Permission::PERMISSION_ADMIN
         ];
         $model = new ShareForm(new GlobalPermission(), $abacManager, $user->identity, $permissions);
 
