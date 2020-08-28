@@ -3,6 +3,7 @@
 use app\components\Form;
 use app\components\ActiveForm;
 use yii\bootstrap\Html;
+use prime\helpers\Icon;
 
 /**
  * @var \yii\web\View $this
@@ -29,6 +30,30 @@ $this->params['breadcrumbs'][] = [
 $this->title = \Yii::t('app', 'Import');
 $this->params['breadcrumbs'][] = $this->title;
 
+
+echo Html::beginTag('div', ['class' => 'topbar']);
+echo Html::beginTag('div', ['class' => 'pull-left']);
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::list();
+echo Html::tag('span', \Yii::t('app', 'Workspaces'));
+echo Html::tag('em', $project->workspaceCount);
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::contributors();
+echo Html::tag('span', \Yii::t('app', 'Contributors'));
+echo Html::tag('em', $project->contributorCount);
+echo Html::endTag('div');
+
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
+echo Html::a(Icon::project(), ['project/view', 'id' => $project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
+echo Html::endTag('div');
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 ?>
 
@@ -71,3 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $form->end();
     ?>
 </div>
+
+<?php
+echo Html::endTag('div');
+?>

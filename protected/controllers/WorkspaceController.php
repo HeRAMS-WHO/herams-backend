@@ -25,7 +25,7 @@ use yii\web\User;
 
 class WorkspaceController extends Controller
 {
-    public $layout = 'admin-content';
+    public $layout = 'admin';
 
     public function actions()
     {

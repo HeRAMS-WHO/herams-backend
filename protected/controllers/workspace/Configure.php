@@ -21,7 +21,6 @@ class Configure extends Action
         NotificationService $notificationService,
         int $id
     ) {
-        $this->controller->layout = 'admin-content';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();

@@ -33,11 +33,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);
+
 echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::healthFacility();
+echo Icon::list();
 echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
 echo Html::tag('em', $model->facilityCount);
 echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::contributors();
+echo Html::tag('span', \Yii::t('app', 'Contributors'));
+echo Html::tag('em', $model->contributorCount);
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::sync();
+echo Html::tag('span', \Yii::t('app', 'Latest update'));
+echo Html::tag('em', $model->latestUpdate);
+echo Html::endTag('div');
+
 echo Html::endTag('div');
 
 echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
@@ -50,7 +64,7 @@ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} 
 ?>
 
 <div class="form-content form-bg">
-    <h3><?=\Yii::t('app', 'Update Workspace')?></h3>
+    <h3><?= \Yii::t('app', 'Update Workspace') ?></h3>
     <?php
     $form = ActiveForm::begin([
         'id' => 'update-project',

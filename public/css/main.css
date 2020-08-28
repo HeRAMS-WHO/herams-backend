@@ -16,6 +16,10 @@ a, a:hover, a:active, a:visited {
     transition: color 0.3s;
 }
 
+iframe {
+    border: none;
+}
+
 header {
     text-align: center;
     /*font-weight: bold;*/
