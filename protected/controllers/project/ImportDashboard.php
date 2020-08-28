@@ -36,7 +36,7 @@ class ImportDashboard extends Action
             && $model->validate()
         ) {
             $model->run();
-            return $this->controller->redirect(['project/update', 'id' => $project->id]);
+            return $this->controller->redirect(['project/pages', 'id' => $project->id]);
         }
 
 
