@@ -15,9 +15,7 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = Yii::t('app', 'Create project');
 
-$this->params['breadcrumbs'][] = [
-    'label' => $this->title
-];
+//$this->params['breadcrumbs'][] = ['label' => $this->title];
 
 ?>
 <div class="form-content form-bg">

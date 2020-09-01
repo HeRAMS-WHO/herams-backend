@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->title = \Yii::t('app', 'Export data from project {project}', ['project' => $subject->title]);
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 $form = ActiveForm::begin([
     'id' => 'export',

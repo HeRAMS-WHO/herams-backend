@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['workspace/responses', 'id' => $storedResponse->workspace->id]
 ];
 $this->title = \Yii::t('app', 'Compare data for HF {hf}', ['hf' => $storedResponse->hf_id]);
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 $options = ['style' => [
     'width' => '32%',

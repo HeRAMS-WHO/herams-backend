@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = [
 
 ];
 $this->title = \Yii::t('app', 'Responses');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 
 

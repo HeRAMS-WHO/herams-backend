@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = [
     'url' => app()->user->can(Permission::PERMISSION_WRITE, $model) ? ['project/update', 'id' => $model->id] : null
 ];
 $this->title = \Yii::t('app', 'Pages');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 
 ?>

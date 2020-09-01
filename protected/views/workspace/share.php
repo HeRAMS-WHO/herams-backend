@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $workspace->project->id]
 ];
 $this->title = \Yii::t('app', 'Share workspace {workspace}', ['workspace' => $workspace->title]);
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 
 echo Html::beginTag('div', ['class' => 'topbar']);

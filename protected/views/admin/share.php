@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/admin']
 ];
 $this->title = \Yii::t('app', 'Global admin');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 
 

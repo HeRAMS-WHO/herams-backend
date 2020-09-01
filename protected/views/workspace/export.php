@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $subject->project->id]
 ];
 $this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $subject->title]);
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 $form = ActiveForm::begin([
     'id' => 'export',

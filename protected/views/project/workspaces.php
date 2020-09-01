@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = [
     'url' => app()->user->can(Permission::PERMISSION_WRITE, $project) ? ['project/update', 'id' => $project->id] : null
 ];
 $this->title = \Yii::t('app', 'Workspaces');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);
