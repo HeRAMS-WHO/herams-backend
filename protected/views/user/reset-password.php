@@ -10,7 +10,7 @@ use yii\helpers\Html;
  */
 
 $this->title = Yii::t('app', 'Reset your password');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 $this->params['hideMenu'] = true;
     echo Form::widget([
         'model' => $model,

@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
 $this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $model->title]);
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 
 

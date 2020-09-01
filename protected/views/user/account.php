@@ -6,7 +6,7 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Update account');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 echo Html::beginTag('div', [
     'class' => 'col-md-6'
 ]);

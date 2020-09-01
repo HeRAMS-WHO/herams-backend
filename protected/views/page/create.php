@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->title = \Yii::t('app', 'Create page');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="form-content form-bg">

@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
 $this->title = \Yii::t('app', 'New workspace');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);

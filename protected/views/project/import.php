@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->title = 'Import pages';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-content form-bg">
     <h3><?=\Yii::t('app', 'Import Project')?></h3>

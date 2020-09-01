@@ -27,9 +27,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/admin']
 ];
 $this->title = Yii::t('app', 'Manage users');
-$this->params['breadcrumbs'][] = [
-    'label' => $this->title
-];
+//$this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
 <div class="form-content form-bg full-width">
 <?php

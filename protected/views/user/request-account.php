@@ -20,7 +20,7 @@ use yii\helpers\Html;
  */
 
 $this->title = Yii::t('app', 'Sign up for the HeRAMS platform');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 $this->params['hideMenu'] = true;
 
 echo Html::tag('header', $this->title);

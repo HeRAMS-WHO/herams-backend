@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->title = Yii::t('app', 'Update workspace token');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);

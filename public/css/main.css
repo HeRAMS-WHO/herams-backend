@@ -52,10 +52,6 @@ input[type="text"] {
     outline: none;
 }
 
-.breadcrumb>li+li::before {
-    display: none;
-}
-
 .btn {
     cursor: pointer;
     padding: 10px 11px;
@@ -251,7 +247,7 @@ input[type="text"] {
         display: block;
         overflow-y: auto;
         position: relative;
-        padding: 10px;
+        padding: var(--gutter-size);
     }
 }
 
@@ -286,10 +282,9 @@ input[type="text"] {
     --background-color: #42424b;
 }
 
-.leaflet-popup.hf-popup  {
+.leaflet-popup.hf-popup {
     --background-color: white;
     --color: #42424b;
-    
 }
 
 .leaflet-popup .leaflet-popup-content-wrapper {

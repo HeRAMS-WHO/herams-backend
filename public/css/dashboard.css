@@ -12,11 +12,11 @@ html {
     --highlight-color: white;
     --main-background-color: #e0e0e0;
     --content-background-color: white;
-    --breadcrumbs-color: #878787;
+    --breadcrumbs-color: #aaaaaa;/*#878787;*/
     --primary-button-hover-color: #3f86e6;
     --header-light-background-color: #4f4e54;
     --header-light-color: white;
-    --gutter-size: 10px;
+    --gutter-size: 15px;
     --dark-background-color: #424348;
     --darker-background-color: #424242;
     --darker-color: var(--dark-color);
@@ -252,7 +252,7 @@ span.header {
 
 .breadcrumb {
     background-color: var(--header-background-color);
-    padding: var(--gutter-size);
+    padding: var(--gutter-size) 0 var(--gutter-size);
     margin-top: 0;
     margin-bottom: 0;
     color: var(--breadcrumbs-color);
@@ -260,8 +260,18 @@ span.header {
     border-radius: 0;
 }
 
+.breadcrumb>li+li::before {
+    display: none;
+}
+
 .breadcrumb a:not(:hover), .breadcrumb a:not(:hover):visited, .breadcrumb a:not(:hover):active {
     color: var(--breadcrumbs-color);
+    text-decoration: none;
+}
+
+
+.breadcrumb a:hover {
+    color: white;
     text-decoration: none;
 }
 
@@ -270,11 +280,11 @@ span.header {
     align-items: center;
     font-size: 14px;
     line-height: 13px;
+    padding: 4px 0;
 }
 
 .breadcrumb .icon {
     margin-left: 5px;
-    margin-right: 5px;
     height: 12px;
 }
 
@@ -294,9 +304,9 @@ span.header {
     z-index: 999;
     margin-bottom: 10px;
     --height: 30px;
-    -moz-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
-    -webkit-box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
-    box-shadow: -5px 4px 6px rgba(50, 50, 50, .15);
+    -moz-box-shadow: -2px 2px 6px rgba(50, 50, 50, .15);
+    -webkit-box-shadow: -2px 2px 6px rgba(50, 50, 50, .15);
+    box-shadow: -2px 2px 6px rgba(50, 50, 50, .15);
 }
 
 .topbar .btn, .topbar .btn-group {

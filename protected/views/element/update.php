@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = $model->isNewRecord
     ? \Yii::t('app', 'Create element')
     : \Yii::t('app', 'Update element');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-content form-bg">
     <h3><?= \Yii::t('app', 'Update element'); ?></h3>
