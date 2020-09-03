@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\widgets\PermissionColumn;
 
-
 use prime\assets\PrettyCheckbox;
 use prime\models\ar\Permission;
 use yii\grid\DataColumn;
@@ -44,7 +43,7 @@ class PermissionColumn extends DataColumn
             'permission' => $this->permission
         ]);
         $label =
-              Html::tag('div', Html::label(\Yii::t('app', 'Allowed')),['class' => ['state', 'p-success', 'p-on']])
+              Html::tag('div', Html::label(\Yii::t('app', 'Allowed')), ['class' => ['state', 'p-success', 'p-on']])
             . Html::tag('div', Html::label(\Yii::t('app', 'Denied')), ['class' => ['state', 'p-danger', 'p-off']])
         . Html::tag('div', Html::label('Updating...'), ['class' => ['state', 'p-warning', 'p-is-indeterminate', 'p-smooth']]);
         $cb = Html::checkbox('perm', $value, [
@@ -89,13 +88,13 @@ class PermissionColumn extends DataColumn
 
 JS
         );
-        return Html::tag('div',
+        return Html::tag(
+            'div',
             $cb . $label,
-        [
+            [
             'class' => ['pretty', 'p-toggle', 'p-switch', 'p-has-indeterminate']
-        ]);
+            ]
+        );
         return $value ? 'Yes' : 'No';
     }
-
-
 }

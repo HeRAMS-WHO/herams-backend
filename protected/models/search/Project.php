@@ -27,7 +27,7 @@ class Project extends Model
         $query = \prime\models\ar\Project::find()
             ->withFields('workspaceCount', 'facilityCount', 'responseCount');
         $dataProvider = new FilteredActiveDataProvider([
-            'filter' => function(\prime\models\ar\Project $project) use ($user) {
+            'filter' => function (\prime\models\ar\Project $project) use ($user) {
                 return !$project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
             },
             'query' => $query,
@@ -48,7 +48,7 @@ class Project extends Model
             'defaultOrder' => ['title' => SORT_ASC]
         ]);
         $dataProvider->setSort($sort);
-        if(!$this->load($params) || !$this->validate()) {
+        if (!$this->load($params) || !$this->validate()) {
             return $dataProvider;
         }
 

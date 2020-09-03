@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\session;
 
-
 use prime\models\forms\LoginForm;
 use prime\models\forms\user\RequestAccountForm;
 use yii\base\Action;

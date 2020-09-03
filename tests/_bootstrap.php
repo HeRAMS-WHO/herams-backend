@@ -13,7 +13,6 @@ namespace {
         $autoload = __DIR__ . '/../vendor/autoload.php';
         if (!file_exists($autoload)) {
             die("Could not locate composer autoloader");
-
         }
 
         require_once $autoload;

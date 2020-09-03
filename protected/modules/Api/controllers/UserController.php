@@ -32,6 +32,4 @@ class UserController extends \yii\rest\Controller
             'workspaces' => Workspaces::class
         ];
     }
-
-
 }

@@ -3,7 +3,6 @@
 
 namespace prime\controllers\user;
 
-
 use prime\components\NotificationService;
 use prime\models\forms\user\ChangePasswordForm;
 use prime\models\forms\user\UpdateEmailForm;
@@ -31,5 +30,4 @@ class UpdatePassword extends Action
         }
         return $this->controller->render('update-password', ['model' => $model]);
     }
-
 }

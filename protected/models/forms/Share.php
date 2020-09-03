@@ -27,7 +27,8 @@ use yii\web\IdentityInterface;
  * Class Share
  * @package prime\models\forms
  */
-class Share extends Model {
+class Share extends Model
+{
     private $permissionOptions = [];
     public $userIds = [];
     public $permissions = [];
@@ -47,7 +48,7 @@ class Share extends Model {
         IdentityInterface $identity,
         ?array $availablePermissions
     ) {
-        if($model instanceof ActiveRecord && $model->getIsNewRecord()) {
+        if ($model instanceof ActiveRecord && $model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
         parent::__construct([]);
@@ -88,7 +89,7 @@ class Share extends Model {
     private function setPermissionOptions(?array $options)
     {
         // Add labels if needed.
-        foreach($options ?? Permission::permissionLabels() as $permission => $label) {
+        foreach ($options ?? Permission::permissionLabels() as $permission => $label) {
             if (is_numeric($permission)) {
                 $permission = $label;
                 $label = Permission::permissionLabels()[$permission] ?? $permission;
@@ -102,7 +103,7 @@ class Share extends Model {
 
     public function getUserOptions()
     {
-        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', function(User $user) {
+        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', function (User $user) {
             return "{$user->name} ({$user->email})";
         });
     }
@@ -148,7 +149,7 @@ class Share extends Model {
         $target = $resolver->fromSubject($this->model);
         $permissions = [];
         $columns = [];
-        foreach($this->permissionOptions as $permission => $label) {
+        foreach ($this->permissionOptions as $permission => $label) {
             $columns[] = [
                 'class' => PermissionColumn::class,
                 'permission' => $permission,
@@ -159,18 +160,17 @@ class Share extends Model {
         }
 
         /** @var \prime\models\ar\Permission $permission */
-        foreach($this->model->getPermissions()->each() as $permission) {
+        foreach ($this->model->getPermissions()->each() as $permission) {
             $source = $permission->sourceAuthorizable();
             $key = $source->getAuthName() . '|' . $source->getId();
             if (!isset($permissions[$key])) {
-               $permissions[$key] = [
+                $permissions[$key] = [
                    'source' => $source,
                    'user' => $resolver->toSubject($source)->displayField ?? \Yii::t('app', 'Deleted user'),
                    'permissions' => []
-               ];
+                ];
             }
             $permissions[$key]['permissions'][$permission->permission] = $permission;
-
         }
         return GridView::widget([
             'dataProvider' => new ArrayDataProvider([
@@ -222,7 +222,8 @@ class Share extends Model {
         ]);
     }
 
-    public function rules() {
+    public function rules()
+    {
         return [
             [['permissions', 'userIds'], RequiredValidator::class],
             [['userIds'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id', 'allowArray' => true],

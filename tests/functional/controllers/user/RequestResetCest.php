@@ -14,5 +14,4 @@ class RequestResetCest
         $I->amOnPage(['/user/request-reset']);
         $I->seeResponseCodeIs(200);
     }
-
 }

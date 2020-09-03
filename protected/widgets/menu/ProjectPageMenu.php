@@ -3,7 +3,6 @@
 
 namespace prime\widgets\menu;
 
-
 use prime\helpers\Icon;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
@@ -38,7 +37,7 @@ class ProjectPageMenu extends SideMenu
 
     protected function renderMenu()
     {
-        foreach($this->project->pages as $page) {
+        foreach ($this->project->pages as $page) {
             $this->renderPageMenu($page);
         }
     }
@@ -76,7 +75,7 @@ class ProjectPageMenu extends SideMenu
         $headerOptions = [];
         ob_start();
         $result = false;
-        foreach($page->getChildPages($this->survey) as $child) {
+        foreach ($page->getChildPages($this->survey) as $child) {
             if ($this->renderPageMenu($child) && !$result) {
                 $result = true;
                 Html::addCssClass($headerOptions, 'expanded');
@@ -94,6 +93,4 @@ class ProjectPageMenu extends SideMenu
         echo Html::endTag('section');
         return $result;
     }
-
-
 }

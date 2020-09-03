@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->title = \Yii::t('app', 'Manage user permissions for {project}', ['project' => $project->title]);
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 ?>
 

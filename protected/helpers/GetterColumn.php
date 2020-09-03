@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use yii\helpers\Inflector;
@@ -19,7 +18,6 @@ class GetterColumn implements ColumnDefinition
         $this->property = $property;
         $this->headerText = $headerText;
         $this->headerCode = $headerCode ?? Inflector::camel2id($this->property, '_');
-
     }
 
     public function getHeaderCode(): string

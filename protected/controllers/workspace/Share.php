@@ -24,7 +24,6 @@ class Share extends Action
         User $user,
         int $id
     ) {
-        $this->controller->layout = 'admin-content';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();

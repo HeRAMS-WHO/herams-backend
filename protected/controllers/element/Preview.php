@@ -3,7 +3,6 @@
 
 namespace prime\controllers\element;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Element;
 use prime\models\ar\Permission;
@@ -34,10 +33,9 @@ class Preview extends Action
         $element->load($request->queryParams);
         // Hack for colors
         $colors = [];
-        foreach($request->queryParams['Element'] ?? [] as $key => $value) {
-            if (strncmp($key, 'color.', 6) === 0 ) {
+        foreach ($request->queryParams['Element'] ?? [] as $key => $value) {
+            if (strncmp($key, 'color.', 6) === 0) {
                 $colors[substr($key, 6)] = $value;
-
             }
         }
         $element->setColors($colors);
@@ -56,7 +54,5 @@ class Preview extends Action
             'element' => $element,
             'data' => $filter->filterQuery($responses)->all()
         ]);
-
     }
-
 }

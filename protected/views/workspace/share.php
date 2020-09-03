@@ -3,6 +3,7 @@
 use app\components\ActiveForm;
 use app\components\Form;
 use prime\widgets\FormButtonsWidget;
+use prime\helpers\Icon;
 use yii\helpers\Html;
 
 /**
@@ -24,7 +25,38 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $workspace->project->id]
 ];
 $this->title = \Yii::t('app', 'Share workspace {workspace}', ['workspace' => $workspace->title]);
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
+
+
+echo Html::beginTag('div', ['class' => 'topbar']);
+echo Html::beginTag('div', ['class' => 'pull-left']);
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::list();
+echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
+echo Html::tag('em', $workspace->facilityCount);
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::contributors();
+echo Html::tag('span', \Yii::t('app', 'Contributors'));
+echo Html::tag('em', $workspace->contributorCount);
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::sync();
+echo Html::tag('span', \Yii::t('app', 'Latest update'));
+echo Html::tag('em', $workspace->latestUpdate);
+echo Html::endTag('div');
+
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
+echo Html::a(Icon::project(), ['project/view', 'id' => $workspace->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
+echo Html::endTag('div');
+echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 ?>
 
@@ -67,3 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
     echo $model->renderTable();
     ?>
 </div>
+
+<?php
+echo Html::endTag('div');
+?>

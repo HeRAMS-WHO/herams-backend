@@ -40,7 +40,7 @@
     --indent: 20px;
     --item-padding-vertical: 18px;
     --side-width: 285px;
-    padding-top: 10px;
+    padding-top: var(--gutter-size);
     height: 100vh;
     position: relative;
     border-bottom-right-radius: 5px;
@@ -253,10 +253,10 @@
     position: initial;
     grid-area: image;
     display: block;
-    max-height: 50px;
+    height: 41px;
     max-width: 190px;
     width: 100%;
-    margin: 10px auto;
+    margin: 7px auto 6px;
     transition: max-width var(--animation-duration), max-height var(--animation-duration);
 }
 
@@ -266,9 +266,7 @@
         position: initial;
         grid-area: image;
         display: block;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 25px;
+        margin: 7px auto 6px 25px;
         margin-right: auto;
     }
 }

@@ -12,7 +12,7 @@ class m200120_154544_workspace_project_foreign_key extends Migration
      */
     public function safeUp()
     {
-        $this->addForeignKey('project_workspace', '{{%workspace}}' , ['tool_id'], '{{%project}}', ['id'], 'CASCADE', 'RESTRICT');
+        $this->addForeignKey('project_workspace', '{{%workspace}}', ['tool_id'], '{{%project}}', ['id'], 'CASCADE', 'RESTRICT');
     }
 
     /**

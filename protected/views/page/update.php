@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->title = $page->title;
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-content form-bg">
     <h3><?= \Yii::t('app', 'Update Page') ?></h3>

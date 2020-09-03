@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use yii\base\Action;
@@ -33,5 +32,4 @@ class ExportDashboard extends Action
         $response->setDownloadHeaders("Dashboard {$project->title}.json");
         return $response;
     }
-
 }

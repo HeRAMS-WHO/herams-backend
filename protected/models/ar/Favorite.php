@@ -50,7 +50,7 @@ class Favorite extends ActiveRecord
         return [
             [['target_class'], RangeValidator::class, 'range' => [Workspace::class]],
             [['user_id'], ExistValidator::class, 'targetRelation' => 'user'],
-            [['target_id'], ExistValidator::class, 'targetAttribute' => 'id', 'targetClass' => Workspace::class, 'when' => static function(Favorite $model) {
+            [['target_id'], ExistValidator::class, 'targetAttribute' => 'id', 'targetClass' => Workspace::class, 'when' => static function (Favorite $model) {
                 return $model->target_class === Workspace::class;
             }]
         ];

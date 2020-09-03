@@ -56,7 +56,6 @@ class LimesurveyDataLoader
             } elseif (preg_match('/(.+)\[comment]$/', $key, $matches)) {
                 // Other is special; it is always a text question.
                 $transformed[$matches[1] . 'comment'] = $value;
-
             } elseif (preg_match('/(.+)\[([a-zA-Z0-9]+)]$/', $key, $matches)) {
                 $transformed[$matches[1]][$matches[2]] = $value;
             } else {

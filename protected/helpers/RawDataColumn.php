@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -18,8 +17,12 @@ class RawDataColumn implements ColumnDefinition
 
     public function __construct(QuestionInterface ...$questionPath)
     {
-        $this->path = toArray(map(static function(QuestionInterface $question) { return $question->getTitle(); }, $questionPath));
-        $this->headerText = implode(' ', toArray(map(static function(QuestionInterface $question) { return $question->getText(); }, $questionPath)));
+        $this->path = toArray(map(static function (QuestionInterface $question) {
+            return $question->getTitle();
+        }, $questionPath));
+        $this->headerText = implode(' ', toArray(map(static function (QuestionInterface $question) {
+            return $question->getText();
+        }, $questionPath)));
     }
 
     public function getHeaderText(): string
@@ -36,7 +39,7 @@ class RawDataColumn implements ColumnDefinition
     {
         $data = $response->getRawData();
         /** @var QuestionInterface $question */
-        foreach($this->path as $code) {
+        foreach ($this->path as $code) {
             $data = $data[$code] ?? null;
         }
         if (is_array($data)) {

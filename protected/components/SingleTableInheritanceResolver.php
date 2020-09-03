@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-
 use prime\models\ar\Element;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Resolver;

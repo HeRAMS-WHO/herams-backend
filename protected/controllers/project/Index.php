@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\models\search\Project as ProjectSearch;
 use yii\base\Action;
 use yii\web\Request;

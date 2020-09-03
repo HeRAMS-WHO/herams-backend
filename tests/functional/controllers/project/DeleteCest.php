@@ -65,6 +65,5 @@ class DeleteCest
         $I->seeRecord(Project::class, ['id' => $project->id]);
         $I->seeResponseCodeIsSuccessful();
         $I->seeInSource('Deletion failed');
-
     }
 }

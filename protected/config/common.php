@@ -153,7 +153,7 @@ return [
             'class' => \yii\web\User::class,
             'loginUrl' => '/session/create',
             'identityClass' => \prime\models\ar\User::class,
-            'on ' . \yii\web\User::EVENT_AFTER_LOGIN => function(\yii\web\UserEvent $event) {
+            'on ' . \yii\web\User::EVENT_AFTER_LOGIN => function (\yii\web\UserEvent $event) {
                 if (isset($event->identity->language)) {
                     \Yii::$app->language = $event->identity->language;
                 }
@@ -167,7 +167,7 @@ return [
                     'useMoFile' => false,
                     'basePath' => '@vendor/herams/i18n/locales',
                     'catalog' => 'LC_MESSAGES/app',
-                    'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function(MissingTranslationEvent $event) {
+                    'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function (MissingTranslationEvent $event) {
                         if (YII_DEBUG) {
                             $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
                         }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-
 use yii\helpers\Html;
 
 class View extends \yii\web\View
@@ -42,7 +41,7 @@ class View extends \yii\web\View
             }
             if (!empty($this->js[self::POS_READY])) {
                 $js = "document.addEventListener('DOMContentLoaded', function() {\n";
-                foreach($this->js[self::POS_READY] as $script) {
+                foreach ($this->js[self::POS_READY] as $script) {
                     $js .= "$script\n";
                 };
                 $js .= "\n}, { passive: true });";
@@ -56,5 +55,4 @@ class View extends \yii\web\View
 
         return empty($lines) ? '' : implode("\n", $lines);
     }
-
 }

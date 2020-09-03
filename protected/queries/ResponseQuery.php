@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\queries;
 
-
 use prime\components\ActiveQuery;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ar\Project;

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\models\forms\user;
 
-
 use prime\models\ar\User;
 use prime\models\forms\user\RequestResetForm;
 use prime\tests\FunctionalTester;

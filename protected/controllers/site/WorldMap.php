@@ -3,7 +3,6 @@
 
 namespace prime\controllers\site;
 
-
 use yii\base\Action;
 use yii\web\User;
 
@@ -19,5 +18,4 @@ class WorldMap extends Action
             'projects' => $dataProvider
         ]);
     }
-
 }

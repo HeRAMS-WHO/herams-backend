@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\commands;
 
-
 use prime\models\ar\User;
 use SamIT\Yii2\abac\AuthManager;
 use SamIT\Yii2\Traits\ActionInjectionTrait;
@@ -16,8 +15,8 @@ class PermissionController extends Controller
 
     public function actionMakeAdmin(
         AuthManager $authManager,
-        string $email)
-    {
+        string $email
+    ) {
         $user = User::findOne([
             'email' => $email
         ]);

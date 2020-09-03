@@ -3,7 +3,6 @@
 
 namespace prime\actions;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
 use yii\base\Action;

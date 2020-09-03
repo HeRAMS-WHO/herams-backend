@@ -3,7 +3,6 @@
 
 namespace prime\components;
 
-
 use yii\validators\Validator;
 
 class JsonValidator extends Validator
@@ -19,8 +18,4 @@ class JsonValidator extends Validator
             return [$e->getMessage(), []];
         }
     }
-
-
-
-
 }

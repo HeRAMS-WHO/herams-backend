@@ -3,7 +3,6 @@
 
 namespace prime\components;
 
-
 use Closure;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
@@ -65,6 +64,4 @@ class FilteredActiveDataProvider extends ActiveDataProvider
         }
         return \iter\count($this->filter($base));
     }
-
-
 }

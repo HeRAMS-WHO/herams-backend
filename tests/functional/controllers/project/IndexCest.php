@@ -124,9 +124,5 @@ class IndexCest
         $I->seeElement('a', [
             'href' => Url::to(['project/workspaces', 'id' => $project->id]),
         ]);
-
     }
-
-
-
 }

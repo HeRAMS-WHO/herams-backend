@@ -3,7 +3,6 @@
 
 namespace prime\controllers\element;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\models\ar\Element;
@@ -27,7 +26,6 @@ class Create extends Action
         User $user,
         int $page_id,
         string $type
-
     ) {
         $page = Page::findOne(['id' => $page_id]);
         if (!isset($page)) {
@@ -75,5 +73,4 @@ class Create extends Action
             ]))
         ]);
     }
-
 }

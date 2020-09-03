@@ -3,7 +3,6 @@
 
 namespace prime\models\forms\user;
 
-
 use kartik\password\StrengthValidator;
 use prime\models\ar\User;
 use yii\base\Model;

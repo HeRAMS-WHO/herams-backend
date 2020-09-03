@@ -16,6 +16,10 @@ a, a:hover, a:active, a:visited {
     transition: color 0.3s;
 }
 
+iframe {
+    border: none;
+}
+
 header {
     text-align: center;
     /*font-weight: bold;*/
@@ -46,10 +50,6 @@ a:hover {
 
 input[type="text"] {
     outline: none;
-}
-
-.breadcrumb>li+li::before {
-    display: none;
 }
 
 .btn {
@@ -247,7 +247,7 @@ input[type="text"] {
         display: block;
         overflow-y: auto;
         position: relative;
-        padding: 10px;
+        padding: var(--gutter-size);
     }
 }
 
@@ -282,10 +282,9 @@ input[type="text"] {
     --background-color: #42424b;
 }
 
-.leaflet-popup.hf-popup  {
+.leaflet-popup.hf-popup {
     --background-color: white;
     --color: #42424b;
-    
 }
 
 .leaflet-popup .leaflet-popup-content-wrapper {

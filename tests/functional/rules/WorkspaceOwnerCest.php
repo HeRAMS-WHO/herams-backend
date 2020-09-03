@@ -25,7 +25,7 @@ class WorkspaceOwnerCest
         $manager->grant($user, $workspace, Permission::PERMISSION_SHARE);
 
 
-        foreach([
+        foreach ([
             Permission::PERMISSION_EXPORT => true,
             Permission::PERMISSION_LIMESURVEY => true,
             Permission::PERMISSION_SHARE => false,

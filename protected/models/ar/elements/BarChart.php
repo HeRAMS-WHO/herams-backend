@@ -3,7 +3,6 @@
 
 namespace prime\models\ar\elements;
 
-
 use prime\models\ar\Element;
 use prime\widgets\chart\Chart as ChartWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -14,8 +13,7 @@ class BarChart extends Element
     protected function getWidgetInternal(
         SurveyInterface $survey,
         iterable $data
-    ): Widget
-    {
+    ): Widget {
         return new ChartWidget($this, array_merge(
             [
                 'type' => ChartWidget::TYPE_BAR,
@@ -25,10 +23,5 @@ class BarChart extends Element
             ],
             $this->getWidgetConfig()
         ));
-
     }
-
-
-
-
 }

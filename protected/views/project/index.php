@@ -14,9 +14,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/admin']
 ];
 $this->title = \Yii::t('app', 'Projects');
-$this->params['breadcrumbs'][] = [
-    'label' => $this->title
-];
+//$this->params['breadcrumbs'][] = ['label' => $this->title];
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $projectProvider

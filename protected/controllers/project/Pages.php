@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
@@ -21,8 +20,7 @@ class Pages extends Action
         NotificationService $notificationService,
         User $user,
         int $id
-    )
-    {
+    ) {
         $model = Project::findOne(['id' => $id]);
         if (!isset($model)) {
             throw new NotFoundHttpException();

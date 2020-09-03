@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\permissions;
 
-
 use prime\models\ar\Permission;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\Yii2\abac\AccessChecker;

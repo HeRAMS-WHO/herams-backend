@@ -16,15 +16,15 @@ $stats[] = [
 $stats[] = [
     'icon' => Icon::contributors(),
     'count' =>
-        \iter\reduce(function(int $accumulator, Project $project) {
-        return $accumulator + $project->contributorCount;
-    }, $projects, 0),
-    'subject' => \Yii::t('app', 'Contributors')
+        \iter\reduce(function (int $accumulator, Project $project) {
+            return $accumulator + $project->contributorCount;
+        }, $projects, 0),
+        'subject' => \Yii::t('app', 'Contributors')
 ];
 
 $stats[] = [
     'icon' => Icon::healthFacility(),
-    'count' => \iter\reduce(function(int $accumulator, Project $project) {
+    'count' => \iter\reduce(function (int $accumulator, Project $project) {
         return $accumulator + $project->facilityCount;
     }, $projects, 0),
 
@@ -32,7 +32,7 @@ $stats[] = [
 ];
 
 echo Html::beginTag('div', ['class' => 'stats']);
-foreach($stats as $stat) {
+foreach ($stats as $stat) {
     echo Html::beginTag('div');
     echo $stat['icon'];
     echo Html::tag('div', $stat['count'], ['class' => 'counter']);

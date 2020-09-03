@@ -29,15 +29,23 @@ $this->params['breadcrumbs'][] = [
     'url' => app()->user->can(Permission::PERMISSION_WRITE, $project) ? ['project/update', 'id' => $project->id] : null
 ];
 $this->title = \Yii::t('app', 'Workspaces');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);
+
 echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::healthFacility();
-echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
-echo Html::tag('em', $workspaceProvider->getTotalCount());
+echo Icon::list();
+echo Html::tag('span', \Yii::t('app', 'Workspaces'));
+echo Html::tag('em', $project->workspaceCount);
 echo Html::endTag('div');
+
+echo Html::beginTag('div', ['class' => 'count']);
+echo Icon::contributors();
+echo Html::tag('span', \Yii::t('app', 'Contributors'));
+echo Html::tag('em', $project->contributorCount);
+echo Html::endTag('div');
+
 echo Html::endTag('div');
 
 echo Html::beginTag('div', ['class' => 'btn-group']);

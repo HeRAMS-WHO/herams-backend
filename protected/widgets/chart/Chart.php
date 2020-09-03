@@ -324,22 +324,24 @@ class Chart extends Element
         ];
         $jsConfig = Json::encode($config);
 
-
-        $canvasId = Json::encode("{$this->getId()}-canvas");
+        $id = Json::encode($this->getId());
         $this->view->registerJs(<<<JS
         (function() {
-            let ctx = document.getElementById($canvasId).getContext('2d');
+            let container = document.getElementById($id);
+            let canvasId = $id+"-canvas";
+            let canvas = document.getElementById(canvasId);
+            let ctx = canvas.getContext('2d');
             let chart = new Chart(ctx, $jsConfig);
-            document.getElementById($canvasId).closest('.element').insertAdjacentHTML('beforeend', chart.generateLegend());
+            canvas.closest('.element').insertAdjacentHTML('beforeend', chart.generateLegend());
             chart.options.tooltips.custom = function(tooltip) {
                 // Tooltip Element
-                let tooltipId = 'chartjs-tooltip'+$canvasId;
+                let tooltipId = 'chartjs-tooltip'+canvasId;
                 var tooltipEl = document.getElementById(tooltipId);
                 if(tooltipEl == null) {
                     tooltipEl = document.createElement("div");
                     tooltipEl.classList.add('tooltip');
                     tooltipEl.id = tooltipId;
-                    document.getElementById($canvasId).closest('.element').appendChild(tooltipEl);
+                    canvas.closest('.element').appendChild(tooltipEl);
                 }    
                 // Hide if no tooltip
                 if (tooltip.opacity === 0) {
@@ -409,6 +411,20 @@ class Chart extends Element
                 tooltipEl.style.fontStyle = tooltip._bodyFontStyle;
                 tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
             };
+
+            function legendItemClick() {
+                $(this).toggleClass('meta-hidden');
+                let meta = chart.getDatasetMeta(0);
+                let index = $(this).index();
+                meta.data[index].hidden = meta.hidden === null ? !meta.data[index].hidden : null;
+                chart.update();
+            }
+            
+            let items = container.getElementsByClassName("legend-item");
+            Array.from(items).forEach(function(item) {
+                item.addEventListener('click', legendItemClick);
+            });
+
         })();
 JS
         );
