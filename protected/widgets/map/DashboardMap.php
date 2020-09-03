@@ -102,7 +102,7 @@ class DashboardMap extends Element
                 }
 
                 $pointData = [];
-                foreach (['MoSD2', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                foreach (['MoSD2', 'MoSD3', 'CONDB', 'GEO1', 'HFFUNCT', 'HFACC'] as $key) {
                     $pointData[$key] = $response->getValueForCode($key);
                 }
                 $point = [
@@ -190,6 +190,7 @@ class DashboardMap extends Element
                         return e.feature.properties.title;
                     });
                     let popup = layer.bindPopup(function(e) {
+                        console.log(e);
                         return "<div class='hf-summary'>"+
                             "<h2>"+e.feature.properties.title+"</h2>" +
                             "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
