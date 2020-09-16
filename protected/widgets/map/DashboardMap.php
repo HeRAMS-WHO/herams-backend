@@ -277,7 +277,7 @@ class DashboardMap extends Element
             } 
 
             function defineFeature(feature, latlng) {
-                console.log(feature);
+                //console.log(feature);
                 var categoryVal = feature.properties.title,
                 iconVal = feature.properties.data.MoSD3;
                 var myClass = 'marker category-'+categoryVal+' icon-'+iconVal;
@@ -289,7 +289,7 @@ class DashboardMap extends Element
             }
 
             function defineFeaturePopup(feature, layer) {
-                console.log($types);
+                //console.log($types);
                 var props = feature.properties,
                     fields = $types,
                     popupContent = '';
@@ -309,15 +309,17 @@ class DashboardMap extends Element
             }
 
             function defineClusterIcon(cluster) {
-                var children = cluster.getAllChildMarkers(),
+                
+                var children = cluster.getAllChildMarkers();
+                 console.log(children);
+                let
                     n = children.length, //Get number of markers in cluster
                     strokeWidth = 1, //Set clusterpie stroke width
                     r = 30-2*strokeWidth-(n<10?12:n<100?8:n<1000?4:0), //Calculate clusterpie radius...
                     iconDim = (r+strokeWidth)*2, //...and divIcon dimensions (leaflet really want to know the size)
                     
-                    
                     data = d3.nest() //Build a dataset for the pie chart
-                    .key(function(d) { return d.feature.properties[categoryField]; })
+                    .key(function(d) { return d.feature.properties.data.MoSD3; })
                     .entries(children, d3.map),
                     //bake some svg markup
                     html = bakeThePie({data: data,
