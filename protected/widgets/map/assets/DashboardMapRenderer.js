@@ -26,7 +26,11 @@ class DashboardMapRenderer {
             html = DashboardMapRenderer.renderPie({
                 data: data,
                 valueFunc: function (d) {
-                    return d.values.length; },
+                    return d.values.length;
+                },
+                colorFunc: function (d) {
+                    return d.data.values[0].feature.color;
+                },
                 strokeWidth: 1,
                 outerRadius: r,
                 innerRadius: r - 10,
@@ -34,9 +38,11 @@ class DashboardMapRenderer {
                 pieLabel: n,
                 pieLabelClass: 'marker-cluster-pie-label',
                 pathClassFunc: function (d) {
-                    return "category-" + d.data.key; },
+                    return "category-" + d.data.key;
+                },
                 pathTitleFunc: function (d) {
-                    console.log(d); return "test title"; }
+                    return "test title";
+                }
             }),
             //Create a new divIcon and assign the svg markup to the html property
             myIcon = new L.DivIcon({
@@ -89,11 +95,16 @@ class DashboardMapRenderer {
             valueFunc = options.valueFunc,
             r = options.outerRadius ? options.outerRadius : 28, //Default outer radius = 28px
             rInner = options.innerRadius ? options.innerRadius : r - 10, //Default inner radius = r-10
+            colorFunc = options.colorFunc ? options.colorFunc : function () {
+                return 'white';
+            }, //Class for each path
             strokeWidth = options.strokeWidth ? options.strokeWidth : 1, //Default stroke is 1
             pathClassFunc = options.pathClassFunc ? options.pathClassFunc : function () {
-                return ''; }, //Class for each path
+                return '';
+            }, //Class for each path
             pathTitleFunc = options.pathTitleFunc ? options.pathTitleFunc : function () {
-                return ''; }, //Title for each path
+                return '';
+            }, //Title for each path
             pieClass = options.pieClass ? options.pieClass : 'marker-cluster-pie', //Class for the whole pie
             pieLabel = options.pieLabel ? options.pieLabel : d3.sum(data, valueFunc), //Label for the whole pie
             pieLabelClass = options.pieLabelClass ? options.pieLabelClass : 'marker-cluster-pie-label',//Class for the pie label
@@ -122,6 +133,7 @@ class DashboardMapRenderer {
         arcs.append('svg:path')
             .attr('class', pathClassFunc)
             .attr('stroke-width', strokeWidth)
+            .attr('fill', colorFunc)
             .attr('d', arc)
             .append('svg:title')
             .text(pathTitleFunc);
@@ -170,10 +182,12 @@ class DashboardMapRenderer {
             .enter()
             .append('div')
             .attr('class', function (d) {
-                return 'category-' + d.key; })
+                return 'category-' + d.key;
+            })
             .classed({ 'legenditem': true })
             .text(function (d) {
-                return d.value; });
+                return d.value;
+            });
     }
 
 

@@ -160,15 +160,19 @@ class DashboardMap extends Element
         $col = [];
         $col["features"] = [];
         foreach ($collections as $collection) {
-            $col["features"] = array_merge($collection['features'], $col["features"]);
+            foreach ($collection['features'] as $feature) {
+                $feature['color'] = $collection['color'];
+                $col["features"][] = $feature;
+            }
         }
+        
         $data = Json::encode($col, JSON_PRETTY_PRINT);
         $title = Json::encode($this->getTitleFromCode($this->code));
         $types = Json::encode($this->getAnswers($this->code));
         $this->view->registerJs(<<<JS
         (function() {
             try {
-                
+                console.log($data);
                 let renderer = new DashboardMapRenderer($data, $types);
                 let rmax = 30, //Maximum radius for cluster pies
                 bounds;
@@ -201,7 +205,8 @@ class DashboardMap extends Element
                 });
                 markerclusters.addLayer(markers);
                 bounds  = markers.getBounds();
-                map.fitBounds(bounds);
+                console.log(markers.getBounds());
+                map.fitBounds();
                 renderer.renderLegend();
                 /*let layer = L.geoJSON(data.features, {
                     pointToLayer: function(feature, latlng) {
