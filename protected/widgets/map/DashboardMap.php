@@ -22,7 +22,7 @@ class DashboardMap extends Element
     public $baseLayers = [
         [
             "type" => DashboardMap::TILE_LAYER,
-//            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+            //            "url" => "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
@@ -78,7 +78,7 @@ class DashboardMap extends Element
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
                 $longitude = $response->getLongitude();
-                $workspace_url = \Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, Workspace::findOne(['id' => $response['workspace_id']])) ? Url::to(['/workspace/limesurvey', 'id' => $response['workspace_id']]) : Url::to(["/project/workspaces",'id' => $this->element->page->project->id, 'Workspace[id]' => $response['workspace_id']]);
+                $workspace_url = \Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, Workspace::findOne(['id' => $response['workspace_id']])) ? Url::to(['/workspace/limesurvey', 'id' => $response['workspace_id']]) : Url::to(["/project/workspaces", 'id' => $this->element->page->project->id, 'Workspace[id]' => $response['workspace_id']]);
                 if (abs($latitude) < 0.0000001
                     || abs($longitude) < 0.0000001
                     || abs($latitude) > 90
@@ -119,12 +119,12 @@ class DashboardMap extends Element
                         'data' => $pointData
                     ]
 
-//                'subtitle' => '',
-//                'items' => [
-//                    'ownership',
-//                    'building damage',
-//                    'functionality'
-//                ]
+                    //                'subtitle' => '',
+                    //                'items' => [
+                    //                    'ownership',
+                    //                    'building damage',
+                    //                    'functionality'
+                    //                ]
                 ];
                 $collections[$value]['features'][] = $point;
             } catch (\Throwable $t) {
@@ -156,21 +156,31 @@ class DashboardMap extends Element
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
-        $data = Json::encode($this->getCollections($this->data), JSON_PRETTY_PRINT);
+        $collections = $this->getCollections($this->data);
+        $col = [];
+        $col["features"] = [];
+        foreach ($collections as $collection) {
+            $col["features"] = array_merge($collection['features'], $col["features"]);
+        }
+        $data = Json::encode($col, JSON_PRETTY_PRINT);
         $title = Json::encode($this->getTitleFromCode($this->code));
         $types = Json::encode($this->getAnswers($this->code));
         $this->view->registerJs(<<<JS
         (function() {
             try {
+                
+                let renderer = new DashboardMapRenderer($data, $types);
                 let rmax = 30, //Maximum radius for cluster pies
+                bounds;
+                data = $data,
+                metadata = data.properties,
+                layers = {},
                 markerclusters = L.markerClusterGroup({
                     maxClusterRadius: 2*rmax,
-                    iconCreateFunction: defineClusterIcon 
+                    iconCreateFunction: renderer.defineClusterIcon
                 }), 
                 map = L.map($id, $config);
-
                 
-
                 for (let baseLayer of $baseLayers) {
                     switch (baseLayer.type) {
                         case 'tileLayer':
@@ -179,58 +189,60 @@ class DashboardMap extends Element
                     }
                 }
                 map.addLayer(markerclusters);
-
-                let bounds = [];
-                let data = $data;
                 
-                let layers = {};
-                for (let set of data) {
+                if($data.features.length == 0)
+                    return;
+                
 
-                    var markers = L.geoJson(set.features, {
-                        pointToLayer: defineFeature,
-                        onEachFeature: defineFeaturePopup
-                    });
-                    markerclusters.addLayer(markers);
-                    map.fitBounds(markers.getBounds());
-
-                    let layer = L.geoJSON(set.features, {
-                        pointToLayer: function(feature, latlng) {
-                            bounds.push(latlng);
-                            return L.circleMarker(latlng, {
-                                radius: $this->markerRadius,
-                                color: set.color,
-                                weight: 1,
-                                opacity: 1,
-                                fillOpacity: 0.8
-                            });
-                        }
-                    });
-                    
-                    /*var popup = L.popup({'className' : "hf-popup"}).setContent("<div class='hf-summary'>"+
-                            "<h2>"+set.features[0].properties.title+"</h2>" +
-                            "<a href='"+set.features[0].properties.workspace_url+"' class='btn btn-primary'>"+set.features[0].properties.workspace_title+"</a>"+
-                        "</div>");*/
-                    layer.bindTooltip(function(e) {
-                        return e.feature.properties.title;
-                    });
-                    let popup = layer.bindPopup(function(e) {
-                        return "<div class='hf-summary'>"+
-                            "<h2>"+e.feature.properties.title+"</h2>" +
-                            "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
-                        "</div>";
-                    }, {'className' : "hf-popup"}).getPopup();
-                    layer.addTo(map);
-                    
-                    let legend = document.createElement('span');
-                    legend.classList.add('legend');
-                    legend.style.setProperty('--color', set.color);
-                    legend.title = set.features.length;
-                    //legend.attributeStyleMap.set('--color', color);
-                    legend.textContent = set.title;
-                    
-                    // legend.css
-                    layers[legend.outerHTML] = layer;
-                }
+                //for (let set of data) {
+                var markers = L.geoJson(data.features, {
+                    pointToLayer: renderer.defineFeature,
+                    onEachFeature: renderer.defineFeaturePopup
+                });
+                markerclusters.addLayer(markers);
+                bounds  = markers.getBounds();
+                map.fitBounds(bounds);
+                renderer.renderLegend();
+                /*let layer = L.geoJSON(data.features, {
+                    pointToLayer: function(feature, latlng) {
+                        bounds.push(latlng);
+                        return L.circleMarker(latlng, {
+                            radius: $this->markerRadius,
+                            color: data.color,
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        });
+                    }
+                });*/
+                
+                /*var popup = L.popup({'className' : "hf-popup"}).setContent("<div class='hf-summary'>"+
+                        "<h2>"+set.features[0].properties.title+"</h2>" +
+                        "<a href='"+set.features[0].properties.workspace_url+"' class='btn btn-primary'>"+set.features[0].properties.workspace_title+"</a>"+
+                    "</div>");
+                
+                
+                layer.bindTooltip(function(e) {
+                    return e.feature.properties.title;
+                });
+                let popup = layer.bindPopup(function(e) {
+                    return "<div class='hf-summary'>"+
+                        "<h2>"+e.feature.properties.title+"</h2>" +
+                        "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
+                    "</div>";
+                }, {'className' : "hf-popup"}).getPopup();
+                layer.addTo(map);*/
+                
+                /*let legend = document.createElement('span');
+                legend.classList.add('legend');
+                legend.style.setProperty('--color', data.color);
+                legend.title = data.features.length;
+                //legend.attributeStyleMap.set('--color', color);
+                legend.textContent = data.title;
+                
+                // legend.css
+                layers[legend.outerHTML] = layer;
+                //}
 
                 let layerControl = L.control.layers([], layers, {
                     collapsed: false,
@@ -242,7 +254,7 @@ class DashboardMap extends Element
                     return result;
                 };
                 
-                layerControl.addTo(map);
+                layerControl.addTo(map);*/
 
                 
                 
@@ -276,134 +288,9 @@ class DashboardMap extends Element
                 console.error("Error in DashboardMap JS", error);
             } 
 
-            function defineFeature(feature, latlng) {
-                //console.log(feature);
-                var categoryVal = feature.properties.title,
-                iconVal = feature.properties.data.MoSD3;
-                var myClass = 'marker category-'+categoryVal+' icon-'+iconVal;
-                var myIcon = L.divIcon({
-                    className: myClass,
-                    iconSize:null
-                });
-                return L.marker(latlng, {icon: myIcon});
-            }
-
-            function defineFeaturePopup(feature, layer) {
-                //console.log($types);
-                var props = feature.properties,
-                    fields = $types,
-                    popupContent = '';
-                    popupContent += '<span class="attribute"><span class="label">test:</span> value</span>';
-                /*popupFields.map( function(key) {
-                    if (props[key]) {
-                    var val = props[key],
-                        label = fields[key].name;
-                    if (fields[key].lookup) {
-                        val = fields[key].lookup[val];
-                    }
-                    popupContent += '<span class="attribute"><span class="label">'+label+':</span> '+val+'</span>';
-                    }
-                });*/
-                popupContent = '<div class="map-popup">'+popupContent+'</div>';
-                layer.bindPopup(popupContent,{offset: L.point(1,-2)});
-            }
-
-            function defineClusterIcon(cluster) {
-                
-                var children = cluster.getAllChildMarkers();
-                 console.log(children);
-                let
-                    n = children.length, //Get number of markers in cluster
-                    strokeWidth = 1, //Set clusterpie stroke width
-                    r = 30-2*strokeWidth-(n<10?12:n<100?8:n<1000?4:0), //Calculate clusterpie radius...
-                    iconDim = (r+strokeWidth)*2, //...and divIcon dimensions (leaflet really want to know the size)
-                    
-                    data = d3.nest() //Build a dataset for the pie chart
-                    .key(function(d) { return d.feature.properties.data.MoSD3; })
-                    .entries(children, d3.map),
-                    //bake some svg markup
-                    html = bakeThePie({data: data,
-                                        valueFunc: function(d){return d.values.length;},
-                                        strokeWidth: 1,
-                                        outerRadius: r,
-                                        innerRadius: r-10,
-                                        pieClass: 'cluster-pie',
-                                        pieLabel: n,
-                                        pieLabelClass: 'marker-cluster-pie-label',
-                                        pathClassFunc: function(d){return "category-"+d.data.key;},
-                                        pathTitleFunc: function(d){return metadata.fields[categoryField].lookup[d.data.key]+' ('+d.data.values.length+' accident'+(d.data.values.length!=1?'s':'')+')';}
-                                    }),
-                    //Create a new divIcon and assign the svg markup to the html property
-                    myIcon = new L.DivIcon({
-                        html: html,
-                        className: 'marker-cluster', 
-                        iconSize: new L.Point(iconDim, iconDim)
-                    });
-                return myIcon;
-            }
-            function bakeThePie(options) {
-                /*data and valueFunc are required*/
-                if (!options.data || !options.valueFunc) {
-                    return '';
-                }
-                var data = options.data,
-                    valueFunc = options.valueFunc,
-                    r = options.outerRadius?options.outerRadius:28, //Default outer radius = 28px
-                    rInner = options.innerRadius?options.innerRadius:r-10, //Default inner radius = r-10
-                    strokeWidth = options.strokeWidth?options.strokeWidth:1, //Default stroke is 1
-                    pathClassFunc = options.pathClassFunc?options.pathClassFunc:function(){return '';}, //Class for each path
-                    pathTitleFunc = options.pathTitleFunc?options.pathTitleFunc:function(){return '';}, //Title for each path
-                    pieClass = options.pieClass?options.pieClass:'marker-cluster-pie', //Class for the whole pie
-                    pieLabel = options.pieLabel?options.pieLabel:d3.sum(data,valueFunc), //Label for the whole pie
-                    pieLabelClass = options.pieLabelClass?options.pieLabelClass:'marker-cluster-pie-label',//Class for the pie label
-                    
-                    origo = (r+strokeWidth), //Center coordinate
-                    w = origo*2, //width and height of the svg element
-                    h = w,
-                    donut = d3.layout.pie(),
-                    arc = d3.svg.arc().innerRadius(rInner).outerRadius(r);
-                    
-                //Create an svg element
-                var svg = document.createElementNS(d3.ns.prefix.svg, 'svg');
-                //Create the pie chart
-                var vis = d3.select(svg)
-                    .data([data])
-                    .attr('class', pieClass)
-                    .attr('width', w)
-                    .attr('height', h);
-                    
-                var arcs = vis.selectAll('g.arc')
-                    .data(donut.value(valueFunc))
-                    .enter().append('svg:g')
-                    .attr('class', 'arc')
-                    .attr('transform', 'translate(' + origo + ',' + origo + ')');
-                
-                arcs.append('svg:path')
-                    .attr('class', pathClassFunc)
-                    .attr('stroke-width', strokeWidth)
-                    .attr('d', arc)
-                    .append('svg:title')
-                    .text(pathTitleFunc);
-                            
-                vis.append('text')
-                    .attr('x',origo)
-                    .attr('y',origo)
-                    .attr('class', pieLabelClass)
-                    .attr('text-anchor', 'middle')
-                    //.attr('dominant-baseline', 'central')
-                    /*IE doesn't seem to support dominant-baseline, but setting dy to .3em does the trick*/
-                    .attr('dy','.3em')
-                    .text(pieLabel);
-                //Return the svg-markup rather than the actual element
-                return serializeXmlNode(svg);
-            }
-
-
-
         })();
 
-JS
-        );
+JS);
 
         return parent::run();
     }

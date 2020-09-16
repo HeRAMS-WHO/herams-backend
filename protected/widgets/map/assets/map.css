@@ -50,3 +50,75 @@
     content: '⬤';
 }
 
+
+
+
+
+/*Marker clusters*/
+.marker-cluster-pie g.arc{
+  fill-opacity: 0.5;
+}
+.marker-cluster-pie-label {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*Markers*/
+.marker {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-radius:10px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-style: solid;
+  fill: #CCC;
+  stroke: #444;
+  background: #CCC;
+  border-color: #444;
+}
+.marker div{
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*marker categories*/
+.category-1{
+  fill: #F88;
+  stroke: #800;
+  background: #F88;
+  border-color: #800;
+}
+.category-2{
+  fill: #FA0;
+  stroke: #B60;
+  background: #FA0;
+  border-color: #B60;
+}
+.category-3{
+  fill: #FF3;
+  stroke: #D80;
+  background: #FF3;
+  border-color: #D80;
+}
+.category-4{
+  fill: #BFB;
+  stroke: #070;
+  background: #BFB;
+  border-color: #070;
+}
+.category-5{
+  fill: #9DF;
+  stroke: #007;
+  background: #9DF;
+  border-color: #007;
+}
+.category-6{
+  fill: #CCC;
+  stroke: #444;
+  background: #CCC;
+  border-color: #444;
+}
