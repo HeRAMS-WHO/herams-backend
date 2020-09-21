@@ -66,17 +66,13 @@
 
 /*Markers*/
 .marker {
-  width: 18px;
-  height: 18px;
-  border-width: 2px;
-  border-radius:10px;
+  width: 12px;
+  height: 12px;
+  border-radius:50%;
   margin-top: -10px;
   margin-left: -10px;
-  border-style: solid;
-  fill: #CCC;
-  stroke: #444;
   background: #CCC;
-  border-color: #444;
+  outline: none;
 }
 .marker div{
   text-align: center;

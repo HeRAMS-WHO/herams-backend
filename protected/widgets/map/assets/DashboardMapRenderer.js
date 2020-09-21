@@ -15,7 +15,8 @@ class DashboardMapRenderer {
         var children = cluster.getAllChildMarkers(),
             n = children.length, //Get number of markers in cluster
             strokeWidth = 1, //Set clusterpie stroke width
-            r = 30 - 2 * strokeWidth - (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0), //Calculate clusterpie radius...
+            rad = (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0),
+            r = this.rmax - 2 * strokeWidth - rad, //Calculate clusterpie radius...
             iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions(leaflet really want to know the size)
             data = d3.nest() //Build a dataset for the pie chart
                 .key(function (d) {
@@ -41,7 +42,7 @@ class DashboardMapRenderer {
                     return "category-" + d.data.key;
                 },
                 pathTitleFunc: function (d) {
-                    return "test title";
+                    return d.data.values[0].feature.properties.title;
                 }
             }),
             //Create a new divIcon and assign the svg markup to the html property
@@ -67,9 +68,8 @@ class DashboardMapRenderer {
 
     defineFeaturePopup(feature, layer)
     {
-        var props = feature.properties,
-            popupContent = '';
-        popupContent += '<span class="attribute"><span class="label">test:</span> value</span>';
+        var popupContent = '';
+            popupContent += '<span class="attribute"><span class="label">'+feature.properties.title+'</span></span>';
         /*popupFields.map( function(key) {
             if (props[key]) {
             var val = props[key],

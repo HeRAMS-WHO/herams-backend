@@ -172,15 +172,13 @@ class DashboardMap extends Element
         $this->view->registerJs(<<<JS
         (function() {
             try {
-                console.log($data);
-                let renderer = new DashboardMapRenderer($data, $types);
-                let rmax = 30, //Maximum radius for cluster pies
-                bounds;
+                let renderer = new DashboardMapRenderer($data, $types),
+                bounds,
                 data = $data,
                 metadata = data.properties,
                 layers = {},
                 markerclusters = L.markerClusterGroup({
-                    maxClusterRadius: 2*rmax,
+                    maxClusterRadius: 2*renderer.rmax,
                     iconCreateFunction: renderer.defineClusterIcon
                 }), 
                 map = L.map($id, $config);
@@ -205,8 +203,6 @@ class DashboardMap extends Element
                 });
                 markerclusters.addLayer(markers);
                 bounds  = markers.getBounds();
-                console.log(markers.getBounds());
-                map.fitBounds();
                 renderer.renderLegend();
                 /*let layer = L.geoJSON(data.features, {
                     pointToLayer: function(feature, latlng) {
