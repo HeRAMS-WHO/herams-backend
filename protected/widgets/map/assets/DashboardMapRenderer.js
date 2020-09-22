@@ -2,25 +2,50 @@
 class DashboardMapRenderer {
 
 
-    constructor(data, types)
+    constructor(map)
     {
+
+        DashboardMapRenderer.rmax = 30;
+        this.map = map;
+        this.layers = {};
+    }
+
+
+
+    SetData(data, baseLayers, types, code)
+    {
+        DashboardMapRenderer.code = code;
         this.data = data;
         this.types = types;
-        this.metadata = data.properties;
-        this.rmax = 30;
+
+        for (let baseLayer of baseLayers) {
+            switch (baseLayer.type) {
+                case 'tileLayer':
+                    L.tileLayer(baseLayer.url, baseLayer.options || {}).addTo(this.map);
+                    break;
+            }
+        }
+        this.markerclusters = L.markerClusterGroup({
+            maxClusterRadius: 2 * DashboardMapRenderer.rmax,
+            iconCreateFunction: this.defineClusterIcon
+        })
+        this.map.addLayer(this.markerclusters);
+
     }
+
 
     defineClusterIcon(cluster)
     {
+        
         var children = cluster.getAllChildMarkers(),
             n = children.length, //Get number of markers in cluster
             strokeWidth = 1, //Set clusterpie stroke width
             rad = (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0),
-            r = this.rmax - 2 * strokeWidth - rad, //Calculate clusterpie radius...
+            r = DashboardMapRenderer.rmax - 2 * strokeWidth - rad, //Calculate clusterpie radius...
             iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions(leaflet really want to know the size)
             data = d3.nest() //Build a dataset for the pie chart
                 .key(function (d) {
-                    return d.feature.properties.data.MoSD3;
+                    return d.feature.properties.data[DashboardMapRenderer.code];
                 })
                 .entries(children, d3.map),
             //bake some svg markup
@@ -56,8 +81,8 @@ class DashboardMapRenderer {
 
     defineFeature(feature, latlng)
     {
-        var categoryVal = feature.properties.data.MoSD3,
-            iconVal = feature.properties.data.MoSD3;
+        var categoryVal = feature.properties.data[DashboardMapRenderer.code],
+            iconVal = feature.properties.data[DashboardMapRenderer.code];
         var myClass = 'marker category-' + categoryVal + ' icon-' + iconVal;
         var myIcon = L.divIcon({
             className: myClass,
@@ -68,20 +93,12 @@ class DashboardMapRenderer {
 
     defineFeaturePopup(feature, layer)
     {
-        var popupContent = '';
-            popupContent += '<span class="attribute"><span class="label">'+feature.properties.title+'</span></span>';
-        /*popupFields.map( function(key) {
-            if (props[key]) {
-            var val = props[key],
-                label = fields[key].name;
-            if (fields[key].lookup) {
-                val = fields[key].lookup[val];
-            }
-            popupContent += '<span class="attribute"><span class="label">'+label+':</span> '+val+'</span>';
-            }
-        });*/
-        popupContent = '<div class="map-popup">' + popupContent + '</div>';
-        layer.bindPopup(popupContent, { offset: L.point(1, -2) });
+        layer.bindPopup(function (e) {
+            return "<div class='hf-summary'>" +
+                "<h2>" + feature.properties.title + "</h2>" +
+                "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>" +
+                "</div>";
+        }, { 'className': "hf-popup", offset: L.point(1, -2) });
     }
 
 
@@ -163,8 +180,24 @@ class DashboardMapRenderer {
         return "";
     }
 
+
+    RenderMap()
+    {
+        if (this.data.features.length == 0) {
+            return;
+        }
+
+        this.markers = L.geoJson(this.data.features, {
+            pointToLayer: this.defineFeature,
+            onEachFeature: this.defineFeaturePopup
+        });
+        this.markerclusters.addLayer(this.markers);
+
+        this.bounds = this.markers.getBounds();
+    }
+
     /*Function for generating a legend with the same categories as in the clusterPie*/
-    renderLegend()
+    RenderLegend()
     {
 
         var data = d3.entries(this.types.lookup),

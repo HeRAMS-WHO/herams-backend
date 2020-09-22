@@ -72,6 +72,7 @@ class DashboardMap extends Element
 
         $types = $this->getAnswers($this->code);
         $collections = [];
+
         /** @var HeramsResponseInterface $response */
         foreach ($data as $response) {
             try {
@@ -165,57 +166,20 @@ class DashboardMap extends Element
                 $col["features"][] = $feature;
             }
         }
-        
         $data = Json::encode($col, JSON_PRETTY_PRINT);
         $title = Json::encode($this->getTitleFromCode($this->code));
         $types = Json::encode($this->getAnswers($this->code));
+        $code = Json::encode($this->code);
         $this->view->registerJs(<<<JS
         (function() {
             try {
-                let renderer = new DashboardMapRenderer($data, $types),
-                bounds,
-                data = $data,
-                metadata = data.properties,
-                layers = {},
-                markerclusters = L.markerClusterGroup({
-                    maxClusterRadius: 2*renderer.rmax,
-                    iconCreateFunction: renderer.defineClusterIcon
-                }), 
-                map = L.map($id, $config);
+                let 
+                map = L.map($id, $config),
+                renderer = new DashboardMapRenderer(map);
+                renderer.SetData($data, $baseLayers, $types, $code);
+                renderer.RenderMap();
+                renderer.RenderLegend();
                 
-                for (let baseLayer of $baseLayers) {
-                    switch (baseLayer.type) {
-                        case 'tileLayer':
-                            L.tileLayer(baseLayer.url, baseLayer.options || {}).addTo(map);
-                            break;
-                    }
-                }
-                map.addLayer(markerclusters);
-                
-                if($data.features.length == 0)
-                    return;
-                
-
-                //for (let set of data) {
-                var markers = L.geoJson(data.features, {
-                    pointToLayer: renderer.defineFeature,
-                    onEachFeature: renderer.defineFeaturePopup
-                });
-                markerclusters.addLayer(markers);
-                bounds  = markers.getBounds();
-                renderer.renderLegend();
-                /*let layer = L.geoJSON(data.features, {
-                    pointToLayer: function(feature, latlng) {
-                        bounds.push(latlng);
-                        return L.circleMarker(latlng, {
-                            radius: $this->markerRadius,
-                            color: data.color,
-                            weight: 1,
-                            opacity: 1,
-                            fillOpacity: 0.8
-                        });
-                    }
-                });*/
                 
                 /*var popup = L.popup({'className' : "hf-popup"}).setContent("<div class='hf-summary'>"+
                         "<h2>"+set.features[0].properties.title+"</h2>" +
@@ -267,7 +231,7 @@ class DashboardMap extends Element
                     position: "bottomleft"
                 }).addTo(map);
                 try {
-                    map.fitBounds(bounds, {
+                    map.fitBounds(renderer.bounds, {
                         padding: [20, 20]
                     });
                 } catch(err) {
