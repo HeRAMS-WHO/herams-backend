@@ -1,16 +1,14 @@
 <?php
 
-use app\components\Form;
 use app\components\ActiveForm;
+use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use prime\helpers\Icon;
 
 /**
- * @var  \prime\components\View $this
- * @var \prime\models\ar\Workspace $model
+ * @var \yii\web\View $this
+ *
  */
-assert($this instanceof \prime\components\View);
-assert($model instanceof \prime\models\ar\Workspace);
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -32,16 +30,16 @@ $this->params['breadcrumbs'][] = [
     ]),
     'url' => ['workspaces/view', 'id' => $model->id]
 ];
-$this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $model->title]);
+$this->title = \Yii::t('app', 'Workspace {workspace}', [
+    'workspace' => $model->title,
+]);
 //$this->params['breadcrumbs'][] = $this->title;
-
-
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);
-echo Html::a('Data', ['workspace/view', 'id' => $model->id], ['title' => \Yii::t('app', 'Workspace datas'), 'class' => 'btn btn-white']);
+echo Html::a('Data', ['workspace/view', 'id' => $model->id], ['title' => \Yii::t('app', 'Workspace datas'), 'class' => 'btn btn-white selected']);
 echo Html::a('Sharing', ['workspace/share', 'id' => $model->id], ['title' => \Yii::t('app', 'share Workspace '), 'class' => 'btn btn-white']);
-echo Html::a('Settings', ['workspace/update', 'id' => $model->id], ['title' => \Yii::t('app', 'update Workspace'), 'class' => 'btn btn-white selected']);
+echo Html::a('Settings', ['workspace/update', 'id' => $model->id], ['title' => \Yii::t('app', 'update Workspace'), 'class' => 'btn btn-white']);
 echo Html::endTag('div');
 
 echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
@@ -63,58 +61,21 @@ echo Icon::sync();
 echo Html::tag('span', \Yii::t('app', 'Latest update'));
 echo Html::tag('em', $model->latestUpdate);
 echo Html::endTag('div');
+
+
 echo Html::endTag('div');
 echo Html::endTag('div');
 
 echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-
-?>
-
-<div class="form-content form-bg">
-    <h3><?= \Yii::t('app', 'Update Workspace') ?></h3>
-    <?php
-    $form = ActiveForm::begin([
-        'id' => 'update-project',
-        'method' => 'PUT',
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false,
-            'labelSpan' => 3
-        ]
-    ]);
-
-    echo \app\components\Form::widget([
-        'form' => $form,
-        'model' => $model,
-        'columns' => 1,
-        "attributes" => [
-            'token' => [
-                'type' => Form::INPUT_STATIC
-            ],
-            'title' => [
-                'type' => Form::INPUT_TEXT,
-            ],
-        ]
-    ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
-        'options' => [
-            'class' => [
-                'pull-right'
-            ],
-        ],
-        'buttons' => [
-            Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
-                'class' => ['btn btn-default']
-            ]),
-            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
-
-        ]
-    ]);
-    $form->end();
-    ?>
-</div>
-
-<?php
-echo Html::endTag('div');
-?>
+echo Html::tag('iframe', '', [
+    'src' => $model->getSurveyUrl(),
+    'class' => [],
+    'style' => [
+        'position' => 'absolute',
+        'left' => 0,
+        'top' => 0,
+        'width' => '100%',
+        'height' => '100%'
+        //'height' => '800px'
+    ]
+]);

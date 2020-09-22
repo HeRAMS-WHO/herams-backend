@@ -37,7 +37,7 @@ class Update extends Action
                     'workspace' => Html::tag('strong', $workspace->title)
                 ]));
 
-                return $this->controller->redirect(['project/workspaces', 'id' => $workspace->project->id]);
+                return $this->controller->redirect(['workspace/view', 'id' => $workspace->id]);
             }
         }
 
