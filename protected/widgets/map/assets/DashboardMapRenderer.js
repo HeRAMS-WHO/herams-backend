@@ -208,7 +208,7 @@ class DashboardMapRenderer {
     RenderLegend()
     {
 
-        var data = d3.entries(this.types.lookup),
+        var data = d3.entries(this.types),
             legenddiv = d3.select('body').append('div')
                 .attr('id', 'legend');
 
