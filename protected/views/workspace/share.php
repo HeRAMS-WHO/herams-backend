@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Workspace {workspace}', [
         'workspace' => $workspace->title,
     ]),
-    'url' => ['workspaces/view', 'id' => $workspace->id]
+    'url' => ['workspace/view', 'id' => $workspace->id]
 ];
 $this->title = \Yii::t('app', 'Share workspace {workspace}', ['workspace' => $workspace->title]);
 //$this->params['breadcrumbs'][] = $this->title;

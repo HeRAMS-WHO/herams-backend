@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Workspace {workspace}', [
         'workspace' => $model->title,
     ]),
-    'url' => ['workspaces/view', 'id' => $model->id]
+    'url' => ['workspace/view', 'id' => $model->id]
 ];
 $this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $model->title]);
 //$this->params['breadcrumbs'][] = $this->title;
