@@ -36,7 +36,7 @@ class DashboardMapRenderer {
 
     defineClusterIcon(cluster)
     {
-        
+
         var children = cluster.getAllChildMarkers(),
             n = children.length, //Get number of markers in cluster
             strokeWidth = 1, //Set clusterpie stroke width
@@ -88,7 +88,15 @@ class DashboardMapRenderer {
             className: myClass,
             iconSize: null
         });
-        return L.marker(latlng, { icon: myIcon });
+
+        return L.circleMarker(latlng, {
+            icon: myIcon,
+            radius: 6,
+            color: feature.color,
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        });
     }
 
     defineFeaturePopup(feature, layer)
