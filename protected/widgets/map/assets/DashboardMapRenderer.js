@@ -53,18 +53,6 @@ class DashboardMapRenderer {
             this.layers[legend.outerHTML] = layer;
         }
 
-        let layerControl = L.control.layers([], this.layers, {
-            collapsed: false,
-        });
-        let parentAdd = layerControl.onAdd;
-        layerControl.onAdd = function () {
-            let result = parentAdd.apply(this, arguments);
-            $(result).prepend('<p>TITLE</p>');
-            return result;
-        };
-
-        layerControl.addTo(this.map);
-       
         this.bounds = this.markerclusters.getBounds();
     }
 
@@ -116,7 +104,7 @@ class DashboardMapRenderer {
 
     defineFeature(feature, latlng)
     {
-        
+
         var categoryVal = feature.properties.data[DashboardMapRenderer.code];
         var myClass = 'marker category-' + categoryVal;
         var myIcon = L.divIcon({
@@ -230,42 +218,18 @@ class DashboardMapRenderer {
     RenderLegend()
     {
 
-        let layerControl = L.control.layers([], this.markers, {
-            position: 'topright',
+        let layerControl = L.control.layers([], this.layers, {
             collapsed: false,
         });
         let parentAdd = layerControl.onAdd;
         layerControl.onAdd = function () {
-
             let result = parentAdd.apply(this, arguments);
-            $(result).prepend('<p style="font-size: 1.3em; font-weight: bold; margin: 0;">' + $title + '</p>');
+            $(result).prepend('<p>TITLE</p>');
             return result;
         };
 
         layerControl.addTo(this.map);
 
-        /*
-                var data = d3.entries(this.types),
-                    legenddiv = d3.select('#'+id).append('div')
-                        .attr('id', 'legend');
-                console.log(data);
-                var heading = legenddiv.append('div')
-                    .classed('legendheading', true)
-                    .text(this.types.name);
-
-                var legenditems = legenddiv.selectAll('.legenditem')
-                    .data(data);
-
-                legenditems
-                    .enter()
-                    .append('div')
-                    .attr('class', function (d) {
-                        return 'category-' + d.key;
-                    })
-                    .classed({ 'legenditem': true })
-                    .text(function (d) {
-                        return d.value;
-                    });*/
     }
 }
 

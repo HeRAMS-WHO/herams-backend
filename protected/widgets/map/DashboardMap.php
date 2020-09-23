@@ -171,7 +171,7 @@ class DashboardMap extends Element
                 renderer = new DashboardMapRenderer(map);
                 renderer.SetData($data, $baseLayers, $code);
                 renderer.RenderMap();
-                //renderer.RenderLegend();
+                renderer.RenderLegend();
                 
                 
                 /*var popup = L.popup({'className' : "hf-popup"}).setContent("<div class='hf-summary'>"+
