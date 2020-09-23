@@ -12,6 +12,7 @@ use prime\models\ar\Workspace;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 
 class DashboardMap extends Element
 {
@@ -117,7 +118,8 @@ class DashboardMap extends Element
                         'id' => $response->getId(),
                         'workspace_url' => $workspace_url,
                         'workspace_title' => \Yii::t('app', 'Workspaces'),
-                        'data' => $pointData
+                        'data' => $pointData,
+                        'color' => $collections[$value]['color']
                     ]
 
                     //                'subtitle' => '',
@@ -158,25 +160,16 @@ class DashboardMap extends Element
 
         $baseLayers = Json::encode($this->baseLayers);
         $collections = $this->getCollections($this->data);
-        $col = [];
-        $col["features"] = [];
-        foreach ($collections as $collection) {
-            foreach ($collection['features'] as $feature) {
-                $feature['color'] = $collection['color'];
-                $col["features"][] = $feature;
-            }
-        }
-        $data = Json::encode($col, JSON_PRETTY_PRINT);
-        $title = Json::encode($this->getTitleFromCode($this->code));
-        $types = Json::encode($this->getAnswers($this->code));
+        $data = Json::encode($collections, JSON_PRETTY_PRINT);
         $code = Json::encode($this->code);
+        $title = Json::encode($this->getTitleFromCode($this->code));
         $this->view->registerJs(<<<JS
         (function() {
             try {
                 let 
                 map = L.map($id, $config),
                 renderer = new DashboardMapRenderer(map);
-                renderer.SetData($data, $baseLayers, $types, $code);
+                renderer.SetData($data, $baseLayers, $code);
                 renderer.RenderMap();
                 //renderer.RenderLegend();
                 

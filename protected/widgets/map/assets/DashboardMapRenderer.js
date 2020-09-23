@@ -4,19 +4,17 @@ class DashboardMapRenderer {
 
     constructor(map)
     {
-
+        this.layers = [];
         DashboardMapRenderer.rmax = 30;
         this.map = map;
-        this.layers = {};
     }
 
 
 
-    SetData(data, baseLayers, types, code)
+    SetData(data, baseLayers, code)
     {
         DashboardMapRenderer.code = code;
         this.data = data;
-        this.types = types;
 
         for (let baseLayer of baseLayers) {
             switch (baseLayer.type) {
@@ -25,12 +23,49 @@ class DashboardMapRenderer {
                     break;
             }
         }
+
         this.markerclusters = L.markerClusterGroup({
             maxClusterRadius: 2 * DashboardMapRenderer.rmax,
             iconCreateFunction: this.defineClusterIcon
         })
         this.map.addLayer(this.markerclusters);
 
+    }
+
+    RenderMap()
+    {
+        if (this.data.length == 0) {
+            return;
+        }
+
+        for (let set of this.data) {
+            let layer = L.geoJSON(set.features, {
+                pointToLayer: this.defineFeature,
+                onEachFeature: this.defineFeaturePopup,
+            });
+            this.markerclusters.addLayer(layer);
+
+            let legend = document.createElement('span');
+            legend.classList.add('legend');
+            legend.style.setProperty('--color', set.color);
+            legend.title = set.features.length;
+            legend.textContent = set.title;
+            this.layers[legend.outerHTML] = layer;
+        }
+
+        let layerControl = L.control.layers([], this.layers, {
+            collapsed: false,
+        });
+        let parentAdd = layerControl.onAdd;
+        layerControl.onAdd = function () {
+            let result = parentAdd.apply(this, arguments);
+            $(result).prepend('<p>TITLE</p>');
+            return result;
+        };
+
+        layerControl.addTo(this.map);
+       
+        this.bounds = this.markerclusters.getBounds();
     }
 
 
@@ -43,19 +78,19 @@ class DashboardMapRenderer {
             rad = (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0),
             r = DashboardMapRenderer.rmax - 2 * strokeWidth - rad, //Calculate clusterpie radius...
             iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions(leaflet really want to know the size)
-            data = d3.nest() //Build a dataset for the pie chart
+            dataPie = d3.nest() //Build a dataset for the pie chart
                 .key(function (d) {
                     return d.feature.properties.data[DashboardMapRenderer.code];
                 })
                 .entries(children, d3.map),
             //bake some svg markup
             html = DashboardMapRenderer.renderPie({
-                data: data,
+                dataPie: dataPie,
                 valueFunc: function (d) {
                     return d.values.length;
                 },
                 colorFunc: function (d) {
-                    return d.data.values[0].feature.color;
+                    return d.data.values[0].feature.properties.color;
                 },
                 strokeWidth: 1,
                 outerRadius: r,
@@ -81,9 +116,9 @@ class DashboardMapRenderer {
 
     defineFeature(feature, latlng)
     {
-        var categoryVal = feature.properties.data[DashboardMapRenderer.code],
-            iconVal = feature.properties.data[DashboardMapRenderer.code];
-        var myClass = 'marker category-' + categoryVal + ' icon-' + iconVal;
+        
+        var categoryVal = feature.properties.data[DashboardMapRenderer.code];
+        var myClass = 'marker category-' + categoryVal;
         var myIcon = L.divIcon({
             className: myClass,
             iconSize: null
@@ -92,7 +127,7 @@ class DashboardMapRenderer {
         return L.circleMarker(latlng, {
             icon: myIcon,
             radius: 6,
-            color: feature.color,
+            color: feature.properties.color,
             weight: 1,
             opacity: 1,
             fillOpacity: 0.8
@@ -113,10 +148,10 @@ class DashboardMapRenderer {
     static renderPie(options)
     {
         /*data and valueFunc are required*/
-        if (!options.data || !options.valueFunc) {
+        if (!options.dataPie || !options.valueFunc) {
             return '';
         }
-        var data = options.data,
+        var dataPie = options.dataPie,
             valueFunc = options.valueFunc,
             r = options.outerRadius ? options.outerRadius : 28, //Default outer radius = 28px
             rInner = options.innerRadius ? options.innerRadius : r - 10, //Default inner radius = r-10
@@ -131,7 +166,7 @@ class DashboardMapRenderer {
                 return '';
             }, //Title for each path
             pieClass = options.pieClass ? options.pieClass : 'marker-cluster-pie', //Class for the whole pie
-            pieLabel = options.pieLabel ? options.pieLabel : d3.sum(data, valueFunc), //Label for the whole pie
+            pieLabel = options.pieLabel ? options.pieLabel : d3.sum(dataPie, valueFunc), //Label for the whole pie
             pieLabelClass = options.pieLabelClass ? options.pieLabelClass : 'marker-cluster-pie-label',//Class for the pie label
 
             origo = (r + strokeWidth), //Center coordinate
@@ -144,7 +179,7 @@ class DashboardMapRenderer {
         var svg = document.createElementNS(d3.ns.prefix.svg, 'svg');
         //Create the pie chart
         var vis = d3.select(svg)
-            .data([data])
+            .data([dataPie])
             .attr('class', pieClass)
             .attr('width', w)
             .attr('height', h);
@@ -189,49 +224,49 @@ class DashboardMapRenderer {
     }
 
 
-    RenderMap()
-    {
-        if (this.data.features.length == 0) {
-            return;
-        }
 
-        this.markers = L.geoJson(this.data.features, {
-            pointToLayer: this.defineFeature,
-            onEachFeature: this.defineFeaturePopup
-        });
-        this.markerclusters.addLayer(this.markers);
-
-        this.bounds = this.markers.getBounds();
-    }
 
     /*Function for generating a legend with the same categories as in the clusterPie*/
     RenderLegend()
     {
 
-        var data = d3.entries(this.types),
-            legenddiv = d3.select('body').append('div')
-                .attr('id', 'legend');
+        let layerControl = L.control.layers([], this.markers, {
+            position: 'topright',
+            collapsed: false,
+        });
+        let parentAdd = layerControl.onAdd;
+        layerControl.onAdd = function () {
 
-        var heading = legenddiv.append('div')
-            .classed('legendheading', true)
-            .text(this.types.name);
+            let result = parentAdd.apply(this, arguments);
+            $(result).prepend('<p style="font-size: 1.3em; font-weight: bold; margin: 0;">' + $title + '</p>');
+            return result;
+        };
 
-        var legenditems = legenddiv.selectAll('.legenditem')
-            .data(data);
+        layerControl.addTo(this.map);
 
-        legenditems
-            .enter()
-            .append('div')
-            .attr('class', function (d) {
-                return 'category-' + d.key;
-            })
-            .classed({ 'legenditem': true })
-            .text(function (d) {
-                return d.value;
-            });
+        /*
+                var data = d3.entries(this.types),
+                    legenddiv = d3.select('#'+id).append('div')
+                        .attr('id', 'legend');
+                console.log(data);
+                var heading = legenddiv.append('div')
+                    .classed('legendheading', true)
+                    .text(this.types.name);
+
+                var legenditems = legenddiv.selectAll('.legenditem')
+                    .data(data);
+
+                legenditems
+                    .enter()
+                    .append('div')
+                    .attr('class', function (d) {
+                        return 'category-' + d.key;
+                    })
+                    .classed({ 'legenditem': true })
+                    .text(function (d) {
+                        return d.value;
+                    });*/
     }
-
-
 }
 
 
