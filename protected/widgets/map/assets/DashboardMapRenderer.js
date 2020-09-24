@@ -24,9 +24,12 @@ class DashboardMapRenderer {
             }
         }
 
+        this.allMarkers = L.layerGroup();
         this.markerclusters = L.markerClusterGroup({
             maxClusterRadius: 2 * DashboardMapRenderer.rmax,
-            iconCreateFunction: this.defineClusterIcon
+            iconCreateFunction: this.defineClusterIcon,
+            spiderfyOnMaxZoom: false,
+            disableClusteringAtZoom: 12
         })
         this.map.addLayer(this.markerclusters);
 
@@ -44,6 +47,7 @@ class DashboardMapRenderer {
                 onEachFeature: this.defineFeaturePopup,
             });
             this.markerclusters.addLayer(layer);
+            this.allMarkers.addLayer(layer);
 
             let legend = document.createElement('span');
             legend.classList.add('legend');
@@ -217,7 +221,6 @@ class DashboardMapRenderer {
     /*Function for generating a legend with the same categories as in the clusterPie*/
     RenderLegend()
     {
-
         let layerControl = L.control.layers([], this.layers, {
             collapsed: false,
         });
@@ -225,10 +228,29 @@ class DashboardMapRenderer {
         layerControl.onAdd = function () {
             let result = parentAdd.apply(this, arguments);
             $(result).prepend('<p>TITLE</p>');
+            $(result).prepend('<span class="clustertoggle">TOGGLE</span>');
             return result;
         };
 
         layerControl.addTo(this.map);
+        
+        $('.legend').on('click', () => {
+            if (this.map.hasLayer(this.markerclusters)) {
+                this.map.removeLayer(this.markerclusters);
+                this.map.addLayer(this.allMarkers);
+            }
+        });
+
+        $('.clustertoggle').on('click', () => {
+            if (this.map.hasLayer(this.markerclusters)) {
+                this.map.removeLayer(this.markerclusters);
+                this.map.addLayer(this.allMarkers);
+            } else {
+                this.map.addLayer(this.markerclusters);
+                this.map.removeLayer(this.allMarkers);
+            }
+
+        });
 
     }
 }

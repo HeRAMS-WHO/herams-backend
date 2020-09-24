@@ -155,7 +155,7 @@ class DashboardMap extends Element
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 18
+            'maxZoom' => 15
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
