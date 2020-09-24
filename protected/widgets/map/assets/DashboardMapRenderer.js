@@ -219,37 +219,57 @@ class DashboardMapRenderer {
 
 
     /*Function for generating a legend with the same categories as in the clusterPie*/
-    RenderLegend()
+    RenderLegend(title)
     {
         let layerControl = L.control.layers([], this.layers, {
             collapsed: false,
+            position: 'topright'
         });
-        let parentAdd = layerControl.onAdd;
-        layerControl.onAdd = function () {
-            let result = parentAdd.apply(this, arguments);
-            $(result).prepend('<p>TITLE</p>');
-            $(result).prepend('<span class="clustertoggle">TOGGLE</span>');
-            return result;
-        };
-
         layerControl.addTo(this.map);
-        
+        this.legend = $(layerControl.getContainer());
+        this.legend.addClass("legend-container");
+        this.legend.addClass("has-clusters");
+        this.legend.prepend("<p>" + title + "</p>");
+        this.legend.append('<span class="clustertoggle">Show / Hide Clusters</span>');
+
         $('.legend').on('click', () => {
-            if (this.map.hasLayer(this.markerclusters)) {
-                this.map.removeLayer(this.markerclusters);
-                this.map.addLayer(this.allMarkers);
-            }
+            this.removeClusters();
         });
 
         $('.clustertoggle').on('click', () => {
-            if (this.map.hasLayer(this.markerclusters)) {
-                this.map.removeLayer(this.markerclusters);
-                this.map.addLayer(this.allMarkers);
-            } else {
-                this.map.addLayer(this.markerclusters);
-                this.map.removeLayer(this.allMarkers);
-            }
+            this.toggleClusters();
+        });
 
+    }
+
+    removeClusters()
+    {
+        if (this.map.hasLayer(this.markerclusters)) {
+            this.map.removeLayer(this.markerclusters);
+            this.map.addLayer(this.allMarkers);
+            this.legend.removeClass("has-clusters");
+        }
+    }
+
+    addClusters()
+    {
+        if (this.map.hasLayer(this.allMarkers)) {
+            this.map.removeLayer(this.allMarkers);
+            this.map.addLayer(this.markerclusters);
+            this.legend.addClass("has-clusters");
+        }
+    }
+
+    toggleClusters()
+    {
+        $('.legend').off('click');
+        if (this.map.hasLayer(this.markerclusters)) {
+            this.removeClusters();
+        } else {
+            this.addClusters()
+        }
+        $('.legend').on('click', () => {
+            this.removeClusters();
         });
 
     }

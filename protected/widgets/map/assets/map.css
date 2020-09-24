@@ -10,12 +10,11 @@ label .legend {
   font-weight: 300;
   border: none;
   height: 30px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 label .legend:before {
-  /*content: '◯';*/
-  content: '⬤';
+  content: '◯';
   color: var(--color);
   margin-right: 5px;
   margin: 0 5px 0 0;
@@ -28,13 +27,24 @@ label .legend:before {
   display: inline-block;
 }
 
+.has-clusters label .legend:before {
+  content: '⬤';
+}
+
 .leaflet-control-layers-selector:checked+span .legend {
-  text-decoration: line-through;
+  text-decoration: none;
 }
 
 .leaflet-control-layers-selector:checked+span .legend:before {
   content: '⬤';
-  text-decoration: none !important;
+}
+
+.clustertoggle {
+  margin-top: 10px;
+  margin-left: 5px;
+  font-size: 11px;
+  display: block;
+  cursor: pointer;
 }
 
 .content.leaflet-container {
