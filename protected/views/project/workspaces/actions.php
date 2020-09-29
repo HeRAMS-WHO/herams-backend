@@ -16,7 +16,7 @@ return [
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(
-                    Icon::eye(),
+                    Icon::pencilAlt(),
                     $url,
                     [
                         'title' => \Yii::t('app', 'Workspace')
