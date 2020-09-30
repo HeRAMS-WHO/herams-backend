@@ -33,7 +33,7 @@ class WorkspacePageMenu extends SideMenu
     protected function renderMenu()
     {
         echo Html::tag('h3', $this->workspace->title);
-        $actions = [['action' => 'view', 'title' => 'Data'], ['action' => 'share', 'title' => 'Sharing'], ['action' => 'update', 'title' => 'Settings']];
+        $actions = [['action' => 'limesurvey', 'title' => \Yii::t('app', 'Datas')], ['action' => 'share', 'title' => \Yii::t('app', 'Sharing')], ['action' => 'update', 'title' => \Yii::t('app', 'Settings')]];
 
         foreach ($actions as $action) {
             $options = [];
