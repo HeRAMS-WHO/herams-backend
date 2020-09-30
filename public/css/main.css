@@ -246,6 +246,14 @@ input[type="text"] {
     grid-column: span 4;
 }
 
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
 @media (min-width: 800px) {
     body {
         overflow-y: hidden;

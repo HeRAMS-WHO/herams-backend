@@ -248,6 +248,7 @@ span.header {
     background-color: var(--header-background-color);
     border-bottom: 5px solid var(--highlight-background-color);
     padding-left: var(--gutter-size);
+    padding-bottom: 5px;
 }
 
 .breadcrumb {
