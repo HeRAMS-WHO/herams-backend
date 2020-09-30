@@ -10,21 +10,8 @@ return [
     'class' => ActionColumn::class,
     'width' => '150px',
     'controller' => 'workspace',
-    'template' => '{view} {refresh} {update} {share} {delete} {limesurvey} {export} {responses}',
+    'template' => '{limesurvey} {refresh} {update} {share} {delete} {export} {responses}',
     'buttons' => [
-        'view' => function ($url, Workspace $model, $key) {
-            $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
-                $result = Html::a(
-                    Icon::pencilAlt(),
-                    $url,
-                    [
-                        'title' => \Yii::t('app', 'Workspace')
-                    ]
-                );
-            }
-            return $result;
-        },
         'refresh' => function ($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
@@ -38,7 +25,7 @@ return [
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
                 $result = Html::a(
-                    '',
+                    Icon::pencilAlt(),
                     $url,
                     [
                         'title' => \Yii::t('app', 'Data update')

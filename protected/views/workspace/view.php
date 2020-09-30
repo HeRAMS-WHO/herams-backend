@@ -1,7 +1,5 @@
 <?php
 
-use app\components\ActiveForm;
-use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use prime\helpers\Icon;
 
