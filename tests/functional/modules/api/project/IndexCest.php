@@ -25,12 +25,10 @@ class IndexCest
         $I->seeResponseCodeIs(200);
         $data = json_decode($I->grabResponse(), true);
         $latestProject = array_pop($data);
-        foreach($data as $projectEntry) {
+        foreach ($data as $projectEntry) {
             $I->assertNotSame($project->id, $projectEntry['id']);
-
         }
         $I->assertSame($project->id, $latestProject['id']);
-
     }
 
     public function testIndexDoesNotContainHidden(FunctionalTester $I): void
@@ -44,9 +42,8 @@ class IndexCest
 
         $I->seeResponseCodeIs(200);
         $data = json_decode($I->grabResponse(), true);
-        foreach($data as $projectEntry) {
+        foreach ($data as $projectEntry) {
             $I->assertNotSame($project->id, $projectEntry['id']);
-
         }
     }
 
@@ -61,9 +58,8 @@ class IndexCest
 
         $I->seeResponseCodeIs(200);
         $data = json_decode($I->grabResponse(), true);
-        foreach($data as $projectEntry) {
+        foreach ($data as $projectEntry) {
             $I->assertNotSame($project->id, $projectEntry['id']);
-
         }
     }
 }
