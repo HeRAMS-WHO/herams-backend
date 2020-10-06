@@ -15,7 +15,6 @@ class DashboardMapRenderer {
     {
         DashboardMapRenderer.code = code;
         this.data = data;
-
         for (let baseLayer of baseLayers) {
             switch (baseLayer.type) {
                 case 'tileLayer':
@@ -58,6 +57,21 @@ class DashboardMapRenderer {
         }
 
         this.bounds = this.markerclusters.getBounds();
+
+        this.map.on('zoomend', () => {
+
+            this.markerclusters.eachLayer((layer) => {
+                var currentZoom = this.map.getZoom();
+                console.log(currentZoom);
+                if (currentZoom < 13) {
+                    layer.setStyle({ radius: 15, weight: 11 });
+                }
+                if (currentZoom >= 13) {
+                    layer.setStyle({ weight: currentZoom * ((currentZoom-12) * 1.5) });
+                }
+                
+            });
+        });
     }
 
 
@@ -116,11 +130,11 @@ class DashboardMapRenderer {
             iconSize: null
         });
 
-        return L.circleMarker(latlng, {
+        return L.circle(latlng, {
             icon: myIcon,
-            radius: 6,
+            radius: 15,
             color: feature.properties.color,
-            weight: 1,
+            weight: 11,
             opacity: 1,
             fillOpacity: 0.8
         });
