@@ -527,6 +527,8 @@ span.header {
 .content>.element.map .leaflet-control-layers p {
     max-width: 200px;
     font-size: 1.15em !important;
+    font-weight: bold;
+    margin: 5px 0px;
 }
 
 .content>.element .legend-html {

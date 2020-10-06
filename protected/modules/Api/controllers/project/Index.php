@@ -12,6 +12,8 @@ class Index extends Action
     public function run(UrlManager $urlManager)
     {
         return $this->controller->asJson(Project::find()
+            ->orderBy(['id' => 'asc'])
+            ->andWhere(['visibility' => Project::VISIBILITY_PUBLIC])
             ->withFields('latestDate', 'workspaceCount', 'facilityCount', 'contributorPermissionCount')->all());
     }
 }
