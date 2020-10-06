@@ -15,8 +15,7 @@ use yii\helpers\Url;
     if (YII_DEBUG) {
         echo Html::tag('span', "DEBUG CURRENT LANGUAGE: " . \Yii::$app->language);
     }
-
-    $lang = \Yii::$app->language;
+    $lang = \Yii::$app->request->getPreferredLanguage(\Yii::$app->params['languages']);
     if (strpos($lang, '-') !== -1) {
         $lang = explode('-', $lang)[0];
     }
