@@ -28,7 +28,14 @@ class DashboardMapRenderer {
             maxClusterRadius: 2 * DashboardMapRenderer.rmax,
             iconCreateFunction: this.defineClusterIcon,
             spiderfyOnMaxZoom: false,
-            disableClusteringAtZoom: 12
+            disableClusteringAtZoom: 12,
+            polygonOptions: {
+                fillColor: '#666666',
+                color: '#424242',
+                weight: 0.5,
+                opacity: 0.4,
+                fillOpacity: 0.2
+            }
         })
         this.map.addLayer(this.markerclusters);
 
@@ -62,14 +69,13 @@ class DashboardMapRenderer {
 
             this.markerclusters.eachLayer((layer) => {
                 var currentZoom = this.map.getZoom();
-                console.log(currentZoom);
                 if (currentZoom < 13) {
-                    layer.setStyle({ radius: 15, weight: 11 });
+                    layer.setStyle({ radius: 15, weight: 9 });
                 }
                 if (currentZoom >= 13) {
-                    layer.setStyle({ weight: currentZoom * ((currentZoom-12) * 1.5) });
+                    layer.setStyle({ weight: currentZoom * ((currentZoom - 12) * 1.5) });
                 }
-                
+
             });
         });
     }
@@ -100,7 +106,7 @@ class DashboardMapRenderer {
                 },
                 strokeWidth: 1,
                 outerRadius: r,
-                innerRadius: r - 10,
+                innerRadius: r - 7,
                 pieClass: 'cluster-pie',
                 pieLabel: n,
                 pieLabelClass: 'marker-cluster-pie-label',
@@ -134,7 +140,7 @@ class DashboardMapRenderer {
             icon: myIcon,
             radius: 15,
             color: feature.properties.color,
-            weight: 11,
+            weight: 9,
             opacity: 1,
             fillOpacity: 0.8
         });
