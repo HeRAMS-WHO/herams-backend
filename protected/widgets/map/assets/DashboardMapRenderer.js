@@ -107,7 +107,7 @@ class DashboardMapRenderer {
                 },
                 strokeWidth: 1,
                 outerRadius: r,
-                innerRadius: r - 10,
+                innerRadius: r - 7,
                 pieClass: 'cluster-pie',
                 pieLabel: n,
                 pieLabelClass: 'marker-cluster-pie-label',
