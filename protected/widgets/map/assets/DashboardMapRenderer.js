@@ -28,7 +28,14 @@ class DashboardMapRenderer {
             maxClusterRadius: 2 * DashboardMapRenderer.rmax,
             iconCreateFunction: this.defineClusterIcon,
             spiderfyOnMaxZoom: false,
-            disableClusteringAtZoom: 12
+            disableClusteringAtZoom: 12,
+            polygonOptions: {
+                fillColor: '#666666',
+                color: '#424242',
+                weight: 0.5,
+                opacity: 0.4,
+                fillOpacity: 0.2
+            }
         })
         this.map.addLayer(this.markerclusters);
 
@@ -67,9 +74,9 @@ class DashboardMapRenderer {
                     layer.setStyle({ radius: 15, weight: 9 });
                 }
                 if (currentZoom >= 13) {
-                    layer.setStyle({ weight: currentZoom * ((currentZoom-12) * 1.5) });
+                    layer.setStyle({ weight: currentZoom * ((currentZoom - 12) * 1.5) });
                 }
-                
+
             });
         });
     }
