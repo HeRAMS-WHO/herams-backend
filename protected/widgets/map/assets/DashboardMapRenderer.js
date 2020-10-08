@@ -64,7 +64,7 @@ class DashboardMapRenderer {
                 var currentZoom = this.map.getZoom();
                 console.log(currentZoom);
                 if (currentZoom < 13) {
-                    layer.setStyle({ radius: 15, weight: 11 });
+                    layer.setStyle({ radius: 15, weight: 9 });
                 }
                 if (currentZoom >= 13) {
                     layer.setStyle({ weight: currentZoom * ((currentZoom-12) * 1.5) });
@@ -134,7 +134,7 @@ class DashboardMapRenderer {
             icon: myIcon,
             radius: 15,
             color: feature.properties.color,
-            weight: 11,
+            weight: 9,
             opacity: 1,
             fillOpacity: 0.8
         });
