@@ -69,11 +69,10 @@ class DashboardMapRenderer {
 
             this.markerclusters.eachLayer((layer) => {
                 var currentZoom = this.map.getZoom();
-                if (currentZoom < 13) {
-                    layer.setStyle({ radius: 15, weight: 9 });
-                }
-                if (currentZoom >= 13) {
-                    layer.setStyle({ weight: currentZoom * ((currentZoom - 12) * 1.5) });
+                if (currentZoom < 12) {
+                    layer.setStyle({ weight: currentZoom });
+                } else {
+                    layer.setStyle({ weight: currentZoom * ((currentZoom - 11) * 1.2) });
                 }
 
             });
@@ -141,7 +140,7 @@ class DashboardMapRenderer {
             radius: 15,
             color: feature.properties.color,
             weight: 9,
-            opacity: 1,
+            opacity: 0.8,
             fillOpacity: 0.8
         });
     }
