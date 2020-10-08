@@ -69,7 +69,6 @@ class DashboardMapRenderer {
 
             this.markerclusters.eachLayer((layer) => {
                 var currentZoom = this.map.getZoom();
-                console.log(currentZoom);
                 if (currentZoom < 13) {
                     layer.setStyle({ radius: 15, weight: 9 });
                 }

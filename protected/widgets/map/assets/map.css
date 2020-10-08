@@ -4,31 +4,32 @@ label .legend {
   display: inline-flex;
   align-items: center;
   justify-content: left;
-  font-size: 15px;
-  line-height: 15px;
-  letter-spacing: 0.75px;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.4px;
   font-weight: 300;
+  color: black;
+  font-family: "Source Sans Pro";
   border: none;
-  height: 30px;
   cursor: pointer;
+  margin-bottom: 7px;
 }
 
 label .legend:before {
-  content: '◯';
-  color: var(--color);
-  margin-right: 5px;
+  /*content: '◯';*/
+  content: '';
+  background-color: transparent;
   margin: 0 5px 0 0;
   padding: 0;
-  font-size: 20px;
-  line-height: 20px;
-  letter-spacing: 0.75px;
-  font-weight: 500;
-  border: none;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color);
   display: inline-block;
 }
 
 .has-clusters label .legend:before {
-  content: '⬤';
+  /*content: '⬤';*/
+  background-color: var(--color);
 }
 
 .leaflet-control-layers-selector:checked+span .legend {
@@ -36,7 +37,8 @@ label .legend:before {
 }
 
 .leaflet-control-layers-selector:checked+span .legend:before {
-  content: '⬤';
+  /*content: '⬤';*/
+  background-color: var(--color);
 }
 
 .clustertoggle {
