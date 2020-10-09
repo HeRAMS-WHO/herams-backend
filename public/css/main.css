@@ -556,7 +556,6 @@ input[type="text"] {
 .hf-summary h2 {
     text-align: center;
     font-weight: 500;
-    color: var(--color);
     font-size: 16px;
     line-height: 18px;
     margin: 0 0 20px;
@@ -564,9 +563,31 @@ input[type="text"] {
     word-wrap: break-word;
 }
 
+.hf-summary h2:before {
+    content: '';
+    background-color: var(--dot-color);
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.hf-summary div {
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 50%;
+}
+
+.hf-summary div span {
+    font-weight: bold;
+    color: var(--border-color);
+    display: block;
+}
+
 .hf-summary a, .hf-summary a:visited {
     display: block;
     width: max-content;
-    margin: 0 auto;
+    margin: 20px auto 0;
     color: white;
 }

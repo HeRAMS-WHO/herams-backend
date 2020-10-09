@@ -104,8 +104,10 @@ class DashboardMap extends Element
                 }
 
                 $pointData = [];
-                foreach (['MoSD2', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
-                    $pointData[$key] = $response->getValueForCode($key);
+                foreach (['GEO1', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                    $answers = $this->getAnswers($key);
+                    $qtitle = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
+                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$answers[$response->getValueForCode($key)]}"];
                 }
                 $point = [
                     "type" => "Feature",
@@ -118,7 +120,8 @@ class DashboardMap extends Element
                         'id' => $response->getId(),
                         'workspace_url' => $workspace_url,
                         'workspace_title' => \Yii::t('app', 'Workspaces'),
-                        'data' => $pointData,
+                        'data' => [$this->code => $response->getValueForCode($this->code)],
+                        'popup_data' => $pointData,
                         'color' => $collections[$value]['color']
                     ]
 
@@ -241,7 +244,6 @@ class DashboardMap extends Element
 //                };
 //                
 //                title.addTo(map);
-
             } catch (error) {
                 console.error("Error in DashboardMap JS", error);
             } 
