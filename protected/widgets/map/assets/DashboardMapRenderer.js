@@ -148,17 +148,18 @@ class DashboardMapRenderer {
     defineFeaturePopup(feature, layer)
     {
         layer.bindPopup(function (e) {
-            console.log(e);
-            return "<div class='hf-summary'>" +
-                "<h2>" + feature.properties.title + "</h2>" +
-                "<div>" + feature.properties.data.GEO1 + "</div>" +
-                "<div>" + feature.properties.data.CONDB + "</div>" +
-                "<div>" + feature.properties.data.CONDE + "</div>" +
-                "<div>" + feature.properties.data.HFFUNCT + "</div>" +
-                "<div>" + feature.properties.data.HFACC + "</div>" +
-                "<div>" + feature.properties.data.UPDATE + "</div>" +
-                "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>" +
-                "</div>";
+            
+            var popup = "<div class='hf-summary' style='--dot-color:"+feature.properties.color+"'>";
+                popup += "<h2>" + feature.properties.title + "</h2>";
+                
+            for (let entry of e.feature.properties.popup_data) {
+                popup += "<div><span>" + entry.title + " : </span>" + entry.value + "</div>";
+            }
+                
+                popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
+                popup += "</div>";
+            return popup;
+                
         }, { 'className': "hf-popup", offset: L.point(1, -2) });
     }
 
