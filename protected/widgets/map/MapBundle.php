@@ -23,6 +23,12 @@ class MapBundle extends AssetBundle
             'crossorigin' => 'anonymous'
         ],
         [
+            'https://d3js.org/d3.v3.min.js',
+        ],
+        [
+            'https://d3js.org/d3-collection.v1.min.js',
+        ],
+        [
             'PopupRenderer.js',
             'position' => View::POS_HEAD
         ],
