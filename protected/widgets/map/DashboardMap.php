@@ -160,18 +160,18 @@ class DashboardMap extends Element
             'zoomControl' => false,
             'maxZoom' => 15
         ]);
-
         $baseLayers = Json::encode($this->baseLayers);
         $collections = $this->getCollections($this->data);
         $data = Json::encode($collections, JSON_PRETTY_PRINT);
         $code = Json::encode($this->code);
+        $markerRadius = Json::encode($this->markerRadius);
         $title = Json::encode($this->getTitleFromCode($this->code));
         $this->view->registerJs(<<<JS
         (function() {
             try {
                 let 
                 map = L.map($id, $config),
-                renderer = new DashboardMapRenderer(map);
+                renderer = new DashboardMapRenderer(map, {markerRadius : $markerRadius});
                 renderer.SetData($data, $baseLayers, $code);
                 renderer.RenderMap();
                 renderer.RenderLegend($title);

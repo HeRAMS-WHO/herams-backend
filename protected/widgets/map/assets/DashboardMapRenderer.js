@@ -2,10 +2,12 @@
 class DashboardMapRenderer {
 
 
-    constructor(map)
+    constructor(map, options = {})
     {
+        console.log(options.markerRadius);
         this.layers = [];
         DashboardMapRenderer.rmax = 30;
+        DashboardMapRenderer.radius = options.markerRadius ? options.markerRadius : 2;
         this.map = map;
     }
 
@@ -70,9 +72,9 @@ class DashboardMapRenderer {
             this.markerclusters.eachLayer((layer) => {
                 var currentZoom = this.map.getZoom();
                 if (currentZoom < 12) {
-                    layer.setStyle({ weight: currentZoom });
+                    layer.setStyle({ weight: currentZoom + DashboardMapRenderer.radius });
                 } else {
-                    layer.setStyle({ weight: currentZoom * ((currentZoom - 11) * 1.2) });
+                    layer.setStyle({ weight: (currentZoom * ((currentZoom - 11) * 1.2)) + DashboardMapRenderer.radius });
                 }
 
             });
