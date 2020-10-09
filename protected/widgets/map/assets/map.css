@@ -1,52 +1,160 @@
-.legend:before {
-    color: var(--color);
-    content: '◯';
-
-    font-weight: 300;
-    font-size: 20px;
-    margin-right: 5px;
+label .legend {
+  vertical-align: middle;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: left;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.4px;
+  font-weight: 300;
+  color: black;
+  font-family: "Source Sans Pro";
+  border: none;
+  cursor: pointer;
+  margin-bottom: 7px;
 }
 
-.legend {
-    vertical-align: middle;
-    user-select: none;
+label .legend:before {
+  /*content: '◯';*/
+  content: '';
+  background-color: transparent;
+  margin: 0 5px 0 0;
+  padding: 0;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color);
+  display: inline-block;
+}
+
+.has-clusters label .legend:before {
+  /*content: '⬤';*/
+  background-color: var(--color);
+}
+
+.leaflet-control-layers-selector:checked+span .legend {
+  text-decoration: none;
+}
+
+.leaflet-control-layers-selector:checked+span .legend:before {
+  /*content: '⬤';*/
+  background-color: var(--color);
+}
+
+.clustertoggle {
+  margin-top: 10px;
+  margin-left: 5px;
+  font-size: 11px;
+  display: block;
+  cursor: pointer;
 }
 
 .content.leaflet-container {
-    overflow:hidden;
+  overflow: hidden;
 }
 
 .leaflet-div-icon {
-    width: 30px !important;
-    height: 30px !important;
-    background-color: transparent;
-    border: none;
+  width: 30px !important;
+  height: 30px !important;
+  background-color: transparent;
+  border: none;
 }
+
 .leaflet-div-icon span {
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-width: 2px;
-    border-style: solid;
-    color: white;
-    font-weight: 500;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-width: 2px;
+  border-style: solid;
+  color: white;
+  font-weight: 500;
 }
+
 .leaflet-control-layers-selector {
-    /*height: 30px;*/
+  /*height: 30px;*/
 }
 
 .leaflet-control-layers-overlays * {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .leaflet-control-layers-selector {
-    display: none;
+  display: none;
 }
 
-.leaflet-control-layers-selector:checked + span .legend:before {
-    content: '⬤';
+/*Marker clusters*/
+
+.marker-cluster-pie g.arc {
+  fill-opacity: 0.5;
 }
 
+.marker-cluster-pie-label {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/*Markers*/
+
+.marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: -10px;
+  margin-left: -10px;
+  background: #CCC;
+  outline: none;
+}
+
+.marker div {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*marker categories*/
+
+.category-1 {
+  fill: #F88;
+  stroke: #800;
+  background: #F88;
+  border-color: #800;
+}
+
+.category-2 {
+  fill: #FA0;
+  stroke: #B60;
+  background: #FA0;
+  border-color: #B60;
+}
+
+.category-3 {
+  fill: #FF3;
+  stroke: #D80;
+  background: #FF3;
+  border-color: #D80;
+}
+
+.category-4 {
+  fill: #BFB;
+  stroke: #070;
+  background: #BFB;
+  border-color: #070;
+}
+
+.category-5 {
+  fill: #9DF;
+  stroke: #007;
+  background: #9DF;
+  border-color: #007;
+}
+
+.category-6 {
+  fill: #CCC;
+  stroke: #444;
+  background: #CCC;
+  border-color: #444;
+}

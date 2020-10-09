@@ -10,7 +10,7 @@ return [
     'class' => ActionColumn::class,
     'width' => '150px',
     'controller' => 'workspace',
-    'template' => '{refresh} {update} {share} {delete} {export} {limesurvey} {responses}',
+    'template' => '{limesurvey} {refresh} {update} {share} {delete} {export} {responses}',
     'buttons' => [
         'refresh' => function ($url, Workspace $model, $key) {
             $result = '';

@@ -15,6 +15,7 @@ use prime\controllers\workspace\Refresh;
 use prime\controllers\workspace\Responses;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
+use prime\controllers\workspace\View;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\queries\ResponseQuery;
@@ -53,6 +54,7 @@ class WorkspaceController extends Controller
             'share' => Share::class,
             'import' => Import::class,
             'refresh' => Refresh::class,
+            'view' => View::class,
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Workspace::find(),

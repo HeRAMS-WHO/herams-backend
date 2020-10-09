@@ -4,6 +4,8 @@ use app\components\Form;
 use app\components\ActiveForm;
 use yii\bootstrap\Html;
 use prime\helpers\Icon;
+use prime\models\ar\Project;
+use prime\widgets\menu\WorkspacePageMenu;
 
 /**
  * @var  \prime\components\View $this
@@ -11,6 +13,14 @@ use prime\helpers\Icon;
  */
 assert($this instanceof \prime\components\View);
 assert($model instanceof \prime\models\ar\Workspace);
+
+echo WorkspacePageMenu::widget([
+    'workspace' => $model,
+    'collapsible' => false,
+    'footer' => $this->render('//footer', ['projects' => Project::find()->all()]),
+    'params' => Yii::$app->request->queryParams,
+    'currentPage' => $this->context->action->id
+]);
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -26,6 +36,12 @@ $this->params['breadcrumbs'][] = [
     ]),
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Workspace {workspace}', [
+        'workspace' => $model->title,
+    ]),
+    'url' => ['workspace/view', 'id' => $model->id]
+];
 $this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $model->title]);
 //$this->params['breadcrumbs'][] = $this->title;
 
@@ -33,7 +49,6 @@ $this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $m
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);
-
 echo Html::beginTag('div', ['class' => 'count']);
 echo Icon::list();
 echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
@@ -55,8 +70,9 @@ echo Html::endTag('div');
 echo Html::endTag('div');
 
 echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
-echo Html::a(Icon::project(), ['project/view', 'id' => $model->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
+echo Html::a(Icon::project(), ['project/view', 'id' => $model->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle pull-right']);
 echo Html::endTag('div');
+
 echo Html::endTag('div');
 
 echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);

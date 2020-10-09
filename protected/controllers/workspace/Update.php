@@ -23,6 +23,7 @@ class Update extends Action
         NotificationService $notificationService,
         $id
     ) {
+        $this->controller->layout = 'css3-grid';
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
@@ -37,7 +38,7 @@ class Update extends Action
                     'workspace' => Html::tag('strong', $workspace->title)
                 ]));
 
-                return $this->controller->redirect(['project/workspaces', 'id' => $workspace->project->id]);
+                return $this->controller->redirect(['workspace/view', 'id' => $workspace->id]);
             }
         }
 

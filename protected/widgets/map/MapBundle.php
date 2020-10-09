@@ -27,6 +27,10 @@ class MapBundle extends AssetBundle
             'position' => View::POS_HEAD
         ],
         [
+            'DashboardMapRenderer.js',
+            'position' => View::POS_HEAD
+        ],
+        [
             'PopupListRenderer.js',
             'position' => View::POS_HEAD
         ]

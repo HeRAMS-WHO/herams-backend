@@ -140,6 +140,13 @@ input[type="text"] {
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 
+.btn-white.selected {
+    background-color:var(--header-background-color);
+    color:  white;
+    border: 1px solid var(--header-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
 .btn-clear, .btn-clear:visited {
     background-color: transparent !important;
     color: var(--clear-button-color);
@@ -208,7 +215,7 @@ input[type="text"] {
 }
 
 .btn.btn-circle {
-    border-radius: 50%;
+    border-radius: 50% !important;
     min-width: auto;
     width: 35px;
     height: 35px;
@@ -237,6 +244,14 @@ input[type="text"] {
 .full-width {
     max-width: 100%;
     grid-column: span 4;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
 }
 
 @media (min-width: 800px) {
