@@ -4,7 +4,6 @@ class DashboardMapRenderer {
 
     constructor(map, options = {})
     {
-        console.log(options.markerRadius);
         this.layers = [];
         DashboardMapRenderer.rmax = 30;
         DashboardMapRenderer.radius = options.markerRadius ? options.markerRadius : 2;

@@ -104,7 +104,7 @@ class DashboardMap extends Element
                 }
 
                 $pointData = [];
-                foreach (['GEO1', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
                     $answers = $this->getAnswers($key);
                     $qtitle = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
                     $pointData[] =  ["title" => "{$qtitle}", "value" => "{$answers[$response->getValueForCode($key)]}"];
