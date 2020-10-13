@@ -551,6 +551,7 @@ input[type="text"] {
 
 .hf-summary {
     padding: 20px 20px 15px;
+    min-width: 300px;
 }
 
 .hf-summary h2 {
@@ -575,7 +576,7 @@ input[type="text"] {
 
 .hf-summary div {
     margin-bottom: 10px;
-    display: inline-block;
+    float: left;
     width: 50%;
 }
 
@@ -590,4 +591,5 @@ input[type="text"] {
     width: max-content;
     margin: 20px auto 0;
     color: white;
+    clear: both;
 }
