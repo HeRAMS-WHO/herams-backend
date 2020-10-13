@@ -120,7 +120,7 @@ class DashboardMap extends Element
                         'id' => $response->getId(),
                         'workspace_url' => $workspace_url,
                         'workspace_title' => \Yii::t('app', 'Workspaces'),
-                        'data' => [$this->code => $response->getValueForCode($this->code)],
+                        'data' => [$this->code => $value],
                         'popup_data' => $pointData,
                         'color' => $collections[$value]['color']
                     ]
