@@ -104,7 +104,7 @@ class DashboardMap extends Element
                 }
 
                 $pointData = [];
-                foreach (['GEO1', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
                     $answers = $this->getAnswers($key);
                     $qtitle = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
                     $pointData[] =  ["title" => "{$qtitle}", "value" => "{$answers[$response->getValueForCode($key)]}"];
@@ -120,7 +120,7 @@ class DashboardMap extends Element
                         'id' => $response->getId(),
                         'workspace_url' => $workspace_url,
                         'workspace_title' => \Yii::t('app', 'Workspaces'),
-                        'data' => [$this->code => $response->getValueForCode($this->code)],
+                        'data' => [$this->code => $value],
                         'popup_data' => $pointData,
                         'color' => $collections[$value]['color']
                     ]
