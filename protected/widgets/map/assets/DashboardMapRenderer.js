@@ -70,12 +70,11 @@ class DashboardMapRenderer {
 
             this.markerclusters.eachLayer((layer) => {
                 var currentZoom = this.map.getZoom();
-                if (currentZoom < 12) {
-                    layer.setStyle({ weight: currentZoom + DashboardMapRenderer.radius });
-                } else {
-                    layer.setStyle({ weight: (currentZoom * ((currentZoom - 11) * 1.2)) + DashboardMapRenderer.radius });
+                let radius = (currentZoom * 0.6) + DashboardMapRenderer.radius;
+                if (currentZoom < 7) {
+                    radius = Math.min(radius, 10);
                 }
-
+                layer.setStyle({ weight: radius, radius: radius });
             });
         });
     }
@@ -149,18 +148,18 @@ class DashboardMapRenderer {
     defineFeaturePopup(feature, layer)
     {
         layer.bindPopup(function (e) {
-            
-            var popup = "<div class='hf-summary' style='--dot-color:"+feature.properties.color+"'>";
-                popup += "<h2>" + feature.properties.title + "</h2>";
-                
+
+            var popup = "<div class='hf-summary' style='--dot-color:" + feature.properties.color + "'>";
+            popup += "<h2>" + feature.properties.title + "</h2>";
+
             for (let entry of e.feature.properties.popup_data) {
                 popup += "<div><span>" + entry.title + " : </span>" + entry.value + "</div>";
             }
-                
-                popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
-                popup += "</div>";
+
+            popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
+            popup += "</div>";
             return popup;
-                
+
         }, { 'className': "hf-popup", offset: L.point(1, -2) });
     }
 
