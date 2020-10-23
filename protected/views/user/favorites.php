@@ -13,6 +13,7 @@ $this->title = \Yii::t('app', 'Favorite workspaces');
 <div class="form-content form-bg full-width">
 <?php
 $this->params['breadcrumbs'][] = ['label' => ""];
+
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [
