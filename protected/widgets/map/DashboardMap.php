@@ -122,6 +122,7 @@ class DashboardMap extends Element
                         'workspace_title' => \Yii::t('app', 'Workspaces'),
                         'data' => [$this->code => $value],
                         'popup_data' => $pointData,
+                        'update' => date_format($response->getDate(), 'Y-m-d'),
                         'color' => $collections[$value]['color']
                     ]
 
