@@ -155,8 +155,6 @@ class DashboardMapRenderer {
             for (let entry of e.feature.properties.popup_data) {
                 popup += "<div><span>" + entry.title + " : </span>" + entry.value + "</div>";
             }
-
-            popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
             popup += "</div>";
             return popup;
 

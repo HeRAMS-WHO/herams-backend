@@ -80,7 +80,6 @@ class DashboardMap extends Element
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
                 $longitude = $response->getLongitude();
-                $workspace_url = \Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, Workspace::findOne(['id' => $response['workspace_id']])) ? Url::to(['/workspace/limesurvey', 'id' => $response['workspace_id']]) : Url::to(["/project/workspaces", 'id' => $this->element->page->project->id, 'Workspace[id]' => $response['workspace_id']]);
                 if (abs($latitude) < 0.0000001
                     || abs($longitude) < 0.0000001
                     || abs($latitude) > 90
@@ -118,8 +117,6 @@ class DashboardMap extends Element
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
                         'id' => $response->getId(),
-                        'workspace_url' => $workspace_url,
-                        'workspace_title' => \Yii::t('app', 'Workspaces'),
                         'data' => [$this->code => $value],
                         'popup_data' => $pointData,
                         'color' => $collections[$value]['color']
