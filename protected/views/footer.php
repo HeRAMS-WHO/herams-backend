@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 // Render all statistics.
 /** @var Project[] $projects */
-$projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate')->all();
+$projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate', 'workspaceCount')->all();
 $stats[] = [
     'icon' => Icon::project(),
     'count' => count($projects),
