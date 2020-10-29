@@ -141,8 +141,8 @@ input[type="text"] {
 }
 
 .btn-white.selected {
-    background-color:var(--header-background-color);
-    color:  white;
+    background-color: var(--header-background-color);
+    color: white;
     border: 1px solid var(--header-background-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
@@ -304,6 +304,7 @@ input[type="text"] {
 
 .leaflet-popup .leaflet-popup-content-wrapper {
     margin: 0;
+    padding: 0;
     background-color: var(--background-color);
     color: var(--color);
     font-family: "Source Sans Pro", sans-serif;
@@ -550,18 +551,22 @@ input[type="text"] {
 }
 
 .hf-summary {
-    padding: 20px 20px 15px;
+    padding: 0px 0px 15px;
     min-width: 300px;
+    display: inline-block;
 }
 
 .hf-summary h2 {
+    display: inline-block;
+    padding: 10px;
+    margin: 0;
+    width: 100%;
     text-align: center;
     font-weight: 500;
     font-size: 16px;
     line-height: 18px;
-    margin: 0 0 30px;
-    padding: 0;
-    word-wrap: break-word;
+    letter-spacing: 0.3px;
+    background-color: rgb(238, 238, 238);
 }
 
 .hf-summary h2:before {
@@ -574,6 +579,25 @@ input[type="text"] {
     margin-right: 5px;
 }
 
+.hf-summary h4 {
+    display: inline-block;
+    padding: 0 10px 10px;
+    margin: 0 0 20px;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 13px;
+    letter-spacing: 0.3px;
+    background-color: rgb(238, 238, 238);
+    color: grey;
+}
+
+.hf-summary .hf-content {
+    padding: 0 20px;
+    width: 100%;
+}
+
 .hf-summary div {
     margin-bottom: 10px;
     float: left;
@@ -584,6 +608,7 @@ input[type="text"] {
     font-weight: bold;
     color: var(--border-color);
     display: block;
+    letter-spacing: 0.3px;
 }
 
 .hf-summary a, .hf-summary a:visited {
