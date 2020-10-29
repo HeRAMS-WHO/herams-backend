@@ -118,12 +118,12 @@ class DashboardMap extends Element
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
                         'id' => $response->getId(),
-                        'workspace_url' => $workspace_url,
-                        'workspace_title' => \Yii::t('app', 'Workspaces'),
                         'data' => [$this->code => $value],
                         'popup_data' => $pointData,
                         'update' => date_format($response->getDate(), 'Y-m-d'),
-                        'color' => $collections[$value]['color']
+                        'color' => $collections[$value]['color'],
+                        'workspace_url' => $workspace_url,
+                        'workspace_title' => \Yii::t('app', 'Workspaces')
                     ]
 
                     //                'subtitle' => '',

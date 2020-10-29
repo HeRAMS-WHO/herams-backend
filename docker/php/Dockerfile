@@ -35,7 +35,6 @@ RUN mkdir $COMPOSER_CACHE_DIR && \
     if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then exit 1; fi && \
     php composer-setup.php --filename composer --install-dir /bin && \
     php -r "unlink('composer-setup.php');" && \
-    composer global require hirak/prestissimo && \
     chmod -R 777 $COMPOSER_CACHE_DIR && \
     chmod -R 777 $COMPOSER_HOME
 VOLUME /composer-cache

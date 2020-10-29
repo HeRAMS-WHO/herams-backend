@@ -151,13 +151,14 @@ class DashboardMapRenderer {
 
             var popup = "<div class='hf-summary' style='--dot-color:" + feature.properties.color + "'>";
             popup += "<h2>" + feature.properties.title + "</h2>";
-            popup += "<h4>" + feature.properties.update + "</h4>";
+            popup += "<h4>Last update : " + feature.properties.update + "</h4>";
             popup += "<div class='hf-content'>";
 
             for (let entry of e.feature.properties.popup_data) {
                 popup += "<div><span>" + entry.title + " : </span>" + entry.value + "</div>";
             }
             popup += "</div>";
+            console.log(e);
             popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
             popup += "</div>";
             return popup;

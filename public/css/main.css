@@ -565,6 +565,7 @@ input[type="text"] {
     font-weight: 500;
     font-size: 16px;
     line-height: 18px;
+    letter-spacing: 0.3px;
     background-color: rgb(238, 238, 238);
 }
 
@@ -585,8 +586,9 @@ input[type="text"] {
     width: 100%;
     text-align: center;
     font-weight: 500;
-    font-size: 13px;
-    line-height: 14px;
+    font-size: 12px;
+    line-height: 13px;
+    letter-spacing: 0.3px;
     background-color: rgb(238, 238, 238);
     color: grey;
 }
@@ -606,6 +608,7 @@ input[type="text"] {
     font-weight: bold;
     color: var(--border-color);
     display: block;
+    letter-spacing: 0.3px;
 }
 
 .hf-summary a, .hf-summary a:visited {
