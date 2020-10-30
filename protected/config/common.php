@@ -41,7 +41,7 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
-            'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';dbname=' . $env->get('DB_NAME'),
+            'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';port=' . $env->get('DB_PORT', 3306) . ';dbname=' . $env->get('DB_NAME'),
             'password' => $env->get('DB_PASS'),
             'username' => $env->get('DB_USER'),
             'enableSchemaCache' => !YII_DEBUG,
