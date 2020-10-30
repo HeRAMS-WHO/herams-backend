@@ -125,13 +125,6 @@ class DashboardMap extends Element
                         'workspace_url' => $workspace_url,
                         'workspace_title' => \Yii::t('app', 'Workspaces')
                     ]
-
-                    //                'subtitle' => '',
-                    //                'items' => [
-                    //                    'ownership',
-                    //                    'building damage',
-                    //                    'functionality'
-                    //                ]
                 ];
                 $collections[$value]['features'][] = $point;
             } catch (\Throwable $t) {

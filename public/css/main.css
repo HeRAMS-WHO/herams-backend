@@ -602,6 +602,7 @@ input[type="text"] {
     margin-bottom: 10px;
     float: left;
     width: 50%;
+    padding-right: 10px;
 }
 
 .hf-summary div span {
@@ -609,6 +610,7 @@ input[type="text"] {
     color: var(--border-color);
     display: block;
     letter-spacing: 0.3px;
+    word-break: break-word;
 }
 
 .hf-summary a, .hf-summary a:visited {
