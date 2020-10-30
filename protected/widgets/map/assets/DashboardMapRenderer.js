@@ -158,7 +158,6 @@ class DashboardMapRenderer {
                 popup += "<div><span>" + entry.title + " : </span>" + entry.value + "</div>";
             }
             popup += "</div>";
-            console.log(e);
             popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
             popup += "</div>";
             return popup;
