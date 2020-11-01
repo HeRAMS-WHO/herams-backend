@@ -47,7 +47,6 @@ use yii\helpers\Html;
                 $latest = $project;
             };
         }
-        $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
         $latestStatus =  "{$latest->title} / {$latest->latestDate}";
     } else {
         $latestStatus = \Yii::t('app', "No data loaded");
