@@ -44,6 +44,13 @@ class CacheController extends \yii\console\controllers\CacheController
         }
     }
 
+    public function actionWarmupSurveys(LimesurveyDataProvider $limesurveyDataProvider): void
+    {
+        foreach($limesurveyDataProvider->listSurveys() as $survey) {
+            $this->actionWarmupSurvey($limesurveyDataProvider, (int) $survey['sid']);
+        }
+    }
+
     public function actionWarmupSurvey(LimesurveyDataProvider $limesurveyDataProvider, int $id)
     {
         $this->stdout('Refreshing survey structure...', Console::FG_CYAN);
