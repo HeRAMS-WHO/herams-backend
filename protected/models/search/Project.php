@@ -25,7 +25,7 @@ class Project extends Model
     {
         /** @var  $query */
         $query = \prime\models\ar\Project::find()
-            ->withFields('workspaceCount', 'facilityCount', 'responseCount');
+            ->withFields('workspaceCount', 'facilityCount', 'responseCount', 'contributorPermissionCount');
         $dataProvider = new FilteredActiveDataProvider([
             'filter' => function (\prime\models\ar\Project $project) use ($user) {
                 return !$project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
