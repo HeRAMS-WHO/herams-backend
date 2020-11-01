@@ -86,7 +86,7 @@ return [
             }
         },
         'responses' => function ($url, Workspace $model, $key) {
-            if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+            if ($model->responseCount > 0 && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
                 return Html::a(
                     Icon::list(),
                     $url,

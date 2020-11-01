@@ -33,6 +33,7 @@ use yii\validators\UniqueValidator;
  * @property int $tool_id
  * @property string $token
  * @property int $id
+ * @property-read int $responseCount
  * @property \DateTimeImmutable $created
  *
  * @property HeramsResponseInterface[] $responses
