@@ -5,7 +5,7 @@ use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
 
 SideMenu::begin([
-    'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
+    'footer' => $this->render('//footer')
 ]);
 /** @var \prime\components\Controller $controller */
 $controller = $this->context;

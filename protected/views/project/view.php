@@ -14,7 +14,7 @@ use yii\web\View;
 echo ProjectPageMenu::widget([
     'project' => $project,
     'collapsible' => false,
-    'footer' => $this->render('//footer', ['projects' => Project::find()->all()]),
+    'footer' => $this->render('//footer'),
     'params' => Yii::$app->request->queryParams,
     'currentPage' => $page,
     'survey' => $survey,
