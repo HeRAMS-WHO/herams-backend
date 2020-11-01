@@ -68,7 +68,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getChildren()
     {
-        return $this->hasMany(Page::class, ['parent_id' => 'id'])->from(['childpage' => self::tableName()]);
+        return $this->hasMany(Page::class, ['parent_id' => 'id'])->from(['childpage' => self::tableName()])->inverseOf('parent');
     }
 
     public function getParentId(): ?int
@@ -129,7 +129,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getParent(): ActiveQuery
     {
-        return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()]);
+        return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()])->inverseOf('children');
     }
 
     public function rules()

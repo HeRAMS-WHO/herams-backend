@@ -491,6 +491,7 @@ class Project extends ActiveRecord implements Linkable
     public function getPages()
     {
         return $this->hasMany(Page::class, ['project_id' => 'id'])
+            ->with('children')
             ->andWhere(['parent_id' => null])
             ->inverseOf('project')
             ->orderBy('sort');
