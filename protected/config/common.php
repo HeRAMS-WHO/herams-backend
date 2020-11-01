@@ -73,25 +73,17 @@ return [
                 new \prime\components\GlobalPermissionResolver()
             );
         },
+        'preloadingSourceRepository' => \SamIT\abac\repositories\PreloadingSourceRepository::class,
         'abacManager' => function () {
+            /** @var \SamIT\abac\repositories\PreloadingSourceRepository $repo */
+            $repo = \Yii::$app->get('preloadingSourceRepository');
             $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
-            $repo = new ActiveRecordRepository(Permission::class, [
-                ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
-                ActiveRecordRepository::SOURCE_NAME => 'source',
-                ActiveRecordRepository::TARGET_ID => ActiveRecordRepository::TARGET_ID,
-                ActiveRecordRepository::TARGET_NAME => 'target',
-                ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
-            ]);
-            $cachedRepo = new \SamIT\abac\repositories\CachedReadRepository($repo);
 
-            $environment = new class extends ArrayObject implements Environment {
-            };
+            $environment = new class extends ArrayObject implements Environment {};
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $cachedRepo, \Yii::$app->abacResolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $repo, \Yii::$app->abacResolver, $environment);
         },
         'authManager' => function () {
-
-
             return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
                 'userClass' => \prime\models\ar\User::class,
                 'globalId' => AccessChecker::GLOBAL,

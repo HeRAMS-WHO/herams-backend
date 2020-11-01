@@ -15,8 +15,6 @@ class Workspaces extends Action
 {
     public function run(
         Request $request,
-        User $user,
-        AuthManager $abacManager,
         int $id
     ) {
         $this->controller->layout = 'admin';
