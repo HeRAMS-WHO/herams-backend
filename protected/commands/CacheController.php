@@ -56,9 +56,10 @@ class CacheController extends \yii\console\controllers\CacheController
 
     public function actionWarmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
-        int $id
+        int $id,
+        int $afterWorkspace = 0
     ) {
-        $this->warmupProject($limesurveyDataProvider, Project::findOne(['id' => $id]));
+        $this->warmupProject($limesurveyDataProvider, Project::findOne(['id' => $id]), $afterWorkspace);
     }
 
     public function actionWarmupWorkspace(
@@ -70,10 +71,14 @@ class CacheController extends \yii\console\controllers\CacheController
 
     protected function warmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
-        Project $project
+        Project $project,
+        int $afterWorkspace = 0
     ) {
         /** @var Workspace $workspace */
-        foreach ($project->getWorkspaces()->each() as $workspace) {
+        foreach ($project->getWorkspaces()
+                     ->orderBy('id')
+                     ->andWhere(['>', 'id', $afterWorkspace])
+                     ->each() as $workspace) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
 
@@ -84,7 +89,7 @@ class CacheController extends \yii\console\controllers\CacheController
     {
         $loader = new LimesurveyDataLoader();
         $token = $workspace->getAttribute('token');
-        $this->stdout("Starting cache warmup for workspace {$workspace->title}..\n", Console::FG_CYAN);
+        $this->stdout("Starting cache warmup for workspace [{$workspace->id}] {$workspace->title}..\n", Console::FG_CYAN);
         $this->stdout("Checking responses for workspace {$workspace->title}..", Console::FG_CYAN);
         $ids = [];
         foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
