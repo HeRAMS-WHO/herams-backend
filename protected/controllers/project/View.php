@@ -36,7 +36,10 @@ class View extends Action
     ) {
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = 'css3-grid';
-        $project = Project::findOne(['id'  => $id]);
+        $project = Project::find()
+            ->andWhere(['id'  => $id])
+            ->with('pages')
+            ->one();
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
