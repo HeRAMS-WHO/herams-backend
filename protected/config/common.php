@@ -117,7 +117,8 @@ return [
             $result = new Client($json, $env->get('LS_USER'), $env->get('LS_PASS'));
             $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
-                return app()->get('limesurveyCache')->set($key, $value, $duration);
+                // Ignore hardcoded duration passed in downstream library
+                return app()->get('limesurveyCache')->set($key, $value, 6 * 3600);
             }, function ($key) {
                 $result = app()->get('limesurveyCache')->get($key);
                 if ($result === false) {
