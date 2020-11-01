@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 <div class="stats">
     <?php
-    $projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount')->all();
+    $projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate', 'workspaceCount')->all();
     $stats = [];
     $stats[] = [
         'icon' => Icon::project(),
