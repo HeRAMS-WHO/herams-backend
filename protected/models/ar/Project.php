@@ -49,6 +49,7 @@ use function iter\filter;
  * @property-read SurveyInterface $survey
  * @property array<string, string> $typemap
  * @property array $overrides
+ * @property-read int $pageCount
  */
 class Project extends ActiveRecord implements Linkable
 {
@@ -273,6 +274,14 @@ class Project extends ActiveRecord implements Linkable
                             ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                         VirtualFieldBehavior::LAZY => static function (self $model): int {
                             return (int) $model->getWorkspaces()->count();
+                        }
+                    ],
+                    'pageCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Page::find()->limit(1)->select('count(*)')
+                            ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) $model->getPages()->count();
                         }
                     ],
                     'facilityCount' => [
