@@ -4,8 +4,6 @@ namespace prime\models\search;
 
 use prime\components\FilteredActiveDataProvider;
 use prime\models\ar\Permission;
-use SamIT\abac\AuthManager;
-use SamIT\abac\values\Authorizable;
 use yii\base\Model;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
@@ -38,12 +36,6 @@ class Project extends Model
             ]
         ]);
 
-        /** @var AuthManager $abacManager */
-        $abacManager = \Yii::$app->abacManager;
-        foreach($abacManager->getRepository()->search(null, new Authorizable("", \prime\models\ar\Project::class), null))
-        {
-            // We do nothing here, iterating means the results will be cached for later use.
-        }
         $sort = new Sort([
             'attributes' => [
                 'id',
