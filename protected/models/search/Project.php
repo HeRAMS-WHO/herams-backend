@@ -25,7 +25,6 @@ class Project extends Model
     {
         /** @var  $query */
         $query = \prime\models\ar\Project::find()
-            ->cache(5)
             ->withFields('workspaceCount', 'facilityCount', 'responseCount', 'contributorPermissionCount');
         $dataProvider = new FilteredActiveDataProvider([
             'filter' => function (\prime\models\ar\Project $project) use ($user) {
