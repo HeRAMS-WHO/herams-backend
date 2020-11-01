@@ -210,11 +210,6 @@ class Workspace extends ActiveRecord
         ])->inverseOf('workspace');
     }
 
-    public function getResponseCount(): int
-    {
-        return (int) $this->getResponses()->count();
-    }
-
     public function tokenOptions(): array
     {
         $limesurveyDataProvider = $this->getLimesurveyDataProvider();
