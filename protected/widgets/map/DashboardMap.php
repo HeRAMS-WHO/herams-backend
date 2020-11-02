@@ -73,7 +73,12 @@ class DashboardMap extends Element
 
         $types = $this->getAnswers($this->code);
         $collections = [];
-
+        $titles = [];
+        $answers = [];
+        foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+            $titles[$key] = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
+            $answers[$key] = $this->getAnswers($key);
+        }
         /** @var HeramsResponseInterface $response */
         foreach ($data as $response) {
             try {
@@ -105,9 +110,8 @@ class DashboardMap extends Element
 
                 $pointData = [];
                 foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
-                    $answers = $this->getAnswers($key);
-                    $qtitle = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
-                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$answers[$response->getValueForCode($key)]}"];
+                    $qtitle = $titles[$key];
+                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$answers[$key][$response->getValueForCode($key)]}"];
                 }
                 $point = [
                     "type" => "Feature",
