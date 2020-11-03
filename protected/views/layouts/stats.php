@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 <div class="stats">
     <?php
-    $projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount')->all();
+    $projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate', 'workspaceCount')->all();
     $stats = [];
     $stats[] = [
         'icon' => Icon::project(),
@@ -47,7 +47,6 @@ use yii\helpers\Html;
                 $latest = $project;
             };
         }
-        $latestResponse =  \prime\models\ar\Response::find()->orderBy(['date' => SORT_DESC])->limit(1)->one();
         $latestStatus =  "{$latest->title} / {$latest->latestDate}";
     } else {
         $latestStatus = \Yii::t('app', "No data loaded");

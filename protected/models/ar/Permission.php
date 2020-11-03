@@ -21,14 +21,6 @@ use yii\validators\UniqueValidator;
  */
 class Permission extends ActiveRecord
 {
-    // If set to false we will reload the cache every time.
-    public static $enableCaching = true;
-
-    // Cache for the results for the anyAllowed lookup.
-    private static $anyCache = [];
-    // Cache for the results for the isAllowed loookup.
-    private static $cache = [];
-
     const PERMISSION_READ = 'read';
     const PERMISSION_SUMMARY = 'summary';
     const PERMISSION_WRITE = 'write';

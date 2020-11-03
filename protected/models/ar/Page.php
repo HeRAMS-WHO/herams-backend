@@ -63,12 +63,12 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     }
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id']);
+        return $this->hasOne(Project::class, ['id' => 'project_id'])->inverseOf('pages');
     }
 
     public function getChildren()
     {
-        return $this->hasMany(Page::class, ['parent_id' => 'id'])->from(['childpage' => self::tableName()]);
+        return $this->hasMany(Page::class, ['parent_id' => 'id'])->from(['childpage' => self::tableName()])->inverseOf('parent');
     }
 
     public function getParentId(): ?int
@@ -121,12 +121,15 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getElements(): ActiveQuery
     {
-        return $this->hasMany(Element::class, ['page_id' => 'id'])->orderBy(['sort' => SORT_ASC]);
+        return $this
+            ->hasMany(Element::class, ['page_id' => 'id'])
+            ->inverseOf('page')
+            ->orderBy(['sort' => SORT_ASC]);
     }
 
     public function getParent(): ActiveQuery
     {
-        return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()]);
+        return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()])->inverseOf('children');
     }
 
     public function rules()

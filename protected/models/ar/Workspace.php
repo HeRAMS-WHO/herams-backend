@@ -33,6 +33,7 @@ use yii\validators\UniqueValidator;
  * @property int $tool_id
  * @property string $token
  * @property int $id
+ * @property-read int $responseCount
  * @property \DateTimeImmutable $created
  *
  * @property HeramsResponseInterface[] $responses
@@ -208,11 +209,6 @@ class Workspace extends ActiveRecord
         return $this->hasMany(Response::class, [
             'workspace_id' => 'id',
         ])->inverseOf('workspace');
-    }
-
-    public function getResponseCount(): int
-    {
-        return (int) $this->getResponses()->count();
     }
 
     public function tokenOptions(): array

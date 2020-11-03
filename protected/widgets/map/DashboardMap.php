@@ -80,7 +80,6 @@ class DashboardMap extends Element
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
                 $longitude = $response->getLongitude();
-                $workspace_url = Url::to(["/project/workspaces", 'id' => $this->element->page->project->id, 'Workspace[id]' => $response['workspace_id']]);
                 if (abs($latitude) < 0.0000001
                     || abs($longitude) < 0.0000001
                     || abs($latitude) > 90
@@ -118,12 +117,7 @@ class DashboardMap extends Element
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
                         'id' => $response->getId(),
-                        'data' => [$this->code => $value],
-                        'popup_data' => $pointData,
-                        'update' => date_format($response->getDate(), 'Y-m-d'),
-                        'color' => $collections[$value]['color'],
-                        'workspace_url' => $workspace_url,
-                        'workspace_title' => \Yii::t('app', 'Workspaces')
+                        'data' => $pointData
                     ]
                 ];
                 $collections[$value]['features'][] = $point;
@@ -171,19 +165,12 @@ class DashboardMap extends Element
                 renderer.RenderLegend($title);
                 
                 
-                /*var popup = L.popup({'className' : "hf-popup"}).setContent("<div class='hf-summary'>"+
-                        "<h2>"+set.features[0].properties.title+"</h2>" +
-                        "<a href='"+set.features[0].properties.workspace_url+"' class='btn btn-primary'>"+set.features[0].properties.workspace_title+"</a>"+
-                    "</div>");
-                
-                
                 layer.bindTooltip(function(e) {
                     return e.feature.properties.title;
                 });
                 let popup = layer.bindPopup(function(e) {
                     return "<div class='hf-summary'>"+
                         "<h2>"+e.feature.properties.title+"</h2>" +
-                        "<a href='"+e.feature.properties.workspace_url+"' class='btn btn-primary'>"+e.feature.properties.workspace_title+"</a>"+
                     "</div>";
                 }, {'className' : "hf-popup"}).getPopup();
                 layer.addTo(map);*/

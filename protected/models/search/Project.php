@@ -25,7 +25,7 @@ class Project extends Model
     {
         /** @var  $query */
         $query = \prime\models\ar\Project::find()
-            ->withFields('workspaceCount', 'facilityCount', 'responseCount');
+            ->withFields('workspaceCount', 'facilityCount', 'responseCount', 'contributorPermissionCount', 'pageCount');
         $dataProvider = new FilteredActiveDataProvider([
             'filter' => function (\prime\models\ar\Project $project) use ($user) {
                 return !$project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
@@ -52,17 +52,6 @@ class Project extends Model
             return $dataProvider;
         }
 
-
-
-//        $interval = explode(' - ', $this->created);
-//        if(count($interval) == 2) {
-//            $query->andFilterWhere([
-//                'and',
-//                ['>=', 'created', $interval[0]],
-//                ['<=', 'created', $interval[1] . ' 23:59:59']
-//            ]);
-//        }
-//
         $query->andFilterWhere(['like', 'title', $this->title]);
         $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
