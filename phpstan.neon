@@ -6,6 +6,8 @@ parameters:
     dynamicConstantNames:
       - CONSOLE
     excludes_analyse:
+      - protected/config/common.php
+      - protected/config/console.php
       - protected/console/DevController.php
       - protected/components/Form.php
       - protected/widgets/FormButtonsWidget.php

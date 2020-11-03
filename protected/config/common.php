@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
 use prime\components\JwtSso;
-use prime\models\ar\Permission;
 use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\values\Authorizable;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
-use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;

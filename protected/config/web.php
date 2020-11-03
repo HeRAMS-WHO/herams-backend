@@ -6,6 +6,10 @@ use prime\components\NotificationService;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
+    'aliases' => [
+        '@npm' => '@vendor/../node_modules',
+
+    ],
     'bootstrap' => [
         'notificationService',
         'languageSelector'
@@ -84,12 +88,6 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                 \yii\bootstrap\BootstrapAsset::class => [
                     'css' => []
                 ],
-                \yii\web\JqueryAsset::class => [
-                    'sourcePath' => '@bower/jquery/dist',
-                    'js' => [
-                        (YII_DEBUG) ? 'jquery.js' : 'jquery.min.js',
-                    ]
-                ]
             ]
         ],
         'errorHandler' => [

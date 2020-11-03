@@ -4,83 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8e6e4ad078a35d62ef4489d9506949f",
+    "content-hash": "e84d5c28971aafc618fb19c21ce708b5",
     "packages": [
-        {
-            "name": "bower-asset/inputmask",
-            "version": "3.3.11",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:RobinHerbots/Inputmask.git",
-                "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/5e670ad62f50c738388d4dcec78d2888505ad77b",
-                "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
-            },
-            "require": {
-                "bower-asset/jquery": ">=1.7"
-            },
-            "type": "bower-asset",
-            "license": [
-                "http://opensource.org/licenses/mit-license.php"
-            ]
-        },
-        {
-            "name": "bower-asset/jquery",
-            "version": "3.5.1",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
-                "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/4c0e4becb8263bb5b3e6dadc448d8e7305ef8215",
-                "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
-            },
-            "type": "bower-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "bower-asset/punycode",
-            "version": "v1.3.2",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:bestiejs/punycode.js.git",
-                "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bestiejs/punycode.js/zipball/38c8d3131a82567bfef18da09f7f4db68c84f8a3",
-                "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
-            },
-            "type": "bower-asset"
-        },
-        {
-            "name": "bower-asset/yii2-pjax",
-            "version": "v2.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "885fc8c2d36c93a801b6af0ee8ad55d79df97cb1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/885fc8c2d36c93a801b6af0ee8ad55d79df97cb1",
-                "reference": "885fc8c2d36c93a801b6af0ee8ad55d79df97cb1"
-            },
-            "require": {
-                "bower-asset/jquery": ">=1.8"
-            },
-            "type": "bower-asset",
-            "license": [
-                "MIT"
-            ]
-        },
         {
             "name": "box/spout",
             "version": "v3.1.0",
@@ -484,6 +409,80 @@
             "time": "2020-10-05T16:44:11+00:00"
         },
         {
+            "name": "foxy/foxy",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fxpio/foxy.git",
+                "reference": "fa541677948a1a765a8120653603659249c60f0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fxpio/foxy/zipball/fa541677948a1a765a8120653603659249c60f0f",
+                "reference": "fa541677948a1a765a8120653603659249c60f0f",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1|^2.0",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "composer/composer": "^1.5.0|^2.0.0@dev"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Foxy\\Foxy",
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Foxy\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Pluchino",
+                    "email": "francois.pluchino@gmail.com"
+                }
+            ],
+            "description": "Fast, reliable, and secure NPM/Yarn bridge for Composer",
+            "homepage": "https://github.com/fxpio/foxy",
+            "keywords": [
+                "Bridge",
+                "asset",
+                "composer",
+                "dependency manager",
+                "nodejs",
+                "npm",
+                "package",
+                "yarn"
+            ],
+            "support": {
+                "issues": "https://github.com/fxpio/foxy/issues",
+                "source": "https://github.com/fxpio/foxy/tree/v1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/francoispluchino",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/francoispluchino",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-06-06T20:12:54+00:00"
+        },
+        {
             "name": "guzzlehttp/psr7",
             "version": "1.7.0",
             "source": {
@@ -564,12 +563,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
-                "reference": "0439355531637578a8f1c1932950d79630d26cc2"
+                "reference": "0e40cb2e2b43a74682deb78aaea5d3a6cfa8e5fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/0439355531637578a8f1c1932950d79630d26cc2",
-                "reference": "0439355531637578a8f1c1932950d79630d26cc2",
+                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/0e40cb2e2b43a74682deb78aaea5d3a6cfa8e5fd",
+                "reference": "0e40cb2e2b43a74682deb78aaea5d3a6cfa8e5fd",
                 "shasum": ""
             },
             "default-branch": true,
@@ -588,7 +587,7 @@
                 "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master",
                 "issues": "https://github.com/HeRAMS-WHO/herams-i18n/issues"
             },
-            "time": "2020-10-12T17:20:24+00:00"
+            "time": "2020-11-03T10:40:48+00:00"
         },
         {
             "name": "kartik-v/strength-meter",
@@ -1606,73 +1605,59 @@
             "time": "2020-09-19T15:58:13+00:00"
         },
         {
-            "name": "npm-asset/babel--runtime",
-            "version": "v7.12.3",
+            "name": "psr/http-factory",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:babel/babel.git",
-                "reference": "2562c8d8fa13515448e362e5c1e5c302aef5b54a"
+                "url": "https://github.com/php-fig/http-factory.git",
+                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babel/babel/zipball/2562c8d8fa13515448e362e5c1e5c302aef5b54a",
-                "reference": "2562c8d8fa13515448e362e5c1e5c302aef5b54a"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/bootstrap",
-            "version": "3.4.1",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/bootstrap/-/bootstrap-3.4.1.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/i18next",
-            "version": "19.7.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/i18next/-/i18next-19.7.0.tgz"
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "shasum": ""
             },
             "require": {
-                "npm-asset/babel--runtime": ">=7.10.1,<8.0.0"
+                "php": ">=7.0.0",
+                "psr/http-message": "^1.0"
             },
-            "type": "npm-asset",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/izitoast",
-            "version": "1.4.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/izitoast/-/izitoast-1.4.0.tgz"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for PSR-7 HTTP message factories",
+            "keywords": [
+                "factory",
+                "http",
+                "message",
+                "psr",
+                "psr-17",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-factory/tree/master"
             },
-            "type": "npm-asset",
-            "license": [
-                "Apache-2.0"
-            ]
-        },
-        {
-            "name": "npm-asset/pretty-checkbox",
-            "version": "3.0.3",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/pretty-checkbox/-/pretty-checkbox-3.0.3.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
+            "time": "2019-04-30T12:38:16+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1726,6 +1711,63 @@
                 "source": "https://github.com/php-fig/http-message/tree/master"
             },
             "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
+            "name": "psr/http-server-handler",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side request handler",
+            "keywords": [
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-handler/issues",
+                "source": "https://github.com/php-fig/http-server-handler/tree/master"
+            },
+            "time": "2018-10-30T16:46:14+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2949,17 +2991,81 @@
             "time": "2020-09-28T13:05:58+00:00"
         },
         {
+            "name": "woohoolabs/yin",
+            "version": "4.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/woohoolabs/yin.git",
+                "reference": "930c16f7e7a74ac0e6b1f75a2c4be13495248f18"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/woohoolabs/yin/zipball/930c16f7e7a74ac0e6b1f75a2c4be13495248f18",
+                "reference": "930c16f7e7a74ac0e6b1f75a2c4be13495248f18",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.0||^8.0.0",
+                "psr/http-message-implementation": "^1.0.0"
+            },
+            "require-dev": {
+                "justinrainbow/json-schema": "^5.2.0",
+                "laminas/laminas-diactoros": "^2.0.0",
+                "laminas/laminas-httphandlerrunner": "^1.0.0",
+                "phpstan/phpstan": "^0.12.0",
+                "phpstan/phpstan-phpunit": "^0.12.0",
+                "phpstan/phpstan-strict-rules": "^0.12.0",
+                "phpunit/phpunit": "^7.0.0||^8.2.0||^9.0.0",
+                "seld/jsonlint": "^1.7.0",
+                "squizlabs/php_codesniffer": "^3.5.1",
+                "woohoolabs/coding-standard": "^1.1.2",
+                "woohoolabs/releaser": "^1.1"
+            },
+            "suggest": {
+                "justinrainbow/json-schema": "Allows to validate the request and response body against the JSON API schema",
+                "seld/jsonlint": "Allows to lint the request and response body"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WoohooLabs\\Yin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Máté Kocsis",
+                    "email": "kocsismate@woohoolabs.com"
+                }
+            ],
+            "description": "Woohoo Labs. Yin",
+            "keywords": [
+                "Woohoo Labs.",
+                "Yin",
+                "json api",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/woohoolabs/yin/issues",
+                "source": "https://github.com/woohoolabs/yin"
+            },
+            "time": "2020-06-23T09:22:07+00:00"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "5fde120949367f5975e090f6e06a5c018f289761"
+                "reference": "453a383c12db63ec99232f3cd65058208c853aec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5fde120949367f5975e090f6e06a5c018f289761",
-                "reference": "5fde120949367f5975e090f6e06a5c018f289761",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/453a383c12db63ec99232f3cd65058208c853aec",
+                "reference": "453a383c12db63ec99232f3cd65058208c853aec",
                 "shasum": ""
             },
             "require": {
@@ -3068,7 +3174,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-31T21:31:27+00:00"
+            "time": "2020-11-02T16:44:13+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -3679,23 +3785,23 @@
         },
         {
             "name": "codeception/module-rest",
-            "version": "1.2.5",
+            "version": "1.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-rest.git",
-                "reference": "15e16e4a9973ffaeffc39208787e60e5d8316788"
+                "reference": "77cba3dc52aeac75493c7ed9ebdb2de74cfb52cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-rest/zipball/15e16e4a9973ffaeffc39208787e60e5d8316788",
-                "reference": "15e16e4a9973ffaeffc39208787e60e5d8316788",
+                "url": "https://api.github.com/repos/Codeception/module-rest/zipball/77cba3dc52aeac75493c7ed9ebdb2de74cfb52cf",
+                "reference": "77cba3dc52aeac75493c7ed9ebdb2de74cfb52cf",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "^4.0",
-                "flow/jsonpath": "^0.5",
                 "justinrainbow/json-schema": "~5.2.9",
-                "php": ">=5.6.0 <9.0"
+                "php": ">=5.6.0 <9.0",
+                "softcreatr/jsonpath": "^0.5 || ^0.7"
             },
             "require-dev": {
                 "codeception/lib-innerbrowser": "^1.0",
@@ -3727,9 +3833,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-rest/issues",
-                "source": "https://github.com/Codeception/module-rest/tree/1.2.5"
+                "source": "https://github.com/Codeception/module-rest/tree/1.2.6"
             },
-            "time": "2020-10-24T15:20:26+00:00"
+            "time": "2020-11-03T07:04:43+00:00"
         },
         {
             "name": "codeception/module-yii2",
@@ -3996,52 +4102,6 @@
                 }
             ],
             "time": "2020-05-29T17:27:14+00:00"
-        },
-        {
-            "name": "flow/jsonpath",
-            "version": "0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FlowCommunications/JSONPath.git",
-                "reference": "b9738858c75d008c1211612b973e9510f8b7f8ea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FlowCommunications/JSONPath/zipball/b9738858c75d008c1211612b973e9510f8b7f8ea",
-                "reference": "b9738858c75d008c1211612b973e9510f8b7f8ea",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "peekmo/jsonpath": "dev-master",
-                "phpunit/phpunit": "^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Flow\\JSONPath": "src/",
-                    "Flow\\JSONPath\\Test": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Stephen Frank",
-                    "email": "stephen@flowsa.com"
-                }
-            ],
-            "description": "JSONPath implementation for parsing, searching and flattening arrays",
-            "support": {
-                "issues": "https://github.com/FlowCommunications/JSONPath/issues",
-                "source": "https://github.com/FlowCommunications/JSONPath/tree/0.5.0"
-            },
-            "abandoned": "softcreatr/jsonpath",
-            "time": "2019-07-15T17:23:22+00:00"
         },
         {
             "name": "ifsnop/mysqldump-php",
@@ -4689,16 +4749,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.52",
+            "version": "0.12.53",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e96dd5e7ae9aefed663bc7e285ad96792b67eadc"
+                "reference": "dbbdb0d7c2434ecd5289f6114d16473e694caa67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e96dd5e7ae9aefed663bc7e285ad96792b67eadc",
-                "reference": "e96dd5e7ae9aefed663bc7e285ad96792b67eadc",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/dbbdb0d7c2434ecd5289f6114d16473e694caa67",
+                "reference": "dbbdb0d7c2434ecd5289f6114d16473e694caa67",
                 "shasum": ""
             },
             "require": {
@@ -4729,7 +4789,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.52"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.53"
             },
             "funding": [
                 {
@@ -4745,7 +4805,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-25T07:23:44+00:00"
+            "time": "2020-11-01T14:51:50+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6234,6 +6294,73 @@
                 }
             ],
             "time": "2020-09-28T06:39:44+00:00"
+        },
+        {
+            "name": "softcreatr/jsonpath",
+            "version": "0.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SoftCreatR/JSONPath.git",
+                "reference": "46689608586a8081be399342755c36e179f3b5fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SoftCreatR/JSONPath/zipball/46689608586a8081be399342755c36e179f3b5fc",
+                "reference": "46689608586a8081be399342755c36e179f3b5fc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1"
+            },
+            "conflict": {
+                "phpunit/phpunit": "<7.0 || >= 10.0"
+            },
+            "replace": {
+                "flow/jsonpath": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=7.0",
+                "roave/security-advisories": "dev-master",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flow\\JSONPath\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Frank",
+                    "email": "stephen@flowsa.com",
+                    "homepage": "https://prismaticbytes.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sascha Greuel",
+                    "email": "hello@1-2.dev",
+                    "homepage": "http://1-2.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "JSONPath implementation for parsing, searching and flattening arrays",
+            "support": {
+                "email": "hello@1-2.dev",
+                "issues": "https://github.com/SoftCreatR/JSONPath/issues",
+                "source": "https://github.com/SoftCreatR/JSONPath"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/softcreatr",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-10-27T11:37:08+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
