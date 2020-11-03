@@ -78,7 +78,8 @@ return [
             $repo = \Yii::$app->get('preloadingSourceRepository');
             $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
 
-            $environment = new class extends ArrayObject implements Environment {};
+            $environment = new class extends ArrayObject implements Environment {
+            };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
             return new \SamIT\abac\AuthManager($engine, $repo, \Yii::$app->abacResolver, $environment);
         },

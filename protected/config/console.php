@@ -15,7 +15,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     ],
     'components' => [
         // In console mode never read from the LS cache, this forces the data to be refreshed.
-        'limesurveyCache' => function() {
+        'limesurveyCache' => function () {
             $result = new class([
                 'cachePath' => '@runtime/limesurveyCache'
             ]) extends \yii\caching\FileCache {

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class JqueryBundle extends AssetBundle
