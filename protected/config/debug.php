@@ -1,16 +1,28 @@
 <?php
 
+use prime\models\ar\Permission;
+
 $debug = [];
 if (class_exists(\yii\debug\Module::class)) {
-    $debug['modules']['debug'] = [
-        'dataPath' => '/tmp/debug',
-        'class' => yii\debug\Module::class,
-        'panels' => [
-            'user' => false,
-        ],
-        'allowedIPs' => ['127.0.0.1', '::1', '192.168.*', '172.*.*.*'],
-    ];
     if (!CONSOLE) {
+        $debug['modules']['debug'] = [
+            'dataPath' => '/tmp/debug',
+            'as ' . \yii\filters\AccessControl::class => [
+                'class' => \yii\filters\AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [Permission::PERMISSION_DEBUG_TOOLBAR]
+                    ],
+                    [
+                        'allow' => false,
+                    ]
+                ]
+            ],
+            'class' => yii\debug\Module::class,
+            'allowedIPs' => ['*'],
+        ];
+
         $debug['bootstrap'] = ['debug'];
     }
 }

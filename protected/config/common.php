@@ -132,7 +132,7 @@ return [
         },
         'log' => [
             'flushInterval' => 1,
-
+            'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
                     'exportInterval' => 1,
