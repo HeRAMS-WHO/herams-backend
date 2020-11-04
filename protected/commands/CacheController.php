@@ -92,7 +92,6 @@ class CacheController extends \yii\console\controllers\CacheController
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
 
-        $this->actionWarmupSurvey($limesurveyDataProvider, $project->base_survey_eid);
     }
 
     private function warmupWorkspace(Workspace $workspace, LimesurveyDataProvider $limesurveyDataProvider)
