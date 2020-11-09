@@ -47,12 +47,17 @@ class DashboardMapRenderer {
         if (this.data.length == 0) {
             return;
         }
+        var options = {
+            pointToLayer: this.defineFeature,
+            onEachFeature: this.defineFeaturePopup,
+        };
 
         for (let set of this.data) {
-            let layer = L.geoJSON(set.features, {
-                pointToLayer: this.defineFeature,
-                onEachFeature: this.defineFeaturePopup,
-            });
+            options.style = {
+                color: set.color,
+                value: set.value
+            };
+            let layer = L.geoJSON(set.features, options);
             this.markerclusters.addLayer(layer);
             this.allMarkers.addLayer(layer);
 
@@ -91,7 +96,7 @@ class DashboardMapRenderer {
             iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions(leaflet really want to know the size)
             dataPie = d3.nest() //Build a dataset for the pie chart
                 .key(function (d) {
-                    return d.feature.properties.data[DashboardMapRenderer.code];
+                    return d.feature.properties.value;
                 })
                 .entries(children, d3.map),
             //bake some svg markup
@@ -128,7 +133,7 @@ class DashboardMapRenderer {
     defineFeature(feature, latlng)
     {
 
-        var categoryVal = feature.properties.data[DashboardMapRenderer.code];
+        var categoryVal = feature.properties.value;
         var myClass = 'marker category-' + categoryVal;
         var myIcon = L.divIcon({
             className: myClass,
@@ -148,17 +153,20 @@ class DashboardMapRenderer {
     defineFeaturePopup(feature, layer)
     {
         layer.bindPopup(function (e) {
-
-            var popup = "<div class='hf-summary' style='--dot-color:" + feature.properties.color + "'>";
+            var popup = "<div class='hf-summary' style='--dot-color:" + e.options.color + "'>";
             popup += "<h2>" + feature.properties.title + "</h2>";
-            popup += "<h4>Last update : " + feature.properties.update + "</h4>";
+            if (feature.properties.update) {
+                popup += "<h4>Last update : " + feature.properties.update + "</h4>";
+            }
             popup += "<div class='hf-content'>";
 
-            for (let entry of e.feature.properties.popup_data) {
+            for (let entry of e.feature.properties.data) {
                 popup += "<div><span>" + entry.title + " : </span>" + entry.value + "</div>";
             }
             popup += "</div>";
-            popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
+            if (e.feature.properties.workspace_url != null) {
+                popup += "<a href='" + e.feature.properties.workspace_url + "' class='btn btn-primary'>" + e.feature.properties.workspace_title + "</a>";
+            }
             popup += "</div>";
             return popup;
 

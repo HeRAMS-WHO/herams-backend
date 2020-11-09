@@ -110,7 +110,11 @@ class DashboardMap extends Element
                 $pointData = [];
                 foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
                     $qtitle = $titles[$key];
-                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$answers[$key][$response->getValueForCode($key)]}"];
+                    $qvalue = $answers[$key][$response->getValueForCode($key)];
+                    if ($qvalue == null) {
+                        continue;
+                    }
+                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$qvalue}"];
                 }
                 $point = [
                     "type" => "Feature",
@@ -121,7 +125,9 @@ class DashboardMap extends Element
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
                         'id' => $response->getId(),
-                        'data' => $pointData
+                        'data' => $pointData,
+                        'value' => $value,
+                        'color' => $collections[$value]['color'],
                     ]
                 ];
                 $collections[$value]['features'][] = $point;
@@ -169,7 +175,7 @@ class DashboardMap extends Element
                 renderer.RenderLegend($title);
                 
                 
-                layer.bindTooltip(function(e) {
+                /*layer.bindTooltip(function(e) {
                     return e.feature.properties.title;
                 });
                 let popup = layer.bindPopup(function(e) {
