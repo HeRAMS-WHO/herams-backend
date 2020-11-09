@@ -70,7 +70,7 @@ $this->title = \Yii::t('app', 'Projects');
                         return app()->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project);
                     },
                     'view' => function (Project $project) {
-                        return !empty($project->pages) && app()->user->can(Permission::PERMISSION_READ, $project);
+                        return $project->pageCount > 0 && app()->user->can(Permission::PERMISSION_READ, $project);
                     },
                     'update' => function (Project $project) {
                         return app()->user->can(Permission::PERMISSION_WRITE, $project);

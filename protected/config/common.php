@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
 use prime\components\JwtSso;
-use prime\models\ar\Permission;
 use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\values\Authorizable;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
-use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
@@ -41,7 +40,7 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8',
-            'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';dbname=' . $env->get('DB_NAME'),
+            'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';port=' . $env->get('DB_PORT', 3306) . ';dbname=' . $env->get('DB_NAME'),
             'password' => $env->get('DB_PASS'),
             'username' => $env->get('DB_USER'),
             'enableSchemaCache' => !YII_DEBUG,
@@ -73,25 +72,18 @@ return [
                 new \prime\components\GlobalPermissionResolver()
             );
         },
+        'preloadingSourceRepository' => \SamIT\abac\repositories\PreloadingSourceRepository::class,
         'abacManager' => function () {
+            /** @var \SamIT\abac\repositories\PreloadingSourceRepository $repo */
+            $repo = \Yii::$app->get('preloadingSourceRepository');
             $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
-            $repo = new ActiveRecordRepository(Permission::class, [
-                ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
-                ActiveRecordRepository::SOURCE_NAME => 'source',
-                ActiveRecordRepository::TARGET_ID => ActiveRecordRepository::TARGET_ID,
-                ActiveRecordRepository::TARGET_NAME => 'target',
-                ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
-            ]);
-            $cachedRepo = new \SamIT\abac\repositories\CachedReadRepository($repo);
 
             $environment = new class extends ArrayObject implements Environment {
             };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $cachedRepo, \Yii::$app->abacResolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $repo, \Yii::$app->abacResolver, $environment);
         },
         'authManager' => function () {
-
-
             return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
                 'userClass' => \prime\models\ar\User::class,
                 'globalId' => AccessChecker::GLOBAL,
@@ -125,7 +117,8 @@ return [
             $result = new Client($json, $env->get('LS_USER'), $env->get('LS_PASS'));
             $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
-                return app()->get('limesurveyCache')->set($key, $value, $duration);
+                // Ignore hardcoded duration passed in downstream library
+                return app()->get('limesurveyCache')->set($key, $value, 6 * 3600);
             }, function ($key) {
                 $result = app()->get('limesurveyCache')->get($key);
                 if ($result === false) {
@@ -139,7 +132,7 @@ return [
         },
         'log' => [
             'flushInterval' => 1,
-
+            'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
                     'exportInterval' => 1,

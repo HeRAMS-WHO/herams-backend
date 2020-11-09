@@ -1,0 +1,10 @@
+{
+    "private": true,
+    "dependencies": {
+        "bootstrap": "^3.4.1",
+        "izitoast": "^1.4.0",
+        "jquery": "^3.5.1",
+        "pretty-checkbox": "^3.0.3",
+        "yii2-pjax": "^2.0.7"
+    }
+}

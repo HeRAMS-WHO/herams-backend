@@ -1,6 +1,4 @@
-version: '3.7'
-volumes:
-  runtime:
+version: '3.8'
 x-env:
   base: &base
     build:
@@ -10,8 +8,8 @@ x-env:
       - ./tests:/project/tests:rw
       - ./protected/migrations:/project/protected/migrations:rw
       - ./protected/messages:/project/protected/messages:rw
-      - runtime:/runtime
     tmpfs:
+      - /runtime:rw,noexec,nosuid,uid=${UID-0}
       - /tmp:rw,noexec,nosuid,uid=${UID-0}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment:

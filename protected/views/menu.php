@@ -5,7 +5,7 @@ use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
 
 SideMenu::begin([
-    'footer' => $this->render('//footer', ['projects' => Project::find()->all()])
+    'footer' => $this->render('//footer')
 ]);
 /** @var \prime\components\Controller $controller */
 $controller = $this->context;
@@ -26,7 +26,7 @@ if (\Yii::$app->user->can(\prime\models\ar\Permission::PERMISSION_ADMIN)) {
         ['class' => $controller->action->uniqueId === 'user/index' ? 'active' : null]
     );
     echo Html::a(
-        \Yii::t('app', 'Global admins'),
+        \Yii::t('app', 'Global permissions'),
         ['/admin/share'],
         ['class' => $controller->action->uniqueId === 'admin/share' ? 'active' : null]
     );

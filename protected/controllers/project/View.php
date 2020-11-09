@@ -9,6 +9,8 @@ use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\ResponseFilter;
+use SamIT\abac\interfaces\Resolver;
+use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
@@ -23,6 +25,8 @@ class View extends Action
 
 
     public function run(
+        Resolver $abacResolver,
+        PreloadingSourceRepository $preloadingSourceRepository,
         Request $request,
         User $user,
         int $id,
@@ -30,8 +34,12 @@ class View extends Action
         int $parent_id = null,
         string $filter = null
     ) {
+        $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = 'css3-grid';
-        $project = Project::findOne(['id'  => $id]);
+        $project = Project::find()
+            ->andWhere(['id'  => $id])
+            ->with('pages')
+            ->one();
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }

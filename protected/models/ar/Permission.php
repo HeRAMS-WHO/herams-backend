@@ -21,22 +21,17 @@ use yii\validators\UniqueValidator;
  */
 class Permission extends ActiveRecord
 {
-    // If set to false we will reload the cache every time.
-    public static $enableCaching = true;
-
-    // Cache for the results for the anyAllowed lookup.
-    private static $anyCache = [];
-    // Cache for the results for the isAllowed loookup.
-    private static $cache = [];
-
     const PERMISSION_READ = 'read';
     const PERMISSION_SUMMARY = 'summary';
     const PERMISSION_WRITE = 'write';
     const PERMISSION_CREATE = 'create';
     const PERMISSION_ADMIN = 'admin';
+
+    const PERMISSION_DEBUG_TOOLBAR = 'debug-toolbar';
     const PERMISSION_MANAGE_DASHBOARD = 'manage-dashboard';
     const PERMISSION_MANAGE_FAVORITES = 'manage-favorites';
     const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
+    const PERMISSION_LIST_WORKSPACES = 'list-workspaces';
     const PERMISSION_CREATE_PROJECT = 'create-project';
     const PERMISSION_LIMESURVEY = 'update-data';
     const PERMISSION_SHARE = 'share';
@@ -81,6 +76,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces'),
             self::PERMISSION_MANAGE_DASHBOARD => \Yii::t('app', 'Configure dashboard'),
             self::PERMISSION_CREATE_PROJECT => \Yii::t('app', 'Create a new project'),
+            self::PERMISSION_DEBUG_TOOLBAR => \Yii::t('app', 'Show the debug toolbar'),
         ];
     }
 

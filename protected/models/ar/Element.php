@@ -130,7 +130,7 @@ class Element extends ActiveRecord implements Exportable
 
     public function getPage()
     {
-        return $this->hasOne(Page::class, ['id' => 'page_id']);
+        return $this->hasOne(Page::class, ['id' => 'page_id'])->inverseOf('elements');
     }
 
     public function getProject()
