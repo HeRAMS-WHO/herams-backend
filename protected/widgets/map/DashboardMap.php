@@ -124,6 +124,7 @@ class DashboardMap extends Element
                     ],
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
+                        'update' => date_format($response->getDate(), 'Y-m-d'),
                         'id' => $response->getId(),
                         'data' => $pointData,
                         'value' => $value,
