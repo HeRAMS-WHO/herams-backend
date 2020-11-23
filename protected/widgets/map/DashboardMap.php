@@ -73,7 +73,12 @@ class DashboardMap extends Element
 
         $types = $this->getAnswers($this->code);
         $collections = [];
-
+        $titles = [];
+        $answers = [];
+        foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+            $titles[$key] = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
+            $answers[$key] = $this->getAnswers($key);
+        }
         /** @var HeramsResponseInterface $response */
         foreach ($data as $response) {
             try {
@@ -104,9 +109,12 @@ class DashboardMap extends Element
 
                 $pointData = [];
                 foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
-                    $answers = $this->getAnswers($key);
-                    $qtitle = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
-                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$answers[$response->getValueForCode($key)]}"];
+                    $qtitle = $titles[$key];
+                    $qvalue = $answers[$key][$response->getValueForCode($key)];
+                    if ($qvalue == null) {
+                        continue;
+                    }
+                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$qvalue}"];
                 }
                 $point = [
                     "type" => "Feature",
@@ -116,8 +124,11 @@ class DashboardMap extends Element
                     ],
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
+                        'update' => date_format($response->getDate(), 'Y-m-d'),
                         'id' => $response->getId(),
-                        'data' => $pointData
+                        'data' => $pointData,
+                        'value' => $value,
+                        'color' => $collections[$value]['color'],
                     ]
                 ];
                 $collections[$value]['features'][] = $point;
@@ -165,7 +176,7 @@ class DashboardMap extends Element
                 renderer.RenderLegend($title);
                 
                 
-                layer.bindTooltip(function(e) {
+                /*layer.bindTooltip(function(e) {
                     return e.feature.properties.title;
                 });
                 let popup = layer.bindPopup(function(e) {

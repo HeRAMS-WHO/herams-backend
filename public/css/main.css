@@ -582,7 +582,7 @@ input[type="text"] {
 .hf-summary h4 {
     display: inline-block;
     padding: 0 10px 10px;
-    margin: 0 0 20px;
+    margin: 0;
     width: 100%;
     text-align: center;
     font-weight: 500;
@@ -594,7 +594,7 @@ input[type="text"] {
 }
 
 .hf-summary .hf-content {
-    padding: 0 20px;
+    padding: 20px 20px 0;
     width: 100%;
 }
 
