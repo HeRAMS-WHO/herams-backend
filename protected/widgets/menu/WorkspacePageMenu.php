@@ -5,6 +5,7 @@ namespace prime\widgets\menu;
 
 use prime\helpers\Icon;
 use prime\interfaces\PageInterface;
+use prime\models\ar\Permission;
 use prime\models\ar\Page;
 use yii\helpers\Html;
 
@@ -33,7 +34,19 @@ class WorkspacePageMenu extends SideMenu
     protected function renderMenu()
     {
         echo Html::tag('h3', $this->workspace->title);
-        $actions = [['action' => 'limesurvey', 'title' => \Yii::t('app', 'Datas')], ['action' => 'share', 'title' => \Yii::t('app', 'Sharing')], ['action' => 'update', 'title' => \Yii::t('app', 'Settings')]];
+
+
+        $actions = [];
+        if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $this->workspace)) {
+            $actions = [['action' => 'limesurvey', 'title' => \Yii::t('app', 'Data')]];
+        }
+        if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $this->workspace)) {
+            $actions[] = ['action' => 'share', 'title' => \Yii::t('app', 'Sharing')];
+        }
+        if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $this->workspace)) {
+            $actions[] = ['action' => 'update', 'title' => \Yii::t('app', 'Settings')];
+        }
+
 
         foreach ($actions as $action) {
             $options = [];
