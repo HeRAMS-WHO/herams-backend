@@ -161,7 +161,7 @@ class DashboardMapRenderer {
             popup += "<div class='hf-content'>";
 
             for (let entry of e.feature.properties.data) {
-                popup += "<div><span>" + entry.title + " : </span>" + entry.value + "</div>";
+                popup += "<div><span>" + entry.title + "</span>" + entry.value + "</div>";
             }
             popup += "</div>";
             if (e.feature.properties.workspace_url != null) {
