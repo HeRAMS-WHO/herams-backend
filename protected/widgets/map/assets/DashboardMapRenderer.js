@@ -2,21 +2,22 @@
 class DashboardMapRenderer {
 
 
-    constructor(map, options = {})
+    constructor(map, settings = {})
     {
         this.layers = [];
         DashboardMapRenderer.rmax = 30;
-        DashboardMapRenderer.radius = options.markerRadius ? options.markerRadius : 2;
+        DashboardMapRenderer.radius = settings.markerRadius ? settings.markerRadius : 2;
+        DashboardMapRenderer.code = settings.code;
+        this.baseLayers = settings.baseLayers;
         this.map = map;
     }
 
 
 
-    SetData(data, baseLayers, code)
+    SetData(data)
     {
-        DashboardMapRenderer.code = code;
         this.data = data;
-        for (let baseLayer of baseLayers) {
+        for (let baseLayer of this.baseLayers) {
             switch (baseLayer.type) {
                 case 'tileLayer':
                     L.tileLayer(baseLayer.url, baseLayer.options || {}).addTo(this.map);

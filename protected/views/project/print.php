@@ -115,6 +115,7 @@ $filtersContent .= Html::endTag('div');
                     
                     foreach ($subpages as $subpage) {
                         $elements = $subpage->getChildElements();
+                        echo round(memory_get_usage() / 1000000, 2) . "Mb<br/>";
                         foreach ($elements as $element) {
                             Yii::beginProfile('Render element ' . $element->id);
                             echo "<!-- Begin chart {$element->id} -->";
