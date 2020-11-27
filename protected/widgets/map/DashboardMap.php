@@ -45,6 +45,8 @@ class DashboardMap extends Element
      */
     public $data = [];
 
+    public $types = [];
+
     public $colors;
 
     public $code;
@@ -71,7 +73,6 @@ class DashboardMap extends Element
             };
         }
 
-        $types = $this->getAnswers($this->code);
         $collections = [];
         $titles = [];
         $answers = [];
@@ -101,7 +102,7 @@ class DashboardMap extends Element
                     $collections[$value] = [
                         "type" => "FeatureCollection",
                         'features' => [],
-                        "title" => $types[$value] ?? $value ?? 'Unknown',
+                        "title" => $this->types[$value] ?? $value ?? 'Unknown',
                         'value' => $value,
                         'color' => $this->colors[strtr($value, ['-' => '_'])] ?? '#000000'
                     ];
@@ -150,66 +151,34 @@ class DashboardMap extends Element
     public function run(): string
     {
         $this->registerClientScript();
-        $id = Json::encode($this->getId());
 
-        $config = Json::encode([
+        $mapConfig = Json::encode([
             'preferCanvas' => true,
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
             'maxZoom' => 15
         ]);
-        $baseLayers = Json::encode($this->baseLayers);
-        $collections = $this->getCollections($this->data);
-        $data = Json::encode($collections, JSON_PRETTY_PRINT);
-        $code = Json::encode($this->code);
-        $markerRadius = Json::encode($this->markerRadius);
+
+        $id = Json::encode($this->getId());
+        $this->types = $this->getAnswers($this->code);
+        $data =  Json::encode($this->getCollections($this->data));
+        $rendererConfig = Json::encode([
+            'baseLayers' => $this->baseLayers,
+            'code' => $this->code,
+            'markerRadius' => $this->markerRadius
+        ]);
+        
         $title = Json::encode($this->getTitleFromCode($this->code));
         $this->view->registerJs(<<<JS
         (function() {
             try {
                 let 
-                map = L.map($id, $config),
-                renderer = new DashboardMapRenderer(map, {markerRadius : $markerRadius});
-                renderer.SetData($data, $baseLayers, $code);
+                map = L.map($id, $mapConfig),
+                renderer = new DashboardMapRenderer(map, $rendererConfig);
+                renderer.SetData($data);
                 renderer.RenderMap();
                 renderer.RenderLegend($title);
-                
-                
-                /*layer.bindTooltip(function(e) {
-                    return e.feature.properties.title;
-                });
-                let popup = layer.bindPopup(function(e) {
-                    return "<div class='hf-summary'>"+
-                        "<h2>"+e.feature.properties.title+"</h2>" +
-                    "</div>";
-                }, {'className' : "hf-popup"}).getPopup();
-                layer.addTo(map);*/
-                
-                /*let legend = document.createElement('span');
-                legend.classList.add('legend');
-                legend.style.setProperty('--color', data.color);
-                legend.title = data.features.length;
-                //legend.attributeStyleMap.set('--color', color);
-                legend.textContent = data.title;
-                
-                // legend.css
-                layers[legend.outerHTML] = layer;
-                //}
-
-                let layerControl = L.control.layers([], layers, {
-                    collapsed: false,
-                });
-                let parentAdd = layerControl.onAdd;
-                layerControl.onAdd = function() { 
-                    let result = parentAdd.apply(this, arguments);
-                    $(result).prepend('<p style="font-size: 1.3em; font-weight: bold; margin: 0;">' + $title + '</p>');
-                    return result;
-                };
-                
-                layerControl.addTo(map);*/
-
-                
                 
                 L.control.scale({
                     metric: true,
@@ -243,6 +212,12 @@ class DashboardMap extends Element
         })();
 
 JS);
+        unset($mapConfig);
+        unset($data);
+        unset($this->data);
+        unset($this->types);
+        unset($rendererConfig);
+
 
         return parent::run();
     }
