@@ -123,7 +123,7 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
                 foreach ($pages as $key => $subpage) {
                     echo isset($filtersContent) ? $filtersContent : '';
                     echo Html::beginTag('div', ['class' => 'content']);
-                    echo "<h2 class='page-title'>{$page->title}</h2>";
+                    echo "<h2 class='page-title'>{$subpage->title}</h2>";
 
                     $elements = $subpage->getChildElements();
                     foreach ($elements as $element) {
