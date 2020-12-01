@@ -4,14 +4,14 @@ class DashboardMapRenderer {
 
     constructor(map, settings = {})
     {
+        this.map = map;
         this.layers = [];
+        this.hasClusters = settings.clustered;
+        this.activatePopup = settings.activatePopup;
+        this.baseLayers = settings.baseLayers;
         DashboardMapRenderer.rmax = 30;
         DashboardMapRenderer.radius = settings.markerRadius ? settings.markerRadius : 2;
         DashboardMapRenderer.code = settings.code;
-        this.activatePopup = settings.activatePopup;
-        this.baseLayers = settings.baseLayers;
-        this.map = map;
-        settings = null;
     }
 
 
@@ -28,7 +28,7 @@ class DashboardMapRenderer {
         }
 
         this.allMarkers = L.layerGroup();
-        this.markerclusters = L.markerClusterGroup({
+        this.markerClusters = L.markerClusterGroup.layerSupport({
             maxClusterRadius: 2 * DashboardMapRenderer.rmax,
             iconCreateFunction: this.defineClusterIcon,
             spiderfyOnMaxZoom: false,
@@ -41,7 +41,7 @@ class DashboardMapRenderer {
                 fillOpacity: 0.2
             }
         })
-        this.map.addLayer(this.markerclusters);
+        this.map.addLayer(this.markerClusters);
 
     }
 
@@ -61,8 +61,10 @@ class DashboardMapRenderer {
                 value: set.value
             };
             let layer = L.geoJSON(set.features, options);
-            this.markerclusters.addLayer(layer);
+            layer.color = set.color;
+            this.markerClusters.checkIn(layer);
             this.allMarkers.addLayer(layer);
+            layer.addTo(this.map);
 
             let legend = document.createElement('span');
             legend.classList.add('legend');
@@ -72,11 +74,11 @@ class DashboardMapRenderer {
             this.layers[legend.outerHTML] = layer;
         }
 
-        this.bounds = this.markerclusters.getBounds();
+        this.bounds = this.markerClusters.getBounds();
 
         this.map.on('zoomend', () => {
 
-            this.markerclusters.eachLayer((layer) => {
+            this.markerClusters.eachLayer((layer) => {
                 var currentZoom = this.map.getZoom();
                 let radius = (currentZoom * 0.6) + DashboardMapRenderer.radius;
                 if (currentZoom < 7) {
@@ -272,46 +274,21 @@ class DashboardMapRenderer {
         this.legend.prepend("<p>" + title + "</p>");
         this.legend.append('<span class="clustertoggle">Show / Hide Clusters</span>');
 
-        $('.legend').on('click', () => {
-            this.removeClusters();
-        });
-
         $('.clustertoggle').on('click', () => {
             this.toggleClusters();
         });
 
     }
 
-    removeClusters()
-    {
-        if (this.map.hasLayer(this.markerclusters)) {
-            this.map.removeLayer(this.markerclusters);
-            this.map.addLayer(this.allMarkers);
-            this.legend.removeClass("has-clusters");
-        }
-    }
-
-    addClusters()
-    {
-        if (this.map.hasLayer(this.allMarkers)) {
-            this.map.removeLayer(this.allMarkers);
-            this.map.addLayer(this.markerclusters);
-            this.legend.addClass("has-clusters");
-        }
-    }
-
     toggleClusters()
     {
-        $('.legend').off('click');
-        if (this.map.hasLayer(this.markerclusters)) {
-            this.removeClusters();
+        
+        if (this.hasClusters) {
+            this.markerClusters.disableClustering(); // shortcut for mcg.freezeAtZoom("max")
         } else {
-            this.addClusters()
+            this.markerClusters.enableClustering();
         }
-        $('.legend').on('click', () => {
-            this.removeClusters();
-        });
-
+        this.hasClusters = !this.hasClusters;
     }
 }
 

@@ -28,7 +28,6 @@ label .legend:before {
 }
 
 .has-clusters label .legend:before {
-  /*content: '⬤';*/
   background-color: var(--color);
 }
 
@@ -36,9 +35,15 @@ label .legend:before {
   text-decoration: none;
 }
 
+.leaflet-control-layers-selector+span .legend:before {
+  border-color: var(--color);
+  background-color: transparent;
+}
+
 .leaflet-control-layers-selector:checked+span .legend:before {
-  /*content: '⬤';*/
+  border-color: transparent;
   background-color: var(--color);
+  
 }
 
 .clustertoggle {

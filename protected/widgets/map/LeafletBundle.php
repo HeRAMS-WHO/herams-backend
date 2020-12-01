@@ -29,6 +29,14 @@ class LeafletBundle extends AssetBundle
         [
             'url' => 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js',
             'crossorigin' => 'anonymous'
+        ],
+         [
+            'url' => 'https://unpkg.com/leaflet.markercluster.layersupport@2.0.1/dist/leaflet.markercluster.layersupport.js',
+            'crossorigin' => 'anonymous'
+        ],
+         [
+            'url' => 'https://unpkg.com/leaflet.markercluster.freezable@1.0.0/dist/leaflet.markercluster.freezable.js',
+            'crossorigin' => 'anonymous'
         ]
     ];
 }

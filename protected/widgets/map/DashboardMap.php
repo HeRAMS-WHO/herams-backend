@@ -175,6 +175,7 @@ class DashboardMap extends Element
                     code: $code,
                     markerRadius: $markerRadius,
                     activatePopup: true,
+                    clustered: true,
                     renderer: L.canvas()
                 };
                 
