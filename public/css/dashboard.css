@@ -537,7 +537,7 @@ span.header {
     padding: 5px 3px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    z-index: 10000;
+    z-index: 100;
 }
 
 .content>.element .legend-title {
