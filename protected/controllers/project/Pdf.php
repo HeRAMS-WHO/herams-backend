@@ -5,6 +5,7 @@ namespace prime\controllers\project;
 use prime\exceptions\SurveyDoesNotExist;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\models\ar\Page;
 use prime\models\forms\ResponseFilter;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -41,6 +42,25 @@ class Pdf extends Action
             throw new ServerErrorHttpException($e->getMessage());
         }
 
+        if (isset($parent_id, $page_id)) {
+            /** @var PageInterface $parent */
+            $parent = Page::findOne(['id' => $parent_id]);
+            foreach ($parent->getChildPages($survey) as $childPage) {
+                if ($childPage->getid() === $page_id) {
+                    $page = $childPage;
+                    break;
+                }
+            }
+            if (!isset($page)) {
+                throw new NotFoundHttpException();
+            }
+        } elseif (isset($page_id)) {
+            $page = Page::findOne(['id' => $page_id]);
+            if (!isset($page) || $page->project_id !== $project->id) {
+                throw new NotFoundHttpException();
+            }
+        }
+        
         $responses = $project->getResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
@@ -57,13 +77,17 @@ class Pdf extends Action
 
         $filtered = $filterModel->filterQuery($responses)->all();
 
-        return $this->controller->render('print', [
+        $params = [
             'types' => $this->getTypes($survey, $project),
             'data' => $filtered,
             'filterModel' => $filterModel,
             'project' => $project,
             'survey' => $survey
-        ]);
+        ];
+        if (isset($page)) {
+            $params['page'] = $page;
+        }
+        return $this->controller->render('print', $params);
     }
 
     private function getTypes(SurveyInterface $survey, Project $project): array

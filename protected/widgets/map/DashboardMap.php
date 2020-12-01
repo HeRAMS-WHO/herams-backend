@@ -166,7 +166,6 @@ class DashboardMap extends Element
         $baseLayers = Json::encode($this->baseLayers);
         $code = Json::encode($this->code);
         $markerRadius = Json::encode($this->markerRadius);
-        
         $title = Json::encode($this->getTitleFromCode($this->code));
         $this->view->registerJs(<<<JS
         (function() {
@@ -175,6 +174,7 @@ class DashboardMap extends Element
                     baseLayers: $baseLayers,
                     code: $code,
                     markerRadius: $markerRadius,
+                    activatePopup: true,
                     renderer: L.canvas()
                 };
                 
