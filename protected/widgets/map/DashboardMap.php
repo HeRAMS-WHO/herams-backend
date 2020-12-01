@@ -163,19 +163,24 @@ class DashboardMap extends Element
         $id = Json::encode($this->getId());
         $this->types = $this->getAnswers($this->code);
         $data =  Json::encode($this->getCollections($this->data));
-        $rendererConfig = Json::encode([
-            'baseLayers' => $this->baseLayers,
-            'code' => $this->code,
-            'markerRadius' => $this->markerRadius
-        ]);
+        $baseLayers = Json::encode($this->baseLayers);
+        $code = Json::encode($this->code);
+        $markerRadius = Json::encode($this->markerRadius);
         
         $title = Json::encode($this->getTitleFromCode($this->code));
         $this->view->registerJs(<<<JS
         (function() {
             try {
+                var rendererConfig = {
+                    baseLayers: $baseLayers,
+                    code: $code,
+                    markerRadius: $markerRadius,
+                    renderer: L.canvas()
+                };
+                
                 let 
                 map = L.map($id, $mapConfig),
-                renderer = new DashboardMapRenderer(map, $rendererConfig);
+                renderer = new DashboardMapRenderer(map, rendererConfig);
                 renderer.SetData($data);
                 renderer.RenderMap();
                 renderer.RenderLegend($title);
@@ -216,7 +221,6 @@ JS);
         unset($data);
         unset($this->data);
         unset($this->types);
-        unset($rendererConfig);
 
 
         return parent::run();
