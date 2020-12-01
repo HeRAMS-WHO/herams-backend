@@ -11,15 +11,34 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 
 $this->title = $project->getDisplayField();
 
+$pages = [];
+if (isset($page)) {
+    $pages[] = $page;
+} else {
+    $projectPages = $project->pages;
+    foreach ($projectPages as $key => $page) {
+        $subpages = [];
+        foreach ($page->getChildPages($survey) as $child) {
+            $subpages[] = $child;
+        }
+
+        if (count($subpages) == 0) {
+            $subpages[] = $page;
+        }
+        $pages = array_merge($pages, $subpages);
+    }
+}
+
 $groups = $project->getSurvey()->getGroups();
 usort($groups, function (GroupInterface $a, GroupInterface $b) {
     return $a->getIndex() <=> $b->getIndex();
 });
 
-$filtersContent = Html::beginTag('div', ['class' => 'filters-list']);
+
 $date = $filterModel->attributes['date'];
 $filters = $filterModel->attributes['advanced'];
 if (isset($date) || (is_array($filters) && count($filters) > 0)) {
+    $filtersContent = Html::beginTag('div', ['class' => 'filters-list']);
     $filtersContent .= "<span class='list-title'>" . \Yii::t('app', 'Filters') . "</span> : ";
     if (isset($date)) {
         $filtersContent .= "<strong>" . \Yii::t('app', 'Date') . "</strong> {$date} ";
@@ -53,8 +72,8 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
             }
         }
     }
+    $filtersContent .= Html::endTag('div');
 }
-$filtersContent .= Html::endTag('div');
 ?>
 <table>
     <thead>
@@ -101,49 +120,38 @@ $filtersContent .= Html::endTag('div');
             <td>
                 <?php
 
-                foreach ($project->pages as $key => $page) {
-                    echo $filtersContent;
+                foreach ($pages as $key => $subpage) {
+                    echo isset($filtersContent) ? $filtersContent : '';
                     echo Html::beginTag('div', ['class' => 'content']);
                     echo "<h2 class='page-title'>{$page->title}</h2>";
-                    $subpages = [];
-                    foreach ($page->getChildPages($survey) as $child) {
-                        $subpages[] = $child;
-                    }
-                    if (count($subpages) == 0) {
-                        $subpages[] = $page;
-                    }
-                    
-                    foreach ($subpages as $subpage) {
-                        $elements = $subpage->getChildElements();
-                        echo round(memory_get_usage() / 1000000, 2) . "Mb<br/>";
-                        foreach ($elements as $element) {
-                            Yii::beginProfile('Render element ' . $element->id);
-                            echo "<!-- Begin chart {$element->id} -->";
-                            $level = ob_get_level();
-                            ob_start();
-                            try {
-                                echo $element->getWidget($survey, $data, $subpage)->run();
-                                echo ob_get_clean();
-                            } catch (Throwable $t) {
-                                while (ob_get_level() > $level) {
-                                    ob_end_clean();
-                                }
+
+                    $elements = $subpage->getChildElements();
+                    foreach ($elements as $element) {
+                        Yii::beginProfile('Render element ' . $element->id);
+                        echo "<!-- Begin chart {$element->id} -->";
+                        $level = ob_get_level();
+                        ob_start();
+                        try {
+                            echo $element->getWidget($survey, $data, $subpage)->run();
+                            echo ob_get_clean();
+                        } catch (Throwable $t) {
+                            while (ob_get_level() > $level) {
+                                ob_end_clean();
                             }
-                            echo "<!-- End chart {$element->id} -->";
-                            Yii::endProfile('Render element ' . $element->id);
-                            echo round(memory_get_usage() / 1000000, 2) . "Mb<br/>";
-                            unset($element);
                         }
-                        unset($elements);
-                        unset($subpage);
+                        echo "<!-- End chart {$element->id} -->";
+                        Yii::endProfile('Render element ' . $element->id);
+                        unset($element);
                     }
-                    unset($page);
-                    unset($subpages);
+                    unset($elements);
                     echo Html::endTag('div');
-                    if ($key !== array_key_last($project->pages)) {
+                    if ($key !== array_key_last($pages)) {
                         echo "<div class='page-break'></div>";
                     }
+                    unset($subpage);
                 }
+                unset($pages);
+                unset($filtersContent);
                 ?>
             </td>
         </tr>

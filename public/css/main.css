@@ -147,6 +147,16 @@ input[type="text"] {
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 
+.btn-icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon svg {
+    margin-right: 5px;
+}
+
 .btn-clear, .btn-clear:visited {
     background-color: transparent !important;
     color: var(--clear-button-color);

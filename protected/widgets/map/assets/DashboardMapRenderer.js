@@ -8,8 +8,10 @@ class DashboardMapRenderer {
         DashboardMapRenderer.rmax = 30;
         DashboardMapRenderer.radius = settings.markerRadius ? settings.markerRadius : 2;
         DashboardMapRenderer.code = settings.code;
+        this.activatePopup = settings.activatePopup;
         this.baseLayers = settings.baseLayers;
         this.map = map;
+        settings = null;
     }
 
 
@@ -50,7 +52,7 @@ class DashboardMapRenderer {
         }
         var options = {
             pointToLayer: this.defineFeature,
-            onEachFeature: this.defineFeaturePopup,
+            onEachFeature: this.activatePopup ? this.defineFeaturePopup : null
         };
 
         for (let set of this.data) {

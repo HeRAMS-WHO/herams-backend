@@ -54,7 +54,10 @@ echo Html::beginForm([
 $filterCount = !empty($filterModel->date) ? 1 : 0;
 $filterCount += count($filterModel->advanced);
 $filterCountSpan = "<span>{$filterCount}</span>";
-echo Html::a(\Yii::t('app', 'PDF'), array_merge(Yii::$app->request->queryParams, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white', 'title' => 'Pdf export']);
+$paramsAllPages = Yii::$app->request->queryParams;
+unset($paramsAllPages['page_id']);
+echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($paramsAllPages, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => 'Export all pages to pdf']);
+echo Html::a(\Yii::t('app', 'Print'), array_merge(Yii::$app->request->queryParams, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => 'Export this page to pdf']);
 echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white']);
 echo Html::a(\Yii::t('app', 'Filters').$filterCountSpan, '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
 
