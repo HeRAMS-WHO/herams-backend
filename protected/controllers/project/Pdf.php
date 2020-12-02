@@ -42,6 +42,7 @@ class Pdf extends Action
             throw new ServerErrorHttpException($e->getMessage());
         }
 
+
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
             $parent = Page::findOne(['id' => $parent_id]);
@@ -60,7 +61,8 @@ class Pdf extends Action
                 throw new NotFoundHttpException();
             }
         }
-        
+
+
         $responses = $project->getResponses();
 
         \Yii::beginProfile('ResponseFilterinit');

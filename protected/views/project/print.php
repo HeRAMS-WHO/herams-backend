@@ -12,6 +12,7 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 $this->title = $project->getDisplayField();
 
 $pages = [];
+
 if (isset($page)) {
     $pages[] = $page;
 } else {
