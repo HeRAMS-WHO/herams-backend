@@ -54,10 +54,14 @@ echo Html::beginForm([
 $filterCount = !empty($filterModel->date) ? 1 : 0;
 $filterCount += count($filterModel->advanced);
 $filterCountSpan = "<span>{$filterCount}</span>";
-$paramsAllPages = Yii::$app->request->queryParams;
-unset($paramsAllPages['page_id']);
-echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($paramsAllPages, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => 'Export all pages to pdf']);
-echo Html::a(\Yii::t('app', 'Print'), array_merge(Yii::$app->request->queryParams, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => 'Export this page to pdf']);
+
+$params = Yii::$app->request->queryParams;
+if (!array_key_exists('page_id', $params) && !empty($project->pages)) {
+    $params['page_id'] = $project->pages[0]->getid();
+}
+echo Html::a(\Yii::t('app', 'Print'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => 'Export this page to pdf']);
+unset($params['page_id']);
+echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => 'Export all pages to pdf']);
 echo Html::a(Icon::list(), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white']);
 echo Html::a(\Yii::t('app', 'Filters').$filterCountSpan, '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
 

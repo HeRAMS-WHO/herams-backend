@@ -76,7 +76,8 @@ class DashboardMap extends Element
         $collections = [];
         $titles = [];
         $answers = [];
-        foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+        $variables = ['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'];
+        foreach ($variables as $key) {
             $titles[$key] = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
             $answers[$key] = $this->getAnswers($key);
         }
@@ -109,7 +110,7 @@ class DashboardMap extends Element
                 }
 
                 $pointData = [];
-                foreach (['GEO1', 'MoSD3', 'CONDB', 'HFFUNCT', 'HFACC'] as $key) {
+                foreach ($variables as $key) {
                     $qtitle = $titles[$key];
                     $qvalue = $answers[$key][$response->getValueForCode($key)];
                     if ($qvalue == null) {
@@ -175,6 +176,7 @@ class DashboardMap extends Element
                     code: $code,
                     markerRadius: $markerRadius,
                     activatePopup: true,
+                    clustered: true,
                     renderer: L.canvas()
                 };
                 
