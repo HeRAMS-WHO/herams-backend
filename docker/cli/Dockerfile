@@ -1,4 +1,4 @@
-FROM php:alpine
+FROM php:7.4-alpine
 RUN php --version && sleep 10
 RUN apk add --update --no-cache git zlib wait4ports
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
