@@ -1,21 +1,19 @@
-label .legend {
+label .legend-item {
   vertical-align: middle;
   user-select: none;
   display: inline-flex;
   align-items: center;
   justify-content: left;
-  font-size: 12px;
-  line-height: 12px;
-  letter-spacing: 0.4px;
-  font-weight: 300;
-  color: black;
-  font-family: "Source Sans Pro";
   border: none;
   cursor: pointer;
   margin-bottom: 7px;
 }
 
-label .legend:before {
+label .legend-item:hover .label {
+  text-decoration: underline;
+}
+
+label .legend-item .color {
   /*content: '◯';*/
   content: '';
   background-color: transparent;
@@ -27,23 +25,16 @@ label .legend:before {
   display: inline-block;
 }
 
-.has-clusters label .legend:before {
-  background-color: var(--color);
+.leaflet-control-layers-selector:checked ~ span .legend-item .label {
+  text-decoration: none ;
 }
 
-.leaflet-control-layers-selector:checked+span .legend {
-  text-decoration: none;
+.leaflet-control-layers-selector ~ span .legend-item .label {
+  text-decoration: line-through;
 }
 
-.leaflet-control-layers-selector+span .legend:before {
-  border-color: var(--color);
-  background-color: transparent;
-}
-
-.leaflet-control-layers-selector:checked+span .legend:before {
-  border-color: transparent;
-  background-color: var(--color);
-  
+.leaflet-control-layers-selector ~ span .legend-item:hover .label {
+  text-decoration: line-through;
 }
 
 .clustertoggle {

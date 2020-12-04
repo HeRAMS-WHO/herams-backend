@@ -66,11 +66,18 @@ class DashboardMapRenderer {
             this.allMarkers.addLayer(layer);
             layer.addTo(this.map);
 
-            let legend = document.createElement('span');
-            legend.classList.add('legend');
-            legend.style.setProperty('--color', set.color);
+            let legend = document.createElement('div');
+            legend.classList.add('legend-item');
             legend.title = set.features.length;
-            legend.textContent = set.title;
+            let color = document.createElement('span');
+            color.style.setProperty('background-color',set.color);
+            color.classList.add('color');
+            legend.appendChild(color);
+            
+            let label = document.createElement('span');
+            label.classList.add('label');
+            label.textContent = set.title;
+            legend.appendChild(label);
             this.layers[legend.outerHTML] = layer;
         }
 
