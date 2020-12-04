@@ -113,12 +113,12 @@ class DashboardMap extends Element
                     ];
                 }
 
-                $pointData = [];
+                /*$pointData = [];
                 foreach ($variables as $key) {
                     $qtitle = $titles[$key];
                     $qvalue = $answers[$key][$response->getValueForCode($key)];
                     $pointData[] =  ["title" => "{$qtitle}", "value" => "{$qvalue}"];
-                }
+                }*/
                 $point = [
                     "type" => "Feature",
                     "geometry" => [
@@ -127,9 +127,9 @@ class DashboardMap extends Element
                     ],
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
-                        'update' => date_format($response->getDate(), 'Y-m-d'),
+                        //'update' => date_format($response->getDate(), 'Y-m-d'),
                         'id' => $response->getId(),
-                        'data' => $pointData,
+                        'data' => [],//$pointData,
                         'value' => $value,
                         'color' => $collections[$value]['color'],
                     ]
