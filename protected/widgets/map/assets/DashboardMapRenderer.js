@@ -19,11 +19,6 @@ class DashboardMapRenderer {
     SetData(data)
     {
         this.data = data;
-        console.log(data);
-        var sum = 0;
-        data.map(function (a) {
-            sum += a.features.length;});
-        console.log(sum);
         for (let baseLayer of this.baseLayers) {
             switch (baseLayer.type) {
                 case 'tileLayer':
