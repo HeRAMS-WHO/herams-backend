@@ -12,7 +12,8 @@ html {
     --highlight-color: white;
     --main-background-color: #e0e0e0;
     --content-background-color: white;
-    --breadcrumbs-color: #aaaaaa;/*#878787;*/
+    --breadcrumbs-color: #aaaaaa;
+    /*#878787;*/
     --primary-button-hover-color: #3f86e6;
     --header-light-background-color: #4f4e54;
     --header-light-color: white;
@@ -269,7 +270,6 @@ span.header {
     color: var(--breadcrumbs-color);
     text-decoration: none;
 }
-
 
 .breadcrumb a:hover {
     color: white;
@@ -616,6 +616,9 @@ span.header {
     line-height: 12px;
     letter-spacing: 0.2px;
     line-break: auto;
+    font-weight: 300;
+    color: black;
+    font-family: "Source Sans Pro";
 }
 
 .content>.element .legend-item .label span {
@@ -844,7 +847,7 @@ body {
         grid-auto-columns: min-content;
         grid-template-rows: min-content;
     }
-    .content.layout-admin-topbar,.content.layout-admin {
+    .content.layout-admin-topbar, .content.layout-admin {
         display: block;
     }
     .user-menu {
