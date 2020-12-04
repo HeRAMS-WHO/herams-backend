@@ -82,8 +82,10 @@ class DashboardMap extends Element
             $answers[$key] = $this->getAnswers($key);
         }
         $ignored = 0;
+        $total = 0;
         /** @var HeramsResponseInterface $response */
         foreach ($data as $response) {
+            $total++;
             try {
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
@@ -115,9 +117,6 @@ class DashboardMap extends Element
                 foreach ($variables as $key) {
                     $qtitle = $titles[$key];
                     $qvalue = $answers[$key][$response->getValueForCode($key)];
-                    if ($qvalue == null) {
-                        continue;
-                    }
                     $pointData[] =  ["title" => "{$qtitle}", "value" => "{$qvalue}"];
                 }
                 $point = [
@@ -148,7 +147,7 @@ class DashboardMap extends Element
             }
             return $a <=> $b;
         });
-        echo $ignored;
+        echo $total.' (bad coordinates : '.$ignored.')';
         return array_values($collections);
     }
 
