@@ -81,6 +81,7 @@ class DashboardMap extends Element
             $titles[$key] = strtok(strip_tags($this->findQuestionByCode($key)->getText()), ':(');
             $answers[$key] = $this->getAnswers($key);
         }
+        $ignored = 0;
         /** @var HeramsResponseInterface $response */
         foreach ($data as $response) {
             try {
@@ -93,6 +94,7 @@ class DashboardMap extends Element
                     || abs($longitude) > 180
 
                 ) {
+                    $ignored ++;
                     continue;
                 }
 
@@ -146,6 +148,7 @@ class DashboardMap extends Element
             }
             return $a <=> $b;
         });
+        echo $ignored;
         return array_values($collections);
     }
 
