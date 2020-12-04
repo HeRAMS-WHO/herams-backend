@@ -96,7 +96,7 @@ class DashboardMap extends Element
                     || abs($longitude) > 180
 
                 ) {
-                    $ignored ++;
+                    $ignored++;
                     continue;
                 }
 
@@ -113,12 +113,20 @@ class DashboardMap extends Element
                     ];
                 }
 
-                /*$pointData = [];
+                $pointData = [];
                 foreach ($variables as $key) {
-                    $qtitle = $titles[$key];
-                    $qvalue = $answers[$key][$response->getValueForCode($key)];
-                    $pointData[] =  ["title" => "{$qtitle}", "value" => "{$qvalue}"];
-                }*/
+                    try {
+                        $qtitle = $titles[$key];
+                        $qvalue = $answers[$key][$response->getValueForCode($key)];
+                        $pointData[] =  ["title" => "{$qtitle}", "value" => "{$qvalue}"];
+                    } catch (\Throwable $t) {
+                    }
+                }
+                $update = null;
+                try {
+                    $update = date_format($response->getDate(), 'Y-m-d');
+                } catch (\Throwable $t) {
+                }
                 $point = [
                     "type" => "Feature",
                     "geometry" => [
@@ -127,9 +135,9 @@ class DashboardMap extends Element
                     ],
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
-                        //'update' => date_format($response->getDate(), 'Y-m-d'),
+                        'update' => $update,
                         'id' => $response->getId(),
-                        'data' => [],//$pointData,
+                        'data' => $pointData,
                         'value' => $value,
                         'color' => $collections[$value]['color'],
                     ]
@@ -147,7 +155,7 @@ class DashboardMap extends Element
             }
             return $a <=> $b;
         });
-        echo $total.' (bad coordinates : '.$ignored.')';
+        echo $total . ' (bad coordinates : ' . $ignored . ')';
         return array_values($collections);
     }
 
