@@ -80,6 +80,9 @@ echo GridView::widget([
     'dataProvider' => $workspaceProvider,
     'columns' => [
         [
+            'class' => FavoriteColumn::class
+        ],
+        [
             'attribute' => 'id',
         ],
         [
@@ -96,9 +99,6 @@ echo GridView::widget([
         ],
         [
             'attribute' => 'responseCount'
-        ],
-        [
-            'class' => FavoriteColumn::class
         ],
         'actions' => require('workspaces/actions.php')
     ]

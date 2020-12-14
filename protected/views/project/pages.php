@@ -76,7 +76,7 @@ echo Html::beginTag('div', ['class' => "content"]);
 ?>
 
 <div class="form-content form-bg full-width">
-    <h3><?= \Yii::t('app', 'Pages') ?></h3>
+    
     <?php
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
