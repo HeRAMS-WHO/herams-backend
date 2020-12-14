@@ -60,7 +60,7 @@ echo TabMenu::widget([
 
 
 echo Html::beginTag('div', ['class' => "content"]);
-echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
+echo Html::beginTag('div', ['class' => 'action-group']);
 if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
     echo Html::a(\Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default']);
     echo Html::a(\Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary']);
