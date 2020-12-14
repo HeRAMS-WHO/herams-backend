@@ -64,15 +64,22 @@ body {
     margin-right: 15px;
 }
 
+.user-menu .home {
+    display: none;
+}
+
+.admin.user-menu .home {
+    display: block;
+}
+
+.admin.user-menu .admin {
+    display: none;
+}
+
 .user-menu.dark {
     --icon-color: #42424b;
     --text-color: #42424b;
     --email-color: #42424b;
-}
-
-.user-menu>div {
-    display: inline-block;
-    margin: 0 0 0 10px;
 }
 
 .user-menu span {
@@ -83,9 +90,7 @@ body {
     text-decoration: inherit;
     color: var(--text-color);
     display: inline-block;
-    border-left: 1px solid var(--email-color);
-    padding-left: 10px;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .user-menu a:first-child {
