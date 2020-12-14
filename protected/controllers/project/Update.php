@@ -20,7 +20,7 @@ class Update extends Action
         User $user,
         int $id
     ) {
-        $this->controller->layout = 'admin-content';
+        $this->controller->layout = 'admin-screen';
         $model = Project::findOne(['id' => $id]);
         if (!isset($model)) {
             throw new NotFoundHttpException();

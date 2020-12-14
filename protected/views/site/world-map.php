@@ -19,7 +19,7 @@ $this->registerLinkTag([
 ], 'icomoon');
 
 $this->params['body'] = [
-    'class' => ['no-title']
+    'class' => ['no-title', 'worldmap']
 ];
 // Order projects by status.
 $collections = [];

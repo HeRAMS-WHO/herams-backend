@@ -4,21 +4,51 @@
 
 use app\components\Form;
 use app\components\ActiveForm;
+use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
+use prime\widgets\menu\TabMenu;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
+    'label' => $model->title,
+    'url' => ['project/workspaces', 'id' => $model->id]
 ];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
+$this->title = $model->title;
+
+
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
+$tabs = [
+    [
+        'url' => ['project/workspaces', 'id' => $model->id],
+        'title' => \Yii::t('app', 'Workspaces'),
+    ]
 ];
 
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = $this->title;
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+    $tabs[] =     [
+        'url' => ['project/pages', 'id' => $model->id],
+        'title' => \Yii::t('app', 'dashboard')
+    ];
+    $tabs[] = [
+        'url' => ['project/update', 'id' => $model->id],
+        'title' => \Yii::t('app', 'Settings'),
+        'class' => 'active'
+    ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
+    $tabs[] = [
+        'url' => ['project/share', 'id' => $model->id],
+        'title' => \Yii::t('app', 'Share')
+    ];
+}
+
+echo TabMenu::widget([
+    'tabs' => $tabs,
+    'currentPage' => $this->context->action->id
+]);
+echo Html::beginTag('div', ['class' => "content"]);
 ?>
 <div class="form-content form-bg">
     <?php
@@ -94,3 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $form->end();
     ?>
 </div>
+<?php
+echo Html::endTag('div');
+echo Html::endTag('div');
+?>

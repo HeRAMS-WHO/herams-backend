@@ -26,7 +26,7 @@ class Share extends Action
         AuthManager $abacManager,
         int $id
     ) {
-        $this->controller->layout = 'admin-content';
+        $this->controller->layout = 'admin-screen';
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();

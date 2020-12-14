@@ -12,11 +12,12 @@ use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
+use prime\widgets\menu\TabMenu;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->params['breadcrumbs'][] = [
+/*$this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
     'url' => ['/admin']
 ];
@@ -29,12 +30,53 @@ $this->params['breadcrumbs'][] = [
     'url' => app()->user->can(Permission::PERMISSION_WRITE, $model) ? ['project/update', 'id' => $model->id] : null
 ];
 $this->title = \Yii::t('app', 'Pages');
-//$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;*/
+
+$this->params['breadcrumbs'][] = [
+    'label' => $model->title,
+    'url' => ['project/workspaces', 'id' => $model->id]
+];
+$this->title = $model->title;
 
 
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
+
+
+$tabs = [
+    [
+        'url' => ['project/workspaces', 'id' => $model->id],
+        'title' => \Yii::t('app', 'Workspaces'),
+    ]
+];
+
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+    $tabs[] =     [
+        'url' => ['project/pages', 'id' => $model->id],
+        'title' => \Yii::t('app', 'dashboard'),
+        'class' => 'active'
+    ];
+    $tabs[] = [
+        'url' => ['project/update', 'id' => $model->id],
+        'title' => \Yii::t('app', 'Settings')
+    ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
+    $tabs[] = [
+        'url' => ['project/share', 'id' => $model->id],
+        'title' => \Yii::t('app', 'Share')
+    ];
+}
+
+echo TabMenu::widget([
+    'tabs' => $tabs,
+    'currentPage' => $this->context->action->id
+]);
+echo Html::beginTag('div', ['class' => "content"]);
 ?>
+
 <div class="form-content form-bg full-width">
-    <h3><?=\Yii::t('app', 'Pages')?></h3>
+    
     <?php
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
@@ -135,3 +177,7 @@ $this->title = \Yii::t('app', 'Pages');
 
     ?>
 </div>
+<?php
+echo Html::endTag('div');
+echo Html::endTag('div');
+?>

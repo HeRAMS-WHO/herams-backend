@@ -3,11 +3,16 @@
     --primary-button-color: white;
     --default-button-background-color: #42424b;
     --default-button-color: white;
+    --tab-button-background-color: #edebeb;
+    --tab-button-text-color: #919191;
+    --tab-button-active-background-color: white;
+    --tab-button-active-text-color: #4177c1;
     --clear-button-color: #999999;
     --link-color: black;
     --validation-error-color: #d90001;
     --border-color: grey;
     --font-size: 16px;
+    --max-site-width: 1280px;
 }
 
 a, a:hover, a:active, a:visited {
@@ -22,7 +27,6 @@ iframe {
 
 header {
     text-align: center;
-    /*font-weight: bold;*/
     font-size: 2em;
     margin-bottom: 20px;
 }
@@ -30,6 +34,145 @@ header {
 body {
     font-size: var(--font-size);
     font-family: "Source Sans Pro";
+}
+
+.user-menu {
+    --icon-color: #fefefe;
+    --text-color: #fefefe;
+    --email-color: #bdbdbd;
+    grid-area: user;
+    color: var(--text-color);
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    text-align: left;
+    font-size: 20px;
+}
+
+.worldmap .user-menu {
+    --icon-color: #42424b;
+    --text-color: #42424b;
+    --email-color: #42424b;
+    grid-area: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 401;
+}
+
+.front.user-menu {
+    margin-right: 15px;
+}
+
+.user-menu .home {
+    display: none;
+}
+
+.admin.user-menu .home {
+    display: block;
+}
+
+.admin.user-menu .admin {
+    display: none;
+}
+
+.user-menu.dark {
+    --icon-color: #42424b;
+    --text-color: #42424b;
+    --email-color: #42424b;
+}
+
+.user-menu span {
+    font-size: 11px;
+}
+
+.user-menu a, .user-menu a:visited {
+    text-decoration: inherit;
+    color: var(--text-color);
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.user-menu a:first-child {
+    border-left: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.user-menu a:hover {
+    color: var(--email-color);
+}
+
+.user-menu img {
+    max-height: 50px;
+    border-radius: 50%;
+}
+
+.user-menu .icon {
+    fill: var(--icon-color);
+    stroke: var(--icon-color);
+}
+
+.user-menu .name {
+    color: var(--text-color);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 15px;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.user-menu .email {
+    color: var(--email-color);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 13px;
+}
+
+.breadcrumb {
+    --breadcrumbs-color: #aaaaaa;
+    --separator-color: #656565;
+    display: flex;
+    background: none;
+    width: max-content;
+    margin: 0;
+    padding: 20px 0 7px;
+    list-style-type: none;
+}
+
+.breadcrumb a:not(:hover), .breadcrumb a:not(:hover):visited, .breadcrumb a:not(:hover):active {
+    color: var(--breadcrumbs-color);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.breadcrumb li {
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 0;
+}
+
+.breadcrumb>li+li:before {
+    display: none;
+}
+
+.breadcrumb .icon {
+    margin: 0 5px;
+    height: 12px;
+    fill: var(--separator-color);
+}
+
+.breadcrumb li:last-child .icon {
+    display: none;
 }
 
 .content {
@@ -53,11 +196,13 @@ input[type="text"] {
 }
 
 .btn {
+    display: inline-block;
     cursor: pointer;
     padding: 10px 11px;
     border-radius: 6px;
     font-size: 12px;
     line-height: 12px;
+    letter-spacing: 0.2px;
     min-width: 80px;
     box-shadow: none;
     background-image: none;
@@ -73,9 +218,6 @@ input[type="text"] {
     color: var(--primary-button-color);
     border: 1px solid var(--primary-button-background-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
-    text-shadow: none;
-    font-size: 13px;
-    outline: none;
 }
 
 .btn-primary:hover {
@@ -100,7 +242,6 @@ input[type="text"] {
     color: var(--default-button-color);
     border: 1px solid var(--default-button-background-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
-    text-shadow: none;
 }
 
 .btn-default:hover {
@@ -115,7 +256,6 @@ input[type="text"] {
     color: var(--default-button-color);
     border: 1px solid var(--default-button-background-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
-    text-shadow: none;
 }
 
 .btn-save-back:hover {
@@ -130,7 +270,6 @@ input[type="text"] {
     color: var(--default-button-background-color);
     border: 1px solid var(--default-button-background-color);
     transition: color 0.2s, background 0.2s, border 0.2s;
-    text-shadow: none;
 }
 
 .btn-white:hover {
@@ -169,6 +308,37 @@ input[type="text"] {
     color: var(--primary-button-background-color);
     border: 1px solid var(--primary-button-background-color) !important;
     transition: color 0.2s, border 0.2s;
+}
+
+.btn-tab, .btn-tab:visited {
+    font-size: 13px;
+    line-height: 13px;
+    background-color: var(--tab-button-background-color);
+    color: var(--tab-button-text-color);
+    text-transform: capitalize;
+    padding: 15px;
+    margin-right: 1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border: none;
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-tab:hover {
+    background-color: var(--tab-button-active-background-color);
+    color: var(--tab-button-text-color);
+    border: none;
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-tab.active, .btn-tab.active:visited {
+    background-color: var(--tab-button-active-background-color);
+    color: var(--tab-button-active-text-color);
+}
+
+.btn-tab.active:hover {
+    background-color: var(--tab-button-active-background-color);
+    color: var(--tab-button-active-text-color);
 }
 
 .btn-close, .btn-close:visited {
@@ -245,12 +415,6 @@ input[type="text"] {
     font-size: 14px;
 }
 
-.grid-view {
-    padding: 20px;
-    background-color: white;
-    border-radius: 5px;
-}
-
 .full-width {
     max-width: 100%;
     grid-column: span 4;
@@ -262,18 +426,6 @@ input[type="text"] {
 
 .pull-right {
     float: right;
-}
-
-@media (min-width: 800px) {
-    body {
-        overflow-y: hidden;
-    }
-    .content {
-        display: block;
-        overflow-y: auto;
-        position: relative;
-        padding: var(--gutter-size);
-    }
 }
 
 .leaflet-tooltip-pane {
@@ -629,4 +781,16 @@ input[type="text"] {
     margin: 20px auto 0;
     color: white;
     clear: both;
+}
+
+@media (min-width: 768px) {
+    body {
+        overflow-y: hidden;
+    }
+    .content {
+        display: block;
+        overflow-y: auto;
+        position: relative;
+        padding: var(--gutter-size);
+    }
 }
