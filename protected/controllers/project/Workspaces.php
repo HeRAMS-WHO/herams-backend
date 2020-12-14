@@ -23,7 +23,7 @@ class Workspaces extends Action
         int $id
     ) {
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
-        $this->controller->layout = 'admin';
+        $this->controller->layout = 'admin-screen';
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
