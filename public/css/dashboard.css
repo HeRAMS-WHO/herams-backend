@@ -23,18 +23,6 @@ html {
     --status-height: 30px;
 }
 
-/**
- Box sizing reset
- */
-
-html {
-    box-sizing: border-box;
-    width: 100vw;
-}
-
-*, *:before, *:after {
-    box-sizing: inherit;
-}
 
 input {
     padding-top: 0;

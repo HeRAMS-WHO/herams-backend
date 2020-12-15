@@ -22,7 +22,7 @@ html {
     --dark-color: white;
     --status-height: 30px;
     box-sizing: border-box;
-    width: 100vw;
+    width: 100%;
 }
 
 body {
@@ -31,8 +31,8 @@ body {
     min-height: 100%;
     margin: 0;
     overflow: auto !important;
-    min-width: 100%;
-    display: inline-grid;
+    width: 100%;
+    display: grid;
     grid-template-columns: auto;
     grid-template-rows: max-content minmax(400px, auto);
     grid-template-areas: "header" "main";
@@ -90,7 +90,7 @@ header {
     grid-area: content;
     display: block;
     width: 100%;
-    max-width: calc(var(--max-site-width) - 40px);
+    max-width: var(--max-site-width);
     padding: 15px 20px;
     margin: 0 auto;
     background-color: white;
