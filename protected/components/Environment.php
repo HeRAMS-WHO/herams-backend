@@ -5,13 +5,15 @@ namespace prime\components;
 
 
 class Environment {
-    private $data = [];
+    private array $data = [];
 
-    public function __construct(?string $file = null)
+    public function __construct(string ...$files)
     {
         $this->data = getenv();
-        if (isset($file) && file_exists($file)) {
-            $this->data = array_merge($this->data, json_decode(file_get_contents($file), true));
+        foreach($files as $file) {
+            if (file_exists($file)) {
+                $this->data = array_merge($this->data, json_decode(file_get_contents($file), true));
+            }
         }
     }
 

@@ -6,7 +6,7 @@ declare(strict_types=1);
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\commands',
     'controllerMap' => [
-        'cache' => \prime\commands\CacheController::class
+        'cache' => \prime\commands\CacheController::class,
     ],
     'aliases' => [
         // Mainly for console apps.

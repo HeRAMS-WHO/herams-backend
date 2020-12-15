@@ -4,6 +4,10 @@ declare(strict_types=1);
 use prime\components\JwtSso;
 use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
+use SamIT\abac\interfaces\PermissionRepository;
+use SamIT\abac\interfaces\Resolver;
+use SamIT\abac\interfaces\RuleEngine;
+use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\values\Authorizable;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
@@ -11,6 +15,7 @@ use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
+use yii\web\User;
 
 /** @var \prime\components\Environment|null $env */
 assert(isset($env) && $env instanceof \prime\components\Environment);
@@ -39,7 +44,7 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'charset' => 'utf8',
+            'charset' => 'utf8mb4',
             'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';port=' . $env->get('DB_PORT', 3306) . ';dbname=' . $env->get('DB_NAME'),
             'password' => $env->get('DB_PASS'),
             'username' => $env->get('DB_USER'),
@@ -65,32 +70,28 @@ return [
             'paramsParam' => 'p',
             'expirationParam' => 'e'
         ],
-        'abacResolver' => function (): \SamIT\abac\interfaces\Resolver {
-            return new \SamIT\abac\resolvers\ChainedResolver(
-                new \prime\components\SingleTableInheritanceResolver(),
-                new ActiveRecordResolver(),
-                new \prime\components\GlobalPermissionResolver()
-            );
-        },
-        'preloadingSourceRepository' => \SamIT\abac\repositories\PreloadingSourceRepository::class,
-        'abacManager' => function () {
-            /** @var \SamIT\abac\repositories\PreloadingSourceRepository $repo */
-            $repo = \Yii::$app->get('preloadingSourceRepository');
-            $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
-
+        'preloadingSourceRepository' => PreloadingSourceRepository::class,
+        'abacManager' => static function (
+            Resolver $resolver, // Taken from container
+            RuleEngine $engine, // Taken from container
+            PermissionRepository $preloadingSourceRepository  // Taken from app
+        ) {
             $environment = new class extends ArrayObject implements Environment {
             };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $repo, \Yii::$app->abacResolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
         },
-        'authManager' => function () {
-            return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
+        'authManager' => static function (\SamIT\abac\AuthManager $abacManager) {
+            return new \prime\components\AuthManager($abacManager, [
                 'userClass' => \prime\models\ar\User::class,
                 'globalId' => AccessChecker::GLOBAL,
                 'globalName' => AccessChecker::BUILTIN,
                 'guestName' => AccessChecker::BUILTIN,
                 'guestId' => AccessChecker::GUEST,
             ]);
+        },
+        'check' => static function(User $user) {
+            return new \prime\helpers\AccessCheck($user);
         },
 
 
@@ -196,37 +197,7 @@ return [
                 ]
             ]
         ]
-//        'user' => [
-//            'class' => \dektrium\user\Module::class,
-//            'layout' => '//map-popover',
-//            'controllerMap' => [
-//                'admin' => [
-//                    'class' => \dektrium\user\controllers\AdminController::class,
-//                    'layout' => '//admin'
-//                ],
-//                'registration' => [
-//                    'class' => RegistrationController::class,
-//                    'on ' . RegistrationController::EVENT_AFTER_CONFIRM => function() {
-//                        \Yii::$app->end(0, \Yii::$app->response->redirect('/'));
-//                    }
-//                ]
-//            ],
-//            'modelMap' => [
-//                'User' => \prime\models\ar\User::class,
-//                'Profile' => \prime\models\ar\Profile::class,
-//                'RegistrationForm' => \prime\models\forms\user\Registration::class,
-//                'RecoveryForm' => \prime\models\forms\user\Recovery::class,
-//                'SettingsForm' => \prime\models\forms\user\Settings::class
-//            ],
-//            'adminPermission' => 'admin',
-//            'mailer' => [
-//                'class' => \dektrium\user\Mailer::class,
-//                'sender' => 'support@herams.org',
-//                'confirmationSubject' => new Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
-//                'recoverySubject' => new Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
-//                'welcomeSubject' => new Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Health Resources and Services Availability Monitoring System', ['0' => app()->name]);}),            ]
-//        ],
-    ],
+   ],
     'params' => [
         'languages' => [
             'en-US',

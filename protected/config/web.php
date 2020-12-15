@@ -61,7 +61,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'trustedHosts' => [
                 '10.42.0.0/16'
             ],
-            'cookieValidationKey' => 'blasdf9832h238iwe',
+            'cookieValidationKey' => $env->get('COOKIE_VALIDATION_KEY'),
             // To enable rendering in tests.
             'scriptFile' => realpath(__DIR__ . '/../../public/index.php'),
             'scriptUrl' => '/',
