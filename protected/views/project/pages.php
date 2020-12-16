@@ -42,7 +42,7 @@ if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
     $tabs[] =
         [
             'url' => ['project/update', 'id' => $project->id],
-            'title' => \Yii::t('app', 'Settings')
+            'title' => \Yii::t('app', 'Project settings')
         ];
 }
 if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $project)) {

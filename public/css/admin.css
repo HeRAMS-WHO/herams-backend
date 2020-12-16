@@ -72,6 +72,7 @@ header {
     max-width: var(--max-site-width);
     margin: 0 auto;
     margin-top: 30px;
+    margin-bottom: 70px;
     padding: 0;
     grid-template-columns: auto;
     grid-template-rows: max-content;
@@ -97,6 +98,10 @@ header {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     border-top-right-radius: 15px;
+}
+
+.content.no-tab {
+    border-radius: 15px;
 }
 
 .action-group {
@@ -500,7 +505,7 @@ body[data-modal]:after {
     margin-bottom: 0;
 }
 
-.form-content .grid-view .summary {
+.grid-view .summary {
     margin-bottom: 10px;
     font-size: 12px;
     line-height: 12px;
