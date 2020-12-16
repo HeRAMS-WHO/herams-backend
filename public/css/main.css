@@ -331,7 +331,6 @@ input[type="text"] {
     line-height: 13px;
     background-color: var(--tab-button-background-color);
     color: var(--tab-button-text-color);
-    text-transform: capitalize;
     padding: 15px;
     margin-right: 1px;
     border-bottom-left-radius: 0;

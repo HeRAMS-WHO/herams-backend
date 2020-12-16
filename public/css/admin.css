@@ -287,7 +287,7 @@ td {
 }
 
 table caption, .kv-table-caption {
-    margin: 0px 0 40px 0;
+    margin: 0px;
     padding: 0;
 }
 
@@ -501,8 +501,12 @@ body[data-modal]:after {
 }
 
 .form-content .grid-view .summary {
-    margin-bottom: 15px;
-    font-size: 13px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.15px;
+    font-weight: 300;
+    color: #222222;
 }
 
 /**

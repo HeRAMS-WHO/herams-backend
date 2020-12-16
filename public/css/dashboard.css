@@ -1008,8 +1008,3 @@ body[data-modal]:after {
 .form-content table {
     margin-bottom: 0;
 }
-
-.form-content .grid-view .summary {
-    margin-bottom: 15px;
-    font-size: 13px;
-}
