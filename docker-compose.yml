@@ -14,7 +14,7 @@ x-env:
     build:
       context: docker/php
     volumes:
-      - .:/project:ro
+      - .:/project:rw
       - ./tests:/project/tests:rw
       - ./protected/migrations:/project/protected/migrations:rw
       - ./protected/messages:/project/protected/messages:rw
