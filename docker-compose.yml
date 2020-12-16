@@ -12,7 +12,7 @@ x-env:
 
   base: &base
     build:
-      context: docker/cli
+      context: docker/php
     volumes:
       - .:/project:ro
       - ./tests:/project/tests:rw
