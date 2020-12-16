@@ -58,11 +58,14 @@ echo TabMenu::widget([
     'currentPage' => $this->context->action->uniqueId
 ]);
 echo Html::beginTag('div', ['class' => "content"]);
+
+echo Html::beginTag('div', ['class' => 'action-group']);
+echo Html::endTag('div');
 ?>
 
 <div class="form-content form-bg">
     <?php
-    echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
+    echo Html::tag('h3', \Yii::t('app', 'Add new user'));
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -93,7 +96,7 @@ echo Html::beginTag('div', ['class' => "content"]);
     ?>
 </div>
 <div class="form-content form-bg full-width">
-    <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
+    <h3><?= \Yii::t('app', 'View current users') ?></h3>
     <?php
     echo $model->renderTable();
     ?>

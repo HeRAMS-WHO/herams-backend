@@ -58,10 +58,12 @@ echo TabMenu::widget([
     'currentPage' => $this->context->action->uniqueId
 ]);
 echo Html::beginTag('div', ['class' => "content"]);
+
+echo Html::beginTag('div', ['class' => 'action-group']);
+echo Html::endTag('div');
 ?>
 <div class="form-content form-bg">
     <?php
-    echo Html::tag('h3', \Yii::t('app', 'Update ').' '.$this->title);
     $form = ActiveForm::begin([
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
