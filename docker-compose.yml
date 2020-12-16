@@ -1,5 +1,15 @@
 version: '3.8'
+volumes:
+  assets:
+    driver_opts:
+      type: tmpfs
+      o: "uid=65534"
+      device: "/docker/example"
+
 x-env:
+
+
+
   base: &base
     build:
       context: docker/cli
@@ -40,15 +50,60 @@ x-env:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
 services:
-## Web server
-  serve:
-    << : *base
+  phpfpm:
+    environment:
+      DB_HOST: devdb
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_PASS: ${DB_PASS}
+      YII_ENV: $YII_ENV
+      LS_HOST: ${LS_HOST}
+      LS_PASS: ${LS_PASS}
+      LS_USER: ${LS_USER}
+      COOKIE_VALIDATION_KEY: ${COOKIE_VALIDATION_KEY}
+      RUNTIME_PATH: /run
+      SMTP_HOST: mailcatcher
+      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
+      PRIVATE_KEY_FILE: /project/local/testkey
+      SMTP_PORT: 1025
     depends_on:
       - devdb
       - mailcatcher
       - phpmyadmin
+    build:
+      context: docker/php
+    volumes:
+      - type: bind
+        source: ./
+        target: /project
+        read_only: true
+      - type: volume
+        source: assets
+        target: /project/public/assets
+  nginx:
+    image: nginx
+    environment:
+      PHPFPM: "phpfpm:9000"
+      RESOLVER: "127.0.0.11"
+    depends_on:
+      - phpfpm
     ports:
-      - "0.0.0.0:${APP_PORT-12346}:8080"
+      - "0.0.0.0:12346:80"
+    volumes:
+      - type: bind
+        source: ./protected/config/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      - type: bind
+        source: ./public
+        target: /www
+      - type: volume
+        source: assets
+        target: /www/assets
+        read_only: true
+        volume:
+          nocopy: true
   ## Mysql server (local), this will create a persistent data store for local development
   devdb:
     << : *mysql
@@ -112,7 +167,8 @@ services:
       DB_NAME: $DB_NAME
       DB_PASS: $DB_PASS
       YII_ENV: $YII_ENV
-      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
+      URL_SIGNING_SECRET: secret
+      COOKIE_VALIDATION_KEY: secret
       RUNTIME_PATH: /runtime
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
