@@ -8,12 +8,10 @@ use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\helpers\Console;
 
 class CacheController extends \yii\console\controllers\CacheController
 {
-    use ActionInjectionTrait;
     public function actionResync(LimesurveyDataProvider $limesurveyDataProvider)
     {
         /** @var Project $project */

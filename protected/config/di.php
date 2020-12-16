@@ -9,6 +9,7 @@ use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\repositories\CachedReadRepository;
 use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\Yii2\abac\ActiveRecordRepository;
+use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\di\Container;
 use yii\web\JqueryAsset;
 use yii\widgets\PjaxAsset;
@@ -23,7 +24,17 @@ return [
     CachedReadRepository::class => function (Container $container) {
         return new CachedReadRepository($container->get(ActiveRecordRepository::class));
     },
-    ActiveRecordRepository::class => function () {
+    \SamIT\abac\interfaces\RuleEngine::class => static function () {
+        return new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
+    },
+    \SamIT\abac\interfaces\Resolver::class => static function (): \SamIT\abac\interfaces\Resolver {
+        return new \SamIT\abac\resolvers\ChainedResolver(
+            new \prime\components\SingleTableInheritanceResolver(),
+            new ActiveRecordResolver(),
+            new \prime\components\GlobalPermissionResolver()
+        );
+    },
+    ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [
             ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
             ActiveRecordRepository::SOURCE_NAME => 'source',

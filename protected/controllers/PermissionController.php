@@ -7,13 +7,11 @@ use prime\components\Controller;
 use prime\controllers\permission\Delete;
 use prime\controllers\permission\Grant;
 use prime\controllers\permission\Revoke;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 class PermissionController extends Controller
 {
-    use ActionInjectionTrait;
     public function actions()
     {
         return [

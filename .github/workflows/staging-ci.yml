@@ -35,6 +35,7 @@ jobs:
       - run: composer stan
       - run: wget https://scrutinizer-ci.com/ocular.phar
       - run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
+        continue-on-error: true
   deploy:
     name: Deploy to STAGING
     needs: test

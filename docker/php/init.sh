@@ -1,4 +1,6 @@
 #!/bin/sh
-wait-for-it 30 devdb 3306 &&
-#/project/protected/yiic cache/warmup &&
-exec php -S 0.0.0.0:8080 -t /project/public
+touch /run/env.json &&
+chown nobody:nobody /run/env.json &&
+env &&
+jq -s 'env+add' > /run/env.json &&
+exec php-fpm7 --force-stderr --fpm-config /php-fpm.conf

@@ -22,7 +22,7 @@
         "ext-zip": "*",
         "ext-xlswriter": "*",
         "ext-json": "*",
-        "fortawesome/font-awesome": "> 5",
+        "ext-simplexml": "*",
         "guzzlehttp/psr7": "^1.2",
         "kartik-v/yii2-builder": "^1.6",
         "kartik-v/yii2-grid": "^3.0",
@@ -35,25 +35,23 @@
         "sam-it/ls2-jsonrpc-client": "^1.2.4",
         "sam-it/abac": ">= 3.1",
         "sam-it/yii2-abac": ">= 1.0.2",
-        "sam-it/yii2-magic": "^2",
         "sam-it/yii2-urlsigner": "^2.0",
         "sam-it/yii2-virtual-fields": "^2.0",
-        "yiisoft/yii2": "dev-master",
+        "yiisoft/yii2": "> 2 < 3",
         "yiisoft/yii2-bootstrap": "> 2",
         "yiisoft/yii2-swiftmailer": "^2.1",
-        "ext-simplexml": "*",
         "kartik-v/yii2-widget-activeform": "^1.5",
         "kartik-v/yii2-widget-switchinput": "^1.3",
         "kartik-v/yii2-widget-select2": "^2.1",
         "kodus/file-cache": "^1.1",
-        "box/spout": "^3.1",
         "kartik-v/yii2-widget-typeahead": "^1.0",
         "league/iso3166": "^2.1",
         "herams/i18n": "dev-master",
         "foxy/foxy": "^1.1",
         "woohoolabs/yin": "^4.1",
         "psr/http-factory": "^1.0",
-        "psr/http-server-handler": "^1.0"
+        "psr/http-server-handler": "^1.0",
+        "ramsey/uuid": "^4.1"
     },
 
     "autoload": {
@@ -100,8 +98,15 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/HeRAMS-WHO/herams-i18n"
+            "type": "package",
+            "package": {
+                "name": "herams/i18n",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/HeRAMS-WHO/herams-i18n/archive/master.zip",
+                    "type": "zip"
+                }
+            }
         }
     ],
     "scripts": {
@@ -114,7 +119,7 @@
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse protected",
         "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
-        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-install-cmd": "[ $COMPOSER_DEV_MODE -eq 0 ] || cghooks add --ignore-lock",
         "post-update-cmd": "cghooks update",
         "dlint-fix": "docker-compose run --rm --user=$(id -u):$(id -g) composer lint-fix",
         "git-pre-commit": [

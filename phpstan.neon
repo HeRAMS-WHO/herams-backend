@@ -8,6 +8,7 @@ parameters:
     excludes_analyse:
       - protected/config/common.php
       - protected/config/console.php
+      - protected/config/web.php
       - protected/console/DevController.php
       - protected/components/Form.php
       - protected/widgets/FormButtonsWidget.php

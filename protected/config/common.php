@@ -4,16 +4,23 @@ declare(strict_types=1);
 use prime\components\JwtSso;
 use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
+use SamIT\abac\interfaces\PermissionRepository;
+use SamIT\abac\interfaces\Resolver;
+use SamIT\abac\interfaces\RuleEngine;
+use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\values\Authorizable;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\abac\ActiveRecordResolver;
+use SamIT\Yii2\UrlSigner\UrlSigner;
+use SamIT\Yii2\UrlSigner\UrlSigner as UrlSignerAlias;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
+use yii\web\User;
 
-/** @var \prime\components\Environment|null $env */
-assert(isset($env) && $env instanceof \prime\components\Environment);
+/** @var \prime\components\KubernetesSecretEnvironment|null $env */
+assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
 
 require_once __DIR__ . '/../helpers/functions.php';
 return [
@@ -39,10 +46,10 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'charset' => 'utf8',
+            'charset' => 'utf8mb4',
             'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';port=' . $env->get('DB_PORT', 3306) . ';dbname=' . $env->get('DB_NAME'),
-            'password' => $env->get('DB_PASS'),
-            'username' => $env->get('DB_USER'),
+            'password' => $env->getWrappedSecret('database/password'),
+            'username' => $env->getWrappedSecret('database/username'),
             'enableSchemaCache' => !YII_DEBUG,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
@@ -52,45 +59,45 @@ return [
         'limesurveySSo' => [
             'class' => JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => $env->get('PRIVATE_KEY_FILE', false) ? file_get_contents($env->get('PRIVATE_KEY_FILE')) : null,
+            'privateKey' => $env->getWrappedSecret('limesurvey/sso_private_key'),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function ($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
             }
         ],
-        'urlSigner' => [
-            'class' => \SamIT\Yii2\UrlSigner\UrlSigner::class,
-            'secret' => $env->get('URL_SIGNING_SECRET'),
-            'hmacParam' => 'h',
-            'paramsParam' => 'p',
-            'expirationParam' => 'e'
-        ],
-        'abacResolver' => function (): \SamIT\abac\interfaces\Resolver {
-            return new \SamIT\abac\resolvers\ChainedResolver(
-                new \prime\components\SingleTableInheritanceResolver(),
-                new ActiveRecordResolver(),
-                new \prime\components\GlobalPermissionResolver()
-            );
+        'urlSigner' => static function() use ($env): UrlSigner {
+            // Use a closure to allow lazy secret loading
+            return \Yii::createObject([
+                'class' => UrlSigner::class,
+                'secret' => $env->getSecret('app/url_signer_secret'),
+                'hmacParam' => 'h',
+                'paramsParam' => 'p',
+                'expirationParam' => 'e'
+            ]);
         },
-        'preloadingSourceRepository' => \SamIT\abac\repositories\PreloadingSourceRepository::class,
-        'abacManager' => function () {
-            /** @var \SamIT\abac\repositories\PreloadingSourceRepository $repo */
-            $repo = \Yii::$app->get('preloadingSourceRepository');
-            $engine = new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
-
+        'preloadingSourceRepository' => PreloadingSourceRepository::class,
+        'abacManager' => static function (
+            Resolver $resolver, // Taken from container
+            RuleEngine $engine, // Taken from container
+            PermissionRepository $preloadingSourceRepository  // Taken from app
+        ) {
             $environment = new class extends ArrayObject implements Environment {
             };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $repo, \Yii::$app->abacResolver, $environment);
+            return new \SamIT\abac\AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
         },
-        'authManager' => function () {
-            return new \prime\components\AuthManager(\Yii::$app->get('abacManager'), [
+        'authManager' => static function (\SamIT\abac\AuthManager $abacManager) {
+            return new \prime\components\AuthManager($abacManager, [
                 'userClass' => \prime\models\ar\User::class,
                 'globalId' => AccessChecker::GLOBAL,
                 'globalName' => AccessChecker::BUILTIN,
                 'guestName' => AccessChecker::BUILTIN,
                 'guestId' => AccessChecker::GUEST,
             ]);
+        },
+        'check' => static function (User $user) {
+            assert($user === \Yii::$app->user);
+            return new \prime\helpers\AccessCheck($user);
         },
 
 
@@ -114,7 +121,7 @@ return [
         ],
         'limesurvey' => function () use ($env) {
             $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);
-            $result = new Client($json, $env->get('LS_USER'), $env->get('LS_PASS'));
+            $result = new Client($json, $env->getWrappedSecret('limesurvey/username'), $env->getWrappedSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 // Ignore hardcoded duration passed in downstream library
@@ -175,8 +182,8 @@ return [
             ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'username' => $env->get('SMTP_USER'),
-                'password' => $env->get('SMTP_PASS'),
+                'username' => $env->getWrappedSecret('smtp/pass'),
+                'password' => $env->getWrappedSecret('smtp/pass'),
                 'constructArgs' => [
                     $env->get('SMTP_HOST'),
                     $env->get('SMTP_PORT'),
@@ -196,36 +203,6 @@ return [
                 ]
             ]
         ]
-//        'user' => [
-//            'class' => \dektrium\user\Module::class,
-//            'layout' => '//map-popover',
-//            'controllerMap' => [
-//                'admin' => [
-//                    'class' => \dektrium\user\controllers\AdminController::class,
-//                    'layout' => '//admin'
-//                ],
-//                'registration' => [
-//                    'class' => RegistrationController::class,
-//                    'on ' . RegistrationController::EVENT_AFTER_CONFIRM => function() {
-//                        \Yii::$app->end(0, \Yii::$app->response->redirect('/'));
-//                    }
-//                ]
-//            ],
-//            'modelMap' => [
-//                'User' => \prime\models\ar\User::class,
-//                'Profile' => \prime\models\ar\Profile::class,
-//                'RegistrationForm' => \prime\models\forms\user\Registration::class,
-//                'RecoveryForm' => \prime\models\forms\user\Recovery::class,
-//                'SettingsForm' => \prime\models\forms\user\Settings::class
-//            ],
-//            'adminPermission' => 'admin',
-//            'mailer' => [
-//                'class' => \dektrium\user\Mailer::class,
-//                'sender' => 'support@herams.org',
-//                'confirmationSubject' => new Deferred(function() {return \Yii::t('user', '{0}: Your account has successfully been activated!', ['0' => app()->name]);}),
-//                'recoverySubject' => new Deferred(function() {return \Yii::t('user', '{0}: Password reset', ['0' => app()->name]);}),
-//                'welcomeSubject' => new Deferred(function() {return \Yii::t('user', 'Welcome to {0}, the Health Resources and Services Availability Monitoring System', ['0' => app()->name]);}),            ]
-//        ],
     ],
     'params' => [
         'languages' => [
@@ -255,6 +232,6 @@ return [
             'icons.limeSurveyUpdate' => 'pencil',
             'icons.requestAccess' => 'info-sign'
         ],
-        'responseSubmissionKey' => $env->get('RESPONSE_SUBMISSION_KEY')
+        'responseSubmissionKey' => $env->getWrappedSecret('limesurvey/response_submission_key')
     ]
 ];
