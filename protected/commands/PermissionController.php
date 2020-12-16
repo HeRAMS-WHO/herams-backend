@@ -5,14 +5,11 @@ namespace prime\commands;
 
 use prime\models\ar\User;
 use SamIT\Yii2\abac\AuthManager;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\console\Controller;
 use yii\helpers\Console;
 
 class PermissionController extends Controller
 {
-    use ActionInjectionTrait;
-
     public function actionMakeAdmin(
         AuthManager $authManager,
         string $email

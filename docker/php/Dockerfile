@@ -7,6 +7,7 @@ RUN apk add --update --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/tes
   php7-ctype \
   php7-curl \
   php7-dom \
+  php7-fpm \
   php7-gd \
   php7-intl \
   php7-json \

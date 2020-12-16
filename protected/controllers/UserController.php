@@ -18,12 +18,10 @@ use prime\controllers\user\Roles;
 use prime\controllers\user\UpdateEmail;
 use prime\controllers\user\UpdatePassword;
 use prime\models\ar\User;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\helpers\ArrayHelper;
 
 class UserController extends Controller
 {
-    use ActionInjectionTrait;
     public $layout = 'map-popover';
 
     public function actions()

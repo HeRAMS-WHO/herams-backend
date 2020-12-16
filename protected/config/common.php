@@ -13,12 +13,14 @@ use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\abac\ActiveRecordResolver;
+use SamIT\Yii2\UrlSigner\UrlSigner;
+use SamIT\Yii2\UrlSigner\UrlSigner as UrlSignerAlias;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 use yii\web\User;
 
-/** @var \prime\components\Environment|null $env */
-assert(isset($env) && $env instanceof \prime\components\Environment);
+/** @var \prime\components\KubernetesSecretEnvironment|null $env */
+assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
 
 require_once __DIR__ . '/../helpers/functions.php';
 return [
@@ -46,8 +48,8 @@ return [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8mb4',
             'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';port=' . $env->get('DB_PORT', 3306) . ';dbname=' . $env->get('DB_NAME'),
-            'password' => $env->getSecret('database/password'),
-            'username' => $env->getSecret('database/username'),
+            'password' => $env->getWrappedSecret('database/password'),
+            'username' => $env->getWrappedSecret('database/username'),
             'enableSchemaCache' => !YII_DEBUG,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
@@ -57,19 +59,22 @@ return [
         'limesurveySSo' => [
             'class' => JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => $env->getSecret('limesurvey/sso_private_key'),
+            'privateKey' => $env->getWrappedSecret('limesurvey/sso_private_key'),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function ($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
             }
         ],
-        'urlSigner' => [
-            'class' => \SamIT\Yii2\UrlSigner\UrlSigner::class,
-            'secret' => $env->getSecret('app/url_signer_secret'),
-            'hmacParam' => 'h',
-            'paramsParam' => 'p',
-            'expirationParam' => 'e'
-        ],
+        'urlSigner' => static function() use ($env): UrlSigner {
+            // Use a closure to allow lazy secret loading
+            return \Yii::createObject([
+                'class' => UrlSigner::class,
+                'secret' => $env->getSecret('app/url_signer_secret'),
+                'hmacParam' => 'h',
+                'paramsParam' => 'p',
+                'expirationParam' => 'e'
+            ]);
+        },
         'preloadingSourceRepository' => PreloadingSourceRepository::class,
         'abacManager' => static function (
             Resolver $resolver, // Taken from container
@@ -91,6 +96,7 @@ return [
             ]);
         },
         'check' => static function (User $user) {
+            assert($user === \Yii::$app->user);
             return new \prime\helpers\AccessCheck($user);
         },
 
@@ -115,7 +121,7 @@ return [
         ],
         'limesurvey' => function () use ($env) {
             $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);
-            $result = new Client($json, $env->getSecret('limesurvey/username'), $env->getSecret('limesurvey/password'));
+            $result = new Client($json, $env->getWrappedSecret('limesurvey/username'), $env->getWrappedSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 // Ignore hardcoded duration passed in downstream library
@@ -176,8 +182,8 @@ return [
             ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'username' => $env->getSecret('smtp/pass'),
-                'password' => $env->getSecret('smtp/pass'),
+                'username' => $env->getWrappedSecret('smtp/pass'),
+                'password' => $env->getWrappedSecret('smtp/pass'),
                 'constructArgs' => [
                     $env->get('SMTP_HOST'),
                     $env->get('SMTP_PORT'),
@@ -226,6 +232,6 @@ return [
             'icons.limeSurveyUpdate' => 'pencil',
             'icons.requestAccess' => 'info-sign'
         ],
-        'responseSubmissionKey' => $env->getSecret('limesurvey/response_submission_key')
+        'responseSubmissionKey' => $env->getWrappedSecret('limesurvey/response_submission_key')
     ]
 ];

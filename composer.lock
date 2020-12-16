@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e40033bef6c886b9093bcc3616b38016",
+    "content-hash": "ac49938ff72f0dee1c7158bb4ae6c6cd",
     "packages": [
         {
             "name": "brick/math",
@@ -2143,50 +2143,6 @@
                 "source": "https://github.com/SAM-IT/yii2-abac/tree/v1.0.4"
             },
             "time": "2020-10-05T09:27:09+00:00"
-        },
-        {
-            "name": "sam-it/yii2-magic",
-            "version": "v2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SAM-IT/yii2-magic.git",
-                "reference": "f5a896c870279d19870c129bcd27acb6690c181d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/yii2-magic/zipball/f5a896c870279d19870c129bcd27acb6690c181d",
-                "reference": "f5a896c870279d19870c129bcd27acb6690c181d",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "^2.0.13"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "SamIT\\Yii2\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sam Mousa",
-                    "email": "sam@mousa.nl"
-                },
-                {
-                    "name": "Joey Claessen",
-                    "email": "joey_claessen@hotmail.com"
-                }
-            ],
-            "description": "Improvements to Yii2 framework.",
-            "support": {
-                "issues": "https://github.com/SAM-IT/yii2-magic/issues",
-                "source": "https://github.com/SAM-IT/yii2-magic/tree/master"
-            },
-            "time": "2017-11-16T13:00:12+00:00"
         },
         {
             "name": "sam-it/yii2-urlsigner",
@@ -4904,16 +4860,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.62",
+            "version": "0.12.63",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "632393159335bbbdd7ca07d19b3ad50d76aa7fd8"
+                "reference": "c97ec4754bd53099a06c24847bd2870b99966b6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/632393159335bbbdd7ca07d19b3ad50d76aa7fd8",
-                "reference": "632393159335bbbdd7ca07d19b3ad50d76aa7fd8",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c97ec4754bd53099a06c24847bd2870b99966b6a",
+                "reference": "c97ec4754bd53099a06c24847bd2870b99966b6a",
                 "shasum": ""
             },
             "require": {
@@ -4944,7 +4900,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.62"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.63"
             },
             "funding": [
                 {
@@ -4960,7 +4916,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-13T13:59:38+00:00"
+            "time": "2020-12-15T16:37:16+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

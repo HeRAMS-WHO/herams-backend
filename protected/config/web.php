@@ -1,5 +1,5 @@
 <?php
-/** @var \prime\components\Environment $env */
+/** @var \prime\components\KubernetesSecretEnvironment $env */
 
 use Carbon\Carbon;
 use prime\components\LanguageSelector;
@@ -20,12 +20,12 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'components' => [
         'session' => [
             'class' => DbSession::class,
-            'readCallback' => static function(array $fields): array {
+            'readCallback' => static function (array $fields): array {
                 return [
                     '__id' => $fields['user_id'] ?? null,
                 ];
             },
-            'writeCallback' => static function(DbSession $session): array {
+            'writeCallback' => static function (DbSession $session): array {
                 $fields = [
                     'user_id' => $session->get('__id'),
                     'created' => $session->get('created', Carbon::now()),
@@ -80,7 +80,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'trustedHosts' => [
                 '10.42.0.0/16'
             ],
-            'cookieValidationKey' => $env->getSecret('app/cookie_validation_key'),
+            'cookieValidationKey' => $env->getWrappedSecret('app/cookie_validation_key'),
             // To enable rendering in tests.
             'scriptFile' => realpath(__DIR__ . '/../../public/index.php'),
             'scriptUrl' => '/',

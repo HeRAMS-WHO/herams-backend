@@ -5,7 +5,6 @@ namespace prime\commands;
 
 
 use Ifsnop\Mysqldump\Mysqldump;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\console\Controller;
 use yii\db\Connection;
 use yii\db\Exception;
@@ -19,8 +18,6 @@ use yii\helpers\Console;
  */
 class DatabaseController extends Controller
 {
-    use ActionInjectionTrait;
-
     private function runMigrateCommand(string $command = 'up', string $params = ''): void
     {
         $cmd = "YII_ENV=dev {$_SERVER['PHP_SELF']} migrate/$command --interactive=0 --color=1 $params";

@@ -135,11 +135,10 @@ services:
     command: ""
     environment:
       DB_HOST: testdb
-      DB_USER: $DB_USER
+      SECRET_database/username: $DB_USER
       DB_NAME: $DB_NAME
-      DB_PASS: $DB_PASS
+      SECRET_database/password: $DB_PASS
       YII_ENV: $YII_ENV
-      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       RUNTIME_PATH: /runtime
   composer:
     << : *base
@@ -162,12 +161,12 @@ services:
     command: "run"
     environment:
       DB_HOST: testdb
-      DB_USER: $DB_USER
+      SECRET_database/username: $DB_USER
       DB_NAME: $DB_NAME
-      DB_PASS: $DB_PASS
+      SECRET_database/password: $DB_PASS
       YII_ENV: $YII_ENV
-      URL_SIGNING_SECRET: secret
-      COOKIE_VALIDATION_KEY: secret
+      SECRET_app/url_signer_secret: secret
+      SECRET_app/cookie_validation_key: secret
       RUNTIME_PATH: /runtime
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

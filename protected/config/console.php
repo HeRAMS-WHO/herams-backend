@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** @var \prime\components\Environment $env */
+/** @var \prime\components\KubernetesSecretEnvironment $env */
 
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\commands',

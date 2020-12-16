@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace prime\components;
 
+use prime\interfaces\EnvironmentInterface;
 use yii\base\InvalidConfigException;
 
-class Environment
+class KubernetesSecretEnvironment implements EnvironmentInterface
 {
     private array $data = [];
     private string $secretDir;
@@ -28,15 +29,23 @@ class Environment
         return $this->data[$name] ?? getenv($name) ?: $default;
     }
 
-    public function getSecret(string $name)
+    public function getSecret(string $name): string
     {
         if (!isset($this->secretCache[$name])) {
             $secretFile = "{$this->secretDir}/{$name}";
             if (!file_exists($secretFile)) {
                 throw new InvalidConfigException("Missing value for secret $name");
             }
-            $this->secretCache[$name] = file_get_contents($secretFile);
+            if (false === $secret = file_get_contents($secretFile)) {
+                throw new InvalidConfigException("Couldn't read secret $name");
+            }
+            $this->secretCache[$name] = $secret;
         }
         return $this->secretCache[$name];
+    }
+
+    public function getWrappedSecret($name): Secret
+    {
+        return new Secret($this, $name);
     }
 }
