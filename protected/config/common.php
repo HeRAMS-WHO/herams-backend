@@ -46,8 +46,8 @@ return [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8mb4',
             'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';port=' . $env->get('DB_PORT', 3306) . ';dbname=' . $env->get('DB_NAME'),
-            'password' => $env->get('DB_PASS'),
-            'username' => $env->get('DB_USER'),
+            'password' => $env->getSecret('database/password'),
+            'username' => $env->getSecret('database/username'),
             'enableSchemaCache' => !YII_DEBUG,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
@@ -57,7 +57,7 @@ return [
         'limesurveySSo' => [
             'class' => JwtSso::class,
             'errorRoute' => ['site/lime-survey'],
-            'privateKey' => $env->get('PRIVATE_KEY_FILE', false) ? file_get_contents($env->get('PRIVATE_KEY_FILE')) : null,
+            'privateKey' => $env->getSecret('limesurvey/sso_private_key'),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => function ($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
@@ -65,7 +65,7 @@ return [
         ],
         'urlSigner' => [
             'class' => \SamIT\Yii2\UrlSigner\UrlSigner::class,
-            'secret' => $env->get('URL_SIGNING_SECRET'),
+            'secret' => $env->getSecret('app/url_signer_secret'),
             'hmacParam' => 'h',
             'paramsParam' => 'p',
             'expirationParam' => 'e'
@@ -90,7 +90,7 @@ return [
                 'guestId' => AccessChecker::GUEST,
             ]);
         },
-        'check' => static function(User $user) {
+        'check' => static function (User $user) {
             return new \prime\helpers\AccessCheck($user);
         },
 
@@ -115,7 +115,7 @@ return [
         ],
         'limesurvey' => function () use ($env) {
             $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);
-            $result = new Client($json, $env->get('LS_USER'), $env->get('LS_PASS'));
+            $result = new Client($json, $env->getSecret('limesurvey/username'), $env->getSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 // Ignore hardcoded duration passed in downstream library
@@ -176,8 +176,8 @@ return [
             ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'username' => $env->get('SMTP_USER'),
-                'password' => $env->get('SMTP_PASS'),
+                'username' => $env->getSecret('smtp/pass'),
+                'password' => $env->getSecret('smtp/pass'),
                 'constructArgs' => [
                     $env->get('SMTP_HOST'),
                     $env->get('SMTP_PORT'),
@@ -197,7 +197,7 @@ return [
                 ]
             ]
         ]
-   ],
+    ],
     'params' => [
         'languages' => [
             'en-US',
@@ -226,6 +226,6 @@ return [
             'icons.limeSurveyUpdate' => 'pencil',
             'icons.requestAccess' => 'info-sign'
         ],
-        'responseSubmissionKey' => $env->get('RESPONSE_SUBMISSION_KEY')
+        'responseSubmissionKey' => $env->getSecret('limesurvey/response_submission_key')
     ]
 ];

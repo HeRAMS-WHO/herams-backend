@@ -1,8 +1,10 @@
 <?php
 /** @var \prime\components\Environment $env */
 
+use Carbon\Carbon;
 use prime\components\LanguageSelector;
 use prime\components\NotificationService;
+use yii\web\DbSession;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
@@ -16,6 +18,23 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'session' => [
+            'class' => DbSession::class,
+            'readCallback' => static function(array $fields): array {
+                return [
+                    '__id' => $fields['user_id'] ?? null,
+                ];
+            },
+            'writeCallback' => static function(DbSession $session): array {
+                $fields = [
+                    'user_id' => $session->get('__id'),
+                    'created' => $session->get('created', Carbon::now()),
+                    'updated' => Carbon::now(),
+                ];
+                $session->remove('__id');
+                return $fields;
+            }
+        ],
         'languageSelector' => [
             'class' => LanguageSelector::class
         ],
@@ -61,7 +80,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'trustedHosts' => [
                 '10.42.0.0/16'
             ],
-            'cookieValidationKey' => $env->get('COOKIE_VALIDATION_KEY'),
+            'cookieValidationKey' => $env->getSecret('app/cookie_validation_key'),
             // To enable rendering in tests.
             'scriptFile' => realpath(__DIR__ . '/../../public/index.php'),
             'scriptUrl' => '/',

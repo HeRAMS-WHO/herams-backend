@@ -24,10 +24,10 @@ return [
     CachedReadRepository::class => function (Container $container) {
         return new CachedReadRepository($container->get(ActiveRecordRepository::class));
     },
-    \SamIT\abac\interfaces\RuleEngine::class => static function() {
+    \SamIT\abac\interfaces\RuleEngine::class => static function () {
         return new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
     },
-    \SamIT\abac\interfaces\Resolver::class => static function(): \SamIT\abac\interfaces\Resolver {
+    \SamIT\abac\interfaces\Resolver::class => static function (): \SamIT\abac\interfaces\Resolver {
         return new \SamIT\abac\resolvers\ChainedResolver(
             new \prime\components\SingleTableInheritanceResolver(),
             new ActiveRecordResolver(),
