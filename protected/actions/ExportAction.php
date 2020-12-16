@@ -5,7 +5,6 @@ namespace prime\actions;
 
 use GuzzleHttp\Psr7\StreamWrapper;
 use prime\helpers\CsvWriter;
-use prime\helpers\OdsWriter;
 use prime\helpers\PeclWriter;
 use prime\models\forms\Export;
 use yii\base\Action;
@@ -77,9 +76,6 @@ class ExportAction extends Action
                     break;
                 case 'csv':
                     $writer = new CsvWriter();
-                    break;
-                case 'ods':
-                    $writer = new OdsWriter();
                     break;
                 default:
                     throw new BadRequestHttpException();
