@@ -1,8 +1,8 @@
 -- mysqldump-php https://github.com/ifsnop/mysqldump-php
 --
--- Host: devdb	Database: test
+-- Host: testdb	Database: test
 -- ------------------------------------------------------
--- Server version 	8.0.19
+-- Server version 	8.0.21
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -349,6 +349,24 @@ CREATE TABLE `prime2_response_master` (
   `longitude` decimal(9,6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx-response-master-hf-type` (`hf_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `prime2_session`
+--
+
+DROP TABLE IF EXISTS `prime2_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prime2_session` (
+  `id` char(32) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `expire` int NOT NULL,
+  `data` blob,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
