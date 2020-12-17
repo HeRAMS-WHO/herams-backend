@@ -17,7 +17,6 @@ class InsecureSecretEnvironment implements EnvironmentInterface
                 $this->data = array_merge($this->data, json_decode(file_get_contents($file), true));
             }
         }
-
     }
 
     public function get(string $name, $default = null)
