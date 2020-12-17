@@ -12,7 +12,7 @@ spl_autoload_register(['Yii', 'autoload'], true, true);
 
 // Detect if we are in K8s...
 if (!YII_ENV_PROD) {
-    $env = new \prime\components\InsecureSecretEnvironment();
+    $env = new \prime\components\InsecureSecretEnvironment(__DIR__ . '/config/env.json');
 } else {
     $env = new KubernetesSecretEnvironment('/run/secrets', __DIR__ . '/config/env.json', '/run/config/config.json', '/run/env.json');
 }
