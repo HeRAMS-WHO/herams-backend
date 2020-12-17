@@ -19,7 +19,11 @@ call_user_func(function () {
     }
 
     require_once $autoload;
-    $env = new KubernetesSecretEnvironment('/run/secrets', __DIR__ . '/config/env.json', '/run/config/config.json', '/run/env.json');
+    if (!file_exists('/run/env.json')) {
+        $env = new \prime\components\InsecureSecretEnvironment(__DIR__ . '/config/env.json');
+    } else {
+        $env = new KubernetesSecretEnvironment('/run/secrets', __DIR__ . '/config/env.json', '/run/config/config.json', '/run/env.json');
+    }
     \Yii::$container->setDefinitions(require __DIR__ . '/config/di.php');
     $config = require __DIR__ . '/config/web.php';
     \Yii::$container->set(\yii\web\Application::class, $config);
