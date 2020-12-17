@@ -65,7 +65,7 @@ return [
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
             }
         ],
-        'urlSigner' => static function() use ($env): UrlSigner {
+        'urlSigner' => static function () use ($env): UrlSigner {
             // Use a closure to allow lazy secret loading
             return \Yii::createObject([
                 'class' => UrlSigner::class,
@@ -195,13 +195,6 @@ return [
     'modules' => [
         'api' => [
             'class' => \prime\modules\Api\Module::class,
-            'components' => [
-                'user' => [
-                    'class' => \yii\web\User::class,
-                    'enableSession' => false,
-                    'identityClass'=> Key::class
-                ]
-            ]
         ]
     ],
     'params' => [

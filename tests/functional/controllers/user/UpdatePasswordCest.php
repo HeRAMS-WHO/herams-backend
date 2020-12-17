@@ -21,7 +21,7 @@ class UpdatePasswordCest
         $I->amOnPage(['user/account']);
         $I->seeResponseCodeIs(200);
         $I->fillField('Current password', 'test123');
-        $password = 'S' . base64_encode(random_bytes(16));
+        $password = 'S' . bin2hex(random_bytes(16));
         $I->fillField('New password', $password);
         $I->fillField('Repeat password', $password);
         $I->stopFollowingRedirects();

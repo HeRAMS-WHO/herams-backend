@@ -12,12 +12,13 @@ use prime\rules\ProjectReadRule;
 use prime\rules\ProjectSummaryRule;
 use prime\rules\PublicProjectRule;
 use prime\rules\RevokeRule;
+use prime\rules\SelfRule;
 use prime\rules\SuperShareRule;
 use SamIT\abac\rules\ImpliedPermission;
 
 return [
     new AdminRule(),
-    new \prime\rules\SelfRule([Permission::PERMISSION_MANAGE_FAVORITES]),
+    new SelfRule([Permission::PERMISSION_MANAGE_FAVORITES]),
     new GrantRule(),
     new ProjectSummaryRule(),
     new RevokeRule(),

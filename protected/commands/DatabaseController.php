@@ -3,7 +3,6 @@
 
 namespace prime\commands;
 
-
 use Ifsnop\Mysqldump\Mysqldump;
 use yii\console\Controller;
 use yii\db\Connection;
@@ -34,8 +33,7 @@ class DatabaseController extends Controller
     {
         $start = microtime(true);
         $this->stdout('Waiting for database to come up.', Console::FG_YELLOW);
-        while (microtime(true) - $start < $timeout)
-        {
+        while (microtime(true) - $start < $timeout) {
             try {
                 $this->stdout('.', Console::FG_CYAN);
                 $db->open();
@@ -80,7 +78,7 @@ class DatabaseController extends Controller
 
         // Step 3. Export all table data
         /** @var TableSchema $schema */
-        foreach($db->schema->tableSchemas as $schema) {
+        foreach ($db->schema->tableSchemas as $schema) {
             $columns = array_flip($schema->columnNames);
             $ddl = $db->createCommand('SHOW CREATE TABLE ' . $db->quoteTableName($schema->name))->queryOne();
             if (!isset($ddl['Create Table'])) {
@@ -100,7 +98,7 @@ class DatabaseController extends Controller
                 fwrite($file, "SET FOREIGN_KEY_CHECKS=0;\n");
                 fwrite($file, "SET NAMES 'utf8';\n");
                 foreach ($q->each(1000, $db) as $r) {
-                    foreach($r as $column => &$value) {
+                    foreach ($r as $column => &$value) {
                         $value = $schema->getColumn($column)->phpTypecast($value);
                     }
                     fwrite($file, $db->createCommand()->insert($schema->name, $r)->getRawSql() . ";\n");
@@ -114,7 +112,7 @@ class DatabaseController extends Controller
         }
 
         // Check tablenames.
-        foreach(array_diff($tables, $db->schema->getTableNames('', true)) as $removedTable) {
+        foreach (array_diff($tables, $db->schema->getTableNames('', true)) as $removedTable) {
             $this->stdout("Table removed by migration: $removedTable, removing the data file...", Console::FG_YELLOW);
             if (unlink(\Yii::getAlias("@tests/_data/50_{$removedTable}.sql"))) {
                 $this->stdout("OK\n", Console::FG_GREEN);
