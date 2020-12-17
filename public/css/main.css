@@ -15,6 +15,19 @@
     --max-site-width: 1280px;
 }
 
+/**
+ Box sizing reset
+ */
+
+html {
+    box-sizing: border-box;
+    width: 100vw;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
 a, a:hover, a:active, a:visited {
     text-decoration: none;
     color: inherit;
@@ -47,6 +60,7 @@ body {
     justify-content: flex-end;
     text-align: left;
     font-size: 20px;
+    padding: 10px 0;
 }
 
 .worldmap .user-menu {
@@ -139,8 +153,26 @@ body {
     background: none;
     width: max-content;
     margin: 0;
-    padding: 20px 0 7px;
+    padding: 20px 0 15px;
     list-style-type: none;
+}
+
+.breadcrumb li {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: 0.2px;
+    padding: 0;
+}
+
+.breadcrumb>li+li:before {
+    display: none;
+}
+
+.breadcrumb li:last-child .icon {
+    display: none;
 }
 
 .breadcrumb a:not(:hover), .breadcrumb a:not(:hover):visited, .breadcrumb a:not(:hover):active {
@@ -153,26 +185,10 @@ body {
     text-decoration: none;
 }
 
-.breadcrumb li {
-    display: inline-flex;
-    align-items: center;
-    font-size: 16px;
-    line-height: 16px;
-    padding: 0;
-}
-
-.breadcrumb>li+li:before {
-    display: none;
-}
-
 .breadcrumb .icon {
     margin: 0 5px;
     height: 12px;
     fill: var(--separator-color);
-}
-
-.breadcrumb li:last-child .icon {
-    display: none;
 }
 
 .content {
@@ -315,7 +331,6 @@ input[type="text"] {
     line-height: 13px;
     background-color: var(--tab-button-background-color);
     color: var(--tab-button-text-color);
-    text-transform: capitalize;
     padding: 15px;
     margin-right: 1px;
     border-bottom-left-radius: 0;
@@ -786,6 +801,9 @@ input[type="text"] {
 @media (min-width: 768px) {
     body {
         overflow-y: hidden;
+    }
+    .user-menu {
+        padding: 0;
     }
     .content {
         display: block;

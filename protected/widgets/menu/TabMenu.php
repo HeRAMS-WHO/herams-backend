@@ -32,12 +32,16 @@ class TabMenu extends Widget
     protected function renderMenu()
     {
 
-        echo Html::beginTag('div', ['class' => "tabs"]);
+        echo Html::beginTag('div', ['class' => 'tabs']);
         foreach ($this->tabs as $tab) {
-            $options = ['class' => 'btn btn-tab'];
-            if (array_key_exists('class', $tab)) {
-                Html::addCssClass($options, $tab['class']);
+            $options = ['class' => ['btn', 'btn-tab']];
+            if ($this->currentPage === $tab['url'][0]) {
+                $options['class'][] = 'active';
             }
+            if (array_key_exists('class', $tab)) {
+                $options['class'] = array_merge($options['class'], $tab['class']);
+            }
+            $options['class'] = implode(' ', $options['class']);
             echo Html::a($tab['title'], $tab['url'], $options);
         }
         echo Html::endTag('div');

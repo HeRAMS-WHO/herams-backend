@@ -39,7 +39,7 @@ class Update extends Action
         }
 
         return $this->controller->render('update', [
-            'model' => $model
+            'project' => $model
         ]);
     }
 }
