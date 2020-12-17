@@ -5,7 +5,6 @@ namespace prime\modules\Api\controllers;
 
 use prime\modules\Api\controllers\response\Delete;
 use prime\modules\Api\controllers\response\Update;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 
@@ -14,8 +13,6 @@ use yii\web\Controller;
  */
 class ResponseController extends Controller
 {
-    use ActionInjectionTrait;
-
     public $layout = '@app/views/layouts/simple';
     public function actions()
     {

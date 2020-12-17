@@ -5,14 +5,11 @@ namespace prime\modules\Api\controllers;
 
 use prime\modules\Api\controllers\project\Index;
 use prime\modules\Api\controllers\project\Summary;
-use SamIT\Yii2\Traits\ActionInjectionTrait;
 use yii\web\Controller;
 
 class ProjectController extends Controller
 {
-    use ActionInjectionTrait;
-
-    public function actions()
+    public function actions(): array
     {
         return [
             'index' => Index::class,
