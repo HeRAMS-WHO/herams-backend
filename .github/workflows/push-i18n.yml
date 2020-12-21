@@ -2,6 +2,8 @@ name: Push messages to i18n repo
 on:
   push:
     branches: [ master ]
+    paths:
+      - protected
 jobs:
   build:
     runs-on: ubuntu-18.04
