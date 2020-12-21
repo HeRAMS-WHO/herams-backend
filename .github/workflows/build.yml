@@ -26,7 +26,7 @@ jobs:
           registry: ghcr.io
           password: ${{ secrets.GHCR_TOKEN }}
           tag: latest
-          image: ghcr.io/herams-who/herams-backend/app
+          image: herams-who/herams-backend/app
           build_file: docker/app/Dockerfile
           cache: false
           cache_registry: herams-who/cache
