@@ -4,6 +4,7 @@
     use prime\components\Controller;
     use prime\controllers\site\Admin;
     use prime\controllers\site\LimeSurvey;
+    use prime\controllers\site\Status;
     use prime\controllers\site\WorldMap;
     use yii\filters\AccessControl;
     use yii\helpers\ArrayHelper;
@@ -14,21 +15,18 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-        'error' => [
-          'class' => ErrorAction::class,
-          'layout' => 'map-popover-error',
-          'view' => 'error'
-             ],
-             'world-map' => [
-          'class' => WorldMap::class
-             ],
-             'lime-survey' => [
-          'class' => LimeSurvey::class
-             ]
+            'status' => Status::class,
+            'error' => [
+                'class' => ErrorAction::class,
+                'layout' => 'map-popover-error',
+                'view' => 'error'
+            ],
+            'world-map' => WorldMap::class,
+            'lime-survey' => LimeSurvey::class
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),
@@ -38,7 +36,7 @@ class SiteController extends Controller
                     'rules' => [
                         [
                             'allow' => 'true',
-                            'actions' => ['captcha', 'logout', 'error']
+                            'actions' => ['captcha', 'logout', 'error', 'status']
                         ],
                         [
                             'allow' => 'true',

@@ -37,7 +37,6 @@ jobs:
           k8s-url: ${{ secrets.KUBERNETES_URL }}
           k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
       - uses: Azure/k8s-deploy@v1.3
-        name: Deploy to kubernetes
         with:
           namespace: 'staging'
           manifests: |
