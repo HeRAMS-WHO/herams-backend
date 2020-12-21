@@ -23,18 +23,6 @@ html {
     --status-height: 30px;
 }
 
-/**
- Box sizing reset
- */
-
-html {
-    box-sizing: border-box;
-    width: 100vw;
-}
-
-*, *:before, *:after {
-    box-sizing: inherit;
-}
 
 input {
     padding-top: 0;
@@ -1019,9 +1007,4 @@ body[data-modal]:after {
 
 .form-content table {
     margin-bottom: 0;
-}
-
-.form-content .grid-view .summary {
-    margin-bottom: 15px;
-    font-size: 13px;
 }

@@ -22,38 +22,50 @@ echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} con
 $tabs = [
     [
         'url' => ['project/workspaces', 'id' => $project->id],
-        'title' => \Yii::t('app', 'Workspaces'),
+        'title' => \Yii::t('app', 'Workspaces') . " ({$project->workspaceCount})"
     ]
 ];
 
 if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
-    $tabs[] =     [
-        'url' => ['project/pages', 'id' => $project->id],
-        'title' => \Yii::t('app', 'dashboard')
-    ];
-    $tabs[] = [
-        'url' => ['project/update', 'id' => $project->id],
-        'title' => \Yii::t('app', 'Settings')
-    ];
+    $tabs[] =
+        [
+            'url' => ['project/pages', 'id' => $project->id],
+            'title' => \Yii::t('app', 'Dashboard settings')
+        ];
+    $tabs[] =
+        [
+            'url' => ['project/update', 'id' => $project->id],
+            'title' => \Yii::t('app', 'Project settings')
+        ];
 }
 if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $project)) {
-    $tabs[] = [
-        'url' => ['project/share', 'id' => $project->id],
-        'title' => \Yii::t('app', 'Share'),
-        'class' => 'active'
-    ];
+    $tabs[] =
+        [
+            'url' => ['project/share', 'id' => $project->id],
+            'title' => \Yii::t('app', 'Users') . " ({$project->contributorCount})"
+        ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+    $tabs[] =
+        [
+            'url' => ['/admin/limesurvey'],
+            'title' => \Yii::t('app', 'Backend administration')
+        ];
 }
 
 echo TabMenu::widget([
     'tabs' => $tabs,
-    'currentPage' => $this->context->action->id
+    'currentPage' => $this->context->action->uniqueId
 ]);
 echo Html::beginTag('div', ['class' => "content"]);
+
+echo Html::beginTag('div', ['class' => 'action-group']);
+echo Html::endTag('div');
 ?>
 
 <div class="form-content form-bg">
     <?php
-    echo Html::tag('h3', \Yii::t('app', 'Add permissions'));
+    echo Html::tag('h3', \Yii::t('app', 'Add new user'));
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -84,7 +96,7 @@ echo Html::beginTag('div', ['class' => "content"]);
     ?>
 </div>
 <div class="form-content form-bg full-width">
-    <h3><?= \Yii::t('app', 'View user permissions') ?></h3>
+    <h3><?= \Yii::t('app', 'View current users') ?></h3>
     <?php
     echo $model->renderTable();
     ?>

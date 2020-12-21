@@ -11,48 +11,59 @@ use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = [
-    'label' => $model->title,
-    'url' => ['project/workspaces', 'id' => $model->id]
+    'label' => $project->title,
+    'url' => ['project/workspaces', 'id' => $project->id]
 ];
-$this->title = $model->title;
+$this->title = $project->title;
 
 
 echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [
     [
-        'url' => ['project/workspaces', 'id' => $model->id],
-        'title' => \Yii::t('app', 'Workspaces'),
+        'url' => ['project/workspaces', 'id' => $project->id],
+        'title' => \Yii::t('app', 'Workspaces') . " ({$project->workspaceCount})"
     ]
 ];
 
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
-    $tabs[] =     [
-        'url' => ['project/pages', 'id' => $model->id],
-        'title' => \Yii::t('app', 'dashboard')
-    ];
-    $tabs[] = [
-        'url' => ['project/update', 'id' => $model->id],
-        'title' => \Yii::t('app', 'Settings'),
-        'class' => 'active'
-    ];
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+    $tabs[] =
+        [
+            'url' => ['project/pages', 'id' => $project->id],
+            'title' => \Yii::t('app', 'Dashboard settings')
+        ];
+    $tabs[] =
+        [
+            'url' => ['project/update', 'id' => $project->id],
+            'title' => \Yii::t('app', 'Project settings')
+        ];
 }
-if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
-    $tabs[] = [
-        'url' => ['project/share', 'id' => $model->id],
-        'title' => \Yii::t('app', 'Share')
-    ];
+if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $project)) {
+    $tabs[] =
+        [
+            'url' => ['project/share', 'id' => $project->id],
+            'title' => \Yii::t('app', 'Users') . " ({$project->contributorCount})"
+        ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+    $tabs[] =
+        [
+            'url' => ['/admin/limesurvey'],
+            'title' => \Yii::t('app', 'Backend administration')
+        ];
 }
 
 echo TabMenu::widget([
     'tabs' => $tabs,
-    'currentPage' => $this->context->action->id
+    'currentPage' => $this->context->action->uniqueId
 ]);
 echo Html::beginTag('div', ['class' => "content"]);
+
+echo Html::beginTag('div', ['class' => 'action-group']);
+echo Html::endTag('div');
 ?>
 <div class="form-content form-bg">
     <?php
-    echo Html::tag('h3', \Yii::t('app', 'Update ').' '.$this->title);
     $form = ActiveForm::begin([
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -65,7 +76,7 @@ echo Html::beginTag('div', ['class' => "content"]);
 
     echo Form::widget([
         'form' => $form,
-        'model' => $model,
+        'model' => $project,
         'columns' => 1,
         "attributes" => [
             'title' => [
@@ -79,11 +90,11 @@ echo Html::beginTag('div', ['class' => "content"]);
             ],
             'status' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->statusOptions()
+                'items' => $project->statusOptions()
             ],
             'visibility' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->visibilityOptions()
+                'items' => $project->visibilityOptions()
             ],
             'country' => [
                 'type' => Form::INPUT_WIDGET,
@@ -115,8 +126,7 @@ echo Html::beginTag('div', ['class' => "content"]);
                     [
                         'label' => \Yii::t('app', 'Update project'),
                         'options' => ['class' => 'btn btn-primary'],
-                    ],
-                    Html::a(\Yii::t('app', 'Back to list'), ['/project'], ['class' => 'btn btn-default']),
+                    ]
                 ]
             ])
         ]

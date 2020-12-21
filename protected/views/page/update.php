@@ -9,6 +9,7 @@ use kartik\helpers\Html;
 use prime\helpers\Icon;
 use prime\models\ar\Element;
 use prime\models\ar\Permission;
+use prime\widgets\menu\TabMenu;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -16,20 +17,25 @@ use function iter\chain;
 use function iter\toArrayWithKeys;
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
     'label' => $page->project->title,
     'url' => ['project/update', 'id' => $page->project->id]
 ];
 
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Pages'),
+    'url' => ['project/pages', 'id' => $page->project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => $page->title,
+    'url' => ['page/update', 'id' => $page->id]
+];
+
 $this->title = $page->title;
-//$this->params['breadcrumbs'][] = $this->title;
+
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
+echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
     <h3><?= \Yii::t('app', 'Update Page') ?></h3>
@@ -165,3 +171,7 @@ $this->title = $page->title;
     ]);
     ?>
 </div>
+
+<?php
+echo Html::endTag('div');
+?>
