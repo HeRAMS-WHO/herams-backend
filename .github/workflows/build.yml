@@ -25,7 +25,7 @@ jobs:
         with:
           registry: ghcr.io
           password: ${{ secrets.GHCR_TOKEN }}
-          tag: $GITHUB_SHA
+          tag: ${{ github.sha }}
           tag_with_latest: true
           extra_args: "--build-arg COMMIT_SHA=${{ github.sha }}"
           image: ${{ github.repository }}/app
