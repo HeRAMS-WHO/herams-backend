@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\site;
 
-
 use yii\base\Action;
 use yii\web\Response;
 
@@ -17,7 +16,6 @@ class Status extends Action
         $response->data = array_filter([
             'commit' => $hash ?? 'unknown',
             'github' => $hash ? "https://github.com/HeRAMS-WHO/herams-backend/commit/$hash" : null
-        ];
+        ]);
     }
-
 }
