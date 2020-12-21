@@ -38,6 +38,9 @@ ADD docker/app/init.sh /sbin/init.sh
 ADD protected /project/protected
 ADD public /project/public
 
+WORKDIR /project
+RUN composer install
+
 RUN mkdir -p /run && chown nobody:nobody /run
 ARG COMMIT_SHA
 RUN echo "${COMMIT_SHA}" > /run/commit_sha
