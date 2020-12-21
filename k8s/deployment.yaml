@@ -50,7 +50,7 @@ spec:
             name: app-config
       containers:
         # Our PHP-FPM application
-        - image: ghcr.io/herams-who/herams-backend/app
+        - image: ghcr.io/herams-who/herams-backend/app:latest
           imagePullPolicy: Always
           name: app
           volumeMounts:
