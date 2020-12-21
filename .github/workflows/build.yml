@@ -36,7 +36,7 @@ jobs:
           method: service-account
           k8s-url: ${{ secrets.KUBERNETES_URL }}
           k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
-      - uses: Azure/k8s-deploy@v1.3
+      - uses: Azure/k8s-deploy@v1.4
         with:
           namespace: 'staging'
           manifests: |
