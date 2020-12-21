@@ -3,8 +3,8 @@ on:
   push:
     branches: [ master ]
 jobs:
-  test:
-    name: Run tests
+  build:
+    name: Build container
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -29,4 +29,3 @@ jobs:
           image: herams-who/herams-backend/app
           build_file: docker/app/Dockerfile
           cache: false
-          cache_registry: herams-who/cache
