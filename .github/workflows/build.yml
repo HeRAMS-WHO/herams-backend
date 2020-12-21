@@ -1,4 +1,4 @@
-name: Build PHP-FPM
+name: Build app image with dev dependencies
 on:
   push:
     branches: [ master ]
@@ -19,18 +19,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+      - id: kaniko_build
+        name: Kaniko build
+        uses: aevea/action-kaniko@master
         with:
           registry: ghcr.io
-          username: herams-who-service
           password: ${{ secrets.GHCR_TOKEN }}
-#      - id: kaniko_build
-#        name: Kaniko build
-#        uses: aevea/action-kaniko@master
-#        with:
-#          registry: ghcr.io
-#          password: ${{ secrets.GHCR_TOKEN }}
-#          image: herams-who/herams-backend/app
-#          cache: false
-#          cache_registry: herams-who/cache
+          tag: latest
+          image: ghcr.io/herams-who/herams-backend/app
+          build_file: docker/app/Dockerfile
+          cache: false
+          cache_registry: herams-who/cache
