@@ -39,6 +39,8 @@ ADD protected /project/protected
 ADD public /project/public
 
 RUN mkdir -p /run && chown nobody:nobody /run
+ARG COMMIT_SHA
+RUN echo "${COMMIT_SHA}" > /run/commit_sha
 
 #Mount a tmpfs here
 VOLUME /run
