@@ -23,23 +23,14 @@ RUN apk add --update --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/tes
   php7-pecl-xlswriter \
   php7-pecl-pcov \
   --
-# Install composer
-RUN EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)" && \
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")" && \
-    if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then exit 1; fi && \
-    php composer-setup.php --filename composer --install-dir /bin && \
-    php -r "unlink('composer-setup.php');"
-
 
 ADD docker/app/php-fpm.conf /
 ADD docker/app/init.sh /sbin/init.sh
 
 ADD protected /project/protected
 ADD public /project/public
+ADD vendor /project/vendor
 
-WORKDIR /project
-RUN composer install
 
 RUN mkdir -p /run && chown nobody:nobody /run
 ARG COMMIT_SHA
