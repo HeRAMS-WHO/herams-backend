@@ -27,7 +27,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
           tag: ${{ github.sha }}
           tag_with_latest: true
-          extra_args: "--build-arg COMMIT_SHA=${{ github.sha }}"
+          extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --use-new-run"
           image: herams-who/herams-backend/app
           build_file: docker/app/Dockerfile
       - name: Authenticate to kubernetes
