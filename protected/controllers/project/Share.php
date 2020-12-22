@@ -9,6 +9,7 @@ use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\Share as ShareForm;
 use SamIT\abac\AuthManager;
+use SamIT\abac\interfaces\Resolver;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -24,6 +25,7 @@ class Share extends Action
         User $user,
         NotificationService $notificationService,
         AuthManager $abacManager,
+        Resolver $abacResolver,
         int $id
     ) {
         $this->controller->layout = 'admin-screen';
@@ -40,15 +42,17 @@ class Share extends Action
             $model = new ShareForm(
                 $project,
                 $abacManager,
+                $abacResolver,
                 $user->identity,
                 [
                     Permission::PERMISSION_READ,
-                    Permission::PERMISSION_LIMESURVEY,
+                    Permission::PERMISSION_SURVEY_DATA,
                     Permission::PERMISSION_EXPORT,
                     Permission::PERMISSION_MANAGE_WORKSPACES,
                     Permission::PERMISSION_MANAGE_DASHBOARD,
                     Permission::PERMISSION_WRITE,
                     Permission::PERMISSION_SHARE,
+                    Permission::PERMISSION_SURVEY_BACKEND,
                     Permission::PERMISSION_SUPER_SHARE,
                 ]
             );

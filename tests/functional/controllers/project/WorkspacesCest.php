@@ -47,7 +47,7 @@ class WorkspacesCest
         ]);
 
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
-        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $workspace));
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace));
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
 
         $I->seeElement('a', [

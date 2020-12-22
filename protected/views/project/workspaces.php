@@ -52,7 +52,7 @@ if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $project)) {
             'title' => \Yii::t('app', 'Users') . " ({$project->contributorCount})"
         ];
 }
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_BACKEND, $project)) {
     $tabs[] =
         [
             'url' => ['/admin/limesurvey'],

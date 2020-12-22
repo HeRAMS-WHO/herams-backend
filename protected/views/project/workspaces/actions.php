@@ -14,7 +14,7 @@ return [
     'buttons' => [
         'refresh' => function ($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $model)) {
                 $result = Html::a(Icon::sync(), $url, [
                     'title' => \Yii::t('app', 'Refresh data from limesurvey')
                 ]);
@@ -23,7 +23,7 @@ return [
         },
         'limesurvey' => function ($url, Workspace $model, $key) {
             $result = '';
-            if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
+            if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $model)) {
                 $result = Html::a(
                     Icon::pencilAlt(),
                     $url,

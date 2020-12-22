@@ -22,7 +22,7 @@ class GlobalImpliesProject implements Rule
         return [
             Permission::PERMISSION_SHARE,
             Permission::PERMISSION_EXPORT,
-            Permission::PERMISSION_LIMESURVEY,
+            Permission::PERMISSION_SURVEY_DATA,
             Permission::PERMISSION_ADMIN
         ];
     }

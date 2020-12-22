@@ -39,12 +39,15 @@ class Share extends Model
 
     /** @var AuthManager */
     private $abacManager;
+    /** @var Resolver  */
+    private $resolver;
     /** @var IdentityInterface */
     private $currentUser;
 
     public function __construct(
         object $model,
         AuthManager $abacManager,
+        Resolver $resolver,
         IdentityInterface $identity,
         ?array $availablePermissions
     ) {
@@ -54,6 +57,7 @@ class Share extends Model
         parent::__construct([]);
         $this->model = $model;
         $this->abacManager = $abacManager;
+        $this->resolver = $resolver;
         $this->currentUser = $identity;
         $this->setPermissionOptions($availablePermissions);
         if (empty($this->permissionOptions)) {
@@ -144,9 +148,7 @@ class Share extends Model
 
     public function renderTable(string $deleteAction = '/permission/delete')
     {
-        /** @var Resolver $resolver */
-        $resolver = \Yii::$app->abacResolver;
-        $target = $resolver->fromSubject($this->model);
+        $target = $this->resolver->fromSubject($this->model);
         $permissions = [];
         $columns = [];
         foreach ($this->permissionOptions as $permission => $label) {
@@ -166,7 +168,7 @@ class Share extends Model
             if (!isset($permissions[$key])) {
                 $permissions[$key] = [
                    'source' => $source,
-                   'user' => $resolver->toSubject($source)->displayField ?? \Yii::t('app', 'Deleted user'),
+                   'user' => $this->resolver->toSubject($source)->displayField ?? \Yii::t('app', 'Deleted user'),
                    'permissions' => []
                 ];
             }

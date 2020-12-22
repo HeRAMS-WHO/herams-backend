@@ -37,7 +37,7 @@ class WorkspacePageMenu extends SideMenu
 
 
         $actions = [];
-        if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $this->workspace)) {
+        if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $this->workspace)) {
             $actions = [['action' => 'limesurvey', 'title' => \Yii::t('app', 'Data')]];
         }
         if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $this->workspace)) {

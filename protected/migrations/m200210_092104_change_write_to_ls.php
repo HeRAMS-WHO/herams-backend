@@ -15,7 +15,7 @@ class m200210_092104_change_write_to_ls extends Migration
     {
         $this->update(
             '{{%permission}}',
-            ['permission' => Permission::PERMISSION_LIMESURVEY],
+            ['permission' => Permission::PERMISSION_SURVEY_DATA],
             ['permission' => Permission::PERMISSION_WRITE]
         );
     }

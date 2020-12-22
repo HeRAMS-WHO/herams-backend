@@ -19,7 +19,7 @@ class WorkspaceContributorRole implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_LIMESURVEY,
+            Permission::PERMISSION_SURVEY_DATA,
             Permission::PERMISSION_EXPORT
         ];
     }

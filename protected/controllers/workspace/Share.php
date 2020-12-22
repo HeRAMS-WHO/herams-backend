@@ -9,6 +9,7 @@ use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
 use SamIT\abac\AuthManager;
+use SamIT\abac\interfaces\Resolver;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -21,6 +22,7 @@ class Share extends Action
         NotificationService $notificationService,
         Request $request,
         AuthManager $abacManager,
+        Resolver $abacResolver,
         User $user,
         int $id
     ) {
@@ -33,8 +35,8 @@ class Share extends Action
             throw new ForbiddenHttpException('You are not allowed to share this workspace');
         }
         try {
-            $model = new ShareForm($workspace, $abacManager, $user->identity, [
-                Permission::PERMISSION_LIMESURVEY,
+            $model = new ShareForm($workspace, $abacManager, $abacResolver, $user->identity, [
+                Permission::PERMISSION_SURVEY_DATA,
                 Permission::PERMISSION_EXPORT,
                 Permission::PERMISSION_SHARE,
                 Permission::PERMISSION_SUPER_SHARE,

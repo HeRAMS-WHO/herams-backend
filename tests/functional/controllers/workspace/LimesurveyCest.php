@@ -24,7 +24,7 @@ class LimesurveyCest
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_READ);
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(403);
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_LIMESURVEY);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_SURVEY_DATA);
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
     }
@@ -40,7 +40,7 @@ class LimesurveyCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_LIMESURVEY);
+        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_SURVEY_DATA);
 
         $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
