@@ -43,9 +43,21 @@ echo GridView::widget([
     'dataProvider' => $projectProvider,
     'filterModel' => $projectSearch,
     //'layout' => "{items}\n{pager}",
+    //'options' => [ 'style' => 'table-layout:fixed;' ],
     'columns' => [
         'id',
-        'title',
+        [
+            'label' => 'title',
+            'content' => function ($project) {
+                return Html::a(
+                    $project->title,
+                    ['project/workspaces', 'id' => $project->id],
+                    [
+                        'title' => $project->title,
+                    ]
+                );
+            }
+        ],
         [
             'label' => \Yii::t('app', '# Workspaces'),
             'attribute'  => 'workspaceCount',
