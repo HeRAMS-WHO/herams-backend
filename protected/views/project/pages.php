@@ -118,7 +118,7 @@ echo GridView::widget([
             'buttons' => [
                 'delete' => function ($url, Page $page, $key) {
                     return Html::a(
-                        Icon::delete(),
+                        Icon::trash(),
                         [
                             'page/delete',
                             'id' => $page->id

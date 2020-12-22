@@ -15,7 +15,7 @@ return [
         'refresh' => function ($url, Workspace $model, $key) {
             $result = '';
             if (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $model)) {
-                $result = Html::a(Icon::sync(), $url, [
+                $result = Html::a(Icon::recycling(), $url, [
                     'title' => \Yii::t('app', 'Refresh data from limesurvey')
                 ]);
             }
@@ -64,7 +64,7 @@ return [
         'delete' => function ($url, Workspace $model, $key) {
             if (\Yii::$app->user->can(Permission::PERMISSION_DELETE, $model)) {
                 return Html::a(
-                    Icon::delete(),
+                    Icon::trash(),
                     $url,
                     [
                         'data-method' => 'delete',

@@ -128,7 +128,7 @@ echo GridView::widget([
                 },
                 'remove' => function ($url, Project $model, $key) {
                     return Html::a(
-                        Icon::delete(),
+                        Icon::trash(),
                         ['project/delete', 'id' => $model->id],
                         [
                             'data-method' => 'delete',

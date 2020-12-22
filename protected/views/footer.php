@@ -59,7 +59,7 @@ echo Html::beginTag('div', [
     'class' => 'status',
     'title' => $status
 ]);
-    echo Icon::sync() . ' ';
+    echo Icon::recycling() . ' ';
     echo \Yii::t('app', 'Latest update') . ': ';
     echo Html::tag('span', $status, ['class' => 'value']);
 echo Html::endTag('div');
