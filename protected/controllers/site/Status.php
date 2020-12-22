@@ -11,7 +11,7 @@ class Status extends Action
 
     public function run(Response $response)
     {
-        $hash = file_exists('/run/commit_sha') ? file_get_contents('/run/commit_sha') : null;
+        $hash = file_exists('/run/commit_sha') ? trim(file_get_contents('/run/commit_sha')) : null;
         $response->format = Response::FORMAT_JSON;
         $response->data = array_filter([
             'commit' => $hash ?? 'unknown',
