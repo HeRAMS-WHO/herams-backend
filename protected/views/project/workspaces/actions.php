@@ -77,7 +77,7 @@ return [
         'export' => function ($url, Workspace $model, $key) {
             if (\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $model)) {
                 return Html::a(
-                    Icon::download(),
+                    Icon::download_2(),
                     $url,
                     [
                         'title' => \Yii::t('app', 'Download'),

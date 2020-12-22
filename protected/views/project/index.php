@@ -139,7 +139,7 @@ echo GridView::widget([
                 },
                 'export' => function ($url, Project $model, $key) {
                     return Html::a(
-                        Icon::download(),
+                        Icon::download_2(),
                         $url,
                         [
                             'title' => \Yii::t('app', 'Download'),
