@@ -155,7 +155,7 @@ class Workspace extends ActiveRecord
                 // Attempt creation of a token.
                 $token = $this->getLimesurveyDataProvider()->createToken($this->project->base_survey_eid, app()->security->generateRandomString(15));
 
-                $token->setValidFrom(new Carbon($this->created));
+                $token->setValidFrom(null);
                 $this->_token = $token;
                 $this->setAttribute('token', $token->getToken());
                 return $token->save();
@@ -173,7 +173,7 @@ class Workspace extends ActiveRecord
             /** @var WritableTokenInterface $token */
             $token = $this->getLimesurveyDataProvider()->getToken($this->project->base_survey_eid, $this->token);
 
-            $token->setValidFrom(new Carbon($this->created));
+            $token->setValidFrom(null);
             $token->save();
             $this->_token = $token;
         }
