@@ -108,8 +108,10 @@ header {
     text-align: right;
     margin-right: 20px;
     margin-bottom: 20px;
-    display: inline-block;
     width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .action-group .btn {
@@ -259,10 +261,6 @@ header {
 .form-bg {
     background: white;
     border-radius: 7px;
-}
-
-.workspaces .btn-dashboard {
-    float: right;
 }
 
 .workspaces #w3-pjax {

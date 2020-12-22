@@ -72,11 +72,11 @@ echo Html::beginTag('div', ['class' => "content"]);
 echo Html::beginTag('div', ['class' => 'action-group']);
 
 if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
-    echo Html::a(\Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary']);
+    echo Html::a(Icon::edit() . \Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary btn-icon']);
     echo Html::a(\Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default']);
 }
 if (app()->user->can(Permission::PERMISSION_EXPORT, $project)) {
-    echo Html::a(Icon::download() . ' ' . \Yii::t('app', 'Download'), Url::to(['project/export', 'project_id' => $project->id]), ['class' => 'btn btn-default']);
+    echo Html::a(Icon::download() . \Yii::t('app', 'Download'), Url::to(['project/export', 'project_id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
 }
 
 echo Html::endTag('div');

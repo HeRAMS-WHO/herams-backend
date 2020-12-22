@@ -228,6 +228,11 @@ input[type="text"] {
     text-align: center;
 }
 
+.btn-icon {
+    align-items: center;
+    justify-content: center;
+}
+
 .btn-primary, .btn-primary:visited {
     background-color: var(--primary-button-background-color);
     background-image: none;
