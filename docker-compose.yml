@@ -61,11 +61,11 @@ services:
       LS_HOST: ${LS_HOST}
       SECRET_limesurvey/password: ${LS_PASS}
       SECRET_limesurvey/username: ${LS_USER}
+      SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
       RUNTIME_PATH: /run
       SMTP_HOST: mailcatcher
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
       URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
-      PRIVATE_KEY_FILE: /project/local/testkey
       SMTP_PORT: 1025
     depends_on:
       - devdb

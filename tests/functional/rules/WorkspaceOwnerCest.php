@@ -20,14 +20,14 @@ class WorkspaceOwnerCest
         $I->amLoggedInAs(TEST_USER_ID);
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
-        $manager->grant($user, $workspace, Permission::PERMISSION_LIMESURVEY);
+        $manager->grant($user, $workspace, Permission::PERMISSION_SURVEY_DATA);
         $manager->grant($user, $workspace, Permission::PERMISSION_EXPORT);
         $manager->grant($user, $workspace, Permission::PERMISSION_SHARE);
 
 
         foreach ([
             Permission::PERMISSION_EXPORT => true,
-            Permission::PERMISSION_LIMESURVEY => true,
+            Permission::PERMISSION_SURVEY_DATA => true,
             Permission::PERMISSION_SHARE => false,
             Permission::PERMISSION_WRITE => false,
             Permission::PERMISSION_READ => false,

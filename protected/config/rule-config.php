@@ -30,7 +30,7 @@ return [
         Permission::PERMISSION_WRITE,
         Permission::PERMISSION_DELETE,
         Permission::PERMISSION_EXPORT,
-        Permission::PERMISSION_LIMESURVEY,
+        Permission::PERMISSION_SURVEY_DATA,
         Permission::PERMISSION_MANAGE_WORKSPACES,
         Permission::PERMISSION_MANAGE_DASHBOARD
     ]),

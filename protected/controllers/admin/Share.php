@@ -8,6 +8,7 @@ use prime\models\ar\Permission;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\GlobalPermission;
 use SamIT\abac\AuthManager;
+use SamIT\abac\interfaces\Resolver;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\Request;
@@ -19,22 +20,22 @@ class Share extends Action
         NotificationService $notificationService,
         Request $request,
         AuthManager $abacManager,
+        Resolver $abacResolver,
         User $user
     ) {
-        
         if (!($user->can(Permission::PERMISSION_ADMIN))) {
             throw new ForbiddenHttpException();
         }
         $permissions = [
             Permission::PERMISSION_EXPORT,
             Permission::PERMISSION_MANAGE_WORKSPACES,
-            Permission::PERMISSION_LIMESURVEY,
+            Permission::PERMISSION_SURVEY_DATA,
             Permission::PERMISSION_READ,
             Permission::PERMISSION_SHARE,
             Permission::PERMISSION_CREATE_PROJECT,
             Permission::PERMISSION_ADMIN
         ];
-        $model = new ShareForm(new GlobalPermission(), $abacManager, $user->identity, $permissions);
+        $model = new ShareForm(new GlobalPermission(), $abacManager, $abacResolver, $user->identity, $permissions);
 
         $model->confirmationMessage = \Yii::t('app', 'Are you sure you want to revoke this global permission?');
         if ($request->isPost) {
@@ -55,7 +56,7 @@ class Share extends Action
 
 
         return $this->controller->render('share', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 }

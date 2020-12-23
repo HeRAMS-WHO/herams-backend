@@ -52,7 +52,7 @@ if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $project)) {
             'title' => \Yii::t('app', 'Users') . " ({$project->contributorCount})"
         ];
 }
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_BACKEND, $project)) {
     $tabs[] =
         [
             'url' => ['/admin/limesurvey'],
@@ -103,7 +103,7 @@ echo GridView::widget([
             'label' => 'title',
             'attribute' => 'title',
             'content' => function ($workspace) {
-                return (\Yii::$app->user->can(Permission::PERMISSION_LIMESURVEY, $workspace)) ?
+                return (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) ?
                     Html::a(
                         $workspace->title,
                         ['workspace/limesurvey', 'id' => $workspace->id],

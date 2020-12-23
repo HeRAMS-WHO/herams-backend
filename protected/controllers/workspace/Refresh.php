@@ -29,7 +29,7 @@ class Refresh extends Action
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_LIMESURVEY, $workspace)) {
+        if (!$user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) {
             throw new ForbiddenHttpException();
         }
 

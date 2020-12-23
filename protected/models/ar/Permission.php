@@ -33,7 +33,8 @@ class Permission extends ActiveRecord
     const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
     const PERMISSION_LIST_WORKSPACES = 'list-workspaces';
     const PERMISSION_CREATE_PROJECT = 'create-project';
-    const PERMISSION_LIMESURVEY = 'update-data';
+    const PERMISSION_SURVEY_DATA = 'update-data';
+    const PERMISSION_SURVEY_BACKEND = 'survey-backend';
     const PERMISSION_SHARE = 'share';
     const PERMISSION_SUPER_SHARE = 'super-share';
     const PERMISSION_DELETE = 'delete';
@@ -72,7 +73,8 @@ class Permission extends ActiveRecord
             self::PERMISSION_SUPER_SHARE => \Yii::t('app', 'Grant admin permissions'),
             self::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
-            self::PERMISSION_LIMESURVEY => \Yii::t('app', 'Edit data'),
+            self::PERMISSION_SURVEY_DATA => \Yii::t('app', 'Edit data'),
+            self::PERMISSION_SURVEY_BACKEND => \Yii::t('app', 'Manage surveys'),
             self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces'),
             self::PERMISSION_MANAGE_DASHBOARD => \Yii::t('app', 'Configure dashboard'),
             self::PERMISSION_CREATE_PROJECT => \Yii::t('app', 'Create a new project'),
