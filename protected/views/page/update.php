@@ -105,6 +105,7 @@ echo Html::beginTag('div', ['class' => "content no-tab"]);
 </div>
 <div class="form-content form-bg">
     <?php
+    echo '<h4>'.\Yii::t('app', 'Page elements').'</h4>';
     echo GridView::widget([
         'caption' => ButtonGroup::widget([
             'options' => [
