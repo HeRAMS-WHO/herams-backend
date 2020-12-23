@@ -7,13 +7,11 @@
  *
  */
 
-
-form .has-error input{
+form .has-error input {
     border-color: var(--validation-error-color);
 }
 
-
-.help-block, .error-summary  {
+.help-block, .error-summary {
     margin: 5px 0 0;
     color: var(--validation-error-color);
     font-size: 12px;
@@ -36,11 +34,13 @@ form .has-error input{
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
 
 /*form label {*/
+
 /*    display: none;*/
+
 /*}*/
 
 .control-label {
@@ -53,20 +53,26 @@ form .has-error input{
     content: '*';
     color: red;
 }
+
 .hint-block {
     font-size: 12px;
     margin-top: 3px;
     color: grey;
 }
+
 .btn-block {
     display: block;
     width: 100%;
 }
 
 /*.form-group .btn-group {*/
+
 /*    padding-left: 15px;*/
+
 /*    padding-right: 15px;*/
+
 /*}*/
+
 .form-group, .form-horizontal .form-group {
     margin: 0;
 }
@@ -85,11 +91,12 @@ form .has-error input{
     margin-left: 0;
     margin-bottom: 20px;
 }
+
 .nav-tabs li {
     overflow: hidden;
     vertical-align: middle;
-
 }
+
 .nav-tabs li a {
     padding: 10px;
     margin-bottom: 0;
@@ -97,14 +104,11 @@ form .has-error input{
 
 .nav-tabs li.active {
     border-radius: 5px;
-
 }
 
 .nav-tabs li.active a {
     background-color: var(--primary-button-background-color);
     color: var(--primary-button-color);
-
-
 }
 
 .nav-tabs li {
@@ -112,11 +116,11 @@ form .has-error input{
 }
 
 /** Popover align form buttons to the button. */
+
 .popover .form .btn-group {
     left: var(--padding);
     right: var(--padding);
 }
-
 
 .bootstrap-switch {
     height: 34px;
@@ -125,25 +129,30 @@ form .has-error input{
 /**
  * BEGIN CSS for formbuttons widget
  */
+
 .formbuttons {
     display: block;
 }
+
 .formbuttons.orientation-right {
     float: right;
 }
-.formbuttons > *, .popover .formbuttons > * {
+
+.formbuttons>*, .popover .formbuttons>* {
     display: inline-block;
 }
-.formbuttons.orientation-block > * {
+
+.formbuttons.orientation-block>* {
     display: block;
     width: 100%;
     float: none;
     border-radius: 6px !important;
 }
 
-.formbuttons.orientation-block > a {
+.formbuttons.orientation-block>a {
     text-align: right;
 }
+
 .form-horizontal .row .form-group.formbuttons-container {
     display: block;
 }
@@ -151,3 +160,21 @@ form .has-error input{
 /**
  * END CSS for formbuttons widget
  */
+
+
+/**
+ * HTML RADIO
+ */
+
+.pretty.p-switch input:checked~.state.p-success:before {
+    border-color: var(--primary-color);
+}
+
+.pretty input:checked~.state.p-success label:after, .pretty.p-toggle .state.p-success label:after {
+    background-color: var(--primary-color) !important;
+}
+
+.pretty input:checked ~ .state.p-danger label:after, .pretty.p-toggle .state.p-danger label:after {
+    background-color: #bdc3c7 !important;
+}
+
