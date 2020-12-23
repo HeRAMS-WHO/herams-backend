@@ -1,5 +1,6 @@
 :root {
-    --primary-button-background-color: #4177c1;
+    --primary-color: #4177c1;
+    --primary-button-background-color: var(--primary-color);
     --primary-button-color: white;
     --default-button-background-color: #42424b;
     --default-button-color: white;
@@ -8,7 +9,7 @@
     --tab-button-background-color: #edebeb;
     --tab-button-text-color: #919191;
     --tab-button-active-background-color: white;
-    --tab-button-active-text-color: #4177c1;
+    --tab-button-active-text-color: var(--primary-color);
     --clear-button-color: #999999;
     --link-color: black;
     --validation-error-color: #d90001;

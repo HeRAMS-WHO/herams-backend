@@ -69,7 +69,6 @@ echo Html::beginTag('div', ['class' => count($tabs) <= 1 ? 'content no-tab': 'co
 echo Html::beginTag('div', ['class' => "form-content form-bg full-width"]);
 
 echo Html::beginTag('div', ['class' => 'action-group']);
-
 echo Html::a(Icon::add() . \Yii::t('app', 'Create page'), Url::to(['page/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary btn-icon']);
 echo Html::a(Icon::download_1() . \Yii::t('app', 'Import pages'), Url::to(['project/import-dashboard', 'id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
 echo Html::a(Icon::export() . \Yii::t('app', 'Export all'), Url::to(['project/export-dashboard', 'id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
@@ -86,6 +85,7 @@ if ($project->pageCount > 0 && app()->user->can(Permission::PERMISSION_READ, $pr
 
 echo Html::endTag('div');
 
+echo '<h4>'.\Yii::t('app', 'Dashboard pages').'</h4>';
 
 echo GridView::widget([
     'caption' => ButtonGroup::widget([

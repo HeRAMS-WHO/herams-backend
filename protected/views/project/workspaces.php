@@ -79,7 +79,7 @@ if (app()->user->can(Permission::PERMISSION_EXPORT, $project)) {
 }
 
 echo Html::endTag('div');
-
+echo '<h4>'.\Yii::t('app', 'Workspaces').'</h4>';
 echo GridView::widget([
     'pjax' => true,
     'pjaxSettings' => [
