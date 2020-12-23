@@ -31,7 +31,9 @@ class TabMenu extends Widget
 
     protected function renderMenu()
     {
-
+        if (!is_array($this->tabs) || count($this->tabs) <= 1) {
+            return;
+        }
         echo Html::beginTag('div', ['class' => 'tabs']);
         foreach ($this->tabs as $tab) {
             $options = ['class' => ['btn', 'btn-tab']];

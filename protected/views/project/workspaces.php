@@ -66,8 +66,7 @@ echo TabMenu::widget([
 ]);
 
 
-
-echo Html::beginTag('div', ['class' => "content"]);
+echo Html::beginTag('div', ['class' => count($tabs) <= 1 ? 'content no-tab': 'content']);
 
 echo Html::beginTag('div', ['class' => 'action-group']);
 

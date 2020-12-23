@@ -64,7 +64,7 @@ echo TabMenu::widget([
     'tabs' => $tabs,
     'currentPage' => $this->context->action->uniqueId
 ]);
-echo Html::beginTag('div', ['class' => "content"]);
+echo Html::beginTag('div', ['class' => count($tabs) <= 1 ? 'content no-tab': 'content']);
 
 echo Html::beginTag('div', ['class' => "form-content form-bg full-width"]);
 
