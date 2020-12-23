@@ -58,7 +58,7 @@ echo Html::tag('em', $workspace->contributorCount);
 echo Html::endTag('div');
 
 echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::sync();
+echo Icon::recycling();
 echo Html::tag('span', \Yii::t('app', 'Latest update'));
 echo Html::tag('em', $workspace->latestUpdate);
 echo Html::endTag('div');

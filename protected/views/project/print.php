@@ -99,7 +99,7 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
                         </div>
                         <div class="count">
                             <?php
-                            echo Icon::sync() . \Yii::t('app', 'Latest update');
+                            echo Icon::recycling() . \Yii::t('app', 'Latest update');
                             /** @var HeramsResponseInterface $heramsResponse */
                             $lastUpdate = null;
                             foreach ($data as $heramsResponse) {

@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 class AdminController extends Controller
 {
     public $defaultAction = 'dashboard';
-    public $layout = 'admin-content';
+    public $layout = 'admin-screen';
     public function actions()
     {
         return [

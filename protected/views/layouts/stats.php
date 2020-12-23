@@ -54,4 +54,4 @@ use yii\helpers\Html;
 
     ?>
 </div>
-<div class="status"><?= Icon::sync() . ' ' . \Yii::t('app', 'Latest update') ?>: <span class="value"><?= $latestStatus ?></span></div>
+<div class="status"><?= Icon::recycling() . ' ' . \Yii::t('app', 'Latest update') ?>: <span class="value"><?= $latestStatus ?></span></div>

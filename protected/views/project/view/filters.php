@@ -37,7 +37,7 @@ echo Html::beginForm([
 </div>
 <div class="count">
     <?php
-    echo Icon::sync();
+    echo Icon::recycling();
     echo Html::tag('span', \Yii::t('app', 'Latest update'));
     /** @var HeramsResponseInterface $heramsResponse */
     $lastUpdate = null;

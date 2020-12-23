@@ -66,17 +66,16 @@ echo TabMenu::widget([
 ]);
 
 
-
-echo Html::beginTag('div', ['class' => "content"]);
+echo Html::beginTag('div', ['class' => count($tabs) <= 1 ? 'content no-tab': 'content']);
 
 echo Html::beginTag('div', ['class' => 'action-group']);
 
 if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
-    echo Html::a(\Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary']);
-    echo Html::a(\Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default']);
+    echo Html::a(Icon::add() . \Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary btn-icon']);
+    echo Html::a(Icon::download_1() . \Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
 }
 if (app()->user->can(Permission::PERMISSION_EXPORT, $project)) {
-    echo Html::a(Icon::download() . ' ' . \Yii::t('app', 'Download'), Url::to(['project/export', 'project_id' => $project->id]), ['class' => 'btn btn-default']);
+    echo Html::a(Icon::download_2() . \Yii::t('app', 'Download'), ['project/export', 'id' => $project->id], ['class' => 'btn btn-default btn-icon']);
 }
 
 echo Html::endTag('div');
@@ -100,7 +99,18 @@ echo GridView::widget([
             'attribute' => 'id',
         ],
         [
-            'attribute' => 'title'
+            'label' => 'title',
+            'attribute' => 'title',
+            'content' => function ($workspace) {
+                return (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) ?
+                    Html::a(
+                        $workspace->title,
+                        ['workspace/limesurvey', 'id' => $workspace->id],
+                        [
+                            'title' => $workspace->title,
+                        ]
+                    ) : $workspace->title;
+            }
         ],
         [
             'attribute' => 'latestUpdate',

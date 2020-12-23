@@ -33,6 +33,14 @@ use yii\helpers\Inflector;
  * @method static string search(array $options = [])
  * @method static string list(array $options = [])
  *
+ * @method static string add(array $options = [])
+ * @method static string recycling(array $options = [])
+ * @method static string up_arrow_1(array $options = [])
+ * @method static string download_1(array $options = [])
+ * @method static string download_2(array $options = [])
+ * @method static string trash(array $options = [])
+ * @method static string export(array $options = [])
+ * @method static string globe(array $options = [])
  *
  * @method static string heart(array $options = [])
  *

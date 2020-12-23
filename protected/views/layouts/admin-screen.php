@@ -45,7 +45,7 @@ echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
     'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
     'homeLink' => [
         'label' => \Yii::t('app', 'Administration'),
-        'url' => '/admin'
+        'url' => '/project/index'
     ],
     'links' => $this->params['breadcrumbs'] ?? []
 ]);

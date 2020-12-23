@@ -156,7 +156,7 @@ echo Html::beginTag('div', ['class' => "content no-tab"]);
                     'remove' => function ($url, Element $model, $key) {
                         if (app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
                             return Html::a(
-                                Icon::delete(),
+                                Icon::trash(),
                                 ['element/delete', 'id' => $model->id],
                                 [
                                     'data-method' => 'delete',

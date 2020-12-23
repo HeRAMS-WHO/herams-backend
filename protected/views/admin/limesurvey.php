@@ -1,9 +1,16 @@
 <?php
 
 use prime\helpers\Icon;
+use yii\helpers\Html;
 
-$this->title= \Yii::t('app', 'Backend administration');
+$this->title = \Yii::t('app', 'Backend administration');
 $this->params['breadcrumbs'][] = ['label' => ""];
+
+
+
+
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo Html::beginTag('div', ['class' => 'content no-tab']);
 
 /** @var \yii\web\View $this */
 echo \yii\helpers\Html::tag('iframe', '', [
@@ -53,9 +60,7 @@ $this->registerCss(<<<CSS
         font-size: 50px;
         transition: none;
     }
-CSS
-
-);
+CSS);
 
 $this->registerJs(<<<JS
     (() => {
@@ -73,5 +78,7 @@ $this->registerJs(<<<JS
     
 
 
-JS
-);
+JS);
+
+echo Html::endTag('div');
+echo Html::endTag('div');

@@ -18,6 +18,7 @@ class Index extends Action
         Request $request,
         User $user
     ) {
+        $this->controller->layout = 'admin-screen';
         $projectSearch = new ProjectSearch();
 
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));

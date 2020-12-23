@@ -3,6 +3,8 @@
     --primary-button-color: white;
     --default-button-background-color: #42424b;
     --default-button-color: white;
+    --delete-button-background-color: red;
+    --delete-button-color: white;
     --tab-button-background-color: #edebeb;
     --tab-button-text-color: #919191;
     --tab-button-active-background-color: white;
@@ -299,6 +301,20 @@ input[type="text"] {
     background-color: var(--header-background-color);
     color: white;
     border: 1px solid var(--header-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-delete, .btn-delete:visited {
+    background-color: var(--delete-button-background-color);
+    background-image: none;
+    color: var(--delete-button-color);
+    border: 1px solid var(--delete-button-background-color);
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: white;
+    color: var(--delete-button-background-color) !important;
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 
