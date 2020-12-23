@@ -75,7 +75,7 @@ if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
     echo Html::a(Icon::download_1() . \Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
 }
 if (app()->user->can(Permission::PERMISSION_EXPORT, $project)) {
-    echo Html::a(Icon::download_2() . \Yii::t('app', 'Download'), Url::to(['project/export', 'project_id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
+    echo Html::a(Icon::download_2() . \Yii::t('app', 'Download'), ['project/export', 'id' => $project->id], ['class' => 'btn btn-default btn-icon']);
 }
 
 echo Html::endTag('div');
