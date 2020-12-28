@@ -4,16 +4,16 @@
  */
 
 html {
-    --header-background-color: #42424b;
+    --header-background-color: #42424B;
     --header-color: white;
     --background-color: #878787;
-    --primary-color: #4177c1;
-    --highlight-background-color: #5791e1;
+    --primary-color: #4177C1;
+    --highlight-background-color: #5791E1;
     --highlight-color: white;
-    --main-background-color: #e0e0e0;
+    --main-background-color: #E0E0E0;
     --content-background-color: white;
-    --primary-button-hover-color: #3f86e6;
-    --header-light-background-color: #4f4e54;
+    --primary-button-hover-color: #3F86E6;
+    --header-light-background-color: #4F4E54;
     --header-light-color: white;
     --gutter-size: 15px;
     --dark-background-color: #424348;
@@ -59,7 +59,7 @@ header {
     color: white;
     font-size: 26px;
     line-height: 26px;
-    border-bottom: 5px solid #5690df;
+    border-bottom: 5px solid #5690DF;
     padding-bottom: 5px;
     display: block;
     width: max-content;
@@ -106,10 +106,10 @@ header {
 }
 
 .action-group {
-    text-align: right;
     margin-bottom: 10px;
-    width: 100%;
-    display: inline-flex;
+    display: flex;
+    width: max-content;
+    margin-left: auto;
     align-items: center;
     justify-content: flex-end;
 }
@@ -186,30 +186,32 @@ header {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
+
 .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
     color: #777;
     cursor: not-allowed;
-    background-color: #fff;
-    border-color: #ddd;
+    background-color: #FFF;
+    border-color: #DDD;
 }
+
 .pagination>li>a, .pagination>li>span {
     position: relative;
     float: left;
     padding: 6px 12px;
     margin-left: -1px;
     line-height: 1.42857143;
-    color: #337ab7;
+    color: #337AB7;
     text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #FFF;
+    border: 1px solid #DDD;
 }
 
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
     z-index: 3;
-    color: #fff;
+    color: #FFF;
     cursor: default;
-    background-color: #337ab7;
-    border-color: #337ab7;
+    background-color: #337AB7;
+    border-color: #337AB7;
 }
 
 /**/
@@ -255,7 +257,7 @@ header {
 }
 
 .form-content h3 {
-    margin: 0 0 30px;
+    margin: 0 0 30px 0;
 }
 
 .form-bg {
@@ -277,13 +279,13 @@ table {
 }
 
 th {
-    background-color: #e0e0e0;
+    background-color: #E0E0E0;
     border-bottom: 2px solid var(--background-color);
     padding-top: 15px;
 }
 
 td {
-    border: 1px solid #dee2e6;
+    border: 1px solid #DEE2E6;
     font-size: 0.9em;
     padding-left: 10px;
     padding-right: 20px;
@@ -295,14 +297,15 @@ table caption, .kv-table-caption {
 }
 
 table thead tr th, .table thead tr th {
-    background: #f6f6f6;
-    color: #9d9d9d;
+    background: #F6F6F6;
+    color: #9D9D9D;
     font-family: "Source Sans Pro";
     font-weight: 400;
     text-transform: uppercase;
     font-size: 11px;
     padding: 10px;
 }
+
 table thead tr th:first-child {
     border-top-left-radius: 10px;
 }
@@ -324,7 +327,7 @@ table thead tr th a:hover {
 }
 
 table thead tr th a.asc, table thead tr th a.desc {
-    color: #4177c1;
+    color: #4177C1;
     display: flex;
     align-items: center;
 }
@@ -344,7 +347,7 @@ table thead tr th a.desc::after {
 .table tbody tr td {
     padding: 10px 5px 10px 10px;
     font-family: "Source Sans Pro";
-    color: #222222;
+    color: #222;
     vertical-align: middle;
 }
 
@@ -391,7 +394,7 @@ body[data-modal] {
     margin-right: auto;
     max-width: 500px;
     max-height: 100vh;
-    padding: 15px 15px 15px 15px;
+    padding: 15px;
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 1200;
@@ -420,11 +423,13 @@ body[data-modal] {
 }
 
 @media (min-width: 600px) {
+
     .filter-modal {
         top: 100px;
         bottom: 100px;
         border: 2px solid var(--highlight-background-color);
     }
+
 }
 
 .filter-modal label {
@@ -516,32 +521,39 @@ body[data-modal]:after {
     line-height: 12px;
     letter-spacing: 0.15px;
     font-weight: 300;
-    color: #222222;
+    color: #222;
 }
 
 /**
  2 Column layout, menu above filters.
 */
 
-@media (min-width: 600px) {}
+@media (min-width: 600px) {
+}
 
 /**
  3 column layout.
 */
 
 @media (min-width: 768px) {
+
     header {
         grid-template-columns: auto minmax(auto, 880px) 400px auto;
         grid-template-areas: ". title user .";
     }
+
 }
 
-@media (min-width: 800px) {}
+@media (min-width: 800px) {
+}
 
 @media(min-width: 1280px) {
+
     header {
         padding: 0;
     }
+
 }
 
-@media(min-width: 1460px) {}
+@media(min-width: 1460px) {
+}

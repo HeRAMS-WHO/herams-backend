@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: staging-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+spec:
+  tls:
+    - hosts:
+      - "*.herams-staging.org"
+      - herams-staging.org
+      secretName: herams-staging.tls
+  rules:
+  - host: www.herams-staging.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: staging-service
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  - host: herams-staging.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: staging-service
+            port:
+              number: 80
+        pathType: ImplementationSpecific

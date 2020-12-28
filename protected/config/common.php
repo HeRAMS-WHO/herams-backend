@@ -32,9 +32,6 @@ return [
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en-US',
     'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
-        '@bower/bootstrap' => '@npm/bootstrap',
         '@prime' => '@app',
         '@views' => '@app/views',
         '@tests' => '@app/../tests',
@@ -47,7 +44,7 @@ return [
         'db' => [
             'class' => \yii\db\Connection::class,
             'charset' => 'utf8mb4',
-            'dsn' => 'mysql:host=' . $env->get('DB_HOST') . ';port=' . $env->get('DB_PORT', 3306) . ';dbname=' . $env->get('DB_NAME'),
+            'dsn' => $env->getWrappedSecret('database/dsn'),
             'password' => $env->getWrappedSecret('database/password'),
             'username' => $env->getWrappedSecret('database/username'),
             'enableSchemaCache' => !YII_DEBUG,

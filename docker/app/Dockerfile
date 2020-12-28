@@ -30,7 +30,7 @@ ADD docker/app/init.sh /sbin/init.sh
 ADD protected /project/protected
 ADD public /project/public
 ADD vendor /project/vendor
-ADD node_modules /project/node_modules
+ADD node_modules /project/public/node_modules
 
 
 RUN mkdir -p /run && chown nobody:nobody /run

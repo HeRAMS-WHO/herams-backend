@@ -52,11 +52,10 @@ x-env:
 services:
   phpfpm:
     environment:
-      DB_HOST: devdb
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       SECRET_app/cookie_validation_key: ${COOKIE_VALIDATION_KEY}
-      DB_NAME: ${DB_NAME}
       YII_ENV: $YII_ENV
       LS_HOST: ${LS_HOST}
       SECRET_limesurvey/password: ${LS_PASS}
@@ -97,6 +96,9 @@ services:
       - type: bind
         source: ./public
         target: /www
+      - type: bind
+        source: ./node_modules
+        target: /www/node_modules
       - type: volume
         source: assets
         target: /www/assets
@@ -160,9 +162,8 @@ services:
     ]
     command: "run"
     environment:
-      DB_HOST: testdb
+      SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: $DB_USER
-      DB_NAME: $DB_NAME
       SECRET_database/password: $DB_PASS
       YII_ENV: $YII_ENV
       SECRET_app/url_signer_secret: secret

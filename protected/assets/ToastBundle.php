@@ -8,8 +8,8 @@ use yii\web\AssetBundle;
 
 class ToastBundle extends AssetBundle
 {
+    public $baseUrl = '@npm/izitoast/dist';
 
-    public $sourcePath = '@npm/izitoast/dist';
     public $js = [
         'js/iziToast.js'
     ];

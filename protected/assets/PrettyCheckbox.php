@@ -7,7 +7,7 @@ use yii\web\AssetBundle;
 
 class PrettyCheckbox extends AssetBundle
 {
-    public $sourcePath = '@npm/pretty-checkbox/dist';
+    public $baseUrl = '@npm/pretty-checkbox/dist';
     public $css = [
         YII_DEBUG ? 'pretty-checkbox.css' : 'pretty-checkbox.min.css'
     ];

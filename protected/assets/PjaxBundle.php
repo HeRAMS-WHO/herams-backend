@@ -7,5 +7,6 @@ use yii\widgets\PjaxAsset;
 
 class PjaxBundle extends PjaxAsset
 {
-    public $sourcePath = '@npm/yii2-pjax';
+    public $baseUrl = '@npm/yii2-pjax';
+    public $sourcePath = null;
 }

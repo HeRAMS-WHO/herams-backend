@@ -5,11 +5,12 @@ use Carbon\Carbon;
 use prime\components\LanguageSelector;
 use prime\components\NotificationService;
 use yii\web\DbSession;
+use yii\widgets\PjaxAsset;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'aliases' => [
-        '@npm' => '@vendor/../node_modules',
+        '@npm' => '/node_modules',
 
     ],
     'bootstrap' => [
@@ -103,9 +104,22 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'appendTimestamp' => true,
             'forceCopy' =>  YII_DEBUG,
             'bundles' => [
+                PjaxAsset::class => [
+                    'baseUrl' => '@npm/yii2-pjax',
+                    'sourcePath' => null,
+                ],
                 // Override bootstrap
+                \yii\bootstrap\BootstrapPluginAsset::class => [
+                    'baseUrl' => '@npm/bootstrap/dist',
+                    'sourcePath' => null,
+                ],
+//                \yii\bootstrap\BootstrapThemeAsset::class => false
                 \yii\bootstrap\BootstrapAsset::class => [
-                    'css' => []
+                    'baseUrl' => '@npm/bootstrap/dist',
+                    'sourcePath' => null,
+                    'css' => [
+                        'css/bootstrap.min.css',
+                    ]
                 ],
             ]
         ],

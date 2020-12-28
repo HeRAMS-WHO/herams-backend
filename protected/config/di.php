@@ -15,7 +15,6 @@ use yii\web\JqueryAsset;
 use yii\widgets\PjaxAsset;
 
 return [
-    PjaxAsset::class => PjaxBundle::class,
     JqueryAsset::class => JqueryBundle::class,
     PermissionRepository::class => PreloadingSourceRepository::class,
     PreloadingSourceRepository::class => function (Container $container) {

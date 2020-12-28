@@ -1,0 +1,16 @@
+# First, create a ConfigMap whose contents are used
+# as the nginx.conf file in the web server. 
+# This server uses /var/www/html as its
+# root document directory. When the server gets a 
+# request for *.php, it will forward that request
+# to our PHP-FPM container.
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: app-config
+data:
+  config.json: |
+    {
+
+    }

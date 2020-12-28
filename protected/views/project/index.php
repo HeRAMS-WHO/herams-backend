@@ -27,9 +27,14 @@ echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} con
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 
 if (app()->user->can(Permission::PERMISSION_ADMIN)) {
-    echo Html::beginTag('div', ['class' => 'action-group']);
-    echo Html::a(Icon::download() . \Yii::t('app', 'Create project'), Url::to(['project/create']), ['class' => 'btn btn-primary btn-icon']);
-    echo Html::endTag('div');
+    echo ButtonGroup::widget([
+        'buttons' => [
+            Html::a(Icon::download() . \Yii::t('app', 'Create project'), Url::to(['project/create']), ['class' => 'btn btn-primary btn-icon']),
+        ],
+        'options' => [
+            'class' => ['action-group']
+        ]
+    ]);
 }
 
 echo GridView::widget([
@@ -42,8 +47,6 @@ echo GridView::widget([
     ],
     'dataProvider' => $projectProvider,
     'filterModel' => $projectSearch,
-    //'layout' => "{items}\n{pager}",
-    //'options' => [ 'style' => 'table-layout:fixed;' ],
     'columns' => [
         'id',
         [
