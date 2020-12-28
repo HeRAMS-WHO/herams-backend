@@ -3,7 +3,6 @@
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class ToastBundle extends AssetBundle
@@ -16,5 +15,4 @@ class ToastBundle extends AssetBundle
     public $css = [
         'css/iziToast.css'
     ];
-
 }

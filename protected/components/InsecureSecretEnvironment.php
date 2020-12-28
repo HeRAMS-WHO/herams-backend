@@ -29,7 +29,7 @@ class InsecureSecretEnvironment implements EnvironmentInterface
         if (!isset($this->data["SECRET_$name"])) {
             throw new InvalidConfigException("Missing variable SECRET_$name");
         }
-        return $this->data["SECRET_$name"];
+        return trim($this->data["SECRET_$name"]);
     }
 
     public function getWrappedSecret($name): Secret

@@ -21,9 +21,9 @@ $this->title = \Yii::t('app', 'Projects');
  * @var \yii\data\ActiveDataProvider $projectProvider
  */
 
+// @TODO @jeremie These wrapping divs should not be in the view, they should be in a layout.
 echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-
-
+// @TODO @jeremie These wrapping divs should not be in the view, they should be in a layout.
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 
 if (app()->user->can(Permission::PERMISSION_ADMIN)) {

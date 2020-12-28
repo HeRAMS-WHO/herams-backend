@@ -39,7 +39,7 @@ class KubernetesSecretEnvironment implements EnvironmentInterface
             if (false === $secret = file_get_contents($secretFile)) {
                 throw new InvalidConfigException("Couldn't read secret $name");
             }
-            $this->secretCache[$name] = $secret;
+            $this->secretCache[$name] = trim($secret);
         }
         return $this->secretCache[$name];
     }
