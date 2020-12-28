@@ -62,9 +62,10 @@ class CacheController extends \yii\console\controllers\CacheController
     public function actionWarmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
         int $id,
-        int $afterWorkspace = 0
+        int $minWorkspaceId,
+        int $maxWorkspaceId
     ) {
-        $this->warmupProject($limesurveyDataProvider, Project::findOne(['id' => $id]), $afterWorkspace);
+        $this->warmupProject($limesurveyDataProvider, Project::findOne(['id' => $id]), $minWorkspaceId, $maxWorkspaceId);
     }
 
     public function actionWarmupWorkspace(
@@ -77,17 +78,18 @@ class CacheController extends \yii\console\controllers\CacheController
     protected function warmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
         Project $project,
-        int $afterWorkspace = 0
+        int $minWorkspaceId = 0,
+        int $maxWorkspaceId = INF
     ) {
         /** @var Workspace $workspace */
         foreach ($project->getWorkspaces()
                      ->orderBy('id')
-                     ->andWhere(['>', 'id', $afterWorkspace])
+                     ->andWhere(['>=', 'id', $minWorkspaceId])
+                     ->andWhere(['<=', 'id', $maxWorkspaceId])
                      ->each() as $workspace) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
 
-        $this->actionWarmupSurvey($limesurveyDataProvider, $project->base_survey_eid);
     }
 
     private function warmupWorkspace(Workspace $workspace, LimesurveyDataProvider $limesurveyDataProvider)
