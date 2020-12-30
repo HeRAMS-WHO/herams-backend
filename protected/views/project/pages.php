@@ -33,7 +33,7 @@ $tabs = [
     ]
 ];
 
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
     $tabs[] =
         [
             'url' => ['project/pages', 'id' => $project->id],
