@@ -33,7 +33,7 @@ $tabs = [
     ]
 ];
 
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
     $tabs[] =
         [
             'url' => ['project/pages', 'id' => $project->id],
@@ -66,10 +66,9 @@ echo TabMenu::widget([
 ]);
 
 
-echo Html::beginTag('div', ['class' => count($tabs) <= 1 ? 'content no-tab': 'content']);
+echo Html::beginTag('div', ['class' => count($tabs) <= 1 ? 'content no-tab' : 'content']);
 
 echo Html::beginTag('div', ['class' => 'action-group']);
-
 if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
     echo Html::a(Icon::add() . \Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary btn-icon']);
     echo Html::a(Icon::download_1() . \Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
@@ -77,9 +76,9 @@ if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
 if (app()->user->can(Permission::PERMISSION_EXPORT, $project)) {
     echo Html::a(Icon::download_2() . \Yii::t('app', 'Download'), ['project/export', 'id' => $project->id], ['class' => 'btn btn-default btn-icon']);
 }
-
 echo Html::endTag('div');
-echo '<h4>'.\Yii::t('app', 'Workspaces').'</h4>';
+
+echo '<h4>' . \Yii::t('app', 'Workspaces') . '</h4>';
 echo GridView::widget([
     'pjax' => true,
     'pjaxSettings' => [

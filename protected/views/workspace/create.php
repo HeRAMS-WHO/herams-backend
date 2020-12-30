@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
 $this->title = \Yii::t('app', 'New workspace');
-//$this->params['breadcrumbs'][] = $this->title;
+
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);
@@ -51,7 +51,7 @@ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} 
 ?>
 
 <div class="form-content form-bg">
-    <h3><?=\Yii::t('app', 'Create Workspace')?></h3>
+    <h4><?=\Yii::t('app', 'Create Workspace')?></h4>
     <?php
     $form = ActiveForm::begin([
         'id' => 'create-workspace',
