@@ -117,7 +117,7 @@ return [
             'client' => 'limesurvey',
         ],
         'limesurvey' => function () use ($env) {
-            $json = new JsonRpcClient($env->get('LS_HOST'), false, 30);
+            $json = new JsonRpcClient($env->getWrappedSecret('limesurvey/host'), false, 30);
             $result = new Client($json, $env->getWrappedSecret('limesurvey/username'), $env->getWrappedSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
