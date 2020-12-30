@@ -25,15 +25,13 @@ if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN)) {
         ];
     $tabs[] =
         [
-            'url' => ['admin/limesurvey'],
-            'title' => \Yii::t('app', 'Backend administration')
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_SUPER_SHARE)) {
-    $tabs[] =
-        [
             'url' => ['admin/share'],
             'title' => \Yii::t('app', 'Global permissions')
+        ];
+    $tabs[] =
+        [
+            'url' => ['admin/limesurvey'],
+            'title' => \Yii::t('app', 'Backend administration')
         ];
 }
 
