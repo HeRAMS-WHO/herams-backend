@@ -11,7 +11,7 @@ class Index extends Action
 
     public function run(Request $request)
     {
-        $this->controller->layout = 'admin-content';
+        $this->controller->layout = 'admin-screen';
         $search = new \prime\models\search\User();
 
 
