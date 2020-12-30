@@ -16,7 +16,7 @@ class Create extends Action
         NotificationService $notificationService,
         Request $request
     ) {
-        $this->controller->layout = 'admin-content';
+        $this->controller->layout = 'admin-screen';
         $model = new Project();
 
         if ($request->isPost) {
