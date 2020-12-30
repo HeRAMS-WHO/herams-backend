@@ -63,7 +63,7 @@ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} 
 
 ?>
 <div class="form-content form-bg">
-    <h3><?=\Yii::t('app', 'Update workspace token')?></h3>
+    <h4><?=\Yii::t('app', 'Update workspace token')?></h4>
 <?php
 $form = ActiveForm::begin([
     'method' => 'PUT',
