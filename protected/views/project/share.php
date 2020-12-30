@@ -26,7 +26,7 @@ $tabs = [
     ]
 ];
 
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
     $tabs[] =
         [
             'url' => ['project/pages', 'id' => $project->id],
@@ -65,7 +65,7 @@ echo Html::endTag('div');
 
 <div class="form-content form-bg">
     <?php
-    echo Html::tag('h3', \Yii::t('app', 'Add new user'));
+    echo Html::tag('h4', \Yii::t('app', 'Add new user'));
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -96,7 +96,7 @@ echo Html::endTag('div');
     ?>
 </div>
 <div class="form-content form-bg full-width">
-    <h3><?= \Yii::t('app', 'View current users') ?></h3>
+    <h4><?= \Yii::t('app', 'View current users') ?></h4>
     <?php
     echo $model->renderTable();
     ?>
