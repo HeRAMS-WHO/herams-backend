@@ -28,7 +28,7 @@ x-env:
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       YII_ENV: $YII_ENV
-      LS_HOST: ${LS_HOST}
+      SECRET_limesurvey/host: ${LS_HOST}
       LS_PASS: ${LS_PASS}
       LS_USER: ${LS_USER}
       RUNTIME_PATH: /runtime
@@ -55,9 +55,10 @@ services:
       SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
-      SECRET_app/cookie_validation_key: ${COOKIE_VALIDATION_KEY}
+      SECRET_app/cookie_validation_key: secret
+      SECRET_app/url_signer_secret: secret
       YII_ENV: $YII_ENV
-      LS_HOST: ${LS_HOST}
+      SECRET_limesurvey/host: ${LS_HOST}
       SECRET_limesurvey/password: ${LS_PASS}
       SECRET_limesurvey/username: ${LS_USER}
       SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
