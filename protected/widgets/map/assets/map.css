@@ -25,15 +25,19 @@ label .legend-item .color {
   display: inline-block;
 }
 
-.leaflet-control-layers-selector:checked ~ span .legend-item .label {
-  text-decoration: none ;
+.leaflet-container {
+  font-family: "Source Sans Pro";
 }
 
-.leaflet-control-layers-selector ~ span .legend-item .label {
+.leaflet-control-layers-selector:checked~span .legend-item .label {
+  text-decoration: none;
+}
+
+.leaflet-control-layers-selector~span .legend-item .label {
   text-decoration: line-through;
 }
 
-.leaflet-control-layers-selector ~ span .legend-item:hover .label {
+.leaflet-control-layers-selector~span .legend-item:hover .label {
   text-decoration: line-through;
 }
 

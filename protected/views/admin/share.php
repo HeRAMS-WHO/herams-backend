@@ -1,23 +1,57 @@
 <?php
 
 use app\components\ActiveForm;
+use yii\bootstrap\Html;
+use yii\helpers\Url;
+use prime\models\ar\Permission;
+use prime\widgets\menu\TabMenu;
 
 /**
  * @var \prime\models\ar\Workspace $workspace
  * @var \prime\models\forms\Share $model
  */
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
+$this->title = \Yii::t('app', 'Administration');
+$this->params['breadcrumbs'][] = ['label' => ""];
+
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
+$tabs = [
+    [
+        'url' => ['project/index'],
+        'title' => \Yii::t('app', 'Projects')
+    ]
 ];
-$this->title = \Yii::t('app', 'Global admin');
-//$this->params['breadcrumbs'][] = $this->title;
 
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN)) {
+    $tabs[] =
+        [
+            'url' => ['user/index'],
+            'title' => \Yii::t('app', 'Users')
+        ];
+    $tabs[] =
+        [
+            'url' => ['admin/share'],
+            'title' => \Yii::t('app', 'Global permissions')
+        ];
+    $tabs[] =
+        [
+            'url' => ['admin/limesurvey'],
+            'title' => \Yii::t('app', 'Backend administration')
+        ];
+}
 
+echo TabMenu::widget([
+    'tabs' => $tabs,
+    'currentPage' => $this->context->action->uniqueId
+]);
 
-
+echo Html::beginTag('div', ['class' => 'content']);
+echo Html::beginTag('div', ['class' => 'action-group']);
+echo Html::a(\Yii::t('app', 'Projects'), Url::to(['project/index']), ['class' => 'btn btn-default']);
+echo Html::endTag('div');
 ?>
 <div class="col-xs-12">
+    <h4><?= \Yii::t('app', 'Add user') ?></h4>
     <?php
     $form = ActiveForm::begin([
         'method' => 'POST',
@@ -35,9 +69,12 @@ $this->title = \Yii::t('app', 'Global admin');
     <?php
     $form->end();
     ?>
-    <h2><?=\Yii::t('app', 'Already shared with')?></h2>
+    <h4><?= \Yii::t('app', 'Already shared with') ?></h4>
     <?php
     echo $model->renderTable();
     ?>
 </div>
-
+<?php
+echo Html::endTag('div');
+echo Html::endTag('div');
+?>

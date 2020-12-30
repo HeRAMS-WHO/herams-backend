@@ -35,6 +35,7 @@ body {
     --validation-error-color: #d90001;
     --border-color: #7c7b80;
     --stat-icon-color: #a09fa4;
+    font-family: "Source Sans Pro";
     z-index: 2;
     background-color: white;
     display: grid;
@@ -71,6 +72,11 @@ body {
 
 .popover-error .btn-home:hover {
     color: var(--primary-button-background-color);
+}
+
+.popover.session .form .btn-group {
+    left: 0;
+    right: 0;
 }
 
 .popover div.centered {
@@ -421,11 +427,11 @@ svg .st1 {
         overflow: hidden;
     }
     .popover {
-        max-width: 840px;
+        max-width: 900px;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
         grid-template-areas: "intro login";
-        margin: 0 40px;
+        margin: 0;
     }
     .popover-error {
         grid-template-areas: "login  login" "stat   stat" "status status";
@@ -437,7 +443,6 @@ svg .st1 {
         padding: 66px 34px;
         margin: 0;
     }
-    
     .form .logo {
         display: none;
     }

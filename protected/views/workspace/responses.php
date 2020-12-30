@@ -13,65 +13,65 @@ use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
+use prime\widgets\menu\TabMenu;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
     'label' => $workspace->project->title,
-    'url' => app()->user->can(Permission::PERMISSION_WRITE, $workspace->project) ? ['project/update', 'id' => $workspace->project->id] : null
+    'url' => ['project/workspaces', 'id' => $workspace->project->id]
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces'),
-    'url' => ['/project/workspaces', 'id' => $workspace->project->id]
+    'label' => \Yii::t('app', "Workspace {workspace}", [
+        'workspace' => $workspace->title,
+    ]),
+    'url' => ['workspaces/limesurvey', 'id' => $workspace->id]
 ];
-$this->params['breadcrumbs'][] = [
-    'label' => $workspace->title,
-    'url' => app()->user->can(Permission::PERMISSION_WRITE, $workspace) ? ['workspace/update', 'id' => $workspace->id] : null
+$this->title = \Yii::t('app', "Workspace {workspace}", [
+    'workspace' => $workspace->title,
+]);
 
-];
-$this->title = \Yii::t('app', 'Responses');
-//$this->params['breadcrumbs'][] = $this->title;
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
+$tabs = [];
 
+if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) {
+    $tabs[] =
+        [
+            'url' => ["workspace/limesurvey", 'id' => $workspace->id],
+            'title' => \Yii::t('app', 'Health Facilities') . " ({$workspace->facilityCount})"
+        ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $workspace)) {
+    $tabs[] =
+        [
+            'url' => ["workspace/update", 'id' => $workspace->id],
+            'title' => \Yii::t('app', 'Workspace settings')
+        ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $workspace)) {
+    $tabs[] =
+        [
+            'url' => ["workspace/share", 'id' => $workspace->id],
+            'title' => \Yii::t('app', 'Users') . " ({$workspace->contributorCount})"
+        ];
+}
+if ($workspace->responseCount > 0 && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $workspace)) {
+    $tabs[] =
+        [
+            'url' => ['workspace/responses', 'id' => $workspace->id],
+            'title' => \Yii::t('app', 'Responses')
+        ];
+}
 
-echo Html::beginTag('div', ['class' => 'topbar']);
-echo Html::beginTag('div', ['class' => 'pull-left']);
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::list();
-echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
-echo Html::tag('em', $workspace->facilityCount);
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::contributors();
-echo Html::tag('span', \Yii::t('app', 'Contributors'));
-echo Html::tag('em', $workspace->contributorCount);
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::recycling();
-echo Html::tag('span', \Yii::t('app', 'Latest update'));
-echo Html::tag('em', $workspace->latestUpdate);
-echo Html::endTag('div');
-
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
-echo Html::a(Icon::project(), ['project/view', 'id' => $workspace->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
-echo Html::endTag('div');
-echo Html::endTag('div');
+echo TabMenu::widget([
+    'tabs' => $tabs,
+    'currentPage' => $this->context->action->uniqueId
+]);
 
 echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
+echo Html::tag('h4', \Yii::t('app', 'Responses'));
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [

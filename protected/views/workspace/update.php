@@ -3,9 +3,10 @@
 use app\components\Form;
 use app\components\ActiveForm;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
+use prime\models\ar\Permission;
 use prime\helpers\Icon;
-use prime\models\ar\Project;
-use prime\widgets\menu\WorkspacePageMenu;
+use prime\widgets\menu\TabMenu;
 
 /**
  * @var  \prime\components\View $this
@@ -14,73 +15,80 @@ use prime\widgets\menu\WorkspacePageMenu;
 assert($this instanceof \prime\components\View);
 assert($model instanceof \prime\models\ar\Workspace);
 
-echo WorkspacePageMenu::widget([
-    'workspace' => $model,
-    'collapsible' => false,
-    'footer' => $this->render('//footer', ['projects' => Project::find()->all()]),
-    'params' => Yii::$app->request->queryParams,
-    'currentPage' => $this->context->action->id
-]);
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces for {project}', [
-        'project' => $model->project->title
-    ]),
+    'label' => $model->project->title,
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspace {workspace}', [
+    'label' => \Yii::t('app', "Workspace {workspace}", [
         'workspace' => $model->title,
     ]),
-    'url' => ['workspace/view', 'id' => $model->id]
+    'url' => ['workspaces/limesurvey', 'id' => $model->id]
 ];
-$this->title = \Yii::t('app', 'Update workspace {workspace}', ['workspace' => $model->title]);
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = \Yii::t('app', "Workspace {workspace}", [
+    'workspace' => $model->title,
+]);
 
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
+$tabs = [];
 
-echo Html::beginTag('div', ['class' => 'topbar']);
-echo Html::beginTag('div', ['class' => 'pull-left']);
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::list();
-echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
-echo Html::tag('em', $model->facilityCount);
-echo Html::endTag('div');
+if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $model)) {
+    $tabs[] =
+        [
+            'url' => ["workspace/limesurvey", 'id' => $model->id],
+            'title' => \Yii::t('app', 'Health Facilities') . " ({$model->facilityCount})"
+        ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+    $tabs[] =
+        [
+            'url' => ["workspace/update", 'id' => $model->id],
+            'title' => \Yii::t('app', 'Workspace settings')
+        ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
+    $tabs[] =
+        [
+            'url' => ["workspace/share", 'id' => $model->id],
+            'title' => \Yii::t('app', 'Users') . " ({$model->contributorCount})"
+        ];
+}
+if ($model->responseCount > 0 && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
+    $tabs[] =
+        [
+            'url' => ['workspace/responses', 'id' => $model->id],
+            'title' => \Yii::t('app', 'Responses')
+        ];
+}
 
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::contributors();
-echo Html::tag('span', \Yii::t('app', 'Contributors'));
-echo Html::tag('em', $model->contributorCount);
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::recycling();
-echo Html::tag('span', \Yii::t('app', 'Latest update'));
-echo Html::tag('em', $model->latestUpdate);
-echo Html::endTag('div');
-
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
-echo Html::a(Icon::project(), ['project/view', 'id' => $model->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle pull-right']);
-echo Html::endTag('div');
-
-echo Html::endTag('div');
+echo TabMenu::widget([
+    'tabs' => $tabs,
+    'currentPage' => $this->context->action->uniqueId
+]);
 
 echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo Html::beginTag('div', ['class' => 'action-group']);
+
+if (app()->user->can(Permission::PERMISSION_DELETE, $model)) {
+    echo Html::a(
+        Icon::trash() . \Yii::t('app', 'Delete'),
+        ['workspace/delete', 'id' => $model->id],
+        [
+            'data-method' => 'delete',
+            'title' => \Yii::t('app', 'Delete'),
+            'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
+            'class' => 'btn btn-delete btn-icon'
+        ]
+    );
+}
+echo Html::endTag('div');
 
 ?>
 
 <div class="form-content form-bg">
-    <h3><?= \Yii::t('app', 'Update Workspace') ?></h3>
+    <h4><?= \Yii::t('app', 'Update Workspace') ?></h4>
     <?php
     $form = ActiveForm::begin([
         'id' => 'update-project',
@@ -125,5 +133,6 @@ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} 
 </div>
 
 <?php
+echo Html::endTag('div');
 echo Html::endTag('div');
 ?>

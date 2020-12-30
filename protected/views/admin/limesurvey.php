@@ -2,6 +2,8 @@
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
+use prime\models\ar\Permission;
+use prime\widgets\menu\TabMenu;
 
 $this->title = \Yii::t('app', 'Backend administration');
 $this->params['breadcrumbs'][] = ['label' => ""];
@@ -10,7 +12,38 @@ $this->params['breadcrumbs'][] = ['label' => ""];
 
 
 echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-echo Html::beginTag('div', ['class' => 'content no-tab']);
+
+$tabs = [
+    [
+        'url' => ['project/index'],
+        'title' => \Yii::t('app', 'Projects')
+    ]
+];
+
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN)) {
+    $tabs[] =
+        [
+            'url' => ['user/index'],
+            'title' => \Yii::t('app', 'Users')
+        ];
+    $tabs[] =
+        [
+            'url' => ['admin/share'],
+            'title' => \Yii::t('app', 'Global permissions')
+        ];
+    $tabs[] =
+        [
+            'url' => ['admin/limesurvey'],
+            'title' => \Yii::t('app', 'Backend administration')
+        ];
+}
+
+echo TabMenu::widget([
+    'tabs' => $tabs,
+    'currentPage' => $this->context->action->uniqueId
+]);
+
+echo Html::beginTag('div', ['class' => 'content']);
 
 /** @var \yii\web\View $this */
 echo \yii\helpers\Html::tag('iframe', '', [
