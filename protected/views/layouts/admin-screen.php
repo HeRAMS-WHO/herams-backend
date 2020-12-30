@@ -9,8 +9,8 @@ use yii\widgets\Breadcrumbs;
 
 $this->beginPage();
 
+$this->registerAssetBundle(\prime\assets\AppAsset::class);
 $this->registerAssetBundle(AdminBundle::class);
-$this->registerAssetBundle(\yii\web\YiiAsset::class);
 
 ?>
 <html>
