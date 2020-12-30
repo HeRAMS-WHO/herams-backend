@@ -26,17 +26,17 @@ echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} con
 // @TODO @jeremie These wrapping divs should not be in the view, they should be in a layout.
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 
-if (app()->user->can(Permission::PERMISSION_ADMIN)) {
+if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
     echo ButtonGroup::widget([
         'buttons' => [
-            Html::a(Icon::download() . \Yii::t('app', 'Create project'), Url::to(['project/create']), ['class' => 'btn btn-primary btn-icon']),
+            Html::a(Icon::add() . \Yii::t('app', 'Create project'), Url::to(['project/create']), ['class' => 'btn btn-primary btn-icon']),
         ],
         'options' => [
             'class' => ['action-group']
         ]
     ]);
 }
-
+echo Html::tag('h4', \Yii::t('app', 'Projects'));
 echo GridView::widget([
     'pjax' => true,
     'pjaxSettings' => [

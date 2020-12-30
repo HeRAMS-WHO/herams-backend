@@ -28,7 +28,7 @@ $tabs = [
     ]
 ];
 
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
     $tabs[] =
         [
             'url' => ['project/pages', 'id' => $project->id],
@@ -75,8 +75,9 @@ if (app()->user->can(Permission::PERMISSION_DELETE, $project)) {
     );
 }
 echo Html::endTag('div');
-echo Html::beginTag('div', ['class' => 'form-content form-bg']);
 
+echo Html::tag('h4', \Yii::t('app', 'Update project'));
+echo Html::beginTag('div', ['class' => 'form-content form-bg']);
 $form = ActiveForm::begin([
     'method' => 'PUT',
     "type" => ActiveForm::TYPE_HORIZONTAL,
