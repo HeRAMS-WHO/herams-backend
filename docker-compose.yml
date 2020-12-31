@@ -130,7 +130,7 @@ services:
     volumes:
       - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
     tmpfs:
-      /var/lib/mysql:rw,nodev,nosuid,relatime
+      - /var/lib/mysql:rw,nodev,nosuid,relatime
   cli:
     << : *base
     depends_on:
