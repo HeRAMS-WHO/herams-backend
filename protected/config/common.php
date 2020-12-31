@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 use prime\components\JwtSso;
-use prime\modules\Api\models\Key;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
@@ -12,9 +11,7 @@ use SamIT\abac\values\Authorizable;
 use SamIT\LimeSurvey\JsonRpc\Client;
 use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
-use SamIT\Yii2\abac\ActiveRecordResolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
-use SamIT\Yii2\UrlSigner\UrlSigner as UrlSignerAlias;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 use yii\web\User;
@@ -58,7 +55,7 @@ return [
             'errorRoute' => ['site/lime-survey'],
             'privateKey' => $env->getWrappedSecret('limesurvey/sso_private_key'),
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
-            'userNameGenerator' => function ($id) use ($env) {
+            'userNameGenerator' => static function ($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
             }
         ],

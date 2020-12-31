@@ -1,4 +1,8 @@
 version: '3.8'
+networks:
+  devproxy:
+    external:
+      name: devproxy
 volumes:
   assets:
     driver_opts:
@@ -7,9 +11,6 @@ volumes:
       device: "/docker/example"
 
 x-env:
-
-
-
   base: &base
     build:
       context: docker/php
@@ -38,7 +39,6 @@ x-env:
       PRIVATE_KEY_FILE: /project/local/testkey
       SMTP_PORT: 1025
     user: ${UID-0}:${GID-0}
-
     working_dir: "/project"
   mysql: &mysql
     image: mysql
@@ -81,6 +81,11 @@ services:
         source: assets
         target: /project/public/assets
   nginx:
+    labels:
+      com.awesam.proxy.domains: "herams"
+    networks:
+      - devproxy
+      - default
     image: nginx
     environment:
       PHPFPM: "phpfpm:9000"

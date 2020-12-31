@@ -79,7 +79,8 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         'request' => [
             'class' => \yii\web\Request::class,
             'trustedHosts' => [
-                '10.0.0.0/8'
+                '10.0.0.0/8',
+                '172.0.0.0/8',
             ],
             'cookieValidationKey' => $env->getWrappedSecret('app/cookie_validation_key'),
             // To enable rendering in tests.
@@ -118,7 +119,6 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'baseUrl' => '@npm/bootstrap/dist',
                     'sourcePath' => null,
                     'css' => [
-                        'css/bootstrap.min.css',
                     ]
                 ],
             ]

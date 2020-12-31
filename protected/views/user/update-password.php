@@ -38,15 +38,10 @@ echo Form::widget([
             ]
         ],
         FormButtonsWidget::embed([
-            'options' => [
-                'class' => [
-                    'pull-right'
-                ],
-            ],
             'buttons' => [
                 Html::submitButton(
                     Yii::t('app', 'Update password'),
-                    ['class' => 'btn btn-primary btn-block']
+                    ['class' => ['btn', 'btn-primary']]
                 )
             ]
         ])

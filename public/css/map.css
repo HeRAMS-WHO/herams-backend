@@ -45,6 +45,7 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: "login" "intro";
+    padding: 10px;
 }
 
 .popover-error {

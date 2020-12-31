@@ -22,8 +22,6 @@ $this->title = \Yii::t('app', 'Projects');
  */
 
 // @TODO @jeremie These wrapping divs should not be in the view, they should be in a layout.
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-// @TODO @jeremie These wrapping divs should not be in the view, they should be in a layout.
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 
 if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
@@ -36,7 +34,6 @@ if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
         ]
     ]);
 }
-echo Html::tag('h4', \Yii::t('app', 'Projects'));
 echo GridView::widget([
     'pjax' => true,
     'pjaxSettings' => [
@@ -166,5 +163,4 @@ echo GridView::widget([
     ]
 ]);
 
-echo Html::endTag('div');
 echo Html::endTag('div');

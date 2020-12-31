@@ -2,15 +2,16 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
+/* @var yii\web\View $this */
 
 $this->title = Yii::t('app', 'Update account');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
-echo Html::beginTag('div', [
-    'class' => 'col-md-6'
-]);
-echo \yii\bootstrap\Tabs::widget([
+echo \prime\widgets\Tabs::widget([
+    'options' => [
+        'style' => [
+            'grid-column' => '1 / -1',
+            'min-height' => '400px'
+        ]
+    ],
     'items' => [
         [
             'label' => \Yii::t('app', 'Profile'),
@@ -26,4 +27,3 @@ echo \yii\bootstrap\Tabs::widget([
         ]
     ]
 ]);
-echo Html::endTag('div');

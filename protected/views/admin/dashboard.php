@@ -6,9 +6,6 @@ use prime\models\ar\Permission;
 use prime\widgets\menu\TabMenu;
 
 $this->title = \Yii::t('app', 'Administration');
-$this->params['breadcrumbs'][] = ['label' => ""];
-
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [
     [
@@ -43,6 +40,5 @@ echo TabMenu::widget([
 echo Html::beginTag('div', ['class' => 'content']);
 echo Html::beginTag('div', ['class' => 'action-group']);
 echo Html::a(\Yii::t('app', 'Projects'), Url::to(['project/index']), ['class' => 'btn btn-default']);
-echo Html::endTag('div');
 echo Html::endTag('div');
 echo Html::endTag('div');

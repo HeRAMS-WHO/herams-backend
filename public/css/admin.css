@@ -87,6 +87,13 @@ header {
     padding: 0;
 }
 
+tabbed-content::part(content) {
+    border-radius: 0 15px 15px 15px;
+    background-color: white;
+    padding: 20px;
+
+}
+
 .content {
     grid-area: content;
     display: block;

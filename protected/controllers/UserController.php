@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
 
 class UserController extends Controller
 {
-    public $layout = 'map-popover';
+    public $layout = self::LAYOUT_ADMIN;
 
     public function actions()
     {

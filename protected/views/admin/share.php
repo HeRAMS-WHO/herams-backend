@@ -13,8 +13,6 @@ use prime\widgets\menu\TabMenu;
 $this->title = \Yii::t('app', 'Administration');
 $this->params['breadcrumbs'][] = ['label' => ""];
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-
 $tabs = [
     [
         'url' => ['project/index'],
@@ -76,5 +74,3 @@ echo Html::endTag('div');
 </div>
 <?php
 echo Html::endTag('div');
-echo Html::endTag('div');
-?>

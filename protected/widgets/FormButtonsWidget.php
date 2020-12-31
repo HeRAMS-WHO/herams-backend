@@ -31,7 +31,7 @@ class FormButtonsWidget extends Widget
         return Html::tag('div', ButtonGroup::widget([
             'buttons' => $this->buttons,
             'options' => $this->options
-        ]), ['class' => 'form-group formbuttons-container']);
+        ]), ['class' => ['form-group', 'formbuttons-container']]);
     }
     /**
      * Returns a closure for embedding this in a form.

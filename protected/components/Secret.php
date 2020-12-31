@@ -5,7 +5,7 @@ namespace prime\components;
 
 use prime\interfaces\EnvironmentInterface;
 
-class Secret
+class Secret implements \Stringable
 {
 
     private string $name;

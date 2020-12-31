@@ -64,3 +64,38 @@ $this->registerCss(':invalid:not(:focus-within) { border: 5px solid yellow; }');
 //echo Html::tag('input', '', ['id' => 'testinput',  'pattern' => '\\d+']);
 echo Html::tag('validation-message', '', ['for' => 'tester',]);
 $form->end();
+
+
+$this->registerJsFile('/js/components/tabbed-content.js', ['type' => 'module']);
+
+?>
+<style>
+    /*tabbed-content {*/
+    /*    display: inherit;*/
+    /*    background-color: #ff0000;*/
+    /*}*/
+
+    /*tabbed-content::part(content) {*/
+    /*    min-height: 100px;*/
+    /*    padding-right: 50px;*/
+    /*    background-color: purple;*/
+    /*}*/
+</style>
+
+
+<tabbed-content>
+
+<span slot="header" style="background-color: blue;"><a>Label 1</a></span>
+<div slot="content">Cool stuff</div>
+
+    <a slot="header">Label 2</a>
+<div slot="content">Cool stuff2</div>
+
+
+    <a slot="header">Label 3</a>
+<div slot="content">Cool stuff 3</div>
+
+
+    <a slot="header">Label 4</a>
+<div slot="content">Cool stuff4 </div>
+</tabbed-content>

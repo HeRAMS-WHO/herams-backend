@@ -47,13 +47,8 @@ use yii\helpers\Html;
                 ))
             ],
             FormButtonsWidget::embed([
-                'options' => [
-                    'class' => [
-                        'pull-right'
-                    ],
-                ],
                 'buttons' => [
-                    Html::submitButton(Yii::t('app', 'Update account information'), ['class' => 'btn btn-primary btn-block'])
+                    Html::submitButton(Yii::t('app', 'Update account information'), ['class' => ['btn', 'btn-primary']])
                 ]
             ])
         ]

@@ -4,8 +4,11 @@
 namespace prime\components;
 
 
+use Carbon\Carbon;
 use Closure;
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer;
 use prime\interfaces\TicketingInterface;
 use yii\base\Component;
@@ -49,19 +52,11 @@ class JwtSso extends Component implements TicketingInterface
      */
     private $_userNameGenerator;
 
-    /**
-     * We store the private key in a stream to prevent accidental leakage (var_dump, log files or stack traces).
-     * @var resource
-     */
-    private $_privateKey;
+    private Secret $privateKey;
 
     public function __construct($config = [])
     {
-        $this->_privateKey = fopen('php://memory', 'w+');
-        if (!is_resource($this->_privateKey)) {
-            throw new \RuntimeException("Failed to create stream for secret storage");
-        }
-        $this->_userNameGenerator = function($id) {
+        $this->_userNameGenerator = static function($id) {
             return $id;
         };
         parent::__construct($config);
@@ -70,7 +65,7 @@ class JwtSso extends Component implements TicketingInterface
     public function init()
     {
         parent::init();
-        if (empty($this->getPrivateKey())) {
+        if (!isset($this->privateKey)) {
             throw new InvalidConfigException("Private key must be configured");
         }
 
@@ -79,32 +74,26 @@ class JwtSso extends Component implements TicketingInterface
         }
     }
 
-    private function getPrivateKey(): string
-    {
-        rewind($this->_privateKey);
-        return stream_get_contents($this->_privateKey);
-    }
-
-
     public function createToken(
         string $identifier,
         ?int $expires = null
     ): string {
-        $builder = (new Builder())
-            ->setIssuer($this->issuer)
-            ->setAudience($this->loginUrl)
-            ->set($this->claim, $this->createUserName($identifier))
-            ->setIssuedAt(time())
-            ->setExpiration(time() + ($expires ?? $this->defaultExpiration));
+
+        $builder = new Builder(new Encoder());
+        $builder
+            ->issuedBy($this->issuer)
+            ->permittedFor($this->loginUrl)
+            ->withClaim($this->claim, $this->createUserName($identifier))
+            ->issuedAt(Carbon::now()->toImmutable())
+            ->expiresAt(Carbon::now()->addSeconds($expires ?? $this->defaultExpiration)->toImmutable());
 
         if (isset($this->errorRoute)) {
-            $builder->set('errorUrl', Url::to($this->errorRoute, true));
+            $builder->withClaim('errorUrl', Url::to($this->errorRoute, true));
         }
 
-        return $builder
-            ->sign(new Signer\Rsa\Sha256(), $this->getPrivateKey())
-            ->getToken()
-            ->__toString();
+        $key = Signer\Key\InMemory::plainText(strtr((string)$this->privateKey, ['    ' => "\n"]));
+        $jwt =  $builder->getToken(new Signer\Rsa\Sha256(), $key)->toString();
+        return $jwt;
     }
 
     private function createUserName(string $identifier): string
@@ -140,23 +129,9 @@ HTML;
         \Yii::$app->end();
     }
 
-    /**
-     * Sets the private key
-     * @param string $key
-     */
-    public function setPrivateKey(string $key)
+    public function setPrivateKey(Secret $key)
     {
-        rewind($this->_privateKey);
-        fwrite($this->_privateKey, $key);
-    }
-
-    /**
-     * Setter to allow configuring a file name in component config.
-     * @param string $filename
-     */
-    public function setPrivateKeyFile(string $filename)
-    {
-        $this->setPrivateKey(file_get_contents($filename));
+        $this->privateKey = $key;
     }
 
     /**

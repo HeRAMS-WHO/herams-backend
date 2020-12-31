@@ -11,8 +11,6 @@ $this->params['breadcrumbs'][] = ['label' => ""];
 
 
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-
 $tabs = [
     [
         'url' => ['project/index'],
@@ -113,5 +111,4 @@ $this->registerJs(<<<JS
 
 JS);
 
-echo Html::endTag('div');
 echo Html::endTag('div');

@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use dektrium\user\models\UserSearch;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\models\ar\Permission;
@@ -24,9 +23,6 @@ use yii\web\View;
  * @var UserSearch $searchModel
  */
 $this->title = \Yii::t('app', 'Administration');
-$this->params['breadcrumbs'][] = ['label' => ""];
-
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [
     [
@@ -107,5 +103,3 @@ echo Html::beginTag('div', ['class' => 'content']);
 </div>
 <?php
 echo Html::endTag('div');
-echo Html::endTag('div');
-?>
