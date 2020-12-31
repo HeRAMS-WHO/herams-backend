@@ -20,6 +20,7 @@ jobs:
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
       - run: docker-compose build
+      - run: docker network create devproxy
       - run: docker-compose run --rm codeception run --coverage-xml
       - run: composer stan
       - id: kaniko_build
