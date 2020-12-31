@@ -5,7 +5,8 @@ on:
 jobs:
   build:
     name: Build container
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
