@@ -120,11 +120,17 @@ services:
 
   # Mysql server (testing), this will store data on tmpfs, it will not persist
   testdb:
-    << : *mysql
+    image: mysql
+    command: --character-set-server=utf8mb4 --max-connections=1000
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
     volumes:
       - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
     tmpfs:
-      /var/lib/mysql:rw,nodev,nosuid,relatime,uid=${UID-0}
+      /var/lib/mysql:rw,nodev,nosuid,relatime
   cli:
     << : *base
     depends_on:
