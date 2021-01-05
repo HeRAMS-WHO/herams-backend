@@ -12,24 +12,20 @@ use prime\helpers\Icon;
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces for {project}', [
-        'project' => $model->project->title
-    ]),
+    'label' => $model->project->title,
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
+
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspace {workspace}', [
-        'workspace' => $model->title,
-    ]),
-    'url' => ['workspace/update', 'id' => $model->id]
+    'label' => Yii::t('app', 'Update workspace token'),
+    'url' => ['workspace/configure', 'id' => $model->id]
 ];
 
 $this->title = Yii::t('app', 'Update workspace token');
-//$this->params['breadcrumbs'][] = $this->title;
+
+echo Html::beginTag('div', ['class' => 'content no-tab']);
+
+
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);

@@ -12,22 +12,17 @@ use yii\bootstrap\Html;
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces for {project}', [
-        'project' => $subject->project->title
-    ]),
+    'label' => $subject->project->title,
     'url' => ['project/workspaces', 'id' => $subject->project->id]
 ];
-$this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $subject->title]);
-//$this->params['breadcrumbs'][] = $this->title;
 
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Export workspace'),
+    'url' => ['workspace/export', 'id' => $subject->id]
+];
+$this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $subject->title]);
+
+echo Html::beginTag('div', ['class' => 'content no-tab']);
 $form = ActiveForm::begin([
     'id' => 'export',
     'method' => 'POST',
@@ -118,3 +113,4 @@ echo Form::widget([
     ]
 ]);
 $form->end();
+echo Html::endTag('div');

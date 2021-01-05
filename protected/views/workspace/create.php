@@ -12,41 +12,17 @@ use prime\helpers\Icon;
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces for {project}', [
-        'project' => $model->project->title
-    ]),
+    'label' => $model->project->title,
     'url' => ['project/workspaces', 'id' => $model->project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'New workspace'),
+    'url' => ['workspace/create', 'project_id' => $model->project->id]
 ];
 $this->title = \Yii::t('app', 'New workspace');
 
-
-echo Html::beginTag('div', ['class' => 'topbar']);
-echo Html::beginTag('div', ['class' => 'pull-left']);
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::list();
-echo Html::tag('span', \Yii::t('app', 'Workspaces'));
-echo Html::tag('em', $model->project->workspaceCount);
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::contributors();
-echo Html::tag('span', \Yii::t('app', 'Contributors'));
-echo Html::tag('em', $model->project->contributorCount);
-echo Html::endTag('div');
-
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
-echo Html::a(Icon::project(), ['project/view', 'id' => $model->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
-echo Html::endTag('div');
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo Html::beginTag('div', ['class' => 'content no-tab']);
 
 ?>
 
