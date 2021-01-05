@@ -30,7 +30,6 @@ $this->title = \Yii::t('app', "Workspace {workspace}", [
     'workspace' => $model->title,
 ]);
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [];
 
@@ -133,6 +132,5 @@ echo Html::endTag('div');
 </div>
 
 <?php
-echo Html::endTag('div');
 echo Html::endTag('div');
 ?>

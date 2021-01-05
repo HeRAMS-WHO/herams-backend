@@ -27,7 +27,6 @@ $this->title = \Yii::t('app', 'Workspace {workspace}', [
     'workspace' => $model->title,
 ]);
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [];
 
@@ -90,5 +89,4 @@ echo Html::tag('iframe', '', [
 ]);
 
 
-echo Html::endTag('div');
 echo Html::endTag('div');

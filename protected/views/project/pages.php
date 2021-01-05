@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = $project->title;
 
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
 
 $tabs = [
     [
@@ -157,6 +157,5 @@ echo GridView::widget([
     ]
 ]);
 
-echo Html::endTag('div');
 echo Html::endTag('div');
 echo Html::endTag('div');
