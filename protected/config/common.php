@@ -114,8 +114,8 @@ return [
             'client' => 'limesurvey',
         ],
         'limesurvey' => function () use ($env) {
-            $json = new JsonRpcClient($env->getWrappedSecret('limesurvey/host'), false, 30);
-            $result = new Client($json, $env->getWrappedSecret('limesurvey/username'), $env->getWrappedSecret('limesurvey/password'));
+            $json = new JsonRpcClient($env->getSecret('limesurvey/host'), false, 30);
+            $result = new Client($json, $env->getSecret('limesurvey/username'), $env->getSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
                 \Yii::info('Setting cache key: ' . $key, 'ls');
                 // Ignore hardcoded duration passed in downstream library
