@@ -113,12 +113,15 @@ echo GridView::widget([
             'attribute' => 'latestUpdate',
         ],
         [
+            'label' => \Yii::t('app', 'contributors'),
             'attribute' => 'contributorCount'
         ],
         [
+            'label' => \Yii::t('app', 'health facilities'),
             'attribute' => 'facilityCount',
         ],
         [
+            'label' => \Yii::t('app', 'responses'),
             'attribute' => 'responseCount'
         ],
         'actions' => require('workspaces/actions.php')

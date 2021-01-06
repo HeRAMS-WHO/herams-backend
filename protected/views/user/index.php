@@ -87,6 +87,15 @@ echo Html::beginTag('div', ['class' => 'content']);
                     'data-method' => 'delete'
                 ],
                 'buttons' => [
+                    'delete' => function ($url, $model) {
+                        if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
+                            return Html::a(Icon::trash(), ['/user/delete', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'Delete this user'),
+                                'data-confirm' => Yii::t('app', 'Are you sure you want to delete this user ?'),
+                                'data-method' => 'delete',
+                            ]);
+                        }
+                    },
                     'impersonate' => function ($url, $model) {
                         if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
                             return Html::a(Icon::user(), ['/user/impersonate', 'id' => $model->id], [
