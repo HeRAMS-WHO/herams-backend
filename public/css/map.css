@@ -218,10 +218,9 @@ body {
 .intro .logo {
     grid-area: logo;
     margin: 0 auto;
-    padding: 66px 0 0;
+    padding: 0;
     width: 80%;
     max-width: 380px;
-    display: none;
 }
 
 .intro header {
@@ -231,7 +230,7 @@ body {
     font-size: 15px;
     letter-spacing: 1.2px;
     color: #ffffff;
-    max-width: 380px;
+    max-width: 420px;
     grid-area: description;
     text-align: justify;
 }
