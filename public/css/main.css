@@ -52,6 +52,38 @@ body {
     font-family: "Source Sans Pro";
 }
 
+.modal {
+    display: block;
+    position: fixed;
+    left: 35%;
+    top: 30%;
+    width: 30%;
+    background: white;
+    border-radius: 5px;
+    outline: none;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.modal-header, .modal-body, .modal-footer {
+    padding: 10px;
+}
+
+.modal .btn {
+    margin-right: 10px;
+}
+
+.modal .btn:last-child {
+    margin-right: 0px;
+}
+
 .user-menu {
     --icon-color: #fefefe;
     --text-color: #fefefe;
