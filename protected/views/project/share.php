@@ -32,6 +32,8 @@ if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             'url' => ['project/pages', 'id' => $project->id],
             'title' => \Yii::t('app', 'Dashboard settings')
         ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project)) {
     $tabs[] =
         [
             'url' => ['project/update', 'id' => $project->id],
@@ -45,7 +47,7 @@ if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $project)) {
             'title' => \Yii::t('app', 'Users') . " ({$project->contributorCount})"
         ];
 }
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
+if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_BACKEND, $project)) {
     $tabs[] =
         [
             'url' => ['/admin/limesurvey'],
