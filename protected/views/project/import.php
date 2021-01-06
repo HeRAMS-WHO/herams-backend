@@ -29,7 +29,7 @@ $this->title = \Yii::t('app', 'Import pages');
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
-    <h4><?=\Yii::t('app', 'Import Project')?></h4>
+    <h4><?=\Yii::t('app', 'Import Pages')?></h4>
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
