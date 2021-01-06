@@ -1,5 +1,6 @@
 <?php
 /** @var \prime\models\ar\Page $page */
+/** @var \prime\models\ar\Project $project */
 
 use app\components\Form;
 use kartik\form\ActiveForm;
@@ -7,14 +8,6 @@ use kartik\helpers\Html;
 use function iter\chain;
 use function iter\toArrayWithKeys;
 
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
 $this->params['breadcrumbs'][] = [
     'label' => $project->title,
     'url' => ['project/update', 'id' => $project->id]
