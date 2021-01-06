@@ -1,5 +1,6 @@
 <?php
 /** @var \prime\models\ar\Page $page */
+/** @var \prime\models\ar\Project $project */
 
 use app\components\Form;
 use kartik\form\ActiveForm;
@@ -8,21 +9,18 @@ use function iter\chain;
 use function iter\toArrayWithKeys;
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
     'label' => $project->title,
     'url' => ['project/update', 'id' => $project->id]
 ];
 
-$this->title = \Yii::t('app', 'Create page');
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Dashboard settings'),
+    'url' => ['project/pages', 'id' => $project->id]
+];
 
+$this->title = \Yii::t('app', 'Create page');
+
+echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
     <h3><?=\Yii::t('app', 'Create Page')?></h3>
@@ -70,3 +68,7 @@ $this->title = \Yii::t('app', 'Create page');
 
     ?>
 </div>
+
+<?php
+echo Html::endTag('div');
+?>

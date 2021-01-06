@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = Yii::t('app', 'Create project');
 
 //$this->params['breadcrumbs'][] = ['label' => $this->title];
-
+echo Html::beginTag('div', ['class' => 'content no-tab']);
 ?>
 <div class="form-content form-bg">
     <h3><?=\Yii::t('app', 'Create Project')?></h3>
@@ -60,3 +60,6 @@ $this->title = Yii::t('app', 'Create project');
     $form->end();
     ?>
 </div>
+<?php
+echo Html::endTag('div');
+?>
