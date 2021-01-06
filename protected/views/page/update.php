@@ -154,6 +154,14 @@ echo Html::beginTag('div', ['class' => "content no-tab"]);
                 'width' => '100px',
                 'template' => '{update} {remove}',
                 'buttons' => [
+                    'update' => function ($url, Element $model, $key) {
+                        if (app()->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $model->page->project)) {
+                            return Html::a(
+                                Icon::edit(),
+                                ['element/update', 'id' => $model->id]
+                            );
+                        }
+                    },
                     'remove' => function ($url, Element $model, $key) {
                         if (app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
                             return Html::a(
