@@ -27,7 +27,7 @@ echo Html::a(Icon::home(), ['/'], ['class' => 'home']);
 echo Html::a(Icon::admin(), ['/project/index'], ['class' => 'admin']);
 echo Html::a(Icon::star(), ['/user/favorites']);
 echo Html::a(Icon::user(), ['/user/account']);
-echo Html::a(Icon::question(), Url::to('https://docs.herams.org/'), ['target' => '_blank']);
+echo Html::a(Icon::question().'<small>'.Icon::external_link().'</small>', Url::to('https://docs.herams.org/'), ['target' => '_blank']);
 echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
 ?>
 </div>

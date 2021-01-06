@@ -130,6 +130,13 @@ body {
     stroke: var(--icon-color);
 }
 
+.user-menu small .icon {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    margin-left: -5px;
+}
+
 .user-menu .name {
     color: var(--text-color);
     text-decoration: none;
@@ -830,4 +837,3 @@ input[type="text"] {
         padding: var(--gutter-size);
     }
 }
-
