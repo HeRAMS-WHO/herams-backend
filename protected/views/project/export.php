@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = \Yii::t('app', 'Export data from project {project}', ['project' => $subject->title]);
 //$this->params['breadcrumbs'][] = $this->title;
+echo Html::beginTag('div', ['class' => 'content no-tab']);
 
 $form = ActiveForm::begin([
     'id' => 'export',
@@ -115,3 +116,5 @@ echo Form::widget([
     ]
 ]);
 $form->end();
+
+echo Html::endTag('div');

@@ -18,6 +18,7 @@ class ExportDashboard extends Action
         User $user,
         int $id
     ) {
+        $this->controller->layout = 'admin-screen';
         $project = Project::find()->with('pages')->where(['id' => $id])->one();
         if (!isset($project)) {
             throw new NotFoundHttpException('Project not found');
