@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $project->id]
 ];
 $this->title = $project->title;
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
 
 $tabs = [
     [
@@ -102,6 +102,5 @@ echo Html::endTag('div');
     ?>
 </div>
 <?php
-echo Html::endTag('div');
 echo Html::endTag('div');
 ?>

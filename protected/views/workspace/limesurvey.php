@@ -27,7 +27,6 @@ $this->title = \Yii::t('app', 'Workspace {workspace}', [
     'workspace' => $model->title,
 ]);
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [];
 
@@ -72,7 +71,7 @@ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} 
 echo Html::beginTag('div', ['class' => 'action-group']);
 
 if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $model)) {
-    echo Html::a(Icon::recycling() . \Yii::t('app', 'refresh workspace'), Url::to(['workspace/refresh', 'id' => $model->id]), ['class' => 'btn btn-default btn-icon']);
+    echo Html::a(Icon::recycling() . \Yii::t('app', 'Refresh workspace'), Url::to(['workspace/refresh', 'id' => $model->id]), ['class' => 'btn btn-default btn-icon']);
 }
 if (\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $model)) {
     echo Html::a(Icon::download_2() . \Yii::t('app', 'Download'), ['workspace/export', 'id' => $model->id], ['class' => 'btn btn-default btn-icon']);
@@ -90,5 +89,4 @@ echo Html::tag('iframe', '', [
 ]);
 
 
-echo Html::endTag('div');
 echo Html::endTag('div');

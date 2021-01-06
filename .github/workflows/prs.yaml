@@ -30,5 +30,6 @@ jobs:
       - run: cp .env.default .env
       - run: composer install --ignore-platform-reqs
       - run: docker-compose build
+      - run: docker network create devproxy
       - run: docker-compose run --rm codeception run --coverage-xml
       - run: composer stan

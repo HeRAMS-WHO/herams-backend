@@ -27,7 +27,6 @@ $this->title = \Yii::t('app', 'Workspace {workspace}', [
 ]);
 
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [];
 
@@ -110,6 +109,5 @@ echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} 
 </div>
 
 <?php
-echo Html::endTag('div');
 echo Html::endTag('div');
 ?>

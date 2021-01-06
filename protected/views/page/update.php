@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = $page->title;
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+
 
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>

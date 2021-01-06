@@ -12,48 +12,18 @@ use prime\helpers\Icon;
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
     'label' => $project->title,
-    'url' => ['project/update', 'id' => $project->id]
-];
-$this->params['breadcrumbs'][] = [
-    'label' => 'Workspaces',
     'url' => ['project/workspaces', 'id' => $project->id]
 ];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Import workspace'),
+    'url' => ['workspace/import', 'project_id' => $project->id]
+];
 $this->title = \Yii::t('app', 'Import');
-//$this->params['breadcrumbs'][] = $this->title;
 
 
-echo Html::beginTag('div', ['class' => 'topbar']);
-echo Html::beginTag('div', ['class' => 'pull-left']);
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::list();
-echo Html::tag('span', \Yii::t('app', 'Workspaces'));
-echo Html::tag('em', $project->workspaceCount);
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'count']);
-echo Icon::contributors();
-echo Html::tag('span', \Yii::t('app', 'Contributors'));
-echo Html::tag('em', $project->contributorCount);
-echo Html::endTag('div');
-
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
-echo Html::a(Icon::project(), ['project/view', 'id' => $project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
-echo Html::endTag('div');
-echo Html::endTag('div');
-
-echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo Html::beginTag('div', ['class' => 'content no-tab']);
 
 ?>
 

@@ -20,7 +20,7 @@ class ImportDashboard extends Action
         User $user,
         int $id
     ) {
-        $this->controller->layout = 'admin-content';
+        $this->controller->layout = 'admin-screen';
         /** @var Project|null $project */
         $project = Project::find()->where(['id' => $id])->one();
         if (!isset($project)) {
@@ -40,6 +40,6 @@ class ImportDashboard extends Action
         }
 
 
-        return $this->controller->render('import', ['model' => $model]);
+        return $this->controller->render('import', ['model' => $model, 'project' => $project]);
     }
 }

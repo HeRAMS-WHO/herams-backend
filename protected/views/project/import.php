@@ -1,6 +1,7 @@
 <?php
 
 /** @var \prime\models\ar\Project $model */
+/** @var \prime\models\ar\Project $project */
 
 use app\components\Form;
 use app\components\ActiveForm;
@@ -9,16 +10,23 @@ use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
+    'label' => $project->title,
+    'url' => ['project/update', 'id' => $project->id]
 ];
 
-$this->title = 'Import pages';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Pages'),
+    'url' => ['project/pages', 'id' => $project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Import pages'),
+    'url' => ['project/import-dashboard', 'id' => $project->id]
+];
+
+$this->title = \Yii::t('app', 'Import pages');
+
+echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
     <h4><?=\Yii::t('app', 'Import Project')?></h4>
@@ -56,3 +64,7 @@ $this->title = 'Import pages';
 
     ?>
 </div>
+
+<?php
+echo Html::endTag('div');
+?>

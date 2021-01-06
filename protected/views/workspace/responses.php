@@ -31,7 +31,6 @@ $this->title = \Yii::t('app', "Workspace {workspace}", [
     'workspace' => $workspace->title,
 ]);
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
 
 $tabs = [];
 
