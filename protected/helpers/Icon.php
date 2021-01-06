@@ -36,6 +36,7 @@ use yii\helpers\Inflector;
  * @method static string add(array $options = [])
  * @method static string recycling(array $options = [])
  * @method static string up_arrow_1(array $options = [])
+ * @method static string external_link(array $options = [])
  * @method static string download_1(array $options = [])
  * @method static string download_2(array $options = [])
  * @method static string trash(array $options = [])
