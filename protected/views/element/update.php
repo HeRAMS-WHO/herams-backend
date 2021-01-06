@@ -13,16 +13,13 @@ use yii\helpers\Url;
 use yii\web\View;
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
     'label' => $project->title,
     'url' => ['project/update', 'id' => $project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Dashboard settings'),
+    'url' => ['project/pages', 'id' => $project->id]
 ];
 
 $this->params['breadcrumbs'][] = [
@@ -33,7 +30,14 @@ $this->params['breadcrumbs'][] = [
 $this->title = $model->isNewRecord
     ? \Yii::t('app', 'Create element')
     : \Yii::t('app', 'Update element');
-//$this->params['breadcrumbs'][] = $this->title;
+
+$this->params['breadcrumbs'][] = [
+    'label' => $this->title,
+    'url' => ['page/update', 'id' => $page->id]
+];
+
+
+echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
     <h4><?= \Yii::t('app', 'Update element'); ?></h4>
@@ -126,10 +130,11 @@ $this->title = $model->isNewRecord
         ]
     ]);
 
-    
+
 
     $url = \yii\helpers\Json::encode($url);
-    $this->registerJs(<<<JS
+    $this->registerJs(
+        <<<JS
 $('#element-code, #element-transpose').on('change', function(e) {
     // Refresh page on change.
     window.location.href = ${url}.replace("__value__", e.target.value).replace("__key__", e.target.name);
@@ -216,3 +221,6 @@ JS
     }
     ?>
 </div>
+<?php
+echo Html::endTag('div');
+?>
