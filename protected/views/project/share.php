@@ -32,6 +32,8 @@ if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             'url' => ['project/pages', 'id' => $project->id],
             'title' => \Yii::t('app', 'Dashboard settings')
         ];
+}
+if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project)) {
     $tabs[] =
         [
             'url' => ['project/update', 'id' => $project->id],
