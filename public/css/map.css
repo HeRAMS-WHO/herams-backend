@@ -75,6 +75,10 @@ body {
     color: var(--primary-button-background-color);
 }
 
+.popover.session {
+    padding: 0;
+}
+
 .popover.session .form .btn-group {
     left: 0;
     right: 0;

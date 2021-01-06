@@ -15,6 +15,7 @@ use prime\models\ar\Permission;
 use prime\widgets\menu\TabMenu;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use prime\helpers\Icon;
 use yii\web\View;
 
 /**
@@ -88,7 +89,7 @@ echo Html::beginTag('div', ['class' => 'content']);
                 'buttons' => [
                     'impersonate' => function ($url, $model) {
                         if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
-                            return Html::a('<span class="glyphicon glyphicon-user"></span>', ['/user/impersonate', 'id' => $model->id], [
+                            return Html::a(Icon::user(), ['/user/impersonate', 'id' => $model->id], [
                                 'title' => Yii::t('app', 'Become this user'),
                                 'data-confirm' => Yii::t('app', 'Are you sure you want to switch to this user for the rest of this Session?'),
                                 'data-method' => 'post',
