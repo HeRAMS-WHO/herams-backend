@@ -163,6 +163,7 @@ body {
 .breadcrumb li {
     display: inline-flex;
     align-items: center;
+    color: var(--breadcrumbs-color);
     font-weight: 300;
     font-size: 15px;
     line-height: 15px;

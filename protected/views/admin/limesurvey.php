@@ -13,8 +13,8 @@ $this->params['breadcrumbs'][] = ['label' => ""];
 
 $tabs = [
     [
-        'url' => ['project/index'],
-        'title' => \Yii::t('app', 'Projects')
+        'url' => ['admin/dashboard'],
+        'title' => \Yii::t('app', 'Dashboard')
     ]
 ];
 
