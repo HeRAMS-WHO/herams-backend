@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = \Yii::t('app', 'Create page');
 //$this->params['breadcrumbs'][] = $this->title;
-
+echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
     <h3><?=\Yii::t('app', 'Create Page')?></h3>
@@ -70,3 +70,7 @@ $this->title = \Yii::t('app', 'Create page');
 
     ?>
 </div>
+
+<?php
+echo Html::endTag('div');
+?>
