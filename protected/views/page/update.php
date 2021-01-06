@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Pages'),
+    'label' => \Yii::t('app', 'Dashboard settings'),
     'url' => ['project/pages', 'id' => $page->project->id]
 ];
 
