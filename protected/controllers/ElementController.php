@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
 
 class ElementController extends Controller
 {
-    public $layout = 'admin-content';
+    public $layout = 'admin-screen';
     public function actions()
     {
         return [
