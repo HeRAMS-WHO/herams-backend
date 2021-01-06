@@ -13,8 +13,13 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/update', 'id' => $project->id]
 ];
 
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Pages'),
+    'url' => ['project/pages', 'id' => $project->id]
+];
+
 $this->title = \Yii::t('app', 'Create page');
-//$this->params['breadcrumbs'][] = $this->title;
+
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
