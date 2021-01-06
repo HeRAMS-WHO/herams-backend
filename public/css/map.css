@@ -45,7 +45,6 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: "login" "intro";
-    padding: 10px;
 }
 
 .popover-error {
@@ -73,10 +72,6 @@ body {
 
 .popover-error .btn-home:hover {
     color: var(--primary-button-background-color);
-}
-
-.popover.session {
-    padding: 0;
 }
 
 .popover.session .form .btn-group {
