@@ -91,7 +91,6 @@ tabbed-content::part(content) {
     border-radius: 0 15px 15px 15px;
     background-color: white;
     padding: 20px;
-
 }
 
 .content {
@@ -174,7 +173,9 @@ tabbed-content::part(content) {
 }
 
 /***************/
+
 /* pagination */
+
 /***************/
 
 .pagination {
@@ -298,6 +299,10 @@ td {
     padding-right: 20px;
 }
 
+td input {
+    margin: 10px 0;
+}
+
 table caption, .kv-table-caption {
     margin: 0px;
     padding: 0;
@@ -339,16 +344,19 @@ table thead tr th a.asc, table thead tr th a.desc {
     align-items: center;
 }
 
+table thead tr th a::after {
+    width: 11px;
+    height: 7px;
+    background-size: contain;
+    margin-left: 5px;
+}
+
 table thead tr th a.asc::after {
-    content: "\e260";
-    font-family: "Glyphicons Halflings";
-    padding: 0 0 0 10px;
+    content: url('/img/arrow-down.svg');
 }
 
 table thead tr th a.desc::after {
-    content: "\e259";
-    font-family: "Glyphicons Halflings";
-    padding: 0 0 0 10px;
+    content: url('/img/arrow-up.svg');
 }
 
 .table tbody tr td {
@@ -430,13 +438,11 @@ body[data-modal] {
 }
 
 @media (min-width: 600px) {
-
     .filter-modal {
         top: 100px;
         bottom: 100px;
         border: 2px solid var(--highlight-background-color);
     }
-
 }
 
 .filter-modal label {
@@ -535,32 +541,25 @@ body[data-modal]:after {
  2 Column layout, menu above filters.
 */
 
-@media (min-width: 600px) {
-}
+@media (min-width: 600px) {}
 
 /**
  3 column layout.
 */
 
 @media (min-width: 768px) {
-
     header {
         grid-template-columns: auto minmax(auto, 880px) 400px auto;
         grid-template-areas: ". title user .";
     }
-
 }
 
-@media (min-width: 800px) {
-}
+@media (min-width: 800px) {}
 
 @media(min-width: 1280px) {
-
     header {
         padding: 0;
     }
-
 }
 
-@media(min-width: 1460px) {
-}
+@media(min-width: 1460px) {}
