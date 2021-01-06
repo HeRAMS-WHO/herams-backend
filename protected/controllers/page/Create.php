@@ -22,7 +22,7 @@ class Create extends Action
         User $user,
         int $project_id
     ) {
-        $this->controller->layout = 'admin-content';
+        
         $project = Project::findOne(['id' => $project_id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();
