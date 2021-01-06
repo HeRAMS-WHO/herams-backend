@@ -40,7 +40,9 @@ $this->params['breadcrumbs'][] = [
 echo Html::beginTag('div', ['class' => "content no-tab"]);
 ?>
 <div class="form-content form-bg">
-    <h4><?= \Yii::t('app', 'Update element'); ?></h4>
+    <h4><?= $model->isNewRecord
+    ? \Yii::t('app', 'Create element')
+    : \Yii::t('app', 'Update element'); ?></h4>
     <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
