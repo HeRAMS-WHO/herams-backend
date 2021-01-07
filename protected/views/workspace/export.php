@@ -15,7 +15,10 @@ $this->params['breadcrumbs'][] = [
     'label' => $subject->project->title,
     'url' => ['project/workspaces', 'id' => $subject->project->id]
 ];
-
+$this->params['breadcrumbs'][] = [
+    'label' => $subject->title,
+    'url' => ['workspace/limesurvey', 'id' => $subject->id]
+];
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Export workspace'),
     'url' => ['workspace/export', 'id' => $subject->id]

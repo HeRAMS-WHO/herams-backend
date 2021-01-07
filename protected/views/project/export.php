@@ -12,10 +12,6 @@ use yii\bootstrap\Html;
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
     'label' => $subject->title,
     'url' => ['project/workspaces', 'id' => $subject->id]
 ];

@@ -8,7 +8,6 @@ use prime\models\ar\Project;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
-use prime\widgets\menu\TabMenu;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Projects'),
