@@ -475,58 +475,7 @@ body[data-modal]:after {
     display: block;
 }
 
-.form-horizontal {
-    margin: 0;
-    max-width: 600px;
-}
 
-.form-horizontal .row {
-    margin: 0 0 25px 0;
-    padding: 0;
-}
-
-.form-horizontal input[type='text'], .form-horizontal .select2 {
-    margin: 0;
-    width: 100%;
-    max-width: 500px;
-}
-
-.form-horizontal input[type="color"] {
-    max-width: 40px;
-    width: 40px;
-    padding: 5px;
-    height: 40px;
-}
-
-.form-horizontal .col-sm-6 label {
-    padding: 7px 15px 0 5px;
-    max-width: none;
-}
-
-.form-horizontal .form-group .col-md-3 {
-    word-break: break-word;
-    padding: 0;
-    margin-right: 20px;
-    width: max-content;
-    min-width: 110px;
-}
-
-.form-horizontal .form-group .col-md-9 {
-    width: 100%;
-}
-
-.form-horizontal .row .form-group {
-    display: flex;
-    align-items: flex-start;
-}
-
-.form-horizontal .row div {
-    padding: 0;
-}
-
-.form-content table {
-    margin-bottom: 0;
-}
 
 .grid-view .summary {
     margin-bottom: 10px;
