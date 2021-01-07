@@ -240,6 +240,20 @@ body {
     padding: 10px;
 }
 
+.content.maximized {
+    position: fixed;
+    grid-area: unset;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000000;
+}
+
 a, a:visited {
     color: var(--link-color);
     text-decoration: none;
