@@ -190,6 +190,7 @@ form .has-error input {
 .form-horizontal .row {
     margin: 0 0 25px 0;
     padding: 0;
+    float: left;
 }
 
 .form-horizontal input[type='text'], .form-horizontal .select2 {
@@ -258,4 +259,17 @@ form .has-error input {
 
 .collapse-toggle.collapsed::after {
     content: '+';
+}
+
+form .col-sm-6 {
+    width: 50%;
+    float: left;
+}
+
+form .col-md-8 {
+    width: 66%;
+}
+
+form .col-md-4 {
+    width: 33%;
 }
