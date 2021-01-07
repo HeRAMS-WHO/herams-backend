@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 use yii\helpers\Url;
 use prime\models\ar\Permission;
 use prime\helpers\Icon;
-use prime\widgets\menu\TabMenu;
+use prime\widgets\menu\WorkspaceTabMenu;
 
 /**
  * @var  \prime\components\View $this
@@ -31,43 +31,12 @@ $this->title = \Yii::t('app', "Workspace {workspace}", [
 ]);
 
 
-$tabs = [];
-
-if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $model)) {
-    $tabs[] =
-        [
-            'url' => ["workspace/limesurvey", 'id' => $model->id],
-            'title' => \Yii::t('app', 'Health Facilities') . " ({$model->facilityCount})"
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
-    $tabs[] =
-        [
-            'url' => ["workspace/update", 'id' => $model->id],
-            'title' => \Yii::t('app', 'Workspace settings')
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $model)) {
-    $tabs[] =
-        [
-            'url' => ["workspace/share", 'id' => $model->id],
-            'title' => \Yii::t('app', 'Users') . " ({$model->contributorCount})"
-        ];
-}
-if ($model->responseCount > 0 && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $model)) {
-    $tabs[] =
-        [
-            'url' => ['workspace/responses', 'id' => $model->id],
-            'title' => \Yii::t('app', 'Responses')
-        ];
-}
-
-echo TabMenu::widget([
-    'tabs' => $tabs,
+echo WorkspaceTabMenu::widget([
+    'workspace' => $model,
     'currentPage' => $this->context->action->uniqueId
 ]);
 
-echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo Html::beginTag('div', ['class' => "content"]);
 echo Html::beginTag('div', ['class' => 'action-group']);
 
 if (app()->user->can(Permission::PERMISSION_DELETE, $model)) {

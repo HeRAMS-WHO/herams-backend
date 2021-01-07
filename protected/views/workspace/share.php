@@ -4,7 +4,7 @@ use app\components\ActiveForm;
 use app\components\Form;
 use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
-use prime\widgets\menu\TabMenu;
+use prime\widgets\menu\WorkspaceTabMenu;
 use yii\helpers\Html;
 
 /**
@@ -26,46 +26,12 @@ $this->title = \Yii::t('app', 'Workspace {workspace}', [
     'workspace' => $workspace->title,
 ]);
 
-
-
-$tabs = [];
-
-if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) {
-    $tabs[] =
-        [
-            'url' => ["workspace/limesurvey", 'id' => $workspace->id],
-            'title' => \Yii::t('app', 'Health Facilities') . " ({$workspace->facilityCount})"
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $workspace)) {
-    $tabs[] =
-        [
-            'url' => ["workspace/update", 'id' => $workspace->id],
-            'title' => \Yii::t('app', 'Workspace settings')
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $workspace)) {
-    $tabs[] =
-        [
-            'url' => ["workspace/share", 'id' => $workspace->id],
-            'title' => \Yii::t('app', 'Users') . " ({$workspace->contributorCount})"
-        ];
-}
-if ($workspace->responseCount > 0 && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $workspace)) {
-    $tabs[] =
-        [
-            'url' => ['workspace/responses', 'id' => $workspace->id],
-            'title' => \Yii::t('app', 'Responses')
-        ];
-}
-
-echo TabMenu::widget([
-    'tabs' => $tabs,
+echo WorkspaceTabMenu::widget([
+    'workspace' => $workspace,
     'currentPage' => $this->context->action->uniqueId
 ]);
 
-echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-
+echo Html::beginTag('div', ['class' => "content"]);
 ?>
 
 <div class="form-content form-bg">
