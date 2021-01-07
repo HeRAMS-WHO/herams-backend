@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 use kartik\grid\GridView;
 use yii\bootstrap\ButtonGroup;
+use yii\helpers\Html;
 
 /**
  * @var \yii\data\ActiveDataProvider $dataProvider
  */
 
 $this->title = \Yii::t('app', 'Favorite workspaces');
+echo Html::beginTag('div', ['class' => 'content']);
 ?>
 <div class="form-content form-bg full-width">
 <?php
@@ -66,3 +68,6 @@ echo GridView::widget([
 ]);
 ?>
 </div>
+
+<?php
+echo Html::endTag('div');
