@@ -191,6 +191,7 @@ form .has-error input {
     margin: 0 0 25px 0;
     padding: 0;
     float: left;
+    width: 100%;
 }
 
 .form-horizontal input[type='text'], .form-horizontal .select2 {
