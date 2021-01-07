@@ -166,7 +166,6 @@ form .has-error input {
  * END CSS for formbuttons widget
  */
 
-
 /**
  * HTML RADIO
  */
@@ -179,10 +178,9 @@ form .has-error input {
     background-color: var(--primary-color) !important;
 }
 
-.pretty input:checked ~ .state.p-danger label:after, .pretty.p-toggle .state.p-danger label:after {
+.pretty input:checked~.state.p-danger label:after, .pretty.p-toggle .state.p-danger label:after {
     background-color: #bdc3c7 !important;
 }
-
 
 .form-horizontal {
     margin: 0;
@@ -245,10 +243,19 @@ form .has-error input {
     display: block;
 }
 
-.collapse-toggle.collapsed::after {
-    content: '+';
+.collapse-toggle {
+    border-bottom: 2px solid black;
+}
+
+.collapse-toggle:hover {
+    border-color: var(--primary-color);
 }
 
 .collapse-toggle::after {
     content: '-';
+    margin-left: 5px;
+}
+
+.collapse-toggle.collapsed::after {
+    content: '+';
 }
