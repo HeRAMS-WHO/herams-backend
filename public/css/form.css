@@ -239,7 +239,7 @@ form .has-error input {
     display: none;
 }
 
-.panel-collapse.collapse.show {
+.panel-collapse.collapse.show, .panel-collapse.collapse.in {
     display: block;
 }
 
