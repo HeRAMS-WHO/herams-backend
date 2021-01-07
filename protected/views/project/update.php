@@ -6,7 +6,7 @@ use app\components\Form;
 use app\components\ActiveForm;
 use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
-use prime\widgets\menu\TabMenu;
+use prime\widgets\menu\ProjectTabMenu;
 use prime\helpers\Icon;
 use yii\helpers\Url;
 use yii\bootstrap\ButtonGroup;
@@ -18,48 +18,12 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = $project->title;
 
-
-$tabs = [
-    [
-        'url' => ['project/workspaces', 'id' => $project->id],
-        'title' => \Yii::t('app', 'Workspaces') . " ({$project->workspaceCount})"
-    ]
-];
-
-if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
-    $tabs[] =
-        [
-            'url' => ['project/pages', 'id' => $project->id],
-            'title' => \Yii::t('app', 'Dashboard settings')
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project)) {
-    $tabs[] =
-        [
-            'url' => ['project/update', 'id' => $project->id],
-            'title' => \Yii::t('app', 'Project settings')
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $project)) {
-    $tabs[] =
-        [
-            'url' => ['project/share', 'id' => $project->id],
-            'title' => \Yii::t('app', 'Users') . " ({$project->contributorCount})"
-        ];
-}
-if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_BACKEND, $project)) {
-    $tabs[] =
-        [
-            'url' => ['/admin/limesurvey'],
-            'title' => \Yii::t('app', 'Backend administration')
-        ];
-}
-
-echo TabMenu::widget([
-    'tabs' => $tabs,
+echo ProjectTabMenu::widget([
+    'project' => $project,
     'currentPage' => $this->context->action->uniqueId
 ]);
-echo Html::beginTag('div', ['class' => count($tabs) <= 1 ? 'content no-tab': 'content']);
+
+echo Html::beginTag('div', ['class' => 'content']);
 
 echo Html::beginTag('div', ['class' => 'action-group']);
 if (app()->user->can(Permission::PERMISSION_DELETE, $project)) {
