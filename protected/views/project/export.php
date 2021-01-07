@@ -42,7 +42,7 @@ echo \yii\bootstrap\Collapse::widget([
         [
             'label' => \Yii::t('app', 'Settings'),
             // open its content by default
-            'contentOptions' => ['class' => 'in'],
+            'contentOptions' => ['class' => 'in show'],
             'content' => \app\components\Form::widget([
                 'form' => $form,
                 'model' => $model,
