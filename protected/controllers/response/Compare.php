@@ -13,7 +13,7 @@ class Compare extends Action
 {
 
     public function run(
-        LimesurveyDataProvider $dataProvider,
+        LimesurveyDataProvider $limesurveyDataProvider,
         int $id,
         int $survey_id
     ) {
@@ -24,7 +24,7 @@ class Compare extends Action
         }
 
 
-        $limesurveyData = $dataProvider->refreshResponsesByToken($response->survey_id, $response->workspace->getAttribute('token'));
+        $limesurveyData = $limesurveyDataProvider->refreshResponsesByToken($response->survey_id, $response->workspace->getAttribute('token'));
         // Find the correct response.
         /** @var ResponseInterface $limesurveyResponse */
         foreach ($limesurveyData as $limesurveyResponse) {
