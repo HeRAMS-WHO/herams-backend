@@ -176,12 +176,12 @@ return [
             ],
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'username' => $env->getWrappedSecret('smtp/pass'),
-                'password' => $env->getWrappedSecret('smtp/pass'),
+                'username' => $env->getWrappedSecret('smtp/username'),
+                'password' => $env->getWrappedSecret('smtp/password'),
                 'constructArgs' => [
-                    $env->get('SMTP_HOST'),
-                    $env->get('SMTP_PORT'),
-                    $env->get('SMTP_ENCRYPTION')
+                    $env->get('smtp/host'),
+                    $env->get('smtp/port'),
+                    $env->get('smtp/encryption')
                 ]
             ]
         ],
