@@ -52,7 +52,7 @@ class ProjectTabMenu extends TabMenu
             $this->tabs[] =
                 [
                     'url' => ['project/share', 'id' => $this->project->id],
-                    'title' => \Yii::t('app', 'Users') . " ({$this->project->contributorPermissionCount})"
+                    'title' => \Yii::t('app', 'Users')
                 ];
         }
         if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_BACKEND, $this->project)) {
