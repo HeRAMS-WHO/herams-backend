@@ -15,6 +15,7 @@ use yii\web\JqueryAsset;
 use yii\widgets\PjaxAsset;
 
 return [
+    \prime\helpers\LimesurveyDataLoader::class => \prime\helpers\LimesurveyDataLoader::class,
     JqueryAsset::class => JqueryBundle::class,
     PermissionRepository::class => PreloadingSourceRepository::class,
     PreloadingSourceRepository::class => function (Container $container) {
