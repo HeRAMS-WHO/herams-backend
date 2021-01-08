@@ -4,6 +4,7 @@ declare(strict_types=1);
 use kartik\grid\GridView;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
+use prime\models\ar\Permission;
 
 /**
  * @var \yii\data\ActiveDataProvider $dataProvider
@@ -43,7 +44,18 @@ echo GridView::widget([
             'format' => 'raw',
         ],
         [
-            'attribute' => 'title'
+            'label' => 'Workspace',
+            'attribute' => 'title',
+            'content' => function ($workspace) {
+                return (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) ?
+                    Html::a(
+                        $workspace->title,
+                        ['workspace/limesurvey', 'id' => $workspace->id],
+                        [
+                            'title' => $workspace->title,
+                        ]
+                    ) : $workspace->title;
+            }
         ],
         [
             'attribute' => 'latestUpdate',
