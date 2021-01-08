@@ -47,7 +47,7 @@ class WorkspaceTabMenu extends TabMenu
             $this->tabs[] =
                 [
                     'url' => ["workspace/share", 'id' => $this->workspace->id],
-                    'title' => \Yii::t('app', 'Users') . " ({$this->workspace->contributorCount})"
+                    'title' => \Yii::t('app', 'Users')
                 ];
         }
 
