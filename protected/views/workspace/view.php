@@ -3,7 +3,6 @@
 use yii\bootstrap\Html;
 use prime\helpers\Icon;
 use prime\models\ar\Project;
-use prime\widgets\menu\WorkspacePageMenu;
 
 /**
  * @var \yii\web\View $this
@@ -11,13 +10,6 @@ use prime\widgets\menu\WorkspacePageMenu;
  */
 
 
-echo WorkspacePageMenu::widget([
-    'workspace' => $model,
-    'collapsible' => false,
-    'footer' => $this->render('//footer', ['projects' => Project::find()->all()]),
-    'params' => Yii::$app->request->queryParams,
-    'currentPage' => $this->context->action->id
-]);
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
