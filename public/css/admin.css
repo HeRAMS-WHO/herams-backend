@@ -73,7 +73,7 @@ header {
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 70px;
-    padding: 0;
+    padding: 0 15px;
     grid-template-columns: auto;
     grid-template-rows: max-content;
     grid-template-areas: "tabs" "content";
@@ -437,14 +437,6 @@ body[data-modal] {
     margin-top: 30px;
 }
 
-@media (min-width: 600px) {
-    .filter-modal {
-        top: 100px;
-        bottom: 100px;
-        border: 2px solid var(--highlight-background-color);
-    }
-}
-
 .filter-modal label {
     display: block;
 }
@@ -475,8 +467,6 @@ body[data-modal]:after {
     display: block;
 }
 
-
-
 .grid-view .summary {
     margin-bottom: 10px;
     font-size: 12px;
@@ -486,29 +476,38 @@ body[data-modal]:after {
     color: #222;
 }
 
-/**
- 2 Column layout, menu above filters.
-*/
-
-@media (min-width: 600px) {}
-
-/**
- 3 column layout.
-*/
+@media (min-width: 600px) {
+    .filter-modal {
+        top: 100px;
+        bottom: 100px;
+        border: 2px solid var(--highlight-background-color);
+    }
+}
 
 @media (min-width: 768px) {
     header {
-        grid-template-columns: auto minmax(auto, 880px) 400px auto;
+        grid-template-columns: auto minmax(auto, 980px) 400px auto;
         grid-template-areas: ". title user .";
     }
 }
 
-@media (min-width: 800px) {}
-
-@media(min-width: 1280px) {
+@media (min-width: 800px) {
+    .main {
+        padding: 0 30px;
+    }
     header {
-        padding: 0;
+        padding: 0 30px;
     }
 }
 
-@media(min-width: 1460px) {}
+@media(min-width: 1280px) {}
+
+@media(min-width: 1460px) {
+    .main {
+        padding: 0;
+    }
+    header {
+        padding: 0;
+        grid-template-columns: auto minmax(auto, 1040px) 400px auto;
+    }
+}
