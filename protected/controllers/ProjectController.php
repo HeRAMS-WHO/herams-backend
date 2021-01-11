@@ -18,6 +18,7 @@ use prime\controllers\project\Summary;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
+use prime\controllers\project\Limesurvey;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
@@ -48,6 +49,7 @@ class ProjectController extends Controller
                 'redirect' => ['/project']
             ],
             'view' => View::class,
+            'limesurvey' => Limesurvey::class,
             'pdf' => Pdf::class,
             'share' => Share::class,
             'workspaces' => Workspaces::class,
@@ -100,6 +102,7 @@ class ProjectController extends Controller
                                 'share',
                                 'view',
                                 'pdf',
+                                'limesurvey',
                                 'summary',
                                 'index',
                                 'update',
