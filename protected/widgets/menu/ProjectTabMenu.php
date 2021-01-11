@@ -58,7 +58,7 @@ class ProjectTabMenu extends TabMenu
         if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_BACKEND, $this->project)) {
             $this->tabs[] =
                 [
-                    'url' => ['/admin/limesurvey'],
+                    'url' => ['project/limesurvey', 'id' => $this->project->id],
                     'title' => \Yii::t('app', 'Backend administration')
                 ];
         }
