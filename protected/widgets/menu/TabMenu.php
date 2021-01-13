@@ -3,6 +3,8 @@
 
 namespace prime\widgets\menu;
 
+use yii\base\Action;
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Permission;
@@ -15,42 +17,68 @@ use yii\helpers\Html;
  */
 class TabMenu extends Widget
 {
-    /** @var Array */
-    public $tabs;
+    public array $tabs = [];
+    /**
+     * @var ?object Permissions are checked against this object
+     */
+    public ?object $permissionSubject = null;
 
-    /** @var PageInterface */
-    public $currentPage;
-
-
-
-    public function init()
+    /**
+     * This uses a global service locator for easier use.
+     * @param array $route
+     * @return bool
+     */
+    private function isCurrentPage(array $route): bool
     {
-        parent::init();
+        return \Yii::$app->requestedRoute === $route[0]
+            || \Yii::$app->requestedAction->uniqueId === $route[0];
     }
 
-
-    protected function renderMenu()
+    private function isVisible(array $tab): bool
     {
-        if (!is_array($this->tabs) || count($this->tabs) <= 1) {
-            return;
+        // Check if user has permission
+        if (isset($tab['permission']) && !\Yii::$app->user->can($tab['permission'], $this->permissionSubject)) {
+            return false;
         }
-        echo Html::beginTag('div', ['class' => 'tabs']);
+
+        if (isset($tab['visible']) && !$tab['visible']($tab, $this)) {
+            return false;
+        }
+
+
+        return true;
+    }
+
+    protected function renderMenu(): string
+    {
+        if (empty($this->tabs)) {
+            return '';
+        }
+
+        $result = Html::beginTag('div', ['class' => 'tabs']);
         foreach ($this->tabs as $tab) {
-            $options = ['class' => ['btn', 'btn-tab']];
-            if ($this->currentPage === $tab['url'][0]) {
-                $options['class'][] = 'active';
+            if (!$this->isVisible($tab)) {
+                continue;
             }
-            if (array_key_exists('class', $tab)) {
-                $options['class'] = array_merge($options['class'], $tab['class']);
+
+            $classes = ['btn', 'btn-tab'];
+            if ($this->isCurrentPage($tab['url'])) {
+                $classes[] = 'active';
             }
-            $options['class'] = implode(' ', $options['class']);
-            echo Html::a($tab['title'], $tab['url'], $options);
+
+            $classes += ($tab['class'] ?? []);
+
+            $result .=  Html::a($tab['title'], $tab['url'], [
+                'class' => $classes,
+            ]);
         }
-        echo Html::endTag('div');
+        $result .= Html::endTag('div');
+
+        return $result;
     }
 
-    public function run()
+    public function run(): string
     {
-        $this->renderMenu();
+        return $this->renderMenu();
     }
 }

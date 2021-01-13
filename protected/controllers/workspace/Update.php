@@ -3,7 +3,9 @@
 
 namespace prime\controllers\workspace;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\workspace\CreateUpdate;
@@ -19,17 +21,13 @@ class Update extends Action
 
     public function run(
         Request $request,
-        User $user,
+        AccessCheckInterface $accessCheck,
         NotificationService $notificationService,
         $id
     ) {
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $workspace = Workspace::findOne(['id' => $id]);
-        if (!isset($workspace)) {
-            throw new NotFoundHttpException();
-        }
-        if (!$user->can(Permission::PERMISSION_WRITE, $workspace)) {
-            throw new ForbiddenHttpException();
-        }
+        $accessCheck->requirePermission($workspace, Permission::PERMISSION_WRITE);
 
         if ($request->isPut) {
             if ($workspace->load($request->bodyParams) && $workspace->save()) {

@@ -13,7 +13,7 @@ class Favorites extends Action
     public function run(
         \yii\web\User $user
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN;
         /** @var User $model */
         $model = $user->identity;
 

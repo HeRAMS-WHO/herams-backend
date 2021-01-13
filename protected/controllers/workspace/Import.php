@@ -3,8 +3,10 @@
 
 namespace prime\controllers\workspace;
 
+use prime\components\Controller;
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\workspace\Import as ImportModel;
@@ -19,18 +21,14 @@ class Import extends Action
 
     public function run(
         LimesurveyDataProvider $limesurveyDataProvider,
-        User $user,
+        AccessCheckInterface $accessCheck,
         Request $request,
         NotificationService $notificationService,
         int $project_id
     ) {
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $project = Project::findOne(['id' => $project_id]);
-        if (!isset($project)) {
-            throw new NotFoundHttpException();
-        }
-        if (!$user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
-            throw new ForbiddenHttpException();
-        }
+        $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_WORKSPACES);
 
         /** @var array $tokens */
         $samples = $limesurveyDataProvider->getTokens($project->base_survey_eid);

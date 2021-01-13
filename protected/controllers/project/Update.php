@@ -4,6 +4,7 @@
 namespace prime\controllers\project;
 
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use yii\base\Action;
@@ -17,18 +18,13 @@ class Update extends Action
     public function run(
         Request $request,
         NotificationService $notificationService,
-        User $user,
+        AccessCheckInterface $accessCheck,
         int $id
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN_TABS;
         $model = Project::findOne(['id' => $id]);
-        if (!isset($model)) {
-            throw new NotFoundHttpException();
-        }
 
-        if (!$user->can(Permission::PERMISSION_WRITE, $model)) {
-            throw new ForbiddenHttpException('You do not have write permission');
-        }
+        $accessCheck->requirePermission($model, Permission::PERMISSION_WRITE);
 
         $model->validate();
         if ($request->isPut) {

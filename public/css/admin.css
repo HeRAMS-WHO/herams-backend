@@ -38,7 +38,7 @@ body {
     grid-template-areas: "header" "main";
 }
 
-header {
+header.admin-header {
     margin: 0;
     padding: 0 15px;
     background-color: var(--header-background-color);
@@ -50,6 +50,12 @@ header {
     /*grid-template-columns: auto minmax(auto, 880px) 400px auto;*/
     /*grid-template-areas: ". title user .";*/
 }
+
+section {
+    overflow: auto;
+    padding: 1px;
+}
+
 
 .title {
     grid-area: title;
@@ -101,16 +107,33 @@ tabbed-content::part(content) {
     padding: 20px;
     margin: 0 auto;
     background-color: white;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-}
-
-.content.no-tab {
-    padding-top: 20px;
     border-radius: 15px;
 }
 
+.content > *:not(section) {
+    position: relative;
+
+}
+.content > *:not(section):before {
+    position: absolute;
+    display: block;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.5);
+    text-align: center;
+    z-index: 10000;
+    content: "This content should be in a SECTION";
+}
+
+.tabs + .content {
+    border-top-left-radius: 0;
+
+}
+
+.action-group:empty {
+    display: none;
+}
 .action-group {
     margin-bottom: 10px;
     display: flex;
@@ -234,10 +257,10 @@ tabbed-content::part(content) {
     margin-bottom: 10px;
 }
 
-.form-content.full-width {
-    max-width: 100%;
-    grid-column: span 4;
-}
+/*.form-content.full-width {*/
+/*    max-width: 100%;*/
+/*    grid-column: span 4;*/
+/*}*/
 
 .form-element, .form-element.table {
     grid-column: span 2;
@@ -266,11 +289,6 @@ tabbed-content::part(content) {
 
 .form-content h3 {
     margin: 0 0 30px 0;
-}
-
-.form-bg {
-    background: white;
-    border-radius: 7px;
 }
 
 .workspaces #w3-pjax {
@@ -485,7 +503,7 @@ body[data-modal]:after {
 }
 
 @media (min-width: 768px) {
-    header {
+    header.admin-header {
         grid-template-columns: auto minmax(auto, 980px) 400px auto;
         grid-template-areas: ". title user .";
     }
@@ -495,7 +513,7 @@ body[data-modal]:after {
     .main {
         padding: 0 30px;
     }
-    header {
+    header.admin-header {
         padding: 0 30px;
     }
 }
@@ -506,7 +524,7 @@ body[data-modal]:after {
     .main {
         padding: 0;
     }
-    header {
+    header.admin-header {
         padding: 0;
         grid-template-columns: auto minmax(auto, 1040px) 400px auto;
     }

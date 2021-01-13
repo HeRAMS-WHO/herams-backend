@@ -11,7 +11,7 @@ use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class ProjectReadRule implements Rule
+class ProjectImplicitReadViaExplicitWorkspacePermission implements Rule
 {
 
     /**

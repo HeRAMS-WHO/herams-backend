@@ -17,49 +17,43 @@ use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
 $this->title = $project->title;
-
+$this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
     'project' => $project,
-    'currentPage' => $this->context->action->uniqueId
+]);
+$this->endBlock();
+
+\prime\widgets\Section::begin([
+    'header' => \Yii::t('app', 'pages'),
+    'actions' => [
+        [
+            'icon' => Icon::add(),
+            'label' => \Yii::t('app', 'Create page'),
+            'link' => ['page/create', 'project_id' => $project->id],
+            'style' => 'primary'
+        ],
+        [
+            'icon' => Icon::download_1(),
+            'label' => \Yii::t('app', 'Import pages'),
+            'link' => ['project/import-dashboard', 'id' => $project->id],
+        ],
+        [
+            'icon' => Icon::export(),
+            'label' => \Yii::t('app', 'Export all'),
+            'link' => ['project/export-dashboard', 'id' => $project->id],
+        ],
+        [
+            'icon' => Icon::add(),
+            'label' => \Yii::t('app', 'Project dashboard'),
+            'link' => ['project/view', 'id' => $project->id],
+            'permission' => Permission::PERMISSION_READ,
+            'visible' => $project->pageCount > 0
+        ]
+    ]
 ]);
 
-echo Html::beginTag('div', ['class' => 'content']);
-
-echo Html::beginTag('div', ['class' => "form-content form-bg full-width"]);
-
-echo Html::beginTag('div', ['class' => 'action-group']);
-echo Html::a(Icon::add() . \Yii::t('app', 'Create page'), Url::to(['page/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary btn-icon']);
-echo Html::a(Icon::download_1() . \Yii::t('app', 'Import pages'), Url::to(['project/import-dashboard', 'id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
-echo Html::a(Icon::export() . \Yii::t('app', 'Export all'), Url::to(['project/export-dashboard', 'id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
-if ($project->pageCount > 0 && app()->user->can(Permission::PERMISSION_READ, $project)) {
-    echo Html::a(
-        Icon::project() . \Yii::t('app', 'Project dashboard'),
-        ['project/view', 'id' => $project->id],
-        [
-            'title' => \Yii::t('app', 'Project dashboard'),
-            'class' => 'btn btn-default btn-icon'
-        ]
-    );
-}
-
-echo Html::endTag('div');
-
-echo '<h4>'.\Yii::t('app', 'Dashboard pages').'</h4>';
-
 echo GridView::widget([
-    'caption' => ButtonGroup::widget([
-        'options' => [
-            'class' => 'pull-right',
-            'style' => [
-                'margin-bottom' => '10px'
-            ]
-        ]
-    ]),
     'dataProvider' => $dataProvider,
     'columns' => [
         'id',
@@ -120,6 +114,3 @@ echo GridView::widget([
         ]
     ]
 ]);
-
-echo Html::endTag('div');
-echo Html::endTag('div');

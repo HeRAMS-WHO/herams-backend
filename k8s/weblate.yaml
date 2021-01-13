@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: weblate-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+      app: weblate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: weblate-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: do-block-storage
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: weblate-config
+data:
+  REDIS_HOST: localhost
+  WEBLATE_SERVER_EMAIL: weblate@herams-staging.org
+  WEBLATE_DEFAULT_FROM_EMAIL: weblate@herams-staging.org
+  WEBLATE_SITE_DOMAIN: weblate.herams-staging.org
+  WEBLATE_ENABLE_HTTPS: "1"
+  WEBLATE_REGISTRATION_OPEN: "1"
+  WEBLATE_ALLOWED_HOSTS: '*'
+  WEBLATE_ADMIN_EMAIL: sam@mousa.nl
+  WEBLATE_ADMIN_NAME: Sam
+  IP_BEHIND_REVERSE_PROXY: "True"
+  POSTGRES_HOST: postgres-service
+  POSTGRES_DATABASE: weblate
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weblate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weblate
+  template:
+    metadata:
+      labels:
+        app: weblate
+    spec:
+      volumes:
+        - name: weblate-pvc
+          persistentVolumeClaim:
+            claimName: weblate-pvc
+      initContainers:
+        - name: permission-fix
+          image: busybox
+          command: ["/bin/chown", "1000:1000", "/data"]
+          volumeMounts:
+            - mountPath: /data
+              name: weblate-pvc
+              subPath: data
+      containers:
+        - name: redis
+          image: redis:6-alpine
+          command: ["redis-server", "--appendonly", "yes"]
+        - name: app
+          image: weblate/weblate
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /app/data
+              name: weblate-pvc
+              subPath: data
+          envFrom:
+            - secretRef:
+                name: postgres
+            - configMapRef:
+                name: weblate-config
+            - secretRef:
+                name: weblate-smtp
+          ports:
+            - containerPort: 8080

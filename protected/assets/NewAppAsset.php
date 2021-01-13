@@ -17,6 +17,7 @@ class NewAppAsset extends AssetBundle
         IconBundle::class,
         SourceSansProBundle::class,
         FormBundle::class,
-        MainBundle::class
+        ToastBundle::class,
+        MainBundle::class,
     ];
 }

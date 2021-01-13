@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\actions;
 
 use GuzzleHttp\Psr7\StreamWrapper;
+use prime\components\Controller;
 use prime\helpers\CsvWriter;
 use prime\helpers\PeclWriter;
 use prime\models\forms\Export;
@@ -58,7 +59,7 @@ class ExportAction extends Action
         Response $response,
         User $user
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $subject = ($this->subject)($request);
         if (!isset($subject)) {
             throw new NotFoundHttpException();

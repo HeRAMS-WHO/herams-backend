@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
@@ -14,25 +15,24 @@ $this->params['breadcrumbs'][] = [
     'url' => ['/project/index']
 ];
 $this->title = \Yii::t('app', 'Projects');
-//$this->params['breadcrumbs'][] = ['label' => $this->title];
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $projectProvider
  */
 
-// @TODO @jeremie These wrapping divs should not be in the view, they should be in a layout.
-echo Html::beginTag('div', ['class' => "content no-tab"]);
-
-if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
-    echo ButtonGroup::widget([
-        'buttons' => [
-            Html::a(Icon::add() . \Yii::t('app', 'Create project'), Url::to(['project/create']), ['class' => 'btn btn-primary btn-icon']),
-        ],
-        'options' => [
-            'class' => ['action-group']
+\prime\widgets\Section::begin([
+    'header' => $this->title,
+    'actions' => [
+        [
+            'label' => \Yii::t('app', 'Create project'),
+            'link' => ['project/create'],
+            'style' => 'primary',
+            'icon' => Icon::add(),
+            'permission' => Permission::PERMISSION_CREATE_PROJECT
         ]
-    ]);
-}
+    ]
+]);
+
 echo GridView::widget([
     'pjax' => true,
     'pjaxSettings' => [
@@ -46,8 +46,9 @@ echo GridView::widget([
     'columns' => [
         'id',
         [
-            'label' => 'title',
-            'content' => function ($project) {
+            'attribute' => 'title',
+            'format' => 'raw',
+            'value' => static function($project): string {
                 return Html::a(
                     $project->title,
                     ['project/workspaces', 'id' => $project->id],
@@ -75,6 +76,7 @@ echo GridView::widget([
         ],
         'actions' => [
             'class' => ActionColumn::class,
+            'visible' => false,
             'width' => 6 * 25 . 'px',
             'template' => '{view} {workspaces} {update} {pages} {share} {remove} {export}',
             'visibleButtons' => [

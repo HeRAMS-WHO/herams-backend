@@ -17,6 +17,8 @@ use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\base\NotSupportedException;
 use yii\db\DefaultValueConstraint;
 use yii\db\Expression;
+use yii\db\ExpressionInterface;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -50,6 +52,8 @@ use function iter\filter;
  * @property array<string, string> $typemap
  * @property array $overrides
  * @property-read int $pageCount
+ * @method ExpressionInterface getVirtualExpression(string $name)
+ * @see VirtualFieldBehavior::getVirtualExpression()
  */
 class Project extends ActiveRecord implements Linkable
 {
@@ -270,7 +274,7 @@ class Project extends ActiveRecord implements Linkable
                     ],
                     'workspaceCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Workspace::find()->limit(1)->select('count(*)')
+                        VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = Workspace::find()->limit(1)->select('count(*)')
                             ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                         VirtualFieldBehavior::LAZY => static function (self $model): int {
                             return (int) $model->getWorkspaces()->count();
@@ -316,7 +320,7 @@ class Project extends ActiveRecord implements Linkable
                     ],
                     'contributorPermissionCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                        VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([
                             'target' => Workspace::class,
                             'target_id' => Workspace::find()->select('id')
                                 ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
@@ -332,6 +336,15 @@ class Project extends ActiveRecord implements Linkable
                         }
                     ],
                     'contributorCount' => [
+                        VirtualFieldBehavior::GREEDY => (function() use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
+                            $result = new Query();
+                            $permissionCount = self::getDb()->queryBuilder->buildExpression($contributorPermissionCountGreedy, $result->params);
+                            $workspaceCount = self::getDb()->queryBuilder->buildExpression($workspaceCountGreedy, $result->params);
+
+                            $result->addParams([':ccpath' => '$.contributorCount']);
+                            $result->select(new Expression("coalesce(cast(json_unquote(json_extract([[overrides]], :ccpath)) as unsigned), greatest($permissionCount, $workspaceCount))"));
+                            return $result;
+                        })(),
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::LAZY => static function (self $model): int {
                             return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);

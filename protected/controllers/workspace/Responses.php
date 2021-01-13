@@ -3,26 +3,26 @@
 
 namespace prime\controllers\workspace;
 
+use prime\components\Controller;
+use prime\interfaces\AccessCheckInterface;
+use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\search\Response as ResponseSearch;
-use SamIT\abac\AuthManager;
 use yii\base\Action;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\User;
 
 class Responses extends Action
 {
     public function run(
         Request $request,
-        User $user,
-        AuthManager $abacManager,
+        AccessCheckInterface $accessCheck,
         int $id
     ) {
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
+
         $workspace = Workspace::findOne(['id' => $id]);
-        if (!isset($workspace)) {
-            throw new NotFoundHttpException();
-        }
+
+        $accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
 
         $responseSearch = new ResponseSearch($workspace);
         return $this->controller->render('responses', [

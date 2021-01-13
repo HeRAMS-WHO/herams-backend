@@ -16,58 +16,46 @@ use \prime\models\ar\Project;
  */
 class ProjectTabMenu extends TabMenu
 {
-    /** @var \prime\models\ar\Project */
-    public $project;
+    public Project $project;
 
     public function init()
     {
         parent::init();
+        $this->permissionSubject = $this->project;
     }
 
 
-    protected function renderMenu()
+    protected function renderMenu(): string
     {
-        $this->tabs = [
-            [
-                'url' => ['project/workspaces', 'id' => $this->project->id],
-                'title' => \Yii::t('app', 'Workspaces') . " ({$this->project->workspaceCount})"
-            ]
+        $this->tabs[] = [
+            'url' => ['project/workspaces', 'id' => $this->project->id],
+            'title' => \Yii::t('app', 'Workspaces') . " ({$this->project->workspaceCount})"
         ];
 
-        if (\Yii::$app->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $this->project)) {
-            $this->tabs[] =
-                [
-                    'url' => ['project/pages', 'id' => $this->project->id],
-                    'title' => \Yii::t('app', 'Dashboard settings')
-                ];
-        }
-        if (\Yii::$app->user->can(Permission::PERMISSION_WRITE, $this->project)) {
-            $this->tabs[] =
-                [
-                    'url' => ['project/update', 'id' => $this->project->id],
-                    'title' => \Yii::t('app', 'Project settings')
-                ];
-        }
-        if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $this->project)) {
-            $this->tabs[] =
-                [
-                    'url' => ['project/share', 'id' => $this->project->id],
-                    'title' => \Yii::t('app', 'Users')
-                ];
-        }
-        if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_BACKEND, $this->project)) {
-            $this->tabs[] =
-                [
-                    'url' => ['project/limesurvey', 'id' => $this->project->id],
-                    'title' => \Yii::t('app', 'Backend administration')
-                ];
-        }
+        $this->tabs[] = [
+            'url' => ['project/pages', 'id' => $this->project->id],
+            'permission' => Permission::PERMISSION_MANAGE_DASHBOARD,
+            'title' => \Yii::t('app', 'Dashboard settings')
+        ];
+        $this->tabs[] = [
+            'permission' => Permission::PERMISSION_WRITE,
+            'url' => ['project/update', 'id' => $this->project->id],
+            'title' => \Yii::t('app', 'Project settings')
+        ];
 
-        parent::renderMenu();
-    }
+        $this->tabs[] = [
+            'url' => ['project/share', 'id' => $this->project->id],
+            'title' => \Yii::t('app', 'Users'),
+            'permission' => Permission::PERMISSION_SHARE
+        ];
 
-    public function run()
-    {
-        $this->renderMenu();
+        $this->tabs[] = [
+            'permission' => Permission::PERMISSION_SURVEY_BACKEND,
+            'url' => ['project/limesurvey', 'id' => $this->project->id],
+            'title' => \Yii::t('app', 'Backend administration')
+        ];
+
+
+        return parent::renderMenu();
     }
 }

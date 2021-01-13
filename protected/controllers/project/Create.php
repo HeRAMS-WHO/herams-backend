@@ -1,8 +1,9 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\models\ar\Project;
 use yii\base\Action;
@@ -16,7 +17,7 @@ class Create extends Action
         NotificationService $notificationService,
         Request $request
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN_TABS;
         $model = new Project();
 
         if ($request->isPost) {

@@ -16,26 +16,10 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $project->id]
 ];
 
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Import workspace'),
-    'url' => ['workspace/import', 'project_id' => $project->id]
-];
-$this->title = \Yii::t('app', 'Import');
+$this->title = \Yii::t('app', 'Import workspaces');
 
-
-echo Html::beginTag('div', ['class' => 'content no-tab']);
-
-?>
-
-<div class="form-content form-bg">
-    <h4><?=\Yii::t('app', 'Import Workspace')?></h4>
-    <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false
-        ]
     ]);
 
     echo \app\components\Form::widget([
@@ -50,23 +34,13 @@ echo Html::beginTag('div', ['class' => 'content no-tab']);
             'tokens' => [
                 'type' => Form::INPUT_CHECKBOX_LIST,
                 'items' => $model->tokenOptions()
-            ]
-        ]
-    ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
-        'options' => [
-            'class' => [
-                'pull-right'
             ],
-        ],
-        'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Import workspaces'), ['class' => 'btn btn-primary']),
+            \prime\widgets\FormButtonsWidget::embed([
+                'buttons' => [
+                    Html::submitButton(\Yii::t('app', 'Import workspaces'), ['class' => 'btn btn-primary']),
+                ]
+            ])
+
         ]
     ]);
     $form->end();
-    ?>
-</div>
-
-<?php
-echo Html::endTag('div');
-?>

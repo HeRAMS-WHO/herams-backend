@@ -1,14 +1,16 @@
 <?php
-
+declare(strict_types=1);
 use app\components\ActiveForm;
 use app\components\Form;
 use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\ProjectTabMenu;
+use prime\widgets\Section;
 use yii\helpers\Html;
 
 /**
  * @var \prime\models\ar\Project $project
+ * @var \prime\components\View $this
  * @var \prime\models\forms\Share $model
  */
 
@@ -17,56 +19,24 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $project->id]
 ];
 $this->title = $project->title;
-
+$this->params['subtitle'] = \Yii::t('app', 'Add new user');
+$this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
     'project' => $project,
-    'currentPage' => $this->context->action->uniqueId
 ]);
+$this->endBlock();
 
-echo Html::beginTag('div', ['class' => 'content']);
-
-echo Html::beginTag('div', ['class' => 'action-group']);
-echo Html::endTag('div');
-?>
-
-<div class="form-content form-bg">
-    <?php
-    echo Html::tag('h4', \Yii::t('app', 'Add new user'));
+Section::begin(['header' => \Yii::t('app', 'Add new user')]);
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false,
             'labelSpan' => 3
 
         ]
     ]);
     echo $model->renderForm($form);
-    echo Form::widget([
-        'form' => $form,
-        'model' => $model,
-        'attributes' => [
-            FormButtonsWidget::embed([
-                'options' => [
-                    'class' => [
-                        'pull-right'
-                    ],
-                ],
-                'buttons' => [
-                    ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
-                ]
-            ])
-        ]
-    ]);
     $form->end();
-    ?>
-</div>
-<div class="form-content form-bg full-width">
-    <h4><?= \Yii::t('app', 'View current users') ?></h4>
-    <?php
+    Section::end();
+    Section::begin(['header' => \Yii::t('app', 'View current users')]);
     echo $model->renderTable();
-    ?>
-</div>
-<?php
-echo Html::endTag('div');
-?>
+    Section::end();

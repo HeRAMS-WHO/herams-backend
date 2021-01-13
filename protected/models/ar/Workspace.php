@@ -233,6 +233,6 @@ class Workspace extends ActiveRecord
         }
         asort($result);
 
-        return array_merge(['' => 'Create new token'], $result);
+        return array_merge(['' => \Yii::t('app', 'Create new token')], $result);
     }
 }

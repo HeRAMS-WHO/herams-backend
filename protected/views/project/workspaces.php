@@ -17,33 +17,39 @@ use prime\helpers\Icon;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
 $this->title = $project->title;
-
+$this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
     'project' => $project,
-    'currentPage' => $this->context->action->uniqueId
 ]);
+$this->endBlock();
 
-
-echo Html::beginTag('div', ['class' => 'content']);
-
-echo Html::beginTag('div', ['class' => 'action-group']);
-if (app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
-    echo Html::a(Icon::add() . \Yii::t('app', 'Create workspace'), Url::to(['workspace/create', 'project_id' => $project->id]), ['class' => 'btn btn-primary btn-icon']);
-    echo Html::a(Icon::download_1() . \Yii::t('app', 'Import workspaces'), Url::to(['workspace/import', 'project_id' => $project->id]), ['class' => 'btn btn-default btn-icon']);
-}
-if (app()->user->can(Permission::PERMISSION_EXPORT, $project)) {
-    echo Html::a(Icon::download_2() . \Yii::t('app', 'Download'), ['project/export', 'id' => $project->id], ['class' => 'btn btn-default btn-icon']);
-}
-echo Html::endTag('div');
-
-echo '<h4>' . \Yii::t('app', 'Workspaces') . '</h4>';
+\prime\widgets\Section::begin([
+    'subject' => $project,
+    'actions' => [
+        [
+            'icon' => Icon::add(),
+            'label' => \Yii::t('app', 'Create workspace'),
+            'link' => ['workspace/create', 'project_id' => $project->id],
+            'permission' => Permission::PERMISSION_MANAGE_WORKSPACES
+        ],
+        [
+            'icon' => Icon::download_1(),
+            'label' => \Yii::t('app', 'Import workspaces'),
+            'link' => ['workspace/import', 'project_id' => $project->id],
+            'permission' => Permission::PERMISSION_MANAGE_WORKSPACES
+        ],
+        [
+            'label' => \Yii::t('app', 'Download'),
+            'icon' => Icon::download_2(),
+            'link' => ['project/export', 'id' => $project->id],
+            'permission' => Permission::PERMISSION_EXPORT
+        ],
+    ]
+]);
 echo GridView::widget([
     'pjax' => true,
+    'export' => false,
     'pjaxSettings' => [
         'options' => [
             // Just links in the header.
@@ -93,4 +99,4 @@ echo GridView::widget([
     ]
 ]);
 
-echo Html::endTag('div');
+\prime\widgets\Section::end();

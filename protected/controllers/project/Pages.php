@@ -4,6 +4,7 @@
 namespace prime\controllers\project;
 
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use yii\base\Action;
@@ -16,20 +17,13 @@ use yii\web\User;
 class Pages extends Action
 {
     public function run(
-        Request $request,
-        NotificationService $notificationService,
-        User $user,
+        AccessCheckInterface $accessCheck,
         int $id
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN_TABS;
         $model = Project::findOne(['id' => $id]);
-        if (!isset($model)) {
-            throw new NotFoundHttpException();
-        }
 
-        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $model)) {
-            throw new ForbiddenHttpException();
-        }
+        $accessCheck->requirePermission($model, Permission::PERMISSION_MANAGE_DASHBOARD);
 
 
         return $this->controller->render('pages', [

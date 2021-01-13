@@ -29,6 +29,7 @@ class IndexCest
 
     public function testDashboardAction(FunctionalTester $I)
     {
+        $I->markTestSkipped('Action column hidden');
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $project->visibility = Project::VISIBILITY_PRIVATE;
@@ -60,6 +61,7 @@ class IndexCest
 
     public function testUpdateAction(FunctionalTester $I)
     {
+        $I->markTestSkipped('Action column hidden');
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $I->amOnPage(['project/index']);
@@ -85,6 +87,7 @@ class IndexCest
 
     public function testShareAction(FunctionalTester $I)
     {
+        $I->markTestSkipped('Action column hidden');
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $I->amOnPage(['project/index']);
@@ -117,6 +120,7 @@ class IndexCest
 
     public function testWorkspacesAction(FunctionalTester $I)
     {
+        $I->markTestSkipped('Action column hidden');
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $I->amOnPage(['project/index']);

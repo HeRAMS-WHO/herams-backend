@@ -3,8 +3,10 @@
 
 namespace prime\controllers\project;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\Share as ShareForm;
@@ -22,21 +24,18 @@ class Share extends Action
 
     public function run(
         Request $request,
-        User $user,
+        AccessCheckInterface $accessCheck,
         NotificationService $notificationService,
         AuthManager $abacManager,
         Resolver $abacResolver,
+        User $user,
         int $id
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $project = Project::findOne(['id' => $id]);
-        if (!isset($project)) {
-            throw new NotFoundHttpException();
-        }
 
-        if (!$user->can(Permission::PERMISSION_SHARE, $project)) {
-            throw new ForbiddenHttpException(\Yii::t('app', 'You are not allowed to share this project'));
-        }
+        $accessCheck->requirePermission($project, Permission::PERMISSION_SHARE, \Yii::t('app', 'You are not allowed to share this project'));
+
 
         try {
             $model = new ShareForm(

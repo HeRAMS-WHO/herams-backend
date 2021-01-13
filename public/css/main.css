@@ -41,11 +41,6 @@ iframe {
     border: none;
 }
 
-header {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 20px;
-}
 
 body {
     font-size: var(--font-size);
@@ -269,7 +264,9 @@ input[type="text"] {
 }
 
 .btn {
-    display: inline-block;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     padding: 10px 11px;
     border-radius: 6px;
@@ -294,20 +291,21 @@ input[type="text"] {
 }
 
 .btn-primary:hover {
-    background-color: white;
+    background-color: var(--primary-button-color);
     color: var(--primary-button-background-color) !important;
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
 
-.btn-primary.inverse {
-    background: white;
-    color: var(--link-color);
+.btn-primary-inverse {
+    background-color: var(--primary-button-color);
+    color: var(--primary-button-background-color);
+    border: 1px solid var(--primary-button-background-color);
     margin: 0;
 }
 
-.btn-primary.inverse:hover {
-    background: var(--link-color);
-    color: white !important;
+.btn-primary-inverse:hover {
+    color: var(--primary-button-color);
+    background-color: var(--primary-button-background-color);
 }
 
 .btn-default, .btn-default:visited {
@@ -372,14 +370,7 @@ input[type="text"] {
     color: var(--delete-button-background-color) !important;
     transition: color 0.2s, background 0.2s, border 0.2s;
 }
-
-.btn-icon {
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-icon svg {
+.btn svg {
     margin-right: 5px;
 }
 

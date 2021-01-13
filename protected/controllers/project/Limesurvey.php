@@ -13,7 +13,7 @@ class Limesurvey extends Action
     public function run(
         int $id
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN_TABS;
         $project = Project::findOne(['id' => $id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();

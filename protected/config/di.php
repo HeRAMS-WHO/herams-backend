@@ -15,6 +15,11 @@ use yii\web\JqueryAsset;
 use yii\widgets\PjaxAsset;
 
 return [
+    \kartik\dialog\Dialog::class => \yii\base\Widget::class,
+    \prime\interfaces\AccessCheckInterface::class => \prime\helpers\AccessCheck::class,
+    \prime\helpers\AccessCheck::class => static function () {
+        return new \prime\helpers\AccessCheck(\Yii::$app->user);
+    },
     \prime\helpers\LimesurveyDataLoader::class => \prime\helpers\LimesurveyDataLoader::class,
     JqueryAsset::class => JqueryBundle::class,
     PermissionRepository::class => PreloadingSourceRepository::class,

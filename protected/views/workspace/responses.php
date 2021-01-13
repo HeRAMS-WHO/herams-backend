@@ -14,6 +14,7 @@ use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\widgets\menu\WorkspaceTabMenu;
+use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 
@@ -21,24 +22,19 @@ $this->params['breadcrumbs'][] = [
     'label' => $workspace->project->title,
     'url' => ['project/workspaces', 'id' => $workspace->project->id]
 ];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', "Workspace {workspace}", [
-        'workspace' => $workspace->title,
-    ]),
-    'url' => ['workspace/limesurvey', 'id' => $workspace->id]
-];
 $this->title = \Yii::t('app', "Workspace {workspace}", [
     'workspace' => $workspace->title,
 ]);
 
+$this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
     'workspace' => $workspace,
-    'currentPage' => $this->context->action->uniqueId
 ]);
+$this->endBlock('tabs');
 
-echo Html::beginTag('div', ['class' => "content"]);
-
-echo Html::tag('h4', \Yii::t('app', 'Responses'));
+Section::begin([
+    'header' => \Yii::t('app', 'Responses')
+]);
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [
@@ -116,5 +112,4 @@ echo GridView::widget([
         ]
     ]
 ]);
-
-echo Html::endTag('div');
+Section::end();

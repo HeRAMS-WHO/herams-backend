@@ -3,7 +3,9 @@
 
 namespace prime\controllers\admin;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\forms\Share as ShareForm;
 use prime\models\permissions\GlobalPermission;
@@ -21,11 +23,11 @@ class Share extends Action
         Request $request,
         AuthManager $abacManager,
         Resolver $abacResolver,
+        AccessCheckInterface $accessCheck,
         User $user
     ) {
-        if (!($user->can(Permission::PERMISSION_ADMIN))) {
-            throw new ForbiddenHttpException();
-        }
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
+        $accessCheck->requireGlobalPermission(Permission::PERMISSION_ADMIN);
         $permissions = [
             Permission::PERMISSION_EXPORT,
             Permission::PERMISSION_MANAGE_WORKSPACES,

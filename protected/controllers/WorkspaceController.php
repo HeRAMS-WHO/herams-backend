@@ -26,9 +26,10 @@ use yii\web\User;
 
 class WorkspaceController extends Controller
 {
-    public $layout = 'admin-screen';
+    public $layout = \prime\components\Controller::LAYOUT_ADMIN;
 
-    public function actions()
+
+    public function actions(): array
     {
         return [
             'responses' => Responses::class,

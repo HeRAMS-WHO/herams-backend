@@ -2,6 +2,8 @@
 /** @var \prime\components\KubernetesSecretEnvironment $env */
 
 use Carbon\Carbon;
+use kartik\dialog\DialogAsset;
+use kartik\dialog\DialogBootstrapAsset;
 use prime\components\LanguageSelector;
 use prime\components\NotificationService;
 use yii\web\DbSession;
@@ -114,6 +116,8 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'baseUrl' => '@npm/bootstrap/dist',
                     'sourcePath' => null,
                 ],
+                DialogAsset::class => false,
+                DialogBootstrapAsset::class => false,
 //                \yii\bootstrap\BootstrapThemeAsset::class => false
                 \yii\bootstrap\BootstrapAsset::class => [
                     'baseUrl' => '@npm/bootstrap/dist',

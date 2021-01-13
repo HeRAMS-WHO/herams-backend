@@ -1,6 +1,11 @@
 <?php
+declare(strict_types=1);
 
-/** @var \prime\models\ar\Project $model */
+/**
+ * @var \prime\models\ar\Project $project
+ * @var \prime\components\View $this
+ */
+
 
 use app\components\Form;
 use app\components\ActiveForm;
@@ -12,36 +17,32 @@ use yii\helpers\Url;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
 $this->title = $project->title;
 
+$this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
     'project' => $project,
-    'currentPage' => $this->context->action->uniqueId
 ]);
+$this->endBlock();
 
-echo Html::beginTag('div', ['class' => 'content']);
 
-echo Html::beginTag('div', ['class' => 'action-group']);
-if (app()->user->can(Permission::PERMISSION_DELETE, $project)) {
-    echo Html::a(
-        Icon::trash() . \Yii::t('app', 'Delete'),
-        ['project/delete', 'id' => $project->id],
+\prime\widgets\Section::begin([
+    'subject' => $project,
+    'actions' => [
         [
-            'data-method' => 'delete',
-            'title' => \Yii::t('app', 'Delete'),
-            'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
-            'class' => 'btn btn-delete btn-icon'
+            'permission' => Permission::PERMISSION_DELETE,
+            'icon' => Icon::trash(),
+            'label' => \Yii::t('app', 'Delete'),
+            'link' => ['project/delete', 'id' => $project->id],
+            'style' => 'delete',
+            'linkOptions' => [
+                'data-method' => 'delete',
+                'title' => \Yii::t('app', 'Delete'),
+                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
+            ]
         ]
-    );
-}
-echo Html::endTag('div');
-
-echo Html::tag('h4', \Yii::t('app', 'Update project'));
-echo Html::beginTag('div', ['class' => 'form-content form-bg']);
+    ]
+]);
 $form = ActiveForm::begin([
     'method' => 'PUT',
     "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -99,7 +100,6 @@ echo Form::widget([
             ]
         ],
         FormButtonsWidget::embed([
-            'orientation' => FormButtonsWidget::ORIENTATION_RIGHT,
             'buttons' => [
                 [
                     'label' => \Yii::t('app', 'Update project'),
@@ -110,5 +110,4 @@ echo Form::widget([
     ]
 ]);
 $form->end();
-echo Html::endTag('div');
-echo Html::endTag('div');
+\prime\widgets\Section::end();

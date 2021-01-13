@@ -3,6 +3,7 @@
 
 namespace prime\tests\functional\controllers\project;
 
+use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
@@ -23,6 +24,7 @@ class WorkspacesCest
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_MANAGE_WORKSPACES);
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
+        $I->seeInSource('Import workspaces');
         $I->seeLink('Import workspaces', Url::to(['/workspace/import', 'project_id' => $project->id]));
         $I->seeLink('Create workspace', Url::to(['/workspace/create', 'project_id' => $project->id]));
     }

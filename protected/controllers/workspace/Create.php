@@ -3,33 +3,27 @@
 
 namespace prime\controllers\workspace;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
-use prime\models\forms\workspace\CreateUpdate;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\User;
 
 class Create extends Action
 {
 
     public function run(
-        User $user,
+        AccessCheckInterface $accessCheck,
         Request $request,
         NotificationService $notificationService,
         int $project_id
     ) {
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $project = Project::findOne(['id' => $project_id]);
-        if (!isset($project)) {
-            throw new NotFoundHttpException();
-        }
-        if (!$user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)) {
-            throw new ForbiddenHttpException();
-        }
+        $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_WORKSPACES);
 
         $model = new Workspace();
         $model->tool_id = $project->id;

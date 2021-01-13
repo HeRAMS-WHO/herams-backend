@@ -11,6 +11,7 @@ use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
 use prime\models\ar\Permission;
 use prime\models\ar\User;
+use prime\widgets\FormButtonsWidget;
 use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
@@ -141,7 +142,12 @@ class Share extends Model
                     'label' => \Yii::t('app', 'Permissions'),
                     'type' => Form::INPUT_CHECKBOX_LIST,
                     'items' => $this->permissionOptions
-                ]
+                ],
+                FormButtonsWidget::embed([
+                    'buttons' => [
+                        ['label' => \Yii::t('app', 'Add'), 'options' => ['class' => ['btn', 'btn-primary']]]
+                    ]
+                ])
             ]
         ]);
     }

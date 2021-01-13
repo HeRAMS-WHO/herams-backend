@@ -7,38 +7,37 @@ use prime\widgets\menu\TabMenu;
 
 $this->title = \Yii::t('app', 'Administration');
 
-$tabs = [
+$this->params['tabs'] = [
     [
+        'permission' => Permission::PERMISSION_ADMIN,
         'url' => ['admin/dashboard'],
         'title' => \Yii::t('app', 'Dashboard')
+    ],
+    [
+        'permission' => Permission::PERMISSION_ADMIN,
+        'url' => ['user/index'],
+        'title' => \Yii::t('app', 'Users')
+    ],
+    [
+        'permission' => Permission::PERMISSION_ADMIN,
+        'url' => ['admin/share'],
+        'title' => \Yii::t('app', 'Global permissions')
+    ],
+    [
+        'permission' => Permission::PERMISSION_ADMIN,
+        'url' => ['admin/limesurvey'],
+        'title' => \Yii::t('app', 'Backend administration')
     ]
 ];
 
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN)) {
-    $tabs[] =
+\prime\widgets\Section::begin([
+    'actions' => [
         [
-            'url' => ['user/index'],
-            'title' => \Yii::t('app', 'Users')
-        ];
-    $tabs[] =
-        [
-            'url' => ['admin/share'],
-            'title' => \Yii::t('app', 'Global permissions')
-        ];
-    $tabs[] =
-        [
-            'url' => ['admin/limesurvey'],
-            'title' => \Yii::t('app', 'Backend administration')
-        ];
-}
-
-echo TabMenu::widget([
-    'tabs' => $tabs,
-    'currentPage' => $this->context->action->uniqueId
+            'link' => ['project/index'],
+            'label' => \Yii::t('app', 'Projects'),
+            'style' => 'default'
+        ]
+    ]
 ]);
 
-echo Html::beginTag('div', ['class' => 'content']);
-echo Html::beginTag('div', ['class' => 'action-group']);
-echo Html::a(\Yii::t('app', 'Projects'), Url::to(['project/index']), ['class' => 'btn btn-default']);
-echo Html::endTag('div');
-echo Html::endTag('div');
+\prime\widgets\Section::end();

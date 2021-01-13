@@ -12,7 +12,7 @@ class Index extends Action
 
     public function run(Request $request)
     {
-        $this->controller->layout = Controller::LAYOUT_ADMIN;
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $search = new \prime\models\search\User();
 
 

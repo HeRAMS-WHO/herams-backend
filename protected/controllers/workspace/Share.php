@@ -3,6 +3,7 @@
 
 namespace prime\controllers\workspace;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
 use prime\models\ar\Permission;
@@ -26,6 +27,7 @@ class Share extends Action
         User $user,
         int $id
     ) {
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();

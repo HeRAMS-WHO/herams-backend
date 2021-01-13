@@ -3,6 +3,7 @@
 
 namespace prime\controllers\project;
 
+use prime\components\Controller;
 use prime\models\search\Project as ProjectSearch;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\repositories\PreloadingSourceRepository;
@@ -18,7 +19,7 @@ class Index extends Action
         Request $request,
         User $user
     ) {
-        $this->controller->layout = 'admin-screen';
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $projectSearch = new ProjectSearch();
 
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));

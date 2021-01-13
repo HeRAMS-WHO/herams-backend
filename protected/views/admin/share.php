@@ -1,6 +1,7 @@
 <?php
-
+declare(strict_types=1);
 use app\components\ActiveForm;
+use prime\widgets\Section;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
 use prime\models\ar\Permission;
@@ -20,56 +21,46 @@ $tabs = [
     ]
 ];
 
-if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN)) {
-    $tabs[] =
-        [
-            'url' => ['user/index'],
-            'title' => \Yii::t('app', 'Users')
-        ];
-    $tabs[] =
-        [
-            'url' => ['admin/share'],
-            'title' => \Yii::t('app', 'Global permissions')
-        ];
-    $tabs[] =
-        [
-            'url' => ['admin/limesurvey'],
-            'title' => \Yii::t('app', 'Backend administration')
-        ];
-}
+$this->params['tabs'] = [
+    [
+        'permission' => Permission::PERMISSION_ADMIN,
+        'url' => ['admin/dashboard'],
+        'title' => \Yii::t('app', 'Dashboard')
+    ],
+    [
+        'permission' => Permission::PERMISSION_ADMIN,
+        'url' => ['user/index'],
+        'title' => \Yii::t('app', 'Users')
+    ],
+    [
+        'permission' => Permission::PERMISSION_ADMIN,
+        'url' => ['admin/share'],
+        'title' => \Yii::t('app', 'Global permissions')
+    ],
+    [
+        'permission' => Permission::PERMISSION_ADMIN,
+        'url' => ['admin/limesurvey'],
+        'title' => \Yii::t('app', 'Backend administration')
+    ]
+];
 
-echo TabMenu::widget([
-    'tabs' => $tabs,
-    'currentPage' => $this->context->action->uniqueId
+Section::begin([
+    'header' => \Yii::t('app', 'Add user')
+]);
+$form = ActiveForm::begin([
+    'method' => 'POST',
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig' => [
+        'showLabels' => true,
+        'defaultPlaceholder' => false,
+        'labelSpan' => 3
+    ]
 ]);
 
-echo Html::beginTag('div', ['class' => 'content']);
-echo Html::beginTag('div', ['class' => 'action-group']);
-echo Html::endTag('div');
-?>
-<div class="col-xs-12">
-    <h4><?= \Yii::t('app', 'Add user') ?></h4>
-    <?php
-    $form = ActiveForm::begin([
-        'method' => 'POST',
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false,
-            'labelSpan' => 3
-        ]
-    ]);
+echo $model->renderForm($form);
+$form->end();
+Section::end();
+Section::begin(['header' => \Yii::t('app', 'Already shared with')]);
 
-    echo $model->renderForm($form);
-    ?>
-    <div class="col-xs-offset-11"><button type="submit" class="btn btn-primary">Share</button></div>
-    <?php
-    $form->end();
-    ?>
-    <h4><?= \Yii::t('app', 'Already shared with') ?></h4>
-    <?php
-    echo $model->renderTable();
-    ?>
-</div>
-<?php
-echo Html::endTag('div');
+echo $model->renderTable();
+Section::end();

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /* @var $this \yii\web\View */
 
 use prime\assets\AdminBundle;
@@ -34,30 +36,31 @@ $this->registerAssetBundle(AdminBundle::class);
 echo Html::beginTag('body', $this->params['body'] ?? []);
 $this->beginBody();
 
-echo Html::beginTag('header');
+echo Html::beginTag('header', ['class' => 'admin-header']);
     echo $this->render('//user-menu', [
         'class' => ['admin']
     ]);
-
     echo Html::beginTag('div', ['class' => 'title']);
-    echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
-        'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
-        'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
-        'homeLink' => [
-            'label' => \Yii::t('app', 'Administration'),
-            'url' => '/project/index'
-        ],
-        'links' => ($this->params['breadcrumbs'] ?? []) + [$this->title]
-    ]);
-    echo Html::tag('span', $this->title, ['class' => 'page-title']);
-    echo Html::endTag('div');
-echo Html::endTag('header');
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-echo $content;
-echo Html::endTag('div');
-$this->endBody();
-echo Html::endTag('div');
-?>
+        echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
+            'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
+            'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
+            'homeLink' => [
+                'label' => \Yii::t('app', 'Administration'),
+                'url' => '/project/index'
+            ],
+            'links' => [...$this->params['breadcrumbs'] ?? [], $this->title]
+        ]);
+        echo Html::tag('span', $this->title, ['class' => 'page-title']);
+        echo Html::endTag('div');
+        echo Html::endTag('header');
+
+
+        echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+        echo $content;
+        echo Html::endTag('div');
+
+        $this->endBody();
+        ?>
 </body>
 
 </html>

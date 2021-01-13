@@ -14,5 +14,8 @@ interface AccessCheckInterface
      * @throws NotFoundHttpException if $model is null
      * @throws ForbiddenHttpException if current user does not have $permission for model $model
      */
-    public function requirePermission(?object $model, string $permission): void;
+    public function requirePermission(?object $model, string $permission, ?string $forbiddenMessage = null): void;
+
+
+    public function requireGlobalPermission(string $permission, ?string $forbiddenMessage = null): void;
 }

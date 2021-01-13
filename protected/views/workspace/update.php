@@ -2,6 +2,8 @@
 
 use app\components\Form;
 use app\components\ActiveForm;
+use prime\widgets\FormButtonsWidget;
+use prime\widgets\Section;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
 use prime\models\ar\Permission;
@@ -20,56 +22,45 @@ $this->params['breadcrumbs'][] = [
     'label' => $model->project->title,
     'url' => ['project/workspaces', 'id' => $model->project->id]
 ];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', "Workspace {workspace}", [
-        'workspace' => $model->title,
-    ]),
-    'url' => ['workspace/limesurvey', 'id' => $model->id]
-];
+
 $this->title = \Yii::t('app', "Workspace {workspace}", [
     'workspace' => $model->title,
 ]);
 
-
+$this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
     'workspace' => $model,
-    'currentPage' => $this->context->action->uniqueId
+]);
+$this->endBlock();
+
+Section::begin([
+    'header' => $this->title,
+    'subject' => $model,
+    'actions' => [
+        [
+            'icon' => Icon::trash(),
+            'label' => \Yii::t('app', 'Delete'),
+            'link' => ['workspace/delete', 'id' => $model->id],
+            'permission' => Permission::PERMISSION_DELETE,
+            'linkOptions' => [
+                'data-method' => 'delete',
+                'title' => \Yii::t('app', 'Delete'),
+                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
+                'class' => 'btn btn-delete btn-icon'
+            ]
+        ]
+    ]
 ]);
 
-echo Html::beginTag('div', ['class' => "content"]);
-echo Html::beginTag('div', ['class' => 'action-group']);
-
-if (app()->user->can(Permission::PERMISSION_DELETE, $model)) {
-    echo Html::a(
-        Icon::trash() . \Yii::t('app', 'Delete'),
-        ['workspace/delete', 'id' => $model->id],
-        [
-            'data-method' => 'delete',
-            'title' => \Yii::t('app', 'Delete'),
-            'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
-            'class' => 'btn btn-delete btn-icon'
-        ]
-    );
-}
-echo Html::endTag('div');
-
-?>
-
-<div class="form-content form-bg">
-    <h4><?= \Yii::t('app', 'Update Workspace') ?></h4>
-    <?php
     $form = ActiveForm::begin([
-        'id' => 'update-project',
         'method' => 'PUT',
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false,
             'labelSpan' => 3
         ]
     ]);
 
-    echo \app\components\Form::widget([
+    echo Form::widget([
         'form' => $form,
         'model' => $model,
         'columns' => 1,
@@ -80,26 +71,15 @@ echo Html::endTag('div');
             'title' => [
                 'type' => Form::INPUT_TEXT,
             ],
+            FormButtonsWidget::embed([
+                'buttons' => [
+                    Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
+                    'class' => ['btn btn-default']
+                    ]),
+                    Html::submitButton(\Yii::t('app', 'Save'), ['class' => 'btn btn-primary']),
+                ]
+            ])
         ]
     ]);
-    echo \yii\bootstrap\ButtonGroup::widget([
-        'options' => [
-            'class' => [
-                'pull-right'
-            ],
-        ],
-        'buttons' => [
-            Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
-                'class' => ['btn btn-default']
-            ]),
-            Html::submitButton(\Yii::t('app', 'Save'), ['form' => 'update-project', 'class' => 'btn btn-primary']),
-
-        ]
-    ]);
-    $form->end();
-    ?>
-</div>
-
-<?php
-echo Html::endTag('div');
-?>
+    ActiveForm::end();
+    Section::end();

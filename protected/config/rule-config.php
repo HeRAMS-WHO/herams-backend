@@ -8,7 +8,7 @@ use prime\rules\DashboardRule;
 use prime\rules\GrantRule;
 use prime\rules\ManageWorkspaceRule;
 use prime\rules\ProjectImpliesWorkspace;
-use prime\rules\ProjectReadRule;
+use prime\rules\ProjectImplicitReadViaExplicitWorkspacePermission;
 use prime\rules\ProjectSummaryRule;
 use prime\rules\PublicProjectRule;
 use prime\rules\RevokeRule;
@@ -37,7 +37,10 @@ return [
     new ImpliedPermission(Permission::PERMISSION_WRITE, [
         Permission::PERMISSION_READ,
     ]),
-    new ProjectReadRule(),
+    new ImpliedPermission(Permission::PERMISSION_READ, [
+        Permission::PERMISSION_LIST_WORKSPACES
+    ]),
+    new ProjectImplicitReadViaExplicitWorkspacePermission(),
     new PublicProjectRule(),
     new ProjectImpliesWorkspace(),
     new ManageWorkspaceRule(),

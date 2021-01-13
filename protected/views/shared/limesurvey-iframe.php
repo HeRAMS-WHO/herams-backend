@@ -1,21 +1,12 @@
 <?php
+declare(strict_types=1);
+
+
+/** @var \yii\web\View $this */
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
-use prime\widgets\menu\ProjectTabMenu;
 
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
-$this->title = $project->title;
-$this->beginBlock('tabs');
-echo ProjectTabMenu::widget([
-    'project' => $project,
-]);
-$this->endBlock();
-
-/** @var \yii\web\View $this */
 echo \yii\helpers\Html::tag('iframe', '', [
     'src' => \yii\helpers\Url::to(['/site/lime-survey']),
     'style' => [

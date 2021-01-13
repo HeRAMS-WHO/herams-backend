@@ -15,12 +15,6 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = Yii::t('app', 'Create project');
 
-//$this->params['breadcrumbs'][] = ['label' => $this->title];
-echo Html::beginTag('div', ['class' => 'content no-tab']);
-?>
-<div class="form-content form-bg">
-    <h3><?=\Yii::t('app', 'Create Project')?></h3>
-    <?php
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
         'formConfig' => [
@@ -47,19 +41,11 @@ echo Html::beginTag('div', ['class' => 'content no-tab']);
                 'type' => Form::INPUT_DROPDOWN_LIST,
                 'items' => $model->visibilityOptions()
             ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => \yii\bootstrap\ButtonGroup::widget([
-                    'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Create project'), ['class' => 'btn btn-primary'])
-                    ]
-                ])
-            ]
+            \prime\widgets\FormButtonsWidget::embed([
+                'buttons' =>  [
+                    Html::submitButton(\Yii::t('app', 'Create project'), ['class' => 'btn btn-primary'])
+                ]
+            ])
         ],
     ]);
     $form->end();
-    ?>
-</div>
-<?php
-echo Html::endTag('div');
-?>

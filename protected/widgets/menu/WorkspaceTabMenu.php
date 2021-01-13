@@ -25,7 +25,7 @@ class WorkspaceTabMenu extends TabMenu
     }
 
 
-    protected function renderMenu()
+    protected function renderMenu(): string
     {
         $this->tabs = [];
 
@@ -59,11 +59,6 @@ class WorkspaceTabMenu extends TabMenu
                 ];
         }
 
-        parent::renderMenu();
-    }
-
-    public function run()
-    {
-        $this->renderMenu();
+        return parent::renderMenu();
     }
 }
