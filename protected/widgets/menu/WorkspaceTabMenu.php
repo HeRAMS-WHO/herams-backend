@@ -29,35 +29,36 @@ class WorkspaceTabMenu extends TabMenu
     {
         $this->tabs = [];
 
-        if (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $this->workspace)) {
-            $this->tabs[] =
-                [
-                    'url' => ["workspace/limesurvey", 'id' => $this->workspace->id],
-                    'title' => \Yii::t('app', 'Health Facilities') . " ({$this->workspace->facilityCount})"
-                ];
-        }
-        if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $this->workspace)) {
-            $this->tabs[] =
-                [
-                    'url' => ["workspace/update", 'id' => $this->workspace->id],
-                    'title' => \Yii::t('app', 'Workspace settings')
-                ];
-        }
-        if (\Yii::$app->user->can(Permission::PERMISSION_SHARE, $this->workspace)) {
-            $this->tabs[] =
-                [
-                    'url' => ["workspace/share", 'id' => $this->workspace->id],
-                    'title' => \Yii::t('app', 'Users')
-                ];
-        }
+        $this->tabs[] = [
+            'permission' => Permission::PERMISSION_SURVEY_DATA,
+            'url' => ["workspace/limesurvey", 'id' => $this->workspace->id],
+            'title' => \Yii::t('app', 'Health Facilities') . " ({$this->workspace->facilityCount})"
+        ];
+        $this->tabs[] = [
+            'permission' => Permission::PERMISSION_ADMIN,
+            'url' => ["workspace/update", 'id' => $this->workspace->id],
+            'title' => \Yii::t('app', 'Workspace settings')
+        ];
 
-        if ($this->workspace->responseCount > 0 && \Yii::$app->user->can(Permission::PERMISSION_ADMIN, $this->workspace)) {
-            $this->tabs[] =
-                [
-                    'url' => ['workspace/responses', 'id' => $this->workspace->id],
-                    'title' => \Yii::t('app', 'Responses')
-                ];
-        }
+        $this->tabs[] =[
+            'permission' => Permission::PERMISSION_SHARE,
+            'url' => ["workspace/share", 'id' => $this->workspace->id],
+            'title' => \Yii::t('app', 'Users')
+        ];
+
+        $this->tabs[] = [
+            'visible' => function() { return $this->workspace->responseCount > 0; },
+            'permission' => Permission::PERMISSION_ADMIN,
+            'url' => ['workspace/responses', 'id' => $this->workspace->id],
+            'title' => \Yii::t('app', 'Responses')
+        ];
+
+        $this->tabs[] = [
+            'title' => \Yii::t('app', 'Download'),
+            'url' => ['workspace/export', 'id' => $this->workspace->id],
+            'permission' => Permission::PERMISSION_EXPORT
+        ];
+
 
         return parent::renderMenu();
     }

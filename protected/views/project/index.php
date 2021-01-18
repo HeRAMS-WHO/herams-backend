@@ -21,7 +21,6 @@ $this->title = \Yii::t('app', 'Projects');
  */
 
 \prime\widgets\Section::begin([
-    'header' => $this->title,
     'actions' => [
         [
             'label' => \Yii::t('app', 'Create project'),
@@ -31,7 +30,7 @@ $this->title = \Yii::t('app', 'Projects');
             'permission' => Permission::PERMISSION_CREATE_PROJECT
         ]
     ]
-]);
+])->withHeader($this->title);
 
 echo GridView::widget([
     'pjax' => true,
@@ -47,15 +46,10 @@ echo GridView::widget([
         'id',
         [
             'attribute' => 'title',
-            'format' => 'raw',
-            'value' => static function($project): string {
-                return Html::a(
-                    $project->title,
-                    ['project/workspaces', 'id' => $project->id],
-                    [
-                        'title' => $project->title,
-                    ]
-                );
+            'class' => \prime\widgets\DrilldownColumn::class,
+
+            'link' => static function($project) {
+                return ['project/workspaces', 'id' => $project->id];
             }
         ],
         [
@@ -164,4 +158,4 @@ echo GridView::widget([
     ]
 ]);
 
-echo Html::endTag('div');
+\prime\widgets\Section::end();

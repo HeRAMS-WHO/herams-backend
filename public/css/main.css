@@ -16,6 +16,9 @@
     --border-color: grey;
     --font-size: 16px;
     --max-site-width: 1440px;
+
+
+    --danger: 220, 53, 69;
 }
 
 /**
@@ -37,6 +40,9 @@ a, a:hover, a:active, a:visited {
     transition: color 0.3s;
 }
 
+em {
+    font-weight: bold;
+}
 iframe {
     border: none;
 }

@@ -13,6 +13,7 @@ use prime\helpers\Icon;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\widgets\menu\ProjectTabMenu;
+use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -23,9 +24,7 @@ echo ProjectTabMenu::widget([
     'project' => $project,
 ]);
 $this->endBlock();
-
-\prime\widgets\Section::begin([
-    'header' => \Yii::t('app', 'pages'),
+Section::begin([
     'actions' => [
         [
             'icon' => Icon::add(),
@@ -51,7 +50,7 @@ $this->endBlock();
             'visible' => $project->pageCount > 0
         ]
     ]
-]);
+])->withHeader(\Yii::t('app', 'pages'));
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
@@ -114,3 +113,5 @@ echo GridView::widget([
         ]
     ]
 ]);
+
+Section::end();

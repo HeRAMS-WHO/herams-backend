@@ -6,14 +6,17 @@ namespace prime\widgets\FavoriteColumn;
 use prime\helpers\Icon;
 use prime\models\ar\Workspace;
 use yii\grid\Column;
+use yii\grid\DataColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-class FavoriteColumn extends Column
+class FavoriteColumn extends DataColumn
 {
     public $route;
     public function init()
     {
+        $this->attribute = 'favorite';
+        $this->header = \Yii::t('app', 'Favorite');
         if (!isset($this->route)) {
             $this->route = ['/api/user/workspaces', 'id' => \Yii::$app->user->id];
         }

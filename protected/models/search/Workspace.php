@@ -3,28 +3,31 @@
 namespace prime\models\search;
 
 use prime\models\ar\Project;
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
+use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 
-class Workspace extends \prime\models\ar\Workspace
+class Workspace extends Model
 {
-    private $project;
+    public $id;
+    public $created;
+    public $title;
+    private Project $project;
+    private \prime\models\ar\User $user;
+    public $favorite;
 
     public function __construct(
         Project $project,
+        \prime\models\ar\User $user,
         array $config = []
     ) {
         parent::__construct($config);
         $this->project = $project;
-    }
-
-    public function init()
-    {
-        parent::init();
-        $this->scenario = self::SCENARIO_SEARCH;
+        $this->user = $user;
     }
 
     public function rules()
@@ -33,18 +36,7 @@ class Workspace extends \prime\models\ar\Workspace
             [['created'], SafeValidator::class],
             [['title'], StringValidator::class],
             [['id'], NumberValidator::class],
-        ];
-    }
-
-    public function scenarios()
-    {
-        return [
-            self::SCENARIO_SEARCH => [
-                'project_id',
-                'title',
-                'created',
-                'id'
-            ]
+            [['favorite'], BooleanValidator::class]
         ];
     }
 
@@ -97,6 +89,15 @@ class Workspace extends \prime\models\ar\Workspace
             ]);
         }
 
+        if (isset($this->favorite)) {
+            $condition = ['id' => $this->user->getFavorites()->workspaces()->select('target_id')];
+            if ($this->favorite) {
+                $query->andWhere($condition);
+            } else {
+                $query->andWhere(['not', $condition]);
+            }
+
+        }
         $query->andFilterWhere(['like', 'title', trim($this->title)]);
         $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;

@@ -6,16 +6,14 @@ declare(strict_types=1);
  * @var \prime\components\View $this
  */
 
-
 use app\components\Form;
 use app\components\ActiveForm;
+use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\ProjectTabMenu;
-use prime\helpers\Icon;
-use yii\helpers\Url;
-use yii\bootstrap\ButtonGroup;
-use yii\bootstrap\Html;
+use prime\widgets\Section;
+use yii\helpers\Html;
 
 $this->title = $project->title;
 
@@ -26,23 +24,12 @@ echo ProjectTabMenu::widget([
 $this->endBlock();
 
 
-\prime\widgets\Section::begin([
+Section::begin([
     'subject' => $project,
-    'actions' => [
-        [
-            'permission' => Permission::PERMISSION_DELETE,
-            'icon' => Icon::trash(),
-            'label' => \Yii::t('app', 'Delete'),
-            'link' => ['project/delete', 'id' => $project->id],
-            'style' => 'delete',
-            'linkOptions' => [
-                'data-method' => 'delete',
-                'title' => \Yii::t('app', 'Delete'),
-                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
-            ]
-        ]
-    ]
+    'header' => \Yii::t('app', 'Project settings'),
+
 ]);
+/** @var ActiveForm $form */
 $form = ActiveForm::begin([
     'method' => 'PUT',
     "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -56,7 +43,6 @@ $form = ActiveForm::begin([
 echo Form::widget([
     'form' => $form,
     'model' => $project,
-    'columns' => 1,
     "attributes" => [
         'title' => [
             'type' => Form::INPUT_TEXT,
@@ -110,4 +96,32 @@ echo Form::widget([
     ]
 ]);
 $form->end();
-\prime\widgets\Section::end();
+Section::end();
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Delete project'))
+    ->forDangerousAction()
+;
+
+
+echo Html::tag('p', \Yii::t('app', 'This will permanently delete the project and all its workspaces.'));
+echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
+echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this project?')));
+
+echo \prime\widgets\ButtonGroup::widget([
+    'buttons' => [
+        [
+            'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $project),
+            'icon' => Icon::trash(),
+            'label' => \Yii::t('app', 'Delete'),
+            'link' => ['project/delete', 'id' => $project->id],
+            'style' => 'delete',
+            'linkOptions' => [
+                'data-method' => 'delete',
+                'title' => \Yii::t('app', 'Delete project'),
+                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
+            ]
+        ]
+    ]
+]);
+
+Section::end();

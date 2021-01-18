@@ -33,24 +33,7 @@ echo WorkspaceTabMenu::widget([
 ]);
 $this->endBlock();
 
-Section::begin([
-    'header' => $this->title,
-    'subject' => $model,
-    'actions' => [
-        [
-            'icon' => Icon::trash(),
-            'label' => \Yii::t('app', 'Delete'),
-            'link' => ['workspace/delete', 'id' => $model->id],
-            'permission' => Permission::PERMISSION_DELETE,
-            'linkOptions' => [
-                'data-method' => 'delete',
-                'title' => \Yii::t('app', 'Delete'),
-                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
-                'class' => 'btn btn-delete btn-icon'
-            ]
-        ]
-    ]
-]);
+Section::begin()->withHeader($this->title);
 
     $form = ActiveForm::begin([
         'method' => 'PUT',
@@ -83,3 +66,31 @@ Section::begin([
     ]);
     ActiveForm::end();
     Section::end();
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Delete workspace'))
+    ->forDangerousAction()
+;
+
+
+echo Html::tag('p', \Yii::t('app', 'This will permanently delete the workspace.'));
+echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
+echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this workspace?')));
+
+echo \prime\widgets\ButtonGroup::widget([
+    'buttons' => [
+        [
+            'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $model),
+            'icon' => Icon::trash(),
+            'label' => \Yii::t('app', 'Delete'),
+            'link' => ['project/delete', 'id' => $model->id],
+            'style' => 'delete',
+            'linkOptions' => [
+                'data-method' => 'delete',
+                'title' => \Yii::t('app', 'Delete workspace'),
+                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
+            ]
+        ]
+    ]
+]);
+
+Section::end();

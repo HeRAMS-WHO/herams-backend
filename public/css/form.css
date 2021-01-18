@@ -183,8 +183,7 @@ form .has-error input {
 }
 
 .form-horizontal {
-    margin: 0;
-    max-width: 600px;
+    overflow: auto;
 }
 
 .form-horizontal .row {
@@ -197,7 +196,6 @@ form .has-error input {
 .form-horizontal input[type='text'], .form-horizontal .select2 {
     margin: 0;
     width: 100%;
-    max-width: 500px;
 }
 
 .form-horizontal input[type="color"] {

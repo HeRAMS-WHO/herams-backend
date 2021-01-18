@@ -54,6 +54,9 @@ class ButtonGroup extends Widget
     private function renderButtons(): void
     {
         foreach ($this->buttons as $button) {
+            if (isset($button['visible']) && $button['visible'] === false) {
+                continue;
+            }
             $type = is_string($button) ? 'raw' : $button['type'] ?? $this->defaultButtonType;
             switch ($type) {
                 case 'raw':

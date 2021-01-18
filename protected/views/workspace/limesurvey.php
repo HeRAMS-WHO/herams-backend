@@ -41,12 +41,6 @@ Section::begin([
             'link' => ['workspace/refresh', 'id' => $model->id],
             'permission' => Permission::PERMISSION_SURVEY_DATA
         ],
-        [
-            'icon' => Icon::download_2(),
-            'label' => \Yii::t('app', 'Download'),
-            'link' => ['workspace/export', 'id' => $model->id],
-            'permission' => Permission::PERMISSION_EXPORT
-        ]
     ]
 ]);
 echo Html::tag('iframe', '', [

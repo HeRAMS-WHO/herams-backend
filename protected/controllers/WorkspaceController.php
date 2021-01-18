@@ -8,7 +8,6 @@ use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\workspace\Configure;
 use prime\controllers\workspace\Create;
-use prime\controllers\workspace\Download;
 use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Refresh;

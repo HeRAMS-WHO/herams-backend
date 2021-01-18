@@ -128,9 +128,9 @@ class Workspace extends ActiveRecord
             'tool_id' => \Yii::t('app', 'Project'),
             'closed' => \Yii::t('app', 'Closed'),
             'token' => \Yii::t('app', 'Token'),
-            'contributorCount' => \Yii::t('app', 'Contributor count'),
-            'facilityCount' => \Yii::t('app', 'Facility count'),
-            'responseCount' => \Yii::t('app', 'Response count')
+            'contributorCount' => \Yii::t('app', 'Contributors'),
+            'facilityCount' => \Yii::t('app', 'Facilities'),
+            'responseCount' => \Yii::t('app', 'Responses')
         ]);
     }
 

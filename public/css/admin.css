@@ -21,6 +21,8 @@ html {
     --darker-color: var(--dark-color);
     --dark-color: white;
     --status-height: 30px;
+
+
     box-sizing: border-box;
     width: 100%;
 }
@@ -185,14 +187,9 @@ tabbed-content::part(content) {
     background-color: transparent;
 }
 
-.table button.FavoriteButton svg {
-    fill: white;
+.table button.FavoriteButton:not(.favorite) svg {
+    fill: transparent;
     stroke-width: 2px;
-    stroke: #212529;
-}
-
-.table button.FavoriteButton.favorite svg {
-    fill: #212529;
 }
 
 /***************/
@@ -528,4 +525,15 @@ body[data-modal]:after {
         padding: 0;
         grid-template-columns: auto minmax(auto, 1040px) 400px auto;
     }
+}
+
+.Section.dangerous header {
+    color: rgb(var(--danger));
+}
+
+.Section.dangerous {
+    border: 1px solid rgb(var(--danger));
+    padding: 10px;
+    background-color: rgba(var(--danger), 0.2);
+
 }

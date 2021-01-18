@@ -8,9 +8,11 @@ use yii\helpers\Html;
 
 class Section extends Widget
 {
+
     private int $outputBuffer;
     public object $subject;
     public iterable $actions = [];
+    public $options = [];
     public string $header;
 
     private function filterButtons(): iterable
@@ -26,22 +28,26 @@ class Section extends Widget
         }
     }
 
+    public function forDangerousAction(): self
+    {
+        Html::addCssClass($this->options, ['dangerous']);
+        return $this;
+    }
+
+
+    public function withHeader(string $header): self
+    {
+        $this->header = $header;
+        return $this;
+    }
+
     public function init()
     {
         parent::init();
         $this->initCss();
-
-        ob_start();
         $this->outputBuffer = ob_get_level();
+        ob_start();
         ob_implicit_flush(0);
-        echo Html::beginTag('section', ['class' => 'Section']);
-        echo Html::beginTag('header');
-        echo Html::tag('h1', $this->header ?? '');
-
-        echo NavigationButtonGroup::widget([
-            'buttons' => $this->filterButtons()
-        ]);
-        echo Html::endTag('header');
     }
 
 
@@ -70,12 +76,17 @@ class Section extends Widget
                 margin: 0;
                 white-space: nowrap;
                 flex-grow: 1;
-                font-size: 1rem;
+                font-size: 1.3rem;
                 text-align: left;
             }
 
             .Section header > h1, .Section header > .NavigationButtonGroup {
                 margin-bottom: 10px;
+            }
+            
+            .Section {
+                margin-bottom: 10px;
+                padding: 10px;
             }
 
         CSS;
@@ -84,10 +95,22 @@ class Section extends Widget
 
     public function run(): string
     {
-        echo Html::endTag('section');
+        $options = $this->options;
+        Html::addCssClass($options, 'Section');
+        $result = Html::beginTag('section', $options);
+        $result .= Html::beginTag('header');
+        $result .= Html::tag('h1', $this->header ?? '');
+
+        $result .= NavigationButtonGroup::widget([
+            'buttons' => $this->filterButtons()
+        ]);
+
+        $result .= Html::endTag('header');
+        $result .= ob_get_clean();
+        $result .= Html::endTag('section');
         if (ob_get_level() !== $this->outputBuffer) {
             throw new \RuntimeException('Output buffers not properly handled');
         }
-        return ob_get_clean();
+        return $result;
     }
 }

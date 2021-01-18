@@ -28,7 +28,7 @@ class Workspaces extends Action
 
         $project = Project::findOne(['id' => $id]);
         $accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
-        $workspaceSearch = new WorkspaceSearch($project);
+        $workspaceSearch = new WorkspaceSearch($project, $user->identity);
         $workspaceProvider = $workspaceSearch->search($request->queryParams);
         return $this->controller->render('workspaces', [
             'workspaceSearch' => $workspaceSearch,
