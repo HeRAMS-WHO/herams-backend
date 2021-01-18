@@ -17,11 +17,12 @@ use \prime\models\ar\Workspace;
 class WorkspaceTabMenu extends TabMenu
 {
     /** @var \prime\models\ar\Workspace */
-    public $workspace;
+    public Workspace $workspace;
 
     public function init()
     {
         parent::init();
+        $this->permissionSubject = $this->workspace;
     }
 
 
@@ -47,7 +48,9 @@ class WorkspaceTabMenu extends TabMenu
         ];
 
         $this->tabs[] = [
-            'visible' => function() { return $this->workspace->responseCount > 0; },
+            'visible' => function () {
+                return $this->workspace->responseCount > 0;
+            },
             'permission' => Permission::PERMISSION_ADMIN,
             'url' => ['workspace/responses', 'id' => $this->workspace->id],
             'title' => \Yii::t('app', 'Responses')
