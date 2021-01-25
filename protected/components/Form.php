@@ -16,4 +16,18 @@ class Form extends \kartik\builder\Form
         }
         return parent::renderActiveInput($form, $model, $attribute, $settings);
     }
+
+    protected function renderFieldSet()
+    {
+        $i = 0;
+        ob_start();
+        ob_implicit_flush(false);
+        foreach($this->attributes as $attribute => $config) {
+            echo $this->parseInput($attribute, $config, $i);
+            $i++;
+        }
+        return ob_get_clean();
+    }
+
+
 }

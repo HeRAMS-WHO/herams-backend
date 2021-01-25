@@ -48,7 +48,7 @@ echo GridView::widget([
             'attribute' => 'title',
             'class' => \prime\widgets\DrilldownColumn::class,
 
-            'link' => static function($project) {
+            'link' => static function ($project) {
                 return ['project/workspaces', 'id' => $project->id];
             }
         ],

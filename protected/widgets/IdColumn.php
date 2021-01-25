@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
-
 use prime\helpers\Icon;
 use prime\models\ActiveRecord;
 use yii\base\NotSupportedException;
@@ -18,6 +17,4 @@ class IdColumn extends DataColumn
         $this->attribute = 'id';
         $this->options['style']['width'] = '100px';
     }
-
-
 }

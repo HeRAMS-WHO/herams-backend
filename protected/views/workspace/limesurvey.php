@@ -30,20 +30,23 @@ echo WorkspaceTabMenu::widget([
 ]);
 $this->endBlock();
 
-
+$language = \Yii::$app->language;
+\prime\assets\IframeResizeBundle::register($this);
 Section::begin([
     'subject' => $model,
     'header' => \Yii::t('app', 'Health Facilities'),
     'actions' => [
         [
-            'icon' => Icon::recycling(),
-            'label' => \Yii::t('app', 'Refresh workspace'),
-            'link' => ['workspace/refresh', 'id' => $model->id],
+            'linkOptions' => ['target' => 'limesurvey'],
+            'icon' => Icon::add(),
+            'label' => \Yii::t('app', 'Register new health facility'),
+            'link' => "https://ls.herams.org/391149?ResponsePicker=new&token={$model->token}&lang={$language}&newtest=Y",
             'permission' => Permission::PERMISSION_SURVEY_DATA
         ],
     ]
 ]);
 echo Html::tag('iframe', '', [
+    'name' => 'limesurvey',
     'src' => $model->getSurveyUrl(),
     'class' => [],
     'style' => [
@@ -52,4 +55,5 @@ echo Html::tag('iframe', '', [
         //'height' => '800px'
     ]
 ]);
+$this->registerJs('iFrameResize({ log: true}, "iframe[name=limesurvey]");');
 Section::end();

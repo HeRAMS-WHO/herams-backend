@@ -96,7 +96,6 @@ class Workspace extends Model
             } else {
                 $query->andWhere(['not', $condition]);
             }
-
         }
         $query->andFilterWhere(['like', 'title', trim($this->title)]);
         $query->andFilterWhere(['id' => $this->id]);
