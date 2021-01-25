@@ -193,7 +193,8 @@ class Workspace extends ActiveRecord
                 'token' => $this->getAttribute('token'),
                 'newtest' => 'Y',
                 'lang' => \Yii::$app->language,
-                'createButton' => 0
+                'createButton' => 0,
+                'seamless' => 1
             ]
         );
     }

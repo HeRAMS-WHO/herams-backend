@@ -41,7 +41,7 @@ Section::begin([
             'icon' => Icon::add(),
             'label' => \Yii::t('app', 'Register new health facility'),
             'link' => "https://ls.herams.org/391149?ResponsePicker=new&token={$model->token}&lang={$language}&newtest=Y",
-            'permission' => Permission::PERMISSION_SURVEY_DATA
+            'permission' => Permission::PERMISSION_CREATE_FACILITY
         ],
     ]
 ]);

@@ -109,4 +109,5 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200605_140416
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200605_142328_user_drop_blocked', 1591367057);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200611_085414_project_add_country', 1608133112);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m201216_120738_create_session_table', 1608133117);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210125_105354_project_add_create_hf', 1611573050);
 SET FOREIGN_KEY_CHECKS=1;

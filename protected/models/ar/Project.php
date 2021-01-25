@@ -51,6 +51,7 @@ use function iter\filter;
  * @property-read SurveyInterface $survey
  * @property array<string, string> $typemap
  * @property array $overrides
+ * @property bool $manage_implies_create_hf
  * @property-read int $pageCount
  * @method ExpressionInterface getVirtualExpression(string $name)
  * @see VirtualFieldBehavior::getVirtualExpression()
@@ -164,7 +165,8 @@ class Project extends ActiveRecord implements Linkable
             'status' => \Yii::t('app', 'Status'),
             'typemap' => \Yii::t('app', 'Typemap'),
             'visibility' => \Yii::t('app', 'Visibility'),
-            'overrides' => \Yii::t('app', 'Overrides')
+            'overrides' => \Yii::t('app', 'Overrides'),
+            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
         ]);
     }
 
@@ -176,7 +178,8 @@ class Project extends ActiveRecord implements Linkable
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
             'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
-            'status' => \Yii::t('app', 'Project status is shown on the world map')
+            'status' => \Yii::t('app', 'Project status is shown on the world map'),
+             'manage_implies_create_hf' => \Yii::t('app', 'When enabled anyone with the manage data permission will be allowed to create new facilities'),
         ];
     }
 
@@ -563,5 +566,10 @@ class Project extends ActiveRecord implements Linkable
             'href' => Url::to(['/project/workspaces', 'id' => $this->id])
         ]);
         return $result;
+    }
+
+    public function manageWorkspacesImpliesCreatingFacilities(): bool
+    {
+        return (bool) $this->manage_implies_create_hf;
     }
 }

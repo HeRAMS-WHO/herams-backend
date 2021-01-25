@@ -40,6 +40,8 @@ class Permission extends ActiveRecord
     const PERMISSION_DELETE = 'delete';
     const PERMISSION_EXPORT = 'export';
 
+    const PERMISSION_CREATE_FACILITY = 'create-facility';
+
     const ROLE_WORKSPACE_CONTRIBUTOR = 'ROLE_WORKSPACE_CONTRIBUTOR';
     const ROLE_WORKSPACE_OWNER = 'ROLE_WORKSPACE_OWNER';
     const ROLE_PROJECT_VIEWER = 'ROLE_PROJECT_VIEWER';

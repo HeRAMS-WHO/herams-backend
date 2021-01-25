@@ -44,4 +44,5 @@ return [
     new PublicProjectRule(),
     new ProjectImpliesWorkspace(),
     new ManageWorkspaceRule(),
+    new \prime\rules\CreateFacilityRule()
 ];

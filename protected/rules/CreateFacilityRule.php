@@ -9,44 +9,29 @@ use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class ManageWorkspaceRule implements Rule
+class CreateFacilityRule implements Rule
 {
 
-    /**
-     * @inheritDoc
-     */
     public function getPermissions(): array
     {
-        return [];
+        return [Permission::PERMISSION_CREATE_FACILITY];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTargetNames(): array
     {
         return [Workspace::class];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSourceNames(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
-        return 'if you can manage workspaces for the project';
+        return 'if you can manage workspaces for the project and the manage implies create HF setting is enabled';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(
         object $source,
         object $target,
@@ -55,9 +40,8 @@ class ManageWorkspaceRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         return $target instanceof Workspace
-            // This permission is handled in a separate rule
-            && $permission !== Permission::PERMISSION_CREATE_FACILITY
-            && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_WORKSPACES)
-        ;
+            && $permission === Permission::PERMISSION_CREATE_FACILITY
+            && $target->project->manageWorkspacesImpliesCreatingFacilities()
+            && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_WORKSPACES);
     }
 }
