@@ -27,7 +27,10 @@ jobs:
       - name: Extract translations
         run: protected/yiic message/extract protected/config/i18n.php --message-path .
       - name: Create app.pot
-        run: cp messages.pot herams-i18n/app.pot && cat messages.pot
+        run: cp messages.pot herams-i18n/app.pot
+      - name: Show diff
+        run: git diff
+        working-directory: herams-i18n
       - name: Install gettext
         run: sudo apt install gettext
       - name: Run msgmerge
