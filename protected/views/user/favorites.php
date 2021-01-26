@@ -75,7 +75,6 @@ echo GridView::widget([
         [
             'class' => \prime\widgets\FavoriteColumn\FavoriteColumn::class
         ],
-        'actions' => require(__DIR__ . '/../project/workspaces/actions.php')
     ]
 ]);
 ?>

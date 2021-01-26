@@ -31,7 +31,11 @@ class ProjectTabMenu extends TabMenu
             'url' => ['project/workspaces', 'id' => $this->project->id],
             'title' => \Yii::t('app', 'Workspaces') . " ({$this->project->workspaceCount})"
         ];
-
+        $this->tabs[] = [
+            'permission' => Permission::PERMISSION_EXPORT,
+            'url' => ['project/export', 'id' => $this->project->id],
+            'title' => \Yii::t('app', 'Export data')
+        ];
         $this->tabs[] = [
             'url' => ['project/pages', 'id' => $this->project->id],
             'permission' => Permission::PERMISSION_MANAGE_DASHBOARD,
@@ -55,11 +59,6 @@ class ProjectTabMenu extends TabMenu
             'title' => \Yii::t('app', 'Backend administration')
         ];
 
-        $this->tabs[] = [
-            'permission' => Permission::PERMISSION_EXPORT,
-            'url' => ['project/export', 'id' => $this->project->id],
-            'title' => \Yii::t('app', 'Export data')
-        ];
         return parent::renderMenu();
     }
 }
