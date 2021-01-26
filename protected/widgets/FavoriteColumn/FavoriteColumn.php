@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\widgets\FavoriteColumn;
 
 use prime\helpers\Icon;
+use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use yii\grid\Column;
 use yii\grid\DataColumn;
@@ -13,15 +14,18 @@ use yii\helpers\Url;
 class FavoriteColumn extends DataColumn
 {
     public $route;
+    public User $user;
+
     public function init()
     {
+        $this->user = \Yii::$app->user->identity;
         $this->attribute = 'favorite';
         $this->header = \Yii::t('app', 'Favorite');
         if (!isset($this->route)) {
             $this->route = ['/api/user/workspaces', 'id' => \Yii::$app->user->id];
         }
 
-        $targetIds = \Yii::$app->user->identity->getFavorites()->filterTargetClass(Workspace::class)->
+        $targetIds = $this->user->getFavorites()->filterTargetClass(Workspace::class)->
             select('target_id')->indexBy('target_id')->column();
         parent::init();
         $this->content = static function ($model, $key, $index, self $column) use ($targetIds) {

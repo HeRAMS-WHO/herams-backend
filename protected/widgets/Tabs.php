@@ -14,10 +14,11 @@ class Tabs extends Widget
     {
         parent::init();
         $this->options['id'] = $this->getId();
+        ob_start();
         echo Html::beginTag('tabbed-content', $this->options);
     }
 
-    public function run()
+    public function run(): string
     {
         $css = <<<CSS
             tabbed-content {
@@ -58,7 +59,7 @@ CSS;
             echo Html::tag('span', $item['label'], ['slot' => 'header']);
             echo Html::tag('div', $item['content'], ['slot' => 'content']);
         }
-        echo "test";
         echo Html::endTag('tabbed-content');
+        return ob_get_clean();
     }
 }

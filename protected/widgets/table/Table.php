@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\widgets\table;
 
@@ -18,8 +18,7 @@ class Table extends Element
         'class' => 'table'
     ];
 
-    /** @var string */
-    public $code;
+    public string $code;
 
     public $reasonCode;
 
@@ -91,7 +90,6 @@ class Table extends Element
         $reasonMap = $this->reasonMap ?? $this->getAnswers($this->reasonCode);
         
         $result = [];
-        /** @var HeramsResponseInterface $response */
         \Yii::beginProfile(__CLASS__ . 'count');
         foreach ($this->data as $response) {
             $group = $this->getGroup($response);

@@ -16,7 +16,6 @@ use \prime\models\ar\Workspace;
  */
 class WorkspaceTabMenu extends TabMenu
 {
-    /** @var \prime\models\ar\Workspace */
     public Workspace $workspace;
 
     public function init()

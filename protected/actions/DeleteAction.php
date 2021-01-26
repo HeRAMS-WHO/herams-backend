@@ -16,8 +16,8 @@ use yii\web\User;
 
 class DeleteAction extends Action
 {
-    /** @var ActiveQueryInterface */
-    public $query;
+    public ActiveQueryInterface $query;
+
     /** @var string|\Closure */
     public $permission = Permission::PERMISSION_DELETE;
 
@@ -26,7 +26,7 @@ class DeleteAction extends Action
     public function init()
     {
         parent::init();
-        if (!$this->query instanceof ActiveQueryInterface) {
+        if (!isset($this->query)) {
             throw new InvalidConfigException('Query must be instance of ActiveRecordInterface');
         }
     }

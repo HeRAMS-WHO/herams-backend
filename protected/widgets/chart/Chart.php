@@ -145,7 +145,6 @@ class Chart extends Element
 
     /**
      * @param HeramsResponseInterface[] $responses
-     * @param string[] $codes
      */
     private function getCounts(iterable $responses, string $code, int $top = 3): array
     {

@@ -7,7 +7,7 @@ use prime\helpers\Icon;
 use prime\models\ar\Project;
 
 /**
- * @var \yii\web\View $this
+ * @var \prime\components\View $this
  * @var \prime\models\ar\Workspace $model
  */
 

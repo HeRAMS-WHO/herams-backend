@@ -9,12 +9,12 @@ parameters:
       - protected/config/common.php
       - protected/config/console.php
       - protected/config/web.php
-      - protected/console/DevController.php
-      - protected/components/Form.php
-      - protected/widgets/FormButtonsWidget.php
       - */tests/*
     checkMaybeUndefinedVariables: true
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
+        - message: '#^Method .*::(down|up|safeUp|safeDown)\(\) should return bool but return statement is missing\.$#'
+          path: 'protected/migrations/*'
         #- message: '#^Variable .* might not be defined\.$#'
         #  path: '*/views/*'
         #- message: '#^Variable .* might not be defined\.$#'

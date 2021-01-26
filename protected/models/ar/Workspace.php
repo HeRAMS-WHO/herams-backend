@@ -33,6 +33,8 @@ use yii\validators\UniqueValidator;
  * @property int $tool_id
  * @property string $token
  * @property int $id
+ * @property int $facilityCount
+ * @property int $contributorCount
  * @property-read int $responseCount
  * @property \DateTimeImmutable $created
  *

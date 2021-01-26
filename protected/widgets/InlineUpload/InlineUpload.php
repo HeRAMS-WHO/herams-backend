@@ -9,10 +9,11 @@ use yii\widgets\InputWidget;
 
 class InlineUpload extends InputWidget
 {
-    public function run()
+    public function run(): string
     {
         parent::run();
         $this->options['style']['min-height'] = '500px';
+        ob_start();
         if ($this->hasModel()) {
             echo Html::activeTextarea($this->model, $this->attribute, $this->options);
         } else {
@@ -45,5 +46,6 @@ class InlineUpload extends InputWidget
 JS
         );
 
+        return ob_get_clean();
     }
 }

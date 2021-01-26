@@ -54,6 +54,7 @@ echo GridView::widget([
     'columns' => [
         [
             'class' => FavoriteColumn::class,
+
             'filter' => [1 => 'Yes', 0 => 'No']
         ],
         [
