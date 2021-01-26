@@ -23,6 +23,10 @@ jobs:
           path: 'herams-i18n'
           ssh-key: ${{ secrets.i18n_private_key }}
         name: Checkout i18n repo
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@2.9.0
+        with:
+          php-version: '7.4'
       - run: composer install --ignore-platform-reqs
       - name: Extract translations
         run: protected/yiic message/extract protected/config/i18n.php --message-path .
