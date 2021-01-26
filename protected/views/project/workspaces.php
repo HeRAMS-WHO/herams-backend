@@ -1,19 +1,19 @@
 <?php
-
-/**
- * @var \yii\data\ActiveDataProvider $workspacesDataProvider
- * @var \prime\models\search\Workspace $workspaceSearch
- * @var int $closedCount
- * @var \yii\web\View $this
- * @var \prime\models\ar\Project $project
- *
- */
+declare(strict_types=1);
 
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
 use prime\widgets\menu\ProjectTabMenu;
+
+/**
+ * @var \yii\data\ActiveDataProvider $workspaceProvider
+ * @var \prime\models\search\Workspace $workspaceSearch
+ * @var int $closedCount
+ * @var \yii\web\View $this
+ * @var \prime\models\ar\Project $project
+ */
 
 $this->title = $project->title;
 $this->beginBlock('tabs');

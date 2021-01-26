@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
@@ -6,9 +7,10 @@ use prime\widgets\FormButtonsWidget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var User $model */
-
+/**
+ * @var \prime\components\View $this
+ * @var \prime\models\ar\User $model
+ */
     echo Form::widget([
         'model' => $model,
         'form' => $form = ActiveForm::begin([

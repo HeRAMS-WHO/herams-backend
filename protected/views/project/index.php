@@ -10,15 +10,18 @@ use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
 
+/**
+ * @var \yii\web\View $this
+ * @var \yii\data\ActiveDataProvider $projectProvider
+ * @var \prime\models\search\Project $projectSearch
+ */
+
+
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Projects'),
     'url' => ['/project/index']
 ];
 $this->title = \Yii::t('app', 'Projects');
-/**
- * @var \yii\web\View $this
- * @var \yii\data\ActiveDataProvider $projectProvider
- */
 
 \prime\widgets\Section::begin([
     'actions' => [

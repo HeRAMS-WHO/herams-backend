@@ -1,11 +1,16 @@
 <?php
-/* @var $this \yii\web\View */
+declare(strict_types=1);
 
 use prime\assets\DashboardBundle;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
-/* @var $content string */
+
+/**
+ * @var \prime\components\View $this
+ * @var string $content
+ */
+
     $this->beginPage();
 
     $this->registerAssetBundle(DashboardBundle::class);

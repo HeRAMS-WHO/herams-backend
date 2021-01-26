@@ -6,7 +6,10 @@ use prime\models\ar\Project;
 use yii\helpers\Html;
 
 // Render all statistics.
-/** @var Project[] $projects */
+/**
+ * @var Project[] $projects
+ * @var \prime\components\View $this
+ */
 $projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate', 'workspaceCount')->all();
 $stats[] = [
     'icon' => Icon::project(),

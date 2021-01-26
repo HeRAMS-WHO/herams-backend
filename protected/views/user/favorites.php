@@ -8,6 +8,7 @@ use prime\models\ar\Permission;
 
 /**
  * @var \yii\data\ActiveDataProvider $dataProvider
+ * @var \prime\components\View $this
  */
 
 $this->title = \Yii::t('app', 'Favorite workspaces');

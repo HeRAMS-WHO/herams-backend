@@ -1,7 +1,5 @@
 <?php
-
-/** @var \prime\models\forms\ResponseFilter $filterModel */
-/** @var \prime\models\ar\Project $project */
+declare(strict_types=1);
 
 use app\components\Form;
 use kartik\select2\Select2;
@@ -11,6 +9,14 @@ use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
 use function iter\chain;
+
+/**
+ * @var \prime\models\forms\ResponseFilter $filterModel
+ * @var \prime\models\ar\Project $project
+ * @var \prime\components\View $this
+ *
+ */
+
 
 $form = ActiveForm::begin([
         'method' => 'GET',

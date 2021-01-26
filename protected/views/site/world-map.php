@@ -1,12 +1,16 @@
 <?php
-
-/** @var \yii\data\DataProviderInterface $projects */
+declare(strict_types=1);
 
 use prime\models\ar\Permission;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+/**
+ * @var \yii\data\DataProviderInterface $projects
+ * @var \prime\components\View $this
+ */
 
 $this->title = "World overview";
 $bundle = $this->registerAssetBundle(\prime\assets\IconBundle::class);

@@ -1,9 +1,14 @@
 <?php
+declare(strict_types=1);
 
 use prime\helpers\Icon;
 use yii\helpers\Html;
 use prime\widgets\menu\ProjectTabMenu;
 
+/**
+ * @var \prime\components\View $this
+ * @var \prime\models\ar\Project $project
+ */
 $this->params['breadcrumbs'][] = [
     'label' => $project->title,
     'url' => ['project/workspaces', 'id' => $project->id]

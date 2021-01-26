@@ -1,13 +1,16 @@
 <?php
+declare(strict_types=1);
 
 use prime\models\ar\Project;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
 
+/**
+ * @var \prime\components\View $this
+ */
 SideMenu::begin([
     'footer' => $this->render('//footer')
 ]);
-/** @var \prime\components\Controller $controller */
 $controller = $this->context;
 echo Html::a(
     \Yii::t('app', 'Admin dashboard'),

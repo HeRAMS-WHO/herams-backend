@@ -1,10 +1,15 @@
 <?php
-
-/** @var Element $element */
-/** @var \yii\web\View $this */
-/** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
+declare(strict_types=1);
 
 use prime\models\ar\Element;
+
+/**
+ * @var Element $element
+ * @var \prime\components\View $this
+ * @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey
+ * @var iterable $data
+ */
+
 
 $this->registerAssetBundle(\prime\assets\DashboardBundle::class);
 $this->registerAssetBundle(\yii\web\JqueryAsset::class);

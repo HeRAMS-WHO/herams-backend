@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use app\components\ActiveForm;
 use yii\bootstrap\ButtonGroup;
@@ -8,7 +9,7 @@ use prime\helpers\Icon;
 /**
  * @var \yii\web\View $this
  * @var \prime\models\forms\projects\Token $token
- *
+ * @var \prime\models\ar\Workspace $model
  */
 
 $this->params['breadcrumbs'][] = [

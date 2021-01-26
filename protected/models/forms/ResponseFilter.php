@@ -26,7 +26,7 @@ use function iter\filter;
 /**
  * Class ResponseFilter implements filtering for Response Collections
  * @package prime\models\forms
- * @property Carbon $date
+ * @property ?Carbon $date
  */
 class ResponseFilter extends Model
 {

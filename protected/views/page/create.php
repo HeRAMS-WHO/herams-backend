@@ -1,12 +1,17 @@
 <?php
-/** @var \prime\models\ar\Page $page */
-/** @var \prime\models\ar\Project $project */
+declare(strict_types=1);
 
 use app\components\Form;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
 use function iter\chain;
 use function iter\toArrayWithKeys;
+
+/**
+ * @var \prime\models\ar\Page $page
+ * @var \prime\models\ar\Project $project
+ * @var \prime\components\View $this
+ */
 
 $this->params['breadcrumbs'][] = [
     'label' => $project->title,

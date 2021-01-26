@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-/* @var $this \yii\web\View */
-
 use prime\assets\AdminBundle;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
-/* @var $content string */
+/**
+ * @var \prime\components\View $this
+ * @var string $content
+ */
 
 $this->beginPage();
 

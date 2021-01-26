@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
 
-/** @var yii\web\View $this */
+/**
+ * @var yii\web\View $this
+ * @var string $content
+ */
 
 use yii\helpers\Html;
 

@@ -1,8 +1,12 @@
 <?php
-
-/** @var yii\web\View $this */
+declare(strict_types=1);
 
 use yii\helpers\Html;
+
+/**
+ * @var yii\web\View $this
+ * @var string $content
+ */
 
 $this->beginContent('@views/layouts/css3-grid.php');
 $this->registerAssetBundle(\prime\assets\AppAsset::class);

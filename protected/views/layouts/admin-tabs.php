@@ -1,13 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
-/**
- * @var \prime\components\View $this
- */
-
 use prime\widgets\menu\TabMenu;
 use yii\helpers\Html;
+
+/**
+ * @var yii\web\View $this
+ * @var string $content
+ */
 
 $this->beginContent('@views/layouts/admin-screen.php');
 

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
+use prime\models\ar\Permission;
+use yii\helpers\Html;
+
 /**
  * @var \prime\models\ar\Response $storedResponse,
  * @var \SamIT\LimeSurvey\Interfaces\ResponseInterface $limesurveyResponse
+ * @var \prime\components\View $this
  */
-
-
-use prime\models\ar\Permission;
-use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),

@@ -1,7 +1,10 @@
 <?php
 declare(strict_types=1);
-/** @var \prime\models\ar\Project $model */
-/** @var \prime\models\ar\Project $project */
+/**
+ * @var \prime\models\ar\Project $model
+ * @var \prime\models\ar\Project $project
+ * @var \prime\components\View $this
+ */
 
 use app\components\Form;
 use app\components\ActiveForm;

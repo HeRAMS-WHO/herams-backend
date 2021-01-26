@@ -1,6 +1,5 @@
 <?php
-
-/** @var \prime\models\ar\Page $page */
+declare(strict_types=1);
 
 use app\components\Form;
 use kartik\form\ActiveForm;
@@ -15,6 +14,12 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use function iter\chain;
 use function iter\toArrayWithKeys;
+
+/**
+ * @var \prime\models\ar\Page $page
+ * @var \prime\components\View $this
+ */
+
 
 $this->params['breadcrumbs'][] = [
     'label' => $page->project->title,

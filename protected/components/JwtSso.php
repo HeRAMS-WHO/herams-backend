@@ -6,10 +6,10 @@ namespace prime\components;
 
 use Carbon\Carbon;
 use Closure;
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Parsing\Encoder;
+use Lcobucci\JWT\Encoding\ChainedFormatter;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer;
+use Lcobucci\JWT\Token\Builder;
 use prime\interfaces\TicketingInterface;
 use yii\base\Component;
 use yii\base\InvalidCallException;
@@ -79,7 +79,7 @@ class JwtSso extends Component implements TicketingInterface
         ?int $expires = null
     ): string {
 
-        $builder = new Builder(new Encoder());
+        $builder = new Builder(new JoseEncoder(), ChainedFormatter::default());
         $builder
             ->issuedBy($this->issuer)
             ->permittedFor($this->loginUrl)

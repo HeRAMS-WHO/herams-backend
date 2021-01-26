@@ -1,8 +1,14 @@
 <?php
+declare(strict_types=1);
 
 use yii\helpers\Html;
 
-/* @var yii\web\View $this */
+/**
+ * @var yii\web\View $this
+ * @var \prime\models\ar\User $model
+ * @var \prime\models\forms\user\ChangePasswordForm $changePassword
+ * @var \prime\models\forms\user\UpdateEmailForm $changeMail
+ */
 
 $this->title = Yii::t('app', 'Update account');
 echo \prime\widgets\Tabs::widget([

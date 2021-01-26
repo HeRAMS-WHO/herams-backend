@@ -44,7 +44,7 @@ class PermissionColumn extends DataColumn
         ]);
         $label =
               Html::tag('div', Html::label(\Yii::t('app', 'Allowed')), ['class' => ['state', 'p-success', 'p-on']])
-            . Html::tag('div', Html::label(\Yii::t('app', 'Denied')), ['class' => ['state', 'p-danger', 'p-off']])
+            . Html::tag('div', Html::label(\Yii::t('app', 'Not allowed')), ['class' => ['state', 'p-danger', 'p-off']])
         . Html::tag('div', Html::label('Updating...'), ['class' => ['state', 'p-warning', 'p-is-indeterminate', 'p-smooth']]);
         $cb = Html::checkbox('perm', $value, [
             'data-revoke' => $revoke,

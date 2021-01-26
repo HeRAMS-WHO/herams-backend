@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 
-/* @var $this \yii\web\View */
+/**
+ * @var \prime\components\View $this
+ * @var string $content
+ */
 
-/* @var $content string */
 $this->beginPage();
 
 $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro");

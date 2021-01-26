@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use yii\bootstrap\Html;
 use prime\helpers\Icon;
 use prime\models\ar\Project;
 
 /**
  * @var \yii\web\View $this
- *
+ * @var \prime\models\ar\Workspace $model
  */
 
 

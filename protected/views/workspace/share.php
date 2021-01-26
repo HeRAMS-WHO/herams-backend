@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use app\components\ActiveForm;
 use app\components\Form;
@@ -11,6 +12,7 @@ use yii\helpers\Html;
 /**
  * @var \prime\models\ar\Workspace $workspace
  * @var \prime\models\forms\Share $model
+ * @var \prime\components\View $this
  */
 
 $this->params['breadcrumbs'][] = [

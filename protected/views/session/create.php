@@ -1,10 +1,16 @@
 <?php
+declare(strict_types=1);
 
 use app\components\Form;
 use kartik\form\ActiveForm;
 use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
+/**
+ * @var \prime\components\View $this
+ * @var \prime\models\forms\LoginForm $model
+ * @var \prime\models\forms\user\RequestAccountForm $requestAccountForm
+ */
 $this->title = \Yii::$app->name;
     
     $this->params['breadcrumbs'] = [];

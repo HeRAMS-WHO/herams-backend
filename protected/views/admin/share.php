@@ -10,6 +10,7 @@ use prime\widgets\menu\TabMenu;
 /**
  * @var \prime\models\ar\Workspace $workspace
  * @var \prime\models\forms\Share $model
+ * @var \prime\components\View $this
  */
 $this->title = \Yii::t('app', 'Administration');
 $this->params['breadcrumbs'][] = ['label' => ""];

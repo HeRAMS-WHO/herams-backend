@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
 
 use prime\assets\MapLayoutBundle;
 use prime\widgets\map\Map;
 
-/* @var $this \yii\web\View */
+/**
+ * @var \prime\components\View $this
+ * @var string $content
+ */
 
-/* @var $content string */
 $this->beginPage();
 
 $this->registerAssetBundle(MapLayoutBundle::class);

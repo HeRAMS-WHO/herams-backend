@@ -30,7 +30,7 @@ $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
     'workspace' => $workspace,
 ]);
-$this->endBlock('tabs');
+$this->endBlock();
 
 Section::begin([
     'header' => \Yii::t('app', 'Responses')

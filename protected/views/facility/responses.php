@@ -7,7 +7,7 @@ use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
 /**
- * @var \yii\data\ActiveDataProvider $facilityProvider
+ * @var \yii\data\ActiveDataProvider $responseProvider
  * @var \prime\components\View $this
  */
 

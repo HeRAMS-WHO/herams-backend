@@ -1,8 +1,5 @@
 <?php
-
-/** @var \prime\models\ar\Element|\prime\models\forms\Element $model */
-/** @var \prime\models\ar\Project $project */
-/** @var View $this */
+declare(strict_types=1);
 
 use app\components\Form;
 use kartik\select2\Select2;
@@ -11,6 +8,14 @@ use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
 use yii\web\View;
+
+/**
+ * @var \prime\models\ar\Element|\prime\models\forms\Element $model
+ * @var \prime\models\ar\Project $project
+ * @var \prime\components\View $this
+ * @var \prime\models\ar\Page $page
+ * @var string $url
+ */
 
 $this->params['breadcrumbs'][] = [
     'label' => $project->title,

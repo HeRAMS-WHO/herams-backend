@@ -1,9 +1,15 @@
 <?php
-/** @var \prime\models\ar\Project $model */
+declare(strict_types=1);
 
 use app\components\Form;
 use app\components\ActiveForm;
 use yii\bootstrap\Html;
+
+/**
+ * @var \prime\models\ar\Project $model
+ * @var \prime\components\View $this
+ */
+
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
