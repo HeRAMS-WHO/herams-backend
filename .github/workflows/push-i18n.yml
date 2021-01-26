@@ -26,10 +26,8 @@ jobs:
       - run: composer install --ignore-platform-reqs
       - name: Extract translations
         run: protected/yiic message/extract protected/config/i18n.php --message-path .
-        # Fix bad Yii header in pot file by copying header from another file
       - name: Create app.pot
-        run: (echo 'msgid ""'; echo 'msgstr ""'; grep '^"' index.pot; tail -n +12 ../messages.pot) > app.pot
-        working-directory: herams-i18n
+        run: cp messages.pot herams-i18n/app.pot
       - name: Install gettext
         run: sudo apt install gettext
       - name: Run msgmerge
