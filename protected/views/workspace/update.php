@@ -91,7 +91,7 @@ Section::begin([
             'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $model),
             'icon' => Icon::trash(),
             'label' => \Yii::t('app', 'Delete'),
-            'link' => ['project/delete', 'id' => $model->id],
+            'link' => ['workspace/delete', 'id' => $model->id],
             'style' => 'delete',
             'linkOptions' => [
                 'data-method' => 'delete',
