@@ -61,6 +61,7 @@ class SideMenu extends Widget
 
         $this->registerClientScript();
         ob_start();
+        ob_implicit_flush(false);
         echo Html::beginTag('div', $options);
         echo Html::a(Html::img("/img/HeRAMS.svg"), '/');
         // We always render the toggle so we can later enable / disable menu collapsing.
@@ -78,6 +79,7 @@ class SideMenu extends Widget
         echo Html::endTag('nav');
         echo $this->footer;
         echo Html::endTag('div');
-        return ob_end_clean();
+        return ob_get_clean();
+
     }
 }
