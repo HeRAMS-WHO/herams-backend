@@ -55,7 +55,10 @@ echo GridView::widget([
         [
             'class' => FavoriteColumn::class,
 
-            'filter' => [1 => 'Yes', 0 => 'No']
+            'filter' => [
+                1 => \Yii::t('app', 'Favorites only'),
+                0 => \Yii::t('app', 'Non-favorites only'),
+            ]
         ],
         [
             'class' => \prime\widgets\IdColumn::class

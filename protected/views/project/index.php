@@ -16,11 +16,6 @@ use yii\helpers\Url;
  * @var \prime\models\search\Project $projectSearch
  */
 
-
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project/index']
-];
 $this->title = \Yii::t('app', 'Projects');
 
 \prime\widgets\Section::begin([
