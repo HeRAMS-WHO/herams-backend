@@ -6,15 +6,14 @@ declare(strict_types=1);
  * @var \prime\components\View $this
  */
 
-use app\components\Form;
 use app\components\ActiveForm;
+use app\components\Form;
 use League\ISO3166\ISO3166;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use function iter\chain;
 use function iter\func\nested_index;
@@ -71,8 +70,10 @@ echo Form::widget([
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => \kartik\select2\Select2::class,
             'options' => [
-                'data' => toArrayWithKeys(chain(['' => \Yii::t('app', '(Not set)')],
-                        map(nested_index('name'), (new ISO3166())->iterator(ISO3166::KEY_ALPHA3)))),
+                'data' => toArrayWithKeys(chain(
+                    ['' => \Yii::t('app', '(Not set)')],
+                    map(nested_index('name'), (new ISO3166())->iterator(ISO3166::KEY_ALPHA3))
+                )),
 
             ]
         ],

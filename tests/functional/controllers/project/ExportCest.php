@@ -24,7 +24,7 @@ class ExportCest
 
         $I->amOnPage(['project/export', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
-        $I->click('Export');
+        $I->click('Export CSV');
         $I->seeResponseCodeIsSuccessful();
         $I->assertSame('text/csv', $I->grabHttpHeader('Content-Type', true));
         $I->assertNotEmpty($I->grabResponse());

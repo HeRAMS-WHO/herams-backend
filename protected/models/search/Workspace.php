@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models\search;
 
@@ -78,18 +79,18 @@ class Workspace extends Model
             return $dataProvider;
         }
 
-
-
-        $interval = explode(' - ', $this->created);
-        if (count($interval) == 2) {
-            $query->andFilterWhere([
-                'and',
-                ['>=', 'created', $interval[0]],
-                ['<=', 'created', $interval[1] . ' 23:59:59']
-            ]);
+        if (isset($this->created)) {
+            $interval = explode(' - ', $this->created);
+            if (count($interval) == 2) {
+                $query->andFilterWhere([
+                    'and',
+                    ['>=', 'created', $interval[0]],
+                    ['<=', 'created', $interval[1] . ' 23:59:59']
+                ]);
+            }
         }
 
-        if (isset($this->favorite)) {
+        if (!empty($this->favorite)) {
             $condition = ['id' => $this->user->getFavorites()->workspaces()->select('target_id')];
             if ($this->favorite) {
                 $query->andWhere($condition);

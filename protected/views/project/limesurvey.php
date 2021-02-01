@@ -9,10 +9,6 @@ use prime\widgets\menu\ProjectTabMenu;
  * @var \prime\components\View $this
  * @var \prime\models\ar\Project $project
  */
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
 $this->title = $project->title;
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
