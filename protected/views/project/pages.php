@@ -1,11 +1,5 @@
 <?php
-
-/**
- * @var \yii\data\ActiveDataProvider $dataProvider
- * @var \yii\web\View $this
- * @var \prime\models\ar\Project $project
- *
- */
+declare(strict_types=1);
 
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
@@ -14,11 +8,20 @@ use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
-$this->title = $project->title;
+/**
+ * @var \yii\data\ActiveDataProvider $dataProvider
+ * @var \yii\web\View $this
+ * @var \prime\models\ar\Project $project
+ *
+ */
+
+$this->params['breadcrumbs'][] = [
+    'label' => $project->title,
+    'url' => ['project/workspaces', 'id' => $project->id]
+];
+$this->title = \Yii::t('app', 'Dashboard settings');
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
     'project' => $project,

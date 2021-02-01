@@ -14,7 +14,12 @@ use yii\helpers\Html;
  * @var \prime\models\forms\Share $model
  */
 
+$this->params['breadcrumbs'][] = [
+    'label' => $project->title,
+    'url' => ['project/workspaces', 'id' => $project->id]
+];
 $this->title = $project->title;
+
 $this->params['subtitle'] = \Yii::t('app', 'Add new user');
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
