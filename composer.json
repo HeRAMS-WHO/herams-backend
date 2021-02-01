@@ -94,7 +94,8 @@
         "brainmaestro/composer-git-hooks": "^2.8",
         "phpstan/phpstan": "^0.12",
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
-        "comcast/php-legal-licenses": "^1.1"
+        "comcast/php-legal-licenses": "^1.1",
+        "codeception/lib-innerbrowser": "^1.4"
     },
     "repositories": [
         {

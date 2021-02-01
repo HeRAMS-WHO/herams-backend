@@ -41,7 +41,9 @@ class ViewCest
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
-        $I->assertSame($page->title, $I->grabTextFrom(['class' => 'header']));
+
+        $I->assertSame($page->title, $I->grabTextFrom('.header'));
+
     }
 
     public function testViewBadSurvey(FunctionalTester $I)
@@ -57,7 +59,7 @@ class ViewCest
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/view', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
-        $I->assertSame($page->title, $I->grabTextFrom(['class' => 'header']));
+        $I->assertSame($page->title, $I->grabTextFrom('.header'));
     }
     public function testWrongPage(FunctionalTester $I)
     {
@@ -90,7 +92,7 @@ class ViewCest
 
         $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $otherPage->id]);
         $I->seeResponseCodeIs(200);
-        $I->assertSame($otherPage->title, $I->grabTextFrom(['class' => 'header']));
+        $I->assertSame($otherPage->title, $I->grabTextFrom('.header'));
     }
 
     public function testChildPage(FunctionalTester $I)
@@ -112,6 +114,6 @@ class ViewCest
 
         $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $child->id, 'parent_id' => $child->parent_id]);
         $I->seeResponseCodeIs(200);
-        $I->assertSame($child->title, $I->grabTextFrom(['class' => 'header']));
+        $I->assertSame($child->title, $I->grabTextFrom('.header'));
     }
 }

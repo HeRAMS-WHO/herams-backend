@@ -21,7 +21,7 @@ class ButtonGroup extends Widget
         $this->initCss();
         ob_start();
         $this->outputBuffer = ob_get_level();
-        ob_implicit_flush(0);
+        ob_implicit_flush(false);
 
         $options = $this->options;
         Html::addCssClass($options, 'ButtonGroup');
