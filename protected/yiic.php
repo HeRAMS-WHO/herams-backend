@@ -11,12 +11,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 spl_autoload_register(['Yii', 'autoload'], true, true);
 
 // Detect if we are in K8s...
-if (!YII_ENV_PROD) {
-    $env = new \prime\components\InsecureSecretEnvironment(__DIR__ . '/config/env.json');
+if (!file_exists('/run/secrets')) {
+    $env = new \prime\components\InsecureSecretEnvironment('/run/env.json', __DIR__ . '/config/env.json');
 } else {
     $env = new KubernetesSecretEnvironment('/run/secrets', __DIR__ . '/config/env.json', '/run/config/config.json', '/run/env.json');
 }
-
 
 $config = require __DIR__ . '/config/console.php';
 \Yii::$container->set(\yii\console\Application::class, $config);

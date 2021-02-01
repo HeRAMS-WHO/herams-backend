@@ -1,13 +1,5 @@
 <?php
-
-/*
- * This file is part of the Dektrium project.
- *
- * (c) Dektrium project <http://github.com/dektrium>
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
@@ -22,7 +14,7 @@ use yii\web\View;
 /**
  * @var View $this
  * @var ActiveDataProvider $dataProvider
- * @var UserSearch $searchModel
+ * @var \prime\models\search\User $searchModel
  */
 $this->title = \Yii::t('app', 'Administration');
 
