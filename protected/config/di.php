@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use kartik\grid\ActionColumn;
+use kartik\grid\GridView;
 use prime\assets\JqueryBundle;
 use prime\assets\PjaxBundle;
 use prime\models\ar\Permission;
@@ -64,9 +65,12 @@ return [
         ], $config);
         return new \kartik\switchinput\SwitchInput($config);
     },
-    \kartik\grid\GridView::class => [
-        'export' => false
-    ],
+    GridView::class => static function(Container $container, array $params, array $config): GridView {
+        $result = new GridView($config);
+        $result->export = false;
+        $result->toggleData = false;
+        return $result;
+    },
 
 
 ];
