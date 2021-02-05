@@ -37,8 +37,16 @@ return [
     new ImpliedPermission(Permission::PERMISSION_WRITE, [
         Permission::PERMISSION_READ,
     ]),
+    new ImpliedPermission(Permission::PERMISSION_SURVEY_DATA, [
+        Permission::PERMISSION_READ,
+    ]),
     new ImpliedPermission(Permission::PERMISSION_READ, [
-        Permission::PERMISSION_LIST_WORKSPACES
+        Permission::PERMISSION_LIST_WORKSPACES,
+        Permission::PERMISSION_LIST_FACILITIES
+    ]),
+    new ImpliedPermission(Permission::PERMISSION_EXPORT, [
+        Permission::PERMISSION_LIST_WORKSPACES,
+        Permission::PERMISSION_LIST_FACILITIES
     ]),
     new ProjectImplicitReadViaExplicitWorkspacePermission(),
     new PublicProjectRule(),

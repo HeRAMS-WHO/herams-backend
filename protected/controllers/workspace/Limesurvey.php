@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
@@ -22,7 +22,7 @@ class Limesurvey extends Action
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
         $workspace = Workspace::findOne(['id' => $id]);
-        $accessCheck->requirePermission($workspace, Permission::PERMISSION_SURVEY_DATA);
+        $accessCheck->requirePermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
 
         return $this->controller->render('limesurvey', [
             'model' => $workspace

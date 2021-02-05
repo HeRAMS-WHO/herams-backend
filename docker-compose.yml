@@ -79,6 +79,15 @@ services:
       - type: volume
         source: assets
         target: /project/public/assets
+  coverage:
+    labels:
+      com.awesam.proxy.domains: "coverage.herams"
+    networks:
+      - devproxy
+      - default
+    image: nginx
+    volumes:
+      - ./tests/_output/coverage:/usr/share/nginx/html:ro
   nginx:
     labels:
       com.awesam.proxy.domains: "herams"
@@ -91,6 +100,7 @@ services:
       RESOLVER: "127.0.0.11"
     depends_on:
       - phpfpm
+      - coverage
     ports:
       - "0.0.0.0:12346:80"
     volumes:

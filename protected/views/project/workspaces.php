@@ -66,7 +66,7 @@ echo GridView::widget([
         [
             'class' => \prime\widgets\DrilldownColumn::class,
             'attribute' => 'title',
-            'permission' => Permission::PERMISSION_SURVEY_DATA,
+            'permission' => Permission::PERMISSION_LIST_FACILITIES,
             'link' => function ($workspace) {
                 return ['workspace/limesurvey', 'id' => $workspace->id];
             }

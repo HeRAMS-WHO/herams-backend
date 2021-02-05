@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\controllers\permission;
 
 use prime\helpers\ProposedGrant;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
@@ -16,7 +17,7 @@ use yii\web\User;
 class Revoke extends Action
 {
     public function run(
-        User $user,
+        AccessCheckInterface $accessCheck,
         AuthManager $abacManager,
         Resolver $abacResolver,
         \yii\web\Response $response,
@@ -33,9 +34,8 @@ class Revoke extends Action
             $abacResolver->toSubject($target),
             $permission
         );
-        if (!$user->can(Permission::PERMISSION_DELETE, $proposedGrant)) {
-            throw new ForbiddenHttpException();
-        }
+
+        $accessCheck->requirePermission($proposedGrant, Permission::PERMISSION_DELETE);
 
         $abacManager->getRepository()->revoke(new Grant($source, $target, $permission));
         $response->format = \yii\web\Response::FORMAT_JSON;

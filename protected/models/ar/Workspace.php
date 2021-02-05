@@ -187,7 +187,7 @@ class Workspace extends ActiveRecord
         return \Yii::$app->get('limesurveyDataProvider');
     }
 
-    public function getSurveyUrl()
+    public function getSurveyUrl(bool $canWrite = false, ?bool $canDelete = null): string
     {
         return $this->getLimesurveyDataProvider()->getUrl(
             $this->project->base_survey_eid,
@@ -196,7 +196,10 @@ class Workspace extends ActiveRecord
                 'newtest' => 'Y',
                 'lang' => \Yii::$app->language,
                 'createButton' => 0,
-                'seamless' => 1
+                'seamless' => 1,
+                'deleteButton' => $canDelete ?? $canWrite,
+                'editButton' => $canWrite,
+                'copyButton' => $canWrite
             ]
         );
     }

@@ -32,6 +32,7 @@ class Permission extends ActiveRecord
     const PERMISSION_MANAGE_FAVORITES = 'manage-favorites';
     const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
     const PERMISSION_LIST_WORKSPACES = 'list-workspaces';
+    const PERMISSION_LIST_FACILITIES = 'list-facilities';
     const PERMISSION_CREATE_PROJECT = 'create-project';
     const PERMISSION_SURVEY_DATA = 'update-data';
     const PERMISSION_SURVEY_BACKEND = 'survey-backend';

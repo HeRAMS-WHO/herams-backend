@@ -47,7 +47,7 @@ Section::begin([
 ]);
 echo Html::tag('iframe', '', [
     'name' => 'limesurvey',
-    'src' => $model->getSurveyUrl(),
+    'src' => $model->getSurveyUrl(\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $model)),
     'class' => [],
     'style' => [
         'width' => '100%',
