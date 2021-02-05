@@ -4,6 +4,7 @@ networks:
     external:
       name: devproxy
 volumes:
+  devdb:
   assets:
     driver_opts:
       type: tmpfs
@@ -124,7 +125,7 @@ services:
   devdb:
     << : *mysql
     volumes:
-      - ./local/devdb:/var/lib/mysql:rw
+      - devdb:/var/lib/mysql:rw
       - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
 
   # Mysql server (testing), this will store data on tmpfs, it will not persist
@@ -213,5 +214,6 @@ services:
       - default
     labels:
       com.awesam.proxy.domains: "mailcatcher-herams"
+      com.awesam.proxy.port: "1080"
     ports:
       - "127.0.0.1:${MAILCATCHER_PORT-12347}:1080"

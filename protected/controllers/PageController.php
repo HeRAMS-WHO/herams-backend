@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers;
 
@@ -13,9 +13,9 @@ use yii\helpers\ArrayHelper;
 
 class PageController extends Controller
 {
-    public $layout = \prime\components\Controller::LAYOUT_ADMIN;
+    public $layout = Controller::LAYOUT_ADMIN_TABS;
 
-    public function actions()
+    public function actions(): array
     {
         return [
             'update' => Update::class,
@@ -30,7 +30,7 @@ class PageController extends Controller
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),

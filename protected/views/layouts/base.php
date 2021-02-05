@@ -1,8 +1,11 @@
 <?php
 declare(strict_types=1);
 
+use prime\components\View;
+use yii\helpers\Html;
+
 /**
- * @var \prime\components\View $this
+ * @var View $this
  * @var string $content
  */
 
@@ -17,7 +20,7 @@ $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro"
     <head>
         <?= $this->head();?>
 
-        <?= \yii\helpers\Html::tag('title', $this->title); ?>
+        <?= Html::tag('title', $this->title); ?>
     </head>
 
     <body>
