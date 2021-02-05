@@ -19,3 +19,4 @@ c3.php
 /protected/config/env.json
 cghooks.lock
 /node_modules
+docker-compose.override.yml

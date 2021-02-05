@@ -3,6 +3,7 @@
 
 namespace prime\controllers\element;
 
+use prime\components\Controller;
 use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Element;
 use prime\models\ar\Permission;
@@ -44,11 +45,11 @@ class Preview extends Action
 
         $survey = $limesurveyDataProvider->getSurvey($element->project->base_survey_eid);
 
-        \Yii::beginProfile('ResponseFilterinit');
+        \Yii::beginProfile('ResponseFilterInit');
         $filter = new ResponseFilter($survey, $element->project->getMap());
-        \Yii::endProfile('ResponseFilterinit');
+        \Yii::endProfile('ResponseFilterInit');
 
-        $this->controller->layout = 'base';
+        $this->controller->layout = Controller::LAYOUT_BASE;
         return $this->controller->render('preview', [
             'survey' => $survey,
             'element' => $element,

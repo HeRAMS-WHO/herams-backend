@@ -1,26 +1,20 @@
 <?php
 declare(strict_types=1);
+
 use app\components\ActiveForm;
-use prime\widgets\Section;
-use yii\bootstrap\Html;
-use yii\helpers\Url;
+use prime\components\View;
 use prime\models\ar\Permission;
-use prime\widgets\menu\TabMenu;
+use prime\models\ar\Workspace;
+use prime\models\forms\Share;
+use prime\widgets\Section;
 
 /**
- * @var \prime\models\ar\Workspace $workspace
- * @var \prime\models\forms\Share $model
- * @var \prime\components\View $this
+ * @var Workspace $workspace
+ * @var Share $model
+ * @var View $this
  */
 $this->title = \Yii::t('app', 'Administration');
 $this->params['breadcrumbs'][] = ['label' => ""];
-
-$tabs = [
-    [
-        'url' => ['admin/dashboard'],
-        'title' => \Yii::t('app', 'Dashboard')
-    ]
-];
 
 $this->params['tabs'] = [
     [
@@ -45,9 +39,8 @@ $this->params['tabs'] = [
     ]
 ];
 
-Section::begin([
-    'header' => \Yii::t('app', 'Add user')
-]);
+Section::begin()->withHeader(\Yii::t('app', 'Add user'));
+
 $form = ActiveForm::begin([
     'method' => 'POST',
     "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -57,11 +50,13 @@ $form = ActiveForm::begin([
         'labelSpan' => 3
     ]
 ]);
-
 echo $model->renderForm($form);
-$form->end();
+ActiveForm::end();
+
 Section::end();
-Section::begin(['header' => \Yii::t('app', 'Already shared with')]);
+
+Section::begin()->withHeader(\Yii::t('app', 'Already shared with'));
 
 echo $model->renderTable();
+
 Section::end();
