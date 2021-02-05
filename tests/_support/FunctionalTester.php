@@ -1,8 +1,12 @@
 <?php
 namespace prime\tests;
 
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\models\ar\User;
 use prime\models\ar\Workspace;
+use SamIT\abac\AuthManager;
+use SamIT\abac\repositories\PreloadingSourceRepository;
 use yii\db\ActiveRecord;
 
 /**
@@ -52,6 +56,24 @@ class FunctionalTester extends \Codeception\Actor
        }
        return $this->workspace;
    }
+
+   public function assertUserCan(object $subject, string $permission): void
+   {
+        $this->assertTrue(\Yii::$app->user->can($permission, $subject));
+   }
+
+    public function assertUserCanNot(object $subject, string $permission): void
+    {
+        $this->assertFalse(\Yii::$app->user->can($permission, $subject));
+    }
+
+    public function grantCurrentUser(object $subject, string $permission): void
+    {
+        /** @var AuthManager $manager */
+        $manager = \Yii::$app->abacManager;
+        $manager->grant(\Yii::$app->user->identity, $subject, $permission);
+        $this->assertUserCan($subject, $permission);
+    }
 
    public function save(ActiveRecord $activeRecord)
    {

@@ -30,7 +30,7 @@ class WorkspaceOwnerCest
             Permission::PERMISSION_SURVEY_DATA => true,
             Permission::PERMISSION_SHARE => false,
             Permission::PERMISSION_WRITE => false,
-            Permission::PERMISSION_READ => false,
+            Permission::PERMISSION_READ => true,
             Permission::PERMISSION_ADMIN => false,
             Permission::PERMISSION_MANAGE_WORKSPACES => false,
             Permission::PERMISSION_MANAGE_DASHBOARD => false,

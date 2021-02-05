@@ -24,9 +24,8 @@ return [
     \prime\helpers\LimesurveyDataLoader::class => \prime\helpers\LimesurveyDataLoader::class,
     JqueryAsset::class => JqueryBundle::class,
     PermissionRepository::class => PreloadingSourceRepository::class,
-    PreloadingSourceRepository::class => function (Container $container) {
-        return new PreloadingSourceRepository($container->get(CachedReadRepository::class));
-    },
+    PreloadingSourceRepository::class =>
+        fn (Container $container) => new PreloadingSourceRepository($container->get(CachedReadRepository::class)),
     CachedReadRepository::class => function (Container $container) {
         return new CachedReadRepository($container->get(ActiveRecordRepository::class));
     },

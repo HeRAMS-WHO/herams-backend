@@ -6,6 +6,7 @@ namespace prime\controllers\workspace;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
@@ -24,6 +25,7 @@ class Share extends Action
         Request $request,
         AuthManager $abacManager,
         Resolver $abacResolver,
+        AccessCheckInterface $accessCheck,
         User $user,
         int $id
     ) {
@@ -32,9 +34,8 @@ class Share extends Action
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!($user->can(Permission::PERMISSION_SHARE, $workspace))) {
-            throw new ForbiddenHttpException('You are not allowed to share this workspace');
-        }
+        $accessCheck->requirePermission($workspace, Permission::PERMISSION_SHARE);
+
         try {
             $model = new ShareForm($workspace, $abacManager, $abacResolver, $user->identity, [
                 Permission::PERMISSION_SURVEY_DATA,
