@@ -4,13 +4,18 @@ declare(strict_types=1);
 use app\components\Form;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
+use prime\components\View;
+use prime\models\ar\Page;
+use prime\models\ar\Project;
+use prime\widgets\Section;
+use yii\bootstrap\ButtonGroup;
 use function iter\chain;
 use function iter\toArrayWithKeys;
 
 /**
- * @var \prime\models\ar\Page $page
- * @var \prime\models\ar\Project $project
- * @var \prime\components\View $this
+ * @var Page $page
+ * @var Project $project
+ * @var View $this
  */
 
 $this->params['breadcrumbs'][] = [
@@ -25,55 +30,45 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = \Yii::t('app', 'Create page');
 
-echo Html::beginTag('div', ['class' => "content no-tab"]);
-?>
-<div class="form-content form-bg">
-    <h3><?=\Yii::t('app', 'Create Page')?></h3>
-    <?php
+Section::begin()
+    ->withHeader($this->title);
 
+$form = ActiveForm::begin([
+    'id' => 'update-page',
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig' => [
+        'showLabels' => true,
+        'defaultPlaceholder' => false,
+        'labelSpan' => 3
+    ]
+]);
 
-    $form = ActiveForm::begin([
-        'id' => 'update-page',
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false,
-            'labelSpan' => 3
+echo Form::widget([
+    'form' => $form,
+    'model' => $page,
+    'columns' => 1,
+    "attributes" => [
+        'title' => [
+            'type' => Form::INPUT_TEXT,
+        ],
+        'parent_id' => [
+            'attribute' => 'parent_id' ,
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
+        ],
+        'sort' => [
+           'type' => Form::INPUT_TEXT,
+        ],
+        [
+            'type' => Form::INPUT_RAW,
+            'value' => ButtonGroup::widget([
+                'buttons' => [
+                    Html::submitButton(\Yii::t('app', 'Create page'), ['class' => 'btn btn-primary'])
+                ]
+            ])
         ]
-    ]);
+    ]
+]);
+ActiveForm::end();
 
-    echo Form::widget([
-        'form' => $form,
-        'model' => $page,
-        'columns' => 1,
-        "attributes" => [
-            'title' => [
-                'type' => Form::INPUT_TEXT,
-            ],
-            'parent_id' => [
-                'attribute' => 'parent_id' ,
-                'type' => Form::INPUT_DROPDOWN_LIST,
-
-                'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
-            ],
-            'sort' => [
-               'type' => Form::INPUT_TEXT,
-            ],
-            [
-                'type' => Form::INPUT_RAW,
-                'value' => \yii\bootstrap\ButtonGroup::widget([
-                    'buttons' => [
-                        Html::submitButton(\Yii::t('app', 'Create page'), ['class' => 'btn btn-primary'])
-                    ]
-                ])
-            ]
-        ]
-    ]);
-    $form->end();
-
-    ?>
-</div>
-
-<?php
-echo Html::endTag('div');
-?>
+Section::end();
