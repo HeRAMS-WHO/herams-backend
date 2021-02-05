@@ -125,7 +125,7 @@ body {
     margin: 0;
     padding: 0;
     max-height: 190px;
-    page-break-inside: auto;
+    page-break-inside: avoid;
     page-break-after: auto;
     border: none;
     background: none;
