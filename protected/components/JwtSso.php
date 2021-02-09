@@ -79,7 +79,7 @@ class JwtSso extends Component implements TicketingInterface
         ?int $expires = null
     ): string {
 
-        $builder = new Builder(new JoseEncoder(), ChainedFormatter::default());
+        $builder = new Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
         $builder
             ->issuedBy($this->issuer ?? \Yii::$app->name)
             ->permittedFor($this->loginUrl)
