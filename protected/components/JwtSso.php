@@ -19,7 +19,7 @@ use yii\helpers\Url;
 
 class JwtSso extends Component implements TicketingInterface
 {
-    public $issuer;
+    public ?string $issuer;
     public $loginUrl;
 
     /**
@@ -81,7 +81,7 @@ class JwtSso extends Component implements TicketingInterface
 
         $builder = new Builder(new JoseEncoder(), ChainedFormatter::default());
         $builder
-            ->issuedBy($this->issuer)
+            ->issuedBy($this->issuer ?? \Yii::$app->name)
             ->permittedFor($this->loginUrl)
             ->withClaim($this->claim, $this->createUserName($identifier))
             ->issuedAt(Carbon::now()->toImmutable())
