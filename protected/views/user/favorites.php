@@ -4,6 +4,7 @@ declare(strict_types=1);
 use kartik\grid\GridView;
 use prime\components\View;
 use prime\models\ar\Workspace;
+use prime\widgets\DrilldownColumn;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
@@ -48,7 +49,7 @@ echo GridView::widget([
             'format' => 'raw',
         ],
         [
-            'class' => \prime\widgets\DrilldownColumn::class,
+            'class' => DrilldownColumn::class,
             'label' => 'Workspace',
             'link' => static function ($project) {
                 return ['project/workspaces', 'id' => $project->id];

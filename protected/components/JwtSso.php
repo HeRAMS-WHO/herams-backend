@@ -3,7 +3,6 @@
 
 namespace prime\components;
 
-
 use Carbon\Carbon;
 use Closure;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
@@ -56,7 +55,7 @@ class JwtSso extends Component implements TicketingInterface
 
     public function __construct($config = [])
     {
-        $this->_userNameGenerator = static function($id) {
+        $this->_userNameGenerator = static function ($id) {
             return $id;
         };
         parent::__construct($config);
@@ -79,7 +78,7 @@ class JwtSso extends Component implements TicketingInterface
         ?int $expires = null
     ): string {
 
-        $builder = new Builder(new JoseEncoder(), ChainedFormatter::default());
+        $builder = new Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
         $builder
             ->issuedBy($this->issuer ?? \Yii::$app->name)
             ->permittedFor($this->loginUrl)
@@ -151,9 +150,8 @@ HTML;
 
     public function setUserNamePrefix(string $prefix)
     {
-        $this->_userNameGenerator = function($id) use ($prefix) {
+        $this->_userNameGenerator = function ($id) use ($prefix) {
             return $prefix . $id;
         };
     }
-
 }
