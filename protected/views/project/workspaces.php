@@ -73,6 +73,7 @@ echo GridView::widget([
         ],
         [
             'attribute' => 'latestUpdate',
+            'class' => \prime\widgets\DateTimeColumn::class
         ],
         [
             'attribute' => 'contributorCount'
