@@ -1,46 +1,46 @@
 <?php
 declare(strict_types=1);
 
-use collecthor\bundles\AppAssetBundle;
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
-use yii\helpers\Html;
+use prime\models\forms\user\ResetPasswordForm;
+use prime\widgets\ButtonGroup;
+use prime\widgets\FormButtonsWidget;
+use prime\widgets\Section;
+use yii\web\View;
 
 /**
- * @var yii\web\View $this
- * @var \prime\models\forms\user\ResetPasswordForm $model
+ * @var View $this
+ * @var ResetPasswordForm $model
  */
 
 $this->title = Yii::t('app', 'Reset your password');
-//$this->params['breadcrumbs'][] = $this->title;
-$this->params['hideMenu'] = true;
-    echo Form::widget([
-        'model' => $model,
-        'form' => $form = ActiveForm::begin([
-            'enableAjaxValidation' => false,
-            'enableClientValidation' => true,
-            'validateOnBlur' => true,
-            'validateOnType' => false,
-            'validateOnChange' => false,
-            'type' => ActiveForm::TYPE_VERTICAL,
-            'formConfig' => [
-                'showLabels' => ActiveForm::SCREEN_READER,
-                'defaultPlaceholder' => false,
-                'labelSpan' => 3
-            ],
-            'fieldConfig' => [
-                'autoPlaceholder' => true,
-            ]
-        ]),
-        'columns' => 1,
-        'attributes' => [
 
-            'password' => ['type' => Form::INPUT_PASSWORD],
-            'password_repeat' => ['type' => Form::INPUT_PASSWORD],
-        ]
-    ]);
-    echo Html::beginTag('div', ['class' => 'actions']);
-    echo Html::a(Yii::t('app', 'Back to sign in'), ['/session/create']);
-    echo Html::submitButton(Yii::t('app', 'Reset password'), ['class' => 'btn btn-primary btn-block', 'tabindex' => '4']);
-    echo Html::endTag('div');
-    ActiveForm::end();
+Section::begin()
+    ->withHeader($this->title);
+
+$form = ActiveForm::begin();
+
+echo Form::widget([
+    'model' => $model,
+    'form' => $form,
+    'columns' => 1,
+    'attributes' => [
+        'password' => [
+            'type' => Form::INPUT_PASSWORD
+        ],
+        'password_repeat' => [
+            'type' => Form::INPUT_PASSWORD
+        ],
+        FormButtonsWidget::embed([
+            'buttons' =>  [
+                ['label' => \Yii::t('app', 'Back to sign in'), 'type' => ButtonGroup::TYPE_LINK, 'link' => ['/session/create']],
+                ['label' => \Yii::t('app', 'Reset password'), 'style' => 'primary'],
+            ]
+        ])
+    ]
+]);
+
+ActiveForm::end();
+
+Section::end();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\models\ar\Permission;
+use prime\models\search\User;
 use prime\widgets\menu\TabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
@@ -14,34 +15,40 @@ use yii\web\View;
 /**
  * @var View $this
  * @var ActiveDataProvider $dataProvider
- * @var \prime\models\search\User $searchModel
+ * @var User $searchModel
  */
 $this->title = \Yii::t('app', 'Administration');
 
-$this->params['tabs'] = [
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['admin/dashboard'],
-        'title' => \Yii::t('app', 'Dashboard')
-    ],
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['user/index'],
-        'title' => \Yii::t('app', 'Users')
-    ],
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['admin/share'],
-        'title' => \Yii::t('app', 'Global permissions')
-    ],
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['admin/limesurvey'],
-        'title' => \Yii::t('app', 'Backend administration')
+$this->beginBlock('tabs');
+echo TabMenu::widget([
+    'tabs' => [
+        [
+            'permission' => Permission::PERMISSION_ADMIN,
+            'url' => ['admin/dashboard'],
+            'title' => \Yii::t('app', 'Dashboard')
+        ],
+        [
+            'permission' => Permission::PERMISSION_ADMIN,
+            'url' => ['user/index'],
+            'title' => \Yii::t('app', 'Users')
+        ],
+        [
+            'permission' => Permission::PERMISSION_ADMIN,
+            'url' => ['admin/share'],
+            'title' => \Yii::t('app', 'Global permissions')
+        ],
+        [
+            'permission' => Permission::PERMISSION_ADMIN,
+            'url' => ['admin/limesurvey'],
+            'title' => \Yii::t('app', 'Backend administration')
+        ]
     ]
-];
+]);
+$this->endBlock();
 
-Section::begin(['header' => 'users']);
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Users'));
+
 echo GridView::widget([
     'dataProvider'  => $dataProvider,
     'filterModel'   => $searchModel,
@@ -92,4 +99,5 @@ echo GridView::widget([
         ],
     ],
 ]);
+
 Section::end();

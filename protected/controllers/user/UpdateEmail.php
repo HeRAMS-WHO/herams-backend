@@ -1,8 +1,7 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\user;
-
 
 use prime\components\NotificationService;
 use prime\models\forms\user\UpdateEmailForm;
@@ -29,11 +28,11 @@ class UpdateEmail extends Action
             try {
                 $model->run();
                 $notificationService->info(\Yii::t('app', 'Please check your mailbox'));
+                return $this->controller->redirect(['/user/account']);
             } catch (\RuntimeException $e) {
                 $notificationService->error($e->getMessage());
             }
         }
         return $this->controller->render('update-email', ['model' => $model]);
     }
-
 }

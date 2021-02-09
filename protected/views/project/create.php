@@ -1,15 +1,17 @@
 <?php
 declare(strict_types=1);
 
-use app\components\Form;
 use app\components\ActiveForm;
-use yii\bootstrap\Html;
+use app\components\Form;
+use prime\components\View;
+use prime\models\ar\Project;
+use prime\widgets\FormButtonsWidget;
+use prime\widgets\Section;
 
 /**
- * @var \prime\models\ar\Project $model
- * @var \prime\components\View $this
+ * @var View $this
+ * @var Project $model
  */
-
 
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Admin dashboard'),
@@ -21,37 +23,42 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = Yii::t('app', 'Create project');
 
-    $form = ActiveForm::begin([
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'showLabels' => true,
-            'defaultPlaceholder' => false,
-            'labelSpan' => 3
-        ]
-    ]);
-    echo \app\components\Form::widget([
-        'form' => $form,
-        'model' => $model,
-        "attributes" => [
-            'title' => [
-                'type' => Form::INPUT_TEXT,
-            ],
-            'base_survey_eid' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->dataSurveyOptions(),
-                'options' => [
-                    'prompt' => ''
-                ]
-            ],
-            'visibility' => [
-                'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->visibilityOptions()
-            ],
-            \prime\widgets\FormButtonsWidget::embed([
-                'buttons' =>  [
-                    Html::submitButton(\Yii::t('app', 'Create project'), ['class' => 'btn btn-primary'])
-                ]
-            ])
+Section::begin()
+    ->withHeader($this->title);
+
+$form = ActiveForm::begin([
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig' => [
+        'showLabels' => true,
+        'defaultPlaceholder' => false,
+        'labelSpan' => 3
+    ]
+]);
+echo Form::widget([
+    'form' => $form,
+    'model' => $model,
+    "attributes" => [
+        'title' => [
+            'type' => Form::INPUT_TEXT,
         ],
-    ]);
-    $form->end();
+        'base_survey_eid' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' => $model->dataSurveyOptions(),
+            'options' => [
+                'prompt' => ''
+            ]
+        ],
+        'visibility' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' => $model->visibilityOptions()
+        ],
+        FormButtonsWidget::embed([
+            'buttons' =>  [
+                ['label' => \Yii::t('app', 'Create project'), 'style' => 'primary'],
+            ]
+        ])
+    ],
+]);
+$form->end();
+
+Section::end();

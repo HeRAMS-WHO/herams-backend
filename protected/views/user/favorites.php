@@ -2,21 +2,24 @@
 declare(strict_types=1);
 
 use kartik\grid\GridView;
+use prime\components\View;
+use prime\models\ar\Workspace;
+use prime\widgets\FavoriteColumn\FavoriteColumn;
+use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use prime\models\ar\Permission;
 
 /**
- * @var \yii\data\ActiveDataProvider $dataProvider
- * @var \prime\components\View $this
+ * @var ActiveDataProvider $dataProvider
+ * @var View $this
  */
 
 $this->title = \Yii::t('app', 'Favorite workspaces');
-echo Html::beginTag('div', ['class' => 'content']);
-?>
-<div class="form-content form-bg full-width">
-<?php
-$this->params['breadcrumbs'][] = ['label' => ""];
+
+Section::begin()
+    ->withHeader($this->title);
 
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
@@ -39,8 +42,8 @@ echo GridView::widget([
         ],
         [
             'attribute' => 'project.title',
-            'value' => function (\prime\models\ar\Workspace $workspace) {
-                return \yii\helpers\Html::a($workspace->project->title, ['/project/workspaces', 'id' => $workspace->project->id]);
+            'value' => function (Workspace $workspace) {
+                return Html::a($workspace->project->title, ['/project/workspaces', 'id' => $workspace->project->id]);
             },
             'format' => 'raw',
         ],
@@ -69,12 +72,9 @@ echo GridView::widget([
             'value' => 'responseCount'
         ],
         [
-            'class' => \prime\widgets\FavoriteColumn\FavoriteColumn::class
+            'class' => FavoriteColumn::class
         ],
     ]
 ]);
-?>
-</div>
 
-<?php
-echo Html::endTag('div');
+Section::end();

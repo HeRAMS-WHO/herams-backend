@@ -1,14 +1,26 @@
 <?php
-/** @var \prime\models\forms\user\UpdateEmailForm $model */
+declare(strict_types=1);
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
+use prime\models\forms\user\UpdateEmailForm;
 use prime\widgets\FormButtonsWidget;
+use prime\widgets\Section;
 use yii\bootstrap\Html;
+use yii\web\View;
+
+/**
+ * @var View $this
+ * @var UpdateEmailForm $model
+ */
+
+Section::begin();
+
+$form = ActiveForm::begin();
 
 echo Form::widget([
     'model' => $model,
-    'form' => ActiveForm::begin(),
+    'form' => $form,
     'attributes' => [
         'oldMail' => [
             'type' => Form::INPUT_STATIC,
@@ -33,3 +45,5 @@ echo Form::widget([
 ]);
 
 ActiveForm::end();
+
+Section::end();

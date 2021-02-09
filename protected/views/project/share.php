@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
+
 use app\components\ActiveForm;
-use app\components\Form;
-use prime\models\ar\Permission;
-use prime\widgets\FormButtonsWidget;
+use prime\components\View;
+use prime\models\ar\Project;
+use prime\models\forms\Share;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use yii\helpers\Html;
 
 /**
- * @var \prime\models\ar\Project $project
- * @var \prime\components\View $this
- * @var \prime\models\forms\Share $model
+ * @var Project $project
+ * @var View $this
+ * @var Share $model
  */
 
 $this->params['breadcrumbs'][] = [
@@ -27,17 +27,24 @@ echo ProjectTabMenu::widget([
 ]);
 $this->endBlock();
 
-Section::begin(['header' => \Yii::t('app', 'Add new user')]);
-    $form = ActiveForm::begin([
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => [
-            'labelSpan' => 3
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Add new user'));
 
-        ]
-    ]);
-    echo $model->renderForm($form);
-    $form->end();
-    Section::end();
-    Section::begin(['header' => \Yii::t('app', 'View current users')]);
-    echo $model->renderTable();
-    Section::end();
+$form = ActiveForm::begin([
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig' => [
+        'labelSpan' => 3
+
+    ]
+]);
+echo $model->renderForm($form);
+$form->end();
+
+Section::end();
+
+Section::begin()
+    ->withHeader(\Yii::t('app', 'View current users'));
+
+echo $model->renderTable();
+
+Section::end();

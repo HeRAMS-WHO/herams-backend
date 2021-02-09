@@ -8,6 +8,10 @@ use yii\helpers\Html;
 
 class ButtonGroup extends Widget
 {
+    const TYPE_LINK = 'link';
+    const TYPE_RAW = 'raw';
+    const TYPE_SUBMIT = 'submit';
+
     public string $defaultButtonType = 'link';
     public string $tagName = 'div';
     public array $options = [];
@@ -59,13 +63,13 @@ class ButtonGroup extends Widget
             }
             $type = is_string($button) ? 'raw' : $button['type'] ?? $this->defaultButtonType;
             switch ($type) {
-                case 'raw':
+                case self::TYPE_RAW:
                     echo $button;
                     break;
-                case 'link':
+                case self::TYPE_LINK:
                     $this->renderLinkButton($button);
                     break;
-                case 'submit':
+                case self::TYPE_SUBMIT:
                     $this->renderSubmitButton($button);
                     break;
                 default:

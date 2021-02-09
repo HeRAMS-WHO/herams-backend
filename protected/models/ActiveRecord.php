@@ -6,20 +6,9 @@ use prime\components\ActiveQuery;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
-    public const SCENARIO_SEARCH = 'search';
-
     public static function find()
     {
         return new ActiveQuery(static::class);
-    }
-
-
-    public function beforeSave($insert)
-    {
-        if ($this->scenario === self::SCENARIO_SEARCH) {
-            throw new \Exception('Cannot save a model that was meant for search');
-        }
-        return parent::beforeSave($insert);
     }
 
     public function attributeLabels(): array
@@ -33,7 +22,6 @@ class ActiveRecord extends \yii\db\ActiveRecord
             'updated_at' => \Yii::t('app', 'Updated at'),
         ];
     }
-
 
     /**
      * Returns a field useful for displaying this record

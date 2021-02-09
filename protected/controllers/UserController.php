@@ -18,13 +18,14 @@ use prime\controllers\user\Roles;
 use prime\controllers\user\UpdateEmail;
 use prime\controllers\user\UpdatePassword;
 use prime\models\ar\User;
+use SamIT\Yii2\UrlSigner\HmacFilter;
 use yii\helpers\ArrayHelper;
 
 class UserController extends Controller
 {
-    public $layout = self::LAYOUT_ADMIN;
+    public $layout = self::LAYOUT_ADMIN_TABS;
 
-    public function actions()
+    public function actions(): array
     {
         return [
             'confirm-email' => ConfirmEmail::class,
@@ -46,22 +47,27 @@ class UserController extends Controller
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(parent::behaviors(), [
-           'access' => [
-               'rules' => [
-                   [
-                       'allow' => true,
-                       'actions' => ['request-account', 'create', 'request-reset', 'reset-password']
-                   ],
-                   [
-                       'allow' => true,
-                       'roles' => ['@'],
-                       'actions' => ['account', 'favorites', 'update-password']
-                   ]
-               ]
-           ]
+            'access' => [
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'request-account', 'reset-password', 'request-reset']
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'actions' => ['account', 'confirm-email', 'favorites', 'update-email', 'update-password']
+                    ]
+                ]
+            ],
+            HmacFilter::class => [
+                'class' => HmacFilter::class,
+                'signer' => \Yii::$app->urlSigner,
+                'only' => ['confirm-email', 'reset-password'],
+            ],
         ]);
     }
 }

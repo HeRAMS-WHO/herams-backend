@@ -21,6 +21,7 @@ use function iter\chain;
 /**
  * Class User
  * @property string $name
+ * @property string $email
  * @property int $id
  * @property string $password_hash
  * @property ?string $language

@@ -19,8 +19,6 @@ class ConfirmEmail extends Action
         string $email,
         string $old_hash
     ) {
-
-
         $model = new ConfirmEmailForm(
             $user->identity,
             $email,
@@ -39,6 +37,4 @@ class ConfirmEmail extends Action
 
         return $this->controller->render('confirm-email', ['model' => $model]);
     }
-
-
 }
