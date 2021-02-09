@@ -45,18 +45,13 @@ echo GridView::widget([
             'format' => 'raw',
         ],
         [
+            'class' => \prime\widgets\DrilldownColumn::class,
             'label' => 'Workspace',
+            'link' => static function ($project) {
+                return ['project/workspaces', 'id' => $project->id];
+            },
+            'permission' => Permission::PERMISSION_SURVEY_DATA,
             'attribute' => 'title',
-            'content' => function ($workspace) {
-                return (\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) ?
-                    Html::a(
-                        $workspace->title,
-                        ['workspace/limesurvey', 'id' => $workspace->id],
-                        [
-                            'title' => $workspace->title,
-                        ]
-                    ) : $workspace->title;
-            }
         ],
         [
             'attribute' => 'latestUpdate',
