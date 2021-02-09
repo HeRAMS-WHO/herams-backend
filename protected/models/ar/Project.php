@@ -321,6 +321,18 @@ class Project extends ActiveRecord implements Linkable
                             return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
                         }
                     ],
+                    'permissionSourceCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
+                            ->where([
+                                'source' => User::class,
+                                'target' => self::class,
+                                'target_id' => new Expression(self::tableName() . '.[[id]]')
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) $model->getPermissions()->count('distinct source_id');
+                        }
+                    ],
                     'contributorPermissionCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                         VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([

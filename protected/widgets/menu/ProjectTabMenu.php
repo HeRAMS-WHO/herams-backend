@@ -29,7 +29,7 @@ class ProjectTabMenu extends TabMenu
     {
         $this->tabs[] = [
             'url' => ['project/workspaces', 'id' => $this->project->id],
-            'title' => \Yii::t('app', 'Workspaces') . " ({$this->project->workspaceCount})"
+            'title' => \Yii::t('app', 'Workspaces ({n})', ['n' => $this->project->workspaceCount])
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_EXPORT,
@@ -42,14 +42,13 @@ class ProjectTabMenu extends TabMenu
             'title' => \Yii::t('app', 'Dashboard settings')
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_WRITE,
             'url' => ['project/update', 'id' => $this->project->id],
             'title' => \Yii::t('app', 'Project settings')
         ];
 
         $this->tabs[] = [
             'url' => ['project/share', 'id' => $this->project->id],
-            'title' => \Yii::t('app', 'Users'),
+            'title' => \Yii::t('app', 'Users ({n})', ['n' => $this->project->permissionSourceCount]),
             'permission' => Permission::PERMISSION_SHARE
         ];
 

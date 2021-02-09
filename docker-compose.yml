@@ -196,7 +196,7 @@ services:
       - devproxy
       - default
     labels:
-      com.awesam.proxy.domains: "phpma-herams"
+      com.awesam.proxy.domains: "phpmyadmin.herams"
     depends_on:
       - devdb
     environment:
