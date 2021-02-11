@@ -367,11 +367,11 @@ table thead tr th a::after {
 }
 
 table thead tr th a.asc::after {
-    content: url('/img/arrow-down.svg');
+    content: url('/img/arrow-up.svg');
 }
 
 table thead tr th a.desc::after {
-    content: url('/img/arrow-up.svg');
+    content: url('/img/arrow-down.svg');
 }
 
 .table tbody tr td {

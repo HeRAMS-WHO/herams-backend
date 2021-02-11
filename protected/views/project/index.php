@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\widgets\DrilldownColumn;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
@@ -44,8 +45,7 @@ echo GridView::widget([
         'id',
         [
             'attribute' => 'title',
-            'class' => \prime\widgets\DrilldownColumn::class,
-
+            'class' => DrilldownColumn::class,
             'link' => static function ($project) {
                 return ['project/workspaces', 'id' => $project->id];
             }
@@ -66,93 +66,7 @@ echo GridView::widget([
             'label' => \Yii::t('app', '# Responses'),
             'attribute' => 'responseCount'
         ],
-        'actions' => [
-            'class' => ActionColumn::class,
-            'visible' => false,
-            'width' => 6 * 25 . 'px',
-            'template' => '{view} {workspaces} {update} {pages} {share} {remove} {export}',
-            'visibleButtons' => [
-                'pages' => function (Project $project) {
-                    return app()->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project);
-                },
-                'view' => function (Project $project) {
-                    return $project->pageCount > 0 && app()->user->can(Permission::PERMISSION_READ, $project);
-                },
-                'update' => function (Project $project) {
-                    return app()->user->can(Permission::PERMISSION_WRITE, $project);
-                },
-                'share' => function (Project $project) {
-                    return app()->user->can(Permission::PERMISSION_SHARE, $project);
-                },
-                'remove' => function (Project $project) {
-                    return app()->user->can(Permission::PERMISSION_DELETE, $project);
-                },
-                'export' => function (Project $project) {
-                    return app()->user->can(Permission::PERMISSION_EXPORT, $project);
-                },
-            ],
-            'buttons' => [
-                'workspaces' => function ($url, Project $model, $key) {
-                    return Html::a(
-                        Icon::list(),
-                        ['project/workspaces', 'id' => $model->id],
-                        ['title' => \Yii::t('app', 'Workspaces')]
-                    );
-                },
-                'view' => function ($url, Project $model, $key) {
-                    return Html::a(
-                        Icon::project(),
-                        ['project/view', 'id' => $model->id],
-                        ['title' => \Yii::t('app', 'Project dashboard')]
-                    );
-                },
-                'pages' => function ($url, Project $model, $key) {
-                    return Html::a(
-                        Icon::paintBrush(),
-                        ['project/pages', 'id' => $model->id],
-                        ['title' => \Yii::t('app', 'Edit dashboard')]
-                    );
-                },
-                'update' => function ($url, Project $model, $key) {
-                    return Html::a(
-                        Icon::edit(),
-                        ['project/update', 'id' => $model->id],
-                        [
-                            'title' => \Yii::t('app', 'Edit')
-                        ]
-                    );
-                },
-                'share' => function ($url, Project $model, $key) {
-                    return Html::a(
-                        Icon::share(),
-                        $url,
-                        [
-                            'title' => \Yii::t('app', 'Share')
-                        ]
-                    );
-                },
-                'remove' => function ($url, Project $model, $key) {
-                    return Html::a(
-                        Icon::trash(),
-                        ['project/delete', 'id' => $model->id],
-                        [
-                            'data-method' => 'delete',
-                            'title' => \Yii::t('app', 'Delete'),
-                            'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?')
-                        ]
-                    );
-                },
-                'export' => function ($url, Project $model, $key) {
-                    return Html::a(
-                        Icon::download_2(),
-                        $url,
-                        [
-                            'title' => \Yii::t('app', 'Download'),
-                        ]
-                    );
-                }
-            ]
-        ]
+
     ]
 ]);
 

@@ -351,7 +351,7 @@ class Project extends ActiveRecord implements Linkable
                         }
                     ],
                     'contributorCount' => [
-                        VirtualFieldBehavior::GREEDY => (function() use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
+                        VirtualFieldBehavior::GREEDY => (function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
                             $result = new Query();
                             $permissionCount = self::getDb()->queryBuilder->buildExpression($contributorPermissionCountGreedy, $result->params);
                             $workspaceCount = self::getDb()->queryBuilder->buildExpression($workspaceCountGreedy, $result->params);

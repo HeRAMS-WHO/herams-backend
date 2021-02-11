@@ -20,12 +20,11 @@ class FavoriteColumn extends DataColumn
     {
         $this->user = \Yii::$app->user->identity;
         $this->attribute = 'favorite';
-        $this->header = \Yii::t('app', 'Favorite');
         if (!isset($this->route)) {
             $this->route = ['/api/user/workspaces', 'id' => \Yii::$app->user->id];
         }
 
-        $targetIds = $this->user->getFavorites()->filterTargetClass(Workspace::class)->
+        $targetIds = $this->user->getFavorites()->workspaces()->
             select('target_id')->indexBy('target_id')->column();
         parent::init();
         $this->content = static function ($model, $key, $index, self $column) use ($targetIds) {
@@ -41,9 +40,6 @@ class FavoriteColumn extends DataColumn
                 ],
             ]);
         };
-
-        $id = json_encode($this->grid->options['id']);
-        
 
         $this->grid->view->registerJs(<<<JS
 

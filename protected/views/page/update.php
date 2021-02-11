@@ -10,7 +10,6 @@ use prime\helpers\Icon;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
-use prime\widgets\menu\TabMenu;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
@@ -31,11 +30,6 @@ $this->params['breadcrumbs'][] = [
 $this->params['breadcrumbs'][] = [
     'label' => \Yii::t('app', 'Dashboard settings'),
     'url' => ['project/pages', 'id' => $page->project->id]
-];
-
-$this->params['breadcrumbs'][] = [
-    'label' => $page->title,
-    'url' => ['page/update', 'id' => $page->id]
 ];
 
 $this->title = $page->title;

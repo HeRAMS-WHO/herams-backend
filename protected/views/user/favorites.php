@@ -51,8 +51,8 @@ echo GridView::widget([
         [
             'class' => DrilldownColumn::class,
             'label' => 'Workspace',
-            'link' => static function ($project) {
-                return ['project/workspaces', 'id' => $project->id];
+            'link' => static function (Workspace $workspace) {
+                return ['workspace/limesurvey', 'id' => $workspace->id];
             },
             'permission' => Permission::PERMISSION_SURVEY_DATA,
             'attribute' => 'title',

@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace prime\models\search;
 
+use prime\models\ar\Favorite;
 use prime\models\ar\Project;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
+use yii\db\conditions\InCondition;
+use yii\db\Expression;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
@@ -57,6 +60,9 @@ class Workspace extends Model
             ]
         ]);
 
+        // We are forced to do it this way because Yii doesn't properly bind query params from the order by clause.
+        $favorites = Favorite::find()->workspaces()->user($this->user)->select('target_id')->createCommand()->rawSql;
+
         $sort = new Sort([
             'attributes' => [
                 'id',
@@ -67,13 +73,27 @@ class Workspace extends Model
                 'responseCount',
                 'contributorCount',
                 'latestUpdate' => [
-                    'asc' => ['latestUpdate' => SORT_ASC],
-                    'desc' => ['latestUpdate' => SORT_DESC],
+                    'asc' => [
+                        new Expression('[[latestUpdate]] IS NOT NULL ASC'),
+                        'latestUpdate' => SORT_ASC
+                    ],
+                    'desc' => [
+                        'latestUpdate' => SORT_DESC
+                    ],
+                    'default' => SORT_DESC,
+                ],
+                'favorite' => [
+                    'asc' => new Expression("[[id]] IN ($favorites)"),
+                    'desc' => new Expression("[[id]] NOT IN ($favorites)"),
                     'default' => SORT_DESC,
                 ]
             ],
-            'defaultOrder' => ['latestUpdate' => SORT_DESC]
+            'defaultOrder' => [
+                'favorite' => SORT_DESC,
+                'latestUpdate' => SORT_DESC
+            ]
         ]);
+
         $dataProvider->setSort($sort);
         if (!$this->load($params) || !$this->validate()) {
             return $dataProvider;
@@ -90,7 +110,7 @@ class Workspace extends Model
             }
         }
 
-        if (!empty($this->favorite)) {
+        if ($this->favorite !== "") {
             $condition = ['id' => $this->user->getFavorites()->workspaces()->select('target_id')];
             if ($this->favorite) {
                 $query->andWhere($condition);
