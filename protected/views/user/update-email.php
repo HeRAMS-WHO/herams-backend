@@ -1,36 +1,33 @@
 <?php
 
-/** @var \prime\models\forms\user\UpdateEmailForm $model */
-
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
+use prime\models\forms\user\UpdateEmailForm;
 use prime\widgets\FormButtonsWidget;
-use yii\bootstrap\Html;
+use yii\web\View;
+
+/**
+ * @var View $this
+ * @var UpdateEmailForm $model
+ */
+
+$form = ActiveForm::begin([
+    'action' => ['/user/update-email'],
+]);
 
 echo Form::widget([
     'model' => $model,
-    'form' => ActiveForm::begin([
-        'action' => ['/user/update-email'],
-        'formConfig' => [
-            'showLabels' => true
-        ],
-        'fieldConfig' => [
-        ]
-
-    ]),
+    'form' => $form,
     'attributes' => [
         'newEmail' => [
             'type' => Form::INPUT_TEXT,
         ],
         FormButtonsWidget::embed([
             'buttons' => [
-                Html::submitButton(
-                    Yii::t('app', 'Send confirmation'),
-                    ['class' => ['btn','btn-primary']]
-                )
-            ]
-        ])
-    ]
+                ['label' => Yii::t('app', 'Send confirmation'), 'style' => 'primary'],
+            ],
+        ]),
+    ],
 ]);
 
 ActiveForm::end();

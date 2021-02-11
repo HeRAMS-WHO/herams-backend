@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\controllers\user;
 
 use prime\components\Controller;
+use prime\models\search\User;
 use yii\base\Action;
 use yii\web\Request;
 
@@ -13,9 +14,7 @@ class Index extends Action
     public function run(Request $request)
     {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $search = new \prime\models\search\User();
-
-
+        $search = new User();
 
         return $this->controller->render('index', [
             'dataProvider' => $search->search($request->queryParams),

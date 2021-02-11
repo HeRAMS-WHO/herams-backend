@@ -1,9 +1,7 @@
 <?php
 
-
 namespace prime\tests\unit\models\ar;
 
-use prime\models\ar\Favorite;
 use prime\tests\unit\models\ModelTest;
 use yii\base\Model;
 use yii\base\NotSupportedException;
@@ -19,7 +17,6 @@ abstract class ActiveRecordTest extends ModelTest
         $model = $this->getModel();
         $this->assertInstanceOf(ActiveRecord::class, $model);
     }
-
 
     /**
      * @dataProvider validSamples

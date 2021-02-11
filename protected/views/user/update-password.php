@@ -1,23 +1,23 @@
 <?php
-/** @var \prime\models\forms\user\ChangePasswordForm $model */
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
+use prime\models\forms\user\ChangePasswordForm;
 use prime\widgets\FormButtonsWidget;
-use yii\bootstrap\Html;
+use yii\web\View;
+
+/**
+ * @var View $this
+ * @var ChangePasswordForm $model
+ */
+
+$form = ActiveForm::begin([
+    'action' => ['/user/update-password'],
+]);
 
 echo Form::widget([
     'model' => $model,
-    'form' => ActiveForm::begin([
-        'action' => ['/user/update-password'],
-        'formConfig' => [
-            'showLabels' => true
-        ],
-        'fieldConfig' => [
-//            'autoPlaceholder' => true,
-        ]
-
-    ]),
+    'form' => $form,
     'attributes' => [
         'currentPassword' => [
             'type' => Form::INPUT_PASSWORD,
@@ -39,10 +39,7 @@ echo Form::widget([
         ],
         FormButtonsWidget::embed([
             'buttons' => [
-                Html::submitButton(
-                    Yii::t('app', 'Update password'),
-                    ['class' => ['btn', 'btn-primary']]
-                )
+                ['label' => Yii::t('app', 'Update password'), 'style' => 'primary'],
             ]
         ])
     ]

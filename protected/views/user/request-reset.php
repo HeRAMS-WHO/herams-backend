@@ -2,35 +2,40 @@
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
-use yii\helpers\Html;
+use prime\models\forms\user\RequestResetForm;
+use prime\widgets\ButtonGroup;
+use prime\widgets\FormButtonsWidget;
+use prime\widgets\Section;
+use yii\web\View;
 
 /**
- * @var yii\web\View $this
- * @var \prime\models\forms\user\RequestResetForm $model
+ * @var View $this
+ * @var RequestResetForm $model
  */
 
 $this->title = Yii::t('app', 'Reset password');
-//$this->params['breadcrumbs'][] = $this->title;
-$this->params['hideMenu'] = true;
-    echo Html::tag('header', $this->title);
-    echo Form::widget([
-        'model' => $model,
-        'form' => $form = ActiveForm::begin([
-            'id' => 'reset-form',
-            'enableAjaxValidation' => false,
-            'enableClientValidation' => true,
-            'validateOnBlur' => true,
-            'validateOnType' => false,
-            'validateOnChange' => false,
-        ]),
-        'columns' => 1,
-        'attributes' => [
 
-            'email' => ['type' => Form::INPUT_TEXT],
-        ]
-    ]);
-    ActiveForm::end();
-    echo Html::beginTag('div', ['class' => 'actions']);
-    echo Html::a(Yii::t('app', 'Back to sign in'), ['/session/create']);
-    echo Html::submitButton(Yii::t('app', 'Request password reset'), ['class' => 'btn btn-primary', 'form' => 'reset-form']);
-    echo Html::endTag('div');
+Section::begin()
+    ->withHeader($this->title);
+
+$form = ActiveForm::begin();
+
+echo Form::widget([
+    'model' => $model,
+    'form' => $form,
+    'attributes' => [
+        'email' => [
+            'type' => Form::INPUT_TEXT
+        ],
+        FormButtonsWidget::embed([
+            'buttons' =>  [
+                ['label' => \Yii::t('app', 'Back to sign in'), 'type' => ButtonGroup::TYPE_LINK, 'link' => ['/session/create']],
+                ['label' => \Yii::t('app', 'Request password reset'), 'style' => 'primary'],
+            ]
+        ]),
+    ],
+]);
+
+ActiveForm::end();
+
+Section::end();

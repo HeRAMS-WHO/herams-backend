@@ -1,17 +1,25 @@
 <?php
 declare(strict_types=1);
 
-use yii\helpers\Html;
+use prime\models\ar\User;
+use prime\models\forms\user\ChangePasswordForm;
+use prime\models\forms\user\UpdateEmailForm;
+use prime\widgets\Section;
+use prime\widgets\Tabs;
 
 /**
  * @var yii\web\View $this
- * @var \prime\models\ar\User $model
- * @var \prime\models\forms\user\ChangePasswordForm $changePassword
- * @var \prime\models\forms\user\UpdateEmailForm $changeMail
+ * @var User $model
+ * @var ChangePasswordForm $changePassword
+ * @var UpdateEmailForm $changeMail
  */
 
 $this->title = Yii::t('app', 'Update account');
-echo \prime\widgets\Tabs::widget([
+
+Section::begin()
+    ->withHeader($this->title);
+
+echo Tabs::widget([
     'options' => [
         'style' => [
             'grid-column' => '1 / -1',
@@ -33,3 +41,5 @@ echo \prime\widgets\Tabs::widget([
         ]
     ]
 ]);
+
+Section::end();
