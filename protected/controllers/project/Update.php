@@ -19,6 +19,7 @@ class Update extends Action
         Request $request,
         NotificationService $notificationService,
         AccessCheckInterface $accessCheck,
+        User $user,
         int $id
     ) {
         $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN_TABS;
@@ -35,7 +36,8 @@ class Update extends Action
         }
 
         return $this->controller->render('update', [
-            'project' => $model
+            'project' => $model,
+            'userComponent' => $user,
         ]);
     }
 }

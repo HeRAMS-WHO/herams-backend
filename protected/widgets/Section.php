@@ -41,6 +41,12 @@ class Section extends Widget
         return $this;
     }
 
+    public function withSubject($subject): self
+    {
+        $this->subject = $subject;
+        return $this;
+    }
+
     public function init()
     {
         parent::init();
@@ -49,8 +55,6 @@ class Section extends Widget
         ob_start();
         ob_implicit_flush(false);
     }
-
-
 
     private function initCss(): void
     {

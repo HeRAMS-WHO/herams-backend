@@ -85,7 +85,7 @@ class UpdateCest
         foreach ($options as $key => $value) {
             $I->selectOption(['name' => "Project[$key]"], $value);
         }
-        $I->click('Update project');
+        $I->click('Update');
         $I->seeResponseCodeIsSuccessful();
         $project->refresh();
         foreach ($attributes as $key => $value) {
