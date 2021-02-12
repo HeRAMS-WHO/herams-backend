@@ -169,22 +169,26 @@ return [
                 ],
             ]
         ],
-        'mailer' => [
-            'class' => Mailer::class,
-            'messageConfig' => [
-                'from' => [$env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support']
-            ],
-            'transport' => [
-                'class' => Swift_SmtpTransport::class,
-                'username' => $env->getWrappedSecret('smtp/username'),
-                'password' => $env->getWrappedSecret('smtp/password'),
-                'constructArgs' => [
-                    $env->get('smtp/host'),
-                    $env->get('smtp/port'),
-                    $env->get('smtp/encryption')
+        'mailer' => static function() use ($env): Mailer {
+            return \Yii::createObject([
+                'class' => Mailer::class,
+                'messageConfig' => [
+                    'from' => [$env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support']
+                ],
+                'transport' => [
+                    'class' => Swift_SmtpTransport::class,
+                    'username' => $env->getWrappedSecret('smtp/username'),
+                    'password' => $env->getWrappedSecret('smtp/password'),
+                    'constructArgs' => [
+                        $env->getWrappedSecret('smtp/host'),
+                        $env->getSecret('smtp/port'),
+                        $env->getWrappedSecret('smtp/encryption')
+                    ]
                 ]
-            ]
-        ],
+            ]);
+
+        },
+
     ],
     'modules' => [
         'api' => [
