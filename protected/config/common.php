@@ -179,9 +179,9 @@ return [
                 'username' => $env->getWrappedSecret('smtp/username'),
                 'password' => $env->getWrappedSecret('smtp/password'),
                 'constructArgs' => [
-                    $env->get('smtp/host'),
-                    $env->get('smtp/port'),
-                    $env->get('smtp/encryption')
+                    $env->getWrappedSecret('smtp/host'),
+                    $env->getWrappedSecret('smtp/port'),
+                    $env->getWrappedSecret('smtp/encryption')
                 ]
             ]
         ],

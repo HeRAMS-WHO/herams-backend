@@ -36,8 +36,9 @@ x-env:
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
       URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       PRIVATE_KEY_FILE: /project/local/testkey
-      smtp/host: mailcatcher
-      smtp/port: 1025
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
+      SECRET_smtp/encryption: tcp
     user: ${UID-0}:${GID-0}
     working_dir: "/project"
   mysql: &mysql
