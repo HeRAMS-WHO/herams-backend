@@ -23,7 +23,6 @@ use function iter\toArrayWithKeys;
 /**
  * @var Project $project
  * @var View $this
- * @var User $userComponent
  */
 
 $this->title = $project->title;

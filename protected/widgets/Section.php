@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
-use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\web\User;
 
 class Section extends Widget
 {
@@ -24,7 +24,7 @@ class Section extends Widget
                 continue;
             }
 
-            if (!isset($action['permission']) || \Yii::$app->user->can($action['permission'], $this->subject ?? [])) {
+            if (!isset($action['permission']) || $this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
                 yield $action;
             }
         }
@@ -53,6 +53,11 @@ class Section extends Widget
     {
         $this->subject = $subject;
         return $this;
+    }
+
+    private function getUserComponent(): User
+    {
+        return \Yii::$app->user;
     }
 
     public function init()
@@ -107,15 +112,9 @@ class Section extends Widget
 
     public function run(): string
     {
-        if (isset($this->permission)) {
-            if (!isset($this->subject)) {
-                throw new InvalidConfigException('To use permission, a subject must be set.');
-            }
-
-            if (!\Yii::$app->user->can($this->permission, $this->subject)) {
-                ob_get_clean();
-                return '';
-            }
+        if (isset($this->permission) && !$this->getUserComponent()->can($this->permission, $this->subject)) {
+            ob_get_clean();
+            return '';
         }
 
         $options = $this->options;
