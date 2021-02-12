@@ -49,6 +49,8 @@ class Permission extends ActiveRecord
     const ROLE_PROJECT_OWNER = 'ROLE_PROJECT_OWNER';
     const ROLE_PROJECT_ADMIN = 'ROLE_PROJECT_ADMIN';
 
+    const PERMISSION_DELETE_ALL_WORKSPACES = 'delete-workspaces';
+
 
     public function attributeLabels(): array
     {

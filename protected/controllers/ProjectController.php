@@ -6,6 +6,7 @@ use prime\actions\DeleteAction;
 use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
+use prime\controllers\project\DeleteWorkspaces;
 use prime\controllers\project\ExportDashboard;
 use prime\controllers\project\ExternalDashboard;
 use prime\controllers\project\Filter;
@@ -47,6 +48,9 @@ class ProjectController extends Controller
                 'class' => DeleteAction::class,
                 'query' => Project::find(),
                 'redirect' => ['/project']
+            ],
+            'delete-workspaces' => [
+                'class' => DeleteWorkspaces::class
             ],
             'view' => View::class,
             'limesurvey' => Limesurvey::class,

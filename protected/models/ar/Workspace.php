@@ -126,13 +126,14 @@ class Workspace extends ActiveRecord
     public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
-            'latestUpdate' => \Yii::t('app', 'Latest update'),
-            'tool_id' => \Yii::t('app', 'Project'),
-            'closed' => \Yii::t('app', 'Closed'),
-            'token' => \Yii::t('app', 'Token'),
-            'contributorCount' => \Yii::t('app', 'Contributors'),
-            'facilityCount' => \Yii::t('app', 'Facilities'),
-            'responseCount' => \Yii::t('app', 'Responses')
+            'project.title' => \Yii::t('app.model.workspace', 'Project'),
+            'latestUpdate' => \Yii::t('app.model.workspace', 'Latest update'),
+            'tool_id' => \Yii::t('app.model.workspace', 'Project'),
+            'closed' => \Yii::t('app.model.workspace', 'Closed'),
+            'token' => \Yii::t('app.model.workspace', 'Token'),
+            'contributorCount' => \Yii::t('app.model.workspace', 'Contributors'),
+            'facilityCount' => \Yii::t('app.model.workspace', 'Facilities'),
+            'responseCount' => \Yii::t('app.model.workspace', 'Responses')
         ]);
     }
 
