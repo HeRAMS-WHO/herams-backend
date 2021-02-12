@@ -43,6 +43,7 @@ class ProjectTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'url' => ['project/update', 'id' => $this->project->id],
+            'permission' => Permission::PERMISSION_WRITE,
             'title' => \Yii::t('app', 'Project settings')
         ];
 
