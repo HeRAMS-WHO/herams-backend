@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 
@@ -13,6 +14,7 @@ class Section extends Widget
     public object $subject;
     public iterable $actions = [];
     public $options = [];
+    public $permission;
     public string $header;
 
     private function filterButtons(): iterable
@@ -38,6 +40,12 @@ class Section extends Widget
     public function withHeader(string $header): self
     {
         $this->header = $header;
+        return $this;
+    }
+
+    public function withPermission(string $permission): self
+    {
+        $this->permission = $permission;
         return $this;
     }
 
@@ -99,6 +107,17 @@ class Section extends Widget
 
     public function run(): string
     {
+        if (isset($this->permission)) {
+            if (!isset($this->subject)) {
+                throw new InvalidConfigException('To use permission, a subject must be set.');
+            }
+
+            if (!\Yii::$app->user->can($this->permission, $this->subject)) {
+                ob_get_clean();
+                return '';
+            }
+        }
+
         $options = $this->options;
         Html::addCssClass($options, 'Section');
         $result = Html::beginTag('section', $options);

@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 use app\components\Form;
 use app\components\ActiveForm;
+use prime\widgets\Section;
 use yii\bootstrap\Html;
 use prime\helpers\Icon;
 
@@ -17,6 +19,7 @@ $this->params['breadcrumbs'][] = [
 ];
 
 $this->title = \Yii::t('app', 'Import workspaces');
+Section::begin()->withHeader($this->title);
 
     $form = ActiveForm::begin([
         "type" => ActiveForm::TYPE_HORIZONTAL,
@@ -32,8 +35,18 @@ $this->title = \Yii::t('app', 'Import workspaces');
                 'items' => $model->fieldOptions()
             ],
             'tokens' => [
-                'type' => Form::INPUT_CHECKBOX_LIST,
-                'items' => $model->tokenOptions()
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => \prime\widgets\BetterSelect::class,
+                'options' => [
+                    'options' => [
+
+                        'style' => [
+                            'column-count' => 2,
+                            'height' => 'auto',
+                        ]
+                    ],
+                    'items' => $model->tokenOptions()
+                ]
             ],
             \prime\widgets\FormButtonsWidget::embed([
                 'buttons' => [
@@ -44,3 +57,4 @@ $this->title = \Yii::t('app', 'Import workspaces');
         ]
     ]);
     $form->end();
+    Section::end();

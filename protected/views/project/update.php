@@ -99,30 +99,60 @@ echo Form::widget([
 ActiveForm::end();
 Section::end();
 
-if ($userComponent->can(Permission::PERMISSION_DELETE, $project)) {
-    Section::begin()
-        ->withHeader(\Yii::t('app', 'Delete project'))
-        ->forDangerousAction();
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Delete project'))
+    ->withSubject($project)
+    ->withPermission(Permission::PERMISSION_DELETE)
+    ->forDangerousAction()
+;
 
-    echo Html::tag('p', \Yii::t('app', 'This will permanently delete the project and all its workspaces.'));
-    echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
-    echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this project?')));
+echo Html::tag('p', \Yii::t('app', 'This will permanently delete the project and all its workspaces.'));
+echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
+echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this project?')));
 
-    echo ButtonGroup::widget([
-        'buttons' => [
-            [
-                'icon' => Icon::trash(),
-                'label' => \Yii::t('app', 'Delete'),
-                'link' => ['project/delete', 'id' => $project->id],
-                'style' => 'delete',
-                'linkOptions' => [
-                    'data-method' => 'delete',
-                    'title' => \Yii::t('app', 'Delete project'),
-                    'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
-                ]
+echo ButtonGroup::widget([
+    'buttons' => [
+        [
+            'icon' => Icon::trash(),
+            'label' => \Yii::t('app', 'Delete'),
+            'link' => ['project/delete', 'id' => $project->id],
+            'style' => 'delete',
+            'linkOptions' => [
+                'data-method' => 'delete',
+                'title' => \Yii::t('app', 'Delete project'),
+                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
             ]
         ]
-    ]);
+    ]
+]);
 
-    Section::end();
-}
+Section::end();
+
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Empty project'))
+    ->withSubject($project)
+    ->withPermission(Permission::PERMISSION_DELETE_ALL_WORKSPACES)
+    ->forDangerousAction()
+;
+
+echo Html::tag('p', \Yii::t('app', 'This will permanently delete all workspaces in the project.'));
+echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
+echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete all workspaces?')));
+
+echo ButtonGroup::widget([
+    'buttons' => [
+        [
+            'icon' => Icon::trash(),
+            'label' => \Yii::t('app', 'Delete all workspaces'),
+            'link' => ['project/delete-workspaces', 'id' => $project->id],
+            'style' => 'delete',
+            'linkOptions' => [
+                'data-method' => 'delete',
+                'title' => \Yii::t('app', 'Delete all workspaces in project'),
+                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
+            ]
+        ]
+    ]
+]);
+
+Section::end();
