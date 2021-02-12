@@ -1,17 +1,15 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\User;
 
 class Update extends Action
 {
@@ -21,7 +19,7 @@ class Update extends Action
         AccessCheckInterface $accessCheck,
         int $id
     ) {
-        $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN_TABS;
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $model = Project::findOne(['id' => $id]);
 
         $accessCheck->requirePermission($model, Permission::PERMISSION_WRITE);
@@ -35,7 +33,7 @@ class Update extends Action
         }
 
         return $this->controller->render('update', [
-            'project' => $model
+            'project' => $model,
         ]);
     }
 }

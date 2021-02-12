@@ -32,7 +32,8 @@ return [
         Permission::PERMISSION_EXPORT,
         Permission::PERMISSION_SURVEY_DATA,
         Permission::PERMISSION_MANAGE_WORKSPACES,
-        Permission::PERMISSION_MANAGE_DASHBOARD
+        Permission::PERMISSION_MANAGE_DASHBOARD,
+        Permission::PERMISSION_DELETE_ALL_WORKSPACES,
     ]),
     new ImpliedPermission(Permission::PERMISSION_WRITE, [
         Permission::PERMISSION_READ,

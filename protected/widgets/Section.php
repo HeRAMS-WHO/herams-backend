@@ -5,6 +5,7 @@ namespace prime\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\web\User;
 
 class Section extends Widget
 {
@@ -13,6 +14,7 @@ class Section extends Widget
     public object $subject;
     public iterable $actions = [];
     public $options = [];
+    public $permission;
     public string $header;
 
     private function filterButtons(): iterable
@@ -22,7 +24,7 @@ class Section extends Widget
                 continue;
             }
 
-            if (!isset($action['permission']) || \Yii::$app->user->can($action['permission'], $this->subject ?? [])) {
+            if (!isset($action['permission']) || $this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
                 yield $action;
             }
         }
@@ -41,6 +43,23 @@ class Section extends Widget
         return $this;
     }
 
+    public function withPermission(string $permission): self
+    {
+        $this->permission = $permission;
+        return $this;
+    }
+
+    public function withSubject($subject): self
+    {
+        $this->subject = $subject;
+        return $this;
+    }
+
+    private function getUserComponent(): User
+    {
+        return \Yii::$app->user;
+    }
+
     public function init()
     {
         parent::init();
@@ -49,8 +68,6 @@ class Section extends Widget
         ob_start();
         ob_implicit_flush(false);
     }
-
-
 
     private function initCss(): void
     {
@@ -95,6 +112,11 @@ class Section extends Widget
 
     public function run(): string
     {
+        if (isset($this->permission) && !$this->getUserComponent()->can($this->permission, $this->subject)) {
+            ob_get_clean();
+            return '';
+        }
+
         $options = $this->options;
         Html::addCssClass($options, 'Section');
         $result = Html::beginTag('section', $options);

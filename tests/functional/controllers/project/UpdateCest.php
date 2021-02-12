@@ -30,6 +30,8 @@ class UpdateCest
 
         $I->amOnPage(['project/update', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
+        $I->dontSee('Delete project');
+        $I->dontSee('Empty project');
     }
 
     public function testAccessControlWithAdminAccess(FunctionalTester $I)
@@ -40,8 +42,11 @@ class UpdateCest
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project));
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_DELETE_ALL_WORKSPACES, $project));
         $I->amOnPage(['project/update', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
+        $I->see('Delete project');
+        $I->see('Empty project');
     }
 
     public function testUpdate(FunctionalTester $I)
@@ -85,7 +90,7 @@ class UpdateCest
         foreach ($options as $key => $value) {
             $I->selectOption(['name' => "Project[$key]"], $value);
         }
-        $I->click('Update project');
+        $I->click('Update');
         $I->seeResponseCodeIsSuccessful();
         $project->refresh();
         foreach ($attributes as $key => $value) {
