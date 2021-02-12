@@ -180,7 +180,7 @@ return [
                 'password' => $env->getWrappedSecret('smtp/password'),
                 'constructArgs' => [
                     $env->getWrappedSecret('smtp/host'),
-                    $env->getWrappedSecret('smtp/port'),
+                    $env->getSecret('smtp/port'),
                     $env->getWrappedSecret('smtp/encryption')
                 ]
             ]

@@ -66,8 +66,8 @@ services:
       RUNTIME_PATH: /run
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
       URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
-      smtp/host: mailcatcher
-      smtp/port: 1025
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
     depends_on:
       - devdb
       - mailcatcher
@@ -190,6 +190,8 @@ services:
       YII_ENV: $YII_ENV
       SECRET_app/url_signer_secret: secret
       SECRET_app/cookie_validation_key: secret
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
       RUNTIME_PATH: /runtime
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
