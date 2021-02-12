@@ -5,9 +5,11 @@ All labels available: https://github.com/HeRAMS-WHO/herams-backend/labels
 
 ##Creating an issue
 ###Description
-When creating an issue be descriptive as possible. A good approach is:
+When creating an issue be as descriptive as possible. A good approach is:
 
 "I am logged in as `...` with `...`, and am on page `...`. I want to `...`"
+
+_TODO: create issue templates_
 
 From this description it should be clear for developers to reproduce the taken steps to get to the problem.
 The desired next steps and features should be just as clear.
@@ -25,8 +27,11 @@ The developers will assign the issues to themselves when they start working on a
 
 ###Flow
 * When there is **an assignee**, it can be assumed the issue is in progress
+    * When assigned to a developer development is in progress
+    * When assigned to the reporter or stakeholders, development progress is blocked until handled
 * When the implementation is complete and released on staging, a developer will add **flow:test on staging**
-* It must then be checked by the reporter on staging:
+_TODO: automate this step_
+* It must then be checked by the reporter on staging _(temporarily because of workload it will be explicitly mentioned if the reporter wants to check the result)_:
     * When the issue is complete, add flow label **flow:works on staging**
     * When the issue is not complete, **add a comment** describing what is not working as expected and remove the label **flow:test on staging**
 * When the issue has label **env:staging** the issue can now **be closed** by the developer
