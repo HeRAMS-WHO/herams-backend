@@ -33,8 +33,9 @@ class ImportCest
             'name' => 'Import[tokens][]',
             'value' => $I->haveWorkspace()->getAttribute('token')
         ]);
-        $I->uncheckOption(['css' => '[name="Import[tokens][]"][value=token1]']);
-        $I->click('Import workspaces');
+        $I->submitForm('form', [
+            'Import[tokens]' => ['token2']
+        ]);
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(Workspace::class, [
             'title' => 'token2',
