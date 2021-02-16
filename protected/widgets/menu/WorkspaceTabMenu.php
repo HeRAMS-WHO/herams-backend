@@ -30,7 +30,7 @@ class WorkspaceTabMenu extends TabMenu
         $this->tabs = [];
 
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_SURVEY_DATA,
+            'permission' => Permission::PERMISSION_LIST_FACILITIES,
             'url' => ["workspace/limesurvey", 'id' => $this->workspace->id],
             'title' => \Yii::t('app', 'Health Facilities') . " ({$this->workspace->facilityCount})"
         ];
