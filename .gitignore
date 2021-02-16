@@ -20,3 +20,4 @@ c3.php
 cghooks.lock
 /node_modules
 docker-compose.override.yml
+/docker/php/xdebug.ini

@@ -26,6 +26,7 @@ RUN apk add --update --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/tes
   php8-zip \
   php8-pecl-xlswriter \
   php8-pecl-pcov \
+  php8-pecl-xdebug \
   --
 # Install alias
 RUN ln -s $(which php8) /usr/bin/php

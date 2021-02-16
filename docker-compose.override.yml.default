@@ -1,1 +1,5 @@
 version: '3.8'
+services:
+  phpfpm:
+    volumes:
+      - ./docker/php/xdebug.ini:/etc/php8/conf.d/xdebug.ini:ro
