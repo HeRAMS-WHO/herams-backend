@@ -1,16 +1,17 @@
 <?php
 declare(strict_types=1);
 
+use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
-use app\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Element as ARElement;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\models\forms\Element as FormElement;
+use prime\widgets\ButtonGroup;
+use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
-use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -45,22 +46,11 @@ $this->title = $model->isNewRecord
 Section::begin()
     ->withHeader($this->title);
 
-$form = ActiveForm::begin([
-    "type" => ActiveForm::TYPE_HORIZONTAL,
-    'enableClientValidation' => true,
-    'formConfig' => [
-        'showLabels' => true,
-        'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
-]);
-//echo Html::activeHiddenInput($model, 'referrer', ['value' => Yii::$app->request->referrer]);
-//echo $form->hiddenField($model, ['value'=> Yii::$app->request->referrer])->label(false);
+$form = ActiveForm::begin();
 
 echo Form::widget([
     'form' => $form,
     'model' => $model,
-    'columns' => 1,
     "attributes" => [
         'transpose' => [
             'type' => Form::INPUT_RADIO_BUTTON_GROUP,
@@ -144,60 +134,75 @@ $('form').on('change', function() {
 JS
 );
 
-
 $attributes = [];
 foreach ($model->colorAttributes() as $attribute) {
     $attributes[$attribute] = [
         'type' => Form::INPUT_HTML5,
         'html5type' => 'color',
-        'allowUnsafe' => true,
     ];
 }
 
+$this->registerCss(<<<CSS
+.columns .form-group {
+    break-inside: avoid;
+}
+
+.columns label {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+CSS
+);
+
+echo Html::beginTag('div', ['style' => ['column-width' => '250px'], 'class' => ['columns']]);
 if (!empty($attributes)) {
-    $form->formConfig['labelSpan'] = 8;
     echo Form::widget([
         'form' => $form,
         'model' => $model,
-        'columns' => 2,
         'attributes' => $attributes
     ]);
 }
-echo ButtonGroup::widget([
-    'options' => [
-        'class' => [
-            'pull-right',
-            'buttons-row'
-        ],
+echo Html::endTag('div');
+
+echo Form::widget([
+    'form' => $form,
+    'model' => $model,
+    'attributes' => [
+        FormButtonsWidget::embed([
+            'buttons' => [
+                [
+                    'label' => $this->title,
+                    'type' => ButtonGroup::TYPE_SUBMIT,
+                    'style' => 'primary',
+                    'buttonOptions' => [
+                        'name' => 'action',
+                        'value' => 'refresh'
+                    ],
+                ],
+                [
+                    'label' => $model->isNewRecord
+                        ? \Yii::t('app', 'Create element & go back', ['action' => $this->title])
+                        : \Yii::t('app', 'Update element & go back', ['action' => $this->title]),
+                    'type' => ButtonGroup::TYPE_SUBMIT,
+                    'style' => 'default',
+                    'buttonOptions' => [
+                        'name' => 'action',
+                        'value' => 'dashboard'
+                    ],
+                ],
+                [
+                    'label' => \Yii::t('app', 'Discard & go back'),
+                    'type' => ButtonGroup::TYPE_LINK,
+                    'link' => Yii::$app->request->referrer,
+                    'style' => 'white',
+                ],
+            ],
+        ]),
     ],
-    'buttons' => [
-        Html::submitButton(
-            $this->title,
-            [
-                'class' => 'btn btn-primary',
-                'name' => 'action',
-                'value' => 'refresh'
-            ]
-        ),
-        Html::submitButton(
-            $model->isNewRecord
-                ? \Yii::t('app', 'Create element & go back', ['action' => $this->title])
-                : \Yii::t('app', 'Update element & go back', ['action' => $this->title]),
-            [
-                'class' => 'btn btn-save-back',
-                'name' => 'action',
-                'value' => 'dashboard'
-            ]
-        ),
-        Html::a(
-            \Yii::t('app', 'Discard & go back'),
-            Yii::$app->request->referrer,
-            [
-                'class' => 'btn btn-white'
-            ]
-        )
-    ]
 ]);
+
 ActiveForm::end();
 
 Section::end();

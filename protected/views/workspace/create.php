@@ -1,15 +1,18 @@
 <?php
+declare(strict_types=1);
 
-use app\components\Form;
 use app\components\ActiveForm;
+use app\components\Form;
+use kartik\select2\Select2;
+use prime\models\ar\Workspace;
+use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
-use yii\bootstrap\ButtonGroup;
-use yii\bootstrap\Html;
-use prime\helpers\Icon;
+use prime\widgets\Section;
+use yii\web\View;
 
 /**
- * @var \yii\web\View $this
- * @var \prime\models\ar\Workspace $model
+ * @var View $this
+ * @var Workspace $model
  */
 
 $this->params['breadcrumbs'][] = [
@@ -19,13 +22,10 @@ $this->params['breadcrumbs'][] = [
 
 $this->title = \Yii::t('app', 'New workspace');
 
-$form = ActiveForm::begin([
-    'id' => 'create-workspace',
-    "type" => ActiveForm::TYPE_HORIZONTAL,
-    'formConfig' => [
-        'labelSpan' => 3
-    ]
-]);
+Section::begin()
+    ->withHeader($this->title);
+
+$form = ActiveForm::begin();
 
 echo Form::widget([
     'form' => $form,
@@ -37,17 +37,20 @@ echo Form::widget([
         ],
         'token' => [
             'type' => Form::INPUT_WIDGET,
-            'widgetClass' => \kartik\select2\Select2::class,
+            'widgetClass' => Select2::class,
             'options' => [
                 'data' => $model->tokenOptions(),
             ],
         ],
         FormButtonsWidget::embed([
-                'buttons' => [
-                    Html::submitButton(\Yii::t('app', 'Create workspace'), ['class' => 'btn btn-primary']),
-                ]
+            'buttons' => [
+                ['label' => \Yii::t('app', 'Create workspace'), 'type' => ButtonGroup::TYPE_SUBMIT, 'style' => 'primary'],
+            ]
         ])
 
     ]
 ]);
-$form->end();
+
+ActiveForm::end();
+
+Section::end();

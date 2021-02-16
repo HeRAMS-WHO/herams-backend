@@ -82,8 +82,10 @@ textarea.form-control {
 
 /*}*/
 
-.form-group, .form-horizontal .form-group {
-    margin: 0;
+.form-group,
+.form-horizontal .form-group
+{
+    margin-bottom: 0.5rem;
 }
 
 .tab-pane {
@@ -202,7 +204,7 @@ textarea.form-control {
     width: 100%;
 }
 
-.form-horizontal input[type="color"] {
+input.form-control[type="color"] {
     max-width: 40px;
     width: 40px;
     padding: 5px;

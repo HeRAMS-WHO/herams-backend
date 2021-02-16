@@ -1,12 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace prime\tests;
 
-use prime\models\ar\Permission;
+use prime\models\ar\Page;
 use prime\models\ar\Project;
-use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use SamIT\abac\AuthManager;
-use SamIT\abac\repositories\PreloadingSourceRepository;
 use yii\db\ActiveRecord;
 
 /**
@@ -28,39 +28,54 @@ class FunctionalTester extends \Codeception\Actor
 {
     use _generated\FunctionalTesterActions;
 
-    private $workspace;
-    private $project;
-   /**
+    private Page $page;
+    private Project $project;
+    private Workspace $workspace;
+
+    /**
     * Define custom actions here
     */
-   public function haveProject(): Project
-   {
-       if (!isset($this->project)) {
-           $this->project = $project = new Project();
-           $project->title = 'Test project';
-           $project->base_survey_eid = 12345;
-           $this->save($project);
-       }
+    public function havePage(): Page
+    {
+        if (!isset($this->page)) {
+            $this->page = new Page();
+            $this->page->title = 'Test page';
+            $this->page->sort = 0;
+            $this->page->project_id = $this->haveProject()->id;
+            $this->save($this->page);
+        }
 
-       return $this->project;
+        return $this->page;
+    }
 
-   }
+    public function haveProject(): Project
+    {
+        if (!isset($this->project)) {
+            $this->project = $project = new Project();
+            $project->title = 'Test project';
+            $project->base_survey_eid = 12345;
+            $this->save($project);
+        }
 
-   public function haveWorkspace(): Workspace
-   {
-       if (!isset($this->workspace)) {
-           $this->workspace = $workspace = new Workspace();
-           $workspace->title = 'WS1';
-           $workspace->tool_id = $this->haveProject()->id;
-           $this->save($workspace);
-       }
-       return $this->workspace;
-   }
+        return $this->project;
+    }
 
-   public function assertUserCan(object $subject, string $permission): void
-   {
+    public function haveWorkspace(): Workspace
+    {
+        if (!isset($this->workspace)) {
+            $this->workspace = $workspace = new Workspace();
+            $workspace->title = 'WS1';
+            $workspace->tool_id = $this->haveProject()->id;
+            $this->save($workspace);
+        }
+
+        return $this->workspace;
+    }
+
+    public function assertUserCan(object $subject, string $permission): void
+    {
         $this->assertTrue(\Yii::$app->user->can($permission, $subject));
-   }
+    }
 
     public function assertUserCanNot(object $subject, string $permission): void
     {
@@ -75,8 +90,8 @@ class FunctionalTester extends \Codeception\Actor
         $this->assertUserCan($subject, $permission);
     }
 
-   public function save(ActiveRecord $activeRecord)
-   {
-       $this->assertTrue($activeRecord->save(), print_r($activeRecord->errors, true));
-   }
+    public function save(ActiveRecord $activeRecord)
+    {
+        $this->assertTrue($activeRecord->save(), print_r($activeRecord->errors, true));
+    }
 }
