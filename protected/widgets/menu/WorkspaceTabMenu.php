@@ -40,10 +40,10 @@ class WorkspaceTabMenu extends TabMenu
             'title' => \Yii::t('app', 'Workspace settings')
         ];
 
-        $this->tabs[] =[
-            'permission' => Permission::PERMISSION_SHARE,
-            'url' => ["workspace/share", 'id' => $this->workspace->id],
-            'title' => \Yii::t('app', 'Users')
+        $this->tabs[] = [
+            'url' => ['workspace/share', 'id' => $this->workspace->id],
+            'title' => \Yii::t('app', 'Users ({n})', ['n' => $this->workspace->permissionSourceCount]),
+            'permission' => Permission::PERMISSION_SHARE
         ];
 
         $this->tabs[] = [
