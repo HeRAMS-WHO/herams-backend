@@ -169,7 +169,7 @@ return [
                 ],
             ]
         ],
-        'mailer' => static function() use ($env): Mailer {
+        'mailer' => static function () use ($env): Mailer {
             return \Yii::createObject([
                 'class' => Mailer::class,
                 'messageConfig' => [
@@ -186,7 +186,6 @@ return [
                     ]
                 ]
             ]);
-
         },
 
     ],
