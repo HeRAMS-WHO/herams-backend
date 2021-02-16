@@ -30,8 +30,8 @@ x-env:
       SECRET_database/password: ${DB_PASS}
       YII_ENV: $YII_ENV
       SECRET_limesurvey/host: ${LS_HOST}
-      LS_PASS: ${LS_PASS}
-      LS_USER: ${LS_USER}
+      SECRET_limesurvey/username: ${LS_USER}
+      SECRET_limesurvey/password: ${LS_PASS}
       RUNTIME_PATH: /runtime
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
       URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}

@@ -1,12 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace prime\tests;
 
-use prime\models\ar\Permission;
+use prime\models\ar\Page;
 use prime\models\ar\Project;
-use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use SamIT\abac\AuthManager;
-use SamIT\abac\repositories\PreloadingSourceRepository;
 use yii\db\ActiveRecord;
 
 /**
@@ -28,11 +28,26 @@ class FunctionalTester extends \Codeception\Actor
 {
     use _generated\FunctionalTesterActions;
 
-    private $workspace;
+    private $page;
     private $project;
+    private $workspace;
+
    /**
     * Define custom actions here
     */
+   public function havePage(): Page
+   {
+       if (!isset($this->page)) {
+           $this->page = new Page();
+           $this->page->title = 'Test page';
+           $this->page->sort = 0;
+           $this->page->project_id = $this->haveProject()->id;
+           $this->save($this->page);
+       }
+
+       return $this->page;
+   }
+
    public function haveProject(): Project
    {
        if (!isset($this->project)) {
@@ -43,7 +58,6 @@ class FunctionalTester extends \Codeception\Actor
        }
 
        return $this->project;
-
    }
 
    public function haveWorkspace(): Workspace
