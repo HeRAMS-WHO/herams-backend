@@ -1,10 +1,10 @@
-#Issues
+# Issues
 
-##Labels
+## Labels
 All labels available: https://github.com/HeRAMS-WHO/herams-backend/labels
 
-##Creating an issue
-###Description
+## Creating an issue
+### Description
 When creating an issue be as descriptive as possible. A good approach is:
 
 "I am logged in as `...` with `...`, and am on page `...`. I want to `...`"
@@ -14,18 +14,18 @@ _TODO: create issue templates_
 From this description it should be clear for developers to reproduce the taken steps to get to the problem.
 The desired next steps and features should be just as clear.
 
-###Assigning labels
+### Assigning labels
 Labels must be assigned to make it very clear what the status of the issue is. Use the following issue categories:
 * **env** Indicate on which platform the error occurs, not needed when it is a new feature  
 * **urgency** When the urgency is other than normal, assign an urgency label like _extreme_, _high_ or _low_
 * **subject** Help developers to filter issues to pick up quickly by adding a subject
 * **type** Help developers prioritize issues withing an urgency, i.e. bug often is picked up before an enhancement
 
-##Issue flow
-###Assignee
+## Issue flow
+### Assignee
 The developers will assign the issues to themselves when they start working on an issue.
 
-###Flow
+### Flow
 * When there is **an assignee**, it can be assumed the issue is in progress
     * When assigned to a developer development is in progress
     * When assigned to the reporter or stakeholders, development progress is blocked until handled
