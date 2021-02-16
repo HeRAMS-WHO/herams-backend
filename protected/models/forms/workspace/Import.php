@@ -8,6 +8,7 @@ use prime\models\ar\Project;
 use prime\models\ar\Workspace;
 use prime\objects\BatchResult;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -57,6 +58,9 @@ class Import extends Model
                     $this->fieldOptions[$key] = $key;
                 }
             }
+        }
+        if (empty($this->tokens)) {
+            throw new InvalidConfigException('No available tokens');
         }
 
     }

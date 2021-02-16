@@ -11,10 +11,8 @@ use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\workspace\Import as ImportModel;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
+use yii\base\InvalidConfigException;
 use yii\web\Request;
-use yii\web\User;
 
 class Import extends Action
 {
@@ -33,7 +31,12 @@ class Import extends Action
         /** @var array $tokens */
         $samples = $limesurveyDataProvider->getTokens($project->base_survey_eid);
 
-        $model = new ImportModel($project, $samples);
+        try {
+            $model = new ImportModel($project, $samples);
+        } catch (InvalidConfigException $e) {
+            $notificationService->error($e->getMessage());
+            return $this->controller->redirect(['project/workspaces', 'id' => $project->id]);
+        }
 
         if ($request->isPost) {
             if ($model->load($request->bodyParams)
