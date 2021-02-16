@@ -145,8 +145,8 @@ foreach ($model->colorAttributes() as $attribute) {
 $this->registerCss(<<<CSS
 .columns .form-group {
     break-inside: avoid;
-    margin-bottom: 0.25rem;
 }
+
 .columns label {
     display: inline-block;
     white-space: nowrap;

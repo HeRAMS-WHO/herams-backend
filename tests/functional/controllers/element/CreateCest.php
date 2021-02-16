@@ -8,7 +8,7 @@ use prime\tests\FunctionalTester;
 
 class CreateCest
 {
-    public function testCreateChart(FunctionalTester $I)
+    public function testCreateChart(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();
@@ -18,7 +18,7 @@ class CreateCest
         $I->seeResponseCodeIs(200);
     }
 
-    public function testCreateMap(FunctionalTester $I)
+    public function testCreateMap(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();
@@ -28,7 +28,7 @@ class CreateCest
         $I->seeResponseCodeIs(200);
     }
 
-    public function testCreateTable(FunctionalTester $I)
+    public function testCreateTable(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();

@@ -28,9 +28,9 @@ class FunctionalTester extends \Codeception\Actor
 {
     use _generated\FunctionalTesterActions;
 
-    private $page;
-    private $project;
-    private $workspace;
+    private Page $page;
+    private Project $project;
+    private Workspace $workspace;
 
     /**
     * Define custom actions here
