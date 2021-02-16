@@ -45,7 +45,7 @@ class FunctionalTester extends \Codeception\Actor
             $this->save($this->page);
         }
 
-       return $this->page;
+        return $this->page;
     }
 
     public function haveProject(): Project
