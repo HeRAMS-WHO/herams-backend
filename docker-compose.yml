@@ -44,7 +44,6 @@ x-env:
   mysql: &mysql
     image: mysql
     command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
-    user: ${UID-0}:${GID-0}
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: ${DB_NAME}
@@ -78,6 +77,10 @@ services:
       - type: bind
         source: ./
         target: /project
+      - type: bind
+        source: ./node_modules
+        target: /project/public/node_modules
+        read_only: true
       - type: volume
         source: assets
         target: /project/public/assets

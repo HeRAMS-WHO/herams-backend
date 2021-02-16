@@ -26,6 +26,7 @@ RUN apk add --update --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/tes
   php8-zip \
   php8-pecl-xlswriter \
   php8-pecl-pcov \
+  php8-pecl-xdebug \
   --
 # Install alias
 RUN ln -s $(which php8) /usr/bin/php
@@ -39,6 +40,7 @@ RUN EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"
 
 
 ADD php-fpm.conf /
+ADD xdebug.ini /etc/php8/conf.d/50_xdebug.ini
 ADD init.sh /sbin/init.sh
 RUN mkdir -p /run && chown nobody:nobody /run
 
