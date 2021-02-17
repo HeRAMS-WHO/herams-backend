@@ -16,6 +16,7 @@ use prime\controllers\project\Pages;
 use prime\controllers\project\Pdf;
 use prime\controllers\project\Share;
 use prime\controllers\project\Summary;
+use prime\controllers\project\SyncWorkspaces;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
@@ -32,7 +33,7 @@ use yii\web\User;
 
 class ProjectController extends Controller
 {
-    public $layout = 'admin-content';
+    public $layout = self::LAYOUT_ADMIN_TABS;
 
     public function actions()
     {
@@ -52,6 +53,7 @@ class ProjectController extends Controller
             'delete-workspaces' => [
                 'class' => DeleteWorkspaces::class
             ],
+            'sync-workspaces' => SyncWorkspaces::class,
             'view' => View::class,
             'limesurvey' => Limesurvey::class,
             'pdf' => Pdf::class,

@@ -37,7 +37,7 @@ use yii\validators\UniqueValidator;
  * @property int $contributorCount
  * @property-read int $responseCount
  * @property \DateTimeImmutable $created
- *
+ * @property ?string $latestUpdate
  * @property HeramsResponseInterface[] $responses
  */
 class Workspace extends ActiveRecord

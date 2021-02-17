@@ -38,7 +38,7 @@ class Module extends \yii\base\Module
                     'class' => UrlRule::class,
                     'pattern' => '<controller>/<id:\d+>/<action:\w+>',
                     'route' => '<controller>/<action>',
-                    'verb' => ['get']
+                    'verb' => ['get', 'post']
                 ],
                 [
                     'class' => UrlRule::class,
@@ -63,10 +63,6 @@ class Module extends \yii\base\Module
     public function behaviors()
     {
         return [
-//            HttpBearerAuth::class => [
-//                'class' => HttpBearerAuth::class,
-//                'user' => $this->get('user'),
-//            ],
             ContentNegotiator::class => [
                 'class' => ContentNegotiator::class,
                 'formats' => [
@@ -76,19 +72,4 @@ class Module extends \yii\base\Module
         ];
     }
 
-    public function createControllerByID($id)
-    {
-        $result = parent::createControllerByID($id);
-        if ($result instanceof \yii\web\Controller) {
-            $result->enableCsrfValidation = false;
-        }
-        return $result;
-    }
-
-
-    public function beforeAction($action)
-    {
-        \Yii::$app->request->enableCsrfCookie = false;
-        return parent::beforeAction($action);
-    }
 }
