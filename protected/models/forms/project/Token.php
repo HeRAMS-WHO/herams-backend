@@ -1,5 +1,5 @@
 <?php
-namespace prime\models\forms\projects;
+namespace prime\models\forms\project;
 
 use Carbon\Carbon;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
