@@ -27,6 +27,4 @@ class RefreshCest
         $I->sendPost(Url::to(['/api/workspace/refresh', 'id' => $workspace->id]));
         $I->seeResponseCodeIs(200);
     }
-
-
 }

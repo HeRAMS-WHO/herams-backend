@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers;
 
 use prime\modules\Api\controllers\user\Workspaces;
+use prime\modules\Api\controllers\workspace\Refresh;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
-class UserController extends \yii\rest\Controller
+class WorkspaceController extends \yii\rest\Controller
 {
     public function behaviors(): array
     {
@@ -27,7 +28,7 @@ class UserController extends \yii\rest\Controller
     public function actions()
     {
         return [
-            'workspaces' => Workspaces::class
+            'refresh' => Refresh::class
         ];
     }
 }
