@@ -1,13 +1,10 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use yii\base\Widget;
-use prime\interfaces\PageInterface;
 use prime\models\ar\Permission;
-use yii\helpers\Html;
-use \prime\models\ar\Workspace;
+use prime\models\ar\Workspace;
 
 /**
  * Class Menu
@@ -18,12 +15,11 @@ class WorkspaceTabMenu extends TabMenu
 {
     public Workspace $workspace;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->permissionSubject = $this->workspace;
     }
-
 
     protected function renderMenu(): string
     {
@@ -39,13 +35,11 @@ class WorkspaceTabMenu extends TabMenu
             'url' => ["workspace/update", 'id' => $this->workspace->id],
             'title' => \Yii::t('app', 'Workspace settings')
         ];
-
         $this->tabs[] = [
             'url' => ['workspace/share', 'id' => $this->workspace->id],
             'title' => \Yii::t('app', 'Users ({n})', ['n' => $this->workspace->permissionSourceCount]),
             'permission' => Permission::PERMISSION_SHARE
         ];
-
         $this->tabs[] = [
             'visible' => function () {
                 return $this->workspace->responseCount > 0;
@@ -54,13 +48,11 @@ class WorkspaceTabMenu extends TabMenu
             'url' => ['workspace/responses', 'id' => $this->workspace->id],
             'title' => \Yii::t('app', 'Responses')
         ];
-
         $this->tabs[] = [
-            'title' => \Yii::t('app', 'Download'),
+            'title' => \Yii::t('app', 'Export data'),
             'url' => ['workspace/export', 'id' => $this->workspace->id],
             'permission' => Permission::PERMISSION_EXPORT
         ];
-
 
         return parent::renderMenu();
     }
