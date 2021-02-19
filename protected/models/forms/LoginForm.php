@@ -3,8 +3,6 @@
 
 namespace prime\models\forms;
 
-
-
 use prime\models\ar\User;
 use Yii;
 use yii\base\Model;
@@ -29,7 +27,7 @@ class LoginForm extends Model
         return [
             [['login', 'password'], RequiredValidator::class],
             ['login', 'validateLogin'],
-            ['password', 'validatePassword', 'when' => function(self $model) {
+            ['password', 'validatePassword', 'when' => function (self $model) {
                 return null !== $model->getUser();
             }]
         ];
@@ -69,8 +67,4 @@ class LoginForm extends Model
     {
         return User::find()->andWhere(['email' => $this->login])->one();
     }
-
-
-
-
 }

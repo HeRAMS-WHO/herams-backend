@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\site;
 
-
 use prime\interfaces\TicketingInterface;
 use yii\base\Action;
 use yii\web\BadRequestHttpException;
@@ -17,5 +16,4 @@ class LimeSurvey extends Action
         }
         $limesurveySSo->loginAndRedirectCurrentUser();
     }
-
 }

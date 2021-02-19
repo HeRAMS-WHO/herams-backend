@@ -8,7 +8,6 @@ use yii\di\Container;
 \Yii::$container->set(
     PreloadingSourceRepository::class,
     fn (Container $container) => new PreloadingSourceRepository($container->get(ActiveRecordRepository::class)),
-
 );
 $env = new \prime\components\InsecureSecretEnvironment();
 $config = require 'web.php';

@@ -12,10 +12,12 @@ class m151112_092421_update_country extends Migration
         $this->dropTable('{{%project_country}}');
 
         $this->createTable(
-            '{{%project_country}}',[
+            '{{%project_country}}',
+            [
             'project_id' => $this->integer()->notNull(),
             'country_iso_3' => $this->string(3)->notNull()
-        ]);
+            ]
+        );
 
         $this->addForeignKey(
             'project_id',
@@ -25,7 +27,8 @@ class m151112_092421_update_country extends Migration
             ['id']
         );
 
-        $this->createIndex('projectCountryUnique',
+        $this->createIndex(
+            'projectCountryUnique',
             '{{%project_country}}',
             [
                 'project_id',
@@ -39,16 +42,16 @@ class m151112_092421_update_country extends Migration
     {
         return false;
         $this->dropTable('{{%project_country}}');
-        $this->createTable('{{%country}}',[
+        $this->createTable('{{%country}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'iso_code' => $this->string(3)->notNull(),
-            'latitude' => $this->decimal(12,8)->notNull(),
-            'longitude' => $this->decimal(12,8)->notNull()
+            'latitude' => $this->decimal(12, 8)->notNull(),
+            'longitude' => $this->decimal(12, 8)->notNull()
         ]);
 
         $projectCountryTableName = '{{%project_country}}';
-        $this->createTable($projectCountryTableName,[
+        $this->createTable($projectCountryTableName, [
             'project_id' => $this->integer()->notNull(),
             'country_id' => $this->integer()->notNull()
         ]);

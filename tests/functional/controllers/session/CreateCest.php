@@ -29,7 +29,6 @@ class CreateCest
         $I->click('Log in');
         $I->seeResponseCodeIsSuccessful();
         $I->assertFalse(\Yii::$app->user->isGuest);
-
     }
 
     public function testRedirectIfAlreadyLoggedIn(FunctionalTester $I)
@@ -43,7 +42,6 @@ class CreateCest
         $I->startFollowingRedirects();
         $I->amOnPage($I->grabFromCurrentUrl());
         $I->seeCurrentUrlEquals('/');
-
     }
     public function testCreateNewToken(FunctionalTester $I)
     {
@@ -68,5 +66,4 @@ class CreateCest
         ]);
         $I->seeInSource(substr(json_encode('Workspace <strong>Cool stuff</strong> created'), 1, -1));
     }
-
 }

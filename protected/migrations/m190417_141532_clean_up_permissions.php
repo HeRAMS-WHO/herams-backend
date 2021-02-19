@@ -24,7 +24,6 @@ class m190417_141532_clean_up_permissions extends Migration
             'permission' => 'read',
             'target' => \prime\models\ar\Workspace::class
         ]);
-
     }
 
     /**

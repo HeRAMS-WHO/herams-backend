@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-
 use prime\components\NotificationService;
 use prime\models\forms\user\RequestAccountForm;
 use SamIT\Yii2\UrlSigner\UrlSigner;

@@ -3,7 +3,6 @@
 
 namespace prime\tests\_helpers;
 
-
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 

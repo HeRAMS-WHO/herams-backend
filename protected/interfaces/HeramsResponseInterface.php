@@ -3,7 +3,6 @@
 
 namespace prime\interfaces;
 
-
 use Carbon\Carbon;
 use prime\objects\HeramsSubject;
 

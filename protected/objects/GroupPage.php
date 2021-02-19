@@ -3,7 +3,6 @@
 
 namespace prime\objects;
 
-
 use prime\interfaces\PageInterface;
 use prime\models\ar\Element;
 use prime\models\ar\elements\Chart;
@@ -125,11 +124,11 @@ class GroupPage implements PageInterface
     public function filterResponses(iterable $responses): iterable
     {
         $codes = [];
-        foreach($this->group->getQuestions() as $question) {
+        foreach ($this->group->getQuestions() as $question) {
             $codes[$question->getTitle()] = true;
         }
 
-        foreach($responses as $response) {
+        foreach ($responses as $response) {
             if (!$response instanceof HeramsSubject || isset($codes[$response->getCode()])) {
                 yield $response;
             }

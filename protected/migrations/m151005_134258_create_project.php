@@ -18,6 +18,6 @@ class m151005_134258_create_project extends Migration
 
     public function down()
     {
-       $this->dropTable('project');
+        $this->dropTable('project');
     }
 }

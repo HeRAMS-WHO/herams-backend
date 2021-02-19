@@ -33,7 +33,7 @@ $this->params['subMenu']['items'] = [];
                 'class' => \kartik\grid\ActionColumn::class,
                 'template' => '{update}',
                 'buttons' => [
-                    'update' => function($url, $model, $key) {
+                    'update' => function ($url, $model, $key) {
                         return Html::a(
                             Html::icon('pencil'),
                             ['/countries/update', 'id' => $model->id]

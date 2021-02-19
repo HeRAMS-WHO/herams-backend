@@ -3,7 +3,6 @@
 
 namespace prime\models\forms;
 
-
 use prime\components\JsonValidator;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
@@ -18,15 +17,15 @@ class ImportDashboard extends Model
     {
         parent::__construct();
         $this->project = $project;
-
     }
 
-    public function rules() {
+    public function rules()
+    {
         return [
             [['pages'], JsonValidator::class],
-            [['pages'], function() {
+            [['pages'], function () {
                 $transaction = Project::getDb()->beginTransaction();
-                foreach(json_decode($this->pages, true) as $page) {
+                foreach (json_decode($this->pages, true) as $page) {
                     Page::import($this->project, $page);
                 }
                 $transaction->rollBack();
@@ -37,11 +36,9 @@ class ImportDashboard extends Model
     public function run()
     {
         $transaction = Project::getDb()->beginTransaction();
-        foreach(json_decode($this->pages, true) as $page) {
+        foreach (json_decode($this->pages, true) as $page) {
             Page::import($this->project, $page);
         }
         $transaction->commit();
     }
-
-
 }

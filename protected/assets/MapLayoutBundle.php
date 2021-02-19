@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class MapLayoutBundle extends AssetBundle
@@ -21,5 +20,4 @@ class MapLayoutBundle extends AssetBundle
     public $depends = [
         NewAppAsset::class
     ];
-
 }

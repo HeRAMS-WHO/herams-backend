@@ -12,7 +12,7 @@ class m181115_152543_project_drop_fields extends Migration
      */
     public function safeUp()
     {
-        foreach([
+        foreach ([
             'description',
             'data_survey_eid',
             'latitude',

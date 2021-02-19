@@ -13,14 +13,13 @@ class m191024_124402_assignments_to_permissions extends Migration
     public function safeUp()
     {
 
-        foreach((new \yii\db\Query())->from('{{%auth_assignment}}')->all() as $assignment)
-        {
+        foreach ((new \yii\db\Query())->from('{{%auth_assignment}}')->all() as $assignment) {
             try {
-                \Yii::$app->authManager->assign(\Yii::$app->authManager->createRole($assignment['item_name']),
-                    $assignment['user_id']);
-            } catch (\Throwable $t)
-            {
-
+                \Yii::$app->authManager->assign(
+                    \Yii::$app->authManager->createRole($assignment['item_name']),
+                    $assignment['user_id']
+                );
+            } catch (\Throwable $t) {
             }
         }
         $this->dropTable('{{%auth_assignment}}');

@@ -11,7 +11,5 @@ class LimesurveyCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->markTestIncomplete('todo');
-
     }
-
 }

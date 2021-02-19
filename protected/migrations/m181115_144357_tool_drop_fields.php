@@ -12,7 +12,7 @@ class m181115_144357_tool_drop_fields extends Migration
      */
     public function safeUp()
     {
-        foreach([
+        foreach ([
             'acronym',
             'image',
             'description',
@@ -30,7 +30,6 @@ class m181115_144357_tool_drop_fields extends Migration
         ] as $column) {
             $this->dropColumn('{{%tool}}', $column);
         }
-
     }
 
     /**

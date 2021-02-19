@@ -3,7 +3,6 @@
 
 namespace prime\tests\_helpers;
 
-
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 
 class TokenStub implements WritableTokenInterface
@@ -161,7 +160,6 @@ class TokenStub implements WritableTokenInterface
     public function setLastName($value)
     {
         return $this->data['lastName'] = $value;
-
     }
 
     /**

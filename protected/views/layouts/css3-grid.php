@@ -5,7 +5,6 @@ use prime\assets\DashboardBundle;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
-
 /**
  * @var \prime\components\View $this
  * @var string $content

@@ -43,7 +43,6 @@ class ViewCest
         $I->seeResponseCodeIs(200);
 
         $I->assertSame($page->title, $I->grabTextFrom('.header'));
-
     }
 
     public function testViewBadSurvey(FunctionalTester $I)

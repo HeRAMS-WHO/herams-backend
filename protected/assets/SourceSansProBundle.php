@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class SourceSansProBundle extends AssetBundle
@@ -12,6 +11,4 @@ class SourceSansProBundle extends AssetBundle
     public $css = [
         'css?family=Source+Sans+Pro:200,300,400,600,700'
     ];
-
-
 }

@@ -64,7 +64,7 @@ return [
         ], $config);
         return new \kartik\switchinput\SwitchInput($config);
     },
-    GridView::class => static function(Container $container, array $params, array $config): GridView {
+    GridView::class => static function (Container $container, array $params, array $config): GridView {
         $result = new GridView($config);
         $result->export = false;
         $result->toggleData = false;

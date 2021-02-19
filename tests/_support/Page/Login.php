@@ -57,6 +57,4 @@ class Login
     {
         $this->tester = $tester;
     }
-
-
 }

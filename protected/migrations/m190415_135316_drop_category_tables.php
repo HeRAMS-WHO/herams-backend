@@ -14,7 +14,6 @@ class m190415_135316_drop_category_tables extends Migration
     {
         $this->dropTable('{{%category_chart}}');
         $this->dropTable('{{%category}}');
-
     }
 
     /**

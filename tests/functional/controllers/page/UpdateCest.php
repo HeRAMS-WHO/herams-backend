@@ -36,7 +36,6 @@ class UpdateCest
      */
     public function testUpdate(FunctionalTester $I)
     {
-
     }
 
     /**
@@ -45,9 +44,5 @@ class UpdateCest
      */
     public function testUpdateParent(FunctionalTester $I)
     {
-
     }
-
-
-
 }

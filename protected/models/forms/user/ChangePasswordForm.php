@@ -38,7 +38,7 @@ class ChangePasswordForm extends Model
         return [
             [['newPasswordRepeat'], CompareValidator::class, 'compareAttribute' => 'newPassword'],
             [['newPassword'], StrengthValidator::class, 'usernameValue' => $this->user->email, 'preset' => 'normal'],
-            [['currentPassword'], function($attribute, $params, $validator) {
+            [['currentPassword'], function ($attribute, $params, $validator) {
                 if (!password_verify($this->currentPassword, $this->user->password_hash)) {
                     $this->addError($attribute, "Incorrect password");
                 }
@@ -52,6 +52,4 @@ class ChangePasswordForm extends Model
         $this->user->setPassword($this->newPassword);
         $this->user->updateAttributes(['password_hash']);
     }
-
-
 }

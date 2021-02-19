@@ -3,7 +3,6 @@
 
 namespace prime\widgets\InlineUpload;
 
-
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
@@ -18,7 +17,6 @@ class InlineUpload extends InputWidget
             echo Html::activeTextarea($this->model, $this->attribute, $this->options);
         } else {
             echo Html::textarea($this->name, $this->value, $this->options);
-
         }
         echo Html::fileInput('file', null, [
             'form' => 'none',

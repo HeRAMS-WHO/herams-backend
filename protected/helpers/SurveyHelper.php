@@ -3,7 +3,6 @@
 
 namespace prime\helpers;
 
-
 use prime\traits\SurveyHelper as SurveyHelperTrait;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
@@ -19,5 +18,4 @@ class SurveyHelper
     {
         $this->survey = $survey;
     }
-
 }

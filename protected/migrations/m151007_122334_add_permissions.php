@@ -7,7 +7,8 @@ class m151007_122334_add_permissions extends Migration
 {
     public function up()
     {
-        $this->createTable('{{%permission}}',
+        $this->createTable(
+            '{{%permission}}',
             [
                 'id' => Schema::TYPE_PK,
                 'source' => Schema::TYPE_STRING . ' NOT NULL',

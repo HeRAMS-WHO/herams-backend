@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
-
 use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
 use prime\queries\FacilityQuery;
@@ -40,6 +39,4 @@ class Facility extends ActiveRecord
             'alternative_name' => \Yii::t('app', 'Alternative name')
         ];
     }
-
-
 }

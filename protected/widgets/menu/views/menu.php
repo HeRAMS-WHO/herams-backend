@@ -9,8 +9,7 @@ use yii\helpers\Html;
  */
 
 echo Html::beginTag('nav');
-foreach($project->pages as $page) {
-
+foreach ($project->pages as $page) {
     echo Html::beginTag('section', ['class' => 'expanded']);
     $link = count($page->children) > 0 ? ['projects/view', 'id' => $project->id, 'page_id' => $page->id] : '';
     echo Html::a($page->title, $link, [
@@ -19,7 +18,7 @@ foreach($project->pages as $page) {
             $currentPage->id === $page->id ? 'active' : ''
         ]
     ]);
-    foreach($page->children as $child) {
+    foreach ($page->children as $child) {
         echo Html::a($child->title, ['projects/view', 'id' => $project->id, 'page_id' => $child->id], [
             'class' => [
                 $currentPage->id === $child->id ? 'active' : ''
@@ -27,6 +26,5 @@ foreach($project->pages as $page) {
         ]);
     }
     echo Html::endTag('section');
-
 }
 echo Html::endTag('nav');

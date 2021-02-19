@@ -2,7 +2,8 @@
 
 namespace prime\interfaces;
 
-interface TicketingInterface {
+interface TicketingInterface
+{
 
 
     public function createToken(
