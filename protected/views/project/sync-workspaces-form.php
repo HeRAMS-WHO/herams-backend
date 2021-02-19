@@ -58,9 +58,9 @@ echo Form::widget([
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => BetterSelect::class,
             'options' => [
-                'items' => (static function(iterable $workspaces) {
+                'items' => (static function (iterable $workspaces) {
                     /** @var Workspace $workspace */
-                    foreach($workspaces as $workspace) {
+                    foreach ($workspaces as $workspace) {
                         $title = Html::tag('span', $workspace->title);
 
                         if (isset($workspace->latestUpdate)) {
