@@ -1,13 +1,10 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use yii\base\Widget;
-use prime\interfaces\PageInterface;
 use prime\models\ar\Permission;
-use yii\helpers\Html;
-use \prime\models\ar\Project;
+use prime\models\ar\Project;
 
 /**
  * Class Menu
@@ -18,12 +15,11 @@ class ProjectTabMenu extends TabMenu
 {
     public Project $project;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->permissionSubject = $this->project;
     }
-
 
     protected function renderMenu(): string
     {
@@ -46,13 +42,11 @@ class ProjectTabMenu extends TabMenu
             'permission' => Permission::PERMISSION_WRITE,
             'title' => \Yii::t('app', 'Project settings')
         ];
-
         $this->tabs[] = [
             'url' => ['project/share', 'id' => $this->project->id],
             'title' => \Yii::t('app', 'Users ({n})', ['n' => $this->project->permissionSourceCount]),
             'permission' => Permission::PERMISSION_SHARE
         ];
-
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_SURVEY_BACKEND,
             'url' => ['project/limesurvey', 'id' => $this->project->id],

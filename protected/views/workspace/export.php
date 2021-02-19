@@ -1,13 +1,17 @@
 <?php
 declare(strict_types=1);
 
-/**
- * @var \yii\web\View $this
- * @var \prime\models\forms\Export $model
- * @var \prime\models\ar\Workspace $subject
- */
-
+use prime\models\ar\Workspace;
+use prime\models\forms\Export;
 use prime\widgets\menu\WorkspaceTabMenu;
+use prime\widgets\Section;
+use yii\web\View;
+
+/**
+ * @var View $this
+ * @var Export $model
+ * @var Workspace $subject
+ */
 
 $this->params['breadcrumbs'][] = [
     'label' => $subject->project->title,
@@ -23,11 +27,12 @@ echo WorkspaceTabMenu::widget([
     'workspace' => $subject,
 ]);
 $this->endBlock();
+
 $this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $subject->title]);
 
-\prime\widgets\Section::begin()
-->withHeader('Export data')
-;
+Section::begin()
+    ->withHeader('Export data');
+
 echo $this->render('//shared/exportform', ['model' => $model]);
 
-\prime\widgets\Section::end();
+Section::end();

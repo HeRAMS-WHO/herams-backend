@@ -1,17 +1,16 @@
 <?php
 declare(strict_types=1);
 
-use app\components\Form;
-use app\components\ActiveForm;
-use prime\widgets\FormButtonsWidget;
+use prime\models\ar\Project;
+use prime\models\forms\Export;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use yii\bootstrap\Html;
+use yii\web\View;
 
 /**
- * @var \yii\web\View $this
- * @var \prime\models\forms\Export $model
- * @var \prime\models\ar\Project $subject
+ * @var View $this
+ * @var Export $model
+ * @var Project $subject
  */
 
 $this->params['breadcrumbs'][] = [
@@ -19,7 +18,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/workspaces', 'id' => $subject->id]
 ];
 
-$this->title = \Yii::t('app', 'Export data');
+$this->title = \Yii::t('app', 'Export data from project {project}', ['project' => $subject->title]);
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
@@ -27,6 +26,9 @@ echo ProjectTabMenu::widget([
 ]);
 $this->endBlock();
 
-Section::begin()->withHeader('Export');
+Section::begin()
+    ->withHeader('Export data');
+
 echo $this->render('//shared/exportform', ['model' => $model]);
+
 Section::end();
