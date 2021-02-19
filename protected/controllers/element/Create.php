@@ -51,12 +51,19 @@ class Create extends Action
         $model = new \prime\models\forms\Element($limesurveyDataProvider->getSurvey($project->base_survey_eid), $element);
         $model->load($request->queryParams);
         if ($request->isPost) {
-            if ($model->load($request->bodyParams)
-                && $model->validate()
-            ) {
-                $model->save();
+            if ($model->load($request->bodyParams) && $model->save()) {
                 $notificationService->success(\Yii::t('app', "Element created"));
-                return $this->controller->redirect(['update', 'id' => $model->id]);
+                switch ($request->bodyParams['action']) {
+                    case 'dashboard':
+                        return $this->controller->redirect([
+                            'project/view',
+                            'page_id' => $element->page->id,
+                            'id' => $element->project->id
+                        ]);
+                    case 'refresh':
+                    default:
+                        return $this->controller->redirect(['update', 'id' => $model->id]);
+                }
             } else {
                 $notificationService->error(\Yii::t('app', "Element not created"));
             }

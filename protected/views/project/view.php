@@ -78,7 +78,7 @@ echo Html::beginTag('div', ['class' => 'content dashboard']);
 
 foreach ($page->getChildElements() as $element) {
     Yii::beginProfile('Render element ' . $element->id);
-    echo "<!-- Begin chart {$element->id} -->";
+    echo "<!-- Begin element {$element->id} -->";
     $level = ob_get_level();
     ob_start();
     try {
@@ -100,7 +100,7 @@ foreach ($page->getChildElements() as $element) {
                 ]
         );
     }
-    echo "<!-- End chart {$element->id} -->";
+    echo "<!-- End element {$element->id} -->";
     Yii::endProfile('Render element ' . $element->id);
 }
 

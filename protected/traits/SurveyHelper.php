@@ -103,6 +103,9 @@ trait SurveyHelper
 
     protected function normalizeQuestionText(string $text): string
     {
-        return trim(strtok($text, ':('), "\n:");
+        $text = strip_tags($text);
+        $text = strtok($text, ':(');
+        $text = trim($text, "\n:");
+        return $text;
     }
 }
