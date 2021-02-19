@@ -1,13 +1,23 @@
 <?php
 declare(strict_types=1);
 
+use GuzzleHttp\Psr7\Utils;
+use prime\components\View;
+use prime\interfaces\ColumnDefinition;
+use prime\interfaces\HeramsResponseInterface;
+use prime\interfaces\WriterInterface;
 use prime\models\ar\Permission;
+use prime\models\ar\Response;
+use prime\models\forms\Export;
+use prime\widgets\Section;
+use Psr\Http\Message\StreamInterface;
+use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use yii\helpers\Html;
 
 /**
- * @var \prime\models\ar\Response $storedResponse,
- * @var \SamIT\LimeSurvey\Interfaces\ResponseInterface $limesurveyResponse
- * @var \prime\components\View $this
+ * @var Response $storedResponse,
+ * @var ResponseInterface $limesurveyResponse
+ * @var View $this
  */
 
 $this->params['breadcrumbs'][] = [
@@ -35,22 +45,16 @@ $this->params['breadcrumbs'][] = [
     'url' => ['workspace/responses', 'id' => $storedResponse->workspace->id]
 ];
 $this->title = \Yii::t('app', 'Compare data for HF {hf}', ['hf' => $storedResponse->hf_id]);
-//$this->params['breadcrumbs'][] = $this->title;
 
-$options = ['style' => [
-    'width' => '32%',
-    'display' => 'inline-block',
-    'vertical-align' => 'top'
-]];
-
-$export = new \prime\models\forms\Export($storedResponse->workspace->project->survey);
+$export = new Export($storedResponse->workspace->project->survey);
 $export->answersAsText = true;
-$writer = new class implements \prime\interfaces\WriterInterface {
+$writer = new class implements WriterInterface {
     private $table = [];
     private $columnCount = 0;
+
     public function writeRecord(
-        \prime\interfaces\HeramsResponseInterface $record,
-        \prime\interfaces\ColumnDefinition ...$columns
+        HeramsResponseInterface $record,
+        ColumnDefinition ...$columns
     ): void {
         foreach ($columns as $i => $column) {
             $this->table[$i][$this->columnCount] = $column->getValue($record);
@@ -66,9 +70,9 @@ $writer = new class implements \prime\interfaces\WriterInterface {
         $this->columnCount++;
     }
 
-    public function getStream(): \Psr\Http\Message\StreamInterface
+    public function getStream(): StreamInterface
     {
-        $result = \GuzzleHttp\Psr7\stream_for('');
+        $result = Utils::streamFor('');
         $result->write('<table>');
         $result->write('<tr>');
         $result->write(Html::tag('th', 'Text'));
@@ -94,7 +98,40 @@ $writer = new class implements \prime\interfaces\WriterInterface {
         return 'text/html';
     }
 };
-$export->run($writer, \prime\models\ar\Response::find()->andWhere($storedResponse->getPrimaryKey(true)));
+
+$this->registerCss(<<<CSS
+.main,
+.main .content {
+    max-width: inherit;
+    width: 100%;
+}
+
+.main {
+    padding: 0 30px;
+}
+
+.column {
+    max-width: 25%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.column + .column {
+    margin-left: 10px;
+}
+
+.column h1 {
+    height: 4rem;
+}
+CSS
+);
+
+Section::begin();
+
+$export->run($writer, Response::find()->andWhere($storedResponse->getPrimaryKey(true)));
+
+$options = ['class' => ['column']];
+
 echo Html::beginTag('div', $options);
     echo Html::tag('h1', 'Our latest data');
     echo Html::tag('pre', print_r($storedResponse->data, true));
@@ -109,7 +146,9 @@ echo Html::beginTag('div', $options);
     echo Html::tag('h1', 'Data fresh from LS');
     echo Html::tag('pre', print_r($limesurveyResponse->getData(), true));
 echo Html::endTag('div');
-echo Html::beginTag('div');
+echo Html::beginTag('div', $options);
 echo Html::tag('h1', 'Response as it would be exported (but vertically)');
 echo $writer->getStream()->getContents();
 echo Html::endTag('div');
+
+Section::end();

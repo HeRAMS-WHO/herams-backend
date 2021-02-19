@@ -76,7 +76,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_WRITE => \Yii::t('app', 'Edit settings'),
             self::PERMISSION_SHARE => \Yii::t('app', 'Manage users'),
             self::PERMISSION_SUPER_SHARE => \Yii::t('app', 'Grant admin permissions'),
-            self::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
+            self::PERMISSION_EXPORT => \Yii::t('app', 'Export data'),
             self::PERMISSION_ADMIN => \Yii::t('app', 'Allow everything'),
             self::PERMISSION_SURVEY_DATA => \Yii::t('app', 'Edit data'),
             self::PERMISSION_SURVEY_BACKEND => \Yii::t('app', 'Manage surveys'),
