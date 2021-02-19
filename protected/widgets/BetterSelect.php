@@ -10,14 +10,11 @@ use yii\widgets\InputWidget;
 
 class BetterSelect extends InputWidget
 {
-    public array $items = [];
+    public iterable $items = [];
 
     public function init()
     {
         parent::init();
-        if (empty($this->items)) {
-            throw new InvalidConfigException('No items given');
-        }
         ob_start();
         $name = Html::getInputName($this->model, $this->attribute);
         if (substr($name, -2) !== '[]') {

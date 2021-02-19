@@ -1,12 +1,12 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
 use prime\components\NotificationService;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
-use prime\models\forms\projects\Token;
+use prime\models\forms\project\Token;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

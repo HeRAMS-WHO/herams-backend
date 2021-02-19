@@ -4,7 +4,7 @@ on:
     branches: [ master ]
 jobs:
   style:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
@@ -17,6 +17,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - run: composer global require "squizlabs/php_codesniffer=*"
+      - run: composer global require "squizlabs/php_codesniffer=dev-master"
       - run: git fetch origin master --depth 1
       - run: git diff --diff-filter=d --name-only origin/master | xargs --no-run-if-empty  ~/.composer/vendor/bin/phpcs

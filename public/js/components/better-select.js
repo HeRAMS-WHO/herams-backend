@@ -4,6 +4,8 @@ export default class BetterSelect extends HTMLElement {
     #internals;
     #shadow;
 
+    #autoMultiple = false;
+
     // The element the user last interacted with
     #lastInteractedElement;
 
@@ -14,10 +16,14 @@ export default class BetterSelect extends HTMLElement {
 
     static get formAssociated()
     {
-        return true; }
+        return true;
+    }
+
     static get observedAttributes()
     {
-        return ['value']; }
+        return ['value', 'automultiple'];
+    }
+
     get form()
     {
         return this.#internals.form; }
@@ -120,6 +126,9 @@ export default class BetterSelect extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue)
     {
         switch (name) {
+            case 'automultiple':
+                this.#autoMultiple = newValue !== null;
+                break;
             case 'value':
                 this.value = newValue;
                 break;
@@ -182,7 +191,7 @@ export default class BetterSelect extends HTMLElement {
                 current = current.nextElementSibling;
             }
             current.toggleAttribute('selected', desiredState);
-        } else if (!e.ctrlKey) {
+        } else if (!e.ctrlKey && !this.#autoMultiple) {
             this.querySelectorAll('[selected]').forEach((e) => e.removeAttribute('selected'));
             option.toggleAttribute('selected', true);
         } else {
