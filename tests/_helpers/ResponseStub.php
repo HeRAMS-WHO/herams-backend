@@ -25,22 +25,22 @@ class ResponseStub implements ResponseInterface
         }
     }
 
-    public function getSurveyId()
+    public function getSurveyId(): int
     {
         return $this->surveyId;
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getSubmitDate()
+    public function getSubmitDate(): \DateTimeInterface
     {
         return $this->submitDate;
     }
 
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }

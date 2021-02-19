@@ -1,21 +1,26 @@
 <?php
 declare(strict_types=1);
 
-/**
- * @var \prime\components\View $this
- * @var \prime\models\ar\Project $project
- * @var \prime\models\forms\project\SyncWorkspaces $model
- */
-
 use app\components\ActiveForm;
 use app\components\Form;
 use Carbon\Carbon;
 use prime\assets\TimeElementBundle;
+use prime\components\View;
+use prime\models\ar\Project;
+use prime\models\ar\Workspace;
+use prime\models\forms\project\SyncWorkspaces;
 use prime\widgets\BetterSelect;
 use prime\widgets\FormButtonsWidget;
-use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\helpers\Html;
+
+/**
+ * @var View $this
+ * @var Project $project
+ * @var SyncWorkspaces $model
+ */
+
+
 
 $this->params['breadcrumbs'][] = [
     'label' => $project->title,
@@ -53,7 +58,19 @@ echo Form::widget([
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => BetterSelect::class,
             'options' => [
-                'items' => $model->workspaceOptions(),
+                'items' => (static function(iterable $workspaces) {
+                    /** @var Workspace $workspace */
+                    foreach($workspaces as $workspace) {
+                        $title = Html::tag('span', $workspace->title);
+
+                        if (isset($workspace->latestUpdate)) {
+                            $latestUpdate = Html::tag('time-ago', $workspace->latestUpdate, (new Carbon($workspace->latestUpdate))->toIso8601String());
+                        } else {
+                            $latestUpdate = \Yii::t('app', 'never');
+                        }
+                        yield $workspace->id => $title . $latestUpdate;
+                    }
+                })($model->workspaceOptions()),
                 'options' => [
                     'style' => [
                         'column-width' => '350px',
