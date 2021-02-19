@@ -20,6 +20,4 @@ class User extends Guest
         parent::__construct($scenario);
         $this->login($loginPage);
     }
-
-
 }

@@ -31,7 +31,6 @@ class m180405_150114_create_indicator_option_table extends Migration
             '{{%indicator_option}}',
             'option_code'
         );
-
     }
 
     /**

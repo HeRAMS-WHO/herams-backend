@@ -62,7 +62,7 @@ class HeramsSubject
 
     public function getValueForCode(string $code)
     {
-        switch($code) {
+        switch ($code) {
             case 'availability':
                 return $this->getAvailability();
             case 'fullyAvailable':
@@ -75,6 +75,4 @@ class HeramsSubject
     {
         return $this->response->{$name}(... $arguments);
     }
-
-
 }

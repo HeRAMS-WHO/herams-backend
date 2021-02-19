@@ -15,6 +15,4 @@ class AuthManager extends \SamIT\Yii2\abac\AuthManager
         $result = parent::checkAccess($userId, $permissionName, $params);
         return $result;
     }
-
-
 }

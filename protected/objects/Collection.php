@@ -15,8 +15,8 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
 
     public function __construct($items = [], $keepKeys = false)
     {
-        foreach($items as $key => $item) {
-            if($keepKeys) {
+        foreach ($items as $key => $item) {
+            if ($keepKeys) {
                 $this->add($key, $item);
             } else {
                 $this->append($item);
@@ -138,7 +138,8 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
         $this->data[$key] = $item;
     }
 
-    public function append($item) {
+    public function append($item)
+    {
         $this->validate($item);
         $this->data[] = $item;
     }
@@ -174,6 +175,5 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
         $result = clone $this;
         usort($result->data, $closure);
         return $result;
-
     }
 }

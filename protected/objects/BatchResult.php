@@ -3,7 +3,6 @@
 
 namespace prime\objects;
 
-
 class BatchResult
 {
     private $successCount = 0;

@@ -39,7 +39,7 @@ class ConfirmEmailForm extends Model
     {
         return [
             [['oldHash', 'newMail'], RequiredValidator::class],
-            [['newMail'], function() {
+            [['newMail'], function () {
                 if (!password_verify($this->member->email, $this->oldHash)) {
                     $this->addError('newMail', \Yii::t('app', 'Your email address has already been changed'));
                 }
@@ -50,7 +50,8 @@ class ConfirmEmailForm extends Model
         ];
     }
 
-    public function getOldHash(): string {
+    public function getOldHash(): string
+    {
         return $this->oldHash;
     }
     public function getNewMail(): string

@@ -3,7 +3,6 @@
 
 namespace prime\models\ar\elements;
 
-
 use prime\models\ar\Element;
 use prime\widgets\element\Element as ElementWidget;
 use prime\widgets\table\Table as TableWidget;
@@ -16,8 +15,7 @@ class Table extends Element
     protected function getWidgetInternal(
         SurveyInterface $survey,
         iterable $data
-    ): ElementWidget
-    {
+    ): ElementWidget {
         return new TableWidget($this, array_merge([
             'data' => $data,
             'survey' => $survey,
@@ -66,5 +64,4 @@ class Table extends Element
         }
         $this->config = $config;
     }
-
 }

@@ -22,8 +22,8 @@ class m180405_145645_create_response_master_table extends Migration
             'token' => $this->string(40),
             'hf_type' => $this->string(40),
             'lga' => $this->string(200),
-            'latitude' => $this->decimal(9,6),
-            'longitude' => $this->decimal(9,6)
+            'latitude' => $this->decimal(9, 6),
+            'longitude' => $this->decimal(9, 6)
         ]);
 
         $this->createIndex(

@@ -82,7 +82,4 @@ class DeleteCest
         $I->assertFalse($childPage->refresh());
         $I->assertTrue($parentPage->refresh());
     }
-
-
-
 }

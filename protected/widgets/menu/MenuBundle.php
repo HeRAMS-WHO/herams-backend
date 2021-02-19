@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-
 use yii\web\AssetBundle;
 
 class MenuBundle extends AssetBundle
@@ -13,5 +12,4 @@ class MenuBundle extends AssetBundle
     public $css = [
         'menu.css'
     ];
-
 }

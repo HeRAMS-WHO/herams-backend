@@ -7,10 +7,12 @@ class m150921_110227_create_settings_table extends Migration
     public function up()
     {
         $this->createTable(
-            '{{%setting}}', [
+            '{{%setting}}',
+            [
             'key' => 'string(32) NOT NULL',
             'value' => 'TEXT NOT NULL'
-        ]);
+            ]
+        );
     }
 
     public function down()

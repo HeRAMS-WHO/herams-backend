@@ -80,6 +80,5 @@ class SideMenu extends Widget
         echo $this->footer;
         echo Html::endTag('div');
         return ob_get_clean();
-
     }
 }

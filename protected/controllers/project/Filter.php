@@ -3,7 +3,6 @@
 
 namespace prime\controllers\project;
 
-
 use prime\models\ar\Project;
 use prime\models\forms\ResponseFilter;
 use yii\base\Action;
@@ -30,6 +29,4 @@ class Filter extends Action
             'parent_id' => $parent_id,
             'filter' => $filter->toQueryParam()]);
     }
-
-
 }

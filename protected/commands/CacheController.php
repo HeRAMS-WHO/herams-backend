@@ -89,7 +89,6 @@ class CacheController extends \yii\console\controllers\CacheController
                      ->each() as $workspace) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
-
     }
 
     private function warmupWorkspace(Workspace $workspace, LimesurveyDataProvider $limesurveyDataProvider)

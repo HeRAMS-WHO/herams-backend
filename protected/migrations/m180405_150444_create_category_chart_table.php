@@ -19,10 +19,10 @@ class m180405_150444_create_category_chart_table extends Migration
         ]);
 
         $this->createIndex(
-          'idx_category_indicator',
-          '{{%category_chart}}',
-          'category_id,indicator_id',
-          true
+            'idx_category_indicator',
+            '{{%category_chart}}',
+            'category_id,indicator_id',
+            true
         );
     }
 

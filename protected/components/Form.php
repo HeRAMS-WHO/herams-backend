@@ -22,12 +22,10 @@ class Form extends \kartik\builder\Form
         $i = 0;
         ob_start();
         ob_implicit_flush(false);
-        foreach($this->attributes as $attribute => $config) {
+        foreach ($this->attributes as $attribute => $config) {
             echo $this->parseInput($attribute, $config, $i);
             $i++;
         }
         return ob_get_clean();
     }
-
-
 }

@@ -10,10 +10,10 @@ yii.confirm = function (message, ok, cancel) {
         buttons: [
             ['<button>Yes</button>', (instance, toast) => {
                 instance.hide({}, toast, 'yes');
-            }],
+        }],
             ['<button>No</button>', (instance, toast) => {
                 instance.hide({}, toast, 'no');
-            }],
+        }],
         ],
         onClosed: (instance, toast, closedBy) => {
             if (closedBy === 'yes') {

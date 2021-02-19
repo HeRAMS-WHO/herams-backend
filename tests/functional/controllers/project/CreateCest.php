@@ -37,5 +37,4 @@ class CreateCest
 
         $I->seeInSource(substr(json_encode('Project <strong>Cool stuff</strong> created'), 1, -1));
     }
-
 }

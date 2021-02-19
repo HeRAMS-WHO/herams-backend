@@ -3,7 +3,6 @@
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class IconBundle extends AssetBundle
@@ -18,5 +17,4 @@ class IconBundle extends AssetBundle
         'style.css',
         'font.css'
     ];
-
 }

@@ -28,5 +28,4 @@ class m151124_084028_create_translation_tables extends Migration
 
         return false;
     }
-
 }

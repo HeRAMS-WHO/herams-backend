@@ -12,7 +12,6 @@ class m160114_120158_profile_defaults extends Migration
         $this->alterColumn('{{%profile}}', 'organization', $this->string()->notNull()->defaultValue(''));
         $this->alterColumn('{{%profile}}', 'office', $this->string()->notNull()->defaultValue(''));
         $this->alterColumn('{{%profile}}', 'country', $this->string()->notNull()->defaultValue(''));
-
     }
 
     public function down()

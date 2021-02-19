@@ -3,7 +3,6 @@
 
 namespace prime\widgets\chart;
 
-
 use yii\web\AssetBundle;
 
 class ChartBundle extends AssetBundle

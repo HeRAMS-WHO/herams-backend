@@ -35,7 +35,8 @@
                         observer.disconnect();
                         window.removeEventListener("resize", debouncedCheck, false);
                         window.removeEventListener("orientationchange", debouncedCheck, false);
-                    } catch (ignore) {}
+                    } catch (ignore) {
+                    }
                 };
             } else {
                 document.documentElement.addEventListener("DOMSubtreeModified", debouncedCheck, false);
@@ -50,7 +51,8 @@
             // In IE 9, cross origin requests can only be sent using XDomainRequest.
             // XDomainRequest would fail if CORS headers are not set.
             // Therefore, XDomainRequest should only be used with cross origin requests.
-            function getOrigin(loc) {
+            function getOrigin(loc)
+            {
                 var a;
                 if (loc.protocol !== undefined) {
                     a = loc;
@@ -89,7 +91,8 @@
             var url;
             var uses;
             var xhr;
-            function observeIfDone() {
+            function observeIfDone()
+            {
                 // If done with making changes, start watching for chagnes in DOM again
                 inProgressCount -= 1;
                 if (inProgressCount === 0) { // if all xhrs were resolved
@@ -97,7 +100,8 @@
                     observeChanges(); // watch for changes to DOM
                 }
             }
-            function attrUpdateFunc(spec) {
+            function attrUpdateFunc(spec)
+            {
                 return function () {
                     if (cache[spec.base] !== true) {
                         spec.useEl.setAttributeNS(xlinkNS, "xlink:href", "#" + spec.hash);
@@ -107,7 +111,8 @@
                     }
                 };
             }
-            function onloadFunc(xhr) {
+            function onloadFunc(xhr)
+            {
                 return function () {
                     var body = document.body;
                     var x = document.createElement("x");
@@ -126,7 +131,8 @@
                     observeIfDone();
                 };
             }
-            function onErrorTimeout(xhr) {
+            function onErrorTimeout(xhr)
+            {
                 return function () {
                     xhr.onerror = null;
                     xhr.ontimeout = null;

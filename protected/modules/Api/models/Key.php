@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\models;
 
-
 use prime\models\ActiveRecord;
 use yii\base\NotSupportedException;
 use yii\web\IdentityInterface;

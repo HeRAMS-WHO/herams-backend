@@ -31,7 +31,7 @@ class DeleteActionCest
         $action = new DeleteAction('delete', null, [
             'query' => Response::find()->andWhere('0 = 1')
         ]);
-        $I->expectThrowable(NotFoundHttpException::class, function() use ($action) {
+        $I->expectThrowable(NotFoundHttpException::class, function () use ($action) {
             $action->run(\Yii::$app->user, \Yii::$app->notificationService, 51);
         });
     }
