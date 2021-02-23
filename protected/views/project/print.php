@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\helpers\Icon;
+use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use yii\helpers\Html;
@@ -127,44 +128,62 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                <?php
+        <?php
+        $maxBlocks = 8;
 
-                foreach ($pages as $key => $subpage) {
-                    echo isset($filtersContent) ? $filtersContent : '';
-                    echo Html::beginTag('div', ['class' => 'content']);
-                    echo "<h2 class='page-title'>{$subpage->title}</h2>";
+        foreach ($pages as $key => $subpage) {
+            $blockCount = 0;
+            echo isset($filtersContent) ? $filtersContent : '';
+            echo Html::beginTag('tr');
+            echo Html::beginTag('td');
+            echo Html::beginTag('div', ['class' => 'content']);
 
-                    $elements = $subpage->getChildElements();
-                    foreach ($elements as $element) {
-                        Yii::beginProfile('Render element ' . $element->id);
-                        echo "<!-- Begin chart {$element->id} -->";
-                        $level = ob_get_level();
-                        ob_start();
-                        try {
-                            echo $element->getWidget($survey, $data, $subpage)->run();
-                            echo ob_get_clean();
-                        } catch (Throwable $t) {
-                            while (ob_get_level() > $level) {
-                                ob_end_clean();
-                            }
-                        }
-                        echo "<!-- End chart {$element->id} -->";
-                        Yii::endProfile('Render element ' . $element->id);
-                        unset($element);
-                    }
-                    unset($elements);
+            echo "<h2 class='page-title'>{$subpage->title}</h2>";
+
+            $elements = $subpage->getChildElements();
+            /** @var Element $element */
+            foreach ($elements as $element) {
+
+                if ($blockCount + $element->width * $element->height > $maxBlocks) {
                     echo Html::endTag('div');
-                    if ($key !== array_key_last($pages)) {
-                        echo "<div class='page-break'></div>";
-                    }
-                    unset($subpage);
+                    echo Html::endTag('td');
+                    echo Html::endTag('tr');
+                    echo Html::beginTag('tr');
+                    echo Html::beginTag('td');
+                    echo Html::beginTag('div', ['class' => 'content']);
+                    $blockCount = 0;
                 }
-                unset($pages);
-                unset($filtersContent);
-                ?>
-            </td>
-        </tr>
+
+                Yii::beginProfile('Render element ' . $element->id);
+                echo "<!-- Begin element {$element->id} -->";
+                $level = ob_get_level();
+                ob_start();
+                try {
+                    echo $element->getWidget($survey, $data, $subpage)->run();
+                    echo ob_get_clean();
+                } catch (Throwable $t) {
+                    while (ob_get_level() > $level) {
+                        ob_end_clean();
+                    }
+                }
+                echo "<!-- End element {$element->id} -->";
+                Yii::endProfile('Render element ' . $element->id);
+
+                $blockCount += $element->width * $element->height;
+                unset($element);
+            }
+
+            echo Html::endTag('div');
+            echo Html::endTag('td');
+            echo Html::endTag('tr');
+            if ($key !== array_key_last($pages)) {
+                echo "<tr class='page-break'></tr>";
+            }
+            unset($elements);
+            unset($subpage);
+        }
+        unset($pages);
+        unset($filtersContent);
+        ?>
     </tbody>
 </table>
