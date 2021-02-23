@@ -83,6 +83,7 @@ class Permission extends ActiveRecord
             self::PERMISSION_MANAGE_WORKSPACES => \Yii::t('app', 'Manage workspaces'),
             self::PERMISSION_MANAGE_DASHBOARD => \Yii::t('app', 'Configure dashboard'),
             self::PERMISSION_CREATE_PROJECT => \Yii::t('app', 'Create a new project'),
+            self::PERMISSION_CREATE_FACILITY => \Yii::t('app', 'Register a new facility'),
             self::PERMISSION_DEBUG_TOOLBAR => \Yii::t('app', 'Show the debug toolbar'),
         ];
     }

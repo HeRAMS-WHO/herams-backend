@@ -34,6 +34,7 @@ return [
         Permission::PERMISSION_MANAGE_WORKSPACES,
         Permission::PERMISSION_MANAGE_DASHBOARD,
         Permission::PERMISSION_DELETE_ALL_WORKSPACES,
+        Permission::PERMISSION_CREATE_FACILITY
     ]),
     new ImpliedPermission(Permission::PERMISSION_WRITE, [
         Permission::PERMISSION_READ,

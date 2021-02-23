@@ -39,6 +39,7 @@ class Share extends Action
         try {
             $model = new ShareForm($workspace, $abacManager, $abacResolver, $user->identity, [
                 Permission::PERMISSION_SURVEY_DATA,
+                Permission::PERMISSION_CREATE_FACILITY,
                 Permission::PERMISSION_EXPORT,
                 Permission::PERMISSION_SHARE,
                 Permission::PERMISSION_SUPER_SHARE,

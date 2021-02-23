@@ -48,6 +48,7 @@ class Share extends Action
                     Permission::PERMISSION_SURVEY_DATA,
                     Permission::PERMISSION_EXPORT,
                     Permission::PERMISSION_MANAGE_WORKSPACES,
+                    Permission::PERMISSION_CREATE_FACILITY,
                     Permission::PERMISSION_MANAGE_DASHBOARD,
                     Permission::PERMISSION_WRITE,
                     Permission::PERMISSION_SHARE,

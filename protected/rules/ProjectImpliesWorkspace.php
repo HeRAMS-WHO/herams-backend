@@ -24,7 +24,8 @@ class ProjectImpliesWorkspace implements Rule
             Permission::PERMISSION_EXPORT,
             Permission::PERMISSION_SURVEY_DATA,
             Permission::PERMISSION_ADMIN,
-            Permission::PERMISSION_DELETE
+            Permission::PERMISSION_DELETE,
+            Permission::PERMISSION_CREATE_FACILITY
         ];
     }
 
