@@ -75,6 +75,14 @@ echo Form::widget([
 
             ]
         ],
+
+        'manage_implies_create_hf' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' => [
+                '0' => \Yii::t('app', 'Disabled'),
+                '1' => \Yii::t('app', 'Enabled')
+            ]
+        ],
         'typemapAsJson' => [
             'type' => Form::INPUT_TEXTAREA,
             'options' => [

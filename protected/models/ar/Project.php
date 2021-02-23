@@ -256,7 +256,8 @@ class Project extends ActiveRecord implements Linkable
                     $this->addError('country', $t->getMessage());
                 }
             }],
-            [['country'], DefaultValueValidator::class, 'value' => null]
+            [['country'], DefaultValueValidator::class, 'value' => null],
+            [['manage_implies_create_hf'], BooleanValidator::class]
         ];
     }
 
