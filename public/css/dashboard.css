@@ -679,8 +679,8 @@ body {
     }
     .content {
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(auto-fit, minmax(200px, min-content));
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: minmax(200px, min-content);
         grid-auto-flow: dense;
         grid-row-gap: var(--gutter-size);
         grid-column-gap: var(--gutter-size);
