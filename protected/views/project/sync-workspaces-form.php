@@ -64,7 +64,9 @@ echo Form::widget([
                         $title = Html::tag('span', $workspace->title);
 
                         if (isset($workspace->latestUpdate)) {
-                            $latestUpdate = Html::tag('time-ago', $workspace->latestUpdate, (new Carbon($workspace->latestUpdate))->toIso8601String());
+                            $latestUpdate = Html::tag('time-ago', $workspace->latestUpdate, [
+                                'datetime' => (new Carbon($workspace->latestUpdate))->toIso8601String()
+                            ]);
                         } else {
                             $latestUpdate = \Yii::t('app', 'never');
                         }
