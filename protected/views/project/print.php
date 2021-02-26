@@ -142,7 +142,6 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
             $elements = $subpage->getChildElements();
             /** @var Element $element */
             foreach ($elements as $element) {
-
                 if ($blockCount + $element->width * $element->height > $maxBlocks) {
                     echo Html::endTag('div');
                     echo Html::endTag('td');
