@@ -161,13 +161,13 @@ echo GridView::widget([
                     }
                 },
                 'remove' => function ($url, Element $model, $key) {
-                    if (app()->user->can(Permission::PERMISSION_ADMIN, $model->page->project)) {
+                    if (app()->user->can(Permission::PERMISSION_DELETE, $model)) {
                         return Html::a(
                             Icon::trash(),
                             ['element/delete', 'id' => $model->id],
                             [
                                 'data-method' => 'delete',
-                                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this tool from the system?')
+                                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this element from the page?')
                             ]
                         );
                     }

@@ -22,7 +22,7 @@ class Table extends Element
         ], $this->getWidgetConfig()));
     }
 
-    public function rules()
+    public function rules(): array
     {
         $result = array_merge(parent::rules(), [
             [['reasonCode'], RequiredValidator::class],

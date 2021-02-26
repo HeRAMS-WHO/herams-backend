@@ -49,7 +49,7 @@ class Chart extends Element
         return $this->getWidgetConfig()['chartType'] ?? ChartWidget::TYPE_DOUGHNUT;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return array_merge(parent::rules(), [
             [['title'], StringValidator::class, 'min' => 1, 'max' => 100],
