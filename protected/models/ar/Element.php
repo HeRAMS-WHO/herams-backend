@@ -24,17 +24,26 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 
 /**
- *
- * @property boolean $transpose
+ * @property int $id
+ * @property int $page_id
+ * @property string $type
  * @property array $config
- * @property Page $page
- * @property Project $project
+ * @property int $sort
+ * @property boolean $transpose
  * @property int $width
  * @property int $height
- * @property int $sort
+ * @property string $code
+ *
+ * @property-read Page $page
+ * @property-read Project $project
  */
 class Element extends ActiveRecord implements Exportable
 {
+    const TYPE_BARCHART = 'barchart';
+    const TYPE_CHART = 'chart';
+    const TYPE_MAP = 'map';
+    const TYPE_TABLE = 'table';
+
     public function __construct($config = [])
     {
         $this->transpose = 0;
@@ -179,7 +188,7 @@ class Element extends ActiveRecord implements Exportable
         $this->config = $config;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['sort', 'type', 'transpose', 'code', 'width', 'height'], RequiredValidator::class],
@@ -205,21 +214,17 @@ class Element extends ActiveRecord implements Exportable
         ]);
     }
 
-
-
-
-
-    public function typeOptions()
+    public function typeOptions(): array
     {
         return [
-            'map' => \Yii::t('app', 'A dashboard element that shows a map'),
-            'chart' => \Yii::t('app', 'A chart'),
-            'barchart' => \Yii::t('app', 'A bar chart'),
-            'table' => \Yii::t('app', 'A table')
+            self::TYPE_MAP => \Yii::t('app', 'A dashboard element that shows a map'),
+            self::TYPE_CHART => \Yii::t('app', 'A chart'),
+            self::TYPE_BARCHART => \Yii::t('app', 'A bar chart'),
+            self::TYPE_TABLE => \Yii::t('app', 'A table'),
         ];
     }
 
-    public function attributeHints()
+    public function attributeHints(): array
     {
         return [
             'sort' => \Yii::t('app', 'Determines the order of elements on a page, elements shown in ascending order'),
