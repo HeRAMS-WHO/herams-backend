@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = [
 $this->title = \Yii::t('app', 'Sync workspaces');
 
 Section::begin(['options'=> ['style' => ['column-width' => '500px']]])->withHeader(\Yii::t('app', 'Sync workspaces'));
-echo Html::beginTag('table');
+echo Html::beginTag('table', ['id' => 'progress-table']);
 echo Html::beginTag('thead');
 echo Html::beginTag('tr');
 echo Html::tag('th', \Yii::t('app', 'Workspace'));
@@ -77,6 +77,12 @@ $css = <<<CSS
     background-color: var(--light-red);
 }
 
+.fail td[data-attribute=time] {
+    cursor: pointer;
+}
+.fail td[data-attribute=time]:before {
+    content: ">>"
+}
 CSS;
 
 $js = <<<JS
@@ -97,18 +103,35 @@ $js = <<<JS
         if (elem) {
             elem.classList.remove('pending');
             elem.classList.add('busy');
-            response = await fetch(elem.getAttribute('data-uri'), config);
+            try {
+                response = await fetch(elem.getAttribute('data-uri'), config);
+                body = await response.json();
+                elem.querySelectorAll('[data-attribute]').forEach((e) => {
+                    e.textContent = body[e.getAttribute('data-attribute')];
+                })
+                    
+                elem.classList.remove('busy');
+                elem.classList.add(response.ok ? 'complete' : 'fail');
+            } catch (error) {
+                elem.classList.remove('busy');
+                elem.classList.add('fail');
+                throw error
+            }
             
-            body = await response.json();
-            elem.querySelectorAll('[data-attribute]').forEach((e) => {
-                e.textContent = body[e.getAttribute('data-attribute')];
-            })
-                
-            elem.classList.remove('busy');
-            elem.classList.add(response.ok ? 'complete' : 'fail');
+            
         }
     };
     
+    document.getElementById('progress-table').addEventListener('click', (e) => {
+        let target = e.target.closest('.fail td[data-attribute=time]');
+        if (target) {
+            let row = target.closest('tr');
+            row.classList.remove("fail");
+            row.classList.add("pending");
+            syncAll();
+        }
+        
+    })
     let syncAll = async () => {
         while(document.querySelector('.pending')) {
             let response = await syncNext();
