@@ -7,6 +7,10 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
+      - name: Get coveralls submitter
+        run: composer global require cedx/coveralls
+      - name: Confirm converalls will run
+        run: PATH=$PATH:$(composer global config --absolute bin-dir) which php coveralls
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -24,10 +28,8 @@ jobs:
       - run: cp .env.default .env
       - run: docker-compose run --rm codeception run --coverage-xml
       - run: composer stan
-      - name: Get coveralls submitter
-        run: composer global require cedx/coveralls
       - name: Upload coverage
-        run: PATH=$(composer global config --absolute bin-dir) coveralls ./tests/_output/coverage.xml
+        run: PATH=$PATH:$(composer global config --absolute bin-dir) coveralls ./tests/_output/coverage.xml
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
           COVERALLS_SERVICE_NAME: "Secure github action"
