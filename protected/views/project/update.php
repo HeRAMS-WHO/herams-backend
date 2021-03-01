@@ -36,7 +36,7 @@ $this->endBlock();
 
 Section::begin()
     ->withSubject($project)
-    ->withHeader(\Yii::t('app', 'Project settings'));
+    ->withHeader(Yii::t('app', 'Project settings'));
 
 /** @var ActiveForm $form */
 $form = ActiveForm::begin([
@@ -69,7 +69,7 @@ echo Form::widget([
             'widgetClass' => Select2::class,
             'options' => [
                 'data' => toArrayWithKeys(chain(
-                    ['' => \Yii::t('app', '(Not set)')],
+                    ['' => Yii::t('app', '(Not set)')],
                     map(nested_index('name'), (new ISO3166())->iterator(ISO3166::KEY_ALPHA3))
                 )),
 
@@ -79,8 +79,8 @@ echo Form::widget([
         'manage_implies_create_hf' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' => [
-                '0' => \Yii::t('app', 'Disabled'),
-                '1' => \Yii::t('app', 'Enabled')
+                '0' => Yii::t('app', 'Disabled'),
+                '1' => Yii::t('app', 'Enabled')
             ]
         ],
         'typemapAsJson' => [
@@ -97,7 +97,7 @@ echo Form::widget([
         ],
         FormButtonsWidget::embed([
             'buttons' => [
-                ['label' => \Yii::t('app', 'Update'), 'style' => 'primary'],
+                ['label' => Yii::t('app', 'Update'), 'style' => 'primary'],
             ],
         ]),
     ]
@@ -107,27 +107,27 @@ ActiveForm::end();
 Section::end();
 
 Section::begin()
-    ->withHeader(\Yii::t('app', 'Delete project'))
+    ->withHeader(Yii::t('app', 'Delete project'))
     ->withSubject($project)
     ->withPermission(Permission::PERMISSION_DELETE)
     ->forDangerousAction()
 ;
 
-echo Html::tag('p', \Yii::t('app', 'This will permanently delete the project and all its workspaces.'));
-echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
-echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this project?')));
+echo Html::tag('p', Yii::t('app', 'This will permanently delete the project and all its workspaces.'));
+echo Html::tag('p', Yii::t('app', 'This action cannot be undone.'));
+echo Html::tag('p', Html::tag('em', Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this project?')));
 
 echo ButtonGroup::widget([
     'buttons' => [
         [
             'icon' => Icon::trash(),
-            'label' => \Yii::t('app', 'Delete'),
+            'label' => Yii::t('app', 'Delete'),
             'link' => ['project/delete', 'id' => $project->id],
-            'style' => 'delete',
+            'style' => ButtonGroup::STYLE_DELETE,
             'linkOptions' => [
                 'data-method' => 'delete',
-                'title' => \Yii::t('app', 'Delete project'),
-                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
+                'title' => Yii::t('app', 'Delete project'),
+                'data-confirm' => Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
             ]
         ]
     ]
@@ -136,30 +136,47 @@ echo ButtonGroup::widget([
 Section::end();
 
 Section::begin()
-    ->withHeader(\Yii::t('app', 'Empty project'))
+    ->withHeader(Yii::t('app', 'Empty project'))
     ->withSubject($project)
     ->withPermission(Permission::PERMISSION_DELETE_ALL_WORKSPACES)
     ->forDangerousAction()
 ;
 
-echo Html::tag('p', \Yii::t('app', 'This will permanently delete all workspaces in the project.'));
-echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
-echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete all workspaces?')));
+echo Html::tag('p', Yii::t('app', 'This will permanently delete all workspaces in the project.'));
+echo Html::tag('p', Yii::t('app', 'This action cannot be undone.'));
+echo Html::tag('p', Html::tag('em', Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete all workspaces?')));
 
 echo ButtonGroup::widget([
     'buttons' => [
         [
             'icon' => Icon::trash(),
-            'label' => \Yii::t('app', 'Delete all workspaces'),
+            'label' => Yii::t('app', 'Delete all workspaces'),
             'link' => ['project/delete-workspaces', 'id' => $project->id],
-            'style' => 'delete',
+            'style' => ButtonGroup::STYLE_DELETE,
             'linkOptions' => [
                 'data-method' => 'delete',
-                'title' => \Yii::t('app', 'Delete all workspaces in project'),
-                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
+                'title' => Yii::t('app', 'Delete all workspaces in project'),
+                'data-confirm' => Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
             ]
         ]
     ]
 ]);
 
+Section::end();
+Section::begin()
+    ->withHeader(Yii::t('app', 'Mass workspace sync'))
+    ->withSubject($project)
+    ->forAdministrativeAction()
+;
+echo Html::tag('p', Yii::t('app', 'Select and sync any number of workspaces in the project'));
+echo ButtonGroup::widget([
+    'buttons' => [
+        [
+            'icon' => Icon::sync(),
+            'label' => Yii::t('app', 'Sync'),
+            'link' => ['project/sync-workspaces', 'id' => $project->id],
+            'style' => 'default',
+        ]
+    ]
+]);
 Section::end();

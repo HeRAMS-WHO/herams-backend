@@ -8,6 +8,7 @@ use yii\helpers\Html;
 
 class ButtonGroup extends Widget
 {
+    const STYLE_DELETE = 'delete';
     const TYPE_LINK = 'link';
     const TYPE_RAW = 'raw';
     const TYPE_SUBMIT = 'submit';

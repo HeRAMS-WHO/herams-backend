@@ -526,14 +526,3 @@ body[data-modal]:after {
         grid-template-columns: auto minmax(auto, 1040px) 400px auto;
     }
 }
-
-.Section.dangerous header {
-    color: rgb(var(--danger));
-}
-
-.Section.dangerous {
-    border: 1px solid rgb(var(--danger));
-    padding: 10px;
-    background-color: rgba(var(--danger), 0.2);
-
-}

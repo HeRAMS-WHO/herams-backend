@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
+use prime\models\ar\Permission;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\User;
@@ -34,6 +35,12 @@ class Section extends Widget
     {
         Html::addCssClass($this->options, ['dangerous']);
         return $this;
+    }
+
+    public function forAdministrativeAction(): self
+    {
+        Html::addCssClass($this->options, ['administrative']);
+        return $this->withPermission(Permission::PERMISSION_ADMIN);
     }
 
 
@@ -105,6 +112,30 @@ class Section extends Widget
                 margin-bottom: 10px;
                 padding: 10px;
             }
+            
+                        
+            .Section.dangerous header {
+                color: rgb(var(--danger));
+            }
+            
+            .Section.administrative header {
+                color: rgb(var(--info));
+            }
+            
+            .Section.dangerous {
+                border: 1px solid rgb(var(--danger));
+                padding: 10px;
+                background-color: rgba(var(--danger), 0.2);
+            
+            }
+            
+            .Section.administrative {
+                border: 1px solid rgb(var(--info));
+                padding: 10px;
+                background-color: rgba(var(--info), 0.2);
+            
+            }
+            
 
         CSS;
         $this->view->registerCss($css, [], self::class);
