@@ -22,7 +22,7 @@ jobs:
       - run: docker-compose build
       - run: docker network create devproxy
       - run: cp .env.default .env
-      - run: docker-compose run --rm codeception run --coverage-clover
+      - run: docker-compose run --rm codeception run --coverage-xml
       - run: composer stan
       - run: wget https://scrutinizer-ci.com/ocular.phar
       - run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
