@@ -1,7 +1,7 @@
 # who-herams
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/herams-who/herams-backend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/herams-who/herams-backend/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/herams-who/herams-backend/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/herams-who/herams-backend/?branch=master)
-[![Continuous deployment for staging](https://github.com/HeRAMS-WHO/herams-backend/workflows/Continuous%20deployment%20for%20staging/badge.svg)](https://github.com/HeRAMS-WHO/herams-backend/actions?query=workflow%3A%22Continuous+deployment+for+staging%22)
+[![Deploy to staging](https://github.com/HeRAMS-WHO/herams-backend/actions/workflows/build.yml/badge.svg)](https://github.com/HeRAMS-WHO/herams-backend/actions/workflows/build.yml)
 
 # Set up developer environment
 
@@ -30,4 +30,3 @@ After taking the above steps you will have everything up and running:
 We expose a number of commands via docker-compose:
 - `docker-compose run --rm composer` will run composer, use this to install / update dependencies.
 - `docker-composer run --rm codeception` will run the test suite
-

@@ -3,10 +3,9 @@ on:
   push:
     branches: [ master ]
 jobs:
-  build:
-    name: Build container
+  test:
+    name: Run tests
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
@@ -23,8 +22,47 @@ jobs:
       - run: docker-compose build
       - run: docker network create devproxy
       - run: cp .env.default .env
-      - run: docker-compose run --rm codeception run --coverage-xml
+      - run: docker-compose run --rm codeception run --coverage-clover
       - run: composer stan
+      - run: wget https://scrutinizer-ci.com/ocular.phar
+      - run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
+  deploy:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+    - name: Authenticate to kubernetes
+      uses: azure/k8s-set-context@v1
+      with:
+        method: service-account
+        k8s-url: ${{ secrets.KUBERNETES_URL }}
+        k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
+    - uses: Azure/k8s-deploy@v1.4
+      with:
+        namespace: 'staging'
+        manifests: |
+          k8s/deployment.yaml
+        images: |
+          ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
+        kubectl-version: 'latest'
+  build:
+    needs: [test]
+    name: Build container
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - run: composer install --ignore-platform-reqs
       - id: kaniko_build
         name: Kaniko build
         uses: aevea/action-kaniko@master
@@ -36,17 +74,3 @@ jobs:
           extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --use-new-run"
           image: herams-who/herams-backend/app
           build_file: docker/app/Dockerfile
-      - name: Authenticate to kubernetes
-        uses: azure/k8s-set-context@v1
-        with:
-          method: service-account
-          k8s-url: ${{ secrets.KUBERNETES_URL }}
-          k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
-      - uses: Azure/k8s-deploy@v1.4
-        with:
-          namespace: 'staging'
-          manifests: |
-            k8s/deployment.yaml
-          images: |
-            ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
-          kubectl-version: 'latest'
