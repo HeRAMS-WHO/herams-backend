@@ -1,5 +1,5 @@
 # who-herams
-[![Coverage Status](https://coveralls.io/repos/github/HeRAMS-WHO/herams-backend/badge.svg?branch=master)](https://coveralls.io/github/HeRAMS-WHO/herams-backend?branch=master)
+[![codecov](https://codecov.io/gh/HeRAMS-WHO/herams-backend/branch/master/graph/badge.svg?token=7D48B4O2AM)](https://codecov.io/gh/HeRAMS-WHO/herams-backend)
 [![Deploy to staging](https://github.com/HeRAMS-WHO/herams-backend/actions/workflows/build.yml/badge.svg)](https://github.com/HeRAMS-WHO/herams-backend/actions/workflows/build.yml)
 
 # Set up developer environment
