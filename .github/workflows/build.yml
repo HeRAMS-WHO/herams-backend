@@ -27,7 +27,7 @@ jobs:
       - name: Get coveralls submitter
         run: composer global require cedx/coveralls
       - name: Upload coverage
-        run: coveralls ./tests/_output/coverage.xml
+        run: $(composer global config --absolute bin-dir)/coveralls ./tests/_output/coverage.xml
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
           COVERALLS_SERVICE_NAME: "Secure github action"
