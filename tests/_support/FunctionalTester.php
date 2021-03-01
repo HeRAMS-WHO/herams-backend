@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\tests;
 
+use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
@@ -28,6 +29,7 @@ class FunctionalTester extends \Codeception\Actor
 {
     use _generated\FunctionalTesterActions;
 
+    private Element $element;
     private Page $page;
     private Project $project;
     private Workspace $workspace;
@@ -35,6 +37,23 @@ class FunctionalTester extends \Codeception\Actor
     /**
     * Define custom actions here
     */
+    public function haveElement(): Element
+    {
+        if (!isset($this->element)) {
+            $this->element = new Element();
+            $this->element->page_id = $this->havePage()->id;
+            $this->element->sort = 0;
+            $this->element->type = Element::TYPE_MAP;
+            $this->element->transpose = false;
+            $this->element->code = 'test';
+            $this->element->width = 1;
+            $this->element->height = 1;
+            $this->save($this->element);
+        }
+
+        return $this->element;
+    }
+
     public function havePage(): Page
     {
         if (!isset($this->page)) {

@@ -43,7 +43,7 @@ class Map extends Element
         ], $this->getWidgetConfig()));
     }
 
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
         $rules[] = [['markerRadius'], NumberValidator::class, 'min' => 1, 'max' => 100];
