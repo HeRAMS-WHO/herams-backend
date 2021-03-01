@@ -1,6 +1,5 @@
 # who-herams
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/herams-who/herams-backend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/herams-who/herams-backend/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/herams-who/herams-backend/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/herams-who/herams-backend/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/HeRAMS-WHO/herams-backend/badge.svg?branch=master)](https://coveralls.io/github/HeRAMS-WHO/herams-backend?branch=master)
 [![Deploy to staging](https://github.com/HeRAMS-WHO/herams-backend/actions/workflows/build.yml/badge.svg)](https://github.com/HeRAMS-WHO/herams-backend/actions/workflows/build.yml)
 
 # Set up developer environment

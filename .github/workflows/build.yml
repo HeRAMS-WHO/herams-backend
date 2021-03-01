@@ -31,7 +31,7 @@ jobs:
       - name: Fix paths in coverage.xml
         run: sed "s~name=\"/project~name=\"$(pwd)~g" ./tests/_output/coverage.xml > coverage.xml
       - name: Upload coverage
-        run: PATH=$PATH:$(composer global config --absolute bin-dir) coveralls coverage.xml
+        run: PATH=$PATH:$(composer global config --absolute bin-dir) coveralls -vvv coverage.xml
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
           COVERALLS_SERVICE_NAME: "Secure github action"
