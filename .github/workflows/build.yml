@@ -28,6 +28,8 @@ jobs:
       - run: cp .env.default .env
       - run: docker-compose run --rm codeception run --coverage-xml
       - run: composer stan
+      - name: Fix paths in coverage.xml
+        run: sed -i "s~name=\"/project~name=\"$(pwd)~g" coverage.xml
       - name: Upload coverage
         run: PATH=$PATH:$(composer global config --absolute bin-dir) coveralls ./tests/_output/coverage.xml
         env:
