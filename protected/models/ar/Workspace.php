@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
-use Carbon\Carbon;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\HeramsResponseInterface;
@@ -23,22 +22,27 @@ use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 
 /**
- * Class Project
+ * Class Workspace
  * @package prime\models
  *
- * @property User $owner
- * @property Project $project
- * @property string $title
- * @property string $description
- * @property int $tool_id
- * @property string $token
+ * Attributes
+ * @property string $created
  * @property int $id
- * @property int $facilityCount
+ * @property string $title
+ * @property string $token
+ * @property int $tool_id
+ *
+ * Virtual fields
  * @property int $contributorCount
- * @property-read int $responseCount
- * @property \DateTimeImmutable $created
+ * @property int $facilityCount
  * @property ?string $latestUpdate
- * @property HeramsResponseInterface[] $responses
+ * @property int $permissionSourceCount
+ * @property int $responseCount
+ *
+ * Relations
+ * @property-read User $owner
+ * @property-read Project $project
+ * @property-read HeramsResponseInterface[] $responses
  */
 class Workspace extends ActiveRecord
 {
@@ -193,6 +197,30 @@ class Workspace extends ActiveRecord
             $this->_token = $token;
         }
         return $this->_token;
+    }
+
+    public function getLeads(): ActiveQuery
+    {
+        $permissionQuery =  $permissionQuery = Permission::find()->andWhere([
+            'source' => User::class,
+            'permission' => Permission::ROLE_LEAD
+        ])
+        ->andWhere([
+            'OR',
+            [
+                'target' => self::class,
+                'target_id' => $this->id,
+            ],
+            [
+                'target' => Project::class,
+                'target_id' => $this->tool_id,
+            ]
+        ]);
+
+        $userQuery = User::find()
+            ->andWhere(['id' => $permissionQuery->select('source_id')]);
+        $userQuery->multiple = true;
+        return $userQuery;
     }
 
     public function getLimesurveyDataProvider(): LimesurveyDataProvider

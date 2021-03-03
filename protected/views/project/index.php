@@ -1,25 +1,28 @@
 <?php
 declare(strict_types=1);
 
-use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\models\search\Project as SearchModelProject;
 use prime\widgets\DrilldownColumn;
-use yii\bootstrap\ButtonGroup;
-use yii\bootstrap\Html;
-use yii\helpers\Url;
+use prime\widgets\Section;
+use SamIT\abac\interfaces\Resolver;
+use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
+use yii\web\View;
 
 /**
- * @var \yii\web\View $this
- * @var \yii\data\ActiveDataProvider $projectProvider
- * @var \prime\models\search\Project $projectSearch
+ * @var View $this
+ * @var ActiveDataProvider $projectProvider
+ * @var SearchModelProject $projectSearch
+ * @var Resolver $abacResolver;
  */
 
 $this->title = \Yii::t('app', 'Projects');
 
-\prime\widgets\Section::begin([
+Section::begin([
     'actions' => [
         [
             'label' => \Yii::t('app', 'Create project'),
@@ -66,8 +69,15 @@ echo GridView::widget([
             'label' => \Yii::t('app', '# Responses'),
             'attribute' => 'responseCount'
         ],
-
+        [
+            'label' => \Yii::t('app', 'Lead'),
+            'value' => static function (Project $project) {
+                $usersQuery = $project->getLeads();
+                return implode('<br>', ArrayHelper::getColumn($usersQuery->all(), 'name'));
+            },
+            'format' => 'html',
+        ],
     ]
 ]);
 
-\prime\widgets\Section::end();
+Section::end();

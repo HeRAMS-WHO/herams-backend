@@ -43,6 +43,8 @@ class Share extends Action
                 Permission::PERMISSION_EXPORT,
                 Permission::PERMISSION_SHARE,
                 Permission::PERMISSION_SUPER_SHARE,
+
+                Permission::ROLE_LEAD,
             ]);
         } catch (NoGrantablePermissions $e) {
             $notificationService->error('There are no permissions that you can share for this workspace');

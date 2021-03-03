@@ -54,6 +54,8 @@ class Share extends Action
                     Permission::PERMISSION_SHARE,
                     Permission::PERMISSION_SURVEY_BACKEND,
                     Permission::PERMISSION_SUPER_SHARE,
+
+                    Permission::ROLE_LEAD,
                 ]
             );
         } catch (NoGrantablePermissions $e) {

@@ -43,6 +43,7 @@ class Permission extends ActiveRecord
 
     const PERMISSION_CREATE_FACILITY = 'create-facility';
 
+    const ROLE_LEAD = 'ROLE_LEAD';
     const ROLE_WORKSPACE_CONTRIBUTOR = 'ROLE_WORKSPACE_CONTRIBUTOR';
     const ROLE_WORKSPACE_OWNER = 'ROLE_WORKSPACE_OWNER';
     const ROLE_PROJECT_VIEWER = 'ROLE_PROJECT_VIEWER';
@@ -85,6 +86,8 @@ class Permission extends ActiveRecord
             self::PERMISSION_CREATE_PROJECT => \Yii::t('app', 'Create a new project'),
             self::PERMISSION_CREATE_FACILITY => \Yii::t('app', 'Register a new facility'),
             self::PERMISSION_DEBUG_TOOLBAR => \Yii::t('app', 'Show the debug toolbar'),
+
+            self::ROLE_LEAD => \Yii::t('app', 'Lead'),
         ];
     }
 
