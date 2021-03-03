@@ -74,8 +74,9 @@ echo GridView::widget([
             'value' => static function (Project $project) {
                 $usersQuery = $project->getLeads();
                 return implode('<br>', ArrayHelper::getColumn($usersQuery->all(), 'name'));
-            }
-        ]
+            },
+            'format' => 'html',
+        ],
     ]
 ]);
 
