@@ -18,7 +18,7 @@ spec:
       paths:
       - backend:
           service:
-            name: staging-service
+            name: app-service
             port:
               number: 80
         pathType: ImplementationSpecific
@@ -36,7 +36,7 @@ spec:
       paths:
       - backend:
           service:
-            name: staging-service
+            name: app-service
             port:
               number: 80
         pathType: ImplementationSpecific
