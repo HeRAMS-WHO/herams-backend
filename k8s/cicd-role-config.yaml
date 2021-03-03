@@ -8,7 +8,9 @@ rules:
       - apps
       - extensions
     resources:
-      - '*'
+      - deployments
+    resourceNames:
+      - app
     verbs:
       - '*'
 ---
