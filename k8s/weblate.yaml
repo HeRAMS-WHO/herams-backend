@@ -42,10 +42,11 @@ data:
 
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: weblate
 spec:
+  serviceName: weblate-service
   replicas: 1
   selector:
     matchLabels:
