@@ -70,7 +70,7 @@ echo GridView::widget([
             'attribute' => 'responseCount'
         ],
         [
-            'label' => \Yii::t('app', 'Lead'),
+            'label' => \Yii::t('app', 'Project coordinator'),
             'value' => static function (Project $project) {
                 $usersQuery = $project->getLeads();
                 return implode('<br>', ArrayHelper::getColumn($usersQuery->all(), 'name'));

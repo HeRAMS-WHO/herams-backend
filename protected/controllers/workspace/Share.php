@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
@@ -13,7 +13,6 @@ use prime\models\forms\Share as ShareForm;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\User;
@@ -44,7 +43,7 @@ class Share extends Action
                 Permission::PERMISSION_SHARE,
                 Permission::PERMISSION_SUPER_SHARE,
 
-                Permission::ROLE_LEAD,
+                Permission::ROLE_LEAD => \Yii::t('app', 'Workspace owner'),
             ]);
         } catch (NoGrantablePermissions $e) {
             $notificationService->error('There are no permissions that you can share for this workspace');

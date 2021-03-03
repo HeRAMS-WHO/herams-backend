@@ -55,7 +55,7 @@ class Share extends Action
                     Permission::PERMISSION_SURVEY_BACKEND,
                     Permission::PERMISSION_SUPER_SHARE,
 
-                    Permission::ROLE_LEAD,
+                    Permission::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
                 ]
             );
         } catch (NoGrantablePermissions $e) {
