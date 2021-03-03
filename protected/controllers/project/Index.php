@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
@@ -27,7 +27,7 @@ class Index extends Action
         $projectProvider = $projectSearch->search($request->queryParams, $user);
         return $this->controller->render('index', [
             'projectSearch' => $projectSearch,
-            'projectProvider' => $projectProvider
+            'projectProvider' => $projectProvider,
         ]);
     }
 }

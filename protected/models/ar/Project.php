@@ -34,25 +34,36 @@ use yii\web\Linkable;
 use function iter\filter;
 
 /**
- * Class Tool
- * @property int $id
+ * Class Project
+ *
+ * Attributes
  * @property int $base_survey_eid
- * @property string $title
- * @property string $visibility
- * @property Page[] $pages
- * @property int $status
- * @property Workspace[] $workspaces
- * @property-read int $workspaceCount
- * @property-read int $contributorCount
- * @property-read string $latestDate
- * @property-read int $facilityCount
- * @property ?string $country
- * @property-read int $contributorPermissionCount
- * @property-read SurveyInterface $survey
- * @property array<string, string> $typemap
+ * @property string $country
+ * @property string $description
+ * @property boolean $hidden
+ * @property int $id
+ * @property float $latitude
+ * @property float $longitude
+ * @property boolean $manage_implies_create_hf
  * @property array $overrides
- * @property bool $manage_implies_create_hf
- * @property-read int $pageCount
+ * @property int $status
+ * @property string $title
+ * @property array<string, string> $typemap
+ * @property string $visibility
+ *
+ * Virtual fields
+ * @property int $contributorCount
+ * @property int $contributorPermissionCount
+ * @property int $facilityCount
+ * @property string $latestDate
+ * @property int $pageCount
+ * @property int $workspaceCount
+ *
+ * Relations
+ * @property Page[] $pages
+ * @property SurveyInterface $survey
+ * @property Workspace[] $workspaces
+ *
  * @method ExpressionInterface getVirtualExpression(string $name)
  * @see VirtualFieldBehavior::getVirtualExpression()
  */
@@ -170,7 +181,7 @@ class Project extends ActiveRecord implements Linkable
         ]);
     }
 
-    public function attributeHints()
+    public function attributeHints(): array
     {
         return [
             'country' => \Yii::t('app', 'Only countries with an ISO3166 Alpha-3:wq
@@ -232,7 +243,6 @@ class Project extends ActiveRecord implements Linkable
     {
         $this->overrides = array_filter(Json::decode($value));
     }
-
 
     public function rules(): array
     {
@@ -549,6 +559,21 @@ class Project extends ActiveRecord implements Linkable
             $pages[] = $page->export();
         }
         return $pages;
+    }
+
+    public function getLeads(): ActiveQuery
+    {
+        $permissionQuery =  $permissionQuery = Permission::find()->andWhere([
+            'target' => self::class,
+            'target_id' => $this->id,
+            'source' => User::class,
+            'permission' => Permission::ROLE_LEAD
+        ]);
+
+        $userQuery = User::find()
+            ->andWhere(['id' => $permissionQuery->select('source_id')]);
+        $userQuery->multiple = true;
+        return $userQuery;
     }
 
     public function getLinks(): array
