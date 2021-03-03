@@ -25,9 +25,6 @@ return [
     new DashboardRule(),
     new SuperShareRule(),
     new AdminShareRule(),
-    new ImpliedPermission(Permission::ROLE_LEAD, [
-        Permission::PERMISSION_ADMIN,
-    ]),
     new ImpliedPermission(Permission::PERMISSION_ADMIN, [
         Permission::PERMISSION_SHARE,
         Permission::PERMISSION_WRITE,

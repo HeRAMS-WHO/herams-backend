@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
@@ -33,18 +33,16 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProject();
+        $user = User::findOne(['id' => TEST_USER_ID]);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
-        $I->see(Permission::permissionLabels()[Permission::ROLE_LEAD]);
+        $I->see(\Yii::t('app', 'Project coordinator'));
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['project/share', 'id' => $project->id]);
-        $I->seeResponseCodeIs(403);
-
         $I->grantCurrentUser($project, Permission::ROLE_LEAD);
-        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->amOnPage(['project/index']);
         $I->seeResponseCodeIs(200);
-        $I->see(Permission::permissionLabels()[Permission::ROLE_LEAD]);
+        $I->see($user->name, 'table tr td');
     }
 }
