@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
@@ -33,7 +33,7 @@ class Workspaces extends Action
         return $this->controller->render('workspaces', [
             'workspaceSearch' => $workspaceSearch,
             'workspaceProvider' => $workspaceProvider,
-            'project' => $project
+            'project' => $project,
         ]);
     }
 }

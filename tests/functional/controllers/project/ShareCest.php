@@ -28,4 +28,23 @@ class ShareCest
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(403);
     }
+
+    public function testLeadAccess(FunctionalTester $I)
+    {
+        $I->amLoggedInAs(TEST_ADMIN_ID);
+        $project = $I->haveProject();
+
+        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->seeResponseCodeIs(200);
+        $I->see(Permission::permissionLabels()[Permission::ROLE_LEAD]);
+
+        $I->amLoggedInAs(TEST_USER_ID);
+        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->seeResponseCodeIs(403);
+
+        $I->grantCurrentUser($project, Permission::ROLE_LEAD);
+        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->seeResponseCodeIs(200);
+        $I->see(Permission::permissionLabels()[Permission::ROLE_LEAD]);
+    }
 }
