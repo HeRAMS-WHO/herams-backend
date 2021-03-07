@@ -1,5 +1,6 @@
 FROM alpine:edge
 RUN apk add --update --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+  dumb-init \
   git \
   jq \
   npm \
@@ -42,4 +43,4 @@ RUN echo "${COMMIT_SHA}" > /run/commit_sha
 
 #Mount a tmpfs here
 VOLUME /run
-ENTRYPOINT ["/sbin/init.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "-c", "-r", "15:3", "--", "/sbin/init.sh"]
