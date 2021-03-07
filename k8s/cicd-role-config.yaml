@@ -9,8 +9,6 @@ rules:
       - extensions
     resources:
       - deployments
-    resourceNames:
-      - app
     verbs:
       - '*'
   - apiGroups:
@@ -19,8 +17,6 @@ rules:
       - extensions
     resources:
       - services
-    resourceNames:
-      - app-service
     verbs:
       - '*'
 ---
