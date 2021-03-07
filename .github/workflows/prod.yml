@@ -48,7 +48,6 @@ jobs:
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
   build:
-    needs: [test]
     name: Build container
     runs-on: ubuntu-latest
     timeout-minutes: 10
