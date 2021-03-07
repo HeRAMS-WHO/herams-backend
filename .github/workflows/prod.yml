@@ -64,8 +64,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
-      - id: kaniko_build
-        name: Kaniko build
+      - name: Build commit
+        if: github.ref == 'refs/heads/k8s-prod
+        uses: aevea/action-kaniko@master
+        with:
+          registry: ghcr.io
+          password: ${{ secrets.GHCR_TOKEN }}
+          tag: prod-${{ github.sha }}
+          tag_with_latest: false
+          extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --use-new-run"
+          image: herams-who/herams-backend/app
+          build_file: docker/app/Dockerfile
+      - name: Build tag
+        if: github.ref != 'refs/heads/k8s-prod
         uses: aevea/action-kaniko@master
         with:
           registry: ghcr.io
