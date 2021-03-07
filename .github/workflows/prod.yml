@@ -43,7 +43,13 @@ jobs:
         with:
           namespace: 'prod'
           manifests: |
-            k8s/deployment.yaml
+            k8s/shared/cicd-role-config.yaml
+            k8s/shared/app-config-map.yaml
+            k8s/shared/nginx-config-map.yaml
+            k8s/shared/deployment.yaml
+            k8s/prod/ingress-prod.yaml
+            k8s/prod/sealed-limesurvey-prod.yaml
+            k8s/prod/sealed-smtp-prod.yaml
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
