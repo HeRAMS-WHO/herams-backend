@@ -25,17 +25,8 @@ jobs:
       - run: docker-compose build
       - run: docker network create devproxy
       - run: cp .env.default .env
-      - run: docker-compose run --rm codeception run --coverage-xml
+      - run: docker-compose run --rm codeception run
       - run: composer stan
-      - uses: codecov/codecov-action@v1
-        with:
-          files: ./tests/_output/coverage.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
-
-
   deploy:
     needs: [test, build]
     runs-on: ubuntu-latest
