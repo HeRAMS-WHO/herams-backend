@@ -28,7 +28,7 @@ jobs:
       - run: docker-compose run --rm codeception run
       - run: composer stan
   deploy:
-    needs: [test, build]
+    needs: [build]
     runs-on: ubuntu-latest
     name: Deploy
     steps:
@@ -43,7 +43,6 @@ jobs:
         with:
           namespace: 'prod'
           manifests: |
-            k8s/shared/cicd-role-config.yaml
             k8s/shared/app-config-map.yaml
             k8s/shared/nginx-config-map.yaml
             k8s/shared/deployment.yaml
