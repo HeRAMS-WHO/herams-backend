@@ -65,7 +65,7 @@ jobs:
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
       - name: Build commit
-        if: github.ref == 'refs/heads/k8s-prod
+        if: github.ref == 'refs/heads/k8s-prod'
         uses: aevea/action-kaniko@master
         with:
           registry: ghcr.io
@@ -76,7 +76,7 @@ jobs:
           image: herams-who/herams-backend/app
           build_file: docker/app/Dockerfile
       - name: Build tag
-        if: github.ref != 'refs/heads/k8s-prod
+        if: github.ref != 'refs/heads/k8s-prod'
         uses: aevea/action-kaniko@master
         with:
           registry: ghcr.io
