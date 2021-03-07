@@ -71,7 +71,6 @@ jobs:
           registry: ghcr.io
           password: ${{ secrets.GHCR_TOKEN }}
           tag: prod-${{ github.sha }}
-          tag_with_latest: "false"
           extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --use-new-run"
           image: herams-who/herams-backend/app
           build_file: docker/app/Dockerfile
