@@ -4,19 +4,13 @@ metadata:
   name: cicd-role
 rules:
   - apiGroups:
-      - ""
-      - apps
-      - extensions
+      - "*"
     resources:
       - deployments
-    verbs:
-      - '*'
-  - apiGroups:
-      - ""
-      - apps
-      - extensions
-    resources:
+      - configmaps
+      - ingresses
       - services
+      - sealedsecrets
     verbs:
       - '*'
 ---

@@ -48,7 +48,9 @@ jobs:
             k8s/shared/deployment.yaml
             k8s/prod/ingress-prod.yaml
             k8s/prod/sealed-limesurvey-prod.yaml
+            k8s/prod/sealed-database-prod.yaml
             k8s/prod/sealed-smtp-prod.yaml
+            k8s/prod/sealed-app-prod.yaml
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
