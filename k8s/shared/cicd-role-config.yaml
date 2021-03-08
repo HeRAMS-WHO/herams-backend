@@ -11,6 +11,7 @@ rules:
       - ingresses
       - services
       - sealedsecrets
+      - namespaces
     verbs:
       - '*'
 ---
