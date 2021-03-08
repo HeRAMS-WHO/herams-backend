@@ -13,15 +13,6 @@ spec:
       - herams-staging.org
       secretName: herams-staging.tls
   rules:
-  - host: test.herams-staging.org
-    http:
-      paths:
-        - backend:
-            service:
-              name: app-service
-              port:
-                number: 80
-          pathType: ImplementationSpecific
   - host: www.herams-staging.org
     http:
       paths:
@@ -31,15 +22,6 @@ spec:
             port:
               number: 80
         pathType: ImplementationSpecific
-  - host: www2.herams-staging.org
-    http:
-      paths:
-        - backend:
-            service:
-              name: app-service
-              port:
-                number: 80
-          pathType: ImplementationSpecific
   - host: weblate.herams-staging.org
     http:
       paths:
