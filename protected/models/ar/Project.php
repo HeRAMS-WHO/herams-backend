@@ -563,7 +563,7 @@ class Project extends ActiveRecord implements Linkable
 
     public function getLeads(): ActiveQuery
     {
-        $permissionQuery =  $permissionQuery = Permission::find()->andWhere([
+        $permissionQuery = Permission::find()->andWhere([
             'target' => self::class,
             'target_id' => $this->id,
             'source' => User::class,
