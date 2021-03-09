@@ -51,7 +51,8 @@ echo GridView::widget([
             'class' => DrilldownColumn::class,
             'link' => static function ($project) {
                 return ['project/workspaces', 'id' => $project->id];
-            }
+            },
+            'permission' => Permission::PERMISSION_LIST_WORKSPACES,
         ],
         [
             'label' => \Yii::t('app', '# Workspaces'),
