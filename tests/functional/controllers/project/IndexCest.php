@@ -120,7 +120,7 @@ class IndexCest
 
     public function testWorkspacesAction(FunctionalTester $I)
     {
-        $I->markTestSkipped('Action column hidden');
+        // Normal visibility
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $I->amOnPage(['project/index']);
@@ -128,5 +128,29 @@ class IndexCest
         $I->seeElement('a', [
             'href' => Url::to(['project/workspaces', 'id' => $project->id]),
         ]);
+
+        // Private visibility
+        $project->visibility = Project::VISIBILITY_PRIVATE;
+        $I->save($project);
+        $I->amOnPage(['project/index']);
+
+        // Don't see the link
+        $I->dontSeeElement('a', [
+            'href' => Url::to(['project/workspaces', 'id' => $project->id]),
+        ]);
+        // But do see the project title listed
+        $I->see($project->title, 'table tr td');
+
+        // Hidden visibility
+        $project->visibility = Project::VISIBILITY_HIDDEN;
+        $I->save($project);
+        $I->amOnPage(['project/index']);
+
+        // Don't see the link
+        $I->dontSeeElement('a', [
+            'href' => Url::to(['project/workspaces', 'id' => $project->id]),
+        ]);
+        // Don't see the project title listed
+        $I->dontSee($project->title, 'table tr td');
     }
 }
