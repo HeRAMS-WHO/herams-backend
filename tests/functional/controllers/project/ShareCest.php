@@ -29,7 +29,7 @@ class ShareCest
         $I->seeResponseCodeIs(403);
     }
 
-    public function testLeadAccess(FunctionalTester $I)
+    public function testLeadPermission(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProject();
