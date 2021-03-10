@@ -12,7 +12,9 @@ use prime\models\ar\Project;
 use prime\models\forms\Share as ShareForm;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
+use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
+use yii\mail\MailerInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -29,6 +31,8 @@ class Share extends Action
         AuthManager $abacManager,
         Resolver $abacResolver,
         User $user,
+        MailerInterface $mailer,
+        UrlSigner $urlSigner,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
@@ -43,6 +47,8 @@ class Share extends Action
                 $abacManager,
                 $abacResolver,
                 $user->identity,
+                $mailer,
+                $urlSigner,
                 [
                     Permission::PERMISSION_READ,
                     Permission::PERMISSION_SURVEY_DATA,

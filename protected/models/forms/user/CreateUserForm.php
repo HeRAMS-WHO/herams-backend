@@ -43,8 +43,8 @@ class CreateUserForm extends Model
                 'message' => \Yii::t('app', "Email already taken")
             ],
             ['name', StringValidator::class, 'max' => 50],
-            ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
-            [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => 'normal'],
+            ['name', RegularExpressionValidator::class, 'pattern' => User::NAME_REGEX],
+            [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => StrengthValidator::NORMAL],
             [['confirm_password'], CompareValidator::class, 'compareAttribute' => 'password',
             'message' => \Yii::t('app', "Passwords don't match")],
         ];

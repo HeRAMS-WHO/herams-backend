@@ -3,6 +3,7 @@
 namespace prime\models\forms;
 
 use app\components\ActiveForm;
+use Carbon\Carbon;
 use kartik\builder\Form;
 use kartik\grid\GridView;
 use kartik\select2\Select2;
@@ -15,11 +16,16 @@ use prime\widgets\FormButtonsWidget;
 use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
+use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\ArrayHelper;
+use yii\mail\MailerInterface;
+use yii\validators\EachValidator;
+use yii\validators\EmailValidator;
 use yii\validators\ExistValidator;
+use yii\validators\InlineValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\web\IdentityInterface;
@@ -31,7 +37,8 @@ use yii\web\IdentityInterface;
 class Share extends Model
 {
     private $permissionOptions = [];
-    public $userIds = [];
+    private int $linkExpirationDays;
+    public $userIdsAndEmails = [];
     public $permissions = [];
 
     private $model;
@@ -40,26 +47,36 @@ class Share extends Model
 
     /** @var AuthManager */
     private $abacManager;
-    /** @var Resolver  */
-    private $resolver;
     /** @var IdentityInterface */
     private $currentUser;
+    /** @var MailerInterface */
+    private $mailer;
+    /** @var Resolver */
+    private $resolver;
+    /** @var UrlSigner */
+    private $urlSigner;
 
     public function __construct(
         object $model,
         AuthManager $abacManager,
         Resolver $resolver,
         IdentityInterface $identity,
-        ?array $availablePermissions
+        MailerInterface $mailer,
+        UrlSigner $urlSigner,
+        ?array $availablePermissions,
+        int $linkExpirationDays = 7
     ) {
         if ($model instanceof ActiveRecord && $model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
         parent::__construct([]);
-        $this->model = $model;
         $this->abacManager = $abacManager;
-        $this->resolver = $resolver;
         $this->currentUser = $identity;
+        $this->linkExpirationDays = $linkExpirationDays;
+        $this->mailer = $mailer;
+        $this->model = $model;
+        $this->resolver = $resolver;
+        $this->urlSigner = $urlSigner;
         $this->setPermissionOptions($availablePermissions);
         if (empty($this->permissionOptions)) {
             throw new NoGrantablePermissions();
@@ -69,7 +86,7 @@ class Share extends Model
     public function attributeLabels()
     {
         return [
-            'userIds' => \Yii::t('app', 'Users'),
+            'userIdsAndEmails' => \Yii::t('app', 'Users'),
         ];
     }
 
@@ -88,7 +105,44 @@ class Share extends Model
                     }
                 }
             }
+
+            foreach ($this->getInviteEmailAddresses() as $emailAddress) {
+                foreach ($this->permissions as $permission) {
+                    $grant = new ProposedGrant(new User(), $this->model, $permission);
+
+                    if (!$this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+                        throw new \RuntimeException('You are not allowed to create this grant');
+                    }
+                }
+
+                $subject = $this->resolver->fromSubject($this->model);
+                $invitationRoute = [
+                    '/user/accept-invitation',
+                    'email' => $emailAddress,
+                    'subject' => $subject->getAuthName(),
+                    'subjectId' => $subject->getId(),
+                    'permissions' => implode(',', $this->permissions)
+                ];
+                $this->urlSigner->signParams($invitationRoute, false, Carbon::now()->addDays($this->linkExpirationDays));
+
+                $this->mailer->compose(
+                    'invitation',
+                    [
+                        'user' => $this->currentUser,
+                        'invitationRoute' => $invitationRoute,
+                        'linkExpirationDays' => $this->linkExpirationDays,
+                    ]
+                )
+                    ->setTo($emailAddress)
+                    ->send()
+                ;
+            }
         }
+    }
+
+    public function getInviteEmailAddresses(): array
+    {
+        return array_filter($this->userIdsAndEmails, fn($value) => !is_numeric($value));
     }
 
     private function setPermissionOptions(?array $options)
@@ -106,17 +160,25 @@ class Share extends Model
         }
     }
 
-    public function getUserOptions()
+    public function getUserOptions(): array
     {
-        return ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', function (User $user) {
-            return "{$user->name} ({$user->email})";
-        });
+        // Add in the non numeric values to make sure they do not disappear from the selected values
+        return ArrayHelper::merge(
+            ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', function (User $user) {
+                return "{$user->name} ({$user->email})";
+            }),
+            ArrayHelper::map(
+                array_filter($this->userIdsAndEmails, fn($value) => !is_numeric($value)),
+                fn($value) => $value,
+                fn($value) => $value
+            )
+        );
     }
 
     public function getUsers(): ActiveQueryInterface
     {
         return User::find()->where([
-            'id' => $this->userIds
+            'id' => array_filter($this->userIdsAndEmails, fn($value) => is_numeric($value)),
         ]);
     }
 
@@ -127,14 +189,17 @@ class Share extends Model
             'model' => $this,
             'columns' => 1,
             "attributes" => [
-                'userIds' => [
-
+                'userIdsAndEmails' => [
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => Select2::class,
                     'options' => [
                         'data' => $this->getUserOptions(),
                         'options' => [
-                            'multiple' => true
+                            'multiple' => true,
+                        ],
+                        'pluginOptions' => [
+                            'tags' => true,
+                            'maintainOrder' => true,
                         ]
                     ]
                 ],
@@ -233,8 +298,29 @@ class Share extends Model
     public function rules()
     {
         return [
-            [['permissions', 'userIds'], RequiredValidator::class],
-            [['userIds'], ExistValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'id', 'allowArray' => true],
+            [['permissions', 'userIdsAndEmails'], RequiredValidator::class],
+            [
+                ['userIdsAndEmails'],
+                EachValidator::class,
+                'rule' => [
+                    function ($attribute, $params, InlineValidator $validator, $value) {
+                        $existValidator = \Yii::createObject(ExistValidator::class, [['targetClass' => User::class, 'targetAttribute' => 'id']]);
+                        $emailValidator = \Yii::createObject(EmailValidator::class);
+
+                        if (is_numeric($value)) {
+                            if (!$existValidator->validate($value)) {
+                                $this->addError($attribute, \Yii::t('app', 'Invalid user.'));
+                            }
+                        } else {
+                            $error = null;
+                            if (!$emailValidator->validate($value, $error)) {
+                                $this->addError($attribute, \Yii::t('app', '{value} is an invalid email address.', ['value' => $value]));
+                            }
+                        }
+                    }
+                ],
+                'stopOnFirstError' => false,
+            ],
             [['permissions'], RangeValidator::class,  'allowArray' => true, 'range' => array_keys($this->permissionOptions)]
         ];
     }

@@ -29,6 +29,8 @@ use function iter\chain;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    const NAME_REGEX = '/^[\'\w\- ]+$/u';
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -48,7 +50,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'message' => \Yii::t('app', "Email already taken")
             ],
             ['name', StringValidator::class, 'max' => 50],
-            ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
+            ['name', RegularExpressionValidator::class, 'pattern' => self::NAME_REGEX],
             ['language', RangeValidator::class, 'range' => \Yii::$app->params['languages']]
         ];
     }
