@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use prime\widgets\Section;
 use yii\bootstrap\Html;
@@ -40,7 +41,7 @@ Section::begin([
             'linkOptions' => ['target' => 'limesurvey'],
             'icon' => Icon::add(),
             'label' => \Yii::t('app', 'Register new health facility'),
-            'link' => "https://ls.herams.org/391149?ResponsePicker=new&token={$model->token}&lang={$language}&newtest=Y",
+            'link' => "https://ls.herams.org/{$model->project->base_survey_eid}?ResponsePicker=new&token={$model->token}&lang={$language}&newtest=Y",
             'permission' => Permission::PERMISSION_CREATE_FACILITY
         ],
     ]
