@@ -39,11 +39,11 @@ jobs:
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Find and Replace
-          uses: jacobtomlinson/gha-find-replace@0.1.2
-          with:
-            include: k8s/staging/preview-deployment.yaml
-            find: "{DEPLOYMENT_NAME}"
-            replace: "${{ env.RELEASE_VERSION }}"
+        uses: jacobtomlinson/gha-find-replace@0.1.2
+        with:
+          include: k8s/staging/preview-deployment.yaml
+          find: "{DEPLOYMENT_NAME}"
+          replace: "${{ env.RELEASE_VERSION }}"
       - uses: Azure/k8s-deploy@v1.4
         with:
           namespace: 'staging'
