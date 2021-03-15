@@ -17,8 +17,10 @@ jobs:
           method: service-account
           k8s-url: ${{ secrets.KUBERNETES_URL }}
           k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
-      - name: Set env
+      - name: ract PR branch name
         run: echo "RELEASE_VERSION=${GITHUB_HEAD_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Extract PR number
+        run: echo PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH") >> $GITHUB_ENV
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@0.1.2
         with:
@@ -33,6 +35,13 @@ jobs:
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: "${{ env.PR_NUMBER }}"
+          body: |
+            Preview environment created at: https://${{ env.RELEASE_VERSION }}.herams-staging.org
+          reactions: '+1'
   build:
     name: Build container
     runs-on: ubuntu-latest
