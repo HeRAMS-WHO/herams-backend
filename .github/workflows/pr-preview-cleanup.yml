@@ -24,8 +24,7 @@ jobs:
         method: service-account
         k8s-url: ${{ secrets.KUBERNETES_URL }}
         k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
-
-    - run: kubectl delete -f k8s/staging/preview-deployment.yaml
+    - run: kubectl delete -f k8s/staging/preview-deployment.yaml --namespace staging
     - name: Create comment
       uses: peter-evans/create-or-update-comment@v1
       with:
