@@ -88,6 +88,11 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
 spec:
+  tls:
+    - hosts:
+    - "*.herams-staging.org"
+    - herams-staging.org
+  secretName: herams-staging.tls
   rules:
     - host: {DEPLOYMENT_NAME}.herams-staging.org
       http:
