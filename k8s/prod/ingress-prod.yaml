@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+spec:
+  tls:
+    - hosts:
+        - "*.herams.org"
+        - herams.org
+      secretName: herams.org.tls
+  rules:
+    - host: www.herams.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: app-service
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
+    - host: herams.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: app-service
+                port:
+                  number: 80
+            pathType: ImplementationSpecific

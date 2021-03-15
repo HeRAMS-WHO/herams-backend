@@ -50,4 +50,14 @@ class LimesurveyCest
 
         $I->seeElement('iframe');
     }
+
+    public function testNewFacilityLinkIsCorrect(FunctionalTester $I): void
+    {
+        $I->amLoggedInAs(TEST_USER_ID);
+        $workspace = $I->haveWorkspace();
+        $I->grantCurrentUser($workspace, Permission::PERMISSION_ADMIN);
+        $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
+        $I->seeResponseCodeIs(200);
+        $I->assertStringContainsString($workspace->project->base_survey_eid, $I->grabAttributeFrom('a[target=limesurvey]', 'href'));
+    }
 }

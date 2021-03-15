@@ -99,7 +99,7 @@ services:
     networks:
       - devproxy
       - default
-    image: nginx
+    image: ghcr.io/herams-who/docker/nginx:latest
     environment:
       PHPFPM: "phpfpm:9000"
       RESOLVER: "127.0.0.11"

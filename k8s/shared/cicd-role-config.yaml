@@ -4,15 +4,21 @@ metadata:
   name: cicd-role
 rules:
   - apiGroups:
-      - ""
-      - apps
-      - extensions
+      - "*"
     resources:
       - deployments
-    resourceNames:
-      - app
+      - configmaps
+      - ingresses
+      - services
+      - sealedsecrets
+      - namespaces
     verbs:
       - '*'
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cicd-user
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
