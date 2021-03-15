@@ -92,7 +92,7 @@ spec:
     - hosts:
       - "*.herams-staging.org"
       - herams-staging.org
-  secretName: herams-staging.tls
+      secretName: herams-staging.tls
   rules:
     - host: "{DEPLOYMENT_NAME}.herams-staging.org"
       http:
