@@ -53,7 +53,6 @@ spec:
         - name: app
           image: ghcr.io/herams-who/herams-backend/app:latest
           imagePullPolicy: Always
-
           volumeMounts:
             - name: app-config-volume
               mountPath: "/run/config"
@@ -70,13 +69,13 @@ spec:
 
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
-        - image: nginx
-          name: nginx
+        - name: nginx
+          image: ghcr.io/herams-who/docker/nginx:latest
           command: ["nginx", "-g", "daemon off;", "-c", "/config/nginx.conf"]
-          #livenessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: 80
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 80
           ports:
             - containerPort: 80
           volumeMounts:

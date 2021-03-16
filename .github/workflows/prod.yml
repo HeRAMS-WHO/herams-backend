@@ -1,7 +1,10 @@
-name: Deploy to staging
+name: Deploy to prod
 on:
   push:
-    branches: [ master ]
+    tags:
+      - 'v*'
+    branches:
+      - k8s-prod
 jobs:
   test:
     name: Run tests
@@ -22,19 +25,10 @@ jobs:
       - run: docker-compose build
       - run: docker network create devproxy
       - run: cp .env.default .env
-      - run: docker-compose run --rm codeception run --coverage-xml
+      - run: docker-compose run --rm codeception run
       - run: composer stan
-      - uses: codecov/codecov-action@v1
-        with:
-          files: ./tests/_output/coverage.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
-
-
   deploy:
-    needs: [test, build]
+    needs: [build]
     runs-on: ubuntu-latest
     name: Deploy
     steps:
@@ -44,17 +38,23 @@ jobs:
         with:
           method: service-account
           k8s-url: ${{ secrets.KUBERNETES_URL }}
-          k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
+          k8s-secret: ${{ secrets.PROD_K8S_SECRET }}
       - uses: Azure/k8s-deploy@v1.4
         with:
-          namespace: 'staging'
+          namespace: 'prod'
           manifests: |
+            k8s/shared/app-config-map.yaml
+            k8s/shared/nginx-config-map.yaml
             k8s/shared/deployment.yaml
+            k8s/prod/ingress-prod.yaml
+            k8s/prod/sealed-limesurvey-prod.yaml
+            k8s/prod/sealed-database-prod.yaml
+            k8s/prod/sealed-smtp-prod.yaml
+            k8s/prod/sealed-app-prod.yaml
           images: |
-            ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
+            ghcr.io/herams-who/herams-backend/app:prod-${{ github.sha }}
           kubectl-version: 'latest'
   build:
-    needs: [test]
     name: Build container
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -71,14 +71,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
-      - id: kaniko_build
-        name: Kaniko build
+      - name: Build commit
+        if: github.ref == 'refs/heads/k8s-prod'
         uses: aevea/action-kaniko@master
         with:
           registry: ghcr.io
           password: ${{ secrets.GHCR_TOKEN }}
-          tag: ${{ github.sha }}
-          tag_with_latest: true
+          tag: prod-${{ github.sha }}
+          extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --use-new-run"
+          image: herams-who/herams-backend/app
+          build_file: docker/app/Dockerfile
+      - name: Build tag
+        if: github.ref != 'refs/heads/k8s-prod'
+        uses: aevea/action-kaniko@master
+        with:
+          registry: ghcr.io
+          password: ${{ secrets.GHCR_TOKEN }}
+          tag: ${{ github.ref }}
+          tag_with_latest: "false"
+          strip_tag_prefix: refs-tags-
           extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --use-new-run"
           image: herams-who/herams-backend/app
           build_file: docker/app/Dockerfile
