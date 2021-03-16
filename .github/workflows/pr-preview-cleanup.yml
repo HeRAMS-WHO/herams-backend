@@ -1,0 +1,34 @@
+on:
+  pull_request:
+    types:
+      - closed
+jobs:
+  cleanup:
+    name: Cleanup preview environment
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Extract PR branch name
+      run: echo "RELEASE_VERSION=${GITHUB_HEAD_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Extract PR number
+      run: echo PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH") >> $GITHUB_ENV
+    - name: Find and Replace
+      uses: jacobtomlinson/gha-find-replace@0.1.2
+      with:
+        include: k8s/staging/preview-deployment.yaml
+        find: "{DEPLOYMENT_NAME}"
+        replace: "${{ env.RELEASE_VERSION }}"
+    - name: Authenticate to kubernetes
+      uses: azure/k8s-set-context@v1
+      with:
+        method: service-account
+        k8s-url: ${{ secrets.KUBERNETES_URL }}
+        k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
+    - run: kubectl delete -f k8s/staging/preview-deployment.yaml --namespace staging
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+       issue-number: "${{ env.PR_NUMBER }}"
+       body: |
+         Preview environment removed
+       reactions: '+1'
