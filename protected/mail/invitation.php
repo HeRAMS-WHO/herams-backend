@@ -3,6 +3,7 @@
 use prime\models\ar\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\mail\MessageInterface;
 use yii\web\View;
 
 /**
@@ -10,7 +11,12 @@ use yii\web\View;
  * @var User $user
  * @var array $invitationRoute
  * @var int $linkExpirationDays
+ * @var MessageInterface $message
  */
+
+if (empty($message->getSubject())) {
+    $message->setSubject('HeRAMS account invitation');
+}
 
 ?>
 <h1>Welcome to HeRAMS!</h1>

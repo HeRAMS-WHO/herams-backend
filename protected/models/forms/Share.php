@@ -93,6 +93,7 @@ class Share extends Model
     public function createRecords(): void
     {
         if ($this->validate()) {
+            // Grant permissions for existing users
             /** @var User $user */
             foreach ($this->getUsers()->all() as $user) {
                 foreach ($this->permissions as $permission) {
@@ -106,6 +107,7 @@ class Share extends Model
                 }
             }
 
+            // Invite users for which no account exists
             foreach ($this->getInviteEmailAddresses() as $emailAddress) {
                 foreach ($this->permissions as $permission) {
                     $grant = new ProposedGrant(new User(), $this->model, $permission);
@@ -145,21 +147,6 @@ class Share extends Model
         return array_filter($this->userIdsAndEmails, fn($value) => !is_numeric($value));
     }
 
-    private function setPermissionOptions(?array $options)
-    {
-        // Add labels if needed.
-        foreach ($options ?? Permission::permissionLabels() as $permission => $label) {
-            if (is_numeric($permission)) {
-                $permission = $label;
-                $label = Permission::permissionLabels()[$permission] ?? $permission;
-            }
-            $grant = new ProposedGrant($this->currentUser, $this->model, $permission);
-            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
-                $this->permissionOptions[$permission] = $label;
-            }
-        }
-    }
-
     public function getUserOptions(): array
     {
         // Add in the non numeric values to make sure they do not disappear from the selected values
@@ -180,6 +167,13 @@ class Share extends Model
         return User::find()->where([
             'id' => array_filter($this->userIdsAndEmails, fn($value) => is_numeric($value)),
         ]);
+    }
+
+    public function load($data, $formName = null): bool
+    {
+        $result = parent::load($data, $formName);
+        $this->replaceExistingEmailsWithIds();
+        return $result;
     }
 
     public function renderForm(ActiveForm $form)
@@ -295,7 +289,26 @@ class Share extends Model
         ]);
     }
 
-    public function rules()
+    private function replaceExistingEmailsWithIds(): void
+    {
+        $replaces = User::find()
+            ->andWhere(['email' => $this->getInviteEmailAddresses()])
+            ->indexBy('email')
+            ->select('id')
+            ->column();
+
+        foreach ($this->userIdsAndEmails as $key => $idOrEmail) {
+            if (is_numeric($idOrEmail)) {
+                continue;
+            }
+
+            if (isset($replaces[$idOrEmail])) {
+                $this->userIdsAndEmails[$key] = $replaces[$idOrEmail];
+            }
+        }
+    }
+
+    public function rules(): array
     {
         return [
             [['permissions', 'userIdsAndEmails'], RequiredValidator::class],
@@ -323,5 +336,20 @@ class Share extends Model
             ],
             [['permissions'], RangeValidator::class,  'allowArray' => true, 'range' => array_keys($this->permissionOptions)]
         ];
+    }
+
+    private function setPermissionOptions(?array $options)
+    {
+        // Add labels if needed.
+        foreach ($options ?? Permission::permissionLabels() as $permission => $label) {
+            if (is_numeric($permission)) {
+                $permission = $label;
+                $label = Permission::permissionLabels()[$permission] ?? $permission;
+            }
+            $grant = new ProposedGrant($this->currentUser, $this->model, $permission);
+            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+                $this->permissionOptions[$permission] = $label;
+            }
+        }
     }
 }

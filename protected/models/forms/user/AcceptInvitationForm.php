@@ -21,11 +21,9 @@ class AcceptInvitationForm extends Model
     public string $email;
 
     public function __construct(
-        private MailerInterface $mailer,
-        private UrlSigner $urlSigner,
         private string $originalEmail,
         private string $subject,
-        private int $subjectId,
+        private string $subjectId,
         private array $permissions,
         $config = []
     ) {
@@ -54,18 +52,18 @@ class AcceptInvitationForm extends Model
         ];
     }
 
-    public function sendConfirmationEmail(): void
+    public function sendConfirmationEmail(MailerInterface $mailer, UrlSigner $urlSigner): void
     {
         $url = [
             '/user/confirm-invitation',
             'email' => $this->email,
             'subject' => $this->subject,
             'subjectId' => $this->subjectId,
-            'permissions' => $this->permissions,
+            'permissions' => implode(',', $this->permissions),
         ];
-        $this->urlSigner->signParams($url, false, Carbon::tomorrow());
+        $urlSigner->signParams($url, false, Carbon::tomorrow());
 
-        $this->mailer->compose(
+        $mailer->compose(
             'confirm_invitation',
             [
                 'confirmationRoute' => $url

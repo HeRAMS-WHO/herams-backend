@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\controllers\user;
 
@@ -20,7 +21,7 @@ class ConfirmInvitation extends Action
         AuthManager $abacManager,
         string $email,
         string $subject,
-        int $subjectId,
+        string $subjectId,
         array $permissions
     ) {
         $model = new ConfirmInvitationForm(

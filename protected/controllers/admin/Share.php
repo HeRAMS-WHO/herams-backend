@@ -58,17 +58,17 @@ class Share extends Action
                 $model->createRecords();
                 $notificationService->success(\Yii::t(
                     'app',
-                    "Global permissions granted to {users}",
+                    'Global permissions granted to: <strong>{users}</strong> and invited users: <strong>{invitedUsers}</strong>',
                     [
                         'users' => implode(', ', array_map(function ($model) {
                             return $model->name;
-                        }, $model->getUsers()->all()))
+                        }, $model->getUsers()->all())),
+                        'invitedUsers' => implode(', ', $model->getInviteEmailAddresses()),
                     ]
                 ));
                 return $this->controller->refresh();
             }
         }
-
 
         return $this->controller->render('share', [
             'model' => $model

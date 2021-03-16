@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
@@ -15,8 +15,6 @@ use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
 use yii\mail\MailerInterface;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\User;
 
@@ -39,7 +37,6 @@ class Share extends Action
         $project = Project::findOne(['id' => $id]);
 
         $accessCheck->requirePermission($project, Permission::PERMISSION_SHARE, \Yii::t('app', 'You are not allowed to share this project'));
-
 
         try {
             $model = new ShareForm(
@@ -73,12 +70,13 @@ class Share extends Action
                 $model->createRecords();
                 $notificationService->success(\Yii::t(
                     'app',
-                    "Project {modelName} has been shared with: {users}",
+                    'Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong> and invited users: <strong>{invitedUsers}</strong>',
                     [
-                                'modelName' => $project->title,
-                                'users' => implode(', ', array_map(function ($model) {
-                                    return $model->name;
-                                }, $model->getUsers()->all()))
+                        'modelName' => $project->title,
+                        'users' => implode(', ', array_map(function ($model) {
+                            return $model->name;
+                        }, $model->getUsers()->all())),
+                        'invitedUsers' => implode(', ', $model->getInviteEmailAddresses()),
                     ]
                 ));
                 return $this->controller->refresh();

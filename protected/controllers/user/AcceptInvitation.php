@@ -3,6 +3,7 @@
 namespace prime\controllers\user;
 
 use Carbon\Carbon;
+use prime\components\NotificationService;
 use prime\models\forms\user\AcceptInvitationForm;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
@@ -14,15 +15,14 @@ class AcceptInvitation extends Action
     public function run(
         Request $request,
         MailerInterface $mailer,
+        NotificationService $notificationService,
         UrlSigner $urlSigner,
         string $email,
         string $subject,
-        int $subjectId,
+        string $subjectId,
         array $permissions
     ) {
         $model = new AcceptInvitationForm(
-            $mailer,
-            $urlSigner,
             $email,
             $subject,
             $subjectId,
@@ -40,6 +40,9 @@ class AcceptInvitation extends Action
             $urlSigner->signParams($url, false, Carbon::tomorrow());
 
             if ($model->hasEmailChanged()) {
+                $model->sendConfirmationEmail($mailer, $urlSigner);
+                $notificationService->success(\Yii::t('app', 'A verification email has been sent to your address'));
+                return $this->controller->goHome();
             } else {
                 return $this->controller->redirect($url);
             }

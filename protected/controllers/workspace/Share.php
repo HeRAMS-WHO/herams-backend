@@ -66,7 +66,7 @@ class Share extends Action
             $model->createRecords();
             $notificationService->success(\Yii::t(
                 'app',
-                "Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong> and invited users: <strong>{invitedUsers}</strong>",
+                'Workspace <strong>{modelName}</strong> has been shared with: <strong>{users}</strong> and invited users: <strong>{invitedUsers}</strong>',
                 [
                     'modelName' => $workspace->title,
                     'users' => implode(', ', array_map(function ($model) {

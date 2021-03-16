@@ -33,7 +33,9 @@ class ConfirmInvitationForm extends Model
     public function attributeLabels(): array
     {
         return [
+            'confirm_password' => \Yii::t('app', 'Confirm password'),
             'email' => \Yii::t('app', 'Email'),
+            'password' => \Yii::t('app', 'Password'),
         ];
     }
 
