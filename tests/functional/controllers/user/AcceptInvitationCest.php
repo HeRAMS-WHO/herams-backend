@@ -14,7 +14,7 @@ class AcceptInvitationCest
     private function getSignedUrl(
         string $email,
         Project $project,
-        string $permission = Permission::PERMISSION_READ,
+        array $permissions = [Permission::PERMISSION_READ],
     ) {
         /** @var UrlSigner $urlSigner */
         $urlSigner = \Yii::$app->urlSigner;
@@ -26,7 +26,7 @@ class AcceptInvitationCest
             'email' => $email,
             'subject' => $subject->getAuthName(),
             'subjectId' => $subject->getId(),
-            'permissions' => $permission,
+            'permissions' => implode(',', $permissions),
         ];
         $urlSigner->signParams($url, false, Carbon::now()->addDays(7));
         return $url;

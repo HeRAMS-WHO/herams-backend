@@ -15,7 +15,7 @@ class ConfirmInvitationCest
     private function getSignedUrl(
         string $email,
         Project $project,
-        string $permission = Permission::PERMISSION_READ,
+        array $permissions = [Permission::PERMISSION_READ],
     ) {
         /** @var UrlSigner $urlSigner */
         $urlSigner = \Yii::$app->urlSigner;
@@ -27,7 +27,7 @@ class ConfirmInvitationCest
             'email' => $email,
             'subject' => $subject->getAuthName(),
             'subjectId' => $subject->getId(),
-            'permissions' => $permission,
+            'permissions' => implode(',', $permissions),
         ];
         $urlSigner->signParams($url, false, Carbon::tomorrow());
         return $url;
@@ -37,7 +37,7 @@ class ConfirmInvitationCest
     {
         $page = $I->havePage();
         $email = 'email@test.com';
-        $url = $this->getSignedUrl($email, $page->project);
+        $url = $this->getSignedUrl($email, $page->project, [Permission::PERMISSION_READ, PERMISSION::PERMISSION_WRITE]);
         $I->dontSeeRecord(User::class, ['email' => $email]);
 
         $I->amOnPage($url);
@@ -56,5 +56,7 @@ class ConfirmInvitationCest
         $I->amLoggedInAs($user->id);
         $I->amOnPage(['project/view', 'id' => $page->project->id]);
         $I->seeResponseCodeIs(200);
+
+        $I->assertTrue(\Yii::$app->authManager->checkAccess($user->id, Permission::PERMISSION_WRITE, $page->project));
     }
 }

@@ -20,8 +20,9 @@ class AcceptInvitation extends Action
         string $email,
         string $subject,
         string $subjectId,
-        array $permissions
+        string $permissions
     ) {
+        $permissions = explode(',', $permissions);
         $model = new AcceptInvitationForm(
             $email,
             $subject,
