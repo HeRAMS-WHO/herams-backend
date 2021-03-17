@@ -26,7 +26,6 @@ class ConfirmInvitation extends Action
     ) {
         $permissions = explode(',', $permissions);
         $model = new ConfirmInvitationForm(
-            $abacManager,
             $email,
             $subject,
             $subjectId,
@@ -34,7 +33,7 @@ class ConfirmInvitation extends Action
         );
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
-            $model->createAccount();
+            $model->createAccount($abacManager);
             $notificationService->success(\Yii::t('app', "Your account has been created and invitation was accepted."));
             return $this->controller->goHome();
         }

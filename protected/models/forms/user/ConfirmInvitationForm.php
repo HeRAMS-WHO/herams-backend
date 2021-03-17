@@ -20,7 +20,6 @@ class ConfirmInvitationForm extends Model
     public string $name = '';
 
     public function __construct(
-        private AuthManager $abacManager,
         public string $email,
         private string $subject,
         private string $subjectId,
@@ -39,7 +38,7 @@ class ConfirmInvitationForm extends Model
         ];
     }
 
-    public function createAccount(): void
+    public function createAccount(AuthManager $authManager): void
     {
         $user = new User();
         $user->email = $this->email;
@@ -51,7 +50,7 @@ class ConfirmInvitationForm extends Model
 
         $subjectAuthorizable = new Authorizable($this->subjectId, $this->subject);
         foreach ($this->permissions as $permission) {
-            $this->abacManager->grant($user, $subjectAuthorizable, $permission);
+            $authManager->grant($user, $subjectAuthorizable, $permission);
         }
     }
 

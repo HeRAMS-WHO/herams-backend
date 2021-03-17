@@ -48,6 +48,27 @@ class AcceptInvitationCest
         $I->seeEmailIsSent();
     }
 
+    public function testInvitationLinkLoggedIn(FunctionalTester $I)
+    {
+        $page = $I->havePage();
+        $email = 'email@test.com';
+        $url = $this->getSignedUrl($email, $page->project);
+
+        $I->amOnPage($url);
+        $I->seeResponseCodeIs(200);
+        $I->dontSee('Accept invitation');
+
+        $I->amLoggedInAs(TEST_USER_ID);
+        $I->amOnPage($url);
+        $I->seeResponseCodeIs(200);
+
+        $I->click('Accept invitation');
+        $I->seeResponseCodeIs(200);
+
+        $I->amOnPage(['project/view', 'id' => $page->project_id]);
+        $I->seeResponseCodeIs(200);
+    }
+
     public function testInvitationLinkSameEmail(FunctionalTester $I)
     {
         $project = $I->haveProject();
@@ -61,5 +82,22 @@ class AcceptInvitationCest
         $I->click('Create account');
         $I->canSeeResponseCodeIsRedirection();
         $I->dontSeeEmailIsSent();
+    }
+
+    public function testInvitationLinkSingleUse(FunctionalTester $I)
+    {
+        $project = $I->haveProject();
+        $email = 'email@test.com';
+        $url = $this->getSignedUrl($email, $project);
+
+        $I->amLoggedInAs(TEST_USER_ID);
+        $I->amOnPage($url);
+        $I->seeResponseCodeIs(200);
+
+        $I->click('Accept invitation');
+        $I->seeResponseCodeIs(200);
+
+        $I->amOnPage($url);
+        $I->seeResponseCodeIs(403);
     }
 }

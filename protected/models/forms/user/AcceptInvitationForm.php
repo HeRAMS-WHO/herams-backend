@@ -5,12 +5,16 @@ namespace prime\models\forms\user;
 
 use Carbon\Carbon;
 use prime\models\ar\User;
+use SamIT\abac\AuthManager;
+use SamIT\abac\values\Authorizable;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Model;
 use yii\mail\MailerInterface;
+use yii\validators\BooleanValidator;
 use yii\validators\EmailValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
+use yii\web\User as UserComponent;
 
 /**
  * Class AcceptInvitationForm
@@ -18,9 +22,11 @@ use yii\validators\UniqueValidator;
  */
 class AcceptInvitationForm extends Model
 {
-    public string $email;
+    public bool $loggedInAccept = false;
+    public string $email = '';
 
     public function __construct(
+        private UserComponent $user,
         private string $originalEmail,
         private string $subject,
         private string $subjectId,
@@ -38,17 +44,42 @@ class AcceptInvitationForm extends Model
         ];
     }
 
+    public function getUser(): User
+    {
+        return $this->user->identity;
+    }
+
     public function hasEmailChanged(): bool
     {
         return $this->email != $this->originalEmail;
     }
 
+    public function grantLoggedInUser(AuthManager $abacManager): void
+    {
+        $subjectAuthorizable = new Authorizable($this->subjectId, $this->subject);
+        foreach ($this->permissions as $permission) {
+            $abacManager->grant($this->user->identity, $subjectAuthorizable, $permission);
+        }
+    }
+
+    public function isLoggedIn(): bool
+    {
+        return !$this->user->isGuest;
+    }
+
     public function rules(): array
     {
         return [
-            [['email'], RequiredValidator::class],
+            [['email'], RequiredValidator::class, 'when' => fn() => !$this->loggedInAccept],
             [['email'], EmailValidator::class],
-            [['email'], UniqueValidator::class, 'targetClass' => User::class, 'targetAttribute' => 'email'],
+            [
+                ['email'],
+                UniqueValidator::class,
+                'targetClass' => User::class,
+                'targetAttribute' => 'email',
+                'message' => \Yii::t('app', 'This email is already in use, log in and click the link again.'),
+            ],
+            [['loggedInAccept'], BooleanValidator::class, 'when' => fn() => $this->isLoggedIn()],
         ];
     }
 
