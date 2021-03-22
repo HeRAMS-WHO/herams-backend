@@ -40,7 +40,6 @@ jobs:
       - name: Set manifests
         run: |
           echo 'MANIFESTS<<EOF' >> $GITHUB_ENV
-          echo "|" >> $GITHUB_ENV
           find k8s/shared k8s/staging -type f >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - run: echo "$MANIFESTS"
