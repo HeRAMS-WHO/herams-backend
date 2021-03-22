@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set manifests
-        run: echo MANIFESTS=`find k8s/shared k8s/staging -type f -printf '%p '` >> $GITHUB_ENV
+        run: echo MANIFESTS=`find k8s/shared k8s/staging -type f` >> $GITHUB_ENV
       - name: Authenticate to kubernetes
         uses: azure/k8s-set-context@v1
         with:
@@ -54,7 +54,6 @@ jobs:
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
   build:
-    needs: [test]
     name: Build container
     runs-on: ubuntu-latest
     timeout-minutes: 10
