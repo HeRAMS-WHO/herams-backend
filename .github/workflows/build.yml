@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set manifests
-        run: echo MANIFESTS=`find k8s/shared k8s/staging -type f` >> $GITHUB_ENV
+        run: echo MANIFESTS=\"`find k8s/shared k8s/staging -type f`\" >> $GITHUB_ENV
       - name: Authenticate to kubernetes
         uses: azure/k8s-set-context@v1
         with:
