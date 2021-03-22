@@ -40,8 +40,10 @@ jobs:
       - name: Set manifests
         run: |
           echo 'MANIFESTS<<EOF' >> $GITHUB_ENV
+          echo "|" >> $GITHUB_ENV
           find k8s/shared k8s/staging -type f >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
+      - run: echo "$MANIFESTS"
       - name: Authenticate to kubernetes
         uses: azure/k8s-set-context@v1
         with:
@@ -51,7 +53,8 @@ jobs:
       - uses: Azure/k8s-deploy@v1.4
         with:
           namespace: 'staging'
-          manifests: ${{ env.MANIFESTS }}
+          manifests: |
+            ${{ env.MANIFESTS }}
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
