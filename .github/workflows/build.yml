@@ -30,7 +30,6 @@ jobs:
           flags: unittests # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
 
   deploy:
     needs: [ test, build ]
@@ -39,7 +38,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set manifests
-        run: echo MANIFESTS=\"`find k8s/shared k8s/staging -type f`\" >> $GITHUB_ENV
+        run: |
+          echo 'MANIFESTS<<EOF' >> $GITHUB_ENV
+          find k8s/shared k8s/staging -type f >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - name: Authenticate to kubernetes
         uses: azure/k8s-set-context@v1
         with:
