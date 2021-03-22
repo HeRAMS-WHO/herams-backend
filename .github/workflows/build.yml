@@ -52,8 +52,7 @@ jobs:
       - uses: Azure/k8s-deploy@v1.4
         with:
           namespace: 'staging'
-          manifests: |
-            ${{ env.MANIFESTS }}
+          manifests: ${{ env.MANIFESTS }}
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
