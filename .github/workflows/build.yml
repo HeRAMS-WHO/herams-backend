@@ -53,7 +53,16 @@ jobs:
         with:
           namespace: 'staging'
           manifests: |
-            ${{ env.MANIFESTS }}
+            k8s/staging/sealed-app.yaml
+            k8s/staging/sealed-database-staging.yaml
+            k8s/staging/sealed-limesurvey-staging.yaml
+            k8s/staging/sealed-redis-acl.yaml
+            k8s/staging/sealed-smtp-staging.yaml
+            k8s/staging/ingress.yaml
+            k8s/shared/redis.yaml
+            k8s/shared/deployment.yaml
+            k8s/shared/nginx-config-map.yaml
+            k8s/shared/app-config-map.yaml
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
