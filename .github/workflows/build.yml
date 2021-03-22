@@ -53,7 +53,6 @@ jobs:
         with:
           namespace: 'staging'
           manifests: |
-            |
             ${{ env.MANIFESTS }}
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
