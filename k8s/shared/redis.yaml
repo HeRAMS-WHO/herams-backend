@@ -28,18 +28,13 @@ spec:
       containers:
         - name: redis
           image: redis:latest
-          command:
-            - redis-server
-            - --appendonly
-            - yes
-            - --aclfile
-            - /run/secrets/users.acl
+          command: ["redis-server", "--appendonly", "yes", "--aclfile", "/run/secrets/redis/users.acl"]
           imagePullPolicy: Always
           ports:
             - containerPort: 6379
           volumeMounts:
             - name: acl
-              mountPath: /run/secrets/
+              mountPath: /run/secrets/redis
             - mountPath: /data
               name: redis-pvc
               subPath: data
@@ -48,8 +43,8 @@ spec:
           persistentVolumeClaim:
             claimName: redis-pvc
         - name: acl
-            secret:
-              secretName: redis-acl
+          secret:
+            secretName: redis-acl
 ---
 apiVersion: v1
 kind: Service
