@@ -78,6 +78,7 @@ class AcceptInvitationForm extends Model
                 'targetClass' => User::class,
                 'targetAttribute' => 'email',
                 'message' => \Yii::t('app', 'This email is already in use, log in and click the link again.'),
+                'when' => static fn(self $model) => !$model->loggedInAccept,
             ],
             [['loggedInAccept'], BooleanValidator::class, 'when' => fn() => $this->isLoggedIn()],
         ];
