@@ -110,4 +110,6 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200605_142328
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200611_085414_project_add_country', 1608133112);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m201216_120738_create_session_table', 1608133117);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210125_105354_project_add_create_hf', 1611573050);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210323_074719_create_access_request', 1616598810);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210324_073304_add_created_at_created_by_to_permission', 1616598810);
 SET FOREIGN_KEY_CHECKS=1;

@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models\ar;
 
 use prime\models\ActiveRecord;
 use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
 
@@ -13,9 +16,9 @@ use yii\validators\UniqueValidator;
  * @package app\models
  * @property string $permission
  * @property string $source
- * @property int $source_id
+ * @property string $source_id
  * @property string $target
- * @property int $target_id
+ * @property string $target_id
  * @property object $sourceObject
  * @property object $targetObject
  */
@@ -65,12 +68,31 @@ class Permission extends ActiveRecord
         ]);
     }
 
-    public function getPermissionLabel()
+    public function behaviors(): array
+    {
+        return [
+            BlameableBehavior::class => [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false,
+            ],
+            TimestampBehavior::class => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
+            ],
+        ];
+    }
+
+    public function getGrant(): Grant
+    {
+        return new \SamIT\abac\values\Grant($this->sourceAuthorizable(), $this->targetAuthorizable(), $this->permission);
+    }
+
+    public function getPermissionLabel(): array
     {
         return $this->permissionLabels()[$this->permission];
     }
 
-    public static function permissionLabels()
+    public static function permissionLabels(): array
     {
         return [
             self::PERMISSION_READ => \Yii::t('app', 'View dashboard'),
@@ -91,7 +113,7 @@ class Permission extends ActiveRecord
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['source', 'source_id', 'target', 'target_id', 'permission'], RequiredValidator::class],
@@ -100,23 +122,18 @@ class Permission extends ActiveRecord
         ];
     }
 
-    public static function tableName()
-    {
-        return '{{%permission}}';
-    }
-
     public function sourceAuthorizable(): Authorizable
     {
         return new Authorizable($this->source_id, $this->source);
     }
 
+    public static function tableName(): string
+    {
+        return '{{%permission}}';
+    }
+
     public function targetAuthorizable(): Authorizable
     {
         return new Authorizable($this->target_id, $this->target);
-    }
-
-    public function getGrant(): Grant
-    {
-        return new \SamIT\abac\values\Grant($this->sourceAuthorizable(), $this->targetAuthorizable(), $this->permission);
     }
 }
