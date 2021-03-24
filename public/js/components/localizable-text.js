@@ -4,6 +4,7 @@ export default class LocalizableTextInput extends HTMLElement {
     #shadow;
 
     #rows = {};
+
     #inputs = {};
     #labels = {};
 
@@ -63,7 +64,6 @@ export default class LocalizableTextInput extends HTMLElement {
     }
     get value()
     {
-        this.#internals.getformv
         const value = {};
         for (let lang in this.#inputs) {
             if (this.#inputs[lang].value) {
@@ -135,6 +135,7 @@ export default class LocalizableTextInput extends HTMLElement {
         this.#labels[language] = label;
 
         const input = document.createElement('input');
+        input.type = 'text';
         input.pattern = '\\w+';
         input.id = inputID;
         input.addEventListener('change', () => {
@@ -178,7 +179,7 @@ export default class LocalizableTextInput extends HTMLElement {
                 this.#addLanguage(language, labels[language]);
             } else {
                 // Existing language
-                this.#labels[language].innerText = language;
+                this.#labels[language].innerText = labels[language];
             }
         });
     }

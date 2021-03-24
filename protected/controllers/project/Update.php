@@ -24,12 +24,10 @@ class Update extends Action
 
         $accessCheck->requirePermission($model, Permission::PERMISSION_WRITE);
 
-        $model->validate();
-        if ($request->isPut) {
-            if ($model->load($request->bodyParams) && $model->save()) {
-                $notificationService->success(\Yii::t('app', "Project updated"));
-                return $this->controller->refresh();
-            }
+        if ($request->isPut && $model->load($request->bodyParams) && $model->validate()) {
+            $model->save(false);
+            $notificationService->success(\Yii::t('app', "Project updated"));
+            return $this->controller->refresh();
         }
 
         return $this->controller->render('update', [

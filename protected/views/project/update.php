@@ -11,11 +11,14 @@ use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
+use prime\widgets\LocalizableInput;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\User;
 use function iter\chain;
+use function iter\filter;
 use function iter\func\nested_index;
 use function iter\map;
 use function iter\toArrayWithKeys;
@@ -42,13 +45,31 @@ Section::begin()
 $form = ActiveForm::begin([
     'method' => 'PUT',
 ]);
-
 echo Form::widget([
     'form' => $form,
     'model' => $project,
     "attributes" => [
+        'errors' => [
+            'type' => Form::INPUT_RAW,
+            'value' => Html::errorSummary($project),
+        ],
         'title' => [
             'type' => Form::INPUT_TEXT,
+        ],
+        'localizableTitles' => [
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => LocalizableInput::class,
+            'options'=> [
+                'languages' => ArrayHelper::map(
+                    filter(fn($lang) => $lang !== \Yii::$app->sourceLanguage, \Yii::$app->params['languages']),
+                    static function (string $language): string {
+                        return $language;
+                    },
+                    static function (string $language): string {
+                        return locale_get_display_name($language);
+                    }
+                )
+            ]
         ],
         'latitude' => [
             'type' => Form::INPUT_TEXT
