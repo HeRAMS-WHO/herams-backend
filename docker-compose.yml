@@ -5,7 +5,6 @@ networks:
       name: devproxy
 volumes:
   devdb:
-  testdb:
   assets:
     driver_opts:
       type: tmpfs
