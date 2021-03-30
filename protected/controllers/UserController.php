@@ -11,6 +11,7 @@ use prime\controllers\user\Create;
 use prime\controllers\user\Favorites;
 use prime\controllers\user\Impersonate;
 use prime\controllers\user\Index;
+use prime\controllers\user\Notifications;
 use prime\controllers\user\RequestAccount;
 use prime\controllers\user\RequestReset;
 use prime\controllers\user\ResetPassword;
@@ -34,6 +35,7 @@ class UserController extends Controller
             'account' => Account::class,
             'impersonate' => Impersonate::class,
             'favorites' => Favorites::class,
+            'notifications' => Notifications::class,
             'request-account' => RequestAccount::class,
             'request-reset' => RequestReset::class,
             'reset-password' => ResetPassword::class,
@@ -54,12 +56,24 @@ class UserController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'request-account', 'reset-password', 'request-reset']
+                        'actions' => [
+                            'create',
+                            'request-account',
+                            'reset-password',
+                            'request-reset'
+                        ],
                     ],
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'actions' => ['account', 'confirm-email', 'favorites', 'update-email', 'update-password']
+                        'actions' => [
+                            'account',
+                            'confirm-email',
+                            'notifications',
+                            'favorites',
+                            'update-email',
+                            'update-password'
+                        ],
                     ]
                 ]
             ],

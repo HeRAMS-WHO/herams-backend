@@ -5,6 +5,7 @@ use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\assets\JqueryBundle;
 use prime\assets\PjaxBundle;
+use prime\components\UserNotificationService;
 use prime\models\ar\Permission;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\repositories\CachedReadRepository;
@@ -70,6 +71,9 @@ return [
         $result->toggleData = false;
         return $result;
     },
-
+    UserNotificationService::class => static function (Container $container, array $params, array $config): UserNotificationService {
+        $result = new UserNotificationService(\Yii::$app->abacManager);
+        return $result;
+    }
 
 ];

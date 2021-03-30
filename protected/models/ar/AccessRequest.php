@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
+use prime\queries\AccessRequestQuery;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\ExistValidator;
@@ -27,6 +29,8 @@ use yii\validators\StringValidator;
  * @property string $subject
  * @property string $target_class
  * @property int $target_id
+ *
+ * @property Project|Workspace $target
  */
 class AccessRequest extends ActiveRecord
 {
@@ -49,9 +53,14 @@ class AccessRequest extends ActiveRecord
         ];
     }
 
-    public function getTarget(): ActiveRecord
+    public static function find(): AccessRequestQuery
     {
-        return $this->hasOne($this->target_class, ['id' => $this->target_id]);
+        return \Yii::createObject(AccessRequestQuery::class, [get_called_class()]);
+    }
+
+    public function getTarget(): ActiveQuery
+    {
+        return $this->hasOne($this->target_class, ['id' => 'target_id']);
     }
 
     public function rules(): array
