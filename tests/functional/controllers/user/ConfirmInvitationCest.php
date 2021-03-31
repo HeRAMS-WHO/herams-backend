@@ -57,6 +57,6 @@ class ConfirmInvitationCest
         $I->amOnPage(['project/view', 'id' => $page->project->id]);
         $I->seeResponseCodeIs(200);
 
-        $I->assertTrue(\Yii::$app->authManager->checkAccess($user->id, Permission::PERMISSION_WRITE, $page->project));
+        $I->assertUserCan($page->project, Permission::PERMISSION_WRITE);
     }
 }
