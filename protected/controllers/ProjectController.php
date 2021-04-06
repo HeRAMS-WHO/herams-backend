@@ -15,7 +15,6 @@ use prime\controllers\project\Index;
 use prime\controllers\project\Pages;
 use prime\controllers\project\Pdf;
 use prime\controllers\project\Share;
-use prime\controllers\project\Summary;
 use prime\controllers\project\SyncWorkspaces;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;

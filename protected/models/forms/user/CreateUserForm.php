@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
@@ -20,37 +20,48 @@ class CreateUserForm extends Model
     public $email;
     public $name;
 
+    public function attributeLabels(): array
+    {
+        return [
+            'confirm_password' => \Yii::t('app', 'Confirm password'),
+            'email' => \Yii::t('app', 'Email'),
+            'password' => \Yii::t('app', 'Password'),
+        ];
+    }
 
-
-
-    public function getDisplayName()
+    public function getDisplayName(): string
     {
         return $this->email;
     }
 
-    public static function tableName()
+    public static function tableName(): string
     {
         return User::tableName();
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['email', 'name', 'password'], RequiredValidator::class],
-            ['email', UniqueValidator::class,
+            [
+                ['email'],
+                UniqueValidator::class,
                 'targetClass' => User::class,
                 'targetAttribute' => 'email',
-                'message' => \Yii::t('app', "Email already taken")
+                'message' => \Yii::t('app', 'Email already taken')
             ],
-            ['name', StringValidator::class, 'max' => 50],
-            ['name', RegularExpressionValidator::class, 'pattern' => '/^[\'\w\- ]+$/u'],
-            [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => 'normal'],
-            [['confirm_password'], CompareValidator::class, 'compareAttribute' => 'password',
-            'message' => \Yii::t('app', "Passwords don't match")],
+            [['name'], StringValidator::class, 'max' => 50],
+            [['name'], RegularExpressionValidator::class, 'pattern' => User::NAME_REGEX],
+            [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => StrengthValidator::NORMAL],
+            [
+                ['confirm_password'],
+                CompareValidator::class, 'compareAttribute' => 'password',
+                'message' => \Yii::t('app', 'Passwords don\'t match')
+            ],
         ];
     }
 
-    public function run()
+    public function run(): void
     {
         $user = new User();
         $user->email = $this->email;
