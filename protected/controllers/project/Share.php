@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
@@ -12,9 +12,9 @@ use prime\models\ar\Project;
 use prime\models\forms\Share as ShareForm;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
+use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
+use yii\mail\MailerInterface;
 use yii\web\Request;
 use yii\web\User;
 
@@ -29,6 +29,8 @@ class Share extends Action
         AuthManager $abacManager,
         Resolver $abacResolver,
         User $user,
+        MailerInterface $mailer,
+        UrlSigner $urlSigner,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
@@ -36,13 +38,14 @@ class Share extends Action
 
         $accessCheck->requirePermission($project, Permission::PERMISSION_SHARE, \Yii::t('app', 'You are not allowed to share this project'));
 
-
         try {
             $model = new ShareForm(
                 $project,
                 $abacManager,
                 $abacResolver,
                 $user->identity,
+                $mailer,
+                $urlSigner,
                 [
                     Permission::PERMISSION_READ,
                     Permission::PERMISSION_SURVEY_DATA,
@@ -54,6 +57,8 @@ class Share extends Action
                     Permission::PERMISSION_SHARE,
                     Permission::PERMISSION_SURVEY_BACKEND,
                     Permission::PERMISSION_SUPER_SHARE,
+
+                    Permission::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
                 ]
             );
         } catch (NoGrantablePermissions $e) {
@@ -65,12 +70,13 @@ class Share extends Action
                 $model->createRecords();
                 $notificationService->success(\Yii::t(
                     'app',
-                    "Project {modelName} has been shared with: {users}",
+                    'Project <strong>{modelName}</strong> has been shared with: <strong>{users}</strong> and invited users: <strong>{invitedUsers}</strong>',
                     [
-                                'modelName' => $project->title,
-                                'users' => implode(', ', array_map(function ($model) {
-                                    return $model->name;
-                                }, $model->getUsers()->all()))
+                        'modelName' => $project->title,
+                        'users' => implode(', ', array_map(function ($model) {
+                            return $model->name;
+                        }, $model->getUsers()->all())),
+                        'invitedUsers' => implode(', ', $model->getInviteEmailAddresses()),
                     ]
                 ));
                 return $this->controller->refresh();

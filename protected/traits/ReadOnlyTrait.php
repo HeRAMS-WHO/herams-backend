@@ -8,12 +8,12 @@ use yii\base\NotSupportedException;
 trait ReadOnlyTrait
 {
 
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
         throw new NotSupportedException('Model is read-only');
     }
 
-    public function beforeValidate()
+    public function beforeValidate(): bool
     {
         throw new NotSupportedException('Model is read-only');
     }

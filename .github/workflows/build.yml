@@ -30,15 +30,19 @@ jobs:
           flags: unittests # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
-
 
   deploy:
-    needs: [test, build]
+    needs: [ test, build ]
     runs-on: ubuntu-latest
     name: Deploy
     steps:
       - uses: actions/checkout@v2
+      - name: Set manifests
+        run: |
+          echo 'MANIFESTS<<EOF' >> $GITHUB_ENV
+          find k8s/shared k8s/staging -type f >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - run: echo "$MANIFESTS"
       - name: Authenticate to kubernetes
         uses: azure/k8s-set-context@v1
         with:
@@ -49,12 +53,20 @@ jobs:
         with:
           namespace: 'staging'
           manifests: |
+            k8s/staging/sealed-app.yaml
+            k8s/staging/sealed-database-staging.yaml
+            k8s/staging/sealed-limesurvey-staging.yaml
+            k8s/staging/sealed-redis-acl.yaml
+            k8s/staging/sealed-smtp-staging.yaml
+            k8s/staging/ingress.yaml
+            k8s/shared/redis.yaml
             k8s/shared/deployment.yaml
+            k8s/shared/nginx-config-map.yaml
+            k8s/shared/app-config-map.yaml
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'
   build:
-    needs: [test]
     name: Build container
     runs-on: ubuntu-latest
     timeout-minutes: 10

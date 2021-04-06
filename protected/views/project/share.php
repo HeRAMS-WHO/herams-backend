@@ -20,7 +20,6 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->title = $project->title;
 
-$this->params['subtitle'] = \Yii::t('app', 'Add new user');
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
     'project' => $project,
@@ -34,10 +33,11 @@ $form = ActiveForm::begin([
     "type" => ActiveForm::TYPE_HORIZONTAL,
     'formConfig' => [
         'labelSpan' => 3
-
     ]
 ]);
+
 echo $model->renderForm($form);
+
 $form->end();
 
 Section::end();

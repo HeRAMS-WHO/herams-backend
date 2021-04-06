@@ -4,17 +4,27 @@ declare(strict_types=1);
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
+use prime\models\ar\Project;
+use prime\models\ar\User;
+use prime\models\search\Workspace;
+use prime\widgets\DateTimeColumn;
 use prime\widgets\DrilldownColumn;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
 use prime\widgets\IdColumn;
 use prime\widgets\menu\ProjectTabMenu;
+use prime\widgets\Section;
+use SamIT\abac\interfaces\Resolver;
+use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
+use yii\web\View;
 
 /**
- * @var \yii\data\ActiveDataProvider $workspaceProvider
- * @var \prime\models\search\Workspace $workspaceSearch
+ * @var ActiveDataProvider $workspaceProvider
+ * @var Workspace $workspaceSearch
  * @var int $closedCount
- * @var \yii\web\View $this
- * @var \prime\models\ar\Project $project
+ * @var View $this
+ * @var Project $project
+ * @var Resolver $abacResolver
  */
 
 $this->title = $project->title;
@@ -24,7 +34,7 @@ echo ProjectTabMenu::widget(
 );
 $this->endBlock();
 
-\prime\widgets\Section::begin(
+Section::begin(
     [
         'subject' => $project,
         'actions' => [
@@ -83,13 +93,21 @@ echo GridView::widget(
             ],
             [
                 'attribute' => 'latestUpdate',
-                'class'     => \prime\widgets\DateTimeColumn::class,
+                'class'     => DateTimeColumn::class,
             ],
             ['attribute' => 'contributorCount'],
             ['attribute' => 'facilityCount'],
             ['attribute' => 'responseCount'],
+            [
+                'label' => \Yii::t('app', 'Workspace owner'),
+                'value' => static function (\prime\models\ar\Workspace $workspace) {
+                    $usersQuery = $workspace->getLeads();
+                    return implode('<br>', ArrayHelper::getColumn($usersQuery->all(), 'name'));
+                },
+                'format' => 'html',
+            ]
         ],
     ]
 );
 
-\prime\widgets\Section::end();
+Section::end();

@@ -11,12 +11,13 @@ use yii\web\User;
 class Section extends Widget
 {
 
-    private int $outputBuffer;
-    public object $subject;
     public iterable $actions = [];
-    public $options = [];
-    public $permission;
     public string $header;
+    public array $headerOptions = [];
+    public array $options = [];
+    private int $outputBuffer;
+    public string $permission;
+    public object $subject;
 
     private function filterButtons(): iterable
     {
@@ -44,9 +45,10 @@ class Section extends Widget
     }
 
 
-    public function withHeader(string $header): self
+    public function withHeader(string $header, array $options = []): self
     {
         $this->header = $header;
+        $this->headerOptions = $options;
         return $this;
     }
 
@@ -152,7 +154,7 @@ class Section extends Widget
         Html::addCssClass($options, 'Section');
         $result = Html::beginTag('section', $options);
         $result .= Html::beginTag('header');
-        $result .= Html::tag('h1', $this->header ?? '');
+        $result .= Html::tag('h1', $this->header ?? '', $this->headerOptions);
 
         $result .= NavigationButtonGroup::widget([
             'buttons' => $this->filterButtons()

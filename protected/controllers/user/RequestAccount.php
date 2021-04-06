@@ -33,7 +33,7 @@ class RequestAccount extends Action
             && $model->validate()
             && $model->send($mailer, $urlSigner)
         ) {
-            $notificationService->success(\Yii::t('app', "A verification email has beent sent to your address"));
+            $notificationService->success(\Yii::t('app', "A verification email has been sent to your address"));
         }
         return $this->controller->goHome();
     }
