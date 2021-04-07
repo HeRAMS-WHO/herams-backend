@@ -5,12 +5,13 @@ use app\components\ActiveForm;
 use app\components\Form;
 use prime\components\View;
 use prime\models\ar\Project;
+use prime\models\forms\project\Create;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 
 /**
  * @var View $this
- * @var Project $model
+ * @var Create $model
  */
 
 $this->params['breadcrumbs'][] = [

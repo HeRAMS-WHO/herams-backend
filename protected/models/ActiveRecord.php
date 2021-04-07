@@ -6,6 +6,7 @@ use prime\components\ActiveQuery;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
+    public const SCENARIO_UPDATE = 'update';
     public static function find()
     {
         return new ActiveQuery(static::class);

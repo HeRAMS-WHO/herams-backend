@@ -5,10 +5,14 @@ use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\assets\JqueryBundle;
 use prime\assets\PjaxBundle;
+use prime\components\GlobalPermissionResolver;
+use prime\components\ReadWriteModelResolver;
+use prime\components\SingleTableInheritanceResolver;
 use prime\models\ar\Permission;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\repositories\CachedReadRepository;
 use SamIT\abac\repositories\PreloadingSourceRepository;
+use SamIT\abac\resolvers\ChainedResolver;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\di\Container;
@@ -33,12 +37,14 @@ return [
         return new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
     },
     \SamIT\abac\interfaces\Resolver::class => static function (): \SamIT\abac\interfaces\Resolver {
-        return new \SamIT\abac\resolvers\ChainedResolver(
-            new \prime\components\SingleTableInheritanceResolver(),
+        return new ChainedResolver(
+            new SingleTableInheritanceResolver(),
+            new ReadWriteModelResolver(),
             new ActiveRecordResolver(),
-            new \prime\components\GlobalPermissionResolver()
+            new GlobalPermissionResolver()
         );
     },
+    \prime\repositories\ProjectRepository::class => \prime\repositories\ProjectRepository::class,
     ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [
             ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,

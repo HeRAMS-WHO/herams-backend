@@ -82,7 +82,6 @@ export default class LocalizableTextInput extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue)
     {
-        console.log('attributeChangedCallback', name, newValue)
         switch (name) {
             case 'languages':
                 this.#updateLanguages(oldValue, newValue);
@@ -105,7 +104,7 @@ export default class LocalizableTextInput extends HTMLElement {
 
     formAssociatedCallback(...args)
     {
-        console.log('formAssociatedCallback', args);
+        this.#internals.setFormValue(this.value);
     }
 
     #updateValidity()
@@ -136,7 +135,6 @@ export default class LocalizableTextInput extends HTMLElement {
 
         const input = document.createElement('input');
         input.type = 'text';
-        input.pattern = '\\w+';
         input.id = inputID;
         input.addEventListener('change', () => {
             this.#internals.setFormValue(this.value);

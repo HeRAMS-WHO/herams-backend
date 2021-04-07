@@ -8,7 +8,8 @@ use League\ISO3166\ISO3166;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
+use prime\models\ar\read\Project as ProjectRead;
+use prime\models\forms\project\Update;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
@@ -16,7 +17,6 @@ use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\web\User;
 use function iter\chain;
 use function iter\filter;
 use function iter\func\nested_index;
@@ -24,7 +24,8 @@ use function iter\map;
 use function iter\toArrayWithKeys;
 
 /**
- * @var Project $project
+ * @var ProjectRead $project
+ * @var Update $model
  * @var View $this
  */
 
@@ -36,7 +37,6 @@ echo ProjectTabMenu::widget([
 ]);
 $this->endBlock();
 
-
 Section::begin()
     ->withSubject($project)
     ->withHeader(Yii::t('app', 'Project settings'));
@@ -47,16 +47,23 @@ $form = ActiveForm::begin([
 ]);
 echo Form::widget([
     'form' => $form,
-    'model' => $project,
+    'model' => $model,
     "attributes" => [
         'errors' => [
             'type' => Form::INPUT_RAW,
-            'value' => Html::errorSummary($project),
+            'value' => Html::errorSummary($model),
+        ],
+        'base_survey_eid' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' => $model->dataSurveyOptions(),
+            'options' => [
+                'prompt' => ''
+            ]
         ],
         'title' => [
             'type' => Form::INPUT_TEXT,
         ],
-        'localizableTitles' => [
+        'i18nTitle' => [
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => LocalizableInput::class,
             'options'=> [
@@ -104,18 +111,18 @@ echo Form::widget([
                 '1' => Yii::t('app', 'Enabled')
             ]
         ],
-        'typemapAsJson' => [
-            'type' => Form::INPUT_TEXTAREA,
-            'options' => [
-                'rows' => 5
-            ]
-        ],
-        'overridesAsJson' => [
-            'type' => Form::INPUT_TEXTAREA,
-            'options' => [
-                'rows' => 5
-            ]
-        ],
+//        'typemapAsJson' => [
+//            'type' => Form::INPUT_TEXTAREA,
+//            'options' => [
+//                'rows' => 5
+//            ]
+//        ],
+//        'overridesAsJson' => [
+//            'type' => Form::INPUT_TEXTAREA,
+//            'options' => [
+//                'rows' => 5
+//            ]
+//        ],
         FormButtonsWidget::embed([
             'buttons' => [
                 ['label' => Yii::t('app', 'Update'), 'style' => 'primary'],

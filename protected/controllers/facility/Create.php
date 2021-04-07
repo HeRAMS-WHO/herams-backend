@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\facility;
 
+use prime\interfaces\ActiveRecordRepository;
 use prime\models\ar\Facility;
 use yii\base\Action;
 
