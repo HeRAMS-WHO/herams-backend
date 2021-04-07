@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace prime\models\forms;
+namespace prime\models\forms\accessRequest;
 
 use prime\models\ar\AccessRequest;
 use yii\base\Model;
@@ -14,14 +14,14 @@ use yii\web\ServerErrorHttpException;
  * Class RequestAccess
  * @package prime\models\forms
  */
-class RequestAccess extends Model
+class Create extends Model
 {
     public string $body = '';
     public array $permissions = [];
     public string $subject = '';
 
     public function __construct(
-        private object $model,
+        private object $target,
         private array $permissionOptions,
         $config = []
     ) {
@@ -32,9 +32,10 @@ class RequestAccess extends Model
     {
         $accessRequest = new AccessRequest();
         $accessRequest->body = $this->body;
+        $accessRequest->permissions = $this->permissions;
         $accessRequest->subject = $this->subject;
-        $accessRequest->target_class = get_class($this->model);
-        $accessRequest->target_id = $this->model->id;
+        $accessRequest->target_class = get_class($this->target);
+        $accessRequest->target_id = $this->target->id;
         if (!$accessRequest->save()) {
             throw new ServerErrorHttpException('Failed saving the record.');
         }

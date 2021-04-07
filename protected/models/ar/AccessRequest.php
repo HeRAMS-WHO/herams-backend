@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use Carbon\Carbon;
 use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
 use prime\queries\AccessRequestQuery;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\BaseActiveRecord;
 use yii\validators\ExistValidator;
 use yii\validators\InlineValidator;
 use yii\validators\RangeValidator;
@@ -23,13 +25,17 @@ use yii\validators\StringValidator;
  * @property string $body
  * @property string $created_at
  * @property int $created_by
+ * @property string $expires_at
  * @property int $id
+ * @property array $permissions
  * @property string $responded_at
+ * @property int $responded_by
  * @property string $response
  * @property string $subject
  * @property string $target_class
  * @property int $target_id
  *
+ * @property User $createdByUser
  * @property Project|Workspace $target
  */
 class AccessRequest extends ActiveRecord
@@ -46,6 +52,15 @@ class AccessRequest extends ActiveRecord
                 'class' => BlameableBehavior::class,
                 'updatedByAttribute' => false,
             ],
+            'expiresAtBehavior' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['expires_at'],
+                ],
+                'value' => function () {
+                    return (new Carbon())->addWeeks(2)->timestamp;
+                }
+            ],
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
                 'updatedAtAttribute' => false,
@@ -58,6 +73,11 @@ class AccessRequest extends ActiveRecord
         return \Yii::createObject(AccessRequestQuery::class, [get_called_class()]);
     }
 
+    public function getCreatedByUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'created_by']);
+    }
+
     public function getTarget(): ActiveQuery
     {
         return $this->hasOne($this->target_class, ['id' => 'target_id']);
@@ -66,8 +86,9 @@ class AccessRequest extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['subject', 'target_class', 'target_id'], RequiredValidator::class],
+            [['permissions', 'subject', 'target_class', 'target_id'], RequiredValidator::class],
             [['body', 'response', 'subject'], StringValidator::class],
+            [['permissions'], RangeValidator::class, 'range' => array_keys($this->permissionOptions()), 'allowArray' => true],
             [['target_class'], RangeValidator::class, 'range' => array_keys($this->targetClassOptions())],
             [['target_id'], function ($attribute, $params, InlineValidator $validator) {
                 $existValidator = \Yii::createObject(ExistValidator::class, [[
@@ -79,6 +100,16 @@ class AccessRequest extends ActiveRecord
                     $this->addError($attribute, $error);
                 }
             }],
+        ];
+    }
+
+    public function permissionOptions(): array
+    {
+        return [
+            self::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
+            self::PERMISSION_OTHER => \Yii::t('app', 'Other'),
+            self::PERMISSION_READ => \Yii::t('app', 'Read'),
+            self::PERMISSION_WRITE => \Yii::t('app', 'Write'),
         ];
     }
 

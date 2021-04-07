@@ -4,7 +4,7 @@ declare(strict_types=1);
 use app\components\ActiveForm;
 use app\components\Form;
 use prime\components\View;
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
 use prime\models\forms\accessRequest\Create;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
@@ -12,11 +12,11 @@ use yii\helpers\Html;
 
 /**
  * @var Create $model
- * @var Project $project
+ * @var Workspace $workspace
  * @var View $this
  */
 
-$this->title = $project->title;
+$this->title = $workspace->title;
 
 Section::begin()
     ->withHeader(Yii::t('app', 'Request access'), ['style' => ['display' => 'block']]);
@@ -34,8 +34,8 @@ echo Form::widget([
     "attributes" => [
         'project' => [
             'type' => Form::INPUT_STATIC,
-            'label' => \Yii::t('app', 'Project'),
-            'staticValue' => $project->title,
+            'label' => \Yii::t('app', 'Workspace'),
+            'staticValue' => $workspace->title,
         ],
         'subject' => [
             'type' => Form::INPUT_TEXT,

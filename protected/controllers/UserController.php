@@ -60,7 +60,7 @@ class UserController extends Controller
                             'create',
                             'request-account',
                             'reset-password',
-                            'request-reset'
+                            'request-reset',
                         ],
                     ],
                     [
@@ -72,7 +72,7 @@ class UserController extends Controller
                             'notifications',
                             'favorites',
                             'update-email',
-                            'update-password'
+                            'update-password',
                         ],
                     ]
                 ]
@@ -80,7 +80,10 @@ class UserController extends Controller
             HmacFilter::class => [
                 'class' => HmacFilter::class,
                 'signer' => \Yii::$app->urlSigner,
-                'only' => ['confirm-email', 'reset-password'],
+                'only' => [
+                    'confirm-email',
+                    'reset-password',
+                ],
             ],
         ]);
     }

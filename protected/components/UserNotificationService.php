@@ -42,10 +42,10 @@ class UserNotificationService extends Component
 
         /** @var AccessRequest $accessRequest */
         foreach (AccessRequest::find()->withoutResponse()->each() as $accessRequest) {
-            if ($this->abacManager->check($user, $accessRequest->target, Permission::PERMISSION_SHARE)) {
+            if ($this->abacManager->check($user, $accessRequest, Permission::PERMISSION_RESPOND)) {
                 $result[] = new UserNotification(
                     \Yii::t('app', 'There are open access requests that you can respond to.'),
-                    ['user/access-requests']
+                    ['access-request/index']
                 );
                 break;
             }
