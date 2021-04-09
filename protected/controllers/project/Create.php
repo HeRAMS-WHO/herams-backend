@@ -5,6 +5,7 @@ namespace prime\controllers\project;
 
 use prime\components\Controller;
 use prime\components\NotificationService;
+use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
@@ -26,9 +27,10 @@ class Create extends Action
 
         $accessCheck->requireGlobalPermission(Permission::PERMISSION_CREATE_PROJECT);
         $model = new ProjectCreate();
-
+        $hydrator = new ModelHydrator();
         if ($request->isPost) {
-            if ($model->load($request->bodyParams) && $model->validate()) {
+            $hydrator->hydrateFromRequest($model, $request);
+            if ($model->validate()) {
                 $projectId = $projectRepository->create($model);
                 $notificationService->success(\Yii::t('app', "Project <strong>{project}</strong> created", [
                     'project' => $model->title

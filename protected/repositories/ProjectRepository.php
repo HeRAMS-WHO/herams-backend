@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\forms\project\Create;
-use prime\models\forms\project\Update;
+use prime\models\forms\project\Update as ProjectUpdate;
 use prime\values\ProjectId;
 
 class ProjectRepository
@@ -21,35 +22,34 @@ class ProjectRepository
     public function create(Create $model): ProjectId
     {
         $record = new Project();
-        $record->setAttributes($model->attributes);
+        $hydrator = new ModelHydrator();
+        $hydrator->hydrateActiveRecord($record, $model);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new ProjectId($record->id);
     }
 
-    public function save(Update $model): ProjectId
+    public function save(ProjectUpdate $model): ProjectId
     {
         $record = Project::findOne(['id' => $model->id]);
-        $record->setAttributes($model->attributes, false);
+        $hydrator = new ModelHydrator();
+        $hydrator->hydrateActiveRecord($record, $model);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new ProjectId($record->id);
     }
 
-    public function retrieveForUpdate(ProjectId $id): Update
+    public function retrieveForUpdate(ProjectId $id): ProjectUpdate
     {
         $record = Project::findOne(['id' => $id]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
-        $update = new Update(new ProjectId($record->id));
-        $update->ensureBehaviors();
-        if (!$update->isAttributeSafe('i18nTitle')) {
-            throw new \Exception('bad');
-        }
-        $update->setAttributes($record->attributes, false);
+        $update = new ProjectUpdate(new ProjectId($record->id));
+        $hydrator = new ModelHydrator();
+        $hydrator->hydrateFromActiveRecord($update, $record);
 
         return $update;
     }

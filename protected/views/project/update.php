@@ -10,6 +10,8 @@ use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\forms\project\Update;
+use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectVisibility;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
@@ -53,13 +55,6 @@ echo Form::widget([
             'type' => Form::INPUT_RAW,
             'value' => Html::errorSummary($model),
         ],
-        'base_survey_eid' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $model->dataSurveyOptions(),
-            'options' => [
-                'prompt' => ''
-            ]
-        ],
         'title' => [
             'type' => Form::INPUT_TEXT,
         ],
@@ -79,18 +74,23 @@ echo Form::widget([
             ]
         ],
         'latitude' => [
-            'type' => Form::INPUT_TEXT
+            'type' => Form::INPUT_TEXT,
+            'html5type' => 'number',
+            'options' => [
+                'min' => -90,
+                'max' => 90
+            ]
         ],
         'longitude' => [
             'type' => Form::INPUT_TEXT
         ],
         'status' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $project->statusOptions()
+            'items' => ProjectStatus::toArray()
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $project->visibilityOptions()
+            'items' => ProjectVisibility::toArray()
         ],
         'country' => [
             'type' => Form::INPUT_WIDGET,
@@ -111,12 +111,14 @@ echo Form::widget([
                 '1' => Yii::t('app', 'Enabled')
             ]
         ],
-//        'typemapAsJson' => [
-//            'type' => Form::INPUT_TEXTAREA,
-//            'options' => [
-//                'rows' => 5
-//            ]
-//        ],
+        'typemap' => [
+            'type' => Form::INPUT_TEXTAREA,
+
+            'options' => [
+                'value' => json_encode($model->typemap, JSON_PRETTY_PRINT),
+                'rows' => 5
+            ]
+        ],
 //        'overridesAsJson' => [
 //            'type' => Form::INPUT_TEXTAREA,
 //            'options' => [
@@ -197,14 +199,17 @@ Section::begin()
     ->forAdministrativeAction()
 ;
 echo Html::tag('p', Yii::t('app', 'Select and sync any number of workspaces in the project'));
-echo ButtonGroup::widget([
-    'buttons' => [
-        [
-            'icon' => Icon::sync(),
-            'label' => Yii::t('app', 'Sync'),
-            'link' => ['project/sync-workspaces', 'id' => $project->id],
-            'style' => 'default',
+try {
+    echo ButtonGroup::widget([
+        'buttons' => [
+            [
+                'icon' => Icon::sync(),
+                'label' => Yii::t('app', 'Sync'),
+                'link' => ['project/sync-workspaces', 'id' => $project->id],
+                'style' => 'default',
+            ]
         ]
-    ]
-]);
+    ]);
+} catch (Exception $e) {
+}
 Section::end();
