@@ -119,7 +119,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        return '';
+        return null;
     }
 
     /**
