@@ -6,12 +6,14 @@ jobs:
   precondition:
     name: "Check for migrations"
     runs-on: ubuntu-latest
+    outputs:
+      hasmigrations: ${{ steps.migrations.outputs.changed }}
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 5
       - uses: marceloprado/has-changed-path@v1
-        id: changed-front
+        id: migrations
         with:
           paths: protected/migrations/**
   deploy:
@@ -56,7 +58,7 @@ jobs:
     needs: [precondition]
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: steps.precondition.outputs.changed == 'true'
+    if: jobs.precondition.outputs.hasmigrations == 'true'
     steps:
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
