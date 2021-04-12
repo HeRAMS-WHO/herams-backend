@@ -58,7 +58,7 @@ jobs:
     needs: [precondition]
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: needs.precondition.outputs.hasmigrations == 'true'
+    if: needs.precondition.outputs.hasmigrations != 'true'
     steps:
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
