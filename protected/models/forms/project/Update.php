@@ -40,7 +40,7 @@ class Update extends Model
     }
 
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             LocalizableWriteBehavior::class => [
@@ -48,6 +48,11 @@ class Update extends Model
                 'attributes' => ['title']
             ]
         ];
+    }
+
+    public function formName(): string
+    {
+        return 'Project';
     }
 
     public function rules(): array

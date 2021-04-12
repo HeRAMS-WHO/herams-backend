@@ -113,18 +113,18 @@ echo Form::widget([
         ],
         'typemap' => [
             'type' => Form::INPUT_TEXTAREA,
-
             'options' => [
                 'value' => json_encode($model->typemap, JSON_PRETTY_PRINT),
                 'rows' => 5
             ]
         ],
-//        'overridesAsJson' => [
-//            'type' => Form::INPUT_TEXTAREA,
-//            'options' => [
-//                'rows' => 5
-//            ]
-//        ],
+        'overrides' => [
+            'type' => Form::INPUT_TEXTAREA,
+            'options' => [
+                'value' => json_encode($model->overrides, JSON_PRETTY_PRINT),
+                'rows' => 5
+            ]
+        ],
         FormButtonsWidget::embed([
             'buttons' => [
                 ['label' => Yii::t('app', 'Update'), 'style' => 'primary'],

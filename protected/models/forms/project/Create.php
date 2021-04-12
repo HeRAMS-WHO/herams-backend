@@ -43,6 +43,11 @@ class Create extends Model
         return $result;
     }
 
+    public function formName(): string
+    {
+        return 'Project';
+    }
+
     public function rules(): array
     {
         return [

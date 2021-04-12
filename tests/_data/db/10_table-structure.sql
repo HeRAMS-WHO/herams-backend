@@ -124,6 +124,22 @@ CREATE TABLE `prime2_element` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `prime2_facility`
+--
+
+DROP TABLE IF EXISTS `prime2_facility`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prime2_facility` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `uuid` binary(16) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `alternative_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `prime2_favorite`
 --
 
@@ -298,6 +314,7 @@ CREATE TABLE `prime2_project` (
   `visibility` varchar(10) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'public',
   `country` char(3) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
   `manage_implies_create_hf` tinyint(1) NOT NULL DEFAULT '1',
+  `i18n` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`),
   UNIQUE KEY `survey` (`base_survey_eid`)
