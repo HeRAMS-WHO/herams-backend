@@ -61,17 +61,6 @@ echo Form::widget([
         'i18nTitle' => [
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => LocalizableInput::class,
-            'options'=> [
-                'languages' => ArrayHelper::map(
-                    filter(fn($lang) => $lang !== \Yii::$app->sourceLanguage, \Yii::$app->params['languages']),
-                    static function (string $language): string {
-                        return $language;
-                    },
-                    static function (string $language): string {
-                        return locale_get_display_name($language);
-                    }
-                )
-            ]
         ],
         'latitude' => [
             'type' => Form::INPUT_TEXT,
