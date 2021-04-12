@@ -18,5 +18,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer global require "squizlabs/php_codesniffer=dev-master"
-      - run: git fetch origin master --depth 1
-      - run: git diff --diff-filter=d --name-only origin/master | xargs --no-run-if-empty  ~/.composer/vendor/bin/phpcs
+      - run: ~/.composer/vendor/bin/phpcs
