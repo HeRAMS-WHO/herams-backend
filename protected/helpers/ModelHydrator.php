@@ -82,7 +82,7 @@ class ModelHydrator
                 'float' => $this->castFloat($value),
                 'bool' => $this->castBool($value),
                 'array' => $this->castArray($value),
-            default => die("Unknown type: {$property->getName()} for property $attribute")
+                default => die("Unknown type: {$property->getName()} for property $attribute")
             };
         } catch (\Throwable $t) {
             throw new \RuntimeException("Failed to cast value for attribute $attribute", 0, $t);
