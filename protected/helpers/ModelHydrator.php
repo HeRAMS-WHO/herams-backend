@@ -82,7 +82,7 @@ class ModelHydrator
                 'float' => $this->castFloat($value),
                 'bool' => $this->castBool($value),
                 'array' => $this->castArray($value),
-                default => die("Unknown type: {$property->getName()} for property $attribute")
+            default => die("Unknown type: {$property->getName()} for property $attribute")
             };
         } catch (\Throwable $t) {
             throw new \RuntimeException("Failed to cast value for attribute $attribute", 0, $t);
@@ -105,14 +105,15 @@ class ModelHydrator
     public function hydrateFromActiveRecord(Model $model, ActiveRecord $record): void
     {
         $model->ensureBehaviors();
-        foreach($record->attributes as $key => $value) {
+        foreach ($record->attributes as $key => $value) {
             if ($model->canSetProperty($key)) {
                 $model->$key = $this->castValue($model, $key, $record->$key);
             }
         }
     }
 
-    private function castSimple(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null {
+    private function castSimple(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null
+    {
         if (is_object($complex)) {
             if ($complex instanceof Enum) {
                 return $complex->value;
@@ -127,7 +128,7 @@ class ModelHydrator
 
     public function hydrateActiveRecord(ActiveRecord $record, Model $model): void
     {
-        foreach($model->attributes as $key => $value) {
+        foreach ($model->attributes as $key => $value) {
             if ($record->canSetProperty($key)) {
                 $record->$key = $this->castSimple($model->$key);
             }

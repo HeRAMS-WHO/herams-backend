@@ -109,6 +109,4 @@ class LocalizableWriteBehavior extends Behavior
     {
         return json_encode($this->owner->{$this->translationProperty}[$this->attributeName($name)] ?? []);
     }
-
-
 }

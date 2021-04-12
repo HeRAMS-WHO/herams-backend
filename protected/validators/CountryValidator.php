@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\validators;
 
-
 use League\ISO3166\ISO3166;
 use yii\validators\Validator;
 
@@ -24,5 +23,4 @@ class CountryValidator extends Validator
         }
         return null;
     }
-
 }
