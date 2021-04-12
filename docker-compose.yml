@@ -67,6 +67,7 @@ services:
       URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
+      SECRET_smtp/encryption: ''
     depends_on:
       - devdb
       - mailcatcher
