@@ -5,11 +5,10 @@ use prime\models\ar\Permission;
 use prime\rules\AdminRule;
 use prime\rules\AdminShareRule;
 use prime\rules\DashboardRule;
-use prime\rules\DeleteElementRule;
 use prime\rules\GrantRule;
 use prime\rules\ManageWorkspaceRule;
-use prime\rules\ProjectImpliesWorkspace;
 use prime\rules\ProjectImplicitReadViaExplicitWorkspacePermission;
+use prime\rules\ProjectImpliesWorkspace;
 use prime\rules\ProjectSummaryRule;
 use prime\rules\PublicProjectRule;
 use prime\rules\RevokeRule;
@@ -20,7 +19,6 @@ use SamIT\abac\rules\ImpliedPermission;
 return [
     new AdminRule(),
     new SelfRule([Permission::PERMISSION_MANAGE_FAVORITES]),
-    new DeleteElementRule(),
     new GrantRule(),
     new ProjectSummaryRule(),
     new RevokeRule(),
