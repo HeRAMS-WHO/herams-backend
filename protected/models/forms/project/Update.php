@@ -7,6 +7,7 @@ use prime\behaviors\LocalizableWriteBehavior;
 use prime\models\ar\Project;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
+use prime\objects\LanguageSet;
 use prime\validators\ClientJsonValidator;
 use prime\validators\CountryValidator;
 use prime\values\ProjectId;
@@ -34,9 +35,12 @@ class Update extends Model
     public null|array $typemap;
     public null|array $overrides;
 
+    public LanguageSet $languages;
+
     public function __construct(public ProjectId $id)
     {
         parent::__construct([]);
+        $this->languages = LanguageSet::from([]);
     }
 
 
@@ -65,7 +69,7 @@ class Update extends Model
             [['longitude'], NumberValidator::class, 'integerOnly' => false, 'min' => -180, 'max' => 180],
 
             // These are strongly typed so no validation is needed
-            [['status', 'visibility', 'manage_implies_create_hf'], SafeValidator::class],
+            [['status', 'visibility', 'manage_implies_create_hf', 'languages'], SafeValidator::class],
             [['typemap', 'overrides'], ClientJsonValidator::class],
             [['country'], CountryValidator::class]
         ];

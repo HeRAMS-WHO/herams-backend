@@ -7,10 +7,11 @@ use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
+use function iter\toArrayWithKeys;
 
 class LocalizableInput extends InputWidget
 {
-    public array $languages = [];
+    public iterable $languages = [];
     public function init(): void
     {
         parent::init();
@@ -19,7 +20,7 @@ class LocalizableInput extends InputWidget
         $options = array_merge([
             'name' => $name,
             'value' => Html::getAttributeValue($this->model, $this->attribute),
-            'languages' => $this->languages,
+            'languages' => toArrayWithKeys($this->languages),
         ], $this->options);
 
         echo Html::beginTag('localizable-input', $options);

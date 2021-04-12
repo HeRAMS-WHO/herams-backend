@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-use Spatie\Enum\Enum;
-
 /**
  * @method static self hidden()
  * @method static self public()

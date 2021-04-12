@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-use Spatie\Enum\Enum;
-
 /**
  * @method static self ongoing()
  * @method static self baseline()
@@ -13,7 +11,7 @@ use Spatie\Enum\Enum;
  */
 class ProjectStatus extends Enum
 {
-    protected static function values()
+    protected static function values(): array
     {
         return [
             'ongoing' => 0,
@@ -23,13 +21,13 @@ class ProjectStatus extends Enum
         ];
     }
 
-    protected static function labels()
+    protected static function labels(): array
     {
         return [
-            'ongoing' => 'Ongoing',
-            'baseline' => 'Baseline',
-            'target' => 'Target',
-            'emergency' => 'Emergency specific'
+            'ongoing' => \Yii::t('app', 'Ongoing'),
+            'baseline' => \Yii::t('app', 'Baseline'),
+            'target' => \Yii::t('app', 'Target'),
+            'emergency' => \Yii::t('app', 'Emergency specific')
         ];
     }
 }

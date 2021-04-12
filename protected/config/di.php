@@ -12,6 +12,7 @@ use prime\components\SingleTableInheritanceResolver;
 use prime\helpers\AccessCheck;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
+use prime\objects\enums\Language;
 use prime\repositories\ProjectRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
@@ -31,15 +32,7 @@ use function iter\filter;
 return [
     LocalizableInput::class => function (Container $container, array $params, array $config) {
         if (!isset($config['languages'])) {
-            $config['languages'] = ArrayHelper::map(
-                filter(fn($lang) => $lang !== \Yii::$app->sourceLanguage, \Yii::$app->params['languages']),
-                static function (string $language): string {
-                    return $language;
-                },
-                static function (string $language): string {
-                    return locale_get_display_name($language);
-                }
-            );
+            $config['languages'] = filter(fn($lang) => $lang !== \Yii::$app->sourceLanguage, Language::toArray());
         }
         return new LocalizableInput($config);
     },

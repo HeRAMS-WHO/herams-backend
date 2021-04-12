@@ -10,9 +10,12 @@ use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
+use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseQuery;
+use prime\validators\EnumValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\base\NotSupportedException;
@@ -47,6 +50,7 @@ use function iter\filter;
  * @property float $longitude
  * @property boolean $manage_implies_create_hf
  * @property array $overrides
+ * @property array<string> $languages
  * @property int $status
  * @property string $title
  * @property array<string, string> $typemap
@@ -84,23 +88,13 @@ class Project extends ActiveRecord implements Linkable
 
     public function getStatusText(): string
     {
-        return $this->statusOptions()[$this->status];
+        return ProjectStatus::make($this->status)->label;
     }
 
     public function isHidden(): bool
     {
         return $this->visibility === self::VISIBILITY_HIDDEN;
     }
-
-    public static function visibilityOptions()
-    {
-        return [
-            self::VISIBILITY_HIDDEN => 'Hidden, this project is only visible to people with permissions',
-            self::VISIBILITY_PUBLIC => 'Public, anyone can view this project',
-            self::VISIBILITY_PRIVATE => 'Private, this project is visible on the map and in the list, but people need permission to view it'
-        ];
-    }
-
 
     public static function find(): ActiveQuery
     {
@@ -157,16 +151,6 @@ class Project extends ActiveRecord implements Linkable
         $this->status = self::STATUS_ONGOING;
     }
 
-    public static function statusOptions(): array
-    {
-        return [
-            self::STATUS_ONGOING => 'Ongoing',
-            self::STATUS_BASELINE => 'Baseline',
-            self::STATUS_TARGET => 'Target',
-            self::STATUS_EMERGENCY_SPECIFIC => 'Emergency specific'
-        ];
-    }
-
     public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
@@ -212,32 +196,6 @@ class Project extends ActiveRecord implements Linkable
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
 
-    public function getTypemapAsJson(): string
-    {
-        return Json::encode($this->typemap, JSON_PRETTY_PRINT);
-    }
-
-    public function getOverridesAsJson(): string
-    {
-        return Json::encode($this->overrides, JSON_PRETTY_PRINT);
-    }
-
-    public function setTypemapAsJson($value): void
-    {
-        $this->typemap = Json::decode($value);
-    }
-
-    public function setOverridesAsJson(string $value): void
-    {
-        $this->overrides = array_filter(Json::decode($value));
-    }
-
-    public function scenarios()
-    {
-        return parent::scenarios();
-    }
-
-
     public function rules(): array
     {
         return [
@@ -247,8 +205,8 @@ class Project extends ActiveRecord implements Linkable
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
-            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())],
-            [['visibility'], RangeValidator::class, 'range' => [self::VISIBILITY_HIDDEN, self::VISIBILITY_PRIVATE, self::VISIBILITY_PUBLIC]],
+            [['status'], EnumValidator::class, 'enumClass' => ProjectStatus::class],
+            [['visibility'], EnumValidator::class, 'enumClass' => ProjectVisibility::class],
             [['country'], function () {
                 $data = new ISO3166();
                 try {

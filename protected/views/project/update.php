@@ -58,6 +58,10 @@ echo Form::widget([
         'title' => [
             'type' => Form::INPUT_TEXT,
         ],
+        'languages' => [
+            'type' => Form::INPUT_CHECKBOX_LIST,
+            'items' => \prime\objects\enums\Language::toArray()
+        ],
         'i18nTitle' => [
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => LocalizableInput::class,

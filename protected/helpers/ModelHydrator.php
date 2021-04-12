@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use prime\models\ActiveRecord;
-use prime\objects\enums\ProjectVisibility;
+use prime\objects\enums\Enum;
+use prime\objects\EnumSet;
 use prime\values\IntegerId;
-use Spatie\Enum\Enum;
 use yii\base\Model;
 use yii\web\Request;
 
@@ -44,12 +44,22 @@ class ModelHydrator
         return new $class($this->castInt($value));
     }
 
+    /**
+     * @param class-string $class
+     */
+    private function castEnumSet(array $value, string $class): EnumSet
+    {
+        return $class::from($value);
+    }
+    /**
+     * @param class-string $class
+     */
     private function castEnum(string|int $value, string $class): Enum
     {
         if (is_string($value) && preg_match('/^\d+$/', $value)) {
             $value = (int) $value;
         }
-        return new $class($value);
+        return $class::from($value);
     }
 
     private function castValue(Model $model, string $attribute, $value)
@@ -63,7 +73,9 @@ class ModelHydrator
             $property = $rc->getProperty($attribute)->getType();
 
             if (!$property->isBuiltin()) {
-                if (is_subclass_of($property->getName(), Enum::class)) {
+                if (is_subclass_of($property->getName(), EnumSet::class)) {
+                    return $this->castEnumSet($value, $property->getName());
+                } elseif (is_subclass_of($property->getName(), Enum::class)) {
                     return $this->castEnum($value, $property->getName());
                 } elseif (is_subclass_of($property->getName(), IntegerId::class)) {
                     return $this->castIntegerId($value, $property->getName());
