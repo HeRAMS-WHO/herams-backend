@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
       - uses: marceloprado/has-changed-path@v1
         id: changed-front
         with:
