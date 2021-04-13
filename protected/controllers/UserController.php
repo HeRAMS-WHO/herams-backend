@@ -5,8 +5,10 @@ namespace prime\controllers;
 
 use prime\actions\DeleteAction;
 use prime\components\Controller;
+use prime\controllers\user\AcceptInvitation;
 use prime\controllers\user\Account;
 use prime\controllers\user\ConfirmEmail;
+use prime\controllers\user\ConfirmInvitation;
 use prime\controllers\user\Create;
 use prime\controllers\user\Favorites;
 use prime\controllers\user\Impersonate;
@@ -29,7 +31,9 @@ class UserController extends Controller
     public function actions(): array
     {
         return [
+            'accept-invitation' => AcceptInvitation::class,
             'confirm-email' => ConfirmEmail::class,
+            'confirm-invitation' => ConfirmInvitation::class,
             'update-email' => UpdateEmail::class,
             'index' => Index::class,
             'account' => Account::class,
@@ -57,10 +61,12 @@ class UserController extends Controller
                     [
                         'allow' => true,
                         'actions' => [
+                            'accept-invitation',
+                            'confirm-invitation',
                             'create',
                             'request-account',
                             'reset-password',
-                            'request-reset',
+                            'request-reset'
                         ],
                     ],
                     [
@@ -81,8 +87,10 @@ class UserController extends Controller
                 'class' => HmacFilter::class,
                 'signer' => \Yii::$app->urlSigner,
                 'only' => [
+                    'accept-invitation',
                     'confirm-email',
-                    'reset-password',
+                    'confirm-invitation',
+                    'reset-password'
                 ],
             ],
         ]);
