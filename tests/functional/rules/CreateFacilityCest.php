@@ -50,9 +50,7 @@ class CreateFacilityCest
 
         $I->assertFalse($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
 
-        $manager->grant($user, $project, Permission::PERMISSION_MANAGE_WORKSPACES);
-
-
+        $manager->grant($user, $workspace, Permission::PERMISSION_SURVEY_DATA);
         $I->assertTrue($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
     }
 }

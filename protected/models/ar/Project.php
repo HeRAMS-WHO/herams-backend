@@ -177,6 +177,7 @@ class Project extends ActiveRecord implements Linkable
             'typemap' => \Yii::t('app', 'Typemap'),
             'visibility' => \Yii::t('app', 'Visibility'),
             'overrides' => \Yii::t('app', 'Overrides'),
+            'i18n' => \Yii::t('app', 'Translated attributes'),
             'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
         ]);
     }
