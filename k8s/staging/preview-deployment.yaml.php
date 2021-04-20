@@ -1,28 +1,28 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{DEPLOYMENT_NAME}-service"
+  name: "<?= env('DEPLOYMENT_NAME') ?>-service"
 spec:
   type: ClusterIP
   ports:
     - port: 80
       targetPort: 80
   selector:
-    app: {DEPLOYMENT_NAME}
+    app: "<?= env('DEPLOYMENT_NAME') ?>"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{DEPLOYMENT_NAME}"
+  name: "<?= env('DEPLOYMENT_NAME') ?>"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "{DEPLOYMENT_NAME}"
+      app: "<?= env('DEPLOYMENT_NAME') ?>"
   template:
     metadata:
       labels:
-        app: "{DEPLOYMENT_NAME}"
+        app: "<?= env('DEPLOYMENT_NAME') ?>"
     spec:
       securityContext:
         fsGroup: 65534
@@ -32,7 +32,7 @@ spec:
           emptyDir: {}
         - name: database
           secret:
-            secretName: database
+            secretName: <?= (bool) env('NEEDS_DATABASE') ? 'preview-database' : 'database' ?>
         - name: app
           secret:
             secretName: app
@@ -78,11 +78,33 @@ spec:
               mountPath: /var/www/html
             - name: nginx-config-volume
               mountPath: /config
+<?php if ((bool) env('NEEDS_DATABASE')) : ?>
+        - name: mysql
+          image: ghcr.io/herams-who/herams-backend/testdb:latest
+          env:
+            - name: MYSQL_DATABASE
+              value: preview
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: yes
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: preview-database
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: preview-database
+                  key: password
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+<?php endif; ?>
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {DEPLOYMENT_NAME}-ingress
+  name: <?= env('DEPLOYMENT_NAME') ?>-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -94,12 +116,12 @@ spec:
       - herams-staging.org
       secretName: herams-staging.tls
   rules:
-    - host: "{DEPLOYMENT_NAME}.herams-staging.org"
+    - host: "<?= env('DEPLOYMENT_NAME') ?>.herams-staging.org"
       http:
         paths:
           - backend:
               service:
-                name: "{DEPLOYMENT_NAME}-service"
+                name: "<?= env('DEPLOYMENT_NAME') ?>-service"
                 port:
                   number: 80
             pathType: ImplementationSpecific
