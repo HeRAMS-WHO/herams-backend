@@ -32,7 +32,7 @@ spec:
           emptyDir: {}
         - name: database
           secret:
-            secretName: <?= (bool) env('NEEDS_DATABASE') ? 'preview-database' : 'database' ?>
+            secretName: "<?= (bool) env('NEEDS_DATABASE') ? 'preview-database' : 'database' ?>"
         - name: app
           secret:
             secretName: app
