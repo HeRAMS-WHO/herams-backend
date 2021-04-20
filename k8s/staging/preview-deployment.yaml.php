@@ -32,7 +32,7 @@ spec:
           emptyDir: {}
         - name: database
           secret:
-            secretName: "<?= (bool) env('NEEDS_DATABASE') ? 'preview-database' : 'database' ?>"
+            secretName: "<?= env('NEEDS_DATABASE') == "true" ? 'database-preview' : 'database' ?>"
         - name: app
           secret:
             secretName: app
@@ -78,7 +78,7 @@ spec:
               mountPath: /var/www/html
             - name: nginx-config-volume
               mountPath: /config
-<?php if ((bool) env('NEEDS_DATABASE')) : ?>
+<?php if (env('NEEDS_DATABASE') == "true") : ?>
         - name: mysql
           image: ghcr.io/herams-who/herams-backend/testdb:latest
           env:
