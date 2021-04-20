@@ -10,6 +10,7 @@ use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\forms\project\Update;
+use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
 use prime\widgets\ButtonGroup;
@@ -60,7 +61,7 @@ echo Form::widget([
         ],
         'languages' => [
             'type' => Form::INPUT_CHECKBOX_LIST,
-            'items' => \prime\objects\enums\Language::toArray()
+            'items' => Language::toArray()
         ],
         'i18nTitle' => [
             'type' => Form::INPUT_WIDGET,

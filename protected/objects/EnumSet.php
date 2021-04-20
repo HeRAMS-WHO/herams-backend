@@ -3,10 +3,16 @@ declare(strict_types=1);
 
 namespace prime\objects;
 
+use prime\objects\enums\Enum;
+use yii\base\Arrayable;
+use yii\base\NotSupportedException;
+use function iter\map;
+use function iter\toArray;
+
 /**
  * Models a set of values from an enum
  */
-abstract class EnumSet implements \JsonSerializable, \IteratorAggregate
+abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayable
 {
     private array $values = [];
     /** @var class-string  */
@@ -42,5 +48,23 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate
     public function getIterator(): iterable
     {
         return new \ArrayIterator($this->values);
+    }
+
+    /*****************************************************************************************/
+    /* Functions below are here to support Yiis HTML helper which uses ArrayHelper::toArrays */
+    /*****************************************************************************************/
+    public function toArray(array $fields = [], array $expand = [], $recursive = true): array
+    {
+        return toArray(map(fn(Enum $enum) => $enum->value, $this->values));
+    }
+
+    public function fields()
+    {
+        throw new NotSupportedException();
+    }
+
+    public function extraFields()
+    {
+        throw new NotSupportedException();
     }
 }

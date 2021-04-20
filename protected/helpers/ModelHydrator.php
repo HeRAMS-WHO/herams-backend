@@ -9,6 +9,7 @@ use prime\objects\EnumSet;
 use prime\values\IntegerId;
 use yii\base\Model;
 use yii\web\Request;
+use function iter\toArray;
 
 class ModelHydrator
 {
@@ -47,9 +48,9 @@ class ModelHydrator
     /**
      * @param class-string $class
      */
-    private function castEnumSet(array $value, string $class): EnumSet
+    private function castEnumSet(null|array $value, string $class): EnumSet
     {
-        return $class::from($value);
+        return $class::from($value ?? []);
     }
     /**
      * @param class-string $class
@@ -73,12 +74,13 @@ class ModelHydrator
             $property = $rc->getProperty($attribute)->getType();
 
             if (!$property->isBuiltin()) {
-                if (is_subclass_of($property->getName(), EnumSet::class)) {
-                    return $this->castEnumSet($value, $property->getName());
-                } elseif (is_subclass_of($property->getName(), Enum::class)) {
-                    return $this->castEnum($value, $property->getName());
-                } elseif (is_subclass_of($property->getName(), IntegerId::class)) {
-                    return $this->castIntegerId($value, $property->getName());
+                $name = $property->getName();
+                if (is_subclass_of($name, EnumSet::class)) {
+                    return $this->castEnumSet($value, $name);
+                } elseif (is_subclass_of($name, Enum::class)) {
+                    return $this->castEnum($value, $name);
+                } elseif (is_subclass_of($name, IntegerId::class)) {
+                    return $this->castIntegerId($value, $name);
                 }
                 throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}");
             }
@@ -129,6 +131,8 @@ class ModelHydrator
         if (is_object($complex)) {
             if ($complex instanceof Enum) {
                 return $complex->value;
+            } elseif (is_iterable($complex)) {
+                return toArray($complex);
             } elseif ($complex instanceof IntegerId) {
                 return $complex->getValue();
             } else {
@@ -147,7 +151,7 @@ class ModelHydrator
         }
     }
 
-    public function hydrateFromRequest(Model $model, Request $request): void
+    public function hydrateFromRequestBody(Model $model, Request $request): void
     {
         if ($request->isPost || $request->isPut) {
             $this->hydrateFromRequestArray($model, $request->bodyParams[$model->formName()]);

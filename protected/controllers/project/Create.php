@@ -29,7 +29,7 @@ class Create extends Action
         $model = new ProjectCreate();
         $hydrator = new ModelHydrator();
         if ($request->isPost) {
-            $hydrator->hydrateFromRequest($model, $request);
+            $hydrator->hydrateFromRequestBody($model, $request);
             if ($model->validate()) {
                 $projectId = $projectRepository->create($model);
                 $notificationService->success(\Yii::t('app', "Project <strong>{project}</strong> created", [

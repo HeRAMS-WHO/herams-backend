@@ -14,6 +14,7 @@ use prime\repositories\ProjectRepository;
 use prime\values\ProjectId;
 use yii\base\Action;
 use yii\web\Request;
+use function iter\toArray;
 
 class Update extends Action
 {
@@ -27,11 +28,9 @@ class Update extends Action
         $projectId = new ProjectId($id);
         $model = $projectRepository->retrieveForUpdate($projectId);
 
-        $project = $projectRepository->retrieveForRead($projectId);
-
         $hydrator = new ModelHydrator();
         if ($request->isPut) {
-            $hydrator->hydrateFromRequest($model, $request);
+            $hydrator->hydrateFromRequestBody($model, $request);
             if ($model->validate()) {
                 $projectRepository->save($model);
                 $notificationService->success(\Yii::t('app', "Project updated"));
@@ -39,6 +38,7 @@ class Update extends Action
             }
         }
 
+        $project = $projectRepository->retrieveForRead($projectId);
         return $this->controller->render('update', [
             'model' => $model,
             'project' => $project,
