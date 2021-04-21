@@ -63,6 +63,8 @@ spec:
               mountPath: "/run/secrets/app"
             - name: shared-files
               mountPath: /var/www/html
+            - name: database-seed
+              mountPath: /database-seed
 
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
