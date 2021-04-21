@@ -111,9 +111,9 @@ spec:
                 secretKeyRef:
                   name: database-preview
                   key: password
-          livenessProbe:
-            tcpSocket:
-              port: 3306
+          #livenessProbe:
+          #  tcpSocket:
+          #    port: 3306
 <?php endif; ?>
 ---
 apiVersion: networking.k8s.io/v1
