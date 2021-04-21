@@ -89,12 +89,12 @@ spec:
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: preview-database
+                  name: database-preview
                   key: username
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: preview-database
+                  name: database-preview
                   key: password
           livenessProbe:
             tcpSocket:
