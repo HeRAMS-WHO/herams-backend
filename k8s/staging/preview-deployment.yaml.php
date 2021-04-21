@@ -89,7 +89,7 @@ spec:
             - /bin/sh
             - "-x"
             - "-c"
-            - "until test -f /docker-entrypoint-initdb.d/*.sql; do sleep 5; done; sleep 5; exec /entrypoint.sh"
+            - "until test -f /docker-entrypoint-initdb.d/10_table-structure.sql; do sleep 5; done; sleep 5; exec /entrypoint.sh"
           volumeMounts:
             - name: database-seed
               mountPath: /docker-entrypoint-initdb.d
