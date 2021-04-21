@@ -87,9 +87,7 @@ spec:
             - /bin/sh
             - "-x"
             - "-c"
-            - "sleep 30"
-            - "&&"
-            - "exec /entrypoint.sh"
+            - "until test -f /database/*.sql; do sleep 5; done; sleep 5; exec /entrypoint.sh"
           volumeMounts:
             - name: database-seed
               mountPath: /docker-entrypoint-initdb.d
