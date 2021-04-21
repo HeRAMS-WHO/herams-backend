@@ -10,7 +10,7 @@ ADD node_modules /project/public/node_modules
 
 ADD tests/_data/db /database
 ARG INCLUDE_DATABASE_SEED
-RUN '[ "${INCLUDE_DATABASE_SEED}" == "true" ] || rm -rf /database'
+RUN sh -c '[ "${INCLUDE_DATABASE_SEED}" == "true" ] || rm -rf /database'
 RUN mkdir -p /run && chown nobody:nobody /run
 ARG COMMIT_SHA
 RUN echo "${COMMIT_SHA}" > /run/commit_sha
