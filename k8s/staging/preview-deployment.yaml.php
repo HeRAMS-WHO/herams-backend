@@ -30,6 +30,8 @@ spec:
         # Create the shared files volume to be used in both pods
         - name: shared-files
           emptyDir: {}
+        - name: database-seed
+          emptyDir: {}
         - name: database
           secret:
             secretName: "<?= env('NEEDS_DATABASE') == "true" ? 'database-preview' : 'database' ?>"
@@ -80,7 +82,20 @@ spec:
               mountPath: /config
 <?php if (env('NEEDS_DATABASE') == "true") : ?>
         - name: mysql
-          image: ghcr.io/herams-who/herams-backend/testdb:latest
+          image: mysql
+          command:
+            - /bin/sh
+            - "-x"
+            - "-c"
+            - "sleep 30"
+            - "&&"
+            - "exec /entrypoint.sh"
+          metadata:
+            labels:
+              commit_sha: "<?= env('COMMIT_SHA') ?>"
+          volumeMounts:
+            - name: database-seed
+              mountPath: /docker-entrypoint-initdb.d
           env:
             - name: MYSQL_DATABASE
               value: preview
