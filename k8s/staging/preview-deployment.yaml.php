@@ -63,9 +63,10 @@ spec:
               mountPath: "/run/secrets/app"
             - name: shared-files
               mountPath: /var/www/html
+<?php if (env('NEEDS_DATABASE') == "true") : ?>
             - name: database-seed
               mountPath: /database-seed
-
+<?php endif; ?>
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
         - name: nginx
@@ -111,9 +112,9 @@ spec:
                 secretKeyRef:
                   name: database-preview
                   key: password
-          #livenessProbe:
-          #  tcpSocket:
-          #    port: 3306
+          livenessProbe:
+            tcpSocket:
+              port: 3306
 <?php endif; ?>
 ---
 apiVersion: networking.k8s.io/v1
