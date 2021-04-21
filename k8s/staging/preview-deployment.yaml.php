@@ -90,13 +90,13 @@ spec:
             - "sleep 30"
             - "&&"
             - "exec /entrypoint.sh"
-          metadata:
-            labels:
-              commit_sha: "<?= env('COMMIT_SHA') ?>"
           volumeMounts:
             - name: database-seed
               mountPath: /docker-entrypoint-initdb.d
           env:
+            # this is here to force recreation of the database on every commit
+            - name: COMMIT_SHA
+              value: "<?= env('COMMIT_SHA') ?>"
             - name: MYSQL_DATABASE
               value: preview
             - name: MYSQL_RANDOM_ROOT_PASSWORD
