@@ -58,7 +58,7 @@ class ProjectRepository
     {
         $record = ProjectRead::findOne(['id' => $id]);
 
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
 
         return $record;
     }
