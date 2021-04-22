@@ -56,6 +56,7 @@ jobs:
           manifests: |
             k8s/staging/sealed-app.yaml
             k8s/staging/sealed-database-staging.yaml
+            k8s/staging/sealed-database-preview.yaml
             k8s/staging/sealed-limesurvey-staging.yaml
             k8s/staging/sealed-redis-acl.yaml
             k8s/staging/sealed-smtp-staging.yaml

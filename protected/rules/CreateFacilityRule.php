@@ -42,6 +42,6 @@ class CreateFacilityRule implements Rule
         return $target instanceof Workspace
             && $permission === Permission::PERMISSION_CREATE_FACILITY
             && $target->project->manageWorkspacesImpliesCreatingFacilities()
-            && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_WORKSPACES);
+            && $accessChecker->check($source, $target, Permission::PERMISSION_SURVEY_DATA);
     }
 }
