@@ -200,7 +200,7 @@ class Project extends ActiveRecord implements Linkable
     {
         return [
             [['title', 'base_survey_eid'], RequiredValidator::class],
-            [['title'], UniqueValidator::class, 'targetAttribute' => 'title'],
+            [['title'], UniqueValidator::class],
             [['base_survey_eid'], NumberValidator::class, 'integerOnly' => true],
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],

@@ -14,16 +14,17 @@ use prime\values\ProjectId;
 
 class ProjectRepository
 {
-    public function __construct(private AccessCheckInterface $accessCheck)
-    {
+    public function __construct(
+        private AccessCheckInterface $accessCheck,
+        private ModelHydrator $hydrator
+    ) {
     }
 
 
     public function create(Create $model): ProjectId
     {
         $record = new Project();
-        $hydrator = new ModelHydrator();
-        $hydrator->hydrateActiveRecord($record, $model);
+        $this->hydrator->hydrateActiveRecord($record, $model);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -33,8 +34,7 @@ class ProjectRepository
     public function save(ProjectUpdate $model): ProjectId
     {
         $record = Project::findOne(['id' => $model->id]);
-        $hydrator = new ModelHydrator();
-        $hydrator->hydrateActiveRecord($record, $model);
+        $this->hydrator->hydrateActiveRecord($record, $model);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -48,8 +48,7 @@ class ProjectRepository
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
         $update = new ProjectUpdate(new ProjectId($record->id));
-        $hydrator = new ModelHydrator();
-        $hydrator->hydrateFromActiveRecord($update, $record);
+        $this->hydrator->hydrateFromActiveRecord($update, $record);
 
         return $update;
     }

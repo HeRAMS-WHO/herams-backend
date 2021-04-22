@@ -7,6 +7,7 @@ use kartik\select2\Select2;
 use prime\components\View;
 use prime\models\ar\Project;
 use prime\models\forms\project\Create;
+use prime\objects\enums\ProjectVisibility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 
@@ -52,7 +53,7 @@ echo Form::widget([
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => \prime\objects\enums\ProjectVisibility::toArray()
+            'items' => ProjectVisibility::toArray()
         ],
         FormButtonsWidget::embed([
             'buttons' =>  [
