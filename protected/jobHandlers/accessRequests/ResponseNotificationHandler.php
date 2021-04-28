@@ -5,12 +5,14 @@ namespace prime\jobHandlers\accessRequests;
 
 use JCIT\jobqueue\interfaces\JobInterface;
 use prime\jobs\accessRequests\ResponseNotificationJob;
+use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 
-class ResponseNotificationHandler extends AccessRequestHandler
+class ResponseNotificationHandler
 {
     public function __construct(
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
+        private AccessRequestRepository $accessRequestRepository
     ) {
     }
 
@@ -19,7 +21,7 @@ class ResponseNotificationHandler extends AccessRequestHandler
      */
     public function handle(JobInterface $job): void
     {
-        $accessRequest = $this->getAccessRequestOrThrow($job->getAccessRequestId());
+        $accessRequest = $this->accessRequestRepository->retrieveOrThrow($job->getAccessRequestId());
 
         $this->mailer->compose(
             'access_request_response_notification',

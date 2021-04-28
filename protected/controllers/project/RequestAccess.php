@@ -39,17 +39,17 @@ class RequestAccess extends Action
             \Yii::t('app', 'You are not allowed to request access to this project')
         );
 
-        $model = \Yii::createObject(RequestAccessForm::class, [
-            'target' => $project,
-            'permissionOptions' => [
+        $model = new RequestAccessForm(
+            $project,
+            [
                 AccessRequest::PERMISSION_READ => \Yii::t('app', 'View project'),
                 AccessRequest::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
                 AccessRequest::PERMISSION_WRITE => \Yii::t('app', 'Update project'),
                 AccessRequest::PERMISSION_OTHER => \Yii::t('app', 'Other, explain in request'),
             ],
-            'authManager' => $abacManager,
-            'user' => $user->identity,
-        ]);
+            $abacManager,
+            $user->identity
+        );
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();

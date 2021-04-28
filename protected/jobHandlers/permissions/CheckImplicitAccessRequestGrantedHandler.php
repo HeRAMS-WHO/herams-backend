@@ -11,10 +11,11 @@ use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
+use prime\repositories\PermissionRepository;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 
-class CheckImplicitAccessRequestGrantedHandler extends PermissionHandler
+class CheckImplicitAccessRequestGrantedHandler
 {
     public array $permissionMap = [
         AccessRequest::PERMISSION_READ => Permission::PERMISSION_READ,
@@ -25,7 +26,8 @@ class CheckImplicitAccessRequestGrantedHandler extends PermissionHandler
     public function __construct(
         private AuthManager $abacManager,
         private Resolver $resolver,
-        private JobQueueInterface $jobQueue
+        private JobQueueInterface $jobQueue,
+        private PermissionRepository $permissionRepository
     ) {
     }
 
@@ -34,7 +36,7 @@ class CheckImplicitAccessRequestGrantedHandler extends PermissionHandler
      */
     public function handle(JobInterface $job): void
     {
-        $permission = $this->getPermissionOrThrow($job->getPermissionId());
+        $permission = $this->permissionRepository->retrieveOrThrow($job->getPermissionId());
         $target = $this->resolver->toSubject($permission->targetAuthorizable());
 
         if (!$target

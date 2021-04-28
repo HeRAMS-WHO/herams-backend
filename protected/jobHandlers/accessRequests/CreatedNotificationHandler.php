@@ -7,14 +7,16 @@ use JCIT\jobqueue\interfaces\JobInterface;
 use prime\jobs\accessRequests\ResponseNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\User;
+use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 use function iter\rewindable\map;
 use function iter\toArray;
 
-class CreatedNotificationHandler extends AccessRequestHandler
+class CreatedNotificationHandler
 {
     public function __construct(
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
+        private AccessRequestRepository $accessRequestRepository
     ) {
     }
 
@@ -23,7 +25,7 @@ class CreatedNotificationHandler extends AccessRequestHandler
      */
     public function handle(JobInterface $job): void
     {
-        $accessRequest = $this->getAccessRequestOrThrow($job->getAccessRequestId());
+        $accessRequest = $this->accessRequestRepository->retrieveOrThrow($job->getAccessRequestId());
         $this->mailer->compose(
             'access_request_created_notification',
             [

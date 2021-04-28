@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\accessRequest;
 
+use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\components\NotificationService;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
@@ -22,16 +23,18 @@ class Respond extends Action
         AuthManager $abacManager,
         AccessCheckInterface $accessCheck,
         NotificationService $notificationService,
+        JobQueueInterface $jobQueue,
         int $id
     ) {
         $accessRequest = AccessRequest::findOne(['id' => $id]);
 
         $accessCheck->requirePermission($accessRequest, Permission::PERMISSION_RESPOND);
-        $model = \Yii::createObject(RespondFormModel::class, [
+        $model = new RespondFormModel(
             $accessRequest,
             $abacManager,
             $user->identity,
-        ]);
+            $jobQueue
+        );
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();

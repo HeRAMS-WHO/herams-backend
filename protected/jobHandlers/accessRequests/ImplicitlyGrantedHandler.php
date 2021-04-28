@@ -5,12 +5,14 @@ namespace prime\jobHandlers\accessRequests;
 
 use JCIT\jobqueue\interfaces\JobInterface;
 use prime\jobs\accessRequests\ImplicitlyGrantedJob;
+use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 
-class ImplicitlyGrantedHandler extends AccessRequestHandler
+class ImplicitlyGrantedHandler
 {
     public function __construct(
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
+        private AccessRequestRepository $accessRequestRepository
     ) {
     }
 
@@ -19,7 +21,7 @@ class ImplicitlyGrantedHandler extends AccessRequestHandler
      */
     public function handle(JobInterface $job): void
     {
-        $accessRequest = $this->getAccessRequestOrThrow($job->getAccessRequestId());
+        $accessRequest = $this->accessRequestRepository->retrieveOrThrow($job->getAccessRequestId());
 
         $this->mailer->compose(
             'access_request_implicitly_granted_notification',

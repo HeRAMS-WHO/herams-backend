@@ -38,16 +38,16 @@ class RequestAccess extends Action
             \Yii::t('app', 'You are not allowed to request access to this workspace')
         );
 
-        $model = \Yii::createObject(RequestAccessForm::class, [
-            'target' => $workspace,
-            'permissionOptions' => [
+        $model = new RequestAccessForm(
+            $workspace,
+            [
                 AccessRequest::PERMISSION_READ => \Yii::t('app', 'View workspace'),
                 AccessRequest::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
                 AccessRequest::PERMISSION_WRITE => \Yii::t('app', 'Update workspace'),
             ],
-            'authManager' => $abacManager,
-            'user' => $user->identity,
-        ]);
+            $abacManager,
+            $user->identity
+        );
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();

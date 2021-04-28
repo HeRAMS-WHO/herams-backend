@@ -26,6 +26,7 @@ use prime\jobs\accessRequests\ImplicitlyGrantedJob as AccessrequestImplicitlyGra
 use prime\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionCheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\Permission;
+use prime\repositories\PermissionRepository as PermissionARRepository;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\repositories\CachedReadRepository;
@@ -122,6 +123,11 @@ return [
         return \Yii::$app->mailer;
     },
     PermissionCheckImplicitAccessRequestGrantedHandler::class => static function (Container $container, array $params, array $config): PermissionCheckImplicitAccessRequestGrantedHandler {
-        return new PermissionCheckImplicitAccessRequestGrantedHandler(\Yii::$app->abacManager, $container->get(Resolver::class), $container->get(JobQueueInterface::class));
+        return new PermissionCheckImplicitAccessRequestGrantedHandler(
+            \Yii::$app->abacManager,
+            $container->get(Resolver::class),
+            $container->get(JobQueueInterface::class),
+            $container->get(PermissionARRepository::class)
+        );
     }
 ];
