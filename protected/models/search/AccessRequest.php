@@ -10,6 +10,7 @@ use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use prime\queries\AccessRequestQuery;
 use yii\base\Model;
+use yii\data\DataProviderInterface;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
 
@@ -28,7 +29,7 @@ class AccessRequest extends Model
         parent::__construct($config);
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['projectId', 'workspaceId'], NumberValidator::class],
@@ -36,7 +37,7 @@ class AccessRequest extends Model
         ];
     }
 
-    public function search($params)
+    public function search($params): DataProviderInterface
     {
         $query = clone $this->query;
         $dataProvider = \Yii::createObject(FilteredActiveDataProvider::class, [[

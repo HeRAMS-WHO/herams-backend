@@ -11,7 +11,6 @@ use SamIT\abac\interfaces\Rule;
 
 class RespondToAccessRequestRule implements Rule
 {
-
     /**
      * @inheritDoc
      */

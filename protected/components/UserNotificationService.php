@@ -30,6 +30,8 @@ class UserNotificationService extends Component
     public function getNewNotificationCount(User $user): int
     {
         if (!isset($this->_newNotificationCount)) {
+            // For now the new notifications are all notifications there are since there are no notifications
+            // that can be marked as read or so
             $this->_newNotificationCount = $this->getNotifications($user)->getTotalCount();
         }
 
