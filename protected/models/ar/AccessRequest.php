@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use Carbon\Carbon;
+use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\components\ActiveQuery;
+use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ActiveRecord;
 use prime\queries\AccessRequestQuery;
 use yii\behaviors\BlameableBehavior;
@@ -44,6 +46,27 @@ class AccessRequest extends ActiveRecord
     const PERMISSION_WRITE = 'write';
     const PERMISSION_EXPORT = 'export';
     const PERMISSION_OTHER = 'other';
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if ($insert) {
+            $jobQueue = \Yii::createObject(JobQueueInterface::class);
+            $jobQueue->putJob(new CreatedNotificationJob($this->id));
+        }
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'body' => \Yii::t('app', 'Body'),
+            'permissions' => \Yii::t('app', 'Subject'),
+            'subject' => \Yii::t('app', 'Subject'),
+            'target_class' => \Yii::t('app', 'Target class'),
+            'target_id' => \Yii::t('app', 'Target'),
+        ];
+    }
 
     public function behaviors(): array
     {
@@ -111,6 +134,12 @@ class AccessRequest extends ActiveRecord
             self::PERMISSION_READ => \Yii::t('app', 'Read'),
             self::PERMISSION_WRITE => \Yii::t('app', 'Write'),
         ];
+    }
+
+    public function setTarget(Project|Workspace $target)
+    {
+        $this->target_class = get_class($target);
+        $this->target_id = $target->id;
     }
 
     public function targetClassOptions(): array

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use JCIT\jobqueue\interfaces\JobQueueInterface;
+use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ActiveRecord;
 use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;
@@ -14,11 +16,16 @@ use yii\validators\UniqueValidator;
 /**
  * Class Permission
  * @package app\models
+ * @property int $id
+ * @property int $created_at
+ * @property int $created_by
  * @property string $permission
  * @property string $source
  * @property string $source_id
  * @property string $target
  * @property string $target_id
+ *
+ *
  * @property object $sourceObject
  * @property object $targetObject
  */
@@ -56,6 +63,15 @@ class Permission extends ActiveRecord
 
     const PERMISSION_DELETE_ALL_WORKSPACES = 'delete-workspaces';
 
+    public function afterSave($insert, $changedAttributes): void
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if ($insert) {
+            $jobQueue = \Yii::createObject(JobQueueInterface::class);
+            $jobQueue->putJob(new CheckImplicitAccessRequestGrantedJob($this->id));
+        }
+    }
 
     public function attributeLabels(): array
     {

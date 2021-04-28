@@ -27,9 +27,14 @@ echo GridView::widget([
     'columns' => [
         'title',
         [
-            'label' => \Yii::t('app', 'Target'),
+            'label' => \Yii::t('app', 'Target type'),
+            'value' => fn(AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
+        ],
+        [
+            'label' => \Yii::t('app', 'Target title'),
             'value' => 'target.title',
         ],
+        'created_at:dateTime',
     ]
 ]);
 

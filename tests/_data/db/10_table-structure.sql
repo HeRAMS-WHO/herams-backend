@@ -27,15 +27,20 @@ CREATE TABLE `prime2_access_request` (
   `target_id` int NOT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `body` text,
+  `permissions` json DEFAULT NULL,
   `accepted` tinyint(1) DEFAULT NULL,
   `response` text,
   `created_by` int DEFAULT NULL,
+  `responded_by` int DEFAULT NULL,
   `created_at` int DEFAULT NULL,
+  `expires_at` int DEFAULT NULL,
   `responded_at` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i-access_request-target_class-target_id` (`target_class`,`target_id`),
   KEY `fk-access_request-created_by-user-id` (`created_by`),
-  CONSTRAINT `fk-access_request-created_by-user-id` FOREIGN KEY (`created_by`) REFERENCES `prime2_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk-access_request-responded_by-user-id` (`responded_by`),
+  CONSTRAINT `fk-access_request-created_by-user-id` FOREIGN KEY (`created_by`) REFERENCES `prime2_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk-access_request-responded_by-user-id` FOREIGN KEY (`responded_by`) REFERENCES `prime2_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

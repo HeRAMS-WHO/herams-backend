@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace prime\models\forms\accessRequest;
 
 use prime\models\ar\AccessRequest;
+use prime\models\ar\Permission;
+use prime\models\ar\User;
+use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -17,14 +20,27 @@ use yii\web\ServerErrorHttpException;
 class Create extends Model
 {
     public string $body = '';
+    private array $permissionOptions = [];
     public array $permissions = [];
+    public array $permissionMap = [
+        AccessRequest::PERMISSION_READ => Permission::PERMISSION_READ,
+        AccessRequest::PERMISSION_WRITE => Permission::PERMISSION_WRITE,
+        AccessRequest::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
+    ];
     public string $subject = '';
 
     public function __construct(
         private object $target,
-        private array $permissionOptions,
+        array $permissionOptions,
+        AuthManager $authManager,
+        User $user,
         $config = []
     ) {
+        foreach ($permissionOptions as $arPermission => $permissionDescription) {
+            if (!isset($this->permissionMap[$arPermission]) || !$authManager->check($user, $target, $this->permissionMap[$arPermission])) {
+                $this->permissionOptions[$arPermission] = $permissionDescription;
+            }
+        }
         parent::__construct($config);
     }
 
@@ -34,8 +50,7 @@ class Create extends Model
         $accessRequest->body = $this->body;
         $accessRequest->permissions = $this->permissions;
         $accessRequest->subject = $this->subject;
-        $accessRequest->target_class = get_class($this->target);
-        $accessRequest->target_id = $this->target->id;
+        $accessRequest->target = $this->target;
         if (!$accessRequest->save()) {
             throw new ServerErrorHttpException('Failed saving the record.');
         }

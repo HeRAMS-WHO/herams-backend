@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace prime\models\forms\accessRequest;
 
+use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\helpers\ProposedGrant;
+use prime\jobs\accessRequests\ResponseNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
@@ -27,6 +29,7 @@ class Respond extends Model
         private AccessRequest $accessRequest,
         private AuthManager $abacManager,
         private IdentityInterface $identity,
+        private JobQueueInterface $jobQueue,
         ?array $permissionOptions = null,
         $config = []
     ) {
@@ -76,7 +79,7 @@ class Respond extends Model
 
             $transaction->commit();
 
-            // TODO send notifications
+            $this->jobQueue->putJob(new ResponseNotificationJob($this->accessRequest->id));
         } finally {
             if ($transaction->isActive && $transaction->level == $transactionLevel) {
                 $transaction->rollBack();

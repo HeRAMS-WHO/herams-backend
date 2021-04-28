@@ -9,9 +9,12 @@ use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\models\ar\User;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
+use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\web\Request;
+use yii\web\User as UserComponent;
 
 /**
  * Class RequestAccess
@@ -23,6 +26,8 @@ class RequestAccess extends Action
         AccessCheckInterface $accessCheck,
         NotificationService $notificationService,
         Request $request,
+        AuthManager $abacManager,
+        UserComponent $user,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
@@ -34,16 +39,17 @@ class RequestAccess extends Action
             \Yii::t('app', 'You are not allowed to request access to this project')
         );
 
-        /** @var RequestAccessForm $model */
-        $model = new RequestAccessForm(
-            $project,
-            [
+        $model = \Yii::createObject(RequestAccessForm::class, [
+            'target' => $project,
+            'permissionOptions' => [
                 AccessRequest::PERMISSION_READ => \Yii::t('app', 'View project'),
                 AccessRequest::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
                 AccessRequest::PERMISSION_WRITE => \Yii::t('app', 'Update project'),
                 AccessRequest::PERMISSION_OTHER => \Yii::t('app', 'Other, explain in request'),
-            ]
-        );
+            ],
+            'authManager' => $abacManager,
+            'user' => $user->identity,
+        ]);
 
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();
