@@ -11,6 +11,9 @@ namespace prime\objects\enums;
  */
 class ProjectStatus extends Enum
 {
+    /**
+     * @codeCoverageIgnore
+     */
     protected static function values(): array
     {
         return [
@@ -21,6 +24,9 @@ class ProjectStatus extends Enum
         ];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected static function labels(): array
     {
         return [
