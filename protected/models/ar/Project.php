@@ -158,7 +158,7 @@ class Project extends ActiveRecord implements Linkable
             'country' => \Yii::t('app', 'Country'),
             'hidden' => \Yii::t('app', 'Hidden'),
             'i18n' => \Yii::t('app', 'Translated attributes'),
-            'languages' => \Yii::t('app','Languages'),
+            'languages' => \Yii::t('app', 'Languages'),
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
             'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
