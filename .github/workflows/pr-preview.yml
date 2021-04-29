@@ -40,6 +40,8 @@ jobs:
           NEEDS_DATABASE: ${{ needs.precondition.outputs.hasmigrations }}
           COMMIT_SHA: ${{ github.sha }}
         run: k8s/parse-templates.sh k8s/staging/*.yaml.php
+      - name: Dump template
+        run: cat k8s/staging/preview-deployment.yaml
       - uses: Azure/k8s-deploy@v1.4
         with:
           namespace: 'staging'
