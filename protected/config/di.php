@@ -1,25 +1,45 @@
 <?php
 declare(strict_types=1);
 
+use kartik\dialog\Dialog;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
+use kartik\switchinput\SwitchInput;
 use prime\assets\JqueryBundle;
-use prime\assets\PjaxBundle;
+use prime\components\GlobalPermissionResolver;
+use prime\components\ReadWriteModelResolver;
+use prime\components\SingleTableInheritanceResolver;
+use prime\helpers\AccessCheck;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
+use prime\objects\enums\Language;
+use prime\repositories\ProjectRepository;
+use prime\widgets\LocalizableInput;
+use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
+use SamIT\abac\interfaces\Resolver;
+use SamIT\abac\interfaces\RuleEngine;
 use SamIT\abac\repositories\CachedReadRepository;
 use SamIT\abac\repositories\PreloadingSourceRepository;
+use SamIT\abac\resolvers\ChainedResolver;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\di\Container;
+use yii\helpers\ArrayHelper;
 use yii\web\JqueryAsset;
-use yii\widgets\PjaxAsset;
+use function iter\filter;
 
 return [
-    \kartik\dialog\Dialog::class => \yii\base\Widget::class,
-    \prime\interfaces\AccessCheckInterface::class => \prime\helpers\AccessCheck::class,
-    \prime\helpers\AccessCheck::class => static function () {
-        return new \prime\helpers\AccessCheck(\Yii::$app->user);
+    LocalizableInput::class => function (Container $container, array $params, array $config) {
+        if (!isset($config['languages'])) {
+            $config['languages'] = filter(fn($lang) => $lang !== \Yii::$app->sourceLanguage, Language::toArray());
+        }
+        return new LocalizableInput($config);
+    },
+    Dialog::class => \yii\base\Widget::class,
+    AccessCheckInterface::class => AccessCheck::class,
+    AccessCheck::class => static function () {
+        return new AccessCheck(\Yii::$app->user);
     },
     \prime\helpers\LimesurveyDataLoader::class => \prime\helpers\LimesurveyDataLoader::class,
     JqueryAsset::class => JqueryBundle::class,
@@ -29,16 +49,16 @@ return [
     CachedReadRepository::class => function (Container $container) {
         return new CachedReadRepository($container->get(ActiveRecordRepository::class));
     },
-    \SamIT\abac\interfaces\RuleEngine::class => static function () {
-        return new \SamIT\abac\engines\SimpleEngine(require __DIR__ . '/rule-config.php');
-    },
-    \SamIT\abac\interfaces\Resolver::class => static function (): \SamIT\abac\interfaces\Resolver {
-        return new \SamIT\abac\resolvers\ChainedResolver(
-            new \prime\components\SingleTableInheritanceResolver(),
+    RuleEngine::class => static fn() => new SimpleEngine(require __DIR__ . '/rule-config.php'),
+    Resolver::class => static function (): Resolver {
+        return new ChainedResolver(
+            new SingleTableInheritanceResolver(),
+            new ReadWriteModelResolver(),
             new ActiveRecordResolver(),
-            new \prime\components\GlobalPermissionResolver()
+            new GlobalPermissionResolver()
         );
     },
+    ProjectRepository::class => ProjectRepository::class,
     ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [
             ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
@@ -52,17 +72,16 @@ return [
         if (!isset($config['header'])) {
             $config['header'] = \Yii::t('app', 'Actions');
         }
-        $result = new ActionColumn($config);
-        return $result;
+        return new ActionColumn($config);
     },
-    \kartik\switchinput\SwitchInput::class => static function (Container $container, array $params, array $config) {
-        $config = \yii\helpers\ArrayHelper::merge([
+    SwitchInput::class => static function (Container $container, array $params, array $config) {
+        $config = ArrayHelper::merge([
             'pluginOptions' => [
                 'offText' => \Yii::t('app', 'Off'),
                 'onText' => \Yii::t('app', 'On'),
             ]
         ], $config);
-        return new \kartik\switchinput\SwitchInput($config);
+        return new SwitchInput($config);
     },
     GridView::class => static function (Container $container, array $params, array $config): GridView {
         $result = new GridView($config);

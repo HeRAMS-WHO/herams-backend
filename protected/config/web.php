@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /** @var \prime\components\KubernetesSecretEnvironment $env */
 
 use Carbon\Carbon;

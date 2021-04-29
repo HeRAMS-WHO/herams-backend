@@ -3,14 +3,17 @@ declare(strict_types=1);
 
 use app\components\ActiveForm;
 use app\components\Form;
+use kartik\select2\Select2;
 use prime\components\View;
 use prime\models\ar\Project;
+use prime\models\forms\project\Create;
+use prime\objects\enums\ProjectVisibility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 
 /**
  * @var View $this
- * @var Project $model
+ * @var Create $model
  */
 
 $this->params['breadcrumbs'][] = [
@@ -42,15 +45,15 @@ echo Form::widget([
             'type' => Form::INPUT_TEXT,
         ],
         'base_survey_eid' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $model->dataSurveyOptions(),
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => Select2::class,
             'options' => [
-                'prompt' => ''
-            ]
+                'data' => $model->dataSurveyOptions(),
+            ],
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $model->visibilityOptions()
+            'items' => ProjectVisibility::toArray()
         ],
         FormButtonsWidget::embed([
             'buttons' =>  [

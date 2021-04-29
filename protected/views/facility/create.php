@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use app\components\ActiveForm;
 use app\components\Form;
+use prime\widgets\FormButtonsWidget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -34,7 +35,7 @@ echo Form::widget([
         'alternative_name' => [
             'type' => Form::INPUT_TEXT,
         ],
-        \prime\widgets\FormButtonsWidget::embed([
+        FormButtonsWidget::embed([
             'buttons' => [Html::submitButton()]
         ])
     ],

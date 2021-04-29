@@ -4,6 +4,7 @@ export default class LocalizableTextInput extends HTMLElement {
     #shadow;
 
     #rows = {};
+
     #inputs = {};
     #labels = {};
 
@@ -63,7 +64,6 @@ export default class LocalizableTextInput extends HTMLElement {
     }
     get value()
     {
-        this.#internals.getformv
         const value = {};
         for (let lang in this.#inputs) {
             if (this.#inputs[lang].value) {
@@ -82,7 +82,6 @@ export default class LocalizableTextInput extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue)
     {
-        console.log('attributeChangedCallback', name, newValue)
         switch (name) {
             case 'languages':
                 this.#updateLanguages(oldValue, newValue);
@@ -105,7 +104,7 @@ export default class LocalizableTextInput extends HTMLElement {
 
     formAssociatedCallback(...args)
     {
-        console.log('formAssociatedCallback', args);
+        this.#internals.setFormValue(this.value);
     }
 
     #updateValidity()
@@ -135,7 +134,7 @@ export default class LocalizableTextInput extends HTMLElement {
         this.#labels[language] = label;
 
         const input = document.createElement('input');
-        input.pattern = '\\w+';
+        input.type = 'text';
         input.id = inputID;
         input.addEventListener('change', () => {
             this.#internals.setFormValue(this.value);
@@ -178,7 +177,7 @@ export default class LocalizableTextInput extends HTMLElement {
                 this.#addLanguage(language, labels[language]);
             } else {
                 // Existing language
-                this.#labels[language].innerText = language;
+                this.#labels[language].innerText = labels[language];
             }
         });
     }

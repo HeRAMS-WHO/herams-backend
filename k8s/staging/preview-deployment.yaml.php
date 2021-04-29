@@ -101,7 +101,7 @@ spec:
             - name: MYSQL_DATABASE
               value: preview
             - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: yes
+              value: "yes"
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:

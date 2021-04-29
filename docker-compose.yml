@@ -210,8 +210,6 @@ services:
       PMA_HOSTS: testdb,devdb
       PMA_PASSWORD: $DB_PASS
       PMA_USER: $DB_USER
-    ports:
-      - "127.0.0.1:${PHPMYADMIN_PORT-12345}:80"
     tmpfs:
       - /sessions
   mailcatcher:

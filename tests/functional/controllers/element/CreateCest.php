@@ -6,6 +6,9 @@ namespace prime\tests\functional\controllers\element;
 use prime\models\ar\Permission;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\element\Create
+ */
 class CreateCest
 {
     public function testCreateChart(FunctionalTester $I): void
