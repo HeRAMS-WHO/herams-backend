@@ -40,6 +40,9 @@ class ModelHydrator
         return is_array($value) ? $value : json_decode($value, true);
     }
 
+    /**
+     * @param class-string $class
+     */
     private function castIntegerId($value, string $class): IntegerId
     {
         return new $class($this->castInt($value));
