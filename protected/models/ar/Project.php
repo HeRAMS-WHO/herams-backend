@@ -154,17 +154,18 @@ class Project extends ActiveRecord implements Linkable
     public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
-            'country' => \Yii::t('app', 'Country'),
             'base_survey_eid' => \Yii::t('app', 'Survey'),
+            'country' => \Yii::t('app', 'Country'),
             'hidden' => \Yii::t('app', 'Hidden'),
+            'i18n' => \Yii::t('app', 'Translated attributes'),
+            'languages' => \Yii::t('app','Languages'),
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
+            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
+            'overrides' => \Yii::t('app', 'Overrides'),
             'status' => \Yii::t('app', 'Status'),
             'typemap' => \Yii::t('app', 'Typemap'),
             'visibility' => \Yii::t('app', 'Visibility'),
-            'overrides' => \Yii::t('app', 'Overrides'),
-            'i18n' => \Yii::t('app', 'Translated attributes'),
-            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
         ]);
     }
 
