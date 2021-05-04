@@ -7,42 +7,40 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 
 /**
- * @covers \prime\controllers\user\Account
+ * @covers \prime\controllers\user\Profile
  */
-class AccountCest
+class ProfileCest
 {
-
     public function testPageLoad(FunctionalTester $I)
     {
-        \Yii::$app->urlSigner;
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['user/account']);
+        $I->amOnPage(['user/profile']);
         $I->seeResponseCodeIs(200);
     }
 
     public function testUpdateName(FunctionalTester $I)
     {
-        \Yii::$app->urlSigner;
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['user/account']);
+        $I->amOnPage(['user/profile']);
         $I->seeResponseCodeIs(200);
-        $I->fillField('Name', 'newname');
-        $I->click('Update account information');
+
+        $newName = 'newName';
+        $I->fillField('Name', $newName);
+        $I->click('Update profile');
         /** @var User $user */
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
         $user->refresh();
-        $I->assertSame('newname', $user->name);
+        $I->assertSame($newName, $user->name);
     }
 
     public function testUpdateLanguage(FunctionalTester $I)
     {
-        \Yii::$app->urlSigner;
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['user/account']);
+        $I->amOnPage(['user/profile']);
         $I->seeResponseCodeIs(200);
         $I->selectOption('Language', 'fr-FR');
-        $I->click('Update account information');
+        $I->click('Update profile');
         /** @var User $user */
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);

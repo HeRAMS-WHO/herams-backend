@@ -17,9 +17,12 @@ class AccessRequestQuery extends ActiveQuery
         return $this->andWhere(['created_by' => $userId]);
     }
 
+    /**
+     * For now there is no expiration desired
+     */
     public function notExpired(): self
     {
-        return $this->andWhere(['>=', 'expires_at', (new \DateTime())->getTimestamp()]);
+        return $this;
     }
 
     public function withoutResponse(): self

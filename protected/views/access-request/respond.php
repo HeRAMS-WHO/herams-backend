@@ -4,6 +4,7 @@ declare(strict_types=1);
 use app\components\ActiveForm;
 use app\components\Form;
 use prime\components\View;
+use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\forms\accessRequest\Respond;
 use prime\widgets\FormButtonsWidget;
@@ -44,7 +45,7 @@ echo Form::widget([
         'requestedPermissions' => [
             'type' => Form::INPUT_STATIC,
             'label' => \Yii::t('app', 'Requested permissions'),
-            'staticValue' => Html::ul(map(static fn($permission) => Permission::permissionLabels()[$permission], $model->getAccessRequest()->permissions), ['style' => ['margin-top' => 0, 'padding-left' => '17px']]),
+            'staticValue' => Html::ul(map(static fn($permission) => Permission::permissionLabels()[AccessRequest::permissionMap($model->getAccessRequest()->target)[$permission] ?? $permission], $model->getAccessRequest()->permissions), ['style' => ['margin-top' => 0, 'padding-left' => '17px']]),
         ],
         'response' => [
             'type' => Form::INPUT_TEXTAREA,

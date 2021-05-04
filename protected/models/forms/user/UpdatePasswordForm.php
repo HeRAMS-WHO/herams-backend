@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
@@ -8,22 +8,20 @@ use prime\models\ar\User;
 use yii\base\Model;
 use yii\validators\CompareValidator;
 
-class ChangePasswordForm extends Model
+class UpdatePasswordForm extends Model
 {
-    private $user;
+    public string $currentPassword = '';
+    public string $newPassword = '';
+    public string $newPasswordRepeat = '';
 
-    public $currentPassword;
-    public $newPassword;
-    public $newPasswordRepeat;
-
-    public function __construct(User $user, array $config = [])
-    {
+    public function __construct(
+        private User $user,
+        array $config = []
+    ) {
         parent::__construct($config);
-        $this->user = $user;
     }
 
-
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'currentPassword' => \Yii::t('app', 'Current password'),
@@ -32,8 +30,12 @@ class ChangePasswordForm extends Model
         ];
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['newPasswordRepeat'], CompareValidator::class, 'compareAttribute' => 'newPassword'],
@@ -45,7 +47,6 @@ class ChangePasswordForm extends Model
             }]
         ];
     }
-
 
     public function run(): void
     {

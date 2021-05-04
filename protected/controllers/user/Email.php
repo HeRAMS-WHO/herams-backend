@@ -11,7 +11,7 @@ use yii\mail\MailerInterface;
 use yii\web\Request;
 use yii\web\User;
 
-class UpdateEmail extends Action
+class Email extends Action
 {
     public function run(
         UrlSigner $urlSigner,
@@ -28,11 +28,17 @@ class UpdateEmail extends Action
             try {
                 $model->run();
                 $notificationService->info(\Yii::t('app', 'Please check your mailbox'));
-                return $this->controller->redirect(['/user/account']);
+                return $this->controller->redirect(['/user/profile']);
             } catch (\RuntimeException $e) {
                 $notificationService->error($e->getMessage());
             }
         }
-        return $this->controller->render('update-email', ['model' => $model]);
+
+        return $this->controller->render(
+            'email',
+            [
+                'model' => $model
+            ]
+        );
     }
 }

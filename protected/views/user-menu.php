@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use prime\components\UserNotificationService;
+use prime\repositories\UserNotificationRepository;
 use prime\helpers\Icon;
 use prime\models\ar\User;
 use yii\helpers\Html;
@@ -49,9 +49,9 @@ if (app()->user->can(Permission::PERMISSION_ADMIN)) {
 echo Html::a(Icon::home(), ['/'], ['class' => 'home']);
 echo Html::a(Icon::admin(), ['/project/index'], ['class' => 'admin']);
 echo Html::a(Icon::star(), ['/user/favorites']);
-echo Html::a(Icon::user(), ['/user/account']);
-$userNotificationService = \Yii::createObject(UserNotificationService::class);
-if ($user && ($notificationCount = $userNotificationService->getNewNotificationCount($user)) > 0) {
+echo Html::a(Icon::user(), ['/user/profile']);
+$userNotificationService = \Yii::createObject(UserNotificationRepository::class);
+if ($user && ($notificationCount = $userNotificationService->getNewNotificationCountForUser($user)) > 0) {
     echo Html::a(Icon::bell() . Html::tag('div', $notificationCount, ['class' => ['badge']]), ['/user/notifications']);
 }
 echo Html::a(Icon::question().'<small>'.Icon::external_link().'</small>', Url::to('https://docs.herams.org/'), ['target' => '_blank']);

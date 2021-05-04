@@ -81,7 +81,8 @@ echo GridView::widget([
                     '<br>',
                     ArrayHelper::merge(
                         ArrayHelper::getColumn($usersQuery->all(), 'name'),
-                        array_filter([!$userComponent->can(Permission::PERMISSION_ADMIN, $project) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['project/request-access', 'id' => $project->id])) : null])
+                        // For now we just don't want to display the link, at some point it is desired to show the link
+                        array_filter([false && !$userComponent->can(Permission::PERMISSION_ADMIN, $project) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['project/request-access', 'id' => $project->id])) : null])
                     )
                 );
             },

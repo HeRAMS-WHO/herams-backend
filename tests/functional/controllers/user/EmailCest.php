@@ -9,9 +9,9 @@ use prime\tests\FunctionalTester;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 
 /**
- * @covers \prime\controllers\user\UpdateEmail
+ * @covers \prime\controllers\user\Email
  */
-class UpdateEmailCest
+class EmailCest
 {
     protected function getUpdateSignedUrl(string $oldEmail, string $newEmail): array
     {
@@ -65,18 +65,18 @@ class UpdateEmailCest
         $I->seeResponseCodeIs(403);
     }
 
-    public function testGetPage(FunctionalTester $I)
+    public function testPageLoad(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $I->stopFollowingRedirects();
-        $I->amOnPage(['user/update-email']);
+        $I->amOnPage(['user/email']);
         $I->seeResponseCodeIs(200);
     }
 
     public function testSubmitRequest(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['user/account']);
+        $I->amOnPage(['user/email']);
         $I->seeResponseCodeIs(200);
         $newEmail = 'newEmail@test.com';
         $I->fillField('New email address', $newEmail);

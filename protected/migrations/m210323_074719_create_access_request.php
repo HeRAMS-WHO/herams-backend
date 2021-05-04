@@ -27,7 +27,6 @@ class m210323_074719_create_access_request extends Migration
                 'created_by' => $this->integer(),
                 'responded_by' => $this->integer(),
                 'created_at' => $this->integer(),
-                'expires_at' => $this->integer(),
                 'responded_at' => $this->integer(),
             ]
         );

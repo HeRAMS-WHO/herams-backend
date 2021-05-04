@@ -1,18 +1,32 @@
 <?php
+declare(strict_types=1);
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
-use prime\models\forms\user\ChangePasswordForm;
+use prime\models\forms\user\UpdatePasswordForm;
 use prime\widgets\FormButtonsWidget;
+use prime\widgets\menu\UserTabMenu;
+use prime\widgets\Section;
 use yii\web\View;
 
 /**
  * @var View $this
- * @var ChangePasswordForm $model
+ * @var UpdatePasswordForm $model
  */
 
+$this->beginBlock('tabs');
+echo UserTabMenu::widget([
+    'user' => $model->getUser(),
+]);
+$this->endBlock();
+
+$this->title = Yii::t('app', 'Password');
+
+Section::begin()
+    ->withHeader($this->title);
+
 $form = ActiveForm::begin([
-    'action' => ['/user/update-password'],
+
 ]);
 
 echo Form::widget([
@@ -46,3 +60,5 @@ echo Form::widget([
 ]);
 
 ActiveForm::end();
+
+Section::end();

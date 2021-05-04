@@ -7,10 +7,17 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 
 /**
- * @covers \prime\controllers\user\UpdatePassword
+ * @covers \prime\controllers\user\Password
  */
-class UpdatePasswordCest
+class PasswordCest
 {
+    public function testPageLoad(FunctionalTester $I)
+    {
+        $I->amLoggedInAs(TEST_USER_ID);
+        $I->amOnPage(['user/password']);
+        $I->seeResponseCodeIs(200);
+    }
+
     public function testUpdatePassword(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
@@ -18,7 +25,7 @@ class UpdatePasswordCest
         $user = \Yii::$app->user->identity;
         $user->setPassword('test123');
         $I->save($user);
-        $I->amOnPage(['user/account']);
+        $I->amOnPage(['user/password']);
         $I->seeResponseCodeIs(200);
         $I->fillField('Current password', 'test123');
         $password = 'S' . bin2hex(random_bytes(16));
@@ -38,7 +45,7 @@ class UpdatePasswordCest
         $user = \Yii::$app->user->identity;
         $user->setPassword('test123');
         $I->save($user);
-        $I->amOnPage(['user/account']);
+        $I->amOnPage(['user/password']);
         $I->seeResponseCodeIs(200);
         $I->fillField('Current password', 'test123');
         $password = 'test12345';

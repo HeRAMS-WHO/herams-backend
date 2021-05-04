@@ -2,27 +2,39 @@
 declare(strict_types=1);
 
 use kartik\grid\ActionColumn;
+use kartik\grid\BooleanColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\AccessRequest;
+use prime\models\ar\User;
 use prime\models\search\AccessRequest as AccessRequestSearch;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
+use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
 use yii\data\DataProviderInterface;
 use yii\helpers\Html;
 use yii\web\View;
 
 /**
+ * @var User $model
+ * @var DataProviderInterface $respondedAccessRequestDataprovider
  * @var View $this
  * @var DataProviderInterface $userAccessRequestDataprovider
- * @var AccessRequestSearch $openAccessRequestsSearchModel
- * @var DataProviderInterface $openAccessRequestsDataprovider
  */
+
+$this->beginBlock('tabs');
+echo UserTabMenu::widget([
+    'user' => $model,
+]);
+$this->endBlock();
 
 $this->title = \Yii::t('app', 'Access requests');
 
+$iconCheck = Icon::check();
+$iconClose = Icon::close();
+
 Section::begin()
-    ->withHeader(\Yii::t('app', 'Your outstanding access requests'), ['style' => ['display' => 'block']]);
+    ->withHeader(\Yii::t('app', 'Your access requests'));
 
 echo GridView::widget([
     'dataProvider' => $userAccessRequestDataprovider,
@@ -37,19 +49,35 @@ echo GridView::widget([
             'value' => 'target.title',
         ],
         'created_at:dateTime',
+        [
+            'class' => BooleanColumn::class,
+            'value' => 'accepted',
+            'label' => \Yii::t('app', 'Granted'),
+            'trueIcon' => $iconCheck,
+            'falseIcon' => $iconClose,
+        ],
+        [
+            'label' => \Yii::t('app', 'Responded by'),
+            'value' => 'respondedByUser.name',
+        ],
+        'response',
+        'responded_at:dateTime',
     ]
 ]);
 
 Section::end();
 
 Section::begin()
-    ->withHeader(\Yii::t('app', 'Access requests to respond to'));
+    ->withHeader(\Yii::t('app', 'Access requests you responded to'));
 
 echo GridView::widget([
-    'dataProvider' => $openAccessRequestsDataprovider,
-    'filterModel' => $openAccessRequestsSearchModel,
+    'dataProvider' => $respondedAccessRequestDataprovider,
     'columns' => [
-        'createdByUser.name',
+        [
+            'label' => \Yii::t('app', 'Created by'),
+            'value' => 'createdByUser.name',
+        ],
+        'subject',
         [
             'label' => \Yii::t('app', 'Target type'),
             'value' => fn(AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
@@ -60,28 +88,14 @@ echo GridView::widget([
         ],
         'created_at:dateTime',
         [
-            'class' => FavoriteColumn::class,
-            'enableClick' => false,
-            'filter' => [
-                true => \Yii::t('app', 'Favorites only'),
-                false => \Yii::t('app', 'Non-favorites only'),
-            ],
-            'value' => static fn(AccessRequest $model) => $model->target,
+            'class' => BooleanColumn::class,
+            'value' => 'accepted',
+            'label' => \Yii::t('app', 'Granted'),
+            'trueIcon' => $iconCheck,
+            'falseIcon' => $iconClose,
         ],
-        [
-            'class' => ActionColumn::class,
-            'buttons' => [
-                'view' => static function ($url, AccessRequest $model, $key) {
-                    return Html::a(
-                        Icon::chevronRight(),
-                        ['access-request/respond', 'id' => $model->id],
-                        [
-                            'title' => \Yii::t('app', 'Respond'),
-                        ]
-                    );
-                }
-            ],
-        ]
+        'response',
+        'responded_at:dateTime',
     ]
 ]);
 

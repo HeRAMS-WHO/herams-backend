@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace prime\components;
+namespace prime\repositories;
 
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
@@ -12,14 +12,8 @@ use yii\base\Component;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 
-/**
- * Class UserNotificationService
- * @package prime\components
- */
-class UserNotificationService extends Component
+class UserNotificationRepository extends Component
 {
-    private int $_newNotificationCount;
-
     public function __construct(
         private AuthManager $abacManager,
         $config = []
@@ -27,18 +21,14 @@ class UserNotificationService extends Component
         parent::__construct($config);
     }
 
-    public function getNewNotificationCount(User $user): int
+    public function getNewNotificationCountForUser(User $user): int
     {
-        if (!isset($this->_newNotificationCount)) {
-            // For now the new notifications are all notifications there are since there are no notifications
-            // that can be marked as read or so
-            $this->_newNotificationCount = $this->getNotifications($user)->getTotalCount();
-        }
-
-        return $this->_newNotificationCount;
+        // For now the new notifications are all notifications there are since there are no notifications
+        // that can be marked as read or so
+        return $this->getNotificationsForUser($user)->getTotalCount();
     }
 
-    public function getNotifications(User $user): DataProviderInterface
+    public function getNotificationsForUser(User $user): DataProviderInterface
     {
         $result = [];
 

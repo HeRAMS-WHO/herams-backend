@@ -9,7 +9,6 @@ use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\ar\User;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
@@ -44,7 +43,7 @@ class RequestAccess extends Action
             [
                 AccessRequest::PERMISSION_READ => \Yii::t('app', 'View project'),
                 AccessRequest::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
-                AccessRequest::PERMISSION_WRITE => \Yii::t('app', 'Update project'),
+                AccessRequest::PERMISSION_WRITE => \Yii::t('app', 'Contribute data'),
                 AccessRequest::PERMISSION_OTHER => \Yii::t('app', 'Other, explain in request'),
             ],
             $abacManager,

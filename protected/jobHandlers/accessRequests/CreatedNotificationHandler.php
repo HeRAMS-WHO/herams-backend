@@ -4,13 +4,10 @@ declare(strict_types=1);
 namespace prime\jobHandlers\accessRequests;
 
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\jobs\accessRequests\ResponseNotificationJob;
+use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\User;
 use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
-use function iter\rewindable\map;
-use function iter\toArray;
 
 class CreatedNotificationHandler
 {
@@ -21,7 +18,7 @@ class CreatedNotificationHandler
     }
 
     /**
-     * @param ResponseNotificationJob $job
+     * @param CreatedNotificationJob $job
      */
     public function handle(JobInterface $job): void
     {

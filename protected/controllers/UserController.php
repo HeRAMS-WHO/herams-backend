@@ -6,20 +6,21 @@ namespace prime\controllers;
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\user\AcceptInvitation;
-use prime\controllers\user\Account;
+use prime\controllers\user\AccessRequests;
 use prime\controllers\user\ConfirmEmail;
 use prime\controllers\user\ConfirmInvitation;
 use prime\controllers\user\Create;
+use prime\controllers\user\Email;
 use prime\controllers\user\Favorites;
 use prime\controllers\user\Impersonate;
 use prime\controllers\user\Index;
 use prime\controllers\user\Notifications;
+use prime\controllers\user\Password;
+use prime\controllers\user\Profile;
 use prime\controllers\user\RequestAccount;
 use prime\controllers\user\RequestReset;
 use prime\controllers\user\ResetPassword;
 use prime\controllers\user\Roles;
-use prime\controllers\user\UpdateEmail;
-use prime\controllers\user\UpdatePassword;
 use prime\models\ar\User;
 use SamIT\Yii2\UrlSigner\HmacFilter;
 use yii\helpers\ArrayHelper;
@@ -32,18 +33,19 @@ class UserController extends Controller
     {
         return [
             'accept-invitation' => AcceptInvitation::class,
+            'access-requests' => AccessRequests::class,
             'confirm-email' => ConfirmEmail::class,
             'confirm-invitation' => ConfirmInvitation::class,
-            'update-email' => UpdateEmail::class,
+            'email' => Email::class,
             'index' => Index::class,
-            'account' => Account::class,
+            'profile' => Profile::class,
             'impersonate' => Impersonate::class,
             'favorites' => Favorites::class,
             'notifications' => Notifications::class,
             'request-account' => RequestAccount::class,
             'request-reset' => RequestReset::class,
             'reset-password' => ResetPassword::class,
-            'update-password' => UpdatePassword::class,
+            'password' => Password::class,
             'roles' => Roles::class,
             'create' => Create::class,
             'delete' => [
@@ -73,12 +75,13 @@ class UserController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                         'actions' => [
-                            'account',
+                            'access-requests',
                             'confirm-email',
-                            'notifications',
+                            'email',
                             'favorites',
-                            'update-email',
-                            'update-password',
+                            'notifications',
+                            'password',
+                            'profile',
                         ],
                     ]
                 ]

@@ -5,7 +5,9 @@ namespace prime\models\forms\accessRequest;
 
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
+use prime\models\ar\Project;
 use prime\models\ar\User;
+use prime\models\ar\Workspace;
 use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\validators\RangeValidator;
@@ -22,20 +24,17 @@ class Create extends Model
     public string $body = '';
     private array $permissionOptions = [];
     public array $permissions = [];
-    public array $permissionMap = [
-        AccessRequest::PERMISSION_READ => Permission::PERMISSION_READ,
-        AccessRequest::PERMISSION_WRITE => Permission::PERMISSION_WRITE,
-        AccessRequest::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
-    ];
+    private array $permissionMap;
     public string $subject = '';
 
     public function __construct(
-        private object $target,
+        private Project|Workspace $target,
         array $permissionOptions,
         AuthManager $authManager,
         User $user,
         $config = []
     ) {
+        $this->permissionMap = AccessRequest::permissionMap($this->target);
         foreach ($permissionOptions as $arPermission => $permissionDescription) {
             if (!isset($this->permissionMap[$arPermission]) || !$authManager->check($user, $target, $this->permissionMap[$arPermission])) {
                 $this->permissionOptions[$arPermission] = $permissionDescription;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-use prime\components\UserNotificationService;
+use prime\repositories\UserNotificationRepository;
 use yii\base\Action;
 use yii\web\User as UserComponent;
 
@@ -11,14 +11,15 @@ class Notifications extends Action
 {
     public function run(
         UserComponent $user,
-        UserNotificationService $userNotificationService
+        UserNotificationRepository $userNotificationService
     ) {
-        $notificationsDataprovider = $userNotificationService->getNotifications($user->identity);
+        $notificationsDataprovider = $userNotificationService->getNotificationsForUser($user->identity);
 
         return $this->controller->render(
             'notifications',
             [
-                'userNotificationsDataprovider' => $notificationsDataprovider
+                'model' => $user->identity,
+                'userNotificationsDataprovider' => $notificationsDataprovider,
             ]
         );
     }

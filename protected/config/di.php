@@ -16,7 +16,7 @@ use League\Tactician\Handler\Locator\HandlerLocator;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use prime\assets\JqueryBundle;
-use prime\components\UserNotificationService;
+use prime\repositories\UserNotificationRepository;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedHandler as AccessRequestImplicitlyGrantedHandler;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
@@ -93,8 +93,8 @@ return [
         $result->toggleData = false;
         return $result;
     },
-    UserNotificationService::class => static function (Container $container, array $params, array $config): UserNotificationService {
-        $result = new UserNotificationService(\Yii::$app->abacManager);
+    UserNotificationRepository::class => static function (Container $container, array $params, array $config): UserNotificationRepository {
+        $result = new UserNotificationRepository(\Yii::$app->abacManager);
         return $result;
     },
     CommandBus::class => function (Container $container) {
@@ -129,5 +129,5 @@ return [
             $container->get(JobQueueInterface::class),
             $container->get(PermissionARRepository::class)
         );
-    }
+    },
 ];

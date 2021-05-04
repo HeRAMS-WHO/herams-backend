@@ -5,21 +5,15 @@ namespace prime\controllers\user;
 
 use prime\components\NotificationService;
 use prime\models\ar\User;
-use prime\models\forms\user\ChangePasswordForm;
-use prime\models\forms\user\UpdateEmailForm;
-use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
-use yii\mail\MailerInterface;
 use yii\web\Request;
 
-class Account extends Action
+class Profile extends Action
 {
     public function run(
         Request $request,
         \yii\web\User $user,
-        NotificationService $notificationService,
-        UrlSigner $urlSigner,
-        MailerInterface $mailer
+        NotificationService $notificationService
     ) {
         /** @var User $model */
         $model = $user->identity;
@@ -28,10 +22,8 @@ class Account extends Action
             return $this->controller->refresh();
         }
 
-        return $this->controller->render('account', [
+        return $this->controller->render('profile', [
             'model' => $model,
-            'changePassword' => new ChangePasswordForm($model),
-            'changeMail' => new UpdateEmailForm($mailer, $user->identity, $urlSigner)
         ]);
     }
 }

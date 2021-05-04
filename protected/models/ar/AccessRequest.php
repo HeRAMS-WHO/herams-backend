@@ -59,9 +59,14 @@ class AccessRequest extends ActiveRecord
 
     public function attributeLabels(): array
     {
-        return [
+        return parent::attributeLabels() + [
+            'accepted' => \Yii::t('app', 'Accepted'),
             'body' => \Yii::t('app', 'Body'),
+            'expires_at' => \Yii::t('app', 'Expires at'),
             'permissions' => \Yii::t('app', 'Subject'),
+            'responded_at' => \Yii::t('app', 'Responded at'),
+            'responded_by' => \Yii::t('app', 'Responded by'),
+            'response' => \Yii::t('app', 'Response'),
             'subject' => \Yii::t('app', 'Subject'),
             'target_class' => \Yii::t('app', 'Target class'),
             'target_id' => \Yii::t('app', 'Target'),
@@ -101,6 +106,11 @@ class AccessRequest extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'created_by']);
     }
 
+    public function getRespondedByUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'responded_by']);
+    }
+
     public function getTarget(): ActiveQuery
     {
         return $this->hasOne($this->target_class, ['id' => 'target_id']);
@@ -124,6 +134,23 @@ class AccessRequest extends ActiveRecord
                 }
             }],
         ];
+    }
+
+    public static function permissionMap(Project|Workspace $target): array
+    {
+        $map = [
+            Project::class => [
+                self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
+                self::PERMISSION_READ => Permission::PERMISSION_READ,
+                self::PERMISSION_WRITE => Permission::PERMISSION_SURVEY_DATA,
+            ],
+            Workspace::class => [
+                self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
+                self::PERMISSION_READ => Permission::PERMISSION_READ,
+                self::PERMISSION_WRITE => Permission::PERMISSION_WRITE,
+            ],
+        ];
+        return $map[get_class($target)];
     }
 
     public function permissionOptions(): array
