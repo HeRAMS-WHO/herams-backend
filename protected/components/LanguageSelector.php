@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\components;
 
+use prime\objects\enums\Language;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 
@@ -14,12 +15,21 @@ class LanguageSelector implements BootstrapInterface
     public function bootstrap($app)
     {
         $app->on(\yii\web\Application::EVENT_BEFORE_ACTION, static function () use ($app) {
-            if (!$app->user->isGuest && isset($app->user->identity->language)
-                && in_array($app->user->identity->language, $app->params['languages'])) {
-                $app->language = $app->user->identity->language;
-            } else {
-                $app->language = $app->request->getPreferredLanguage($app->params['languages']);
+            try {
+                if ($app->request->getQueryParam('_lang')) {
+                    $app->language = Language::make($app->request->getQueryParam('_lang'))->value;
+                    return;
+                }
+                if (!$app->user->isGuest && $app->user->identity->language) {
+                    $app->language = Language::make($app->user->identity->language)->value;
+                    return;
+                }
+            } catch (\BadMethodCallException) {
+                // Unknown language; use autodetection.
             }
+
+
+            $app->language = (string) $app->request->getPreferredLanguage(Language::cases());
         });
     }
 }

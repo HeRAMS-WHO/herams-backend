@@ -8,20 +8,27 @@ use League\ISO3166\ISO3166;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
+use prime\models\ar\read\Project as ProjectRead;
+use prime\models\forms\project\Update;
+use prime\objects\enums\Language;
+use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectVisibility;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
+use prime\widgets\LocalizableInput;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\web\User;
 use function iter\chain;
+use function iter\filter;
 use function iter\func\nested_index;
 use function iter\map;
 use function iter\toArrayWithKeys;
 
 /**
- * @var Project $project
+ * @var ProjectRead $project
+ * @var Update $model
  * @var View $this
  */
 
@@ -33,7 +40,6 @@ echo ProjectTabMenu::widget([
 ]);
 $this->endBlock();
 
-
 Section::begin()
     ->withSubject($project)
     ->withHeader(Yii::t('app', 'Project settings'));
@@ -42,27 +48,43 @@ Section::begin()
 $form = ActiveForm::begin([
     'method' => 'PUT',
 ]);
-
 echo Form::widget([
     'form' => $form,
-    'model' => $project,
+    'model' => $model,
     "attributes" => [
+        'errors' => [
+            'type' => Form::INPUT_RAW,
+            'value' => Html::errorSummary($model),
+        ],
         'title' => [
             'type' => Form::INPUT_TEXT,
         ],
+        'languages' => [
+            'type' => Form::INPUT_CHECKBOX_LIST,
+            'items' => Language::toArray()
+        ],
+        'i18nTitle' => [
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => LocalizableInput::class,
+        ],
         'latitude' => [
-            'type' => Form::INPUT_TEXT
+            'type' => Form::INPUT_TEXT,
+            'html5type' => 'number',
+            'options' => [
+                'min' => -90,
+                'max' => 90
+            ]
         ],
         'longitude' => [
             'type' => Form::INPUT_TEXT
         ],
         'status' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $project->statusOptions()
+            'items' => ProjectStatus::toArray()
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $project->visibilityOptions()
+            'items' => ProjectVisibility::toArray()
         ],
         'country' => [
             'type' => Form::INPUT_WIDGET,
@@ -83,15 +105,17 @@ echo Form::widget([
                 '1' => Yii::t('app', 'Enabled')
             ]
         ],
-        'typemapAsJson' => [
+        'typemap' => [
             'type' => Form::INPUT_TEXTAREA,
             'options' => [
+                'value' => json_encode($model->typemap, JSON_PRETTY_PRINT),
                 'rows' => 5
             ]
         ],
-        'overridesAsJson' => [
+        'overrides' => [
             'type' => Form::INPUT_TEXTAREA,
             'options' => [
+                'value' => json_encode($model->overrides, JSON_PRETTY_PRINT),
                 'rows' => 5
             ]
         ],
@@ -169,14 +193,17 @@ Section::begin()
     ->forAdministrativeAction()
 ;
 echo Html::tag('p', Yii::t('app', 'Select and sync any number of workspaces in the project'));
-echo ButtonGroup::widget([
-    'buttons' => [
-        [
-            'icon' => Icon::sync(),
-            'label' => Yii::t('app', 'Sync'),
-            'link' => ['project/sync-workspaces', 'id' => $project->id],
-            'style' => 'default',
+try {
+    echo ButtonGroup::widget([
+        'buttons' => [
+            [
+                'icon' => Icon::sync(),
+                'label' => Yii::t('app', 'Sync'),
+                'link' => ['project/sync-workspaces', 'id' => $project->id],
+                'style' => 'default',
+            ]
         ]
-    ]
-]);
+    ]);
+} catch (Exception $e) {
+}
 Section::end();

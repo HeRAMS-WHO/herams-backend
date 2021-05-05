@@ -53,7 +53,8 @@
         "woohoolabs/yin": "^4.1",
         "psr/http-factory": "^1.0",
         "psr/http-server-handler": "^1.0",
-        "ramsey/uuid": "^4.1"
+        "ramsey/uuid": "^4.1",
+        "spatie/enum": "^3.7"
     },
 
     "autoload": {

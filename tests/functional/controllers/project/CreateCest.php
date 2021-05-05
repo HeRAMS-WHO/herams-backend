@@ -1,11 +1,14 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
 use prime\models\ar\Project;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\project\Create
+ */
 class CreateCest
 {
     public function _before(FunctionalTester $I)

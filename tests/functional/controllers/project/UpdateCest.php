@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
@@ -9,6 +9,9 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use yii\helpers\Json;
 
+/**
+ * @covers \prime\controllers\project\Update
+ */
 class UpdateCest
 {
 
@@ -62,27 +65,31 @@ class UpdateCest
             'title' => 'test123',
             'latitude' => 1.43,
             'longitude' => 1.55,
-            'typemapAsJson' => Json::encode([
-                'A1' => 'primary',
-                'A2' => 'primary',
-                'A3' => 'primary',
-                'A4' => 'secondary',
-                'A5' => 'secondary',
-                'A6' => 'secondary'
-            ], JSON_PRETTY_PRINT),
-            'overridesAsJson' => Json::encode([
-                'typeCounts' => [
-                    'A1' => 15,
-                    'A2' => 30
-                ],
-                'facilityCount' => 20,
-                'contributorCount' => 40
-            ], JSON_PRETTY_PRINT)
         ];
 
         foreach ($attributes as $key => $value) {
             $I->fillField(['name' => "Project[$key]"], $value);
         }
+
+        $overrides = [
+            'typeCounts' => [
+                'A1' => 15,
+                'A2' => 30
+            ],
+            'facilityCount' => 20,
+            'contributorCount' => 40
+        ];
+        $I->fillField(['name' => "Project[overrides]"], json_encode($overrides));
+
+        $typemap = [
+            'A1' => 'primary',
+            'A2' => 'primary',
+            'A3' => 'primary',
+            'A4' => 'secondary',
+            'A5' => 'secondary',
+            'A6' => 'secondary'
+        ];
+        $I->fillField(['name' => "Project[typemap]"], json_encode($typemap));
 
         $options = [
             'status' => Project::STATUS_EMERGENCY_SPECIFIC,
@@ -90,12 +97,15 @@ class UpdateCest
         foreach ($options as $key => $value) {
             $I->selectOption(['name' => "Project[$key]"], $value);
         }
+
         $I->click('Update');
         $I->seeResponseCodeIsSuccessful();
         $project->refresh();
         foreach ($attributes as $key => $value) {
             $I->assertEquals($value, $project->$key, '', 0.001);
         }
+        $I->assertSame($overrides, $project->overrides);
+        $I->assertSame($typemap, $project->typemap);
 
         foreach ($options as $key => $value) {
             $I->assertEquals($value, $project->$key, '', 0.001);

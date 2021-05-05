@@ -3,9 +3,9 @@
 
 namespace prime\models\forms;
 
-use prime\components\JsonValidator;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
+use prime\validators\JsonValidator;
 use yii\base\Model;
 
 class ImportDashboard extends Model
