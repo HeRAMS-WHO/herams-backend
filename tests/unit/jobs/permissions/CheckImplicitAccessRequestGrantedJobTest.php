@@ -13,7 +13,7 @@ use prime\tests\unit\jobs\JobTest;
  */
 class CheckImplicitAccessRequestGrantedJobTest extends JobTest
 {
-    function createJob(): JobInterface
+    public function createJob(): JobInterface
     {
         return new CheckImplicitAccessRequestGrantedJob(1);
     }
