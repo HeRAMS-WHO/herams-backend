@@ -12,7 +12,7 @@ use prime\tests\FunctionalTester;
  */
 class RequestAccountCest
 {
-    function test(FunctionalTester $I)
+    public function test(FunctionalTester $I)
     {
         $I->amOnPage('/session/create');
         $I->fillField(['css' => '[name="RequestAccountForm[email]"]'], 'newEmail@email.com');

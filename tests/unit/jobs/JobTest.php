@@ -11,7 +11,7 @@ use JCIT\jobqueue\interfaces\JobInterface;
  */
 abstract class JobTest extends Unit
 {
-    abstract function createJob(): JobInterface;
+    abstract public function createJob(): JobInterface;
 
     public function testSerialization()
     {

@@ -8,7 +8,6 @@ use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
 use prime\repositories\AccessRequestRepository;

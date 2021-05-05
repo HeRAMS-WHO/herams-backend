@@ -12,7 +12,7 @@ use prime\tests\unit\jobs\JobTest;
  */
 class ImplicitlyGrantedNotificationJobTest extends JobTest
 {
-    function createJob(): JobInterface
+    public function createJob(): JobInterface
     {
         return new ImplicitlyGrantedNotificationJob(1, false);
     }

@@ -12,7 +12,7 @@ use prime\tests\unit\jobs\JobTest;
  */
 class ResponseNotificationJobTest extends JobTest
 {
-    function createJob(): JobInterface
+    public function createJob(): JobInterface
     {
         return new ResponseNotificationJob(1);
     }
