@@ -25,7 +25,6 @@ class CheckImplicitAccessRequestGrantedHandler
         private PermissionRepository $permissionRepository,
         private Resolver $resolver,
     ) {
-
     }
 
     /**
