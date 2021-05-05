@@ -5,30 +5,27 @@ namespace prime\jobHandlers\permissions;
 
 use JCIT\jobqueue\interfaces\JobInterface;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\jobs\accessRequests\ImplicitlyGrantedJob;
+use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
+use prime\repositories\AccessRequestRepository;
 use prime\repositories\PermissionRepository;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 
 class CheckImplicitAccessRequestGrantedHandler
 {
-    public array $permissionMap = [
-        AccessRequest::PERMISSION_READ => Permission::PERMISSION_READ,
-        AccessRequest::PERMISSION_WRITE => Permission::PERMISSION_WRITE,
-        AccessRequest::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
-    ];
-
     public function __construct(
         private AuthManager $abacManager,
-        private Resolver $resolver,
+        private AccessRequestRepository $accessRequestRepository,
         private JobQueueInterface $jobQueue,
-        private PermissionRepository $permissionRepository
+        private PermissionRepository $permissionRepository,
+        private Resolver $resolver,
     ) {
+
     }
 
     /**
@@ -47,18 +44,19 @@ class CheckImplicitAccessRequestGrantedHandler
         ) {
             return;
         }
+        $permissionMap = AccessRequest::permissionMap($target);
 
         // Assumed there are not that many access requests we just loop over all of them to check if it was granted
-        $accessRequestsQuery = AccessRequest::find()->notExpired()->withoutResponse();
+        $accessRequestsQuery = $this->accessRequestRepository->find()->notExpired()->withoutResponse();
         /** @var AccessRequest $accessRequest */
         foreach ($accessRequestsQuery->each() as $accessRequest) {
             $result = false;
             $partial = false;
             foreach ($accessRequest->permissions as $requestedPermission) {
                 // The requested permission cannot be checked automatically (like "other")
-                if (!isset($this->permissionMap[$requestedPermission])) {
+                if (!isset($permissionMap[$requestedPermission])) {
                     $partial = true;
-                } elseif ($this->abacManager->check($accessRequest->createdByUser, $accessRequest->target, $this->permissionMap[$requestedPermission])) {
+                } elseif ($this->abacManager->check($accessRequest->createdByUser, $accessRequest->target, $permissionMap[$requestedPermission])) {
                     $result = true;
                 } else {
                     $partial = true;
@@ -71,7 +69,7 @@ class CheckImplicitAccessRequestGrantedHandler
                 $accessRequest->accepted = true;
                 $accessRequest->save();
                 $accessRequest->touch('responded_at');
-                $this->jobQueue->putJob(new ImplicitlyGrantedJob($accessRequest->id, $partial));
+                $this->jobQueue->putJob(new ImplicitlyGrantedNotificationJob($accessRequest->id, $partial));
             }
         }
     }

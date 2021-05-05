@@ -12,6 +12,7 @@ use prime\tests\FunctionalTester;
 
 /**
  * @covers \prime\controllers\accessRequest\Index
+ * @covers \prime\controllers\AccessRequestController
  */
 class IndexCest
 {

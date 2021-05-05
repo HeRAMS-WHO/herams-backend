@@ -12,13 +12,20 @@ use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 
-class CreateUserForm extends Model
+class CreateForm extends Model
 {
     public $confirm_password;
     public $password;
 
     public $email;
     public $name;
+
+    public function __construct(
+        private $user,
+        $config = []
+    ) {
+        parent::__construct($config);
+    }
 
     public function attributeLabels(): array
     {
@@ -27,16 +34,6 @@ class CreateUserForm extends Model
             'email' => \Yii::t('app', 'Email'),
             'password' => \Yii::t('app', 'Password'),
         ];
-    }
-
-    public function getDisplayName(): string
-    {
-        return $this->email;
-    }
-
-    public static function tableName(): string
-    {
-        return User::tableName();
     }
 
     public function rules(): array
@@ -63,11 +60,10 @@ class CreateUserForm extends Model
 
     public function run(): void
     {
-        $user = new User();
-        $user->email = $this->email;
-        $user->name = $this->name;
-        $user->setPassword($this->password);
-        if (!$user->save()) {
+        $this->user->email = $this->email;
+        $this->user->name = $this->name;
+        $this->user->setPassword($this->password);
+        if (!$this->user->save()) {
             throw new \RuntimeException('Failed to create user');
         }
     }

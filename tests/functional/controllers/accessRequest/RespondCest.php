@@ -12,6 +12,8 @@ use prime\tests\FunctionalTester;
 
 /**
  * @covers \prime\controllers\accessRequest\Respond
+ * @covers \prime\controllers\AccessRequestController
+ * @covers \prime\models\forms\accessRequest\Respond
  */
 class RespondCest
 {

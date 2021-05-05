@@ -25,15 +25,16 @@ use prime\helpers\AccessCheck;
 use prime\helpers\LimesurveyDataLoader;
 use prime\interfaces\AccessCheckInterface;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
-use prime\jobHandlers\accessRequests\ImplicitlyGrantedHandler as AccessRequestImplicitlyGrantedHandler;
+use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
 use prime\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler as PermissionCheckImplicitAccessRequestGrantedHandler;
 use prime\jobs\accessRequests\CreatedNotificationJob as AccessRequestCreatedNotificationJob;
-use prime\jobs\accessRequests\ImplicitlyGrantedJob as AccessrequestImplicitlyGrantedJob;
+use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob as AccessrequestImplicitlyGrantedJob;
 use prime\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionCheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\Permission;
 use prime\objects\enums\Language;
+use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\UserNotificationRepository;
@@ -145,9 +146,10 @@ return [
     PermissionCheckImplicitAccessRequestGrantedHandler::class => static function (Container $container, array $params, array $config): PermissionCheckImplicitAccessRequestGrantedHandler {
         return new PermissionCheckImplicitAccessRequestGrantedHandler(
             \Yii::$app->abacManager,
-            $container->get(Resolver::class),
+            $container->get(AccessRequestARRepository::class),
             $container->get(JobQueueInterface::class),
-            $container->get(PermissionARRepository::class)
+            $container->get(PermissionARRepository::class),
+            $container->get(Resolver::class),
         );
     },
 ];

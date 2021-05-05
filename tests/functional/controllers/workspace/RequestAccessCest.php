@@ -6,6 +6,11 @@ namespace prime\tests\functional\controllers\workspace;
 use prime\models\ar\AccessRequest;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\workspace\RequestAccess
+ * @covers \prime\controllers\WorkspaceController
+ * @covers \prime\models\forms\accessRequest\Create
+ */
 class RequestAccessCest
 {
     public function testCreate(FunctionalTester $I)

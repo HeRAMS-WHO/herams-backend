@@ -5,7 +5,7 @@ namespace prime\jobs\accessRequests;
 
 use JCIT\jobqueue\interfaces\JobInterface;
 
-class ImplicitlyGrantedJob extends AccessRequestJob
+class ImplicitlyGrantedNotificationJob extends AccessRequestJob
 {
     public function __construct(
         int $accessRequestId,

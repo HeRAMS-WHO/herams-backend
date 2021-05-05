@@ -8,6 +8,8 @@ use prime\tests\FunctionalTester;
 
 /**
  * @covers \prime\controllers\user\Password
+ * @covers \prime\controllers\UserController
+ * @covers \prime\models\forms\user\UpdatePasswordForm
  */
 class PasswordCest
 {
@@ -47,7 +49,7 @@ class PasswordCest
         $I->save($user);
         $I->amOnPage(['user/password']);
         $I->seeResponseCodeIs(200);
-        $I->fillField('Current password', 'test123');
+        $I->fillField('Current password', 'test1234');
         $password = 'test12345';
         $I->fillField('New password', $password);
         $I->fillField('Repeat password', $password);

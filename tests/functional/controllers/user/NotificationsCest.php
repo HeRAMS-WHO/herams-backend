@@ -9,6 +9,7 @@ use prime\tests\FunctionalTester;
 
 /**
  * @covers \prime\controllers\user\Notifications
+ * @covers \prime\repositories\UserNotificationRepository
  */
 class NotificationsCest
 {

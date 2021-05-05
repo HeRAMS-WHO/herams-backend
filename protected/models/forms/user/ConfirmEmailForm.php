@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
@@ -11,22 +11,16 @@ use yii\validators\UniqueValidator;
 
 class ConfirmEmailForm extends Model
 {
-    private $member;
-    private $newMail;
-    private $oldHash;
-
     public function __construct(
-        User $member,
-        string $newMail,
-        string $oldHash
+        private User $user,
+        private string $newMail,
+        private string $oldHash,
+        array $config = [],
     ) {
-        parent::__construct();
-        $this->member = $member;
-        $this->newMail = $newMail;
-        $this->oldHash = $oldHash;
+        parent::__construct($config);
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'newMail' => \Yii::t('app', 'New email address'),
@@ -34,13 +28,12 @@ class ConfirmEmailForm extends Model
         ];
     }
 
-
-    public function rules()
+    public function rules(): array
     {
         return [
             [['oldHash', 'newMail'], RequiredValidator::class],
             [['newMail'], function () {
-                if (!password_verify($this->member->email, $this->oldHash)) {
+                if (!password_verify($this->user->email, $this->oldHash)) {
                     $this->addError('newMail', \Yii::t('app', 'Your email address has already been changed'));
                 }
             }],
@@ -61,12 +54,12 @@ class ConfirmEmailForm extends Model
 
     public function getOldMail(): string
     {
-        return $this->member->email;
+        return $this->user->email;
     }
     public function run(): void
     {
-        $this->member->email = $this->newMail;
-        if (!$this->member->save()) {
+        $this->user->email = $this->newMail;
+        if (!$this->user->save()) {
             throw new \RuntimeException(\Yii::t('app', 'Failed to update email address'));
         }
     }

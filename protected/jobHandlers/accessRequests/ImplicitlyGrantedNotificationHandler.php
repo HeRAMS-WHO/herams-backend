@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace prime\jobHandlers\accessRequests;
 
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\jobs\accessRequests\ImplicitlyGrantedJob;
+use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 
-class ImplicitlyGrantedHandler
+class ImplicitlyGrantedNotificationHandler
 {
     public function __construct(
         private MailerInterface $mailer,
@@ -17,7 +17,7 @@ class ImplicitlyGrantedHandler
     }
 
     /**
-     * @param ImplicitlyGrantedJob $job
+     * @param ImplicitlyGrantedNotificationJob $job
      */
     public function handle(JobInterface $job): void
     {

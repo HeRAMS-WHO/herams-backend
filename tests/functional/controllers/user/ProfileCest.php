@@ -8,6 +8,7 @@ use prime\tests\FunctionalTester;
 
 /**
  * @covers \prime\controllers\user\Profile
+ * @covers \prime\controllers\UserController
  */
 class ProfileCest
 {
