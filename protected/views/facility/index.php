@@ -6,6 +6,7 @@ use prime\models\ar\Permission;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
+\prime\widgets\Section::begin();
 /**
  * @var \yii\data\ActiveDataProvider $facilityProvider
  */
@@ -30,8 +31,9 @@ echo GridView::widget([
 //    'filterModel' => $projectSearch,
     'layout' => "{items}\n{pager}",
     'columns' => [
-        'uuid',
+        'uuid:uuid',
         'name',
         'alternative_name'
     ]
 ]);
+\prime\widgets\Section::end();

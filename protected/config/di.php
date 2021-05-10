@@ -13,7 +13,9 @@ use prime\helpers\AccessCheck;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\objects\enums\Language;
+use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
+use prime\repositories\WorkspaceRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -59,6 +61,8 @@ return [
         );
     },
     ProjectRepository::class => ProjectRepository::class,
+    WorkspaceRepository::class => WorkspaceRepository::class,
+    FacilityRepository::class => FacilityRepository::class,
     ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [
             ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,

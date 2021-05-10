@@ -14,7 +14,7 @@ class Controller extends \yii\web\Controller
     public const LAYOUT_ADMIN_TABS = '//admin-tabs';
     public const LAYOUT_ADMIN_NO_TABS = '//admin-notabs';
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),

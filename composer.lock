@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0653dacc2ed23eafd49e16e329d1bab",
+    "content-hash": "6c5e6794c84c5c32ef32394998333945",
     "packages": [
         {
             "name": "brick/math",
@@ -125,6 +125,62 @@
                 "source": "https://github.com/cebe/markdown"
             },
             "time": "2018-03-26T11:24:36+00:00"
+        },
+        {
+            "name": "creof/wkb-parser",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creof/wkb-parser.git",
+                "reference": "1ddb69da8cc90607dd528fd9992ef1fc10cc8839"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/creof/wkb-parser/zipball/1ddb69da8cc90607dd528fd9992ef1fc10cc8839",
+                "reference": "1ddb69da8cc90607dd528fd9992ef1fc10cc8839",
+                "shasum": ""
+            },
+            "require": {
+                "ext-spl": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpunit/phpunit": ">=4.8",
+                "satooshi/php-coveralls": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "CrEOF\\Geo\\WKB": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Derek J. Lambert",
+                    "email": "dlambert@dereklambert.com"
+                }
+            ],
+            "description": "Parser for well-known binary (WKB/EWKB) object data",
+            "keywords": [
+                "ewkb",
+                "geography",
+                "geometry",
+                "parser",
+                "spatial",
+                "string",
+                "text",
+                "wkb"
+            ],
+            "support": {
+                "issues": "https://github.com/creof/wkb-parser/issues",
+                "source": "https://github.com/creof/wkb-parser/tree/master"
+            },
+            "time": "2016-05-22T22:47:16+00:00"
         },
         {
             "name": "doctrine/lexer",

@@ -3,10 +3,15 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
+use CrEOF\Geo\WKB\Parser;
 use prime\models\ActiveRecord;
 use prime\objects\enums\Enum;
+use prime\objects\enums\HydrateSource;
 use prime\objects\EnumSet;
+use prime\values\Geometry;
 use prime\values\IntegerId;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use yii\base\Model;
 use yii\web\Request;
 use function iter\toArray;
@@ -66,7 +71,35 @@ class ModelHydrator
         return $class::from($value);
     }
 
-    private function castValue(Model $model, string $attribute, $value)
+    /**
+     * @param class-string $class
+     */
+    private function castGeometry(null|string $value, string $class, HydrateSource $source): Geometry|null
+    {
+        if (empty($value)) {
+            return null;
+        }
+        switch($source) {
+            case HydrateSource::database():
+                $parser = new Parser();
+                $data = $parser->parse(substr($value, 4));
+                $data['srid'] = unpack('i', $value)[1];
+                return Geometry::fromParsedArray($data);
+            case HydrateSource::webForm():
+                return $class::fromString($value);
+        }
+
+   }
+
+    /**
+     * @param class-string $class
+     */
+    private function castUuid(string $value, string $class, HydrateSource $source): UuidInterface
+    {
+        return Uuid::fromBytes($value);
+    }
+
+    private function castValue(Model $model, string $attribute, $value, HydrateSource $source)
     {
         try {
             $rc = new \ReflectionClass($model);
@@ -84,7 +117,12 @@ class ModelHydrator
                     return $this->castEnum($value, $name);
                 } elseif (is_subclass_of($name, IntegerId::class)) {
                     return $this->castIntegerId($value, $name);
+                } elseif (is_subclass_of($name, Geometry::class)) {
+                    return $this->castGeometry($value, $name, $source);
+                } elseif (is_subclass_of($name, UuidInterface::class) || $name === UuidInterface::class) {
+                    return $this->castUuid($value, $name, $source);
                 }
+
                 throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}");
             }
 
@@ -114,7 +152,7 @@ class ModelHydrator
     {
         foreach ($model->safeAttributes() as $attribute) {
             if (isset($data[$attribute])) {
-                $model->$attribute = $this->castValue($model, $attribute, $data[$attribute]);
+                $model->$attribute = $this->castValue($model, $attribute, $data[$attribute], HydrateSource::webForm());
             }
         }
     }
@@ -124,7 +162,7 @@ class ModelHydrator
         $model->ensureBehaviors();
         foreach ($record->attributes as $key => $value) {
             if ($model->canSetProperty($key)) {
-                $model->$key = $this->castValue($model, $key, $record->$key);
+                $model->$key = $this->castValue($model, $key, $record->$key, HydrateSource::database());
             }
         }
     }
@@ -134,6 +172,8 @@ class ModelHydrator
         if (is_object($complex)) {
             if ($complex instanceof Enum) {
                 return $complex->value;
+            } elseif ($complex instanceof UuidInterface) {
+                return $complex->getBytes();
             } elseif (is_iterable($complex)) {
                 return toArray($complex);
             } elseif ($complex instanceof IntegerId) {

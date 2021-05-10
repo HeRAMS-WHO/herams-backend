@@ -10,8 +10,15 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @property string $id
- * @property-read UuidInterface $uuid
+ * @property int $id
+ * @property string $uuid
+ * @property string $name
+ * @property array $i18n
+ * @property string $alternative_name
+ * @property string $code
+ * @property null|DateTime $deleted
+ * @property null|DateTime $deactivated
+ *
  */
 class Facility extends ActiveRecord
 {
@@ -22,14 +29,9 @@ class Facility extends ActiveRecord
     public function __construct($config = [])
     {
         parent::__construct($config);
-        if (!isset($this->id)) {
-            $this->id = Uuid::uuid6()->getBytes();
+        if (!isset($this->uuid)) {
+            $this->uuid = Uuid::uuid6()->getBytes();
         }
-    }
-
-    public function getUuid(): UuidInterface
-    {
-        return Uuid::fromBytes($this->id);
     }
 
     public function attributeLabels(): array

@@ -23,6 +23,9 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'formatter'=> [
+            'class' => \prime\components\Formatter::class
+        ],
         'session' => [
             'class' => DbSession::class,
             'readCallback' => static function (array $fields): array {

@@ -30,8 +30,7 @@ class AdminRule implements SimpleRule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        /** @var AuthManager $authManager */
-        $authManager = \Yii::$app->authManager;
+//        return false;
         return  !$target instanceof GlobalPermission
             && $accessChecker->check($source, new GlobalPermission(), Permission::PERMISSION_ADMIN);
     }

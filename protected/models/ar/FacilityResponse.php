@@ -7,11 +7,6 @@ use prime\models\ActiveRecord;
 
 class FacilityResponse extends ActiveRecord
 {
-    public static function tableName()
-    {
-        return '{{%facilityresponse}}';
-    }
-
     public function getLatitude(): ?float
     {
         if (isset($this->extracted_location)) {
