@@ -11,7 +11,7 @@ use prime\tests\FunctionalTester;
  */
 class AccessRequestsCest
 {
-    public function test(FunctionalTester $I)
+    public function testPageLoad(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['user/notifications']);
