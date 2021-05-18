@@ -34,7 +34,7 @@ class ProjectController extends Controller
 {
     public $layout = self::LAYOUT_ADMIN_TABS;
 
-    public function actions()
+    public function actions(): array
     {
         return [
             'export-dashboard' => ExportDashboard::class,
@@ -77,7 +77,7 @@ class ProjectController extends Controller
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),

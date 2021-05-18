@@ -54,6 +54,12 @@ class Update extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return Project::labels();
+    }
+
+
     public function formName(): string
     {
         return 'Project';

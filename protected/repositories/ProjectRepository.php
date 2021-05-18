@@ -5,14 +5,16 @@ namespace prime\repositories;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\forms\project\Create;
 use prime\models\forms\project\Update as ProjectUpdate;
+use prime\values\IntegerId;
 use prime\values\ProjectId;
 
-class ProjectRepository
+class ProjectRepository implements RetrieveReadModelRepositoryInterface
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,
@@ -53,7 +55,7 @@ class ProjectRepository
         return $update;
     }
 
-    public function retrieveForRead(ProjectId $id): ProjectRead
+    public function retrieveForRead(IntegerId $id): ProjectRead
     {
         $record = ProjectRead::findOne(['id' => $id]);
 

@@ -16,6 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  * @property array $i18n
  * @property string $alternative_name
  * @property string $code
+ * @property int $workspace_id
  * @property null|DateTime $deleted
  * @property null|DateTime $deactivated
  *

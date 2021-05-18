@@ -151,9 +151,9 @@ class Project extends ActiveRecord implements Linkable
         $this->status = self::STATUS_ONGOING;
     }
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::labels(), [
             'country' => \Yii::t('app', 'Country'),
             'base_survey_eid' => \Yii::t('app', 'Survey'),
             'hidden' => \Yii::t('app', 'Hidden'),
@@ -165,8 +165,10 @@ class Project extends ActiveRecord implements Linkable
             'overrides' => \Yii::t('app', 'Overrides'),
             'i18n' => \Yii::t('app', 'Translated attributes'),
             'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
+            'languages' => \Yii::t('app', 'Languages')
         ]);
     }
+
 
     public function attributeHints(): array
     {

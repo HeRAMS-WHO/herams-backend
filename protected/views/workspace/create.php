@@ -4,7 +4,7 @@ declare(strict_types=1);
 use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
-use prime\models\ar\Workspace;
+use prime\models\forms\Workspace as WorkspaceForm;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
@@ -12,12 +12,13 @@ use yii\web\View;
 
 /**
  * @var View $this
- * @var Workspace $model
+ * @var WorkspaceForm $model
+ * @var \prime\models\ar\read\Project $parent
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => $model->project->title,
-    'url' => ['project/workspaces', 'id' => $model->project->id]
+    'label' => $parent->title,
+    'url' => ['project/workspaces', 'id' => $parent->id]
 ];
 
 $this->title = \Yii::t('app', 'New workspace');

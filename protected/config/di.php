@@ -32,9 +32,10 @@ use yii\web\JqueryAsset;
 use function iter\filter;
 
 return [
+    \prime\helpers\ModelHydrator::class => \prime\helpers\ModelHydrator::class,
     LocalizableInput::class => function (Container $container, array $params, array $config) {
         if (!isset($config['languages'])) {
-            $config['languages'] = filter(fn($lang) => $lang !== \Yii::$app->sourceLanguage, Language::toArray());
+            $config['languages'] = Language::toLocalizedArrayWithoutSourceLanguage(\Yii::$app->language);
         }
         return new LocalizableInput($config);
     },

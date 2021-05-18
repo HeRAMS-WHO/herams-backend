@@ -4,12 +4,15 @@ declare(strict_types=1);
 namespace prime\controllers;
 
 use prime\actions\CreateChildAction;
+use prime\actions\UpdateAction;
 use prime\components\Controller;
 use prime\controllers\facility\Create;
 use prime\controllers\facility\Index;
 use prime\controllers\facility\Responses;
-use prime\models\ar\FacilityResponse;
+use prime\controllers\facility\Update;
+use prime\helpers\ModelHydrator;
 use prime\repositories\FacilityRepository;
+use prime\repositories\WorkspaceRepository;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
@@ -39,8 +42,12 @@ class FacilityController extends Controller
     {
         return [
             'index' => Index::class,
-            'create' => static fn(string $id, Controller $controller, FacilityRepository $repository) => new CreateChildAction($id, $controller, $repository),
-
+//            'create' => static fn(string $id, Controller $controller, FacilityRepository $repository, WorkspaceRepository $workspaceRepository, ModelHydrator $modelHydrator)
+//            => new CreateChildAction($id, $controller, $repository, $workspaceRepository, $modelHydrator),
+            'create' => Create::class,
+            'update' => Update::class,
+//            'update' => static fn(string $id, Controller $controller, FacilityRepository $repository, ModelHydrator $modelHydrator) =>
+//                new UpdateAction($id, $controller, $repository, $modelHydrator),
             'responses' => Responses::class
         ];
     }

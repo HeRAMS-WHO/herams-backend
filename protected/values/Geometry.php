@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\values;
 
+use yii\db\Expression;
 
 class Geometry
 {
@@ -12,12 +13,15 @@ class Geometry
 
     public static function fromParsedArray(array $data): self
     {
-        switch($data['type']) {
-            case "POINT":
-                return new Point($data['srid'], $data['value'][0], $data['value'][1]);
-
-        }
-
+        return match ($data['type']) {
+            "POINT" => new Point($data['srid'], $data['value'][1], $data['value'][0])
+        };
     }
 
+    public function toWKT(): Expression
+    {
+        return match (static::class) {
+            Point::class => new Expression("ST_PointFromText('POINT({$this->getX()} {$this->getY()})', 4326)")
+        };
+    }
 }

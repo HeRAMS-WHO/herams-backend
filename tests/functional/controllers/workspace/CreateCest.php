@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\workspace;
 
@@ -13,7 +13,7 @@ use prime\tests\FunctionalTester;
 class CreateCest
 {
 
-    public function testAccessControl(FunctionalTester $I)
+    public function testAccessControl(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
@@ -21,7 +21,7 @@ class CreateCest
         $I->seeResponseCodeIs(403);
     }
 
-    public function testCreate(FunctionalTester $I)
+    public function testCreate(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProject();
@@ -36,10 +36,9 @@ class CreateCest
             'tool_id' => $project->id,
             'token' => 'token2'
         ]);
-        $I->seeInSource(substr(json_encode('Workspace <strong>Cool stuff</strong> created'), 1, -1));
     }
 
-    public function testCreateNewToken(FunctionalTester $I)
+    public function testCreateNewToken(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProject();
@@ -49,6 +48,10 @@ class CreateCest
         $I->selectOption(['name' => 'Workspace[token]'], '');
         $I->click('Create workspace');
         $I->seeResponseCodeIsSuccessful();
+        $I->seeRecord(Workspace::class, [
+            'title' => 'Cool stuff',
+            'tool_id' => $project->id,
+        ]);
         // Find the token.
         /** @var Token[] $tokens */
         $tokens = \Yii::$app->limesurveyDataProvider->getTokens($project->base_survey_eid);
@@ -60,6 +63,5 @@ class CreateCest
 
             'token' => array_pop($tokens)->getToken()
         ]);
-        $I->seeInSource(substr(json_encode('Workspace <strong>Cool stuff</strong> created'), 1, -1));
     }
 }

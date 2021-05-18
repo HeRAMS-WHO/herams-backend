@@ -10,6 +10,7 @@ use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsCodeMap;
 use prime\queries\ResponseQuery;
+use prime\values\ProjectId;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
@@ -170,7 +171,7 @@ class Workspace extends ActiveRecord
     public function beforeSave($insert)
     {
         $result = parent::beforeSave($insert);
-        if ($result && empty($this->getAttribute('token'))) {
+        if ($result && empty($this->token)) {
                 // Attempt creation of a token.
                 $token = $this->getLimesurveyDataProvider()->createToken($this->project->base_survey_eid, app()->security->generateRandomString(15));
 
@@ -182,21 +183,9 @@ class Workspace extends ActiveRecord
         return $result;
     }
 
-    /**
-     * @return WritableTokenInterface
-     */
-    public function getToken()
+    public function setProjectId(int $id): void
     {
-        if (!isset($this->_token)) {
-
-            /** @var WritableTokenInterface $token */
-            $token = $this->getLimesurveyDataProvider()->getToken($this->project->base_survey_eid, $this->token);
-
-            $token->setValidFrom(null);
-            $token->save();
-            $this->_token = $token;
-        }
-        return $this->_token;
+        $this->tool_id = $id;
     }
 
     public function getLeads(): ActiveQuery
@@ -250,28 +239,5 @@ class Workspace extends ActiveRecord
         ])->inverseOf('workspace');
     }
 
-    public function tokenOptions(): array
-    {
-        $limesurveyDataProvider = $this->getLimesurveyDataProvider();
-        $usedTokens = $this->project->getWorkspaces()->select(['token'])->indexBy('token')->column();
 
-        $tokens = $limesurveyDataProvider->getTokens($this->project->base_survey_eid);
-
-        $result = [];
-        /** @var TokenInterface $token */
-        foreach ($tokens as $token) {
-            if (isset($usedTokens[$token->getToken()])) {
-                continue;
-            }
-            if (!empty($token->getToken())) {
-                $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
-                    ', ',
-                    array_filter($token->getCustomAttributes())
-                );
-            }
-        }
-        asort($result);
-
-        return array_merge(['' => \Yii::t('app', 'Create new token')], $result);
-    }
 }

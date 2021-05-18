@@ -13,6 +13,7 @@ use prime\values\IntegerId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use yii\base\Model;
+use yii\db\Expression;
 use yii\web\Request;
 use function iter\toArray;
 
@@ -140,6 +141,8 @@ class ModelHydrator
                 default => die("Unknown type: {$property->getName()} for property $attribute")
             };
         } catch (\Throwable $t) {
+            $model->addError($attribute, $t->getMessage());
+            return null;
             throw new \RuntimeException("Failed to cast value for attribute $attribute", 0, $t);
         }
     }
@@ -157,17 +160,40 @@ class ModelHydrator
         }
     }
 
+    /**
+     * Version if Yii's canSetProperty that respects visibility.
+     * @param Model $model
+     * @return bool
+     */
+    private function canSetProperty(Model $model, $attribute): bool
+    {
+        if (method_exists($model, 'set' . $attribute)) {
+            return true;
+        }
+        $rc = new \ReflectionClass($model);
+        if ($rc->hasProperty($attribute) && $rc->getProperty($attribute)->isPublic()) {
+            return true;
+        }
+
+        foreach ($model->getBehaviors() as $behavior) {
+            if ($behavior->canSetProperty($attribute)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function hydrateFromActiveRecord(Model $model, ActiveRecord $record): void
     {
         $model->ensureBehaviors();
         foreach ($record->attributes as $key => $value) {
-            if ($model->canSetProperty($key)) {
+            if ($this->canSetProperty($model, $key)) {
                 $model->$key = $this->castValue($model, $key, $record->$key, HydrateSource::database());
             }
         }
     }
 
-    private function castSimple(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null
+    private function castForDatabase(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null|Expression
     {
         if (is_object($complex)) {
             if ($complex instanceof Enum) {
@@ -178,6 +204,8 @@ class ModelHydrator
                 return toArray($complex);
             } elseif ($complex instanceof IntegerId) {
                 return $complex->getValue();
+            } elseif ($complex instanceof Geometry) {
+                return $complex->toWKT();
             } else {
                 throw new \InvalidArgumentException("Unknown complex type: " . get_class($complex));
             }
@@ -189,7 +217,7 @@ class ModelHydrator
     {
         foreach ($model->attributes as $key => $value) {
             if ($record->canSetProperty($key)) {
-                $record->$key = $this->castSimple($model->$key);
+                $record->$key = $this->castForDatabase($model->$key);
             }
         }
     }

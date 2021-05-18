@@ -31,6 +31,7 @@ echo GridView::widget([
 //    'filterModel' => $projectSearch,
     'layout' => "{items}\n{pager}",
     'columns' => [
+        'id',
         'uuid:uuid',
         'name',
         'alternative_name'

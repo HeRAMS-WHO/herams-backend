@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 class AdminController extends Controller
 {
     public $defaultAction = 'dashboard';
-    public $layout = \prime\components\Controller::LAYOUT_ADMIN;
+    public $layout = Controller::LAYOUT_ADMIN;
     public function actions()
     {
         return [
@@ -23,7 +23,7 @@ class AdminController extends Controller
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),

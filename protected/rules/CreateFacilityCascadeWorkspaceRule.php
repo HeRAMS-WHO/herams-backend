@@ -10,17 +10,17 @@ use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
-class CreateFacilityRule implements Rule
+class CreateFacilityCascadeWorkspaceRule implements Rule
 {
 
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_CREATE_FACILITY];
+        return [Permission::PERMISSION_CREATE];
     }
 
     public function getTargetNames(): array
     {
-        return [Workspace::class];
+        return [NewFacility::class];
     }
 
     public function getSourceNames(): array
@@ -40,10 +40,14 @@ class CreateFacilityRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        return $target instanceof Workspace
-            && $permission === Permission::PERMISSION_CREATE_FACILITY
-            && $target->project->manageWorkspacesImpliesCreatingFacilities()
-            && $accessChecker->check($source, $target, Permission::PERMISSION_SURVEY_DATA)
-        ;
+        if (!($target instanceof NewFacility && $permission === Permission::PERMISSION_CREATE)) {
+            return false;
+        }
+        $workspace = Workspace::findOne(['id' => $target->workspace_id]);
+        return $accessChecker->check($source, $workspace, Permission::PERMISSION_CREATE_FACILITY)
+            || (
+                $accessChecker->check($source, $target, Permission::PERMISSION_SURVEY_DATA)
+                && $workspace->project->manageWorkspacesImpliesCreatingFacilities()
+            );
     }
 }

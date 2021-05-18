@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 
 class PermissionController extends Controller
 {
-    public function actions()
+    public function actions(): array
     {
         return [
             'delete' => Delete::class,
@@ -22,7 +22,7 @@ class PermissionController extends Controller
     }
 
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),

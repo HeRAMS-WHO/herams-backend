@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 class SessionController extends Controller
 {
     public $layout = 'map-popover-session';
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),

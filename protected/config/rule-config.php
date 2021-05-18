@@ -4,7 +4,7 @@ declare(strict_types=1);
 use prime\models\ar\Permission;
 use prime\rules\AdminRule;
 use prime\rules\AdminShareRule;
-use prime\rules\CreateFacilityRule;
+use prime\rules\CreateFacilityCascadeWorkspaceRule;
 use prime\rules\DashboardRule;
 use prime\rules\GrantRule;
 use prime\rules\ManageWorkspaceRule;
@@ -55,7 +55,8 @@ return [
     new PublicProjectRule(),
     new ProjectImpliesWorkspace(),
     new ManageWorkspaceRule(),
-    new CreateFacilityRule(),
+    new CreateFacilityCascadeWorkspaceRule(),
+    new \prime\rules\CreateFacilityRule()
 
 
 ];

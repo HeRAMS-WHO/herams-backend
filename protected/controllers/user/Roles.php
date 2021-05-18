@@ -66,6 +66,5 @@ class Roles extends Action
 
             ]
         ]));
-        die();
     }
 }

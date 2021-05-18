@@ -3,6 +3,7 @@
 
 namespace prime\controllers;
 
+use prime\actions\CreateChildAction;
 use prime\actions\DeleteAction;
 use prime\actions\ExportAction;
 use prime\components\Controller;
@@ -15,9 +16,14 @@ use prime\controllers\workspace\Responses;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
 use prime\controllers\workspace\View;
+use prime\helpers\ModelHydrator;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
+use prime\models\forms\Workspace as WorkspaceForm;
 use prime\queries\ResponseQuery;
+use prime\repositories\FacilityRepository;
+use prime\repositories\ProjectRepository;
+use prime\repositories\WorkspaceRepository;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
@@ -25,14 +31,13 @@ use yii\web\User;
 
 class WorkspaceController extends Controller
 {
-    public $layout = \prime\components\Controller::LAYOUT_ADMIN;
+    public $layout = Controller::LAYOUT_ADMIN;
 
 
     public function actions(): array
     {
         return [
             'responses' => Responses::class,
-            'configure' => Configure::class,
             'export' => [
                 'class' => ExportAction::class,
                 'subject' => static function (Request $request) {
@@ -50,11 +55,16 @@ class WorkspaceController extends Controller
             ],
             'limesurvey' => Limesurvey::class,
             'update' => Update::class,
-            'create' => Create::class,
+            'create' => static function(string $id, Controller $controller,
+                ProjectRepository $projectRepository,
+                WorkspaceRepository $repository, ModelHydrator $modelHydrator) {
+                $action = new CreateChildAction($id, $controller, $repository, $projectRepository, $modelHydrator);
+                $action->paramName = 'project_id';
+                return $action;
+            },
             'share' => Share::class,
             'import' => Import::class,
             'refresh' => Refresh::class,
-            'view' => View::class,
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Workspace::find(),
@@ -66,7 +76,7 @@ class WorkspaceController extends Controller
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),

@@ -4,27 +4,30 @@ declare(strict_types=1);
 use app\components\ActiveForm;
 use app\components\Form;
 use prime\models\forms\NewFacility;
+use prime\models\forms\UpdateFacility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 
 
 /**
  * @var \prime\components\View $this
- * @var NewFacility $model
+ * @var UpdateFacility $model
  */
 $this->params['breadcrumbs'][] = [
     'label' => $model->getWorkspace()->projectTitle(),
-    'url' => ['project/workspaces', 'id' => $model->getWorkspace()->projectId()]
+    'url' => ['project/workspaces', 'id' => $model->getWorkspace()->id()]
 ];
 $this->params['breadcrumbs'][] = [
     'label' => $model->getWorkspace()->title(),
     'url' => ['workspace/limesurvey', 'id' => $model->getWorkspace()->id()]
 ];
 
-$this->title = Yii::t('app', 'Create facility');
+$this->title = Yii::t('app', 'Update facility');
 
-Section::begin()->withHeader(\Yii::t('app', 'Register facility'));
-$form = ActiveForm::begin();
+Section::begin()->withHeader(\Yii::t('app', 'Update facility'));
+$form = ActiveForm::begin([
+    'enableClientValidation' => false,
+]);
 echo Form::widget([
     'form' => $form,
     'model' => $model,
@@ -43,7 +46,7 @@ echo Form::widget([
         ],
         FormButtonsWidget::embed([
             'buttons' => [
-                ['label' => \Yii::t('app', 'Register facility'), 'style' => 'primary'],
+                ['label' => \Yii::t('app', 'Update facility'), 'style' => 'primary'],
             ]
         ])
     ],

@@ -12,7 +12,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return new ActiveQuery(static::class);
     }
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
         return [
             'id' => \Yii::t('app', 'Id'),
@@ -22,6 +22,11 @@ class ActiveRecord extends \yii\db\ActiveRecord
             'last_login_at' => \Yii::t('app', 'Last login at'),
             'updated_at' => \Yii::t('app', 'Updated at'),
         ];
+    }
+
+    public function attributeLabels(): array
+    {
+        return self::labels();
     }
 
     /**

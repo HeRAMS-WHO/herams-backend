@@ -65,9 +65,6 @@ Section::begin([
             ],
             FormButtonsWidget::embed([
                 'buttons' => [
-                    Html::a(\Yii::t('app', 'Edit token'), ['workspace/configure', 'id' => $model->id], [
-                    'class' => ['btn btn-default']
-                    ]),
                     Html::submitButton(\Yii::t('app', 'Save'), ['class' => 'btn btn-primary']),
                 ]
             ])

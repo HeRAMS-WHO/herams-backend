@@ -48,6 +48,8 @@ Section::begin()
 $form = ActiveForm::begin([
     'method' => 'PUT',
 ]);
+
+
 echo Form::widget([
     'form' => $form,
     'model' => $model,
@@ -61,7 +63,7 @@ echo Form::widget([
         ],
         'languages' => [
             'type' => Form::INPUT_CHECKBOX_LIST,
-            'items' => Language::toArray()
+            'items' => Language::toLocalizedArrayWithoutSourceLanguage(\Yii::$app->language),
         ],
         'i18nTitle' => [
             'type' => Form::INPUT_WIDGET,

@@ -35,7 +35,7 @@ class CreateFacilityCest
         $I->assertFalse($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
     }
 
-    public function testProjectManageImpliesCreatEnabled(FunctionalTester $I)
+    public function testProjectManageImpliesCreateEnabled(FunctionalTester $I)
     {
         $project = $I->haveProject();
         $project->manage_implies_create_hf = true;
