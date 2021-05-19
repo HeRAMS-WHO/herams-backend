@@ -6,6 +6,7 @@ namespace prime\components;
 use DrewM\MailChimp\MailChimp;
 use DrewM\MailChimp\Webhook;
 use prime\models\ar\User;
+use prime\repositories\UserRepository;
 use yii\base\Component;
 use yii\web\Request;
 
@@ -22,6 +23,7 @@ class NewsletterService extends Component
 
     public function __construct(
         private MailChimp $client,
+        private UserRepository $userRepository,
         $config = []
     ) {
         parent::__construct($config);
@@ -30,11 +32,15 @@ class NewsletterService extends Component
     public function handleWebhook(Request $request): void
     {
         Webhook::subscribe('subscribe', function (array $data) {
-            User::updateAll(['newsletter_subscription' => true], ['email' => (bool) $data['email']]);
+            if ($user = $this->userRepository->find()->andWhere(['email' => $data['email']])->one()) {
+                $user->updateAttributes(['newsletter_subscription' => true]);
+            }
         });
 
         Webhook::subscribe('unsubscribe', function (array $data) {
-            User::updateAll(['newsletter_subscription' => false], ['email' => (bool) $data['email']]);
+            if ($user = $this->userRepository->find()->andWhere(['email' => $data['email']])->one()) {
+                $user->updateAttributes(['newsletter_subscription' => true]);
+            }
         });
     }
 
