@@ -79,6 +79,7 @@ class UserController extends Controller
                             'confirm-email',
                             'email',
                             'favorites',
+                            'newsletters',
                             'notifications',
                             'password',
                             'profile',

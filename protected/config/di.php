@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use DrewM\MailChimp\MailChimp;
 use JCIT\jobqueue\components\ContainerMapLocator;
 use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\factories\JobFactory;
@@ -19,6 +20,7 @@ use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use prime\assets\JqueryBundle;
 use prime\components\GlobalPermissionResolver;
+use prime\components\NewsletterService;
 use prime\components\ReadWriteModelResolver;
 use prime\components\SingleTableInheritanceResolver;
 use prime\helpers\AccessCheck;
@@ -28,10 +30,12 @@ use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequest
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
 use prime\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler as PermissionCheckImplicitAccessRequestGrantedHandler;
+use prime\jobHandlers\users\SyncNewsletterSubscriptionHandler as UserSyncNewsletterSubscriptionHandler;
 use prime\jobs\accessRequests\CreatedNotificationJob as AccessRequestCreatedNotificationJob;
 use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob as AccessrequestImplicitlyGrantedJob;
 use prime\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionCheckImplicitAccessRequestGrantedJob;
+use prime\jobs\users\SyncNewsletterSubscriptionJob as UserSyncNewsletterSubscriptionJob;
 use prime\models\ar\Permission;
 use prime\objects\enums\Language;
 use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
@@ -53,6 +57,9 @@ use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
 use yii\web\JqueryAsset;
 use function iter\filter;
+
+/** @var \prime\components\KubernetesSecretEnvironment|null $env */
+assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
 
 return [
     LocalizableInput::class => function (Container $container, array $params, array $config) {
@@ -133,6 +140,7 @@ return [
             ->setHandlerForCommand(AccessrequestImplicitlyGrantedJob::class, AccessRequestImplicitlyGrantedHandler::class)
             ->setHandlerForCommand(AccessRequestResponseNotificationJob::class, AccessRequestResponseNotificationHandler::class)
             ->setHandlerForCommand(PermissionCheckImplicitAccessRequestGrantedJob::class, PermissionCheckImplicitAccessRequestGrantedHandler::class)
+            ->setHandlerForCommand(UserSyncNewsletterSubscriptionJob::class, UserSyncNewsletterSubscriptionHandler::class)
             ;
     },
     CommandNameExtractor::class => ClassNameExtractor::class,
@@ -152,4 +160,13 @@ return [
             $container->get(Resolver::class),
         );
     },
+    MailChimp::class => static function (Container $container, array $params, array $config) use ($env): MailChimp {
+        $apiKey = empty((string) $env->getWrappedSecret('mailchimp/api_key')) ? '-' : $env->getWrappedSecret('mailchimp/api_key');
+        return new MailChimp($apiKey);
+    },
+    NewsletterService::class => [
+        'class' => NewsletterService::class,
+        'mailchimpListId' => $env->getSecret('mailchimp/list_id'),
+        'mailchimpTag' => $env->getSecret('mailchimp/tag'),
+     ],
 ];
