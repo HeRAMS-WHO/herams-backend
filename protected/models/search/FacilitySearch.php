@@ -16,6 +16,7 @@ class FacilitySearch extends Model
 {
     public null|string $name;
     public null|string $id;
+
     public function __construct(
         private WorkspaceId $workspaceId,
         array $config = []

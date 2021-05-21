@@ -35,11 +35,14 @@ class Facility extends ActiveRecord
         }
     }
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return parent::attributeLabels() + [
+        return [
             'name' => \Yii::t('app', 'Name'),
-            'alternative_name' => \Yii::t('app', 'Alternative name')
+            'alternative_name' => \Yii::t('app', 'Alternative name'),
+            'code' => \Yii::t('app', 'Code'),
+            'coordinates' => \Yii::t('app', 'Coordinates'),
         ];
     }
+
 }

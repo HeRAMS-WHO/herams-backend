@@ -6,6 +6,7 @@ namespace prime\models\forms;
 use prime\attributes\DehydrateVia;
 use prime\attributes\HydrateVia;
 use prime\interfaces\WorkspaceForNewOrUpdateFacility;
+use prime\models\ar\Facility;
 use prime\values\FacilityId;
 use prime\values\Point;
 use yii\base\Model;
@@ -36,19 +37,15 @@ final class UpdateFacility extends Model
         return $this->id;
     }
 
+    public function attributeLabels(): array
+    {
+        return Facility::labels();
+    }
+
+
     public function getWorkspace(): WorkspaceForNewOrUpdateFacility
     {
         return $this->workspace;
-    }
-
-    public function attributeLabels(): array
-    {
-        return [
-            'name' => \Yii::t('app', 'Name'),
-            'alternative_name' => \Yii::t('app', 'Alternative name'),
-            'code' => \Yii::t('app', 'Code'),
-            'coordinates' => \Yii::t('app', 'Coordinates'),
-        ];
     }
 
 

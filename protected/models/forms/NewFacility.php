@@ -5,6 +5,7 @@ namespace prime\models\forms;
 
 use prime\attributes\DehydrateVia;
 use prime\interfaces\WorkspaceForNewOrUpdateFacility;
+use prime\models\ar\Facility;
 use prime\values\Point;
 use yii\base\Model;
 use yii\validators\DefaultValueValidator;
@@ -32,14 +33,17 @@ final class NewFacility extends Model
         return $this->workspace;
     }
 
-    public function rules()
+    public function attributeLabels(): array
+    {
+        return Facility::labels();
+    }
+
+    public function rules(): array
     {
         return [
             [['name'], RequiredValidator::class],
-            [['code'], StringValidator::class],
-            [['alternative_name'], StringValidator::class],
+            [['code', 'name', 'alternative_name'], StringValidator::class, 'max' => 100, 'min' => 3],
             Point::validatorFor('coordinates'),
-            [['code'], DefaultValueValidator::class]
         ];
     }
 }

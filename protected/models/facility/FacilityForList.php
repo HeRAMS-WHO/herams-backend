@@ -12,7 +12,7 @@ class FacilityForList implements \prime\interfaces\FacilityForList
     private null|string $alternativeName;
     private null|string $code;
     private null|Point $coords;
-    
+
     public function id(): FacilityId
     {
         return new FacilityId(0);
