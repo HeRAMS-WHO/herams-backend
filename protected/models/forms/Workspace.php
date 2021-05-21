@@ -57,7 +57,7 @@ class Workspace extends Model
         $limesurveyDataProvider = $this->getLimesurveyDataProvider();
         $usedTokens = WorkspaceModel::find()->andWhere(['tool_id' => $this->projectId])->select(['token'])->indexBy('token')->column();
 
-        $tokens = $limesurveyDataProvider->getTokens((int) Project::find(['id' => $this->projectId])->select('base_survey_eid')->scalar());
+        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere(['id' => $this->projectId])->select('base_survey_eid')->scalar());
 
         $result = [];
         /** @var TokenInterface $token */

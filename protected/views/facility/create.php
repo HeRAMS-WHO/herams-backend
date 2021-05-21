@@ -38,7 +38,7 @@ echo Form::widget([
         'code' => [
             'type' => Form::INPUT_TEXT,
         ],
-        'coords' => [
+        'coordinatesN' => [
             'type' => Form::INPUT_TEXT,
         ],
         FormButtonsWidget::embed([

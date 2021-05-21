@@ -65,6 +65,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
     public function save(UpdateFacility $facility): FacilityId
     {
         $record = Facility::findOne(['id' => $facility->getId()]);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
         $this->hydrator->hydrateActiveRecord($record, $facility);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));

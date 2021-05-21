@@ -9,6 +9,7 @@ use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\workspace\Configure;
 use prime\controllers\workspace\Create;
+use prime\controllers\workspace\Facilities;
 use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Refresh;
@@ -53,11 +54,16 @@ class WorkspaceController extends Controller
                     return $user->can(Permission::PERMISSION_EXPORT, $workspace);
                 }
             ],
+            'facilities' => Facilities::class,
             'limesurvey' => Limesurvey::class,
             'update' => Update::class,
-            'create' => static function(string $id, Controller $controller,
+            'create' => static function (
+                string $id,
+                Controller $controller,
                 ProjectRepository $projectRepository,
-                WorkspaceRepository $repository, ModelHydrator $modelHydrator) {
+                WorkspaceRepository $repository,
+                ModelHydrator $modelHydrator
+) {
                 $action = new CreateChildAction($id, $controller, $repository, $projectRepository, $modelHydrator);
                 $action->paramName = 'project_id';
                 return $action;

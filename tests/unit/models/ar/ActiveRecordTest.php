@@ -20,7 +20,7 @@ abstract class ActiveRecordTest extends ModelTest
 
     /**
      * @dataProvider validSamples
-     * @depends testValidationRules
+     * @depends testValidation
      */
     public function testSave(array $attributes, ?string $scenario)
     {

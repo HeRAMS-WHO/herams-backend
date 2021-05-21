@@ -11,7 +11,7 @@ use prime\interfaces\RetrieveWorkspaceForNewFacility;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Workspace as WorkspaceForm;
-use prime\models\workspace\WorkspaceForNewFacility;
+use prime\models\workspace\WorkspaceForNewOrUpdateFacility;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
@@ -57,14 +57,12 @@ class WorkspaceRepository implements
     }
 
 
-    public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForNewFacility
+    public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
     {
+        /** @var null|Workspace $workspace */
         $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
-        if ($workspace === null) {
-            throw new NotFoundHttpException();
-        }
-        return new WorkspaceForNewFacility($id, $workspace->title, new ProjectId($workspace->project->id), $workspace->project->title);
-
+        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
+        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($workspace->project->id), $workspace->project->title);
     }
 
 }

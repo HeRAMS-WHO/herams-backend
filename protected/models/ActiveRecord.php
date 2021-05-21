@@ -26,7 +26,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     public function attributeLabels(): array
     {
-        return self::labels();
+        return static::labels();
     }
 
     /**

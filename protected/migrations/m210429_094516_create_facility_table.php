@@ -22,7 +22,7 @@ class m210429_094516_create_facility_table extends Migration
             'code' => $this->string(),
             'deleted' => $this->dateTime()->null(),
             'deactived' => $this->dateTime()->null(),
-            'coords' => 'point null'
+            'coordinates' => 'point null'
         ]);
         $this->createIndex('uuid', '{{%facility}}', ['uuid'], true);
         $this->addForeignKey('workspace_id', '{{%facility}}', ['workspace_id'], '{{%workspace}}', ['id']);

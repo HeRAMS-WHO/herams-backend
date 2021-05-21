@@ -1,6 +1,7 @@
 <?php
 namespace prime\tests\unit\models\ar;
 
+use Carbon\Carbon;
 use prime\models\ar\Project;
 
 /**
@@ -14,6 +15,8 @@ class WorkspaceTest extends ActiveRecordTest
             [
                 [
                     'title' => 'test',
+                    'token' => 'abcdef',
+                    'closed' => Carbon::now(),
                     'tool_id' => function () {
                         $tool = new Project();
                         $tool->title = 'Test Tool';
@@ -33,7 +36,24 @@ class WorkspaceTest extends ActiveRecordTest
     {
         return [
             [
-                []
+                [
+                    'closed' => 'abc',
+                    'token' => 'test123',
+
+                ]
+            ],
+            [
+                [
+                    'token' => 'test123',
+                    'tool_id' => 1
+                ],
+                null,
+                // This is a pre inserted record, so it has to be valid.
+                [
+                    'token' => 'test123',
+                    'title' => 'test',
+                    'tool_id' => 1
+                ]
             ]
         ];
     }

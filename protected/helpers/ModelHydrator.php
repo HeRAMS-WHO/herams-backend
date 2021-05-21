@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use CrEOF\Geo\WKB\Parser;
+use prime\attributes\DehydrateVia;
+use prime\attributes\HydrateVia;
 use prime\models\ActiveRecord;
 use prime\objects\enums\Enum;
 use prime\objects\enums\HydrateSource;
@@ -72,6 +74,13 @@ class ModelHydrator
         return $class::from($value);
     }
 
+    private function castWKBToGeometry(string $value): Geometry
+    {
+        $parser = new Parser();
+        $data = $parser->parse(substr($value, 4));
+        $data['srid'] = unpack('i', $value)[1];
+        return Geometry::fromParsedArray($data);
+    }
     /**
      * @param class-string $class
      */
@@ -80,17 +89,12 @@ class ModelHydrator
         if (empty($value)) {
             return null;
         }
-        switch($source) {
-            case HydrateSource::database():
-                $parser = new Parser();
-                $data = $parser->parse(substr($value, 4));
-                $data['srid'] = unpack('i', $value)[1];
-                return Geometry::fromParsedArray($data);
-            case HydrateSource::webForm():
-                return $class::fromString($value);
-        }
 
-   }
+        return match ($source) {
+            HydrateSource::database() => $this->castWKBToGeometry($value),
+            HydrateSource::webForm() => $class::fromString($value)
+        };
+    }
 
     /**
      * @param class-string $class
@@ -100,7 +104,7 @@ class ModelHydrator
         return Uuid::fromBytes($value);
     }
 
-    private function castValue(Model $model, string $attribute, $value, HydrateSource $source)
+    private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source)
     {
         try {
             $rc = new \ReflectionClass($model);
@@ -133,7 +137,7 @@ class ModelHydrator
             }
 
             return match ($property->getName()) {
-                'string' => $value,
+                'string' => (string) $value,
                 'int' => $this->castInt($value),
                 'float' => $this->castFloat($value),
                 'bool' => $this->castBool($value),
@@ -186,9 +190,17 @@ class ModelHydrator
     public function hydrateFromActiveRecord(Model $model, ActiveRecord $record): void
     {
         $model->ensureBehaviors();
+        $reflectionClass = new \ReflectionClass($model);
         foreach ($record->attributes as $key => $value) {
+            if ($reflectionClass->hasProperty($key)) {
+                foreach ($reflectionClass->getProperty($key)->getAttributes() as $attribute) {
+                    if ($attribute->getName() === HydrateVia::class) {
+                        $value = $attribute->newInstance()->create($value);
+                    }
+                }
+            }
             if ($this->canSetProperty($model, $key)) {
-                $model->$key = $this->castValue($model, $key, $record->$key, HydrateSource::database());
+                $model->$key = $this->castValue($model, $key, $value, HydrateSource::database());
             }
         }
     }
@@ -206,6 +218,8 @@ class ModelHydrator
                 return $complex->getValue();
             } elseif ($complex instanceof Geometry) {
                 return $complex->toWKT();
+            } elseif ($complex instanceof Expression) {
+                return $complex;
             } else {
                 throw new \InvalidArgumentException("Unknown complex type: " . get_class($complex));
             }
@@ -215,9 +229,17 @@ class ModelHydrator
 
     public function hydrateActiveRecord(ActiveRecord $record, Model $model): void
     {
+        $reflectionClass = new \ReflectionClass($model);
         foreach ($model->attributes as $key => $value) {
+            if ($reflectionClass->hasProperty($key)) {
+                foreach ($reflectionClass->getProperty($key)->getAttributes() as $attribute) {
+                    if ($attribute->getName() === DehydrateVia::class) {
+                        $value = $attribute->newInstance()->create($value);
+                    }
+                }
+            }
             if ($record->canSetProperty($key)) {
-                $record->$key = $this->castForDatabase($model->$key);
+                $record->$key = $this->castForDatabase($value);
             }
         }
     }

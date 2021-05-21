@@ -34,9 +34,7 @@ class m210430_105442_create_event_log extends Migration
      */
     public function safeDown()
     {
-        echo "m210430_105442_create_event_log cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('{{%event_log}}');
     }
 
     /*

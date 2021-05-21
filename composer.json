@@ -121,7 +121,7 @@
         "lint-ufix": "git diff-index --name-only HEAD | xargs -r vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse protected --memory-limit 1024M",
-        "test-with-cc" : "docker-compose run --rm codeception run --coverage-html --coverage-xml",
+        "test-with-cc" : "docker-compose run --rm codeception run --fail-fast --coverage-html --coverage-xml",
         "post-install-cmd": "[ $COMPOSER_DEV_MODE -eq 0 ] || cghooks add --ignore-lock",
         "post-update-cmd": "cghooks update",
         "dlint-fix": "docker-compose run --rm --user=$(id -u):$(id -g) composer lint-fix",

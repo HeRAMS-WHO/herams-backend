@@ -1,6 +1,9 @@
 <?php
 namespace prime\tests\unit\models\ar;
 
+use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectVisibility;
+
 /**
  * @covers \prime\models\ar\Project
  */
@@ -13,6 +16,18 @@ class ProjectTest extends ActiveRecordTest
                 [
                     'title' => __CLASS__,
                     'base_survey_eid' => 12345,
+                    'hidden' => true,
+                    'country' => 'NLD',
+                    'latitude' => 4,
+                    'longitude' => 5,
+                    'status' => ProjectStatus::target()->value,
+                    'visibility' => ProjectVisibility::public()->value,
+                    'typemap' => [],
+                    'overrides' => ['contributorCount' => 15],
+                    'manage_implies_create_hf' => false,
+                    'i18n' => [],
+                    'languages' => ['nl-NL']
+
                 ]
             ],
         ];
@@ -22,7 +37,24 @@ class ProjectTest extends ActiveRecordTest
     {
         return [
             [
-                []
+                [
+                    'hidden' => 15,
+                    'country' => 'test',
+                    'latitude' => 'a',
+                    'longitude' => 'b',
+                    'status' => 16,
+                    'visibility' => 'tes',
+                    'typemap' => 'a',
+                    'manage_implies_create_hf' => 'dontknow',
+                    'overrides' => 'b',
+                    'i18n' => 'test',
+                    'languages'=> ['un-KN']
+                ]
+            ],
+            [
+                [
+
+                ]
             ]
         ];
     }

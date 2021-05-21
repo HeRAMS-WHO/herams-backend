@@ -10,6 +10,7 @@ use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
+use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
@@ -169,7 +170,6 @@ class Project extends ActiveRecord implements Linkable
         ]);
     }
 
-
     public function attributeHints(): array
     {
         return [
@@ -207,6 +207,12 @@ class Project extends ActiveRecord implements Linkable
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
+            [['languages'], RangeValidator::class, 'allowArray' => true, 'range' => Language::toValues()],
+            [['typemap', 'overrides', 'i18n'], function ($attribute) {
+                if (!is_array($this->$attribute)) {
+                    $this->addError($attribute, 'Typemap must be an array');
+                }
+            }],
             [['status'], EnumValidator::class, 'enumClass' => ProjectStatus::class],
             [['visibility'], EnumValidator::class, 'enumClass' => ProjectVisibility::class],
             [['country'], function () {
