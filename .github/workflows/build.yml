@@ -60,7 +60,7 @@ jobs:
             k8s/staging/sealed-limesurvey-staging.yaml
             k8s/staging/sealed-redis-acl.yaml
             k8s/staging/sealed-smtp-staging.yaml
-            k8s/staging/sealed-mailchip-staging.yaml
+            k8s/staging/sealed-mailchimp-staging.yaml
             k8s/staging/ingress.yaml
             k8s/shared/redis.yaml
             k8s/shared/deployment.yaml
