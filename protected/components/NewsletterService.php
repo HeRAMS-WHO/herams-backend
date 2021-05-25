@@ -39,7 +39,7 @@ class NewsletterService extends Component
 
         Webhook::subscribe('unsubscribe', function (array $data) {
             if ($user = $this->userRepository->find()->andWhere(['email' => $data['email']])->one()) {
-                $user->updateAttributes(['newsletter_subscription' => true]);
+                $user->updateAttributes(['newsletter_subscription' => false]);
             }
         });
     }
