@@ -72,6 +72,8 @@ class NewsletterService extends Component
 
     public function syncToExternal(User $user, bool $insert): void
     {
+        \Yii::info("Sync {$user->email} email subscription {$user->newsletter_subscription}");
+        \Yii::info("{$this->mailchimpListId} & {$this->mailchimpTag}");
         // If this is not configured, we don't want external syncing
         if (!$this->mailchimpListId || !$this->mailchimpTag) {
             return;
