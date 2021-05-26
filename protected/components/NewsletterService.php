@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace prime\components;
 
 use DrewM\MailChimp\MailChimp;
-use DrewM\MailChimp\Webhook;
 use prime\models\ar\User;
 use prime\repositories\UserRepository;
 use yii\base\Component;
@@ -31,17 +30,17 @@ class NewsletterService extends Component
 
     public function handleWebhook(Request $request): void
     {
-        Webhook::subscribe('subscribe', function (array $data) {
+        if ($request->getBodyParam('type') === 'subscribe' && !empty($data = $request->getBodyParam('data'))) {
             if ($user = $this->userRepository->find()->andWhere(['email' => $data['email']])->one()) {
                 $user->updateAttributes(['newsletter_subscription' => true]);
             }
-        });
+        }
 
-        Webhook::subscribe('unsubscribe', function (array $data) {
+        if ($request->getBodyParam('type') === 'unsubscribe' && !empty($data = $request->getBodyParam('data'))) {
             if ($user = $this->userRepository->find()->andWhere(['email' => $data['email']])->one()) {
                 $user->updateAttributes(['newsletter_subscription' => false]);
             }
-        });
+        }
     }
 
     public function initSyncExternalToDatabase(): void
@@ -52,7 +51,7 @@ class NewsletterService extends Component
             $response = $this->client->get("lists/{$this->mailchimpListId}/members?offset={$offset}&count={$count}&fields=members.email_address,members.status");
             $members = $response['members'];
             foreach ($members as $member) {
-                User::updateAll(['newsletter_subscription' => $this->isSubscribed($member['status'])], ['email' => $member['email_address']]);
+                $this->userRepository->updateAll(['newsletter_subscription' => $this->isSubscribed($member['status'])], ['email' => $member['email_address']]);
             }
 
             $offset += $count;
@@ -72,8 +71,6 @@ class NewsletterService extends Component
 
     public function syncToExternal(User $user, bool $insert): void
     {
-        \Yii::info("Sync {$user->email} email subscription {$user->newsletter_subscription}");
-        \Yii::info("{$this->mailchimpListId} & {$this->mailchimpTag}");
         // If this is not configured, we don't want external syncing
         if (!$this->mailchimpListId || !$this->mailchimpTag) {
             return;

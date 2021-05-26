@@ -28,7 +28,7 @@ class SyncNewsletterSubscriptionJob extends UserJob
     public function jsonSerialize(): array
     {
         return [
-            'accessRequestId' => $this->userId,
+            'userId' => $this->userId,
             'insert' => $this->insert,
         ];
     }

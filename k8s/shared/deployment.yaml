@@ -42,6 +42,9 @@ spec:
         - name: smtp
           secret:
             secretName: smtp
+        - name: mailchimp
+          secret:
+            secretName: mailchimp
         - name: nginx-config-volume
           configMap:
             name: nginx-config
@@ -60,6 +63,8 @@ spec:
               mountPath: "/run/secrets/database"
             - name: limesurvey
               mountPath: "/run/secrets/limesurvey"
+            - name: mailchimp
+              mountPath: "/run/secrets/mailchimp"
             - name: smtp
               mountPath: "/run/secrets/smtp"
             - name: app

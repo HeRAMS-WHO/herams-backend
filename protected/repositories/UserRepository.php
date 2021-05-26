@@ -29,4 +29,9 @@ class UserRepository
 
         return $result;
     }
+
+    public function updateAll(array $attributes, array|string $condition = '', array $params = []): int
+    {
+        return User::updateAll($attributes, $condition, $params);
+    }
 }

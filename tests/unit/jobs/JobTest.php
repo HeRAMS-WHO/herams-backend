@@ -6,9 +6,6 @@ namespace prime\tests\unit\jobs;
 use Codeception\Test\Unit;
 use JCIT\jobqueue\interfaces\JobInterface;
 
-/**
- * @coversNothing
- */
 abstract class JobTest extends Unit
 {
     abstract public function createJob(): JobInterface;
