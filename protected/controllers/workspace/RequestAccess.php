@@ -41,9 +41,9 @@ class RequestAccess extends Action
         $model = new RequestAccessForm(
             $workspace,
             [
-                AccessRequest::PERMISSION_READ => \Yii::t('app', 'View workspace'),
+                AccessRequest::PERMISSION_CONTRIBUTE => \Yii::t('app', 'Contribute data'),
                 AccessRequest::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
-                AccessRequest::PERMISSION_WRITE => \Yii::t('app', 'Update workspace'),
+                AccessRequest::PERMISSION_OTHER => \Yii::t('app', 'Other'),
             ],
             $abacManager,
             $user->identity

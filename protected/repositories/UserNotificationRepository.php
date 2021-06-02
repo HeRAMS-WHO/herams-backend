@@ -16,6 +16,7 @@ class UserNotificationRepository extends Component
 {
     public function __construct(
         private AuthManager $abacManager,
+        private AccessRequestRepository $accessRequestRepository,
         $config = []
     ) {
         parent::__construct($config);
@@ -33,7 +34,7 @@ class UserNotificationRepository extends Component
         $result = [];
 
         /** @var AccessRequest $accessRequest */
-        foreach (AccessRequest::find()->notExpired()->withoutResponse()->each() as $accessRequest) {
+        foreach ($this->accessRequestRepository->find()->notExpired()->withoutResponse()->each() as $accessRequest) {
             if ($this->abacManager->check($user, $accessRequest, Permission::PERMISSION_RESPOND)) {
                 $result[] = new UserNotification(
                     \Yii::t('app', 'There are open access requests that you can respond to.'),

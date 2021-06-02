@@ -42,6 +42,9 @@ class CreatedNotificationHandlerTest extends Unit
             ->method('select')
             ->willReturn($userQuery);
         $userQuery->expects($this->once())
+            ->method('andWhere')
+            ->willReturnSelf();
+        $userQuery->expects($this->once())
             ->method('column')
             ->willReturn($emails);
         $project = $this->getMockBuilder(Project::class)->getMock();

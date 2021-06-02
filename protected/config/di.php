@@ -115,7 +115,7 @@ return [
         return $result;
     },
     UserNotificationRepository::class => static function (Container $container, array $params, array $config): UserNotificationRepository {
-        $result = new UserNotificationRepository(\Yii::$app->abacManager);
+        $result = new UserNotificationRepository(\Yii::$app->abacManager, $container->get(AccessRequestARRepository::class));
         return $result;
     },
     CommandBus::class => function (Container $container) {

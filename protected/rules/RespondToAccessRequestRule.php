@@ -5,6 +5,7 @@ namespace prime\rules;
 
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
+use prime\models\ar\User;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
@@ -58,7 +59,10 @@ class RespondToAccessRequestRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         /** @var AccessRequest $target */
-        return $target instanceof AccessRequest
+        return
+            $source instanceof User
+            && $target instanceof AccessRequest
+            && $target->created_by !== $source->id
             && $accessChecker->check($source, $target->target, Permission::PERMISSION_SHARE);
     }
 }

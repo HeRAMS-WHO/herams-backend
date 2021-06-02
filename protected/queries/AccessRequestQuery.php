@@ -25,6 +25,11 @@ class AccessRequestQuery extends ActiveQuery
         return $this;
     }
 
+    public function withResponse(): self
+    {
+        return $this->andWhere(['not', ['response' => null]]);
+    }
+
     public function withoutResponse(): self
     {
         return $this->andWhere(['response' => null]);

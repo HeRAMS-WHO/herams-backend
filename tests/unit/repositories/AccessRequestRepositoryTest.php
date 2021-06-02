@@ -33,7 +33,7 @@ class AccessRequestRepositoryTest extends Unit
         return $accessRequest;
     }
 
-    public function testTest()
+    public function test()
     {
         $respository = new AccessRequestRepository();
 

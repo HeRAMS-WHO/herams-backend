@@ -17,7 +17,7 @@ use prime\tests\FunctionalTester;
  */
 class IndexCest
 {
-    protected function createAccessRequest(FunctionalTester $I, Project|Workspace $target): AccessRequest
+    protected function createAccessRequest(FunctionalTester $I, Project|Workspace $target, ?string $response): AccessRequest
     {
         $accessRequest = new AccessRequest([
             'subject' => 'test',
@@ -29,18 +29,22 @@ class IndexCest
         return $accessRequest;
     }
 
-    public function testOutstandingRequest(FunctionalTester $I)
+    public function testAccessRequestHistory(FunctionalTester $I)
     {
         $project = $I->haveProject();
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $accessRequest = $this->createAccessRequest($I, $project);
-        $I->amOnPage(['access-request/index']);
-        $I->see($accessRequest->subject);
+        $accessRequest = $this->createAccessRequest($I, $project, 'History');
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
         $I->amOnPage(['access-request/index']);
         $I->dontSee($accessRequest->subject);
+
+        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->amOnPage(['access-request/index']);
+        $I->see($project->title);
+        $I->see($project->title);
+        $I->see(User::findOne(['id' => TEST_USER_ID])->name);
     }
 
     public function testAccessRequestToRespondTo(FunctionalTester $I)
@@ -48,7 +52,7 @@ class IndexCest
         $project = $I->haveProject();
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $accessRequest = $this->createAccessRequest($I, $project);
+        $accessRequest = $this->createAccessRequest($I, $project, null);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
         $I->amOnPage(['access-request/index']);

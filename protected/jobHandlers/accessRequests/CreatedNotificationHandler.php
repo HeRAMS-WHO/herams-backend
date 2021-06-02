@@ -17,10 +17,7 @@ class CreatedNotificationHandler
     ) {
     }
 
-    /**
-     * @param CreatedNotificationJob $job
-     */
-    public function handle(JobInterface $job): void
+    public function handle(JobInterface|CreatedNotificationJob $job): void
     {
         $accessRequest = $this->accessRequestRepository->retrieveOrThrow($job->getAccessRequestId());
         $this->mailer->compose(
@@ -41,6 +38,6 @@ class CreatedNotificationHandler
     private function getTargetEmails(AccessRequest $accessRequest): array
     {
         $target = $accessRequest->target;
-        return $target->getLeads()->select('email')->column();
+        return $target->getLeads()->andWhere(['not', ['id' => $accessRequest->created_by]])->select('email')->column();
     }
 }

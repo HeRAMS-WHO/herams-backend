@@ -99,4 +99,6 @@ echo GridView::widget([
     ]
 ]);
 
+echo Html::tag('p', Html::a(\Yii::t('app', 'Access request history'), ['access-requests/index']));
+
 Section::end();

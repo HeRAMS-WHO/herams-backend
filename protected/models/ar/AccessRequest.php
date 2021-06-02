@@ -42,10 +42,11 @@ use yii\validators\StringValidator;
  */
 class AccessRequest extends ActiveRecord
 {
-    const PERMISSION_READ = 'read';
-    const PERMISSION_WRITE = 'write';
+    const PERMISSION_CONTRIBUTE = 'contribute';
     const PERMISSION_EXPORT = 'export';
     const PERMISSION_OTHER = 'other';
+    const PERMISSION_READ = 'read';
+    const PERMISSION_WRITE = 'write';
 
     public function afterSave($insert, $changedAttributes)
     {
@@ -145,6 +146,7 @@ class AccessRequest extends ActiveRecord
                 self::PERMISSION_WRITE => Permission::PERMISSION_SURVEY_DATA,
             ],
             Workspace::class => [
+                self::PERMISSION_CONTRIBUTE => Permission::PERMISSION_SURVEY_DATA,
                 self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
                 self::PERMISSION_READ => Permission::PERMISSION_READ,
                 self::PERMISSION_WRITE => Permission::PERMISSION_WRITE,
@@ -156,6 +158,7 @@ class AccessRequest extends ActiveRecord
     public function permissionOptions(): array
     {
         return [
+            self::PERMISSION_CONTRIBUTE => \Yii::t('app', 'Contribute data'),
             self::PERMISSION_EXPORT => \Yii::t('app', 'Download data'),
             self::PERMISSION_OTHER => \Yii::t('app', 'Other'),
             self::PERMISSION_READ => \Yii::t('app', 'Read'),
