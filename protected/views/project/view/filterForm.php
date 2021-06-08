@@ -199,7 +199,6 @@ JS
         echo Html::beginTag('div', ['class' => 'group-title']);
             echo "Date";
         echo Html::endTag('div');
-        echo Html::beginTag('div', ['class' => 'row']);
             echo Form::widget([
                 'form' => $form,
                 'model' => $filterModel,
@@ -210,11 +209,22 @@ JS
                             'autocomplete' => 'off',
                             'size' => 8
                         ],
+                        'fieldConfig' => [
+                            'labelOptions' => [
+                                'title' => implode(': ', [
+                                    trim(html_entity_decode($filterModel->getAttributeLabel('date'))),
+                                    $filterModel->getAttributeLabel('date')
+                                ]),
+                                'data-keywords' => implode(' ', [
+                                    trim(html_entity_decode($filterModel->getAttributeLabel('date'))),
+                                    $filterModel->getAttributeLabel('date')
+                                ])
+                            ],
+                        ],
                         'class' => 'filter filter_when',
                     ]
                 ])
             ]);
-            echo Html::endTag('div');
             echo Html::endTag('div');
     
             foreach ($filters as $groupTitle => $questionGroup) {
