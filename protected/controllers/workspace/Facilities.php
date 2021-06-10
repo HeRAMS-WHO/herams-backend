@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace prime\controllers\workspace;
 
 use prime\components\Controller;
+use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
 use prime\models\search\FacilitySearch;
 use prime\models\search\Workspace as WorkspaceSearch;
+use prime\repositories\FacilityRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\WorkspaceId;
 use SamIT\abac\interfaces\Resolver;
@@ -23,18 +25,22 @@ class Facilities extends Action
         Resolver $abacResolver,
         PreloadingSourceRepository $preloadingSourceRepository,
         User $user,
-        AccessCheckInterface $accessCheck,
         Request $request,
         WorkspaceRepository $workspaceRepository,
+        FacilityRepository $facilityRepository,
         int $id
     ) {
-        $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
+//        $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        $workspace = $workspaceRepository->retrieveForRead(new WorkspaceId($id));
+        $workspaceId = new WorkspaceId($id);
+        $workspace = $workspaceRepository->retrieveForNewFacility($workspaceId);
 
-        $facilitySearch = new FacilitySearch(new WorkspaceId($id));
-        $facilityProvider = $facilitySearch->search($request->queryParams);
+
+
+        $facilitySearch = new FacilitySearch();
+        $facilitySearch->load($request->queryParams);
+        $facilityProvider = $facilityRepository->searchInWorkspace($workspaceId, $facilitySearch);
         return $this->controller->render('facilities', [
             'facilitySearch' => $facilitySearch,
             'facilityProvider' => $facilityProvider,

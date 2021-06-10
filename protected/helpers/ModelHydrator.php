@@ -11,11 +11,14 @@ use prime\objects\enums\Enum;
 use prime\objects\enums\HydrateSource;
 use prime\objects\EnumSet;
 use prime\values\Geometry;
+use prime\values\Id;
 use prime\values\IntegerId;
+use prime\values\StringId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use yii\base\Model;
 use yii\db\Expression;
+use yii\helpers\Inflector;
 use yii\web\Request;
 use function iter\toArray;
 
@@ -51,11 +54,18 @@ class ModelHydrator
     /**
      * @param class-string $class
      */
+    private function castStringId($value, string $class): StringId
+    {
+        return new $class((string) $value);
+    }
+
+    /**
+     * @param class-string $class
+     */
     private function castIntegerId($value, string $class): IntegerId
     {
         return new $class($this->castInt($value));
     }
-
     /**
      * @param class-string $class
      */
@@ -104,6 +114,40 @@ class ModelHydrator
         return Uuid::fromBytes($value);
     }
 
+    private function castType(\ReflectionNamedType $property, $value, string $attribute, HydrateSource $source)
+    {
+        if (!$property->isBuiltin()) {
+            $name = $property->getName();
+            if (is_subclass_of($name, EnumSet::class)) {
+                return $this->castEnumSet($value, $name);
+            } elseif (is_subclass_of($name, Enum::class)) {
+                return $this->castEnum($value, $name);
+            } elseif (is_subclass_of($name, IntegerId::class)) {
+                return $this->castIntegerId($value, $name);
+            } elseif (is_subclass_of($name, StringId::class)) {
+                return $this->castStringId($value, $name);
+            } elseif (is_subclass_of($name, Geometry::class)) {
+                return $this->castGeometry($value, $name, $source);
+            } elseif (is_subclass_of($name, UuidInterface::class) || $name === UuidInterface::class) {
+                return $this->castUuid($value, $name, $source);
+            }
+
+            throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}");
+        }
+
+        if ($property->allowsNull() && ($value === "" || $value === null)) {
+            return null;
+        }
+
+        return match ($property->getName()) {
+            'string' => (string) $value,
+            'int' => $this->castInt($value),
+            'float' => $this->castFloat($value),
+            'bool' => $this->castBool($value),
+            'array' => $this->castArray($value),
+            default => die("Unknown type: {$property->getName()} for property $attribute")
+        };
+    }
     private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source)
     {
         try {
@@ -113,37 +157,7 @@ class ModelHydrator
             }
             /** @var \ReflectionNamedType $property */
             $property = $rc->getProperty($attribute)->getType();
-
-            if (!$property->isBuiltin()) {
-                $name = $property->getName();
-                if (is_subclass_of($name, EnumSet::class)) {
-                    return $this->castEnumSet($value, $name);
-                } elseif (is_subclass_of($name, Enum::class)) {
-                    return $this->castEnum($value, $name);
-                } elseif (is_subclass_of($name, IntegerId::class)) {
-                    return $this->castIntegerId($value, $name);
-                } elseif (is_subclass_of($name, Geometry::class)) {
-                    return $this->castGeometry($value, $name, $source);
-                } elseif (is_subclass_of($name, UuidInterface::class) || $name === UuidInterface::class) {
-                    return $this->castUuid($value, $name, $source);
-                }
-
-                throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}");
-            }
-
-
-            if ($property->allowsNull() && ($value === "" || $value === null)) {
-                return null;
-            }
-
-            return match ($property->getName()) {
-                'string' => (string) $value,
-                'int' => $this->castInt($value),
-                'float' => $this->castFloat($value),
-                'bool' => $this->castBool($value),
-                'array' => $this->castArray($value),
-                default => die("Unknown type: {$property->getName()} for property $attribute")
-            };
+            return $this->castType($property, $value, $attribute, $source);
         } catch (\Throwable $t) {
             $model->addError($attribute, $t->getMessage());
             return null;
@@ -187,6 +201,23 @@ class ModelHydrator
         return false;
     }
 
+    /**
+     * @template T of object
+     * @param class-string<T> $class
+     * @return T|null
+     */
+    public function hydrateConstructor(Model $source, string $class): object|null
+    {
+        $reflectionClass = new \ReflectionClass($class);
+        $args = [];
+        foreach ($reflectionClass->getConstructor()->getParameters() as $parameter) {
+            $args[] = $this->castType($parameter->getType(),
+                $source->{Inflector::camel2id($parameter->getName(), '_')} ?? $source->{$parameter->getName()}
+                , $parameter->getName(), HydrateSource::database());
+        }
+        return $reflectionClass->newInstanceArgs($args);
+    }
+
     public function hydrateFromActiveRecord(Model $model, ActiveRecord $record): void
     {
         $model->ensureBehaviors();
@@ -214,7 +245,7 @@ class ModelHydrator
                 return $complex->getBytes();
             } elseif (is_iterable($complex)) {
                 return toArray($complex);
-            } elseif ($complex instanceof IntegerId) {
+            } elseif ($complex instanceof Id) {
                 return $complex->getValue();
             } elseif ($complex instanceof Geometry) {
                 return $complex->toWKT();

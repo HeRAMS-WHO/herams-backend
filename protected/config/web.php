@@ -57,7 +57,24 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                \prime\modules\Api\Module::urlRule(),
+                [
+                    'class' => \yii\web\GroupUrlRule::class,
+                    'prefix' => 'api',
+                    'rules' => [
+                        [
+                            'pattern' => '<controller>/<id:\d+>',
+                            'route' => '<controller>/view'
+                        ],
+                        [
+                            'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',
+                            'route' => '<controller>/<action>'
+                        ],
+                        [
+                            'pattern' => '<controller>/<action:[\w-]+>',
+                            'route' => '<controller>/<action>'
+                        ],
+                    ]
+                ],
                 [
                     'pattern' => '<controller>',
                     'route' => '<controller>'
@@ -67,7 +84,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'route' => '<controller>/view'
                 ],
                 [
-                    'pattern' => '<controller>/<id:\d+>/<action:[\w-]+>',
+                    'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',
                     'route' => '<controller>/<action>'
                 ],
                 [

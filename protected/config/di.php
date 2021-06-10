@@ -15,6 +15,7 @@ use prime\models\ar\Permission;
 use prime\objects\enums\Language;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
+use prime\repositories\ResponseRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
@@ -64,6 +65,7 @@ return [
     ProjectRepository::class => ProjectRepository::class,
     WorkspaceRepository::class => WorkspaceRepository::class,
     FacilityRepository::class => FacilityRepository::class,
+    ResponseRepository::class => ResponseRepository::class,
     ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [
             ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
@@ -89,7 +91,10 @@ return [
         return new SwitchInput($config);
     },
     GridView::class => static function (Container $container, array $params, array $config): GridView {
-        $result = new GridView($config);
+
+        $result = new GridView(array_merge([
+            'dataColumnClass' => \prime\widgets\FunctionGetterDataColumn::class,
+        ], $config));
         $result->export = false;
         $result->toggleData = false;
         return $result;

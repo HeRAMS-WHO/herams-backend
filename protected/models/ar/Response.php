@@ -4,11 +4,13 @@
 namespace prime\models\ar;
 
 use Carbon\Carbon;
+use prime\interfaces\FacilityForList;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseQuery;
+use prime\values\Point;
 use yii\validators\RequiredValidator;
 
 /**
@@ -65,6 +67,11 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function getWorkspace()
     {
         return $this->hasOne(Workspace::class, ['id' => 'workspace_id'])->inverseOf('responses');
+    }
+
+    public function getFacility()
+    {
+        return $this->hasOne(Facility::class, ['id' => 'facility_id'])->inverseOf('responses');
     }
 
     public function getProject()
@@ -226,4 +233,11 @@ class Response extends ActiveRecord implements HeramsResponseInterface
                 return HeramsResponseInterface::BUCKET75100;
         }
     }
+
+
+    public function getLimesurveyUrl(string $language): string
+    {
+        return "https://ls.herams.org/{$this->survey_id}?ResponsePicker={$this->id}&token={$this->workspace->token}&lang={$language}&newtest=Y";
+    }
+
 }

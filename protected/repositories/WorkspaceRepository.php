@@ -12,6 +12,7 @@ use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Workspace as WorkspaceForm;
 use prime\models\workspace\WorkspaceForNewOrUpdateFacility;
+use prime\objects\LanguageSet;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
@@ -62,7 +63,18 @@ class WorkspaceRepository implements
         /** @var null|Workspace $workspace */
         $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
         $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
-        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($workspace->project->id), $workspace->project->title);
+        $project = $workspace->project;
+
+        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
     }
 
+    public function retrieveForFacilityList(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
+    {
+        /** @var null|Workspace $workspace */
+        $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
+        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
+        $project = $workspace->project;
+
+        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
+    }
 }

@@ -61,7 +61,7 @@ class Export extends Model
         $this->filter = new ResponseFilter($survey, new HeramsCodeMap());
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['includeTextHeader', 'includeCodeHeader', 'answersAsText'], BooleanValidator::class],
@@ -69,7 +69,7 @@ class Export extends Model
         ];
     }
 
-    public function load($data, $formName = null)
+    public function load($data, $formName = null): bool
     {
         if ($formName === null) {
             $this->filter->load($data);

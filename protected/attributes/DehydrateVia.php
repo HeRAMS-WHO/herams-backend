@@ -19,10 +19,7 @@ class DehydrateVia
         }
     }
 
-    /**
-     * @param int|array|string|null $value
-     */
-    public function create(string $value): int|array|string|null|object
+    public function create(int|array|string|null $value): int|array|string|null|object
     {
         return $this->type::fromForm($value);
     }

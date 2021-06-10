@@ -111,4 +111,6 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200611_085414
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m201216_120738_create_session_table', 1608133117);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210125_105354_project_add_create_hf', 1611573050);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210324_095451_project_add_i18n', 1619702113);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210429_094516_create_facility_table', 1622027373);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210430_105442_create_event_log', 1622027373);
 SET FOREIGN_KEY_CHECKS=1;

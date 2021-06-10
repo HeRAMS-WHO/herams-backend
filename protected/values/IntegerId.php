@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace prime\values;
 
-class IntegerId implements \Stringable, \JsonSerializable
+class IntegerId extends Id
 {
     public function __construct(private int $id)
     {

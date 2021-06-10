@@ -21,7 +21,9 @@ use yii\validators\UniqueValidator;
 class Update extends Model
 {
     public string $title;
+
     public ProjectVisibility $visibility;
+
     public ProjectStatus $status;
 
     public null|array $i18n;
@@ -75,7 +77,10 @@ class Update extends Model
             [['longitude'], NumberValidator::class, 'integerOnly' => false, 'min' => -180, 'max' => 180],
 
             // These are strongly typed so no validation is needed
-            [['status', 'visibility', 'manage_implies_create_hf', 'languages'], SafeValidator::class],
+            [['manage_implies_create_hf'], SafeValidator::class],
+            ProjectVisibility::validatorFor('visibility'),
+            ProjectStatus::validatorFor('status'),
+            LanguageSet::validatorFor('languages'),
             [['typemap', 'overrides'], ClientJsonValidator::class],
             [['country'], CountryValidator::class]
         ];

@@ -4,19 +4,13 @@ declare(strict_types=1);
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
-use prime\models\ar\User;
-use prime\models\search\Workspace;
-use prime\widgets\DateTimeColumn;
+use prime\models\facility\FacilityForList;
 use prime\widgets\DrilldownColumn;
-use prime\widgets\FavoriteColumn\FavoriteColumn;
 use prime\widgets\IdColumn;
-use prime\widgets\menu\ProjectTabMenu;
-use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
+use prime\widgets\UuidColumn;
 use SamIT\abac\interfaces\Resolver;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\web\View;
 
 /**
@@ -24,18 +18,32 @@ use yii\web\View;
  * @var \prime\models\search\FacilitySearch $facilitySearch
  * @var int $closedCount
  * @var View $this
- * @var \prime\models\ar\read\Workspace $workspace
+ * @var \prime\interfaces\WorkspaceForNewOrUpdateFacility $workspace
  * @var Resolver $abacResolver
  */
 
-$this->title = $workspace->title;
+$this->params['breadcrumbs'][] = [
+    'label' => $workspace->projectTitle(),
+    'url' => ['project/workspaces', 'id' => $workspace->projectId()]
+];
+
+$this->title = $workspace->title();
 $this->beginBlock('tabs');
-echo WorkspaceTabMenu::widget(
-    ['workspace' => $workspace]
-);
+//echo WorkspaceTabMenu::widget(
+//    ['workspace' => $workspace]
+//);
 $this->endBlock();
 
-Section::begin();
+Section::begin([
+    'actions' => [
+        [
+            'icon' => Icon::add(),
+            'label' => \Yii::t('app', 'Register new facility'),
+            'link' => ['facility/create', 'parent_id' => $workspace->id()],
+            'permission' => Permission::PERMISSION_SURVEY_DATA
+        ],
+    ]
+]);
 echo GridView::widget(
     [
         'pjax'         => true,
@@ -50,21 +58,26 @@ echo GridView::widget(
         'dataProvider' => $facilityProvider,
         'columns'      => [
             [
-                'class' => IdColumn::class,
+                'class' => UuidColumn::class
             ],
             [
-                'attribute'  => 'name',
+                'class' => IdColumn::class
             ],
             [
-                'attribute'  => 'alternative_name',
+                'class'      => DrilldownColumn::class,
+                'attribute'  => FacilityForList::NAME,
+                'permission' => Permission::PERMISSION_LIST_FACILITIES,
+                'link'       => static fn(FacilityForList $facility) => ['facility/responses', 'id' => (string) $facility->getId()]
             ],
             [
-                'attribute'  => 'code',
+                'attribute'  => FacilityForList::ALTERNATIVE_NAME,
             ],
             [
-                'attribute'  => 'coords',
-                'format' => \prime\components\Formatter::FORMAT_COORDS
+                'attribute'  => FacilityForList::CODE,
             ],
+            [
+                'attribute' => FacilityForList::RESPONSE_COUNT
+            ]
         ],
     ]
 );

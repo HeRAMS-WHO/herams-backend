@@ -14,10 +14,8 @@ use function iter\toArray;
 
 class FilteredActiveDataProvider extends ActiveDataProvider
 {
-    /** @var Closure */
-    public $filter;
-    /** @var Closure */
-    public $totalCount;
+    public Closure $filter;
+    public Closure $totalCount;
 
     protected function prepareModels()
     {

@@ -6,9 +6,7 @@ namespace prime\tests\unit\models\forms;
 use Codeception\Test\Unit;
 use prime\interfaces\WorkspaceForNewOrUpdateFacility;
 use prime\models\forms\UpdateFacility;
-use prime\tests\_helpers\AllAttributesMustHaveLabels;
-use prime\tests\_helpers\AllFunctionsMustHaveReturnTypes;
-use prime\tests\_helpers\AttributeValidationByExample;
+use prime\tests\_helpers\ModelTestTrait;
 use prime\values\FacilityId;
 
 /**
@@ -16,9 +14,7 @@ use prime\values\FacilityId;
  */
 class UpdateFacilityTest extends Unit
 {
-    use AllAttributesMustHaveLabels;
-    use AllFunctionsMustHaveReturnTypes;
-    use AttributeValidationByExample;
+    use ModelTestTrait;
 
     private function getWorkspace(): WorkspaceForNewOrUpdateFacility
     {
@@ -26,12 +22,12 @@ class UpdateFacilityTest extends Unit
     }
     private function getModel(): UpdateFacility
     {
-        return new UpdateFacility(new FacilityId(1), $this->getWorkspace());
+        return new UpdateFacility(new FacilityId("1"), $this->getWorkspace());
     }
 
     public function testGetId(): void
     {
-        $id = new FacilityId(1);
+        $id = new FacilityId("1");
         $workspace = $this->getWorkspace();
 
         $model = new UpdateFacility($id, $workspace);
@@ -43,7 +39,7 @@ class UpdateFacilityTest extends Unit
 
     public function testGetWorkspace(): void
     {
-        $id = new FacilityId(1);
+        $id = new FacilityId("1");
         $workspace = $this->getWorkspace();
 
         $model = new UpdateFacility($id, $workspace);

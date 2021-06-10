@@ -14,7 +14,7 @@ class IdColumn extends DataColumn
     public function __construct($config = [])
     {
         parent::__construct($config);
-        $this->attribute = 'id';
+        $this->filterAttribute = $this->attribute = 'id';
         $this->options['style']['width'] = '100px';
     }
 }

@@ -1,4 +1,6 @@
-{
+{ 
+    "name": "herams",
+    "license": "mit",
     "private": true,
     "dependencies": {
         "@github/time-elements": "^3.1.1",

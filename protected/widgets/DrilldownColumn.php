@@ -4,15 +4,18 @@ declare(strict_types=1);
 namespace prime\widgets;
 
 use prime\helpers\Icon;
+use prime\traits\FunctionGetterColumn;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 
 class DrilldownColumn extends DataColumn
 {
+    use FunctionGetterColumn;
     public ?string $permission;
     public \Closure $link;
     public ?string $icon;
 
+    public array $linkOptions = [];
     public function __construct($config = [])
     {
         $this->icon = Icon::eye();
@@ -24,7 +27,7 @@ class DrilldownColumn extends DataColumn
     {
         $content = parent::renderDataCellContent($model, $key, $index);
         if (!isset($this->permission) || \Yii::$app->user->can($this->permission, $model)) {
-            return Html::a("{$content} {$this->icon}", ($this->link)($model));
+            return Html::a("{$content} {$this->icon}", ($this->link)($model), $this->linkOptions);
         } else {
             return $content;
         }

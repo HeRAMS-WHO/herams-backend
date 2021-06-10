@@ -6,6 +6,7 @@ namespace prime\models\forms;
 use prime\attributes\DehydrateVia;
 use prime\interfaces\WorkspaceForNewOrUpdateFacility;
 use prime\models\ar\Facility;
+use prime\traits\DisableYiiLoad;
 use prime\values\Point;
 use yii\base\Model;
 use yii\validators\DefaultValueValidator;
@@ -15,6 +16,7 @@ use yii\validators\StringValidator;
 
 final class NewFacility extends Model
 {
+    use DisableYiiLoad;
     #[DehydrateVia(Point::class)]
     public null|string $coordinates = null;
 

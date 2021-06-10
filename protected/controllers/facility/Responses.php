@@ -7,20 +7,28 @@ use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\FacilityResponse;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility;
+use prime\repositories\FacilityRepository;
+use prime\repositories\ResponseRepository;
+use prime\values\FacilityId;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 class Responses extends Action
 {
 
     public function run(
         AccessCheckInterface $check,
+        FacilityRepository $facilityRepository,
+        ResponseRepository $responseRepository,
         string $id
     ) {
-        $facility = Facility::find()->withIdentity($id)->one();
+
+        $facilityId = new FacilityId($id);
+        $facility = $facilityRepository->retrieveForRead($facilityId);
         $check->requirePermission($facility, Permission::PERMISSION_READ);
 
-        $query = FacilityResponse::find()->andWhere(['facility_id' => $facility->id]);
-        return $this->controller->render('responses', ['responseProvider' => new ActiveDataProvider(['query' => $query])]);
+        $dataProvider = $responseRepository->searchInFacility($facilityId);
+        return $this->controller->render('responses', ['responseProvider' => $dataProvider]);
     }
 }

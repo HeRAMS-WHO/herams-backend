@@ -7,20 +7,15 @@ use Codeception\Test\Unit;
 use prime\interfaces\WorkspaceForNewOrUpdateFacility;
 use prime\models\forms\NewFacility;
 use prime\models\forms\UpdateFacility;
-use prime\tests\_helpers\AllAttributesMustHaveLabels;
-use prime\tests\_helpers\AllFunctionsMustHaveReturnTypes;
-use prime\tests\_helpers\AttributeValidationByExample;
+use prime\tests\_helpers\ModelTestTrait;
 use prime\values\FacilityId;
-use prime\values\IntegerId;
 
 /**
  * @covers \prime\models\forms\NewFacility
  */
 class NewFacilityTest extends Unit
 {
-    use AllAttributesMustHaveLabels;
-    use AllFunctionsMustHaveReturnTypes;
-    use AttributeValidationByExample;
+    use ModelTestTrait;
 
     private function getWorkspace(): WorkspaceForNewOrUpdateFacility
     {
@@ -33,7 +28,7 @@ class NewFacilityTest extends Unit
 
     public function testGetId(): void
     {
-        $id = new FacilityId(1);
+        $id = new FacilityId("1");
         $workspace = $this->getWorkspace();
 
         $model = new UpdateFacility($id, $workspace);
@@ -50,6 +45,13 @@ class NewFacilityTest extends Unit
         $model = new NewFacility($workspace);
 
         $this->assertSame($workspace, $model->getWorkspace());
+    }
+
+    public function testTypeHint(): void
+    {
+        $workspace = $this->getWorkspace();
+
+        $model = new NewFacility($workspace);
     }
 
     public function validSamples(): iterable

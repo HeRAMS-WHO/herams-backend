@@ -18,4 +18,9 @@ interface AccessCheckInterface
 
 
     public function requireGlobalPermission(string $permission, ?string $forbiddenMessage = null): void;
+
+    /**
+     * Check if the current user has permission on given model
+     */
+    public function checkPermission(object $model, string $permission): bool;
 }

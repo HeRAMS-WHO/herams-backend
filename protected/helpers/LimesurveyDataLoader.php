@@ -70,6 +70,9 @@ class LimesurveyDataLoader
                 ksort($value);
             }
         }
+        print_r($data);
+        print_r($transformed);
+        die();
         $response->data = $transformed;
     }
 }

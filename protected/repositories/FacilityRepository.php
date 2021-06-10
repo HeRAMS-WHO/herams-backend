@@ -3,18 +3,32 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use prime\components\CompositeDataProvider;
+use prime\components\HydratedActiveDataProvider;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
-use prime\interfaces\RetrieveWriteModelRepositoryInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
+use prime\models\ar\read\Facility as FacilityReadRecord;
+use prime\models\ar\Response;
+use prime\models\ar\Workspace;
+use prime\models\facility\FacilityForList;
 use prime\models\forms\NewFacility as FacilityForm;
+use prime\models\forms\ResponseFilter;
 use prime\models\forms\UpdateFacility;
+use prime\models\search\FacilitySearch;
+use prime\objects\HeramsCodeMap;
 use prime\values\FacilityId;
 use prime\values\IntegerId;
+use prime\values\Point;
+use prime\values\StringId;
 use prime\values\WorkspaceId;
+use Ramsey\Uuid\Uuid;
 use yii\base\Model;
+use yii\data\ArrayDataProvider;
+use yii\data\DataProviderInterface;
+use yii\db\QueryInterface;
 use yii\web\NotFoundHttpException;
 
 class FacilityRepository implements CreateModelRepositoryInterface
@@ -73,5 +87,97 @@ class FacilityRepository implements CreateModelRepositoryInterface
         return new FacilityId($record->id);
 
         // TODO: Implement save() method.
+    }
+
+
+    public function searchInWorkspace(WorkspaceId $id, FacilitySearch $model): DataProviderInterface
+    {
+        $workspace = Workspace::findOne(['id' => $id->getValue()]);
+        $query = FacilityReadRecord::find();
+
+        $query->andFilterWhere(['workspace_id' => $id->getValue()]);
+
+        $model->apply($query);
+
+
+        $dataProvider = new HydratedActiveDataProvider(
+            fn(Facility $facility) => $this->hydrator->hydrateConstructor($facility, FacilityForList::class),
+            [
+                'query' => $query,
+                'pagination' => false,
+
+            ]
+        );
+
+        /**
+         * Optimize total count since we don't have HF specific permissions.
+         * If this ever changes, pagination may break but permission checking will not
+         */
+        $dataProvider->totalCount = fn(QueryInterface $query) => (int) $query->count();
+
+
+        /**
+         * Get the LS data
+         */
+        $filter = new ResponseFilter($workspace->project->getSurvey(), new HeramsCodeMap());
+
+        $limesurveyData = [];
+        /** @var \prime\models\ar\Response $response */
+        foreach ($filter->filterQuery($workspace->getResponses())->each() as $response) {
+            $limesurveyData[$response->hf_id] = $this->createFromResponse($response);
+        }
+        return new CompositeDataProvider($dataProvider, new ArrayDataProvider([
+            'pagination' => false,
+            'allModels' => $limesurveyData
+
+        ]), [
+            'pagination' => [
+                'pageSize' => 15
+            ],
+            'sort' => [
+                'attributes' => [
+                    FacilityForList::UUID,
+                    FacilityForList::ID,
+                    FacilityForList::NAME,
+                    FacilityForList::ALTERNATIVE_NAME,
+                    FacilityForList::CODE,
+                    FacilityForList::RESPONSE_COUNT
+                ]
+            ]
+        ]);
+    }
+
+    private function createFromResponse(Response $response): FacilityForList
+    {
+        $latitude = $response->getLatitude();
+        $longitude = $response->getLongitude();
+        return new FacilityForList(
+            new FacilityId("LS_{$response->survey_id}_{$response->hf_id}"),
+            $response->name,
+            null,
+            $response->hf_id,
+            isset($latitude, $longitude) ?  new Point(null, $latitude, $longitude) : null,
+            Uuid::fromBytes(str_pad($response->hf_id, 16)),
+            // This is very inefficient for the response list; for now we accept it.
+            (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
+        );
+    }
+
+    public function retrieveForRead(FacilityId $id): FacilityForList
+    {
+
+        if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
+            $response = Response::findOne([
+                'hf_id' => $matches['hf_id'],
+                'survey_id' => $matches['survey_id']
+            ]);
+            if (!isset($response)) {
+                throw new NotFoundHttpException();
+            }
+            return $this->createFromResponse($response);
+        } else {
+            $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);
+            return $this->hydrator->hydrateConstructor($facility, FacilityForList::class);
+        }
     }
 }

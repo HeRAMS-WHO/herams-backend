@@ -54,6 +54,11 @@ class WorkspaceTabMenu extends TabMenu
             'url' => ['workspace/export', 'id' => $this->workspace->id],
             'permission' => Permission::PERMISSION_EXPORT
         ];
+        $this->tabs[] = [
+            'title' => \Yii::t('app', 'Health Facilities 2'),
+            'url' => ['workspace/facilities', 'id' => $this->workspace->id],
+            'permission' => Permission::PERMISSION_EXPORT
+        ];
 
         return parent::renderMenu();
     }

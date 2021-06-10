@@ -5,6 +5,7 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\controllers\response\Compare;
+use prime\controllers\response\Update;
 
 class ResponseController extends Controller
 {
@@ -13,7 +14,9 @@ class ResponseController extends Controller
     public function actions(): array
     {
         return [
-            'compare' => Compare::class
+            'compare' => Compare::class,
+            'update' => Update::class
+
         ];
     }
 }

@@ -6,6 +6,7 @@ use app\components\Form;
 use prime\models\forms\NewFacility;
 use prime\models\forms\UpdateFacility;
 use prime\widgets\FormButtonsWidget;
+use prime\widgets\LocalizableInput;
 use prime\widgets\Section;
 
 
@@ -26,7 +27,7 @@ $this->title = Yii::t('app', 'Update facility');
 
 Section::begin()->withHeader(\Yii::t('app', 'Update facility'));
 $form = ActiveForm::begin([
-    'enableClientValidation' => false,
+    'enableClientValidation' => true,
 ]);
 echo Form::widget([
     'form' => $form,
@@ -35,8 +36,16 @@ echo Form::widget([
         'name' => [
             'type' => Form::INPUT_TEXT,
         ],
+        'i18nName' => [
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => LocalizableInput::class,
+        ],
         'alternative_name' => [
             'type' => Form::INPUT_TEXT,
+        ],
+        'i18nAlternative_name' => [
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => LocalizableInput::class,
         ],
         'code' => [
             'type' => Form::INPUT_TEXT,

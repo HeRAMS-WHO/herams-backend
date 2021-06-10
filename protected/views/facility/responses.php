@@ -2,7 +2,9 @@
 declare(strict_types=1);
 
 use kartik\grid\GridView;
+use prime\interfaces\ResponseForList;
 use prime\models\ar\Permission;
+use prime\models\ar\Response;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
@@ -13,6 +15,7 @@ use yii\helpers\Url;
 
 $this->title = \Yii::t('app', 'Responses');
 
+\prime\widgets\Section::begin();
 echo GridView::widget([
 
     'caption' => ButtonGroup::widget([
@@ -21,7 +24,7 @@ echo GridView::widget([
         ],
         'buttons' => [
             [
-                'label' => \Yii::t('app', 'Create facility'),
+                'label' => \Yii::t('app', 'Update situation for facility'),
                 'tagName' => 'a',
                 'options' => [
                     'href' => Url::to(['create']),
@@ -35,11 +38,14 @@ echo GridView::widget([
 //    'filterModel' => $projectSearch,
     'layout' => "{items}\n{pager}",
     'columns' => [
-        'id',
-        'survey_id',
-        'extracted_type',
-        'latitude',
-        'longitude',
-        'extracted_date'
+        [
+            'attribute' => 'id',
+            'class' => \prime\widgets\DrilldownColumn::class,
+            'icon' => \prime\helpers\Icon::pencilAlt(),
+            'link' => fn(ResponseForList $response) => ['response/update', 'id' => $response->getId()]
+        ],
+        'dateOfUpdate'
     ]
 ]);
+
+\prime\widgets\Section::end();

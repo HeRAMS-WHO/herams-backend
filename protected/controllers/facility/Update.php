@@ -20,10 +20,13 @@ class Update extends Action
         Request $request,
         FacilityRepository $facilityRepository,
         NotificationService $notificationService,
+        ModelHydrator $modelHydrator,
         int $id
     ) {
         $model = $facilityRepository->retrieveForWrite(new FacilityId($id));
-        if ($request->isPost && $model->load($request->bodyParams)) {
+
+        if ($request->isPost) {
+            $modelHydrator->hydrateFromRequestBody($model, $request);
             if ($model->validate(null, false)) {
                 $updatedId = $facilityRepository->save($model);
                 $notificationService->success(\Yii::t('app', 'Facility updated'));

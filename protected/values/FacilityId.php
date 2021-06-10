@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace prime\values;
 
-class FacilityId extends IntegerId
+class FacilityId extends StringId
 {
 
 }

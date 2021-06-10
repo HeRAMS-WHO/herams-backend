@@ -62,8 +62,8 @@ class CacheController extends \yii\console\controllers\CacheController
     public function actionWarmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
         int $id,
-        int $minWorkspaceId,
-        int $maxWorkspaceId
+        int $minWorkspaceId = 0,
+        int $maxWorkspaceId = PHP_INT_MAX,
     ) {
         $this->warmupProject($limesurveyDataProvider, Project::findOne(['id' => $id]), $minWorkspaceId, $maxWorkspaceId);
     }
@@ -79,7 +79,7 @@ class CacheController extends \yii\console\controllers\CacheController
         LimesurveyDataProvider $limesurveyDataProvider,
         Project $project,
         int $minWorkspaceId = 0,
-        int $maxWorkspaceId = INF
+        int $maxWorkspaceId = PHP_INT_MAX
     ) {
         /** @var Workspace $workspace */
         foreach ($project->getWorkspaces()

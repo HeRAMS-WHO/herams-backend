@@ -34,4 +34,9 @@ class AccessCheck implements AccessCheckInterface
             throw new ForbiddenHttpException($forbiddenMessage);
         }
     }
+
+    public function checkPermission(object $model, string $permission): bool
+    {
+        return (bool) $this->user->can($permission, $model);
+    }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\workspace;
 
+use prime\objects\LanguageSet;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 
@@ -13,7 +14,8 @@ final class WorkspaceForNewOrUpdateFacility implements \prime\interfaces\Workspa
         private WorkspaceId $id,
         private string $title,
         private ProjectId $projectId,
-        private string $projectTitle
+        private string $projectTitle,
+        private LanguageSet $languages
     ) {
     }
 
@@ -35,5 +37,10 @@ final class WorkspaceForNewOrUpdateFacility implements \prime\interfaces\Workspa
     public function projectTitle(): string
     {
         return $this->projectTitle;
+    }
+
+    public function languages(): LanguageSet
+    {
+        return $this->languages;
     }
 }
