@@ -42,6 +42,7 @@ class Permission extends ActiveRecord
     const PERMISSION_EXPORT = 'export';
 
     const PERMISSION_CREATE_FACILITY = 'create-facility';
+    const PERMISSION_ADD_RESPONSE_TO_FACILITY = 'add-response-to-facility';
 
     const ROLE_LEAD = 'ROLE_LEAD';
     const ROLE_WORKSPACE_CONTRIBUTOR = 'ROLE_WORKSPACE_CONTRIBUTOR';
@@ -49,6 +50,7 @@ class Permission extends ActiveRecord
     const ROLE_PROJECT_VIEWER = 'ROLE_PROJECT_VIEWER';
     const ROLE_PROJECT_OWNER = 'ROLE_PROJECT_OWNER';
     const ROLE_PROJECT_ADMIN = 'ROLE_PROJECT_ADMIN';
+
 
     const PERMISSION_DELETE_ALL_WORKSPACES = 'delete-workspaces';
 

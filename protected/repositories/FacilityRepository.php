@@ -5,9 +5,12 @@ namespace prime\repositories;
 
 use prime\components\CompositeDataProvider;
 use prime\components\HydratedActiveDataProvider;
+use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
+use prime\interfaces\FacilityForResponseCopy;
+use prime\interfaces\FacilityForTabMenu;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
@@ -22,6 +25,8 @@ use prime\objects\HeramsCodeMap;
 use prime\values\FacilityId;
 use prime\values\IntegerId;
 use prime\values\Point;
+use prime\values\ProjectId;
+use prime\values\ResponseId;
 use prime\values\StringId;
 use prime\values\WorkspaceId;
 use Ramsey\Uuid\Uuid;
@@ -38,6 +43,26 @@ class FacilityRepository implements CreateModelRepositoryInterface
         private ModelHydrator $hydrator,
         private WorkspaceRepository $workspaceRepository
     ) {
+    }
+
+    public function retrieveForResponseCopy(FacilityId $id): FacilityForResponseCopy
+    {
+        if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
+            $responseQuery = Response::find()->andWhere([
+                'hf_id' => $matches['hf_id'],
+                'survey_id' => $matches['survey_id']
+            ]);
+            // TODO: permission checking for HFs defined in LS.
+        } else {
+            $record = Facility::findOne(['id' => $id]);
+            $this->accessCheck->requirePermission($record, Permission::PERMISSION_ADD_RESPONSE_TO_FACILITY);
+            $responseQuery = $record->getResponses();
+        }
+
+        $response = $responseQuery->orderBy(['last_updated' => 'desc'])->limit(1)->one();
+
+
+        return new \prime\models\facility\FacilityForResponseCopy(new ResponseId($response->auto_increment_id));
     }
 
     public function create(Model|FacilityForm $model): FacilityId
@@ -84,9 +109,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
-        return new FacilityId($record->id);
-
-        // TODO: Implement save() method.
+        return new FacilityId((string) $record->id);
     }
 
 
@@ -178,6 +201,47 @@ class FacilityRepository implements CreateModelRepositoryInterface
         } else {
             $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);
             return $this->hydrator->hydrateConstructor($facility, FacilityForList::class);
+        }
+    }
+
+    public function retrieveForTabMenu(FacilityId $id): FacilityForTabMenu
+    {
+
+        if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
+            $response = Response::find()
+                ->with('workspace')
+                ->andWhere([
+                    'hf_id' => $matches['hf_id'],
+                    'survey_id' => $matches['survey_id']
+                ])
+                ->orderBy(['date' => SORT_DESC, 'last_updated' => SORT_DESC])
+                ->limit(1)
+                ->one();
+            if (!isset($response)) {
+                throw new NotFoundHttpException();
+            }
+            return new \prime\models\facility\FacilityForTabMenu(
+                $id,
+                $response->name,
+                new ProjectId($response->workspace->tool_id),
+                $response->workspace->project->title,
+                new WorkspaceId($response->workspace_id),
+                $response->workspace->title,
+                (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
+            );
+
+        } else {
+            $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);
+            return new \prime\models\facility\FacilityForTabMenu(
+                $id,
+                $facility->name,
+                new ProjectId($facility->workspace->tool_id),
+                $facility->workspace->project->title,
+                new WorkspaceId($facility->workspace_id),
+                $facility->workspace->title,
+                (int) $facility->getResponses()->count(),
+                new CanCurrentUserWrapper($this->accessCheck, $facility)
+            );
         }
     }
 }

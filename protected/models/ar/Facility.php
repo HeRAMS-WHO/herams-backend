@@ -47,6 +47,13 @@ class Facility extends ActiveRecord
         ])->inverseOf('facility');
     }
 
+    public function getWorkspace(): ActiveQuery
+    {
+        return $this->hasOne(Workspace::class, [
+            'id' => 'workspace_id'
+        ]);
+    }
+
     public static function labels(): array
     {
         return [

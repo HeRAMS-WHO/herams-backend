@@ -9,6 +9,8 @@ use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\workspace\CreateUpdate;
+use prime\repositories\WorkspaceRepository;
+use prime\values\WorkspaceId;
 use yii\base\Action;
 use yii\helpers\Html;
 use yii\i18n\I18N;
@@ -18,14 +20,14 @@ class Update extends Action
 {
     public function run(
         Request $request,
-        I18N $i18n,
         AccessCheckInterface $accessCheck,
         NotificationService $notificationService,
-        $id
+        WorkspaceRepository $workspaceRepository,
+        string $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $workspace = Workspace::findOne(['id' => $id]);
-        $accessCheck->requirePermission($workspace, Permission::PERMISSION_WRITE);
+        $workspaceId = new WorkspaceId($id);
+        $workspace = $workspaceRepository->retrieveForWrite($workspaceId);
 
         if ($request->isPut) {
             if ($workspace->load($request->bodyParams) && $workspace->save()) {
@@ -38,7 +40,8 @@ class Update extends Action
         }
 
         return $this->controller->render('update', [
-            'model' => $workspace
+            'model' => $workspace,
+            'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId)
         ]);
     }
 }

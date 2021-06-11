@@ -18,7 +18,9 @@ class CacheController extends \yii\console\controllers\CacheController
         foreach (Project::find()->each() as $project) {
             $this->stdout("Removing all responses for project {$project->title}\n", Console::FG_CYAN);
             Response::deleteAll([
-                'workspace_id' => $project->getWorkspaces()->select('id')
+                'and',
+                ['workspace_id' => $project->getWorkspaces()->select('id')],
+                ['not', ['id' => null]]
             ]);
             $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);
             try {

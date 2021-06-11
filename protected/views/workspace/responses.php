@@ -6,7 +6,7 @@
  * @var int $closedCount
  * @var \yii\web\View $this
  * @var \prime\models\ar\Workspace $workspace
- *
+ * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
  */
 
 use kartik\grid\ActionColumn;
@@ -28,7 +28,7 @@ $this->title = \Yii::t('app', "Workspace {workspace}", [
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
-    'workspace' => $workspace,
+    'workspace' => $tabMenuModel,
 ]);
 $this->endBlock();
 
@@ -36,32 +36,6 @@ Section::begin([
     'header' => \Yii::t('app', 'Responses')
 ]);
 echo GridView::widget([
-    'caption' => ButtonGroup::widget([
-        'options' => [
-            'class' => 'pull-right',
-        ],
-        'buttons' => [
-//            [
-//                'label' => \Yii::t('app', 'Import workspaces'),
-//                'tagName' => 'a',
-//                'options' => [
-//                    'href' => Url::to(['workspace/import', 'project_id' => $project->id]),
-//                    'class' => 'btn-default',
-//                ],
-//                'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
-//            ],
-//            [
-//                'label' => \Yii::t('app', 'Create workspace'),
-//                'tagName' => 'a',
-//                'options' => [
-//                    'href' => Url::to(['workspace/create', 'project_id' => $project->id]),
-//                    'class' => 'btn-primary',
-//                ],
-//                'visible' => app()->user->can(Permission::PERMISSION_MANAGE_WORKSPACES, $project)
-//            ],
-
-        ]
-    ]),
     'pjax' => true,
     'pjaxSettings' => [
         'options' => [

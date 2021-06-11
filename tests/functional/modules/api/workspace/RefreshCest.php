@@ -10,7 +10,7 @@ use yii\helpers\Url;
 use function iter\toArrayWithKeys;
 
 /**
- * @covers \prime\modules\Api\controllers\workspace\Refresh
+ * @covers \prime\modules\Api\controllers\workspace\Import
  */
 class RefreshCest
 {

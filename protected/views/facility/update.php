@@ -7,25 +7,24 @@ use prime\models\forms\NewFacility;
 use prime\models\forms\UpdateFacility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
+use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 
 
 /**
  * @var \prime\components\View $this
  * @var UpdateFacility $model
+ * @var \prime\interfaces\FacilityForTabMenu $tabMenuModel
  */
-$this->params['breadcrumbs'][] = [
-    'label' => $model->getWorkspace()->projectTitle(),
-    'url' => ['project/workspaces', 'id' => $model->getWorkspace()->id()]
-];
-$this->params['breadcrumbs'][] = [
-    'label' => $model->getWorkspace()->title(),
-    'url' => ['workspace/limesurvey', 'id' => $model->getWorkspace()->id()]
-];
 
-$this->title = Yii::t('app', 'Update facility');
+echo $this->render('_breadcrumbs', ['tabMenuModel' => $tabMenuModel]);
+$this->beginBlock('tabs');
+echo FacilityTabMenu::widget(
+    ['facility' => $tabMenuModel]
+);
+$this->endBlock();
 
-Section::begin()->withHeader(\Yii::t('app', 'Update facility'));
+Section::begin()->withHeader(Yii::t('app', 'Update facility'));
 $form = ActiveForm::begin([
     'enableClientValidation' => true,
 ]);

@@ -37,6 +37,7 @@ class Refresh extends Action
             $ids[] = $response->getId();
             $key = [
                 'id' => $response->getId(),
+                'survey_id' => $workspace->project->base_survey_eid,
                 'workspace_id' => $workspace->id
             ];
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 
 namespace prime\models\forms;
 
@@ -36,25 +38,20 @@ use yii\web\IdentityInterface;
  */
 class Share extends Model
 {
-    private $permissionOptions = [];
+    private array $permissionOptions = [];
     private int $linkExpirationDays;
-    public $userIdsAndEmails = [];
-    public $permissions = [];
+    public array $userIdsAndEmails = [];
+    public array $permissions = [];
 
-    private $model;
+    private object $model;
 
     public $confirmationMessage;
 
-    /** @var AuthManager */
-    private $abacManager;
-    /** @var IdentityInterface */
-    private $currentUser;
-    /** @var MailerInterface */
-    private $mailer;
-    /** @var Resolver */
-    private $resolver;
-    /** @var UrlSigner */
-    private $urlSigner;
+    private AuthManager $abacManager;
+    private IdentityInterface $currentUser;
+    private MailerInterface $mailer;
+    private Resolver $resolver;
+    private UrlSigner $urlSigner;
 
     public function __construct(
         object $model,

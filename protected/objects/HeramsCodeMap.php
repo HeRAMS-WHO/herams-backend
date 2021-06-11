@@ -40,6 +40,16 @@ class HeramsCodeMap
         return 'HFFUNCT';
     }
 
+    public function getCondition(): string
+    {
+        return 'CONDB';
+    }
+
+    public function getAcessibility(): string
+    {
+        return 'HFACC';
+    }
+
     public function getSubjectExpression(): string
     {
         return '/^QHeRAMS\d+$/';

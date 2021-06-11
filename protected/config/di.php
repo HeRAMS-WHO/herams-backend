@@ -33,6 +33,8 @@ use yii\web\JqueryAsset;
 use function iter\filter;
 
 return [
+    \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
+    \Psr\Http\Message\RequestFactoryInterface::class => \Http\Factory\Guzzle\RequestFactory::class,
     \prime\helpers\ModelHydrator::class => \prime\helpers\ModelHydrator::class,
     LocalizableInput::class => function (Container $container, array $params, array $config) {
         if (!isset($config['languages'])) {

@@ -7,6 +7,7 @@ use prime\models\ar\Permission;
 use prime\models\facility\FacilityForList;
 use prime\widgets\DrilldownColumn;
 use prime\widgets\IdColumn;
+use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
 use prime\widgets\UuidColumn;
 use SamIT\abac\interfaces\Resolver;
@@ -18,20 +19,20 @@ use yii\web\View;
  * @var \prime\models\search\FacilitySearch $facilitySearch
  * @var int $closedCount
  * @var View $this
- * @var \prime\interfaces\WorkspaceForNewOrUpdateFacility $workspace
+ * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
  * @var Resolver $abacResolver
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => $workspace->projectTitle(),
-    'url' => ['project/workspaces', 'id' => $workspace->projectId()]
+    'label' => $tabMenuModel->projectTitle(),
+    'url' => ['project/workspaces', 'id' => $tabMenuModel->projectId()]
 ];
 
-$this->title = $workspace->title();
+$this->title = $tabMenuModel->title();
 $this->beginBlock('tabs');
-//echo WorkspaceTabMenu::widget(
-//    ['workspace' => $workspace]
-//);
+echo WorkspaceTabMenu::widget(
+    ['workspace' => $tabMenuModel]
+);
 $this->endBlock();
 
 Section::begin([
@@ -39,7 +40,7 @@ Section::begin([
         [
             'icon' => Icon::add(),
             'label' => \Yii::t('app', 'Register new facility'),
-            'link' => ['facility/create', 'parent_id' => $workspace->id()],
+            'link' => ['facility/create', 'parent_id' => $tabMenuModel->id()],
             'permission' => Permission::PERMISSION_SURVEY_DATA
         ],
     ]

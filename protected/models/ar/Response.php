@@ -25,6 +25,8 @@ use yii\validators\RequiredValidator;
  * @property string $hf_id
  * @property Workspace $workspace
  * @property Project $project
+ * @property Facility $facility
+ * @property int $auto_increment_id
  */
 class Response extends ActiveRecord implements HeramsResponseInterface
 {
@@ -235,9 +237,26 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     }
 
 
-    public function getLimesurveyUrl(string $language): string
+    public function getLimesurveyUrl(string $language): string|null
     {
+        if (!isset($this->survey_id)) {
+            return null;
+        }
         return "https://ls.herams.org/{$this->survey_id}?ResponsePicker={$this->id}&token={$this->workspace->token}&lang={$language}&newtest=Y";
     }
 
+    public function getAccessibility(): string
+    {
+        return $this->data[$this->getMap()->getFunctionality()] ?? HeramsResponseInterface::UNKNOWN_VALUE;
+    }
+
+    public function getCondition(): string
+    {
+        return $this->data[$this->getMap()->getFunctionality()] ?? HeramsResponseInterface::UNKNOWN_VALUE;
+    }
+
+    public function getAutoIncrementId(): int
+    {
+        return $this->auto_increment_id;
+    }
 }

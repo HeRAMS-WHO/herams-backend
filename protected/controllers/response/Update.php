@@ -12,12 +12,10 @@ class Update extends Action
 
     public function run(
         ResponseRepository $responseRepository,
-        int $id,
-        int $survey_id = null,
-        int $facility_id = null
+        int $id
     ) {
         $responseId = new ResponseId($id);
-        $response = $responseRepository->retrieveForSurvey($responseId, \Yii::$app->language);
+        $response = $responseRepository->retrieveForSurvey($responseId);
         if ($response->usesLimeSurvey()) {
             return $this->controller->render('update-limesurvey', ['model' => $response]);
         }

@@ -34,7 +34,7 @@ Section::begin([
 ]);
 echo Html::tag('iframe', '', [
     'name' => 'limesurvey',
-    'src' => $model->getLimesurveyUrl(),
+    'src' => $model->getExternalResponseId()->getLimesurveyUrl(\Yii::$app->language),
     'class' => [],
     'style' => [
         'width' => '100%',

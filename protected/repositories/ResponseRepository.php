@@ -23,6 +23,7 @@ use prime\models\response\ResponseForSurvey;
 use prime\models\search\FacilitySearch;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
+use prime\values\ExternalResponseId;
 use prime\values\FacilityId;
 use prime\values\IntegerId;
 use prime\values\Point;
@@ -46,6 +47,38 @@ class ResponseRepository
     ) {
     }
 
+    /**
+     * Updates the reference to the LS response ID in our local response record.
+     * @param ResponseId $id
+     * @param ExternalResponseId $id
+     */
+    public function updateExternalId(ResponseId $id, ExternalResponseId $externalResponseId): void
+    {
+        $record = Response::findOne(['auto_increment_id' => $id]);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        $record->id = $externalResponseId->getResponseId();
+        $record->survey_id = $externalResponseId->getSurveyId();
+        if (!$record->validate()) {
+            throw new \RuntimeException("Failed to update internal record: ", print_r($record->errors, true));
+        }
+        $record->save(false);
+    }
+
+    public function duplicate(ResponseId $id): ResponseId
+    {
+        $record = Response::findOne(['auto_increment_id' => $id]);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
+        // TODO: Add permission check for copying / writing.
+        $record->auto_increment_id = null;
+        $record->setIsNewRecord(true);
+        if (!$record->validate()) {
+            throw new \RuntimeException("Copy failed: " . print_r($record->errors, true));
+        }
+        $record->save(false);
+
+        return new ResponseId($record->auto_increment_id);
+    }
+
     public function create(Model|FacilityForm $model): FacilityId
     {
         requireParameter($model, FacilityForm::class, 'model');
@@ -65,28 +98,15 @@ class ResponseRepository
         return $model;
     }
 
-    public function retrieveForSurvey(ResponseId $id, string $language): ResponseForSurvey
+    public function retrieveForSurvey(ResponseId $id): ResponseForSurvey
     {
-        $response = Response::findOne(['id' => $id]);
+        $response = Response::findOne(['auto_increment_id' => $id]);
         $this->accessCheck->requirePermission($response, Permission::PERMISSION_WRITE);
-        return new ResponseForSurvey($response->getLimesurveyUrl($language));
-    }
-
-    /**
-     * @throws NotFoundHttpException
-     */
-    public function retrieveForWrite(ResponseId $id): UpdateFacility
-    {
-        /** @var null|Facility $facility */
-        $facility = Facility::find()->andWhere(['id' => $id])->one();
-        if (!isset($facility)) {
-            throw new NotFoundHttpException();
-        }
-        $workspace = $this->workspaceRepository->retrieveForNewFacility(new WorkspaceId($facility->workspace_id));
-
-        $form = new UpdateFacility($id, $workspace);
-        $this->hydrator->hydrateFromActiveRecord($form, $facility);
-        return $form;
+        return new ResponseForSurvey(
+            $id,
+            $response->survey_id,
+            $response->id,
+            $response->workspace->token);
     }
 
     public function save(UpdateFacility $facility): FacilityId
@@ -101,7 +121,6 @@ class ResponseRepository
 
         // TODO: Implement save() method.
     }
-
 
     public function searchInFacility(FacilityId $id): DataProviderInterface
     {
@@ -123,6 +142,16 @@ class ResponseRepository
                 return new ResponseForList($response);
             },
             [
+                'sort' => [
+                    'attributes' => [
+                        'id',
+                        'dateOfUpdate' => [
+                            'asc' => ['date' => SORT_ASC],
+                            'desc' => ['date' => SORT_DESC],
+                            'default' => SORT_DESC,
+                        ]
+                    ]
+                ],
                 'query' => $query,
                 'pagination' => false,
             ]

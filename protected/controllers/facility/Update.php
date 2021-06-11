@@ -7,6 +7,7 @@ use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
 use prime\repositories\FacilityRepository;
 use prime\values\FacilityId;
+use prime\values\StringId;
 use yii\base\Action;
 use yii\web\Request;
 
@@ -21,9 +22,10 @@ class Update extends Action
         FacilityRepository $facilityRepository,
         NotificationService $notificationService,
         ModelHydrator $modelHydrator,
-        int $id
+        string $id
     ) {
-        $model = $facilityRepository->retrieveForWrite(new FacilityId($id));
+        $facilityId = new FacilityId($id);
+        $model = $facilityRepository->retrieveForWrite($facilityId);
 
         if ($request->isPost) {
             $modelHydrator->hydrateFromRequestBody($model, $request);
@@ -33,6 +35,9 @@ class Update extends Action
                 return $this->controller->redirect(['update', 'id' => $updatedId]);
             }
         }
-        return $this->controller->render('update', ['model' => $model]);
+        return $this->controller->render('update', [
+            'model' => $model,
+            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId)
+        ]);
     }
 }

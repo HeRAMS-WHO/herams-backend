@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use app\components\Form;
 use app\components\ActiveForm;
@@ -13,6 +14,7 @@ use prime\widgets\menu\WorkspaceTabMenu;
 /**
  * @var  \prime\components\View $this
  * @var \prime\models\ar\Workspace $model
+ * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
  */
 assert($this instanceof \prime\components\View);
 assert($model instanceof \prime\models\ar\Workspace);
@@ -29,7 +31,7 @@ $this->title = \Yii::t('app', "Workspace {workspace}", [
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
-    'workspace' => $model,
+    'workspace' => $tabMenuModel,
 ]);
 $this->endBlock();
 

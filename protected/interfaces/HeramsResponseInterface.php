@@ -17,8 +17,10 @@ interface HeramsResponseInterface
     public function getLongitude(): ?float;
 
     public function getId(): int;
+    public function getAutoIncrementId(): int;
 
     public function getType(): ?string;
+
 
     public function getName(): ?string;
 
@@ -41,6 +43,10 @@ interface HeramsResponseInterface
     public function getSubjectAvailabilityBucket(): int;
 
     public function getFunctionality(): string;
+
+    public function getAccessibility(): string;
+
+    public function getCondition(): string;
 
     public function getMainReason(): ?string;
 

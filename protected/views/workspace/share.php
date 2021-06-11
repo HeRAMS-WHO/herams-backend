@@ -12,6 +12,7 @@ use yii\helpers\Html;
 /**
  * @var \prime\models\ar\Workspace $workspace
  * @var \prime\models\forms\Share $model
+ * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
  * @var \prime\components\View $this
  */
 
@@ -25,7 +26,7 @@ $this->title = \Yii::t('app', 'Workspace {workspace}', [
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
-    'workspace' => $workspace,
+    'workspace' => $tabMenuModel,
 ]);
 $this->endBlock();
 

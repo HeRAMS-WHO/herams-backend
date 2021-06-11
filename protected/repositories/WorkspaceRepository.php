@@ -8,6 +8,7 @@ use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\interfaces\RetrieveWorkspaceForNewFacility;
+use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Workspace as WorkspaceForm;
@@ -37,6 +38,35 @@ class WorkspaceRepository implements
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
 
         return $record;
+    }
+
+    public function retrieveForWrite(IntegerId|WorkspaceId $id): Workspace
+    {
+        $record = Workspace::findOne(['id' => $id]);
+
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+
+        return $record;
+    }
+
+    public function retrieveForShare(WorkspaceId $id): Workspace
+    {
+        $record = Workspace::findOne(['id' => $id]);
+
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_SHARE);
+
+        return $record;
+    }
+
+    public function retrieveForTabMenu(WorkspaceId $id): WorkspaceForTabMenu
+    {
+        $record = Workspace::find()
+            ->withFields('facilityCount')
+            ->andWhere(['id' => $id])->one();
+
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
+
+        return new \prime\models\workspace\WorkspaceForTabMenu($this->accessCheck, $record);
     }
 
     public function create(Model|WorkspaceForm $model): WorkspaceId

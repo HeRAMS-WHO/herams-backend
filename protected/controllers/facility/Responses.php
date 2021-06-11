@@ -25,10 +25,12 @@ class Responses extends Action
     ) {
 
         $facilityId = new FacilityId($id);
-        $facility = $facilityRepository->retrieveForRead($facilityId);
-        $check->requirePermission($facility, Permission::PERMISSION_READ);
+        $facility = $facilityRepository->retrieveForTabMenu($facilityId);
 
         $dataProvider = $responseRepository->searchInFacility($facilityId);
-        return $this->controller->render('responses', ['responseProvider' => $dataProvider]);
+        return $this->controller->render('responses', [
+            'responseProvider' => $dataProvider,
+            'facility' => $facility
+        ]);
     }
 }

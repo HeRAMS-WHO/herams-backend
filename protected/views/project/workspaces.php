@@ -85,11 +85,9 @@ echo GridView::widget(
                 'class'      => DrilldownColumn::class,
                 'attribute'  => 'title',
                 'permission' => Permission::PERMISSION_LIST_FACILITIES,
-                'link'       => function ($workspace) {
-                    return [
-                        'workspace/limesurvey', 'id' => $workspace->id
-                    ];
-                },
+                'link'       => static fn ($workspace) => [
+                    'workspace/facilities', 'id' => $workspace->id
+                ],
             ],
             [
                 'attribute' => 'latestUpdate',

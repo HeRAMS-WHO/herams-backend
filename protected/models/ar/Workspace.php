@@ -9,6 +9,7 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsCodeMap;
+use prime\queries\FacilityQuery;
 use prime\queries\ResponseQuery;
 use prime\values\ProjectId;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -76,12 +77,30 @@ class Workspace extends ActiveRecord
                     ],
                     'facilityCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Response::find()
-                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
-                            ->select('count(distinct hf_id)'),
+                        VirtualFieldBehavior::GREEDY => (function () {
+                            $responseQuery = Response::find()
+                                ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
+                                ->select(['count' => 'count(distinct hf_id)']);
+                            $facilityQuery = Facility::find()
+                                ->andWhere(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
+                                ->select(['count' => 'count(*)']);
+
+                            $responseQuery->union($facilityQuery);
+                            $query = new Query();
+                            $query->from(['sub' => $responseQuery]);
+                            $query->select('sum(count)');
+                            return $query;
+                        })()
+
+
+
+                            ,
                         VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                             $filter = new ResponseFilter(null, new HeramsCodeMap());
-                            return (int) $filter->filterQuery($workspace->getResponses())->count();
+                            return $filter->filterQuery($workspace->getResponses())->count()
+                                + $workspace->getFacilities()->count()
+
+                                ;
                         }
                     ],
                     'contributorCount' => [
@@ -123,6 +142,11 @@ class Workspace extends ActiveRecord
                 ]
             ]
         ];
+    }
+
+    public function getFacilities(): FacilityQuery
+    {
+        return $this->hasMany(Facility::class, ['workspace_id' => 'id']);
     }
 
     public static function find(): ActiveQuery
@@ -238,6 +262,4 @@ class Workspace extends ActiveRecord
             'workspace_id' => 'id',
         ])->inverseOf('workspace');
     }
-
-
 }

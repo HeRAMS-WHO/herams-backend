@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace prime\models\response;
 
 use prime\interfaces\HeramsResponseInterface;
-use prime\models\ar\Response;
 use prime\objects\enums\FacilityAccessibility;
 use prime\objects\enums\FacilityCondition;
 use prime\objects\enums\FacilityFunctionality;
@@ -16,24 +15,28 @@ class ResponseForList implements \prime\interfaces\ResponseForList
     {
     }
 
+    public function getExternalId()
+    {
+        return $this->response->id;
+    }
     public function getId(): ResponseId
     {
-        return new ResponseId($this->response->getId());
+        return new ResponseId($this->response->getAutoIncrementId());
     }
 
     public function getCondition(): FacilityCondition
     {
-        return FacilityCondition::unknown();
+        return FacilityCondition::tryFrom($this->response->getCondition()) ?? FacilityCondition::unknown();
     }
 
     public function getAccessibility(): FacilityAccessibility
     {
-        return FacilityAccessibility::unknown();
+        return FacilityAccessibility::tryFrom($this->response->getAccessibility()) ?? FacilityAccessibility::unknown();
     }
 
     public function getFunctionality(): FacilityFunctionality
     {
-        return FacilityFunctionality::unknown();
+        return FacilityFunctionality::tryFrom($this->response->getFunctionality()) ?? FacilityFunctionality::unknown();
     }
 
     public function getDateOfUpdate(): null|\DateTimeInterface

@@ -3,6 +3,7 @@
 
 namespace prime\widgets\menu;
 
+use prime\interfaces\CanCurrentUser;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
@@ -37,8 +38,12 @@ class TabMenu extends Widget
     private function isVisible(array $tab): bool
     {
         // Check if user has permission
-        if (isset($tab['permission']) && !\Yii::$app->user->can($tab['permission'], $this->permissionSubject)) {
-            return false;
+        if (isset($tab['permission'])) {
+            if (($this->permissionSubject instanceof CanCurrentUser && !$this->permissionSubject->canCurrentUser($tab['permission']))
+                || !\Yii::$app->user->can($tab['permission'], $this->permissionSubject)
+            ) {
+                return false;
+            }
         }
 
         if (isset($tab['visible']) && !$tab['visible']($tab, $this)) {

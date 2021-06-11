@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers;
 
 use prime\modules\Api\controllers\user\Workspaces;
-use prime\modules\Api\controllers\workspace\Refresh;
+use prime\modules\Api\controllers\workspace\Import;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
@@ -28,7 +28,6 @@ class WorkspaceController extends \yii\rest\Controller
     public function actions()
     {
         return [
-            'refresh' => Refresh::class
         ];
     }
 }

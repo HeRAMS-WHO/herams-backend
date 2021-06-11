@@ -5,6 +5,8 @@ namespace prime\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
+use function iter\mapWithKeys;
+use function iter\toArrayWithKeys;
 
 class NavigationButtonGroup extends Widget
 {

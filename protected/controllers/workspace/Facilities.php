@@ -22,29 +22,20 @@ use yii\web\User;
 class Facilities extends Action
 {
     public function run(
-        Resolver $abacResolver,
-        PreloadingSourceRepository $preloadingSourceRepository,
-        User $user,
         Request $request,
         WorkspaceRepository $workspaceRepository,
         FacilityRepository $facilityRepository,
         int $id
     ) {
-//        $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
         $workspaceId = new WorkspaceId($id);
-        $workspace = $workspaceRepository->retrieveForNewFacility($workspaceId);
-
-
-
         $facilitySearch = new FacilitySearch();
         $facilitySearch->load($request->queryParams);
         $facilityProvider = $facilityRepository->searchInWorkspace($workspaceId, $facilitySearch);
         return $this->controller->render('facilities', [
             'facilitySearch' => $facilitySearch,
             'facilityProvider' => $facilityProvider,
-            'workspace' => $workspace,
         ]);
     }
 }
