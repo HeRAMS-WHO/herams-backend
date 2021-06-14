@@ -17,7 +17,7 @@ class ResponseForList implements \prime\interfaces\ResponseForList
 
     public function getExternalId()
     {
-        return $this->response->id;
+        return $this->response->getId();
     }
     public function getId(): ResponseId
     {

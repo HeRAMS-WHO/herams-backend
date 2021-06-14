@@ -8,6 +8,9 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use yii\mail\MessageInterface;
 
+/**
+ * @covers \prime\controllers\project\Share
+ */
 class ShareCest
 {
 

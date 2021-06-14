@@ -7,6 +7,9 @@ use prime\objects\LanguageSet;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 
+/**
+ * @codeCoverageIgnore Since all functions are simple getters
+ */
 final class WorkspaceForNewOrUpdateFacility implements \prime\interfaces\WorkspaceForNewOrUpdateFacility
 {
 

@@ -8,6 +8,9 @@ use prime\values\FacilityId;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 
+/**
+ * @codeCoverageIgnore Since all functions are simple getters
+ */
 final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
 {
     public function __construct(

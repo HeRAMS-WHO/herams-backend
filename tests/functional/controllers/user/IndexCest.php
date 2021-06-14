@@ -6,6 +6,9 @@ namespace prime\tests\functional\controllers\user;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\user\Index
+ */
 class IndexCest
 {
     public function testFilter(FunctionalTester $I)

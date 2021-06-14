@@ -10,6 +10,9 @@ use prime\traits\CanCurrentUser;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 
+/**
+ * @codeCoverageIgnore Since all functions are simple getters
+ */
 final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
 {
     use CanCurrentUser;

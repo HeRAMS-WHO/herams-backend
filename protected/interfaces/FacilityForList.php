@@ -18,13 +18,6 @@ interface FacilityForList
 
     public const ATTRIBUTES = [self::ID, self::UUID, self::NAME, self::ALTERNATIVE_NAME, self::CODE, self::COORDINATES, self::RESPONSE_COUNT];
 
-    /**
-     * MUST return a value when $name equals one of the above constants, MUST throw an exception otherwise
-     * @param string $name
-     * @return mixed
-     */
-    public function __get(string $name);
-
     public function getId(): FacilityId;
     public function getName(): string;
 

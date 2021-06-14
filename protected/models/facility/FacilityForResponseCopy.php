@@ -5,6 +5,9 @@ namespace prime\models\facility;
 
 use prime\values\ResponseId;
 
+/**
+ * @codeCoverageIgnore Since all functions are simple getters
+ */
 class FacilityForResponseCopy implements \prime\interfaces\FacilityForResponseCopy
 {
     public function __construct(private ResponseId $lastResponseId)

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\permission;
 
@@ -10,6 +10,9 @@ use SamIT\abac\AuthManager;
 use yii\helpers\Url;
 use yii\web\Request;
 
+/**
+ * @covers \prime\controllers\permission\Delete
+ */
 class DeleteCest
 {
 

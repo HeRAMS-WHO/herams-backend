@@ -8,18 +8,11 @@ use prime\values\Point;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
+/**
+ * @codeCoverageIgnore Since all functions are simple getters
+ */
 class FacilityForList implements \prime\interfaces\FacilityForList
 {
-    public function __get(string $name)
-    {
-        if (in_array($name, self::ATTRIBUTES)) {
-            $method = 'get' . ucfirst($name);
-            return $this->$method();
-        }
-
-        throw new \InvalidArgumentException("Unknown magic property $name");
-    }
-
 
     public function __construct(
         private FacilityId $id,

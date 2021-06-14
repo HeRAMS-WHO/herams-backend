@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\page;
 
@@ -7,6 +7,9 @@ use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\page\Create
+ */
 class CreateCest
 {
     public function _before(FunctionalTester $I)

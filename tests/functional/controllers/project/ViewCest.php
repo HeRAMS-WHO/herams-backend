@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
@@ -9,6 +9,9 @@ use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\project\View
+ */
 class ViewCest
 {
 

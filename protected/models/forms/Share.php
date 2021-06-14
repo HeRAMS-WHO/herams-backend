@@ -236,7 +236,7 @@ class Share extends Model
             }
             $permissions[$key]['permissions'][$permission->permission] = $permission;
         }
-        return GridView::widget([
+        return \yii\grid\GridView::widget([
             'dataProvider' => new ArrayDataProvider([
                 'allModels' => $permissions
             ]),
