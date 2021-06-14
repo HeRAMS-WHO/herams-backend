@@ -30,6 +30,7 @@ class WorkspaceController extends Controller
 {
     private WorkspaceId $workspaceId;
     public $layout = self::LAYOUT_ADMIN_TABS;
+    public $defaultAction = 'facilities';
 
     public function __construct($id, $module,
         private WorkspaceRepository $workspaceRepository,

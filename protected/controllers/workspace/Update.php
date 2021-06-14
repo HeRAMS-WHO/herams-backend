@@ -35,7 +35,7 @@ class Update extends Action
                     'workspace' => Html::tag('strong', $workspace->title)
                 ]));
 
-                return $this->controller->redirect(['workspace/limesurvey', 'id' => $workspace->id]);
+                return $this->controller->redirect(['workspace/responses', 'id' => $workspace->id]);
             }
         }
 

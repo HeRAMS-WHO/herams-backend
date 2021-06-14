@@ -81,7 +81,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                 ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
-                    'route' => '<controller>/view'
+                    'route' => '<controller>'
                 ],
                 [
                     'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',

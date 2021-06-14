@@ -49,6 +49,7 @@ return [
     ]),
     new ImpliedPermission(Permission::PERMISSION_EXPORT, [
         Permission::PERMISSION_LIST_WORKSPACES,
+        Permission::PERMISSION_READ,
         Permission::PERMISSION_LIST_FACILITIES
     ]),
     new ProjectImplicitReadViaExplicitWorkspacePermission(),

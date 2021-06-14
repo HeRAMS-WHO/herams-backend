@@ -16,12 +16,13 @@ use yii\web\View;
  */
 
 $this->params['breadcrumbs'][] = [
-    'label' => $subject->project->title,
-    'url' => ['project/workspaces', 'id' => $subject->project->id]
+
+    'label' => $tabMenuModel->projectTitle(),
+    'url' => ['project/workspaces', 'id' => $tabMenuModel->projectId()]
 ];
 $this->params['breadcrumbs'][] = [
-    'label' => $subject->title,
-    'url' => ['workspace/limesurvey', 'id' => $subject->id]
+    'label' => $tabMenuModel->title(),
+    'url' => ['workspace/limesurvey', 'id' => $tabMenuModel->id()]
 ];
 
 $this->beginBlock('tabs');
@@ -30,7 +31,7 @@ echo WorkspaceTabMenu::widget([
 ]);
 $this->endBlock();
 
-$this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $subject->title]);
+$this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $tabMenuModel->title()]);
 
 Section::begin()
     ->withHeader('Export data');

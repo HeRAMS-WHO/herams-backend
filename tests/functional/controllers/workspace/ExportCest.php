@@ -32,6 +32,7 @@ class ExportCest
         $response->id = 1;
         $I->save($response);
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_EXPORT);
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $workspace));
 
         $I->amOnPage(['workspace/export', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);

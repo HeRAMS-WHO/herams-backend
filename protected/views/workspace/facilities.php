@@ -59,16 +59,13 @@ echo GridView::widget(
         'dataProvider' => $facilityProvider,
         'columns'      => [
             [
-                'class' => UuidColumn::class
-            ],
-            [
-                'class' => IdColumn::class
-            ],
-            [
                 'class'      => DrilldownColumn::class,
                 'attribute'  => FacilityForList::NAME,
                 'permission' => Permission::PERMISSION_LIST_FACILITIES,
                 'link'       => static fn(FacilityForList $facility) => ['facility/responses', 'id' => (string) $facility->getId()]
+            ],
+            [
+                'class' => IdColumn::class
             ],
             [
                 'attribute'  => FacilityForList::ALTERNATIVE_NAME,
@@ -78,7 +75,11 @@ echo GridView::widget(
             ],
             [
                 'attribute' => FacilityForList::RESPONSE_COUNT
-            ]
+            ],
+            [
+                'class' => UuidColumn::class
+            ],
+
         ],
     ]
 );
