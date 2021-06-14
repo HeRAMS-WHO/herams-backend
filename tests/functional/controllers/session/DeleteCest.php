@@ -8,6 +8,9 @@ use prime\models\forms\projects\Token;
 use prime\tests\FunctionalTester;
 use yii\web\Request;
 
+/**
+ * @covers \prime\controllers\session\Delete
+ */
 class DeleteCest
 {
 

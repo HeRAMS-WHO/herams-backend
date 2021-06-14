@@ -22,16 +22,14 @@ abstract class ControllerTest extends Unit
             __NAMESPACE__ => 'prime\controllers',
             'Test' => ''
         ]);
-        return new $class('controllerid', null);
+        return \Yii::$container->get($class, ['test', \Yii::$app]);
     }
 
     public function testActions()
     {
         $controller = $this->getController();
-        foreach ($controller->actions() as $action) {
-            $class = is_string($action) ? $action : $action['class'];
-            $this->assertTrue(class_exists($class));
-            $this->assertTrue(is_subclass_of($class, Action::class, true));
+        foreach ($controller->actions() as $id => $definition) {
+            $this->assertInstanceOf(Action::class, $controller->createAction($id));
         }
     }
 }

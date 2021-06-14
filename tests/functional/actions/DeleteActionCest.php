@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\actions;
 
@@ -10,6 +10,9 @@ use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 
+/**
+ * @covers \prime\actions\DeleteAction
+ */
 class DeleteActionCest
 {
 

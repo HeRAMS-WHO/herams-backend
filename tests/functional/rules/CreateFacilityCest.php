@@ -11,6 +11,9 @@ use prime\models\ar\Workspace;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
+/**
+ * @covers \prime\rules\CreateFacilityRule
+ */
 class CreateFacilityCest
 {
 

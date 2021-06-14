@@ -8,6 +8,9 @@ use prime\models\forms\user\RequestResetForm;
 use prime\tests\FunctionalTester;
 use yii\caching\DummyCache;
 
+/**
+ * @covers \prime\models\forms\user\RequestResetForm
+ */
 class RequestResetFormCest
 {
 

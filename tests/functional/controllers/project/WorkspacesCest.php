@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
@@ -9,6 +9,9 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 
+/**
+ * @covers \prime\controllers\project\Workspaces
+ */
 class WorkspacesCest
 {
 
