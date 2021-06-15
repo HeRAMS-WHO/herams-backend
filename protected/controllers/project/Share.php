@@ -54,9 +54,9 @@ class Share extends Action
                     Permission::PERMISSION_SHARE,
                     Permission::PERMISSION_MANAGE_DASHBOARD,
                     Permission::PERMISSION_WRITE,
+                    Permission::PERMISSION_CREATE_FACILITY,
                     Permission::PERMISSION_SUPER_SHARE,
                     Permission::PERMISSION_SURVEY_BACKEND,
-                    Permission::PERMISSION_CREATE_FACILITY,
 
                     Permission::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
                 ]
