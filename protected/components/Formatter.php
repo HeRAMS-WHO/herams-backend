@@ -13,13 +13,13 @@ class Formatter extends \yii\i18n\Formatter
     public const FORMAT_COORDS = 'coords';
     public function asUuid(string|null $value)
     {
-        return isset($value) ? Uuid::fromBytes($value) : null;
+        return isset($value) ? Uuid::fromBytes($value) : $this->nullDisplay;
     }
 
     public function asCoords($value)
     {
         $parser = new Parser();
-        return isset($value) ? $parser->parse($value) : null;
+        return isset($value) ? $parser->parse($value) : $this->nullDisplay;
     }
 
     public function asText($value)
