@@ -23,7 +23,6 @@ class Facilities extends Action
 {
     public function run(
         Request $request,
-        WorkspaceRepository $workspaceRepository,
         FacilityRepository $facilityRepository,
         int $id
     ) {

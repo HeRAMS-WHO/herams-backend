@@ -29,7 +29,6 @@ use yii\web\User;
 
 class WorkspaceController extends Controller
 {
-    private WorkspaceId $workspaceId;
     public $layout = self::LAYOUT_ADMIN_TABS;
     public $defaultAction = 'facilities';
 

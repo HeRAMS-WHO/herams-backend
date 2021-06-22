@@ -28,13 +28,15 @@ use yii\db\Expression;
  */
 class Facility extends ActiveRecord
 {
-    public static function find()
+    public static function find(): FacilityQuery
     {
         return new FacilityQuery(static::class);
     }
+
     public function __construct($config = [])
     {
         parent::__construct($config);
+        // TODO: Move to behavior
         if (!isset($this->uuid)) {
             $this->uuid = Uuid::uuid6()->getBytes();
         }

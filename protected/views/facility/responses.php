@@ -47,9 +47,11 @@ echo GridView::widget([
         ],
         'externalId',
         'dateOfUpdate',
-        'accessibility',
+        'condition',
         'functionality',
-        'condition'
+        'accessibility',
+
+
     ]
 ]);
 

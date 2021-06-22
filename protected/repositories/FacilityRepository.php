@@ -120,7 +120,10 @@ class FacilityRepository implements CreateModelRepositoryInterface
 
         $query->andFilterWhere(['workspace_id' => $id->getValue()]);
 
-        $model->apply($query);
+        if ($model->validate()) {
+            $query->andFilterWhere(['like', 'name', $model->name]);
+            $query->andFilterWhere(['id' => $model->id]);
+        }
 
 
         $dataProvider = new HydratedActiveDataProvider(

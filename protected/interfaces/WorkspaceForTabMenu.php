@@ -16,8 +16,6 @@ interface WorkspaceForTabMenu extends CanCurrentUser
     public function projectId(): ProjectId;
     public function projectTitle(): string;
 
-    public function languages(): LanguageSet;
-
     public function getFacilityCount(): int;
     public function getResponseCount(): int;
     public function getPermissionSourceCount(): int;

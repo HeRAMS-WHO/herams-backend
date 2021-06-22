@@ -10,33 +10,21 @@ use prime\traits\CanCurrentUser;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 
-/**
- * @codeCoverageIgnore Since all functions are simple getters
- */
 final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
 {
     use CanCurrentUser;
 
     private WorkspaceId $id;
-    private string $title;
     private ProjectId $projectId;
-    private string $projectTitle;
-    private LanguageSet $languages;
-    private int $facilityCount;
-    private int $responseCount;
-    private int $permissionSourceCount;
-
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private Workspace $model
     ) {
+        if ($model->isNewRecord) {
+            throw new \InvalidArgumentException('Record must not be a new record');
+        }
         $this->id = new WorkspaceId($model->id);
-        $this->title = $model->title;
         $this->projectId = new ProjectId($model->tool_id);
-        $this->projectTitle = $model->project->title;
-        $this->responseCount = $model->responseCount;
-        $this->facilityCount = $model->facilityCount;
-        $this->permissionSourceCount = $model->permissionSourceCount;
     }
 
     public function id(): WorkspaceId
@@ -46,7 +34,7 @@ final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
 
     public function title(): string
     {
-        return $this->title;
+        return $this->model->title;
     }
 
     public function projectId(): ProjectId
@@ -56,30 +44,25 @@ final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
 
     public function projectTitle(): string
     {
-        return $this->projectTitle;
-    }
-
-    public function languages(): LanguageSet
-    {
-        return $this->languages;
+        return $this->model->project->title;
     }
 
     public function getFacilityCount(): int
     {
-        return $this->facilityCount;
+        return $this->model->facilityCount;
     }
 
     public function getResponseCount(): int
     {
-        return $this->responseCount;
+        return $this->model->responseCount;
     }
 
     public function getPermissionSourceCount(): int
     {
-        return $this->permissionSourceCount;
+        return $this->model->permissionSourceCount;
     }
 
-    private function getModel(): object
+    private function getModel(): Workspace
     {
         return $this->model;
     }
