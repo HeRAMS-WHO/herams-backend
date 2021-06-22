@@ -55,8 +55,8 @@ class LocalizableWriteBehavior extends Behavior
 
             try {
                 $validators = $this->getActiveValidators($realAttributeName);
-                foreach ($this->{$behavior->translationProperty}[$realAttributeName] ?? [] as $locale => $title) {
-                    $this->{$realAttributeName} = $title;
+                foreach ($this->{$behavior->translationProperty}[$realAttributeName] ?? [] as $locale => $value) {
+                    $this->{$realAttributeName} = $value;
                     foreach ($validators as $validator) {
                         try {
                             $validator->validateAttribute($this, $realAttributeName);
