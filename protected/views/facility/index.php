@@ -2,14 +2,20 @@
 declare(strict_types=1);
 
 use kartik\grid\GridView;
+use prime\components\View;
 use prime\models\ar\Permission;
+use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 
-\prime\widgets\Section::begin();
 /**
- * @var \yii\data\ActiveDataProvider $facilityProvider
+ * @var ActiveDataProvider $facilityProvider
+ * @var View $this
  */
+
+Section::begin();
+
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [
@@ -37,4 +43,5 @@ echo GridView::widget([
         'alternative_name'
     ]
 ]);
-\prime\widgets\Section::end();
+
+Section::end();

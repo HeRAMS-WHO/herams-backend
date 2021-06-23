@@ -2,11 +2,13 @@
 declare(strict_types=1);
 
 use prime\assets\AdminBundle;
+use prime\components\View;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 /**
- * @var \prime\components\View $this
+ * @var View $this
  * @var string $content
  */
 
@@ -38,31 +40,47 @@ echo Html::beginTag('body', $this->params['body'] ?? []);
 $this->beginBody();
 
 echo Html::beginTag('header', ['class' => 'admin-header']);
-    echo $this->render('//user-menu', [
-        'class' => ['admin']
-    ]);
-    echo Html::beginTag('div', ['class' => 'title']);
-        echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
-            'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
-            'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
-            'homeLink' => [
-                'label' => \Yii::t('app', 'Administration'),
-                'url' => '/project/index'
-            ],
-            'links' => [...$this->params['breadcrumbs'] ?? [], $this->title]
-        ]);
-        echo Html::tag('span', $this->title, ['class' => 'page-title']);
-        echo Html::endTag('div');
-        echo Html::endTag('header');
 
+echo $this->render('//user-menu', [
+    'class' => ['admin']
+]);
+echo Html::beginTag('div', ['class' => 'title']);
 
-        echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
-        echo $content;
-        echo Html::endTag('div');
+$links = [];
+foreach ($this->breadCrumbCollection as $breadcrumb) {
+    $links[] = ArrayHelper::merge(
+        $breadcrumb->getHtmlOptions(),
+        [
+            'label' => $breadcrumb->getLabel(),
+            'url' => $breadcrumb->getUrl(),
+            'encode' => $breadcrumb->getEncode(),
+        ]
+    );
+}
+if ($this->autoAddTitleToBreadcrumbs) {
+    $links[] = $this->title;
+}
 
-        $this->endBody();
-        ?>
-</body>
+echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
+    'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
+    'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
+    'homeLink' => [
+        'label' => \Yii::t('app', 'Administration'),
+        'url' => '/project/index'
+    ],
+    'links' => $links,
+]);
+echo Html::tag('span', $this->title, ['class' => 'page-title']);
+echo Html::endTag('div');
+echo Html::endTag('header');
+
+echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo $content;
+echo Html::endTag('div');
+
+$this->endBody();
+echo Html::endTag('body');
+?>
 
 </html>
 

@@ -1,36 +1,17 @@
 <?php
-
 declare(strict_types=1);
 
-use yii\bootstrap\Html;
+use prime\components\View;
 use prime\helpers\Icon;
-use prime\models\ar\Project;
+use prime\models\ar\Workspace;
+use yii\bootstrap\Html;
 
 /**
- * @var \prime\components\View $this
- * @var \prime\models\ar\Workspace $model
+ * @var View $this
+ * @var Workspace $model
  */
 
-
-
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces for {project}', [
-        'project' => $model->project->title
-    ]),
-    'url' => ['project/workspaces', 'id' => $model->project->id]
-];
-$this->title = \Yii::t('app', 'Workspace {workspace}', [
-    'workspace' => $model->title,
-]);
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->title;
 
 echo Html::beginTag('div', ['class' => 'topbar']);
 echo Html::beginTag('div', ['class' => 'pull-left']);

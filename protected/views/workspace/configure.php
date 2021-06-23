@@ -12,16 +12,6 @@ use prime\helpers\Icon;
  * @var \prime\models\ar\Workspace $model
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $model->project->title,
-    'url' => ['project/workspaces', 'id' => $model->project->id]
-];
-
-$this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Update workspace token'),
-    'url' => ['workspace/configure', 'id' => $model->id]
-];
-
 $this->title = Yii::t('app', 'Update workspace token');
 
 echo Html::beginTag('div', ['class' => 'content no-tab']);

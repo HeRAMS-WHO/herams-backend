@@ -2,18 +2,21 @@
 declare(strict_types=1);
 
 use prime\assets\DashboardBundle;
+use prime\components\View;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\web\YiiAsset;
 use yii\widgets\Breadcrumbs;
 
 /**
- * @var \prime\components\View $this
+ * @var View $this
  * @var string $content
  */
 
     $this->beginPage();
 
     $this->registerAssetBundle(DashboardBundle::class);
-    $this->registerAssetBundle(\yii\web\YiiAsset::class);
+    $this->registerAssetBundle(YiiAsset::class);
 
 ?>
 <html>
@@ -43,6 +46,18 @@ echo $this->render('//user-menu', [
 ?>
 <div class="title">
 <?php
+    $links = [];
+    foreach ($this->breadCrumbCollection as $breadcrumb) {
+        $links[] = ArrayHelper::merge(
+            $breadcrumb->getHtmlOptions(),
+            [
+                'label' => $breadcrumb->getLabel(),
+                'url' => $breadcrumb->getUrl(),
+                'encode' => $breadcrumb->getEncode(),
+            ]
+        );
+    }
+
     echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
         'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() ." </li>\n",
         'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() ."</li>\n",
@@ -50,7 +65,7 @@ echo $this->render('//user-menu', [
             'label' => \Yii::t('app', 'World overview'),
             'url' => '/'
         ],
-        'links' => $this->params['breadcrumbs'] ?? []
+        'links' => $links,
     ]);
     echo Html::tag('span', $this->title, ['class' => 'header']);
     ?></div>

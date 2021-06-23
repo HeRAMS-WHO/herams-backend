@@ -17,10 +17,12 @@ use prime\controllers\workspace\Update;
 use prime\helpers\ModelHydrator;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
+use prime\objects\Breadcrumb;
 use prime\queries\ResponseQuery;
 use prime\repositories\ProjectRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\IntegerId;
+use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -33,10 +35,29 @@ class WorkspaceController extends Controller
     public $defaultAction = 'facilities';
 
     public function __construct($id, $module,
+        private ProjectRepository $projectRepository,
         private WorkspaceRepository $workspaceRepository,
         $config = [])
     {
         parent::__construct($id, $module, $config);
+    }
+
+    public function beforeAction($action)
+    {
+        $breadcrumbCollection = $this->view->getBreadcrumbCollection()
+            ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')))
+        ;
+
+        if (in_array($action->id, ['create', 'import']) && $projectId = (int) $this->request->getQueryParam('project_id')) {
+            $project = $this->projectRepository->retrieveForBreadcrumb(new ProjectId($projectId));
+            $breadcrumbCollection->add((new Breadcrumb())->setUrl(['/project/workspaces', 'id' => $project->getId()])->setLabel($project->getTitle()));
+        } elseif ($id = $this->request->getQueryParam('id')) {
+            $model = $this->workspaceRepository->retrieveForBreadcrumb(new WorkspaceId((int) $id));
+            $project = $this->projectRepository->retrieveForBreadcrumb($model->getProjectId());
+            $breadcrumbCollection->add((new Breadcrumb())->setUrl(['/project/workspaces', 'id' => $project->getId()])->setLabel($project->getTitle()));
+        }
+
+        return parent::beforeAction($action);
     }
 
     /**

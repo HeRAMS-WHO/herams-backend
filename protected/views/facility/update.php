@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 use app\components\ActiveForm;
 use app\components\Form;
+use prime\components\View;
+use prime\interfaces\FacilityForTabMenu;
 use prime\models\forms\NewFacility;
 use prime\models\forms\UpdateFacility;
 use prime\widgets\FormButtonsWidget;
@@ -10,14 +12,14 @@ use prime\widgets\LocalizableInput;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 
-
 /**
- * @var \prime\components\View $this
+ * @var View $this
  * @var UpdateFacility $model
- * @var \prime\interfaces\FacilityForTabMenu $tabMenuModel
+ * @var FacilityForTabMenu $tabMenuModel
  */
 
-echo $this->render('_breadcrumbs', ['tabMenuModel' => $tabMenuModel]);
+$this->title = $tabMenuModel->title();
+
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
     ['facility' => $tabMenuModel]

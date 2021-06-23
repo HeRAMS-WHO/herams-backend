@@ -9,6 +9,7 @@ use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
+use prime\interfaces\facility\ForBreadcrumb as ForBreadcrumbInterface;
 use prime\interfaces\FacilityForResponseCopy;
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\ar\Facility;
@@ -17,6 +18,7 @@ use prime\models\ar\read\Facility as FacilityReadRecord;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
 use prime\models\facility\FacilityForList;
+use prime\models\facility\ForBreadcrumb;
 use prime\models\forms\NewFacility as FacilityForm;
 use prime\models\forms\ResponseFilter;
 use prime\models\forms\UpdateFacility;
@@ -187,6 +189,33 @@ class FacilityRepository implements CreateModelRepositoryInterface
             // This is very inefficient for the response list; for now we accept it.
             (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
         );
+    }
+
+    public function retrieveForBreadcrumb(FacilityId $id): ForBreadcrumbInterface
+    {
+        if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
+            $response = Response::findOne([
+                'hf_id' => $matches['hf_id'],
+                'survey_id' => $matches['survey_id']
+            ]);
+
+            if (!isset($response)) {
+                throw new NotFoundHttpException();
+            }
+
+            return new ForBreadcrumb(
+                $id,
+                $response->name,
+                new WorkspaceId($response->workspace_id),
+            );
+        } else {
+            $facility = Facility::findOne(['id' => (int) $id->getValue()]);
+            return new ForBreadcrumb(
+                $id,
+                $facility->name,
+                new WorkspaceId($facility->workspace_id),
+            );
+        }
     }
 
     public function retrieveForRead(FacilityId $id): FacilityForList

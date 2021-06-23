@@ -13,12 +13,7 @@ use yii\web\View;
  * @var Project $subject
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $subject->title,
-    'url' => ['project/workspaces', 'id' => $subject->id]
-];
-
-$this->title = \Yii::t('app', 'Export data from project {project}', ['project' => $subject->title]);
+$this->title = $subject->title;
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([

@@ -14,16 +14,7 @@ use prime\widgets\menu\WorkspaceTabMenu;
  *
  */
 
-
-
-$this->params['breadcrumbs'][] = [
-    'label' => $model->project->title,
-    'url' => ['project/workspaces', 'id' => $model->project->id]
-];
-
-$this->title = \Yii::t('app', 'Workspace {workspace}', [
-    'workspace' => $model->title,
-]);
+$this->title = $model->title;
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([

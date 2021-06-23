@@ -3,10 +3,25 @@ declare(strict_types=1);
 
 namespace prime\components;
 
+use prime\objects\BreadcrumbCollection;
 use yii\helpers\Html;
 
 class View extends \yii\web\View
 {
+    public bool $autoAddTitleToBreadcrumbs = true;
+    private BreadcrumbCollection $breadCrumbCollection;
+
+    public function __construct($config = [])
+    {
+        $this->breadCrumbCollection = new BreadcrumbCollection();
+        parent::__construct($config);
+    }
+
+    public function getBreadcrumbCollection(): BreadcrumbCollection
+    {
+        return $this->breadCrumbCollection;
+    }
+
     public function registerJs($js, $position = \yii\web\View::POS_READY, $key = null)
     {
         $key = $key ?: md5($js);
