@@ -164,9 +164,9 @@ class Workspace extends ActiveRecord
         return true;
     }
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::labels(), [
             'project.title' => \Yii::t('app.model.workspace', 'Project'),
             'latestUpdate' => \Yii::t('app.model.workspace', 'Latest update'),
             'tool_id' => \Yii::t('app.model.workspace', 'Project'),

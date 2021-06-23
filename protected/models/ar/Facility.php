@@ -13,6 +13,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
+use yii\validators\ExistValidator;
 
 /**
  * @property int $id
@@ -42,6 +43,14 @@ class Facility extends ActiveRecord
         }
     }
 
+    public function rules(): array
+    {
+        return [
+            [['workspace_id'], ExistValidator::class, 'targetClass' => Workspace::class]
+        ];
+    }
+
+
     public function getResponses(): ResponseQuery
     {
         return $this->hasMany(Response::class, [
@@ -59,13 +68,16 @@ class Facility extends ActiveRecord
     public static function labels(): array
     {
         return [
-            'id' => \Yii::t('app','Facility ID'),
+            'id' => \Yii::t('app', 'Facility ID'),
             'name' => \Yii::t('app', 'Name'),
-            'i18n' => \Yii::t('app','Localization'),
+            'i18n' => \Yii::t('app', 'Localization'),
             'alternative_name' => \Yii::t('app', 'Alternative name'),
             'code' => \Yii::t('app', 'Code'),
             'coordinates' => \Yii::t('app', 'Coordinates'),
+            'workspace_id' => \Yii::t('app', 'Workspace'),
+            'uuid' => \Yii::t('app', 'UUID'),
+            'deleted' => \Yii::t('app', 'Deleted'),
+            'deactivated' => \Yii::t('app', 'Deactivated'),
         ];
     }
-
 }

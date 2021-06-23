@@ -76,9 +76,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return $this->getAttribute('parent_id');
     }
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::labels(), [
             'parent_id' => \Yii::t('app', 'Parent page'),
             'sort' => \Yii::t('app', 'Sort index'),
             'add_services' => \Yii::t('app', 'Add services'),

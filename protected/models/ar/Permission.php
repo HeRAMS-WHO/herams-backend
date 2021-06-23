@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models\ar;
 
@@ -13,9 +14,9 @@ use yii\validators\UniqueValidator;
  * @package app\models
  * @property string $permission
  * @property string $source
- * @property int $source_id
+ * @property string $source_id
  * @property string $target
- * @property int $target_id
+ * @property string $target_id
  * @property object $sourceObject
  * @property object $targetObject
  */
@@ -55,9 +56,9 @@ class Permission extends ActiveRecord
     const PERMISSION_DELETE_ALL_WORKSPACES = 'delete-workspaces';
 
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::labels(), [
             'source' => \Yii::t('app.permission', 'Source type'),
             'source_id' => \Yii::t('app.permission', 'Source ID'),
             'target' => \Yii::t('app.permission', 'Target type'),
@@ -67,12 +68,7 @@ class Permission extends ActiveRecord
         ]);
     }
 
-    public function getPermissionLabel()
-    {
-        return $this->permissionLabels()[$this->permission];
-    }
-
-    public static function permissionLabels()
+    public static function permissionLabels(): array
     {
         return [
             self::PERMISSION_READ => \Yii::t('app', 'View dashboard'),
@@ -93,7 +89,7 @@ class Permission extends ActiveRecord
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['source', 'source_id', 'target', 'target_id', 'permission'], RequiredValidator::class],
@@ -102,7 +98,7 @@ class Permission extends ActiveRecord
         ];
     }
 
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%permission}}';
     }

@@ -200,9 +200,9 @@ class Element extends ActiveRecord implements Exportable
         ];
     }
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::labels(), [
             'colors.code' => 'Answer code',
             'type' => \Yii::t('app', 'Type'),
             'page_id' => \Yii::t('app', 'Page'),

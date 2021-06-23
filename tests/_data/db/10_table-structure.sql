@@ -162,7 +162,7 @@ CREATE TABLE `prime2_facility` (
   `i18n` json DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
   `deleted` datetime DEFAULT NULL,
-  `deactived` datetime DEFAULT NULL,
+  `deactivated` datetime DEFAULT NULL,
   `coordinates` point DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),

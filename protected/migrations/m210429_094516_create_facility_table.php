@@ -21,7 +21,7 @@ class m210429_094516_create_facility_table extends Migration
             'i18n' => $this->json(),
             'code' => $this->string(),
             'deleted' => $this->dateTime()->null(),
-            'deactived' => $this->dateTime()->null(),
+            'deactivated' => $this->dateTime()->null(),
             'coordinates' => 'point null'
         ]);
         $this->createIndex('uuid', '{{%facility}}', ['uuid'], true);

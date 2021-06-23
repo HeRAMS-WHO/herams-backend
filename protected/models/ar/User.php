@@ -40,7 +40,7 @@ class User extends ActiveRecord implements IdentityInterface
         ]);
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['email', 'name'], RequiredValidator::class],
@@ -97,9 +97,9 @@ class User extends ActiveRecord implements IdentityInterface
         return null;
     }
 
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::labels(), [
             'name' => \Yii::t('app', 'Name'),
             'email' => \Yii::t('app', 'Email'),
             'password_hash' => \Yii::t('app', 'Password hash'),

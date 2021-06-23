@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models;
 
@@ -7,11 +8,18 @@ use prime\components\ActiveQuery;
 class ActiveRecord extends \yii\db\ActiveRecord
 {
     public const SCENARIO_UPDATE = 'update';
-    public static function find()
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public static function find(): ActiveQuery
     {
         return new ActiveQuery(static::class);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function labels(): array
     {
         return [
@@ -24,7 +32,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels(): array
+    /**
+     * @codeCoverageIgnore
+     */
+    final public function attributeLabels(): array
     {
         return static::labels();
     }

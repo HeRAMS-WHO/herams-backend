@@ -38,10 +38,13 @@ class Facility extends \prime\models\ar\Facility
         ];
     }
 
-    public function attributeLabels(): array
+    /**
+     * @codeCoverageIgnore
+     */
+    public static function labels(): array
     {
-        return parent::attributeLabels() + [
+        return [
             'uuid' => \Yii::t('app', 'Universal ID')
-        ];
+        ] + parent::labels();
     }
 }
