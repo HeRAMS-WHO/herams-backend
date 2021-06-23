@@ -84,14 +84,15 @@ class WorkspaceForTabMenuTest extends Unit
         $workspace->tool_id = 1;
         $workspace->isNewRecord = false;
 
-
-        $accessChecker = $this->makeEmpty(AccessCheckInterface::class, [
-            'checkPermission' => Expected::once(function (Workspace $model, string $permission) use ($workspace): bool {
+        $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->getMock();
+        $accessChecker->expects($this->once())
+            ->method('checkPermission')
+            ->willReturnCallback(function (Workspace $model, string $permission) use ($workspace): bool {
                 $this->assertSame($workspace, $model);
                 $this->assertSame('test', $permission);
                 return false;
-            })
-        ]);
+            });
+
         $workspaceForTabMenu = new WorkspaceForTabMenu($accessChecker, $workspace);
         $this->assertFalse($workspaceForTabMenu->canCurrentUser('test'));
     }
