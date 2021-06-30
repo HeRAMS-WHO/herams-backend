@@ -68,7 +68,7 @@ class Element extends Model
         return parent::__get($name);
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         $result = $this->element->attributeLabels();
         $result['survey'] = \Yii::t('app', 'Survey');
@@ -100,7 +100,7 @@ class Element extends Model
         }
     }
 
-    public function rules()
+    public function rules(): array
     {
         return array_merge($this->element->rules(), [
             $this->colorRule(),

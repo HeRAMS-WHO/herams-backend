@@ -26,7 +26,7 @@ class PageTest extends ActiveRecordTest
     {
         return [];
     }
-    
+
     public function testRelations(): void
     {
         $this->testRelation('project', Project::class);

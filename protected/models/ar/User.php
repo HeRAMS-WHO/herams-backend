@@ -29,7 +29,7 @@ use function iter\chain;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const NAME_REGEX = '/^[\'\w\- ]+$/u';
+    public const NAME_REGEX = '/^[\'\w\- ]+$/u';
 
     public function behaviors()
     {
@@ -57,6 +57,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeDelete(): bool
     {
+        /**
+         * @todo ?Move this into the manager (revokeAll)
+         * @todo Move this to something decoupled & eventbased.
+         */
         if (parent::beforeDelete()) {
             /** @var AuthManager $manager */
             $manager = \Yii::$app->abacManager;
@@ -75,23 +79,11 @@ class User extends ActiveRecord implements IdentityInterface
         return false;
     }
 
-    public function getIsAdmin()
-    {
-        throw new NotSupportedException('use proper permission checking');
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public static function findIdentity($id)
     {
         return self::findOne(['id' => $id]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return null;
@@ -108,25 +100,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function getId()
     {
         return $this->getAttribute('id');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAuthKey()
     {
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function validateAuthKey($authKey): bool
     {
         return false;
@@ -150,15 +133,5 @@ class User extends ActiveRecord implements IdentityInterface
     public function getFavorites(): FavoriteQuery
     {
         return $this->hasMany(Favorite::class, ['user_id' => 'id'])->inverseOf('user');
-    }
-
-    public function isFavorite(ActiveRecord $target): bool
-    {
-        foreach ($this->favorites as $favorite) {
-            if ($favorite->matches($target)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

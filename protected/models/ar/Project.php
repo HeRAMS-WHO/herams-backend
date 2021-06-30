@@ -206,7 +206,6 @@ class Project extends ActiveRecord implements Linkable
             [['base_survey_eid'], NumberValidator::class, 'integerOnly' => true],
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
-            [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
             [['languages'], RangeValidator::class, 'allowArray' => true, 'range' => Language::toValues()],
             [['typemap', 'overrides', 'i18n'], function ($attribute) {
                 if (!is_array($this->$attribute)) {

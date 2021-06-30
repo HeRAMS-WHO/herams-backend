@@ -179,7 +179,7 @@ class Workspace extends ActiveRecord
     }
 
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['title', 'tool_id'], RequiredValidator::class],

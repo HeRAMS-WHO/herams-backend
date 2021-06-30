@@ -8,8 +8,11 @@ use yii\base\Model;
 
 trait AllFunctionsMustHaveReturnTypes
 {
-    abstract private function getModel(): mixed;
+    abstract private function getModel(): object;
 
+    /**
+     * @coversNothing
+     */
     public function testAllFunctionHaveReturnTypes(): void
     {
         $model = $this->getModel();

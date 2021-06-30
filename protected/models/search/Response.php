@@ -4,8 +4,10 @@ namespace prime\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\DataProviderInterface;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
+use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 
 class Response extends Model
@@ -25,12 +27,12 @@ class Response extends Model
     public function rules(): array
     {
         return [
-            [['hf_id', 'date', 'last_updated'], StringValidator::class],
+            [['hf_id', 'date', 'last_updated'], SafeValidator::class],
             [['id'], NumberValidator::class],
         ];
     }
 
-    public function search($params)
+    public function search($params): DataProviderInterface
     {
         $query = \prime\models\ar\Response::find();
 

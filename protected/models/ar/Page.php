@@ -132,7 +132,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()])->inverseOf('children');
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['title', 'sort', 'project_id'], RequiredValidator::class],

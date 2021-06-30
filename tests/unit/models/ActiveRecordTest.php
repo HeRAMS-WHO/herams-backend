@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models;
 
-
 use Codeception\Test\Unit;
 use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
@@ -47,5 +46,4 @@ class ActiveRecordTest extends Unit
         $this->assertStringContainsString('primary', $model->getDisplayField());
         $this->assertStringContainsString('key', $model->getDisplayField());
     }
-
 }

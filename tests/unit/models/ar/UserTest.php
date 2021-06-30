@@ -1,6 +1,7 @@
 <?php
 namespace prime\tests\unit\models\ar;
 
+use prime\models\ar\Favorite;
 use prime\models\ar\User;
 
 /**
@@ -28,5 +29,10 @@ class UserTest extends ActiveRecordTest
                 'scenario' => User::SCENARIO_DEFAULT
             ]
         ];
+    }
+
+    public function testRelations(): void
+    {
+        $this->testRelation('favorites', Favorite::class);
     }
 }
