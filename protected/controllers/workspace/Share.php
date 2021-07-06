@@ -49,9 +49,9 @@ class Share extends Action
                 $urlSigner,
                 [
                     Permission::PERMISSION_SURVEY_DATA,
+                    Permission::PERMISSION_CREATE_FACILITY,
                     Permission::PERMISSION_EXPORT,
                     Permission::PERMISSION_SHARE,
-                    Permission::PERMISSION_CREATE_FACILITY,
                     Permission::PERMISSION_SUPER_SHARE,
 
                     Permission::ROLE_LEAD => \Yii::t('app', 'Workspace owner'),
