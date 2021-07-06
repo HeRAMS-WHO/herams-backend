@@ -105,7 +105,6 @@ class Section extends Widget
                 font-size: 1.3rem;
                 text-align: left;
             }
-
             .Section header > h1, .Section header > .NavigationButtonGroup {
                 margin-bottom: 10px;
             }
@@ -138,7 +137,6 @@ class Section extends Widget
             
             }
             
-
         CSS;
         $this->view->registerCss($css, [], self::class);
     }

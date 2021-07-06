@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\helpers;
 
@@ -45,6 +45,8 @@ use yii\helpers\Inflector;
  * @method static string level(array $options = [])
  *
  * @method static string heart(array $options = [])
+ * @method static string bell(array $options = [])
+ * @method static string check(array $options = [])
  *
  * // NovelT icons
  * @method static string project(array $options = [])

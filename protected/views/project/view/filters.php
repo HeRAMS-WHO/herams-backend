@@ -119,7 +119,7 @@ JS
             
             document.querySelectorAll('.advanced label.control-label[data-keywords]').forEach(function(el) {
                 let hidden = !tokens.every((token) => el.getAttribute('data-keywords').toLocaleUpperCase().includes(token));
-                el.parentNode.parentNode.classList.toggle('hidden', hidden);
+                el.parentNode.classList.toggle('hidden', hidden);
                 if (!hidden && tokens.length > 0) {
                     el.innerHTML = el.innerText.replace(new RegExp(tokens.join('|'), "gi"), function(match, contents, offset, input_string) {
                         return '<b>' + match + '</b>';
@@ -127,6 +127,9 @@ JS
                 } else {
                     el.innerHTML = el.innerText;
                 }
+                
+                const group = el.parentNode.parentNode;
+                group.classList.toggle('hidden', group.querySelectorAll('.form-group:not(.hidden)').length === 0);
             })
         
         }, 300);

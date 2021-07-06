@@ -14,6 +14,7 @@ use prime\controllers\project\ImportDashboard;
 use prime\controllers\project\Index;
 use prime\controllers\project\Pages;
 use prime\controllers\project\Pdf;
+use prime\controllers\project\RequestAccess;
 use prime\controllers\project\Share;
 use prime\controllers\project\SyncWorkspaces;
 use prime\controllers\project\Update;
@@ -37,13 +38,7 @@ class ProjectController extends Controller
     public function actions()
     {
         return [
-            'export-dashboard' => ExportDashboard::class,
-            'import-dashboard' => ImportDashboard::class,
-            'external-dashboard' => ExternalDashboard::class,
-            'filter' => Filter::class,
             'create' => Create::class,
-            'update' => Update::class,
-            'index' => Index::class,
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Project::find(),
@@ -52,13 +47,6 @@ class ProjectController extends Controller
             'delete-workspaces' => [
                 'class' => DeleteWorkspaces::class
             ],
-            'sync-workspaces' => SyncWorkspaces::class,
-            'view' => View::class,
-            'limesurvey' => Limesurvey::class,
-            'pdf' => Pdf::class,
-            'share' => Share::class,
-            'workspaces' => Workspaces::class,
-            'pages' => Pages::class,
             'export' => [
                 'class' => ExportAction::class,
                 'subject' => static function (Request $request) {
@@ -74,6 +62,20 @@ class ProjectController extends Controller
                     return $user->can(Permission::PERMISSION_EXPORT, $project);
                 }
             ],
+            'export-dashboard' => ExportDashboard::class,
+            'external-dashboard' => ExternalDashboard::class,
+            'filter' => Filter::class,
+            'import-dashboard' => ImportDashboard::class,
+            'index' => Index::class,
+            'limesurvey' => Limesurvey::class,
+            'pages' => Pages::class,
+            'pdf' => Pdf::class,
+            'request-access' => RequestAccess::class,
+            'share' => Share::class,
+            'sync-workspaces' => SyncWorkspaces::class,
+            'update' => Update::class,
+            'view' => View::class,
+            'workspaces' => Workspaces::class,
         ];
     }
 
@@ -104,22 +106,23 @@ class ProjectController extends Controller
                         [
                             'allow' => true,
                             'actions' => [
-                                'share',
-                                'view',
-                                'pdf',
-                                'limesurvey',
-                                'summary',
-                                'index',
-                                'update',
-                                'workspaces',
-                                'delete',
                                 'check',
-                                'pages',
-                                'filter',
-                                'export-dashboard',
-                                'import-dashboard',
+                                'delete',
                                 'export',
-                                'external-dashboard'
+                                'export-dashboard',
+                                'external-dashboard',
+                                'filter',
+                                'import-dashboard',
+                                'index',
+                                'limesurvey',
+                                'pages',
+                                'pdf',
+                                'request-access',
+                                'share',
+                                'summary',
+                                'update',
+                                'view',
+                                'workspaces',
                             ],
                             'roles' => ['@'],
                         ],

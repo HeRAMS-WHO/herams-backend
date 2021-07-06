@@ -8,6 +8,11 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use yii\mail\MessageInterface;
 
+/**
+ * @covers \prime\controllers\project\Share
+ * @covers \prime\controllers\ProjectController
+ * @covers \prime\models\forms\Share
+ */
 class ShareCest
 {
 
@@ -24,7 +29,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        $I->grantCurrentUser($project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(403);
@@ -51,7 +56,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
@@ -75,7 +80,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
@@ -93,7 +98,7 @@ class ShareCest
         $I->dontSeeEmailIsSent();
 
         // Check implicitly that permission was granted
-        $I->amLoggedInAs(TEST_OTHER_USER_ID);
+        $I->amLoggedInAs($toUser->id);
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
     }

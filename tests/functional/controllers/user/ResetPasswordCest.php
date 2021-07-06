@@ -10,6 +10,8 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
 
 /**
  * @covers \prime\controllers\user\ResetPassword
+ * @covers \prime\controllers\UserController
+ * @covers \prime\models\forms\user\ResetPasswordForm
  */
 class ResetPasswordCest
 {
@@ -60,5 +62,20 @@ class ResetPasswordCest
         $user->save();
         $I->amOnPage($url);
         $I->seeResponseCodeIs(401);
+    }
+
+    public function testNonExistingUser(FunctionalTester $I)
+    {
+        /** @var UrlSigner $urlSigner */
+        $urlSigner = \Yii::$app->urlSigner;
+        $url = [
+            '/user/reset-password',
+            'id' => 999999999999,
+            'crc' => crc32('testPassword123'),
+        ];
+        $urlSigner->signParams($url, false, Carbon::now()->addHours(4));
+
+        $I->amOnPage($url);
+        $I->seePageNotFound();
     }
 }

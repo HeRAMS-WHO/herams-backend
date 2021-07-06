@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\permission;
 
@@ -10,10 +10,13 @@ use SamIT\abac\AuthManager;
 use yii\helpers\Url;
 use yii\web\Request;
 
+/**
+ * @covers \prime\controllers\permission\Delete
+ * @covers \prime\commands\PermissionController
+ */
 class DeleteCest
 {
-
-    public function testAccessControl(FunctionalTester $I)
+    public function test(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
@@ -42,5 +45,14 @@ class DeleteCest
             'id' => $permission->id
         ]);
         $I->assertFalse($permission->refresh());
+    }
+
+    public function testNotFound(FunctionalTester $I): void
+    {
+        $I->amLoggedInAs(TEST_USER_ID);
+        $I->createAndSetCsrfCookie('abc');
+        $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
+        $I->sendDELETE(Url::to(['/permission/delete', 'id' => 999999, 'redirect' => '/']));
+        $I->seePageNotFound();
     }
 }

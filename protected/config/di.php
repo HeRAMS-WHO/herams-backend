@@ -1,19 +1,43 @@
 <?php
 declare(strict_types=1);
 
+use JCIT\jobqueue\components\ContainerMapLocator;
+use JCIT\jobqueue\components\jobQueues\Synchronous;
+use JCIT\jobqueue\factories\JobFactory;
+use JCIT\jobqueue\interfaces\JobFactoryInterface;
+use JCIT\jobqueue\interfaces\JobQueueInterface;
 use kartik\dialog\Dialog;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use kartik\switchinput\SwitchInput;
+use League\Tactician\CommandBus;
+use League\Tactician\Handler\CommandHandlerMiddleware;
+use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
+use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
+use League\Tactician\Handler\Locator\HandlerLocator;
+use League\Tactician\Handler\MethodNameInflector\HandleInflector;
+use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use prime\assets\JqueryBundle;
 use prime\components\GlobalPermissionResolver;
 use prime\components\ReadWriteModelResolver;
 use prime\components\SingleTableInheritanceResolver;
 use prime\helpers\AccessCheck;
+use prime\helpers\LimesurveyDataLoader;
 use prime\interfaces\AccessCheckInterface;
+use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
+use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
+use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
+use prime\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler as PermissionCheckImplicitAccessRequestGrantedHandler;
+use prime\jobs\accessRequests\CreatedNotificationJob as AccessRequestCreatedNotificationJob;
+use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob as AccessrequestImplicitlyGrantedJob;
+use prime\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNotificationJob;
+use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionCheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\Permission;
 use prime\objects\enums\Language;
+use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
+use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
+use prime\repositories\UserNotificationRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -26,6 +50,7 @@ use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\di\Container;
 use yii\helpers\ArrayHelper;
+use yii\mail\MailerInterface;
 use yii\web\JqueryAsset;
 use function iter\filter;
 
@@ -41,7 +66,7 @@ return [
     AccessCheck::class => static function () {
         return new AccessCheck(\Yii::$app->user);
     },
-    \prime\helpers\LimesurveyDataLoader::class => \prime\helpers\LimesurveyDataLoader::class,
+    LimesurveyDataLoader::class => LimesurveyDataLoader::class,
     JqueryAsset::class => JqueryBundle::class,
     PermissionRepository::class => PreloadingSourceRepository::class,
     PreloadingSourceRepository::class =>
@@ -89,6 +114,42 @@ return [
         $result->toggleData = false;
         return $result;
     },
-
-
+    UserNotificationRepository::class => static function (Container $container, array $params, array $config): UserNotificationRepository {
+        $result = new UserNotificationRepository(\Yii::$app->abacManager, $container->get(AccessRequestARRepository::class));
+        return $result;
+    },
+    CommandBus::class => function (Container $container) {
+        return new CommandBus([
+            new CommandHandlerMiddleware(
+                $container->get(CommandNameExtractor::class),
+                $container->get(HandlerLocator::class),
+                $container->get(MethodNameInflector::class)
+            )
+        ]);
+    },
+    ContainerMapLocator::class => function (Container $container) {
+        return (new ContainerMapLocator($container))
+            ->setHandlerForCommand(AccessRequestCreatedNotificationJob::class, AccessRequestCreatedNotificationHandler::class)
+            ->setHandlerForCommand(AccessrequestImplicitlyGrantedJob::class, AccessRequestImplicitlyGrantedHandler::class)
+            ->setHandlerForCommand(AccessRequestResponseNotificationJob::class, AccessRequestResponseNotificationHandler::class)
+            ->setHandlerForCommand(PermissionCheckImplicitAccessRequestGrantedJob::class, PermissionCheckImplicitAccessRequestGrantedHandler::class)
+            ;
+    },
+    CommandNameExtractor::class => ClassNameExtractor::class,
+    HandlerLocator::class => ContainerMapLocator::class,
+    JobFactoryInterface::class => JobFactory::class,
+    JobQueueInterface::class => Synchronous::class,
+    MethodNameInflector::class => HandleInflector::class,
+    MailerInterface::class => static function (Container $container, array $params, array $config): MailerInterface {
+        return \Yii::$app->mailer;
+    },
+    PermissionCheckImplicitAccessRequestGrantedHandler::class => static function (Container $container, array $params, array $config): PermissionCheckImplicitAccessRequestGrantedHandler {
+        return new PermissionCheckImplicitAccessRequestGrantedHandler(
+            \Yii::$app->abacManager,
+            $container->get(AccessRequestARRepository::class),
+            $container->get(JobQueueInterface::class),
+            $container->get(PermissionARRepository::class),
+            $container->get(Resolver::class),
+        );
+    },
 ];

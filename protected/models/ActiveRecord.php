@@ -19,6 +19,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
             'title' => \Yii::t('app', 'Title'),
             'created' => \Yii::t('app', 'Created at'),
             'created_at' => \Yii::t('app', 'Created at'),
+            'created_by' => \Yii::t('app', 'Created by'),
             'last_login_at' => \Yii::t('app', 'Last login at'),
             'updated_at' => \Yii::t('app', 'Updated at'),
         ];

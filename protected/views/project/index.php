@@ -11,13 +11,16 @@ use prime\widgets\Section;
 use SamIT\abac\interfaces\Resolver;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\web\User;
 use yii\web\View;
 
 /**
  * @var View $this
  * @var ActiveDataProvider $projectProvider
  * @var SearchModelProject $projectSearch
- * @var Resolver $abacResolver;
+ * @var Resolver $abacResolver
+ * @var User $userComponent
  */
 
 $this->title = \Yii::t('app', 'Projects');
@@ -72,9 +75,16 @@ echo GridView::widget([
         ],
         [
             'label' => \Yii::t('app', 'Project coordinator'),
-            'value' => static function (Project $project) {
+            'value' => static function (Project $project) use ($userComponent) {
                 $usersQuery = $project->getLeads();
-                return implode('<br>', ArrayHelper::getColumn($usersQuery->all(), 'name'));
+                return implode(
+                    '<br>',
+                    ArrayHelper::merge(
+                        ArrayHelper::getColumn($usersQuery->all(), 'name'),
+                        // For now we just don't want to display the link, at some point it is desired to show the link
+                        array_filter([false && !$userComponent->can(Permission::PERMISSION_ADMIN, $project) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['project/request-access', 'id' => $project->id])) : null])
+                    )
+                );
             },
             'format' => 'html',
         ],

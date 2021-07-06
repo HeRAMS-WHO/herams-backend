@@ -15,49 +15,37 @@ use yii\validators\UniqueValidator;
 
 class UpdateEmailForm extends Model
 {
-    /**
-     * @var User
-     */
-    private $user;
-    /**
-     * @var UrlSigner
-     */
-    private $urlSigner;
-    /**
-     * @var MailerInterface
-     */
-    private $mailer;
-
-    public $newEmail;
+    public string $newEmail = '';
 
     public function __construct(
-        MailerInterface $mailer,
-        User $user,
-        UrlSigner $urlSigner
+        private MailerInterface $mailer,
+        private User $user,
+        private UrlSigner $urlSigner,
+        array $config = []
     ) {
-        parent::__construct();
-        $this->user = $user;
-        $this->urlSigner =$urlSigner;
-        $this->mailer = $mailer;
+        parent::__construct($config);
     }
 
-    public function attributeHints()
+    public function attributeHints(): array
     {
         return [
             'newEmail' => \Yii::t('app', 'We will send a confirmation message to this address')
         ];
     }
 
-
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'newEmail' => \Yii::t('app', 'New email address'),
         ];
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['newEmail'], RequiredValidator::class],
@@ -65,7 +53,6 @@ class UpdateEmailForm extends Model
             [['newEmail'], UniqueValidator::class, 'targetAttribute'  => 'email', 'targetClass' => User::class]
         ];
     }
-
 
     public function run(): void
     {

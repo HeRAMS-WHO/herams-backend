@@ -13,9 +13,6 @@ use yii\db\ActiveRecord;
  */
 abstract class ControllerTest extends Unit
 {
-    /**
-     * @return ActiveRecord
-     */
     final protected function getController(): Controller
     {
         $class = strtr(get_class($this), [
