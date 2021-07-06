@@ -59,6 +59,23 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             \Yii::t('app.pagetitle', 'Service availability', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Waste management', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Health Information', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'General clinical services & trauma care', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'General clinical services & trauma care (part I)', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'General clinical services & trauma care (part II)', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'General clinical services & trauma care (part III)', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'General clinical services', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Trauma Care', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Child health & nutrition', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Child health', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Nutrition', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Vaccination', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Communicable diseases', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Sexual and reproductive health', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'STI & HIV/AIDS', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Maternal and newborn health', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Sexual violence', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Non-communicable diseases', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Mental health', null, $sourceLanguage),
         ];
     }
     public function getProject()
