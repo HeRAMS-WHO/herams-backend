@@ -16,12 +16,7 @@ use yii\web\View;
  * @var \prime\models\ar\read\Project $parent
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $parent->title,
-    'url' => ['project/workspaces', 'id' => $parent->id]
-];
-
-$this->title = \Yii::t('app', 'New workspace');
+$this->title = \Yii::t('app', 'Create workspace');
 
 Section::begin()
     ->withHeader($this->title);

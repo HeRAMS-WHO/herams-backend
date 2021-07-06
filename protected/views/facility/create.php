@@ -3,27 +3,21 @@ declare(strict_types=1);
 
 use app\components\ActiveForm;
 use app\components\Form;
+use prime\components\View;
 use prime\models\forms\NewFacility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 
-
 /**
- * @var \prime\components\View $this
+ * @var View $this
  * @var NewFacility $model
  */
-$this->params['breadcrumbs'][] = [
-    'label' => $model->getWorkspace()->projectTitle(),
-    'url' => ['project/workspaces', 'id' => $model->getWorkspace()->projectId()]
-];
-$this->params['breadcrumbs'][] = [
-    'label' => $model->getWorkspace()->title(),
-    'url' => ['workspace/limesurvey', 'id' => $model->getWorkspace()->id()]
-];
 
 $this->title = Yii::t('app', 'Create facility');
 
-Section::begin()->withHeader(\Yii::t('app', 'Register facility'));
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Register facility'));
+
 $form = ActiveForm::begin();
 echo Form::widget([
     'form' => $form,
@@ -49,4 +43,5 @@ echo Form::widget([
     ],
 ]);
 ActiveForm::end();
+
 Section::end();

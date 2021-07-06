@@ -13,7 +13,7 @@ use yii\web\View;
 /** @var Page $page */
 
 $this->title = $project->getDisplayField();
-$this->params['breadcrumbs'][] = $this->title;
+
 echo Html::tag('iframe', '', [
     'style' => [
         'grid-area' => 'main',

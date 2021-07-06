@@ -1,18 +1,14 @@
 <?php
 declare(strict_types=1);
 
-use prime\helpers\Icon;
-use yii\helpers\Html;
+use prime\components\View;
 use prime\models\ar\Permission;
-use prime\widgets\menu\TabMenu;
 
 /**
- * @var \prime\components\View $this
- *
+ * @var View $this
  */
-$this->title = \Yii::t('app', 'Backend administration');
-$this->params['breadcrumbs'][] = ['label' => ""];
 
+$this->title = \Yii::t('app', 'Backend administration');
 
 $this->params['tabs'] = [
     [

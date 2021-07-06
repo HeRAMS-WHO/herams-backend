@@ -23,12 +23,8 @@ use yii\web\View;
  * @var Resolver $abacResolver
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $tabMenuModel->projectTitle(),
-    'url' => ['project/workspaces', 'id' => $tabMenuModel->projectId()]
-];
-
 $this->title = $tabMenuModel->title();
+
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget(
     ['workspace' => $tabMenuModel]

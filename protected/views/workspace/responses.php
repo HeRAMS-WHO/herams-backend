@@ -1,30 +1,29 @@
 <?php
 
-/**
- * @var \yii\data\ActiveDataProvider $responseProvider
- * @var \prime\models\search\Response $responseSearch
- * @var int $closedCount
- * @var \yii\web\View $this
- * @var \prime\models\ar\Workspace $workspace
- * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
- */
-
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
+use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
+use prime\models\search\Response;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\web\View;
 
-$this->params['breadcrumbs'][] = [
-    'label' => $workspace->project->title,
-    'url' => ['project/workspaces', 'id' => $workspace->project->id]
-];
-$this->title = \Yii::t('app', "Workspace {workspace}", [
-    'workspace' => $workspace->title,
-]);
+/**
+ * @var ActiveDataProvider $responseProvider
+ * @var Response $responseSearch
+ * @var int $closedCount
+ * @var View $this
+ * @var Workspace $workspace
+ * @var WorkspaceForTabMenu $tabMenuModel
+ */
+
+$this->title = $workspace->title;
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
@@ -35,6 +34,7 @@ $this->endBlock();
 Section::begin([
     'header' => \Yii::t('app', 'Responses')
 ]);
+
 echo GridView::widget([
     'pjax' => true,
     'pjaxSettings' => [
@@ -77,6 +77,7 @@ echo GridView::widget([
             'template' => '{compare}',
             'buttons' => [
                 'compare' => function ($url, \prime\models\ar\Response $model, $key) {
+                    $url = ['response/compare', 'id' => $model->id, 'survey_id' => $model->survey_id];
                     $result = Html::a(Icon::eye(), $url, [
                         'title' => \Yii::t('app', 'Refresh data from limesurvey')
                     ]);

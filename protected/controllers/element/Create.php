@@ -69,6 +69,7 @@ class Create extends Action
             }
         }
 
+        $breadcrumbCollection = $this->controller->view->getBreadcrumbCollection();
 
         return $this->controller->render('update', [
             'page' => $page,

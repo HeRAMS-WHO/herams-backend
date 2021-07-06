@@ -18,8 +18,6 @@ use yii\web\View;
  * @var array $types
  */
 
-
-
 echo ProjectPageMenu::widget([
     'project' => $project,
     'collapsible' => false,
@@ -30,42 +28,7 @@ echo ProjectPageMenu::widget([
 
 ]);
 
-$this->params['breadcrumbs'] = [
-    [
-        'label' => $project->getDisplayField(),
-        'url' => ['project/view', 'id' => $project->id]
-    ],
-];
-
-// Get page stack.
-$stack = [];
-$parent = $page;
-while (null !== ($parent = $parent->getParentPage())) {
-    $stack[] = $parent;
-}
-
-while (!empty($stack)) {
-    /** @var PageInterface $p */
-    $p = array_pop($stack);
-    $this->params['breadcrumbs'][] = [
-        'label' => $p->getTitle(),
-    ];
-}
-
-if ($project->pages[0]->getId() !== $page->getId()) {
-    $this->params['breadcrumbs'][] = [
-        'label' => $page->getTitle(),
-//    'url' => [
-//        'project/view',
-//        'id' => $project->id,
-//        'page_id' => $page->getId(),
-//        'parent_id' => $page->getParentId()
-//    ]
-    ];
-}
-
 $this->title = $page->getTitle();
-
 
 echo $this->render('view/filters', [
     'types' => $types,

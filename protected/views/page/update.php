@@ -22,16 +22,6 @@ use function iter\toArrayWithKeys;
  * @var View $this
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $page->project->title,
-    'url' => ['project/update', 'id' => $page->project->id]
-];
-
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Dashboard settings'),
-    'url' => ['project/pages', 'id' => $page->project->id]
-];
-
 $this->title = $page->title;
 
 Section::begin()

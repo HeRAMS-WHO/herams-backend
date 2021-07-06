@@ -13,8 +13,7 @@ use prime\widgets\Section;
  * @var Share $model
  * @var View $this
  */
-$this->title = \Yii::t('app', 'Administration');
-$this->params['breadcrumbs'][] = ['label' => ""];
+$this->title = \Yii::t('app', 'Global permissions');
 
 $this->params['tabs'] = [
     [

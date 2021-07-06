@@ -1,16 +1,13 @@
 <?php
 declare(strict_types=1);
 
-/**
- * @var \prime\components\View $this
- * @var \prime\models\ar\Project $project
- * @var \prime\models\forms\project\SyncWorkspaces $model
- */
-
 use app\components\ActiveForm;
 use app\components\Form;
 use Carbon\Carbon;
 use prime\assets\TimeElementBundle;
+use prime\components\View;
+use prime\models\ar\Project;
+use prime\models\forms\project\SyncWorkspaces;
 use prime\widgets\BetterSelect;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\ProjectTabMenu;
@@ -18,12 +15,13 @@ use prime\widgets\Section;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
+/**
+ * @var View $this
+ * @var Project $project
+ * @var SyncWorkspaces $model
+ */
 
-$this->title = \Yii::t('app', 'Sync workspaces');
+$this->title = $project->title;
 
 Section::begin(['options'=> ['style' => ['column-width' => '500px']]])->withHeader(\Yii::t('app', 'Sync workspaces'));
 echo Html::beginTag('table', ['id' => 'progress-table']);

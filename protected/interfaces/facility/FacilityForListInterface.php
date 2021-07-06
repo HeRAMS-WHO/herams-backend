@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace prime\interfaces;
+namespace prime\interfaces\facility;
 
 use prime\values\FacilityId;
 use prime\values\Point;
 
-interface FacilityForList
+interface FacilityForListInterface
 {
     public const ID = "id";
     public const UUID = "uuid";

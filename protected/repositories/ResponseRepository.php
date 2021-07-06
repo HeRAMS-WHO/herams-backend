@@ -9,6 +9,7 @@ use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\HeramsResponseInterface;
+use prime\interfaces\response\ResponseForBreadcrumbInterface as ForBreadcrumbInterface;
 use prime\interfaces\RetrieveWriteModelRepositoryInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
@@ -18,6 +19,7 @@ use prime\models\facility\FacilityForList;
 use prime\models\forms\NewFacility as FacilityForm;
 use prime\models\forms\ResponseFilter;
 use prime\models\forms\UpdateFacility;
+use prime\models\response\ResponseForBreadcrumb;
 use prime\models\response\ResponseForList;
 use prime\models\response\ResponseForSurvey;
 use prime\models\search\FacilitySearch;
@@ -98,6 +100,12 @@ class ResponseRepository
         return $model;
     }
 
+    public function retrieveForBreadcrumb(ResponseId $id): ForBreadcrumbInterface
+    {
+        $record = Response::findOne(['id' => $id]);
+        return new ResponseForBreadcrumb($record);
+    }
+
     public function retrieveForSurvey(ResponseId $id): ResponseForSurvey
     {
         $response = Response::findOne(['auto_increment_id' => $id]);
@@ -106,7 +114,8 @@ class ResponseRepository
             $id,
             $response->survey_id,
             $response->id,
-            $response->workspace->token);
+            $response->workspace->token
+        );
     }
 
     public function save(UpdateFacility $facility): FacilityId

@@ -5,7 +5,6 @@ use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
 use prime\components\View;
-use prime\models\ar\Project;
 use prime\models\forms\project\Create;
 use prime\objects\enums\ProjectVisibility;
 use prime\widgets\FormButtonsWidget;
@@ -16,14 +15,6 @@ use prime\widgets\Section;
  * @var Create $model
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
 $this->title = Yii::t('app', 'Create project');
 
 Section::begin()

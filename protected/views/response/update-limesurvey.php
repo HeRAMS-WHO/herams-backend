@@ -1,37 +1,24 @@
 <?php
 declare(strict_types=1);
 
+use prime\assets\IframeResizeBundle;
+use prime\models\response\ResponseForSurvey;
 use prime\widgets\Section;
 use yii\bootstrap\Html;
-use yii\helpers\Url;
-use prime\helpers\Icon;
-use prime\models\ar\Permission;
-use prime\widgets\menu\WorkspaceTabMenu;
+use yii\web\View;
 
 /**
- * @var \yii\web\View $this
- * @var \prime\models\response\ResponseForSurvey $model
- *
+ * @var View $this
+ * @var ResponseForSurvey $model
  */
 
-
-
-//$this->params['breadcrumbs'][] = [
-//    'label' => $model->project->title,
-//    'url' => ['project/workspaces', 'id' => $model->project->id]
-//];
-
-//$this->title = \Yii::t('app', 'Workspace {workspace}', [
-//    'workspace' => $model->title,
-//]);
-
 $language = \Yii::$app->language;
-\prime\assets\IframeResizeBundle::register($this);
-Section::begin([
-    'subject' => $model,
-    'header' => \Yii::t('app', 'Limesurvey'),
+IframeResizeBundle::register($this);
 
-]);
+Section::begin()
+    ->withHeader(\Yii::t('app', 'Limesurvey'))
+    ->withSubject($model);
+
 echo Html::tag('iframe', '', [
     'name' => 'limesurvey',
     'src' => $model->getExternalResponseId()->getLimesurveyUrl(\Yii::$app->language),
@@ -42,4 +29,5 @@ echo Html::tag('iframe', '', [
     ]
 ]);
 $this->registerJs('iFrameResize({ log: false, checkOrigin: ["https://ls.herams.org"]}, "iframe[name=limesurvey]");');
+
 Section::end();

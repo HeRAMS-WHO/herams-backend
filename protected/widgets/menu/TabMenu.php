@@ -9,6 +9,7 @@ use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Permission;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
@@ -67,7 +68,7 @@ class TabMenu extends Widget
             }
 
             $classes = ['btn', 'btn-tab'];
-            if ($this->isCurrentPage($tab['url'])) {
+            if (ArrayHelper::getValue($tab, 'active') || $this->isCurrentPage($tab['url'])) {
                 $classes[] = 'active';
             }
 

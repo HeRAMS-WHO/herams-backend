@@ -23,7 +23,10 @@ use prime\controllers\project\Limesurvey;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Response;
+use prime\objects\Breadcrumb;
 use prime\queries\ResponseQuery;
+use prime\repositories\ProjectRepository;
+use prime\values\ProjectId;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -134,5 +137,12 @@ class ProjectController extends Controller
                 ]
             ]
         );
+    }
+
+    public function render($view, $params = [])
+    {
+        $this->view->getBreadcrumbCollection()->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
+
+        return parent::render($view, $params);
     }
 }

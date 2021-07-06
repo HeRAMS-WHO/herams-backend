@@ -20,14 +20,7 @@ use yii\helpers\Html;
  * @var SyncWorkspaces $model
  */
 
-
-
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
-
-$this->title = \Yii::t('app', 'Sync workspaces');
+$this->title = $project->title;
 
 TimeElementBundle::register($this);
 Section::begin()->withHeader(\Yii::t('app', 'Sync workspaces'));

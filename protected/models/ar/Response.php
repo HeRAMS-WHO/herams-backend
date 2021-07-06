@@ -4,7 +4,7 @@
 namespace prime\models\ar;
 
 use Carbon\Carbon;
-use prime\interfaces\FacilityForList;
+use prime\interfaces\facility\FacilityForListInterface;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
