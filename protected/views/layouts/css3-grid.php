@@ -47,16 +47,16 @@ echo $this->render('//user-menu', [
 <div class="title">
 <?php
     $links = [];
-    foreach ($this->breadCrumbCollection as $breadcrumb) {
-        $links[] = ArrayHelper::merge(
-            $breadcrumb->getHtmlOptions(),
-            [
-                'label' => $breadcrumb->getLabel(),
-                'url' => $breadcrumb->getUrl(),
-                'encode' => $breadcrumb->getEncode(),
-            ]
-        );
-    }
+foreach ($this->getBreadcrumbCollection() as $breadcrumb) {
+    $links[] = ArrayHelper::merge(
+        $breadcrumb->getHtmlOptions(),
+        [
+            'label' => $breadcrumb->getLabel(),
+            'url' => $breadcrumb->getUrl(),
+            'encode' => $breadcrumb->getEncode(),
+        ]
+    );
+}
 
     echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
         'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() ." </li>\n",

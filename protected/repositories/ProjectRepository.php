@@ -5,14 +5,14 @@ namespace prime\repositories;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
-use prime\interfaces\project\ForBreadcrumb as ForBreadcrumbInterface;
+use prime\interfaces\project\ProjectForBreadcrumbInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\forms\project\Create;
 use prime\models\forms\project\Update as ProjectUpdate;
-use prime\models\project\ForBreadcrumb;
+use prime\models\project\ProjectForBreadcrumb;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 
@@ -34,10 +34,10 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         return new ProjectId($record->id);
     }
 
-    public function retrieveForBreadcrumb(ProjectId $id): ForBreadcrumbInterface
+    public function retrieveForBreadcrumb(ProjectId $id): ProjectForBreadcrumbInterface
     {
         $record = Project::findOne(['id' => $id]);
-        return new ForBreadcrumb($record);
+        return new ProjectForBreadcrumb($record);
     }
 
     public function retrieveForRead(IntegerId $id): ProjectRead

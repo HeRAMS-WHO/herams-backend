@@ -80,13 +80,6 @@ class ProjectController extends Controller
         ];
     }
 
-    public function beforeAction($action)
-    {
-        $this->view->getBreadcrumbCollection()->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
-
-        return parent::beforeAction($action);
-    }
-
     public function behaviors(): array
     {
         return ArrayHelper::merge(
@@ -144,5 +137,12 @@ class ProjectController extends Controller
                 ]
             ]
         );
+    }
+
+    public function render($view, $params = [])
+    {
+        $this->view->getBreadcrumbCollection()->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
+
+        return parent::render($view, $params);
     }
 }

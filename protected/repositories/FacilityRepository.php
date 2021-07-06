@@ -9,7 +9,7 @@ use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
-use prime\interfaces\facility\ForBreadcrumb as ForBreadcrumbInterface;
+use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\interfaces\FacilityForResponseCopy;
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\ar\Facility;
@@ -17,8 +17,8 @@ use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
 use prime\models\ar\Response;
 use prime\models\ar\Workspace;
+use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
-use prime\models\facility\ForBreadcrumb;
 use prime\models\forms\NewFacility as FacilityForm;
 use prime\models\forms\ResponseFilter;
 use prime\models\forms\UpdateFacility;
@@ -29,7 +29,6 @@ use prime\values\IntegerId;
 use prime\values\Point;
 use prime\values\ProjectId;
 use prime\values\ResponseId;
-use prime\values\StringId;
 use prime\values\WorkspaceId;
 use Ramsey\Uuid\Uuid;
 use yii\base\Model;
@@ -191,7 +190,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
         );
     }
 
-    public function retrieveForBreadcrumb(FacilityId $id): ForBreadcrumbInterface
+    public function retrieveForBreadcrumb(FacilityId $id): FacilityForBreadcrumbInterface
     {
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
             $response = Response::findOne([
@@ -203,18 +202,10 @@ class FacilityRepository implements CreateModelRepositoryInterface
                 throw new NotFoundHttpException();
             }
 
-            return new ForBreadcrumb(
-                $id,
-                $response->name,
-                new WorkspaceId($response->workspace_id),
-            );
+            return new FacilityForBreadcrumb($response);
         } else {
             $facility = Facility::findOne(['id' => (int) $id->getValue()]);
-            return new ForBreadcrumb(
-                $id,
-                $facility->name,
-                new WorkspaceId($facility->workspace_id),
-            );
+            return new FacilityForBreadcrumb($facility);
         }
     }
 
@@ -261,7 +252,6 @@ class FacilityRepository implements CreateModelRepositoryInterface
                 $response->workspace->title,
                 (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
             );
-
         } else {
             $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);
             return new \prime\models\facility\FacilityForTabMenu(

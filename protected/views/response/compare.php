@@ -108,22 +108,22 @@ $export->run($writer, Response::find()->andWhere($storedResponse->getPrimaryKey(
 $options = ['class' => ['column']];
 
 echo Html::beginTag('div', $options);
-//    echo Html::tag('h1', 'Our latest data');
-//    echo Html::tag('pre', print_r($storedResponse->data, true));
-//echo Html::endTag('div');
-//echo Html::beginTag('div', $options);
-//    echo Html::tag('h1', 'Our interpretation of the LS data');
-//    $loader = new \prime\helpers\LimesurveyDataLoader();
-//    $loader->loadData($limesurveyResponse->getData(), $storedResponse->workspace, $storedResponse);
-//    echo Html::tag('pre', print_r($storedResponse->data, true));
-//echo Html::endTag('div');
-//echo Html::beginTag('div', $options);
-//    echo Html::tag('h1', 'Data fresh from LS');
-//    echo Html::tag('pre', print_r($limesurveyResponse->getData(), true));
-//echo Html::endTag('div');
-//echo Html::beginTag('div', $options);
-//echo Html::tag('h1', 'Response as it would be exported (but vertically)');
-//echo $writer->getStream()->getContents();
+    echo Html::tag('h1', 'Our latest data');
+    echo Html::tag('pre', print_r($storedResponse->data, true));
+echo Html::endTag('div');
+echo Html::beginTag('div', $options);
+    echo Html::tag('h1', 'Our interpretation of the LS data');
+    $loader = new \prime\helpers\LimesurveyDataLoader();
+    $loader->loadData($limesurveyResponse->getData(), $storedResponse->workspace, $storedResponse);
+    echo Html::tag('pre', print_r($storedResponse->data, true));
+echo Html::endTag('div');
+echo Html::beginTag('div', $options);
+    echo Html::tag('h1', 'Data fresh from LS');
+    echo Html::tag('pre', print_r($limesurveyResponse->getData(), true));
+echo Html::endTag('div');
+echo Html::beginTag('div', $options);
+echo Html::tag('h1', 'Response as it would be exported (but vertically)');
+echo $writer->getStream()->getContents();
 echo Html::endTag('div');
 
 Section::end();

@@ -46,23 +46,6 @@ class PageController extends Controller
         ];
     }
 
-    public function beforeAction($action)
-    {
-        $breadcrumbCollection = $this->view->getBreadcrumbCollection()
-            ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
-
-        if (in_array($action->id, ['create']) && $projectId = (int) $this->request->getQueryParam('project_id')) {
-            $project = $this->projectRepository->retrieveForBreadcrumb(new ProjectId($projectId));
-            $breadcrumbCollection->add((new Breadcrumb())->setUrl(['/project/workspaces','id' => $project->getId()])->setLabel($project->getTitle()));
-        } elseif ($id = $this->request->getQueryParam('id')) {
-            $model = $this->pageRepository->retrieveForBreadcrumb(new PageId((int) $id));
-            $project = $this->projectRepository->retrieveForBreadcrumb($model->getProjectId());
-            $breadcrumbCollection->add((new Breadcrumb())->setUrl(['/project/view', 'id' => $project->getId()])->setLabel($project->getTitle()));
-        }
-
-        return parent::beforeAction($action);
-    }
-
     public function behaviors(): array
     {
         return ArrayHelper::merge(
@@ -84,5 +67,22 @@ class PageController extends Controller
                 ],
             ]
         );
+    }
+
+    public function render($view, $params = [])
+    {
+        $breadcrumbCollection = $this->view->getBreadcrumbCollection()
+            ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
+
+        if (in_array($this->action->id, ['create']) && $projectId = (int) $this->request->getQueryParam('project_id')) {
+            $project = $this->projectRepository->retrieveForBreadcrumb(new ProjectId($projectId));
+            $breadcrumbCollection->add($project);
+        } elseif ($id = $this->request->getQueryParam('id')) {
+            $model = $this->pageRepository->retrieveForBreadcrumb(new PageId((int) $id));
+            $project = $this->projectRepository->retrieveForBreadcrumb($model->getProjectId());
+            $breadcrumbCollection->add($project);
+        }
+
+        return parent::render($view, $params);
     }
 }

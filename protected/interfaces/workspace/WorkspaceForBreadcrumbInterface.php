@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace prime\interfaces\workspace;
 
+use prime\interfaces\BreadcrumbInterface;
 use prime\values\ProjectId;
-use prime\values\WorkspaceId;
 
-interface ForBreadcrumb
+interface WorkspaceForBreadcrumbInterface extends BreadcrumbInterface
 {
-    public function getId(): WorkspaceId;
     public function getProjectId(): ProjectId;
-    public function getTitle(): string;
 }

@@ -47,7 +47,7 @@ echo $this->render('//user-menu', [
 echo Html::beginTag('div', ['class' => 'title']);
 
 $links = [];
-foreach ($this->breadCrumbCollection as $breadcrumb) {
+foreach ($this->getBreadcrumbCollection() as $breadcrumb) {
     $links[] = ArrayHelper::merge(
         $breadcrumb->getHtmlOptions(),
         [

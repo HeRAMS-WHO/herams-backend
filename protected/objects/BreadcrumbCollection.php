@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace prime\objects;
 
+use prime\interfaces\BreadcrumbInterface;
+
 class BreadcrumbCollection implements \Iterator
 {
     private array $values = [];
@@ -15,7 +17,7 @@ class BreadcrumbCollection implements \Iterator
         }
     }
 
-    public function add(Breadcrumb $value, ?int $index = null): self
+    public function add(BreadcrumbInterface $value, ?int $index = null): self
     {
         if (is_null($index)) {
             $this->values[] = $value;
@@ -26,7 +28,7 @@ class BreadcrumbCollection implements \Iterator
         return $this;
     }
 
-    public function current(): Breadcrumb
+    public function current(): BreadcrumbInterface
     {
         return $this->values[$this->position];
     }

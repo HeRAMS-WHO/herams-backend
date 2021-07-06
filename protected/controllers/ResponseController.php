@@ -35,7 +35,7 @@ class ResponseController extends Controller
         ];
     }
 
-    public function beforeAction($action)
+    public function render($view, $params = [])
     {
         $breadcrumbCollection = $this->view->getBreadcrumbCollection()
             ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
@@ -45,11 +45,11 @@ class ResponseController extends Controller
             $workspace = $this->workspaceRepository->retrieveForBreadcrumb($model->getWorkspaceId());
             $project = $this->projectRepository->retrieveForBreadcrumb($workspace->getProjectId());
             $breadcrumbCollection
-                ->add((new Breadcrumb())->setUrl(['/project/view', 'id' => $project->getId()])->setLabel($project->getTitle()))
-                ->add((new Breadcrumb())->setUrl(['/workspace/responses', 'id' => $workspace->getId()])->setLabel($workspace->getTitle()))
+                ->add($project)
+                ->add($workspace)
             ;
         }
 
-        return parent::beforeAction($action);
+        return parent::render($view, $params);
     }
 }

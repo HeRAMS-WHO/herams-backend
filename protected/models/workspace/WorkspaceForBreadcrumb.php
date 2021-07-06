@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace prime\models\workspace;
 
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
 use prime\objects\LanguageSet;
+use prime\traits\BreadcrumbTrait;
 use prime\traits\CanCurrentUser;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
@@ -14,32 +16,22 @@ use prime\values\WorkspaceId;
 /**
  * @codeCoverageIgnore Since all functions are simple getters
  */
-class ForBreadcrumb implements \prime\interfaces\workspace\ForBreadcrumb
+class WorkspaceForBreadcrumb implements WorkspaceForBreadcrumbInterface
 {
-    private WorkspaceId $id;
+    use BreadcrumbTrait;
+
     private ProjectId $projectId;
-    private string $title;
 
     public function __construct(
         Workspace $model
     ) {
-        $this->id = new WorkspaceId($model->id);
+        $this->label = $model->title;
         $this->projectId = new ProjectId($model->tool_id);
-        $this->title = $model->title;
-    }
-
-    public function getId(): WorkspaceId
-    {
-        return $this->id;
+        $this->url = ['/workspace/responses', 'id' => $model->id];
     }
 
     public function getProjectId(): ProjectId
     {
         return $this->projectId;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
     }
 }

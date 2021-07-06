@@ -3,39 +3,30 @@ declare(strict_types=1);
 
 namespace prime\models\pages;
 
+use prime\interfaces\page\PageForBreadcrumbInterface;
 use prime\models\ar\Page;
-use prime\values\PageId;
+use prime\traits\BreadcrumbTrait;
 use prime\values\ProjectId;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters
  */
-class ForBreadcrumb implements \prime\interfaces\page\ForBreadcrumb
+class PageForBreadcrumb implements PageForBreadcrumbInterface
 {
-    private PageId $id;
+    use BreadcrumbTrait;
+
     private ProjectId $projectId;
-    private string $title;
 
     public function __construct(
         Page $model
     ) {
-        $this->id = new PageId($model->id);
+        $this->label = $model->title;
         $this->projectId = new ProjectId($model->project_id);
-        $this->title = $model->title;
-    }
-
-    public function getId(): PageId
-    {
-        return $this->id;
+        $this->url = ['/page/update', 'id' => $model->id];
     }
 
     public function getProjectId(): ProjectId
     {
         return $this->projectId;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
     }
 }

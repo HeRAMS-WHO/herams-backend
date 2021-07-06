@@ -3,39 +3,30 @@ declare(strict_types=1);
 
 namespace prime\models\elements;
 
+use prime\interfaces\element\ElementForBreadcrumbInterface;
 use prime\models\ar\Element;
-use prime\values\ElementId;
+use prime\traits\BreadcrumbTrait;
 use prime\values\PageId;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters
  */
-class ForBreadcrumb implements \prime\interfaces\element\ForBreadcrumb
+class ElementForBreadcrumb implements ElementForBreadcrumbInterface
 {
-    private ElementId $id;
+    use BreadcrumbTrait;
+
     private PageId $pageId;
-    private string $title;
 
     public function __construct(
         Element $model
     ) {
-        $this->id = new ElementId($model->id);
+        $this->label = $model->getDisplayField();
         $this->pageId = new PageId($model->page_id);
-        $this->title = $model->getDisplayField();
-    }
-
-    public function getId(): ElementId
-    {
-        return $this->id;
+        $this->url = ['/element/preview', 'id' => $model->id];
     }
 
     public function getPageId(): PageId
     {
         return $this->pageId;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
     }
 }

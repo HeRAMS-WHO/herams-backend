@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace prime\interfaces\page;
 
-use prime\values\PageId;
+use prime\interfaces\BreadcrumbInterface;
 use prime\values\ProjectId;
 
-interface ForBreadcrumb
+interface PageForBreadcrumbInterface extends BreadcrumbInterface
 {
-    public function getId(): PageId;
     public function getProjectId(): ProjectId;
-    public function getTitle(): string;
 }

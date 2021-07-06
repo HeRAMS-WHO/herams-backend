@@ -8,12 +8,13 @@ use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\interfaces\RetrieveWorkspaceForNewFacility;
-use prime\interfaces\workspace\ForBreadcrumb as ForBreadcrumbInterface;
+use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface as ForBreadcrumbInterface;
+use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface;
 use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Workspace as WorkspaceForm;
-use prime\models\workspace\ForBreadcrumb;
+use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\models\workspace\WorkspaceForNewOrUpdateFacility;
 use prime\objects\LanguageSet;
 use prime\values\IntegerId;
@@ -47,7 +48,7 @@ class WorkspaceRepository implements
     public function retrieveForBreadcrumb(WorkspaceId $id): ForBreadcrumbInterface
     {
         $record = Workspace::findOne(['id' => $id]);
-        return new ForBreadcrumb($record);
+        return new WorkspaceForBreadcrumb($record);
     }
 
     public function retrieveForFacilityList(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
