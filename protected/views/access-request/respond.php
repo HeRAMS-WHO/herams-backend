@@ -45,7 +45,8 @@ echo Form::widget([
         'requestedPermissions' => [
             'type' => Form::INPUT_STATIC,
             'label' => \Yii::t('app', 'Requested permissions'),
-            'staticValue' => Html::ul(map(static fn($permission) => Permission::permissionLabels()[AccessRequest::permissionMap($model->getAccessRequest()->target)[$permission] ?? $permission], $model->getAccessRequest()->permissions), ['style' => ['margin-top' => 0, 'padding-left' => '17px']]),
+            'staticValue' => Html::ul(map(static fn($permission) =>
+                Permission::permissionLabels()[AccessRequest::permissionMap($model->getAccessRequest()->target)[$permission] ?? null] ?? $model->getAccessRequest()->permissionOptions()[$permission], $model->getAccessRequest()->permissions), ['style' => ['margin-top' => 0, 'padding-left' => '17px']]),
         ],
         'response' => [
             'type' => Form::INPUT_TEXTAREA,
