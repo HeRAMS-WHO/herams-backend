@@ -16,6 +16,7 @@ namespace {
         }
 
         require_once $autoload;
+        $env = new \prime\components\InsecureSecretEnvironment();
         \Yii::$container->setDefinitions(require __DIR__ . '/../protected/config/di.php');
 
         $config = require __DIR__ . '/../protected/config/codeception.php';

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use prime\components\JwtSso;
+use prime\models\ar\User as ActiveRecordUser;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
@@ -15,6 +16,8 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 use yii\web\User;
+use yii\web\User as UserComponent;
+use yii\web\UserEvent;
 
 /** @var \prime\components\KubernetesSecretEnvironment|null $env */
 assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
@@ -82,7 +85,7 @@ return [
         },
         'authManager' => static function (\SamIT\abac\AuthManager $abacManager) {
             return new \prime\components\AuthManager($abacManager, [
-                'userClass' => \prime\models\ar\User::class,
+                'userClass' => ActiveRecordUser::class,
                 'globalId' => AccessChecker::GLOBAL,
                 'globalName' => AccessChecker::BUILTIN,
                 'guestName' => AccessChecker::BUILTIN,
@@ -144,10 +147,10 @@ return [
             ]
         ],
         'user' => [
-            'class' => \yii\web\User::class,
+            'class' => UserComponent::class,
             'loginUrl' => '/session/create',
-            'identityClass' => \prime\models\ar\User::class,
-            'on ' . \yii\web\User::EVENT_AFTER_LOGIN => function (\yii\web\UserEvent $event) {
+            'identityClass' => ActiveRecordUser::class,
+            'on ' . UserComponent::EVENT_AFTER_LOGIN => function (UserEvent $event) {
                 if (isset($event->identity->language)) {
                     \Yii::$app->language = $event->identity->language;
                 }

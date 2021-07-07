@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
+use prime\models\forms\user\CreateForm;
 use prime\models\forms\user\RequestAccountForm;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
@@ -11,7 +12,7 @@ use yii\web\View;
 
 /**
  * @var View $this
- * @var RequestAccountForm $model
+ * @var CreateForm $model
  */
 
 $this->title = Yii::t('app', 'Create account');
@@ -44,6 +45,9 @@ echo Form::widget([
             'options' => [
                 'autocomplete' => 'new-password'
             ]
+        ],
+        'subscribeToNewsletter' => [
+            'type' => Form::INPUT_CHECKBOX,
         ],
         FormButtonsWidget::embed([
             'options' => [

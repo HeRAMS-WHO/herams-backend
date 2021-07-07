@@ -14,7 +14,6 @@ use yii\web\User;
 
 class RequestAccount extends Action
 {
-
     public function run(
         Request $request,
         User $user,
@@ -28,13 +27,15 @@ class RequestAccount extends Action
         }
 
         $model = new RequestAccountForm($cache);
-        // Verify captcha.
         if ($model->load($request->getBodyParams())
             && $model->validate()
             && $model->send($mailer, $urlSigner)
         ) {
             $notificationService->success(\Yii::t('app', "A verification email has been sent to your address"));
+        } elseif ($model->hasErrors('email')) {
+            $notificationService->error($model->getFirstError('email'));
         }
+
         return $this->controller->goHome();
     }
 }

@@ -6,7 +6,10 @@ namespace prime\models\forms\user;
 use kartik\password\StrengthValidator;
 use prime\models\ar\User;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
+use yii\validators\BooleanValidator;
 use yii\validators\CompareValidator;
+use yii\validators\DefaultValueValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
@@ -14,14 +17,14 @@ use yii\validators\UniqueValidator;
 
 class CreateForm extends Model
 {
-    public $confirm_password;
-    public $password;
-
-    public $email;
-    public $name;
+    public string $email = '';
+    public string $confirm_password = '';
+    public string $name = '';
+    public string $password = '';
+    public bool $subscribeToNewsletter = false;
 
     public function __construct(
-        private $user,
+        private User $user,
         $config = []
     ) {
         parent::__construct($config);
@@ -29,11 +32,11 @@ class CreateForm extends Model
 
     public function attributeLabels(): array
     {
-        return [
+        return ArrayHelper::merge($this->user->attributeLabels(), [
             'confirm_password' => \Yii::t('app', 'Confirm password'),
-            'email' => \Yii::t('app', 'Email'),
             'password' => \Yii::t('app', 'Password'),
-        ];
+            'subscribeToNewsletter' => \Yii::t('app', 'Subscribe to newsletter'),
+        ]);
     }
 
     public function rules(): array
@@ -55,6 +58,8 @@ class CreateForm extends Model
                 CompareValidator::class, 'compareAttribute' => 'password',
                 'message' => \Yii::t('app', 'Passwords don\'t match')
             ],
+            [['subscribeToNewsletter'], DefaultValueValidator::class, 'value' => false],
+            [['subscribeToNewsletter'], BooleanValidator::class],
         ];
     }
 
@@ -63,6 +68,7 @@ class CreateForm extends Model
         $this->user->email = $this->email;
         $this->user->name = $this->name;
         $this->user->setPassword($this->password);
+        $this->user->newsletter_subscription = $this->subscribeToNewsletter;
         if (!$this->user->save()) {
             throw new \RuntimeException('Failed to create user');
         }

@@ -11,7 +11,7 @@
         },
         {
             "name": "Joey Claessen",
-            "email": "joey@ch-ict.nl"
+            "email": "joey@jc-it.nl"
         }
     ],
     "require": {
@@ -54,7 +54,8 @@
         "psr/http-factory": "^1.0",
         "psr/http-server-handler": "^1.0",
         "ramsey/uuid": "^4.1",
-        "spatie/enum": "^3.7"
+        "spatie/enum": "^3.7",
+        "drewm/mailchimp-api": "^2.5"
     },
 
     "autoload": {
