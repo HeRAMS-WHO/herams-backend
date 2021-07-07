@@ -61,7 +61,7 @@ class ProjectPageMenu extends SideMenu
             'parent_id' => $page->getParentId(),
             'page_id' => $page->getId()
         ]) : null;
-        echo Html::a($page->getTitle(), $route, $options);
+        echo Html::a(\Yii::t('app.pagetitle', $page->getTitle()), $route, $options);
 
         return $result;
     }
@@ -88,7 +88,7 @@ class ProjectPageMenu extends SideMenu
             return $this->renderPageLink($page);
         }
         echo Html::beginTag('section');
-        echo Html::tag('header', Html::a($page->title) . Icon::chevronRight(['class' => 'collapsed-only']) . Icon::chevronDown(['class' => 'expanded-only']), $headerOptions);
+        echo Html::tag('header', Html::a(\Yii::t('app.pagetitle', $page->title)) . Icon::chevronRight(['class' => 'collapsed-only']) . Icon::chevronDown(['class' => 'expanded-only']), $headerOptions);
         echo $sub;
         echo Html::endTag('section');
         return $result;
