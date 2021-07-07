@@ -71,7 +71,8 @@ class ModelHydrator
      */
     private function castEnumSet(string|null|array $value, string $class): EnumSet
     {
-        return $class::from(!($value) ? $value : []);
+        // This will still crash on non-empty strings, that is intended. If a string is passed it has to be empty
+        return $class::from(!empty($value) ? $value : []);
     }
     /**
      * @param class-string $class
