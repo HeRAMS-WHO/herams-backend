@@ -5,6 +5,8 @@ namespace prime\tests\unit\helpers;
 
 use Codeception\Test\Unit;
 use prime\helpers\ModelHydrator;
+use prime\objects\EnumSet;
+use prime\objects\LanguageSet;
 use yii\base\DynamicModel;
 use yii\base\Model;
 use yii\helpers\Inflector;
@@ -22,8 +24,18 @@ class ModelHydratorTest extends Unit
         return [
             [
                 [
-                    'integer_property' => 13,
-                    'integer_or_null_property' => 14
+                    'integer_property' => -13,
+                    'integer_or_null_property' => 14,
+                    'language_set' => ['en-US', 'fr-FR']
+                ],
+
+
+            ],
+            [
+                [
+                    'integer_property' => -13,
+                    'integer_or_null_property' => 14,
+                    'language_set' => ['en-US', 'fr-FR']
                 ]
 
             ]
@@ -50,11 +62,12 @@ class ModelHydratorTest extends Unit
         parent::_before();
         $this->modelHydrator = new ModelHydrator();
 
-        $this->targetType = new class(1, 1, 1) {
+        $this->targetType = new class(1, 1, LanguageSet::from([]), 1) {
             public int|null $integerOrNullProperty = 5;
             public function __construct(
                 public int|null $unknownProperty,
                 public int $integerProperty,
+                public LanguageSet $languageSet,
                 int|null $integerOrNullProperty
             ) {
                 $this->integerOrNullProperty = $integerOrNullProperty;
@@ -70,12 +83,21 @@ class ModelHydratorTest extends Unit
         $source = new DynamicModel($sourceAttributes);
 
         $target = $this->modelHydrator->hydrateConstructor($source, get_class($this->targetType));
-        $this->assertInstanceOf(get_class($this->targetType), $target);
-        foreach ($sourceAttributes as $attribute => $value) {
-            $this->assertSame($value, $target->{Inflector::variablize($attribute)});
-        }
+        $this->doAssertions($sourceAttributes, $target);
     }
 
+
+    private function doAssertions(array $sourceAttributes, object $target): void
+    {
+        $this->assertInstanceOf(get_class($this->targetType), $target);
+        foreach ($sourceAttributes as $attribute => $expected) {
+            $value = $target->{Inflector::variablize($attribute)};
+            if ($value instanceof EnumSet) {
+                $value = $value->toArray();
+            }
+            $this->assertSame($expected, $value);
+        }
+    }
     /**
      * @dataProvider camelCasedSourceAttributeProvider
      */
@@ -84,9 +106,81 @@ class ModelHydratorTest extends Unit
         $source = new DynamicModel($sourceAttributes);
 
         $target = $this->modelHydrator->hydrateConstructor($source, get_class($this->targetType));
-        $this->assertInstanceOf(get_class($this->targetType), $target);
-        foreach ($sourceAttributes as $attribute => $value) {
-            $this->assertSame($value, $target->{Inflector::variablize($attribute)});
-        }
+
+        $this->doAssertions($sourceAttributes, $target);
+    }
+
+
+    public function testInvalidIntegerValue(): void
+    {
+        $source = new DynamicModel([
+            'integerProperty' => 'abc'
+        ]);
+        $type = new class(null) {
+            public function __construct(public int|null $integerProperty) {
+
+            }
+        };
+        $this->expectException(\Exception::class);
+        $this->modelHydrator->hydrateConstructor($source, get_class($type));
+    }
+
+    public function testInvalidFloatValue(): void
+    {
+        $source = new DynamicModel([
+            'floatProperty' => 'abc'
+        ]);
+        $type = new class(null) {
+            public function __construct(public float|null $floatProperty) {
+
+            }
+        };
+        $this->expectException(\Exception::class);
+        $this->modelHydrator->hydrateConstructor($source, get_class($type));
+    }
+
+    public function testFloatValue(): void
+    {
+        $source = new DynamicModel([
+            'floatProperty1' => '5.13',
+            'floatProperty2' => 5.14
+        ]);
+        $type = new class(1, 1) {
+            public function __construct(
+                public float $floatProperty1,
+                public float $floatProperty2
+            ) {
+
+            }
+        };
+        $model = $this->modelHydrator->hydrateConstructor($source, get_class($type));
+        $this->assertEqualsWithDelta($source->floatProperty1, $model->floatProperty1, 0.0001);
+        $this->assertEqualsWithDelta($source->floatProperty2, $model->floatProperty2, 0.0001);
+    }
+
+    public function testBoolean(): void
+    {
+        $source = new DynamicModel([
+            'property1' => '1',
+            'property2' => '0',
+            'property3' => true,
+            'property4' => false
+        ]);
+
+        $type = new class(false, false, false, false) {
+            public function __construct(
+                public bool $property1,
+                public bool $property2,
+                public bool $property3,
+                public bool $property4,
+            ) {
+
+            }
+        };
+        $model = $this->modelHydrator->hydrateConstructor($source, get_class($type));
+        $this->assertTrue($model->property1);
+        $this->assertFalse($model->property2);
+        $this->assertTrue($model->property3);
+        $this->assertFalse($model->property4);
     }
 }

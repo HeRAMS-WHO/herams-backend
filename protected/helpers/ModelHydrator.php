@@ -25,7 +25,7 @@ use function iter\toArray;
 class ModelHydrator
 {
 
-    private function castInt(int|string $value): int
+    private function castInt(bool|int|string $value): int
     {
         if (is_string($value) && !preg_match('/^-?\d+$/', $value)) {
             throw new \InvalidArgumentException("String must consist of digits only");
@@ -33,7 +33,7 @@ class ModelHydrator
         return (int) $value;
     }
 
-    private function castBool(string|int $value): bool
+    private function castBool(bool|string|int $value): bool
     {
         return $this->castInt($value) === 1;
     }
