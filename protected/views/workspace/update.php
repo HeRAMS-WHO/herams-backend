@@ -42,7 +42,9 @@ Section::begin([
             'permission' => Permission::PERMISSION_SURVEY_DATA
         ],
     ]
-])->withHeader($this->title);
+])
+    ->withSubject($model)
+    ->withHeader($this->title);
 
     $form = ActiveForm::begin([
         'method' => 'PUT',
