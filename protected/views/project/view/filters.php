@@ -65,7 +65,7 @@ if (!array_key_exists('page_id', $params) && !empty($project->pages)) {
 }
 echo Html::a(\Yii::t('app', 'Print'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export this page to pdf')]);
 unset($params['page_id']);
-echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export all pages to pdf')]);
+//echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export all pages to pdf')]);
 echo Html::a(Icon::list() . ' ' . \Yii::t('app', 'Workspaces'), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white', 'title' => \Yii::t('app', 'Go to workspaces')]);
 echo Html::a(\Yii::t('app', 'Filters').$filterCountSpan, '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
 

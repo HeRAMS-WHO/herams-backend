@@ -4,6 +4,7 @@
 namespace prime\components;
 
 use prime\exceptions\SurveyDoesNotExist;
+use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -59,7 +60,11 @@ class LimesurveyDataProvider extends Component
     public function getSurvey(int $surveyId): SurveyInterface
     {
         try {
-            return $this->client->getSurvey($surveyId);
+            $survey = $this->client->getSurvey($surveyId);
+            if ($survey instanceof LocaleAwareInterface && in_array(substr(\Yii::$app->language, 0, 2), $survey->getLanguages())) {
+                $survey = $survey->getLocalized(substr(\Yii::$app->language, 0, 2));
+            }
+            return $survey;
         } catch (\Exception $e) {
             throw SurveyDoesNotExist::fromClient($e) ?? $e;
         }
