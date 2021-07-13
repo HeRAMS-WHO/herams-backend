@@ -1,7 +1,7 @@
 {
     "private": true,
     "dependencies": {
-        "@github/time-elements": "^3.1.1",
+        "@github/time-elements": "^3.1.2",
         "bootstrap": "^4.6.0",
         "iframe-resizer": "^4.3.2",
         "izitoast": "^1.4.0",

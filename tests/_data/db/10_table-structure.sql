@@ -469,6 +469,7 @@ CREATE TABLE `prime2_user` (
   `last_login_at` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `language` varchar(10) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+  `newsletter_subscription` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `prime2_user_unique_email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;

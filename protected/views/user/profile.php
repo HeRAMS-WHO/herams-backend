@@ -58,6 +58,9 @@ echo Form::widget([
                 }
             ))
         ],
+        'newsletter_subscription' => [
+            'type' => Form::INPUT_CHECKBOX,
+        ],
         FormButtonsWidget::embed([
             'buttons' => [
                 Html::submitButton(Yii::t('app', 'Update profile'), ['class' => ['btn', 'btn-primary']])

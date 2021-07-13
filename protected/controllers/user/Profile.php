@@ -7,13 +7,14 @@ use prime\components\NotificationService;
 use prime\models\ar\User;
 use yii\base\Action;
 use yii\web\Request;
+use yii\web\User as UserComponent;
 
 class Profile extends Action
 {
     public function run(
         Request $request,
-        \yii\web\User $user,
-        NotificationService $notificationService
+        UserComponent $user,
+        NotificationService $notificationService,
     ) {
         /** @var User $model */
         $model = $user->identity;
