@@ -56,5 +56,5 @@ echo Html::tag('iframe', '', [
         //'height' => '800px'
     ]
 ]);
-$this->registerJs('iFrameResize({ log: true}, "iframe[name=limesurvey]");');
+$this->registerJs('iFrameResize({ log: true, scrolling: true }, "iframe[name=limesurvey]");');
 Section::end();

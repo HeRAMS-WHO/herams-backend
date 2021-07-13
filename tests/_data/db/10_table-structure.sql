@@ -15,6 +15,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `prime2_access_request`
+--
+
+DROP TABLE IF EXISTS `prime2_access_request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prime2_access_request` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `target_class` varchar(255) NOT NULL,
+  `target_id` int NOT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `body` text,
+  `permissions` json DEFAULT NULL,
+  `accepted` tinyint(1) DEFAULT NULL,
+  `response` text,
+  `created_by` int DEFAULT NULL,
+  `responded_by` int DEFAULT NULL,
+  `created_at` int DEFAULT NULL,
+  `expires_at` int DEFAULT NULL,
+  `responded_at` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i-access_request-target_class-target_id` (`target_class`,`target_id`),
+  KEY `fk-access_request-created_by-user-id` (`created_by`),
+  KEY `fk-access_request-responded_by-user-id` (`responded_by`),
+  CONSTRAINT `fk-access_request-created_by-user-id` FOREIGN KEY (`created_by`) REFERENCES `prime2_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk-access_request-responded_by-user-id` FOREIGN KEY (`responded_by`) REFERENCES `prime2_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `prime2_auth_assignment`
 --
 
@@ -274,7 +304,11 @@ CREATE TABLE `prime2_permission` (
   `target` varchar(255) NOT NULL,
   `target_id` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `created_at` int DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk-permission-created_by-user-id` (`created_by`),
+  CONSTRAINT `fk-permission-created_by-user-id` FOREIGN KEY (`created_by`) REFERENCES `prime2_user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=458 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -435,6 +469,7 @@ CREATE TABLE `prime2_user` (
   `last_login_at` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `language` varchar(10) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+  `newsletter_subscription` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `prime2_user_unique_email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;

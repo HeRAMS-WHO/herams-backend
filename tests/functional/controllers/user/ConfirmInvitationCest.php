@@ -10,6 +10,11 @@ use prime\tests\FunctionalTester;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 
+/**
+ * @covers \prime\controllers\user\ConfirmInvitation
+ * @covers \prime\controllers\UserController
+ * @covers \prime\models\forms\user\ConfirmInvitationForm
+ */
 class ConfirmInvitationCest
 {
     private function getSignedUrl(

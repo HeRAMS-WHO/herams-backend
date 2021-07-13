@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers;
 
@@ -7,14 +7,14 @@ use prime\components\Controller;
 use prime\controllers\admin\Dashboard;
 use prime\controllers\admin\Limesurvey;
 use prime\controllers\admin\Share;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 class AdminController extends Controller
 {
     public $defaultAction = 'dashboard';
-    public $layout = \prime\components\Controller::LAYOUT_ADMIN;
-    public function actions()
+    public $layout = self::LAYOUT_ADMIN;
+
+    public function actions(): array
     {
         return [
             'dashboard' => Dashboard::class,
@@ -23,17 +23,11 @@ class AdminController extends Controller
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                'verbs' => [
-                    'class' => VerbFilter::class,
-                    'actions' => [
-                        'delete' => ['delete']
-                    ]
-                ],
                 'access' => [
                     'rules' => [
                         [

@@ -13,13 +13,15 @@ use yii\helpers\Url;
 
 class FavoriteColumn extends DataColumn
 {
+    public bool $enableClick = true;
     public $route;
     public User $user;
 
     public function init()
     {
         $this->user = \Yii::$app->user->identity;
-        $this->attribute = 'favorite';
+        $this->value = $this->value ?? static fn(object $model) => $model;
+        $this->attribute = $this->attribute ?? 'favorite';
         if (!isset($this->route)) {
             $this->route = ['/api/user/workspaces', 'id' => \Yii::$app->user->id];
         }
@@ -27,7 +29,11 @@ class FavoriteColumn extends DataColumn
         $targetIds = $this->user->getFavorites()->workspaces()->
             select('target_id')->indexBy('target_id')->column();
         parent::init();
-        $this->content = static function ($model, $key, $index, self $column) use ($targetIds) {
+        $this->content = function ($model, $key, $index, self $column) use ($targetIds) {
+            $model = $this->getDataCellValue($model, $key, $index);
+            if (!$model instanceof Workspace) {
+                return '';
+            }
 
             return Html::button(Icon::star(), [
                 'title' => \Yii::t('app', 'Favorites'),
@@ -41,7 +47,8 @@ class FavoriteColumn extends DataColumn
             ]);
         };
 
-        $this->grid->view->registerJs(<<<JS
+        if ($this->enableClick) {
+            $this->grid->view->registerJs(<<<JS
 
             document.addEventListener('click', async (e) => {
                 let button = e.target.closest('td .FavoriteButton');
@@ -71,6 +78,7 @@ class FavoriteColumn extends DataColumn
             });
 
 JS
-        );
+            );
+        }
     }
 }
