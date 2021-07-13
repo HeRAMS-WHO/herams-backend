@@ -16,7 +16,7 @@ class ModelHydrator
 
     private function castInt(int|string $value): int
     {
-        if (is_string($value) && !preg_match('/^\d+$/', $value)) {
+        if (is_string($value) && !preg_match('/^-?\d+$/', $value)) {
             throw new \InvalidArgumentException("String must consist of digits only");
         }
         return (int) $value;
@@ -29,7 +29,7 @@ class ModelHydrator
 
     private function castFloat($value): float
     {
-        if (is_string($value) && !preg_match('/^\d+(\.\d+)?$/', $value)) {
+        if (is_string($value) && !preg_match('/^-?\d+(\.\d+)?$/', $value)) {
             throw new \InvalidArgumentException("String must match \d+(.\d+)");
         }
         return (float) $value;
@@ -51,9 +51,10 @@ class ModelHydrator
     /**
      * @param class-string $class
      */
-    private function castEnumSet(null|array $value, string $class): EnumSet
+    private function castEnumSet(string|null|array $value, string $class): EnumSet
     {
-        return $class::from($value ?? []);
+        // This will still crash on non-empty strings, that is intended. If a string is passed it has to be empty
+        return $class::from(!empty($value) ? $value : []);
     }
     /**
      * @param class-string $class

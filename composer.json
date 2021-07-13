@@ -11,7 +11,7 @@
         },
         {
             "name": "Joey Claessen",
-            "email": "joey@ch-ict.nl"
+            "email": "joey@jc-it.nl"
         }
     ],
     "require": {
@@ -24,11 +24,13 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "guzzlehttp/psr7": "^1.2",
+        "jc-it/yii2-job-queue": "^2.0",
         "kartik-v/yii2-builder": "^1.6",
         "kartik-v/yii2-grid": "^3.0",
         "kartik-v/yii2-helpers": "^1.3",
         "kartik-v/yii2-password": "^1.5",
         "lcobucci/jwt": ">= 4",
+        "league/tactician": "^1.1",
         "nesbot/carbon": "^2.0.0",
         "nikic/iter": "^2.0",
         "psr/http-message": "^1.0",
@@ -52,7 +54,8 @@
         "psr/http-factory": "^1.0",
         "psr/http-server-handler": "^1.0",
         "ramsey/uuid": "^4.1",
-        "spatie/enum": "^3.7"
+        "spatie/enum": "^3.7",
+        "drewm/mailchimp-api": "^2.5"
     },
 
     "autoload": {
