@@ -24,7 +24,7 @@ class ProjectOwnerCest
         $manager->grant($user, $project, Permission::PERMISSION_SURVEY_DATA);
         $manager->grant($user, $project, Permission::PERMISSION_MANAGE_WORKSPACES);
 
-        $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
+        $I->amOnPage(['workspace/limesurvey', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(200);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace));
         $I->seeInSource('Refresh workspace');
