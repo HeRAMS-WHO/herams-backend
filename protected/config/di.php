@@ -166,7 +166,7 @@ return [
     },
     NewsletterService::class => [
         'class' => NewsletterService::class,
-        'mailchimpListId' => $env->getSecret('mailchimp/list_id'),
-        'mailchimpTag' => $env->getSecret('mailchimp/tag'),
+        'mailchimpListId' => $env->getWrappedSecret('mailchimp/list_id'),
+        'mailchimpTag' => $env->getWrappedSecret('mailchimp/tag'),
      ],
 ];

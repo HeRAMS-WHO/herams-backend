@@ -11,8 +11,8 @@ use yii\web\Request;
 
 class NewsletterService extends Component
 {
-    public string $mailchimpListId;
-    public string $mailchimpTag;
+    public Secret|string $mailchimpListId;
+    public Secret|string $mailchimpTag;
 
     private const MAILCHIMP_MEMBERSHIP_STATUS_CLEANED = 'cleaned';
     private const MAILCHIMP_MEMBERSHIP_STATUS_PENDING = 'pending';
