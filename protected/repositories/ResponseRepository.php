@@ -106,7 +106,8 @@ class ResponseRepository
             $id,
             $response->survey_id,
             $response->id,
-            $response->workspace->token);
+            $response->workspace->token
+        );
     }
 
     public function save(UpdateFacility $facility): FacilityId

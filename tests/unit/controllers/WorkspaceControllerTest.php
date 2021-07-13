@@ -19,7 +19,7 @@ class WorkspaceControllerTest extends ControllerTest
     public function testRenderInsertsModel()
     {
         $repo = $this->make(WorkspaceRepository::class, [
-            'retrieveForTabMenu' => Expected::once(function(WorkspaceId $id) {
+            'retrieveForTabMenu' => Expected::once(function (WorkspaceId $id) {
                 $this->assertSame(12345, $id->getValue());
 
                 return $this->makeEmpty(WorkspaceForTabMenu::class);
@@ -28,7 +28,7 @@ class WorkspaceControllerTest extends ControllerTest
         $controller = new WorkspaceController('test', \Yii::$app, $repo);
         $controller->ensureBehaviors();
         $view = $this->make(View::class, [
-            'render' => Expected::once(function($viewName, $params) {
+            'render' => Expected::once(function ($viewName, $params) {
                 $this->assertArrayHasKey('tabMenuModel', $params);
                 return 'renderresult';
             })
@@ -40,7 +40,5 @@ class WorkspaceControllerTest extends ControllerTest
         ]);
 
         $this->assertSame('renderresult', $controller->render('test', []));
-
     }
-
 }

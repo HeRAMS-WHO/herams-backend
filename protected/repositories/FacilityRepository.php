@@ -232,7 +232,6 @@ class FacilityRepository implements CreateModelRepositoryInterface
                 $response->workspace->title,
                 (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
             );
-
         } else {
             $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);
             return new \prime\models\facility\FacilityForTabMenu(

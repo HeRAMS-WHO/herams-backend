@@ -58,5 +58,4 @@ class FacilityForList implements \prime\interfaces\FacilityForList
     {
         return $this->coordinates;
     }
-
 }

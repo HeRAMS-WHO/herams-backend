@@ -61,7 +61,6 @@ class LoginFormTest extends Unit
 //            ]
 //        ];
         return [];
-
     }
 
     public function invalidSamples(): iterable

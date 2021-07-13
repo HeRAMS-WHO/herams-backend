@@ -29,6 +29,4 @@ class Formatter extends \yii\i18n\Formatter
         }
         return parent::asText($value);
     }
-
-
 }

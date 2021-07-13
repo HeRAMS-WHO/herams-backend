@@ -7,7 +7,6 @@ use prime\models\forms\NewFacility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 
-
 /**
  * @var \prime\components\View $this
  * @var NewFacility $model

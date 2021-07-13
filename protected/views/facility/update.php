@@ -10,7 +10,6 @@ use prime\widgets\LocalizableInput;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 
-
 /**
  * @var \prime\components\View $this
  * @var UpdateFacility $model

@@ -10,7 +10,7 @@ use prime\tests\FunctionalTester;
 /**
  * @covers \prime\controllers\workspace\Update
  */
-class  UpdateCest
+class UpdateCest
 {
 
     public function testAccessControl(FunctionalTester $I)

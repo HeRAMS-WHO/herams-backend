@@ -39,7 +39,7 @@ class FacilityCondition extends Enum
             'slightlyDamaged' => \Yii::t('app', 'Slightly damaged'),
             'substantiallyDamaged' => \Yii::t('app', 'Substantially damaged'),
             'fullyDamaged' => \Yii::t('app', 'Fully damaged'),
-            'notRelevant' => \Yii::t('app','Not relevant'),
+            'notRelevant' => \Yii::t('app', 'Not relevant'),
         ];
     }
 }

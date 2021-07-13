@@ -226,9 +226,12 @@ class ModelHydrator
             } else {
                 $rawValue = null;
             }
-            $args[] = $this->castType($parameter->getType(),
-                $rawValue
-                , $parameter->getName(), HydrateSource::database());
+            $args[] = $this->castType(
+                $parameter->getType(),
+                $rawValue,
+                $parameter->getName(),
+                HydrateSource::database()
+            );
         }
         return $reflectionClass->newInstanceArgs($args);
     }
