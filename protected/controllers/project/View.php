@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
@@ -22,8 +22,6 @@ use yii\web\User;
 
 class View extends Action
 {
-
-
     public function run(
         Resolver $abacResolver,
         PreloadingSourceRepository $preloadingSourceRepository,
@@ -74,9 +72,6 @@ class View extends Action
         } else {
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }
-
-
-
 
         $responses = $project->getResponses();
 

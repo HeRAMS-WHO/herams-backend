@@ -44,6 +44,9 @@ spec:
         - name: smtp
           secret:
             secretName: smtp
+        - name: mailchimp
+          secret:
+            secretName: mailchimp
         - name: nginx-config-volume
           configMap:
             name: nginx-config
@@ -59,6 +62,8 @@ spec:
               mountPath: "/run/secrets/limesurvey"
             - name: smtp
               mountPath: "/run/secrets/smtp"
+            - name: mailchimp
+              mountPath: "/run/secrets/mailchimp"
             - name: app
               mountPath: "/run/secrets/app"
             - name: shared-files
@@ -101,7 +106,7 @@ spec:
             - name: MYSQL_DATABASE
               value: preview
             - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: yes
+              value: "yes"
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:

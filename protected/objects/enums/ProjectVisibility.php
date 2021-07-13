@@ -10,6 +10,9 @@ namespace prime\objects\enums;
  */
 class ProjectVisibility extends Enum
 {
+    /**
+     * @codeCoverageIgnore
+     */
     protected static function labels()
     {
         return [

@@ -5,6 +5,7 @@ use prime\models\ar\Permission;
 use prime\rules\AdminRule;
 use prime\rules\AdminShareRule;
 use prime\rules\CreateFacilityCascadeWorkspaceRule;
+use prime\rules\CreateFacilityRule;
 use prime\rules\DashboardRule;
 use prime\rules\GrantRule;
 use prime\rules\ManageWorkspaceRule;
@@ -12,6 +13,7 @@ use prime\rules\ProjectImplicitReadViaExplicitWorkspacePermission;
 use prime\rules\ProjectImpliesWorkspace;
 use prime\rules\ProjectSummaryRule;
 use prime\rules\PublicProjectRule;
+use prime\rules\RespondToAccessRequestRule;
 use prime\rules\RevokeRule;
 use prime\rules\SelfRule;
 use prime\rules\SuperShareRule;
@@ -56,6 +58,8 @@ return [
     new PublicProjectRule(),
     new ProjectImpliesWorkspace(),
     new ManageWorkspaceRule(),
+    new CreateFacilityRule(),
+    new RespondToAccessRequestRule(),
     new CreateFacilityCascadeWorkspaceRule(),
     new \prime\rules\CreateFacilityRule()
 

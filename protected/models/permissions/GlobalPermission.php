@@ -23,4 +23,13 @@ class GlobalPermission implements Authorizable
     {
         return AccessChecker::BUILTIN;
     }
+
+    public function getPermissions(): ActiveQuery
+    {
+        return Permission::find()
+            ->andWhere([
+                'target_id' => AccessChecker::GLOBAL,
+                'target' => AccessChecker::BUILTIN
+            ]);
+    }
 }

@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
-use prime\models\forms\user\AcceptInvitationForm;
+use prime\models\forms\user\ConfirmInvitationForm;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
-use yii\helpers\Html;
 use yii\web\View;
 
 /**
  * @var View $this
- * @var AcceptInvitationForm $model
+ * @var ConfirmInvitationForm $model
  */
 
 $this->title = \Yii::t('app', 'Create account');
@@ -40,11 +39,14 @@ echo Form::widget([
                 'autocomplete' => 'new-password'
             ]
         ],
-        'confirm_password' => [
+        'confirmPassword' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
                 'autocomplete' => 'new-password'
             ]
+        ],
+        'subscribeToNewsletter' => [
+            'type' => Form::INPUT_CHECKBOX,
         ],
         FormButtonsWidget::embed([
             'buttons' => [

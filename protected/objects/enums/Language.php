@@ -11,11 +11,17 @@ namespace prime\objects\enums;
  */
 class Language extends Enum
 {
+    /**
+     * @codeCoverageIgnore
+     */
     protected static function values(): \Closure
     {
         return static fn(string $method) => implode('-', str_split($method, 2));
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected static function labels(): \Closure
     {
         return static fn(string $method): string => locale_get_display_name(implode('-', str_split($method, 2)));
