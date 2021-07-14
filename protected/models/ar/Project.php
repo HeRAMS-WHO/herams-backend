@@ -155,18 +155,18 @@ class Project extends ActiveRecord implements Linkable
     public static function labels(): array
     {
         return array_merge(parent::labels(), [
-            'country' => \Yii::t('app', 'Country'),
             'base_survey_eid' => \Yii::t('app', 'Survey'),
+            'country' => \Yii::t('app', 'Country'),
             'hidden' => \Yii::t('app', 'Hidden'),
+            'i18n' => \Yii::t('app', 'Translated attributes'),
+            'languages' => \Yii::t('app', 'Languages'),
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
+            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
+            'overrides' => \Yii::t('app', 'Overrides'),
             'status' => \Yii::t('app', 'Status'),
             'typemap' => \Yii::t('app', 'Typemap'),
             'visibility' => \Yii::t('app', 'Visibility'),
-            'overrides' => \Yii::t('app', 'Overrides'),
-            'i18n' => \Yii::t('app', 'Translated attributes'),
-            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
-            'languages' => \Yii::t('app', 'Languages')
         ]);
     }
 
@@ -206,7 +206,6 @@ class Project extends ActiveRecord implements Linkable
             [['base_survey_eid'], NumberValidator::class, 'integerOnly' => true],
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
-            [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
             [['languages'], RangeValidator::class, 'allowArray' => true, 'range' => Language::toValues()],
             [['typemap', 'overrides', 'i18n'], function ($attribute) {
                 if (!is_array($this->$attribute)) {

@@ -32,9 +32,13 @@ class Index extends Action
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
 
         $projectProvider = $projectSearch->search($request->queryParams, $user);
-        return $this->controller->render('index', [
-            'projectSearch' => $projectSearch,
-            'projectProvider' => $projectProvider,
-        ]);
+        return $this->controller->render(
+            'index',
+            [
+                'projectSearch' => $projectSearch,
+                'projectProvider' => $projectProvider,
+                'userComponent' => $user,
+            ]
+        );
     }
 }

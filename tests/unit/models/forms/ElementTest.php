@@ -13,6 +13,10 @@ use yii\base\Model;
  */
 class ElementTest extends ModelTest
 {
+    public function testRuleAttributes(): void
+    {
+        $this->markTestSkipped('This model uses getter and setter magic');
+    }
 
     protected function getModel(): Model
     {

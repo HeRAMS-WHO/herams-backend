@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
+use prime\interfaces\CanCurrentUser;
 use prime\models\ar\Permission;
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\User;
@@ -26,9 +28,22 @@ class Section extends Widget
                 continue;
             }
 
-            if (!isset($action['permission']) || $this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
-                yield $action;
+            if (!isset($action['permission'])) {
+                continue;
             }
+
+            if (isset($this->subject) && $this->subject instanceof CanCurrentUser) {
+                if ($this->subject->canCurrentUser($action['permission'])) {
+                    yield $action;
+                }
+                continue;
+            }
+
+            if (!$this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
+                continue;
+            }
+
+            yield $action;
         }
     }
 
@@ -105,7 +120,6 @@ class Section extends Widget
                 font-size: 1.3rem;
                 text-align: left;
             }
-
             .Section header > h1, .Section header > .NavigationButtonGroup {
                 margin-bottom: 10px;
             }
@@ -138,13 +152,13 @@ class Section extends Widget
             
             }
             
-
         CSS;
         $this->view->registerCss($css, [], self::class);
     }
 
     public function run(): string
     {
+
         if (isset($this->permission) && !$this->getUserComponent()->can($this->permission, $this->subject)) {
             ob_get_clean();
             return '';

@@ -29,14 +29,10 @@ $this->endBlock();
 
 Section::begin([
     'actions' => [
-        [
-            'icon' => Icon::recycling(),
-            'label' => \Yii::t('app', 'Refresh workspace'),
-            'link' => ['workspace/refresh', 'id' => $model->id],
-            'permission' => Permission::PERMISSION_SURVEY_DATA
-        ],
     ]
-])->withHeader($this->title);
+])
+    ->withSubject($model)
+    ->withHeader($this->title);
 
     $form = ActiveForm::begin([
         'method' => 'PUT',

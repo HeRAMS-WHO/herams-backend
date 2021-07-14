@@ -102,8 +102,9 @@ class WorkspaceRepository implements
             ->withFields('facilityCount')
             ->andWhere(['id' => $id])->one();
 
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
-
+        if (!isset($record)) {
+            throw new NotFoundHttpException();
+        }
         return new \prime\models\workspace\WorkspaceForTabMenu($this->accessCheck, $record);
     }
 

@@ -60,6 +60,4 @@ class EnumValidator extends Validator
         $options = $this->getClientOptions($model, $attribute);
         return 'yii.validation.range(value, messages, ' . json_encode($options, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ');';
     }
-
-
 }

@@ -3,9 +3,9 @@
     "license": "mit",
     "private": true,
     "dependencies": {
-        "@github/time-elements": "^3.1.1",
+        "@github/time-elements": "^3.1.2",
         "bootstrap": "^4.6.0",
-        "iframe-resizer": "^4.3.1",
+        "iframe-resizer": "^4.3.2",
         "izitoast": "^1.4.0",
         "jquery": "^3.6.0",
         "popper.js": "^1.16.1",

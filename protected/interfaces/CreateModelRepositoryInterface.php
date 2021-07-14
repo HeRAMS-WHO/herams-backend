@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\interfaces;
 
-
 use prime\values\Id;
 use prime\values\IntegerId;
 use yii\base\Model;

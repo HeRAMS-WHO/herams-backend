@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
@@ -27,14 +27,20 @@ class PageTest extends ActiveRecordTest
         return [];
     }
 
+    public function testRelations(): void
+    {
+        $this->testRelation('project', Project::class);
+        $this->testRelation('parent', Page::class);
+    }
 
-    public function testImportExport()
+    public function testImportExport(): void
     {
         $project = new Project();
         $project->base_survey_eid = 12345;
         $project->title = 'test';
+
         $project->save();
-        $this->tester->assertEmpty($project->errors, print_r($project->errors, true));
+        $this->assertEmpty($project->errors, print_r($project->errors, true));
 
         $model = new Page();
         $model->project_id = $project->id;
@@ -44,19 +50,24 @@ class PageTest extends ActiveRecordTest
         $imported = Page::import($project, $data);
         // ID is not imported so we set it manually so that we can test for equality
         $imported->id = $model->id;
-        $this->tester->assertSame($model->attributes, $imported->attributes);
+        $this->assertSame($model->attributes, $imported->attributes);
 
         $exported = $imported->export();
-        $this->tester->assertSame($data, $exported);
+        $this->assertSame($data, $exported);
     }
 
-    public function testExportInvalid()
+    public function testExportInvalid(): void
     {
         $page = new Page();
-        $this->tester->assertFalse($page->validate());
-        $this->tester->expectThrowable(\LogicException::class, function () use ($page) {
-            $page->export();
-        });
+        $this->assertFalse($page->validate());
+        $this->expectException(\LogicException::class);
+        $page->export();
+    }
+
+    public function testTranslatedTitleOptions(): void
+    {
+        $page = new Page();
+        $this->assertNotEmpty($page->titleOptions());
     }
 
     public function testImportInvalid()

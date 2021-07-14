@@ -31,8 +31,4 @@ class ResponseForSurvey
     {
         return isset($this->surveyId, $this->externalResponseId);
     }
-
-
-
-
 }

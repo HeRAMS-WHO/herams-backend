@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models\search;
 
@@ -16,7 +17,7 @@ class User extends Model
     public $name;
     public $id;
     public $created_at;
-    public function rules()
+    public function rules(): array
     {
         return [
             [['created_at'], SafeValidator::class],

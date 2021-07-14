@@ -21,8 +21,7 @@ class FacilitySearch extends Model
     {
         return [
             [['name'], FilterValidator::class, 'filter' => 'trim'],
-            [['created'], SafeValidator::class],
-            [['name'], StringValidator::class],
+            [['name'], SafeValidator::class],
             [['id'], NumberValidator::class],
         ];
     }

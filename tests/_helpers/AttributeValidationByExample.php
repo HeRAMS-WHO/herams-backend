@@ -5,6 +5,8 @@ namespace prime\tests\_helpers;
 
 use yii\base\Model;
 use yii\db\ActiveRecord;
+use yii\validators\FilterValidator;
+use yii\validators\SafeValidator;
 use function iter\keys;
 
 trait AttributeValidationByExample
@@ -25,7 +27,9 @@ trait AttributeValidationByExample
      */
     abstract public function invalidSamples(): iterable;
 
-
+    /**
+     * @coversNothing
+     */
     public function testValidationRulesAreNotEmptyAndValid(): void
     {
         $model = $this->getModel();
@@ -104,13 +108,26 @@ trait AttributeValidationByExample
             unset($attributes[$model::primaryKey()[0]]);
         }
 
+        $otherValidatorAttributes = [];
+        foreach ($model->getValidators() as $validator) {
+            foreach ($validator->attributeNames as $attribute) {
+                if (!($validator instanceof SafeValidator || $validator instanceof FilterValidator)) {
+                    $otherValidatorAttributes[$attribute] = true;
+                }
+            }
+        }
         foreach (keys($attributes) as $attribute) {
             if (!$model->isAttributeSafe($attribute)) {
                 continue;
             }
-
             $this->assertArrayHasKey($attribute, self::$validAttributes, "Attribute {$attribute} does not appear in any valid example");
-            $this->assertArrayHasKey($attribute, self::$invalidAttributes, "Attribute {$attribute} does not appear in any invalid example");
+            if (isset($otherValidatorAttributes[$attribute])) {
+                $this->assertArrayHasKey(
+                    $attribute,
+                    self::$invalidAttributes,
+                    "Attribute {$attribute} does not appear in any invalid example"
+                );
+            }
         }
     }
 }

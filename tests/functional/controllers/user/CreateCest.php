@@ -11,15 +11,23 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
  */
 class CreateCest
 {
-
-    public function testPageLoad(FunctionalTester $I)
+    public function test(FunctionalTester $I)
     {
-        /** @var UrlSigner $signer */
+        $email = 'testnew@test.com';
+
         $signer = \Yii::$app->urlSigner;
-        $I->amLoggedInAs(TEST_USER_ID);
-        $route = ['/user/create', 'email' => 'test@test.n'];
+        $route = ['/user/create', 'email' => $email];
         $signer->signParams($route);
         $I->amOnPage($route);
         $I->seeResponseCodeIs(200);
+
+        $I->fillField('Name', 'Test user');
+        $I->fillField('Password', 'testPassword123!');
+        $I->fillField('Confirm password', 'testPassword123!');
+
+        $I->stopFollowingRedirects();
+        $I->click('Create account');
+
+        $I->seeResponseCodeIsRedirection();
     }
 }
