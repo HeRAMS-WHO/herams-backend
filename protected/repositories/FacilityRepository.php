@@ -75,7 +75,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
-        return new FacilityId($record->id);
+        return new FacilityId((string) $record->id);
     }
 
     public function createFormModel(IntegerId $id): FacilityForm

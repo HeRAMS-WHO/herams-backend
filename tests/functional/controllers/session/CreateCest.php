@@ -46,5 +46,4 @@ class CreateCest
         $I->amOnPage($I->grabFromCurrentUrl());
         $I->seeCurrentUrlEquals('/');
     }
-
 }

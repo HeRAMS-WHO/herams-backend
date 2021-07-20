@@ -11,6 +11,7 @@ use prime\controllers\workspace\Facilities;
 use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Refresh;
+use prime\controllers\workspace\RequestAccess;
 use prime\controllers\workspace\Responses;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
@@ -86,7 +87,7 @@ class WorkspaceController extends Controller
                     return ['/project/workspaces', 'id' => $workspace->tool_id];
                 }
             ],
-
+            'request-access' => RequestAccess::class,
         ];
     }
 

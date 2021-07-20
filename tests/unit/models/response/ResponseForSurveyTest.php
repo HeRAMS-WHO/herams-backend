@@ -43,5 +43,4 @@ class ResponseForSurveyTest extends Unit
         $this->assertFalse((new ResponseForSurvey($responseId, null, 123, 'a'))->usesLimeSurvey());
         $this->assertTrue((new ResponseForSurvey($responseId, 123, 123, 'a'))->usesLimeSurvey());
     }
-
 }

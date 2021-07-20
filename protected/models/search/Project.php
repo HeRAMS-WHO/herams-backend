@@ -15,7 +15,7 @@ class Project extends Model
 {
     public $title;
     public $id;
-    public function rules()
+    public function rules(): array
     {
         return [
             [['title'], StringValidator::class],

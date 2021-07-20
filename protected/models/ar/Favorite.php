@@ -28,7 +28,7 @@ class Favorite extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id'])->inverseOf('favorites');
     }
 
-    public function getTarget()
+    public function getTarget(): null|Project|Workspace
     {
         if (!in_array($this->target_class, [
             Project::class,
@@ -39,13 +39,18 @@ class Favorite extends ActiveRecord
         return $this->target_class::findOne(['id' => $this->target_id]);
     }
 
-    public function matches(ActiveRecord $target): bool
+    public static function labels(): array
     {
-        return $this->target_class === get_class($target) && $this->target_id === (int) $target->getAttribute('id');
+        return [
+            'user_id' => \Yii::t('app', 'User'),
+            'target_class' => \Yii::t('app', 'Target type'),
+            'target_id' => \Yii::t('app', 'Target id'),
+
+        ] + parent::labels();
     }
 
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['target_class'], RangeValidator::class, 'range' => [Workspace::class]],

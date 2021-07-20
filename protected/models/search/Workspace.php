@@ -7,6 +7,7 @@ use prime\models\ar\Favorite;
 use prime\models\ar\Project;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\DataProviderInterface;
 use yii\data\Sort;
 use yii\db\conditions\InCondition;
 use yii\db\Expression;
@@ -34,7 +35,7 @@ class Workspace extends Model
         $this->user = $user;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['created'], SafeValidator::class],
@@ -44,7 +45,7 @@ class Workspace extends Model
         ];
     }
 
-    public function search($params)
+    public function search($params): DataProviderInterface
     {
         $query = \prime\models\ar\Workspace::find();
 

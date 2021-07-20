@@ -25,22 +25,22 @@ use function iter\toArray;
 class ModelHydrator
 {
 
-    private function castInt(int|string $value): int
+    private function castInt(bool|int|string $value): int
     {
-        if (is_string($value) && !preg_match('/^\d+$/', $value)) {
+        if (is_string($value) && !preg_match('/^-?\d+$/', $value)) {
             throw new \InvalidArgumentException("String must consist of digits only");
         }
         return (int) $value;
     }
 
-    private function castBool(string|int $value): bool
+    private function castBool(bool|string|int $value): bool
     {
         return $this->castInt($value) === 1;
     }
 
-    private function castFloat($value): float
+    private function castFloat(string|int|float $value): float
     {
-        if (is_string($value) && !preg_match('/^\d+(\.\d+)?$/', $value)) {
+        if (is_string($value) && !preg_match('/^-?\d+(\.\d+)?$/', $value)) {
             throw new \InvalidArgumentException("String must match \d+(.\d+)");
         }
         return (float) $value;
@@ -69,9 +69,10 @@ class ModelHydrator
     /**
      * @param class-string $class
      */
-    private function castEnumSet(null|array $value, string $class): EnumSet
+    private function castEnumSet(string|null|array $value, string $class): EnumSet
     {
-        return $class::from($value ?? []);
+        // This will still crash on non-empty strings, that is intended. If a string is passed it has to be empty
+        return $class::from(!empty($value) ? $value : []);
     }
     /**
      * @param class-string $class
@@ -139,6 +140,10 @@ class ModelHydrator
             return null;
         }
 
+        if (!$property->allowsNull() && $value === null) {
+            throw new \RuntimeException("Property {$property->getName()} does not allow null, but value is null");
+        }
+
         return match ($property->getName()) {
             'string' => (string) $value,
             'int' => $this->castInt($value),
@@ -202,6 +207,8 @@ class ModelHydrator
     }
 
     /**
+     * Hydrates a constructor call using the models' properties as the source.
+     * Supports a source that uses id casing with a target that uses camelcase.
      * @template T of object
      * @param class-string<T> $class
      * @return T|null
@@ -211,9 +218,20 @@ class ModelHydrator
         $reflectionClass = new \ReflectionClass($class);
         $args = [];
         foreach ($reflectionClass->getConstructor()->getParameters() as $parameter) {
-            $args[] = $this->castType($parameter->getType(),
-                $source->{Inflector::camel2id($parameter->getName(), '_')} ?? $source->{$parameter->getName()}
-                , $parameter->getName(), HydrateSource::database());
+            $camelCased = Inflector::underscore($parameter->getName());
+            if ($source->canGetProperty($camelCased)) {
+                $rawValue = $source->{$camelCased};
+            } elseif ($source->canGetProperty($parameter->getName())) {
+                $rawValue = $source->{$parameter->getName()};
+            } else {
+                $rawValue = null;
+            }
+            $args[] = $this->castType(
+                $parameter->getType(),
+                $rawValue,
+                $parameter->getName(),
+                HydrateSource::database()
+            );
         }
         return $reflectionClass->newInstanceArgs($args);
     }

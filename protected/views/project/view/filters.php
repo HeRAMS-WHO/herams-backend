@@ -65,7 +65,7 @@ if (!array_key_exists('page_id', $params) && !empty($project->pages)) {
 }
 echo Html::a(\Yii::t('app', 'Print'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export this page to pdf')]);
 unset($params['page_id']);
-echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export all pages to pdf')]);
+//echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export all pages to pdf')]);
 echo Html::a(Icon::list() . ' ' . \Yii::t('app', 'Workspaces'), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white', 'title' => \Yii::t('app', 'Go to workspaces')]);
 echo Html::a(\Yii::t('app', 'Filters').$filterCountSpan, '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
 
@@ -119,7 +119,7 @@ JS
             
             document.querySelectorAll('.advanced label.control-label[data-keywords]').forEach(function(el) {
                 let hidden = !tokens.every((token) => el.getAttribute('data-keywords').toLocaleUpperCase().includes(token));
-                el.parentNode.parentNode.classList.toggle('hidden', hidden);
+                el.parentNode.classList.toggle('hidden', hidden);
                 if (!hidden && tokens.length > 0) {
                     el.innerHTML = el.innerText.replace(new RegExp(tokens.join('|'), "gi"), function(match, contents, offset, input_string) {
                         return '<b>' + match + '</b>';
@@ -127,6 +127,9 @@ JS
                 } else {
                     el.innerHTML = el.innerText;
                 }
+                
+                const group = el.parentNode.parentNode;
+                group.classList.toggle('hidden', group.querySelectorAll('.form-group:not(.hidden)').length === 0);
             })
         
         }, 300);

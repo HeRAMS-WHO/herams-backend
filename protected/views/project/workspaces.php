@@ -6,7 +6,8 @@ use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\search\Workspace;
+use prime\models\ar\Workspace;
+use prime\models\search\Workspace as WorkspaceSearch;
 use prime\widgets\DateTimeColumn;
 use prime\widgets\DrilldownColumn;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
@@ -16,15 +17,18 @@ use prime\widgets\Section;
 use SamIT\abac\interfaces\Resolver;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\web\User as UserComponent;
 use yii\web\View;
 
 /**
  * @var ActiveDataProvider $workspaceProvider
- * @var Workspace $workspaceSearch
+ * @var WorkspaceSearch $workspaceSearch
  * @var int $closedCount
  * @var View $this
  * @var Project $project
  * @var Resolver $abacResolver
+ * @var UserComponent $userComponent
  */
 
 $this->title = $project->title;
@@ -98,9 +102,15 @@ echo GridView::widget(
             ['attribute' => 'responseCount'],
             [
                 'label' => \Yii::t('app', 'Workspace owner'),
-                'value' => static function (\prime\models\ar\Workspace $workspace) {
+                'value' => static function (Workspace $workspace) use ($userComponent) {
                     $usersQuery = $workspace->getLeads();
-                    return implode('<br>', ArrayHelper::getColumn($usersQuery->all(), 'name'));
+                    return implode(
+                        '<br>',
+                        ArrayHelper::merge(
+                            ArrayHelper::getColumn($usersQuery->all(), 'name'),
+                            array_filter([!$userComponent->can(Permission::PERMISSION_ADMIN, $workspace) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['workspace/request-access', 'id' => $workspace->id])) : null])
+                        )
+                    );
                 },
                 'format' => 'html',
             ]

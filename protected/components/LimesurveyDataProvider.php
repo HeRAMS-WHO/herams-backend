@@ -7,6 +7,7 @@ use prime\exceptions\SurveyDoesNotExist;
 use prime\values\ExternalResponseId;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
@@ -23,8 +24,8 @@ class LimesurveyDataProvider extends Component
     public function __construct(
         private ClientInterface $httpClient,
         private RequestFactoryInterface $requestFactory,
-        $config = [])
-    {
+        $config = []
+    ) {
         parent::__construct($config);
     }
 
@@ -71,7 +72,11 @@ class LimesurveyDataProvider extends Component
     public function getSurvey(int $surveyId): SurveyInterface
     {
         try {
-            return $this->client->getSurvey($surveyId);
+            $survey = $this->client->getSurvey($surveyId);
+            if ($survey instanceof LocaleAwareInterface && in_array(substr(\Yii::$app->language, 0, 2), $survey->getLanguages())) {
+                $survey = $survey->getLocalized(substr(\Yii::$app->language, 0, 2));
+            }
+            return $survey;
         } catch (\Exception $e) {
             throw SurveyDoesNotExist::fromClient($e) ?? $e;
         }
@@ -110,7 +115,7 @@ class LimesurveyDataProvider extends Component
         if ($response->getStatusCode() !== 201) {
             throw new \RuntimeException('Failed to copy response');
         }
-        parse_str(parse_url($response->getHeaderLine('location'),PHP_URL_QUERY), $parsed);
+        parse_str(parse_url($response->getHeaderLine('location'), PHP_URL_QUERY), $parsed);
 
 
         return new ExternalResponseId((int) $parsed['ResponsePicker'], $externalResponseId->getSurveyId(), $parsed['token']);

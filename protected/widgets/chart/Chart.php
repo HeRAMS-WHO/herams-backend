@@ -171,7 +171,6 @@ class Chart extends Element
     {
         $this->registerClientScript();
 
-
         $map = $this->getMap();
         $unmappedData = $this->getDataSet($this->data);
 
@@ -180,6 +179,10 @@ class Chart extends Element
         $pointCount = count($dataSet);
         if ($pointCount > 30) {
             $this->chartType = self::TYPE_BAR;
+        }
+
+        if ($this->chartType === self::TYPE_BAR) {
+            arsort($dataSet);
         }
 
         $colors = [];
@@ -215,7 +218,7 @@ class Chart extends Element
                     ]
                 ],
                 'elements' => [
-                    'center' => [
+                    $this->chartType == self::TYPE_BAR ? 'topRight' : 'center' => [
                         'text' => new JsExpression('(chart) => {
                             let data = chart.data.datasets[0].data;
                             for (k in  chart.data.datasets[0]._meta) {
@@ -225,10 +228,8 @@ class Chart extends Element
                                 }, 0);
                                 return total;
                             }
-                            
-                            
-                        }')
-                    ]
+                        }'),
+                    ],
                 ],
                 'legend' => [
                     'position' => 'right',
@@ -241,7 +242,7 @@ class Chart extends Element
                     let chartArea = chart.chartArea;
                     let legend = document.createElement("div");
                     legend.classList.add("legend-html");
-                    legend.style.left = chartArea.right+"px";
+                    legend.style.marginLeft = "10px";
                     let title = document.createElement("div");
                     title.classList.add("legend-title");
                     title.innerHTML = chart.options.title.text;

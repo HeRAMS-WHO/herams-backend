@@ -83,5 +83,4 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
     {
         return [[$attribute], RangeValidator::class, 'allowArray' => true, 'range' => static::getEnumClass()::toValues()];
     }
-
 }

@@ -15,8 +15,7 @@ use yii\web\Request;
  */
 class DeleteCest
 {
-
-    public function testAccessControl(FunctionalTester $I)
+    public function test(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
@@ -45,5 +44,14 @@ class DeleteCest
             'id' => $permission->id
         ]);
         $I->assertFalse($permission->refresh());
+    }
+
+    public function testNotFound(FunctionalTester $I): void
+    {
+        $I->amLoggedInAs(TEST_USER_ID);
+        $I->createAndSetCsrfCookie('abc');
+        $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
+        $I->sendDELETE(Url::to(['/permission/delete', 'id' => 999999, 'redirect' => '/']));
+        $I->seePageNotFound();
     }
 }

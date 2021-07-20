@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
-
 use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace as WorkspaceModel;
@@ -67,9 +66,9 @@ class Workspace extends Model
             }
             if (!empty($token->getToken())) {
                 $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
-                        ', ',
-                        array_filter($token->getCustomAttributes())
-                    );
+                    ', ',
+                    array_filter($token->getCustomAttributes())
+                );
             }
         }
         asort($result);
@@ -81,5 +80,4 @@ class Workspace extends Model
     {
         return \Yii::$app->get('limesurveyDataProvider');
     }
-
 }

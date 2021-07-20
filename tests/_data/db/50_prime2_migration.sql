@@ -110,7 +110,10 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200605_142328
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m200611_085414_project_add_country', 1608133112);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m201216_120738_create_session_table', 1608133117);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210125_105354_project_add_create_hf', 1611573050);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210323_074719_create_access_request', 1619522711);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210324_073304_add_created_at_created_by_to_permission', 1619522711);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210324_095451_project_add_i18n', 1619702113);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210511_085244_add_newsletter_subscription_to_user', 1621409833);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210429_094516_create_facility_table', 1622027373);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210430_105442_create_event_log', 1622027373);
 SET FOREIGN_KEY_CHECKS=1;
