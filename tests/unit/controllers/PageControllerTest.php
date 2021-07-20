@@ -6,34 +6,31 @@ namespace prime\tests\unit\controllers;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
 use prime\components\View;
-use prime\controllers\element\Create;
-use prime\controllers\element\Preview;
-use prime\controllers\ElementController;
-use prime\models\elements\ElementForBreadcrumb;
+use prime\controllers\facility\Responses;
+use prime\controllers\page\Create;
+use prime\controllers\page\Update;
+use prime\controllers\PageController;
 use prime\models\pages\PageForBreadcrumb;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\objects\BreadcrumbCollection;
-use prime\repositories\ElementRepository;
 use prime\repositories\PageRepository;
 use prime\repositories\ProjectRepository;
-use prime\values\ElementId;
 use prime\values\PageId;
 use prime\values\ProjectId;
 use yii\web\Request;
 
 /**
- * @covers \prime\controllers\ElementController
+ * @covers \prime\controllers\PageController
  */
-class ElementControllerTest extends Unit
+class PageControllerTest extends Unit
 {
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
-    private ElementRepository|MockObject $elementRepository;
     private PageRepository|MockObject $pageRepository;
     private ProjectRepository|MockObject $projectRepository;
     private string $renderResult = 'testRender';
     private View|MockObject $view;
 
-    protected function prepareController(): ElementController
+    protected function prepareController(): PageController
     {
         $this->breadcrumbCollection = $this->getMockBuilder(BreadcrumbCollection::class)->getMock();
         $this->view = $this->getMockBuilder(View::class)->disableOriginalConstructor()->getMock();
@@ -44,10 +41,9 @@ class ElementControllerTest extends Unit
         $this->view->expects($this->once())
             ->method('render')
             ->willReturn($this->renderResult);
-        $this->elementRepository = $this->getMockBuilder(ElementRepository::class)->disableOriginalConstructor()->getMock();
         $this->pageRepository = $this->getMockBuilder(PageRepository::class)->disableOriginalConstructor()->getMock();
         $this->projectRepository = $this->getMockBuilder(ProjectRepository::class)->disableOriginalConstructor()->getMock();
-        $controller = new ElementController('test', \Yii::$app, $this->elementRepository, $this->pageRepository, $this->projectRepository);
+        $controller = new PageController('test', \Yii::$app, $this->pageRepository, $this->projectRepository);
         $controller->setView($this->view);
         $controller->ensureBehaviors();
         return $controller;
@@ -55,22 +51,13 @@ class ElementControllerTest extends Unit
 
     public function testRenderInsertsBreadcrumbsCreate(): void
     {
-        $pageId = 12345;
-        $projectId = 23456;
+        $projectId = 12345;
         $controller = $this->prepareController();
         $projectIdObject = new ProjectId($projectId);
-        $page = $this->getMockBuilder(PageForBreadcrumb::class)->disableOriginalConstructor()->getMock();
-        $page->expects($this->once())
-            ->method('getProjectId')
-            ->willReturn($projectIdObject);
         $project = $this->getMockBuilder(ProjectForBreadcrumb::class)->disableOriginalConstructor()->getMock();
-        $this->breadcrumbCollection->expects($this->exactly(3))
+        $this->breadcrumbCollection->expects($this->exactly(2))
             ->method('add')
             ->willReturnSelf();
-        $this->pageRepository->expects($this->once())
-            ->method('retrieveForBreadcrumb')
-            ->with(new PageId($pageId))
-            ->willReturn($page);
         $this->projectRepository->expects($this->once())
             ->method('retrieveForBreadcrumb')
             ->with($projectIdObject)
@@ -80,16 +67,14 @@ class ElementControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['page_id' => $pageId],
+            'queryParams' => ['project_id' => $projectId],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }
 
     public function testRenderInsertsBreadcrumbsOnId(): void
     {
-        $elementId = 34567;
         $pageId = 12345;
-        $pageIdObject = new PageId($pageId);
         $projectId = 23456;
         $projectIdObject = new ProjectId($projectId);
         $controller = $this->prepareController();
@@ -98,31 +83,23 @@ class ElementControllerTest extends Unit
             ->method('getProjectId')
             ->willReturn($projectIdObject);
         $project = $this->getMockBuilder(ProjectForBreadcrumb::class)->disableOriginalConstructor()->getMock();
-        $element = $this->getMockBuilder(ElementForBreadcrumb::class)->disableOriginalConstructor()->getMock();
-        $element->expects($this->once())
-            ->method('getPageId')
-            ->willReturn($pageIdObject);
-        $this->breadcrumbCollection->expects($this->exactly(3))
+        $this->breadcrumbCollection->expects($this->exactly(2))
             ->method('add')
             ->willReturnSelf();
-        $this->pageRepository->expects($this->once())
-            ->method('retrieveForBreadcrumb')
-            ->with($pageIdObject)
-            ->willReturn($page);
         $this->projectRepository->expects($this->once())
             ->method('retrieveForBreadcrumb')
             ->with($projectIdObject)
             ->willReturn($project);
-        $this->elementRepository->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('retrieveForBreadcrumb')
-            ->with(new ElementId($elementId))
-            ->willReturn($element);
-        $action = $this->getMockBuilder(Preview::class)->disableOriginalConstructor()->getMock();
-        $action->id = 'preview';
+            ->with(new PageId($pageId))
+            ->willReturn($page);
+        $action = $this->getMockBuilder(Update::class)->disableOriginalConstructor()->getMock();
+        $action->id = 'update';
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['id' => $elementId],
+            'queryParams' => ['id' => $pageId],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }
