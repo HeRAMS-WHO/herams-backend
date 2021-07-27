@@ -13,10 +13,6 @@ use yii\widgets\PjaxAsset;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
-    'aliases' => [
-        '@npm' => '/node_modules',
-
-    ],
     'bootstrap' => [
         'notificationService',
         'languageSelector'
@@ -155,7 +151,8 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     ],
     'modules' => [
         'gridview' => [
-            'class' => \kartik\grid\Module::class
+            'class' => \kartik\grid\Module::class,
+            'controllerMap' => []
         ]
     ]
 ]);

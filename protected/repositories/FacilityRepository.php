@@ -8,6 +8,7 @@ use prime\components\HydratedActiveDataProvider;
 use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\CanCurrentUser;
 use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\interfaces\FacilityForResponseCopy;
@@ -250,7 +251,14 @@ class FacilityRepository implements CreateModelRepositoryInterface
                 $response->workspace->project->title,
                 new WorkspaceId($response->workspace_id),
                 $response->workspace->title,
-                (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
+                (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count(),
+                // Access checker for LS based data.
+                new class implements CanCurrentUser {
+                    public function canCurrentUser(string $permission): bool
+                    {
+                        return true;
+                    }
+                }
             );
         } else {
             $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);

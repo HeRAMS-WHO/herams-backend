@@ -11,6 +11,7 @@ use prime\objects\LanguageSet;
 use prime\validators\ClientJsonValidator;
 use prime\validators\CountryValidator;
 use prime\values\ProjectId;
+use prime\values\SurveyId;
 use yii\base\Model;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -38,6 +39,8 @@ class Update extends Model
     public null|array $overrides;
 
     public LanguageSet $languages;
+
+    public SurveyId $admin_survey_id;
 
     public function __construct(public ProjectId $id)
     {

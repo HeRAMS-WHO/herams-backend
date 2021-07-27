@@ -30,7 +30,6 @@ class AdminRule implements SimpleRule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-//        return false;
         return  !$target instanceof GlobalPermission
             && $accessChecker->check($source, new GlobalPermission(), Permission::PERMISSION_ADMIN);
     }

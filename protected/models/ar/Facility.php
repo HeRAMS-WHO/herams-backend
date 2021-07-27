@@ -41,7 +41,7 @@ class Facility extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['workspace_id'], ExistValidator::class, 'targetClass' => Workspace::class]
+            [['workspace_id'], ExistValidator::class, 'targetClass' => Workspace::class, 'targetAttribute' => 'id']
         ];
     }
 

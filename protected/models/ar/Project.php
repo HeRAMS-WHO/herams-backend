@@ -53,6 +53,7 @@ use function iter\filter;
  * @property array $overrides
  * @property array<string> $languages
  * @property int $status
+ * @property int $survey_id
  * @property string $title
  * @property array<string, string> $typemap
  * @property string $visibility
@@ -70,6 +71,7 @@ use function iter\filter;
  * @property Page[] $pages
  * @property SurveyInterface $survey
  * @property Workspace[] $workspaces
+ * @property Survey $adminSurvey
  *
  * @method ExpressionInterface getVirtualExpression(string $name)
  * @see VirtualFieldBehavior::getVirtualExpression()
@@ -89,7 +91,7 @@ class Project extends ActiveRecord implements Linkable
 
     public function getStatusText(): string
     {
-        return ProjectStatus::make($this->status)->label;
+        return ProjectStatus::from($this->status)->label;
     }
 
     public function isHidden(): bool
@@ -156,6 +158,7 @@ class Project extends ActiveRecord implements Linkable
     {
         return array_merge(parent::labels(), [
             'base_survey_eid' => \Yii::t('app', 'Survey'),
+            'admin_survey_id' => \Yii::t('app', 'Admin survey'),
             'country' => \Yii::t('app', 'Country'),
             'hidden' => \Yii::t('app', 'Hidden'),
             'i18n' => \Yii::t('app', 'Translated attributes'),
@@ -235,17 +238,16 @@ class Project extends ActiveRecord implements Linkable
                     ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
                         'tool_id' => new Expression(self::tableName() . '.[[id]]')])
                     ]),
-                VirtualFieldBehavior::LAZY => static function (self $model): ?string {
-                    return $model->getResponses()->select('max([[date]])')->scalar();
-                }
+                VirtualFieldBehavior::LAZY => static fn(self $model): ?string
+                    => $model->getResponses()->select('max([[date]])')->scalar()
             ],
             'workspaceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = Workspace::find()->limit(1)->select('count(*)')
                     ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
-                VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    return (int) $model->getWorkspaces()->count();
-                }
+                VirtualFieldBehavior::LAZY => static fn(self $model): int
+                    => (int) $model->getWorkspaces()->count()
+
             ],
             'pageCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -453,35 +455,10 @@ class Project extends ActiveRecord implements Linkable
         return $result;
     }
 
-    public function getPermissions()
+    public function getPermissions(): ActiveQuery
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
             ->andWhere(['target' => self::class]);
-    }
-
-    /**
-     * String representation of object
-     * @link https://php.net/manual/en/serializable.serialize.php
-     * @return string the string representation of the object or null
-     * @since 5.1.0
-     */
-    public function serialize()
-    {
-        throw new NotSupportedException();
-    }
-
-    /**
-     * Constructs the object
-     * @link https://php.net/manual/en/serializable.unserialize.php
-     * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
-     * @return void
-     * @since 5.1.0
-     */
-    public function unserialize($serialized)
-    {
-        throw new NotSupportedException();
     }
 
     public function getMap(): HeramsCodeMap
@@ -489,7 +466,7 @@ class Project extends ActiveRecord implements Linkable
         return new HeramsCodeMap();
     }
 
-    public function getPages()
+    public function getPages(): ActiveQuery
     {
         return $this->hasMany(Page::class, ['project_id' => 'id'])
             ->with('children')
@@ -498,18 +475,12 @@ class Project extends ActiveRecord implements Linkable
             ->orderBy('sort');
     }
 
-    public function getAllPages()
+    public function getAllPages(): ActiveQuery
     {
         return $this->hasMany(Page::class, ['project_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
     }
 
-
-
-    /**
-     * @param $name
-     * @return mixed|null
-     */
-    public function getOverride($name)
+    public function getOverride(string $name): mixed
     {
         return $this->overrides[$name] ?? null;
     }

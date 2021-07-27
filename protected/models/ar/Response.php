@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\models\ar;
 
@@ -83,12 +83,18 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getLatitude(): ?float
     {
-        return $this->data['MoSDGPS']['SQ001'] ?? null;
+        if (!isset($this->data['MoSDGPS']['SQ001']) || empty($this->data['MoSDGPS']['SQ001'])) {
+            return null;
+        }
+        return (float) $this->data['MoSDGPS']['SQ001'];
     }
 
     public function getLongitude(): ?float
     {
-        return $this->data['MoSDGPS']['SQ002'] ?? null;
+        if (!isset($this->data['MoSDGPS']['SQ002']) || empty($this->data['MoSDGPS']['SQ002'])) {
+            return null;
+        }
+        return (float) $this->data['MoSDGPS']['SQ002'];
     }
 
     public function getId(): int

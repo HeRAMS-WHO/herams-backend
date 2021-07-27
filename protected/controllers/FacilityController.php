@@ -8,6 +8,7 @@ use prime\controllers\facility\CopyLatestResponse;
 use prime\controllers\facility\Create;
 use prime\controllers\facility\Index;
 use prime\controllers\facility\Responses;
+use prime\controllers\facility\SurveyJs;
 use prime\controllers\facility\Update;
 use prime\objects\Breadcrumb;
 use prime\repositories\FacilityRepository;
@@ -41,7 +42,8 @@ class FacilityController extends Controller
             'create' => Create::class,
             'update' => Update::class,
             'responses' => Responses::class,
-            'copy-latest-response' => CopyLatestResponse::class
+            'copy-latest-response' => CopyLatestResponse::class,
+            'admin-responses' => Responses::class,
         ];
     }
 

@@ -28,18 +28,14 @@ class Section extends Widget
                 continue;
             }
 
-            if (!isset($action['permission'])) {
-                continue;
-            }
-
-            if (isset($this->subject) && $this->subject instanceof CanCurrentUser) {
+            if (isset($action['permission']) && isset($this->subject) && $this->subject instanceof CanCurrentUser) {
                 if ($this->subject->canCurrentUser($action['permission'])) {
                     yield $action;
                 }
                 continue;
             }
 
-            if (!$this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
+            if (isset($action['permission']) && !$this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
                 continue;
             }
 

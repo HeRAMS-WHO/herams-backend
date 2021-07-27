@@ -17,7 +17,7 @@ trait AllRulesMustUseValidAttributes
         $model = $this->getModel();
         foreach ($model->getValidators() as $validator) {
             foreach ($validator->getAttributeNames() as $attribute) {
-                $this->assertTrue($model->canGetProperty($attribute), "Found validation rule for non gettable property '$attribute'");
+                $this->assertTrue($model->canGetProperty($attribute), "Found validation rule for non gettable property '$attribute' -" . print_r($model->attributes(), true));
             }
         }
     }

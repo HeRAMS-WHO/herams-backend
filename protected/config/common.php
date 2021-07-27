@@ -35,6 +35,10 @@ return [
         '@prime' => '@app',
         '@views' => '@app/views',
         '@tests' => '@app/../tests',
+        '@npm' => '/node_modules',
+        '@composer' => realpath(__DIR__ . '/../../vendor'),
+        '@yii/debug' => '@composer/yiisoft/yii2-debug/src',
+        '@kartik' => ''
     ],
     'bootstrap' => [
         'log',
@@ -83,15 +87,13 @@ return [
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
             return new \SamIT\abac\AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
         },
-        'authManager' => static function (\SamIT\abac\AuthManager $abacManager) {
-            return new \prime\components\AuthManager($abacManager, [
-                'userClass' => ActiveRecordUser::class,
-                'globalId' => AccessChecker::GLOBAL,
-                'globalName' => AccessChecker::BUILTIN,
-                'guestName' => AccessChecker::BUILTIN,
-                'guestId' => AccessChecker::GUEST,
-            ]);
-        },
+        'authManager' => static fn (\SamIT\abac\AuthManager $abacManager) => new \prime\components\AuthManager($abacManager, [
+            'userClass' => ActiveRecordUser::class,
+            'globalId' => AccessChecker::GLOBAL,
+            'globalName' => AccessChecker::BUILTIN,
+            'guestName' => AccessChecker::BUILTIN,
+            'guestId' => AccessChecker::GUEST,
+        ]),
         'check' => static function (User $user) {
             assert($user === \Yii::$app->user);
             return new \prime\helpers\AccessCheck($user);
@@ -120,15 +122,15 @@ return [
             $json = new JsonRpcClient($env->getSecret('limesurvey/host'), false, 30);
             $result = new Client($json, $env->getSecret('limesurvey/username'), $env->getSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
-                \Yii::info('Setting cache key: ' . $key, 'ls');
+                \Yii::debug('Setting cache key: ' . $key, 'ls');
                 // Ignore hardcoded duration passed in downstream library
                 return app()->get('limesurveyCache')->set($key, $value, 6 * 3600);
             }, function ($key) {
                 $result = app()->get('limesurveyCache')->get($key);
                 if ($result === false) {
-                    \Yii::info('Getting MISS key: ' . $key, 'ls');
+                    \Yii::debug('Getting MISS key: ' . $key, 'ls');
                 } else {
-                    \Yii::info('Getting HIT key: ' . $key, 'ls');
+                    \Yii::debug('Getting HIT key: ' . $key, 'ls');
                 }
                 return $result;
             });

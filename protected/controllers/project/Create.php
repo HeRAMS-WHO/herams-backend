@@ -3,17 +3,14 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
-use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\models\forms\project\Create as ProjectCreate;
 use prime\repositories\ProjectRepository;
 use yii\base\Action;
 use yii\web\Request;
-use yii\web\User;
 
 class Create extends Action
 {

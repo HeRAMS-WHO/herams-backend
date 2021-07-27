@@ -27,7 +27,7 @@ class AccessRequestTest extends ActiveRecordTest
         ];
     }
 
-    public function testNotificationJobAfterInsert()
+    public function testNotificationJobAfterInsert(): void
     {
         $jobQueueMock =
             $this->getMockBuilder(JobQueueInterface::class)

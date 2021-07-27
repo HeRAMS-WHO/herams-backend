@@ -16,7 +16,9 @@ abstract class ActiveRecordTest extends ModelTest
     final protected function testRelation(string $name, string $modelClass): void
     {
         $method = 'get' . ucfirst($name);
-        $this->assertSame($modelClass, $this->getModel()->$method()->modelClass);
+        $query = $this->getModel()->$method();
+        $this->assertInstanceOf(ActiveQuery::class, $query);
+        $this->assertSame($modelClass, $query->modelClass);
     }
 
     public function testGetModel()

@@ -15,7 +15,7 @@ if (class_exists(\yii\debug\Module::class)) {
                         'roles' => [Permission::PERMISSION_DEBUG_TOOLBAR]
                     ],
                     [
-                        'allow' => false,
+                        'allow' => true,
                     ]
                 ]
             ],

@@ -5,6 +5,7 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\controllers\response\Compare;
+use prime\controllers\response\SurveyJs;
 use prime\controllers\response\Update;
 use prime\objects\Breadcrumb;
 use prime\repositories\ProjectRepository;
@@ -31,7 +32,9 @@ class ResponseController extends Controller
     {
         return [
             'compare' => Compare::class,
-            'update' => Update::class
+            'update' => Update::class,
+            'surveyjs'=> SurveyJs::class
+
         ];
     }
 

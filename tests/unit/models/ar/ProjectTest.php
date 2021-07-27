@@ -1,6 +1,11 @@
 <?php
+declare(strict_types=1);
+
 namespace prime\tests\unit\models\ar;
 
+use prime\models\ar\Page;
+use prime\models\ar\Permission;
+use prime\models\ar\Project;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
 
@@ -57,5 +62,20 @@ class ProjectTest extends ActiveRecordTest
                 ]
             ]
         ];
+    }
+
+    public function testGetPages(): void
+    {
+        $this->testRelation('pages', Page::class);
+    }
+
+    public function testGetAllPages(): void
+    {
+        $this->testRelation('allPages', Page::class);
+    }
+
+    public function testGetPermissions(): void
+    {
+        $this->testRelation('permissions', Permission::class);
     }
 }

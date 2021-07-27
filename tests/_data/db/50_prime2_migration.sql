@@ -113,7 +113,11 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210125_105354
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210323_074719_create_access_request', 1619522711);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210324_073304_add_created_at_created_by_to_permission', 1619522711);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210324_095451_project_add_i18n', 1619702113);
-INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210511_085244_add_newsletter_subscription_to_user', 1621409833);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210429_094516_create_facility_table', 1622027373);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210430_105442_create_event_log', 1622027373);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210511_085244_add_newsletter_subscription_to_user', 1621409833);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210602_091855_response_add_facility_id', 1626701973);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210610_122240_response_add_auto_increment_key', 1626701974);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210719_133118_create_survey_table', 1626701974);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210719_133325_project_add_admin_survey', 1626780638);
 SET FOREIGN_KEY_CHECKS=1;

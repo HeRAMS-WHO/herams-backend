@@ -9,6 +9,7 @@ use prime\components\View;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project as ProjectRead;
+use prime\models\ar\Survey;
 use prime\models\forms\project\Update;
 use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
@@ -60,6 +61,14 @@ echo Form::widget([
         ],
         'title' => [
             'type' => Form::INPUT_TEXT,
+        ],
+        'admin_survey_id' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' =>
+            // Todo: proper implementation.
+            \iter\mapWithKeys(function(Survey $survey) {
+                return $survey->getTitle();
+            }, Survey::find()->indexBy('id')->each())
         ],
         'languages' => [
             'type' => Form::INPUT_CHECKBOX_LIST,

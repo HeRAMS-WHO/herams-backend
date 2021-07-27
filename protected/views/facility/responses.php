@@ -42,17 +42,12 @@ echo GridView::widget([
 //    'filterModel' => $projectSearch,
     'layout' => "{items}\n{pager}",
     'columns' => [
-        [
-            'attribute' => ResponseForList::ID,
-            'class' => DrilldownColumn::class,
-            'icon' => Icon::pencilAlt(),
-            'link' => fn(ResponseForList $response) => ['response/update', 'id' => $response->getId()]
-        ],
+        ResponseForList::ID,
         'externalId',
         'dateOfUpdate',
-        'condition',
-        'functionality',
-        'accessibility',
+        ResponseForList::CONDITION,
+        ResponseForList::FUNCTIONALITY,
+        ResponseForList::ACCESSIBILITY,
 
 
     ]

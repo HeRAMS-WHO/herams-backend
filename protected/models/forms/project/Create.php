@@ -5,6 +5,7 @@ namespace prime\models\forms\project;
 
 use prime\models\ar\Project;
 use prime\objects\enums\ProjectVisibility;
+use prime\values\SurveyId;
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -19,12 +20,15 @@ class Create extends Model
 {
     public string $title = '';
     public ProjectVisibility $visibility;
+    public SurveyId $admin_survey_id;
     public null|int $base_survey_eid = null;
 
     public function __construct()
     {
         parent::__construct([]);
         $this->visibility = ProjectVisibility::public();
+
+        $this->admin_survey_id = new SurveyId(Project::getTableSchema()->getColumn('admin_survey_id')->defaultValue);
     }
 
 

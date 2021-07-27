@@ -9,7 +9,7 @@ use yii\helpers\Html;
 use yii\web\View;
 
 /** @var View $this */
-/** @var Project $project */
+/** @var \prime\models\project\ProjectForExternalDashboard $project */
 /** @var Page $page */
 
 $this->title = $project->getDisplayField();
@@ -21,5 +21,5 @@ echo Html::tag('iframe', '', [
         'border' => 'none',
         'height' => '100%'
     ],
-    'src' => $project->getOverride('dashboard'),
+    'src' => $project->getExternalUrl(),
 ]);

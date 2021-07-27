@@ -3,13 +3,9 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-use yii\base\NotSupportedException;
+use prime\helpers\ArrayHelper;
 use yii\data\BaseDataProvider;
 use yii\data\DataProviderInterface;
-use yii\data\Pagination;
-use yii\data\Sort;
-use yii\helpers\ArrayHelper;
-use function iter\apply;
 use function iter\chain;
 use function iter\map;
 use function iter\toArray;

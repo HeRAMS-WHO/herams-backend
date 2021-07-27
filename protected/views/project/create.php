@@ -5,6 +5,8 @@ use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
 use prime\components\View;
+use prime\models\ar\Project;
+use prime\models\ar\Survey;
 use prime\models\forms\project\Create;
 use prime\objects\enums\ProjectVisibility;
 use prime\widgets\FormButtonsWidget;
@@ -41,6 +43,14 @@ echo Form::widget([
             'options' => [
                 'data' => $model->dataSurveyOptions(),
             ],
+        ],
+        'admin_survey_id' => [
+            'type' => Form::INPUT_DROPDOWN_LIST,
+            'items' =>
+            // Todo: proper implementation.
+                \iter\mapWithKeys(function(Survey $survey) {
+                    return $survey->getTitle();
+                }, Survey::find()->indexBy('id')->each())
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
