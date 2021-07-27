@@ -8,10 +8,13 @@ use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\interfaces\RetrieveWorkspaceForNewFacility;
+use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface as ForBreadcrumbInterface;
+use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface;
 use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Workspace as WorkspaceForm;
+use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\models\workspace\WorkspaceForNewOrUpdateFacility;
 use prime\objects\LanguageSet;
 use prime\values\IntegerId;
@@ -27,8 +30,52 @@ class WorkspaceRepository implements
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,
-        private ModelHydrator $hydrator
+        private ModelHydrator $hydrator,
     ) {
+    }
+
+    public function create(Model|WorkspaceForm $model): WorkspaceId
+    {
+        requireParameter($model, WorkspaceForm::class, 'model');
+        $record = new Workspace();
+        $this->hydrator->hydrateActiveRecord($record, $model);
+        if (!$record->save()) {
+            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+        }
+        return new WorkspaceId($record->id);
+    }
+
+    public function retrieveForBreadcrumb(WorkspaceId $id): ForBreadcrumbInterface
+    {
+        $record = Workspace::findOne(['id' => $id]);
+        return new WorkspaceForBreadcrumb($record);
+    }
+
+    public function retrieveForFacilityList(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
+    {
+        /** @var null|Workspace $workspace */
+        $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
+        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
+        $project = $workspace->project;
+
+        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
+    }
+
+    public function createFormModel(IntegerId $id): WorkspaceForm
+    {
+        $model = new WorkspaceForm(new ProjectId($id->getValue()));
+        $this->accessCheck->requirePermission($model, Permission::PERMISSION_CREATE);
+        return $model;
+    }
+
+    public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
+    {
+        /** @var null|Workspace $workspace */
+        $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
+        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
+        $project = $workspace->project;
+
+        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
     }
 
     public function retrieveForRead(IntegerId|WorkspaceId $id): Workspace
@@ -36,15 +83,6 @@ class WorkspaceRepository implements
         $record = Workspace::findOne(['id' => $id]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
-
-        return $record;
-    }
-
-    public function retrieveForWrite(IntegerId|WorkspaceId $id): Workspace
-    {
-        $record = Workspace::findOne(['id' => $id]);
-
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
         return $record;
     }
@@ -70,42 +108,12 @@ class WorkspaceRepository implements
         return new \prime\models\workspace\WorkspaceForTabMenu($this->accessCheck, $record);
     }
 
-    public function create(Model|WorkspaceForm $model): WorkspaceId
+    public function retrieveForWrite(IntegerId|WorkspaceId $id): Workspace
     {
-        requireParameter($model, WorkspaceForm::class, 'model');
-        $record = new Workspace();
-        $this->hydrator->hydrateActiveRecord($record, $model);
-        if (!$record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
-        }
-        return new WorkspaceId($record->id);
-    }
+        $record = Workspace::findOne(['id' => $id]);
 
-    public function createFormModel(IntegerId $id): WorkspaceForm
-    {
-        $model = new WorkspaceForm(new ProjectId($id->getValue()));
-        $this->accessCheck->requirePermission($model, Permission::PERMISSION_CREATE);
-        return $model;
-    }
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
-
-    public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
-    {
-        /** @var null|Workspace $workspace */
-        $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
-        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
-        $project = $workspace->project;
-
-        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
-    }
-
-    public function retrieveForFacilityList(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
-    {
-        /** @var null|Workspace $workspace */
-        $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
-        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
-        $project = $workspace->project;
-
-        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
+        return $record;
     }
 }

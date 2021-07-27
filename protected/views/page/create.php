@@ -18,16 +18,6 @@ use function iter\toArrayWithKeys;
  * @var View $this
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/update', 'id' => $project->id]
-];
-
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Dashboard settings'),
-    'url' => ['project/pages', 'id' => $project->id]
-];
-
 $this->title = \Yii::t('app', 'Create page');
 
 Section::begin()

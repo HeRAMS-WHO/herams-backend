@@ -6,7 +6,6 @@ use prime\components\View;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
-use prime\models\ar\Permission;
 use prime\models\ar\Response;
 use prime\models\forms\Export;
 use prime\widgets\Section;
@@ -20,30 +19,6 @@ use yii\helpers\Html;
  * @var View $this
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Admin dashboard'),
-    'url' => ['/admin']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Projects'),
-    'url' => ['/project']
-];
-$this->params['breadcrumbs'][] = [
-    'label' => $storedResponse->workspace->project->title,
-    'url' => app()->user->can(Permission::PERMISSION_WRITE, $storedResponse->workspace->project) ? ['project/update', 'id' => $storedResponse->workspace->project->id] : null
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Workspaces'),
-    'url' => ['/project/workspaces', 'id' => $storedResponse->workspace->project->id]
-];
-$this->params['breadcrumbs'][] = [
-    'label' => $storedResponse->workspace->title,
-    'url' => app()->user->can(Permission::PERMISSION_WRITE, $storedResponse->workspace) ? ['workspace/update', 'id' => $storedResponse->workspace->id] : null
-];
-$this->params['breadcrumbs'][] = [
-    'label' => \Yii::t('app', 'Responses'),
-    'url' => ['workspace/responses', 'id' => $storedResponse->workspace->id]
-];
 $this->title = \Yii::t('app', 'Compare data for HF {hf}', ['hf' => $storedResponse->hf_id]);
 
 $export = new Export($storedResponse->workspace->project->survey);

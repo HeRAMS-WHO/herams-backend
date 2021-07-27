@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
-use yii\bootstrap\Html;
-use yii\helpers\Url;
+
+use prime\components\View;
 use prime\models\ar\Permission;
-use prime\widgets\menu\TabMenu;
 
 /**
- * @var \prime\components\View $this
+ * @var View $this
  */
-$this->title = \Yii::t('app', 'Administration');
+$this->title = \Yii::t('app', 'Dashboard');
 
 $this->params['tabs'] = [
     [

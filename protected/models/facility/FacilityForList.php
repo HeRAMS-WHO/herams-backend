@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace prime\models\facility;
 
+use prime\interfaces\facility\FacilityForListInterface;
 use prime\values\FacilityId;
 use prime\values\Point;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters
  */
-class FacilityForList implements \prime\interfaces\FacilityForList
+class FacilityForList implements FacilityForListInterface
 {
 
     public function __construct(

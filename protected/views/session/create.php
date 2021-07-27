@@ -13,7 +13,6 @@ use yii\helpers\Html;
  */
 $this->title = \Yii::$app->name;
     
-    $this->params['breadcrumbs'] = [];
     /** @var \yii\web\View $this */
 
     echo Html::beginTag('div', ['class' => 'signin']);

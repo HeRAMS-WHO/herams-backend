@@ -35,7 +35,8 @@ class ProjectTabMenu extends TabMenu
         $this->tabs[] = [
             'url' => ['project/pages', 'id' => $this->project->id],
             'permission' => Permission::PERMISSION_MANAGE_DASHBOARD,
-            'title' => \Yii::t('app', 'Dashboard settings')
+            'title' => \Yii::t('app', 'Dashboard settings'),
+            'active' => \Yii::$app->requestedRoute === 'project/import-dashboard',
         ];
         $this->tabs[] = [
             'url' => ['project/update', 'id' => $this->project->id],

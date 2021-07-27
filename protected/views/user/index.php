@@ -17,7 +17,7 @@ use yii\web\View;
  * @var ActiveDataProvider $dataProvider
  * @var User $searchModel
  */
-$this->title = \Yii::t('app', 'Administration');
+$this->title = \Yii::t('app', 'Users');
 
 $this->beginBlock('tabs');
 echo TabMenu::widget([

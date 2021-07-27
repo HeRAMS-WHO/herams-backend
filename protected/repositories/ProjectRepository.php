@@ -5,12 +5,14 @@ namespace prime\repositories;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\project\ProjectForBreadcrumbInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\forms\project\Create;
 use prime\models\forms\project\Update as ProjectUpdate;
+use prime\models\project\ProjectForBreadcrumb;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 
@@ -22,7 +24,6 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
     ) {
     }
 
-
     public function create(Create $model): ProjectId
     {
         $record = new Project();
@@ -33,14 +34,19 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         return new ProjectId($record->id);
     }
 
-    public function save(ProjectUpdate $model): ProjectId
+    public function retrieveForBreadcrumb(ProjectId $id): ProjectForBreadcrumbInterface
     {
-        $record = Project::findOne(['id' => $model->id]);
-        $this->hydrator->hydrateActiveRecord($record, $model);
-        if (!$record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
-        }
-        return new ProjectId($record->id);
+        $record = Project::findOne(['id' => $id]);
+        return new ProjectForBreadcrumb($record);
+    }
+
+    public function retrieveForRead(IntegerId $id): ProjectRead
+    {
+        $record = ProjectRead::findOne(['id' => $id]);
+
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
+
+        return $record;
     }
 
     public function retrieveForUpdate(ProjectId $id): ProjectUpdate
@@ -55,12 +61,13 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         return $update;
     }
 
-    public function retrieveForRead(IntegerId $id): ProjectRead
+    public function save(ProjectUpdate $model): ProjectId
     {
-        $record = ProjectRead::findOne(['id' => $id]);
-
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
-
-        return $record;
+        $record = Project::findOne(['id' => $model->id]);
+        $this->hydrator->hydrateActiveRecord($record, $model);
+        if (!$record->save()) {
+            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+        }
+        return new ProjectId($record->id);
     }
 }
