@@ -4,11 +4,7 @@
 namespace prime\widgets\menu;
 
 use prime\interfaces\CanCurrentUser;
-use yii\base\Action;
-use yii\base\InvalidConfigException;
 use yii\base\Widget;
-use prime\interfaces\PageInterface;
-use prime\models\ar\Permission;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 

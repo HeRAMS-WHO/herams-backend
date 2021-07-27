@@ -5,7 +5,6 @@ namespace prime\widgets\menu;
 
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
 
 class FacilityTabMenu extends TabMenu
 {

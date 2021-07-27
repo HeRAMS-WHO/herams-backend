@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace prime\values;
 
 use CrEOF\Geo\WKB\Parser;
-use prime\attributes\DehydrateVia;
 use prime\interfaces\Dehydrator;
 use prime\interfaces\Hydrator;
 use yii\base\NotSupportedException;

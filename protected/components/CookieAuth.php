@@ -5,7 +5,6 @@ namespace prime\components;
 
 use prime\models\ar\User;
 use yii\filters\auth\AuthInterface;
-use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\IdentityInterface;
 use yii\web\Session;

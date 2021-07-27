@@ -5,7 +5,6 @@ namespace prime\rules;
 
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
-use prime\models\forms\NewFacility;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;

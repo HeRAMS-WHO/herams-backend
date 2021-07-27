@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-
 use ArrayAccess;
 use yii\helpers\BaseArrayHelper;
 
@@ -30,7 +29,6 @@ class ArrayHelper extends BaseArrayHelper
             } elseif (property_exists($array, $key)) {
                 return $array->$key;
             }
-
         }
         if (static::keyExists($key, $array)) {
             return $array[$key];

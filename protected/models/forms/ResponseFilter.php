@@ -5,14 +5,12 @@ namespace prime\models\forms;
 
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
-use prime\models\ar\Response;
 use prime\objects\HeramsCodeMap;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
-use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\StringHelper;

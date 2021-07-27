@@ -1,16 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use app\components\ActiveForm;
-use app\components\Form;
-use Carbon\Carbon;
-use prime\assets\TimeElementBundle;
 use prime\components\View;
 use prime\models\ar\Project;
 use prime\models\forms\project\SyncWorkspaces;
-use prime\widgets\BetterSelect;
-use prime\widgets\FormButtonsWidget;
-use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\helpers\Html;
 use yii\helpers\Url;

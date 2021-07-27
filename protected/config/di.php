@@ -38,13 +38,13 @@ use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionChe
 use prime\jobs\users\SyncNewsletterSubscriptionJob as UserSyncNewsletterSubscriptionJob;
 use prime\models\ar\Permission;
 use prime\objects\enums\Language;
-use prime\repositories\FacilityRepository;
 use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
+use prime\repositories\FacilityRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\ResponseRepository;
-use prime\repositories\WorkspaceRepository;
 use prime\repositories\UserNotificationRepository;
+use prime\repositories\WorkspaceRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -59,7 +59,6 @@ use yii\di\Container;
 use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
 use yii\web\JqueryAsset;
-use function iter\filter;
 
 /** @var \prime\components\KubernetesSecretEnvironment|null $env */
 assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);

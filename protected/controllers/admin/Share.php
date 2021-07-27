@@ -14,7 +14,6 @@ use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
 use yii\mail\MailerInterface;
-use yii\web\ForbiddenHttpException;
 use yii\web\Request;
 use yii\web\User;
 

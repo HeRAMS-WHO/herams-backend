@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
+use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
-use app\components\ActiveForm;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
-use function iter\chain;
 
 /**
  * @var \prime\models\forms\ResponseFilter $filterModel

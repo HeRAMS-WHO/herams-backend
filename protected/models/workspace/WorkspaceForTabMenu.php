@@ -5,7 +5,6 @@ namespace prime\models\workspace;
 
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Workspace;
-use prime\objects\LanguageSet;
 use prime\traits\CanCurrentUser;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;

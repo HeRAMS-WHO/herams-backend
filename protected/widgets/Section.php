@@ -5,7 +5,6 @@ namespace prime\widgets;
 
 use prime\interfaces\CanCurrentUser;
 use prime\models\ar\Permission;
-use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\User;

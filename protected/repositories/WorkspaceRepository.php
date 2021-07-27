@@ -9,7 +9,6 @@ use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\interfaces\RetrieveWorkspaceForNewFacility;
 use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface as ForBreadcrumbInterface;
-use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface;
 use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
 use prime\models\ar\Workspace;

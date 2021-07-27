@@ -7,7 +7,6 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Html;
 
 class Table extends Element

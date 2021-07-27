@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
-use yii\base\InvalidConfigException;
-use yii\base\Widget;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 use function iter\toArrayWithKeys;

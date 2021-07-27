@@ -5,7 +5,6 @@ namespace prime\components;
 
 use yii\base\Arrayable;
 use yii\base\ArrayableTrait;
-use yii\base\NotSupportedException;
 
 class Link extends \yii\web\Link implements Arrayable
 {

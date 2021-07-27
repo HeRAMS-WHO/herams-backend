@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use prime\models\ar\Project;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
 

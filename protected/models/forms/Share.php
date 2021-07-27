@@ -7,7 +7,6 @@ namespace prime\models\forms;
 use app\components\ActiveForm;
 use Carbon\Carbon;
 use kartik\builder\Form;
-use kartik\grid\GridView;
 use kartik\select2\Select2;
 use prime\exceptions\NoGrantablePermissions;
 use prime\helpers\ProposedGrant;

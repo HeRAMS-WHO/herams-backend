@@ -19,10 +19,8 @@ use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use function iter\chain;
-use function iter\filter;
 use function iter\func\nested_index;
 use function iter\map;
 use function iter\toArrayWithKeys;
@@ -66,7 +64,7 @@ echo Form::widget([
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' =>
             // Todo: proper implementation.
-            \iter\mapWithKeys(function(Survey $survey) {
+            \iter\mapWithKeys(function (Survey $survey) {
                 return $survey->getTitle();
             }, Survey::find()->indexBy('id')->each())
         ],

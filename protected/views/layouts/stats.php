@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use prime\models\ar\Project;
 use prime\helpers\Icon;
+use prime\models\ar\Project;
 use yii\helpers\Html;
+
 ?>
 
 <div class="stats">

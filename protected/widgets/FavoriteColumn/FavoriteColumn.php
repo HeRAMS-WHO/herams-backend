@@ -6,7 +6,6 @@ namespace prime\widgets\FavoriteColumn;
 use prime\helpers\Icon;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
-use yii\grid\Column;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\assets;
 
-
 use yii\web\AssetBundle;
 
 class KnockoutBundle extends AssetBundle
@@ -12,5 +11,4 @@ class KnockoutBundle extends AssetBundle
     public $js = [
         'knockout-latest.js'
     ];
-
 }

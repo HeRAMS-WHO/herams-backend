@@ -6,7 +6,6 @@ namespace prime\models\forms\project;
 use prime\models\ar\Project;
 use prime\objects\enums\ProjectVisibility;
 use prime\values\SurveyId;
-use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\validators\RangeValidator;

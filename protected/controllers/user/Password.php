@@ -5,10 +5,7 @@ namespace prime\controllers\user;
 
 use prime\components\NotificationService;
 use prime\models\forms\user\UpdatePasswordForm;
-use prime\models\forms\user\UpdateEmailForm;
-use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
-use yii\mail\MailerInterface;
 use yii\web\Request;
 use yii\web\User;
 

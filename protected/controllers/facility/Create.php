@@ -11,7 +11,6 @@ use prime\repositories\WorkspaceRepository;
 use prime\values\WorkspaceId;
 use yii\base\Action;
 use yii\base\Model;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Response;

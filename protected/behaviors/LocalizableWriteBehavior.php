@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace prime\behaviors;
 
 use yii\base\Behavior;
-use yii\base\Event;
-use yii\base\Model;
-use yii\base\ModelEvent;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\validators\InlineValidator;

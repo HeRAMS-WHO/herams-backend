@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-use prime\helpers\ModelHydrator;
-use yii\data\ActiveDataProvider;
-
 class HydratedActiveDataProvider extends FilteredActiveDataProvider
 {
     public function __construct(

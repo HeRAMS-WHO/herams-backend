@@ -3,14 +3,10 @@ declare(strict_types=1);
 
 use kartik\grid\GridView;
 use prime\components\View;
-use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\ResponseForList;
 use prime\models\ar\Permission;
-use prime\models\ar\Response;
-use prime\widgets\DrilldownColumn;
 use prime\widgets\Section;
-use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 

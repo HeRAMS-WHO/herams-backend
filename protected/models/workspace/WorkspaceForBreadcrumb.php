@@ -3,15 +3,10 @@ declare(strict_types=1);
 
 namespace prime\models\workspace;
 
-use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface;
-use prime\models\ar\Project;
 use prime\models\ar\Workspace;
-use prime\objects\LanguageSet;
 use prime\traits\BreadcrumbTrait;
-use prime\traits\CanCurrentUser;
 use prime\values\ProjectId;
-use prime\values\WorkspaceId;
 
 class WorkspaceForBreadcrumb implements WorkspaceForBreadcrumbInterface
 {

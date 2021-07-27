@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-use app\components\Form;
 use app\components\ActiveForm;
+use app\components\Form;
 use prime\models\ar\Project;
 use prime\models\forms\workspace\Import;
 use prime\widgets\BetterSelect;
 use prime\widgets\Section;
 use yii\bootstrap\Html;
-use prime\helpers\Icon;
 use yii\web\View;
 
 /**

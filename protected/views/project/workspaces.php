@@ -5,7 +5,6 @@ use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use prime\models\search\Workspace as WorkspaceSearch;
 use prime\widgets\DateTimeColumn;

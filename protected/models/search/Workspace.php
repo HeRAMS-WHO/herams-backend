@@ -9,7 +9,6 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
 use yii\data\Sort;
-use yii\db\conditions\InCondition;
 use yii\db\Expression;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;

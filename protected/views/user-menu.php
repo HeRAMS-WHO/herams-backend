@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-use prime\repositories\UserNotificationRepository;
 use prime\helpers\Icon;
+use prime\models\ar\Permission;
 use prime\models\ar\User;
+use prime\repositories\UserNotificationRepository;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use prime\models\ar\Permission;
 use yii\web\View;
 
 /**

@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 use prime\helpers\Icon;
-use yii\helpers\Html;
 use prime\widgets\menu\ProjectTabMenu;
+use yii\helpers\Html;
 
 /**
  * @var \prime\components\View $this

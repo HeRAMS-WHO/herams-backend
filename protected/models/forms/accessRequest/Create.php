@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace prime\models\forms\accessRequest;
 
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;

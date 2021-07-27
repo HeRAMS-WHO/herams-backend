@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\rules;
 
-use prime\components\AuthManager;
 use prime\models\ar\Permission;
 use prime\models\permissions\GlobalPermission;
 use SamIT\abac\interfaces\AccessChecker;

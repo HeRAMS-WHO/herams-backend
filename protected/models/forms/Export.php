@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
-use GuzzleHttp\Psr7\Stream;
 use prime\helpers\ClosureColumn;
 use prime\helpers\DataTextColumn;
 use prime\helpers\GetterColumn;
@@ -11,10 +10,8 @@ use prime\helpers\RawDataColumn;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
-use prime\models\ar\Response;
 use prime\objects\HeramsCodeMap;
 use prime\queries\ResponseQuery;
-use Psr\Http\Message\StreamInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;

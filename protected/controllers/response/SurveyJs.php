@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\response;
 
-
 use prime\assets\SurveyJsBundle;
-use prime\widgets\Section;
 use yii\base\Action;
 
 class SurveyJs extends Action

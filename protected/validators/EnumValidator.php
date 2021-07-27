@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace prime\validators;
 
-use prime\objects\enums\ProjectStatus;
-use prime\objects\enums\ProjectVisibility;
 use Yii;
 use yii\validators\ValidationAsset;
 use yii\validators\Validator;

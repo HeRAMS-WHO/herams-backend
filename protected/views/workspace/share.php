@@ -2,16 +2,12 @@
 declare(strict_types=1);
 
 use app\components\ActiveForm;
-use app\components\Form;
 use prime\components\View;
 use prime\interfaces\WorkspaceForTabMenu;
-use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\models\forms\Share;
-use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
-use yii\helpers\Html;
 
 /**
  * @var Workspace $workspace

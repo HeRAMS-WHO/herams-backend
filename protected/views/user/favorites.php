@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use kartik\grid\GridView;
 use prime\components\View;
+use prime\models\ar\Permission;
 use prime\models\ar\Workspace;
 use prime\widgets\DrilldownColumn;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
@@ -10,7 +11,6 @@ use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
-use prime\models\ar\Permission;
 
 /**
  * @var ActiveDataProvider $dataProvider

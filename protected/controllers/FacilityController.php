@@ -15,7 +15,6 @@ use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\FacilityId;
-use prime\values\IntegerId;
 use prime\values\WorkspaceId;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;

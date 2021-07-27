@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\actions;
 
-use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;

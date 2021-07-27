@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
-
 use prime\models\ActiveRecord;
 use yii\validators\RequiredValidator;
-use yii\validators\SafeValidator;
 
 /**
  * @property int $id
@@ -32,7 +30,4 @@ class Survey extends ActiveRecord
     {
         return $this->config['title'] ?? \Yii::t('app', "Survey without title, id {id}", ['id' => $this->id]);
     }
-
-
-
 }

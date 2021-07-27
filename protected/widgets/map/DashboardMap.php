@@ -7,12 +7,8 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
-use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Json;
-use yii\helpers\Url;
-use yii\web\JsExpression;
 
 class DashboardMap extends Element
 {

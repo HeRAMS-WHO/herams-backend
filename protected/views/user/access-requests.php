@@ -1,14 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use kartik\grid\ActionColumn;
 use kartik\grid\BooleanColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\User;
-use prime\models\search\AccessRequest as AccessRequestSearch;
-use prime\widgets\FavoriteColumn\FavoriteColumn;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
 use yii\data\DataProviderInterface;

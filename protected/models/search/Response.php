@@ -8,7 +8,6 @@ use yii\data\DataProviderInterface;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 
 class Response extends Model
 {

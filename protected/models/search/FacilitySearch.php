@@ -5,12 +5,9 @@ namespace prime\models\search;
 
 use prime\models\ar\Facility;
 use yii\base\Model;
-use yii\data\DataProviderInterface;
-use yii\db\ActiveQueryInterface;
 use yii\validators\FilterValidator;
 use yii\validators\NumberValidator;
 use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 
 class FacilitySearch extends Model
 {

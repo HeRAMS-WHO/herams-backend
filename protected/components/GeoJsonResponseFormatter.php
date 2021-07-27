@@ -5,7 +5,6 @@ namespace prime\components;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use yii\web\JsonResponseFormatter;
 use yii\web\Response;
 use yii\web\ResponseFormatterInterface;
 

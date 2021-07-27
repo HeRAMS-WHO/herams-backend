@@ -5,7 +5,6 @@ use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
 use prime\components\View;
-use prime\models\ar\Project;
 use prime\models\ar\Survey;
 use prime\models\forms\project\Create;
 use prime\objects\enums\ProjectVisibility;
@@ -48,7 +47,7 @@ echo Form::widget([
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' =>
             // Todo: proper implementation.
-                \iter\mapWithKeys(function(Survey $survey) {
+                \iter\mapWithKeys(function (Survey $survey) {
                     return $survey->getTitle();
                 }, Survey::find()->indexBy('id')->each())
         ],

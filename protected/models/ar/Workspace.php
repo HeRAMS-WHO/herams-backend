@@ -11,8 +11,6 @@ use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsCodeMap;
 use prime\queries\FacilityQuery;
 use prime\queries\ResponseQuery;
-use prime\values\ProjectId;
-use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;

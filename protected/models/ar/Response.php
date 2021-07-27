@@ -4,13 +4,11 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use Carbon\Carbon;
-use prime\interfaces\facility\FacilityForListInterface;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseQuery;
-use prime\values\Point;
 use yii\validators\RequiredValidator;
 
 /**

@@ -3,16 +3,11 @@
 
 namespace prime\controllers\project;
 
-use prime\components\NotificationService;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
-use yii\web\Request;
-use yii\web\User;
 
 class Pages extends Action
 {

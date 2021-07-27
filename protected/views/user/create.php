@@ -4,7 +4,6 @@ declare(strict_types=1);
 use kartik\builder\Form;
 use kartik\form\ActiveForm;
 use prime\models\forms\user\CreateForm;
-use prime\models\forms\user\RequestAccountForm;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 use yii\helpers\Html;

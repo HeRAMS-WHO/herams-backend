@@ -1,15 +1,14 @@
 <?php
 declare(strict_types=1);
 
-use app\components\Form;
 use app\components\ActiveForm;
+use app\components\Form;
+use prime\helpers\Icon;
+use prime\models\ar\Permission;
 use prime\widgets\FormButtonsWidget;
+use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
 use yii\bootstrap\Html;
-use yii\helpers\Url;
-use prime\models\ar\Permission;
-use prime\helpers\Icon;
-use prime\widgets\menu\WorkspaceTabMenu;
 
 /**
  * @var  \prime\components\View $this

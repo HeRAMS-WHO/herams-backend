@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use yii\helpers\Html;
-
 /**
  * @var \prime\components\View $this
  * @var string $content

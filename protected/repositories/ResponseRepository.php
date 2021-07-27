@@ -3,42 +3,25 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
-use prime\components\CompositeDataProvider;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
-use prime\interfaces\CreateModelRepositoryInterface;
-use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\response\ResponseForBreadcrumbInterface as ForBreadcrumbInterface;
-use prime\interfaces\RetrieveWriteModelRepositoryInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\Response;
-use prime\models\ar\Workspace;
-use prime\models\facility\FacilityForList;
 use prime\models\forms\NewFacility as FacilityForm;
-use prime\models\forms\ResponseFilter;
 use prime\models\forms\UpdateFacility;
 use prime\models\response\ResponseForBreadcrumb;
 use prime\models\response\ResponseForList;
 use prime\models\response\ResponseForSurvey;
-use prime\models\search\FacilitySearch;
-use prime\objects\HeramsCodeMap;
-use prime\objects\HeramsSubject;
 use prime\values\ExternalResponseId;
 use prime\values\FacilityId;
 use prime\values\IntegerId;
-use prime\values\Point;
 use prime\values\ResponseId;
 use prime\values\WorkspaceId;
-use Ramsey\Uuid\Uuid;
-use yii\base\BaseObject;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
-use yii\db\QueryInterface;
-use yii\web\NotFoundHttpException;
 
 class ResponseRepository
 {

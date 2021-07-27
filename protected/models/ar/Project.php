@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use League\ISO3166\ISO3166;
-use prime\behaviors\LocalizableWriteBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
@@ -19,24 +18,17 @@ use prime\queries\ResponseQuery;
 use prime\validators\EnumValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use yii\base\NotSupportedException;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
 use yii\db\Query;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
-use yii\validators\InlineValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
-use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\Linkable;
-use function iter\filter;
 
 /**
  * Class Project

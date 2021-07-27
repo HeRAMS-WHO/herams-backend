@@ -3,18 +3,13 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
-use prime\behaviors\LocalizableWriteBehavior;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\repositories\ProjectRepository;
 use prime\values\ProjectId;
 use yii\base\Action;
 use yii\web\Request;
-use function iter\toArray;
 
 class Update extends Action
 {

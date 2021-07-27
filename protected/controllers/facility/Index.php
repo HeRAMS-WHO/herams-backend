@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace prime\controllers\facility;
 
 use prime\models\ar\read\Facility;
-use Ramsey\Uuid\Uuid;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
 

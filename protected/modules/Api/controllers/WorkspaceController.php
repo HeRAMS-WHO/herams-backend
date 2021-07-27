@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
 
-use prime\modules\Api\controllers\user\Workspaces;
 use prime\modules\Api\controllers\workspace\Import;
 use prime\modules\Api\controllers\workspace\Refresh;
 use yii\filters\AccessControl;

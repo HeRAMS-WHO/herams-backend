@@ -7,7 +7,6 @@ use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
 use prime\repositories\FacilityRepository;
 use prime\values\FacilityId;
-use prime\values\StringId;
 use yii\base\Action;
 use yii\web\Request;
 

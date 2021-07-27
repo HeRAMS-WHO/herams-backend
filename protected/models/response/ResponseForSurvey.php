@@ -5,7 +5,6 @@ namespace prime\models\response;
 
 use prime\values\ExternalResponseId;
 use prime\values\ResponseId;
-use yii\base\NotSupportedException;
 
 class ResponseForSurvey
 {

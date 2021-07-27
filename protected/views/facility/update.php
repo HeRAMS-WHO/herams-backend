@@ -5,7 +5,6 @@ use app\components\ActiveForm;
 use app\components\Form;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
-use prime\models\forms\NewFacility;
 use prime\models\forms\UpdateFacility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;

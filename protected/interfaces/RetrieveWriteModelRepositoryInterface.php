@@ -5,7 +5,6 @@ namespace prime\interfaces;
 
 use prime\values\IntegerId;
 use yii\base\Model;
-use yii\db\ActiveRecord;
 
 interface RetrieveWriteModelRepositoryInterface
 {

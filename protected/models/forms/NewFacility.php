@@ -9,8 +9,6 @@ use prime\models\ar\Facility;
 use prime\traits\DisableYiiLoad;
 use prime\values\Point;
 use yii\base\Model;
-use yii\validators\DefaultValueValidator;
-use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 

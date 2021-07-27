@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-use app\components\Form;
 use app\components\ActiveForm;
+use app\components\Form;
 use prime\components\View;
 use prime\models\ar\Project;
 use prime\widgets\InlineUpload\InlineUpload;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
 
 /**

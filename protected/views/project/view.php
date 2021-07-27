@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\widgets\menu\ProjectPageMenu;

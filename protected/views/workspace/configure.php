@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 use app\components\ActiveForm;
+use prime\helpers\Icon;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
-use prime\helpers\Icon;
 
 /**
  * @var \yii\web\View $this

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\interfaces;
 
-use prime\objects\LanguageSet;
 use prime\values\FacilityId;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;

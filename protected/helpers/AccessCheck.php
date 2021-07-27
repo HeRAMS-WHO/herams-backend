@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use prime\interfaces\AccessCheckInterface;
-use yii\rbac\CheckAccessInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\User;

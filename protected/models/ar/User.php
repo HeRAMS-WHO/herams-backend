@@ -9,7 +9,6 @@ use prime\models\ActiveRecord;
 use prime\queries\FavoriteQuery;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;

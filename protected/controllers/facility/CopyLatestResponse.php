@@ -8,7 +8,6 @@ use prime\repositories\FacilityRepository;
 use prime\repositories\ResponseRepository;
 use prime\values\FacilityId;
 use yii\base\Action;
-use yii\base\NotSupportedException;
 
 class CopyLatestResponse extends Action
 {
