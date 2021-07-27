@@ -22,7 +22,7 @@ use yii\web\Request;
  */
 class WorkspaceControllerTest extends ControllerTest
 {
-    public function testRenderInsertsModel()
+    public function testRenderInsertsModel(): void
     {
         $projectId = 23456;
         $workspaceForBreadcrumb = $this->getMockBuilder(WorkspaceForBreadcrumb::class)->disableOriginalConstructor()->getMock();

@@ -6,6 +6,12 @@ namespace prime\objects;
 use prime\interfaces\BreadcrumbInterface;
 use prime\traits\BreadcrumbTrait;
 
+/**
+ * Class Breadcrumb
+ * @package prime\objects
+ *
+ * @codeCoverageIgnore it are only simple property setters
+ */
 class Breadcrumb implements BreadcrumbInterface
 {
     use BreadcrumbTrait;

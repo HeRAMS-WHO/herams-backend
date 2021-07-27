@@ -17,7 +17,7 @@ class ResponseForBreadcrumb implements ResponseForBreadcrumbInterface
     public function __construct(Response $model)
     {
         $this->workspaceId = new WorkspaceId($model->workspace_id);
-        $this->label = $model->getDisplayField();
+        $this->label = $model->getName();
         $this->url = ['/response/compare', 'id' => $model->id];
     }
 

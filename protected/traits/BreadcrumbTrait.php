@@ -3,6 +3,12 @@ declare(strict_types=1);
 
 namespace prime\traits;
 
+/**
+ * Trait BreadcrumbTrait
+ * @package prime\traits
+ *
+ * @codeCoverageIgnore it are only properties and getters
+ */
 trait BreadcrumbTrait
 {
     private bool $encode = true;

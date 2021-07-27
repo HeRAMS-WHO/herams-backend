@@ -5,14 +5,9 @@ namespace prime\models\ar;
 
 use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
-use prime\models\forms\ResponseFilter;
-use prime\objects\HeramsCodeMap;
 use prime\queries\FacilityQuery;
 use prime\queries\ResponseQuery;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
-use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use yii\db\Expression;
 use yii\validators\ExistValidator;
 
 /**

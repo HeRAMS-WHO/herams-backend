@@ -9,7 +9,7 @@ use prime\components\View;
 use prime\controllers\element\Create;
 use prime\controllers\element\Preview;
 use prime\controllers\ElementController;
-use prime\models\elements\ElementForBreadcrumb;
+use prime\models\element\ElementForBreadcrumb;
 use prime\models\pages\PageForBreadcrumb;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\objects\BreadcrumbCollection;

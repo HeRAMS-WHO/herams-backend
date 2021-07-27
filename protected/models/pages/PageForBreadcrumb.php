@@ -8,9 +8,6 @@ use prime\models\ar\Page;
 use prime\traits\BreadcrumbTrait;
 use prime\values\ProjectId;
 
-/**
- * @codeCoverageIgnore Since all functions are simple getters
- */
 class PageForBreadcrumb implements PageForBreadcrumbInterface
 {
     use BreadcrumbTrait;

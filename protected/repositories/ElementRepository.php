@@ -7,7 +7,7 @@ use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\element\ElementForBreadcrumbInterface as ForBreadcrumbInterface;
 use prime\models\ar\Element;
 use prime\models\ar\Permission;
-use prime\models\elements\ElementForBreadcrumb;
+use prime\models\element\ElementForBreadcrumb;
 use prime\values\ElementId;
 
 class ElementRepository

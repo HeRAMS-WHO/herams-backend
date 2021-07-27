@@ -13,9 +13,6 @@ use prime\traits\CanCurrentUser;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 
-/**
- * @codeCoverageIgnore Since all functions are simple getters
- */
 class WorkspaceForBreadcrumb implements WorkspaceForBreadcrumbInterface
 {
     use BreadcrumbTrait;

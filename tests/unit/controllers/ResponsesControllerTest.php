@@ -11,7 +11,7 @@ use prime\controllers\element\Preview;
 use prime\controllers\ElementController;
 use prime\controllers\response\Update;
 use prime\controllers\ResponseController;
-use prime\models\elements\ElementForBreadcrumb;
+use prime\models\element\ElementForBreadcrumb;
 use prime\models\pages\PageForBreadcrumb;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\models\response\ResponseForBreadcrumb;
