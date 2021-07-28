@@ -43,6 +43,7 @@ use prime\repositories\FacilityRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\ResponseRepository;
+use prime\repositories\SurveyRepository;
 use prime\repositories\UserNotificationRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\widgets\LocalizableInput;
@@ -99,6 +100,7 @@ return [
     WorkspaceRepository::class => WorkspaceRepository::class,
     FacilityRepository::class => FacilityRepository::class,
     ResponseRepository::class => ResponseRepository::class,
+    SurveyRepository::class => SurveyRepository::class,
     ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [
             ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
