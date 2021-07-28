@@ -26,7 +26,7 @@ class Creator extends Widget
         $survey = Json::encode($this->survey);
         $this->surveyCreatorCustomizers[] = new JsExpression(<<<JS
 function(surveyCreator) {
-  surveyCreator.text = '{$survey}';
+  surveyCreator.JSON = {$survey};
 }
 JS
         );
@@ -46,9 +46,10 @@ JS
 
         $clientOptions = Json::encode($this->clientOptions);
         $surveyJsCustomizers = Json::encode(array_values($this->surveyCreatorCustomizers));
+        $id = Json::encode($this->options['id']);
         $this->view->registerJs(<<<JS
 const options = {$clientOptions};
-const surveyCreator = new SurveyCreator.SurveyCreator("{$this->options['id']}", options);
+const surveyCreator = new SurveyCreator.SurveyCreator({$id}, options);
 {$surveyJsCustomizers}.forEach(customizer => customizer(surveyCreator));
 JS
         );

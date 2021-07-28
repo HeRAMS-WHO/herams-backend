@@ -5,6 +5,7 @@ use prime\models\survey\SurveyForCreate;
 use prime\models\survey\SurveyForUpdate;
 use prime\widgets\Section;
 use prime\widgets\surveyJs\Creator;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
@@ -30,17 +31,18 @@ CSS
 Section::begin()
     ->withHeader($this->title);
 
-$ajaxSaveUrl = Url::to(['survey/ajax-save']);
+$ajaxSaveUrl = Json::encode(Url::to(['survey/ajax-save']));
+$surveyId = Json::encode($model instanceof SurveyForUpdate ? $model->getSurveyId() : null);
 echo Creator::widget([
     'options' => [],
     'surveyCreatorCustomizers' => [
         new JsExpression(<<<JS
 function(surveyCreator) {
-  surveyCreator.saveSurveyFunc = async function (saveNo, callback) {
-    const surveyId = window.hasOwnProperty('surveyId') ? window.surveyId : null;
-    const ajaxSaveUrl = '{$ajaxSaveUrl}' + (surveyId != null ? '?id=' + surveyId : '');
+  let surveyId = {$surveyId};
+  surveyCreator.saveSurveyFunc = function (saveNo, callback) {
+    const ajaxSaveUrl = {$ajaxSaveUrl} + (surveyId != null ? '?id=' + surveyId : '');
     
-    const response = await fetch(
+    const response = fetch(
       ajaxSaveUrl,
       {
         method: 'POST',
@@ -55,7 +57,7 @@ function(surveyCreator) {
       }
     )
     .then(response => response.json())
-    .then(data => {callback(saveNo, true);window.surveyId = data.id})
+    .then(data => {callback(saveNo, true);surveyId = data.id})
   } 
 }
 JS
