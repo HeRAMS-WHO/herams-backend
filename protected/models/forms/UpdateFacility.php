@@ -35,16 +35,6 @@ final class UpdateFacility extends Model
         parent::__construct();
     }
 
-    public function behaviors(): array
-    {
-        return [
-            LocalizableWriteBehavior::class => [
-                'class' => LocalizableWriteBehavior::class,
-                'attributes' => ['name', 'alternative_name']
-            ]
-        ];
-    }
-
     public function getId(): FacilityId
     {
         return $this->id;
@@ -54,7 +44,6 @@ final class UpdateFacility extends Model
     {
         return Facility::labels();
     }
-
 
     public function getWorkspace(): WorkspaceForNewOrUpdateFacility
     {

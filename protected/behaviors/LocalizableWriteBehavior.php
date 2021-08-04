@@ -52,6 +52,7 @@ class LocalizableWriteBehavior extends Behavior
 
             try {
                 $validators = $this->getActiveValidators($realAttributeName);
+                \Yii::error($this->{$behavior->translationProperty}[$realAttributeName] ?? []);
                 foreach ($this->{$behavior->translationProperty}[$realAttributeName] ?? [] as $locale => $value) {
                     $this->{$realAttributeName} = $value;
                     foreach ($validators as $validator) {
@@ -98,7 +99,11 @@ class LocalizableWriteBehavior extends Behavior
     public function __set($name, $value): void
     {
         $i18n = $this->owner->{$this->translationProperty};
-        $i18n[$this->attributeName($name)] = json_decode($value, true);
+        if ($value === null) {
+            unset($i18n[$this->attributeName($name)]);
+        } else {
+            $i18n[$this->attributeName($name)] = is_array($value) ? $value : json_decode($value, true);
+        }
         $this->owner->{$this->translationProperty} = $i18n;
     }
 

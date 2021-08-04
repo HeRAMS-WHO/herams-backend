@@ -8,7 +8,10 @@ use prime\helpers\ModelHydrator;
 use prime\repositories\FacilityRepository;
 use prime\values\FacilityId;
 use yii\base\Action;
+use yii\helpers\Url;
+use yii\web\BadRequestHttpException;
 use yii\web\Request;
+use yii\web\Response;
 
 class Update extends Action
 {
@@ -18,6 +21,7 @@ class Update extends Action
      */
     public function run(
         Request $request,
+        Response $response,
         FacilityRepository $facilityRepository,
         NotificationService $notificationService,
         ModelHydrator $modelHydrator,
@@ -27,11 +31,16 @@ class Update extends Action
         $model = $facilityRepository->retrieveForWrite($facilityId);
 
         if ($request->isPost) {
-            $modelHydrator->hydrateFromRequestBody($model, $request);
+            $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
+            \Yii::error($request->bodyParams);
+            \Yii::error($model->attributes);
             if ($model->validate(null, false)) {
-                $updatedId = $facilityRepository->save($model);
+                $response->headers->add('X-Suggested-Location', Url::to(['update', 'id' => $facilityRepository->save($model)], true));
                 $notificationService->success(\Yii::t('app', 'Facility updated'));
-                return $this->controller->redirect(['update', 'id' => $updatedId]);
+                return $response;
+            } else {
+                \Yii::error($model->errors);
+                throw new BadRequestHttpException(print_r($model->errors, true));
             }
         }
         return $this->controller->render('update', [
