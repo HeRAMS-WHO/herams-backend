@@ -10,7 +10,7 @@
     use yii\helpers\ArrayHelper;
     use yii\web\ErrorAction;
 
-    class SiteController extends Controller
+class SiteController extends Controller
 {
     public function actions()
     {

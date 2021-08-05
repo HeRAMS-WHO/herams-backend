@@ -21,10 +21,11 @@ use yii\web\Response;
 class Create extends Action
 {
     public function __construct(
-        $id, $controller,
+        $id,
+        $controller,
         private WorkspaceRepository $workspaceRepository,
-         $config = [])
-    {
+        $config = []
+    ) {
         parent::__construct($id, $controller, $config);
     }
 

@@ -21,19 +21,19 @@ namespace {
     }
 }
 
-
 namespace yii\web {
 
     use prime\values\Id;
-    function http_build_query(array $params) {
+
+    function http_build_query(array $params)
+    {
         $realParams = [];
-        foreach($params as $k => $v) {
+        foreach ($params as $k => $v) {
             if (is_object($v)) {
                 $realParams[$k] = (string) $v->getValue();
             } else {
                 $realParams[$k] = $v;
             }
-
         }
 
         return \http_build_query($realParams);
