@@ -20,6 +20,9 @@ final class WorkspaceForNewOrUpdateFacility implements \prime\interfaces\Workspa
         private string $projectTitle,
         private LanguageSet $languages
     ) {
+        if (count($languages) === 0) {
+            throw new \Exception('Languages must not be empty');
+        }
     }
 
     public function id(): WorkspaceId

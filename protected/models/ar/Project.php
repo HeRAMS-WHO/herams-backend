@@ -14,6 +14,7 @@ use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
+use prime\objects\LanguageSet;
 use prime\queries\ResponseQuery;
 use prime\validators\EnumValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -116,6 +117,15 @@ class Project extends ActiveRecord implements Linkable
             unset($fields[$hidden]);
         }
         return $fields;
+    }
+
+    public function getLanguageSet(): LanguageSet
+    {
+        if (empty($this->languages)) {
+            return LanguageSet::fullSet();
+        } else {
+            return LanguageSet::from($this->languages);
+        }
     }
 
     public function extraFields(): array

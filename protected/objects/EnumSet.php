@@ -13,7 +13,7 @@ use function iter\toArray;
 /**
  * Models a set of values from an enum
  */
-abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayable
+abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayable, \Countable
 {
     private array $values = [];
 
@@ -82,5 +82,17 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
     public static function validatorFor(string $attribute): array
     {
         return [[$attribute], RangeValidator::class, 'allowArray' => true, 'range' => static::getEnumClass()::toValues()];
+    }
+
+    public function count(): int
+    {
+        return count($this->values);
+    }
+
+    public static function fullSet(): static
+    {
+        $result = new static();
+        $result->values = static::getEnumClass()::cases();
+        return $result;
     }
 }

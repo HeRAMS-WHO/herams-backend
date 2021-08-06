@@ -21,6 +21,7 @@ Section::begin()
 
 Survey::begin()
     ->withSubmitRoute(['facility/create', 'workspaceId' => $model->getWorkspace()->id()])
+    ->withLanguages($model->getWorkspace()->languages())
 ;
 
 Survey::end();

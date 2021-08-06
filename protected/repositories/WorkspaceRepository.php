@@ -74,7 +74,7 @@ class WorkspaceRepository implements
         $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
         $project = $workspace->project;
 
-        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
+        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, $project->getLanguageSet());
     }
 
     public function retrieveForRead(IntegerId|WorkspaceId $id): Workspace

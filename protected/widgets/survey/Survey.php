@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\widgets\survey;
 
 use prime\assets\SurveyJsBundle;
+use prime\objects\LanguageSet;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -14,13 +15,19 @@ class Survey extends Widget
     public array $submitRoute;
     public array $data;
 
+    public LanguageSet $languages;
+
     public function init(): void
     {
         parent::init();
         SurveyJsBundle::register($this->view);
     }
 
-
+    public function withLanguages(LanguageSet $languageSet): self
+    {
+        $this->languages = $languageSet;
+        return $this;
+    }
 
     public function withSubmitRoute(array $route): self
     {
@@ -45,19 +52,14 @@ class Survey extends Widget
                             "isRequired" => true,
                         ],
                         [
-                            "type" => "multipletext",
+                            "type" => "text",
                             "name" => "i18nName",
-                            "title" => \Yii::t('app', "Facility name"),
-                            "items" => [
-                                [
-                                    'name' => 'ar',
-                                    'title' => \Yii::t('app', 'Arabic')
-                                ],
-                                [
-                                    'name' => 'fr',
-                                    'title' => \Yii::t('app', 'French')
-                                ]
-                            ]
+                            "title" => \Yii::t('app', "Facility name (Arabic"),
+                        ],
+                        [
+                            "type" => "text",
+                            "name" => "i18nName",
+                            "title" => \Yii::t('app', "Facility name (French"),
                         ],
                         [
                             "type" => "text",
@@ -66,21 +68,7 @@ class Survey extends Widget
                             "isRequired" => false,
 
                         ],
-                        [
-                            "type" => "multipletext",
-                            "name" => "i18nAlternativeName",
-                            "title" => \Yii::t('app', "Alternative name"),
-                            "items" => [
-                                [
-                                    'name' => 'ar',
-                                    'title' => \Yii::t('app', 'Arabic')
-                                ],
-                                [
-                                    'name' => 'fr',
-                                    'title' => \Yii::t('app', 'French')
-                                ]
-                            ]
-                        ],
+
                         [
                             "type" => "text",
                             "name" => "coordinates",
@@ -98,6 +86,7 @@ class Survey extends Widget
 
         $structure = Json::encode($structure);
         $data = Json::encode($this->data ?? []);
+        $languages = Json::encode($this->languages->toArray());
         $this->view->registerJs(<<<JS
 Survey
     .StylesManager
