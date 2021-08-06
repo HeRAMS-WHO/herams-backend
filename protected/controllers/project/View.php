@@ -112,7 +112,7 @@ class View extends Action
 
         $map = [];
         foreach ($answers as $answer) {
-            $map[$answer->getCode()] = trim(preg_split('/:\(/', $answer->getText(), PREG_SPLIT_NO_EMPTY)[0]);
+            $map[$answer->getCode()] = trim(preg_split('/:\(/', $answer->getText())[0]);
         }
 
         \Yii::endProfile(__FUNCTION__);
