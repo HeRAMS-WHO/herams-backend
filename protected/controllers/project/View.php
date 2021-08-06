@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\project;
 
@@ -22,8 +22,6 @@ use yii\web\User;
 
 class View extends Action
 {
-
-
     public function run(
         Resolver $abacResolver,
         PreloadingSourceRepository $preloadingSourceRepository,
@@ -75,9 +73,6 @@ class View extends Action
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }
 
-
-
-
         $responses = $project->getResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
@@ -117,7 +112,7 @@ class View extends Action
 
         $map = [];
         foreach ($answers as $answer) {
-            $map[$answer->getCode()] = trim(strtok($answer->getText(), ':('));
+            $map[$answer->getCode()] = trim(preg_split('/:\(/', $answer->getText(), PREG_SPLIT_NO_EMPTY)[0]);
         }
 
         \Yii::endProfile(__FUNCTION__);

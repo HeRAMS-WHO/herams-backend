@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\ar\read;
 
-use prime\behaviors\LocalizableBehavior;
+use prime\behaviors\LocalizableReadBehavior;
 use prime\traits\ReadOnlyTrait;
 
 class Facility extends \prime\models\ar\Facility
@@ -13,8 +13,8 @@ class Facility extends \prime\models\ar\Facility
     public function behaviors(): array
     {
         return [
-            LocalizableBehavior::class => [
-                'class' => LocalizableBehavior::class,
+            LocalizableReadBehavior::class => [
+                'class' => LocalizableReadBehavior::class,
                 'attributes' => ['name', 'alternative_name'],
                 'locale' => \Yii::$app->language,
                 'defaultLocale' => \Yii::$app->sourceLanguage,

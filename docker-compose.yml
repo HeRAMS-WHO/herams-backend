@@ -32,6 +32,9 @@ x-env:
       SECRET_limesurvey/host: ${LS_HOST}
       SECRET_limesurvey/username: ${LS_USER}
       SECRET_limesurvey/password: ${LS_PASS}
+      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
+      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
+      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
       RUNTIME_PATH: /runtime
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
       URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
@@ -62,6 +65,9 @@ services:
       SECRET_limesurvey/password: ${LS_PASS}
       SECRET_limesurvey/username: ${LS_USER}
       SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
+      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
+      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
+      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
       RUNTIME_PATH: /run
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
       URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
@@ -194,6 +200,9 @@ services:
       YII_ENV: $YII_ENV
       SECRET_app/url_signer_secret: secret
       SECRET_app/cookie_validation_key: secret
+      SECRET_mailchimp/api_key: ''
+      SECRET_mailchimp/list_id: ''
+      SECRET_mailchimp/tag: ''
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
       RUNTIME_PATH: /runtime
@@ -210,8 +219,6 @@ services:
       PMA_HOSTS: testdb,devdb
       PMA_PASSWORD: $DB_PASS
       PMA_USER: $DB_USER
-    ports:
-      - "127.0.0.1:${PHPMYADMIN_PORT-12345}:80"
     tmpfs:
       - /sessions
   mailcatcher:

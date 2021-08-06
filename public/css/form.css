@@ -21,11 +21,11 @@ form .has-error input {
     border: none;
 }
 
-.form-control {
+.form-control, localizable-input.form-control input {
     box-sizing: border-box;
     width: 100%;
     display: block;
-    height: 34px;
+    min-height: 34px;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;

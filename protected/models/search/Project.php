@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\models\search;
 
 use prime\components\FilteredActiveDataProvider;
 use prime\models\ar\Permission;
+use prime\models\ar\read\Project as ProjectRead;
 use yii\base\Model;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
@@ -24,7 +26,7 @@ class Project extends Model
     public function search($params, \yii\web\User $user): FilteredActiveDataProvider
     {
         /** @var  $query */
-        $query = \prime\models\ar\Project::find()
+        $query = ProjectRead::find()
             ->withFields('contributorCount', 'workspaceCount', 'facilityCount', 'responseCount', 'pageCount');
         $dataProvider = new FilteredActiveDataProvider([
             'filter' => function (\prime\models\ar\Project $project) use ($user) {

@@ -49,6 +49,7 @@ jobs:
             k8s/prod/ingress-prod.yaml
             k8s/prod/sealed-limesurvey-prod.yaml
             k8s/prod/sealed-database-prod.yaml
+            k8s/prod/sealed-mailchimp-prod.yaml
             k8s/prod/sealed-smtp-prod.yaml
             k8s/prod/sealed-app-prod.yaml
           images: |

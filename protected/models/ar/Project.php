@@ -4,18 +4,21 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use League\ISO3166\ISO3166;
+use prime\behaviors\LocalizableWriteBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
+use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseQuery;
+use prime\validators\EnumValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\base\NotSupportedException;
-use yii\db\DefaultValueConstraint;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
 use yii\db\Query;
@@ -24,6 +27,7 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
+use yii\validators\InlineValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -46,10 +50,12 @@ use function iter\filter;
  * @property float $longitude
  * @property boolean $manage_implies_create_hf
  * @property array $overrides
+ * @property array<string> $languages
  * @property int $status
  * @property string $title
  * @property array<string, string> $typemap
  * @property string $visibility
+ * @property array<string, array<string, string>> $i18n
  *
  * Virtual fields
  * @property int $contributorCount
@@ -82,23 +88,13 @@ class Project extends ActiveRecord implements Linkable
 
     public function getStatusText(): string
     {
-        return $this->statusOptions()[$this->status];
+        return ProjectStatus::make($this->status)->label;
     }
 
     public function isHidden(): bool
     {
         return $this->visibility === self::VISIBILITY_HIDDEN;
     }
-
-    public function visibilityOptions()
-    {
-        return [
-            self::VISIBILITY_HIDDEN => 'Hidden, this project is only visible to people with permissions',
-            self::VISIBILITY_PUBLIC => 'Public, anyone can view this project',
-            self::VISIBILITY_PRIVATE => 'Private, this project is visible on the map and in the list, but people need permission to view it'
-        ];
-    }
-
 
     public static function find(): ActiveQuery
     {
@@ -155,30 +151,21 @@ class Project extends ActiveRecord implements Linkable
         $this->status = self::STATUS_ONGOING;
     }
 
-    public function statusOptions(): array
-    {
-        return [
-            self::STATUS_ONGOING => 'Ongoing',
-            self::STATUS_BASELINE => 'Baseline',
-            self::STATUS_TARGET => 'Target',
-            self::STATUS_EMERGENCY_SPECIFIC => 'Emergency specific'
-        ];
-    }
-
     public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
-            'country' => \Yii::t('app', 'Country'),
             'base_survey_eid' => \Yii::t('app', 'Survey'),
+            'country' => \Yii::t('app', 'Country'),
             'hidden' => \Yii::t('app', 'Hidden'),
+            'i18n' => \Yii::t('app', 'Translated attributes'),
+            'languages' => \Yii::t('app', 'Languages'),
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
+            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
+            'overrides' => \Yii::t('app', 'Overrides'),
             'status' => \Yii::t('app', 'Status'),
             'typemap' => \Yii::t('app', 'Typemap'),
             'visibility' => \Yii::t('app', 'Visibility'),
-            'overrides' => \Yii::t('app', 'Overrides'),
-            'i18n' => \Yii::t('app', 'Translated attributes'),
-            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
         ]);
     }
 
@@ -205,60 +192,22 @@ class Project extends ActiveRecord implements Linkable
         return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
     }
 
-    public function dataSurveyOptions(): array
-    {
-        $existing = Project::find()->select('base_survey_eid')->indexBy('base_survey_eid')->column();
-
-        $surveys = filter(function ($details) use ($existing) {
-            return $this->base_survey_eid == $details['sid'] || !isset($existing[$details['sid']]);
-        }, $this->limesurveyDataProvider()->listSurveys());
-
-        $result = ArrayHelper::map($surveys, 'sid', function ($details) {
-                return $details['surveyls_title'] . (($details['active'] == 'N') ? " (INACTIVE)" : "");
-        });
-
-        return $result;
-    }
-
     public function getWorkspaces(): ActiveQuery
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
 
-    public function getTypemapAsJson(): string
-    {
-        return Json::encode($this->typemap, JSON_PRETTY_PRINT);
-    }
-
-    public function getOverridesAsJson(): string
-    {
-        return Json::encode($this->overrides, JSON_PRETTY_PRINT);
-    }
-
-    public function setTypemapAsJson($value): void
-    {
-        $this->typemap = Json::decode($value);
-    }
-
-    public function setOverridesAsJson(string $value): void
-    {
-        $this->overrides = array_filter(Json::decode($value));
-    }
-
     public function rules(): array
     {
         return [
-            [[
-                'title', 'base_survey_eid'
-            ], RequiredValidator::class],
-            [['title'], StringValidator::class],
+            [['title', 'base_survey_eid'], RequiredValidator::class],
             [['title'], UniqueValidator::class],
-            [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
+            [['base_survey_eid'], NumberValidator::class, 'integerOnly' => true],
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
-            [['status'], RangeValidator::class, 'range' => array_keys($this->statusOptions())],
-            [['visibility'], RangeValidator::class, 'range' => array_keys($this->visibilityOptions())],
+            [['status'], EnumValidator::class, 'enumClass' => ProjectStatus::class],
+            [['visibility'], EnumValidator::class, 'enumClass' => ProjectVisibility::class],
             [['country'], function () {
                 $data = new ISO3166();
                 try {
@@ -272,114 +221,120 @@ class Project extends ActiveRecord implements Linkable
         ];
     }
 
-    public function behaviors(): array
+    private static function virtualFields(): array
     {
         return [
-            'virtualFields' => [
-                'class' => VirtualFieldBehavior::class,
-                'virtualFields' => [
-                    'latestDate' => [
-                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
-                            ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
-                                'tool_id' => new Expression(self::tableName() . '.[[id]]')])
-                            ]),
-                        VirtualFieldBehavior::LAZY => static function (self $model): ?string {
-                            return $model->getResponses()->select('max([[date]])')->scalar();
-                        }
-                    ],
-                    'workspaceCount' => [
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = Workspace::find()->limit(1)->select('count(*)')
-                            ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            return (int) $model->getWorkspaces()->count();
-                        }
-                    ],
-                    'pageCount' => [
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Page::find()->limit(1)->select('count(*)')
-                            ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            return (int) $model->getPages()->count();
-                        }
-                    ],
-                    'facilityCount' => [
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
-                                'workspace_id' => Workspace::find()->select('id')
-                                    ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
-                            ])->addParams([':path' => '$.facilityCount'])->
-                        select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(distinct [[workspace_id]], [[hf_id]]))')),
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            $override = $model->getOverride('facilityCount');
-                            if (isset($override)) {
-                                return (int)$override;
-                            }
-                            return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
-                        }
-                    ],
-                    'responseCount' => [
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
-                            'workspace_id' => Workspace::find()->select('id')
-                                ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
-                        ])->addParams([':path' => '$.responseCount'])->
-                        select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))'))
-                        ,
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            if ($model->workspaceCount === 0) {
-                                return 0;
-                            }
-                            return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
-                        }
-                    ],
-                    'permissionSourceCount' => [
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
-                            ->where([
-                                'source' => User::class,
-                                'target' => self::class,
-                                'target_id' => new Expression(self::tableName() . '.[[id]]')
-                            ]),
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            return (int) $model->getPermissions()->count('distinct source_id');
-                        }
-                    ],
-                    'contributorPermissionCount' => [
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([
-                            'target' => Workspace::class,
-                            'target_id' => Workspace::find()->select('id')
-                                ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
-                            'source' => User::class,
-                        ])->select('count(distinct [[source_id]])')
-                        ,
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            return (int) Permission::find()->where([
-                                'target' => Workspace::class,
-                                'target_id' => $model->getWorkspaces()->select('id'),
-                                'source' => User::class,
-                            ])->count('distinct [[source_id]]');
-                        }
-                    ],
-                    'contributorCount' => [
-                        VirtualFieldBehavior::GREEDY => (function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
-                            $result = new Query();
-                            $permissionCount = self::getDb()->queryBuilder->buildExpression($contributorPermissionCountGreedy, $result->params);
-                            $workspaceCount = self::getDb()->queryBuilder->buildExpression($workspaceCountGreedy, $result->params);
+            'latestDate' => [
+                VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
+                    ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
+                        'tool_id' => new Expression(self::tableName() . '.[[id]]')])
+                    ]),
+                VirtualFieldBehavior::LAZY => static function (self $model): ?string {
+                    return $model->getResponses()->select('max([[date]])')->scalar();
+                }
+            ],
+            'workspaceCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = Workspace::find()->limit(1)->select('count(*)')
+                    ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
+                    return (int) $model->getWorkspaces()->count();
+                }
+            ],
+            'pageCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                VirtualFieldBehavior::GREEDY => Page::find()->limit(1)->select('count(*)')
+                    ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
+                    return (int) $model->getPages()->count();
+                }
+            ],
+            'facilityCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
+                    'workspace_id' => Workspace::find()->select('id')
+                        ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                ])->addParams([':path' => '$.facilityCount'])->
+                select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(distinct [[workspace_id]], [[hf_id]]))')),
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
+                    $override = $model->getOverride('facilityCount');
+                    if (isset($override)) {
+                        return (int)$override;
+                    }
+                    return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
+                }
+            ],
+            'responseCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
+                    'workspace_id' => Workspace::find()->select('id')
+                        ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                ])->addParams([':path' => '$.responseCount'])->
+                select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))'))
+                ,
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
+                    if ($model->workspaceCount === 0) {
+                        return 0;
+                    }
+                    return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
+                }
+            ],
+            'permissionSourceCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
+                    ->where([
+                        'source' => User::class,
+                        'target' => self::class,
+                        'target_id' => new Expression(self::tableName() . '.[[id]]')
+                    ]),
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
+                    return (int) $model->getPermissions()->count('distinct source_id');
+                }
+            ],
+            'contributorPermissionCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([
+                    'target' => Workspace::class,
+                    'target_id' => Workspace::find()->select('id')
+                        ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
+                    'source' => User::class,
+                ])->select('count(distinct [[source_id]])')
+                ,
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
+                    return (int) Permission::find()->where([
+                        'target' => Workspace::class,
+                        'target_id' => $model->getWorkspaces()->select('id'),
+                        'source' => User::class,
+                    ])->count('distinct [[source_id]]');
+                }
+            ],
+            'contributorCount' => [
+                VirtualFieldBehavior::GREEDY => (function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
+                    $result = new Query();
+                    $permissionCount = self::getDb()->queryBuilder->buildExpression($contributorPermissionCountGreedy, $result->params);
+                    $workspaceCount = self::getDb()->queryBuilder->buildExpression($workspaceCountGreedy, $result->params);
 
-                            $result->addParams([':ccpath' => '$.contributorCount']);
-                            $result->select(new Expression("coalesce(cast(json_unquote(json_extract([[overrides]], :ccpath)) as unsigned), greatest($permissionCount, $workspaceCount))"));
-                            return $result;
-                        })(),
-                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
-                        }
-                    ]
-                ]
+                    $result->addParams([':ccpath' => '$.contributorCount']);
+                    $result->select(new Expression("coalesce(cast(json_unquote(json_extract([[overrides]], :ccpath)) as unsigned), greatest($permissionCount, $workspaceCount))"));
+                    return $result;
+                })(),
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
+                    return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
+                }
             ]
         ];
+    }
+    public function behaviors(): array
+    {
+        $behaviors = [
+            'virtualFields' => [
+                'class' => VirtualFieldBehavior::class,
+                'virtualFields' => self::virtualFields()
+            ],
+        ];
+        
+        return $behaviors;
     }
 
     public function getResponses(): ResponseQuery

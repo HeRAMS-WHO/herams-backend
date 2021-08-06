@@ -9,6 +9,7 @@ use SamIT\abac\values\Authorizable;
 use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\validators\CompareValidator;
+use yii\validators\DefaultValueValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
@@ -16,8 +17,9 @@ use yii\validators\StringValidator;
 class ConfirmInvitationForm extends Model
 {
     public string $password = '';
-    public string $confirm_password = '';
+    public string $confirmPassword = '';
     public string $name = '';
+    public bool $subscribeToNewsletter = false;
 
     public function __construct(
         public string $email,
@@ -32,9 +34,10 @@ class ConfirmInvitationForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'confirm_password' => \Yii::t('app', 'Confirm password'),
+            'confirmPassword' => \Yii::t('app', 'Confirm password'),
             'email' => \Yii::t('app', 'Email'),
             'password' => \Yii::t('app', 'Password'),
+            'subscribeToNewsletter' => \Yii::t('app', 'Subscribe to newsletter'),
         ];
     }
 
@@ -43,6 +46,7 @@ class ConfirmInvitationForm extends Model
         $user = new User();
         $user->email = $this->email;
         $user->name = $this->name;
+        $user->newsletter_subscription = $this->subscribeToNewsletter;
         $user->setPassword($this->password);
         if (!$user->save()) {
             throw new \RuntimeException('Failed to create user');
@@ -57,11 +61,12 @@ class ConfirmInvitationForm extends Model
     public function rules(): array
     {
         return [
-            [['confirm_password', 'name', 'password'], RequiredValidator::class],
+            [['confirmPassword', 'name', 'password'], RequiredValidator::class],
             [['name'], StringValidator::class, 'max' => 50],
             [['name'], RegularExpressionValidator::class, 'pattern' => User::NAME_REGEX],
             [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => StrengthValidator::NORMAL],
-            [['confirm_password'], CompareValidator::class, 'compareAttribute' => 'password', 'message' => \Yii::t('app', "Passwords don't match")],
+            [['confirmPassword'], CompareValidator::class, 'compareAttribute' => 'password', 'message' => \Yii::t('app', "Passwords don't match")],
+            [['subscribeToNewsletter'], DefaultValueValidator::class, 'value' => false],
         ];
     }
 }

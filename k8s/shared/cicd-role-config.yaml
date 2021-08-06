@@ -6,9 +6,11 @@ rules:
   - apiGroups:
       - "*"
     resources:
+      - persistentvolumeclaims
       - deployments
       - configmaps
       - ingresses
+      - statefulsets
       - services
       - sealedsecrets
       - namespaces

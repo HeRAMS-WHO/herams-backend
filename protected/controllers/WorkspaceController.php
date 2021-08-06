@@ -11,6 +11,7 @@ use prime\controllers\workspace\Create;
 use prime\controllers\workspace\Import;
 use prime\controllers\workspace\Limesurvey;
 use prime\controllers\workspace\Refresh;
+use prime\controllers\workspace\RequestAccess;
 use prime\controllers\workspace\Responses;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
@@ -25,7 +26,7 @@ use yii\web\User;
 
 class WorkspaceController extends Controller
 {
-    public $layout = \prime\components\Controller::LAYOUT_ADMIN;
+    public $layout = self::LAYOUT_ADMIN;
 
 
     public function actions(): array
@@ -62,7 +63,7 @@ class WorkspaceController extends Controller
                     return ['/project/workspaces', 'id' => $workspace->tool_id];
                 }
             ],
-
+            'request-access' => RequestAccess::class,
         ];
     }
 

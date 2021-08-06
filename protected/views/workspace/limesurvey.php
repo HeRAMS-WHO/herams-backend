@@ -44,6 +44,12 @@ Section::begin([
             'link' => "https://ls.herams.org/{$model->project->base_survey_eid}?ResponsePicker=new&token={$model->token}&lang={$language}&newtest=Y",
             'permission' => Permission::PERMISSION_CREATE_FACILITY
         ],
+        [
+            'icon' => Icon::recycling(),
+            'label' => \Yii::t('app', 'Refresh workspace'),
+            'link' => ['workspace/refresh', 'id' => $model->id],
+            'permission' => Permission::PERMISSION_SURVEY_DATA
+        ],
     ]
 ]);
 echo Html::tag('iframe', '', [
@@ -56,5 +62,5 @@ echo Html::tag('iframe', '', [
         //'height' => '800px'
     ]
 ]);
-$this->registerJs('iFrameResize({ log: true}, "iframe[name=limesurvey]");');
+$this->registerJs('iFrameResize({ log: true, scrolling: true }, "iframe[name=limesurvey]");');
 Section::end();
