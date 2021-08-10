@@ -110,7 +110,7 @@ echo GridView::widget(
                         '<br>',
                         ArrayHelper::merge(
                             ArrayHelper::getColumn($usersQuery->all(), 'name'),
-                            array_filter([false && !$userComponent->can(Permission::PERMISSION_ADMIN, $workspace) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['workspace/request-access', 'id' => $workspace->id])) : null])
+                            array_filter([!$userComponent->can(Permission::PERMISSION_ADMIN, $workspace) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['workspace/request-access', 'id' => $workspace->id])) : null])
                         )
                     );
                 },
