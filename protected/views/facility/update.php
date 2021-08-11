@@ -29,10 +29,9 @@ $this->endBlock();
 Section::begin()->withHeader(Yii::t('app', 'Update facility'));
 $survey = Survey::begin()
     ->withSubmitRoute(['facility/update', 'id' => $model->getId()])
+    ->withLanguages(\prime\objects\LanguageSet::fullSet())
 ;
-$survey->data = [
-    'name' => $model->name
-];
+$survey->data = $model->data;
 Survey::end();
 $form = ActiveForm::begin([
     'enableClientValidation' => true,

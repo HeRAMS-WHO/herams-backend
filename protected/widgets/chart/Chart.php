@@ -18,7 +18,9 @@ class Chart extends Element
     public const TYPE_BAR = 'bar';
     use SurveyHelper;
 
-    /** @var iterable */
+    /**
+     * @var array<HeramsSubject|HeramsResponseInterface>
+     */
     public $data = [];
     public $code;
 

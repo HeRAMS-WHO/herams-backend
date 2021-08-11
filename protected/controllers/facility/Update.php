@@ -12,6 +12,7 @@ use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Request;
 use yii\web\Response;
+use yii\web\UnprocessableEntityHttpException;
 
 class Update extends Action
 {
@@ -31,6 +32,7 @@ class Update extends Action
         $model = $facilityRepository->retrieveForWrite($facilityId);
 
         if ($request->isPost) {
+            $response->format = Response::FORMAT_JSON;
             $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
             \Yii::error($request->bodyParams);
             \Yii::error($model->attributes);
@@ -39,8 +41,8 @@ class Update extends Action
                 $notificationService->success(\Yii::t('app', 'Facility updated'));
                 return $response;
             } else {
-                \Yii::error($model->errors);
-                throw new BadRequestHttpException(print_r($model->errors, true));
+                $response->statusCode = 422;
+                return $model->errors;
             }
         }
         return $this->controller->render('update', [

@@ -41,9 +41,7 @@ class Create extends Action
             $hydrator->hydrateFromRequestArray($model, $request->bodyParams);
             if ($model->validate()) {
                 $response->statusCode = 201;
-
                 $response->headers->add('X-Suggested-Location', Url::to(['update', 'id' => $repository->create($model)], true));
-
                 $response->headers->add('Location', Url::to(['update', 'id' => $repository->create($model)], true));
                 return $response;
             } else {

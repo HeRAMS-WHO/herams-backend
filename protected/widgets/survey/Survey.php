@@ -53,13 +53,13 @@ class Survey extends Widget
                         ],
                         [
                             "type" => "text",
-                            "name" => "i18nName",
-                            "title" => \Yii::t('app', "Facility name (Arabic"),
+                            "name" => "i18nName[ar]",
+                            "title" => \Yii::t('app', "Facility name (Arabic)"),
                         ],
                         [
                             "type" => "text",
-                            "name" => "i18nName",
-                            "title" => \Yii::t('app', "Facility name (French"),
+                            "name" => "i18nName[fr]",
+                            "title" => \Yii::t('app', "Facility name (French)"),
                         ],
                         [
                             "type" => "text",
@@ -118,7 +118,9 @@ JS
                             'Content-Type': 'application/json',
                             'X-CSRF-Token': yii.getCsrfToken(),
                         },
-                        body: JSON.stringify(sender.data),
+                        body: JSON.stringify({
+                            data: sender.data
+                        }),
                     });
                     if (response.ok) {
                         // Check if we have a redirect header.
