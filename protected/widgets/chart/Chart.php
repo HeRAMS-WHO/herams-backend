@@ -126,19 +126,17 @@ class Chart extends Element
     {
         $result = [];
 
-        foreach ($map as $key => $label) {
-            if ($this->skipEmpty && !array_key_exists($key, $counts)) {
-                continue;
-            }
-
-            $result[$label] = $counts[$key] ?? null;
-            unset($counts[$key]);
-        }
-
         foreach ($counts as $key => $value) {
-            $result[$key] = $value;
+            $result[$map[$key] ?? $key] = $value;
+
+            unset($map[$key]);
         }
 
+        if (!$this->skipEmpty) {
+            foreach ($map as $label) {
+                $result[$label] = null;
+            }
+        }
 
         return $result;
     }
@@ -175,15 +173,13 @@ class Chart extends Element
         $map = $this->getMap();
         $unmappedData = $this->getDataSet($this->data);
 
-        $dataSet = $this->applyMapping($map, $unmappedData);
-
-        $pointCount = count($dataSet);
+        $pointCount = count($unmappedData);
         if ($pointCount > 30) {
             $this->chartType = self::TYPE_BAR;
         }
 
         if ($this->chartType === self::TYPE_BAR) {
-            arsort($dataSet);
+            arsort($unmappedData);
         }
 
         $colors = [];
@@ -194,6 +190,7 @@ class Chart extends Element
             $colors[] = $colorMap[strtr($code, ['-' => '_'])] ?? '#000000';
         }
 
+        $dataSet = $this->applyMapping($map, $unmappedData);
         $config = [
             'type' => $this->chartType,
             'data' => [

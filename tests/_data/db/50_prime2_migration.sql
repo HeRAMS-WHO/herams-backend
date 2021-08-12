@@ -120,4 +120,5 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210602_091855
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210610_122240_response_add_auto_increment_key', 1626701974);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210719_133118_create_survey_table', 1626701974);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210719_133325_project_add_admin_survey', 1626780638);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210810_065557_add_expires_at_to_access_request', 1628579770);
 SET FOREIGN_KEY_CHECKS=1;

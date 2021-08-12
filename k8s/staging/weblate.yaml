@@ -28,17 +28,23 @@ metadata:
   name: weblate-config
 data:
   REDIS_HOST: localhost
-  WEBLATE_SERVER_EMAIL: weblate@herams-staging.org
-  WEBLATE_DEFAULT_FROM_EMAIL: weblate@herams-staging.org
+  WEBLATE_SERVER_EMAIL: weblate@herams.org
+  WEBLATE_DEFAULT_FROM_EMAIL: weblate@herams.org
   WEBLATE_SITE_DOMAIN: weblate.herams-staging.org
   WEBLATE_ENABLE_HTTPS: "1"
   WEBLATE_REGISTRATION_OPEN: "1"
   WEBLATE_ALLOWED_HOSTS: '*'
   WEBLATE_ADMIN_EMAIL: sam@mousa.nl
   WEBLATE_ADMIN_NAME: Sam
+  WEBLATE_EMAIL_PORT: "587"
+  WEBLATE_EMAIL_USER: apikey
+  WEBLATE_EMAIL_USE_TLS: "1"
+  WEBLATE_EMAIL_HOST: smtp.sendgrid.net
   IP_BEHIND_REVERSE_PROXY: "True"
   POSTGRES_HOST: postgres-service
   POSTGRES_DATABASE: weblate
+  WEBLATE_EMAIL_HOST_PASSWORD_FILE: /smtp/password
+
 
 ---
 apiVersion: apps/v1
@@ -57,6 +63,9 @@ spec:
         app: weblate
     spec:
       volumes:
+        - name: smtp-secret
+          secret:
+            secretName: smtp
         - name: weblate-pvc
           persistentVolumeClaim:
             claimName: weblate-pvc
@@ -76,6 +85,9 @@ spec:
           image: weblate/weblate
           imagePullPolicy: Always
           volumeMounts:
+            - name: smtp-secret
+              mountPath: /smtp
+              readOnly: true
             - mountPath: /app/data
               name: weblate-pvc
               subPath: data
@@ -84,7 +96,5 @@ spec:
                 name: postgres
             - configMapRef:
                 name: weblate-config
-            - secretRef:
-                name: weblate-smtp
           ports:
             - containerPort: 8080
