@@ -10,6 +10,7 @@ use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
 use prime\repositories\AccessRequestRepository;
+use yii\helpers\Url;
 use yii\mail\MailerInterface;
 use yii\mail\MessageInterface;
 
@@ -24,18 +25,6 @@ class CreatedNotificationHandlerTest extends Unit
     {
         $emails = ['testemail@email.com'];
         $id = 1;
-        $mail = $this->getMockBuilder(MessageInterface::class)->getMock();
-        $mailer = $this->getMockBuilder(MailerInterface::class)->getMock();
-        $mail
-            ->expects($this->once())
-            ->method('setBcc')
-            ->with($emails)
-            ->willReturnSelf();
-        $mail->expects($this->once())
-            ->method('send');
-        $mailer->expects($this->once())
-            ->method('compose')
-            ->willReturn($mail);
 
         $userQuery = $this->getMockBuilder(ActiveQuery::class)->disableOriginalConstructor()->getMock();
         $userQuery->expects($this->any())
@@ -56,6 +45,26 @@ class CreatedNotificationHandlerTest extends Unit
             ->method('__get')
             ->withConsecutive([$this->equalTo('id')], [$this->equalTo('target')])
             ->willReturnOnConsecutiveCalls($id, $project);
+
+        $mail = $this->getMockBuilder(MessageInterface::class)->getMock();
+        $mailer = $this->getMockBuilder(MailerInterface::class)->getMock();
+        $mail
+            ->expects($this->once())
+            ->method('setBcc')
+            ->with($emails)
+            ->willReturnSelf();
+        $mail->expects($this->once())
+            ->method('send');
+        $mailer->expects($this->once())
+            ->method('compose')
+            ->with(
+                'access_request_created_notification',
+                [
+                    'respondUrl' => Url::to(['/access-request/respond', 'id' => $id], true),
+                    'accessRequest' => $accessRequest,
+                ]
+            )
+            ->willReturn($mail);
 
         $accessRequestRepository = $this->getMockBuilder(AccessRequestRepository::class)->getMock();
         $accessRequestRepository->expects($this->once())

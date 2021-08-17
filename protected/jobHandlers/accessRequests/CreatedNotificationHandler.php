@@ -7,6 +7,7 @@ use JCIT\jobqueue\interfaces\JobInterface;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\repositories\AccessRequestRepository;
+use yii\helpers\Url;
 use yii\mail\MailerInterface;
 
 class CreatedNotificationHandler
@@ -23,7 +24,7 @@ class CreatedNotificationHandler
         $this->mailer->compose(
             'access_request_created_notification',
             [
-                'respondUrl' => ['/access-request/respond', 'id' => $accessRequest->id],
+                'respondUrl' => Url::to(['/access-request/respond', 'id' => $accessRequest->id], true),
                 'accessRequest' => $accessRequest,
             ]
         )
