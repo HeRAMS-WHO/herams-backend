@@ -15,6 +15,7 @@ use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
+use function iter\rewindable\map;
 
 /**
  * Class Page
@@ -194,6 +195,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             ->select(['title', 'id'])
             ->indexBy('id')
             ->column();
+
+        $result = map(static fn($v) => \Yii::t('app.pagetitle', $v), $result);
+
         return $result;
     }
 
