@@ -61,15 +61,15 @@ echo GridView::widget([
         'id',
         'title' => [
             'attribute' => 'title',
-            'value' => static function (Page $project): string {
-                return \Yii::t('app.pagetitle', $project->title);
+            'value' => static function (Page $page): string {
+                return \Yii::t('app.pagetitle', $page->title);
             }
         ],
 
         'parent_id' => [
             'attribute' => 'parent_id',
             'value' => function (Page $project) {
-                return isset($project->parent_id) ? "{$project->parent->title} ({$project->parent_id})" : null;
+                return isset($project->parent_id) ? \Yii::t('app.pagetitle', $project->parent->title) . " ({$project->parent_id})" : null;
             }
         ],
         'sort',
