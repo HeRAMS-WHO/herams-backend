@@ -36,7 +36,7 @@ class View extends Action
         $this->controller->layout = 'css3-grid';
         $project = Project::find()
             ->andWhere(['id'  => $id])
-            ->with('pages')
+            ->with('mainPages')
             ->one();
         if (!isset($project)) {
             throw new NotFoundHttpException();
@@ -67,8 +67,8 @@ class View extends Action
             if (!isset($page) || $page->project_id !== $project->id) {
                 throw new NotFoundHttpException();
             }
-        } elseif (!empty($project->pages)) {
-            $page = $project->pages[0];
+        } elseif (!empty($project->mainPages)) {
+            $page = $project->mainPages[0];
         } else {
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }

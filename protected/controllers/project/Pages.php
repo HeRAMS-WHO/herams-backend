@@ -28,7 +28,9 @@ class Pages extends Action
 
         return $this->controller->render('pages', [
             'project' => $model,
-            'dataProvider' => new ActiveDataProvider(['query' => $model->getAllPages()])
+            'dataProvider' => new ActiveDataProvider([
+                'query' => $model->getPages()
+            ])
         ]);
     }
 }

@@ -9,6 +9,7 @@ use prime\jobHandlers\accessRequests\CreatedNotificationHandler;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
+use prime\models\ar\User;
 use prime\repositories\AccessRequestRepository;
 use yii\helpers\Url;
 use yii\mail\MailerInterface;
@@ -26,20 +27,10 @@ class CreatedNotificationHandlerTest extends Unit
         $emails = ['testemail@email.com'];
         $id = 1;
 
-        $userQuery = $this->getMockBuilder(ActiveQuery::class)->disableOriginalConstructor()->getMock();
-        $userQuery->expects($this->any())
-            ->method('select')
-            ->willReturn($userQuery);
-        $userQuery->expects($this->once())
-            ->method('andWhere')
-            ->willReturnSelf();
-        $userQuery->expects($this->once())
-            ->method('column')
-            ->willReturn($emails);
         $project = $this->getMockBuilder(Project::class)->getMock();
         $project->expects($this->once())
             ->method('getLeads')
-            ->willReturn($userQuery);
+            ->willReturn([new User(['id' => 12345, 'email' => $emails[0]])]);
         $accessRequest = $this->getMockBuilder(AccessRequest::class)->getMock();
         $accessRequest->expects($this->any())
             ->method('__get')
