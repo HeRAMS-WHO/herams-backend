@@ -66,6 +66,7 @@ use function iter\filter;
  * @property int $workspaceCount
  *
  * Relations
+ * @property Page[] $mainPages
  * @property Page[] $pages
  * @property SurveyInterface $survey
  * @property Workspace[] $workspaces
@@ -246,7 +247,7 @@ class Project extends ActiveRecord implements Linkable
                 VirtualFieldBehavior::GREEDY => Page::find()->limit(1)->select('count(*)')
                     ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    return (int) $model->getPages()->count();
+                    return (int) $model->getMainPages()->count();
                 }
             ],
             'facilityCount' => [
@@ -483,21 +484,20 @@ class Project extends ActiveRecord implements Linkable
         return new HeramsCodeMap();
     }
 
-    public function getPages()
+    public function getMainPages(): ActiveQuery
+    {
+        return $this->getPages()->andWhere(['parent_id' => null])->orderBy('sort');
+    }
+
+    public function getPages(): ActiveQuery
     {
         return $this->hasMany(Page::class, ['project_id' => 'id'])
-            ->with('children')
-            ->andWhere(['parent_id' => null])
             ->inverseOf('project')
-            ->orderBy('sort');
+            // First sort by parent_id ?? id to "group" by page id
+            // Secondly order by parent_id to make sure the actual parent is first
+            // Last order by the sorting column
+            ->orderBy(['COALESCE([[parent_id]], [[id]])' => SORT_ASC, 'parent_id', 'sort' => SORT_ASC]);
     }
-
-    public function getAllPages()
-    {
-        return $this->hasMany(Page::class, ['project_id' => 'id'])->orderBy('COALESCE([[parent_id]], [[id]])');
-    }
-
-
 
     /**
      * @param $name
@@ -511,13 +511,16 @@ class Project extends ActiveRecord implements Linkable
     public function exportDashboard(): array
     {
         $pages = [];
-        foreach ($this->pages as $page) {
+        foreach ($this->mainPages as $page) {
             $pages[] = $page->export();
         }
         return $pages;
     }
 
-    public function getLeads(): ActiveQuery
+    /**
+     * @return User[]
+     */
+    public function getLeads(): array
     {
         $permissionQuery = Permission::find()->andWhere([
             'target' => self::class,
@@ -526,10 +529,7 @@ class Project extends ActiveRecord implements Linkable
             'permission' => Permission::ROLE_LEAD
         ]);
 
-        $userQuery = User::find()
-            ->andWhere(['id' => $permissionQuery->select('source_id')]);
-        $userQuery->multiple = true;
-        return $userQuery;
+        return User::find()->andWhere(['id' => $permissionQuery->select('source_id')])->all();
     }
 
     public function getLinks(): array
@@ -545,7 +545,7 @@ class Project extends ActiveRecord implements Linkable
                     'type' => 'text/html',
                     'href' => Url::to(['/project/external-dashboard', 'id' => $this->id]),
                 ]);
-            } elseif ($this->getPages()->exists()) {
+            } elseif ($this->getMainPages()->exists()) {
                 $result['dashboard'] = new Link([
                     'title' => \Yii::t('app', 'Dashboard'),
                     'type' => 'text/html',

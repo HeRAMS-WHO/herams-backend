@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = [
     'url' => ['project/pages', 'id' => $page->project->id]
 ];
 
-$this->title = $page->title;
+$this->title = \Yii::t('app.pagetitle', $page->title);
 
 Section::begin()
     ->withHeader(\Yii::t('app', 'Update Page'));
@@ -68,8 +68,6 @@ echo Form::widget([
 
                 ],
             ]
-
-
         ],
         'parent_id' => [
             'attribute' => 'parent_id',

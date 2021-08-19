@@ -20,6 +20,9 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\User as UserComponent;
 use yii\web\View;
+use function iter\func\index;
+use function iter\rewindable\map;
+use function iter\toArray;
 
 /**
  * @var ActiveDataProvider $workspaceProvider
@@ -105,11 +108,10 @@ echo GridView::widget(
             [
                 'label' => \Yii::t('app', 'Workspace owner'),
                 'value' => static function (Workspace $workspace) use ($userComponent) {
-                    $usersQuery = $workspace->getLeads();
                     return implode(
                         '<br>',
                         ArrayHelper::merge(
-                            ArrayHelper::getColumn($usersQuery->all(), 'name'),
+                            toArray(map(index('name'), $workspace->getLeads())),
                             array_filter([!$userComponent->can(Permission::PERMISSION_ADMIN, $workspace) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['workspace/request-access', 'id' => $workspace->id])) : null])
                         )
                     );

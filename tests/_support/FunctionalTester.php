@@ -37,6 +37,28 @@ class FunctionalTester extends \Codeception\Actor
     /**
     * Define custom actions here
     */
+    public function grabHtmlContentFromEmail(\Swift_Message $email): ?string
+    {
+        foreach ($email->getChildren() as $child) {
+            if ($child->getContentType() === 'text/html') {
+                return $child->getBody();
+            }
+        }
+
+        return null;
+    }
+
+    public function grabHtmlContentFromLastSentEmail(): ?string
+    {
+        $email = $this->grabLastSentEmail();
+        if ($email === false) {
+            $this->fail('No messages received');
+            return null;
+        }
+
+        return $this->grabHtmlContentFromEmail($email->getSwiftMessage());
+    }
+
     public function haveElement(): Element
     {
         if (!isset($this->element)) {
