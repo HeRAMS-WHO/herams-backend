@@ -19,7 +19,7 @@ class ExportDashboard extends Action
         int $id
     ) {
         $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN;
-        $project = Project::find()->with('pages')->where(['id' => $id])->one();
+        $project = Project::find()->with('mainPages')->where(['id' => $id])->one();
         if (!isset($project)) {
             throw new NotFoundHttpException('Project not found');
         }

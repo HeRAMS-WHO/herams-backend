@@ -26,7 +26,7 @@ $pages = [];
 if (isset($page)) {
     $pages[] = $page;
 } else {
-    $projectPages = $project->pages;
+    $projectPages = $project->mainPages;
     foreach ($projectPages as $key => $page) {
         $subpages = [];
         foreach ($page->getChildPages($survey) as $child) {

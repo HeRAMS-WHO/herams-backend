@@ -199,7 +199,10 @@ class Workspace extends ActiveRecord
         return $this->_token;
     }
 
-    public function getLeads(): ActiveQuery
+    /**
+     * @return User[]
+     */
+    public function getLeads(): array
     {
         $permissionQuery = Permission::find()->andWhere([
             'target' => self::class,
@@ -208,10 +211,9 @@ class Workspace extends ActiveRecord
             'permission' => Permission::ROLE_LEAD
         ]);
 
-        $userQuery = User::find()
-            ->andWhere(['id' => $permissionQuery->select('source_id')]);
-        $userQuery->multiple = true;
-        return $userQuery;
+        $result = User::find()->andWhere(['id' => $permissionQuery->select('source_id')])->all();
+
+        return !empty($result) ? $result : $this->project->getLeads();
     }
 
     public function getLimesurveyDataProvider(): LimesurveyDataProvider

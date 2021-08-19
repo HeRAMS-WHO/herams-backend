@@ -14,6 +14,9 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\User;
 use yii\web\View;
+use function iter\func\index;
+use function iter\rewindable\map;
+use function iter\toArray;
 
 /**
  * @var View $this
@@ -76,11 +79,10 @@ echo GridView::widget([
         [
             'label' => \Yii::t('app', 'Project coordinator'),
             'value' => static function (Project $project) use ($userComponent) {
-                $usersQuery = $project->getLeads();
                 return implode(
                     '<br>',
                     ArrayHelper::merge(
-                        ArrayHelper::getColumn($usersQuery->all(), 'name'),
+                        toArray(map(index('name'), $project->getLeads())),
                         // For now we just don't want to display the link, at some point it is desired to show the link
                         array_filter([false && !$userComponent->can(Permission::PERMISSION_ADMIN, $project) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['project/request-access', 'id' => $project->id])) : null])
                     )
