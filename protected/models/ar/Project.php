@@ -496,7 +496,7 @@ class Project extends ActiveRecord implements Linkable
             // First sort by parent_id ?? id to "group" by page id
             // Secondly order by parent_id to make sure the actual parent is first
             // Last order by the sorting column
-            ->orderBy(['COALESCE([[parent_id]], [[id]])' => SORT_ASC, 'parent_id', 'sort' => SORT_ASC]);
+            ->orderBy(['COALESCE([[parent_id]], [[id]])' => SORT_ASC, 'parent_id' => SORT_ASC, 'sort' => SORT_ASC]);
     }
 
     /**
