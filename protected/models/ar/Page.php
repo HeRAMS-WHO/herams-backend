@@ -86,7 +86,10 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getChildren()
     {
-        return $this->hasMany(Page::class, ['parent_id' => 'id'])->from(['childpage' => self::tableName()])->inverseOf('parent');
+        return $this->hasMany(Page::class, ['parent_id' => 'id'])
+            ->from(['childpage' => self::tableName()])
+            ->orderBy(['sort' => SORT_ASC])
+            ->inverseOf('parent');
     }
 
     public function getParentId(): ?int
