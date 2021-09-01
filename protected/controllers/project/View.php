@@ -7,7 +7,7 @@ use prime\exceptions\SurveyDoesNotExist;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
+use prime\models\ar\read\Project;
 use prime\models\forms\ResponseFilter;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\repositories\PreloadingSourceRepository;
