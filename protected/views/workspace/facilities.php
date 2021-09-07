@@ -36,7 +36,7 @@ Section::begin([
         [
             'icon' => Icon::add(),
             'label' => \Yii::t('app', 'Register new facility'),
-            'link' => ['facility/create', 'parent_id' => $tabMenuModel->id()],
+            'link' => ['facility/create', 'workspaceId' => $tabMenuModel->id()],
             'permission' => Permission::PERMISSION_CREATE_FACILITY
         ],
         [

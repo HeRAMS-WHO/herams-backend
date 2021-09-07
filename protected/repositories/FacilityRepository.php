@@ -99,6 +99,9 @@ class FacilityRepository implements CreateModelRepositoryInterface
         $workspace = $this->workspaceRepository->retrieveForNewFacility(new WorkspaceId($facility->workspace_id));
 
         $form = new UpdateFacility($id, $workspace);
+        $form->data = [
+            'name' => $facility->name
+        ];
         $this->hydrator->hydrateFromActiveRecord($form, $facility);
         return $form;
     }

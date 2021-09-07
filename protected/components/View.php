@@ -24,6 +24,7 @@ class View extends \yii\web\View
 
     public function registerJs($js, $position = \yii\web\View::POS_READY, $key = null)
     {
+        // Not calling parent to prevent registration of JQueryAsset.
         $key = $key ?: md5($js);
         $this->js[$position][$key] = $js;
     }
@@ -69,5 +70,11 @@ class View extends \yii\web\View
         }
 
         return empty($lines) ? '' : implode("\n", $lines);
+    }
+
+    public function registerJsVar($name, $value, $position = self::POS_HEAD)
+    {
+        $js = sprintf('const %s = %s;', $name, \yii\helpers\Json::htmlEncode($value));
+        $this->registerJs($js, $position, $name);
     }
 }

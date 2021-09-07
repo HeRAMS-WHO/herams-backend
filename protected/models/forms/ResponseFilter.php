@@ -125,6 +125,11 @@ class ResponseFilter extends Model
         }
     }
 
+    /**
+     * Get the answer options (code => label) for a question identified by $fieldName
+     * @param string $fieldName
+     * @return array
+     */
     public function advancedOptions(string $fieldName): array
     {
         $result = [];
@@ -208,49 +213,6 @@ class ResponseFilter extends Model
         return $query;
     }
 
-    private function filter(iterable $responses): iterable
-    {
-        \Yii::beginProfile('filter');
-        // Index by UOID.
-        /** @var HeramsResponseInterface[] $indexed */
-        $indexed = [];
-
-                apply(function (HeramsResponseInterface $response) use (&$indexed) {
-                    $id = $response->getSubjectId();
-                    if (!isset($indexed[$id])
-                    || $indexed[$id]->getDate()->lessThan($response->getDate())
-                    || ($indexed[$id]->getDate()->equalTo($response->getDate()) && $indexed[$id]->getId() < $response->getId())
-
-                    ) {
-                        $indexed[$id] = $response;
-                    }
-                }, filter(function (HeramsResponseInterface $response) {
-                    // Date filter
-                    if (isset($this->date) && !$this->date->greaterThanOrEqualTo($response->getDate())) {
-                        return false;
-                    }
-
-                    // Advanced filter.
-                    if (!all(function (array $pair) use ($response) {
-                        list($key, $allowedValues) = $pair;
-                        // Ignore empty filters.
-                        if (empty($allowedValues)) {
-                            return true;
-                        }
-                        $chosenValue = $response->getValueForCode($key);
-                        $chosenValues = is_array($chosenValue) ? $chosenValue : [$chosenValue];
-                        // We need overlap.
-                        return !empty(array_intersect($allowedValues, $chosenValues));
-                    }, enumerate($this->advanced))) {
-                        return false;
-                    }
-
-                    return true;
-                }, $responses));
-
-        \Yii::endProfile('filter');
-        return array_values($indexed);
-    }
 
     public function formName()
     {

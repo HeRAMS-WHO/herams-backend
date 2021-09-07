@@ -10,6 +10,7 @@ use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
+use prime\widgets\survey\Survey;
 
 /**
  * @var View $this
@@ -26,39 +27,14 @@ echo FacilityTabMenu::widget(
 $this->endBlock();
 
 Section::begin()->withHeader(Yii::t('app', 'Update facility'));
+$survey = Survey::begin()
+    ->withSubmitRoute(['facility/update', 'id' => $model->getId()])
+    ->withLanguages(\prime\objects\LanguageSet::fullSet())
+;
+$survey->data = $model->data;
+Survey::end();
 $form = ActiveForm::begin([
     'enableClientValidation' => true,
-]);
-echo Form::widget([
-    'form' => $form,
-    'model' => $model,
-    "attributes" => [
-        'name' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'i18nName' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => LocalizableInput::class,
-        ],
-        'alternative_name' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'i18nAlternative_name' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => LocalizableInput::class,
-        ],
-        'code' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'coordinates' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                ['label' => \Yii::t('app', 'Update facility'), 'style' => 'primary'],
-            ]
-        ])
-    ],
 ]);
 ActiveForm::end();
 Section::end();
