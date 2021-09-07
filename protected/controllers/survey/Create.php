@@ -13,7 +13,7 @@ class Create extends Action
 {
     public function run(
         AccessCheckInterface $accessCheck,
-    ) {
+    ): string {
         $model = new SurveyForCreate();
         $accessCheck->checkPermission(new Survey(), Permission::PERMISSION_CREATE);
 

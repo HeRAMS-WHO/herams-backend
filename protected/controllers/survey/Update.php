@@ -11,7 +11,7 @@ class Update extends Action
 {
     public function run(
         SurveyRepository $repository,
-        int $id = null,
+        int $id,
     ) {
         $model = $repository->retrieveForUpdate(new SurveyId($id));
 
