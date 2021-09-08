@@ -21,6 +21,13 @@ class SurveyForUpdate extends Model
         parent::__construct($config);
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'config' => \Yii::t('app', 'Config'),
+        ];
+    }
+
     public function getSurveyId(): SurveyId
     {
         return $this->surveyId;

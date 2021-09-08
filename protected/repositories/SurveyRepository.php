@@ -10,6 +10,7 @@ use prime\models\ar\Survey;
 use prime\models\survey\SurveyForCreate;
 use prime\models\survey\SurveyForUpdate;
 use prime\values\SurveyId;
+use yii\base\InvalidArgumentException;
 use yii\helpers\Json;
 
 class SurveyRepository
@@ -26,7 +27,7 @@ class SurveyRepository
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_CREATE);
         $this->hydrator->hydrateActiveRecord($record, $model);
         if (!$record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+            throw new InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new SurveyId($record->id);
     }
@@ -48,7 +49,7 @@ class SurveyRepository
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
         $this->hydrator->hydrateActiveRecord($record, $model);
         if (!$record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+            throw new InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new SurveyId($record->id);
     }

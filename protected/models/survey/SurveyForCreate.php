@@ -13,6 +13,13 @@ class SurveyForCreate extends Model
 
     public array $config = [];
 
+    public function attributeLabels(): array
+    {
+        return [
+            'config' => \Yii::t('app', 'Config'),
+        ];
+    }
+
     public function rules(): array
     {
         return [
