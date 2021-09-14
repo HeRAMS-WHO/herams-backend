@@ -43,7 +43,6 @@ class IndexCest
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
         $I->amOnPage(['access-request/index']);
         $I->see($project->title);
-        $I->see($project->title);
         $I->see(User::findOne(['id' => TEST_USER_ID])->name);
     }
 

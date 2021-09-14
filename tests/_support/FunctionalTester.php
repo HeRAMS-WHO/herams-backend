@@ -6,6 +6,7 @@ namespace prime\tests;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
+use prime\models\ar\Survey;
 use prime\models\ar\Workspace;
 use SamIT\abac\AuthManager;
 use yii\db\ActiveRecord;
@@ -32,6 +33,7 @@ class FunctionalTester extends \Codeception\Actor
     private Element $element;
     private Page $page;
     private Project $project;
+    private Survey $survey;
     private Workspace $workspace;
 
     /**
@@ -77,6 +79,31 @@ class FunctionalTester extends \Codeception\Actor
         }
 
         return $this->project;
+    }
+
+    public function haveSurvey(): Survey
+    {
+        if (!isset($this->survey)) {
+            $this->survey = $survey = new Survey();
+            $survey->config = [
+                'pages' => [
+                    0 => [
+                        'name' => 'page1',
+                        'elements' => [
+                            0 =>
+                                [
+                                    'type' => 'text',
+                                    'name' => 'question1',
+                                    'title' => 'title1',
+                                ],
+                        ],
+                    ],
+                ],
+            ];
+            $this->save($survey);
+        }
+
+        return $this->survey;
     }
 
     public function haveWorkspace(): Workspace
