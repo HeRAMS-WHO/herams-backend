@@ -20,7 +20,7 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\db\ActiveQueryInterface;
-use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\mail\MailerInterface;
 use yii\validators\EachValidator;
 use yii\validators\EmailValidator;
@@ -29,6 +29,7 @@ use yii\validators\InlineValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\web\IdentityInterface;
+use yii\web\JsExpression;
 
 /**
  * Class Share
@@ -147,21 +148,6 @@ class Share extends Model
         return array_filter($this->userIdsAndEmails, fn($value) => !is_numeric($value));
     }
 
-    public function getUserOptions(): array
-    {
-        // Add in the non numeric values to make sure they do not disappear from the selected values
-        return ArrayHelper::merge(
-            ArrayHelper::map(User::find()->andWhere(['not', ['id' => app()->user->id]])->all(), 'id', function (User $user) {
-                return "{$user->name} ({$user->email})";
-            }),
-            ArrayHelper::map(
-                array_filter($this->userIdsAndEmails, fn($value) => !is_numeric($value)),
-                fn($value) => $value,
-                fn($value) => $value
-            )
-        );
-    }
-
     public function getUsers(): ActiveQueryInterface
     {
         return User::find()->where([
@@ -178,6 +164,17 @@ class Share extends Model
 
     public function renderForm(ActiveForm $form)
     {
+        $initialValue = [];
+        $users = User::find()->andWhere(['id' => array_filter($this->userIdsAndEmails, 'is_numeric')])->select(['id', 'name', 'email'])->asArray()->indexBy('id')->all();
+
+        foreach ($this->userIdsAndEmails as $idOrEmail) {
+            if (is_numeric($idOrEmail)) {
+                $initialValue[$idOrEmail] = "{$users[$idOrEmail]['name']} ({$users[$idOrEmail]['email']})";
+            } else {
+                $initialValue[$idOrEmail] = $idOrEmail;
+            }
+        }
+
         return Form::widget([
             'form' => $form,
             'model' => $this,
@@ -187,11 +184,17 @@ class Share extends Model
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => Select2::class,
                     'options' => [
-                        'data' => $this->getUserOptions(),
+                        'data' => $initialValue,
                         'options' => [
                             'multiple' => true,
                         ],
                         'pluginOptions' => [
+                            'ajax' => [
+                                'url' => Url::to(['user/select-2']),
+                                'dataType' => 'json',
+                                'data' => new JsExpression('function(params){ return {q:params.term};}'),
+                                'delay' => 400,
+                            ],
                             'tags' => true,
                             'maintainOrder' => true,
                         ]

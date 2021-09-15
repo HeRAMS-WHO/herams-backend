@@ -20,8 +20,6 @@ use yii\web\User;
 
 class Share extends Action
 {
-
-
     public function run(
         Request $request,
         AccessCheckInterface $accessCheck,
