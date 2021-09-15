@@ -42,6 +42,7 @@ use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\UserNotificationRepository;
+use prime\repositories\UserRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -168,5 +169,6 @@ return [
         'class' => NewsletterService::class,
         'mailchimpListId' => $env->getWrappedSecret('mailchimp/list_id'),
         'mailchimpTag' => $env->getWrappedSecret('mailchimp/tag'),
-     ],
+    ],
+    UserRepository::class => UserRepository::class,
 ];

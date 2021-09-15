@@ -21,6 +21,7 @@ use prime\controllers\user\RequestAccount;
 use prime\controllers\user\RequestReset;
 use prime\controllers\user\ResetPassword;
 use prime\controllers\user\Roles;
+use prime\controllers\user\Select2;
 use prime\models\ar\User;
 use SamIT\Yii2\UrlSigner\HmacFilter;
 use yii\helpers\ArrayHelper;
@@ -47,6 +48,7 @@ class UserController extends Controller
             'reset-password' => ResetPassword::class,
             'password' => Password::class,
             'roles' => Roles::class,
+            'select-2' => Select2::class,
             'create' => Create::class,
             'delete' => [
                 'class' => DeleteAction::class,
@@ -83,6 +85,7 @@ class UserController extends Controller
                             'notifications',
                             'password',
                             'profile',
+                            'select-2',
                         ],
                     ]
                 ]
