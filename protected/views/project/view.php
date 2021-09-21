@@ -48,13 +48,13 @@ while (!empty($stack)) {
     /** @var PageInterface $p */
     $p = array_pop($stack);
     $this->params['breadcrumbs'][] = [
-        'label' => $p->getTitle(),
+        'label' => \Yii::t('app.pagetitle', $p->getTitle()),
     ];
 }
 
 if ($project->mainPages[0]->getId() !== $page->getId()) {
     $this->params['breadcrumbs'][] = [
-        'label' => $page->getTitle(),
+        'label' => \Yii::t('app.pagetitle', $page->getTitle()),
 //    'url' => [
 //        'project/view',
 //        'id' => $project->id,
@@ -64,7 +64,7 @@ if ($project->mainPages[0]->getId() !== $page->getId()) {
     ];
 }
 
-$this->title = $page->getTitle();
+$this->title = \Yii::t('app.pagetitle', $page->getTitle());
 
 
 echo $this->render('view/filters', [
