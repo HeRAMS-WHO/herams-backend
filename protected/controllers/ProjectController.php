@@ -23,6 +23,7 @@ use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\models\ar\read\Project as ReadProject;
 use prime\models\ar\Response;
 use prime\objects\Breadcrumb;
 use prime\queries\ResponseQuery;
@@ -51,7 +52,7 @@ class ProjectController extends Controller
             'export' => [
                 'class' => ExportAction::class,
                 'subject' => static function (Request $request) {
-                    return Project::findOne(['id' => $request->getQueryParam('id')]);
+                    return ReadProject::findOne(['id' => $request->getQueryParam('id')]);
                 },
                 'responseQuery' => static function (Project $project): ResponseQuery {
                     return Response::find()->project($project)->with('workspace');

@@ -37,7 +37,7 @@ class ProjectPageMenu extends SideMenu
 
     protected function renderMenu()
     {
-        foreach ($this->project->pages as $page) {
+        foreach ($this->project->mainPages as $page) {
             $this->renderPageMenu($page);
         }
     }

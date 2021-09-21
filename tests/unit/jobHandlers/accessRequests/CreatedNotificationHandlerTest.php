@@ -9,7 +9,9 @@ use prime\jobHandlers\accessRequests\CreatedNotificationHandler;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
+use prime\models\ar\User;
 use prime\repositories\AccessRequestRepository;
+use yii\helpers\Url;
 use yii\mail\MailerInterface;
 use yii\mail\MessageInterface;
 
@@ -24,6 +26,17 @@ class CreatedNotificationHandlerTest extends Unit
     {
         $emails = ['testemail@email.com'];
         $id = 1;
+
+        $project = $this->getMockBuilder(Project::class)->getMock();
+        $project->expects($this->once())
+            ->method('getLeads')
+            ->willReturn([new User(['id' => 12345, 'email' => $emails[0]])]);
+        $accessRequest = $this->getMockBuilder(AccessRequest::class)->getMock();
+        $accessRequest->expects($this->any())
+            ->method('__get')
+            ->withConsecutive([$this->equalTo('id')], [$this->equalTo('target')])
+            ->willReturnOnConsecutiveCalls($id, $project);
+
         $mail = $this->getMockBuilder(MessageInterface::class)->getMock();
         $mailer = $this->getMockBuilder(MailerInterface::class)->getMock();
         $mail
@@ -35,27 +48,14 @@ class CreatedNotificationHandlerTest extends Unit
             ->method('send');
         $mailer->expects($this->once())
             ->method('compose')
+            ->with(
+                'access_request_created_notification',
+                [
+                    'respondUrl' => Url::to(['/access-request/respond', 'id' => $id], true),
+                    'accessRequest' => $accessRequest,
+                ]
+            )
             ->willReturn($mail);
-
-        $userQuery = $this->getMockBuilder(ActiveQuery::class)->disableOriginalConstructor()->getMock();
-        $userQuery->expects($this->any())
-            ->method('select')
-            ->willReturn($userQuery);
-        $userQuery->expects($this->once())
-            ->method('andWhere')
-            ->willReturnSelf();
-        $userQuery->expects($this->once())
-            ->method('column')
-            ->willReturn($emails);
-        $project = $this->getMockBuilder(Project::class)->getMock();
-        $project->expects($this->once())
-            ->method('getLeads')
-            ->willReturn($userQuery);
-        $accessRequest = $this->getMockBuilder(AccessRequest::class)->getMock();
-        $accessRequest->expects($this->any())
-            ->method('__get')
-            ->withConsecutive([$this->equalTo('id')], [$this->equalTo('target')])
-            ->willReturnOnConsecutiveCalls($id, $project);
 
         $accessRequestRepository = $this->getMockBuilder(AccessRequestRepository::class)->getMock();
         $accessRequestRepository->expects($this->once())

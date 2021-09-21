@@ -8,7 +8,7 @@ use prime\exceptions\SurveyDoesNotExist;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
+use prime\models\ar\read\Project;
 use prime\models\forms\ResponseFilter;
 use prime\objects\Breadcrumb;
 use SamIT\abac\interfaces\Resolver;
@@ -38,7 +38,7 @@ class View extends Action
         $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
         $project = Project::find()
             ->andWhere(['id'  => $id])
-            ->with('pages')
+            ->with('mainPages')
             ->one();
         if (!isset($project)) {
             throw new NotFoundHttpException();
@@ -69,8 +69,8 @@ class View extends Action
             if (!isset($page) || $page->project_id !== $project->id) {
                 throw new NotFoundHttpException();
             }
-        } elseif (!empty($project->pages)) {
-            $page = $project->pages[0];
+        } elseif (!empty($project->mainPages)) {
+            $page = $project->mainPages[0];
         } else {
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }

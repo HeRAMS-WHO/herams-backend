@@ -69,9 +69,9 @@ class ProjectTest extends ActiveRecordTest
         $this->testRelation('pages', Page::class);
     }
 
-    public function testGetAllPages(): void
+    public function testGetMainPages(): void
     {
-        $this->testRelation('allPages', Page::class);
+        $this->testRelation('mainPages', Page::class);
     }
 
     public function testGetPermissions(): void

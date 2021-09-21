@@ -8,7 +8,7 @@ use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
+use prime\models\ar\read\Project;
 use prime\models\forms\Share as ShareForm;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
@@ -20,8 +20,6 @@ use yii\web\User;
 
 class Share extends Action
 {
-
-
     public function run(
         Request $request,
         AccessCheckInterface $accessCheck,

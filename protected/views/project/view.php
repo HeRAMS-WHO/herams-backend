@@ -27,7 +27,7 @@ echo ProjectPageMenu::widget([
 
 ]);
 
-$this->title = $page->getTitle();
+$this->title = \Yii::t('app.pagetitle', $page->getTitle());
 
 echo $this->render('view/filters', [
     'types' => $types,

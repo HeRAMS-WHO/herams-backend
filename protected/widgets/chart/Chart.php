@@ -273,6 +273,7 @@ class Chart extends Element
                             }
                             item = document.createElement("div");
                             item.classList.add("legend-item");
+                            item.dataset.index = items[i]._index;
                             color = document.createElement("div");
                             color.classList.add("color");
                             color.style.backgroundColor = items[i]._model.backgroundColor;
@@ -413,7 +414,7 @@ class Chart extends Element
             function legendItemClick() {
                 $(this).toggleClass('meta-hidden');
                 let meta = chart.getDatasetMeta(0);
-                let index = $(this).index();
+                let index = $(this).data('index');
                 meta.data[index].hidden = meta.hidden === null ? !meta.data[index].hidden : null;
                 chart.update();
             }

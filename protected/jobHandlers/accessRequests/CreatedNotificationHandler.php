@@ -6,8 +6,16 @@ namespace prime\jobHandlers\accessRequests;
 use JCIT\jobqueue\interfaces\JobInterface;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
+use prime\models\ar\Project;
+use prime\models\ar\User;
 use prime\repositories\AccessRequestRepository;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\mail\MailerInterface;
+use function iter\func\index;
+use function iter\rewindable\filter;
+use function iter\rewindable\map;
+use function iter\toArray;
 
 class CreatedNotificationHandler
 {
@@ -23,7 +31,7 @@ class CreatedNotificationHandler
         $this->mailer->compose(
             'access_request_created_notification',
             [
-                'respondUrl' => ['/access-request/respond', 'id' => $accessRequest->id],
+                'respondUrl' => Url::to(['/access-request/respond', 'id' => $accessRequest->id], true),
                 'accessRequest' => $accessRequest,
             ]
         )
@@ -38,6 +46,8 @@ class CreatedNotificationHandler
     private function getTargetEmails(AccessRequest $accessRequest): array
     {
         $target = $accessRequest->target;
-        return $target->getLeads()->andWhere(['not', ['id' => $accessRequest->created_by]])->select('email')->column();
+        $leads = $target->getLeads();
+        $leads = filter(static fn(User $user) => $user->id != $accessRequest->created_by, $leads);
+        return toArray(map(index('email'), $leads));
     }
 }

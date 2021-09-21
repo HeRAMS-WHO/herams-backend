@@ -15,6 +15,7 @@ use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
+use function iter\rewindable\map;
 
 /**
  * Class Page
@@ -59,6 +60,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             \Yii::t('app.pagetitle', 'Service availability', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Waste management', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Health Information', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Health information systems', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'General clinical services & trauma care', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'General clinical services & trauma care (part I)', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'General clinical services & trauma care (part II)', null, $sourceLanguage),
@@ -85,7 +87,10 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function getChildren()
     {
-        return $this->hasMany(Page::class, ['parent_id' => 'id'])->from(['childpage' => self::tableName()])->inverseOf('parent');
+        return $this->hasMany(Page::class, ['parent_id' => 'id'])
+            ->from(['childpage' => self::tableName()])
+            ->orderBy(['sort' => SORT_ASC])
+            ->inverseOf('parent');
     }
 
     public function getParentId(): ?int
@@ -194,6 +199,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             ->select(['title', 'id'])
             ->indexBy('id')
             ->column();
+
+        $result = map(static fn($v) => \Yii::t('app.pagetitle', $v), $result);
+
         return $result;
     }
 

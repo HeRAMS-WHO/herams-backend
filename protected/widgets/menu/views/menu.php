@@ -10,7 +10,7 @@ use yii\helpers\Html;
  */
 
 echo Html::beginTag('nav');
-foreach ($project->pages as $page) {
+foreach ($project->mainPages as $page) {
     echo Html::beginTag('section', ['class' => 'expanded']);
     $link = count($page->children) > 0 ? ['projects/view', 'id' => $project->id, 'page_id' => $page->id] : '';
     echo Html::a($page->title, $link, [

@@ -60,8 +60,8 @@ $filterCount += count($filterModel->advanced);
 $filterCountSpan = "<span>{$filterCount}</span>";
 
 $params = Yii::$app->request->queryParams;
-if (!array_key_exists('page_id', $params) && !empty($project->pages)) {
-    $params['page_id'] = $project->pages[0]->getid();
+if (!array_key_exists('page_id', $params) && !empty($project->mainPages)) {
+    $params['page_id'] = $project->mainPages[0]->getid();
 }
 echo Html::a(\Yii::t('app', 'Print'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export this page to pdf')]);
 unset($params['page_id']);

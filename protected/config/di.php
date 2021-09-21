@@ -45,6 +45,7 @@ use prime\repositories\ProjectRepository;
 use prime\repositories\ResponseRepository;
 use prime\repositories\SurveyRepository;
 use prime\repositories\UserNotificationRepository;
+use prime\repositories\UserRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
@@ -181,5 +182,6 @@ return [
         'class' => NewsletterService::class,
         'mailchimpListId' => $env->getWrappedSecret('mailchimp/list_id'),
         'mailchimpTag' => $env->getWrappedSecret('mailchimp/tag'),
-     ],
+    ],
+    UserRepository::class => UserRepository::class,
 ];
