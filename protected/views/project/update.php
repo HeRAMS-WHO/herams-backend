@@ -48,7 +48,6 @@ $form = ActiveForm::begin([
     'method' => 'PUT',
 ]);
 
-
 echo Form::widget([
     'form' => $form,
     'model' => $model,
@@ -59,14 +58,6 @@ echo Form::widget([
         ],
         'title' => [
             'type' => Form::INPUT_TEXT,
-        ],
-        'admin_survey_id' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' =>
-            // Todo: proper implementation.
-            \iter\mapWithKeys(function (Survey $survey) {
-                return $survey->getTitle();
-            }, Survey::find()->indexBy('id')->each())
         ],
         'languages' => [
             'type' => Form::INPUT_CHECKBOX_LIST,
@@ -106,7 +97,6 @@ echo Form::widget([
 
             ]
         ],
-
         'manage_implies_create_hf' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' => [

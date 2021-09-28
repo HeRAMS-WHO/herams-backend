@@ -21,33 +21,23 @@ use yii\validators\UniqueValidator;
 
 class Update extends Model
 {
-    public string $title;
-
-    public ProjectVisibility $visibility;
-
-    public ProjectStatus $status;
-
+    public null|string $country;
     public null|array $i18n;
-
+    public LanguageSet $languages;
     public null|float $latitude;
     public null|float $longitude;
-
-    public null|string $country;
     public bool $manage_implies_create_hf;
-
-    public null|array $typemap;
     public null|array $overrides;
-
-    public LanguageSet $languages;
-
-    public SurveyId $admin_survey_id;
+    public ProjectStatus $status;
+    public string $title;
+    public null|array $typemap;
+    public ProjectVisibility $visibility;
 
     public function __construct(public ProjectId $id)
     {
         parent::__construct([]);
         $this->languages = LanguageSet::from([]);
     }
-
 
     public function behaviors(): array
     {
@@ -59,11 +49,10 @@ class Update extends Model
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return Project::labels();
     }
-
 
     public function formName(): string
     {

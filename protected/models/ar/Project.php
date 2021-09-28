@@ -11,12 +11,14 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectType;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\objects\LanguageSet;
 use prime\queries\ResponseQuery;
 use prime\validators\EnumValidator;
+use prime\validators\ExistValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
@@ -25,6 +27,7 @@ use yii\db\Query;
 use yii\helpers\Url;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
+use yii\validators\InlineValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
@@ -35,22 +38,22 @@ use yii\web\Linkable;
  * Class Project
  *
  * Attributes
+ * @property int $admin_survey_id
  * @property int $base_survey_eid
  * @property string $country
- * @property string $description
+ * @property int $data_survey_id
  * @property boolean $hidden
+ * @property array<string, array<string, string>> $i18n
  * @property int $id
+ * @property array<string> $languages
  * @property float $latitude
  * @property float $longitude
  * @property boolean $manage_implies_create_hf
  * @property array $overrides
- * @property array<string> $languages
  * @property int $status
- * @property int $survey_id
  * @property string $title
  * @property array<string, string> $typemap
  * @property string $visibility
- * @property array<string, array<string, string>> $i18n
  *
  * Virtual fields
  * @property int $contributorCount
@@ -58,6 +61,7 @@ use yii\web\Linkable;
  * @property int $facilityCount
  * @property string $latestDate
  * @property int $pageCount
+ * @property-read ProjectType $type
  * @property int $workspaceCount
  *
  * Relations
@@ -129,6 +133,15 @@ class Project extends ActiveRecord implements Linkable
         }
     }
 
+    public function getType(): ProjectType
+    {
+        if (isset($this->base_survey_eid)) {
+            return ProjectType::limesurvey();
+        } else {
+            return ProjectType::surveyJs();
+        }
+    }
+
     public function extraFields(): array
     {
         $result = parent::extraFields();
@@ -160,9 +173,10 @@ class Project extends ActiveRecord implements Linkable
     public static function labels(): array
     {
         return array_merge(parent::labels(), [
-            'base_survey_eid' => \Yii::t('app', 'Survey'),
             'admin_survey_id' => \Yii::t('app', 'Admin survey'),
+            'base_survey_eid' => \Yii::t('app', 'Survey'),
             'country' => \Yii::t('app', 'Country'),
+            'data_survey_id' => \Yii::t('app', 'Data survey'),
             'hidden' => \Yii::t('app', 'Hidden'),
             'i18n' => \Yii::t('app', 'Translated attributes'),
             'languages' => \Yii::t('app', 'Languages'),
@@ -179,13 +193,12 @@ class Project extends ActiveRecord implements Linkable
     public function attributeHints(): array
     {
         return [
-            'country' => \Yii::t('app', 'Only countries with an ISO3166 Alpha-3:wq
-             code are listed'),
+            'country' => \Yii::t('app', 'Only countries with an ISO3166 Alpha-3:wq code are listed'),
+            'manage_implies_create_hf' => \Yii::t('app', 'When enabled anyone with the manage data permission will be allowed to create new facilities'),
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
+            'status' => \Yii::t('app', 'Project status is shown on the world map'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
             'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
-            'status' => \Yii::t('app', 'Project status is shown on the world map'),
-             'manage_implies_create_hf' => \Yii::t('app', 'When enabled anyone with the manage data permission will be allowed to create new facilities'),
         ];
     }
 
@@ -207,7 +220,7 @@ class Project extends ActiveRecord implements Linkable
     public function rules(): array
     {
         return [
-            [['title', 'base_survey_eid'], RequiredValidator::class],
+            [['title'], RequiredValidator::class],
             [['title'], UniqueValidator::class],
             [['base_survey_eid'], NumberValidator::class, 'integerOnly' => true],
             [['hidden'], BooleanValidator::class],
@@ -229,7 +242,24 @@ class Project extends ActiveRecord implements Linkable
                 }
             }],
             [['country'], DefaultValueValidator::class, 'value' => null],
-            [['manage_implies_create_hf'], BooleanValidator::class]
+            [['manage_implies_create_hf'], BooleanValidator::class],
+            [['admin_survey_id', 'data_survey_id'], ExistValidator::class, 'targetClass' => Survey::class, 'targetAttribute' => 'id'],
+            [['data_survey_id', 'admin_survey_id', 'base_survey_eid'], function (string $attribute, null|array $params, InlineValidator $validator) {
+                if (empty($this->base_survey_eid) && (empty($this->admin_survey_id) || empty($this->data_survey_id))) {
+                    $this->addError(
+                        $attribute,
+                        \Yii::t(
+                            'app',
+                            'Either {baseSurveyEid} or {adminSurveyId} and {dataSurveyId} must be set.',
+                            [
+                                'baseSurveyEid' => $this->getAttributeLabel('base_survey_eid'),
+                                'adminSurveyId' => $this->getAttributeLabel('admin_survey_id'),
+                                'dataSurveyId' => $this->getAttributeLabel('data_survey_id'),
+                            ]
+                        )
+                    );
+                }
+            }, 'skipOnEmpty' => false],
         ];
     }
 

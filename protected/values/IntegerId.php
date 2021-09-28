@@ -9,18 +9,17 @@ class IntegerId extends Id
     {
     }
 
+    public function __toString(): string
+    {
+        return (string) $this->id;
+    }
+
     public function getValue(): int
     {
         return $this->id;
     }
 
-
-    public function __toString()
-    {
-        return (string) $this->id;
-    }
-
-    public function jsonSerialize()
+    public function jsonSerialize(): int
     {
         return $this->id;
     }

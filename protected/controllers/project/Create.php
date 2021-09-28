@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
@@ -16,17 +17,17 @@ class Create extends Action
 {
     public function run(
         AccessCheckInterface $accessCheck,
+        ModelHydrator $modelHydrator,
         NotificationService $notificationService,
         ProjectRepository $projectRepository,
         Request $request
     ) {
-        $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN_TABS;
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
         $accessCheck->requireGlobalPermission(Permission::PERMISSION_CREATE_PROJECT);
         $model = new ProjectCreate();
-        $hydrator = new ModelHydrator();
         if ($request->isPost) {
-            $hydrator->hydrateFromRequestBody($model, $request);
+            $modelHydrator->hydrateFromRequestBody($model, $request);
             if ($model->validate()) {
                 $projectId = $projectRepository->create($model);
                 $notificationService->success(\Yii::t('app', "Project <strong>{project}</strong> created", [

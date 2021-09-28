@@ -36,20 +36,57 @@ echo Form::widget([
         'title' => [
             'type' => Form::INPUT_TEXT,
         ],
+        'note0' => [
+            'type' => Form::INPUT_RAW,
+            'value' => \Yii::t(
+                'app',
+                'Select either a {base_survey_eid} or an {admin_survey_id} and {data_survey_id}',
+                [
+                    'base_survey_eid' => $model->getAttributeLabel('base_survey_eid'),
+                    'admin_survey_id' => $model->getAttributeLabel('admin_survey_id'),
+                    'data_survey_id' => $model->getAttributeLabel('data_survey_id'),
+                ]
+            )
+        ],
         'base_survey_eid' => [
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => Select2::class,
             'options' => [
                 'data' => $model->dataSurveyOptions(),
+                'options' => [
+                    'placeholder' => '',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
             ],
         ],
         'admin_survey_id' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' =>
-            // Todo: proper implementation.
-                \iter\mapWithKeys(function (Survey $survey) {
-                    return $survey->getTitle();
-                }, Survey::find()->indexBy('id')->each())
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => Select2::class,
+            'options' => [
+                'data' => $model->surveyIdOptions(),
+                'options' => [
+                    'placeholder' => '',
+
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
+        ],
+        'data_survey_id' => [
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => Select2::class,
+            'options' => [
+                'data' => $model->surveyIdOptions(),
+                'options' => [
+                    'placeholder' => '',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,

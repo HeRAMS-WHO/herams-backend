@@ -20,7 +20,9 @@ class ProjectTest extends ActiveRecordTest
             [
                 [
                     'title' => __CLASS__,
+                    'admin_survey_id' => null,
                     'base_survey_eid' => 12345,
+                    'data_survey_id' => null,
                     'hidden' => true,
                     'country' => 'NLD',
                     'latitude' => 4,
@@ -32,8 +34,26 @@ class ProjectTest extends ActiveRecordTest
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
                     'languages' => ['nl-NL']
-
-                ]
+                ],
+            ],
+            [
+                [
+                    'title' => __CLASS__,
+                    'admin_survey_id' => 1,
+                    'base_survey_eid' => null,
+                    'data_survey_id' => 1,
+                    'hidden' => true,
+                    'country' => 'NLD',
+                    'latitude' => 4,
+                    'longitude' => 5,
+                    'status' => ProjectStatus::target()->value,
+                    'visibility' => ProjectVisibility::public()->value,
+                    'typemap' => [],
+                    'overrides' => ['contributorCount' => 15],
+                    'manage_implies_create_hf' => false,
+                    'i18n' => [],
+                    'languages' => ['nl-NL']
+                ],
             ],
         ];
     }
@@ -55,6 +75,25 @@ class ProjectTest extends ActiveRecordTest
                     'i18n' => 'test',
                     'languages'=> ['un-KN']
                 ]
+            ],
+            [
+                [
+                    'title' => __CLASS__,
+                    'admin_survey_id' => null,
+                    'base_survey_eid' => null,
+                    'data_survey_id' => null,
+                    'hidden' => true,
+                    'country' => 'NLD',
+                    'latitude' => 4,
+                    'longitude' => 5,
+                    'status' => ProjectStatus::target()->value,
+                    'visibility' => ProjectVisibility::public()->value,
+                    'typemap' => [],
+                    'overrides' => ['contributorCount' => 15],
+                    'manage_implies_create_hf' => false,
+                    'i18n' => [],
+                    'languages' => ['nl-NL']
+                ],
             ],
             [
                 [

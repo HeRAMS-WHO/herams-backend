@@ -14,18 +14,18 @@ use yii\web\Request;
 class Update extends Action
 {
     public function run(
-        Request $request,
-        ProjectRepository $projectRepository,
+        ModelHydrator $modelHydrator,
         NotificationService $notificationService,
+        ProjectRepository $projectRepository,
+        Request $request,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $projectId = new ProjectId($id);
         $model = $projectRepository->retrieveForUpdate($projectId);
 
-        $hydrator = new ModelHydrator();
         if ($request->isPut) {
-            $hydrator->hydrateFromRequestBody($model, $request);
+            $modelHydrator->hydrateFromRequestBody($model, $request);
             if ($model->validate()) {
                 $projectRepository->save($model);
                 $notificationService->success(\Yii::t('app', "Project updated"));
