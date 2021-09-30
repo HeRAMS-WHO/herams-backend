@@ -41,21 +41,21 @@ class Facility extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['workspace_id'], ExistValidator::class, 'targetClass' => Workspace::class, 'targetAttribute' => 'id']
+            [['workspace_id'], ExistValidator::class, 'targetClass' => WorkspaceForLimesurvey::class, 'targetAttribute' => 'id']
         ];
     }
 
 
     public function getResponses(): ResponseQuery
     {
-        return $this->hasMany(Response::class, [
+        return $this->hasMany(ResponseForLimesurvey::class, [
             'facility_id' => 'id',
         ])->inverseOf('facility');
     }
 
     public function getWorkspace(): ActiveQuery
     {
-        return $this->hasOne(Workspace::class, [
+        return $this->hasOne(WorkspaceForLimesurvey::class, [
             'id' => 'workspace_id'
         ]);
     }

@@ -7,7 +7,7 @@ use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\models\ar\Survey;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use SamIT\abac\AuthManager;
 use yii\db\ActiveRecord;
 
@@ -34,7 +34,7 @@ class FunctionalTester extends \Codeception\Actor
     private Page $page;
     private Project $project;
     private Survey $survey;
-    private Workspace $workspace;
+    private WorkspaceForLimesurvey $workspace;
 
     /**
     * Define custom actions here
@@ -128,12 +128,13 @@ class FunctionalTester extends \Codeception\Actor
         return $this->survey;
     }
 
-    public function haveWorkspace(): Workspace
+    public function haveWorkspace(): WorkspaceForLimesurvey
     {
         if (!isset($this->workspace)) {
-            $this->workspace = $workspace = new Workspace();
+            $this->workspace = $workspace = new WorkspaceForLimesurvey();
             $workspace->title = 'WS1';
             $workspace->tool_id = $this->haveProject()->id;
+            $workspace->token = 'TestToken1';
             $this->save($workspace);
         }
 

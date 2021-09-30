@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\models\ar\read;
 
 use prime\behaviors\LocalizableReadBehavior;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\traits\ReadOnlyTrait;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
@@ -21,7 +21,7 @@ class Facility extends \prime\models\ar\Facility
                 'virtualFields' => [
                     'responseCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('count(*)')
+                        VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('count(*)')
                             ->where(['facility_id' => new Expression(self::tableName() . '.[[id]]')]),
                         VirtualFieldBehavior::LAZY => static fn (\prime\models\ar\Facility $facility) => $facility->getResponses()->count()
 

@@ -5,7 +5,7 @@ namespace prime\tests\functional\controllers\user;
 
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 
 /**
@@ -14,7 +14,7 @@ use prime\tests\FunctionalTester;
  */
 class AccessRequestsCest
 {
-    protected function createAccessRequest(FunctionalTester $I, Project|Workspace $target): AccessRequest
+    protected function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target): AccessRequest
     {
         $accessRequest = new AccessRequest([
             'subject' => 'test',

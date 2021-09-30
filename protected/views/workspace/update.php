@@ -12,11 +12,11 @@ use yii\bootstrap\Html;
 
 /**
  * @var  \prime\components\View $this
- * @var \prime\models\ar\Workspace $model
+ * @var \prime\models\ar\WorkspaceForLimesurvey $model
  * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
  */
 assert($this instanceof \prime\components\View);
-assert($model instanceof \prime\models\ar\Workspace);
+assert($model instanceof \prime\models\ar\WorkspaceForLimesurvey);
 
 $this->title = $model->title;
 

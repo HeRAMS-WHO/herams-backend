@@ -9,7 +9,7 @@ use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\repositories\AccessRequestRepository;
 use prime\repositories\PermissionRepository;
 use SamIT\abac\AuthManager;
@@ -37,7 +37,7 @@ class CheckImplicitAccessRequestGrantedHandler
         if (!$target
             || !(
                 $target instanceof Project
-                || $target instanceof Workspace
+                || $target instanceof WorkspaceForLimesurvey
             )
         ) {
             return;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\models\response;
 
 use prime\interfaces\response\ResponseForBreadcrumbInterface;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\traits\BreadcrumbTrait;
 use prime\values\WorkspaceId;
 
@@ -14,7 +14,7 @@ class ResponseForBreadcrumb implements ResponseForBreadcrumbInterface
 
     private WorkspaceId $workspaceId;
 
-    public function __construct(Response $model)
+    public function __construct(ResponseForLimesurvey $model)
     {
         $this->workspaceId = new WorkspaceId($model->workspace_id);
         $this->label = $model->getName();

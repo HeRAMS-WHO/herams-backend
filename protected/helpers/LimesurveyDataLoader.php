@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use Carbon\Carbon;
-use prime\models\ar\Response;
-use prime\models\ar\Workspace;
+use prime\models\ar\ResponseForLimesurvey;
+use prime\models\ar\WorkspaceForLimesurvey;
 use function iter\filter;
 use function iter\toArrayWithKeys;
 
@@ -14,8 +14,8 @@ class LimesurveyDataLoader
 
     public function loadData(
         array $data,
-        Workspace $workspace,
-        Response $response
+        WorkspaceForLimesurvey $workspace,
+        ResponseForLimesurvey $response
     ): void {
         $data = toArrayWithKeys(filter(function ($value) {
             return $value !== "" && $value !== null;

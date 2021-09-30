@@ -9,7 +9,7 @@ use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\response\ResponseForBreadcrumbInterface as ForBreadcrumbInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\models\forms\NewFacility as FacilityForm;
 use prime\models\forms\UpdateFacility;
 use prime\models\response\ResponseForBreadcrumb;
@@ -39,7 +39,7 @@ class ResponseRepository
      */
     public function updateExternalId(ResponseId $id, ExternalResponseId $externalResponseId): void
     {
-        $record = Response::findOne(['auto_increment_id' => $id]);
+        $record = ResponseForLimesurvey::findOne(['auto_increment_id' => $id]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
         $record->id = $externalResponseId->getResponseId();
         $record->survey_id = $externalResponseId->getSurveyId();
@@ -51,7 +51,7 @@ class ResponseRepository
 
     public function duplicate(ResponseId $id): ResponseId
     {
-        $record = Response::findOne(['auto_increment_id' => $id]);
+        $record = ResponseForLimesurvey::findOne(['auto_increment_id' => $id]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
         // TODO: Add permission check for copying / writing.
         $record->auto_increment_id = null;
@@ -85,13 +85,13 @@ class ResponseRepository
 
     public function retrieveForBreadcrumb(ResponseId $id): ForBreadcrumbInterface
     {
-        $record = Response::findOne(['id' => $id]);
+        $record = ResponseForLimesurvey::findOne(['id' => $id]);
         return new ResponseForBreadcrumb($record);
     }
 
     public function retrieveForSurvey(ResponseId $id): ResponseForSurvey
     {
-        $response = Response::findOne(['auto_increment_id' => $id]);
+        $response = ResponseForLimesurvey::findOne(['auto_increment_id' => $id]);
         $this->accessCheck->requirePermission($response, Permission::PERMISSION_WRITE);
         return new ResponseForSurvey(
             $id,
@@ -116,7 +116,7 @@ class ResponseRepository
 
     public function searchInFacility(FacilityId $id): DataProviderInterface
     {
-        $query = \prime\models\ar\Response::find();
+        $query = \prime\models\ar\ResponseForLimesurvey::find();
 
         // Handle LS facility defined in responses.
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
@@ -130,7 +130,7 @@ class ResponseRepository
         }
 
         return new HydratedActiveDataProvider(
-            static function (Response $response): \prime\interfaces\ResponseForList {
+            static function (ResponseForLimesurvey $response): \prime\interfaces\ResponseForList {
                 return new ResponseForList($response);
             },
             [

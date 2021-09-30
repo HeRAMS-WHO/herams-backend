@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\actions;
 
 use prime\actions\DeleteAction;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\tests\FunctionalTester;
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
@@ -32,7 +32,7 @@ class DeleteActionCest
             }
         });
         $action = new DeleteAction('delete', null, [
-            'query' => Response::find()->andWhere('0 = 1')
+            'query' => ResponseForLimesurvey::find()->andWhere('0 = 1')
         ]);
         $I->expectThrowable(NotFoundHttpException::class, function () use ($action) {
             $action->run(\Yii::$app->user, \Yii::$app->notificationService, 51);

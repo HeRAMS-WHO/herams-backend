@@ -46,7 +46,7 @@ class Workspace extends Model
 
     public function search($params): DataProviderInterface
     {
-        $query = \prime\models\ar\Workspace::find();
+        $query = \prime\models\ar\WorkspaceForLimesurvey::find();
 
         $query->with('project');
         $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'contributorCount');

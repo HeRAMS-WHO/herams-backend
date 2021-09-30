@@ -5,9 +5,9 @@ use Carbon\Carbon;
 use prime\models\ar\Project;
 
 /**
- * @covers \prime\models\ar\Workspace
+ * @covers \prime\models\ar\WorkspaceForLimesurvey
  */
-class WorkspaceTest extends ActiveRecordTest
+class WorkspaceForLimesurveyTest extends ActiveRecordTest
 {
     public function validSamples(): array
     {

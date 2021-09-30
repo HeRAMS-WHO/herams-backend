@@ -5,7 +5,7 @@ namespace prime\tests\unit\models\facility;
 
 use Codeception\Test\Unit;
 use prime\models\ar\Facility;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\models\facility\FacilityForBreadcrumb;
 use prime\values\WorkspaceId;
 
@@ -36,7 +36,7 @@ class FacilityForBreadcrumbTest extends Unit
         $facilityId = 12345;
         $workspaceId = 23456;
 
-        $response = new Response();
+        $response = new ResponseForLimesurvey();
         $response->hf_id = $facilityId;
         $response->workspace_id = $workspaceId;
 

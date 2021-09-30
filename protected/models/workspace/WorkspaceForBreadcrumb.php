@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\models\workspace;
 
 use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\traits\BreadcrumbTrait;
 use prime\values\ProjectId;
 
@@ -15,7 +15,7 @@ class WorkspaceForBreadcrumb implements WorkspaceForBreadcrumbInterface
     private ProjectId $projectId;
 
     public function __construct(
-        Workspace $model
+        WorkspaceForLimesurvey $model
     ) {
         $this->label = $model->title;
         $this->projectId = new ProjectId($model->tool_id);

@@ -24,26 +24,27 @@ use function iter\toArray;
 
 class ModelHydrator
 {
-
-    private function castInt(bool|int|string $value): int
+    /**
+     * Version if Yii's canSetProperty that respects visibility.
+     * @param Model $model
+     * @return bool
+     */
+    private function canSetProperty(Model $model, $attribute): bool
     {
-        if (is_string($value) && !preg_match('/^-?\d+$/', $value)) {
-            throw new \InvalidArgumentException("String must consist of digits only");
+        if (method_exists($model, 'set' . $attribute)) {
+            return true;
         }
-        return (int) $value;
-    }
-
-    private function castBool(bool|string|int $value): bool
-    {
-        return $this->castInt($value) === 1;
-    }
-
-    private function castFloat(string|int|float $value): float
-    {
-        if (is_string($value) && !preg_match('/^-?\d+(\.\d+)?$/', $value)) {
-            throw new \InvalidArgumentException("String must match \d+(.\d+)");
+        $rc = new \ReflectionClass($model);
+        if ($rc->hasProperty($attribute) && $rc->getProperty($attribute)->isPublic()) {
+            return true;
         }
-        return (float) $value;
+
+        foreach ($model->getBehaviors() as $behavior) {
+            if ($behavior->canSetProperty($attribute)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function castArray(array|string $value): array
@@ -51,29 +52,11 @@ class ModelHydrator
         return is_array($value) ? $value : json_decode($value, true);
     }
 
-    /**
-     * @param class-string $class
-     */
-    private function castStringId($value, string $class): StringId
+    private function castBool(bool|string|int $value): bool
     {
-        return new $class((string) $value);
+        return $this->castInt($value) === 1;
     }
 
-    /**
-     * @param class-string $class
-     */
-    private function castIntegerId($value, string $class): IntegerId
-    {
-        return new $class($this->castInt($value));
-    }
-    /**
-     * @param class-string $class
-     */
-    private function castEnumSet(string|null|array $value, string $class): EnumSet
-    {
-        // This will still crash on non-empty strings, that is intended. If a string is passed it has to be empty
-        return $class::from(!empty($value) ? $value : []);
-    }
     /**
      * @param class-string $class
      */
@@ -85,13 +68,45 @@ class ModelHydrator
         return $class::from($value);
     }
 
-    private function castWKBToGeometry(string $value): Geometry
+    /**
+     * @param class-string $class
+     */
+    private function castEnumSet(string|null|array $value, string $class): EnumSet
     {
-        $parser = new Parser();
-        $data = $parser->parse(substr($value, 4));
-        $data['srid'] = unpack('i', $value)[1];
-        return Geometry::fromParsedArray($data);
+        // This will still crash on non-empty strings, that is intended. If a string is passed it has to be empty
+        return $class::from(!empty($value) ? $value : []);
     }
+
+    private function castFloat(string|int|float $value): float
+    {
+        if (is_string($value) && !preg_match('/^-?\d+(\.\d+)?$/', $value)) {
+            throw new \InvalidArgumentException("String must match \d+(.\d+)");
+        }
+        return (float) $value;
+    }
+
+    private function castForDatabase(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null|Expression
+    {
+        if (is_object($complex)) {
+            if ($complex instanceof Enum) {
+                return $complex->value;
+            } elseif ($complex instanceof UuidInterface) {
+                return $complex->getBytes();
+            } elseif (is_iterable($complex)) {
+                return toArray($complex);
+            } elseif ($complex instanceof Id) {
+                return $complex->getValue();
+            } elseif ($complex instanceof Geometry) {
+                return $complex->toWKT();
+            } elseif ($complex instanceof Expression) {
+                return $complex;
+            } else {
+                throw new \InvalidArgumentException("Unknown complex type: " . get_class($complex));
+            }
+        }
+        return $complex;
+    }
+
     /**
      * @param class-string $class
      */
@@ -106,13 +121,28 @@ class ModelHydrator
             HydrateSource::webForm() => $class::fromString($value)
         };
     }
+    private function castInt(bool|int|string $value): int
+    {
+        if (is_string($value) && !preg_match('/^-?\d+$/', $value)) {
+            throw new \InvalidArgumentException("String must consist of digits only");
+        }
+        return (int) $value;
+    }
 
     /**
      * @param class-string $class
      */
-    private function castUuid(string $value, string $class, HydrateSource $source): UuidInterface
+    private function castIntegerId($value, string $class): IntegerId
     {
-        return Uuid::fromBytes($value);
+        return new $class($this->castInt($value));
+    }
+
+    /**
+     * @param class-string $class
+     */
+    private function castStringId($value, string $class): StringId
+    {
+        return new $class((string) $value);
     }
 
     private function castType(\ReflectionNamedType $property, $value, string $attribute, HydrateSource $source)
@@ -153,6 +183,15 @@ class ModelHydrator
             default => die("Unknown type: {$property->getName()} for property $attribute")
         };
     }
+
+    /**
+     * @param class-string $class
+     */
+    private function castUuid(string $value, string $class, HydrateSource $source): UuidInterface
+    {
+        return Uuid::fromBytes($value);
+    }
+
     private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source)
     {
         try {
@@ -170,40 +209,29 @@ class ModelHydrator
         }
     }
 
-    /**
-     * @param Model $model
-     * @param array $data Array data extracted from a HTTP request (so all values are strings)
-     */
-    public function hydrateFromRequestArray(Model $model, array $data): void
+    private function castWKBToGeometry(string $value): Geometry
     {
-        foreach ($model->safeAttributes() as $attribute) {
-            if (isset($data[$attribute])) {
-                $model->$attribute = $this->castValue($model, $attribute, $data[$attribute], HydrateSource::webForm());
-            }
-        }
+        $parser = new Parser();
+        $data = $parser->parse(substr($value, 4));
+        $data['srid'] = unpack('i', $value)[1];
+        return Geometry::fromParsedArray($data);
     }
 
-    /**
-     * Version if Yii's canSetProperty that respects visibility.
-     * @param Model $model
-     * @return bool
-     */
-    private function canSetProperty(Model $model, $attribute): bool
+    public function hydrateActiveRecord(ActiveRecord $record, Model $model): void
     {
-        if (method_exists($model, 'set' . $attribute)) {
-            return true;
-        }
-        $rc = new \ReflectionClass($model);
-        if ($rc->hasProperty($attribute) && $rc->getProperty($attribute)->isPublic()) {
-            return true;
-        }
-
-        foreach ($model->getBehaviors() as $behavior) {
-            if ($behavior->canSetProperty($attribute)) {
-                return true;
+        $reflectionClass = new \ReflectionClass($model);
+        foreach ($model->attributes as $key => $value) {
+            if ($reflectionClass->hasProperty($key)) {
+                foreach ($reflectionClass->getProperty($key)->getAttributes() as $attribute) {
+                    if ($attribute->getName() === DehydrateVia::class) {
+                        $value = $attribute->newInstance()->create($value);
+                    }
+                }
+            }
+            if ($record->canSetProperty($key)) {
+                $record->$key = $this->castForDatabase($value);
             }
         }
-        return false;
     }
 
     /**
@@ -254,51 +282,31 @@ class ModelHydrator
         }
     }
 
-    private function castForDatabase(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null|Expression
+    /**
+     * @param Model $model
+     * @param array $data Array data extracted from a HTTP request (so all values are strings)
+     */
+    public function hydrateFromRequestArray(Model $model, array $data): void
     {
-        if (is_object($complex)) {
-            if ($complex instanceof Enum) {
-                return $complex->value;
-            } elseif ($complex instanceof UuidInterface) {
-                return $complex->getBytes();
-            } elseif (is_iterable($complex)) {
-                return toArray($complex);
-            } elseif ($complex instanceof Id) {
-                return $complex->getValue();
-            } elseif ($complex instanceof Geometry) {
-                return $complex->toWKT();
-            } elseif ($complex instanceof Expression) {
-                return $complex;
-            } else {
-                throw new \InvalidArgumentException("Unknown complex type: " . get_class($complex));
-            }
-        }
-        return $complex;
-    }
-
-    public function hydrateActiveRecord(ActiveRecord $record, Model $model): void
-    {
-        $reflectionClass = new \ReflectionClass($model);
-        foreach ($model->attributes as $key => $value) {
-            if ($reflectionClass->hasProperty($key)) {
-                foreach ($reflectionClass->getProperty($key)->getAttributes() as $attribute) {
-                    if ($attribute->getName() === DehydrateVia::class) {
-                        $value = $attribute->newInstance()->create($value);
-                    }
-                }
-            }
-            if ($record->canSetProperty($key)) {
-                $record->$key = $this->castForDatabase($value);
+        foreach ($model->safeAttributes() as $attribute) {
+            if (isset($data[$attribute])) {
+                $model->$attribute = $this->castValue($model, $attribute, $data[$attribute], HydrateSource::webForm());
             }
         }
     }
 
     public function hydrateFromRequestBody(Model $model, Request $request): void
     {
-        if ($request->isPost || $request->isPut) {
-            $this->hydrateFromRequestArray($model, $request->bodyParams[$model->formName()]);
+        if ($request->getIsPost() || $request->getIsPut()) {
+            $this->hydrateFromRequestArray($model, $request->getBodyParams()[$model->formName()]);
             return;
         }
         throw new \InvalidArgumentException("Could not extract data from request");
+    }
+
+    public function hydrateFromRequestQuery(Model $model, Request $request): void
+    {
+        // No check for request type since query params also come with other methods
+        $this->hydrateFromRequestArray($model, $request->getQueryParams()[$model->formName()] ?? []);
     }
 }

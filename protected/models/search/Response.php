@@ -11,13 +11,13 @@ use yii\validators\SafeValidator;
 
 class Response extends Model
 {
-    private \prime\models\ar\Workspace $workspace;
+    private \prime\models\ar\WorkspaceForLimesurvey $workspace;
     public string $hf_id = '';
     public string $date = '';
     public string $last_updated = '';
     public $id;
 
-    public function __construct(\prime\models\ar\Workspace $workspace)
+    public function __construct(\prime\models\ar\WorkspaceForLimesurvey $workspace)
     {
         parent::__construct([]);
         $this->workspace = $workspace;
@@ -33,7 +33,7 @@ class Response extends Model
 
     public function search($params): DataProviderInterface
     {
-        $query = \prime\models\ar\Response::find();
+        $query = \prime\models\ar\ResponseForLimesurvey::find();
 
         $query->with('workspace');
         $query->andFilterWhere(['workspace_id' => $this->workspace->id]);

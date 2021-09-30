@@ -5,7 +5,7 @@ namespace prime\tests\functional\modules\api\user;
 
 use prime\models\ar\Favorite;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 
@@ -52,7 +52,7 @@ class WorkspacesCest
         $workspace = $I->haveWorkspace();
         codecept_debug('Created WS with id: ' . $workspace->id);
         $favorite = new Favorite();
-        $favorite->target_class = Workspace::class;
+        $favorite->target_class = WorkspaceForLimesurvey::class;
         $favorite->target_id = $workspace->id;
         $favorite->user_id = TEST_USER_ID;
         $I->save($favorite);

@@ -6,7 +6,7 @@ use prime\components\View;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\models\forms\Export;
 use prime\widgets\Section;
 use Psr\Http\Message\StreamInterface;
@@ -14,7 +14,7 @@ use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use yii\helpers\Html;
 
 /**
- * @var Response $storedResponse,
+ * @var ResponseForLimesurvey $storedResponse,
  * @var ResponseInterface $limesurveyResponse
  * @var View $this
  */
@@ -103,7 +103,7 @@ CSS
 
 Section::begin();
 
-$export->run($writer, Response::find()->andWhere($storedResponse->getPrimaryKey(true)));
+$export->run($writer, ResponseForLimesurvey::find()->andWhere($storedResponse->getPrimaryKey(true)));
 
 $options = ['class' => ['column']];
 

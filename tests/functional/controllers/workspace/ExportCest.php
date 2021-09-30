@@ -4,7 +4,7 @@
 namespace prime\tests\functional\controllers\workspace;
 
 use prime\models\ar\Permission;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 
@@ -24,7 +24,7 @@ class ExportCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        $response = new Response();
+        $response = new ResponseForLimesurvey();
         $response->workspace_id = $workspace->id;
         $response->date = '2020-02-03';
         $response->hf_id = 'abcdef';

@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\helpers\Icon;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use yii\bootstrap\Html;
 
 /**
  * @var View $this
- * @var Workspace $model
+ * @var WorkspaceForLimesurvey $model
  */
 
 $this->title = $model->title;

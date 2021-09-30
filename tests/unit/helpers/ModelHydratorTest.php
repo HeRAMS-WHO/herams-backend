@@ -9,7 +9,10 @@ use prime\objects\EnumSet;
 use prime\objects\LanguageSet;
 use yii\base\DynamicModel;
 use yii\base\Model;
+use yii\helpers\Html;
 use yii\helpers\Inflector;
+use yii\validators\SafeValidator;
+use yii\web\Request;
 
 /**
  * @covers \prime\helpers\ModelHydrator
@@ -110,6 +113,96 @@ class ModelHydratorTest extends Unit
         $this->doAssertions($sourceAttributes, $target);
     }
 
+    public function testHydrateFromRequestArray(): void
+    {
+        $testName = 'Test name';
+        $model = new DynamicModel([
+            'name' => null,
+        ]);
+        $model->addRule(['name'], SafeValidator::class);
+        $data = [
+            'name' => $testName,
+        ];
+
+        $this->modelHydrator->hydrateFromRequestArray($model, $data);
+        $this->assertEquals($testName, $model->name);
+    }
+
+    public function testHydrateFromRequestArrayInvalid(): void
+    {
+        $testName = 'Test name';
+        $model = new DynamicModel([
+            'name' => null,
+        ]);
+        $data = [
+            'name' => $testName,
+        ];
+
+        $this->modelHydrator->hydrateFromRequestArray($model, $data);
+        $this->assertEmpty($model->name);
+    }
+
+    public function testHydrateFromRequestBody(): void
+    {
+        $testName = 'Test name';
+        $model = new DynamicModel([
+            'name' => null,
+        ]);
+        $model->addRule(['name'], SafeValidator::class);
+        $requestData = [
+            $model->formName() => [
+                'name' => $testName,
+            ]
+        ];
+        $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
+        $request->expects($this->once())
+            ->method('getBodyParams')
+            ->willReturn($requestData);
+        $request->expects($this->any())
+            ->method('getIsPost')
+            ->willReturn(true);
+
+        $this->modelHydrator->hydrateFromRequestBody($model, $request);
+        $this->assertEquals($testName, $model->name);
+    }
+
+    public function testHydrateFromRequestBodyInvalid(): void
+    {
+        $model = new DynamicModel([
+            'name' => null,
+        ]);
+        $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
+        $request->expects($this->any())
+            ->method('getIsPost')
+            ->willReturn(false);
+        $request->expects($this->any())
+            ->method('getIsPut')
+            ->willReturn(false);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->modelHydrator->hydrateFromRequestBody($model, $request);
+    }
+
+    public function testHydrateFromRequestQuery(): void
+    {
+        $testName = 'Test name';
+        $model = new DynamicModel([
+            'name' => null,
+        ]);
+        $model->addRule(['name'], SafeValidator::class);
+        $requestData = [
+            $model->formName() => [
+                'name' => $testName,
+            ]
+        ];
+        $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
+        $request->expects($this->once())
+            ->method('getQueryParams')
+            ->willReturn($requestData);
+
+        $this->modelHydrator->hydrateFromRequestQuery($model, $request);
+        $this->assertEquals($testName, $model->name);
+    }
 
     public function testInvalidIntegerValue(): void
     {

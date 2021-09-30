@@ -3,7 +3,7 @@
 
 namespace prime\tests\functional\controllers\workspace;
 
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\projects\Token;
 use prime\tests\FunctionalTester;
 
@@ -37,7 +37,7 @@ class ImportCest
             'Import[tokens]' => ['token2']
         ]);
         $I->seeResponseCodeIsSuccessful();
-        $I->seeRecord(Workspace::class, [
+        $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'token2',
             'tool_id' => $project->id,
             'token' => 'token2'

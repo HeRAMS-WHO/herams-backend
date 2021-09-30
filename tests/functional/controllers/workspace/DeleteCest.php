@@ -5,7 +5,7 @@ namespace prime\tests\functional\controllers\workspace;
 
 use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;
@@ -41,6 +41,6 @@ class DeleteCest
         $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
 
         $I->seeResponseCodeIs(302);
-        $I->dontSeeRecord(Workspace::class, ['id' => $workspace->id]);
+        $I->dontSeeRecord(WorkspaceForLimesurvey::class, ['id' => $workspace->id]);
     }
 }

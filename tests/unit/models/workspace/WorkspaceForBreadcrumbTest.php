@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\workspace;
 
 use Codeception\Test\Unit;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\values\ProjectId;
 
@@ -19,7 +19,7 @@ class WorkspaceForBreadcrumbTest extends Unit
         $projectId = 23456;
         $workspaceId = 12345;
 
-        $workspace = new Workspace();
+        $workspace = new WorkspaceForLimesurvey();
         $workspace->id = $workspaceId;
         $workspace->title = $label;
         $workspace->tool_id = $projectId;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\controllers\response;
 
 use prime\components\LimesurveyDataProvider;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use yii\base\Action;
 use yii\web\NotFoundHttpException;
@@ -17,8 +17,8 @@ class Compare extends Action
         int $id,
         int $survey_id
     ) {
-        /** @var Response|null $response */
-        $response = Response::find()->with('workspace')->andWhere(['id' => $id, 'survey_id' => $survey_id])->one();
+        /** @var ResponseForLimesurvey|null $response */
+        $response = ResponseForLimesurvey::find()->with('workspace')->andWhere(['id' => $id, 'survey_id' => $survey_id])->one();
         if (!isset($response)) {
             throw new NotFoundHttpException();
         }

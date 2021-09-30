@@ -6,7 +6,7 @@ namespace prime\controllers\workspace;
 use prime\components\Controller;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\search\Response as ResponseSearch;
 use yii\base\Action;
 use yii\web\Request;
@@ -20,7 +20,7 @@ class Responses extends Action
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        $workspace = Workspace::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
 
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
 

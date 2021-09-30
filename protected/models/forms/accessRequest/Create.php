@@ -6,7 +6,7 @@ namespace prime\models\forms\accessRequest;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\validators\RangeValidator;
@@ -27,7 +27,7 @@ class Create extends Model
     public string $subject = '';
 
     public function __construct(
-        private Project|Workspace $target,
+        private Project|WorkspaceForLimesurvey $target,
         array $permissionOptions,
         AuthManager $authManager,
         User $user,

@@ -8,7 +8,7 @@ use prime\components\NotificationService;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
@@ -30,7 +30,7 @@ class RequestAccess extends Action
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $workspace = Workspace::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
 
 
         $accessCheck->requirePermission(

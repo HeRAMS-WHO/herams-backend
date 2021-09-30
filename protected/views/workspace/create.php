@@ -4,7 +4,8 @@ declare(strict_types=1);
 use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
-use prime\models\forms\Workspace as WorkspaceForm;
+use prime\models\forms\workspace\Create;
+use prime\models\forms\workspace\CreateForLimesurvey;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
@@ -12,7 +13,7 @@ use yii\web\View;
 
 /**
  * @var View $this
- * @var WorkspaceForm $model
+ * @var CreateForLimesurvey|Create $model
  * @var \prime\models\ar\read\Project $parent
  */
 

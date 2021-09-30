@@ -7,7 +7,7 @@ use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\workspace\WorkspaceForTabMenu;
 use prime\tests\_helpers\AllFunctionsMustHaveReturnTypes;
 use yii\base\BaseObject;
@@ -21,7 +21,7 @@ class WorkspaceForTabMenuTest extends Unit
 
     private function getModel(): WorkspaceForTabMenu
     {
-        $workspace = new Workspace();
+        $workspace = new WorkspaceForLimesurvey();
         $workspace->id = 15;
         $workspace->tool_id = 123;
         $workspace->permissionSourceCount = 5;
@@ -39,7 +39,7 @@ class WorkspaceForTabMenuTest extends Unit
     public function testExceptionIfRecordIsNew(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new WorkspaceForTabMenu($this->getMockBuilder(AccessCheckInterface::class)->getMock(), new Workspace());
+        new WorkspaceForTabMenu($this->getMockBuilder(AccessCheckInterface::class)->getMock(), new WorkspaceForLimesurvey());
     }
     
     public function testGetId(): void
@@ -79,7 +79,7 @@ class WorkspaceForTabMenuTest extends Unit
 
     public function testCanCurrentUser(): void
     {
-        $workspace = new Workspace();
+        $workspace = new WorkspaceForLimesurvey();
         $workspace->id = 121333;
         $workspace->tool_id = 1;
         $workspace->isNewRecord = false;
@@ -87,7 +87,7 @@ class WorkspaceForTabMenuTest extends Unit
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->getMock();
         $accessChecker->expects($this->once())
             ->method('checkPermission')
-            ->willReturnCallback(function (Workspace $model, string $permission) use ($workspace): bool {
+            ->willReturnCallback(function (WorkspaceForLimesurvey $model, string $permission) use ($workspace): bool {
                 $this->assertSame($workspace, $model);
                 $this->assertSame('test', $permission);
                 return false;

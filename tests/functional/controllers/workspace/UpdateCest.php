@@ -64,7 +64,7 @@ class UpdateCest
         ];
 
         foreach ($attributes as $key => $value) {
-            $I->fillField(['name' => "Workspace[$key]"], $value);
+            $I->fillField(['name' => "WorkspaceForLimesurvey[$key]"], $value);
         }
 
         $I->click('Save');

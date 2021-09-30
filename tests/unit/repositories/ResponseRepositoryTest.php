@@ -6,8 +6,8 @@ namespace prime\tests\unit\repositories;
 use Codeception\Test\Unit;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Response;
-use prime\models\ar\Workspace;
+use prime\models\ar\ResponseForLimesurvey;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\repositories\ResponseRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ResponseId;
@@ -21,13 +21,13 @@ class ResponseRepositoryTest extends Unit
 {
     public function testFindForBreadcrumb(): void
     {
-        $workspace = new Workspace([
+        $workspace = new WorkspaceForLimesurvey([
             'title' => 'Test workspace',
             'token' => '12345',
             'tool_id' => 1,
         ]);
         $this->assertTrue($workspace->save());
-        $response = new Response([
+        $response = new ResponseForLimesurvey([
             'date' => new Expression('NOW()'),
             'id' => 1,
             'hf_id' => 1,

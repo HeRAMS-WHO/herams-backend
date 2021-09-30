@@ -9,7 +9,7 @@ use yii\bootstrap\Html;
 /**
  * @var \yii\web\View $this
  * @var \prime\models\forms\projects\Token $token
- * @var \prime\models\ar\Workspace $model
+ * @var \prime\models\ar\WorkspaceForLimesurvey $model
  */
 
 $this->title = Yii::t('app', 'Update workspace token');

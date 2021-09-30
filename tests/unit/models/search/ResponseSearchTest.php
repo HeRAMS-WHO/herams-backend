@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\search;
 
 use Codeception\Test\Unit;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\search\FacilitySearch;
 use prime\models\search\Project;
 use prime\models\search\Response;
@@ -46,6 +46,6 @@ class ResponseSearchTest extends Unit
 
     private function getModel(): Model
     {
-        return new Response(new Workspace());
+        return new Response(new WorkspaceForLimesurvey());
     }
 }

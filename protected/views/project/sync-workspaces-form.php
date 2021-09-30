@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use prime\assets\TimeElementBundle;
 use prime\components\View;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\project\SyncWorkspaces;
 use prime\widgets\BetterSelect;
 use prime\widgets\FormButtonsWidget;
@@ -52,7 +52,7 @@ echo Form::widget([
             'widgetClass' => BetterSelect::class,
             'options' => [
                 'items' => (static function (iterable $workspaces) {
-                    /** @var Workspace $workspace */
+                    /** @var WorkspaceForLimesurvey $workspace */
                     foreach ($workspaces as $workspace) {
                         $title = Html::tag('span', $workspace->title);
 

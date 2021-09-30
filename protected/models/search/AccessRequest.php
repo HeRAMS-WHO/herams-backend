@@ -7,7 +7,7 @@ use prime\components\FilteredActiveDataProvider;
 use prime\models\ar\Favorite;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\queries\AccessRequestQuery;
 use yii\base\Model;
 use yii\data\DataProviderInterface;
@@ -62,7 +62,7 @@ class AccessRequest extends Model
         if ($this->workspaceId) {
             $query->andWhere([
                 'target_id' => $this->workspaceId,
-                'target_class' => Workspace::class,
+                'target_class' => WorkspaceForLimesurvey::class,
             ]);
         }
         if (!is_null($this->favorite)) {
@@ -74,7 +74,7 @@ class AccessRequest extends Model
                 ],
                 [
                     'and',
-                    ['target_class' => Workspace::class],
+                    ['target_class' => WorkspaceForLimesurvey::class],
                     ['target_id' => Favorite::find()->workspaces()->user($this->user)->select('target_id')],
                 ]
             ];

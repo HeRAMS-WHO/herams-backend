@@ -16,8 +16,8 @@ use prime\interfaces\FacilityForTabMenu;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
-use prime\models\ar\Response;
-use prime\models\ar\Workspace;
+use prime\models\ar\ResponseForLimesurvey;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
 use prime\models\forms\NewFacility as FacilityForm;
@@ -50,7 +50,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
     public function retrieveForResponseCopy(FacilityId $id): FacilityForResponseCopy
     {
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
-            $responseQuery = Response::find()->andWhere([
+            $responseQuery = ResponseForLimesurvey::find()->andWhere([
                 'hf_id' => $matches['hf_id'],
                 'survey_id' => $matches['survey_id']
             ]);
@@ -120,7 +120,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
 
     public function searchInWorkspace(WorkspaceId $id, FacilitySearch $model): DataProviderInterface
     {
-        $workspace = Workspace::findOne(['id' => $id->getValue()]);
+        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id->getValue()]);
         $query = FacilityReadRecord::find();
 
         $query->andFilterWhere(['workspace_id' => $id->getValue()]);
@@ -153,7 +153,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
         $filter = new ResponseFilter($workspace->project->getSurvey(), new HeramsCodeMap());
 
         $limesurveyData = [];
-        /** @var \prime\models\ar\Response $response */
+        /** @var \prime\models\ar\ResponseForLimesurvey $response */
         foreach ($filter->filterQuery($workspace->getResponses())->each() as $response) {
             $limesurveyData[$response->hf_id] = $this->createFromResponse($response);
         }
@@ -178,7 +178,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
         ]);
     }
 
-    private function createFromResponse(Response $response): FacilityForList
+    private function createFromResponse(ResponseForLimesurvey $response): FacilityForList
     {
         $latitude = $response->getLatitude();
         $longitude = $response->getLongitude();
@@ -190,14 +190,14 @@ class FacilityRepository implements CreateModelRepositoryInterface
             isset($latitude, $longitude) ?  new Point(null, $latitude, $longitude) : null,
             Uuid::fromBytes(str_pad($response->hf_id, 16)),
             // This is very inefficient for the response list; for now we accept it.
-            (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
+            (int) ResponseForLimesurvey::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
         );
     }
 
     public function retrieveForBreadcrumb(FacilityId $id): FacilityForBreadcrumbInterface
     {
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
-            $response = Response::findOne([
+            $response = ResponseForLimesurvey::findOne([
                 'hf_id' => $matches['hf_id'],
                 'survey_id' => $matches['survey_id']
             ]);
@@ -217,7 +217,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
     {
 
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
-            $response = Response::findOne([
+            $response = ResponseForLimesurvey::findOne([
                 'hf_id' => $matches['hf_id'],
                 'survey_id' => $matches['survey_id']
             ]);
@@ -235,7 +235,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
     {
 
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
-            $response = Response::find()
+            $response = ResponseForLimesurvey::find()
                 ->with('workspace')
                 ->andWhere([
                     'hf_id' => $matches['hf_id'],
@@ -254,7 +254,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
                 $response->workspace->project->title,
                 new WorkspaceId($response->workspace_id),
                 $response->workspace->title,
-                (int) Response::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count(),
+                (int) ResponseForLimesurvey::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count(),
                 // Access checker for LS based data.
                 new class implements CanCurrentUser {
                     public function canCurrentUser(string $permission): bool

@@ -6,7 +6,7 @@ namespace prime\queries;
 use prime\components\ActiveQuery;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 
 class FavoriteQuery extends ActiveQuery
 {
@@ -27,6 +27,6 @@ class FavoriteQuery extends ActiveQuery
 
     public function workspaces(): self
     {
-        return $this->filterTargetClass(Workspace::class);
+        return $this->filterTargetClass(WorkspaceForLimesurvey::class);
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\session;
 
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\projects\Token;
 use prime\tests\FunctionalTester;
 use yii\web\Request;

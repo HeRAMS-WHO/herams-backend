@@ -9,7 +9,7 @@ use prime\jobs\accessRequests\ResponseNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\validators\DefaultValueValidator;
@@ -115,7 +115,7 @@ class Respond extends Model
 
                 Permission::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
             ],
-            Workspace::class => [
+            WorkspaceForLimesurvey::class => [
                 Permission::PERMISSION_SURVEY_DATA,
                 Permission::PERMISSION_CREATE_FACILITY,
                 Permission::PERMISSION_EXPORT,

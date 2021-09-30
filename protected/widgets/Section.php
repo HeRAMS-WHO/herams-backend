@@ -54,6 +54,11 @@ class Section extends Widget
         return $this->withPermission(Permission::PERMISSION_ADMIN);
     }
 
+    public function withActions(array $actions): self
+    {
+        $this->actions = $actions;
+        return $this;
+    }
 
     public function withHeader(string $header, array $options = []): self
     {

@@ -5,7 +5,7 @@ namespace prime\models\facility;
 
 use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\models\ar\Facility;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\traits\BreadcrumbTrait;
 use prime\values\WorkspaceId;
 
@@ -16,9 +16,9 @@ class FacilityForBreadcrumb implements FacilityForBreadcrumbInterface
     private WorkspaceId $workspaceId;
 
     public function __construct(
-        Facility|Response $model
+        Facility|ResponseForLimesurvey $model
     ) {
-        if ($model instanceof Response) {
+        if ($model instanceof ResponseForLimesurvey) {
             $this->label = (string) $model->hf_id;
             $this->url = ['/facility/responses', 'id' => $model->hf_id];
             $this->workspaceId = new WorkspaceId($model->workspace_id);

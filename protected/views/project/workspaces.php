@@ -5,7 +5,7 @@ use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\search\Workspace as WorkspaceSearch;
 use prime\widgets\DateTimeColumn;
 use prime\widgets\DrilldownColumn;
@@ -104,7 +104,7 @@ echo GridView::widget(
             ['attribute' => 'responseCount'],
             [
                 'label' => \Yii::t('app', 'Workspace owner'),
-                'value' => static function (Workspace $workspace) use ($userComponent) {
+                'value' => static function (WorkspaceForLimesurvey $workspace) use ($userComponent) {
                     return implode(
                         '<br>',
                         ArrayHelper::merge(

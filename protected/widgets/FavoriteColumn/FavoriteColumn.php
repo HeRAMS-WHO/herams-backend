@@ -5,7 +5,7 @@ namespace prime\widgets\FavoriteColumn;
 
 use prime\helpers\Icon;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -30,7 +30,7 @@ class FavoriteColumn extends DataColumn
         parent::init();
         $this->content = function ($model, $key, $index, self $column) use ($targetIds) {
             $model = $this->getDataCellValue($model, $key, $index);
-            if (!$model instanceof Workspace) {
+            if (!$model instanceof WorkspaceForLimesurvey) {
                 return '';
             }
 

@@ -6,7 +6,7 @@ namespace prime\controllers\workspace;
 use prime\components\Controller;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use yii\base\Action;
 
 class Limesurvey extends Action
@@ -18,7 +18,7 @@ class Limesurvey extends Action
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        $workspace = Workspace::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
 
         return $this->controller->render('limesurvey', [

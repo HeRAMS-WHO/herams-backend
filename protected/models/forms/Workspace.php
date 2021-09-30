@@ -5,7 +5,7 @@ namespace prime\models\forms;
 
 use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace as WorkspaceModel;
+use prime\models\ar\WorkspaceForLimesurvey as WorkspaceModel;
 use prime\values\ProjectId;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use yii\base\Model;

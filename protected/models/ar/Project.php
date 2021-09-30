@@ -68,7 +68,7 @@ use yii\web\Linkable;
  * @property Page[] $mainPages
  * @property Page[] $pages
  * @property SurveyInterface $survey
- * @property Workspace[] $workspaces
+ * @property WorkspaceForLimesurvey[] $workspaces
  * @property Survey $adminSurvey
  *
  * @method ExpressionInterface getVirtualExpression(string $name)
@@ -214,7 +214,7 @@ class Project extends ActiveRecord implements Linkable
 
     public function getWorkspaces(): ActiveQuery
     {
-        return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
+        return $this->hasMany(WorkspaceForLimesurvey::class, ['tool_id' => 'id'])->inverseOf('project');
     }
 
     public function rules(): array
@@ -267,8 +267,8 @@ class Project extends ActiveRecord implements Linkable
     {
         return [
             'latestDate' => [
-                VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
-                    ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
+                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('max(date)')
+                    ->where(['workspace_id' => WorkspaceForLimesurvey::find()->select('id')->andWhere([
                         'tool_id' => new Expression(self::tableName() . '.[[id]]')])
                     ]),
                 VirtualFieldBehavior::LAZY => static fn(self $model): ?string
@@ -276,7 +276,7 @@ class Project extends ActiveRecord implements Linkable
             ],
             'workspaceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = Workspace::find()->limit(1)->select('count(*)')
+                VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = WorkspaceForLimesurvey::find()->limit(1)->select('count(*)')
                     ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                 VirtualFieldBehavior::LAZY => static fn(self $model): int
                     => (int) $model->getWorkspaces()->count()
@@ -292,8 +292,8 @@ class Project extends ActiveRecord implements Linkable
             ],
             'facilityCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
-                    'workspace_id' => Workspace::find()->select('id')
+                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->andWhere([
+                    'workspace_id' => WorkspaceForLimesurvey::find()->select('id')
                         ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                 ])->addParams([':path' => '$.facilityCount'])->
                 select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(distinct [[workspace_id]], [[hf_id]]))')),
@@ -307,8 +307,8 @@ class Project extends ActiveRecord implements Linkable
             ],
             'responseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
-                    'workspace_id' => Workspace::find()->select('id')
+                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->andWhere([
+                    'workspace_id' => WorkspaceForLimesurvey::find()->select('id')
                         ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                 ])->addParams([':path' => '$.responseCount'])->
                 select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))'))
@@ -335,15 +335,15 @@ class Project extends ActiveRecord implements Linkable
             'contributorPermissionCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([
-                    'target' => Workspace::class,
-                    'target_id' => Workspace::find()->select('id')
+                    'target' => WorkspaceForLimesurvey::class,
+                    'target_id' => WorkspaceForLimesurvey::find()->select('id')
                         ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                     'source' => User::class,
                 ])->select('count(distinct [[source_id]])')
                 ,
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return (int) Permission::find()->where([
-                        'target' => Workspace::class,
+                        'target' => WorkspaceForLimesurvey::class,
                         'target_id' => $model->getWorkspaces()->select('id'),
                         'source' => User::class,
                     ])->count('distinct [[source_id]]');
@@ -380,7 +380,7 @@ class Project extends ActiveRecord implements Linkable
 
     public function getResponses(): ResponseQuery
     {
-        return $this->hasMany(Response::class, ['workspace_id' => 'id'])->via('workspaces');
+        return $this->hasMany(ResponseForLimesurvey::class, ['workspace_id' => 'id'])->via('workspaces');
     }
 
     public function getTypeCounts(): array

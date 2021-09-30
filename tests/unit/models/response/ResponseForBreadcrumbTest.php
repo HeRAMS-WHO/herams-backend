@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\response;
 
 use Codeception\Test\Unit;
-use prime\models\ar\Response;
+use prime\models\ar\ResponseForLimesurvey;
 use prime\models\response\ResponseForBreadcrumb;
 use prime\values\WorkspaceId;
 
@@ -19,7 +19,7 @@ class ResponseForBreadcrumbTest extends Unit
         $responseId = 12345;
         $workspaceId = 23456;
 
-        $response = $this->getMockBuilder(Response::class)->getMock();
+        $response = $this->getMockBuilder(ResponseForLimesurvey::class)->getMock();
         $response->id = $responseId;
         $response->expects($this->once())
             ->method('getName')

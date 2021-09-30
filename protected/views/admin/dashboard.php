@@ -3,37 +3,27 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\models\ar\Permission;
+use prime\widgets\menu\AdminTabMenu;
+use prime\widgets\Section;
 
 /**
  * @var View $this
  */
 $this->title = \Yii::t('app', 'Dashboard');
 
-$this->params['tabs'] = [
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['admin/dashboard'],
-        'title' => \Yii::t('app', 'Dashboard')
-    ],
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['user/index'],
-        'title' => \Yii::t('app', 'Users')
-    ],
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['admin/share'],
-        'title' => \Yii::t('app', 'Global permissions')
-    ],
-    [
-        'permission' => Permission::PERMISSION_ADMIN,
-        'url' => ['admin/limesurvey'],
-        'title' => \Yii::t('app', 'Backend administration')
-    ]
-];
+$this->beginBlock('tabs');
+echo AdminTabMenu::widget([
 
-\prime\widgets\Section::begin([
+]);
+$this->endBlock();
+
+Section::begin([
     'actions' => [
+        [
+            'link' => ['survey/index'],
+            'label' => \Yii::t('app', 'Surveys'),
+            'style' => 'default'
+        ],
         [
             'link' => ['project/index'],
             'label' => \Yii::t('app', 'Projects'),
@@ -42,4 +32,4 @@ $this->params['tabs'] = [
     ]
 ]);
 
-\prime\widgets\Section::end();
+Section::end();

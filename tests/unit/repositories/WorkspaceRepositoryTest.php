@@ -7,8 +7,8 @@ use Codeception\Test\Unit;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Project;
-use prime\models\ar\Response;
-use prime\models\ar\Workspace;
+use prime\models\ar\ResponseForLimesurvey;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\repositories\ProjectRepository;
 use prime\repositories\ResponseRepository;
 use prime\repositories\WorkspaceRepository;
@@ -24,7 +24,7 @@ class WorkspaceRepositoryTest extends Unit
 {
     public function testFindForBreadcrumb(): void
     {
-        $model = new Workspace([
+        $model = new WorkspaceForLimesurvey([
             'title' => 'Test workspace',
             'token' => '12345',
             'tool_id' => 1,

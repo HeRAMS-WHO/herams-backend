@@ -15,10 +15,8 @@ use prime\models\ar\Workspace;
  */
 class ResponseQuery extends ActiveQuery
 {
-
     public function project(Project $project): self
     {
-
         return $this->andWhere(["{$this->getPrimaryTableName()}.[[workspace_id]]" => $project->getWorkspaces()->select('id')->column()]);
     }
 

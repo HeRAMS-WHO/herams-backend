@@ -4,7 +4,7 @@ use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\interfaces\WorkspaceForTabMenu;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\search\Response;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
@@ -17,7 +17,7 @@ use yii\web\View;
  * @var Response $responseSearch
  * @var int $closedCount
  * @var View $this
- * @var Workspace $workspace
+ * @var WorkspaceForLimesurvey $workspace
  * @var WorkspaceForTabMenu $tabMenuModel
  */
 
@@ -74,7 +74,7 @@ echo GridView::widget([
             'controller' => 'response',
             'template' => '{compare}',
             'buttons' => [
-                'compare' => function ($url, \prime\models\ar\Response $model, $key) {
+                'compare' => function ($url, \prime\models\ar\ResponseForLimesurvey $model, $key) {
                     $url = ['response/compare', 'id' => $model->id, 'survey_id' => $model->survey_id];
                     $result = Html::a(Icon::eye(), $url, [
                         'title' => \Yii::t('app', 'Refresh data from limesurvey')

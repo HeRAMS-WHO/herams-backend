@@ -7,7 +7,7 @@ use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 
 /**
@@ -17,7 +17,7 @@ use prime\tests\FunctionalTester;
  */
 class IndexCest
 {
-    protected function createAccessRequest(FunctionalTester $I, Project|Workspace $target, ?string $response): AccessRequest
+    protected function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target, ?string $response): AccessRequest
     {
         $accessRequest = new AccessRequest([
             'subject' => 'test',

@@ -6,7 +6,10 @@ namespace prime\controllers;
 use prime\components\Controller;
 use prime\controllers\survey\AjaxSave;
 use prime\controllers\survey\Create;
+use prime\controllers\survey\Index;
 use prime\controllers\survey\Update;
+use prime\models\ar\Permission;
+use prime\objects\Breadcrumb;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
@@ -19,6 +22,7 @@ class SurveyController extends Controller
         return [
             'ajax-save' => AjaxSave::class,
             'create' => Create::class,
+            'index' => Index::class,
             'update' => Update::class,
         ];
     }
@@ -33,6 +37,7 @@ class SurveyController extends Controller
                     'actions' => [
                         'ajax-save' => ['post'],
                         'create' => ['get'],
+                        'index' => ['get'],
                         'update' => ['get'],
                     ]
                 ],
@@ -40,11 +45,18 @@ class SurveyController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'roles' => ['@'],
+                            'roles' => [Permission::PERMISSION_ADMIN],
                         ],
                     ]
                 ],
             ]
         );
+    }
+
+    public function render($view, $params = [])
+    {
+        $this->view->getBreadcrumbCollection()->add((new Breadcrumb())->setUrl(['/survey/index'])->setLabel(\Yii::t('app', 'Surveys')));
+
+        return parent::render($view, $params);
     }
 }

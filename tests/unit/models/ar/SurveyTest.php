@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Favorite;
+use prime\models\ar\Survey;
 use prime\models\ar\User;
 
 /**
@@ -9,6 +12,26 @@ use prime\models\ar\User;
  */
 class SurveyTest extends ActiveRecordTest
 {
+    public function invalidSamples(): array
+    {
+        return [
+            [
+                'attributes' => [],
+                'scenario' => User::SCENARIO_DEFAULT
+            ]
+        ];
+    }
+
+    public function testTitle(): void
+    {
+        $survey = new Survey(['id' => 12345]);
+        $this->assertEquals('Survey without title, id 12345', $survey->getTitle());
+
+        $title = 'Survey test title';
+        $survey->config = ['title' => $title];
+        $this->assertEquals($title, $survey->getTitle());
+    }
+
     public function validSamples(): array
     {
         return [
@@ -20,20 +43,5 @@ class SurveyTest extends ActiveRecordTest
                 ]
             ],
         ];
-    }
-
-    public function invalidSamples(): array
-    {
-        return [
-            [
-                'attributes' => [],
-                'scenario' => User::SCENARIO_DEFAULT
-            ]
-        ];
-    }
-
-    public function testRelations(): void
-    {
-//        $this->testRelation('project', Favorite::class);
     }
 }

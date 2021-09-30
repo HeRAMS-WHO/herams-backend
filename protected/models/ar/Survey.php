@@ -7,8 +7,12 @@ use prime\models\ActiveRecord;
 use yii\validators\RequiredValidator;
 
 /**
+ * Attributes
  * @property int $id
  * @property array $config
+ *
+ * Virtual fields
+ * @property-read string $title
  */
 class Survey extends ActiveRecord
 {
@@ -22,7 +26,8 @@ class Survey extends ActiveRecord
     public static function labels(): array
     {
         return array_merge(parent::labels(), [
-            'config' => \Yii::t('app', 'Survey configuration')
+            'config' => \Yii::t('app', 'Survey configuration'),
+            'title' => \Yii::t('app', 'Title'),
         ]);
     }
 

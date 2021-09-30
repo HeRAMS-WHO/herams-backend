@@ -4,7 +4,7 @@
 namespace prime\controllers\workspace;
 
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -17,7 +17,7 @@ class View extends Action
         int $id
     ) {
         $this->controller->layout = 'css3-grid';
-        $workspace = Workspace::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }

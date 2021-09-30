@@ -7,8 +7,8 @@ use prime\components\LimesurveyDataProvider;
 use prime\helpers\LimesurveyDataLoader;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
-use prime\models\ar\Response;
-use prime\models\ar\Workspace;
+use prime\models\ar\ResponseForLimesurvey;
+use prime\models\ar\WorkspaceForLimesurvey;
 use yii\base\Action;
 use yii\web\Request;
 
@@ -21,7 +21,7 @@ class Refresh extends Action
         LimesurveyDataLoader $loader,
         int $id
     ) {
-        $workspace = Workspace::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
 
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_ADMIN);
 
@@ -36,7 +36,7 @@ class Refresh extends Action
                 'workspace_id' => $workspace->id
             ];
 
-            $dataResponse = Response::findOne($key) ?? new Response($key);
+            $dataResponse = ResponseForLimesurvey::findOne($key) ?? new ResponseForLimesurvey($key);
             $loader->loadData($response->getData(), $workspace, $dataResponse);
             if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
@@ -49,7 +49,7 @@ class Refresh extends Action
             }
         }
         // Check for deleted responses as well.
-        $deleted = Response::deleteAll([
+        $deleted = ResponseForLimesurvey::deleteAll([
             'and',
             ['workspace_id' => $workspace->id],
             ['not', ['id' => $ids]]

@@ -4,13 +4,13 @@ declare(strict_types=1);
 use app\components\ActiveForm;
 use prime\components\View;
 use prime\interfaces\WorkspaceForTabMenu;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\Share;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
 
 /**
- * @var Workspace $workspace
+ * @var WorkspaceForLimesurvey $workspace
  * @var Share $model
  * @var WorkspaceForTabMenu $tabMenuModel
  * @var View $this

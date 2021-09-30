@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\workspace;
 
-use prime\models\ar\Workspace;
-use prime\models\forms\projects\Token;
+use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\forms\workspace\CreateForLimesurvey;
 use prime\tests\FunctionalTester;
+use yii\helpers\Html;
 
 /**
  * @covers \prime\controllers\workspace\Create
@@ -27,11 +28,11 @@ class CreateCest
         $project = $I->haveProject();
         $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => 'Workspace[title]'], 'Cool stuff');
-        $I->selectOption(['name' => 'Workspace[token]'], 'token2');
+        $I->fillField(['name' => Html::getInputName(new CreateForLimesurvey(), 'title')], 'Cool stuff');
+        $I->selectOption(['name' => Html::getInputName(new CreateForLimesurvey(), 'token')], 'token2');
         $I->click('Create workspace');
         $I->seeResponseCodeIsSuccessful();
-        $I->seeRecord(Workspace::class, [
+        $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'Cool stuff',
             'tool_id' => $project->id,
             'token' => 'token2'
@@ -44,11 +45,11 @@ class CreateCest
         $project = $I->haveProject();
         $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => 'Workspace[title]'], 'Cool stuff');
-        $I->selectOption(['name' => 'Workspace[token]'], '');
+        $I->fillField(['name' => Html::getInputName(new CreateForLimesurvey(), 'title')], 'Cool stuff');
+        $I->selectOption(['name' => Html::getInputName(new CreateForLimesurvey(), 'token')], '');
         $I->click('Create workspace');
         $I->seeResponseCodeIsSuccessful();
-        $I->seeRecord(Workspace::class, [
+        $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'Cool stuff',
             'tool_id' => $project->id,
         ]);
@@ -57,7 +58,7 @@ class CreateCest
         $tokens = \Yii::$app->limesurveyDataProvider->getTokens($project->base_survey_eid);
         $I->assertCount(3, $tokens);
 
-        $I->seeRecord(Workspace::class, [
+        $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'Cool stuff',
             'tool_id' => $project->id,
 
