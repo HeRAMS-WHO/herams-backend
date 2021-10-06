@@ -21,6 +21,8 @@ class Controller extends \yii\web\Controller
     public const LAYOUT_ADMIN_TABS = '//admin-tabs';
     public const LAYOUT_ADMIN_NO_TABS = '//admin-notabs';
     public const LAYOUT_CSS3_GRID = '//css3-grid';
+    public const LAYOUT_MAP_POPOVER_ERROR = '//map-popover-error';
+    public const LAYOUT_MAINTENANCE = '//maintenance';
 
     public function behaviors(): array
     {

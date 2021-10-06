@@ -4,7 +4,6 @@
 namespace prime\components;
 
 use prime\assets\ToastBundle;
-use yii\authclient\AuthAction;
 use yii\base\Component;
 use yii\base\Event;
 use yii\base\ViewEvent;
@@ -15,7 +14,7 @@ use yii\web\View;
 
 class NotificationService extends Component
 {
-    private $counter = 0;
+    private int $counter = 0;
     public function __construct(array $config = [])
     {
         parent::__construct($config);
