@@ -55,7 +55,7 @@ echo GridView::widget([
             'attribute' => 'hf_id',
         ],
         [
-            'attribute' => 'last_updated'
+            'attribute' => 'updated_at'
         ],
 //        [
 //            'label' => '# Health facilities',

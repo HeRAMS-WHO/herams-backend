@@ -123,4 +123,6 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210719_133325
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210810_065557_add_expires_at_to_access_request', 1628579770);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210921_130000_project_add_data_survey', 1632317489);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210922_150000_allow_project_admin_survey_null', 1632317489);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211005_093054_add_i18n_to_workspace_and_rename_tool_id', 1633427094);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211006_073837_add_timestamp_fields', 1633527689);
 SET FOREIGN_KEY_CHECKS=1;

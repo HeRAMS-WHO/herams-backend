@@ -24,7 +24,7 @@ class ResponseRepositoryTest extends Unit
         $workspace = new WorkspaceForLimesurvey([
             'title' => 'Test workspace',
             'token' => '12345',
-            'tool_id' => 1,
+            'project_id' => 1,
         ]);
         $this->assertTrue($workspace->save());
         $response = new ResponseForLimesurvey([

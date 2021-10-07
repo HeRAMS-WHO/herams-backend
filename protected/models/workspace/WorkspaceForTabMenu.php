@@ -23,7 +23,7 @@ final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
             throw new \InvalidArgumentException('Record must not be a new record');
         }
         $this->id = new WorkspaceId($model->id);
-        $this->projectId = new ProjectId($model->tool_id);
+        $this->projectId = new ProjectId($model->project_id);
     }
 
     public function id(): WorkspaceId

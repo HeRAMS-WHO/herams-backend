@@ -32,8 +32,8 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'writeCallback' => static function (DbSession $session): array {
                 $fields = [
                     'user_id' => $session->get('__id'),
-                    'created' => $session->get('created', Carbon::now()),
-                    'updated' => Carbon::now(),
+                    'created_at' => $session->get('created_at', Carbon::now()),
+                    'updated_at' => Carbon::now(),
                 ];
                 $session->remove('__id');
                 return $fields;

@@ -1,43 +1,41 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
 use prime\components\Controller;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\forms\workspace\CreateUpdate;
+use prime\helpers\ModelHydrator;
 use prime\repositories\WorkspaceRepository;
 use prime\values\WorkspaceId;
 use yii\base\Action;
-use yii\helpers\Html;
 use yii\web\Request;
 
 class Update extends Action
 {
     public function run(
-        Request $request,
-        AccessCheckInterface $accessCheck,
+        ModelHydrator $modelHydrator,
         NotificationService $notificationService,
+        Request $request,
         WorkspaceRepository $workspaceRepository,
-        string $id
+        int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $workspaceId = new WorkspaceId($id);
-        $workspace = $workspaceRepository->retrieveForWrite($workspaceId);
+        $model = $workspaceRepository->retrieveForUpdate($workspaceId);
 
         if ($request->isPut) {
-            if ($workspace->load($request->bodyParams) && $workspace->save()) {
-                $notificationService->success(\Yii::t('app', "Workspace {workspace} has been updated", [
-                    'workspace' => Html::tag('strong', $workspace->title)
-                ]));
+            $modelHydrator->hydrateFromRequestBody($model, $request);
+            if ($model->validate()) {
+                $workspaceRepository->save($model);
+                $notificationService->success(\Yii::t('app', 'Workspace updated'));
 
-                return $this->controller->redirect(['workspace/responses', 'id' => $workspace->id]);
+                return $this->controller->redirect(['workspace/responses', 'id' => $workspaceId]);
             }
         }
 
         return $this->controller->render('update', [
-            'model' => $workspace,
+            'model' => $model,
             'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId)
         ]);
     }

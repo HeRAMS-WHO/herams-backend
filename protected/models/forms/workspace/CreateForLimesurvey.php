@@ -17,7 +17,7 @@ use yii\validators\UniqueValidator;
 class CreateForLimesurvey extends Model
 {
     public null|string $title = null;
-    public null|ProjectId $tool_id = null;
+    public null|ProjectId $project_id = null;
     public null|string $token = null;
 
     public function attributeLabels(): array
@@ -36,7 +36,7 @@ class CreateForLimesurvey extends Model
             [['title'], RequiredValidator::class],
             [['title'], StringValidator::class, 'min' => 1],
             [['token'], UniqueValidator::class, 'targetClass' => WorkspaceForLimesurvey::class, 'filter' => function (Query $query) {
-                $query->andWhere(['tool_id' => $this->tool_id]);
+                $query->andWhere(['project_id' => $this->project_id]);
             }],
         ];
     }
@@ -51,9 +51,9 @@ class CreateForLimesurvey extends Model
          * Maybe not needed since we are migrating away from lime survey. Joey 29-09-2021
          */
         $limesurveyDataProvider = $this->getLimesurveyDataProvider();
-        $usedTokens = WorkspaceForLimesurvey::find()->andWhere(['tool_id' => $this->tool_id])->select(['token'])->indexBy('token')->column();
+        $usedTokens = WorkspaceForLimesurvey::find()->andWhere(['project_id' => $this->project_id])->select(['token'])->indexBy('token')->column();
 
-        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere(['id' => $this->tool_id])->select('base_survey_eid')->scalar());
+        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere(['id' => $this->project_id])->select('base_survey_eid')->scalar());
 
         $result = [];
         /** @var TokenInterface $token */

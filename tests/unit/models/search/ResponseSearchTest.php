@@ -27,7 +27,7 @@ class ResponseSearchTest extends Unit
                     'id' => 15,
                     'hf_id' => 'test',
                     'date' => '2021',
-                    'last_updated' => '2021'
+                    'updated_at' => '2021'
                 ]
             ]
         ];

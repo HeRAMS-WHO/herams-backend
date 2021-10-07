@@ -28,7 +28,7 @@ class Update extends Action
             $modelHydrator->hydrateFromRequestBody($model, $request);
             if ($model->validate()) {
                 $projectRepository->save($model);
-                $notificationService->success(\Yii::t('app', "Project updated"));
+                $notificationService->success(\Yii::t('app', 'Project updated'));
                 return $this->controller->refresh();
             }
         }

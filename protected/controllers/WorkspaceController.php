@@ -73,7 +73,7 @@ class WorkspaceController extends Controller
                 'class' => DeleteAction::class,
                 'query' => WorkspaceForLimesurvey::find(),
                 'redirect' => function (WorkspaceForLimesurvey $workspace) {
-                    return ['/project/workspaces', 'id' => $workspace->tool_id];
+                    return ['/project/workspaces', 'id' => $workspace->project_id];
                 }
             ],
             'request-access' => RequestAccess::class,

@@ -61,7 +61,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
             $responseQuery = $record->getResponses();
         }
 
-        $response = $responseQuery->orderBy(['last_updated' => 'desc'])->limit(1)->one();
+        $response = $responseQuery->orderBy(['updated_at' => 'desc'])->limit(1)->one();
 
 
         return new \prime\models\facility\FacilityForResponseCopy(new ResponseId($response->auto_increment_id));
@@ -241,7 +241,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
                     'hf_id' => $matches['hf_id'],
                     'survey_id' => $matches['survey_id']
                 ])
-                ->orderBy(['date' => SORT_DESC, 'last_updated' => SORT_DESC])
+                ->orderBy(['date' => SORT_DESC, 'updated_at' => SORT_DESC])
                 ->limit(1)
                 ->one();
             if (!isset($response)) {
@@ -250,7 +250,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
             return new \prime\models\facility\FacilityForTabMenu(
                 $id,
                 $response->name,
-                new ProjectId($response->workspace->tool_id),
+                new ProjectId($response->workspace->project_id),
                 $response->workspace->project->title,
                 new WorkspaceId($response->workspace_id),
                 $response->workspace->title,
@@ -268,7 +268,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
             return new \prime\models\facility\FacilityForTabMenu(
                 $id,
                 $facility->name,
-                new ProjectId($facility->workspace->tool_id),
+                new ProjectId($facility->workspace->project_id),
                 $facility->workspace->project->title,
                 new WorkspaceId($facility->workspace_id),
                 $facility->workspace->title,

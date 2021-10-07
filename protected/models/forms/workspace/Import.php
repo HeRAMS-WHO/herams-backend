@@ -97,7 +97,7 @@ class Import extends Model
                     /** @var TokenInterface $tokenObject */
                     $tokenObject = $this->tokenObjects[$token];
                     $workspace = new WorkspaceForLimesurvey();
-                    $workspace->tool_id = $this->project->id;
+                    $workspace->project_id = $this->project->id;
                     $workspace->title = $this->getName($tokenObject);
                     $workspace->setAttribute('token', $token);
                     if (!$workspace->validate()) {
@@ -122,7 +122,7 @@ class Import extends Model
             /** @var TokenInterface $tokenObject */
             $tokenObject = $this->tokenObjects[$token];
             $workspace = new WorkspaceForLimesurvey();
-            $workspace->tool_id = $this->project->id;
+            $workspace->project_id = $this->project->id;
             $workspace->title = $this->getName($tokenObject);
             $workspace->setAttribute('token', $token);
             if ($workspace->save()) {

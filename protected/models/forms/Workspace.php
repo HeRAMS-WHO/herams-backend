@@ -33,7 +33,7 @@ class Workspace extends Model
             [['title'], StringValidator::class, 'min' => 1],
             [['!projectId'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
             [['token'], UniqueValidator::class, 'targetClass' => WorkspaceModel::class, 'filter' => function (Query $query) {
-                $query->andWhere(['tool_id' => $this->projectId]);
+                $query->andWhere(['project_id' => $this->projectId]);
             }],
         ];
     }
@@ -47,7 +47,7 @@ class Workspace extends Model
          *
          */
         $limesurveyDataProvider = $this->getLimesurveyDataProvider();
-        $usedTokens = WorkspaceModel::find()->andWhere(['tool_id' => $this->projectId])->select(['token'])->indexBy('token')->column();
+        $usedTokens = WorkspaceModel::find()->andWhere(['project_id' => $this->projectId])->select(['token'])->indexBy('token')->column();
 
         $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere(['id' => $this->projectId])->select('base_survey_eid')->scalar());
 
