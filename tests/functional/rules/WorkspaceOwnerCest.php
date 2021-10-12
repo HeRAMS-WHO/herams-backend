@@ -14,6 +14,10 @@ use SamIT\abac\AuthManager;
  */
 class WorkspaceOwnerCest
 {
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
 
     public function testSharing(FunctionalTester $I)
     {

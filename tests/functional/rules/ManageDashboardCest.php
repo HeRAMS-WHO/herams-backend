@@ -15,7 +15,10 @@ use SamIT\abac\AuthManager;
  */
 class ManageDashboardCest
 {
-
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
     public function testCascade(FunctionalTester $I)
     {
         $project = $I->haveProject();

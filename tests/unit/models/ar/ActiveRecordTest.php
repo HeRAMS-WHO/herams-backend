@@ -13,6 +13,12 @@ use yii\db\ActiveRecord;
  */
 abstract class ActiveRecordTest extends ModelTest
 {
+    protected function _setUp()
+    {
+        parent::_setUp();
+        \Yii::$app->auditService->disable();
+    }
+
     final protected function testRelation(string $name, string $modelClass): void
     {
         $method = 'get' . ucfirst($name);

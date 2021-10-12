@@ -14,6 +14,11 @@ use prime\tests\FunctionalTester;
  */
 class RequestAccessCest
 {
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
+
     public function testCreate(FunctionalTester $I)
     {
         $workspace = $I->haveWorkspace();

@@ -19,6 +19,12 @@ use yii\db\Expression;
  */
 class ResponseRepositoryTest extends Unit
 {
+    protected function _setUp()
+    {
+        parent::_setUp();
+        \Yii::$app->auditService->disable();
+    }
+
     public function testFindForBreadcrumb(): void
     {
         $workspace = new WorkspaceForLimesurvey([

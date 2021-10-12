@@ -14,7 +14,10 @@ use function iter\toArrayWithKeys;
  */
 class RefreshCest
 {
-
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
     public function testPermissionCheck(FunctionalTester $I): void
     {
         $workspace = $I->haveWorkspace();

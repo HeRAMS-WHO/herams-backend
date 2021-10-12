@@ -13,6 +13,11 @@ use prime\tests\FunctionalTester;
  */
 class NotificationsCest
 {
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
+
     public function testPageLoad(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

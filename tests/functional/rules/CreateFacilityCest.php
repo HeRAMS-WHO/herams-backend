@@ -16,6 +16,10 @@ use SamIT\abac\AuthManager;
  */
 class CreateFacilityCest
 {
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
 
     public function testProjectManageImpliesCreateDisabled(FunctionalTester $I)
     {

@@ -9,9 +9,11 @@ use prime\components\ActiveQuery;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ActiveRecord;
 use prime\queries\AccessRequestQuery;
+use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Expression;
 use yii\validators\ExistValidator;
 use yii\validators\InlineValidator;
 use yii\validators\RangeValidator;
@@ -74,12 +76,23 @@ class AccessRequest extends ActiveRecord
             ];
     }
 
+    private static function virtualFields(): array
+    {
+        return [
+
+        ];
+    }
+
     public function behaviors(): array
     {
         return [
             BlameableBehavior::class => [
                 'class' => BlameableBehavior::class,
                 'updatedByAttribute' => false,
+            ],
+                VirtualFieldBehavior::class => [
+                'class' => VirtualFieldBehavior::class,
+                'virtualFields' => self::virtualFields()
             ],
             'expiresAtBehavior' => [
                 'class' => TimestampBehavior::class,
@@ -89,10 +102,6 @@ class AccessRequest extends ActiveRecord
                 'value' => function () {
                     return (new Carbon())->addWeeks(2);
                 }
-            ],
-            TimestampBehavior::class => [
-                'class' => TimestampBehavior::class,
-                'updatedAtAttribute' => false,
             ],
         ];
     }

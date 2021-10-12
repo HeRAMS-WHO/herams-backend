@@ -124,5 +124,11 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210810_065557
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210921_130000_project_add_data_survey', 1632317489);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210922_150000_allow_project_admin_survey_null', 1632317489);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211005_093054_add_i18n_to_workspace_and_rename_tool_id', 1633427094);
-INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211006_073837_add_timestamp_fields', 1633527689);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_112105_create_audit_log', 1634042913);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_120836_session_rename_timestamps', 1634042913);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_125654_access_request_use_datetime', 1634046646);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_135333_permission_use_auditlog', 1634047309);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_141754_user_use_datetime', 1634048417);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_145235_workspace_rename_timestamps', 1634050410);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_150130_facility_rename_timestamps', 1634051048);
 SET FOREIGN_KEY_CHECKS=1;

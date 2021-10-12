@@ -13,6 +13,10 @@ use yii\helpers\Html;
  */
 class CreateCest
 {
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
 
     public function testAccessControl(FunctionalTester $I): void
     {

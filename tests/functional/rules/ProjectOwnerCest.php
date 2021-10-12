@@ -12,6 +12,11 @@ use SamIT\abac\AuthManager;
 class ProjectOwnerCest
 {
 
+    public function _before(FunctionalTester $I)
+    {
+        \Yii::$app->auditService->disable();
+    }
+
     public function testCanSyncWorkspace(FunctionalTester $I)
     {
         $project = $I->haveProject();
