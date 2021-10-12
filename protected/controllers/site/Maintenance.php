@@ -10,7 +10,7 @@ use yii\web\Response;
 
 class Maintenance extends Action
 {
-    public function run(CacheInterface $cache, Response $response)
+    public function run(Response $response)
     {
         $this->controller->layout = Controller::LAYOUT_MAINTENANCE;
         $response->statusCode = 503;
