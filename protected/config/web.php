@@ -14,8 +14,10 @@ use yii\widgets\PjaxAsset;
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
+        \prime\components\MaintenanceMode::class,
         'notificationService',
-        'languageSelector'
+        'languageSelector',
+
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
