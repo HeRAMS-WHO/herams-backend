@@ -34,7 +34,7 @@ class CreateCest
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'Cool stuff',
-            'tool_id' => $project->id,
+            'project_id' => $project->id,
             'token' => 'token2'
         ]);
     }
@@ -51,7 +51,7 @@ class CreateCest
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'Cool stuff',
-            'tool_id' => $project->id,
+            'project_id' => $project->id,
         ]);
         // Find the token.
         /** @var Token[] $tokens */
@@ -60,7 +60,7 @@ class CreateCest
 
         $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'Cool stuff',
-            'tool_id' => $project->id,
+            'project_id' => $project->id,
 
             'token' => array_pop($tokens)->getToken()
         ]);

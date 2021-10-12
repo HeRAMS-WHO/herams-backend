@@ -28,93 +28,6 @@ class WorkspaceForLimesurvey extends Workspace
      */
     protected $_token;
 
-    public function behaviors(): array
-    {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                    /**
-                     * Since a project can only contain workspaces of 1 type (Limesurvey or SurveyJS), we do not need to worry about
-                     * "combined case" behaviors, especially the greedy case.
-                     */
-                    VirtualFieldBehavior::class => [
-                    'class' => VirtualFieldBehavior::class,
-                    'virtualFields' => [
-                        'latestUpdate' => [
-                            VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()
-                                ->limit(1)->select('max(last_updated)')
-                                ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
-                            VirtualFieldBehavior::LAZY => static function (WorkspaceForLimesurvey $workspace) {
-                                return $workspace->getResponses()->orderBy(['last_updated' => SORT_DESC])->limit(1)
-                                    ->one()->last_updated ?? null;
-                            }
-                        ],
-                        'facilityCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => (function () {
-                                $responseQuery = ResponseForLimesurvey::find()
-                                    ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
-                                    ->select(['count' => 'count(distinct hf_id)']);
-                                $facilityQuery = Facility::find()
-                                    ->andWhere(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
-                                    ->select(['count' => 'count(*)']);
-
-                                $responseQuery->union($facilityQuery);
-                                $query = new Query();
-                                $query->from(['sub' => $responseQuery]);
-                                $query->select('sum(count)');
-                                return $query;
-                            })(),
-                            VirtualFieldBehavior::LAZY => static function (WorkspaceForLimesurvey $workspace) {
-                                $filter = new ResponseFilter(null, new HeramsCodeMap());
-                                return $filter->filterQuery($workspace->getResponses())->count()
-                                    + $workspace->getFacilities()->count()
-
-                                    ;
-                            }
-                        ],
-                        'contributorCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => Permission::find()->where([
-                                'target' => WorkspaceForLimesurvey::class,
-                                'target_id' => new Expression(self::tableName() . '.[[id]]'),
-                                'source' => User::class,
-                            ])->select('count(distinct [[source_id]])')
-                            ,
-                            VirtualFieldBehavior::LAZY => static function (self $model): int {
-                                return (int) Permission::find()->where([
-                                    'target' => WorkspaceForLimesurvey::class,
-                                    'target_id' => $model->id,
-                                    'source' => User::class,
-                                ])->count('distinct [[source_id]]');
-                            }
-                        ],
-                        'permissionSourceCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
-                                ->where([
-                                    'source' => User::class,
-                                    'target' => self::class,
-                                    'target_id' => new Expression(self::tableName() . '.[[id]]')
-                                ]),
-                            VirtualFieldBehavior::LAZY => static function (self $model): int {
-                                return (int) $model->getPermissions()->count('distinct source_id');
-                            }
-                        ],
-                        'responseCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('count(*)')
-                                ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
-                            VirtualFieldBehavior::LAZY => static function (WorkspaceForLimesurvey $workspace) {
-                                return $workspace->getResponses()->count();
-                            }
-                        ]
-                    ]
-                    ]
-            ]
-        );
-    }
-
     public static function find(): ActiveQuery
     {
         return parent::find()->andWhere(['not', ['token' => null]]);
@@ -128,7 +41,7 @@ class WorkspaceForLimesurvey extends Workspace
     public static function labels(): array
     {
         return array_merge(parent::labels(), [
-            'closed' => \Yii::t('app.model.workspace', 'Closed'),
+            'closed_at' => \Yii::t('app.model.workspace', 'Closed at'),
             'latestUpdate' => \Yii::t('app.model.workspace', 'Latest update'),
             'token' => \Yii::t('app.model.workspace', 'Token'),
             'contributorCount' => \Yii::t('app.model.workspace', 'Contributors'),
@@ -143,7 +56,7 @@ class WorkspaceForLimesurvey extends Workspace
             parent::rules(),
             [
                 [['token'], UniqueValidator::class, 'filter' => function (Query $query) {
-                    $query->andWhere(['tool_id' => $this->tool_id]);
+                    $query->andWhere(['project_id' => $this->project_id]);
                 }],
             ]
         );
@@ -188,6 +101,6 @@ class WorkspaceForLimesurvey extends Workspace
 
     public function setProjectId(int $id): void
     {
-        $this->tool_id = $id;
+        $this->project_id = $id;
     }
 }

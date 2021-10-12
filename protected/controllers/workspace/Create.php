@@ -38,9 +38,9 @@ class Create extends Action
         $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_WORKSPACES);
 
         if ($project->getType()->equals(ProjectType::limesurvey())) {
-            $model = new CreateForLimesurvey(['tool_id' => new ProjectId($project->id)]);
+            $model = new CreateForLimesurvey(['project_id' => new ProjectId($project->id)]);
         } else {
-            $model = new \prime\models\forms\workspace\Create(['tool_id' => new ProjectId($project->id)]);
+            $model = new \prime\models\forms\workspace\Create(['project_id' => new ProjectId($project->id)]);
         }
 
         if ($request->isPost) {

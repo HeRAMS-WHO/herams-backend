@@ -2,6 +2,7 @@
 
 namespace prime\models\search;
 
+use prime\models\ar\WorkspaceForLimesurvey;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
@@ -11,22 +12,22 @@ use yii\validators\SafeValidator;
 
 class Response extends Model
 {
-    private \prime\models\ar\WorkspaceForLimesurvey $workspace;
-    public string $hf_id = '';
     public string $date = '';
-    public string $last_updated = '';
+    public string $hf_id = '';
     public $id;
+    public string $updated_at = '';
 
-    public function __construct(\prime\models\ar\WorkspaceForLimesurvey $workspace)
-    {
-        parent::__construct([]);
-        $this->workspace = $workspace;
+    public function __construct(
+        private WorkspaceForLimesurvey $workspace,
+        array $config = []
+    ) {
+        parent::__construct($config);
     }
 
     public function rules(): array
     {
         return [
-            [['hf_id', 'date', 'last_updated'], SafeValidator::class],
+            [['hf_id', 'date', 'updated_at'], SafeValidator::class],
             [['id'], NumberValidator::class],
         ];
     }
@@ -51,9 +52,9 @@ class Response extends Model
                 'id',
                 'hf_id',
                 'date',
-                'last_updated'
+                'updated_at'
 //                'title',
-//                'created',
+//                'created_at',
 //                'permissionCount',
 //                'facilityCount',
 //                'latestUpdate' => [
@@ -70,7 +71,7 @@ class Response extends Model
         }
         $query->andFilterWhere(['like', 'hf_id', trim($this->hf_id)]);
         $query->andFilterWhere(['like', 'date', trim($this->date)]);
-        $query->andFilterWhere(['like', 'last_updated', trim($this->last_updated)]);
+        $query->andFilterWhere(['like', 'updated_at', trim($this->updated_at)]);
         $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }

@@ -94,7 +94,7 @@ class Export extends Model
 //
 //        }, 'external_url', 'External URL');
         yield new ClosureColumn(static function (HeramsResponseInterface $response): ?string {
-            return $response->last_updated ?? null;
+            return $response->updated_at ?? null;
         }, 'last_synced', 'Last synced');
 
         if ($this->answersAsText) {

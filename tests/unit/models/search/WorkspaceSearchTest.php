@@ -24,7 +24,7 @@ class WorkspaceSearchTest extends Unit
                 [
                     'id' => 15,
                     'title' => 'test',
-                    'created' => '2021',
+                    'created_at' => '2021',
                     'favorite' => '0'
                 ]
             ]

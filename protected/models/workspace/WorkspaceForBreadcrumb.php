@@ -18,7 +18,7 @@ class WorkspaceForBreadcrumb implements WorkspaceForBreadcrumbInterface
         WorkspaceForLimesurvey $model
     ) {
         $this->label = $model->title;
-        $this->projectId = new ProjectId($model->tool_id);
+        $this->projectId = new ProjectId($model->project_id);
         $this->url = ['/workspace/responses', 'id' => $model->id];
     }
 

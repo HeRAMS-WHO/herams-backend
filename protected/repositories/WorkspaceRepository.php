@@ -16,6 +16,8 @@ use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\Workspace as WorkspaceForm;
 use prime\models\forms\workspace\Create;
 use prime\models\forms\workspace\CreateForLimesurvey;
+use prime\models\forms\workspace\Update as WorkspaceUpdate;
+use prime\models\forms\workspace\UpdateForLimesurvey as WorkspaceUpdateForLimesurvey;
 use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\models\workspace\WorkspaceForNewOrUpdateFacility;
 use prime\objects\LanguageSet;
@@ -113,12 +115,30 @@ class WorkspaceRepository implements
         return new \prime\models\workspace\WorkspaceForTabMenu($this->accessCheck, $record);
     }
 
-    public function retrieveForWrite(IntegerId|WorkspaceId $id): WorkspaceForLimesurvey
+    public function retrieveForUpdate(IntegerId|WorkspaceId $id): WorkspaceUpdate|WorkspaceUpdateForLimesurvey
     {
-        $record = WorkspaceForLimesurvey::findOne(['id' => $id]);
+        $record = Workspace::findOne(['id' => $id]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
-        return $record;
+        if ($record instanceof WorkspaceForLimesurvey) {
+            $update = new WorkspaceUpdateForLimesurvey(new WorkspaceId($record->id));
+        } else {
+            $update = new WorkspaceUpdate(new WorkspaceId($record->id));
+        }
+        $this->hydrator->hydrateFromActiveRecord($update, $record);
+
+        return $update;
+    }
+
+    public function save(WorkspaceUpdate|WorkspaceUpdateForLimesurvey $model): WorkspaceId
+    {
+        $record = Workspace::findOne(['id' => $model->getId()]);
+
+        $this->hydrator->hydrateActiveRecord($record, $model);
+        if (!$record->save()) {
+            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+        }
+        return new WorkspaceId($record->id);
     }
 }

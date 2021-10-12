@@ -10,7 +10,6 @@ use prime\objects\HeramsSubject;
 use yii\validators\RequiredValidator;
 
 /**
- * @property string|\DateTimeInterface $last_updated The last time this response was synced
  * @property int $workspace_id
  * @property int $id
  * @property string|\DateTimeInterface $date The date of the information
@@ -29,12 +28,6 @@ class ResponseForLimesurvey extends Response implements HeramsResponseInterface
     public function getMap(): HeramsCodeMap
     {
         return new HeramsCodeMap();
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->last_updated = Carbon::now();
-        return parent::beforeSave($insert);
     }
 
     public function afterFind()

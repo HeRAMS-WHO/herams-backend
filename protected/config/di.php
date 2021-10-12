@@ -57,6 +57,8 @@ use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\resolvers\ChainedResolver;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 use yii\di\Container;
 use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
@@ -182,6 +184,10 @@ return [
         'class' => NewsletterService::class,
         'mailchimpListId' => $env->getWrappedSecret('mailchimp/list_id'),
         'mailchimpTag' => $env->getWrappedSecret('mailchimp/tag'),
+    ],
+    TimestampBehavior::class => [
+        'class' => TimestampBehavior::class,
+        'value' => new Expression('NOW()'),
     ],
     UserRepository::class => UserRepository::class,
 ];

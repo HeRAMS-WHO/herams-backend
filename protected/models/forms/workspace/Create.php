@@ -13,7 +13,7 @@ use yii\validators\StringValidator;
 class Create extends Model
 {
     public null|string $title = null;
-    public null|ProjectId $tool_id = null;
+    public null|ProjectId $project_id = null;
 
     public function attributeLabels(): array
     {

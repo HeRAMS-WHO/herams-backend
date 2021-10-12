@@ -27,7 +27,7 @@ class WorkspaceRepositoryTest extends Unit
         $model = new WorkspaceForLimesurvey([
             'title' => 'Test workspace',
             'token' => '12345',
-            'tool_id' => 1,
+            'project_id' => 1,
         ]);
         $this->assertTrue($model->save());
 
@@ -39,6 +39,6 @@ class WorkspaceRepositoryTest extends Unit
 
         $this->assertEquals($model->title, $breadcrumb->getLabel());
         $this->assertEquals(['/workspace/responses', 'id' => $model->id], $breadcrumb->getUrl());
-        $this->assertEquals(new ProjectId($model->tool_id), $breadcrumb->getProjectId());
+        $this->assertEquals(new ProjectId($model->project_id), $breadcrumb->getProjectId());
     }
 }

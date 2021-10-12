@@ -14,7 +14,6 @@ use yii\web\View;
 /**
  * @var View $this
  * @var CreateForLimesurvey|Create $model
- * @var \prime\models\ar\read\Project $parent
  */
 
 $this->title = \Yii::t('app', 'Create workspace');
@@ -24,28 +23,33 @@ Section::begin()
 
 $form = ActiveForm::begin();
 
+$attributes = [
+    'title' => [
+        'type' => Form::INPUT_TEXT,
+    ],
+];
+
+if ($model instanceof CreateForLimesurvey) {
+    $attributes['token'] = [
+        'type' => Form::INPUT_WIDGET,
+        'widgetClass' => Select2::class,
+        'options' => [
+            'data' => $model->tokenOptions(),
+        ],
+    ];
+}
+
+$attributes[] = FormButtonsWidget::embed([
+    'buttons' => [
+        ['label' => \Yii::t('app', 'Create workspace'), 'type' => ButtonGroup::TYPE_SUBMIT, 'style' => 'primary'],
+    ]
+]);
+
 echo Form::widget([
     'form' => $form,
     'model' => $model,
     'columns' => 1,
-    "attributes" => [
-        'title' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'token' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => Select2::class,
-            'options' => [
-                'data' => $model->tokenOptions(),
-            ],
-        ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                ['label' => \Yii::t('app', 'Create workspace'), 'type' => ButtonGroup::TYPE_SUBMIT, 'style' => 'primary'],
-            ]
-        ])
-
-    ]
+    'attributes' => $attributes,
 ]);
 
 ActiveForm::end();

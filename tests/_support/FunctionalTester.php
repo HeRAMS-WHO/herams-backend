@@ -133,7 +133,7 @@ class FunctionalTester extends \Codeception\Actor
         if (!isset($this->workspace)) {
             $this->workspace = $workspace = new WorkspaceForLimesurvey();
             $workspace->title = 'WS1';
-            $workspace->tool_id = $this->haveProject()->id;
+            $workspace->project_id = $this->haveProject()->id;
             $workspace->token = 'TestToken1';
             $this->save($workspace);
         }

@@ -52,7 +52,7 @@ class Update extends Action
         }
 
         /** @var WorkspaceForLimesurvey|null $workspace */
-        $workspace = WorkspaceForLimesurvey::find()->andWhere(['token' => $data['token'], 'tool_id' => $project->id])->one();
+        $workspace = WorkspaceForLimesurvey::find()->andWhere(['token' => $data['token'], 'project_id' => $project->id])->one();
         if (!isset($workspace)) {
             throw new NotFoundHttpException('Unknown token');
         }

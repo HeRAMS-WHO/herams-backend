@@ -16,13 +16,13 @@ class WorkspaceForLimesurveyTest extends ActiveRecordTest
                 [
                     'title' => 'test',
                     'token' => 'abcdef',
-                    'closed' => Carbon::now(),
-                    'tool_id' => function () {
-                        $tool = new Project();
-                        $tool->title = 'Test Tool';
-                        $tool->base_survey_eid = '12345';
-                        $this->assertTrue($tool->save(), print_r($tool->errors, true));
-                        return $tool->id;
+                    'closed_at' => Carbon::now(),
+                    'project_id' => function () {
+                        $project = new Project();
+                        $project->title = 'Test Project';
+                        $project->base_survey_eid = '12345';
+                        $this->assertTrue($project->save(), print_r($project->errors, true));
+                        return $project->id;
                     }
                 ]
             ],
@@ -37,7 +37,7 @@ class WorkspaceForLimesurveyTest extends ActiveRecordTest
         return [
             [
                 [
-                    'closed' => 'abc',
+                    'closed_at' => 'abc',
                     'token' => 'test123',
 
                 ]
@@ -45,14 +45,14 @@ class WorkspaceForLimesurveyTest extends ActiveRecordTest
             [
                 [
                     'token' => 'test123',
-                    'tool_id' => 1
+                    'project_id' => 1
                 ],
                 null,
                 // This is a pre inserted record, so it has to be valid.
                 [
                     'token' => 'test123',
                     'title' => 'test',
-                    'tool_id' => 1
+                    'project_id' => 1
                 ]
             ]
         ];

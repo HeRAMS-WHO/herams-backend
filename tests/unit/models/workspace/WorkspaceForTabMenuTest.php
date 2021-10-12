@@ -23,7 +23,7 @@ class WorkspaceForTabMenuTest extends Unit
     {
         $workspace = new WorkspaceForLimesurvey();
         $workspace->id = 15;
-        $workspace->tool_id = 123;
+        $workspace->project_id = 123;
         $workspace->permissionSourceCount = 5;
         $workspace->facilityCount = 1244;
         $workspace->title = 'workspace title';
@@ -81,7 +81,7 @@ class WorkspaceForTabMenuTest extends Unit
     {
         $workspace = new WorkspaceForLimesurvey();
         $workspace->id = 121333;
-        $workspace->tool_id = 1;
+        $workspace->project_id = 1;
         $workspace->isNewRecord = false;
 
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->getMock();

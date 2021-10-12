@@ -39,7 +39,7 @@ class ImportCest
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'token2',
-            'tool_id' => $project->id,
+            'project_id' => $project->id,
             'token' => 'token2'
         ]);
     }

@@ -3,24 +3,38 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 
 /**
  * Attributes
- * @property int $id
  * @property array $config
+ * @property string|null $created_at
+ * @property int $id
+ * @property string|null $update_at
  *
  * Virtual fields
  * @property-read string $title
  */
 class Survey extends ActiveRecord
 {
-    public function rules(): array
+    public function behaviors()
     {
-        return [
-            [['config'], RequiredValidator::class]
-        ];
+        return ArrayHelper::merge(
+            parent::behaviors(),
+            [
+                TimestampBehavior::class => [
+                    'class' => TimestampBehavior::class,
+                ],
+            ]
+        );
+    }
+
+    public function getTitle(): string
+    {
+        return $this->config['title'] ?? \Yii::t('app', "Survey without title, id {id}", ['id' => $this->id]);
     }
 
     public static function labels(): array
@@ -31,8 +45,10 @@ class Survey extends ActiveRecord
         ]);
     }
 
-    public function getTitle(): string
+    public function rules(): array
     {
-        return $this->config['title'] ?? \Yii::t('app', "Survey without title, id {id}", ['id' => $this->id]);
+        return [
+            [['config'], RequiredValidator::class]
+        ];
     }
 }

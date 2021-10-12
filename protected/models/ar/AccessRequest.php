@@ -61,16 +61,16 @@ class AccessRequest extends ActiveRecord
     public static function labels(): array
     {
         return parent::labels() + [
-                'accepted' => \Yii::t('app', 'Accepted'),
-                'body' => \Yii::t('app', 'Body'),
-                'expires_at' => \Yii::t('app', 'Expires at'),
-                'permissions' => \Yii::t('app', 'Subject'),
-                'responded_at' => \Yii::t('app', 'Responded at'),
-                'responded_by' => \Yii::t('app', 'Responded by'),
-                'response' => \Yii::t('app', 'Response'),
-                'subject' => \Yii::t('app', 'Subject'),
-                'target_class' => \Yii::t('app', 'Target class'),
-                'target_id' => \Yii::t('app', 'Target'),
+                'accepted' => \Yii::t('app.model.accessRequest', 'Accepted'),
+                'body' => \Yii::t('app.model.accessRequest', 'Body'),
+                'expires_at' => \Yii::t('app.model.accessRequest', 'Expires at'),
+                'permissions' => \Yii::t('app.model.accessRequest', 'Subject'),
+                'responded_at' => \Yii::t('app.model.accessRequest', 'Responded at'),
+                'responded_by' => \Yii::t('app.model.accessRequest', 'Responded by'),
+                'response' => \Yii::t('app.model.accessRequest', 'Response'),
+                'subject' => \Yii::t('app.model.accessRequest', 'Subject'),
+                'target_class' => \Yii::t('app.model.accessRequest', 'Target class'),
+                'target_id' => \Yii::t('app.model.accessRequest', 'Target'),
             ];
     }
 
@@ -87,7 +87,7 @@ class AccessRequest extends ActiveRecord
                     BaseActiveRecord::EVENT_BEFORE_INSERT => ['expires_at'],
                 ],
                 'value' => function () {
-                    return (new Carbon())->addWeeks(2)->timestamp;
+                    return (new Carbon())->addWeeks(2);
                 }
             ],
             TimestampBehavior::class => [

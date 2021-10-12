@@ -22,7 +22,7 @@ class WorkspaceForBreadcrumbTest extends Unit
         $workspace = new WorkspaceForLimesurvey();
         $workspace->id = $workspaceId;
         $workspace->title = $label;
-        $workspace->tool_id = $projectId;
+        $workspace->project_id = $projectId;
 
         $forBreadcrumb = new WorkspaceForBreadcrumb($workspace);
         $this->assertEquals(['/workspace/responses', 'id' => $workspaceId], $forBreadcrumb->getUrl());
