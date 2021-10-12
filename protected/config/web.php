@@ -6,7 +6,9 @@ declare(strict_types=1);
 use Carbon\Carbon;
 use kartik\dialog\DialogAsset;
 use kartik\dialog\DialogBootstrapAsset;
+use prime\components\Formatter;
 use prime\components\LanguageSelector;
+use prime\components\MaintenanceMode;
 use prime\components\NotificationService;
 use yii\web\DbSession;
 use yii\widgets\PjaxAsset;
@@ -14,7 +16,7 @@ use yii\widgets\PjaxAsset;
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
-        \prime\components\MaintenanceMode::class,
+        MaintenanceMode::class,
         'notificationService',
         'languageSelector',
 
@@ -22,7 +24,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'defaultRoute' => 'marketplace/herams',
     'components' => [
         'formatter'=> [
-            'class' => \prime\components\Formatter::class
+            'class' => Formatter::class
         ],
         'session' => [
             'class' => DbSession::class,
