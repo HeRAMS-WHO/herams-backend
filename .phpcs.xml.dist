@@ -4,7 +4,10 @@
 
     <file>protected</file>
     <file>public</file>
-    <file>tests</file>
+    <file>tests/unit</file>
+    <file>tests/functional</file>
+    <file>tests/_support</file>
+    <file>tests/_helpers</file>
 
     <arg name="basepath" value="."/>
     <arg name="colors"/>
