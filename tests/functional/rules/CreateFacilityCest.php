@@ -16,13 +16,9 @@ use SamIT\abac\AuthManager;
  */
 class CreateFacilityCest
 {
-    public function _before(FunctionalTester $I)
-    {
-        \Yii::$app->auditService->disable();
-    }
-
     public function testProjectManageImpliesCreateDisabled(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $project->manage_implies_create_hf = false;
         $I->save($project);
@@ -30,7 +26,6 @@ class CreateFacilityCest
         $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
-        $I->amLoggedInAs(TEST_USER_ID);
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
 
@@ -44,6 +39,7 @@ class CreateFacilityCest
 
     public function testProjectManageImpliesCreateEnabled(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $project->manage_implies_create_hf = true;
         $I->save($project);
@@ -51,7 +47,6 @@ class CreateFacilityCest
         $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
-        $I->amLoggedInAs(TEST_USER_ID);
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
 

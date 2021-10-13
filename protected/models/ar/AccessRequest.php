@@ -5,6 +5,7 @@ namespace prime\models\ar;
 
 use Carbon\Carbon;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
+use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ActiveRecord;
@@ -79,13 +80,22 @@ class AccessRequest extends ActiveRecord
     private static function virtualFields(): array
     {
         return [
-
+            'created_at' => [
+                VirtualFieldBehavior::GREEDY => Audit::find()->limit(1)->select('max([[created_at]])')
+                    ->created()
+                    ->forModelClass(static::class)
+                    ->forSubjectId(new Expression(self::tableName() . '.[[id]]'))
+                ,
+                VirtualFieldBehavior::LAZY => static fn(self $model): ?string
+                => Audit::find()->forModel($model)->created()->select('max([[created_at]])')->scalar()
+            ]
         ];
     }
 
     public function behaviors(): array
     {
         return [
+            AuditableBehavior::class,
             BlameableBehavior::class => [
                 'class' => BlameableBehavior::class,
                 'updatedByAttribute' => false,

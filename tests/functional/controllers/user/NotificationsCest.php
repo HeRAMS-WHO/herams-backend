@@ -13,11 +13,6 @@ use prime\tests\FunctionalTester;
  */
 class NotificationsCest
 {
-    public function _before(FunctionalTester $I)
-    {
-        \Yii::$app->auditService->disable();
-    }
-
     public function testPageLoad(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
@@ -27,8 +22,8 @@ class NotificationsCest
 
     public function testAccessRequestNotification(FunctionalTester $I)
     {
-        $project = $I->haveProject();
         $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProject();
         $accessRequest = new AccessRequest([
             'subject' => 'test',
             'body' => 'test',

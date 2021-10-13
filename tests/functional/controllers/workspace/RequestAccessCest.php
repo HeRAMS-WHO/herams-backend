@@ -14,16 +14,12 @@ use prime\tests\FunctionalTester;
  */
 class RequestAccessCest
 {
-    public function _before(FunctionalTester $I)
-    {
-        \Yii::$app->auditService->disable();
-    }
-
     public function testCreate(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
+
         $workspace = $I->haveWorkspace();
 
-        $I->amLoggedInAs(TEST_USER_ID);
         $I->assertUserCan($workspace->project, Permission::PERMISSION_SUMMARY);
         $I->amOnPage(['workspace/request-access', 'id' => $workspace->id]);
 

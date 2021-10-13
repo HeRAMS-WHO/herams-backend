@@ -8,9 +8,6 @@ use yii\db\Migration;
  */
 class m211012_120836_session_rename_timestamps extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->renameColumn('{{%session}}', 'created', 'created_at');
@@ -18,9 +15,6 @@ class m211012_120836_session_rename_timestamps extends Migration
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->renameColumn('{{%session}}', 'created_at', 'created');

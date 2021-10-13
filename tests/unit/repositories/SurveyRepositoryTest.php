@@ -22,12 +22,6 @@ use yii\data\DataProviderInterface;
  */
 class SurveyRepositoryTest extends Unit
 {
-    protected function _setUp()
-    {
-        parent::_setUp();
-        \Yii::$app->auditService->disable();
-    }
-
     protected function createSurvey(array $config = []): Survey
     {
         $survey = new Survey();

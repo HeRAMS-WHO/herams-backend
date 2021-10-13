@@ -9,10 +9,7 @@ use yii\db\Migration;
  */
 class m211012_141754_user_use_datetime extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
+    public function safeUp(): bool
     {
         $helper = new MigrationHelper($this);
         $helper->changeColumnFromIntToDatetime('{{%user}}', 'created_at');
@@ -21,30 +18,12 @@ class m211012_141754_user_use_datetime extends Migration
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
+    public function safeDown(): bool
     {
         $helper = new MigrationHelper($this);
-        $helper->changeColumnFromDatetimeToInt('{{%user}}', 'responded_at');
+        $helper->changeColumnFromDatetimeToInt('{{%user}}', 'created_at');
         $helper->changeColumnFromDatetimeToInt('{{%user}}', 'updated_at');
 
         return true;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m211012_141754_user_use_datetime cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

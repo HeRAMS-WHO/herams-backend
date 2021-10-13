@@ -8,21 +8,18 @@ use prime\interfaces\NewAuditEntryInterface;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\NotSupportedException;
-use yii\db\Connection;
 use yii\web\Application;
 
 class AuditService extends Component implements BootstrapInterface
 {
+    public string $table = '{{%audit}}';
     /**
      * @var NewAuditEntryInterface[]
      */
     private array $entries = [];
-
-    public string $table = '{{%audit}}';
-
     private Application $application;
 
-    private bool $enabled = true;
+    public bool $enabled = true;
 
     public function add(NewAuditEntryInterface $entry): void
     {
@@ -37,6 +34,17 @@ class AuditService extends Component implements BootstrapInterface
     private function getUserId(): int
     {
         return $this->application->user->id;
+    }
+
+    public function bootstrap($app): void
+    {
+        if (!$app instanceof Application) {
+            throw new NotSupportedException('This service only supports web application');
+        }
+        $this->application = $app;
+        $app->on(Application::EVENT_AFTER_REQUEST, function () {
+            $this->commit();
+        });
     }
 
     public function commit(): void
@@ -64,26 +72,9 @@ class AuditService extends Component implements BootstrapInterface
                 $rows
             )->execute();
         } catch (\Exception $e) {
-            throw $e;
             \Yii::error($rows, 'auditservice.uncommitted');
             \Yii::error($e);
         }
         $this->entries = [];
-    }
-
-    public function bootstrap($app)
-    {
-        if (!$app instanceof Application) {
-            throw new NotSupportedException('This service only supports web application');
-        }
-        $this->application = $app;
-        $app->on(Application::EVENT_AFTER_REQUEST, function () {
-            $this->commit();
-        });
-    }
-
-    public function disable(): void
-    {
-        $this->enabled = false;
     }
 }

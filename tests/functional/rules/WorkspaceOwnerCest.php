@@ -14,17 +14,13 @@ use SamIT\abac\AuthManager;
  */
 class WorkspaceOwnerCest
 {
-    public function _before(FunctionalTester $I)
-    {
-        \Yii::$app->auditService->disable();
-    }
-
     public function testSharing(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
-        $I->amLoggedInAs(TEST_USER_ID);
+
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
         $manager->grant($user, $workspace, Permission::PERMISSION_SURVEY_DATA);

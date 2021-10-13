@@ -15,16 +15,13 @@ use SamIT\abac\AuthManager;
  */
 class ManageDashboardCest
 {
-    public function _before(FunctionalTester $I)
-    {
-        \Yii::$app->auditService->disable();
-    }
+
     public function testCascade(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
-        $I->amLoggedInAs(TEST_USER_ID);
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
         $manager->grant($user, $project, Permission::PERMISSION_MANAGE_DASHBOARD);

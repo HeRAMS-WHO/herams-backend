@@ -18,11 +18,15 @@ class AccessRequests extends Action
         $identity = $user->identity;
 
         $respondedAccessRequestDataprovider = new ActiveDataProvider([
-            'query' => AccessRequest::find()->andWhere(['responded_by' => $identity->id]),
+            'query' => AccessRequest::find()
+                ->withFields('created_at')
+                ->andWhere(['responded_by' => $identity->id]),
         ]);
 
         $userAccessRequestDataprovider = new ActiveDataProvider([
-            'query' => AccessRequest::find()->andWhere(['created_by' => $identity->id]),
+            'query' => AccessRequest::find()
+                ->withFields('created_at')
+                ->andWhere(['created_by' => $identity->id]),
         ]);
 
         return $this->controller->render(

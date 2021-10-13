@@ -9,10 +9,7 @@ use yii\db\Migration;
  */
 class m211012_125654_access_request_use_datetime extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
+    public function safeUp(): bool
     {
         $helper = new MigrationHelper($this);
         $helper->changeColumnFromIntToDatetimeWithNull('{{%access_request}}', 'responded_at');
@@ -23,10 +20,7 @@ class m211012_125654_access_request_use_datetime extends Migration
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
+    public function safeDown(): bool
     {
         $helper = new MigrationHelper($this);
         $helper->changeColumnFromDatetimeToIntWithNull('{{%access_request}}', 'responded_at');
@@ -36,19 +30,4 @@ class m211012_125654_access_request_use_datetime extends Migration
         $this->addForeignKey('fk-access_request-created_by-user-id', '{{%access_request}}', 'created_by', '{{%user}}', 'id');
         return true;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m211012_125654_access_request_use_datetime cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

@@ -14,16 +14,12 @@ use function iter\toArrayWithKeys;
  */
 class RefreshCest
 {
-    public function _before(FunctionalTester $I)
-    {
-        \Yii::$app->auditService->disable();
-    }
     public function testPermissionCheck(FunctionalTester $I): void
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
         $workspace->token = 'token1';
         $I->save($workspace);
-        $I->amLoggedInAs(TEST_USER_ID);
         $I->sendPost(Url::to(['/api/workspace/refresh', 'id' => $workspace->id]));
         $I->seeResponseCodeIs(403);
         $I->grantCurrentUser($workspace, Permission::PERMISSION_ADMIN);
