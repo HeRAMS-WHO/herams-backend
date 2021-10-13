@@ -103,6 +103,8 @@ class ModelHydrator
             } else {
                 throw new \InvalidArgumentException("Unknown complex type: " . get_class($complex));
             }
+        } elseif (is_bool($complex)) {
+            return $complex ? 1 : 0;
         }
         return $complex;
     }
