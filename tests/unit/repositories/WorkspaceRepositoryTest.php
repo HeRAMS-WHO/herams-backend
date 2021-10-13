@@ -6,16 +6,10 @@ namespace prime\tests\unit\repositories;
 use Codeception\Test\Unit;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Project;
-use prime\models\ar\ResponseForLimesurvey;
-use prime\models\ar\WorkspaceForLimesurvey;
-use prime\repositories\ProjectRepository;
-use prime\repositories\ResponseRepository;
+use prime\models\ar\Workspace;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ProjectId;
-use prime\values\ResponseId;
 use prime\values\WorkspaceId;
-use yii\db\Expression;
 
 /**
  * @covers \prime\repositories\WorkspaceRepository
@@ -24,7 +18,7 @@ class WorkspaceRepositoryTest extends Unit
 {
     public function testFindForBreadcrumb(): void
     {
-        $model = new WorkspaceForLimesurvey([
+        $model = new Workspace([
             'title' => 'Test workspace',
             'token' => '12345',
             'project_id' => 1,
@@ -38,7 +32,7 @@ class WorkspaceRepositoryTest extends Unit
         $breadcrumb = $repository->retrieveForBreadcrumb(new WorkspaceId($model->id));
 
         $this->assertEquals($model->title, $breadcrumb->getLabel());
-        $this->assertEquals(['/workspace/responses', 'id' => $model->id], $breadcrumb->getUrl());
+        $this->assertEquals(['/workspace/facilities', 'id' => $model->id], $breadcrumb->getUrl());
         $this->assertEquals(new ProjectId($model->project_id), $breadcrumb->getProjectId());
     }
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
-use prime\actions\CreateChildAction;
 use prime\actions\DeleteAction;
 use prime\actions\ExportAction;
 use prime\components\Controller;
@@ -15,7 +14,6 @@ use prime\controllers\workspace\RequestAccess;
 use prime\controllers\workspace\Responses;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
-use prime\helpers\ModelHydrator;
 use prime\models\ar\Permission;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\objects\Breadcrumb;
