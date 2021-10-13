@@ -17,7 +17,7 @@ use prime\widgets\survey\Survey;
 $this->title = Yii::t('app', 'Create facility');
 
 Section::begin()
-    ->withHeader(\Yii::t('app', 'Register facility'));
+    ->withHeader($this->title);
 
 Survey::begin()
     ->withSubmitRoute(['facility/create', 'workspaceId' => $model->getWorkspace()->id()])

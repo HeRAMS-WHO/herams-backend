@@ -80,7 +80,7 @@ class FacilityControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['parent_id' => $workspaceId],
+            'queryParams' => ['workspaceId' => $workspaceId],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }

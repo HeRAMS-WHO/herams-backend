@@ -69,7 +69,7 @@ class FacilityController extends Controller
         $breadcrumbCollection = $this->view->getBreadcrumbCollection()
             ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
 
-        if (in_array($this->action->id, ['create']) && $workspaceId = (int) $this->request->getQueryParam('parent_id')) {
+        if (in_array($this->action->id, ['create']) && $workspaceId = (int) $this->request->getQueryParam('workspaceId')) {
             $workspace = $this->workspaceRepository->retrieveForBreadcrumb(new WorkspaceId($workspaceId));
             $project = $this->projectRepository->retrieveForBreadcrumb($workspace->getProjectId());
             $breadcrumbCollection

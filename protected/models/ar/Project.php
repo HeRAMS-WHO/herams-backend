@@ -325,9 +325,13 @@ class Project extends ActiveRecord implements Linkable
         return $result;
     }
 
-    public function getSurvey(): SurveyInterface
+    public function getSurvey(): SurveyInterface|Survey
     {
-        return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
+        if ($this->getType()->equals(ProjectType::limesurvey())) {
+            return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
+        } else {
+            return Survey::findOne(['id' => $this->data_survey_id]);
+        }
     }
 
     public function getType(): ProjectType

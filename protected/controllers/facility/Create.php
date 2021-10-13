@@ -5,18 +5,22 @@ namespace prime\controllers\facility;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\CreateModelRepositoryInterface;
+use prime\models\ar\Facility;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\NewFacility;
 use prime\objects\BreadcrumbCollection;
 use prime\repositories\FacilityRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\WorkspaceId;
 use yii\base\Action;
+use yii\base\InvalidArgumentException;
 use yii\base\Model;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Response;
+use function PHPUnit\Framework\assertInstanceOf;
 
 class Create extends Action
 {
@@ -67,18 +71,20 @@ class Create extends Action
         $response->headers->add('Access-Control-Allow-Origin', '*');
         $response->headers->add('Access-Control-Allow-Credentials', 'true');
         $id = new WorkspaceId($workspaceId);
-        $workspaceForNewFacility = $workspaceRepository->retrieveForNewFacility($id);
+        try {
+            $workspaceForNewFacility = $workspaceRepository->retrieveForNewFacility($id);
+        } catch (InvalidArgumentException $e) {
+            // In case it is a Limesurvey project we need to create a new response
+            $workspace = $workspaceRepository->retrieveForRead($id);
+            assertInstanceOf(WorkspaceForLimesurvey::class, $workspace);
+            return $this->controller->render('createForLimesurvey', ['model' => $workspace]);
+        }
         $model = new NewFacility($workspaceForNewFacility);
 
         if ($request->isPost) {
             return $this->handlePost($request, $hydrator, $model, $this->controller, $facilityRepository, $response);
         }
 
-
-
-        $breadcrumbCollection = $this->controller->view->getBreadcrumbCollection();
-        $breadcrumbCollection
-            ->add($this->workspaceRepository->retrieveForBreadcrumb($id));
         return $this->controller->render('create', ['model' => $model]);
     }
 }

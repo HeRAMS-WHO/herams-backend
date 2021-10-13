@@ -17,6 +17,7 @@ use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
 use prime\models\ar\ResponseForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
@@ -117,65 +118,60 @@ class FacilityRepository implements CreateModelRepositoryInterface
         return new FacilityId((string) $record->id);
     }
 
-
     public function searchInWorkspace(WorkspaceId $id, FacilitySearch $model): DataProviderInterface
     {
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id->getValue()]);
-        $query = FacilityReadRecord::find();
+        $workspace = Workspace::findOne(['id' => $id->getValue()]);
 
-        $query->andFilterWhere(['workspace_id' => $id->getValue()]);
+        if ($workspace instanceof WorkspaceForLimesurvey) {
+            $filter = new ResponseFilter($workspace->project->getSurvey(), new HeramsCodeMap());
 
-        if ($model->validate()) {
-            $query->andFilterWhere(['like', 'name', $model->name]);
-            $query->andFilterWhere(['id' => $model->id]);
-        }
+            $limesurveyData = [];
+            /** @var \prime\models\ar\ResponseForLimesurvey $response */
+            foreach ($filter->filterQuery($workspace->getResponses())->each() as $response) {
+                $limesurveyData[$response->hf_id] = $this->createFromResponse($response);
+            }
 
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $limesurveyData
+            ]);
+        } else {
+            $query = FacilityReadRecord::find();
 
-        $dataProvider = new HydratedActiveDataProvider(
-            fn(Facility $facility) => $this->hydrator->hydrateConstructor($facility, FacilityForList::class),
-            [
-                'query' => $query,
-                'pagination' => false,
+            $query->andFilterWhere(['workspace_id' => $id->getValue()]);
 
-            ]
-        );
+            if ($model->validate()) {
+                $query->andFilterWhere(['like', 'name', $model->name]);
+                $query->andFilterWhere(['id' => $model->id]);
+            }
 
-        /**
-         * Optimize total count since we don't have HF specific permissions.
-         * If this ever changes, pagination may break but permission checking will not
-         */
-        $dataProvider->totalCount = fn(QueryInterface $query) => (int) $query->count();
-
-
-        /**
-         * Get the LS data
-         */
-        $filter = new ResponseFilter($workspace->project->getSurvey(), new HeramsCodeMap());
-
-        $limesurveyData = [];
-        /** @var \prime\models\ar\ResponseForLimesurvey $response */
-        foreach ($filter->filterQuery($workspace->getResponses())->each() as $response) {
-            $limesurveyData[$response->hf_id] = $this->createFromResponse($response);
-        }
-        return new CompositeDataProvider($dataProvider, new ArrayDataProvider([
-            'pagination' => false,
-            'allModels' => $limesurveyData
-
-        ]), [
-            'pagination' => [
-                'pageSize' => 15
-            ],
-            'sort' => [
-                'attributes' => [
-                    FacilityForList::UUID,
-                    FacilityForList::ID,
-                    FacilityForList::NAME,
-                    FacilityForList::ALTERNATIVE_NAME,
-                    FacilityForList::CODE,
-                    FacilityForList::RESPONSE_COUNT
+            $dataProvider = new HydratedActiveDataProvider(
+                fn(Facility $facility) => $this->hydrator->hydrateConstructor($facility, FacilityForList::class),
+                [
+                    'query' => $query,
+                    /**
+                     * Optimize total count since we don't have HF specific permissions.
+                     * If this ever changes, pagination may break but permission checking will not
+                     */
+                    'totalCount' => fn(QueryInterface $query) => (int) $query->count(),
                 ]
+            );
+        }
+
+        $dataProvider->setPagination([
+            'pageSize' => 15,
+        ]);
+        $dataProvider->setSort([
+            'attributes' => [
+                FacilityForList::UUID,
+                FacilityForList::ID,
+                FacilityForList::NAME,
+                FacilityForList::ALTERNATIVE_NAME,
+                FacilityForList::CODE,
+                FacilityForList::RESPONSE_COUNT
             ]
         ]);
+
+        return $dataProvider;
     }
 
     private function createFromResponse(ResponseForLimesurvey $response): FacilityForList

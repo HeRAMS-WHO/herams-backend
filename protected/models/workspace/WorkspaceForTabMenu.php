@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace prime\models\workspace;
 
 use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\traits\CanCurrentUser;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
@@ -17,7 +17,7 @@ final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
     private ProjectId $projectId;
     public function __construct(
         private AccessCheckInterface $accessCheck,
-        private WorkspaceForLimesurvey $model
+        private Workspace $model
     ) {
         if ($model->isNewRecord) {
             throw new \InvalidArgumentException('Record must not be a new record');
@@ -61,7 +61,7 @@ final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
         return $this->model->permissionSourceCount;
     }
 
-    private function getModel(): WorkspaceForLimesurvey
+    private function getModel(): Workspace
     {
         return $this->model;
     }
