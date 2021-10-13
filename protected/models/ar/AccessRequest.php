@@ -38,7 +38,7 @@ use yii\validators\StringValidator;
  * @property int $target_id
  *
  * @property User $createdByUser
- * @property Project|WorkspaceForLimesurvey $target
+ * @property Project|Workspace $target
  */
 class AccessRequest extends ActiveRecord
 {
@@ -137,7 +137,7 @@ class AccessRequest extends ActiveRecord
         ];
     }
 
-    public static function permissionMap(Project|WorkspaceForLimesurvey $target): array
+    public static function permissionMap(Project|Workspace $target): array
     {
         $map = [
             Project::class => [
@@ -145,7 +145,7 @@ class AccessRequest extends ActiveRecord
                 self::PERMISSION_READ => Permission::PERMISSION_READ,
                 self::PERMISSION_WRITE => Permission::PERMISSION_SURVEY_DATA,
             ],
-            WorkspaceForLimesurvey::class => [
+            Workspace::class => [
                 self::PERMISSION_CONTRIBUTE => Permission::PERMISSION_SURVEY_DATA,
                 self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
                 self::PERMISSION_READ => Permission::PERMISSION_READ,
@@ -166,7 +166,7 @@ class AccessRequest extends ActiveRecord
         ];
     }
 
-    public function setTarget(Project|WorkspaceForLimesurvey $target)
+    public function setTarget(Project|Workspace $target)
     {
         $this->target_class = get_class($target);
         $this->target_id = $target->id;
@@ -176,7 +176,7 @@ class AccessRequest extends ActiveRecord
     {
         return [
             Project::class => \Yii::t('app', 'Project'),
-            WorkspaceForLimesurvey::class => \Yii::t('app', 'Workspace'),
+            Workspace::class => \Yii::t('app', 'Workspace'),
         ];
     }
 }

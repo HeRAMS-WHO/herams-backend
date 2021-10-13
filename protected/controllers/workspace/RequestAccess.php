@@ -10,6 +10,8 @@ use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
+use prime\repositories\WorkspaceRepository;
+use prime\values\WorkspaceId;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\web\Request;
@@ -22,15 +24,16 @@ use yii\web\User as UserComponent;
 class RequestAccess extends Action
 {
     public function run(
+        AuthManager $abacManager,
         AccessCheckInterface $accessCheck,
         NotificationService $notificationService,
         Request $request,
-        AuthManager $abacManager,
         UserComponent $user,
+        WorkspaceRepository $workspaceRepository,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
+        $workspace = $workspaceRepository->retrieveForRequestAccess(new WorkspaceId($id));
 
 
         $accessCheck->requirePermission(

@@ -100,6 +100,15 @@ class WorkspaceRepository implements
         return $record;
     }
 
+    public function retrieveForRequestAccess(WorkspaceId $id): Workspace
+    {
+        $record = Workspace::find()->andWhere(['id' => $id])->asArray()->one();
+
+        $workspace = Workspace::instantiate([]);
+        Workspace::populateRecord($workspace, $record);
+        return $workspace;
+    }
+
     public function retrieveForShare(WorkspaceId $id): Workspace
     {
         $record = Workspace::findOne(['id' => $id]);
