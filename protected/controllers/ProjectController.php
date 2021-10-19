@@ -26,7 +26,7 @@ use prime\models\ar\Project;
 use prime\models\ar\read\Project as ReadProject;
 use prime\models\ar\ResponseForLimesurvey;
 use prime\objects\Breadcrumb;
-use prime\queries\ResponseQuery;
+use prime\queries\ResponseForLimesurveyQuery;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -54,7 +54,7 @@ class ProjectController extends Controller
                 'subject' => static function (Request $request) {
                     return ReadProject::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseQuery' => static function (Project $project): ResponseQuery {
+                'responseQuery' => static function (Project $project): ResponseForLimesurveyQuery {
                     return ResponseForLimesurvey::find()->project($project)->with('workspace');
                 },
                 'surveyFinder' => function (Project $project) {

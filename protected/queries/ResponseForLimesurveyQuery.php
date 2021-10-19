@@ -13,7 +13,7 @@ use prime\models\ar\Workspace;
  * @package prime\queries
  * @method HeramsResponseInterface[] each()
  */
-class ResponseQuery extends ActiveQuery
+class ResponseForLimesurveyQuery extends ActiveQuery
 {
     public function project(Project $project): self
     {

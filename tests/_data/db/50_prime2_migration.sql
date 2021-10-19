@@ -125,4 +125,5 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210921_130000
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m210922_150000_allow_project_admin_survey_null', 1632317489);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211005_093054_add_i18n_to_workspace_and_rename_tool_id', 1633427094);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211006_073837_add_timestamp_fields', 1633527689);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211019_113352_rename_response_to_response_for_limesurvey', 1634644741);
 SET FOREIGN_KEY_CHECKS=1;

@@ -17,7 +17,7 @@ use prime\controllers\workspace\Update;
 use prime\models\ar\Permission;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\objects\Breadcrumb;
-use prime\queries\ResponseQuery;
+use prime\queries\ResponseForLimesurveyQuery;
 use prime\repositories\ProjectRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ProjectId;
@@ -51,7 +51,7 @@ class WorkspaceController extends Controller
                 'subject' => static function (Request $request) {
                       return WorkspaceForLimesurvey::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseQuery' => static function (WorkspaceForLimesurvey $workspace): ResponseQuery {
+                'responseQuery' => static function (WorkspaceForLimesurvey $workspace): ResponseForLimesurveyQuery {
                     return $workspace->getResponses();
                 },
                 'surveyFinder' => function (WorkspaceForLimesurvey $workspace) {
