@@ -4,13 +4,14 @@ declare(strict_types=1);
 namespace prime\components;
 
 use Carbon\Carbon;
+use prime\interfaces\AuditServiceInterface;
 use prime\interfaces\NewAuditEntryInterface;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\NotSupportedException;
 use yii\web\Application;
 
-class AuditService extends Component implements BootstrapInterface
+class AuditService extends Component implements BootstrapInterface, AuditServiceInterface
 {
     public string $table = '{{%audit}}';
     /**
@@ -42,9 +43,7 @@ class AuditService extends Component implements BootstrapInterface
             throw new NotSupportedException('This service only supports web application');
         }
         $this->application = $app;
-        $app->on(Application::EVENT_AFTER_REQUEST, function () {
-            $this->commit();
-        });
+        $app->on(Application::EVENT_AFTER_REQUEST, \Closure::fromCallable([$this, 'commit']));
     }
 
     public function commit(): void

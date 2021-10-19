@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace prime\behaviors;
 
-use prime\components\AuditService;
+use prime\interfaces\AuditServiceInterface;
 use prime\objects\enums\AuditEvent;
 use prime\objects\NewAuditEntry;
 use yii\base\Behavior;
+use yii\db\ActiveRecord;
 use yii\db\AfterSaveEvent;
 use yii\db\BaseActiveRecord;
 
@@ -18,17 +19,31 @@ class AuditableBehavior extends Behavior
 
     public bool $auditEmptyUpdates = false;
 
-    private function getService(): AuditService
+    public function __construct(private AuditServiceInterface $auditService, array $config = [])
     {
-        return \Yii::$app->get('auditService');
+        parent::__construct($config);
     }
 
-    private function addEntryForEvent(AuditEvent $event)
+    public function attach($owner): void
+    {
+        if (!$owner instanceof ActiveRecord) {
+            throw new \InvalidArgumentException('Behavior can only be attached to ActiveRecord instances');
+        }
+        parent::attach($owner);
+    }
+
+
+    private function getService(): AuditServiceInterface
+    {
+        return $this->auditService;
+    }
+
+    private function addEntryForEvent(AuditEvent $event): void
     {
         $this->getService()->add(NewAuditEntry::fromActiveRecord($this->owner, $event));
     }
 
-    public function events()
+    public function events(): array
     {
         return [
             BaseActiveRecord::EVENT_AFTER_INSERT => function (AfterSaveEvent $event): void {
@@ -42,7 +57,9 @@ class AuditableBehavior extends Behavior
                 }
             },
             BaseActiveRecord::EVENT_AFTER_DELETE => function (): void {
-                $this->addEntryForEvent(AuditEvent::delete());
+                if ($this->auditDelete) {
+                    $this->addEntryForEvent(AuditEvent::delete());
+                }
             }
         ];
     }

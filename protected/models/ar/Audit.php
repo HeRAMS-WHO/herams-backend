@@ -12,4 +12,13 @@ class Audit extends ActiveRecord
     {
         return new AuditQuery(static::class);
     }
+
+    public static function labels(): array
+    {
+        return [
+            'subject_name' => \Yii::t('app', "Type of the audited entry"),
+            'subject_id' => \Yii::t('app', "Id of the audited entry"),
+            'event' => \Yii::t('app', 'Type of the event')
+            ] + parent::labels();
+    }
 }

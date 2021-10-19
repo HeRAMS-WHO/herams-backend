@@ -9,6 +9,9 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
+/**
+ * @coversNothing
+ */
 class ProjectOwnerCest
 {
 

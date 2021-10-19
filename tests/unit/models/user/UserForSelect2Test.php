@@ -8,6 +8,9 @@ use prime\models\ar\User;
 use prime\models\user\UserForSelect2;
 use prime\values\UserId;
 
+/**
+ * @covers \prime\models\user\UserForSelect2
+ */
 class UserForSelect2Test extends Unit
 {
     public function testConstructor(): void

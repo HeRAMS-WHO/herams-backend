@@ -19,6 +19,8 @@ use League\Tactician\Handler\Locator\HandlerLocator;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use prime\assets\JqueryBundle;
+use prime\behaviors\AuditableBehavior;
+use prime\components\AuditService;
 use prime\components\GlobalPermissionResolver;
 use prime\components\NewsletterService;
 use prime\components\ReadWriteModelResolver;
@@ -68,6 +70,9 @@ use yii\web\JqueryAsset;
 assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
 
 return [
+    AuditableBehavior::class => static function() {
+        return new AuditableBehavior(\Yii::$app->auditService);
+    },
     \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
     \Psr\Http\Message\RequestFactoryInterface::class => \Http\Factory\Guzzle\RequestFactory::class,
     \prime\helpers\ModelHydrator::class => \prime\helpers\ModelHydrator::class,
