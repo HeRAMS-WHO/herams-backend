@@ -70,7 +70,7 @@ use yii\web\JqueryAsset;
 assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
 
 return [
-    AuditableBehavior::class => static function() {
+    AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
     \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
