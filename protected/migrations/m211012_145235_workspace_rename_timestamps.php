@@ -8,20 +8,14 @@ use yii\db\Migration;
  */
 class m211012_145235_workspace_rename_timestamps extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
+    public function safeUp(): bool
     {
         $this->renameColumn('{{%workspace}}', 'created', 'created_at');
         $this->renameColumn('{{%workspace}}', 'closed', 'closed_at');
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
+    public function safeDown(): bool
     {
         $this->renameColumn('{{%workspace}}', 'created_at', 'created');
         $this->renameColumn('{{%workspace}}', 'closed_at', 'closed');

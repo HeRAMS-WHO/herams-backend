@@ -38,7 +38,7 @@ class MigrationHelper
     public function changeColumnFromIntToDatetime(
         string $table,
         string $column
-    ) {
+    ): void {
         $schema = $this->getDb()->getTableSchema($table, true);
         $columnSchema = $schema->getColumn($column);
         if ($columnSchema->dbType !== 'int') {
