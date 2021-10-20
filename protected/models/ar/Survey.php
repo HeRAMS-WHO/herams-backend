@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use prime\behaviors\AuditableBehavior;
 use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
@@ -25,9 +26,7 @@ class Survey extends ActiveRecord
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                TimestampBehavior::class => [
-                    'class' => TimestampBehavior::class,
-                ],
+                AuditableBehavior::class
             ]
         );
     }

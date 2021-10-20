@@ -7,6 +7,7 @@ use Codeception\Test\Unit;
 use prime\components\ActiveQuery;
 use prime\models\ar\User;
 use prime\models\user\UserForSelect2;
+use prime\repositories\UserRepository;
 use yii\base\InvalidArgumentException;
 
 /**
@@ -14,9 +15,9 @@ use yii\base\InvalidArgumentException;
  */
 class UserRepositoryTest extends Unit
 {
-    private function createRepository(): \prime\repositories\UserRepository
+    private function createRepository(): UserRepository
     {
-        return new \prime\repositories\UserRepository();
+        return new UserRepository();
     }
 
     public function testFind(): void

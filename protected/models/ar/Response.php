@@ -32,18 +32,6 @@ use yii\behaviors\TimestampBehavior;
  */
 class Response extends ActiveRecord
 {
-    public function behaviors(): array
-    {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                TimestampBehavior::class => [
-                    'class' => TimestampBehavior::class,
-                ],
-            ]
-        );
-    }
-
     public static function find(): ResponseQuery
     {
         return \Yii::createObject(ResponseQuery::class, [get_called_class()]);

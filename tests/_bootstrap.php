@@ -1,7 +1,5 @@
 <?php
 namespace {
-
-    use prime\components\OverlayContainer;
     use yii\web\Application;
 
     define('TEST_ADMIN_ID', 1);

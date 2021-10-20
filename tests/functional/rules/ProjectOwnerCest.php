@@ -9,16 +9,19 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
+/**
+ * @coversNothing
+ */
 class ProjectOwnerCest
 {
 
     public function testCanSyncWorkspace(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
-        $I->amLoggedInAs(TEST_USER_ID);
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
         $manager->grant($user, $project, Permission::PERMISSION_SURVEY_DATA);

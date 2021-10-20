@@ -17,7 +17,7 @@ use prime\tests\FunctionalTester;
  */
 class IndexCest
 {
-    protected function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target, ?string $response): AccessRequest
+    private function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target): AccessRequest
     {
         $accessRequest = new AccessRequest([
             'subject' => 'test',
@@ -31,10 +31,9 @@ class IndexCest
 
     public function testAccessRequestHistory(FunctionalTester $I)
     {
-        $project = $I->haveProject();
-
         $I->amLoggedInAs(TEST_USER_ID);
-        $accessRequest = $this->createAccessRequest($I, $project, 'History');
+        $project = $I->haveProject();
+        $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
         $I->amOnPage(['access-request/index']);
@@ -48,9 +47,8 @@ class IndexCest
 
     public function testAccessRequestToRespondTo(FunctionalTester $I)
     {
-        $project = $I->haveProject();
-
         $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project, null);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);

@@ -31,9 +31,8 @@ class RespondCest
 
     public function testNotAllowed(FunctionalTester $I)
     {
-        $project = $I->haveProject();
-
         $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
@@ -43,9 +42,8 @@ class RespondCest
 
     public function testReject(FunctionalTester $I)
     {
-        $project = $I->haveProject();
-
         $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
@@ -67,9 +65,8 @@ class RespondCest
 
     public function testGrant(FunctionalTester $I)
     {
-        $project = $I->haveProject();
-
         $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
