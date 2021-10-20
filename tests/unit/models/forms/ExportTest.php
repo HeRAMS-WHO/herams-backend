@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms;
@@ -16,7 +17,9 @@ use yii\base\Model;
  */
 class ExportTest extends Unit
 {
-    use AllAttributesMustHaveLabels, AllFunctionsMustHaveReturnTypes, AttributeValidationByExample;
+    use AllAttributesMustHaveLabels;
+    use AllFunctionsMustHaveReturnTypes;
+    use AttributeValidationByExample;
 
     public function validSamples(): array
     {

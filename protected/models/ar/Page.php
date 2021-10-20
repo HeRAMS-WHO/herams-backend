@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\models\ar;
 
 use prime\interfaces\Exportable;
@@ -15,6 +14,7 @@ use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
+
 use function iter\rewindable\map;
 
 /**

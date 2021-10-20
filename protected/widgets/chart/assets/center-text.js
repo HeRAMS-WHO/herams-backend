@@ -18,7 +18,7 @@ Chart.pluginService.register({
 
             let color = centerConfig.color || '#000';
             let sidePadding = centerConfig.sidePadding || 20;
-            let sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2);
+            let sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2);
             //Start with a base font of 30px
             ctx.font = 'normal normal ' + fontWeight + ' 30px "' + fontStyle + '"';
 
@@ -63,7 +63,7 @@ Chart.pluginService.register({
 
             let color = config.color || '#000';
             let sidePadding = config.sidePadding || 20;
-            let sidePaddingCalculated = (sidePadding/100) * (chart.config * 2);
+            let sidePaddingCalculated = (sidePadding / 100) * (chart.config * 2);
             //Start with a base font of 30px
             ctx.font = 'normal normal ' + fontWeight + ' 30px "' + fontStyle + '"';
 

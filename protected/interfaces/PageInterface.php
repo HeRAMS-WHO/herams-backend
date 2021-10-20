@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\interfaces;
 
 use prime\models\ar\Element;

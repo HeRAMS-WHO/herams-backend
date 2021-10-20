@@ -8,7 +8,7 @@
     <file>tests/functional</file>
     <file>tests/_support</file>
     <file>tests/_helpers</file>
-
+    <exclude-pattern>\.js$</exclude-pattern>
     <arg name="basepath" value="."/>
     <arg name="colors"/>
     <arg name="parallel" value="75"/>
@@ -17,8 +17,14 @@
     <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
         <exclude-pattern>protected/migrations/</exclude-pattern>
     </rule>
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <exclude-pattern>tests/</exclude-pattern>
+    </rule>
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
         <exclude-pattern>protected/migrations/</exclude-pattern>
     </rule>
-
+    <rule ref="PSR12"/>
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <exclude-pattern>protected/migrations/</exclude-pattern>
+    </rule>
 </ruleset>

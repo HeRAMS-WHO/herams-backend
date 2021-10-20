@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\workspace;
@@ -41,7 +42,7 @@ class WorkspaceForTabMenuTest extends Unit
         $this->expectException(\InvalidArgumentException::class);
         new WorkspaceForTabMenu($this->getMockBuilder(AccessCheckInterface::class)->getMock(), new WorkspaceForLimesurvey());
     }
-    
+
     public function testGetId(): void
     {
         $this->assertSame(15, $this->getModel()->id()->getValue());

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\chart;
 
 use yii\web\AssetBundle;

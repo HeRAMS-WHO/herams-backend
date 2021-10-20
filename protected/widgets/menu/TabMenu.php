@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\menu;
 
 use prime\interfaces\CanCurrentUser;
@@ -36,7 +35,8 @@ class TabMenu extends Widget
     {
         // Check if user has permission
         if (isset($tab['permission'])) {
-            if (($this->permissionSubject instanceof CanCurrentUser && !$this->permissionSubject->canCurrentUser($tab['permission']))
+            if (
+                ($this->permissionSubject instanceof CanCurrentUser && !$this->permissionSubject->canCurrentUser($tab['permission']))
                 || !\Yii::$app->user->can($tab['permission'], $this->permissionSubject)
             ) {
                 return false;

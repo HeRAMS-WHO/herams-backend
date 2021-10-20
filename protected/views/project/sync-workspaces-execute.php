@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use prime\components\View;
@@ -16,7 +17,7 @@ use yii\helpers\Url;
 
 $this->title = $project->title;
 
-Section::begin(['options'=> ['style' => ['column-width' => '500px']]])->withHeader(\Yii::t('app', 'Sync workspaces'));
+Section::begin(['options' => ['style' => ['column-width' => '500px']]])->withHeader(\Yii::t('app', 'Sync workspaces'));
 echo Html::beginTag('table', ['id' => 'progress-table']);
 echo Html::beginTag('thead');
 echo Html::beginTag('tr');

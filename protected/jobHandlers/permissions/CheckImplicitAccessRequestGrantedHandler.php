@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\jobHandlers\permissions;
@@ -34,7 +35,8 @@ class CheckImplicitAccessRequestGrantedHandler
         $permission = $this->permissionRepository->retrieveOrThrow($job->getPermissionId());
         $target = $this->resolver->toSubject($permission->targetAuthorizable());
 
-        if (!$target
+        if (
+            !$target
             || !(
                 $target instanceof Project
                 || $target instanceof WorkspaceForLimesurvey

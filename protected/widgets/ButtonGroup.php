@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
+
 use function iter\mapWithKeys;
 use function iter\toArrayWithKeys;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers;
@@ -33,7 +34,7 @@ class ResponseController extends Controller
         return [
             'compare' => Compare::class,
             'update' => Update::class,
-            'surveyjs'=> SurveyJs::class
+            'surveyjs' => SurveyJs::class
 
         ];
     }

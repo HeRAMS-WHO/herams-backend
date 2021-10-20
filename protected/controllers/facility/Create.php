@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\facility;
@@ -20,6 +21,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Response;
+
 use function PHPUnit\Framework\assertInstanceOf;
 
 class Create extends Action

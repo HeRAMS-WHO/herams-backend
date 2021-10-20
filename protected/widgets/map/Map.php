@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\map;
 
 use prime\widgets\chart\ChartBundle;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
@@ -6,6 +7,7 @@ namespace prime\components;
 use prime\helpers\ArrayHelper;
 use yii\data\BaseDataProvider;
 use yii\data\DataProviderInterface;
+
 use function iter\chain;
 use function iter\map;
 use function iter\toArray;

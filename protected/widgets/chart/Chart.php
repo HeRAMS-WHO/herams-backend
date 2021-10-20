@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\chart;
 
 use prime\interfaces\HeramsResponseInterface;
@@ -10,13 +9,15 @@ use prime\widgets\element\Element;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
+
 use function iter\take;
 
 class Chart extends Element
 {
+    use SurveyHelper;
+
     public const TYPE_DOUGHNUT = 'doughnut';
     public const TYPE_BAR = 'bar';
-    use SurveyHelper;
 
     /**
      * @var array<HeramsSubject|HeramsResponseInterface>
@@ -101,7 +102,7 @@ class Chart extends Element
             }
         } catch (\InvalidArgumentException $e) {
             // If the question is not set, it could be an abstract property.
-            $getter = 'get'. ucfirst($this->code);
+            $getter = 'get' . ucfirst($this->code);
 
             // Call this method on each response.
             $counts = [];

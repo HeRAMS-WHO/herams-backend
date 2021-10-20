@@ -1,4 +1,5 @@
 <?php
+
 namespace Step\Acceptance;
 
 use Codeception\Scenario;

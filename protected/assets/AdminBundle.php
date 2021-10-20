@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\assets;
 
 use yii\web\AssetBundle;

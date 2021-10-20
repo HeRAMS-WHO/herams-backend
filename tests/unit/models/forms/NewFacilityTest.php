@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms;
@@ -19,7 +20,9 @@ use prime\values\FacilityId;
  */
 class NewFacilityTest extends Unit
 {
-    use AllFunctionsMustHaveReturnTypes, AttributeValidationByExample, YiiLoadMustBeDisabled;
+    use AllFunctionsMustHaveReturnTypes;
+    use AttributeValidationByExample;
+    use YiiLoadMustBeDisabled;
 
     private function getWorkspace(): WorkspaceForNewOrUpdateFacility
     {

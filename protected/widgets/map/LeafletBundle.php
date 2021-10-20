@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\map;
 
 use yii\web\AssetBundle;

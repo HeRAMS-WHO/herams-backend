@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets;
 
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
+
 use function iter\toArrayWithKeys;
 
 class LocalizableInput extends InputWidget

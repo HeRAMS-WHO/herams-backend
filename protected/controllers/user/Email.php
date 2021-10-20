@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\user;
@@ -21,7 +22,8 @@ class Email extends Action
         NotificationService $notificationService
     ) {
         $model = new UpdateEmailForm($mailer, $user->identity, $urlSigner);
-        if ($request->isPost
+        if (
+            $request->isPost
             && $model->load($request->bodyParams)
             && $model->validate()
         ) {

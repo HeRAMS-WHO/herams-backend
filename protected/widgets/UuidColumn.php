@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets;
@@ -9,6 +10,7 @@ use yii\grid\DataColumn;
 class UuidColumn extends DataColumn
 {
     use FunctionGetterColumn;
+
     public function __construct($config = [])
     {
         parent::__construct($config);

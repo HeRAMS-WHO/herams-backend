@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets\table;
@@ -69,7 +70,7 @@ class Table extends Element
         } catch (\InvalidArgumentException $e) {
             // Question doesn't exist, we should use getter to retrieve values.
             $valueGetter = function ($response) {
-                $getter = 'get'. ucfirst($this->code);
+                $getter = 'get' . ucfirst($this->code);
                 return $response->$getter() ?? [];
             };
         }
@@ -80,14 +81,14 @@ class Table extends Element
                 return $response->getValueForCode($this->reasonCode) ?? [];
             };
         } catch (\InvalidArgumentException $e) {
-            $getter = 'get'. ucfirst($this->reasonCode);
-            $reasonGetter = function ($response) use ($getter):array {
+            $getter = 'get' . ucfirst($this->reasonCode);
+            $reasonGetter = function ($response) use ($getter): array {
                 return $response->$getter();
             };
         }
 
         $reasonMap = $this->reasonMap ?? $this->getAnswers($this->reasonCode);
-        
+
         $result = [];
         \Yii::beginProfile(__CLASS__ . 'count');
         foreach ($this->data as $response) {
