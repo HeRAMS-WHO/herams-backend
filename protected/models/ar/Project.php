@@ -17,7 +17,7 @@ use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\objects\LanguageSet;
-use prime\queries\ResponseQuery;
+use prime\queries\ResponseForLimesurveyQuery;
 use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -277,7 +277,7 @@ class Project extends ActiveRecord implements Linkable
             ->andWhere(['target' => self::class]);
     }
 
-    public function getResponses(): ResponseQuery
+    public function getResponses(): ResponseForLimesurveyQuery
     {
         return $this->hasMany(ResponseForLimesurvey::class, ['workspace_id' => 'id'])->via('workspaces');
     }
@@ -486,7 +486,7 @@ class Project extends ActiveRecord implements Linkable
     {
         return [
             'latestDate' => [
-                VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
+                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('max(date)')
                     ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
                         'project_id' => new Expression(self::tableName() . '.[[id]]')])
                     ]),

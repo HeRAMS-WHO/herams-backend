@@ -10,7 +10,7 @@ use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsCodeMap;
 use prime\queries\FacilityQuery;
-use prime\queries\ResponseQuery;
+use prime\queries\ResponseForLimesurveyQuery;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
 use yii\db\Query;
@@ -55,7 +55,7 @@ class Workspace extends ActiveRecord
                     'class' => VirtualFieldBehavior::class,
                     'virtualFields' => [
                         'latestUpdate' => [
-                            VirtualFieldBehavior::GREEDY => Response::find()
+                            VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()
                                 ->limit(1)->select('max(last_updated)')
                                 ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
@@ -66,7 +66,7 @@ class Workspace extends ActiveRecord
                         'facilityCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                             VirtualFieldBehavior::GREEDY => (function () {
-                                $responseQuery = Response::find()
+                                $responseQuery = ResponseForLimesurvey::find()
                                     ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
                                     ->select(['count' => 'count(distinct hf_id)']);
                                 $facilityQuery = Facility::find()
@@ -117,7 +117,7 @@ class Workspace extends ActiveRecord
                         ],
                         'responseCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('count(*)')
+                            VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('count(*)')
                                 ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                                 return $workspace->getResponses()->count();
@@ -162,9 +162,9 @@ class Workspace extends ActiveRecord
         return $this->hasOne(Project::class, ['id' => 'project_id'])->inverseOf('workspaces');
     }
 
-    public function getResponses(): ResponseQuery
+    public function getResponses(): ResponseForLimesurveyQuery
     {
-        return $this->hasMany(Response::class, ['workspace_id' => 'id'])->inverseOf('workspace');
+        return $this->hasMany(ResponseForLimesurvey::class, ['workspace_id' => 'id'])->inverseOf('workspace');
     }
 
     public static function instantiate($row): ActiveRecord

@@ -7,7 +7,7 @@ use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
 use prime\queries\FacilityQuery;
-use prime\queries\ResponseQuery;
+use prime\queries\ResponseForLimesurveyQuery;
 use Ramsey\Uuid\Uuid;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\ExistValidator;
@@ -27,7 +27,7 @@ use yii\validators\ExistValidator;
  * @property int $workspace_id
  *
  * Relations
- * @property-read Response[] $responses
+ * @property-read ResponseForLimesurvey[] $responses
  * @property-read Workspace $workspace
  */
 class Facility extends ActiveRecord
@@ -64,7 +64,7 @@ class Facility extends ActiveRecord
         );
     }
 
-    public function getResponses(): ResponseQuery
+    public function getResponses(): ResponseForLimesurveyQuery
     {
         return $this->hasMany(ResponseForLimesurvey::class, [
             'facility_id' => 'id',

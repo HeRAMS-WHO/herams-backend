@@ -407,13 +407,13 @@ CREATE TABLE `prime2_project` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `prime2_response`
+-- Table structure for table `prime2_response_for_limesurvey`
 --
 
-DROP TABLE IF EXISTS `prime2_response`;
+DROP TABLE IF EXISTS `prime2_response_for_limesurvey`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_response` (
+CREATE TABLE `prime2_response_for_limesurvey` (
   `id` int DEFAULT NULL,
   `survey_id` int DEFAULT NULL,
   `workspace_id` int NOT NULL,
