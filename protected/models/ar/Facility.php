@@ -41,18 +41,6 @@ class Facility extends ActiveRecord
         }
     }
 
-    public function behaviors(): array
-    {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                TimestampBehavior::class => [
-                    'class' => TimestampBehavior::class,
-                ]
-            ]
-        );
-    }
-
     public static function find(): FacilityQuery
     {
         return new FacilityQuery(static::class);

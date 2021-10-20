@@ -4,12 +4,11 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use JCIT\jobqueue\interfaces\JobQueueInterface;
+use prime\behaviors\AuditableBehavior;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ActiveRecord;
 use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
 
@@ -73,6 +72,14 @@ class Permission extends ActiveRecord
         }
     }
 
+    public function behaviors(): array
+    {
+        return [
+            AuditableBehavior::class
+        ];
+    }
+
+
     public static function labels(): array
     {
         return array_merge(parent::labels(), [
@@ -83,20 +90,6 @@ class Permission extends ActiveRecord
             'permission' => \Yii::t('app.permission', 'Permission'),
             'permissionLabel' => \Yii::t('app', 'Permission')
         ]);
-    }
-
-    public function behaviors(): array
-    {
-        return [
-            BlameableBehavior::class => [
-                'class' => BlameableBehavior::class,
-                'updatedByAttribute' => false,
-            ],
-            TimestampBehavior::class => [
-                'class' => TimestampBehavior::class,
-                'updatedAtAttribute' => false,
-            ],
-        ];
     }
 
     public function getGrant(): Grant

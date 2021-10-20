@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
@@ -11,7 +12,6 @@ use prime\objects\HeramsCodeMap;
 use prime\queries\FacilityQuery;
 use prime\queries\ResponseForLimesurveyQuery;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\validators\ExistValidator;
@@ -46,9 +46,7 @@ class Workspace extends ActiveRecord
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                TimestampBehavior::class => [
-                    'class' => TimestampBehavior::class,
-                ],
+                AuditableBehavior::class,
                 /**
                  * Since a project can only contain workspaces of 1 type (Limesurvey or SurveyJS), we do not need to worry about
                  * "combined case" behaviors, especially the greedy case.
@@ -58,7 +56,7 @@ class Workspace extends ActiveRecord
                     'virtualFields' => [
                         'latestUpdate' => [
                             VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()
-                                ->limit(1)->select('max(updated_at)')
+                                ->limit(1)->select('max(last_updated)')
                                 ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                                 return $workspace->getResponses()->orderBy(['updated_at' => SORT_DESC])->limit(1)

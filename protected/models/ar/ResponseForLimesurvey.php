@@ -57,18 +57,6 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
         $this->setOldAttribute('data', $data);
     }
 
-    public function behaviors(): array
-    {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                TimestampBehavior::class => [
-                    'class' => TimestampBehavior::class,
-                ],
-            ]
-        );
-    }
-
     public static function find(): ResponseForLimesurveyQuery
     {
         return \Yii::createObject(ResponseForLimesurveyQuery::class, [get_called_class()]);

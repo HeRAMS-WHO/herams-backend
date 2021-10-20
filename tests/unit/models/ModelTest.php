@@ -7,8 +7,6 @@ use Codeception\Test\Unit;
 use prime\tests\_helpers\AllAttributesMustHaveLabels;
 use prime\tests\_helpers\AllRulesMustUseValidAttributes;
 use prime\tests\_helpers\AttributeValidationByExample;
-use prime\tests\_helpers\ModelTestTrait;
-use prime\tests\_helpers\RulesReturnTypeHint;
 use yii\base\Model;
 
 /**

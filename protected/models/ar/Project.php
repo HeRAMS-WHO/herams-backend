@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use League\ISO3166\ISO3166;
+use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
@@ -21,6 +22,7 @@ use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
+use yii\behaviors\AttributeTypecastBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
@@ -111,9 +113,7 @@ class Project extends ActiveRecord implements Linkable
     public function behaviors(): array
     {
         return [
-            TimestampBehavior::class => [
-                'class' => TimestampBehavior::class,
-            ],
+            AuditableBehavior::class,
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => self::virtualFields()

@@ -15,7 +15,3 @@ parameters:
     ignoreErrors:
         - message: '#^Method .*::(down|up|safeUp|safeDown)\(\) should return bool but return statement is missing\.$#'
           path: 'protected/migrations/*'
-        #- message: '#^Variable .* might not be defined\.$#'
-        #  path: '*/views/*'
-        #- message: '#^Variable .* might not be defined\.$#'
-        #  path: '*/mail/*'

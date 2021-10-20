@@ -39,7 +39,9 @@ class ConfirmInvitationCest
 
     public function testConfirmationLink(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();
+        \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $page->project, [Permission::PERMISSION_READ, PERMISSION::PERMISSION_WRITE]);
         $I->dontSeeRecord(User::class, ['email' => $email]);
