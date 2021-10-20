@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use League\ISO3166\ISO3166;
+use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
@@ -16,11 +17,12 @@ use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\objects\LanguageSet;
-use prime\queries\ResponseQuery;
+use prime\queries\ResponseForLimesurveyQuery;
 use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
+use yii\behaviors\AttributeTypecastBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
@@ -111,9 +113,7 @@ class Project extends ActiveRecord implements Linkable
     public function behaviors(): array
     {
         return [
-            TimestampBehavior::class => [
-                'class' => TimestampBehavior::class,
-            ],
+            AuditableBehavior::class,
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => self::virtualFields()
@@ -277,7 +277,7 @@ class Project extends ActiveRecord implements Linkable
             ->andWhere(['target' => self::class]);
     }
 
-    public function getResponses(): ResponseQuery
+    public function getResponses(): ResponseForLimesurveyQuery
     {
         return $this->hasMany(ResponseForLimesurvey::class, ['workspace_id' => 'id'])->via('workspaces');
     }
@@ -486,7 +486,7 @@ class Project extends ActiveRecord implements Linkable
     {
         return [
             'latestDate' => [
-                VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('max(date)')
+                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('max(date)')
                     ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
                         'project_id' => new Expression(self::tableName() . '.[[id]]')])
                     ]),

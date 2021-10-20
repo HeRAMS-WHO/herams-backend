@@ -7,7 +7,7 @@ use prime\components\ActiveQuery;
 use prime\models\ar\ResponseForLimesurvey;
 use prime\models\ar\User;
 use prime\models\ar\WorkspaceForLimesurvey;
-use prime\queries\ResponseQuery;
+use prime\queries\ResponseForLimesurveyQuery;
 
 /**
  * @covers \prime\models\ar\Favorite

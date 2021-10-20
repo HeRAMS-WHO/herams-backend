@@ -35,7 +35,10 @@ class WorkspacesCest
     public function testNoLogin(FunctionalTester $I)
     {
         $I->stopFollowingRedirects();
+        $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
+        \Yii::$app->user->logout();
+
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
         $I->seeResponseCodeIs(302);
     }

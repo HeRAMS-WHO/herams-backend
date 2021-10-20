@@ -6,6 +6,7 @@ declare(strict_types=1);
 use Carbon\Carbon;
 use kartik\dialog\DialogAsset;
 use kartik\dialog\DialogBootstrapAsset;
+use prime\components\AuditService;
 use prime\components\Formatter;
 use prime\components\LanguageSelector;
 use prime\components\MaintenanceMode;
@@ -17,12 +18,14 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
         MaintenanceMode::class,
+        'auditService',
         'notificationService',
         'languageSelector',
 
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'auditService' => AuditService::class,
         'formatter'=> [
             'class' => Formatter::class
         ],

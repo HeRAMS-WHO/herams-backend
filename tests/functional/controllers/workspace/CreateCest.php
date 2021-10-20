@@ -13,7 +13,6 @@ use yii\helpers\Html;
  */
 class CreateCest
 {
-
     public function testAccessControl(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
