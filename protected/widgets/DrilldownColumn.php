@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets;
@@ -11,6 +12,7 @@ use yii\helpers\Html;
 class DrilldownColumn extends DataColumn
 {
     use FunctionGetterColumn;
+
     public ?string $permission;
     public \Closure $link;
     public ?string $icon;

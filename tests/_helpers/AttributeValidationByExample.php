@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\_helpers;
@@ -7,6 +8,7 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\validators\FilterValidator;
 use yii\validators\SafeValidator;
+
 use function iter\keys;
 
 trait AttributeValidationByExample

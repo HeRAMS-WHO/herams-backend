@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\behaviors;
@@ -7,6 +8,7 @@ use yii\base\Behavior;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\validators\InlineValidator;
+
 use function iter\map;
 use function iter\toArray;
 
@@ -26,7 +28,7 @@ class LocalizableWriteBehavior extends Behavior
 
     private const REGEX = '~^i18n(.+)$~';
 
-    private function attributeName(string $name):string
+    private function attributeName(string $name): string
     {
         if (!preg_match(self::REGEX, $name, $matches)) {
             throw new \InvalidArgumentException("$name does not have expected format");

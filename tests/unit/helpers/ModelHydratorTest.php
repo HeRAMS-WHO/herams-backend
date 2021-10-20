@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\helpers;
@@ -65,7 +66,7 @@ class ModelHydratorTest extends Unit
         parent::_before();
         $this->modelHydrator = new ModelHydrator();
 
-        $this->targetType = new class(1, 1, LanguageSet::from([]), 1) {
+        $this->targetType = new class (1, 1, LanguageSet::from([]), 1) {
             public int|null $integerOrNullProperty = 5;
             public function __construct(
                 public int|null $unknownProperty,
@@ -209,7 +210,7 @@ class ModelHydratorTest extends Unit
         $source = new DynamicModel([
             'integerProperty' => 'abc'
         ]);
-        $type = new class(null) {
+        $type = new class (null) {
             public function __construct(public int|null $integerProperty)
             {
             }
@@ -223,7 +224,7 @@ class ModelHydratorTest extends Unit
         $source = new DynamicModel([
             'floatProperty' => 'abc'
         ]);
-        $type = new class(null) {
+        $type = new class (null) {
             public function __construct(public float|null $floatProperty)
             {
             }
@@ -238,7 +239,7 @@ class ModelHydratorTest extends Unit
             'floatProperty1' => '5.13',
             'floatProperty2' => 5.14
         ]);
-        $type = new class(1, 1) {
+        $type = new class (1, 1) {
             public function __construct(
                 public float $floatProperty1,
                 public float $floatProperty2
@@ -259,7 +260,7 @@ class ModelHydratorTest extends Unit
             'property4' => false
         ]);
 
-        $type = new class(false, false, false, false) {
+        $type = new class (false, false, false, false) {
             public function __construct(
                 public bool $property1,
                 public bool $property2,

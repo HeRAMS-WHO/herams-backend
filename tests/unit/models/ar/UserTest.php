@@ -1,4 +1,5 @@
 <?php
+
 namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Favorite;

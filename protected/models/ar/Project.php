@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -294,7 +295,7 @@ class Project extends ActiveRecord implements Linkable
             HeramsSubject::FULLY_AVAILABLE => 0,
             HeramsSubject::PARTIALLY_AVAILABLE => 0,
             HeramsSubject::NOT_AVAILABLE => 0,
-            HeramsSubject::NOT_PROVIDED=> 0,
+            HeramsSubject::NOT_PROVIDED => 0,
         ];
         /** @var HeramsResponseInterface $heramsResponse */
         foreach ($this->getResponses()->each() as $heramsResponse) {

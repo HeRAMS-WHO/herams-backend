@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\tests\functional\controllers\workspace;
 
 use prime\models\ar\WorkspaceForLimesurvey;

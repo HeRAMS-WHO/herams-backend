@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use app\components\Form;
@@ -9,6 +10,7 @@ use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
+
 use function iter\chain;
 use function iter\toArrayWithKeys;
 

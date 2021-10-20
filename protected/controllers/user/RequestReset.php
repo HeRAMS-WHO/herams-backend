@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\user;
@@ -22,7 +23,8 @@ class RequestReset extends Action
     ) {
         $model = new RequestResetForm($cache);
 
-        if ($model->load($request->getBodyParams())
+        if (
+            $model->load($request->getBodyParams())
             && $model->validate()
             && $model->send($mailer, $urlSigner)
         ) {

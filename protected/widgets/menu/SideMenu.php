@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\menu;
 
 use prime\helpers\Icon;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
@@ -73,7 +74,7 @@ class ProjectTest extends ActiveRecordTest
                     'manage_implies_create_hf' => 'dontknow',
                     'overrides' => 'b',
                     'i18n' => 'test',
-                    'languages'=> ['un-KN']
+                    'languages' => ['un-KN']
                 ]
             ],
             [

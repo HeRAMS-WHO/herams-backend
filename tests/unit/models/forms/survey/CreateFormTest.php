@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms\survey;
@@ -11,7 +12,7 @@ use prime\tests\unit\models\ModelTest;
  */
 class CreateFormTest extends ModelTest
 {
-    protected function getModel() : SurveyForCreate
+    protected function getModel(): SurveyForCreate
     {
         return new SurveyForCreate();
     }

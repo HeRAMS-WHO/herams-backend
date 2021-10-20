@@ -60,7 +60,7 @@ abstract class ActiveRecordTest extends ModelTest
             __NAMESPACE__ => 'prime\models\ar',
             'Test' => ''
         ]);
-        return new $class;
+        return new $class();
     }
 
 

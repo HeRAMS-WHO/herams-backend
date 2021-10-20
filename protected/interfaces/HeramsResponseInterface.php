@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\interfaces;
 
 use Carbon\Carbon;

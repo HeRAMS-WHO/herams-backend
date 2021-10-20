@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -20,6 +21,7 @@ use yii\base\Model;
 use yii\db\Expression;
 use yii\helpers\Inflector;
 use yii\web\Request;
+
 use function iter\toArray;
 
 class ModelHydrator

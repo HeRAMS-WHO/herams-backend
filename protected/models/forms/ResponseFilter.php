@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms;
@@ -16,6 +17,7 @@ use yii\db\Expression;
 use yii\helpers\StringHelper;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
+
 use function iter\all;
 use function iter\apply;
 use function iter\enumerate;
@@ -55,7 +57,7 @@ class ResponseFilter extends Model
 
     public function setDate($date)
     {
-        $this->date = empty($date) ? null: new Carbon($date);
+        $this->date = empty($date) ? null : new Carbon($date);
     }
 
     public function getDate(): ?Carbon

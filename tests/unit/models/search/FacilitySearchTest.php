@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\search;
@@ -15,6 +16,7 @@ use yii\base\Model;
 class FacilitySearchTest extends Unit
 {
     use SearchModelTestTrait;
+
     public function validSamples(): iterable
     {
         return [

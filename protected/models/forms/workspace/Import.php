@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\models\forms\workspace;
 
 use prime\models\ar\Project;
@@ -83,7 +82,7 @@ class Import extends Model
 
     private function getName(TokenInterface $token): string
     {
-        return $token->getCustomAttributes()[$this->titleField] ?? $token->{'get'. ucfirst($this->titleField)}();
+        return $token->getCustomAttributes()[$this->titleField] ?? $token->{'get' . ucfirst($this->titleField)}();
     }
 
     public function rules()

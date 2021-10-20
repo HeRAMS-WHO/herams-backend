@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms;
@@ -20,6 +21,7 @@ use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\validators\BooleanValidator;
 use yii\validators\RangeValidator;
+
 use function iter\map;
 use function iter\toArray;
 
@@ -162,7 +164,8 @@ class Export extends Model
 
         $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 
-        if ($this->survey instanceof LocaleAwareInterface
+        if (
+            $this->survey instanceof LocaleAwareInterface
             && $this->language !== self::DEFAULT_LANGUAGE
         ) {
             $survey = $this->survey->getLocalized($this->language);

@@ -1,7 +1,9 @@
 <?php
+
 /**
  * Some helper functions in the global namespace.
  */
+
 namespace {
 
     /**

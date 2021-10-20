@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\traits;
 
 use prime\interfaces\HeramsResponseInterface;

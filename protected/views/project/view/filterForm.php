@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use app\components\ActiveForm;
@@ -74,19 +75,20 @@ JS
     );
 
 
-    
+
     $date = $filterModel->date;
     $filtersList = $filterModel->advanced;
     if (isset($date) || (is_array($filtersList) && count($filtersList) > 0)) {
         echo Html::beginTag('div', ['class' => 'selected-filters-list']);
         echo "<span class='list-title'>" . \Yii::t('app', 'Filters') . " :</span>";
         if (isset($date)) {
-            echo "<span class='label'>" .\Yii::t('app', 'Date') ." : </span> <span class='value'>{$date}</span> ";
+            echo "<span class='label'>" . \Yii::t('app', 'Date') . " : </span> <span class='value'>{$date}</span> ";
         }
         if (is_array($filtersList) && count($filtersList) > 0) {
             foreach ($groups as $group) {
                 foreach ($group->getQuestions() as $question) {
-                    if (($answers = $question->getAnswers()) !== null
+                    if (
+                        ($answers = $question->getAnswers()) !== null
                         && $question->getDimensions() === 0
                     ) {
                         $items = \yii\helpers\ArrayHelper::map(
@@ -98,7 +100,7 @@ JS
                                 return strtok(strip_tags($answer->getText()), ':(');
                             }
                         );
-                        
+
                         if (array_key_exists($question->getTitle(), $filtersList)) {
                             $attribute = "adv_{$question->getTitle()}";
                             echo "<span class='label'>{$filterModel->getAttributeLabel($attribute)} :</span>";
@@ -124,8 +126,10 @@ JS
 
     foreach ($groups as $group) {
         foreach ($group->getQuestions() as $question) {
-            if (($answers = $question->getAnswers()) !== null
-                && $question->getDimensions() === 0) {
+            if (
+                ($answers = $question->getAnswers()) !== null
+                && $question->getDimensions() === 0
+            ) {
                 $items = \yii\helpers\ArrayHelper::map(
                     $answers,
                     function (AnswerInterface $answer) {
@@ -191,9 +195,9 @@ JS
 
 
 
-    
+
     echo Html::beginTag('div', ['class' => 'filterlist']);
-    
+
     echo Html::beginTag('div', ['class' => 'group']);
         echo Html::beginTag('div', ['class' => 'group-title']);
             echo "Date";
@@ -225,7 +229,7 @@ JS
                 ])
             ]);
             echo Html::endTag('div');
-    
+
             foreach ($filters as $groupTitle => $questionGroup) {
                 echo Html::beginTag('div', ['class' => 'group']);
                     echo Html::beginTag('div', ['class' => 'group-title']);

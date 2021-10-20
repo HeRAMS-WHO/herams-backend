@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\element;
 
 use prime\components\Controller;

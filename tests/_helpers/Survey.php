@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\tests\_helpers;
 
 use SamIT\LimeSurvey\Interfaces\GroupInterface;

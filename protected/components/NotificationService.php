@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\components;
 
 use prime\assets\ToastBundle;
@@ -37,7 +36,8 @@ class NotificationService extends Component
             return;
         }
 
-        if (!\Yii::$app->has('session', true)
+        if (
+            !\Yii::$app->has('session', true)
         ) {
             return;
         }

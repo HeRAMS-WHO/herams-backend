@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\site;
 
 use yii\base\Action;

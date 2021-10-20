@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /** @var \prime\components\KubernetesSecretEnvironment $env */
@@ -26,7 +27,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'defaultRoute' => 'marketplace/herams',
     'components' => [
         'auditService' => AuditService::class,
-        'formatter'=> [
+        'formatter' => [
             'class' => Formatter::class
         ],
         'session' => [
