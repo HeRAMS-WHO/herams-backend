@@ -39,7 +39,7 @@ echo GridView::widget([
     'layout' => "{items}\n{pager}",
     'columns' => [
         'id',
-        'uuid:uuid',
+        'code',
         'name',
         'alternative_name'
     ]

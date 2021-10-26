@@ -14,35 +14,15 @@ use Ramsey\Uuid\UuidInterface;
  */
 class FacilityForList implements FacilityForListInterface
 {
-
     public function __construct(
         private FacilityId $id,
         private string $name,
         private null|string $alternativeName,
         private null|string $code,
-        private null|Point $coordinates,
-        private UuidInterface $uuid,
+        private null|float $latitude,
+        private null|float $longitude,
         private int $responseCount
     ) {
-    }
-
-    public function getResponseCount(): int
-    {
-        return $this->responseCount;
-    }
-    public function getUuid(): UuidInterface
-    {
-        return $this->uuid;
-    }
-
-    public function getId(): FacilityId
-    {
-        return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     public function getAlternativeName(): null|string
@@ -55,8 +35,28 @@ class FacilityForList implements FacilityForListInterface
         return $this->code;
     }
 
-    public function getCoordinates(): null|Point
+    public function getId(): FacilityId
     {
-        return $this->coordinates;
+        return $this->id;
+    }
+
+    public function getLatitude(): null|float
+    {
+        return $this->latitude;
+    }
+
+    public function getLongitude(): null|float
+    {
+        return $this->longitude;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getResponseCount(): int
+    {
+        return $this->responseCount;
     }
 }

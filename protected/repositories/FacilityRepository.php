@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
-use prime\components\CompositeDataProvider;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
@@ -29,11 +28,9 @@ use prime\models\search\FacilitySearch;
 use prime\objects\HeramsCodeMap;
 use prime\values\FacilityId;
 use prime\values\IntegerId;
-use prime\values\Point;
 use prime\values\ProjectId;
 use prime\values\ResponseId;
 use prime\values\WorkspaceId;
-use Ramsey\Uuid\Uuid;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
@@ -163,7 +160,6 @@ class FacilityRepository implements CreateModelRepositoryInterface
         ]);
         $dataProvider->setSort([
             'attributes' => [
-                FacilityForList::UUID,
                 FacilityForList::ID,
                 FacilityForList::NAME,
                 FacilityForList::ALTERNATIVE_NAME,
@@ -184,8 +180,8 @@ class FacilityRepository implements CreateModelRepositoryInterface
             $response->name,
             null,
             $response->hf_id,
-            isset($latitude, $longitude) ?  new Point(null, $latitude, $longitude) : null,
-            Uuid::fromBytes(str_pad($response->hf_id, 16)),
+            $latitude,
+            $longitude,
             // This is very inefficient for the response list; for now we accept it.
             (int) ResponseForLimesurvey::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
         );
