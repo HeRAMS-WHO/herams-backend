@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\workspace;
 
 use prime\components\Controller;
@@ -39,7 +38,8 @@ class Import extends Action
         }
 
         if ($request->isPost) {
-            if ($model->load($request->bodyParams)
+            if (
+                $model->load($request->bodyParams)
                 && $model->validate()
             ) {
                 $result = $model->run();

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\objects;
 
 use prime\interfaces\HeramsResponseInterface;
@@ -16,8 +15,8 @@ class HeramsSubject
 {
     public const UNKNOWN_VALUE = '_UNKNOWN';
     public const FULLY_AVAILABLE = 'A1';
-    public const PARTIALLY_AVAILABLE= 'A2';
-    public const NOT_AVAILABLE= 'A3';
+    public const PARTIALLY_AVAILABLE = 'A2';
+    public const NOT_AVAILABLE = 'A3';
     public const NOT_PROVIDED = 'A4';
 
     public const LACK_STAFF = 'A1';

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\objects\enums;
@@ -16,7 +17,7 @@ abstract class Enum extends \Spatie\Enum\Enum implements Dehydrator
     public static function fromForm(string|null $value): null|static
     {
         // Challenge here with numeric string vs int
-        return $value !== null ? static::from(is_numeric($value) ? (int)$value : $value): null;
+        return $value !== null ? static::from(is_numeric($value) ? (int)$value : $value) : null;
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\commands;
 
 use prime\components\LimesurveyDataProvider;
@@ -84,11 +83,13 @@ class CacheController extends \yii\console\controllers\CacheController
         int $maxWorkspaceId = PHP_INT_MAX
     ) {
         /** @var WorkspaceForLimesurvey $workspace */
-        foreach ($project->getWorkspaces()
+        foreach (
+            $project->getWorkspaces()
                      ->orderBy('id')
                      ->andWhere(['>=', 'id', $minWorkspaceId])
                      ->andWhere(['<=', 'id', $maxWorkspaceId])
-                     ->each() as $workspace) {
+                     ->each() as $workspace
+        ) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
     }

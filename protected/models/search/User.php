@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\search;
@@ -54,7 +55,7 @@ class User extends Model
         $query->andFilterWhere(['like', 'name', $this->name]);
         $query->andFilterWhere(['like', 'email', $this->email]);
         $query->andFilterWhere(['like', 'created_at', $this->created_at]);
-        $query->andFilterWhere(['id'=> $this->id]);
+        $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }
 }

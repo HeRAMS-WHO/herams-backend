@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\user;
@@ -17,7 +18,8 @@ class Password extends Action
         NotificationService $notificationService
     ) {
         $model = new UpdatePasswordForm($user->identity);
-        if ($request->isPost
+        if (
+            $request->isPost
             && $model->load($request->bodyParams)
             && $model->validate()
         ) {

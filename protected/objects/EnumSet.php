@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\objects;
@@ -7,6 +8,7 @@ use prime\objects\enums\Enum;
 use yii\base\Arrayable;
 use yii\base\NotSupportedException;
 use yii\validators\RangeValidator;
+
 use function iter\map;
 use function iter\toArray;
 

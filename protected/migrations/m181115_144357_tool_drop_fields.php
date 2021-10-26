@@ -12,7 +12,8 @@ class m181115_144357_tool_drop_fields extends Migration
      */
     public function safeUp()
     {
-        foreach ([
+        foreach (
+            [
             'acronym',
             'image',
             'description',
@@ -27,7 +28,8 @@ class m181115_144357_tool_drop_fields extends Migration
             'explorer_geo_ls_name',
             'explorer_map',
             'explorer_show_services'
-        ] as $column) {
+            ] as $column
+        ) {
             $this->dropColumn('{{%tool}}', $column);
         }
     }

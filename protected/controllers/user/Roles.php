@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\user;
@@ -10,6 +11,7 @@ use yii\base\Action;
 use yii\data\ArrayDataProvider;
 use yii\web\ForbiddenHttpException;
 use yii\web\User;
+
 use function iter\toArray;
 
 class Roles extends Action

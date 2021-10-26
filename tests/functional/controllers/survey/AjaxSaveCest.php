@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\survey;
@@ -51,7 +52,7 @@ class AjaxSaveCest
         $survey = $I->haveSurvey();
 
         $I->sendPost(
-            'survey/ajax-save?id='. $survey->id,
+            'survey/ajax-save?id=' . $survey->id,
             [
                 'config' => [
                     'pages' => [

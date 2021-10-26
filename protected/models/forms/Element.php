@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\models\forms;
 
 use prime\traits\SurveyHelper;
@@ -155,8 +154,9 @@ class Element extends Model
         $codeOptions = [];
         foreach ($this->survey->getGroups() as $group) {
             foreach ($group->getQuestions() as $question) {
-                if ($question->getAnswers() !== null
-                    ||($question->getDimensions() === 1 && $question->getQuestions(0)[0]->getAnswers() !== null)
+                if (
+                    $question->getAnswers() !== null
+                    || ($question->getDimensions() === 1 && $question->getQuestions(0)[0]->getAnswers() !== null)
                 ) {
                     $text = strip_tags($question->getText());
                     $codeOptions[$question->getTitle()] = $this->normalizeQuestionText($text) . " ({$question->getTitle()})";

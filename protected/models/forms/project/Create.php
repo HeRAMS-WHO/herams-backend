@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms\project;
@@ -15,6 +16,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
+
 use function iter\filter;
 use function iter\mapWithKeys;
 use function iter\toArrayWithKeys;

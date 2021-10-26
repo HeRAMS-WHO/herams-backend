@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\models\forms\user;
 
 use prime\models\ar\User;

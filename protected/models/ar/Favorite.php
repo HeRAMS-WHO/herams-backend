@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -30,10 +31,12 @@ class Favorite extends ActiveRecord
 
     public function getTarget(): null|Project|WorkspaceForLimesurvey
     {
-        if (!in_array($this->target_class, [
+        if (
+            !in_array($this->target_class, [
             Project::class,
             WorkspaceForLimesurvey::class
-        ])) {
+            ])
+        ) {
             throw new \RuntimeException('Unknown favorite type: ' . $this->target_class);
         }
         return $this->target_class::findOne(['id' => $this->target_id]);

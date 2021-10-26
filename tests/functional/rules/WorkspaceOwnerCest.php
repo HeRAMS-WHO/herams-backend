@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\functional\rules;
@@ -28,7 +29,8 @@ class WorkspaceOwnerCest
         $manager->grant($user, $workspace, Permission::PERMISSION_SHARE);
 
 
-        foreach ([
+        foreach (
+            [
             Permission::PERMISSION_EXPORT => true,
             Permission::PERMISSION_SURVEY_DATA => true,
             Permission::PERMISSION_SHARE => false,
@@ -37,7 +39,8 @@ class WorkspaceOwnerCest
             Permission::PERMISSION_ADMIN => false,
             Permission::PERMISSION_MANAGE_WORKSPACES => false,
             Permission::PERMISSION_MANAGE_DASHBOARD => false,
-        ] as $permission => $result) {
+            ] as $permission => $result
+        ) {
             $proposedGrant = new ProposedGrant(User::findOne(['id' => TEST_OTHER_USER_ID]), $workspace, $permission);
             $I->assertSame($result, $manager->check($user, $proposedGrant, Permission::PERMISSION_CREATE), $result ? "Permission $permission not allowed" : "Permission $permission allowed");
         }

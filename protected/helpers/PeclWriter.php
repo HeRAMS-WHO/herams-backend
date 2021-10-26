@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -8,6 +9,7 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
 use Psr\Http\Message\StreamInterface;
 use Vtiful\Kernel\Excel;
+
 use function GuzzleHttp\Psr7\stream_for;
 
 class PeclWriter implements WriterInterface

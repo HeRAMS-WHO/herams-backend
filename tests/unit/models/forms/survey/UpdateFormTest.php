@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms\survey;
@@ -14,7 +15,7 @@ class UpdateFormTest extends ModelTest
 {
     protected int $id = 1;
 
-    protected function getModel() : SurveyForUpdate
+    protected function getModel(): SurveyForUpdate
     {
         $result = new SurveyForUpdate(new SurveyId($this->id));
         $result->config = [];

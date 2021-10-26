@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models;
@@ -17,6 +18,7 @@ abstract class ModelTest extends Unit
     use AllAttributesMustHaveLabels;
     use AttributeValidationByExample;
     use AllRulesMustUseValidAttributes;
+
     /**
      * @var \UnitTester
      */

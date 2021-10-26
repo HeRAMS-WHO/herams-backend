@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\menu;
 
 use prime\helpers\Icon;
@@ -47,7 +46,8 @@ class ProjectPageMenu extends SideMenu
     protected function renderPageLink(PageInterface $page): bool
     {
         $options = [];
-        if ($page->getId() === $this->currentPage->getId()
+        if (
+            $page->getId() === $this->currentPage->getId()
             && $page->getParentId() === $this->currentPage->getParentId()
         ) {
             Html::addCssClass($options, 'active');

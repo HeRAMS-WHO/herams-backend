@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\models\ar;
 
 use prime\interfaces\Exportable;

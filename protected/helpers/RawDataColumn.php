@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -6,6 +7,7 @@ namespace prime\helpers;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
+
 use function iter\map;
 use function iter\toArray;
 

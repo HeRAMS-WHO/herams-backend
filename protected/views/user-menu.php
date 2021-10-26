@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use prime\helpers\Icon;
@@ -54,7 +55,7 @@ $userNotificationService = \Yii::createObject(UserNotificationRepository::class)
 if ($user && ($notificationCount = $userNotificationService->getNewNotificationCountForUser($user)) > 0) {
     echo Html::a(Icon::bell() . Html::tag('div', $notificationCount, ['class' => ['badge']]), ['/user/notifications']);
 }
-echo Html::a(Icon::question().'<small>'.Icon::external_link().'</small>', Url::to('https://docs.herams.org/'), ['target' => '_blank']);
+echo Html::a(Icon::question() . '<small>' . Icon::external_link() . '</small>', Url::to('https://docs.herams.org/'), ['target' => '_blank']);
 echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
 ?>
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -18,6 +19,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
+
 use function iter\apply;
 use function iter\chain;
 

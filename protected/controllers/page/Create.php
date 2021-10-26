@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\page;
 
 use prime\components\NotificationService;
@@ -22,7 +21,7 @@ class Create extends Action
         User $user,
         int $project_id
     ) {
-        
+
         $project = Project::findOne(['id' => $project_id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();

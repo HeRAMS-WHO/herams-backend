@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\workspace;
 
 use prime\models\ar\Permission;

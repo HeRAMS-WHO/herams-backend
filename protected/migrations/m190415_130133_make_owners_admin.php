@@ -22,7 +22,8 @@ class m190415_130133_make_owners_admin extends Migration
                 continue;
             }
             \Yii::$app->abacManager->grant($user, $workspace, Permission::PERMISSION_ADMIN);
-            if (!Permission::find()
+            if (
+                !Permission::find()
                 ->andWhere([
                     'source_id' => $user->id,
                     'source' => get_class($user)

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms;
@@ -18,6 +19,7 @@ use yii\validators\StringValidator;
 final class NewFacility extends Model
 {
     use DisableYiiLoad;
+
     public array $data = [];
 
     public function __construct(private WorkspaceForNewOrUpdateFacility $workspace)

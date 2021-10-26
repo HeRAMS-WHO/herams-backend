@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\user;
@@ -28,7 +29,7 @@ class Workspaces extends Action
         }
 
         if ($request->isDelete) {
-            $result= Favorite::deleteAll([
+            $result = Favorite::deleteAll([
                 'user_id' => $userModel->id,
                 'target_class' => WorkspaceForLimesurvey::class,
                 'target_id' => $target_id

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\map;
 
 use prime\interfaces\HeramsResponseInterface;
@@ -83,11 +82,11 @@ class DashboardMap extends Element
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
                 $longitude = $response->getLongitude();
-                if (abs($latitude) < 0.0000001
+                if (
+                    abs($latitude) < 0.0000001
                     || abs($longitude) < 0.0000001
                     || abs($latitude) > 90
                     || abs($longitude) > 180
-
                 ) {
                     continue;
                 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use kartik\grid\GridView;
@@ -19,6 +20,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\User as UserComponent;
 use yii\web\View;
+
 use function iter\func\index;
 use function iter\rewindable\map;
 use function iter\toArray;

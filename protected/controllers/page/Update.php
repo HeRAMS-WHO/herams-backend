@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\page;
 
 use prime\components\NotificationService;

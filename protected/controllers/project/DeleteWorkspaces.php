@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\project;
@@ -14,7 +15,7 @@ class DeleteWorkspaces extends Action
 {
 
     public function run(
-        Response  $response,
+        Response $response,
         NotificationService $notificationService,
         AccessCheckInterface $accessCheck,
         int $id

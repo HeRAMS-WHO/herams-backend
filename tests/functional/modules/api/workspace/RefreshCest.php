@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\functional\modules\api\workspace;
@@ -7,6 +8,7 @@ use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
+
 use function iter\toArrayWithKeys;
 
 /**
