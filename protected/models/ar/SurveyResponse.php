@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use prime\components\ActiveQuery;
+use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
 use prime\validators\ExistValidator;
-use prime\validators\JsonValidator;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
+use yii\validators\SafeValidator;
 
 /**
  * Attributes
@@ -40,6 +41,18 @@ class SurveyResponse extends ActiveRecord
         ];
     }
 
+    public static function labels(): array
+    {
+        return ArrayHelper::merge(
+            parent::labels(),
+            [
+                'data' => \Yii::t('app', 'Data'),
+                'facility_id' => \Yii::t('app', 'Facility'),
+                'survey_id' => \Yii::t('app', 'Survey'),
+            ]
+        );
+    }
+
     public function getFacility(): ActiveQuery
     {
         return $this->hasOne(Facility::class, ['id' => 'facility_id']);
@@ -54,7 +67,7 @@ class SurveyResponse extends ActiveRecord
     {
         return [
             [['data', 'facility_id', 'survey_id'], RequiredValidator::class],
-            [['data'], JsonValidator::class],
+            [['data'], SafeValidator::class],
             [['facility_id'], ExistValidator::class, 'targetRelation' => 'facility'],
             [['survey_id'], ExistValidator::class, 'targetRelation' => 'survey'],
         ];
