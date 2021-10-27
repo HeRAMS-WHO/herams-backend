@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-sync
+
+spec:
+  schedule: "37 2 * * *"
+  concurrencyPolicy: forbid
+  startingDeadlineSeconds: 3600
+  failedJobsHistoryLimit: 7
+  successfulJobsHistoryLimit: 7
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cacheWarmup
+              image: ghcr.io/herams-who/herams-backend/app:latest
+              imagePullPolicy: IfNotPresent
+              command:
+                - /usr/bin/php8
+                - -d
+                - memory_limit=2048M
+                - /project/protected/yiic
+                - cache/warmup
+          restartPolicy: OnFailure
