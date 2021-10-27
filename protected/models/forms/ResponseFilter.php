@@ -131,7 +131,6 @@ class ResponseFilter extends Model
     {
         $result = [];
         foreach ($this->advancedFilterMap[$fieldName]->getAnswers() as $answer) {
-
             $title = preg_split('/:\(/', $answer->getText())[0];
             if (is_string($title) && strpos($title, '/') !== false) {
                 $parts = explode('/', $title, 2);
