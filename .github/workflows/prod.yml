@@ -40,9 +40,7 @@ jobs:
           k8s-url: ${{ secrets.KUBERNETES_URL }}
           k8s-secret: ${{ secrets.PROD_K8S_SECRET }}
       - name: get_manifests
-        run: |
-          manifests=$(ls k8s/shared/*.yaml k8s/prod/*.yaml | tr "\n" ";")
-          echo ::set-output name=MANIFESTS::$manifests
+        run: echo ::set-output name=MANIFESTS::$(ls k8s/shared/*.yaml k8s/prod/*.yaml | tr "\n" ";")
       - uses: Azure/k8s-deploy@v1.3
         with:
           namespace: 'prod'
