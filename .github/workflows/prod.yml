@@ -43,7 +43,7 @@ jobs:
           k8s-secret: ${{ secrets.PROD_K8S_SECRET }}
       - name: get_manifests
         run: echo manifests=$(ls k8s/shared/*.yaml k8s/prod/*.yaml | tr "\n" ",") >> $GITHUB_ENV
-      - uses: Azure/k8s-deploy@v1.3
+      - uses: Azure/k8s-deploy@v1
         with:
           namespace: 'prod'
           manifests: ${{ env.manifests }}
