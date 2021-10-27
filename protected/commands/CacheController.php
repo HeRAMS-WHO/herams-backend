@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace prime\commands;
 
@@ -79,7 +79,7 @@ class CacheController extends \yii\console\controllers\CacheController
         LimesurveyDataProvider $limesurveyDataProvider,
         Project $project,
         int $minWorkspaceId = 0,
-        int $maxWorkspaceId = INF
+        int $maxWorkspaceId = PHP_INT_MAX
     ) {
         /** @var Workspace $workspace */
         foreach ($project->getWorkspaces()
