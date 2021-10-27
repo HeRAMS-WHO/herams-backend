@@ -28,7 +28,9 @@ jobs:
       - run: docker-compose run --rm codeception run
       - run: composer stan
   deploy:
-    needs: [build]
+    needs:
+      - build
+      - test
     runs-on: ubuntu-latest
     name: Deploy
     steps:
