@@ -5,7 +5,7 @@ metadata:
 
 spec:
   schedule: "37 2 * * *"
-  concurrencyPolicy: forbid
+  concurrencyPolicy: Forbid
   startingDeadlineSeconds: 3600
   failedJobsHistoryLimit: 7
   successfulJobsHistoryLimit: 7
@@ -14,7 +14,7 @@ spec:
       template:
         spec:
           containers:
-            - name: cacheWarmup
+            - name: cachewarmup
               image: ghcr.io/herams-who/herams-backend/app:latest
               imagePullPolicy: IfNotPresent
               command:
