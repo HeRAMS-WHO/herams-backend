@@ -13,6 +13,13 @@ spec:
     spec:
       template:
         spec:
+          volumes:
+            - name: database
+              secret:
+                secretName: database
+            - name: limesurvey
+              secret:
+                secretName: limesurvey
           containers:
             - name: cachewarmup
               image: ghcr.io/herams-who/herams-backend/app:latest
@@ -23,4 +30,9 @@ spec:
                 - memory_limit=2048M
                 - /project/protected/yiic
                 - cache/warmup
+              volumeMounts:
+                - name: database
+                  mountPath: "/run/secrets/database"
+                - name: limesurvey
+                  mountPath: "/run/secrets/limesurvey"
           restartPolicy: OnFailure
