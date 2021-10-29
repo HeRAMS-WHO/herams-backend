@@ -27,7 +27,7 @@ spec:
               command:
                 - /usr/bin/php8
                 - -d
-                - memory_limit=2048M
+                - memory_limit=4096M
                 - /project/protected/yiic
                 - cache/warmup
               volumeMounts:
