@@ -91,6 +91,19 @@ class CacheController extends \yii\console\controllers\CacheController
         }
     }
 
+    public function actionWarmupOldestWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
+    {
+        $workspaceIds = Response::find()
+            ->groupBy('workspace_id')
+            ->orderBy('min(last_updated)', 'workspace_id')
+            ->select('workspace_id')
+            ->limit(100)
+            ->column();
+        foreach (Workspace::find()->andWhere(['id' => $workspaceIds])->each() as $workspace) {
+            $this->warmupWorkspace($workspace, $limesurveyDataProvider);
+        }
+    }
+
     private function warmupWorkspace(Workspace $workspace, LimesurveyDataProvider $limesurveyDataProvider)
     {
         $loader = new LimesurveyDataLoader();
@@ -111,6 +124,7 @@ class CacheController extends \yii\console\controllers\CacheController
             if ($responseModel->isNewRecord) {
                 $this->stdout($responseModel->save() ? '+' : '-', Console::FG_RED);
             } elseif (empty($responseModel->dirtyAttributes)) {
+                $responseModel->save();
                 $this->stdout('0', Console::FG_GREEN);
             } else {
                 $this->stdout($responseModel->save() ? '+' : '-', Console::FG_YELLOW);

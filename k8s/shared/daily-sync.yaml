@@ -4,7 +4,7 @@ metadata:
   name: daily-sync
 
 spec:
-  schedule: "37 2 * * *"
+  schedule: "*/15 * * * *"
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 3600
   failedJobsHistoryLimit: 7
@@ -27,9 +27,9 @@ spec:
               command:
                 - /usr/bin/php8
                 - -d
-                - memory_limit=4096M
+                - memory_limit=2048M
                 - /project/protected/yiic
-                - cache/warmup
+                - cache/warmup-oldest-workspaces
               volumeMounts:
                 - name: database
                   mountPath: "/run/secrets/database"
