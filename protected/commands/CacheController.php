@@ -91,6 +91,17 @@ class CacheController extends \yii\console\controllers\CacheController
         }
     }
 
+    public function actionWarmupEmptyWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
+    {
+        $query = Workspace::find()
+            ->andWhere(['not', [
+                'id' => Response::find()->select('workspace_id')->distinct()
+            ]]);
+        foreach ($query->each() as $workspace) {
+            $this->warmupWorkspace($workspace, $limesurveyDataProvider);
+        }
+    }
+
     public function actionWarmupOldestWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
     {
         $workspaceIds = Response::find()
