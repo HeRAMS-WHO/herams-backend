@@ -214,7 +214,7 @@ CREATE TABLE `prime2_facility` (
   UNIQUE KEY `uuid` (`uuid`),
   KEY `workspace_id` (`workspace_id`),
   CONSTRAINT `workspace_id` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -522,6 +522,28 @@ CREATE TABLE `prime2_survey` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `prime2_survey_response`
+--
+
+DROP TABLE IF EXISTS `prime2_survey_response`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prime2_survey_response` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `survey_id` int NOT NULL,
+  `facility_id` int NOT NULL,
+  `data` json NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_by` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk-survey_response-survey_id-survey-id` (`survey_id`),
+  KEY `fk-survey_response-facility_id-facility-id` (`facility_id`),
+  CONSTRAINT `fk-survey_response-facility_id-facility-id` FOREIGN KEY (`facility_id`) REFERENCES `prime2_facility` (`id`),
+  CONSTRAINT `fk-survey_response-survey_id-survey-id` FOREIGN KEY (`survey_id`) REFERENCES `prime2_survey` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `prime2_token`
 --
 
@@ -578,7 +600,7 @@ CREATE TABLE `prime2_workspace` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `token` (`project_id`,`token`),
   CONSTRAINT `project_workspace` FOREIGN KEY (`project_id`) REFERENCES `prime2_project` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=2127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
