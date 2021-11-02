@@ -13,6 +13,7 @@ use yii\web\Controller;
  */
 class ResponseController extends Controller
 {
+    public $enableCsrfValidation = false;
     public $layout = '@app/views/layouts/simple';
     public function actions()
     {
