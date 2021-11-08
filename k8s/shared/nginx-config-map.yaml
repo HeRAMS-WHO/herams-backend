@@ -69,6 +69,8 @@ data:
               # PHP only, required if PHP was built with --enable-force-cgi-redirect
               fastcgi_param  REDIRECT_STATUS    200;
 
+              fastcgi_read_timeout 300s;
+
               fastcgi_pass 127.0.0.1:9000;
               add_header X-Fastcgi 1 always;
           }
