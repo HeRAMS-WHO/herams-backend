@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-ingress-ingress-nginx-controller
+  namespace: kube-system
+data:
+  proxy-read-timeout: "300"
