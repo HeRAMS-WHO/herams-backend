@@ -19,7 +19,7 @@ class RefreshCest
     public function testPermissionCheck(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         $workspace->token = 'token1';
         $I->save($workspace);
         $I->sendPost(Url::to(['/api/workspace/refresh', 'id' => $workspace->id]));

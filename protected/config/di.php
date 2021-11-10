@@ -45,7 +45,7 @@ use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
 use prime\repositories\FacilityRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
-use prime\repositories\ResponseRepository;
+use prime\repositories\ResponseForLimesurveyRepository;
 use prime\repositories\SurveyRepository;
 use prime\repositories\UserNotificationRepository;
 use prime\repositories\UserRepository;
@@ -108,7 +108,7 @@ return [
     ProjectRepository::class => ProjectRepository::class,
     WorkspaceRepository::class => WorkspaceRepository::class,
     FacilityRepository::class => FacilityRepository::class,
-    ResponseRepository::class => ResponseRepository::class,
+    ResponseForLimesurveyRepository::class => ResponseForLimesurveyRepository::class,
     SurveyRepository::class => SurveyRepository::class,
     ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [

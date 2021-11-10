@@ -6,7 +6,7 @@ use app\components\ActiveForm;
 use app\components\Form;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
-use prime\models\forms\UpdateFacility;
+use prime\models\forms\facility\UpdateForm;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
 use prime\widgets\menu\FacilityTabMenu;
@@ -15,11 +15,11 @@ use prime\widgets\survey\Survey;
 
 /**
  * @var View $this
- * @var UpdateFacility $model
+ * @var UpdateForm $model
  * @var FacilityForTabMenu $tabMenuModel
  */
 
-$this->title = $tabMenuModel->title();
+$this->title = $tabMenuModel->getTitle();
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
@@ -27,15 +27,16 @@ echo FacilityTabMenu::widget(
 );
 $this->endBlock();
 
-Section::begin()->withHeader(Yii::t('app', 'Update facility'));
+Section::begin()
+    ->withHeader(Yii::t('app', 'Update facility'));
+
 $survey = Survey::begin()
-    ->withSubmitRoute(['facility/update', 'id' => $model->getId()])
-    ->withLanguages(\prime\objects\LanguageSet::fullSet())
+    ->withConfig($model->getSurvey()->getConfig())
+    ->withData($model->data ?? [])
+    ->withSubmitRoute(['facility/update', 'id' => $model->getFacilityId()])
+    ->withLanguages($model->getLanguages())
 ;
-$survey->data = $model->data;
+
 Survey::end();
-$form = ActiveForm::begin([
-    'enableClientValidation' => true,
-]);
-ActiveForm::end();
+
 Section::end();

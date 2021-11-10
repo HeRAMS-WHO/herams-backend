@@ -10,8 +10,12 @@ use prime\models\ActiveRecord;
 use prime\queries\FacilityQuery;
 use prime\queries\ResponseForLimesurveyQuery;
 use Ramsey\Uuid\Uuid;
+use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\ExistValidator;
+use yii\validators\NumberValidator;
+use yii\validators\RequiredValidator;
+use yii\validators\StringValidator;
 
 /**
  * Attributes
@@ -28,15 +32,75 @@ use yii\validators\ExistValidator;
  * @property string $name
  * @property int $workspace_id
  *
+ * Virtual fields
+ * @property-read int $adminSurveyResponseCount
+ * @property-read int $dataSurveyResponseCount
+ *
  * Relations
+ * @property-read Survey $adminSurvey
+ * @property-read Project $project
  * @property-read ResponseForLimesurvey[] $responses
+ * @property-read SurveyResponse[] $surveyResponses
  * @property-read Workspace $workspace
  */
 class Facility extends ActiveRecord
 {
+    public function behaviors(): array
+    {
+        return [
+            'virtualFields' => [
+                'class' => VirtualFieldBehavior::class,
+                'virtualFields' => self::virtualFields(),
+            ],
+        ];
+    }
+
     public static function find(): FacilityQuery
     {
         return new FacilityQuery(static::class);
+    }
+
+    public function getAdminSurvey(): ActiveQuery
+    {
+        return $this->hasOne(Survey::class, ['id' => 'admin_survey_id'])
+            ->via('project');
+    }
+
+    public function getAdminSurveyResponses(): ActiveQuery
+    {
+        return $this->getSurveyResponses()->andWhere(['survey_id' => $this->project->admin_survey_id]);
+    }
+
+    public function getDataSurveyResponses(): ActiveQuery
+    {
+        return $this->getSurveyResponses()->andWhere(['survey_id' => $this->project->data_survey_id]);
+    }
+
+    public function getProject(): ActiveQuery
+    {
+        return $this->hasOne(Project::class, ['id' => 'project_id'])
+            ->via('workspace');
+    }
+
+    public function getResponses(): ResponseForLimesurveyQuery
+    {
+        return $this->hasMany(ResponseForLimesurvey::class, [
+            'facility_id' => 'id',
+        ])->inverseOf('facility');
+    }
+
+    public function getSurveyResponses(): ActiveQuery
+    {
+        return $this->hasMany(SurveyResponse::class, [
+            'facility_id' => 'id'
+        ]);
+    }
+
+    public function getWorkspace(): ActiveQuery
+    {
+        return $this->hasOne(Workspace::class, [
+            'id' => 'workspace_id'
+        ]);
     }
 
     public static function labels(): array
@@ -59,24 +123,33 @@ class Facility extends ActiveRecord
         );
     }
 
-    public function getResponses(): ResponseForLimesurveyQuery
-    {
-        return $this->hasMany(ResponseForLimesurvey::class, [
-            'facility_id' => 'id',
-        ])->inverseOf('facility');
-    }
-
-    public function getWorkspace(): ActiveQuery
-    {
-        return $this->hasOne(WorkspaceForLimesurvey::class, [
-            'id' => 'workspace_id'
-        ]);
-    }
-
     public function rules(): array
     {
         return [
-            [['workspace_id'], ExistValidator::class, 'targetClass' => Workspace::class, 'targetAttribute' => 'id']
+            [['name', 'workspace_id'], RequiredValidator::class],
+            [['alternative_name', 'name', 'code'], StringValidator::class],
+            [['workspace_id'], ExistValidator::class, 'targetClass' => Workspace::class, 'targetAttribute' => 'id'],
+            [['latitude', 'longitude'], NumberValidator::class],
+        ];
+    }
+
+    public static function virtualFields(): array
+    {
+        return [
+            'adminSurveyResponseCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+//                VirtualFieldBehavior::GREEDY =>,
+                VirtualFieldBehavior::LAZY => static function (self $model): string {
+                    return $model->getAdminSurveyResponses()->count();
+                }
+            ],
+            'dataSurveyResponseCount' => [
+                VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+//                VirtualFieldBehavior::GREEDY =>,
+                VirtualFieldBehavior::LAZY => static function (self $model): string {
+                    return $model->getDataSurveyResponses()->count();
+                }
+            ],
         ];
     }
 }

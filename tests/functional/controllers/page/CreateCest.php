@@ -22,7 +22,7 @@ class CreateCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['page/create', 'project_id' => $project->id]);
@@ -32,7 +32,7 @@ class CreateCest
     public function testCreateRootPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['page/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->fillField(['name' => 'Page[title]'], 'Test');
@@ -54,7 +54,7 @@ class CreateCest
     public function testCreateSubPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;

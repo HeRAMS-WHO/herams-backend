@@ -18,8 +18,8 @@ class DeleteCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace = $I->haveWorkspace();
+        $project = $I->haveProjectForLimesurvey();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         $user = User::findOne(['id' => TEST_USER_ID]);
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
@@ -30,7 +30,7 @@ class DeleteCest
     public function testDelete(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
 
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_DELETE);
 

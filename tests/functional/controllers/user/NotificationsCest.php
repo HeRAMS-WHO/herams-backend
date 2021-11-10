@@ -24,7 +24,7 @@ class NotificationsCest
     public function testAccessRequestNotification(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $accessRequest = new AccessRequest([
             'subject' => 'test',
             'body' => 'test',

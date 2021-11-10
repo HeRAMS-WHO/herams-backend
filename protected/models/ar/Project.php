@@ -62,20 +62,20 @@ use yii\web\Linkable;
  * @property string $visibility
  *
  * Virtual fields
- * @property int $contributorCount
- * @property int $contributorPermissionCount
- * @property int $facilityCount
- * @property string $latestDate
- * @property int $pageCount
+ * @property-read int $contributorCount
+ * @property-read int $contributorPermissionCount
+ * @property-read int $facilityCount
+ * @property-read string $latestDate
+ * @property-read int $pageCount
  * @property-read ProjectType $type
- * @property int $workspaceCount
+ * @property-read int $workspaceCount
  *
  * Relations
- * @property Page[] $mainPages
- * @property Page[] $pages
- * @property SurveyInterface $survey
- * @property Workspace[] $workspaces
- * @property Survey $adminSurvey
+ * @property-read Page[] $mainPages
+ * @property-read Page[] $pages
+ * @property-read SurveyInterface $survey
+ * @property-read Workspace[] $workspaces
+ * @property-read Survey $adminSurvey
  *
  * @method ExpressionInterface getVirtualExpression(string $name)
  * @see VirtualFieldBehavior::getVirtualExpression()

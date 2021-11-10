@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\widgets;
 
 use prime\helpers\Icon;
+use prime\interfaces\CanCurrentUser;
 use prime\traits\FunctionGetterColumn;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
@@ -24,11 +25,14 @@ class DrilldownColumn extends DataColumn
         parent::__construct($config);
     }
 
-
     public function renderDataCellContent($model, $key, $index): string
     {
         $content = parent::renderDataCellContent($model, $key, $index);
-        if (!isset($this->permission) || \Yii::$app->user->can($this->permission, $model)) {
+        if (
+            !isset($this->permission)
+            || \Yii::$app->user->can($this->permission, $model)
+            || ($model instanceof CanCurrentUser && $model->canCurrentUser($this->permission))
+        ) {
             return Html::a("{$content} {$this->icon}", ($this->link)($model), $this->linkOptions);
         } else {
             return $content;

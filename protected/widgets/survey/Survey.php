@@ -13,15 +13,27 @@ use yii\helpers\Url;
 
 class Survey extends Widget
 {
-    public array $submitRoute;
-    public array $data;
-
-    public LanguageSet $languages;
+    private array $config;
+    private array $data;
+    private LanguageSet $languages;
+    private array $submitRoute;
 
     public function init(): void
     {
         parent::init();
         SurveyJsBundle::register($this->view);
+    }
+
+    public function withConfig(array $config): self
+    {
+        $this->config = $config;
+        return $this;
+    }
+
+    public function withData(array $data): self
+    {
+        $this->data = $data;
+        return $this;
     }
 
     public function withLanguages(LanguageSet $languageSet): self
@@ -83,9 +95,7 @@ class Survey extends Widget
             "showQuestionNumbers" => "off"
         ];
 
-
-
-        $structure = Json::encode($structure);
+        $structure = Json::encode($this->config);
         $data = Json::encode($this->data ?? []);
         $languages = Json::encode($this->languages->toArray());
         $this->view->registerJs(<<<JS

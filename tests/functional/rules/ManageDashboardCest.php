@@ -20,7 +20,7 @@ class ManageDashboardCest
     public function testCascade(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
         $user = \Yii::$app->user->identity;

@@ -27,7 +27,7 @@ class FacilityTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'url' => ['facility/admin-responses', 'id' => $this->facility->getId()],
-            'title' => \Yii::t('app', 'Admin responses ({n})', ['n' => $this->facility->getResponseCount()]),
+            'title' => \Yii::t('app', 'Admin responses ({n})', ['n' => $this->facility->getAdminResponseCount()]),
             'permission' => Permission::PERMISSION_ADMIN
         ];
         $this->tabs[] = [
