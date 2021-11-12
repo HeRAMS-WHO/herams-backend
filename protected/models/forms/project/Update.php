@@ -7,8 +7,10 @@ namespace prime\models\forms\project;
 use prime\behaviors\LocalizableWriteBehavior;
 use prime\models\ar\Project;
 use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectType;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\LanguageSet;
+use prime\traits\StrictModelScenario;
 use prime\validators\ClientJsonValidator;
 use prime\validators\CountryValidator;
 use prime\values\ProjectId;
@@ -22,6 +24,8 @@ use yii\validators\UniqueValidator;
 
 class Update extends Model
 {
+    use StrictModelScenario;
+
     public null|string $country;
     public null|array $i18n;
     public LanguageSet $languages;
@@ -77,5 +81,13 @@ class Update extends Model
             [['typemap', 'overrides'], ClientJsonValidator::class],
             [['country'], CountryValidator::class]
         ];
+    }
+
+    public function scenarios(): array
+    {
+        $result = parent::scenarios();
+        $result[ProjectType::surveyJs()->value] = [...$result[self::SCENARIO_DEFAULT], '!typemap'];
+        $result[ProjectType::limesurvey()->value] = [...$result[self::SCENARIO_DEFAULT]];
+        return $result;
     }
 }
