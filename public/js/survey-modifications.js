@@ -1,12 +1,5 @@
 
 ((Survey) => {
-    /**
-     Survey.Serializer.addProperty("text", {
-    name: "isPostalCode",
-    type: "switch",
-    category: "Statistics & analytics",
-});
-     */
     [
         "mode",
         "navigateToUrl",
@@ -50,13 +43,20 @@
     ].forEach((property) => Survey.Serializer.removeProperty("survey", property));
 
     Survey.Serializer.removeProperty("selectBase", "choicesByUrl");
-    Survey.QuestionFactory.Instance.unregisterElement("signaturepad");
-    Survey.QuestionFactory.Instance.unregisterElement("file");
-    Survey.QuestionFactory.Instance.unregisterElement("multipletext");
-    Survey.QuestionFactory.Instance.unregisterElement("paneldynamic");
-    Survey.QuestionFactory.Instance.unregisterElement("matrixdynamic");
-    Survey.QuestionFactory.Instance.unregisterElement("comment");
-    Survey.QuestionFactory.Instance.unregisterElement("expression");
+    [
+        "signaturepad",
+        "file",
+        "multipletext",
+        "paneldynamic",
+        "matrixdynamic",
+        "comment",
+        "imagepicker",
+        "rating",
+        "matrix",
+        "image",
+        "expression"
+
+    ].forEach(Survey.QuestionFactory.Instance.unregisterElement, Survey.QuestionFactory.Instance);
     /**
      * Todo:
      * sendResultOnPageNext --> should be forced to true
