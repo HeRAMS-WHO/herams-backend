@@ -62,15 +62,14 @@
      * sendResultOnPageNext --> should be forced to true
      */
 
-
 // New question type for facility type:
     const facilityQuestionType = {
         name: "facilityType",
         title: "Facility Type",
-        iconName: "icon-list",
-        category: "General",
+        iconName: "icon-radiogroup",
+        category: "HeRAMS",
         isFit(question) {
-            return question.getType() === "facilityType";
+            return question.getType() === 'facilityType';
         },
         isDefaultRender: true,
 
@@ -93,13 +92,10 @@
                     name: "choices",
                     type: "facilityitemvalue[]"
                 },
-
-
             ], null, "dropdown");
 
         }
     };
 
     Survey.CustomWidgetCollection.Instance.add(facilityQuestionType, "customtype");
-
 })(Survey);
