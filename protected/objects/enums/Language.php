@@ -7,7 +7,6 @@ namespace prime\objects\enums;
 /**
  * @method static self enUS()
  * @method static self ar()
- * @method static self nlNL()
  * @method static self frFR()
  */
 class Language extends Enum

@@ -34,7 +34,7 @@ class ProjectTest extends ActiveRecordTest
                     'overrides' => ['contributorCount' => 15],
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
-                    'languages' => ['nl-NL']
+                    'languages' => ['fr-FR']
                 ],
             ],
             [
@@ -53,7 +53,7 @@ class ProjectTest extends ActiveRecordTest
                     'overrides' => ['contributorCount' => 15],
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
-                    'languages' => ['nl-NL']
+                    'languages' => ['fr-FR']
                 ],
             ],
         ];
@@ -74,7 +74,7 @@ class ProjectTest extends ActiveRecordTest
                     'manage_implies_create_hf' => 'dontknow',
                     'overrides' => 'b',
                     'i18n' => 'test',
-                    'languages' => ['un-KN']
+                    'languages' => ['nl-NL']
                 ]
             ],
             [
