@@ -8,7 +8,7 @@ use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\web\Application;
 
-class MaintenanceMode extends Component implements BootstrapInterface
+class MaintenanceMode implements BootstrapInterface
 {
     public const MAINTENANCE_MODE = 'MAINTENANCE_MODE';
     public function bootstrap($application)
