@@ -133,4 +133,5 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_145235
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_150130_facility_rename_timestamps', 1634051048);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211019_113352_rename_response_to_response_for_limesurvey', 1634644741);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211019_125300_create_survey_response', 1635231088);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211026_103049_redo_facility', 1635248365);
 SET FOREIGN_KEY_CHECKS=1;

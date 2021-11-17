@@ -202,16 +202,17 @@ DROP TABLE IF EXISTS `prime2_facility`;
 CREATE TABLE `prime2_facility` (
   `id` int NOT NULL AUTO_INCREMENT,
   `workspace_id` int NOT NULL,
-  `uuid` binary(16) NOT NULL,
   `name` varchar(255) NOT NULL,
   `alternative_name` varchar(255) DEFAULT NULL,
   `i18n` json DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
+  `data` json DEFAULT NULL,
+  `admin_data` json DEFAULT NULL,
+  `latitude` decimal(10,8) DEFAULT NULL,
+  `longitude` decimal(11,8) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `deactivated_at` datetime DEFAULT NULL,
-  `coordinates` point DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uuid` (`uuid`),
   KEY `workspace_id` (`workspace_id`),
   CONSTRAINT `workspace_id` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

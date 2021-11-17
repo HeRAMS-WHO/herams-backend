@@ -15,16 +15,17 @@ use yii\validators\ExistValidator;
 
 /**
  * Attributes
+ * @property array $admin_data
  * @property string $alternative_name
  * @property string $code
- * @property string|null $created_at
+ * @property array $data
  * @property string|null $deactivated_at
  * @property string|null $deleted_at
  * @property array $i18n
  * @property int $id
+ * @property float $latitude
+ * @property float $longitude
  * @property string $name
- * @property string|null $updated_at
- * @property string $uuid
  * @property int $workspace_id
  *
  * Relations
@@ -33,15 +34,6 @@ use yii\validators\ExistValidator;
  */
 class Facility extends ActiveRecord
 {
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-        // TODO: Move to behavior
-        if (!isset($this->uuid)) {
-            $this->uuid = Uuid::uuid6()->getBytes();
-        }
-    }
-
     public static function find(): FacilityQuery
     {
         return new FacilityQuery(static::class);
@@ -52,15 +44,17 @@ class Facility extends ActiveRecord
         return ArrayHelper::merge(
             parent::labels(),
             [
+                'admin_data' => \Yii::t('app', 'Admin data'),
                 'alternative_name' => \Yii::t('app', 'Alternative name'),
                 'code' => \Yii::t('app', 'Code'),
-                'coordinates' => \Yii::t('app', 'Coordinates'),
+                'data' => \Yii::t('app', 'Data'),
                 'deactivated_at' => \Yii::t('app', 'Deactivated at'),
                 'i18n' => \Yii::t('app', 'Localization'),
                 'id' => \Yii::t('app', 'Facility ID'),
+                'latitude' => \Yii::t('app', 'Latitude'),
+                'longitude' => \Yii::t('app', 'Longitude'),
                 'name' => \Yii::t('app', 'Name'),
                 'workspace_id' => \Yii::t('app', 'Workspace'),
-                'uuid' => \Yii::t('app', 'UUID'),
             ]
         );
     }
