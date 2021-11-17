@@ -111,14 +111,16 @@ echo Form::widget([
             'options' => [
                 'value' => json_encode($model->typemap, JSON_PRETTY_PRINT),
                 'rows' => 5
-            ]
+            ],
+            'visible' => $model->isAttributeSafe('typemap')
         ],
         'overrides' => [
             'type' => Form::INPUT_TEXTAREA,
             'options' => [
                 'value' => json_encode($model->overrides, JSON_PRETTY_PRINT),
                 'rows' => 5
-            ]
+            ],
+
         ],
         FormButtonsWidget::embed([
             'buttons' => [
