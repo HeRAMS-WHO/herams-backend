@@ -22,12 +22,14 @@ class JobSubmissionServiceTest extends Unit
     public function testJobIsSubmitted()
     {
         // Setup
+
+        $jobQueue = $this->getMockBuilder(JobQueueInterface::class)
+            ->getMock();
+
+        $jobQueue->expects($this->once())
+            ->method('putJob');
         $dispatcher = new EventDispatcher();
-        $jobQueueProxy = new JobQueueProxy(
-            $this->makeEmpty(JobQueueInterface::class, [
-                'putJob' => Expected::atLeastOnce()
-            ])
-        );
+        $jobQueueProxy = new JobQueueProxy($jobQueue);
 
         $subject = new JobSubmissionService($jobQueueProxy, $dispatcher);
 
