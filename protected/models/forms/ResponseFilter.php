@@ -136,7 +136,7 @@ class ResponseFilter extends Model
     {
         $result = [];
         foreach ($this->advancedFilterMap[$fieldName]->getAnswers() as $answer) {
-            $title = strtok(strip_tags($answer->getText()), ':(');
+            $title = preg_split('/:\(/', $answer->getText())[0];
             if (is_string($title) && strpos($title, '/') !== false) {
                 $parts = explode('/', $title, 2);
                 $group = trim($parts[0]);
@@ -161,7 +161,9 @@ class ResponseFilter extends Model
         }
         $code = substr($attribute, 4);
 
-        return trim(html_entity_decode(strtok(strip_tags($this->advancedFilterMap[$code]->getText()), ':(')));
+        return trim(html_entity_decode(
+            preg_split('/:\(/', $this->advancedFilterMap[$code]->getText())[0]
+        ));
     }
 
     public function filterQuery(ActiveQuery $query): ActiveQuery

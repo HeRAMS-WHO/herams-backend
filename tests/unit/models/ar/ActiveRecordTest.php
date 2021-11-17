@@ -39,7 +39,7 @@ abstract class ActiveRecordTest extends ModelTest
      * @dataProvider validSamples
      * @depends testValidation
      */
-    public function testSave(array $attributes, ?string $scenario)
+    final public function testSave(array $attributes, ?string $scenario): void
     {
         $model = $this->getModel();
         $model->scenario = $scenario ?? Model::SCENARIO_DEFAULT;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\commands;
 
 use prime\components\LimesurveyDataProvider;
@@ -94,6 +96,30 @@ class CacheController extends \yii\console\controllers\CacheController
         }
     }
 
+    public function actionWarmupEmptyWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
+    {
+        $query = WorkspaceForLimesurvey::find()
+            ->andWhere(['not', [
+                'id' => ResponseForLimesurvey::find()->select('workspace_id')->distinct()
+            ]]);
+        foreach ($query->each() as $workspace) {
+            $this->warmupWorkspace($workspace, $limesurveyDataProvider);
+        }
+    }
+
+    public function actionWarmupOldestWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
+    {
+        $workspaceIds = ResponseForLimesurvey::find()
+            ->groupBy('workspace_id')
+            ->orderBy('min(last_updated)', 'workspace_id')
+            ->select('workspace_id')
+            ->limit(100)
+            ->column();
+        foreach (WorkspaceForLimesurvey::find()->andWhere(['id' => $workspaceIds])->each() as $workspace) {
+            $this->warmupWorkspace($workspace, $limesurveyDataProvider);
+        }
+    }
+
     private function warmupWorkspace(WorkspaceForLimesurvey $workspace, LimesurveyDataProvider $limesurveyDataProvider)
     {
         $loader = new LimesurveyDataLoader();
@@ -114,6 +140,7 @@ class CacheController extends \yii\console\controllers\CacheController
             if ($responseModel->isNewRecord) {
                 $this->stdout($responseModel->save() ? '+' : '-', Console::FG_RED);
             } elseif (empty($responseModel->dirtyAttributes)) {
+                $responseModel->save();
                 $this->stdout('0', Console::FG_GREEN);
             } else {
                 $this->stdout($responseModel->save() ? '+' : '-', Console::FG_YELLOW);
