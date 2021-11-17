@@ -18,12 +18,11 @@ class SecretTest extends Unit
 
     public function testToString()
     {
-        $environment = $this->makeEmpty(EnvironmentInterface::class, [
-            'getSecret' => Expected::once(function ($param) {
-                $this->assertSame('test', $param);
-                return 'secretvalue';
-            })
-        ]);
+        $environment = $this->getMockBuilder(EnvironmentInterface::class)->getMock();
+        $environment->expects($this->once())
+            ->method('getSecret')
+            ->with('test')
+            ->willReturn('secretvalue');
 
         $secret = new Secret($environment, 'test');
 
