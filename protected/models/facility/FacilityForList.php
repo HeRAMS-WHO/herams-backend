@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\models\facility;
 
+use prime\interfaces\CanCurrentUser;
 use prime\interfaces\facility\FacilityForListInterface;
+use prime\models\ar\Facility;
 use prime\values\FacilityId;
-use prime\values\Point;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters
@@ -21,8 +21,14 @@ class FacilityForList implements FacilityForListInterface
         private null|string $code,
         private null|float $latitude,
         private null|float $longitude,
-        private int $responseCount
+        private int $responseCount,
+        private CanCurrentUser|null $checker = null
     ) {
+    }
+
+    public function canCurrentUser(string $permission): bool
+    {
+        return isset($this->checker) && $this->checker->canCurrentUser($permission);
     }
 
     public function getAlternativeName(): null|string

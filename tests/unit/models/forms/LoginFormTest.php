@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\forms;
 
 use Codeception\Test\Unit;
-use prime\interfaces\WorkspaceForNewOrUpdateFacility;
+use prime\interfaces\WorkspaceForNewOrUpdateFacilityInterface;
 use prime\models\forms\LoginForm;
 use prime\models\forms\NewFacility;
 use prime\models\forms\UpdateFacility;

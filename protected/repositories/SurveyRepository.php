@@ -7,14 +7,19 @@ namespace prime\repositories;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\models\ar\Permission;
+use prime\models\ar\read\Survey as SurveyForRead;
 use prime\models\ar\read\Survey as SurveyRead;
 use prime\models\ar\Survey;
+use prime\models\ar\Workspace;
+use prime\models\forms\survey\CreateForm;
+use prime\models\forms\survey\UpdateForm;
 use prime\models\search\SurveySearch;
-use prime\models\survey\SurveyForCreate;
 use prime\models\survey\SurveyForList;
-use prime\models\survey\SurveyForUpdate;
+use prime\models\survey\SurveyForSurveyJs;
 use prime\values\SurveyId;
+use prime\values\WorkspaceId;
 use yii\base\InvalidArgumentException;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
@@ -27,7 +32,7 @@ class SurveyRepository
     ) {
     }
 
-    public function create(SurveyForCreate $model): SurveyId
+    public function create(CreateForm $model): SurveyId
     {
         $record = new Survey();
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_CREATE);
@@ -38,12 +43,25 @@ class SurveyRepository
         return new SurveyId($record->id);
     }
 
-    public function retrieveForUpdate(SurveyId $id): SurveyForUpdate
+    public function retrieveAdminSurveyForWorkspaceForSurveyJs(WorkspaceId $workspaceId): SurveyForSurveyJsInterface
+    {
+        $workspace = Workspace::findOne(['id' => $workspaceId]);
+        $surveyId = new SurveyId($workspace->project->admin_survey_id);
+        return $this->retrieveForSurveyJs($surveyId);
+    }
+
+    public function retrieveForSurveyJs(SurveyId $id): SurveyForSurveyJsInterface
+    {
+        $record = SurveyForRead::findOne(['id' => $id]);
+        return new SurveyForSurveyJs(new SurveyId($record->id), $record->config);
+    }
+
+    public function retrieveForUpdate(SurveyId $id): UpdateForm
     {
         $record = Survey::findOne(['id' => $id]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
-        $model = new SurveyForUpdate($id);
+        $model = new UpdateForm($id);
         $model->config = $record->config;
 
         return $model;
@@ -74,7 +92,7 @@ class SurveyRepository
         return $dataProvider;
     }
 
-    public function update(SurveyForUpdate $model): SurveyId
+    public function update(UpdateForm $model): SurveyId
     {
         $record = Survey::findOne(['id' => $model->getSurveyId()]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);

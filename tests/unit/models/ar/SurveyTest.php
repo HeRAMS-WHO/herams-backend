@@ -6,6 +6,7 @@ namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Favorite;
 use prime\models\ar\Survey;
+use prime\models\ar\SurveyResponse;
 use prime\models\ar\User;
 
 /**
@@ -21,6 +22,11 @@ class SurveyTest extends ActiveRecordTest
                 'scenario' => User::SCENARIO_DEFAULT
             ]
         ];
+    }
+
+    public function testGetSurveyResponses(): void
+    {
+        $this->testRelation('surveyResponses', SurveyResponse::class);
     }
 
     public function testTitle(): void

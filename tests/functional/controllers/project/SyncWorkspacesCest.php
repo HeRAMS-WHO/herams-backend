@@ -20,7 +20,7 @@ class SyncWorkspacesCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
 
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         $I->assertFalse(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->amOnPage(['/project/sync-workspaces', 'id' => $project->id]);
@@ -31,7 +31,7 @@ class SyncWorkspacesCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
 
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
 
@@ -54,7 +54,7 @@ class SyncWorkspacesCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
 
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
 

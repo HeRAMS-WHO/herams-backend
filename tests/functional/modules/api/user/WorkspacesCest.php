@@ -34,7 +34,7 @@ class WorkspacesCest
         $I->seeResponseCodeIs(422);
         $I->assertSame(0, (int) Favorite::find()->count());
 
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         $I->assertSame(0, (int) Favorite::find()->count());
         $I->sendPUT(Url::to(['/api/user/workspaces', 'id' => TEST_USER_ID, 'target_id' => $workspace->id]));
         $I->seeResponseCodeIs(201);
@@ -50,7 +50,7 @@ class WorkspacesCest
         $I->seeResponseCodeIs(200);
         $I->assertSame(0, (int) Favorite::find()->count());
 
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         codecept_debug('Created WS with id: ' . $workspace->id);
         $favorite = new Favorite();
         $favorite->target_class = WorkspaceForLimesurvey::class;

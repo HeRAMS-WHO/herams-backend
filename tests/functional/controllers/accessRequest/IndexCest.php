@@ -33,7 +33,7 @@ class IndexCest
     public function testAccessRequestHistory(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
@@ -49,7 +49,7 @@ class IndexCest
     public function testAccessRequestToRespondTo(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $accessRequest = $this->createAccessRequest($I, $project, null);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);

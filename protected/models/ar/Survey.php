@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use prime\behaviors\AuditableBehavior;
+use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
@@ -30,6 +31,11 @@ class Survey extends ActiveRecord
                 AuditableBehavior::class
             ]
         );
+    }
+
+    public function getSurveyResponses(): ActiveQuery
+    {
+        return $this->hasMany(SurveyResponse::class, ['survey_id' => 'id']);
     }
 
     public function getTitle(): string

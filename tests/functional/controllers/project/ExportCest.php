@@ -23,7 +23,7 @@ class ExportCest
     public function testDownload(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveProject();
+        $workspace = $I->haveProjectForLimesurvey();
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_EXPORT);
 
         $I->amOnPage(['project/export', 'id' => $workspace->id]);

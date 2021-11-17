@@ -19,7 +19,7 @@ class UpdateCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         $I->amOnPage(['project/update', 'id' => $project->id]);
         $I->seeResponseCodeIs(403);
@@ -28,7 +28,7 @@ class UpdateCest
     public function testAccessControlWithWriteAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project));
 
@@ -41,7 +41,7 @@ class UpdateCest
     public function testAccessControlWithAdminAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
@@ -56,7 +56,7 @@ class UpdateCest
     public function testUpdate(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/update', 'id' => $project->id]);

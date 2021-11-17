@@ -10,7 +10,7 @@ use prime\controllers\response\SurveyJs;
 use prime\controllers\response\Update;
 use prime\objects\Breadcrumb;
 use prime\repositories\ProjectRepository;
-use prime\repositories\ResponseRepository;
+use prime\repositories\ResponseForLimesurveyRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ResponseId;
 
@@ -22,7 +22,7 @@ class ResponseController extends Controller
         $id,
         $module,
         private ProjectRepository $projectRepository,
-        private ResponseRepository $responseRepository,
+        private ResponseForLimesurveyRepository $responseRepository,
         private WorkspaceRepository $workspaceRepository,
         $config = [],
     ) {

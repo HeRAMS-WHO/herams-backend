@@ -8,6 +8,7 @@ use prime\rules\AdminShareRule;
 use prime\rules\CreateFacilityCascadeWorkspaceRule;
 use prime\rules\CreateFacilityRule;
 use prime\rules\DashboardRule;
+use prime\rules\FacilityCascadeWorkspaceRule;
 use prime\rules\GrantRule;
 use prime\rules\ManageWorkspaceRule;
 use prime\rules\ProjectImplicitReadViaExplicitWorkspacePermission;
@@ -62,7 +63,6 @@ return [
     new CreateFacilityRule(),
     new RespondToAccessRequestRule(),
     new CreateFacilityCascadeWorkspaceRule(),
-    new \prime\rules\CreateFacilityRule()
-
-
+    new \prime\rules\CreateFacilityRule(),
+    new FacilityCascadeWorkspaceRule(),
 ];

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\models\survey\SurveyForCreate;
-use prime\models\survey\SurveyForUpdate;
+use prime\models\forms\survey\CreateForm;
+use prime\models\forms\survey\UpdateForm;
 use prime\widgets\Section;
 use prime\widgets\surveyJs\Creator;
 use yii\helpers\Json;
@@ -12,11 +12,11 @@ use yii\web\JsExpression;
 use yii\web\View;
 
 /**
- * @var SurveyForCreate|SurveyForUpdate $model
+ * @var CreateForm|UpdateForm $model
  * @var View $this
  */
 
-$this->title = $model instanceof SurveyForCreate
+$this->title = $model instanceof CreateForm
     ? \Yii::t('app', 'Create survey')
     : \Yii::t('app', 'Update survey');
 
@@ -33,7 +33,7 @@ Section::begin()
     ->withHeader($this->title);
 
 $ajaxSaveUrl = Json::encode(Url::to(['survey/ajax-save']));
-$surveyId = Json::encode($model instanceof SurveyForUpdate ? $model->getSurveyId() : null);
+$surveyId = Json::encode($model instanceof UpdateForm ? $model->getSurveyId() : null);
 echo Creator::widget([
     'options' => [],
     'surveyCreatorCustomizers' => [

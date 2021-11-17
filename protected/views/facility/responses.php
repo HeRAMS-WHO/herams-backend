@@ -7,6 +7,7 @@ use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\ResponseForList;
 use prime\models\ar\Permission;
+use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -17,22 +18,24 @@ use yii\helpers\Url;
  * @var FacilityForTabMenu $facility
  */
 
-$this->title = $facility->title();
+$this->title = $facility->getTitle();
 
 $this->beginBlock('tabs');
-echo \prime\widgets\menu\FacilityTabMenu::widget(
+echo FacilityTabMenu::widget(
     ['facility' => $facility]
 );
 $this->endBlock();
-Section::begin([
-    'actions' => [
+
+Section::begin()
+    ->withActions([
         [
             'label' => \Yii::t('app', 'Update situation for facility'),
             'link' => Url::to(['copy-latest-response', 'id' => $facility->getId()]),
-            'permission' => Permission::PERMISSION_ADMIN
+            'permission' => Permission::PERMISSION_WRITE
         ],
-    ]
-])->withSubject($facility)->withHeader(\Yii::t('app', 'Responses'));
+    ])
+    ->withSubject($facility)
+    ->withHeader(\Yii::t('app', 'Responses'));
 
 echo GridView::widget([
     'dataProvider' => $responseProvider,
@@ -45,8 +48,6 @@ echo GridView::widget([
         ResponseForList::CONDITION,
         ResponseForList::FUNCTIONALITY,
         ResponseForList::ACCESSIBILITY,
-
-
     ]
 ]);
 

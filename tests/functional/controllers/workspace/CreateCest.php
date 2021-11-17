@@ -17,7 +17,7 @@ class CreateCest
     public function testAccessControl(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(403);
     }
@@ -25,7 +25,7 @@ class CreateCest
     public function testCreate(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->fillField(['name' => Html::getInputName(new CreateForLimesurvey(), 'title')], 'Cool stuff');
@@ -42,7 +42,7 @@ class CreateCest
     public function testCreateNewToken(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->fillField(['name' => Html::getInputName(new CreateForLimesurvey(), 'title')], 'Cool stuff');

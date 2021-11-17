@@ -20,11 +20,12 @@ use prime\models\forms\workspace\CreateForLimesurvey;
 use prime\models\forms\workspace\Update as WorkspaceUpdate;
 use prime\models\forms\workspace\UpdateForLimesurvey as WorkspaceUpdateForLimesurvey;
 use prime\models\workspace\WorkspaceForBreadcrumb;
-use prime\models\workspace\WorkspaceForNewOrUpdateFacility;
+use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\objects\enums\ProjectType;
 use prime\objects\LanguageSet;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
+use prime\values\SurveyId;
 use prime\values\WorkspaceId;
 use yii\base\InvalidArgumentException;
 use yii\base\Model;
@@ -61,14 +62,21 @@ class WorkspaceRepository implements
         return new WorkspaceForBreadcrumb($record);
     }
 
-    public function retrieveForFacilityList(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
+    public function retrieveForFacilityList(WorkspaceId $id): WorkspaceForCreateOrUpdateFacility
     {
         /** @var null|Workspace $workspace */
         $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
         $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
         $project = $workspace->project;
 
-        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, LanguageSet::from($project->languages));
+        return new WorkspaceForCreateOrUpdateFacility(
+            new SurveyId($project->admin_survey_id),
+            $id,
+            $project->getLanguageSet(),
+            new ProjectId($project->id),
+            $project->title,
+            $workspace->title,
+        );
     }
 
     public function createFormModel(IntegerId $id): WorkspaceForm
@@ -78,7 +86,7 @@ class WorkspaceRepository implements
         return $model;
     }
 
-    public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForNewOrUpdateFacility
+    public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForCreateOrUpdateFacility
     {
         /** @var null|Workspace $workspace */
         $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
@@ -89,7 +97,14 @@ class WorkspaceRepository implements
             throw new InvalidArgumentException('Cannot create facility for Limesurvey project this way.');
         }
 
-        return new WorkspaceForNewOrUpdateFacility($id, $workspace->title, new ProjectId($project->id), $project->title, $project->getLanguageSet());
+        return new WorkspaceForCreateOrUpdateFacility(
+            new SurveyId($project->admin_survey_id),
+            $id,
+            $project->getLanguageSet(),
+            new ProjectId($project->id),
+            $project->title,
+            $workspace->title,
+        );
     }
 
     public function retrieveForRead(IntegerId|WorkspaceId $id): Workspace

@@ -19,7 +19,7 @@ use prime\models\response\ResponseForBreadcrumb;
 use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\objects\BreadcrumbCollection;
 use prime\repositories\ProjectRepository;
-use prime\repositories\ResponseRepository;
+use prime\repositories\ResponseForLimesurveyRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ElementId;
 use prime\values\PageId;
@@ -36,7 +36,7 @@ class ResponsesControllerTest extends Unit
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
     private ProjectRepository|MockObject $projectRepository;
     private string $renderResult = 'testRender';
-    private ResponseRepository|MockObject $responseRepository;
+    private ResponseForLimesurveyRepository|MockObject $responseRepository;
     private View|MockObject $view;
     private WorkspaceRepository|MockObject $workspaceRepository;
 
@@ -52,7 +52,7 @@ class ResponsesControllerTest extends Unit
             ->method('render')
             ->willReturn($this->renderResult);
         $this->projectRepository = $this->getMockBuilder(ProjectRepository::class)->disableOriginalConstructor()->getMock();
-        $this->responseRepository = $this->getMockBuilder(ResponseRepository::class)->disableOriginalConstructor()->getMock();
+        $this->responseRepository = $this->getMockBuilder(ResponseForLimesurveyRepository::class)->disableOriginalConstructor()->getMock();
         $this->workspaceRepository = $this->getMockBuilder(WorkspaceRepository::class)->disableOriginalConstructor()->getMock();
         $controller = new ResponseController('test', \Yii::$app, $this->projectRepository, $this->responseRepository, $this->workspaceRepository);
         $controller->setView($this->view);

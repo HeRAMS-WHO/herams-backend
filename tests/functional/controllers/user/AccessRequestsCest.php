@@ -30,7 +30,7 @@ class AccessRequestsCest
     public function testOutstandingRequest(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $accessRequest = $this->createAccessRequest($I, $project);
         $I->amOnPage(['user/access-requests']);
         $I->see($accessRequest->subject);

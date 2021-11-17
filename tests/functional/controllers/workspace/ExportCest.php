@@ -22,7 +22,7 @@ class ExportCest
     public function testDownload(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         $response = new ResponseForLimesurvey();
         $response->workspace_id = $workspace->id;
         $response->date = '2020-02-03';
