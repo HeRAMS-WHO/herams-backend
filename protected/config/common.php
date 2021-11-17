@@ -106,7 +106,7 @@ return [
             'cachePath' => '@runtime/limesurveyCache'
         ],
         'cache' => [
-            'class' => \yii\caching\FileCache::class
+            'class' => \yii\caching\CacheInterface::class
         ],
 //        'formatter' => [
 //            'numberFormatterOptions' => [
