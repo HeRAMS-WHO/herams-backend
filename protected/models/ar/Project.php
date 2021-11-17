@@ -416,7 +416,7 @@ class Project extends ActiveRecord implements Linkable
             'data_survey_id' => \Yii::t('app', 'Data survey'),
             'hidden' => \Yii::t('app', 'Hidden'),
             'i18n' => \Yii::t('app', 'Translated attributes'),
-            'languages' => \Yii::t('app', 'Languages'),
+            'languages' => \Yii::t('app', 'Active languages'),
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
             'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),

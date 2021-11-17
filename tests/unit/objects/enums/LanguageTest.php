@@ -24,7 +24,7 @@ class LanguageTest extends Unit
 
     public function testToLocalizedArrayWithoutSourceLanguage(): void
     {
-        $this->assertEquals(['ar' => 'Arabisch', 'nl-NL' => 'Nederlands (Nederland)', 'fr-FR' => 'Frans (Frankrijk)'], Language::toLocalizedArrayWithoutSourceLanguage('nl'));
-        $this->assertEquals(['ar' => 'Arabic', 'nl-NL' => 'Dutch (Netherlands)', 'fr-FR' => 'French (France)'], Language::toLocalizedArrayWithoutSourceLanguage('en'));
+        $this->assertEquals(['ar' => 'Arabisch', 'fr-FR' => 'Frans (Frankrijk)'], Language::toLocalizedArrayWithoutSourceLanguage('nl'));
+        $this->assertEquals(['ar' => 'Arabic', 'fr-FR' => 'French (France)'], Language::toLocalizedArrayWithoutSourceLanguage('en'));
     }
 }

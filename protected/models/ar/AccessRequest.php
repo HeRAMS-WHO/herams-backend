@@ -22,6 +22,8 @@ use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 
+use function iter\keys;
+
 /**
  * Class AccessRequest
  * @package prime\models\ar
@@ -52,7 +54,38 @@ class AccessRequest extends ActiveRecord
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
 
-    public function afterSave($insert, $changedAttributes)
+    private static function defaultValues(): array
+    {
+        return [
+            'expires_at' => Carbon::now()->addWeek(2)
+        ];
+    }
+
+    private function initDefaults(): void
+    {
+        $defaults = self::defaultValues();
+        $this->setAttributes($defaults, false);
+    }
+
+    public function __construct($config = [])
+    {
+        $this->initDefaults();
+        parent::__construct($config);
+    }
+
+    public static function populateRecord($record, $row): void
+    {
+        // Need to deal with default values here, they must be unset if not being loaded from the database.
+        foreach (keys(self::defaultValues()) as $attribute) {
+            if (!isset($row[$attribute])) {
+                $record->setAttribute($attribute, null);
+            }
+        }
+        parent::populateRecord($record, $row);
+    }
+
+
+    public function afterSave($insert, $changedAttributes): void
     {
         parent::afterSave($insert, $changedAttributes);
 
@@ -104,15 +137,6 @@ class AccessRequest extends ActiveRecord
                 VirtualFieldBehavior::class => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => self::virtualFields()
-            ],
-            'expiresAtBehavior' => [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['expires_at'],
-                ],
-                'value' => function () {
-                    return (new Carbon())->addWeeks(2);
-                }
             ],
         ];
     }
@@ -186,7 +210,7 @@ class AccessRequest extends ActiveRecord
         ];
     }
 
-    public function setTarget(Project|Workspace $target)
+    public function setTarget(Project|Workspace $target): void
     {
         $this->target_class = get_class($target);
         $this->target_id = $target->id;

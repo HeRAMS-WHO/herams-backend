@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-sync
+
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 60
+  failedJobsHistoryLimit: 7
+  successfulJobsHistoryLimit: 7
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: database
+              secret:
+                secretName: database
+            - name: limesurvey
+              secret:
+                secretName: limesurvey
+          containers:
+            - name: cachewarmup
+              image: ghcr.io/herams-who/herams-backend/app:latest
+              imagePullPolicy: IfNotPresent
+              command:
+                - /usr/bin/php8
+                - -d
+                - memory_limit=2048M
+                - /project/protected/yiic
+                - cache/warmup-oldest-workspaces
+              volumeMounts:
+                - name: database
+                  mountPath: "/run/secrets/database"
+                - name: limesurvey
+                  mountPath: "/run/secrets/limesurvey"
+          restartPolicy: OnFailure

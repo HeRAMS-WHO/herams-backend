@@ -12,6 +12,7 @@ use prime\components\Formatter;
 use prime\components\LanguageSelector;
 use prime\components\MaintenanceMode;
 use prime\components\NotificationService;
+use prime\modules\Api\Module;
 use yii\web\DbSession;
 use yii\widgets\PjaxAsset;
 
@@ -61,24 +62,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                [
-                    'class' => \yii\web\GroupUrlRule::class,
-                    'prefix' => 'api',
-                    'rules' => [
-                        [
-                            'pattern' => '<controller>/<id:\d+>',
-                            'route' => '<controller>/view'
-                        ],
-                        [
-                            'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',
-                            'route' => '<controller>/<action>'
-                        ],
-                        [
-                            'pattern' => '<controller>/<action:[\w-]+>',
-                            'route' => '<controller>/<action>'
-                        ],
-                    ]
-                ],
+                Module::urlRule(),
                 [
                     'pattern' => '<controller>',
                     'route' => '<controller>'

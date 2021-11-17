@@ -55,6 +55,14 @@ class Update extends Model
         return Project::labels();
     }
 
+    public function attributeHints(): array
+    {
+        return [
+            'languages' => \Yii::t('app', 'These languages will be available for translating project, workspace and facility titles')
+        ];
+    }
+
+
     public function formName(): string
     {
         return 'Project';
