@@ -7,6 +7,13 @@ namespace prime\models\ar;
 use prime\models\ActiveRecord;
 use prime\queries\AuditQuery;
 
+/**
+ * @property string $subject_name
+ * @property int $subject_id
+ * @property string $event
+ * @property \DateTime $created_at
+ * @property int $created_by
+ */
 class Audit extends ActiveRecord
 {
     public static function find(): AuditQuery
