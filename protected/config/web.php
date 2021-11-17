@@ -9,6 +9,7 @@ use kartik\dialog\DialogAsset;
 use kartik\dialog\DialogBootstrapAsset;
 use prime\components\AuditService;
 use prime\components\Formatter;
+use prime\components\JobSubmissionService;
 use prime\components\LanguageSelector;
 use prime\components\MaintenanceMode;
 use prime\components\NotificationService;
@@ -20,6 +21,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
         MaintenanceMode::class,
+        JobSubmissionService::class,
         'auditService',
         'notificationService',
         'languageSelector',
@@ -27,6 +29,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'jobQueue' => \JCIT\jobqueue\interfaces\JobQueueInterface::class,
         'auditService' => AuditService::class,
         'formatter' => [
             'class' => Formatter::class

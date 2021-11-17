@@ -37,6 +37,7 @@ $surveyId = Json::encode($model instanceof UpdateForm ? $model->getSurveyId() : 
 echo Creator::widget([
     'options' => [],
     'surveyCreatorCustomizers' => [
+        new JsExpression('(creator) => { creator.toolbox.allowExpandMultipleCategories = true}'),
         new JsExpression(<<<JS
 function(surveyCreator) {
   let surveyId = {$surveyId};

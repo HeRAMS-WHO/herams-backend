@@ -9,7 +9,7 @@ use JCIT\jobqueue\interfaces\JobInterface;
 abstract class AccessRequestJob implements JobInterface
 {
     public function __construct(
-        protected int $accessRequestId
+        private int $accessRequestId
     ) {
     }
 

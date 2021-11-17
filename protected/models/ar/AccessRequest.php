@@ -6,10 +6,14 @@ namespace prime\models\ar;
 
 use Carbon\Carbon;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
+use prime\attributes\Audits;
+use prime\attributes\TriggersJobWithId;
 use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery;
+use prime\interfaces\AuditCreation;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ActiveRecord;
+use prime\objects\enums\AuditEvent;
 use prime\queries\AccessRequestQuery;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\behaviors\BlameableBehavior;
@@ -45,7 +49,15 @@ use function iter\keys;
  *
  * @property User $createdByUser
  * @property Project|Workspace $target
+ *
+ *
  */
+#[
+    Audits(self::EVENT_AFTER_INSERT),
+    Audits(self::EVENT_AFTER_DELETE),
+    Audits(self::EVENT_AFTER_UPDATE),
+    TriggersJobWithId(CreatedNotificationJob::class)
+]
 class AccessRequest extends ActiveRecord
 {
     const PERMISSION_CONTRIBUTE = 'contribute';
@@ -85,16 +97,6 @@ class AccessRequest extends ActiveRecord
     }
 
 
-    public function afterSave($insert, $changedAttributes): void
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        if ($insert) {
-            $jobQueue = \Yii::createObject(JobQueueInterface::class);
-            $jobQueue->putJob(new CreatedNotificationJob($this->id));
-        }
-    }
-
     public static function labels(): array
     {
         return parent::labels() + [
@@ -129,7 +131,6 @@ class AccessRequest extends ActiveRecord
     public function behaviors(): array
     {
         return [
-            AuditableBehavior::class,
             BlameableBehavior::class => [
                 'class' => BlameableBehavior::class,
                 'updatedByAttribute' => false,

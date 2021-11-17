@@ -60,7 +60,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
 
         $update = new ProjectUpdate(new ProjectId($record->id));
         $this->hydrator->hydrateFromActiveRecord($update, $record);
-
+        $update->setScenario($record->getType()->value);
         return $update;
     }
 

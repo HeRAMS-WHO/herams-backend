@@ -21,14 +21,16 @@ use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use prime\assets\JqueryBundle;
 use prime\behaviors\AuditableBehavior;
-use prime\components\AuditService;
 use prime\components\GlobalPermissionResolver;
 use prime\components\NewsletterService;
 use prime\components\ReadWriteModelResolver;
 use prime\components\SingleTableInheritanceResolver;
 use prime\helpers\AccessCheck;
+use prime\helpers\EventDispatcherProxy;
+use prime\helpers\JobQueueProxy;
 use prime\helpers\LimesurveyDataLoader;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\EventDispatcherInterface;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
@@ -149,6 +151,7 @@ return [
     },
     CommandBus::class => function (Container $container) {
         return new CommandBus([
+            new \prime\helpers\LoggingMiddleware(),
             new CommandHandlerMiddleware(
                 $container->get(CommandNameExtractor::class),
                 $container->get(HandlerLocator::class),
@@ -166,6 +169,7 @@ return [
             ;
     },
     CommandNameExtractor::class => ClassNameExtractor::class,
+    EventDispatcherInterface::class => EventDispatcherProxy::class,
     HandlerLocator::class => ContainerMapLocator::class,
     JobFactoryInterface::class => JobFactory::class,
     JobQueueInterface::class => Synchronous::class,
