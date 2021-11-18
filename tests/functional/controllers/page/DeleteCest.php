@@ -26,7 +26,7 @@ class DeleteCest
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;
@@ -41,7 +41,7 @@ class DeleteCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $I->stopFollowingRedirects();
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;
@@ -66,7 +66,7 @@ class DeleteCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $I->stopFollowingRedirects();
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;

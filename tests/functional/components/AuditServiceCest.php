@@ -6,14 +6,19 @@ namespace prime\tests\functional\components;
 
 use Codeception\Stub;
 use prime\components\AuditService;
+use prime\helpers\EventDispatcher;
 use prime\interfaces\AuditServiceInterface;
 use prime\interfaces\NewAuditEntryInterface;
+use prime\models\ar\AccessRequest;
 use prime\models\ar\Audit;
 use prime\objects\enums\AuditEvent;
 use prime\tests\FunctionalTester;
 use yii\base\NotSupportedException;
 use yii\console\Application as ConsoleApplication;
+use yii\db\AfterSaveEvent;
+use yii\db\Connection;
 use yii\web\Application;
+use yii\web\User;
 
 /**
  * @covers \prime\components\AuditService
@@ -40,25 +45,9 @@ class AuditServiceCest
             }
         };
     }
-    public function testBootstrapFailsForNonWebApp(FunctionalTester $I): void
-    {
-        $I->expectThrowable(NotSupportedException::class, static function () {
-            $app = Stub::make(ConsoleApplication::class);
-            /** @var AuditService $service */
-            $service = \Yii::$app->get('auditService');
-            $service->bootstrap($app);
-        });
-    }
 
-    public function testBootstrapRegistersHandler(FunctionalTester $I): void
-    {
-        $app = Stub::make(Application::class, [
-            'on' => Stub\Expected::once()
-        ]);
-        /** @var AuditService $service */
-        $service = \Yii::$app->get('auditService');
-        $service->bootstrap($app);
-    }
+
+
 
     public function testCommitWithoutEntriesDoesNothing(FunctionalTester $I): void
     {
@@ -83,21 +72,72 @@ class AuditServiceCest
         $I->assertSame($entry->getEvent()->value, $model->event);
     }
 
-    public function testCommitSilencesErrors(FunctionalTester $I): void
+    public function testUpdate(FunctionalTester $I): void
     {
-        /** @var AuditService $service */
-        $service = \Yii::$app->get('auditService');
-        $exception = new \Exception('uh oh');
-        \Yii::$app->set('user', new class {
-            public $id = 15;
-        });
-        \Yii::$app->set('db', static function () use ($exception) {
-            throw new \Exception('uh oh');
-        });
-        $I->expectThrowable($exception, function () {
-            \Yii::$app->getDb();
-        });
-        $service->add($this->createEntry());
+        $I->amLoggedInAs(TEST_USER_ID);
+        $eventDispatcher = new EventDispatcher();
+        $service = new AuditService($eventDispatcher);
+        $service->bootstrap(\Yii::$app);
+
+        // Class
+        $accessRequest = new AccessRequest();
+        $accessRequest->id = mt_rand(1, 100000);
+        $event = new AfterSaveEvent();
+        $event->sender = $accessRequest;
+        $eventDispatcher->trigger(AccessRequest::class, AccessRequest::EVENT_AFTER_UPDATE, $event);
+
+        $I->assertSame(0, (int) Audit::find()->count());
         $service->commit();
+        $I->assertSame(1, (int) Audit::find()->count());
+
+        $audit = Audit::find()->one();
+        $I->assertSame($accessRequest->id, $audit->subject_id);
+        $I->assertSame(AuditEvent::update()->value, $audit->event);
+    }
+
+    public function testDelete(FunctionalTester $I): void
+    {
+        $I->amLoggedInAs(TEST_USER_ID);
+        $eventDispatcher = new EventDispatcher();
+        $service = new AuditService($eventDispatcher);
+        $service->bootstrap(\Yii::$app);
+
+        // Class
+        $accessRequest = new AccessRequest();
+        $accessRequest->id = mt_rand(1, 100000);
+        $event = new AfterSaveEvent();
+        $event->sender = $accessRequest;
+        $eventDispatcher->trigger(AccessRequest::class, AccessRequest::EVENT_AFTER_DELETE, $event);
+
+        $I->assertSame(0, (int) Audit::find()->count());
+        $service->commit();
+        $I->assertSame(1, (int) Audit::find()->count());
+
+        $audit = Audit::find()->one();
+        $I->assertSame($accessRequest->id, $audit->subject_id);
+        $I->assertSame(AuditEvent::delete()->value, $audit->event);
+    }
+
+    public function testInsert(FunctionalTester $I): void
+    {
+        $I->amLoggedInAs(TEST_USER_ID);
+        $eventDispatcher = new EventDispatcher();
+        $service = new AuditService($eventDispatcher);
+        $service->bootstrap(\Yii::$app);
+
+        // Class
+        $accessRequest = new AccessRequest();
+        $accessRequest->id = mt_rand(1, 100000);
+        $event = new AfterSaveEvent();
+        $event->sender = $accessRequest;
+        $eventDispatcher->trigger(AccessRequest::class, AccessRequest::EVENT_AFTER_INSERT, $event);
+
+        $I->assertSame(0, (int) Audit::find()->count());
+        $service->commit();
+        $I->assertSame(1, (int) Audit::find()->count());
+
+        $audit = Audit::find()->one();
+        $I->assertSame($accessRequest->id, $audit->subject_id);
+        $I->assertSame(AuditEvent::insert()->value, $audit->event);
     }
 }

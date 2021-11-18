@@ -6,6 +6,7 @@ namespace prime\tests\functional\controllers\workspace;
 
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
 use prime\tests\FunctionalTester;
 
 /**
@@ -19,7 +20,7 @@ class RequestAccessCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
 
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
 
         $I->assertUserCan($workspace->project, Permission::PERMISSION_SUMMARY);
         $I->amOnPage(['workspace/request-access', 'id' => $workspace->id]);
@@ -30,6 +31,6 @@ class RequestAccessCest
         $I->checkOption('Download data');
         $I->click('Request');
 
-        $I->seeRecord(AccessRequest::class, ['target_class' => get_class($workspace), 'target_id' => $workspace->id]);
+        $I->seeRecord(AccessRequest::class, ['target_class' => Workspace::class, 'target_id' => $workspace->id]);
     }
 }

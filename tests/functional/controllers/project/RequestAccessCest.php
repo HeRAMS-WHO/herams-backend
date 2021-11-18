@@ -17,7 +17,7 @@ class RequestAccessCest
     public function testCreate(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         $I->amOnPage(['project/request-access', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);

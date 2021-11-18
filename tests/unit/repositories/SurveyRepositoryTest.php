@@ -8,13 +8,17 @@ use Codeception\Test\Unit;
 use prime\helpers\ArrayHelper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\survey\SurveyForSurveyJsInterface;
+use prime\models\ar\Project;
 use prime\models\ar\Survey;
+use prime\models\ar\Workspace;
+use prime\models\forms\survey\CreateForm;
+use prime\models\forms\survey\UpdateForm;
 use prime\models\search\SurveySearch;
-use prime\models\survey\SurveyForCreate;
 use prime\models\survey\SurveyForList;
-use prime\models\survey\SurveyForUpdate;
 use prime\repositories\SurveyRepository;
 use prime\values\SurveyId;
+use prime\values\WorkspaceId;
 use yii\base\InvalidArgumentException;
 use yii\data\DataProviderInterface;
 
@@ -23,7 +27,17 @@ use yii\data\DataProviderInterface;
  */
 class SurveyRepositoryTest extends Unit
 {
-    protected function createSurvey(array $config = []): Survey
+    private function createRepository(
+        AccessCheckInterface $accessCheck = null,
+        ModelHydrator $modelHydrator = null,
+    ): SurveyRepository {
+        $accessChecker = $accessCheck ?? $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
+        $modelHydrator = $modelHydrator ?? new ModelHydrator();
+
+        return new SurveyRepository($accessChecker, $modelHydrator);
+    }
+
+    private function createSurvey(array $config = []): Survey
     {
         $survey = new Survey();
         $survey->config = ArrayHelper::merge([
@@ -47,7 +61,7 @@ class SurveyRepositoryTest extends Unit
 
     public function testCreate(): void
     {
-        $model = new SurveyForCreate();
+        $model = new CreateForm();
         $model->config = [
             'pages' => [
                 0 => [
@@ -75,7 +89,7 @@ class SurveyRepositoryTest extends Unit
 
     public function testCreateFailed(): void
     {
-        $model = new SurveyForCreate();
+        $model = new CreateForm();
 
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $accessChecker->expects($this->once())
@@ -85,6 +99,45 @@ class SurveyRepositoryTest extends Unit
         $repository = new SurveyRepository($accessChecker, $modelHydrator);
         $this->expectException(InvalidArgumentException::class);
         $repository->create($model);
+    }
+
+    public function testRetrieveAdminSurveyForWorkspaceForSurveyJs(): void
+    {
+        $survey = $this->createSurvey();
+        $project = new Project([
+            'title' => 'Test project',
+            'admin_survey_id' => $survey->id,
+            'data_survey_id' => $survey->id,
+        ]);
+        $this->assertTrue($project->save());
+
+        $workspace = new Workspace([
+            'project_id' => $project->id,
+            'title' => 'Test workspace',
+        ]);
+        $this->assertTrue($workspace->save());
+
+        $repository = $this->createRepository();
+        $surveyForSurveyJs = $repository->retrieveAdminSurveyForWorkspaceForSurveyJs(new WorkspaceId($workspace->id));
+
+        $this->assertEquals(new SurveyId($survey->id), $surveyForSurveyJs->getId());
+        $this->assertEquals($survey->config, $surveyForSurveyJs->getConfig());
+    }
+
+    public function testRetrieveForSurveyJs(): void
+    {
+        $survey = $this->createSurvey();
+
+        $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
+        $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
+
+        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+
+        $surveyId = new SurveyId($survey->id);
+        $surveyForSurveyJs = $repository->retrieveForSurveyJs($surveyId);
+        $this->assertInstanceOf(SurveyForSurveyJsInterface::class, $surveyForSurveyJs);
+        $this->assertEquals($surveyId, $surveyForSurveyJs->getId());
+        $this->assertEquals($survey->config, $surveyForSurveyJs->getConfig());
     }
 
     public function testRetrieveForUpdate(): void
@@ -145,7 +198,7 @@ class SurveyRepositoryTest extends Unit
 
         $repository = new SurveyRepository($accessChecker, $modelHydrator);
 
-        $model = new SurveyForUpdate(new SurveyId($survey->id));
+        $model = new UpdateForm(new SurveyId($survey->id));
         $newConfig = [
             'pages' => [
                 0 => [
@@ -179,7 +232,7 @@ class SurveyRepositoryTest extends Unit
 
         $repository = new SurveyRepository($accessChecker, $modelHydrator);
 
-        $model = new SurveyForUpdate(new SurveyId($survey->id));
+        $model = new UpdateForm(new SurveyId($survey->id));
         $model->config = [];
         $this->expectException(InvalidArgumentException::class);
         $repository->update($model);

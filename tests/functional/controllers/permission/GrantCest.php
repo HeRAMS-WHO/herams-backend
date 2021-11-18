@@ -20,7 +20,7 @@ class GrantCest
     public function test(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $user = User::findOne(['id' => TEST_USER_ID]);
         $permission = Permission::PERMISSION_ADMIN;
 
@@ -48,7 +48,7 @@ class GrantCest
     public function testForbidden(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $permission = Permission::PERMISSION_ADMIN;
 
         $I->createAndSetCsrfCookie('abc');

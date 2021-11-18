@@ -6,7 +6,7 @@ namespace prime\controllers\facility;
 
 use prime\components\LimesurveyDataProvider;
 use prime\repositories\FacilityRepository;
-use prime\repositories\ResponseRepository;
+use prime\repositories\ResponseForLimesurveyRepository;
 use prime\values\FacilityId;
 use yii\base\Action;
 
@@ -16,7 +16,7 @@ class CopyLatestResponse extends Action
     public function run(
         FacilityRepository $facilityRepository,
         LimesurveyDataProvider $limesurveyDataProvider,
-        ResponseRepository $responseRepository,
+        ResponseForLimesurveyRepository $responseRepository,
         string $id
     ) {
         $facilityId = new FacilityId($id);

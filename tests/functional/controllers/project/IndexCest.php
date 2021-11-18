@@ -35,7 +35,7 @@ class IndexCest
     {
         $I->markTestSkipped('Action column hidden');
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $project->visibility = Project::VISIBILITY_PRIVATE;
         $I->save($project);
         $I->amOnPage(['project/index']);
@@ -67,7 +67,7 @@ class IndexCest
     {
         $I->markTestSkipped('Action column hidden');
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
@@ -93,7 +93,7 @@ class IndexCest
     {
         $I->markTestSkipped('Action column hidden');
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
@@ -126,7 +126,7 @@ class IndexCest
     {
         // Normal visibility
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [

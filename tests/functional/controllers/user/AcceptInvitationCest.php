@@ -40,7 +40,7 @@ class AcceptInvitationCest
     public function testInvitationLinkChangedEmail(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $project);
@@ -81,7 +81,7 @@ class AcceptInvitationCest
     public function testInvitationLinkSameEmail(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $project);
@@ -98,7 +98,7 @@ class AcceptInvitationCest
     public function testInvitationLinkSingleUse(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $project);
 

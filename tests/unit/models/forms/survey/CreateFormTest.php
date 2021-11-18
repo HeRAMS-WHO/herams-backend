@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms\survey;
 
-use prime\models\survey\SurveyForCreate;
+use prime\models\forms\survey\CreateForm;
 use prime\tests\unit\models\ModelTest;
 
 /**
- * @covers \prime\models\survey\SurveyForCreate
+ * @covers \prime\models\forms\survey\CreateForm
  */
 class CreateFormTest extends ModelTest
 {
-    protected function getModel(): SurveyForCreate
+    protected function getModel(): CreateForm
     {
-        return new SurveyForCreate();
+        return new CreateForm();
     }
 
     public function invalidSamples(): iterable

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace prime\models\survey;
+namespace prime\models\forms\survey;
 
 use prime\traits\DisableYiiLoad;
 use prime\values\SurveyId;
 use yii\base\Model;
 use yii\validators\RequiredValidator;
 
-class SurveyForUpdate extends Model
+class UpdateForm extends Model
 {
     use DisableYiiLoad;
 

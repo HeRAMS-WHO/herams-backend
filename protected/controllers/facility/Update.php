@@ -30,7 +30,7 @@ class Update extends Action
         string $id
     ) {
         $facilityId = new FacilityId($id);
-        $model = $facilityRepository->retrieveForWrite($facilityId);
+        $model = $facilityRepository->retrieveForUpdate($facilityId);
 
         if ($request->isPost) {
             $response->format = Response::FORMAT_JSON;

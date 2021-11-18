@@ -9,14 +9,14 @@ use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\ResponseForLimesurvey;
 use prime\models\ar\WorkspaceForLimesurvey;
-use prime\repositories\ResponseRepository;
+use prime\repositories\ResponseForLimesurveyRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ResponseId;
 use prime\values\WorkspaceId;
 use yii\db\Expression;
 
 /**
- * @covers \prime\repositories\ResponseRepository
+ * @covers \prime\repositories\ResponseForLimesurveyRepository
  */
 class ResponseRepositoryTest extends Unit
 {
@@ -41,7 +41,7 @@ class ResponseRepositoryTest extends Unit
         $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
         $workspaceRepository = $this->getMockBuilder(WorkspaceRepository::class)->disableOriginalConstructor()->getMock();
 
-        $repository = new ResponseRepository($accessChecker, $modelHydrator, $workspaceRepository);
+        $repository = new ResponseForLimesurveyRepository($accessChecker, $modelHydrator, $workspaceRepository);
         $breadcrumb = $repository->retrieveForBreadcrumb(new ResponseId($response->id));
 
         $this->assertEquals($response->getName(), $breadcrumb->getLabel());

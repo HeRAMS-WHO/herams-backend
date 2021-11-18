@@ -8,11 +8,10 @@ use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Survey;
-use prime\models\survey\SurveyForCreate;
+use prime\models\forms\survey\CreateForm;
 use prime\repositories\SurveyRepository;
 use prime\values\SurveyId;
 use yii\base\Action;
-use yii\web\BadRequestHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\Request;
 use yii\web\Response;
@@ -26,7 +25,7 @@ class AjaxSave extends Action
         Response $response,
         SurveyRepository $repository,
     ): array {
-        $model = new SurveyForCreate();
+        $model = new CreateForm();
         $accessCheck->checkPermission(new Survey(), Permission::PERMISSION_CREATE);
 
         $hydrator->hydrateFromRequestArray($model, $request->getBodyParams());

@@ -22,8 +22,19 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
         private WorkspaceId $workspaceId,
         private string $workspaceTitle,
         private int $responseCount,
+        private int $adminResponseCount,
         private CanCurrentUser|null $checker = null
     ) {
+    }
+
+    public function canCurrentUser(string $permission): bool
+    {
+        return isset($this->checker) && $this->checker->canCurrentUser($permission);
+    }
+
+    public function getAdminResponseCount(): int
+    {
+        return $this->adminResponseCount;
     }
 
     public function getId(): FacilityId
@@ -31,17 +42,12 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
         return $this->id;
     }
 
-    public function title(): string
-    {
-        return $this->title;
-    }
-
-    public function projectId(): ProjectId
+    public function getProjectId(): ProjectId
     {
         return $this->projectId;
     }
 
-    public function projectTitle(): string
+    public function getProjectTitle(): string
     {
         return $this->projectTitle;
     }
@@ -51,18 +57,18 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
         return $this->responseCount;
     }
 
-    public function workspaceId(): WorkspaceId
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getWorkspaceId(): WorkspaceId
     {
         return $this->workspaceId;
     }
 
-    public function workspaceTitle(): string
+    public function getWorkspaceTitle(): string
     {
         return $this->workspaceTitle;
-    }
-
-    public function canCurrentUser(string $permission): bool
-    {
-        return isset($this->checker) && $this->checker->canCurrentUser($permission);
     }
 }

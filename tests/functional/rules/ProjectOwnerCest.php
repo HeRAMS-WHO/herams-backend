@@ -19,8 +19,8 @@ class ProjectOwnerCest
     public function testCanSyncWorkspace(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace = $I->haveWorkspace();
+        $project = $I->haveProjectForLimesurvey();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
         $user = \Yii::$app->user->identity;

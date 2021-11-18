@@ -10,15 +10,15 @@ use prime\values\WorkspaceId;
 
 interface FacilityForTabMenu extends CanCurrentUser
 {
-
     public function getId(): FacilityId;
-    public function title(): string;
+    public function getTitle(): string;
 
-    public function projectId(): ProjectId;
-    public function projectTitle(): string;
+    public function getProjectId(): ProjectId;
+    public function getProjectTitle(): string;
 
-    public function workspaceId(): WorkspaceId;
-    public function workspaceTitle(): string;
+    public function getWorkspaceId(): WorkspaceId;
+    public function getWorkspaceTitle(): string;
 
+    public function getAdminResponseCount(): int;
     public function getResponseCount(): int;
 }

@@ -6,7 +6,7 @@ namespace prime\controllers\facility;
 
 use prime\interfaces\AccessCheckInterface;
 use prime\repositories\FacilityRepository;
-use prime\repositories\ResponseRepository;
+use prime\repositories\ResponseForLimesurveyRepository;
 use prime\values\FacilityId;
 use yii\base\Action;
 
@@ -16,12 +16,13 @@ class Responses extends Action
     public function run(
         AccessCheckInterface $check,
         FacilityRepository $facilityRepository,
-        ResponseRepository $responseRepository,
+        ResponseForLimesurveyRepository $responseRepository,
         string $id
     ) {
-
         $facilityId = new FacilityId($id);
         $facility = $facilityRepository->retrieveForTabMenu($facilityId);
+
+        // TODO fix correct fetching of responses
 
         $dataProvider = $responseRepository->searchInFacility($facilityId);
         return $this->controller->render('responses', [

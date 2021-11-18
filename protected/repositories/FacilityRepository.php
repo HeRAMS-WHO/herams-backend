@@ -9,10 +9,10 @@ use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\CanCurrentUser;
-use prime\interfaces\CreateModelRepositoryInterface;
 use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\interfaces\FacilityForResponseCopy;
 use prime\interfaces\FacilityForTabMenu;
+use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
@@ -21,27 +21,28 @@ use prime\models\ar\Workspace;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
-use prime\models\forms\NewFacility as FacilityForm;
+use prime\models\forms\facility\CreateForm;
+use prime\models\forms\facility\UpdateForm;
 use prime\models\forms\ResponseFilter;
-use prime\models\forms\UpdateFacility;
 use prime\models\search\FacilitySearch;
+use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\objects\HeramsCodeMap;
 use prime\values\FacilityId;
-use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\ResponseId;
 use prime\values\WorkspaceId;
-use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
 use yii\web\NotFoundHttpException;
 
-class FacilityRepository implements CreateModelRepositoryInterface
+class FacilityRepository
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private ModelHydrator $hydrator,
+        private SurveyRepository $surveyRepository,
+        private SurveyResponseRepository $surveyResponseRepository,
         private WorkspaceRepository $workspaceRepository
     ) {
     }
@@ -66,53 +67,87 @@ class FacilityRepository implements CreateModelRepositoryInterface
         return new \prime\models\facility\FacilityForResponseCopy(new ResponseId($response->auto_increment_id));
     }
 
-    public function create(Model|FacilityForm $model): FacilityId
+    private function hydrateFacilityFromResponseData(SurveyForSurveyJsInterface $survey, Facility $facility, array $data): void
     {
-        requireParameter($model, FacilityForm::class, 'model');
+        // We need to look at the survey structure to find out which answers map to which facility fields
+        $this->hydrator->hydrateFromRequestArray($facility, $data);
+        $facility->admin_data = $data;
+    }
+
+    public function create(CreateForm $model): FacilityId
+    {
+        $transaction = Facility::getDb()->beginTransaction();
+
         $record = new Facility();
-        $record->workspace_id = $model->getWorkspace()->id()->getValue();
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $record->workspace_id = $model->getWorkspaceId()->getValue();
+        $this->hydrateFacilityFromResponseData($model->getSurvey(), $record, $model->data);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
-        return new FacilityId((string) $record->id);
+        $facilityId = new FacilityId((string) $record->id);
+
+        $createSurveyResponse = $this->surveyResponseRepository->createFormModel($model->getSurvey()->getId(), $facilityId);
+        $createSurveyResponse->data = $model->data;
+        $this->surveyResponseRepository->create($createSurveyResponse);
+
+        $transaction->commit();
+
+        return $facilityId;
     }
 
-    public function createFormModel(IntegerId $id): FacilityForm
+    public function createFormModel(WorkspaceForCreateOrUpdateFacility $workspace): CreateForm
     {
-        $model = new FacilityForm(new WorkspaceId($id->getValue()));
-        $this->accessCheck->requirePermission($model, Permission::PERMISSION_CREATE);
+        $model = new CreateForm(
+            $workspace->getLanguages(),
+            $this->surveyRepository->retrieveAdminSurveyForWorkspaceForSurveyJs($workspace->getId()),
+            $workspace->getId(),
+        );
+        $record = new Facility(['workspace_id' => $workspace->getId()->getValue()]);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_CREATE);
         return $model;
     }
 
     /**
      * @throws NotFoundHttpException
      */
-    public function retrieveForWrite(FacilityId $id): UpdateFacility
+    public function retrieveForUpdate(FacilityId $facilityId): UpdateForm
     {
-        /** @var null|Facility $facility */
-        $facility = Facility::find()->andWhere(['id' => $id])->one();
-        if (!isset($facility)) {
-            throw new NotFoundHttpException();
-        }
-        $workspace = $this->workspaceRepository->retrieveForNewFacility(new WorkspaceId($facility->workspace_id));
+        /** @var null|Facility $record */
+        $record = Facility::find()->andWhere(['id' => $facilityId])->one();
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
-        $form = new UpdateFacility($id, $workspace);
-        $form->data = [
-            'name' => $facility->name
-        ];
-        $this->hydrator->hydrateFromActiveRecord($form, $facility);
+        $workspaceId = new WorkspaceId($record->workspace_id);
+        $workspace = $this->workspaceRepository->retrieveForNewFacility($workspaceId);
+
+        $form = new UpdateForm(
+            $facilityId,
+            $workspace->getLanguages(),
+            $this->surveyRepository->retrieveAdminSurveyForWorkspaceForSurveyJs($workspaceId)
+        );
+        $surveyResponse = $this->surveyResponseRepository->retrieveLastAdminSurveyResponseForFacility($facilityId);
+        $this->hydrator->hydrateFromActiveRecord($form, $record);
+        $form->data = $surveyResponse->getData();
         return $form;
     }
 
-    public function save(UpdateFacility $facility): FacilityId
+    public function save(UpdateForm $model): FacilityId
     {
-        $record = Facility::findOne(['id' => $facility->getId()]);
+        $record = Facility::findOne(['id' => $model->getFacilityId()]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
-        $this->hydrator->hydrateActiveRecord($record, $facility);
+
+        $transaction = Facility::getDb()->beginTransaction();
+
+        $this->hydrateFacilityFromResponseData($model->getSurvey(), $record, $model->data);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
+
+        $createSurveyResponse = $this->surveyResponseRepository->createFormModel($model->getSurvey()->getId(), $model->getFacilityId());
+        $createSurveyResponse->data = $model->data;
+        $this->surveyResponseRepository->create($createSurveyResponse);
+
+        $transaction->commit();
+
         return new FacilityId((string) $record->id);
     }
 
@@ -143,7 +178,18 @@ class FacilityRepository implements CreateModelRepositoryInterface
             }
 
             $dataProvider = new HydratedActiveDataProvider(
-                fn(Facility $facility) => $this->hydrator->hydrateConstructor($facility, FacilityForList::class),
+                function (Facility $facility) {
+                    return new FacilityForList(
+                        new FacilityId((string) $facility->id),
+                        $facility->name,
+                        $facility->alternative_name,
+                        $facility->code,
+                        $facility->latitude,
+                        $facility->longitude,
+                        $facility->responseCount,
+                        new CanCurrentUserWrapper($this->accessCheck, $facility),
+                    );
+                },
                 [
                     'query' => $query,
                     /**
@@ -248,6 +294,7 @@ class FacilityRepository implements CreateModelRepositoryInterface
                 new WorkspaceId($response->workspace_id),
                 $response->workspace->title,
                 (int) ResponseForLimesurvey::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count(),
+                0,
                 // Access checker for LS based data.
                 new class implements CanCurrentUser {
                     public function canCurrentUser(string $permission): bool
@@ -265,7 +312,8 @@ class FacilityRepository implements CreateModelRepositoryInterface
                 $facility->workspace->project->title,
                 new WorkspaceId($facility->workspace_id),
                 $facility->workspace->title,
-                (int) $facility->getResponses()->count(),
+                $facility->dataSurveyResponseCount,
+                $facility->adminSurveyResponseCount,
                 new CanCurrentUserWrapper($this->accessCheck, $facility)
             );
         }

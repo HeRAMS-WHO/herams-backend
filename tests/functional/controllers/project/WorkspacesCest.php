@@ -19,7 +19,7 @@ class WorkspacesCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->dontSeeLink('Import workspaces', Url::to(['/workspace/import', 'project_id' => $project->id]));
@@ -37,7 +37,7 @@ class WorkspacesCest
     {
         $I->stopFollowingRedirects();
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         \Yii::$app->user->logout();
 
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);

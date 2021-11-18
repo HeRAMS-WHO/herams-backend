@@ -48,6 +48,7 @@ Section::begin([
         ],
     ]
 ])->withSubject($tabMenuModel);
+
 echo GridView::widget(
     [
         'pjax'         => true,
@@ -64,7 +65,7 @@ echo GridView::widget(
             [
                 'class'      => DrilldownColumn::class,
                 'attribute'  => FacilityForList::NAME,
-                'permission' => Permission::PERMISSION_LIST_FACILITIES,
+                'permission' => Permission::PERMISSION_READ,
                 'link'       => static fn(FacilityForList $facility) => ['facility/responses', 'id' => (string) $facility->getId()]
             ],
             [
@@ -79,10 +80,6 @@ echo GridView::widget(
             [
                 'attribute' => FacilityForList::RESPONSE_COUNT
             ],
-            [
-                'class' => UuidColumn::class
-            ],
-
         ],
     ]
 );

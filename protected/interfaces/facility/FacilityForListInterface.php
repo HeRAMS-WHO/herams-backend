@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\interfaces\facility;
 
+use prime\interfaces\CanCurrentUser;
 use prime\values\FacilityId;
-use prime\values\Point;
 
-interface FacilityForListInterface
+interface FacilityForListInterface extends CanCurrentUser
 {
     public const ALTERNATIVE_NAME = "alternativeName";
     public const CODE = "code";

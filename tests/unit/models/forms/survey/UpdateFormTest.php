@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms\survey;
 
-use prime\models\survey\SurveyForUpdate;
+use prime\models\forms\survey\UpdateForm;
 use prime\tests\unit\models\ModelTest;
 use prime\values\SurveyId;
 
 /**
- * @covers \prime\models\survey\SurveyForUpdate
+ * @covers \prime\models\forms\survey\UpdateForm
  */
 class UpdateFormTest extends ModelTest
 {
     protected int $id = 1;
 
-    protected function getModel(): SurveyForUpdate
+    protected function getModel(): UpdateForm
     {
-        $result = new SurveyForUpdate(new SurveyId($this->id));
+        $result = new UpdateForm(new SurveyId($this->id));
         $result->config = [];
         return $result;
     }
