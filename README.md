@@ -4,6 +4,8 @@
 
 # Set up developer environment
 
+For specific Windows installation see [Windows setup](docs/dev/setup/Windows.md).
+
 ## Requirements
 - Git must be available
 
