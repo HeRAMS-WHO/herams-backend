@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\forms\accessRequest;
 
+use Carbon\Carbon;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\helpers\ProposedGrant;
 use prime\jobs\accessRequests\ResponseNotificationJob;
@@ -54,11 +55,10 @@ class Respond extends Model
             $this->accessRequest->response = $this->response;
             $this->accessRequest->responded_by = $this->identity->id;
             $this->accessRequest->accepted = !empty($this->permissions);
+            $this->accessRequest->responded_at = Carbon::now()->timestamp;
             if (!$this->accessRequest->save()) {
                 throw new \RuntimeException('Failed saving the access request.');
             }
-            $this->accessRequest->touch('responded_at');
-
             foreach ($this->permissions as $permission) {
                 $grant = new ProposedGrant(
                     $this->accessRequest->createdByUser,
