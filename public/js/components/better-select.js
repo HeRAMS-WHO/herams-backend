@@ -120,7 +120,7 @@ export default class BetterSelect extends HTMLElement {
      
         </style>
 
-        <slot style=""></slot>`;
+        <slot></slot>`;
     }
 
     attributeChangedCallback(name, oldValue, newValue)
@@ -233,9 +233,6 @@ export default class BetterSelect extends HTMLElement {
 
     connectedCallback()
     {
-        console.log('comp connected');
-
-
         this.addEventListener('mouseover', (e) => {
             this.#currentElement = e.target.closest('[value]');
             if (e.shiftKey) {
