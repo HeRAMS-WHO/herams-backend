@@ -16,6 +16,7 @@ use yii\widgets\Breadcrumbs;
     $this->registerAssetBundle(\yii\web\YiiAsset::class);
 
 ?>
+<!DOCTYPE html>
 <html>
 
 <head>

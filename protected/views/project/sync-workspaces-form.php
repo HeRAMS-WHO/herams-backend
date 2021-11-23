@@ -76,7 +76,6 @@ echo Form::widget([
                 'options' => [
                     'style' => [
                         'column-width' => '350px',
-                        'height' => 'auto',
                         'max-height' => '500px'
                     ]
                 ]
