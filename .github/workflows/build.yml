@@ -62,7 +62,6 @@ jobs:
             k8s/staging/sealed-smtp-staging.yaml
             k8s/staging/sealed-mailchimp-staging.yaml
             k8s/staging/ingress.yaml
-            k8s/shared/redis.yaml
             k8s/shared/deployment.yaml
             k8s/shared/nginx-config-map.yaml
             k8s/shared/app-config-map.yaml

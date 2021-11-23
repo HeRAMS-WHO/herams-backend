@@ -16,6 +16,7 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
 $this->registerAssetBundle(AdminBundle::class);
 
 ?>
+<!DOCTYPE html>
 <html>
 
 <head>
