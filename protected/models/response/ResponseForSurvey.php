@@ -9,7 +9,6 @@ use prime\values\ResponseId;
 
 class ResponseForSurvey
 {
-
     public function __construct(
         private ResponseId $id,
         private int|null $surveyId,

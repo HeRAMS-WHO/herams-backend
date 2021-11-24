@@ -14,7 +14,6 @@ use yii\mail\MessageInterface;
  */
 class ShareCest
 {
-
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

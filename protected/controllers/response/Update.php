@@ -10,7 +10,6 @@ use yii\base\Action;
 
 class Update extends Action
 {
-
     public function run(
         ResponseForLimesurveyRepository $responseRepository,
         int $id

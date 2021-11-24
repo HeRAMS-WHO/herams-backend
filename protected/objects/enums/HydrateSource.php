@@ -10,5 +10,4 @@ namespace prime\objects\enums;
  */
 class HydrateSource extends Enum
 {
-
 }

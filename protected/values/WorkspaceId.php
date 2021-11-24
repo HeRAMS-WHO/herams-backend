@@ -6,5 +6,4 @@ namespace prime\values;
 
 class WorkspaceId extends IntegerId
 {
-
 }

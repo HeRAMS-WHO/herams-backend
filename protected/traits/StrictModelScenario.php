@@ -10,7 +10,6 @@ namespace prime\traits;
  */
 trait StrictModelScenario
 {
-
     public function setScenario($value): void
     {
         parent::setScenario($value);

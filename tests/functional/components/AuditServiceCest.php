@@ -28,7 +28,6 @@ class AuditServiceCest
     private function createEntry(): NewAuditEntryInterface
     {
         return new class implements NewAuditEntryInterface {
-
             public function getSubjectName(): string
             {
                 return 'testname';

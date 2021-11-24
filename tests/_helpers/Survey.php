@@ -7,7 +7,6 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 class Survey implements SurveyInterface
 {
-
     /**
      * @return int The unique ID for this survey.
      */

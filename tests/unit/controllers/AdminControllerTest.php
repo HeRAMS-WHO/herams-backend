@@ -9,5 +9,4 @@ namespace prime\tests\unit\controllers;
  */
 class AdminControllerTest extends ControllerTest
 {
-
 }

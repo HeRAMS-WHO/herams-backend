@@ -16,7 +16,6 @@ use function iter\toArray;
 
 class Roles extends Action
 {
-
     public function run(
         User $user,
         AuthManager $abacManager,

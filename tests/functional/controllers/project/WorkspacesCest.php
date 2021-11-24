@@ -15,7 +15,6 @@ use yii\helpers\Url;
  */
 class WorkspacesCest
 {
-
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

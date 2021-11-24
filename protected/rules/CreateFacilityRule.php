@@ -12,7 +12,6 @@ use SamIT\abac\interfaces\Rule;
 
 class CreateFacilityRule implements Rule
 {
-
     public function getPermissions(): array
     {
         return [Permission::PERMISSION_CREATE_FACILITY];

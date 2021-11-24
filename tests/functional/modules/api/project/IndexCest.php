@@ -13,7 +13,6 @@ use yii\helpers\Url;
  */
 class IndexCest
 {
-
     public function testIndex(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);

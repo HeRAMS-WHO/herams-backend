@@ -6,5 +6,4 @@ namespace prime\exceptions;
 
 class NoGrantablePermissions extends \RuntimeException
 {
-
 }

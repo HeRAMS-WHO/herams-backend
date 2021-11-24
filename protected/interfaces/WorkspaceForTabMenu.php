@@ -9,7 +9,6 @@ use prime\values\WorkspaceId;
 
 interface WorkspaceForTabMenu extends CanCurrentUser
 {
-
     public function id(): WorkspaceId;
     public function title(): string;
 

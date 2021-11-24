@@ -10,7 +10,6 @@ use yii\base\Action;
 
 class ExternalDashboard extends Action
 {
-
     public function run(
         ProjectRepository $projectRepository,
         int $id

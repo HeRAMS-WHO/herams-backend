@@ -8,7 +8,6 @@ use prime\interfaces\EnvironmentInterface;
 
 class Secret implements \Stringable
 {
-
     private string $name;
 
     private EnvironmentInterface $environment;

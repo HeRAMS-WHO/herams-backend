@@ -12,7 +12,6 @@ use yii\web\User;
 
 class Section extends Widget
 {
-
     public iterable $actions = [];
     public string $header;
     public array $headerOptions = [];

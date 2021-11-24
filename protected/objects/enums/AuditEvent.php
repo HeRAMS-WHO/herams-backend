@@ -11,5 +11,4 @@ namespace prime\objects\enums;
  */
 class AuditEvent extends Enum
 {
-
 }

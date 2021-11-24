@@ -17,7 +17,6 @@ use yii\web\UnprocessableEntityHttpException;
 
 class Update extends Action
 {
-
     /**
      * @throws \yii\web\NotFoundHttpException
      */

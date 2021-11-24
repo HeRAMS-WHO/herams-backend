@@ -9,7 +9,6 @@ namespace prime\tests\unit\models\ar;
  */
 class ElementTest extends ActiveRecordTest
 {
-
     public function testSomething(): void
     {
 //        var_dump($this->getModel()->canGetProperty('sort'));

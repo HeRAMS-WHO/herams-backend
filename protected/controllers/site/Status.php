@@ -9,7 +9,6 @@ use yii\web\Response;
 
 class Status extends Action
 {
-
     public function run(Response $response)
     {
         $hash = file_exists('/run/commit_sha') ? trim(file_get_contents('/run/commit_sha')) : null;

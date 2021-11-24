@@ -6,6 +6,5 @@ namespace prime\interfaces;
 
 interface CanCurrentUser
 {
-
     public function canCurrentUser(string $permission): bool;
 }

@@ -4,8 +4,6 @@ namespace prime\interfaces;
 
 interface TicketingInterface
 {
-
-
     public function createToken(
         string $identifier,
         ?int $expires = null

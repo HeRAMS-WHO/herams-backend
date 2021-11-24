@@ -10,7 +10,6 @@ use yii\validators\RequiredValidator;
 
 class SyncWorkspaces extends Model
 {
-
     private Project $project;
 
     public array $workspaces = [];

@@ -13,7 +13,6 @@ use yii\web\Response;
 
 class DeleteWorkspaces extends Action
 {
-
     public function run(
         Response $response,
         NotificationService $notificationService,

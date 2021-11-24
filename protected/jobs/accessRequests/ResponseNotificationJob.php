@@ -6,5 +6,4 @@ namespace prime\jobs\accessRequests;
 
 class ResponseNotificationJob extends AccessRequestJob
 {
-
 }

@@ -17,7 +17,6 @@ use yii\helpers\Url;
  */
 class WorkspacesCest
 {
-
     public function testPrecondition(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

@@ -9,7 +9,6 @@ use yii\base\Action;
 
 class SurveyJs extends Action
 {
-
     public function run()
     {
         SurveyJsBundle::register($this->controller->view);

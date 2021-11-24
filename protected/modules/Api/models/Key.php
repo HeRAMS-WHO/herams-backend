@@ -10,7 +10,6 @@ use yii\web\IdentityInterface;
 
 class Key extends ActiveRecord implements IdentityInterface
 {
-
     /**
      * @inheritDoc
      */

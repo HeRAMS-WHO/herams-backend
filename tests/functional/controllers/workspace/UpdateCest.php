@@ -11,7 +11,6 @@ use prime\tests\FunctionalTester;
  */
 class UpdateCest
 {
-
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

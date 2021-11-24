@@ -15,7 +15,6 @@ use yii\web\Request;
 
 class Import extends Action
 {
-
     public function run(
         LimesurveyDataProvider $limesurveyDataProvider,
         AccessCheckInterface $accessCheck,

@@ -15,7 +15,6 @@ use yii\web\Request;
  */
 class DeleteCest
 {
-
     public function testMethod(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);

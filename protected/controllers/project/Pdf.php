@@ -18,8 +18,6 @@ use yii\web\User;
 
 class Pdf extends Action
 {
-
-
     public function run(
         Request $request,
         User $user,

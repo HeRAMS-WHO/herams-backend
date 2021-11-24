@@ -6,7 +6,6 @@ use yii\web\AssetBundle;
 
 class LeafletBundle extends AssetBundle
 {
-
     public $css = [
         [
             'url' => 'https://unpkg.com/leaflet@1.4.0/dist/leaflet.css',

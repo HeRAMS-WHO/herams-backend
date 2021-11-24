@@ -14,7 +14,6 @@ use SamIT\abac\interfaces\Rule;
 
 class GlobalImpliesProject implements Rule
 {
-
     /**
      * @inheritDoc
      */

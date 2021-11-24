@@ -16,7 +16,6 @@ use yii\web\Request;
  */
 class DeleteCest
 {
-
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

@@ -13,7 +13,6 @@ use SamIT\abac\interfaces\Rule;
 
 class SuperShareRule implements Rule
 {
-
     /**
      * @inheritDoc
      */

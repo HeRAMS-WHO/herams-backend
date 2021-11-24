@@ -13,7 +13,6 @@ use yii\helpers\Url;
  */
 class UpdateCest
 {
-
     public function testUpdateDoesNotUseCsrf(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);

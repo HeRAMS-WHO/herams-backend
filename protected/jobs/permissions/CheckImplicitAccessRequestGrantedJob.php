@@ -6,5 +6,4 @@ namespace prime\jobs\permissions;
 
 class CheckImplicitAccessRequestGrantedJob extends PermissionJob
 {
-
 }

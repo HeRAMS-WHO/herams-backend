@@ -6,7 +6,6 @@ use yii\web\AssetBundle;
 
 class AdminBundle extends AssetBundle
 {
-
     public $baseUrl = '/css';
     public $css = [
         'admin.css',

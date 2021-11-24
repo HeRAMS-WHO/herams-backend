@@ -19,7 +19,6 @@ use yii\web\UnauthorizedHttpException;
 
 class Update extends Action
 {
-
     public function run(
         Request $request,
         Response $response,
