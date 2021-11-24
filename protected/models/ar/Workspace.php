@@ -7,6 +7,7 @@ namespace prime\models\ar;
 use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\helpers\ArrayHelper;
+use prime\interfaces\RequestableInterface;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsCodeMap;
@@ -40,7 +41,7 @@ use yii\validators\StringValidator;
  * @property-read User $owner
  * @property-read Project $project
  */
-class Workspace extends ActiveRecord
+class Workspace extends ActiveRecord implements RequestableInterface
 {
     public function behaviors(): array
     {
@@ -55,6 +56,14 @@ class Workspace extends ActiveRecord
                 VirtualFieldBehavior::class => [
                     'class' => VirtualFieldBehavior::class,
                     'virtualFields' => [
+                        'projectTitle' => [
+                            VirtualFieldBehavior::GREEDY => Project::find()
+                                ->limit(1)->select('title')
+                                ->where(['id' => new Expression(self::tableName() . '.[[project_id]]')]),
+                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): null|string {
+                                return $workspace->getProject()->limit(1)->one()->title ?? null;
+                            }
+                        ],
                         'latestUpdate' => [
                             VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()
                                 ->limit(1)->select('max(last_updated)')
@@ -211,5 +220,20 @@ class Workspace extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%workspace}}';
+    }
+
+    public function getTitle(): string
+    {
+        return $this->getAttribute('title') ?? '';
+    }
+
+    public function getRoute(): array
+    {
+        return ['workspace/update', 'id' => $this->id];
+    }
+
+    public function getProjectTitle(): string
+    {
+        return $this->getBehavior(VirtualFieldBehavior::class)->__get('projectTitle');
     }
 }

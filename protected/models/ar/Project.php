@@ -10,6 +10,7 @@ use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
+use prime\interfaces\RequestableInterface;
 use prime\models\ActiveRecord;
 use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
@@ -80,7 +81,7 @@ use yii\web\Linkable;
  * @method ExpressionInterface getVirtualExpression(string $name)
  * @see VirtualFieldBehavior::getVirtualExpression()
  */
-class Project extends ActiveRecord implements Linkable
+class Project extends ActiveRecord implements Linkable, RequestableInterface
 {
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_PRIVATE = 'private';
@@ -585,5 +586,20 @@ class Project extends ActiveRecord implements Linkable
                 }
             ]
         ];
+    }
+
+    public function getTitle(): string
+    {
+        return $this->getAttribute('title');
+    }
+
+    public function getRoute(): array
+    {
+        return ['project/update', 'id' => $this->id];
+    }
+
+    public function getProjectTitle(): string
+    {
+        return $this->getTitle();
     }
 }
