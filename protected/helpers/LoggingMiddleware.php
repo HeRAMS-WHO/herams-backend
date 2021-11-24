@@ -8,7 +8,6 @@ use League\Tactician\Middleware;
 
 class LoggingMiddleware implements Middleware
 {
-
     public function execute($command, callable $next)
     {
         $class = get_class($command);

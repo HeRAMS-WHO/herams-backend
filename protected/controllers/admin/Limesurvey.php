@@ -7,7 +7,6 @@ use yii\base\Action;
 
 class Limesurvey extends Action
 {
-
     public function run()
     {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;

@@ -12,7 +12,6 @@ use yii\base\Action;
 
 class Limesurvey extends Action
 {
-
     public function run(
         AccessCheckInterface $accessCheck,
         int $id

@@ -11,7 +11,6 @@ use SamIT\Yii2\abac\AccessChecker;
 
 class GlobalPermissionResolver implements Resolver
 {
-
     /**
      * @inheritDoc
      */

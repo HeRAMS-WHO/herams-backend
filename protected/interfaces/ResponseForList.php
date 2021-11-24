@@ -11,7 +11,6 @@ use prime\values\ResponseId;
 
 interface ResponseForList
 {
-
     public const DATE_OF_UPDATE = "dateOfUpdate";
     public const ID = "id";
     public const CONDITION = "condition";

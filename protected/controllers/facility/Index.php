@@ -10,7 +10,6 @@ use yii\data\ActiveDataProvider;
 
 class Index extends Action
 {
-
     public function run()
     {
         $query = Facility::find();

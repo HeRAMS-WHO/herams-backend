@@ -9,5 +9,4 @@ namespace prime\values;
  */
 class UserId extends IntegerId
 {
-
 }

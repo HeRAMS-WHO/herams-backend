@@ -12,7 +12,6 @@ use SamIT\abac\interfaces\Rule;
 
 class ProjectSummaryRule implements Rule
 {
-
     public function getPermissions(): array
     {
         return [Permission::PERMISSION_SUMMARY];

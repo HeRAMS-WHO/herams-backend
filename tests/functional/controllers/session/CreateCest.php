@@ -14,7 +14,6 @@ use prime\tests\FunctionalTester;
  */
 class CreateCest
 {
-
     public function testCreate(FunctionalTester $I)
     {
         $I->stopFollowingRedirects();

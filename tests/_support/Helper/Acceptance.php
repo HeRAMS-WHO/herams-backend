@@ -9,5 +9,4 @@ use Yii;
 
 class Acceptance extends \Codeception\Module
 {
-
 }

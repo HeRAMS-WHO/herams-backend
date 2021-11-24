@@ -15,7 +15,6 @@ use SamIT\abac\interfaces\Rule;
 
 class DashboardRule implements Rule
 {
-
     public function getPermissions(): array
     {
         return [

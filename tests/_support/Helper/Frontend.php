@@ -7,5 +7,4 @@ namespace Helper;
 
 class Frontend extends \Codeception\Module
 {
-
 }

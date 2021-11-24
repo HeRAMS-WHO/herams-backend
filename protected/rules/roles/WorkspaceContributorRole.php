@@ -13,7 +13,6 @@ use SamIT\abac\interfaces\Rule;
 
 class WorkspaceContributorRole implements Rule
 {
-
     /**
      * @inheritDoc
      */

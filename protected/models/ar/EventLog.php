@@ -8,6 +8,4 @@ use prime\models\ActiveRecord;
 
 class EventLog extends ActiveRecord
 {
-
-
 }

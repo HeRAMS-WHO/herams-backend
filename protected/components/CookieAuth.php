@@ -13,8 +13,6 @@ use yii\web\UnauthorizedHttpException;
 
 class CookieAuth implements AuthInterface
 {
-
-
     public function authenticate($user, $request, $response): ?IdentityInterface
     {
         /** @var Session $session */

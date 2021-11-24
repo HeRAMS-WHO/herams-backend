@@ -12,7 +12,6 @@ use yii\base\Action;
 
 class Responses extends Action
 {
-
     public function run(
         AccessCheckInterface $check,
         FacilityRepository $facilityRepository,

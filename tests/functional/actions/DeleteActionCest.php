@@ -16,7 +16,6 @@ use yii\web\Request;
  */
 class DeleteActionCest
 {
-
     public function testInitNoConfig(FunctionalTester $I)
     {
         $I->expectThrowable(InvalidConfigException::class, function () {

@@ -12,7 +12,6 @@ use yii\web\NotFoundHttpException;
 
 class Compare extends Action
 {
-
     public function run(
         LimesurveyDataProvider $limesurveyDataProvider,
         int $id,

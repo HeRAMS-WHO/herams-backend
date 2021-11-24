@@ -15,7 +15,6 @@ use prime\interfaces\EnvironmentInterface;
  */
 class SecretTest extends Unit
 {
-
     public function testToString()
     {
         $environment = $this->makeEmpty(EnvironmentInterface::class, [

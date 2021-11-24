@@ -15,7 +15,6 @@ use yii\web\Request;
 
 class SyncWorkspaces extends Action
 {
-
     public function run(
         Request $request,
         NotificationService $notificationService,

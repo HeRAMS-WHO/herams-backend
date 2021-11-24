@@ -17,7 +17,6 @@ use yii\web\User;
 
 class Create extends Action
 {
-
     public function run(
         Request $request,
         NotificationService $notificationService,

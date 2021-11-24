@@ -13,7 +13,6 @@ use function iter\toArrayWithKeys;
 
 class LimesurveyDataLoader
 {
-
     public function loadData(
         array $data,
         WorkspaceForLimesurvey $workspace,

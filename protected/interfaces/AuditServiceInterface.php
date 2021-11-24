@@ -6,7 +6,6 @@ namespace prime\interfaces;
 
 interface AuditServiceInterface
 {
-
     public function add(NewAuditEntryInterface $entry): void;
     public function commit(): void;
 }

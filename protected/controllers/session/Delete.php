@@ -12,7 +12,6 @@ use yii\web\User;
 
 class Delete extends Action
 {
-
     public function run(Request $request, User $user): Response
     {
         if (!$request->isDelete) {

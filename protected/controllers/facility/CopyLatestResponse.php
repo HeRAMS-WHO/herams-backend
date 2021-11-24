@@ -12,7 +12,6 @@ use yii\base\Action;
 
 class CopyLatestResponse extends Action
 {
-
     public function run(
         FacilityRepository $facilityRepository,
         LimesurveyDataProvider $limesurveyDataProvider,

@@ -12,7 +12,6 @@ use SamIT\abac\interfaces\Rule;
 
 class FacilityCascadeWorkspaceRule implements Rule
 {
-
     public function getPermissions(): array
     {
         return [

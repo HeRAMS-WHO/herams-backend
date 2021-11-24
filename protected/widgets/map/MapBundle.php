@@ -7,7 +7,6 @@ use yii\web\View;
 
 class MapBundle extends AssetBundle
 {
-
     public $depends = [
         LeafletBundle::class,
 

@@ -8,5 +8,4 @@ use prime\interfaces\BreadcrumbInterface;
 
 interface ProjectForBreadcrumbInterface extends BreadcrumbInterface
 {
-
 }

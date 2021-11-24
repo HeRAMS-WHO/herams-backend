@@ -32,7 +32,6 @@ use function iter\rewindable\map;
  */
 class Page extends ActiveRecord implements PageInterface, Exportable
 {
-
     public function init()
     {
         $this->sort = 0;

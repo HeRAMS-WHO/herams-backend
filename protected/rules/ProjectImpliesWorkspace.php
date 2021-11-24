@@ -14,7 +14,6 @@ use SamIT\abac\interfaces\Rule;
 
 class ProjectImpliesWorkspace implements Rule
 {
-
     /**
      * @inheritDoc
      */

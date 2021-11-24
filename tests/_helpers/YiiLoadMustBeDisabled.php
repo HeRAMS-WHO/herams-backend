@@ -9,7 +9,6 @@ use yii\base\NotSupportedException;
 
 trait YiiLoadMustBeDisabled
 {
-
     abstract private function getModel(): Model;
 
     public function testLoadIsDisabled()

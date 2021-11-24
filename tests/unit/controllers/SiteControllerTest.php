@@ -26,7 +26,6 @@ use yii\web\Request;
  */
 class SiteControllerTest extends ControllerTest
 {
-
     public function testMaintenancePageWithoutUser()
     {
         $controller = $this->getController();

@@ -7,6 +7,4 @@ use Page\Login;
 
 class Guest extends \AcceptanceTester
 {
-
-
 }

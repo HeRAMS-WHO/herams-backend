@@ -10,7 +10,6 @@ use prime\models\ActiveRecord;
 
 class ActiveRecordTest extends Unit
 {
-
     public function testGetDisplayField(): void
     {
 

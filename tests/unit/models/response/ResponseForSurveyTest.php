@@ -20,7 +20,6 @@ use prime\values\ResponseId;
  */
 class ResponseForSurveyTest extends Unit
 {
-
     public function testGetId(): void
     {
         $responseId = new ResponseId(15);

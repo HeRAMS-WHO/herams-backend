@@ -11,7 +11,6 @@ use yii\web\ResponseFormatterInterface;
 
 class GeoJsonResponseFormatter implements ResponseFormatterInterface
 {
-
     /**
      * @param Response $response
      */

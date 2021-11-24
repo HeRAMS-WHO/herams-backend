@@ -15,7 +15,6 @@ use prime\tests\FunctionalTester;
  */
 class ViewCest
 {
-
     public function testView(FunctionalTester $I, Scenario $scenario)
     {
         $scenario->incomplete('Project dashboard is open to all users');

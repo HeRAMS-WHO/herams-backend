@@ -12,7 +12,6 @@ namespace prime\objects\enums;
  */
 class FacilityFunctionality extends Enum
 {
-
     /**
      * @codeCoverageIgnore
      */

@@ -16,7 +16,6 @@ use SamIT\abac\AuthManager;
  */
 class ManageDashboardCest
 {
-
     public function testCascade(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

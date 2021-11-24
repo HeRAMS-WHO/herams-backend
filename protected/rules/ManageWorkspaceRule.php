@@ -12,7 +12,6 @@ use SamIT\abac\interfaces\Rule;
 
 class ManageWorkspaceRule implements Rule
 {
-
     /**
      * @inheritDoc
      */

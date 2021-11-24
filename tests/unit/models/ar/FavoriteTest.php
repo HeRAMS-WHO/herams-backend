@@ -15,8 +15,6 @@ use prime\queries\ResponseForLimesurveyQuery;
  */
 class FavoriteTest extends ActiveRecordTest
 {
-
-
     public function validSamples(): iterable
     {
         return [];

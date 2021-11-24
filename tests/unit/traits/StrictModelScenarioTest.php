@@ -13,7 +13,6 @@ use yii\base\Model;
  */
 class StrictModelScenarioTest extends Unit
 {
-
     public function testInvalidScenarioThrowsException()
     {
         $subject = new class extends Model {

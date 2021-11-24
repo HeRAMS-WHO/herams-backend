@@ -7,7 +7,6 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 interface PageInterface
 {
-
     /**
      * @return PageInterface[]
      */

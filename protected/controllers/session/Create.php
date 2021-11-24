@@ -14,7 +14,6 @@ use yii\web\User;
 
 class Create extends Action
 {
-
     public function run(
         User $user,
         Request $request,

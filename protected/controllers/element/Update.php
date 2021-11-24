@@ -15,7 +15,6 @@ use yii\web\User;
 
 class Update extends Action
 {
-
     public function run(
         Request $request,
         LimesurveyDataProvider $limesurveyDataProvider,

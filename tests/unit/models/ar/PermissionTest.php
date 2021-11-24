@@ -15,7 +15,6 @@ use prime\models\ar\User;
  */
 class PermissionTest extends ActiveRecordTest
 {
-
     public function invalidSamples(): array
     {
         return [];

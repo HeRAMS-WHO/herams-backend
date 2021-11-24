@@ -14,7 +14,6 @@ use SamIT\abac\values\Grant;
 
 class GrantRule implements Rule
 {
-
     /**
      * @inheritDoc
      */

@@ -12,8 +12,6 @@ use kartik\builder\Form;
  */
 class FormButtonsWidget
 {
-
-
     /**
      * Returns a config for embedding this in a form.
      */

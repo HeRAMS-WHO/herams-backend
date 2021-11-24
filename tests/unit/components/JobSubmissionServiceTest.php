@@ -18,7 +18,6 @@ use yii\db\AfterSaveEvent;
  */
 class JobSubmissionServiceTest extends Unit
 {
-
     public function testJobIsSubmitted()
     {
         // Setup

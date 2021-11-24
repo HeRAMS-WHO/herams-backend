@@ -12,5 +12,4 @@ use yii\base\Action;
  */
 class ResponseControllerTest extends ControllerTest
 {
-
 }

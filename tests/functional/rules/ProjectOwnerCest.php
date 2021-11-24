@@ -15,7 +15,6 @@ use SamIT\abac\AuthManager;
  */
 class ProjectOwnerCest
 {
-
     public function testCanSyncWorkspace(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);

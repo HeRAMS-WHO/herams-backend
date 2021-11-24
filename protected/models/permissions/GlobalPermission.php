@@ -14,7 +14,6 @@ use yii\db\ActiveQuery;
  */
 class GlobalPermission implements Authorizable
 {
-
     public function getId(): string
     {
         return AccessChecker::GLOBAL;
