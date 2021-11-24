@@ -22,19 +22,20 @@ class FacilityTabMenu extends TabMenu
         $this->tabs = [];
 
         $this->tabs[] = [
+            'permission' => Permission::PERMISSION_LIST_DATA_RESPONSES,
+            'title' => \Yii::t('app', 'Responses ({n})', ['n' => $this->facility->getResponseCount()]),
             'url' => ['facility/responses', 'id' => $this->facility->getId()],
-            'title' => \Yii::t('app', 'Responses ({n})', ['n' => $this->facility->getResponseCount()])
         ];
         $this->tabs[] = [
-            'url' => ['facility/admin-responses', 'id' => $this->facility->getId()],
+            'permission' => Permission::PERMISSION_LIST_ADMIN_RESPONSES,
             'title' => \Yii::t('app', 'Admin responses ({n})', ['n' => $this->facility->getAdminResponseCount()]),
-            'permission' => Permission::PERMISSION_ADMIN
+            'url' => ['facility/admin-responses', 'id' => $this->facility->getId()],
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_ADMIN,
-            'url' => ["facility/update", 'id' => $this->facility->getId()],
+            'permission' => Permission::PERMISSION_WRITE,
             'title' => \Yii::t('app', 'Facility settings'),
-            'visibility' => is_numeric($this->facility->getId()->getValue())
+            'url' => ["facility/update", 'id' => $this->facility->getId()],
+            'visibility' => is_numeric($this->facility->getId()->getValue()),
         ];
 
         return parent::renderMenu();

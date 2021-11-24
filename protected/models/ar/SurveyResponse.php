@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use Carbon\Carbon;
 use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
+use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\validators\ExistValidator;
 use yii\behaviors\BlameableBehavior;
@@ -26,7 +28,7 @@ use yii\validators\SafeValidator;
  * @property-read Facility $facility
  * @property-read Survey $survey
  */
-class SurveyResponse extends ActiveRecord
+class SurveyResponse extends ActiveRecord implements HeramsResponseInterface
 {
     public function behaviors(): array
     {
@@ -52,6 +54,109 @@ class SurveyResponse extends ActiveRecord
                 'survey_id' => \Yii::t('app', 'Survey'),
             ]
         );
+    }
+
+    public function getAccessibility(): string
+    {
+        // TODO: Implement getAccessibility() method.
+        return HeramsResponseInterface::UNKNOWN_VALUE;
+    }
+
+    public function getAutoIncrementId(): int
+    {
+        return $this->id;
+    }
+
+    public function getCondition(): string
+    {
+        // TODO: Implement getCondition() method.
+        return HeramsResponseInterface::UNKNOWN_VALUE;
+    }
+
+    public function getDate(): ?Carbon
+    {
+        return new Carbon($this->created_at);
+    }
+
+    public function getFunctionality(): string
+    {
+        // TODO: Implement getFunctionality() method.
+        return HeramsResponseInterface::UNKNOWN_VALUE;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getLatitude(): ?float
+    {
+        // TODO: Implement getLatitude() method.
+        return null;
+    }
+
+    public function getLocation(): ?string
+    {
+        // TODO: Implement getLocation() method.
+        return null;
+    }
+
+    public function getLongitude(): ?float
+    {
+        // TODO: Implement getLongitude() method.
+        return null;
+    }
+
+    public function getMainReason(): ?string
+    {
+        // TODO: Implement getMainReason() method.
+        return null;
+    }
+
+    public function getName(): ?string
+    {
+        // TODO: Implement getName() method.
+        return null;
+    }
+
+    public function getRawData(): array
+    {
+        return $this->data;
+    }
+
+    public function getSubjectAvailability(): float
+    {
+        // TODO: Implement getSubjectAvailability() method.
+        return 0;
+    }
+
+    public function getSubjectAvailabilityBucket(): int
+    {
+        // TODO: Implement getSubjectAvailabilityBucket() method.
+        return 0;
+    }
+
+    public function getSubjectId(): string
+    {
+        return (string) $this->facility_id;
+    }
+
+    public function getSubjects(): iterable
+    {
+        // TODO: Implement getSubjects() method.
+        return [];
+    }
+
+    public function getType(): ?string
+    {
+        // TODO: Implement getType() method.
+        return null;
+    }
+
+    public function getValueForCode(string $code)
+    {
+        // TODO: Implement getValueForCode() method.
+        return null;
     }
 
     public function getFacility(): ActiveQuery

@@ -14,7 +14,7 @@ class UpdateCest
     public function testPageLoad(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $survey = $I->haveSurvey();
+        $survey = $I->haveAdminSurvey();
         $I->amOnPage(['/survey/update', 'id' => $survey->id]);
         $I->seeResponseCodeIsSuccessful();
     }

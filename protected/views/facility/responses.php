@@ -39,8 +39,6 @@ Section::begin()
 
 echo GridView::widget([
     'dataProvider' => $responseProvider,
-//    'filterModel' => $projectSearch,
-    'layout' => "{items}\n{pager}",
     'columns' => [
         ResponseForList::ID,
         'externalId',

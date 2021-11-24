@@ -15,6 +15,7 @@ use prime\models\response\ResponseForSurvey;
 use prime\values\ExternalResponseId;
 use prime\values\FacilityId;
 use prime\values\ResponseId;
+use yii\base\InvalidArgumentException;
 use yii\data\DataProviderInterface;
 
 class ResponseForLimesurveyRepository
@@ -86,7 +87,7 @@ class ResponseForLimesurveyRepository
                 'facility_id' => null
             ]);
         } else {
-            $query->andWhere(['facility_id' => (int) $id->getValue()]);
+            throw new InvalidArgumentException('The facility should be in a Limesurvey project.');
         }
 
         return new HydratedActiveDataProvider(

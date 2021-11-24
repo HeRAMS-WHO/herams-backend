@@ -7,6 +7,7 @@ namespace prime\tests\unit\repositories;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
 use prime\helpers\ModelHydrator;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\SurveyResponse;
 use prime\models\forms\surveyResponse\CreateForm;
@@ -21,11 +22,16 @@ use yii\web\NotFoundHttpException;
 class SurveyResponseRepositoryTest extends Unit
 {
     private function createRepository(
-        ModelHydrator $modelHydrator = null
+        AccessCheckInterface $accessCheck = null,
+        ModelHydrator $modelHydrator = null,
     ): SurveyResponseRepository {
+        $accessCheck = $accessCheck ?? $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $modelHydrator = $modelHydrator ?? new ModelHydrator();
 
-        return new SurveyResponseRepository($modelHydrator);
+        return new SurveyResponseRepository(
+            accessCheck: $accessCheck,
+            hydrator: $modelHydrator,
+        );
     }
 
     public function testCreate(): void

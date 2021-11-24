@@ -37,7 +37,7 @@ class TabMenu extends Widget
         if (isset($tab['permission'])) {
             if (
                 ($this->permissionSubject instanceof CanCurrentUser && !$this->permissionSubject->canCurrentUser($tab['permission']))
-                || !\Yii::$app->user->can($tab['permission'], $this->permissionSubject)
+                || (!$this->permissionSubject instanceof CanCurrentUser && !\Yii::$app->user->can($tab['permission'], $this->permissionSubject))
             ) {
                 return false;
             }

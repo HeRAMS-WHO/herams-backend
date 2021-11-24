@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers;
 
 use prime\components\Controller;
+use prime\controllers\facility\AdminResponses;
 use prime\controllers\facility\CopyLatestResponse;
 use prime\controllers\facility\Create;
 use prime\controllers\facility\Index;
@@ -43,7 +44,7 @@ class FacilityController extends Controller
             'update' => Update::class,
             'responses' => Responses::class,
             'copy-latest-response' => CopyLatestResponse::class,
-            'admin-responses' => Responses::class,
+            'admin-responses' => AdminResponses::class,
         ];
     }
 
