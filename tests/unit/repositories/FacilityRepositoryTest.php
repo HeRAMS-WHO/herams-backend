@@ -16,6 +16,7 @@ use prime\models\forms\surveyResponse\CreateForm as SurveyResponseCreateForm;
 use prime\models\survey\SurveyForSurveyJs;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
+use prime\objects\enums\ProjectType;
 use prime\objects\LanguageSet;
 use prime\repositories\FacilityRepository;
 use prime\repositories\SurveyRepository;
@@ -53,9 +54,35 @@ class FacilityRepositoryTest extends Unit
             $accessCheck,
             $modelHydrator ?? new ModelHydrator(),
             $surveyRepository ?? new SurveyRepository($newAccessCheck, new ModelHydrator()),
-            $surveyResponseRepository ?? new SurveyResponseRepository(new ModelHydrator()),
+            $surveyResponseRepository ?? new SurveyResponseRepository($newAccessCheck, new ModelHydrator()),
             $workspaceRepository ?? new WorkspaceRepository($newAccessCheck, new ModelHydrator()),
         );
+    }
+
+    public function isOfTypeDataProvider(): array
+    {
+        return [
+            [
+                1,
+                ProjectType::surveyJs(),
+                true,
+            ],
+            [
+                'LS_1_a1b',
+                ProjectType::limesurvey(),
+                true,
+            ],
+            [
+                1,
+                ProjectType::limesurvey(),
+                false,
+            ],
+            [
+                'LS_1_a1b',
+                ProjectType::surveyJs(),
+                false,
+            ],
+        ];
     }
 
     public function testCreate(): void
@@ -104,6 +131,15 @@ class FacilityRepositoryTest extends Unit
 
         $this->assertSame($workspace->getLanguages(), $createModel->getLanguages());
         $this->assertEquals($workspace->getId(), $createModel->getWorkspaceId());
+    }
+
+    /**
+     * @dataProvider isOfTypeDataProvider
+     */
+    public function testIsOfProjectType(string|int $facilityId, ProjectType $projectType, $result): void
+    {
+        $repository = $this->createRepository();
+        $this->assertEquals($result, $repository->isOfProjectType(new FacilityId((string) $facilityId), $projectType));
     }
 
     public function testRetrieveForUpdate(): void

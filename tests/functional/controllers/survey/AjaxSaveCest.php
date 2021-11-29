@@ -49,7 +49,7 @@ class AjaxSaveCest
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
-        $survey = $I->haveSurvey();
+        $survey = $I->haveAdminSurvey();
 
         $I->sendPost(
             'survey/ajax-save?id=' . $survey->id,

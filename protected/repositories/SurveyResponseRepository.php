@@ -4,20 +4,27 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use prime\components\HydratedActiveDataProvider;
 use prime\helpers\ModelHydrator;
+use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\ResponseForList as ResponseForListInterface;
 use prime\interfaces\surveyResponse\SurveyResponseForSurveyJsInterface;
 use prime\models\ar\Facility;
+use prime\models\ar\Permission;
 use prime\models\ar\SurveyResponse;
 use prime\models\forms\surveyResponse\CreateForm;
+use prime\models\response\ResponseForList;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
 use prime\values\FacilityId;
 use prime\values\SurveyId;
 use prime\values\SurveyResponseId;
+use yii\data\DataProviderInterface;
 use yii\web\NotFoundHttpException;
 
 class SurveyResponseRepository
 {
     public function __construct(
+        private AccessCheckInterface $accessCheck,
         private ModelHydrator $hydrator,
     ) {
     }
@@ -64,6 +71,62 @@ class SurveyResponseRepository
         return new SurveyResponseForSurveyJs(
             $surveyResponse->data,
             new SurveyResponseId($surveyResponse->id)
+        );
+    }
+
+    public function searchAdminInFacility(FacilityId $facilityId): DataProviderInterface
+    {
+        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
+        $adminSurveyId = $facility->workspace->project->admin_survey_id;
+        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId]);
+
+        return new HydratedActiveDataProvider(
+            static function (SurveyResponse $response): ResponseForListInterface {
+                return new ResponseForList($response);
+            },
+            [
+                'sort' => [
+                    'attributes' => [
+                        'id',
+                        'dateOfUpdate' => [
+                            'asc' => ['date' => SORT_ASC],
+                            'desc' => ['date' => SORT_DESC],
+                            'default' => SORT_DESC,
+                        ]
+                    ]
+                ],
+                'query' => $query,
+                'pagination' => false,
+            ]
+        );
+    }
+
+    public function searchDataInFacility(FacilityId $facilityId): DataProviderInterface
+    {
+        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
+        $dataSurveyId = $facility->workspace->project->data_survey_id;
+        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $dataSurveyId]);
+
+        return new HydratedActiveDataProvider(
+            static function (SurveyResponse $response): ResponseForListInterface {
+                return new ResponseForList($response);
+            },
+            [
+                'sort' => [
+                    'attributes' => [
+                        'id',
+                        'dateOfUpdate' => [
+                            'asc' => ['date' => SORT_ASC],
+                            'desc' => ['date' => SORT_DESC],
+                            'default' => SORT_DESC,
+                        ]
+                    ]
+                ],
+                'query' => $query,
+                'pagination' => false,
+            ]
         );
     }
 }

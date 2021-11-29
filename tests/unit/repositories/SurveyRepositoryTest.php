@@ -42,15 +42,14 @@ class SurveyRepositoryTest extends Unit
         $survey = new Survey();
         $survey->config = ArrayHelper::merge([
             'pages' => [
-                0 => [
+                [
                     'name' => 'page1',
                     'elements' => [
-                        0 =>
-                            [
-                                'type' => 'text',
-                                'name' => 'question1',
-                                'title' => 'title1',
-                            ],
+                        [
+                            'type' => 'text',
+                            'name' => 'question1',
+                            'title' => 'title1',
+                        ],
                     ],
                 ],
             ],
@@ -64,15 +63,14 @@ class SurveyRepositoryTest extends Unit
         $model = new CreateForm();
         $model->config = [
             'pages' => [
-                0 => [
+                [
                     'name' => 'page1',
                     'elements' => [
-                        0 =>
-                            [
-                                'type' => 'text',
-                                'name' => 'question1',
-                                'title' => 'title1',
-                            ],
+                        [
+                            'type' => 'text',
+                            'name' => 'question1',
+                            'title' => 'title1',
+                        ],
                     ],
                 ],
             ],

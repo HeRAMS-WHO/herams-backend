@@ -40,7 +40,8 @@ class FunctionalTester extends \Codeception\Actor
     private Page $page;
     private Project $project;
     private Project $projectForLimesurvey;
-    private Survey $survey;
+    private Survey $adminSurvey;
+    private Survey $dataSurvey;
     private Workspace $workspace;
     private WorkspaceForLimesurvey $workspaceForLimesurvey;
 
@@ -67,6 +68,54 @@ class FunctionalTester extends \Codeception\Actor
         }
 
         return $this->grabHtmlContentFromEmail($email->getSwiftMessage());
+    }
+
+    public function haveAdminSurvey(): Survey
+    {
+        if (!isset($this->adminSurvey)) {
+            $this->adminSurvey = $survey = new Survey();
+            $survey->config = [
+                'pages' => [
+                    [
+                        'name' => 'page1',
+                        'elements' => [
+                            [
+                                'type' => 'text',
+                                'name' => 'question1',
+                                'title' => 'title1',
+                            ],
+                        ],
+                    ],
+                ],
+            ];
+            $this->save($survey);
+        }
+
+        return $this->adminSurvey;
+    }
+
+    public function haveDataSurvey(): Survey
+    {
+        if (!isset($this->dataSurvey)) {
+            $this->dataSurvey = $survey = new Survey();
+            $survey->config = [
+                'pages' => [
+                    [
+                        'name' => 'page1',
+                        'elements' => [
+                            [
+                                'type' => 'text',
+                                'name' => 'question1',
+                                'title' => 'title1',
+                            ],
+                        ],
+                    ],
+                ],
+            ];
+            $this->save($survey);
+        }
+
+        return $this->dataSurvey;
     }
 
     public function haveElement(): Element
@@ -99,7 +148,7 @@ class FunctionalTester extends \Codeception\Actor
             $this->save($this->facility);
 
             $surveyResponse = new SurveyResponse();
-            $surveyResponse->survey_id = $this->haveSurvey()->id;
+            $surveyResponse->survey_id = $this->facility->workspace->project->admin_survey_id;
             $surveyResponse->facility_id = $this->facility->id;
             $surveyResponse->data = $adminData;
             $this->save($surveyResponse);
@@ -126,8 +175,8 @@ class FunctionalTester extends \Codeception\Actor
         if (!isset($this->project)) {
             $this->project = $project = new Project();
             $project->title = 'Test project';
-            $project->admin_survey_id = $this->haveSurvey()->id;
-            $project->data_survey_id = $this->haveSurvey()->id;
+            $project->admin_survey_id = $this->haveAdminSurvey()->id;
+            $project->data_survey_id = $this->haveDataSurvey()->id;
             $this->save($project);
         }
 
@@ -144,31 +193,6 @@ class FunctionalTester extends \Codeception\Actor
         }
 
         return $this->projectForLimesurvey;
-    }
-
-    public function haveSurvey(): Survey
-    {
-        if (!isset($this->survey)) {
-            $this->survey = $survey = new Survey();
-            $survey->config = [
-                'pages' => [
-                    0 => [
-                        'name' => 'page1',
-                        'elements' => [
-                            0 =>
-                                [
-                                    'type' => 'text',
-                                    'name' => 'question1',
-                                    'title' => 'title1',
-                                ],
-                        ],
-                    ],
-                ],
-            ];
-            $this->save($survey);
-        }
-
-        return $this->survey;
     }
 
     public function haveWorkspace(): Workspace

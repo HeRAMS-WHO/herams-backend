@@ -26,6 +26,7 @@ use prime\models\forms\facility\UpdateForm;
 use prime\models\forms\ResponseFilter;
 use prime\models\search\FacilitySearch;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
+use prime\objects\enums\ProjectType;
 use prime\objects\HeramsCodeMap;
 use prime\values\FacilityId;
 use prime\values\ProjectId;
@@ -45,6 +46,20 @@ class FacilityRepository
         private SurveyResponseRepository $surveyResponseRepository,
         private WorkspaceRepository $workspaceRepository
     ) {
+    }
+
+    /**
+     * TODO Limesurvey deprecation: remove
+     */
+    public function isOfProjectType(FacilityId $facilityId, ProjectType $type): bool
+    {
+        return (
+            $type->equals(ProjectType::limesurvey())
+            && preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $facilityId->getValue())
+        ) || (
+            $type->equals(ProjectType::surveyJs())
+            && is_numeric($facilityId->getValue())
+        );
     }
 
     public function retrieveForResponseCopy(FacilityId $id): FacilityForResponseCopy
