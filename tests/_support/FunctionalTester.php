@@ -76,15 +76,14 @@ class FunctionalTester extends \Codeception\Actor
             $this->adminSurvey = $survey = new Survey();
             $survey->config = [
                 'pages' => [
-                    0 => [
+                    [
                         'name' => 'page1',
                         'elements' => [
-                            0 =>
-                                [
-                                    'type' => 'text',
-                                    'name' => 'question1',
-                                    'title' => 'title1',
-                                ],
+                            [
+                                'type' => 'text',
+                                'name' => 'question1',
+                                'title' => 'title1',
+                            ],
                         ],
                     ],
                 ],
@@ -101,15 +100,14 @@ class FunctionalTester extends \Codeception\Actor
             $this->dataSurvey = $survey = new Survey();
             $survey->config = [
                 'pages' => [
-                    0 => [
+                    [
                         'name' => 'page1',
                         'elements' => [
-                            0 =>
-                                [
-                                    'type' => 'text',
-                                    'name' => 'question1',
-                                    'title' => 'title1',
-                                ],
+                            [
+                                'type' => 'text',
+                                'name' => 'question1',
+                                'title' => 'title1',
+                            ],
                         ],
                     ],
                 ],
