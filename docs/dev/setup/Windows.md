@@ -1,18 +1,18 @@
-#Set up developer environment on Windows
+# Set up developer environment on Windows
 
-##Tested versions
+## Tested versions
 The mentioned versions of software below have been verified to work.
 - Windows 10
 - Vagrant 2.2.16
 - Virtual Box 6.1.22
 - PHP8.0 (18-11-2021 PHP8.1 resulted in errors)
 
-##Install software
+## Install software
 Make sure you download the correct version mentioned above or are willing to test a new version and please update the docs in that case.
 - [Vagrant](https://www.vagrantup.com/downloads)
 - [Virtual Box](https://www.virtualbox.org/wiki/Download_Old_Builds_6_1)
 
-##Creating the virtual machine
+## Creating the virtual machine
 The next steps are performed from the command line. This can be done by the normal command prompt, [Git Bash](https://gitforwindows.org/) or any command line tool of your preference.
 - Go to the folder where you want the VM to be created, make sure you have the correct permissions on this folder, i.e. `C:\Users\<user>\vms` and not `C:\vms`
 - Run `vagrant box add generic/ubuntu2004` with `virtualbox` as provider
@@ -29,14 +29,14 @@ The next steps are performed from the command line. This can be done by the norm
       ```
     - It can be required to update some Windows permissions to enable the symbolic links: https://superuser.com/questions/994093/give-an-application-symlink-permissions-within-a-directory-in-windows
 
-##Running the VM
+## Running the VM
 - Browse to the folder of the VM in the command line
 - Run `vagrant up`
 
-##Connecting to the VM
+## Connecting to the VM
 - This can be done by browsing in the command line to the folder where the VM is and running `vagrant ssh`, or connect to the configured IP address via i.e. [Putty](https://www.putty.org/) using username `vagrant` and password `vagrant`.
 
-##Complete installation of VM
+## Complete installation of VM
 - Connect to the VM
 - Install [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - Install [Docker Compose](https://docs.docker.com/compose/install/)
@@ -54,7 +54,7 @@ The next steps are performed from the command line. This can be done by the norm
 - Browse to `/etc/php/8.0/cli/conf.d` run `sudo ln -s /etc/php/8.0/mods-available/xlswriter.ini 20-xlswriter.ini`
 - Run `sudo apt install npm`
 
-##Cloning the repository
+## Cloning the repository
 This part assumes you know how Git works, you can perform these steps either from inside the VM or from the host.
 - Inside of the mapped directory clone the devproxy repository: `git clone git@github.com:SAM-IT/devproxy.git`
 - Inside of the mapped directory clone the HeRAMS Backend repository: `git clone git@github.com:HeRAMS-WHO/herams-backend.git`
@@ -69,7 +69,7 @@ This part assumes you know how Git works, you can perform these steps either fro
         - "0.0.0.0:443:443"
 - In HeRAMS Backend, run `composer install`, possibly requires the option `--ignore-platform-reqs`
 
-##Configure hosts file
+## Configure hosts file
 - Open (i.e. Notepad++ **in administrator mode**) the hosts file (`C:\Windows\System32\drivers\etc\hosts`)
 - Add the following lines (change IP addresses to the configured IP address of your VM)
   - ``` 
@@ -79,12 +79,12 @@ This part assumes you know how Git works, you can perform these steps either fro
     192.168.10.11 herams.test
     192.168.10.11 coverage.herams.test
 
-##Setting up devproxy
+## Setting up devproxy
 - Inside the VM in the Devproxy folder
 - Run `docker network create devproxy`
 - Run `docker-compose up -d devproxy`
 - On the host, open a browser and browse to `https://devproxy.test`
 - Download the CA certificate and install it in your browser as a Certificate Authority
 
-##Daily usage
+## Daily usage
 See [daily usage](DailyUsage.md).

@@ -23,6 +23,7 @@ use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
 use prime\models\forms\facility\CreateForm;
 use prime\models\forms\facility\UpdateForm;
+use prime\models\forms\facility\UpdateSituationForm;
 use prime\models\forms\ResponseFilter;
 use prime\models\search\FacilitySearch;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
@@ -32,6 +33,7 @@ use prime\values\FacilityId;
 use prime\values\ProjectId;
 use prime\values\ResponseId;
 use prime\values\WorkspaceId;
+use yii\base\InvalidArgumentException;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
@@ -62,21 +64,22 @@ class FacilityRepository
         );
     }
 
+    /**
+     * TODO Limesurvey deprecation: remove
+     */
     public function retrieveForResponseCopy(FacilityId $id): FacilityForResponseCopy
     {
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
             $responseQuery = ResponseForLimesurvey::find()->andWhere([
                 'hf_id' => $matches['hf_id'],
                 'survey_id' => $matches['survey_id']
-            ]);
+            ])->orderBy(['id' => SORT_DESC]);
             // TODO: permission checking for HFs defined in LS.
         } else {
-            $record = Facility::findOne(['id' => $id]);
-            $this->accessCheck->requirePermission($record, Permission::PERMISSION_ADD_RESPONSE_TO_FACILITY);
-            $responseQuery = $record->getResponses();
+            throw new InvalidArgumentException('Response copy only works for Limesurvey projects.');
         }
 
-        $response = $responseQuery->orderBy(['updated_at' => 'desc'])->limit(1)->one();
+        $response = $responseQuery->limit(1)->one();
 
 
         return new \prime\models\facility\FacilityForResponseCopy(new ResponseId($response->auto_increment_id));
@@ -84,7 +87,7 @@ class FacilityRepository
 
     private function hydrateFacilityFromResponseData(SurveyForSurveyJsInterface $survey, Facility $facility, array $data): void
     {
-        // We need to look at the survey structure to find out which answers map to which facility fields
+        // TODO We need to look at the survey structure to find out which answers map to which facility fields
         $this->hydrator->hydrateFromRequestArray($facility, $data);
         $facility->admin_data = $data;
     }
@@ -145,7 +148,29 @@ class FacilityRepository
         return $form;
     }
 
-    public function save(UpdateForm $model): FacilityId
+    /**
+     * @throws NotFoundHttpException
+     */
+    public function retrieveForUpdateSituation(FacilityId $facilityId): UpdateSituationForm
+    {
+        /** @var null|Facility $record */
+        $record = Facility::find()->andWhere(['id' => $facilityId])->one();
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
+
+        $workspaceId = new WorkspaceId($record->workspace_id);
+        $workspace = $this->workspaceRepository->retrieveForNewFacility($workspaceId);
+
+        $form = new UpdateSituationForm(
+            $facilityId,
+            $workspace->getLanguages(),
+            $this->surveyRepository->retrieveDataSurveyForWorkspaceForSurveyJs($workspaceId)
+        );
+        $surveyResponse = $this->surveyResponseRepository->retrieveLastDataSurveyResponseForFacility($facilityId);
+        $form->data = $surveyResponse ? $surveyResponse->getData() : [];
+        return $form;
+    }
+
+    public function saveUpdate(UpdateForm $model): FacilityId
     {
         $record = Facility::findOne(['id' => $model->getFacilityId()]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
@@ -162,6 +187,18 @@ class FacilityRepository
         $this->surveyResponseRepository->create($createSurveyResponse);
 
         $transaction->commit();
+
+        return new FacilityId((string) $record->id);
+    }
+
+    public function saveUpdateSituation(UpdateSituationForm $model): FacilityId
+    {
+        $record = Facility::findOne(['id' => $model->getFacilityId()]);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
+
+        $createSurveyResponse = $this->surveyResponseRepository->createFormModel($model->getSurvey()->getId(), $model->getFacilityId());
+        $createSurveyResponse->data = $model->data;
+        $this->surveyResponseRepository->create($createSurveyResponse);
 
         return new FacilityId((string) $record->id);
     }
@@ -295,7 +332,7 @@ class FacilityRepository
                     'hf_id' => $matches['hf_id'],
                     'survey_id' => $matches['survey_id']
                 ])
-                ->orderBy(['date' => SORT_DESC, 'updated_at' => SORT_DESC])
+                ->orderBy(['date' => SORT_DESC, 'id' => SORT_DESC])
                 ->limit(1)
                 ->one();
             if (!isset($response)) {

@@ -53,6 +53,27 @@ class SurveyResponseRepository
         );
     }
 
+    public function retrieveLastDataSurveyResponseForFacility(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
+    {
+        $facility = Facility::findOne(['id' => $facilityId]);
+        if (!$facility) {
+            throw new NotFoundHttpException('No such facility.');
+        }
+
+        $adminSurveyId = $facility->workspace->project->data_survey_id;
+
+        $surveyResponse = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId])->orderBy(['created_at' => SORT_DESC])->one();
+
+        if (!$surveyResponse) {
+            return null;
+        }
+
+        return new SurveyResponseForSurveyJs(
+            $surveyResponse->data,
+            new SurveyResponseId($surveyResponse->id)
+        );
+    }
+
     public function retrieveLastAdminSurveyResponseForFacility(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
     {
         $facility = Facility::findOne(['id' => $facilityId]);

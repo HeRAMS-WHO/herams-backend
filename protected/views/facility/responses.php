@@ -13,9 +13,10 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 
 /**
+ * @var FacilityForTabMenu $facility
  * @var ActiveDataProvider $responseProvider
  * @var View $this
- * @var FacilityForTabMenu $facility
+ * @var array $updateSituationUrl
  */
 
 $this->title = $facility->getTitle();
@@ -30,8 +31,8 @@ Section::begin()
     ->withActions([
         [
             'label' => \Yii::t('app', 'Update situation for facility'),
-            'link' => Url::to(['copy-latest-response', 'id' => $facility->getId()]),
-            'permission' => Permission::PERMISSION_WRITE
+            'link' => Url::to($updateSituationUrl),
+            'permission' => Permission::PERMISSION_SURVEY_DATA
         ],
     ])
     ->withSubject($facility)

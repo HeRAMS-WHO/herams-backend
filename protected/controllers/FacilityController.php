@@ -10,8 +10,8 @@ use prime\controllers\facility\CopyLatestResponse;
 use prime\controllers\facility\Create;
 use prime\controllers\facility\Index;
 use prime\controllers\facility\Responses;
-use prime\controllers\facility\SurveyJs;
 use prime\controllers\facility\Update;
+use prime\controllers\facility\UpdateSituation;
 use prime\objects\Breadcrumb;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
@@ -39,12 +39,13 @@ class FacilityController extends Controller
     public function actions(): array
     {
         return [
-            'index' => Index::class,
-            'create' => Create::class,
-            'update' => Update::class,
-            'responses' => Responses::class,
-            'copy-latest-response' => CopyLatestResponse::class,
             'admin-responses' => AdminResponses::class,
+            'copy-latest-response' => CopyLatestResponse::class,
+            'create' => Create::class,
+            'index' => Index::class,
+            'responses' => Responses::class,
+            'update' => Update::class,
+            'update-situation' => UpdateSituation::class,
         ];
     }
 

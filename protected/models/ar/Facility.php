@@ -38,6 +38,7 @@ use yii\validators\StringValidator;
  *
  * Relations
  * @property-read Survey $adminSurvey
+ * @property-read Survey $dataSurvey
  * @property-read Project $project
  * @property-read ResponseForLimesurvey[] $responses
  * @property-read SurveyResponse[] $surveyResponses
@@ -69,6 +70,12 @@ class Facility extends ActiveRecord
     public function getAdminSurveyResponses(): ActiveQuery
     {
         return $this->getSurveyResponses()->andWhere(['survey_id' => $this->project->admin_survey_id]);
+    }
+
+    public function getDataSurvey(): ActiveQuery
+    {
+        return $this->hasOne(Survey::class, ['id' => 'data_survey_id'])
+            ->via('project');
     }
 
     public function getDataSurveyResponses(): ActiveQuery

@@ -65,6 +65,11 @@ class FacilityTest extends ActiveRecordTest
         $this->testRelation('adminSurvey', Survey::class);
     }
 
+    public function testGetDataSurvey(): void
+    {
+        $this->testRelation('adminSurvey', Survey::class);
+    }
+
     public function testGetProject(): void
     {
         $this->testRelation('project', Project::class);

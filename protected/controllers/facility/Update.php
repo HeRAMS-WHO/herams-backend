@@ -34,10 +34,8 @@ class Update extends Action
         if ($request->isPost) {
             $response->format = Response::FORMAT_JSON;
             $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
-            \Yii::error($request->bodyParams);
-            \Yii::error($model->attributes);
             if ($model->validate(null, false)) {
-                $response->headers->add('X-Suggested-Location', Url::to(['update', 'id' => $facilityRepository->save($model)], true));
+                $response->headers->add('X-Suggested-Location', Url::to(['update', 'id' => $facilityRepository->saveUpdate($model)], true));
                 $notificationService->success(\Yii::t('app', 'Facility updated'));
                 return $response;
             } else {

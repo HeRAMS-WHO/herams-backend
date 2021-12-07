@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace prime\controllers\facility;
 
 use prime\components\LimesurveyDataProvider;
+use prime\objects\enums\ProjectType;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ResponseForLimesurveyRepository;
 use prime\values\FacilityId;
 use yii\base\Action;
 
+/*
+ * We have 2 routes for updating the situation:
+ * - copy-latest-response for limesurvey
+ * - update-situation for surveyJs
+ *
+ * TODO Limesurvey deprecation: remove action
+ */
 class CopyLatestResponse extends Action
 {
     public function run(
@@ -19,11 +27,10 @@ class CopyLatestResponse extends Action
         string $id
     ) {
         $facilityId = new FacilityId($id);
-        $facility = $facilityRepository->retrieveForResponseCopy($facilityId);
 
-        $currentResponse = $responseRepository->retrieveForSurvey($facility->getLastResponseId());
-
-        if ($currentResponse->usesLimeSurvey()) {
+        if ($facilityRepository->isOfProjectType($facilityId, ProjectType::limesurvey())) {
+            $facility = $facilityRepository->retrieveForResponseCopy($facilityId);
+            $currentResponse = $responseRepository->retrieveForSurvey($facility->getLastResponseId());
             // Post to LS so it duplicates the response.
             $newExternalId = $limesurveyDataProvider->copyResponse($currentResponse->getExternalResponseId());
 
@@ -31,7 +38,7 @@ class CopyLatestResponse extends Action
 
             $responseRepository->updateExternalId($newInternalId, $newExternalId);
         } else {
-            $newInternalId = $responseRepository->duplicate($currentResponse->getId());
+            return $this->controller->redirect(['update-situation', 'id' => $id]);
         }
         return $this->controller->redirect(['responses', 'id' => $facilityId]);
     }

@@ -16,6 +16,7 @@ class FacilityCascadeWorkspaceRule implements Rule
     {
         return [
             Permission::PERMISSION_WRITE,
+            Permission::PERMISSION_SURVEY_DATA,
         ];
     }
 

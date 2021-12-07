@@ -50,6 +50,13 @@ class SurveyRepository
         return $this->retrieveForSurveyJs($surveyId);
     }
 
+    public function retrieveDataSurveyForWorkspaceForSurveyJs(WorkspaceId $workspaceId): SurveyForSurveyJsInterface
+    {
+        $workspace = Workspace::findOne(['id' => $workspaceId]);
+        $surveyId = new SurveyId($workspace->project->data_survey_id);
+        return $this->retrieveForSurveyJs($surveyId);
+    }
+
     public function retrieveForSurveyJs(SurveyId $id): SurveyForSurveyJsInterface
     {
         $record = SurveyForRead::findOne(['id' => $id]);
