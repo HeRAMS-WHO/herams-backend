@@ -25,15 +25,18 @@ class Responses extends Action
 
         if ($facilityRepository->isOfProjectType($facilityId, ProjectType::limesurvey())) {
             $dataProvider = $responseForLimesurveyRepository->searchInFacility($facilityId);
+            $updateSituationUrl = ['copy-latest-response', 'id' => $facility->getId()];
         } else {
             $dataProvider = $surveyResponseRepository->searchDataInFacility($facilityId);
+            $updateSituationUrl = ['update-situation', 'id' => $facility->getId()];
         }
 
         return $this->controller->render(
             'responses',
             [
                 'responseProvider' => $dataProvider,
-                'facility' => $facility
+                'facility' => $facility,
+                'updateSituationUrl' => $updateSituationUrl,
             ]
         );
     }

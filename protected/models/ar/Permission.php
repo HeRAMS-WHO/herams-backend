@@ -53,7 +53,6 @@ class Permission extends ActiveRecord
     const PERMISSION_RESPOND = 'respond';
 
     const PERMISSION_CREATE_FACILITY = 'create-facility';
-    const PERMISSION_ADD_RESPONSE_TO_FACILITY = 'add-response-to-facility';
 
     const ROLE_LEAD = 'ROLE_LEAD';
     const ROLE_WORKSPACE_CONTRIBUTOR = 'ROLE_WORKSPACE_CONTRIBUTOR';

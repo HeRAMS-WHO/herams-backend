@@ -34,13 +34,4 @@ class ResponseForSurveyTest extends Unit
         $this->assertSame(123, $model->getExternalResponseId()->getResponseId());
         $this->assertSame(456, $model->getExternalResponseId()->getSurveyId());
     }
-
-    public function testUsesLimesurvey(): void
-    {
-        $responseId = new ResponseId(15);
-        $this->assertFalse((new ResponseForSurvey($responseId, null, null, 'a'))->usesLimeSurvey());
-        $this->assertFalse((new ResponseForSurvey($responseId, 123, null, 'a'))->usesLimeSurvey());
-        $this->assertFalse((new ResponseForSurvey($responseId, null, 123, 'a'))->usesLimeSurvey());
-        $this->assertTrue((new ResponseForSurvey($responseId, 123, 123, 'a'))->usesLimeSurvey());
-    }
 }

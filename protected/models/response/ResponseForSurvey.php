@@ -26,8 +26,4 @@ class ResponseForSurvey
     {
         return new ExternalResponseId($this->externalResponseId, $this->surveyId, $this->token);
     }
-    public function usesLimeSurvey(): bool
-    {
-        return isset($this->surveyId, $this->externalResponseId);
-    }
 }
