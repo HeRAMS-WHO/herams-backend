@@ -64,6 +64,8 @@ use SamIT\abac\resolvers\ChainedResolver;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\behaviors\TimestampBehavior;
+use yii\caching\CacheInterface;
+use yii\caching\FileCache;
 use yii\db\Expression;
 use yii\di\Container;
 use yii\helpers\ArrayHelper;
@@ -179,6 +181,7 @@ return [
     MailerInterface::class => static function (Container $container, array $params, array $config): MailerInterface {
         return \Yii::$app->mailer;
     },
+    CacheInterface::class => FileCache::class,
     PermissionCheckImplicitAccessRequestGrantedHandler::class => static function (Container $container, array $params, array $config): PermissionCheckImplicitAccessRequestGrantedHandler {
         return new PermissionCheckImplicitAccessRequestGrantedHandler(
             \Yii::$app->abacManager,
