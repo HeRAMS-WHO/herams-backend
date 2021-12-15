@@ -21,6 +21,7 @@ use yii\validators\StringValidator;
  * Attributes
  * @property array $admin_data
  * @property string $alternative_name
+ * @property bool $can_receive_situation_update
  * @property string $code
  * @property array $data
  * @property string|null $deactivated_at
@@ -30,6 +31,8 @@ use yii\validators\StringValidator;
  * @property float $latitude
  * @property float $longitude
  * @property string $name
+ * @property bool $use_in_dashboarding
+ * @property bool $use_in_list
  * @property int $workspace_id
  *
  * Virtual fields
@@ -54,6 +57,11 @@ class Facility extends ActiveRecord
                 'virtualFields' => self::virtualFields(),
             ],
         ];
+    }
+
+    public function canReceiveSituationUpdate(): bool
+    {
+        return (bool) $this->can_receive_situation_update;
     }
 
     public static function find(): FacilityQuery
@@ -117,6 +125,7 @@ class Facility extends ActiveRecord
             [
                 'admin_data' => \Yii::t('app', 'Admin data'),
                 'alternative_name' => \Yii::t('app', 'Alternative name'),
+                'can_receive_situation_update' => \Yii::t('app', 'Can receive situation update'),
                 'code' => \Yii::t('app', 'Code'),
                 'data' => \Yii::t('app', 'Data'),
                 'deactivated_at' => \Yii::t('app', 'Deactivated at'),
@@ -125,6 +134,8 @@ class Facility extends ActiveRecord
                 'latitude' => \Yii::t('app', 'Latitude'),
                 'longitude' => \Yii::t('app', 'Longitude'),
                 'name' => \Yii::t('app', 'Name'),
+                'use_in_dashboarding' => \Yii::t('app', 'Use in dashboarding'),
+                'use_in_list' => \Yii::t('app', 'Use in list'),
                 'workspace_id' => \Yii::t('app', 'Workspace'),
             ]
         );

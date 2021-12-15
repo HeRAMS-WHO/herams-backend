@@ -23,13 +23,19 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
         private string $workspaceTitle,
         private int $responseCount,
         private int $adminResponseCount,
-        private CanCurrentUser|null $checker = null
+        private bool $canReceiveSituationUpdate,
+        private CanCurrentUser|null $checker = null,
     ) {
     }
 
     public function canCurrentUser(string $permission): bool
     {
         return isset($this->checker) && $this->checker->canCurrentUser($permission);
+    }
+
+    public function canReceiveSituationUpdate(): bool
+    {
+        return $this->canReceiveSituationUpdate;
     }
 
     public function getAdminResponseCount(): int

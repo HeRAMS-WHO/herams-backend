@@ -134,4 +134,5 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211012_150130
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211019_113352_rename_response_to_response_for_limesurvey', 1634644741);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211019_125300_create_survey_response', 1635231088);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211026_103049_redo_facility', 1635248365);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211208_085045_add_expression_results_to_facility', 1639470613);
 SET FOREIGN_KEY_CHECKS=1;
