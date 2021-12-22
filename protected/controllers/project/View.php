@@ -74,10 +74,11 @@ class View extends Action
         }
 
         $responses = $project->getResponses();
+        $workspaces = $project->getWorkspaces()->indexBy('id')->select('title')->column();
 
         \Yii::beginProfile('ResponseFilterinit');
 
-        $filterModel = new ResponseFilter($survey, $project->getMap());
+        $filterModel = new ResponseFilter($survey, $project->getMap(), $workspaces);
         if (!empty($filter)) {
             $filterModel->fromQueryParam($filter);
         }

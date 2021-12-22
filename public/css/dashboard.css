@@ -187,6 +187,8 @@ span.header {
     padding: 4px 10px;
     border-radius: 20px;
     margin-left: 10px;
+    margin-top: -4px;
+    margin-bottom: -4px;
 }
 
 .filters a:hover span {
@@ -938,10 +940,13 @@ body[data-modal]:after {
     text-align: center;
     font-size: 14px;
     background-color: #22222a;
-    font-size: 14px;
     /*color: #92929b;*/
 }
 
 .status .value {
     color: #92929b;
+}
+
+.status .icon {
+    vertical-align: middle;
 }

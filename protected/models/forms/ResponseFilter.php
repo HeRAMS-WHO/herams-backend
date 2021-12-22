@@ -17,6 +17,8 @@ use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\StringHelper;
 use yii\validators\DateValidator;
+use yii\validators\DefaultValueValidator;
+use yii\validators\EachValidator;
 use yii\validators\RangeValidator;
 use function iter\all;
 use function iter\apply;
@@ -34,6 +36,7 @@ class ResponseFilter extends Model
      * @var ?Carbon
      */
     private $date;
+    public array|string $workspaceIds = [];
 
     public $advanced = [];
 
@@ -46,6 +49,14 @@ class ResponseFilter extends Model
      * @var QuestionInterface[]
      */
     private $advancedFilterMap = [];
+
+    public function attributeLabels(): array
+    {
+        return [
+            'date' => \Yii::t('app', 'Date'),
+            'workspaceIds' => \Yii::t('app', 'Workspaces'),
+        ];
+    }
 
     public function attributes()
     {
@@ -67,7 +78,10 @@ class ResponseFilter extends Model
 
     public function __construct(
         ?SurveyInterface $survey,
-        HeramsCodeMap $map
+        HeramsCodeMap $map,
+        // TODO refactor this to be a an array of WorkspaceForFilter interface, but since most of this work is in the
+        // HF layer it is skipped here.
+        private $workspacesForFilter = [],
     ) {
         parent::__construct([]);
         $this->map = $map;
@@ -105,6 +119,8 @@ class ResponseFilter extends Model
                 }, $question->getAnswers())
             ];
         }
+        $rules[] = ['workspaceIds', DefaultValueValidator::class, 'value' => []];
+        $rules[] = ['workspaceIds', RangeValidator::class, 'range' => array_keys($this->workspacesForFilter), 'allowArray' => true];
         return $rules;
     }
 
@@ -161,6 +177,11 @@ class ResponseFilter extends Model
         ));
     }
 
+    public function getWorkspacesForFilters(): array
+    {
+        return $this->workspacesForFilter;
+    }
+
     public function filterQuery(ActiveQuery $query): ActiveQuery
     {
         // Add filtering rules
@@ -170,6 +191,9 @@ class ResponseFilter extends Model
             (string) $this->date
         ]);
 
+        $query->andFilterWhere([
+            '[[workspace_id]]' => $this->workspaceIds,
+        ]);
 
         // Clone the primary query
         $sub = clone $query;
@@ -266,6 +290,7 @@ class ResponseFilter extends Model
         $data = gzcompress(json_encode(array_filter([
             'advanced' => $this->advanced,
             'date' => $this->date,
+            'workspaceIds' => $this->workspaceIds,
         ])), 9);
         $length = mb_strlen($data, '8BIT');
         return StringHelper::base64UrlEncode($data . str_repeat("\0", (2 * ($length % 3)) % 3));
@@ -276,6 +301,9 @@ class ResponseFilter extends Model
         $variables = json_decode(gzuncompress(StringHelper::base64UrlDecode($value)), true);
         if (isset($variables['date'])) {
             $this->setDate($variables['date']);
+        }
+        if (isset($variables['workspaceIds'])) {
+            $this->workspaceIds = $variables['workspaceIds'];
         }
         $this->advanced = $variables['advanced'] ?? [];
     }

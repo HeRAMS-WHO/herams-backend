@@ -78,7 +78,7 @@
     ;
     padding: 0;
     top: calc((100% - 48px - var(--status-height)) / 2);
-    line-height: 144px;
+    /*line-height: 144px;*/
     margin: 0;
     width: auto;
     color: #92929b;
