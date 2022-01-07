@@ -35,6 +35,8 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'user_id' => $session->get('__id'),
                     'created' => $session->get('created', Carbon::now()),
                     'updated' => Carbon::now(),
+                    // Workaround for https://github.com/yiisoft/yii2/issues/19130
+                    'expire' => time() + $session->getTimeout()
                 ];
                 $session->remove('__id');
                 return $fields;
