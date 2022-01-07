@@ -53,7 +53,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
         return $this->values;
     }
 
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->values);
     }

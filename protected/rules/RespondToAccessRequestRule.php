@@ -64,6 +64,7 @@ class RespondToAccessRequestRule implements Rule
             $source instanceof User
             && $target instanceof AccessRequest
             && $target->created_by !== $source->id
+            && isset($target->target)
             && $accessChecker->check($source, $target->target, Permission::PERMISSION_SHARE);
     }
 }

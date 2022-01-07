@@ -129,7 +129,9 @@ class Table extends Element
             yield [
                 $groupMap[$group] ?? $group,
                 number_format(100.0 * ($data['counts']['FUNCTIONAL'] ?? 0) / $data['counts']['TOTAL'], 0),
+                /** @phpstan-ignore-next-line */
                 empty($reasons) ? 'Unknown' : $reasonMap[array_keys($reasons)[0]] ?? array_keys($reasons)[0],
+                /** @phpstan-ignore-next-line */
                 empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 0)
             ];
         }
