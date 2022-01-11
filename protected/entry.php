@@ -11,7 +11,7 @@ define('YII_ENV', getenv('YII_ENV'));
 
 defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 
-
+error_reporting(E_ALL & ~E_DEPRECATED);
 call_user_func(function () {
     $autoload = __DIR__ . '/../vendor/autoload.php';
     if (!file_exists($autoload)) {

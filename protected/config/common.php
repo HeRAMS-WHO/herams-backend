@@ -21,7 +21,7 @@ use yii\web\User as UserComponent;
 use yii\web\UserEvent;
 
 /** @var \prime\components\KubernetesSecretEnvironment|null $env */
-assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
+assert($env instanceof \prime\interfaces\EnvironmentInterface);
 
 require_once __DIR__ . '/../helpers/functions.php';
 return [

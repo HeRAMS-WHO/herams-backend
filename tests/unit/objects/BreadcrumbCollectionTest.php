@@ -24,7 +24,8 @@ class BreadcrumbCollectionTest extends Unit
 
         $this->assertEquals(0, $breadcrumbCollection->key());
         $this->assertEquals('0', $breadcrumbCollection->current()->getLabel());
-        $this->assertEquals('1', $breadcrumbCollection->next()->current()->getLabel());
+        $breadcrumbCollection->next();
+        $this->assertEquals('1', $breadcrumbCollection->current()->getLabel());
         $this->assertTrue($breadcrumbCollection->valid());
         $breadcrumbCollection->next();
         $breadcrumbCollection->next();
@@ -34,6 +35,7 @@ class BreadcrumbCollectionTest extends Unit
         $breadcrumbCollection->add((new Breadcrumb())->setLabel('4'));
         $this->assertTrue($breadcrumbCollection->valid());
 
-        $this->assertEquals('3', $breadcrumbCollection->rewind()->current()->getLabel());
+        $breadcrumbCollection->rewind();
+        $this->assertEquals('3', $breadcrumbCollection->current()->getLabel());
     }
 }

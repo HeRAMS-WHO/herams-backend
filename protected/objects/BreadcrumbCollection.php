@@ -39,16 +39,14 @@ class BreadcrumbCollection implements \Iterator
         return $this->position;
     }
 
-    public function next(): self
+    public function next(): void
     {
         $this->position++;
-        return $this;
     }
 
-    public function rewind(): self
+    public function rewind(): void
     {
         $this->position = 0;
-        return $this;
     }
 
     public function valid(): bool

@@ -72,8 +72,7 @@ use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
 use yii\web\JqueryAsset;
 
-/** @var \prime\components\KubernetesSecretEnvironment|null $env */
-assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
+assert(isset($env) && $env instanceof \prime\interfaces\EnvironmentInterface);
 
 return [
     AuditableBehavior::class => static function () {
