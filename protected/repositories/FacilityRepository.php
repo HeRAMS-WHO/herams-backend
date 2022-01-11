@@ -37,6 +37,7 @@ use yii\base\InvalidArgumentException;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 class FacilityRepository
@@ -81,11 +82,22 @@ class FacilityRepository
 
         $response = $responseQuery->limit(1)->one();
 
-
         return new \prime\models\facility\FacilityForResponseCopy(new ResponseId($response->auto_increment_id));
     }
 
-    private function hydrateFacilityFromResponseData(SurveyForSurveyJsInterface $survey, Facility $facility, array $data): void
+    private function hydrateFacilityFromDataResponseData(SurveyForSurveyJsInterface $survey, Facility $facility, array $data): void
+    {
+        // TODO We need to look at the survey structure to find out which expressions are required to be checked and evaluated
+        // This can mean we need the historic records as well.
+
+        $facility->can_receive_situation_update = (bool) ($data['canReceiveSituationUpdate'] ?? true);
+        $facility->use_in_dashboarding = (bool) ($data['useInDashboarding'] ?? true);
+        $facility->use_in_list = (bool) ($data['useInList'] ?? true);
+
+        $facility->data = $data;
+    }
+
+    private function hydrateFacilityFromAdminResponseData(SurveyForSurveyJsInterface $survey, Facility $facility, array $data): void
     {
         // TODO We need to look at the survey structure to find out which answers map to which facility fields
         $this->hydrator->hydrateFromRequestArray($facility, $data);
@@ -98,7 +110,7 @@ class FacilityRepository
 
         $record = new Facility();
         $record->workspace_id = $model->getWorkspaceId()->getValue();
-        $this->hydrateFacilityFromResponseData($model->getSurvey(), $record, $model->data);
+        $this->hydrateFacilityFromAdminResponseData($model->getSurvey(), $record, $model->data);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -142,7 +154,7 @@ class FacilityRepository
             $workspace->getLanguages(),
             $this->surveyRepository->retrieveAdminSurveyForWorkspaceForSurveyJs($workspaceId)
         );
-        $surveyResponse = $this->surveyResponseRepository->retrieveLastAdminSurveyResponseForFacility($facilityId);
+        $surveyResponse = $this->surveyResponseRepository->retrieveAdminSurveyResponseForFacilityUpdate($facilityId);
         $this->hydrator->hydrateFromActiveRecord($form, $record);
         $form->data = $surveyResponse->getData();
         return $form;
@@ -155,6 +167,9 @@ class FacilityRepository
     {
         /** @var null|Facility $record */
         $record = Facility::find()->andWhere(['id' => $facilityId])->one();
+        if (!$record->canReceiveSituationUpdate()) {
+            throw new ForbiddenHttpException('Situation cannot be updated.');
+        }
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
 
         $workspaceId = new WorkspaceId($record->workspace_id);
@@ -165,7 +180,7 @@ class FacilityRepository
             $workspace->getLanguages(),
             $this->surveyRepository->retrieveDataSurveyForWorkspaceForSurveyJs($workspaceId)
         );
-        $surveyResponse = $this->surveyResponseRepository->retrieveLastDataSurveyResponseForFacility($facilityId);
+        $surveyResponse = $this->surveyResponseRepository->retrieveDataSurveyResponseForFacilitySituationUpdate($facilityId);
         $form->data = $surveyResponse ? $surveyResponse->getData() : [];
         return $form;
     }
@@ -177,7 +192,7 @@ class FacilityRepository
 
         $transaction = Facility::getDb()->beginTransaction();
 
-        $this->hydrateFacilityFromResponseData($model->getSurvey(), $record, $model->data);
+        $this->hydrateFacilityFromAdminResponseData($model->getSurvey(), $record, $model->data);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -196,9 +211,18 @@ class FacilityRepository
         $record = Facility::findOne(['id' => $model->getFacilityId()]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
 
+        $transaction = Facility::getDb()->beginTransaction();
+
+        $this->hydrateFacilityFromDataResponseData($model->getSurvey(), $record, $model->data);
+        if (!$record->save()) {
+            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+        }
+
         $createSurveyResponse = $this->surveyResponseRepository->createFormModel($model->getSurvey()->getId(), $model->getFacilityId());
         $createSurveyResponse->data = $model->data;
         $this->surveyResponseRepository->create($createSurveyResponse);
+
+        $transaction->commit();
 
         return new FacilityId((string) $record->id);
     }
@@ -220,7 +244,7 @@ class FacilityRepository
                 'allModels' => $limesurveyData
             ]);
         } else {
-            $query = FacilityReadRecord::find();
+            $query = FacilityReadRecord::find()->andWhere(['use_in_list' => true]);
 
             $query->andFilterWhere(['workspace_id' => $id->getValue()]);
 
@@ -347,6 +371,7 @@ class FacilityRepository
                 $response->workspace->title,
                 (int) ResponseForLimesurvey::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count(),
                 0,
+                true,
                 // Access checker for LS based data.
                 new class implements CanCurrentUser {
                     public function canCurrentUser(string $permission): bool
@@ -366,6 +391,7 @@ class FacilityRepository
                 $facility->workspace->title,
                 $facility->dataSurveyResponseCount,
                 $facility->adminSurveyResponseCount,
+                $facility->canReceiveSituationUpdate(),
                 new CanCurrentUserWrapper($this->accessCheck, $facility)
             );
         }

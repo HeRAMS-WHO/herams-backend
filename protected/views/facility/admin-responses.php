@@ -11,6 +11,7 @@ use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
+use yii\web\User;
 
 /**
  * @var ActiveDataProvider $responseProvider
@@ -31,7 +32,9 @@ Section::begin()
         [
             'label' => \Yii::t('app', 'Update admin for facility'),
             'link' => Url::to(['update', 'id' => $facility->getId()]),
-            'permission' => Permission::PERMISSION_WRITE
+            'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
+                return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(Permission::PERMISSION_WRITE);
+            }
         ],
     ])
     ->withSubject($facility)
