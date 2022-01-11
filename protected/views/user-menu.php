@@ -11,7 +11,7 @@ use yii\web\View;
 
 /**
  * @var View $this
- * @var array $class
+ * @var array|null $class
  */
 
 $this->registerCss(<<<CSS

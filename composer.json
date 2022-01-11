@@ -96,7 +96,7 @@
         "yiisoft/yii2-debug": "> 2",
         "squizlabs/php_codesniffer": "dev-master",
         "brainmaestro/composer-git-hooks": "^2.8",
-        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan": "> 1",
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
         "comcast/php-legal-licenses": "^1.1",
         "codeception/lib-innerbrowser": "^1.4"
@@ -145,6 +145,11 @@
                 "composer git-post-merge"
             ]
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "foxy/foxy": true
+        }
     }
-
 }

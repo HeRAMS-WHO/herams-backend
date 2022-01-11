@@ -24,7 +24,7 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
         }
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
@@ -58,93 +58,44 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
         return $this->data[$index];
     }
 
-    /**
-     * Whether a offset exists
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     * An offset to check for.
-     * </p>
-     * @return boolean true on success or false on failure.
-     * </p>
-     * <p>
-     * The return value will be casted to boolean if non-boolean was returned.
-     * @since 5.0.0
-     */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->data);
     }
 
-    /**
-     * Offset to retrieve
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     * The offset to retrieve.
-     * </p>
-     * @return mixed Can return all value types.
-     * @since 5.0.0
-     */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
 
-    /**
-     * Offset to set
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     * The offset to assign the value to.
-     * </p>
-     * @param mixed $value <p>
-     * The value to set.
-     * </p>
-     * @return void
-     * @since 5.0.0
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed$value): void
     {
         $this->add($offset, $value);
     }
 
-    /**
-     * Offset to unset
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     * The offset to unset.
-     * </p>
-     * @return void
-     * @since 5.0.0
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->data[$offset]);
     }
 
-    /**
-     * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
-     */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->data);
     }
 
-    public function add($key, $item)
+    public function add($key, $item): void
     {
         $this->validate($item);
         $this->data[$key] = $item;
     }
 
-    public function append($item)
+    public function append($item): void
     {
         $this->validate($item);
         $this->data[] = $item;
     }
 
-    protected function validate($item)
+    protected function validate($item): void
     {
         if (isset($this->dataType) && !is_subclass_of($item, $this->dataType)) {
             $type = is_object($item) ? get_class($item) : gettype($item);
@@ -158,7 +109,7 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
      * @param \Closure $closure A closure with arguments $value and $key.
      * @return Collection A collection containing the filtered results.
      */
-    public function filter(\Closure $closure)
+    public function filter(\Closure $closure): self
     {
         $result = clone $this;
         $result->data = array_filter($result->data, $closure, ARRAY_FILTER_USE_BOTH);
@@ -170,7 +121,7 @@ class Collection implements \IteratorAggregate, CollectionInterface, \ArrayAcces
      * @param \Closure $closure
      * @return Collection
      */
-    public function sort(\Closure $closure)
+    public function sort(\Closure $closure): self
     {
         $result = clone $this;
         usort($result->data, $closure);

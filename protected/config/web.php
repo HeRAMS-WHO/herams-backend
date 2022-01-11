@@ -35,10 +35,12 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'user_id' => $session->get('__id'),
                     'created' => $session->get('created', Carbon::now()),
                     'updated' => Carbon::now(),
+                    'expire' => time() + $session->getTimeout()
                 ];
                 $session->remove('__id');
                 return $fields;
-            }
+            },
+
         ],
         'languageSelector' => [
             'class' => LanguageSelector::class
