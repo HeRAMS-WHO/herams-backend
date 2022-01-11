@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\jobs\accessRequests;
@@ -8,7 +9,7 @@ use JCIT\jobqueue\interfaces\JobInterface;
 abstract class AccessRequestJob implements JobInterface
 {
     public function __construct(
-        protected int $accessRequestId
+        private int $accessRequestId
     ) {
     }
 

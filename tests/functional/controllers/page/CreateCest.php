@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\page;
 
@@ -7,6 +8,9 @@ use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\tests\FunctionalTester;
 
+/**
+ * @covers \prime\controllers\page\Create
+ */
 class CreateCest
 {
     public function _before(FunctionalTester $I)
@@ -18,7 +22,7 @@ class CreateCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['page/create', 'project_id' => $project->id]);
@@ -28,7 +32,7 @@ class CreateCest
     public function testCreateRootPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['page/create', 'project_id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->fillField(['name' => 'Page[title]'], 'Test');
@@ -50,7 +54,7 @@ class CreateCest
     public function testCreateSubPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;

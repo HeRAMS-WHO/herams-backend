@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\project;
@@ -25,7 +26,8 @@ class ImportDashboard extends Action
 
         $model = new \prime\models\forms\ImportDashboard($project);
 
-        if ($request->isPost
+        if (
+            $request->isPost
             && $model->load($request->bodyParams)
             && $model->validate()
         ) {

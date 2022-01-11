@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
@@ -8,6 +9,11 @@ namespace prime\tests\unit\models\ar;
  */
 class ElementTest extends ActiveRecordTest
 {
+    public function testSomething(): void
+    {
+//        var_dump($this->getModel()->canGetProperty('sort'));
+//        die();
+    }
 
     public function validSamples(): array
     {

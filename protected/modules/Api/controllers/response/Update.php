@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\response;
 
 use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
-use prime\models\ar\Response as HeramsResponse;
-use prime\models\ar\Workspace;
+use prime\models\ar\ResponseForLimesurvey as HeramsResponse;
+use prime\models\ar\WorkspaceForLimesurvey;
 use yii\base\Action;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
@@ -18,7 +19,6 @@ use yii\web\UnauthorizedHttpException;
 
 class Update extends Action
 {
-
     public function run(
         Request $request,
         Response $response,
@@ -51,8 +51,8 @@ class Update extends Action
             throw new NotFoundHttpException('Unknown survey ID: ' . $request->getBodyParam('surveyId'));
         }
 
-        /** @var Workspace|null $workspace */
-        $workspace = Workspace::find()->andWhere(['token' => $data['token'], 'tool_id' => $project->id])->one();
+        /** @var WorkspaceForLimesurvey|null $workspace */
+        $workspace = WorkspaceForLimesurvey::find()->andWhere(['token' => $data['token'], 'project_id' => $project->id])->one();
         if (!isset($workspace)) {
             throw new NotFoundHttpException('Unknown token');
         }

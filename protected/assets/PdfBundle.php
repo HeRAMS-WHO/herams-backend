@@ -6,7 +6,6 @@ use yii\web\AssetBundle;
 
 class PdfBundle extends AssetBundle
 {
-
     public $baseUrl = '/css';
     public $css = [
         'pdf.css'

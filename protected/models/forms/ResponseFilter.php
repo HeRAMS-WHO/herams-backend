@@ -1,18 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms;
 
 use Carbon\Carbon;
 use prime\interfaces\HeramsResponseInterface;
-use prime\models\ar\Response;
 use prime\objects\HeramsCodeMap;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
-use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\StringHelper;
@@ -20,6 +19,7 @@ use yii\validators\DateValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\EachValidator;
 use yii\validators\RangeValidator;
+
 use function iter\all;
 use function iter\apply;
 use function iter\enumerate;
@@ -68,7 +68,7 @@ class ResponseFilter extends Model
 
     public function setDate($date)
     {
-        $this->date = empty($date) ? null: new Carbon($date);
+        $this->date = empty($date) ? null : new Carbon($date);
     }
 
     public function getDate(): ?Carbon
@@ -143,6 +143,11 @@ class ResponseFilter extends Model
         }
     }
 
+    /**
+     * Get the answer options (code => label) for a question identified by $fieldName
+     * @param string $fieldName
+     * @return array
+     */
     public function advancedOptions(string $fieldName): array
     {
         $result = [];
@@ -236,49 +241,6 @@ class ResponseFilter extends Model
         return $query;
     }
 
-    private function filter(iterable $responses): iterable
-    {
-        \Yii::beginProfile('filter');
-        // Index by UOID.
-        /** @var HeramsResponseInterface[] $indexed */
-        $indexed = [];
-
-                apply(function (HeramsResponseInterface $response) use (&$indexed) {
-                    $id = $response->getSubjectId();
-                    if (!isset($indexed[$id])
-                    || $indexed[$id]->getDate()->lessThan($response->getDate())
-                    || ($indexed[$id]->getDate()->equalTo($response->getDate()) && $indexed[$id]->getId() < $response->getId())
-
-                    ) {
-                        $indexed[$id] = $response;
-                    }
-                }, filter(function (HeramsResponseInterface $response) {
-                    // Date filter
-                    if (isset($this->date) && !$this->date->greaterThanOrEqualTo($response->getDate())) {
-                        return false;
-                    }
-
-                    // Advanced filter.
-                    if (!all(function (array $pair) use ($response) {
-                        list($key, $allowedValues) = $pair;
-                        // Ignore empty filters.
-                        if (empty($allowedValues)) {
-                            return true;
-                        }
-                        $chosenValue = $response->getValueForCode($key);
-                        $chosenValues = is_array($chosenValue) ? $chosenValue : [$chosenValue];
-                        // We need overlap.
-                        return !empty(array_intersect($allowedValues, $chosenValues));
-                    }, enumerate($this->advanced))) {
-                        return false;
-                    }
-
-                    return true;
-                }, $responses));
-
-        \Yii::endProfile('filter');
-        return array_values($indexed);
-    }
 
     public function formName()
     {

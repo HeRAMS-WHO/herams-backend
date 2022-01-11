@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\tests\functional\controllers\user;
 
 use Carbon\Carbon;
@@ -12,8 +14,6 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
 
 /**
  * @covers \prime\controllers\user\ConfirmInvitation
- * @covers \prime\controllers\UserController
- * @covers \prime\models\forms\user\ConfirmInvitationForm
  */
 class ConfirmInvitationCest
 {
@@ -40,7 +40,9 @@ class ConfirmInvitationCest
 
     public function testConfirmationLink(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();
+        \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $page->project, [Permission::PERMISSION_READ, PERMISSION::PERMISSION_WRITE]);
         $I->dontSeeRecord(User::class, ['email' => $email]);

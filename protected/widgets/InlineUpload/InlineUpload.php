@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\InlineUpload;
 
 use yii\helpers\Html;

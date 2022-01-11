@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\components;
 
 use Closure;
@@ -8,16 +7,15 @@ use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\db\QueryInterface;
+
 use function iter\filter;
 use function iter\slice;
 use function iter\toArray;
 
 class FilteredActiveDataProvider extends ActiveDataProvider
 {
-    /** @var Closure */
-    public $filter;
-    /** @var Closure */
-    public $totalCount;
+    public Closure $filter;
+    public Closure $totalCount;
 
     protected function prepareModels()
     {

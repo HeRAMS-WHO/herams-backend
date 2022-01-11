@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
@@ -10,7 +11,6 @@ use SamIT\Yii2\abac\AccessChecker;
 
 class GlobalPermissionResolver implements Resolver
 {
-
     /**
      * @inheritDoc
      */

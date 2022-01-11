@@ -1,22 +1,21 @@
 <?php
+
 declare(strict_types=1);
 
-use app\components\Form;
 use app\components\ActiveForm;
+use app\components\Form;
+use prime\models\ar\Project;
+use prime\models\forms\workspace\Import;
+use prime\widgets\BetterSelect;
 use prime\widgets\Section;
 use yii\bootstrap\Html;
-use prime\helpers\Icon;
+use yii\web\View;
 
 /**
- * @var \yii\web\View $this
- * @var \prime\models\forms\workspace\Import $model
- * @var \prime\models\ar\Project $project
+ * @var View $this
+ * @var Import $model
+ * @var Project $project
  */
-
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
 
 $this->title = \Yii::t('app', 'Import workspaces');
 Section::begin()->withHeader($this->title);
@@ -36,7 +35,7 @@ Section::begin()->withHeader($this->title);
             ],
             'tokens' => [
                 'type' => Form::INPUT_WIDGET,
-                'widgetClass' => \prime\widgets\BetterSelect::class,
+                'widgetClass' => BetterSelect::class,
                 'options' => [
                     'options' => [
 

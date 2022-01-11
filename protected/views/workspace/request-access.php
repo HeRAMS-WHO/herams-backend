@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 use app\components\ActiveForm;
 use app\components\Form;
 use prime\components\View;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\accessRequest\Create;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
@@ -12,7 +13,7 @@ use yii\helpers\Html;
 
 /**
  * @var Create $model
- * @var Workspace $workspace
+ * @var WorkspaceForLimesurvey $workspace
  * @var View $this
  */
 

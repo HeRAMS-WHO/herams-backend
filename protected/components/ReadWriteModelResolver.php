@@ -1,10 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
 
-use prime\models\ar\Element;
-use prime\models\ar\read\Project;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Resolver;
 

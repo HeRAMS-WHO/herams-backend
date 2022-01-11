@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
@@ -9,13 +10,15 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 
+/**
+ * @covers \prime\controllers\project\Workspaces
+ */
 class WorkspacesCest
 {
-
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->dontSeeLink('Import workspaces', Url::to(['/workspace/import', 'project_id' => $project->id]));
@@ -32,29 +35,12 @@ class WorkspacesCest
     public function testNoLogin(FunctionalTester $I)
     {
         $I->stopFollowingRedirects();
-        $project = $I->haveProject();
+        $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProjectForLimesurvey();
+        \Yii::$app->user->logout();
+
         $I->amOnPage(['project/workspaces', 'id' => $project->id]);
         $I->seeResponseCodeIs(302);
-    }
-
-    public function testDataUpdateActionWorkspaceAdmin(FunctionalTester $I)
-    {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
-        $workspace =  $I->haveWorkspace();
-        $I->amOnPage(['project/workspaces', 'id' => $project->id]);
-
-        $I->dontSeeElement('a', [
-            'href' => Url::to(['workspace/limesurvey', 'id' => $workspace->id]),
-        ]);
-
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
-        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_SURVEY_DATA, $workspace));
-        $I->amOnPage(['project/workspaces', 'id' => $project->id]);
-
-        $I->seeElement('a', [
-            'href' => Url::to(['workspace/limesurvey', 'id' => $workspace->id]),
-        ]);
     }
 
     public function testInvalidProject(FunctionalTester $I)

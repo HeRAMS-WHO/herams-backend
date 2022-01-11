@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\element;
 
 use prime\components\LimesurveyDataProvider;
@@ -18,7 +17,6 @@ use yii\web\User;
 
 class Create extends Action
 {
-
     public function run(
         Request $request,
         NotificationService $notificationService,
@@ -69,6 +67,7 @@ class Create extends Action
             }
         }
 
+        $breadcrumbCollection = $this->controller->view->getBreadcrumbCollection();
 
         return $this->controller->render('update', [
             'page' => $page,

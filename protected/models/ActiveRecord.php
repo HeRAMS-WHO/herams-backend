@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\models;
 
 use prime\components\ActiveQuery;
@@ -7,22 +9,38 @@ use prime\components\ActiveQuery;
 class ActiveRecord extends \yii\db\ActiveRecord
 {
     public const SCENARIO_UPDATE = 'update';
-    public static function find()
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public static function find(): ActiveQuery
     {
         return new ActiveQuery(static::class);
     }
 
-    public function attributeLabels(): array
+    /**
+     * @codeCoverageIgnore
+     */
+    public static function labels(): array
     {
         return [
-            'id' => \Yii::t('app', 'Id'),
-            'title' => \Yii::t('app', 'Title'),
-            'created' => \Yii::t('app', 'Created at'),
             'created_at' => \Yii::t('app', 'Created at'),
             'created_by' => \Yii::t('app', 'Created by'),
+            'deleted_at' => \Yii::t('app', 'Deleted at'),
+            'id' => \Yii::t('app', 'Id'),
             'last_login_at' => \Yii::t('app', 'Last login at'),
+            'title' => \Yii::t('app', 'Title'),
             'updated_at' => \Yii::t('app', 'Updated at'),
+            'updated_by' => \Yii::t('app', 'Updated by'),
         ];
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    final public function attributeLabels(): array
+    {
+        return static::labels();
     }
 
     /**

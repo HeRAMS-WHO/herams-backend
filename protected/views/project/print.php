@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use prime\components\View;
@@ -6,9 +7,9 @@ use prime\helpers\Icon;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
-use yii\helpers\Html;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
+use yii\helpers\Html;
 
 /**
  * @var View $this
@@ -57,7 +58,8 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
     if (is_array($filters) && count($filters) > 0) {
         foreach ($groups as $group) {
             foreach ($group->getQuestions() as $question) {
-                if (($answers = $question->getAnswers()) !== null
+                if (
+                    ($answers = $question->getAnswers()) !== null
                     && $question->getDimensions() === 0
                 ) {
                     $items = \yii\helpers\ArrayHelper::map(

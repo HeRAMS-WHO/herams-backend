@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\workspace;
@@ -8,8 +9,10 @@ use prime\components\NotificationService;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
+use prime\repositories\WorkspaceRepository;
+use prime\values\WorkspaceId;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\web\Request;
@@ -22,22 +25,23 @@ use yii\web\User as UserComponent;
 class RequestAccess extends Action
 {
     public function run(
+        AuthManager $abacManager,
         AccessCheckInterface $accessCheck,
         NotificationService $notificationService,
         Request $request,
-        AuthManager $abacManager,
         UserComponent $user,
+        WorkspaceRepository $workspaceRepository,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $workspace = Workspace::findOne(['id' => $id]);
+        $workspace = $workspaceRepository->retrieveForRequestAccess(new WorkspaceId($id));
+
 
         $accessCheck->requirePermission(
             $workspace->project,
             Permission::PERMISSION_SUMMARY,
             \Yii::t('app', 'You are not allowed to request access to this workspace')
         );
-
         $model = new RequestAccessForm(
             $workspace,
             [
@@ -48,7 +52,6 @@ class RequestAccess extends Action
             $abacManager,
             $user->identity
         );
-
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
             $model->createRecords();
             $notificationService->success(\Yii::t(
@@ -60,6 +63,7 @@ class RequestAccess extends Action
             ));
             return $this->controller->goBack();
         }
+
 
         return $this->controller->render('request-access', [
             'model' => $model,

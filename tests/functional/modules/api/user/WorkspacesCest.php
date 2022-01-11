@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\functional\modules\api\user;
 
 use prime\models\ar\Favorite;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 
@@ -16,7 +17,6 @@ use yii\helpers\Url;
  */
 class WorkspacesCest
 {
-
     public function testPrecondition(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
@@ -33,7 +33,7 @@ class WorkspacesCest
         $I->seeResponseCodeIs(422);
         $I->assertSame(0, (int) Favorite::find()->count());
 
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         $I->assertSame(0, (int) Favorite::find()->count());
         $I->sendPUT(Url::to(['/api/user/workspaces', 'id' => TEST_USER_ID, 'target_id' => $workspace->id]));
         $I->seeResponseCodeIs(201);
@@ -49,10 +49,10 @@ class WorkspacesCest
         $I->seeResponseCodeIs(200);
         $I->assertSame(0, (int) Favorite::find()->count());
 
-        $workspace = $I->haveWorkspace();
+        $workspace = $I->haveWorkspaceForLimesurvey();
         codecept_debug('Created WS with id: ' . $workspace->id);
         $favorite = new Favorite();
-        $favorite->target_class = Workspace::class;
+        $favorite->target_class = WorkspaceForLimesurvey::class;
         $favorite->target_id = $workspace->id;
         $favorite->user_id = TEST_USER_ID;
         $I->save($favorite);

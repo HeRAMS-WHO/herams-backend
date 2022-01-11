@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
+use Carbon\Carbon;
 use prime\models\ar\User;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Model;
@@ -15,12 +17,8 @@ class RequestResetForm extends Model
 {
     public $email;
 
-    /** @var CacheInterface  */
-    private $cache;
-
-    public function __construct(CacheInterface $cache, $config = [])
+    public function __construct(private CacheInterface $cache, $config = [])
     {
-        $this->cache = $cache;
         parent::__construct($config);
     }
 
@@ -34,7 +32,7 @@ class RequestResetForm extends Model
             'id' => $user->id,
             'crc' => crc32($user->password_hash),
         ];
-        $urlSigner->signParams($params, false, \Carbon\Carbon::now()->addHours(4));
+        $urlSigner->signParams($params, false, Carbon::now()->addHours(4));
 
         $mailer->compose('password_reset', [
             'user' => $this,
@@ -48,7 +46,7 @@ class RequestResetForm extends Model
         $this->cache->set(__CLASS__ . $this->email, time() + 120);
         return true;
     }
-    public function rules()
+    public function rules(): array
     {
         return [
             [['email'], RequiredValidator::class],
@@ -72,7 +70,7 @@ class RequestResetForm extends Model
         return User::findOne(['email' => $this->email]);
     }
 
-    public function attributeHints()
+    public function attributeHints(): array
     {
         return [
             'email' => \Yii::t('app', 'We will send you a secure link to the reset form')

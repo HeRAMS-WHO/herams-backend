@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -7,11 +8,6 @@ use prime\models\ActiveRecord;
 
 class FacilityResponse extends ActiveRecord
 {
-    public static function tableName()
-    {
-        return '{{%facilityresponse}}';
-    }
-
     public function getLatitude(): ?float
     {
         if (isset($this->extracted_location)) {

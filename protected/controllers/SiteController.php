@@ -1,14 +1,15 @@
 <?php
-    namespace prime\controllers;
 
-    use prime\components\Controller;
-    use prime\controllers\site\Admin;
-    use prime\controllers\site\LimeSurvey;
-    use prime\controllers\site\Status;
-    use prime\controllers\site\WorldMap;
-    use yii\filters\AccessControl;
-    use yii\helpers\ArrayHelper;
-    use yii\web\ErrorAction;
+declare(strict_types=1);
+
+namespace prime\controllers;
+
+use prime\components\Controller;
+use prime\controllers\site\LimeSurvey;
+use prime\controllers\site\Maintenance;
+use prime\controllers\site\Status;
+use prime\controllers\site\WorldMap;
+use yii\web\ErrorAction;
 
 class SiteController extends Controller
 {
@@ -16,6 +17,7 @@ class SiteController extends Controller
     {
         return [
             'status' => Status::class,
+            'maintenance' => Maintenance::class,
             'error' => [
                 'class' => ErrorAction::class,
                 'layout' => 'map-popover-error',
@@ -28,23 +30,16 @@ class SiteController extends Controller
 
     public function behaviors(): array
     {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'allow' => 'true',
-                            'actions' => ['captcha', 'logout', 'error', 'status']
-                        ],
-                        [
-                            'allow' => 'true',
-                            'roles' => ['@']
-                        ]
-                    ]
-                ]
-            ]
-        );
+        $behaviors = parent::behaviors();
+        // Prepend this rule so we don't needlessly open a session.
+        array_unshift($behaviors['access']['rules'], [
+            'allow' => 'true',
+            'actions' => ['captcha', 'logout', 'error', 'status', 'maintenance']
+        ]);
+        $behaviors['access']['rules'][] = [
+            'allow' => 'true',
+            'roles' => ['@']
+        ];
+        return $behaviors;
     }
 }

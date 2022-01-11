@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
 use kartik\password\StrengthValidator;
 use prime\models\ar\User;
-use SamIT\abac\values\Authorizable;
 use SamIT\abac\AuthManager;
+use SamIT\abac\values\Authorizable;
 use yii\base\Model;
 use yii\validators\CompareValidator;
 use yii\validators\DefaultValueValidator;

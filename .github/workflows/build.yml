@@ -50,21 +50,12 @@ jobs:
           method: service-account
           k8s-url: ${{ secrets.KUBERNETES_URL }}
           k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
-      - uses: Azure/k8s-deploy@v1.4
+      - name: get_manifests
+        run: echo manifests=$(ls k8s/shared/*.yaml k8s/prod/*.yaml | tr "\n" ",") >> $GITHUB_ENV
+      - uses: Azure/k8s-deploy@v1
         with:
           namespace: 'staging'
-          manifests: |
-            k8s/staging/sealed-app.yaml
-            k8s/staging/sealed-database-staging.yaml
-            k8s/staging/sealed-database-preview.yaml
-            k8s/staging/sealed-limesurvey-staging.yaml
-            k8s/staging/sealed-redis-acl.yaml
-            k8s/staging/sealed-smtp-staging.yaml
-            k8s/staging/sealed-mailchimp-staging.yaml
-            k8s/staging/ingress.yaml
-            k8s/shared/deployment.yaml
-            k8s/shared/nginx-config-map.yaml
-            k8s/shared/app-config-map.yaml
+          manifests: ${{ env.manifests }}
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
           kubectl-version: 'latest'

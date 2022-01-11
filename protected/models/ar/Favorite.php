@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -28,30 +29,37 @@ class Favorite extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id'])->inverseOf('favorites');
     }
 
-    public function getTarget()
+    public function getTarget(): null|Project|WorkspaceForLimesurvey
     {
-        if (!in_array($this->target_class, [
+        if (
+            !in_array($this->target_class, [
             Project::class,
-            Workspace::class
-        ])) {
+            WorkspaceForLimesurvey::class
+            ])
+        ) {
             throw new \RuntimeException('Unknown favorite type: ' . $this->target_class);
         }
         return $this->target_class::findOne(['id' => $this->target_id]);
     }
 
-    public function matches(ActiveRecord $target): bool
+    public static function labels(): array
     {
-        return $this->target_class === get_class($target) && $this->target_id === (int) $target->getAttribute('id');
+        return [
+            'user_id' => \Yii::t('app', 'User'),
+            'target_class' => \Yii::t('app', 'Target type'),
+            'target_id' => \Yii::t('app', 'Target id'),
+
+        ] + parent::labels();
     }
 
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            [['target_class'], RangeValidator::class, 'range' => [Workspace::class]],
+            [['target_class'], RangeValidator::class, 'range' => [WorkspaceForLimesurvey::class]],
             [['user_id'], ExistValidator::class, 'targetRelation' => 'user'],
-            [['target_id'], ExistValidator::class, 'targetAttribute' => 'id', 'targetClass' => Workspace::class, 'when' => static function (Favorite $model) {
-                return $model->target_class === Workspace::class;
+            [['target_id'], ExistValidator::class, 'targetAttribute' => 'id', 'targetClass' => WorkspaceForLimesurvey::class, 'when' => static function (Favorite $model) {
+                return $model->target_class === WorkspaceForLimesurvey::class;
             }]
         ];
     }

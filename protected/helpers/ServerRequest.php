@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -8,6 +9,7 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 use yii\base\NotSupportedException;
 use yii\web\Request;
+
 use function GuzzleHttp\Psr7\stream_for;
 
 class ServerRequest implements ServerRequestInterface

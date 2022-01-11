@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\actions;
@@ -64,7 +65,7 @@ class ExportAction extends Action
         if (!isset($subject)) {
             throw new NotFoundHttpException();
         } elseif (!($this->checkAccess)($subject, $user)) {
-            throw new ForbiddenHttpException();
+            throw new ForbiddenHttpException('Check access failed');
         }
         $survey = ($this->surveyFinder)($subject);
 

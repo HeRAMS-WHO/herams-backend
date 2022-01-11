@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets\table;
@@ -7,7 +8,6 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Html;
 
 class Table extends Element
@@ -70,7 +70,7 @@ class Table extends Element
         } catch (\InvalidArgumentException $e) {
             // Question doesn't exist, we should use getter to retrieve values.
             $valueGetter = function ($response) {
-                $getter = 'get'. ucfirst($this->code);
+                $getter = 'get' . ucfirst($this->code);
                 return $response->$getter() ?? [];
             };
         }
@@ -81,14 +81,14 @@ class Table extends Element
                 return $response->getValueForCode($this->reasonCode) ?? [];
             };
         } catch (\InvalidArgumentException $e) {
-            $getter = 'get'. ucfirst($this->reasonCode);
-            $reasonGetter = function ($response) use ($getter):array {
+            $getter = 'get' . ucfirst($this->reasonCode);
+            $reasonGetter = function ($response) use ($getter): array {
                 return $response->$getter();
             };
         }
 
         $reasonMap = $this->reasonMap ?? $this->getAnswers($this->reasonCode);
-        
+
         $result = [];
         \Yii::beginProfile(__CLASS__ . 'count');
         foreach ($this->data as $response) {
@@ -129,7 +129,9 @@ class Table extends Element
             yield [
                 $groupMap[$group] ?? $group,
                 number_format(100.0 * ($data['counts']['FUNCTIONAL'] ?? 0) / $data['counts']['TOTAL'], 0),
+                /** @phpstan-ignore-next-line */
                 empty($reasons) ? 'Unknown' : $reasonMap[array_keys($reasons)[0]] ?? array_keys($reasons)[0],
+                /** @phpstan-ignore-next-line */
                 empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 0)
             ];
         }

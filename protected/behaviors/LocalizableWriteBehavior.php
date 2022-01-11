@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\behaviors;
 
 use yii\base\Behavior;
-use yii\base\Event;
-use yii\base\Model;
-use yii\base\ModelEvent;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\validators\InlineValidator;
+
 use function iter\map;
 use function iter\toArray;
 
@@ -29,7 +28,7 @@ class LocalizableWriteBehavior extends Behavior
 
     private const REGEX = '~^i18n(.+)$~';
 
-    private function attributeName(string $name):string
+    private function attributeName(string $name): string
     {
         if (!preg_match(self::REGEX, $name, $matches)) {
             throw new \InvalidArgumentException("$name does not have expected format");
@@ -55,8 +54,9 @@ class LocalizableWriteBehavior extends Behavior
 
             try {
                 $validators = $this->getActiveValidators($realAttributeName);
-                foreach ($this->{$behavior->translationProperty}['title'] ?? [] as $locale => $title) {
-                    $this->{$realAttributeName} = $title;
+                \Yii::error($this->{$behavior->translationProperty}[$realAttributeName] ?? []);
+                foreach ($this->{$behavior->translationProperty}[$realAttributeName] ?? [] as $locale => $value) {
+                    $this->{$realAttributeName} = $value;
                     foreach ($validators as $validator) {
                         try {
                             $validator->validateAttribute($this, $realAttributeName);
@@ -101,7 +101,11 @@ class LocalizableWriteBehavior extends Behavior
     public function __set($name, $value): void
     {
         $i18n = $this->owner->{$this->translationProperty};
-        $i18n[$this->attributeName($name)] = json_decode($value, true);
+        if ($value === null) {
+            unset($i18n[$this->attributeName($name)]);
+        } else {
+            $i18n[$this->attributeName($name)] = is_array($value) ? $value : json_decode($value, true);
+        }
         $this->owner->{$this->translationProperty} = $i18n;
     }
 

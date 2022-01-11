@@ -1,9 +1,7 @@
 <?php
+
 declare(strict_types=1);
 
-use prime\helpers\Icon;
-use prime\models\ar\Project;
-use prime\models\ar\User;
 use yii\helpers\Html;
 
 /**

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\objects;
 
 class BatchResult

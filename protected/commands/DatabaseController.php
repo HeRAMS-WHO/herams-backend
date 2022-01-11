@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\commands;
 
 use Ifsnop\Mysqldump\Mysqldump;

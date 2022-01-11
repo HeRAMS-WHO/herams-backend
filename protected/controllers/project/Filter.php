@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\controllers\project;
 
 use prime\models\ar\Project;
@@ -10,8 +9,6 @@ use yii\web\Request;
 
 class Filter extends Action
 {
-
-
     public function run(
         Request $request,
         int $id,

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\project;
@@ -11,6 +12,12 @@ use yii\base\Action;
 use yii\web\Request;
 use yii\web\User;
 
+/**
+ * Class Index
+ * @package prime\controllers\project
+ *
+ * @property Controller $controller
+ */
 class Index extends Action
 {
     public function run(
@@ -20,6 +27,7 @@ class Index extends Action
         User $user
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
+        $this->controller->view->autoAddTitleToBreadcrumbs = false;
         $projectSearch = new ProjectSearch();
 
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));

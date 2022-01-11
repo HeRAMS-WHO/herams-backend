@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms;
 
-use GuzzleHttp\Psr7\Stream;
 use prime\helpers\ClosureColumn;
 use prime\helpers\DataTextColumn;
 use prime\helpers\GetterColumn;
@@ -11,10 +11,8 @@ use prime\helpers\RawDataColumn;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
-use prime\models\ar\Response;
 use prime\objects\HeramsCodeMap;
-use prime\queries\ResponseQuery;
-use Psr\Http\Message\StreamInterface;
+use prime\queries\ResponseForLimesurveyQuery;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -23,6 +21,7 @@ use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\validators\BooleanValidator;
 use yii\validators\RangeValidator;
+
 use function iter\map;
 use function iter\toArray;
 
@@ -61,7 +60,7 @@ class Export extends Model
         $this->filter = new ResponseFilter($survey, new HeramsCodeMap());
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['includeTextHeader', 'includeCodeHeader', 'answersAsText'], BooleanValidator::class],
@@ -69,7 +68,7 @@ class Export extends Model
         ];
     }
 
-    public function load($data, $formName = null)
+    public function load($data, $formName = null): bool
     {
         if ($formName === null) {
             $this->filter->load($data);
@@ -97,7 +96,7 @@ class Export extends Model
 //
 //        }, 'external_url', 'External URL');
         yield new ClosureColumn(static function (HeramsResponseInterface $response): ?string {
-            return $response->last_updated ?? null;
+            return $response->updated_at ?? null;
         }, 'last_synced', 'Last synced');
 
         if ($this->answersAsText) {
@@ -160,12 +159,13 @@ class Export extends Model
      */
     public function run(
         WriterInterface $writer,
-        ResponseQuery $responseQuery
+        ResponseForLimesurveyQuery $responseQuery
     ): void {
 
         $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 
-        if ($this->survey instanceof LocaleAwareInterface
+        if (
+            $this->survey instanceof LocaleAwareInterface
             && $this->language !== self::DEFAULT_LANGUAGE
         ) {
             $survey = $this->survey->getLocalized($this->language);

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\tests\_helpers;
 
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
@@ -8,7 +7,6 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 class Survey implements SurveyInterface
 {
-
     /**
      * @return int The unique ID for this survey.
      */

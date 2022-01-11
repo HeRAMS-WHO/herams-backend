@@ -3,9 +3,11 @@ parameters:
     level: 1
     bootstrapFiles:
       - 'tests/constants.php'
+    paths:
+      - protected
     dynamicConstantNames:
       - CONSOLE
-    excludes_analyse:
+    excludePaths:
       - protected/config/common.php
       - protected/config/console.php
       - protected/config/web.php
@@ -15,7 +17,3 @@ parameters:
     ignoreErrors:
         - message: '#^Method .*::(down|up|safeUp|safeDown)\(\) should return bool but return statement is missing\.$#'
           path: 'protected/migrations/*'
-        #- message: '#^Variable .* might not be defined\.$#'
-        #  path: '*/views/*'
-        #- message: '#^Variable .* might not be defined\.$#'
-        #  path: '*/mail/*'

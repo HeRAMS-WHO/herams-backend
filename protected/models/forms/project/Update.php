@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms\project;
@@ -6,11 +7,14 @@ namespace prime\models\forms\project;
 use prime\behaviors\LocalizableWriteBehavior;
 use prime\models\ar\Project;
 use prime\objects\enums\ProjectStatus;
+use prime\objects\enums\ProjectType;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\LanguageSet;
+use prime\traits\StrictModelScenario;
 use prime\validators\ClientJsonValidator;
 use prime\validators\CountryValidator;
 use prime\values\ProjectId;
+use prime\values\SurveyId;
 use yii\base\Model;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -20,29 +24,25 @@ use yii\validators\UniqueValidator;
 
 class Update extends Model
 {
-    public string $title;
-    public ProjectVisibility $visibility;
-    public ProjectStatus $status;
-
-    public null|array $i18n;
-
-    public null|float $latitude;
-    public null|float $longitude;
+    use StrictModelScenario;
 
     public null|string $country;
-    public bool $manage_implies_create_hf;
-
-    public null|array $typemap;
-    public null|array $overrides;
-
+    public null|array $i18n;
     public LanguageSet $languages;
+    public null|float $latitude;
+    public null|float $longitude;
+    public bool $manage_implies_create_hf;
+    public null|array $overrides;
+    public ProjectStatus $status;
+    public string $title;
+    public null|array $typemap;
+    public ProjectVisibility $visibility;
 
     public function __construct(public ProjectId $id)
     {
         parent::__construct([]);
         $this->languages = LanguageSet::from([]);
     }
-
 
     public function behaviors(): array
     {
@@ -53,6 +53,19 @@ class Update extends Model
             ]
         ];
     }
+
+    public function attributeLabels(): array
+    {
+        return Project::labels();
+    }
+
+    public function attributeHints(): array
+    {
+        return [
+            'languages' => \Yii::t('app', 'These languages will be available for translating project, workspace and facility titles')
+        ];
+    }
+
 
     public function formName(): string
     {
@@ -69,9 +82,20 @@ class Update extends Model
             [['longitude'], NumberValidator::class, 'integerOnly' => false, 'min' => -180, 'max' => 180],
 
             // These are strongly typed so no validation is needed
-            [['status', 'visibility', 'manage_implies_create_hf', 'languages'], SafeValidator::class],
+            [['manage_implies_create_hf'], SafeValidator::class],
+            ProjectVisibility::validatorFor('visibility'),
+            ProjectStatus::validatorFor('status'),
+            LanguageSet::validatorFor('languages'),
             [['typemap', 'overrides'], ClientJsonValidator::class],
             [['country'], CountryValidator::class]
         ];
+    }
+
+    public function scenarios(): array
+    {
+        $result = parent::scenarios();
+        $result[ProjectType::surveyJs()->value] = [...$result[self::SCENARIO_DEFAULT], '!typemap'];
+        $result[ProjectType::limesurvey()->value] = [...$result[self::SCENARIO_DEFAULT]];
+        return $result;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\models\search;
 
 use yii\base\Model;
@@ -16,7 +18,7 @@ class User extends Model
     public $name;
     public $id;
     public $created_at;
-    public function rules()
+    public function rules(): array
     {
         return [
             [['created_at'], SafeValidator::class],
@@ -53,7 +55,7 @@ class User extends Model
         $query->andFilterWhere(['like', 'name', $this->name]);
         $query->andFilterWhere(['like', 'email', $this->email]);
         $query->andFilterWhere(['like', 'created_at', $this->created_at]);
-        $query->andFilterWhere(['id'=> $this->id]);
+        $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }
 }

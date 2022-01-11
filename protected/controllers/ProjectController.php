@@ -12,6 +12,7 @@ use prime\controllers\project\ExternalDashboard;
 use prime\controllers\project\Filter;
 use prime\controllers\project\ImportDashboard;
 use prime\controllers\project\Index;
+use prime\controllers\project\Limesurvey;
 use prime\controllers\project\Pages;
 use prime\controllers\project\Pdf;
 use prime\controllers\project\RequestAccess;
@@ -20,12 +21,12 @@ use prime\controllers\project\SyncWorkspaces;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
 use prime\controllers\project\Workspaces;
-use prime\controllers\project\Limesurvey;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\read\Project as ReadProject;
-use prime\models\ar\Response;
-use prime\queries\ResponseQuery;
+use prime\models\ar\ResponseForLimesurvey;
+use prime\objects\Breadcrumb;
+use prime\queries\ResponseForLimesurveyQuery;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -36,7 +37,7 @@ class ProjectController extends Controller
 {
     public $layout = self::LAYOUT_ADMIN_TABS;
 
-    public function actions()
+    public function actions(): array
     {
         return [
             'create' => Create::class,
@@ -53,8 +54,8 @@ class ProjectController extends Controller
                 'subject' => static function (Request $request) {
                     return ReadProject::findOne(['id' => $request->getQueryParam('id')]);
                 },
-                'responseQuery' => static function (Project $project): ResponseQuery {
-                    return Response::find()->project($project)->with('workspace');
+                'responseQuery' => static function (Project $project): ResponseForLimesurveyQuery {
+                    return ResponseForLimesurvey::find()->project($project)->with('workspace');
                 },
                 'surveyFinder' => function (Project $project) {
                     return $project->getSurvey();
@@ -80,7 +81,7 @@ class ProjectController extends Controller
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return ArrayHelper::merge(
             parent::behaviors(),
@@ -138,5 +139,12 @@ class ProjectController extends Controller
                 ]
             ]
         );
+    }
+
+    public function render($view, $params = [])
+    {
+        $this->view->getBreadcrumbCollection()->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
+
+        return parent::render($view, $params);
     }
 }

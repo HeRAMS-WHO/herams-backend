@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\accessRequest;
@@ -11,7 +12,6 @@ use prime\models\ar\Permission;
 use prime\models\forms\accessRequest\Respond as RespondFormModel;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
-use yii\mail\MailerInterface;
 use yii\web\Request;
 use yii\web\User as UserComponent;
 

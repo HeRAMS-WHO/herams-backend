@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\tests\functional\controllers\user;
 
 use Carbon\Carbon;
@@ -11,8 +13,6 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
 
 /**
  * @covers \prime\controllers\user\AcceptInvitation
- * @covers \prime\controllers\UserController
- * @covers \prime\models\forms\user\AcceptInvitationForm
  */
 class AcceptInvitationCest
 {
@@ -39,7 +39,9 @@ class AcceptInvitationCest
 
     public function testInvitationLinkChangedEmail(FunctionalTester $I)
     {
-        $project = $I->haveProject();
+        $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProjectForLimesurvey();
+        \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $project);
 
@@ -55,7 +57,9 @@ class AcceptInvitationCest
 
     public function testInvitationLinkLoggedIn(FunctionalTester $I)
     {
+        $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();
+        \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $page->project);
 
@@ -76,7 +80,9 @@ class AcceptInvitationCest
 
     public function testInvitationLinkSameEmail(FunctionalTester $I)
     {
-        $project = $I->haveProject();
+        $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProjectForLimesurvey();
+        \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $project);
 
@@ -91,11 +97,11 @@ class AcceptInvitationCest
 
     public function testInvitationLinkSingleUse(FunctionalTester $I)
     {
-        $project = $I->haveProject();
+        $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProjectForLimesurvey();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $project);
 
-        $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage($url);
         $I->seeResponseCodeIs(200);
 

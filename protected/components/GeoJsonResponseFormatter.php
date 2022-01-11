@@ -1,17 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use yii\web\JsonResponseFormatter;
 use yii\web\Response;
 use yii\web\ResponseFormatterInterface;
 
 class GeoJsonResponseFormatter implements ResponseFormatterInterface
 {
-
     /**
      * @param Response $response
      */

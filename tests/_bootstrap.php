@@ -1,6 +1,5 @@
 <?php
 namespace {
-
     use yii\web\Application;
 
     define('TEST_ADMIN_ID', 1);
@@ -20,6 +19,7 @@ namespace {
         \Yii::$container->setDefinitions(require __DIR__ . '/../protected/config/di.php');
 
         $config = require __DIR__ . '/../protected/config/codeception.php';
+
 
         \Yii::$container->set(Application::class, $config);
 

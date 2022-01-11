@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace prime\models\ar\elements;
 
@@ -12,9 +13,9 @@ use yii\validators\StringValidator;
 
 class Chart extends Element
 {
-    public function attributeLabels(): array
+    public static function labels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::labels(), [
             'chartType' => \Yii::t('app', 'Chart type')
         ]);
     }

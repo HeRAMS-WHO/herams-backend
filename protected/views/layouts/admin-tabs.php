@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 use prime\widgets\menu\TabMenu;
 use yii\helpers\Html;
 

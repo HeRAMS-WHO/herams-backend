@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
@@ -7,7 +8,6 @@ use prime\interfaces\EnvironmentInterface;
 
 class Secret implements \Stringable
 {
-
     private string $name;
 
     private EnvironmentInterface $environment;

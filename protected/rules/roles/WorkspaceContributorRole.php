@@ -1,18 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\rules\roles;
 
 use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
 
 class WorkspaceContributorRole implements Rule
 {
-
     /**
      * @inheritDoc
      */
@@ -29,7 +29,7 @@ class WorkspaceContributorRole implements Rule
      */
     public function getTargetNames(): array
     {
-        return [Workspace::class];
+        return [WorkspaceForLimesurvey::class];
     }
 
     /**

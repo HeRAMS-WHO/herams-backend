@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
 
 use prime\models\ar\User;
 use yii\filters\auth\AuthInterface;
-use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\IdentityInterface;
 use yii\web\Session;
@@ -13,8 +13,6 @@ use yii\web\UnauthorizedHttpException;
 
 class CookieAuth implements AuthInterface
 {
-
-
     public function authenticate($user, $request, $response): ?IdentityInterface
     {
         /** @var Session $session */

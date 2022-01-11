@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\permission;
@@ -12,21 +13,20 @@ use yii\web\Request;
 
 /**
  * @covers \prime\controllers\permission\Delete
- * @covers \prime\commands\PermissionController
  */
 class DeleteCest
 {
     public function test(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProject();
+        $project = $I->haveProjectForLimesurvey();
 
         // Create a permission
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_OTHER_USER_ID]), $project, Permission::PERMISSION_READ);
         $I->assertFalse(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $permission = Permission::findOne([
             'target_id' => $project->id,
-            'target'=> get_class($project)
+            'target' => get_class($project)
         ]);
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
@@ -39,7 +39,7 @@ class DeleteCest
         $manager->grant(\Yii::$app->user->identity, $project, Permission::PERMISSION_ADMIN);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_DELETE, $project));
-        $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect'=> '/']));
+        $I->sendDELETE(Url::to(['/permission/delete', 'id' => $permission->id, 'redirect' => '/']));
         $I->seeResponseCodeIs(200);
         $I->dontSeeRecord(Permission::class, [
             'id' => $permission->id

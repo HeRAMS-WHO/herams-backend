@@ -1,9 +1,6 @@
 <?php
-declare(strict_types=1);
 
-use prime\helpers\Icon;
-use prime\models\ar\Project;
-use prime\models\ar\User;
+declare(strict_types=1);
 
 /**
  * @var \prime\components\View $this

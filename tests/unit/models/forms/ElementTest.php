@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms;
@@ -13,6 +14,10 @@ use yii\base\Model;
  */
 class ElementTest extends ModelTest
 {
+    public function testRuleAttributes(): void
+    {
+        $this->markTestSkipped('This model uses getter and setter magic');
+    }
 
     protected function getModel(): Model
     {

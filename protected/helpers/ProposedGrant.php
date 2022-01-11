@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -15,7 +16,7 @@ class ProposedGrant
         $this->permission = $permission;
     }
 
-    public function getTarget():object
+    public function getTarget(): object
     {
         return $this->target;
     }

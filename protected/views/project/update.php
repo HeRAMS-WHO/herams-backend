@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use app\components\ActiveForm;
@@ -9,6 +10,7 @@ use prime\components\View;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project as ProjectRead;
+use prime\models\ar\Survey;
 use prime\models\forms\project\Update;
 use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
@@ -18,10 +20,9 @@ use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+
 use function iter\chain;
-use function iter\filter;
 use function iter\func\nested_index;
 use function iter\map;
 use function iter\toArrayWithKeys;
@@ -48,6 +49,7 @@ Section::begin()
 $form = ActiveForm::begin([
     'method' => 'PUT',
 ]);
+
 echo Form::widget([
     'form' => $form,
     'model' => $model,
@@ -61,7 +63,7 @@ echo Form::widget([
         ],
         'languages' => [
             'type' => Form::INPUT_CHECKBOX_LIST,
-            'items' => Language::toArray()
+            'items' => Language::toLocalizedArrayWithoutSourceLanguage(\Yii::$app->language),
         ],
         'i18nTitle' => [
             'type' => Form::INPUT_WIDGET,
@@ -97,7 +99,6 @@ echo Form::widget([
 
             ]
         ],
-
         'manage_implies_create_hf' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' => [
@@ -110,14 +111,16 @@ echo Form::widget([
             'options' => [
                 'value' => json_encode($model->typemap, JSON_PRETTY_PRINT),
                 'rows' => 5
-            ]
+            ],
+            'visible' => $model->isAttributeSafe('typemap')
         ],
         'overrides' => [
             'type' => Form::INPUT_TEXTAREA,
             'options' => [
                 'value' => json_encode($model->overrides, JSON_PRETTY_PRINT),
                 'rows' => 5
-            ]
+            ],
+
         ],
         FormButtonsWidget::embed([
             'buttons' => [

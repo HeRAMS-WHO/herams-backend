@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\user;
@@ -22,8 +23,8 @@ class NotificationsCest
 
     public function testAccessRequestNotification(FunctionalTester $I)
     {
-        $project = $I->haveProject();
         $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProjectForLimesurvey();
         $accessRequest = new AccessRequest([
             'subject' => 'test',
             'body' => 'test',

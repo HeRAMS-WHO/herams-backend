@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 use prime\models\ar\Page;
 use yii\helpers\Html;
 

@@ -1,25 +1,27 @@
 <?php
 
-
 namespace prime\widgets\chart;
 
 use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
+
 use function iter\take;
 
 class Chart extends Element
 {
-    public const TYPE_DOUGHNUT = 'doughnut';
-    public const TYPE_BAR = 'bar';
     use SurveyHelper;
 
-    /** @var iterable */
+    public const TYPE_DOUGHNUT = 'doughnut';
+    public const TYPE_BAR = 'bar';
+
+    /**
+     * @var array<HeramsSubject|HeramsResponseInterface>
+     */
     public $data = [];
     public $code;
 
@@ -100,7 +102,7 @@ class Chart extends Element
             }
         } catch (\InvalidArgumentException $e) {
             // If the question is not set, it could be an abstract property.
-            $getter = 'get'. ucfirst($this->code);
+            $getter = 'get' . ucfirst($this->code);
 
             // Call this method on each response.
             $counts = [];

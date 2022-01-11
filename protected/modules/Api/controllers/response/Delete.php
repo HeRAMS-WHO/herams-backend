@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\response;
 
-use prime\models\ar\Response as HeramsResponse;
+use prime\models\ar\ResponseForLimesurvey as HeramsResponse;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

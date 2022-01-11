@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use app\components\ActiveForm;
@@ -14,10 +15,6 @@ use prime\widgets\Section;
  * @var Share $model
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $project->title,
-    'url' => ['project/workspaces', 'id' => $project->id]
-];
 $this->title = $project->title;
 
 $this->beginBlock('tabs');

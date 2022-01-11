@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\rules;
@@ -11,7 +12,6 @@ use SamIT\abac\interfaces\Rule;
 
 class ManageWorkspaceRule implements Rule
 {
-
     /**
      * @inheritDoc
      */

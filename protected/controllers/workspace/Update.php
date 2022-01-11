@@ -1,46 +1,43 @@
 <?php
 
+declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
 use prime\components\Controller;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
-use prime\models\forms\workspace\CreateUpdate;
+use prime\helpers\ModelHydrator;
+use prime\repositories\WorkspaceRepository;
+use prime\values\WorkspaceId;
 use yii\base\Action;
-use yii\helpers\Html;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\User;
 
 class Update extends Action
 {
-
     public function run(
-        Request $request,
-        AccessCheckInterface $accessCheck,
+        ModelHydrator $modelHydrator,
         NotificationService $notificationService,
-        $id
+        Request $request,
+        WorkspaceRepository $workspaceRepository,
+        int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $workspace = Workspace::findOne(['id' => $id]);
-        $accessCheck->requirePermission($workspace, Permission::PERMISSION_WRITE);
+        $workspaceId = new WorkspaceId($id);
+        $model = $workspaceRepository->retrieveForUpdate($workspaceId);
 
         if ($request->isPut) {
-            if ($workspace->load($request->bodyParams) && $workspace->save()) {
-                $notificationService->success(\Yii::t('app', "Workspace {workspace} has been updated", [
-                    'workspace' => Html::tag('strong', $workspace->title)
-                ]));
+            $modelHydrator->hydrateFromRequestBody($model, $request);
+            if ($model->validate()) {
+                $workspaceRepository->save($model);
+                $notificationService->success(\Yii::t('app', 'Workspace updated'));
 
-                return $this->controller->redirect(['workspace/view', 'id' => $workspace->id]);
+                return $this->controller->redirect(['workspace/responses', 'id' => $workspaceId]);
             }
         }
 
         return $this->controller->render('update', [
-            'model' => $workspace
+            'model' => $model,
+            'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId)
         ]);
     }
 }

@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
-use prime\models\ar\Workspace;
+use prime\interfaces\WorkspaceForTabMenu;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\Export;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
@@ -10,25 +12,17 @@ use yii\web\View;
 /**
  * @var View $this
  * @var Export $model
- * @var Workspace $subject
+ * @var WorkspaceForLimesurvey $subject
+ * @var WorkspaceForTabMenu $tabMenuModel
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $subject->project->title,
-    'url' => ['project/workspaces', 'id' => $subject->project->id]
-];
-$this->params['breadcrumbs'][] = [
-    'label' => $subject->title,
-    'url' => ['workspace/limesurvey', 'id' => $subject->id]
-];
+$this->title = $tabMenuModel->title();
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
-    'workspace' => $subject,
+    'workspace' => $tabMenuModel,
 ]);
 $this->endBlock();
-
-$this->title = \Yii::t('app', 'Export data from workspace {workspace}', ['workspace' => $subject->title]);
 
 Section::begin()
     ->withHeader('Export data');

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\interfaces;
 
 use prime\models\ar\Element;
@@ -8,7 +7,6 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 interface PageInterface
 {
-
     /**
      * @return PageInterface[]
      */

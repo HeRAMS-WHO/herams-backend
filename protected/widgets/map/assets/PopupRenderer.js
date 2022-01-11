@@ -1,7 +1,7 @@
 
 class PopupRenderer {
 
-    
+
     constructor(popup, url, translations)
     {
         this.popup = popup;
@@ -35,7 +35,7 @@ class PopupRenderer {
         let title = document.createElement('h1');
         title.textContent = this.data.name;
         content.appendChild(title);
-        content.innerHTML += '<h2>'+this.translations["inactive"]+'</h2>';
+        content.innerHTML += '<h2>' + this.translations["inactive"] + '</h2>';
         this.popup.setContent(content);
         this.popup.update();
     }
@@ -47,8 +47,8 @@ class PopupRenderer {
         let title = document.createElement('h1');
         title.textContent = this.translations["loading-failed"];
         content.appendChild(title);
-        content.innerHTML += '<h2>'+this.translations["loading-error"]+'</h2>';
-        content.innerHTML += '<p>'+this.translations["refresh-infos"]+'</p>';
+        content.innerHTML += '<h2>' + this.translations["loading-error"] + '</h2>';
+        content.innerHTML += '<p>' + this.translations["refresh-infos"] + '</p>';
         let button = document.createElement('button');
         button.classList.add('btn');
         button.textContent = this.translations["refresh"];
@@ -106,19 +106,19 @@ class PopupRenderer {
         charts = charts.filter(function (el) {
             return el.innerHTML !== "";
         });
-        
+
         if (charts.length > 0) {
-            let span = 'span'+(6 / charts.length);
+            let span = 'span' + (6 / charts.length);
             charts.map(container => container.classList.add(span));
             grid.append(...charts);
         } else {
             let content = document.createElement('div');
             content.classList.add('full-width');
-            content.innerHTML += '<h2>'+this.translations["in-progress"]+'</h2>';
+            content.innerHTML += '<h2>' + this.translations["in-progress"] + '</h2>';
             grid.append(content);
         }
 
-        
+
         if (this.data._links.dashboard) {
             let a = document.createElement('a');
             a.textContent = this.data._links.dashboard.title;
@@ -197,18 +197,18 @@ class PopupRenderer {
         let sum = Object.values(datas).reduce((sum, value) => sum + value, 0);
         if (sum > 0) {
             let labels = {};
-            
+
             for (let i in legends) {
                 if (!(legends[i].key in datas)) {
-                    labels[`-- ${legends[i].label}`] = 0;
+                    labels[`--${legends[i].label}`] = 0;
                     continue;
                 }
-                
+
                 let percent =  Math.round((datas[legends[i].key] / sum) * 100);
                 if (percent < 1) {
-                    labels[`< 1% ${legends[i].label}`] = percent;
+                    labels[` < 1 % ${legends[i].label}`] = percent;
                 } else {
-                    labels[`${percent}% ${legends[i].label}`] = percent;
+                    labels[`${percent} % ${legends[i].label}`] = percent;
                 }
             }
 

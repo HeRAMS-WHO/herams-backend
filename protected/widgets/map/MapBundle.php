@@ -1,6 +1,5 @@
 <?php
 
-
 namespace prime\widgets\map;
 
 use yii\web\AssetBundle;
@@ -8,7 +7,6 @@ use yii\web\View;
 
 class MapBundle extends AssetBundle
 {
-
     public $depends = [
         LeafletBundle::class,
 

@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
+
+use function iter\mapWithKeys;
+use function iter\toArrayWithKeys;
 
 class ButtonGroup extends Widget
 {
@@ -90,7 +94,13 @@ class ButtonGroup extends Widget
     {
         $options = $button['linkOptions'] ?? [];
         Html::addCssClass($options, ['btn', 'btn-' . ($button['style'] ?? 'default')]);
-        echo Html::a(($button['icon'] ?? '') . $button['label'], $button['link'], $options);
+        $link = is_array($button['link']) ? toArrayWithKeys(mapWithKeys(static fn($queryParam) => (
+            $queryParam instanceof \Stringable
+            ? (string) $queryParam
+            : $queryParam
+
+        ), $button['link'])) : $button['link'];
+        echo Html::a(($button['icon'] ?? '') . $button['label'], $link, $options);
     }
 
     public function run()

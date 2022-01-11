@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\user;
 
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 
 /**
@@ -14,7 +15,7 @@ use prime\tests\FunctionalTester;
  */
 class AccessRequestsCest
 {
-    protected function createAccessRequest(FunctionalTester $I, Project|Workspace $target): AccessRequest
+    protected function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target): AccessRequest
     {
         $accessRequest = new AccessRequest([
             'subject' => 'test',
@@ -28,9 +29,8 @@ class AccessRequestsCest
 
     public function testOutstandingRequest(FunctionalTester $I)
     {
-        $project = $I->haveProject();
-
         $I->amLoggedInAs(TEST_USER_ID);
+        $project = $I->haveProjectForLimesurvey();
         $accessRequest = $this->createAccessRequest($I, $project);
         $I->amOnPage(['user/access-requests']);
         $I->see($accessRequest->subject);

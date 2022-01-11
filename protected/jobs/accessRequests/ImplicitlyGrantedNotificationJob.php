@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\jobs\accessRequests;
@@ -26,9 +27,14 @@ class ImplicitlyGrantedNotificationJob extends AccessRequestJob
 
     public function jsonSerialize(): array
     {
-        return [
-            'accessRequestId' => $this->accessRequestId,
+        /**
+         * @todo When we upgrade to php 8.1 use spread operator
+         */
+        return array_merge(
+            parent::jsonSerialize(),
+            [
             'partial' => $this->partial,
-        ];
+            ]
+        );
     }
 }

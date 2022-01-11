@@ -1,31 +1,27 @@
 <?php
+
 declare(strict_types=1);
 
 use app\components\ActiveForm;
-use app\components\Form;
-use prime\models\ar\Permission;
-use prime\widgets\FormButtonsWidget;
+use prime\components\View;
+use prime\interfaces\WorkspaceForTabMenu;
+use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\forms\Share;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
-use yii\helpers\Html;
 
 /**
- * @var \prime\models\ar\Workspace $workspace
- * @var \prime\models\forms\Share $model
- * @var \prime\components\View $this
+ * @var WorkspaceForLimesurvey $workspace
+ * @var Share $model
+ * @var WorkspaceForTabMenu $tabMenuModel
+ * @var View $this
  */
 
-$this->params['breadcrumbs'][] = [
-    'label' => $workspace->project->title,
-    'url' => ['project/workspaces', 'id' => $workspace->project->id]
-];
-$this->title = \Yii::t('app', 'Workspace {workspace}', [
-    'workspace' => $workspace->title,
-]);
+$this->title = $workspace->title;
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
-    'workspace' => $workspace,
+    'workspace' => $tabMenuModel,
 ]);
 $this->endBlock();
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\objects\enums;
@@ -6,7 +7,6 @@ namespace prime\objects\enums;
 /**
  * @method static self enUS()
  * @method static self ar()
- * @method static self nlNL()
  * @method static self frFR()
  */
 class Language extends Enum
@@ -25,5 +25,15 @@ class Language extends Enum
     protected static function labels(): \Closure
     {
         return static fn(string $method): string => locale_get_display_name(implode('-', str_split($method, 2)));
+    }
+
+    public static function toLocalizedArrayWithoutSourceLanguage(string $displayLocale): array
+    {
+        $result = self::toArray();
+        unset($result['en-US']);
+        foreach ($result as $locale => &$label) {
+            $label = locale_get_display_name($locale, $displayLocale);
+        }
+        return $result;
     }
 }
