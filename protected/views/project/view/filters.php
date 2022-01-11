@@ -56,6 +56,7 @@ echo Html::beginForm([
 </div>
 <?php
 $filterCount = !empty($filterModel->date) ? 1 : 0;
+$filterCount += !empty($filterModel->workspaceIds) ? 1 : 0;
 $filterCount += count($filterModel->advanced);
 $filterCountSpan = "<span>{$filterCount}</span>";
 

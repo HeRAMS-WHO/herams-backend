@@ -6,6 +6,7 @@ use kartik\select2\Select2;
 use app\components\ActiveForm;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
 use function iter\chain;
@@ -84,13 +85,26 @@ JS
         if (isset($date)) {
             echo "<span class='label'>" .\Yii::t('app', 'Date') ." : </span> <span class='value'>{$date}</span> ";
         }
+        if (!empty($filterModel->workspaceIds)) {
+            echo "<span class='label'>"
+                . $filterModel->getAttributeLabel('workspaceIds')
+                . " : </span> <span class='value'>"
+                . implode(
+                    ', ',
+                    array_map(
+                        static fn($workspaceId) => $filterModel->getWorkspacesForFilters()[$workspaceId],
+                        $filterModel->workspaceIds,
+                    )
+                )
+                . "</span> ";
+        }
         if (is_array($filtersList) && count($filtersList) > 0) {
             foreach ($groups as $group) {
                 foreach ($group->getQuestions() as $question) {
                     if (($answers = $question->getAnswers()) !== null
                         && $question->getDimensions() === 0
                     ) {
-                        $items = \yii\helpers\ArrayHelper::map(
+                        $items = ArrayHelper::map(
                             $answers,
                             function (AnswerInterface $answer) {
                                 return $answer->getCode();
@@ -127,7 +141,7 @@ JS
         foreach ($group->getQuestions() as $question) {
             if (($answers = $question->getAnswers()) !== null
                 && $question->getDimensions() === 0) {
-                $items = \yii\helpers\ArrayHelper::map(
+                $items = ArrayHelper::map(
                     $answers,
                     function (AnswerInterface $answer) {
                         return $answer->getCode();
@@ -194,11 +208,11 @@ JS
 
     
     echo Html::beginTag('div', ['class' => 'filterlist']);
-    
-    echo Html::beginTag('div', ['class' => 'group']);
-        echo Html::beginTag('div', ['class' => 'group-title']);
-            echo "Date";
-        echo Html::endTag('div');
+
+        echo Html::beginTag('div', ['class' => 'group']);
+            echo Html::beginTag('div', ['class' => 'group-title']);
+                echo \Yii::t('app', 'Date');
+            echo Html::endTag('div');
             echo Form::widget([
                 'form' => $form,
                 'model' => $filterModel,
@@ -226,28 +240,68 @@ JS
                 ])
             ]);
             echo Html::endTag('div');
-    
-            foreach ($filters as $groupTitle => $questionGroup) {
+
+            if (!empty($filterModel->getWorkspacesForFilters())) {
                 echo Html::beginTag('div', ['class' => 'group']);
-                    echo Html::beginTag('div', ['class' => 'group-title']);
-                echo $groupTitle;
-                    echo Html::endTag('div');
-                    echo Form::widget([
+                echo Html::beginTag('div', ['class' => 'group-title']);
+                echo $filterModel->getAttributeLabel('workspaceIds');
+                echo Html::endTag('div');
+                echo Form::widget([
                 'form' => $form,
                 'model' => $filterModel,
                 'columns' => 2,
-                "attributes" => \iter\toArrayWithKeys($questionGroup)
-                    ]);
+                "attributes" => \iter\toArrayWithKeys([
+                    'workspaceIds' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => Select2::class,
+                        'options' => [
+                            'data' => $filterModel->getWorkspacesForFilters(),
+                            'options' => [
+                                'multiple' => true,
+                            ],
+                        ],
+                        'fieldConfig' => [
+                            'labelOptions' => [
+                                'title' => implode(': ', [
+                                    trim(html_entity_decode($filterModel->getAttributeLabel('workspaceIds'))),
+                                    $filterModel->getAttributeLabel('workspaceIds')
+                                ]),
+                                'data-keywords' => implode(' ', [
+                                    trim(html_entity_decode($filterModel->getAttributeLabel('workspaceIds'))),
+                                    $filterModel->getAttributeLabel('workspaceIds')
+                                ])
+                            ],
+                        ],
+                        'class' => 'filter filter_workspaces',
+                    ]
+                ])
+                ]);
+                echo Html::endTag('div');
+            }
+
+            foreach ($filters as $groupTitle => $questionGroup) {
+                echo Html::beginTag('div', ['class' => 'group']);
+                echo Html::beginTag('div', ['class' => 'group-title']);
+                    echo $groupTitle;
+                echo Html::endTag('div');
+                echo Form::widget([
+                    'form' => $form,
+                    'model' => $filterModel,
+                    'columns' => 2,
+                    "attributes" => \iter\toArrayWithKeys($questionGroup)
+                ]);
                 echo Html::endTag('div');
             }
             echo Html::endTag('div');
+
             echo Html::beginTag('div', ['class' => 'actions']);
-                echo Html::submitButton(\Yii::t('app', 'Apply'), ['class' => 'btn btn-primary']);
-                echo Html::a(\Yii::t('app', 'Clear'), [
-                'project/view',
-                'id' => $project->id,
-                'page_id' => \Yii::$app->request->getQueryParam('page_id'),
-                'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-                ], ['class' => 'btn btn-clear']);
-                echo Html::endTag('div');
-                $form->end();
+            echo Html::submitButton(\Yii::t('app', 'Apply'), ['class' => 'btn btn-primary']);
+            echo Html::a(\Yii::t('app', 'Clear'), [
+            'project/view',
+            'id' => $project->id,
+            'page_id' => \Yii::$app->request->getQueryParam('page_id'),
+            'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
+            ], ['class' => 'btn btn-clear']);
+            echo Html::endTag('div');
+
+            $form->end();
