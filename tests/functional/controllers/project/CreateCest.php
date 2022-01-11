@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
@@ -32,7 +31,6 @@ class CreateCest
         $I->seeResponseCodeIs(200);
         $I->fillField(['name' => 'Project[title]'], 'Cool stuff');
         $I->selectOption(['name' => 'Project[base_survey_eid]'], 11111);
-
         $I->click('Create project');
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(Project::class, [

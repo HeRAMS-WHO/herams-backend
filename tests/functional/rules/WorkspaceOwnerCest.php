@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\rules;
@@ -10,18 +9,15 @@ use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
-/**
- * @coversNothing
- */
 class WorkspaceOwnerCest
 {
+
     public function testSharing(FunctionalTester $I)
     {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
-
+        $I->amLoggedInAs(TEST_USER_ID);
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
         $manager->grant($user, $workspace, Permission::PERMISSION_SURVEY_DATA);
@@ -29,8 +25,7 @@ class WorkspaceOwnerCest
         $manager->grant($user, $workspace, Permission::PERMISSION_SHARE);
 
 
-        foreach (
-            [
+        foreach ([
             Permission::PERMISSION_EXPORT => true,
             Permission::PERMISSION_SURVEY_DATA => true,
             Permission::PERMISSION_SHARE => false,
@@ -39,8 +34,7 @@ class WorkspaceOwnerCest
             Permission::PERMISSION_ADMIN => false,
             Permission::PERMISSION_MANAGE_WORKSPACES => false,
             Permission::PERMISSION_MANAGE_DASHBOARD => false,
-            ] as $permission => $result
-        ) {
+        ] as $permission => $result) {
             $proposedGrant = new ProposedGrant(User::findOne(['id' => TEST_OTHER_USER_ID]), $workspace, $permission);
             $I->assertSame($result, $manager->check($user, $proposedGrant, Permission::PERMISSION_CREATE), $result ? "Permission $permission not allowed" : "Permission $permission allowed");
         }

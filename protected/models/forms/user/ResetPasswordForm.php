@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\models\forms\user;
 
 use kartik\password\StrengthValidator;

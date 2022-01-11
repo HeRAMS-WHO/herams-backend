@@ -2,39 +2,37 @@
 
 namespace prime\models\search;
 
-use prime\models\ar\WorkspaceForLimesurvey;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\data\DataProviderInterface;
 use yii\data\Sort;
 use yii\validators\NumberValidator;
-use yii\validators\SafeValidator;
+use yii\validators\StringValidator;
 
 class Response extends Model
 {
-    public string $date = '';
+    private \prime\models\ar\Workspace $workspace;
     public string $hf_id = '';
+    public string $date = '';
+    public string $last_updated = '';
     public $id;
-    public string $updated_at = '';
 
-    public function __construct(
-        private WorkspaceForLimesurvey $workspace,
-        array $config = []
-    ) {
-        parent::__construct($config);
+    public function __construct(\prime\models\ar\Workspace $workspace)
+    {
+        parent::__construct([]);
+        $this->workspace = $workspace;
     }
 
     public function rules(): array
     {
         return [
-            [['hf_id', 'date', 'updated_at'], SafeValidator::class],
+            [['hf_id', 'date', 'last_updated'], StringValidator::class],
             [['id'], NumberValidator::class],
         ];
     }
 
-    public function search($params): DataProviderInterface
+    public function search($params)
     {
-        $query = \prime\models\ar\ResponseForLimesurvey::find();
+        $query = \prime\models\ar\Response::find();
 
         $query->with('workspace');
         $query->andFilterWhere(['workspace_id' => $this->workspace->id]);
@@ -52,9 +50,9 @@ class Response extends Model
                 'id',
                 'hf_id',
                 'date',
-                'updated_at'
+                'last_updated'
 //                'title',
-//                'created_at',
+//                'created',
 //                'permissionCount',
 //                'facilityCount',
 //                'latestUpdate' => [
@@ -71,7 +69,7 @@ class Response extends Model
         }
         $query->andFilterWhere(['like', 'hf_id', trim($this->hf_id)]);
         $query->andFilterWhere(['like', 'date', trim($this->date)]);
-        $query->andFilterWhere(['like', 'updated_at', trim($this->updated_at)]);
+        $query->andFilterWhere(['like', 'last_updated', trim($this->last_updated)]);
         $query->andFilterWhere(['id' => $this->id]);
         return $dataProvider;
     }

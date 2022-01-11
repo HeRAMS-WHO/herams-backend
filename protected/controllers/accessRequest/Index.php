@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\accessRequest;
@@ -20,16 +19,13 @@ class Index extends Action
         $openAccessRequestsSearchModel = new AccessRequestSearch(
             AccessRequest::find()
                 ->withoutResponse()
-                ->notExpired()
-                ->withFields('created_at')
-                ->orderBy(['created_at' => SORT_DESC]),
+                ->notExpired(),
             $user->identity,
             static fn(AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
         );
 
         $closedAccessRequestsSearchModel = new AccessRequestSearch(
             AccessRequest::find()
-                ->orderBy(['responded_at' => SORT_DESC])
                 ->withResponse(),
             $user->identity,
             static fn(AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),

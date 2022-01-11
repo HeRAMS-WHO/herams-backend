@@ -1,17 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\project;
 
-use prime\components\Controller;
 use prime\exceptions\SurveyDoesNotExist;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
 use prime\models\forms\ResponseFilter;
-use prime\objects\Breadcrumb;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -36,7 +33,7 @@ class View extends Action
         string $filter = null
     ) {
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
-        $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
+        $this->controller->layout = 'css3-grid';
         $project = Project::find()
             ->andWhere(['id'  => $id])
             ->with('mainPages')
@@ -92,23 +89,6 @@ class View extends Action
 
 
         $filtered = $filterModel->filterQuery($responses)->all();
-
-        /** @var \prime\components\View $view */
-        $view = $this->controller->view;
-        $stack = [];
-        $parent = $page;
-        while (null !== ($parent = $parent->getParentPage())) {
-            $stack[] = $parent;
-        }
-
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl(['project/view', 'id' => $project->id]));
-        while (!empty($stack)) {
-            /** @var PageInterface $p */
-            $p = array_pop($stack);
-            $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($p->getTitle()));
-        }
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($page->getTitle()));
-
 
         return $this->controller->render('view', [
             'types' => $this->getTypes($survey, $project),

@@ -1,22 +1,21 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\helpers;
 
 use Carbon\Carbon;
-use prime\models\ar\ResponseForLimesurvey;
-use prime\models\ar\WorkspaceForLimesurvey;
-
+use prime\models\ar\Response;
+use prime\models\ar\Workspace;
 use function iter\filter;
 use function iter\toArrayWithKeys;
 
 class LimesurveyDataLoader
 {
+
     public function loadData(
         array $data,
-        WorkspaceForLimesurvey $workspace,
-        ResponseForLimesurvey $response
+        Workspace $workspace,
+        Response $response
     ): void {
         $data = toArrayWithKeys(filter(function ($value) {
             return $value !== "" && $value !== null;

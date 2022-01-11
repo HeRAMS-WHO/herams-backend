@@ -1,10 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\helpers;
 
 use prime\interfaces\AccessCheckInterface;
+use yii\rbac\CheckAccessInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\User;
@@ -33,10 +33,5 @@ class AccessCheck implements AccessCheckInterface
         if (!$this->user->can($permission)) {
             throw new ForbiddenHttpException($forbiddenMessage);
         }
-    }
-
-    public function checkPermission(object $model, string $permission): bool
-    {
-        return (bool) $this->user->can($permission, $model);
     }
 }

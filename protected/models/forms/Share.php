@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace prime\models\forms;
 
 use app\components\ActiveForm;
 use Carbon\Carbon;
 use kartik\builder\Form;
+use kartik\grid\GridView;
 use kartik\select2\Select2;
 use prime\exceptions\NoGrantablePermissions;
 use prime\helpers\ProposedGrant;
@@ -38,20 +37,25 @@ use yii\web\JsExpression;
  */
 class Share extends Model
 {
-    private array $permissionOptions = [];
+    private $permissionOptions = [];
     private int $linkExpirationDays;
-    public array $userIdsAndEmails = [];
-    public array $permissions = [];
+    public $userIdsAndEmails = [];
+    public $permissions = [];
 
-    private object $model;
+    private $model;
 
     public $confirmationMessage;
 
-    private AuthManager $abacManager;
-    private IdentityInterface $currentUser;
-    private MailerInterface $mailer;
-    private Resolver $resolver;
-    private UrlSigner $urlSigner;
+    /** @var AuthManager */
+    private $abacManager;
+    /** @var IdentityInterface */
+    private $currentUser;
+    /** @var MailerInterface */
+    private $mailer;
+    /** @var Resolver */
+    private $resolver;
+    /** @var UrlSigner */
+    private $urlSigner;
 
     public function __construct(
         object $model,
@@ -238,7 +242,7 @@ class Share extends Model
             }
             $permissions[$key]['permissions'][$permission->permission] = $permission;
         }
-        return \yii\grid\GridView::widget([
+        return GridView::widget([
             'dataProvider' => new ArrayDataProvider([
                 'allModels' => $permissions
             ]),

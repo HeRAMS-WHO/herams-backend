@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\modules\api\response;
@@ -13,6 +12,7 @@ use yii\helpers\Url;
  */
 class UpdateCest
 {
+
     public function testUpdateDoesNotUseCsrf(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);

@@ -1,10 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\models\forms\accessRequest;
 
 use prime\models\ar\AccessRequest;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\Workspace;
@@ -51,7 +51,7 @@ class Create extends Model
         $accessRequest->subject = $this->subject;
         $accessRequest->target = $this->target;
         if (!$accessRequest->save()) {
-            throw new ServerErrorHttpException('Failed saving the record');
+            throw new ServerErrorHttpException('Failed saving the record.');
         }
     }
 

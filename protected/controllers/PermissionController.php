@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\controllers;
 
 use prime\components\Controller;
@@ -11,7 +12,7 @@ use yii\helpers\ArrayHelper;
 
 class PermissionController extends Controller
 {
-    public function actions(): array
+    public function actions()
     {
         return [
             'delete' => Delete::class,
@@ -21,7 +22,7 @@ class PermissionController extends Controller
     }
 
 
-    public function behaviors(): array
+    public function behaviors()
     {
         return ArrayHelper::merge(
             parent::behaviors(),

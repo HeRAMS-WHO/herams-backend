@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\controllers\page;
 
 use prime\components\NotificationService;
@@ -14,13 +15,14 @@ use yii\web\User;
 
 class Create extends Action
 {
+
     public function run(
         Request $request,
         NotificationService $notificationService,
         User $user,
         int $project_id
     ) {
-
+        
         $project = Project::findOne(['id' => $project_id]);
         if (!isset($project)) {
             throw new NotFoundHttpException();

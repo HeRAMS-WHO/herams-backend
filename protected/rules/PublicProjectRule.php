@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\rules;
@@ -12,6 +11,7 @@ use SamIT\abac\interfaces\Rule;
 
 class PublicProjectRule implements Rule
 {
+
     public function getPermissions(): array
     {
         return [Permission::PERMISSION_READ];

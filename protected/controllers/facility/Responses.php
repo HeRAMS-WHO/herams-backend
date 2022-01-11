@@ -1,43 +1,26 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\facility;
 
 use prime\interfaces\AccessCheckInterface;
-use prime\objects\enums\ProjectType;
-use prime\repositories\FacilityRepository;
-use prime\repositories\ResponseForLimesurveyRepository;
-use prime\repositories\SurveyResponseRepository;
-use prime\values\FacilityId;
+use prime\models\ar\FacilityResponse;
+use prime\models\ar\Permission;
+use prime\models\ar\read\Facility;
 use yii\base\Action;
+use yii\data\ActiveDataProvider;
 
 class Responses extends Action
 {
+
     public function run(
-        FacilityRepository $facilityRepository,
-        ResponseForLimesurveyRepository $responseForLimesurveyRepository,
-        SurveyResponseRepository $surveyResponseRepository,
+        AccessCheckInterface $check,
         string $id
     ) {
-        $facilityId = new FacilityId($id);
-        $facility = $facilityRepository->retrieveForTabMenu($facilityId);
+        $facility = Facility::find()->withIdentity($id)->one();
+        $check->requirePermission($facility, Permission::PERMISSION_READ);
 
-        if ($facilityRepository->isOfProjectType($facilityId, ProjectType::limesurvey())) {
-            $dataProvider = $responseForLimesurveyRepository->searchInFacility($facilityId);
-            $updateSituationUrl = ['copy-latest-response', 'id' => $facility->getId()];
-        } else {
-            $dataProvider = $surveyResponseRepository->searchDataInFacility($facilityId);
-            $updateSituationUrl = ['update-situation', 'id' => $facility->getId()];
-        }
-
-        return $this->controller->render(
-            'responses',
-            [
-                'responseProvider' => $dataProvider,
-                'facility' => $facility,
-                'updateSituationUrl' => $updateSituationUrl,
-            ]
-        );
+        $query = FacilityResponse::find()->andWhere(['facility_id' => $facility->id]);
+        return $this->controller->render('responses', ['responseProvider' => new ActiveDataProvider(['query' => $query])]);
     }
 }

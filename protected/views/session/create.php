@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use app\components\Form;
@@ -13,11 +12,12 @@ use yii\helpers\Html;
  * @var \prime\models\forms\user\RequestAccountForm $requestAccountForm
  */
 $this->title = \Yii::$app->name;
-
+    
+    $this->params['breadcrumbs'] = [];
     /** @var \yii\web\View $this */
 
     echo Html::beginTag('div', ['class' => 'signin']);
-
+    
     echo Html::tag('span', \Yii::t('app', "Log in"), ['class' => 'title']);
 
     $form = ActiveForm::begin([
@@ -31,7 +31,7 @@ $this->title = \Yii::$app->name;
         'model' => $model,
         'form' => $form,
         'attributes' => [
-            'login' => [
+            'login' =>[
                 'type' => Form::INPUT_TEXT,
                 'options' => [
                     'autocomplete' => 'username',
@@ -62,7 +62,7 @@ $this->title = \Yii::$app->name;
     ]);
 
     ActiveForm::end();
-
+    
     echo Html::endTag('div');
     echo Html::tag('hr');
         echo Html::beginTag('div', ['class' => 'signup']);

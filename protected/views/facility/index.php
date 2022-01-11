@@ -1,22 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 use kartik\grid\GridView;
-use prime\components\View;
 use prime\models\ar\Permission;
-use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
-use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 
 /**
- * @var ActiveDataProvider $facilityProvider
- * @var View $this
+ * @var \yii\data\ActiveDataProvider $facilityProvider
  */
-
-Section::begin();
-
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [
@@ -38,11 +30,8 @@ echo GridView::widget([
 //    'filterModel' => $projectSearch,
     'layout' => "{items}\n{pager}",
     'columns' => [
-        'id',
-        'code',
+        'uuid',
         'name',
         'alternative_name'
     ]
 ]);
-
-Section::end();

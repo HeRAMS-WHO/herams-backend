@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use app\components\ActiveForm;
@@ -11,7 +10,6 @@ use prime\models\forms\accessRequest\Respond;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 use yii\helpers\Html;
-
 use function iter\map;
 
 /**

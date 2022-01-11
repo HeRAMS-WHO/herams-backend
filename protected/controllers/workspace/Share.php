@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\workspace;
@@ -7,15 +6,16 @@ namespace prime\controllers\workspace;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
 use prime\models\forms\Share as ShareForm;
-use prime\repositories\WorkspaceRepository;
-use prime\values\WorkspaceId;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Action;
 use yii\mail\MailerInterface;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\User;
 
@@ -23,19 +23,21 @@ class Share extends Action
 {
     public function run(
         NotificationService $notificationService,
-        WorkspaceRepository $workspaceRepository,
         Request $request,
         AuthManager $abacManager,
         Resolver $abacResolver,
+        AccessCheckInterface $accessCheck,
         User $user,
         MailerInterface $mailer,
         UrlSigner $urlSigner,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $workspaceId = new WorkspaceId($id);
-
-        $workspace = $workspaceRepository->retrieveForShare($workspaceId);
+        $workspace = Workspace::findOne(['id' => $id]);
+        if (!isset($workspace)) {
+            throw new NotFoundHttpException();
+        }
+        $accessCheck->requirePermission($workspace, Permission::PERMISSION_SHARE);
 
         try {
             $model = new ShareForm(
@@ -78,8 +80,7 @@ class Share extends Action
 
         return $this->controller->render('share', [
             'model' => $model,
-            'workspace' => $workspace,
-            'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId)
+            'workspace' => $workspace
         ]);
     }
 }

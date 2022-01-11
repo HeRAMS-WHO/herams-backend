@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /** @var \prime\components\KubernetesSecretEnvironment $env */
@@ -7,33 +6,23 @@ declare(strict_types=1);
 use Carbon\Carbon;
 use kartik\dialog\DialogAsset;
 use kartik\dialog\DialogBootstrapAsset;
-use prime\components\AuditService;
-use prime\components\Formatter;
-use prime\components\JobSubmissionService;
 use prime\components\LanguageSelector;
-use prime\components\MaintenanceMode;
 use prime\components\NotificationService;
-use prime\modules\Api\Module;
 use yii\web\DbSession;
 use yii\widgets\PjaxAsset;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
-    'bootstrap' => [
-        MaintenanceMode::class,
-        JobSubmissionService::class,
-        'auditService',
-        'notificationService',
-        'languageSelector',
+    'aliases' => [
+        '@npm' => '/node_modules',
 
+    ],
+    'bootstrap' => [
+        'notificationService',
+        'languageSelector'
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
-        'jobQueue' => \JCIT\jobqueue\interfaces\JobQueueInterface::class,
-        'auditService' => AuditService::class,
-        'formatter' => [
-            'class' => Formatter::class
-        ],
         'session' => [
             'class' => DbSession::class,
             'readCallback' => static function (array $fields): array {
@@ -44,10 +33,8 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'writeCallback' => static function (DbSession $session): array {
                 $fields = [
                     'user_id' => $session->get('__id'),
-                    'created_at' => $session->get('created', Carbon::now()),
-                    'updated_at' => Carbon::now(),
-                    // Workaround for https://github.com/yiisoft/yii2/issues/19130
-                    'expire' => time() + $session->getTimeout()
+                    'created' => $session->get('created', Carbon::now()),
+                    'updated' => Carbon::now(),
                 ];
                 $session->remove('__id');
                 return $fields;
@@ -67,17 +54,17 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                Module::urlRule(),
+                \prime\modules\Api\Module::urlRule(),
                 [
                     'pattern' => '<controller>',
                     'route' => '<controller>'
                 ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
-                    'route' => '<controller>'
+                    'route' => '<controller>/view'
                 ],
                 [
-                    'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',
+                    'pattern' => '<controller>/<id:\d+>/<action:[\w-]+>',
                     'route' => '<controller>/<action>'
                 ],
                 [
@@ -148,8 +135,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     ],
     'modules' => [
         'gridview' => [
-            'class' => \kartik\grid\Module::class,
-            'controllerMap' => []
+            'class' => \kartik\grid\Module::class
         ]
     ]
 ]);

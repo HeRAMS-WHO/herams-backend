@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -29,37 +28,30 @@ class Favorite extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id'])->inverseOf('favorites');
     }
 
-    public function getTarget(): null|Project|WorkspaceForLimesurvey
+    public function getTarget()
     {
-        if (
-            !in_array($this->target_class, [
+        if (!in_array($this->target_class, [
             Project::class,
-            WorkspaceForLimesurvey::class
-            ])
-        ) {
+            Workspace::class
+        ])) {
             throw new \RuntimeException('Unknown favorite type: ' . $this->target_class);
         }
         return $this->target_class::findOne(['id' => $this->target_id]);
     }
 
-    public static function labels(): array
+    public function matches(ActiveRecord $target): bool
     {
-        return [
-            'user_id' => \Yii::t('app', 'User'),
-            'target_class' => \Yii::t('app', 'Target type'),
-            'target_id' => \Yii::t('app', 'Target id'),
-
-        ] + parent::labels();
+        return $this->target_class === get_class($target) && $this->target_id === (int) $target->getAttribute('id');
     }
 
 
-    public function rules(): array
+    public function rules()
     {
         return [
-            [['target_class'], RangeValidator::class, 'range' => [WorkspaceForLimesurvey::class]],
+            [['target_class'], RangeValidator::class, 'range' => [Workspace::class]],
             [['user_id'], ExistValidator::class, 'targetRelation' => 'user'],
-            [['target_id'], ExistValidator::class, 'targetAttribute' => 'id', 'targetClass' => WorkspaceForLimesurvey::class, 'when' => static function (Favorite $model) {
-                return $model->target_class === WorkspaceForLimesurvey::class;
+            [['target_id'], ExistValidator::class, 'targetAttribute' => 'id', 'targetClass' => Workspace::class, 'when' => static function (Favorite $model) {
+                return $model->target_class === Workspace::class;
             }]
         ];
     }

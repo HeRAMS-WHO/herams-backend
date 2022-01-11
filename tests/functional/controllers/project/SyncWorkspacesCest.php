@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
@@ -20,7 +19,7 @@ class SyncWorkspacesCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
 
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         $I->assertFalse(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->amOnPage(['/project/sync-workspaces', 'id' => $project->id]);
@@ -31,7 +30,7 @@ class SyncWorkspacesCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
 
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
 
@@ -54,7 +53,7 @@ class SyncWorkspacesCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
 
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
 

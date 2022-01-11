@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 use kartik\grid\ActionColumn;
 use kartik\grid\BooleanColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
-use prime\interfaces\RequestableInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\search\AccessRequest as AccessRequestSearch;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
@@ -39,20 +37,7 @@ echo GridView::widget([
         ],
         [
             'label' => \Yii::t('app', 'Target title'),
-            'format' => 'raw',
-            'value' => function (AccessRequest $request) {
-                $target = $request->target;
-                if ($target instanceof RequestableInterface) {
-                    return Html::a($target->getTitle(), $target->getRoute());
-                } else {
-                    return Html::encode($target->getDisplayField());
-                }
-            }
-
-        ],
-        [
-            'label' => \Yii::t('app', 'Project'),
-            'value' => 'target.projectTitle',
+            'value' => 'target.title',
         ],
         'created_at:dateTime',
         [

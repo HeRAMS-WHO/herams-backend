@@ -1,15 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
-use app\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
+use app\components\ActiveForm;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
+use function iter\chain;
 
 /**
  * @var \prime\models\forms\ResponseFilter $filterModel
@@ -76,14 +76,14 @@ JS
     );
 
 
-
+    
     $date = $filterModel->date;
     $filtersList = $filterModel->advanced;
     if (isset($date) || (is_array($filtersList) && count($filtersList) > 0)) {
         echo Html::beginTag('div', ['class' => 'selected-filters-list']);
         echo "<span class='list-title'>" . \Yii::t('app', 'Filters') . " :</span>";
         if (isset($date)) {
-            echo "<span class='label'>" . \Yii::t('app', 'Date') . " : </span> <span class='value'>{$date}</span> ";
+            echo "<span class='label'>" .\Yii::t('app', 'Date') ." : </span> <span class='value'>{$date}</span> ";
         }
         if (!empty($filterModel->workspaceIds)) {
             echo "<span class='label'>"
@@ -101,8 +101,7 @@ JS
         if (is_array($filtersList) && count($filtersList) > 0) {
             foreach ($groups as $group) {
                 foreach ($group->getQuestions() as $question) {
-                    if (
-                        ($answers = $question->getAnswers()) !== null
+                    if (($answers = $question->getAnswers()) !== null
                         && $question->getDimensions() === 0
                     ) {
                         $items = ArrayHelper::map(
@@ -114,7 +113,7 @@ JS
                                 return strtok(strip_tags($answer->getText()), ':(');
                             }
                         );
-
+                        
                         if (array_key_exists($question->getTitle(), $filtersList)) {
                             $attribute = "adv_{$question->getTitle()}";
                             echo "<span class='label'>{$filterModel->getAttributeLabel($attribute)} :</span>";
@@ -140,11 +139,9 @@ JS
 
     foreach ($groups as $group) {
         foreach ($group->getQuestions() as $question) {
-            if (
-                ($answers = $question->getAnswers()) !== null
-                && $question->getDimensions() === 0
-            ) {
-                $items = \yii\helpers\ArrayHelper::map(
+            if (($answers = $question->getAnswers()) !== null
+                && $question->getDimensions() === 0) {
+                $items = ArrayHelper::map(
                     $answers,
                     function (AnswerInterface $answer) {
                         return $answer->getCode();
@@ -209,7 +206,7 @@ JS
 
 
 
-
+    
     echo Html::beginTag('div', ['class' => 'filterlist']);
 
         echo Html::beginTag('div', ['class' => 'group']);

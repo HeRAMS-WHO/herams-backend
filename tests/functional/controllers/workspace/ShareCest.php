@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\workspace;
@@ -18,7 +17,7 @@ class ShareCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
         $I->seeResponseCodeIs(403);
@@ -27,7 +26,7 @@ class ShareCest
     public function testShareWithWriteAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         $I->grantCurrentUser($workspace, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
@@ -37,7 +36,7 @@ class ShareCest
     public function testLeadPermission(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         $user = User::findOne(['id' => TEST_USER_ID]);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
@@ -54,7 +53,7 @@ class ShareCest
     public function testNoGrantablePermissions(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
@@ -89,7 +88,7 @@ class ShareCest
     public function testShareWithInviteUser(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
@@ -113,7 +112,7 @@ class ShareCest
     public function testShareWithInviteExistingUser(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['workspace/share', 'id' => $workspace->id]);

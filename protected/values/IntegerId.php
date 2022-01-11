@@ -1,18 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\values;
 
-class IntegerId extends Id
+class IntegerId implements \Stringable
 {
     public function __construct(private int $id)
     {
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->id;
     }
 
     public function getValue(): int
@@ -20,8 +14,9 @@ class IntegerId extends Id
         return $this->id;
     }
 
-    public function jsonSerialize(): int
+
+    public function __toString()
     {
-        return $this->id;
+        return (string) $this->id;
     }
 }

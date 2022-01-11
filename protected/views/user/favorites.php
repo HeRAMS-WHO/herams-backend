@@ -1,17 +1,16 @@
 <?php
-
 declare(strict_types=1);
 
 use kartik\grid\GridView;
 use prime\components\View;
-use prime\models\ar\Permission;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\widgets\DrilldownColumn;
 use prime\widgets\FavoriteColumn\FavoriteColumn;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use prime\models\ar\Permission;
 
 /**
  * @var ActiveDataProvider $dataProvider
@@ -44,7 +43,7 @@ echo GridView::widget([
         ],
         [
             'attribute' => 'project.title',
-            'value' => function (WorkspaceForLimesurvey $workspace) {
+            'value' => function (Workspace $workspace) {
                 return Html::a($workspace->project->title, ['/project/workspaces', 'id' => $workspace->project->id]);
             },
             'format' => 'raw',
@@ -52,7 +51,7 @@ echo GridView::widget([
         [
             'class' => DrilldownColumn::class,
             'label' => 'Workspace',
-            'link' => static function (WorkspaceForLimesurvey $workspace) {
+            'link' => static function (Workspace $workspace) {
                 return ['workspace/limesurvey', 'id' => $workspace->id];
             },
             'permission' => Permission::PERMISSION_SURVEY_DATA,

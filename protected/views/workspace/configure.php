@@ -1,17 +1,26 @@
 <?php
-
 declare(strict_types=1);
 
 use app\components\ActiveForm;
-use prime\helpers\Icon;
 use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Html;
+use prime\helpers\Icon;
 
 /**
  * @var \yii\web\View $this
  * @var \prime\models\forms\projects\Token $token
- * @var \prime\models\ar\WorkspaceForLimesurvey $model
+ * @var \prime\models\ar\Workspace $model
  */
+
+$this->params['breadcrumbs'][] = [
+    'label' => $model->project->title,
+    'url' => ['project/workspaces', 'id' => $model->project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app', 'Update workspace token'),
+    'url' => ['workspace/configure', 'id' => $model->id]
+];
 
 $this->title = Yii::t('app', 'Update workspace token');
 

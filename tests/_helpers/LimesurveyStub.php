@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\tests\_helpers;
 
 use SamIT\LimeSurvey\JsonRpc\Client;
@@ -107,8 +108,6 @@ class LimesurveyStub extends Client
     public function createToken($surveyId, array $tokenData, $generateToken = true)
     {
         $result = new TokenStub($surveyId, $tokenData);
-        codecept_debug("Creating token with survey {$surveyId}:");
-        codecept_debug($tokenData);
         $this->tokens[$surveyId][$result->getToken()] = $result;
         return $result;
     }

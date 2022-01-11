@@ -1,5 +1,4 @@
 <?php
-
 namespace Page;
 
 class Login
@@ -28,7 +27,7 @@ class Login
      */
     public static function route($param = "")
     {
-        return static::$URL . $param;
+        return static::$URL.$param;
     }
 
 
@@ -37,7 +36,7 @@ class Login
         $I = $this->tester;
         $I->amOnPage(self::route());
 
-        $key = md5('login' . $user . $password);
+        $key = md5('login' . $user. $password);
         if (!$I->loadSessionSnapshot($key)) {
             $I->fillField(self::$emailField, $user);
             $I->fillField(self::$passwordField, $password);

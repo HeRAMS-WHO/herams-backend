@@ -1,13 +1,14 @@
 <?php
 
+
 namespace prime\controllers\workspace;
 
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Permission;
-use prime\models\ar\ResponseForLimesurvey;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Response;
+use prime\models\ar\Workspace;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -24,7 +25,7 @@ class Refresh extends Action
         LimesurveyDataLoader $loader,
         int $id
     ) {
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
+        $workspace = Workspace::findOne(['id' => $id]);
         if (!isset($workspace)) {
             throw new NotFoundHttpException();
         }
@@ -42,7 +43,7 @@ class Refresh extends Action
                 'workspace_id' => $workspace->id
             ];
 
-            $dataResponse = ResponseForLimesurvey::findOne($key) ?? new ResponseForLimesurvey($key);
+            $dataResponse = Response::findOne($key) ?? new Response($key);
             $loader->loadData($response->getData(), $workspace, $dataResponse);
             if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
@@ -55,7 +56,7 @@ class Refresh extends Action
             }
         }
         // Check for deleted responses as well.
-        $deleted = ResponseForLimesurvey::deleteAll([
+        $deleted = Response::deleteAll([
             'and',
             ['workspace_id' => $workspace->id],
             ['not', ['id' => $ids]]

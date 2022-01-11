@@ -1,13 +1,18 @@
 <?php
 
+
 namespace prime\widgets\map;
 
 use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
+use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Json;
+use yii\helpers\Url;
+use yii\web\JsExpression;
 
 class DashboardMap extends Element
 {
@@ -82,11 +87,11 @@ class DashboardMap extends Element
                 $value = $getter($response) ?? HeramsSubject::UNKNOWN_VALUE;
                 $latitude = $response->getLatitude();
                 $longitude = $response->getLongitude();
-                if (
-                    abs($latitude) < 0.0000001
+                if (abs($latitude) < 0.0000001
                     || abs($longitude) < 0.0000001
                     || abs($latitude) > 90
                     || abs($longitude) > 180
+
                 ) {
                     continue;
                 }

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\page;
 
@@ -8,9 +7,6 @@ use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\tests\FunctionalTester;
 
-/**
- * @covers \prime\controllers\page\Update
- */
 class UpdateCest
 {
     public function _before(FunctionalTester $I)
@@ -22,7 +18,7 @@ class UpdateCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         $parentPage = new Page();
         $parentPage->title = 'parent';

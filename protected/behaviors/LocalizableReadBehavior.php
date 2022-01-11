@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\behaviors;
@@ -7,6 +6,7 @@ namespace prime\behaviors;
 use yii\base\Behavior;
 use yii\base\Event;
 use yii\base\Model;
+use yii\base\ModelEvent;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 
@@ -38,7 +38,7 @@ class LocalizableReadBehavior extends Behavior
         ];
     }
 
-    private function loadLocalizedAttributes(Model $model): void
+    private function loadLocalizedAttributes(Model $model):void
     {
         if ($this->locale === $this->defaultLocale || !is_array($model->{$this->translationProperty})) {
             return;

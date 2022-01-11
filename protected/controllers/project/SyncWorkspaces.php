@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\project;
@@ -15,6 +14,7 @@ use yii\web\Request;
 
 class SyncWorkspaces extends Action
 {
+
     public function run(
         Request $request,
         NotificationService $notificationService,

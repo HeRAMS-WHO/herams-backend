@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\user;
@@ -42,8 +41,7 @@ class ResetPassword extends Action
         }
 
         $model = new ResetPasswordForm($user);
-        if (
-            $model->load($request->bodyParams)
+        if ($model->load($request->bodyParams)
             && $model->validate()
         ) {
             $model->resetPassword();

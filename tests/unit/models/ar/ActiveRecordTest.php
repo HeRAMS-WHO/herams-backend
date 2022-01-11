@@ -5,7 +5,6 @@ namespace prime\tests\unit\models\ar;
 use prime\tests\unit\models\ModelTest;
 use yii\base\Model;
 use yii\base\NotSupportedException;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -13,33 +12,17 @@ use yii\db\ActiveRecord;
  */
 abstract class ActiveRecordTest extends ModelTest
 {
-    final protected function testRelation(string $name, string $modelClass): void
-    {
-        $method = 'get' . ucfirst($name);
-        $query = $this->getModel()->$method();
-        $this->assertInstanceOf(ActiveQuery::class, $query);
-        $this->assertSame($modelClass, $query->modelClass);
-    }
-
     public function testGetModel()
     {
         $model = $this->getModel();
         $this->assertInstanceOf(ActiveRecord::class, $model);
     }
 
-    public function testFind(): void
-    {
-        $class = get_class($this->getModel());
-        /** @var ActiveQuery $query */
-        $query = $class::find();
-        $this->assertSame($class, $query->modelClass);
-    }
-
     /**
      * @dataProvider validSamples
-     * @depends testValidation
+     * @depends testValidationRules
      */
-    final public function testSave(array $attributes, ?string $scenario): void
+    public function testSave(array $attributes, ?string $scenario)
     {
         $model = $this->getModel();
         $model->scenario = $scenario ?? Model::SCENARIO_DEFAULT;
@@ -54,13 +37,16 @@ abstract class ActiveRecordTest extends ModelTest
         $this->assertTrue($model->save(false), 'ActiveRecord save failed: ' . print_r($model->attributes, true));
     }
 
+    /**
+     * @return ActiveRecord
+     */
     final protected function getModel(): \prime\models\ActiveRecord
     {
         $class = strtr(get_class($this), [
             __NAMESPACE__ => 'prime\models\ar',
             'Test' => ''
         ]);
-        return new $class();
+        return new $class;
     }
 
 

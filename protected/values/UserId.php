@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\values;
@@ -9,4 +8,5 @@ namespace prime\values;
  */
 class UserId extends IntegerId
 {
+
 }

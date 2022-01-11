@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\widgets;
@@ -25,7 +24,7 @@ class DateTimeColumn extends DataColumn
             return \Yii::t('app', 'never');
         }
         $dateTime = new Carbon($value);
-
-        return Html::tag('time-ago', $value, ['datetime' => $dateTime->format(Carbon::ISO8601)]);
+        
+        return Html::tag('time-ago', $value, ['datetime'=> $dateTime->format(Carbon::ISO8601)]);
     }
 }

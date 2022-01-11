@@ -1,21 +1,18 @@
 <?php
 
-declare(strict_types=1);
 
 namespace prime\tests\functional\actions;
 
 use prime\actions\DeleteAction;
-use prime\models\ar\ResponseForLimesurvey;
+use prime\models\ar\Response;
 use prime\tests\FunctionalTester;
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 
-/**
- * @covers \prime\actions\DeleteAction
- */
 class DeleteActionCest
 {
+
     public function testInitNoConfig(FunctionalTester $I)
     {
         $I->expectThrowable(InvalidConfigException::class, function () {
@@ -32,7 +29,7 @@ class DeleteActionCest
             }
         });
         $action = new DeleteAction('delete', null, [
-            'query' => ResponseForLimesurvey::find()->andWhere('0 = 1')
+            'query' => Response::find()->andWhere('0 = 1')
         ]);
         $I->expectThrowable(NotFoundHttpException::class, function () use ($action) {
             $action->run(\Yii::$app->user, \Yii::$app->notificationService, 51);

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use app\components\ActiveForm;
@@ -24,6 +23,21 @@ use yii\helpers\Url;
  * @var Page $page
  * @var string $url
  */
+
+$this->params['breadcrumbs'][] = [
+    'label' => $project->title,
+    'url' => ['project/update', 'id' => $project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Dashboard settings'),
+    'url' => ['project/pages', 'id' => $project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Update page: {page}', ['page' => $page->title]),
+    'url' => ['page/update', 'id' => $page->id]
+];
 
 $this->title = $model->isNewRecord
     ? \Yii::t('app', 'Create element')

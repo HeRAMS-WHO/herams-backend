@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\permission;
@@ -12,6 +11,8 @@ use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\values\Authorizable;
 use SamIT\abac\values\Grant;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
+use yii\web\User;
 
 class Revoke extends Action
 {

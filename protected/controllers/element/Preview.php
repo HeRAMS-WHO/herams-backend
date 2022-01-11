@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\controllers\element;
 
 use prime\components\Controller;
@@ -15,6 +16,7 @@ use yii\web\User;
 
 class Preview extends Action
 {
+
     public function run(
         LimesurveyDataProvider $limesurveyDataProvider,
         User $user,

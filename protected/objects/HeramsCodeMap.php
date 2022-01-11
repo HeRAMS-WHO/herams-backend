@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace prime\objects;
 
@@ -39,16 +38,6 @@ class HeramsCodeMap
     public function getFunctionality(): string
     {
         return 'HFFUNCT';
-    }
-
-    public function getCondition(): string
-    {
-        return 'CONDB';
-    }
-
-    public function getAcessibility(): string
-    {
-        return 'HFACC';
     }
 
     public function getSubjectExpression(): string

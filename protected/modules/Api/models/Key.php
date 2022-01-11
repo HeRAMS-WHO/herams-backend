@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\modules\Api\models;
@@ -10,6 +9,7 @@ use yii\web\IdentityInterface;
 
 class Key extends ActiveRecord implements IdentityInterface
 {
+
     /**
      * @inheritDoc
      */

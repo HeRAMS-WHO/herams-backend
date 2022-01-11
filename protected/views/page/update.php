@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use app\components\Form;
@@ -15,7 +14,6 @@ use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
-
 use function iter\chain;
 use function iter\toArrayWithKeys;
 
@@ -23,6 +21,16 @@ use function iter\toArrayWithKeys;
  * @var Page $page
  * @var View $this
  */
+
+$this->params['breadcrumbs'][] = [
+    'label' => $page->project->title,
+    'url' => ['project/update', 'id' => $page->project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Dashboard settings'),
+    'url' => ['project/pages', 'id' => $page->project->id]
+];
 
 $this->title = \Yii::t('app.pagetitle', $page->title);
 

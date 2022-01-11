@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\jobHandlers\permissions;
@@ -10,7 +9,7 @@ use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Project;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\repositories\AccessRequestRepository;
 use prime\repositories\PermissionRepository;
 use SamIT\abac\AuthManager;
@@ -35,11 +34,10 @@ class CheckImplicitAccessRequestGrantedHandler
         $permission = $this->permissionRepository->retrieveOrThrow($job->getPermissionId());
         $target = $this->resolver->toSubject($permission->targetAuthorizable());
 
-        if (
-            !$target
+        if (!$target
             || !(
                 $target instanceof Project
-                || $target instanceof WorkspaceForLimesurvey
+                || $target instanceof Workspace
             )
         ) {
             return;

@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\widgets;
 
-use prime\interfaces\CanCurrentUser;
 use prime\models\ar\Permission;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -12,6 +10,7 @@ use yii\web\User;
 
 class Section extends Widget
 {
+
     public iterable $actions = [];
     public string $header;
     public array $headerOptions = [];
@@ -27,18 +26,9 @@ class Section extends Widget
                 continue;
             }
 
-            if (isset($action['permission']) && isset($this->subject) && $this->subject instanceof CanCurrentUser) {
-                if ($this->subject->canCurrentUser($action['permission'])) {
-                    yield $action;
-                }
-                continue;
+            if (!isset($action['permission']) || $this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
+                yield $action;
             }
-
-            if (isset($action['permission']) && !$this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
-                continue;
-            }
-
-            yield $action;
         }
     }
 
@@ -54,11 +44,6 @@ class Section extends Widget
         return $this->withPermission(Permission::PERMISSION_ADMIN);
     }
 
-    public function withActions(array $actions): self
-    {
-        $this->actions = $actions;
-        return $this;
-    }
 
     public function withHeader(string $header, array $options = []): self
     {
@@ -158,7 +143,6 @@ class Section extends Widget
 
     public function run(): string
     {
-
         if (isset($this->permission) && !$this->getUserComponent()->can($this->permission, $this->subject)) {
             ob_get_clean();
             return '';

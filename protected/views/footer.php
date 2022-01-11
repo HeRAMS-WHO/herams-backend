@@ -1,10 +1,10 @@
+<div class="footer">
 <?php
 
 use prime\helpers\Icon;
 use prime\models\ar\Project;
 use yii\helpers\Html;
 
-echo Html::beginTag('div', ['class' => 'footer']);
 // Render all statistics.
 /**
  * @var Project[] $projects
@@ -95,6 +95,6 @@ try {
 JS
 
 );
+?>
 
-
-echo Html::endTag('div');
+</div>

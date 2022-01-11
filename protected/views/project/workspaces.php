@@ -1,11 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\models\ar\User;
 use prime\models\ar\Workspace;
 use prime\models\search\Workspace as WorkspaceSearch;
 use prime\widgets\DateTimeColumn;
@@ -20,7 +20,6 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\User as UserComponent;
 use yii\web\View;
-
 use function iter\func\index;
 use function iter\rewindable\map;
 use function iter\toArray;
@@ -93,9 +92,11 @@ echo GridView::widget(
                 'class'      => DrilldownColumn::class,
                 'attribute'  => 'title',
                 'permission' => Permission::PERMISSION_LIST_FACILITIES,
-                'link'       => static fn (Workspace $workspace) => [
-                    'workspace/facilities', 'id' => $workspace->id
-                ],
+                'link'       => function ($workspace) {
+                    return [
+                        'workspace/limesurvey', 'id' => $workspace->id
+                    ];
+                },
             ],
             [
                 'attribute' => 'latestUpdate',

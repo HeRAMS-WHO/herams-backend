@@ -1,53 +1,45 @@
 <?php
-
 declare(strict_types=1);
 
 use kartik\grid\GridView;
-use prime\components\View;
-use prime\interfaces\FacilityForTabMenu;
-use prime\interfaces\ResponseForList;
 use prime\models\ar\Permission;
-use prime\widgets\menu\FacilityTabMenu;
-use prime\widgets\Section;
-use yii\data\ActiveDataProvider;
+use yii\bootstrap\ButtonGroup;
 use yii\helpers\Url;
 
 /**
- * @var FacilityForTabMenu $facility
- * @var ActiveDataProvider $responseProvider
- * @var View $this
- * @var array $updateSituationUrl
+ * @var \yii\data\ActiveDataProvider $responseProvider
+ * @var \prime\components\View $this
  */
 
-$this->title = $facility->getTitle();
-
-$this->beginBlock('tabs');
-echo FacilityTabMenu::widget(
-    ['facility' => $facility]
-);
-$this->endBlock();
-
-Section::begin()
-    ->withActions([
-        [
-            'label' => \Yii::t('app', 'Update situation for facility'),
-            'link' => Url::to($updateSituationUrl),
-            'permission' => Permission::PERMISSION_SURVEY_DATA
-        ],
-    ])
-    ->withSubject($facility)
-    ->withHeader(\Yii::t('app', 'Responses'));
+$this->title = \Yii::t('app', 'Responses');
 
 echo GridView::widget([
+
+    'caption' => ButtonGroup::widget([
+        'options' => [
+            'class' => 'pull-right',
+        ],
+        'buttons' => [
+            [
+                'label' => \Yii::t('app', 'Create facility'),
+                'tagName' => 'a',
+                'options' => [
+                    'href' => Url::to(['create']),
+                    'class' => 'btn-default',
+                ],
+                'visible' => app()->user->can(Permission::PERMISSION_ADMIN)
+            ],
+        ]
+    ]),
     'dataProvider' => $responseProvider,
+//    'filterModel' => $projectSearch,
+    'layout' => "{items}\n{pager}",
     'columns' => [
-        ResponseForList::ID,
-        'externalId',
-        'dateOfUpdate',
-        ResponseForList::CONDITION,
-        ResponseForList::FUNCTIONALITY,
-        ResponseForList::ACCESSIBILITY,
+        'id',
+        'survey_id',
+        'extracted_type',
+        'latitude',
+        'longitude',
+        'extracted_date'
     ]
 ]);
-
-Section::end();

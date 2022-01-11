@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\jobHandlers\accessRequests;
@@ -13,7 +12,6 @@ use prime\repositories\AccessRequestRepository;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\mail\MailerInterface;
-
 use function iter\func\index;
 use function iter\rewindable\filter;
 use function iter\rewindable\map;

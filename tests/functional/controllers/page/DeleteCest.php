@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\page;
 
@@ -10,9 +9,6 @@ use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;
 
-/**
- * @covers \prime\actions\DeleteAction
- */
 class DeleteCest
 {
     public function _before(FunctionalTester $I)
@@ -26,7 +22,7 @@ class DeleteCest
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;
@@ -41,7 +37,7 @@ class DeleteCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $I->stopFollowingRedirects();
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;
@@ -66,7 +62,7 @@ class DeleteCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $I->stopFollowingRedirects();
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $parentPage = new Page();
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;

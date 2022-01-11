@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\models\search;
@@ -16,7 +15,7 @@ class Project extends Model
 {
     public $title;
     public $id;
-    public function rules(): array
+    public function rules()
     {
         return [
             [['title'], StringValidator::class],
@@ -43,7 +42,7 @@ class Project extends Model
             'attributes' => [
                 'id',
                 'title',
-                'created_at',
+                'created',
                 'workspaceCount',
                 'facilityCount',
                 'responseCount',

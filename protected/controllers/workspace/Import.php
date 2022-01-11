@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\controllers\workspace;
 
 use prime\components\Controller;
@@ -15,6 +16,7 @@ use yii\web\Request;
 
 class Import extends Action
 {
+
     public function run(
         LimesurveyDataProvider $limesurveyDataProvider,
         AccessCheckInterface $accessCheck,
@@ -37,8 +39,7 @@ class Import extends Action
         }
 
         if ($request->isPost) {
-            if (
-                $model->load($request->bodyParams)
+            if ($model->load($request->bodyParams)
                 && $model->validate()
             ) {
                 $result = $model->run();

@@ -73,7 +73,7 @@ class DashboardMapRenderer {
             color.style.setProperty('background-color',set.color);
             color.classList.add('color');
             legend.appendChild(color);
-
+            
             let label = document.createElement('span');
             label.classList.add('label');
             label.textContent = set.title;
@@ -289,7 +289,7 @@ class DashboardMapRenderer {
 
     toggleClusters()
     {
-
+        
         if (this.hasClusters) {
             this.markerClusters.disableClustering(); // shortcut for mcg.freezeAtZoom("max")
         } else {

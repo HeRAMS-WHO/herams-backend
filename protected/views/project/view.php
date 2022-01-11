@@ -1,7 +1,7 @@
 <?php
-
 declare(strict_types=1);
 
+use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\widgets\menu\ProjectPageMenu;
@@ -18,6 +18,8 @@ use yii\web\View;
  * @var array $types
  */
 
+
+
 echo ProjectPageMenu::widget([
     'project' => $project,
     'collapsible' => false,
@@ -28,7 +30,42 @@ echo ProjectPageMenu::widget([
 
 ]);
 
+$this->params['breadcrumbs'] = [
+    [
+        'label' => $project->getDisplayField(),
+        'url' => ['project/view', 'id' => $project->id]
+    ],
+];
+
+// Get page stack.
+$stack = [];
+$parent = $page;
+while (null !== ($parent = $parent->getParentPage())) {
+    $stack[] = $parent;
+}
+
+while (!empty($stack)) {
+    /** @var PageInterface $p */
+    $p = array_pop($stack);
+    $this->params['breadcrumbs'][] = [
+        'label' => \Yii::t('app.pagetitle', $p->getTitle()),
+    ];
+}
+
+if ($project->mainPages[0]->getId() !== $page->getId()) {
+    $this->params['breadcrumbs'][] = [
+        'label' => \Yii::t('app.pagetitle', $page->getTitle()),
+//    'url' => [
+//        'project/view',
+//        'id' => $project->id,
+//        'page_id' => $page->getId(),
+//        'parent_id' => $page->getParentId()
+//    ]
+    ];
+}
+
 $this->title = \Yii::t('app.pagetitle', $page->getTitle());
+
 
 echo $this->render('view/filters', [
     'types' => $types,

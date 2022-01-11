@@ -1,12 +1,9 @@
 <?php
-
 /** @var \prime\models\ar\User $user */
 
 /** @var array $verificationRoute */
 
-use yii\helpers\Url;
-
-?>
+use yii\helpers\Url; ?>
 <h1>Welcome to HeRAMS!</h1>
 
 <p>

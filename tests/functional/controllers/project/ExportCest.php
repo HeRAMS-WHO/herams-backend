@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
@@ -8,9 +7,6 @@ use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 
-/**
- * @covers \prime\actions\ExportAction
- */
 class ExportCest
 {
     public function testNotFound(FunctionalTester $I)
@@ -23,7 +19,7 @@ class ExportCest
     public function testDownload(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveProjectForLimesurvey();
+        $workspace = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_EXPORT);
 
         $I->amOnPage(['project/export', 'id' => $workspace->id]);

@@ -1,5 +1,4 @@
 <?php
-
 namespace Step\Acceptance;
 
 use Page\Login;

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\objects;
 
 use prime\interfaces\PageInterface;

@@ -1,10 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 use prime\models\ar\User;
-use prime\models\forms\user\UpdateEmailForm;
 use prime\models\forms\user\UpdatePasswordForm;
+use prime\models\forms\user\UpdateEmailForm;
 use prime\widgets\Section;
 use prime\widgets\Tabs;
 

@@ -1,23 +1,19 @@
 <?php
 
-declare(strict_types=1);
 
 namespace prime\models\forms;
 
 use prime\models\ar\User;
-use prime\traits\DisableYiiLoad;
 use Yii;
 use yii\base\Model;
 use yii\validators\RequiredValidator;
 
 class LoginForm extends Model
 {
-    use DisableYiiLoad;
+    public $login;
+    public $password;
 
-    public string|null $login = null;
-    public string|null $password = null;
-
-    public function attributeLabels(): array
+    public function attributeLabels()
     {
         return [
             'login' => \Yii::t('app', 'Email'),
@@ -26,7 +22,7 @@ class LoginForm extends Model
     }
 
 
-    public function rules(): array
+    public function rules()
     {
         return [
             [['login', 'password'], RequiredValidator::class],
@@ -37,14 +33,14 @@ class LoginForm extends Model
         ];
     }
 
-    public function validateLogin($attribute, $params): void
+    public function validateLogin($attribute, $params)
     {
         if ($this->getUser() === null) {
             $this->addError($attribute, \Yii::t('app', "Unknown email"));
         }
     }
 
-    public function validatePassword($attribute, $params): void
+    public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
             if (!password_verify($this->password, $this->getUser()->password_hash)) {
@@ -58,7 +54,7 @@ class LoginForm extends Model
      *
      * @return bool whether the user is logged in successfully
      */
-    public function login(): bool
+    public function login()
     {
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser());

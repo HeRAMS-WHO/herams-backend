@@ -30,34 +30,18 @@ CREATE TABLE `prime2_access_request` (
   `permissions` json DEFAULT NULL,
   `accepted` tinyint(1) DEFAULT NULL,
   `response` text,
-  `responded_by` int DEFAULT NULL,
   `created_by` int DEFAULT NULL,
-  `responded_at` datetime DEFAULT NULL,
-  `expires_at` datetime DEFAULT NULL,
+  `responded_by` int DEFAULT NULL,
+  `created_at` int DEFAULT NULL,
+  `expires_at` int DEFAULT NULL,
+  `responded_at` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i-access_request-target_class-target_id` (`target_class`,`target_id`),
-  KEY `fk-access_request-responded_by-user-id` (`responded_by`),
   KEY `fk-access_request-created_by-user-id` (`created_by`),
+  KEY `fk-access_request-responded_by-user-id` (`responded_by`),
+  CONSTRAINT `fk-access_request-created_by-user-id` FOREIGN KEY (`created_by`) REFERENCES `prime2_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk-access_request-responded_by-user-id` FOREIGN KEY (`responded_by`) REFERENCES `prime2_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `prime2_audit`
---
-
-DROP TABLE IF EXISTS `prime2_audit`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_audit` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `subject_name` varchar(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `subject_id` int NOT NULL,
-  `event` varchar(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_by` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1224 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,56 +150,7 @@ CREATE TABLE `prime2_element` (
   `width` tinyint unsigned NOT NULL DEFAULT '1',
   `height` tinyint unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=349 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `prime2_event_log`
---
-
-DROP TABLE IF EXISTS `prime2_event_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_event_log` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `source_name` varchar(50) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `source_id` int NOT NULL,
-  `target_name` varchar(50) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `target_id` int NOT NULL,
-  `event` varchar(50) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `data` json DEFAULT NULL,
-  `created` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `source` (`source_name`,`source_id`,`created`),
-  KEY `target` (`target_name`,`target_id`,`created`),
-  KEY `event` (`event`,`created`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `prime2_facility`
---
-
-DROP TABLE IF EXISTS `prime2_facility`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_facility` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `workspace_id` int NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `alternative_name` varchar(255) DEFAULT NULL,
-  `i18n` json DEFAULT NULL,
-  `code` varchar(255) DEFAULT NULL,
-  `data` json DEFAULT NULL,
-  `admin_data` json DEFAULT NULL,
-  `latitude` decimal(10,8) DEFAULT NULL,
-  `longitude` decimal(11,8) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `deactivated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `workspace_id` (`workspace_id`),
-  CONSTRAINT `workspace_id` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=292 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -352,7 +287,7 @@ CREATE TABLE `prime2_page` (
   KEY `page_page` (`parent_id`),
   CONSTRAINT `page_page` FOREIGN KEY (`parent_id`) REFERENCES `prime2_page` (`id`),
   CONSTRAINT `page_project` FOREIGN KEY (`project_id`) REFERENCES `prime2_project` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=685 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,8 +304,12 @@ CREATE TABLE `prime2_permission` (
   `target` varchar(255) NOT NULL,
   `target_id` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1409 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` int DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk-permission-created_by-user-id` (`created_by`),
+  CONSTRAINT `fk-permission-created_by-user-id` FOREIGN KEY (`created_by`) REFERENCES `prime2_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=458 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -395,46 +334,35 @@ CREATE TABLE `prime2_project` (
   `manage_implies_create_hf` tinyint(1) NOT NULL DEFAULT '1',
   `i18n` json DEFAULT NULL,
   `languages` json DEFAULT NULL,
-  `admin_survey_id` int DEFAULT NULL,
-  `data_survey_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`),
-  UNIQUE KEY `survey` (`base_survey_eid`),
-  KEY `project_admin_survey` (`admin_survey_id`),
-  KEY `project_data_survey` (`data_survey_id`),
-  CONSTRAINT `project_admin_survey` FOREIGN KEY (`admin_survey_id`) REFERENCES `prime2_survey` (`id`),
-  CONSTRAINT `project_data_survey` FOREIGN KEY (`data_survey_id`) REFERENCES `prime2_survey` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `survey` (`base_survey_eid`)
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `prime2_response_for_limesurvey`
+-- Table structure for table `prime2_response`
 --
 
-DROP TABLE IF EXISTS `prime2_response_for_limesurvey`;
+DROP TABLE IF EXISTS `prime2_response`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_response_for_limesurvey` (
-  `id` int DEFAULT NULL,
-  `survey_id` int DEFAULT NULL,
+CREATE TABLE `prime2_response` (
+  `id` int NOT NULL,
+  `survey_id` int NOT NULL,
   `workspace_id` int NOT NULL,
   `data` json DEFAULT NULL,
   `date` date NOT NULL,
   `hf_id` varchar(20) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `last_updated` datetime DEFAULT CURRENT_TIMESTAMP,
-  `facility_id` int DEFAULT NULL,
-  `auto_increment_id` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`auto_increment_id`),
+  PRIMARY KEY (`id`,`survey_id`),
   KEY `date` (`date`,`hf_id`),
   KEY `date_2` (`hf_id`,`date`) USING BTREE,
   KEY `workspace` (`workspace_id`),
   KEY `project` (`survey_id`),
-  KEY `facility_response` (`facility_id`),
-  KEY `oldprimary` (`id`,`survey_id`),
-  CONSTRAINT `facility_response` FOREIGN KEY (`facility_id`) REFERENCES `prime2_facility` (`id`),
   CONSTRAINT `project` FOREIGN KEY (`survey_id`) REFERENCES `prime2_project` (`base_survey_eid`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `workspace` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -470,8 +398,8 @@ DROP TABLE IF EXISTS `prime2_session`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prime2_session` (
   `id` char(32) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
   `expire` int NOT NULL,
   `data` blob,
   `user_id` int DEFAULT NULL,
@@ -509,42 +437,6 @@ CREATE TABLE `prime2_source_message` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `prime2_survey`
---
-
-DROP TABLE IF EXISTS `prime2_survey`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_survey` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `config` json NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `prime2_survey_response`
---
-
-DROP TABLE IF EXISTS `prime2_survey_response`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prime2_survey_response` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `survey_id` int NOT NULL,
-  `facility_id` int NOT NULL,
-  `data` json NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_by` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk-survey_response-survey_id-survey-id` (`survey_id`),
-  KEY `fk-survey_response-facility_id-facility-id` (`facility_id`),
-  CONSTRAINT `fk-survey_response-facility_id-facility-id` FOREIGN KEY (`facility_id`) REFERENCES `prime2_facility` (`id`),
-  CONSTRAINT `fk-survey_response-survey_id-survey-id` FOREIGN KEY (`survey_id`) REFERENCES `prime2_survey` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `prime2_token`
 --
 
@@ -572,15 +464,15 @@ CREATE TABLE `prime2_user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL,
   `last_login_at` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `language` varchar(10) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
   `newsletter_subscription` tinyint(1) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `prime2_user_unique_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -593,15 +485,14 @@ DROP TABLE IF EXISTS `prime2_workspace`;
 CREATE TABLE `prime2_workspace` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
-  `i18n` json DEFAULT NULL,
-  `project_id` int DEFAULT NULL,
-  `closed_at` date DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tool_id` int DEFAULT NULL,
+  `closed` date DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(35) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `token` (`project_id`,`token`),
-  CONSTRAINT `project_workspace` FOREIGN KEY (`project_id`) REFERENCES `prime2_project` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `token` (`tool_id`,`token`),
+  CONSTRAINT `project_workspace` FOREIGN KEY (`tool_id`) REFERENCES `prime2_project` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=1715 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

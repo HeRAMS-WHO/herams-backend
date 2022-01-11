@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\rules;
@@ -12,6 +11,7 @@ use SamIT\abac\interfaces\Rule;
 
 class ProjectSummaryRule implements Rule
 {
+
     public function getPermissions(): array
     {
         return [Permission::PERMISSION_SUMMARY];
@@ -39,6 +39,10 @@ class ProjectSummaryRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
+        if (in_array($target, $this->getTargetNames())
+            && in_array($permission, $this->getPermissions())) {
+            var_dump($target->isHidden());
+        }
         return $target instanceof Project
             && in_array($permission, $this->getPermissions())
             && (!$target->isHidden() || $accessChecker->check($source, $target, Permission::PERMISSION_READ));

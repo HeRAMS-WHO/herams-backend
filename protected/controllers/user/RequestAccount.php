@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers\user;
@@ -28,8 +27,7 @@ class RequestAccount extends Action
         }
 
         $model = new RequestAccountForm($cache);
-        if (
-            $model->load($request->getBodyParams())
+        if ($model->load($request->getBodyParams())
             && $model->validate()
             && $model->send($mailer, $urlSigner)
         ) {

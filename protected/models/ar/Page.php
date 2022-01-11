@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\models\ar;
 
 use prime\interfaces\Exportable;
@@ -14,7 +15,6 @@ use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
-
 use function iter\rewindable\map;
 
 /**
@@ -32,6 +32,7 @@ use function iter\rewindable\map;
  */
 class Page extends ActiveRecord implements PageInterface, Exportable
 {
+
     public function init()
     {
         $this->sort = 0;
@@ -97,9 +98,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return $this->getAttribute('parent_id');
     }
 
-    public static function labels(): array
+    public function attributeLabels(): array
     {
-        return array_merge(parent::labels(), [
+        return array_merge(parent::attributeLabels(), [
             'parent_id' => \Yii::t('app', 'Parent page'),
             'sort' => \Yii::t('app', 'Sort index'),
             'add_services' => \Yii::t('app', 'Add services'),
@@ -153,7 +154,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()])->inverseOf('children');
     }
 
-    public function rules(): array
+    public function rules()
     {
         return [
             [['title', 'sort', 'project_id'], RequiredValidator::class],

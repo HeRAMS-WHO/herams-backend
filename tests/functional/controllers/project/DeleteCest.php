@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
@@ -11,15 +10,13 @@ use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;
 
-/**
- * @covers \prime\actions\DeleteAction
- */
 class DeleteCest
 {
+
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $user = User::findOne(['id' => TEST_USER_ID]);
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
@@ -38,7 +35,7 @@ class DeleteCest
     public function testDelete(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_DELETE);
 

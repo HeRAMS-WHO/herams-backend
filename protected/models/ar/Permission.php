@@ -1,15 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\models\ar;
 
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\behaviors\AuditableBehavior;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ActiveRecord;
 use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
 
@@ -24,6 +24,8 @@ use yii\validators\UniqueValidator;
  * @property string $source_id
  * @property string $target
  * @property string $target_id
+ *
+ *
  * @property object $sourceObject
  * @property object $targetObject
  */
@@ -39,10 +41,8 @@ class Permission extends ActiveRecord
     const PERMISSION_MANAGE_DASHBOARD = 'manage-dashboard';
     const PERMISSION_MANAGE_FAVORITES = 'manage-favorites';
     const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
-    const PERMISSION_LIST_ADMIN_RESPONSES = 'list-admin-responses';
-    const PERMISSION_LIST_DATA_RESPONSES = 'list-data-responses';
-    const PERMISSION_LIST_FACILITIES = 'list-facilities';
     const PERMISSION_LIST_WORKSPACES = 'list-workspaces';
+    const PERMISSION_LIST_FACILITIES = 'list-facilities';
     const PERMISSION_CREATE_PROJECT = 'create-project';
     const PERMISSION_SURVEY_DATA = 'update-data';
     const PERMISSION_SURVEY_BACKEND = 'survey-backend';
@@ -61,7 +61,6 @@ class Permission extends ActiveRecord
     const ROLE_PROJECT_OWNER = 'ROLE_PROJECT_OWNER';
     const ROLE_PROJECT_ADMIN = 'ROLE_PROJECT_ADMIN';
 
-
     const PERMISSION_DELETE_ALL_WORKSPACES = 'delete-workspaces';
 
     public function afterSave($insert, $changedAttributes): void
@@ -74,17 +73,9 @@ class Permission extends ActiveRecord
         }
     }
 
-    public function behaviors(): array
+    public function attributeLabels(): array
     {
-        return [
-            AuditableBehavior::class
-        ];
-    }
-
-
-    public static function labels(): array
-    {
-        return array_merge(parent::labels(), [
+        return array_merge(parent::attributeLabels(), [
             'source' => \Yii::t('app.permission', 'Source type'),
             'source_id' => \Yii::t('app.permission', 'Source ID'),
             'target' => \Yii::t('app.permission', 'Target type'),
@@ -92,6 +83,20 @@ class Permission extends ActiveRecord
             'permission' => \Yii::t('app.permission', 'Permission'),
             'permissionLabel' => \Yii::t('app', 'Permission')
         ]);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            BlameableBehavior::class => [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false,
+            ],
+            TimestampBehavior::class => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
+            ],
+        ];
     }
 
     public function getGrant(): Grant
@@ -134,14 +139,14 @@ class Permission extends ActiveRecord
         ];
     }
 
-    public static function tableName(): string
-    {
-        return '{{%permission}}';
-    }
-
     public function sourceAuthorizable(): Authorizable
     {
         return new Authorizable($this->source_id, $this->source);
+    }
+
+    public static function tableName(): string
+    {
+        return '{{%permission}}';
     }
 
     public function targetAuthorizable(): Authorizable

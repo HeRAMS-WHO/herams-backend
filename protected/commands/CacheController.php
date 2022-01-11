@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\commands;
@@ -7,8 +6,8 @@ namespace prime\commands;
 use prime\components\LimesurveyDataProvider;
 use prime\helpers\LimesurveyDataLoader;
 use prime\models\ar\Project;
-use prime\models\ar\ResponseForLimesurvey;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Response;
+use prime\models\ar\Workspace;
 use yii\helpers\Console;
 
 class CacheController extends \yii\console\controllers\CacheController
@@ -18,10 +17,8 @@ class CacheController extends \yii\console\controllers\CacheController
         /** @var Project $project */
         foreach (Project::find()->each() as $project) {
             $this->stdout("Removing all responses for project {$project->title}\n", Console::FG_CYAN);
-            ResponseForLimesurvey::deleteAll([
-                'and',
-                ['workspace_id' => $project->getWorkspaces()->select('id')],
-                ['not', ['id' => null]]
+            Response::deleteAll([
+                'workspace_id' => $project->getWorkspaces()->select('id')
             ]);
             $this->stdout("Starting cache warmup for project {$project->title}\n", Console::FG_CYAN);
             try {
@@ -65,8 +62,8 @@ class CacheController extends \yii\console\controllers\CacheController
     public function actionWarmupProject(
         LimesurveyDataProvider $limesurveyDataProvider,
         int $id,
-        int $minWorkspaceId = 0,
-        int $maxWorkspaceId = PHP_INT_MAX,
+        int $minWorkspaceId,
+        int $maxWorkspaceId
     ) {
         $this->warmupProject($limesurveyDataProvider, Project::findOne(['id' => $id]), $minWorkspaceId, $maxWorkspaceId);
     }
@@ -75,7 +72,7 @@ class CacheController extends \yii\console\controllers\CacheController
         LimesurveyDataProvider $limesurveyDataProvider,
         int $id
     ) {
-        $this->warmupWorkspace(WorkspaceForLimesurvey::findOne(['id' => $id]), $limesurveyDataProvider);
+        $this->warmupWorkspace(Workspace::findOne(['id' => $id]), $limesurveyDataProvider);
     }
 
     protected function warmupProject(
@@ -84,23 +81,21 @@ class CacheController extends \yii\console\controllers\CacheController
         int $minWorkspaceId = 0,
         int $maxWorkspaceId = PHP_INT_MAX
     ) {
-        /** @var WorkspaceForLimesurvey $workspace */
-        foreach (
-            $project->getWorkspaces()
+        /** @var Workspace $workspace */
+        foreach ($project->getWorkspaces()
                      ->orderBy('id')
                      ->andWhere(['>=', 'id', $minWorkspaceId])
                      ->andWhere(['<=', 'id', $maxWorkspaceId])
-                     ->each() as $workspace
-        ) {
+                     ->each() as $workspace) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
     }
 
     public function actionWarmupEmptyWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
     {
-        $query = WorkspaceForLimesurvey::find()
+        $query = Workspace::find()
             ->andWhere(['not', [
-                'id' => ResponseForLimesurvey::find()->select('workspace_id')->distinct()
+                'id' => Response::find()->select('workspace_id')->distinct()
             ]]);
         foreach ($query->each() as $workspace) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
@@ -109,18 +104,18 @@ class CacheController extends \yii\console\controllers\CacheController
 
     public function actionWarmupOldestWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
     {
-        $workspaceIds = ResponseForLimesurvey::find()
+        $workspaceIds = Response::find()
             ->groupBy('workspace_id')
             ->orderBy('min(last_updated)', 'workspace_id')
             ->select('workspace_id')
             ->limit(100)
             ->column();
-        foreach (WorkspaceForLimesurvey::find()->andWhere(['id' => $workspaceIds])->each() as $workspace) {
+        foreach (Workspace::find()->andWhere(['id' => $workspaceIds])->each() as $workspace) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
     }
 
-    private function warmupWorkspace(WorkspaceForLimesurvey $workspace, LimesurveyDataProvider $limesurveyDataProvider)
+    private function warmupWorkspace(Workspace $workspace, LimesurveyDataProvider $limesurveyDataProvider)
     {
         $loader = new LimesurveyDataLoader();
         $token = $workspace->getAttribute('token');
@@ -133,9 +128,9 @@ class CacheController extends \yii\console\controllers\CacheController
                 'survey_id' => $response->getSurveyId()
             ];
             /**
-             * @var ResponseForLimesurvey $responseModel
+             * @var Response $responseModel
              */
-            $responseModel = ResponseForLimesurvey::findOne($key) ?? new ResponseForLimesurvey($key);
+            $responseModel = Response::findOne($key) ?? new Response($key);
             $loader->loadData($response->getData(), $workspace, $responseModel);
             if ($responseModel->isNewRecord) {
                 $this->stdout($responseModel->save() ? '+' : '-', Console::FG_RED);
@@ -148,7 +143,7 @@ class CacheController extends \yii\console\controllers\CacheController
             $ids[] = $response->getId();
         }
         // Remove old records
-        ResponseForLimesurvey::deleteAll([
+        Response::deleteAll([
             'and',
             [
                 'survey_id' => $workspace->project->base_survey_eid,

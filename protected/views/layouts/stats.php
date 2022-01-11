@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
-use prime\helpers\Icon;
 use prime\models\ar\Project;
+use prime\helpers\Icon;
 use yii\helpers\Html;
-
 ?>
 
 <div class="stats">
@@ -27,7 +25,7 @@ use yii\helpers\Html;
 
     $stats[] = [
         'icon' => Icon::contributors(),
-        'count' => \iter\reduce(static function (int $accumulator, Project $project) {
+        'count' =>\iter\reduce(static function (int $accumulator, Project $project) {
             return $accumulator + $project->contributorCount;
         }, $projects, 0),
         'label' => \Yii::t('app', 'Contributors')

@@ -1,30 +1,22 @@
 <?xml version="1.0"?>
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
-    <description>The coding standard for HeRAMS</description>
+    <description>The coding standard for PHP_CodeSniffer itself.</description>
 
     <file>protected</file>
     <file>public</file>
-    <file>tests/unit</file>
-    <file>tests/functional</file>
-    <file>tests/_support</file>
-    <file>tests/_helpers</file>
-    <exclude-pattern>\.js$</exclude-pattern>
+    <file>tests</file>
+
     <arg name="basepath" value="."/>
     <arg name="colors"/>
     <arg name="parallel" value="75"/>
     <arg value="np"/>
 
+    <rule ref="PSR2"/>
     <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
         <exclude-pattern>protected/migrations/</exclude-pattern>
     </rule>
-    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
-        <exclude-pattern>tests/</exclude-pattern>
-    </rule>
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
         <exclude-pattern>protected/migrations/</exclude-pattern>
     </rule>
-    <rule ref="PSR12"/>
-    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
-        <exclude-pattern>protected/migrations/</exclude-pattern>
-    </rule>
+
 </ruleset>

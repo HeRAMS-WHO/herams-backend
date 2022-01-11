@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -10,6 +9,7 @@ use prime\models\ActiveRecord;
 use prime\queries\FavoriteQuery;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
+use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
@@ -19,7 +19,6 @@ use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
-
 use function iter\apply;
 use function iter\chain;
 
@@ -40,7 +39,7 @@ use function iter\chain;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    public const NAME_REGEX = '/^[\'\w\- ]+$/u';
+    const NAME_REGEX = '/^[\'\w\- ]+$/u';
 
     public function afterSave($insert, $changedAttributes)
     {
@@ -61,7 +60,7 @@ class User extends ActiveRecord implements IdentityInterface
         ]);
     }
 
-    public function rules(): array
+    public function rules()
     {
         return [
             [['email', 'name'], RequiredValidator::class],
@@ -80,10 +79,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeDelete(): bool
     {
-        /**
-         * @todo ?Move this into the manager (revokeAll)
-         * @todo Move this to something decoupled & eventbased.
-         */
         if (parent::beforeDelete()) {
             /** @var AuthManager $manager */
             $manager = \Yii::$app->abacManager;
@@ -102,19 +97,31 @@ class User extends ActiveRecord implements IdentityInterface
         return false;
     }
 
+    public function getIsAdmin()
+    {
+        throw new NotSupportedException('use proper permission checking');
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public static function findIdentity($id)
     {
         return self::findOne(['id' => $id]);
     }
 
+    /**
+     * @inheritDoc
+     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return null;
     }
 
-    public static function labels(): array
+    public function attributeLabels(): array
     {
-        return array_merge(parent::labels(), [
+        return array_merge(parent::attributeLabels(), [
             'email' => \Yii::t('app', 'Email'),
             'language' => \Yii::t('app', 'Language'),
             'name' => \Yii::t('app', 'Name'),
@@ -123,16 +130,25 @@ class User extends ActiveRecord implements IdentityInterface
         ]);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getId()
     {
         return $this->getAttribute('id');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAuthKey()
     {
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validateAuthKey($authKey): bool
     {
         return false;
@@ -156,5 +172,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function getFavorites(): FavoriteQuery
     {
         return $this->hasMany(Favorite::class, ['user_id' => 'id'])->inverseOf('user');
+    }
+
+    public function isFavorite(ActiveRecord $target): bool
+    {
+        foreach ($this->favorites as $favorite) {
+            if ($favorite->matches($target)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

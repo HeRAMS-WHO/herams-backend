@@ -11,15 +11,10 @@ form .has-error input {
     border-color: var(--validation-error-color);
 }
 
-
 .help-block, .error-summary {
     margin: 5px 0 0;
-    font-size: 12px;
-    color: grey;
-}
-
-.help-block.help-block-error, .error-summary {
     color: var(--validation-error-color);
+    font-size: 12px;
 }
 
 .kv-table-caption {

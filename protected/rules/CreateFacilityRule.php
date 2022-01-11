@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\rules;
@@ -12,6 +11,7 @@ use SamIT\abac\interfaces\Rule;
 
 class CreateFacilityRule implements Rule
 {
+
     public function getPermissions(): array
     {
         return [Permission::PERMISSION_CREATE_FACILITY];
@@ -42,7 +42,6 @@ class CreateFacilityRule implements Rule
         return $target instanceof Workspace
             && $permission === Permission::PERMISSION_CREATE_FACILITY
             && $target->project->manageWorkspacesImpliesCreatingFacilities()
-            && $accessChecker->check($source, $target, Permission::PERMISSION_SURVEY_DATA)
-        ;
+            && $accessChecker->check($source, $target, Permission::PERMISSION_SURVEY_DATA);
     }
 }

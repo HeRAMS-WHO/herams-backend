@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\controllers;
@@ -13,7 +12,7 @@ use yii\helpers\ArrayHelper;
 class SessionController extends Controller
 {
     public $layout = 'map-popover-session';
-    public function behaviors(): array
+    public function behaviors()
     {
         return ArrayHelper::merge(
             parent::behaviors(),

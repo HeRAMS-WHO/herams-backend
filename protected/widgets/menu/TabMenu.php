@@ -1,10 +1,13 @@
 <?php
 
+
 namespace prime\widgets\menu;
 
-use prime\interfaces\CanCurrentUser;
+use yii\base\Action;
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
-use yii\helpers\ArrayHelper;
+use prime\interfaces\PageInterface;
+use prime\models\ar\Permission;
 use yii\helpers\Html;
 
 /**
@@ -34,13 +37,8 @@ class TabMenu extends Widget
     private function isVisible(array $tab): bool
     {
         // Check if user has permission
-        if (isset($tab['permission'])) {
-            if (
-                ($this->permissionSubject instanceof CanCurrentUser && !$this->permissionSubject->canCurrentUser($tab['permission']))
-                || (!$this->permissionSubject instanceof CanCurrentUser && !\Yii::$app->user->can($tab['permission'], $this->permissionSubject))
-            ) {
-                return false;
-            }
+        if (isset($tab['permission']) && !\Yii::$app->user->can($tab['permission'], $this->permissionSubject)) {
+            return false;
         }
 
         if (isset($tab['visible']) && !$tab['visible']($tab, $this)) {
@@ -64,7 +62,7 @@ class TabMenu extends Widget
             }
 
             $classes = ['btn', 'btn-tab'];
-            if (ArrayHelper::getValue($tab, 'active') || $this->isCurrentPage($tab['url'])) {
+            if ($this->isCurrentPage($tab['url'])) {
                 $classes[] = 'active';
             }
 

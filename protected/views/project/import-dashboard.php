@@ -1,58 +1,56 @@
 <?php
-
 declare(strict_types=1);
-
-use app\components\ActiveForm;
-use app\components\Form;
-use prime\components\View;
-use prime\models\ar\Project;
-use prime\widgets\InlineUpload\InlineUpload;
-use prime\widgets\menu\ProjectTabMenu;
-use prime\widgets\Section;
-use yii\bootstrap\Html;
-
 /**
- * @var Project $model
- * @var Project $project
- * @var View $this
+ * @var \prime\models\ar\Project $model
+ * @var \prime\models\ar\Project $project
+ * @var \prime\components\View $this
  */
 
-$this->title = $project->title;
+use app\components\Form;
+use app\components\ActiveForm;
+use prime\widgets\InlineUpload\InlineUpload;
+use yii\bootstrap\ButtonGroup;
+use yii\bootstrap\Html;
 
-$this->beginBlock('tabs');
-echo ProjectTabMenu::widget([
-    'project' => $project,
-]);
-$this->endBlock();
+$this->params['breadcrumbs'][] = [
+    'label' => $project->title,
+    'url' => ['project/update', 'id' => $project->id]
+];
 
-Section::begin()
-    ->withHeader(\Yii::t('app', 'Import Pages'));
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Dashboard settings'),
+    'url' => ['project/pages', 'id' => $project->id]
+];
 
-$form = ActiveForm::begin([
-    "type" => ActiveForm::TYPE_HORIZONTAL,
-    'formConfig' => [
-        'showLabels' => true,
-        'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
-]);
 
-echo Form::widget([
-    'form' => $form,
-    'model' => $model,
-    'columns' => 1,
-    "attributes" => [
-        'pages' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => InlineUpload::class
-        ],
-        \prime\widgets\FormButtonsWidget::embed([
-                'buttons' => [
-                    Html::submitButton(\Yii::t('app', 'Import pages'), ['class' => 'btn btn-primary'])
-                ]
-        ])
-    ]
-]);
-$form->end();
+$this->title = \Yii::t('app', 'Import pages');
 
-Section::end();
+\prime\widgets\Section::begin(['header' => \Yii::t('app', 'Import Pages')]);
+    $form = ActiveForm::begin([
+        "type" => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => [
+            'showLabels' => true,
+            'defaultPlaceholder' => false,
+            'labelSpan' => 3
+        ]
+    ]);
+
+    echo Form::widget([
+        'form' => $form,
+        'model' => $model,
+        'columns' => 1,
+        "attributes" => [
+            'pages' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => InlineUpload::class
+            ],
+            \prime\widgets\FormButtonsWidget::embed([
+                    'buttons' => [
+                        Html::submitButton(\Yii::t('app', 'Import pages'), ['class' => 'btn btn-primary'])
+                    ]
+            ])
+        ]
+    ]);
+    $form->end();
+
+    \prime\widgets\Section::end();

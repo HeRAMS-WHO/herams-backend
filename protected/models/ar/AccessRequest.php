@@ -1,32 +1,22 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\models\ar;
 
 use Carbon\Carbon;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\attributes\Audits;
-use prime\attributes\TriggersJobWithId;
-use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery;
-use prime\interfaces\AuditCreation;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ActiveRecord;
-use prime\objects\enums\AuditEvent;
 use prime\queries\AccessRequestQuery;
-use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
-use yii\db\Expression;
 use yii\validators\ExistValidator;
 use yii\validators\InlineValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
-
-use function iter\keys;
 
 /**
  * Class AccessRequest
@@ -49,15 +39,7 @@ use function iter\keys;
  *
  * @property User $createdByUser
  * @property Project|Workspace $target
- *
- *
  */
-#[
-    Audits(self::EVENT_AFTER_INSERT),
-    Audits(self::EVENT_AFTER_DELETE),
-    Audits(self::EVENT_AFTER_UPDATE),
-    TriggersJobWithId(CreatedNotificationJob::class)
-]
 class AccessRequest extends ActiveRecord
 {
     const PERMISSION_CONTRIBUTE = 'contribute';
@@ -66,65 +48,29 @@ class AccessRequest extends ActiveRecord
     const PERMISSION_READ = 'read';
     const PERMISSION_WRITE = 'write';
 
-    private static function defaultValues(): array
+    public function afterSave($insert, $changedAttributes)
     {
-        return [
-            'expires_at' => Carbon::now()->addWeek(2)
-        ];
-    }
+        parent::afterSave($insert, $changedAttributes);
 
-    private function initDefaults(): void
-    {
-        $defaults = self::defaultValues();
-        $this->setAttributes($defaults, false);
-    }
-
-    public function __construct($config = [])
-    {
-        $this->initDefaults();
-        parent::__construct($config);
-    }
-
-    public static function populateRecord($record, $row): void
-    {
-        // Need to deal with default values here, they must be unset if not being loaded from the database.
-        foreach (keys(self::defaultValues()) as $attribute) {
-            if (!isset($row[$attribute])) {
-                $record->setAttribute($attribute, null);
-            }
+        if ($insert) {
+            $jobQueue = \Yii::createObject(JobQueueInterface::class);
+            $jobQueue->putJob(new CreatedNotificationJob($this->id));
         }
-        parent::populateRecord($record, $row);
     }
 
-
-    public static function labels(): array
+    public function attributeLabels(): array
     {
-        return parent::labels() + [
-                'accepted' => \Yii::t('app.model.accessRequest', 'Accepted'),
-                'body' => \Yii::t('app.model.accessRequest', 'Body'),
-                'expires_at' => \Yii::t('app.model.accessRequest', 'Expires at'),
-                'permissions' => \Yii::t('app.model.accessRequest', 'Subject'),
-                'responded_at' => \Yii::t('app.model.accessRequest', 'Responded at'),
-                'responded_by' => \Yii::t('app.model.accessRequest', 'Responded by'),
-                'response' => \Yii::t('app.model.accessRequest', 'Response'),
-                'subject' => \Yii::t('app.model.accessRequest', 'Subject'),
-                'target_class' => \Yii::t('app.model.accessRequest', 'Target class'),
-                'target_id' => \Yii::t('app.model.accessRequest', 'Target'),
-            ];
-    }
-
-    private static function virtualFields(): array
-    {
-        return [
-            'created_at' => [
-                VirtualFieldBehavior::GREEDY => Audit::find()->limit(1)->select('max([[created_at]])')
-                    ->created()
-                    ->forModelClass(static::class)
-                    ->forSubjectId(new Expression(self::tableName() . '.[[id]]'))
-                ,
-                VirtualFieldBehavior::LAZY => static fn(self $model): ?string
-                => Audit::find()->forModel($model)->created()->select('max([[created_at]])')->scalar()
-            ]
+        return parent::attributeLabels() + [
+            'accepted' => \Yii::t('app', 'Accepted'),
+            'body' => \Yii::t('app', 'Body'),
+            'expires_at' => \Yii::t('app', 'Expires at'),
+            'permissions' => \Yii::t('app', 'Subject'),
+            'responded_at' => \Yii::t('app', 'Responded at'),
+            'responded_by' => \Yii::t('app', 'Responded by'),
+            'response' => \Yii::t('app', 'Response'),
+            'subject' => \Yii::t('app', 'Subject'),
+            'target_class' => \Yii::t('app', 'Target class'),
+            'target_id' => \Yii::t('app', 'Target'),
         ];
     }
 
@@ -135,9 +81,18 @@ class AccessRequest extends ActiveRecord
                 'class' => BlameableBehavior::class,
                 'updatedByAttribute' => false,
             ],
-                VirtualFieldBehavior::class => [
-                'class' => VirtualFieldBehavior::class,
-                'virtualFields' => self::virtualFields()
+            'expiresAtBehavior' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['expires_at'],
+                ],
+                'value' => function () {
+                    return (new Carbon())->addWeeks(2)->timestamp;
+                }
+            ],
+            TimestampBehavior::class => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
             ],
         ];
     }
@@ -211,7 +166,7 @@ class AccessRequest extends ActiveRecord
         ];
     }
 
-    public function setTarget(Project|Workspace $target): void
+    public function setTarget(Project|Workspace $target)
     {
         $this->target_class = get_class($target);
         $this->target_id = $target->id;

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
@@ -16,9 +15,9 @@ class RequestAccessCest
 {
     public function testCreate(FunctionalTester $I)
     {
-        $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
+        $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['project/request-access', 'id' => $project->id]);
         $I->seeResponseCodeIs(200);
         $I->fillField('Subject', 'Test access request subject');

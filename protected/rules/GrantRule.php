@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\rules;
@@ -14,6 +13,7 @@ use SamIT\abac\values\Grant;
 
 class GrantRule implements Rule
 {
+
     /**
      * @inheritDoc
      */

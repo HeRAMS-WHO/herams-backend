@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\models\forms;
 
 use prime\traits\SurveyHelper;
@@ -67,7 +68,7 @@ class Element extends Model
         return parent::__get($name);
     }
 
-    public function attributeLabels(): array
+    public function attributeLabels()
     {
         $result = $this->element->attributeLabels();
         $result['survey'] = \Yii::t('app', 'Survey');
@@ -99,7 +100,7 @@ class Element extends Model
         }
     }
 
-    public function rules(): array
+    public function rules()
     {
         return array_merge($this->element->rules(), [
             $this->colorRule(),
@@ -154,9 +155,8 @@ class Element extends Model
         $codeOptions = [];
         foreach ($this->survey->getGroups() as $group) {
             foreach ($group->getQuestions() as $question) {
-                if (
-                    $question->getAnswers() !== null
-                    || ($question->getDimensions() === 1 && $question->getQuestions(0)[0]->getAnswers() !== null)
+                if ($question->getAnswers() !== null
+                    ||($question->getDimensions() === 1 && $question->getQuestions(0)[0]->getAnswers() !== null)
                 ) {
                     $text = strip_tags($question->getText());
                     $codeOptions[$question->getTitle()] = $this->normalizeQuestionText($text) . " ({$question->getTitle()})";

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\assets;
@@ -13,6 +12,7 @@ use yii\web\AssetBundle;
  */
 class TimeElementBundle extends AssetBundle
 {
+
     public $baseUrl = '@npm/@github/time-elements/dist';
     public $js = [
         'index.js',

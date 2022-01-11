@@ -51,9 +51,6 @@ spec:
         - name: app-config-volume
           configMap:
             name: app-config
-        - name: phpfpm-config-volume
-          configMap:
-            name: phpfpm-config
       containers:
         # Our PHP-FPM application
         - name: app
@@ -72,9 +69,6 @@ spec:
               mountPath: "/run/secrets/smtp"
             - name: app
               mountPath: "/run/secrets/app"
-            - name: phpfpm-config-volume
-              mountPath: "/php-fpm.conf"
-              subPath: "php-fpm.conf"
             - name: shared-files
               mountPath: /var/www/html
 

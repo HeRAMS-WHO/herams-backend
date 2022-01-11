@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use app\components\Form;
@@ -10,7 +9,6 @@ use prime\models\ar\Page;
 use prime\models\ar\Project;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
-
 use function iter\chain;
 use function iter\toArrayWithKeys;
 
@@ -19,6 +17,16 @@ use function iter\toArrayWithKeys;
  * @var Project $project
  * @var View $this
  */
+
+$this->params['breadcrumbs'][] = [
+    'label' => $project->title,
+    'url' => ['project/update', 'id' => $project->id]
+];
+
+$this->params['breadcrumbs'][] = [
+    'label' => \Yii::t('app', 'Dashboard settings'),
+    'url' => ['project/pages', 'id' => $project->id]
+];
 
 $this->title = \Yii::t('app', 'Create page');
 

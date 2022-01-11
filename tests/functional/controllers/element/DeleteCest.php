@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\element;
@@ -9,9 +8,6 @@ use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;
 
-/**
- * @covers \prime\actions\DeleteAction
- */
 class DeleteCest
 {
     public function testDeleteButtonOnPageUpdatePage(FunctionalTester $I): void

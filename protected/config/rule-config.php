@@ -1,15 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 use prime\models\ar\Permission;
 use prime\rules\AdminRule;
 use prime\rules\AdminShareRule;
-use prime\rules\CreateFacilityCascadeWorkspaceRule;
 use prime\rules\CreateFacilityRule;
 use prime\rules\DashboardRule;
-use prime\rules\FacilityCascadeWorkspaceRule;
-use prime\rules\FacilityListResponsesRule;
 use prime\rules\GrantRule;
 use prime\rules\ManageWorkspaceRule;
 use prime\rules\ProjectImplicitReadViaExplicitWorkspacePermission;
@@ -54,7 +50,6 @@ return [
     ]),
     new ImpliedPermission(Permission::PERMISSION_EXPORT, [
         Permission::PERMISSION_LIST_WORKSPACES,
-        Permission::PERMISSION_READ,
         Permission::PERMISSION_LIST_FACILITIES
     ]),
     new ProjectImplicitReadViaExplicitWorkspacePermission(),
@@ -63,8 +58,4 @@ return [
     new ManageWorkspaceRule(),
     new CreateFacilityRule(),
     new RespondToAccessRequestRule(),
-    new CreateFacilityCascadeWorkspaceRule(),
-    new \prime\rules\CreateFacilityRule(),
-    new FacilityCascadeWorkspaceRule(),
-    new FacilityListResponsesRule(),
 ];

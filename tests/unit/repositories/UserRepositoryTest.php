@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\unit\repositories;
@@ -8,7 +7,6 @@ use Codeception\Test\Unit;
 use prime\components\ActiveQuery;
 use prime\models\ar\User;
 use prime\models\user\UserForSelect2;
-use prime\repositories\UserRepository;
 use yii\base\InvalidArgumentException;
 
 /**
@@ -16,9 +14,9 @@ use yii\base\InvalidArgumentException;
  */
 class UserRepositoryTest extends Unit
 {
-    private function createRepository(): UserRepository
+    private function createRepository(): \prime\repositories\UserRepository
     {
-        return new UserRepository();
+        return new \prime\repositories\UserRepository();
     }
 
     public function testFind(): void

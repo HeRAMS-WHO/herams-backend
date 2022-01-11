@@ -12,8 +12,7 @@ class m181115_152543_project_drop_fields extends Migration
      */
     public function safeUp()
     {
-        foreach (
-            [
+        foreach ([
             'description',
             'data_survey_eid',
             'latitude',
@@ -21,8 +20,7 @@ class m181115_152543_project_drop_fields extends Migration
             'default_generator',
             'locality_name',
             'country_iso_3',
-            ] as $column
-        ) {
+        ] as $column) {
             $this->dropColumn('{{%project}}', $column);
         }
     }

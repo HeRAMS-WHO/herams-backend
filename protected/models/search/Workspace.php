@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\models\search;
@@ -8,8 +7,8 @@ use prime\models\ar\Favorite;
 use prime\models\ar\Project;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\data\DataProviderInterface;
 use yii\data\Sort;
+use yii\db\conditions\InCondition;
 use yii\db\Expression;
 use yii\validators\BooleanValidator;
 use yii\validators\NumberValidator;
@@ -18,12 +17,12 @@ use yii\validators\StringValidator;
 
 class Workspace extends Model
 {
-    public $created_at;
-    public $favorite;
     public $id;
-    private Project $project;
+    public $created;
     public $title;
+    private Project $project;
     private \prime\models\ar\User $user;
+    public $favorite;
 
     public function __construct(
         Project $project,
@@ -35,23 +34,23 @@ class Workspace extends Model
         $this->user = $user;
     }
 
-    public function rules(): array
+    public function rules()
     {
         return [
-            [['created_at'], SafeValidator::class],
+            [['created'], SafeValidator::class],
             [['title'], StringValidator::class],
             [['id'], NumberValidator::class],
             [['favorite'], BooleanValidator::class]
         ];
     }
 
-    public function search($params): DataProviderInterface
+    public function search($params)
     {
         $query = \prime\models\ar\Workspace::find();
 
         $query->with('project');
         $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'contributorCount');
-        $query->andFilterWhere(['project_id' => $this->project->id]);
+        $query->andFilterWhere(['tool_id' => $this->project->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -68,7 +67,7 @@ class Workspace extends Model
             'attributes' => [
                 'id',
                 'title',
-                'created_at',
+                'created',
                 'permissionCount',
                 'facilityCount',
                 'responseCount',
@@ -100,13 +99,13 @@ class Workspace extends Model
             return $dataProvider;
         }
 
-        if (isset($this->created_at)) {
-            $interval = explode(' - ', $this->created_at);
+        if (isset($this->created)) {
+            $interval = explode(' - ', $this->created);
             if (count($interval) == 2) {
                 $query->andFilterWhere([
                     'and',
-                    ['>=', 'created_at', $interval[0]],
-                    ['<=', 'created_at', $interval[1] . ' 23:59:59']
+                    ['>=', 'created', $interval[0]],
+                    ['<=', 'created', $interval[1] . ' 23:59:59']
                 ]);
             }
         }

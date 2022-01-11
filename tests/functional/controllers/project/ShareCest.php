@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
@@ -11,13 +10,16 @@ use yii\mail\MessageInterface;
 
 /**
  * @covers \prime\controllers\project\Share
+ * @covers \prime\controllers\ProjectController
+ * @covers \prime\models\forms\Share
  */
 class ShareCest
 {
+
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
         $I->seeResponseCodeIs(403);
@@ -26,7 +28,7 @@ class ShareCest
     public function testShareWithWriteAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->grantCurrentUser($project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
@@ -36,7 +38,7 @@ class ShareCest
     public function testLeadPermission(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $user = User::findOne(['id' => TEST_USER_ID]);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
@@ -53,7 +55,7 @@ class ShareCest
     public function testShareWithInviteUser(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);
@@ -77,7 +79,7 @@ class ShareCest
     public function testShareWithInviteExistingUser(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage(['project/share', 'id' => $project->id]);

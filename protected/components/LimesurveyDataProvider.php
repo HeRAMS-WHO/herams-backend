@@ -1,13 +1,9 @@
 <?php
 
-declare(strict_types=1);
 
 namespace prime\components;
 
 use prime\exceptions\SurveyDoesNotExist;
-use prime\values\ExternalResponseId;
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\ResponseInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -21,15 +17,6 @@ class LimesurveyDataProvider extends Component
 {
     /** @var Client */
     public $client = 'limesurvey';
-
-    public function __construct(
-        private ClientInterface $httpClient,
-        private RequestFactoryInterface $requestFactory,
-        $config = []
-    ) {
-        parent::__construct($config);
-    }
-
 
     public function init()
     {
@@ -106,19 +93,5 @@ class LimesurveyDataProvider extends Component
             $cache->delete($key);
             throw $e;
         }
-    }
-
-
-    public function copyResponse(ExternalResponseId $externalResponseId): ExternalResponseId
-    {
-        $request = $this->requestFactory->createRequest('POST', "https://ls.herams.org/plugins/unsecure?plugin=ResponsePicker&function=copy&surveyId={$externalResponseId->getSurveyId()}&responseId={$externalResponseId->getResponseId()}&token={$externalResponseId->getToken()}");
-        $response = $this->httpClient->sendRequest($request);
-        if ($response->getStatusCode() !== 201) {
-            throw new \RuntimeException('Failed to copy response');
-        }
-        parse_str(parse_url($response->getHeaderLine('location'), PHP_URL_QUERY), $parsed);
-
-
-        return new ExternalResponseId((int) $parsed['ResponsePicker'], $externalResponseId->getSurveyId(), $parsed['token']);
     }
 }

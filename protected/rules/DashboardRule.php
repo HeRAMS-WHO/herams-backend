@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\rules;
@@ -15,6 +14,7 @@ use SamIT\abac\interfaces\Rule;
 
 class DashboardRule implements Rule
 {
+
     public function getPermissions(): array
     {
         return [

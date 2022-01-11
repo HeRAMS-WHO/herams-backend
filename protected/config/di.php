@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use DrewM\MailChimp\MailChimp;
@@ -20,17 +19,13 @@ use League\Tactician\Handler\Locator\HandlerLocator;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use prime\assets\JqueryBundle;
-use prime\behaviors\AuditableBehavior;
 use prime\components\GlobalPermissionResolver;
 use prime\components\NewsletterService;
 use prime\components\ReadWriteModelResolver;
 use prime\components\SingleTableInheritanceResolver;
 use prime\helpers\AccessCheck;
-use prime\helpers\EventDispatcherProxy;
-use prime\helpers\JobQueueProxy;
 use prime\helpers\LimesurveyDataLoader;
 use prime\interfaces\AccessCheckInterface;
-use prime\interfaces\EventDispatcherInterface;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
@@ -44,15 +39,10 @@ use prime\jobs\users\SyncNewsletterSubscriptionJob as UserSyncNewsletterSubscrip
 use prime\models\ar\Permission;
 use prime\objects\enums\Language;
 use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
-use prime\repositories\FacilityRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
-use prime\repositories\ResponseForLimesurveyRepository;
-use prime\repositories\SurveyRepository;
-use prime\repositories\SurveyResponseRepository;
 use prime\repositories\UserNotificationRepository;
 use prime\repositories\UserRepository;
-use prime\repositories\WorkspaceRepository;
 use prime\widgets\LocalizableInput;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -63,28 +53,19 @@ use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\resolvers\ChainedResolver;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
-use yii\behaviors\TimestampBehavior;
-use yii\caching\CacheInterface;
-use yii\caching\FileCache;
-use yii\db\Expression;
 use yii\di\Container;
 use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
 use yii\web\JqueryAsset;
+use function iter\filter;
 
 /** @var \prime\components\KubernetesSecretEnvironment|null $env */
 assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
 
 return [
-    AuditableBehavior::class => static function () {
-        return new AuditableBehavior(\Yii::$app->auditService);
-    },
-    \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
-    \Psr\Http\Message\RequestFactoryInterface::class => \Http\Factory\Guzzle\RequestFactory::class,
-    \prime\helpers\ModelHydrator::class => \prime\helpers\ModelHydrator::class,
     LocalizableInput::class => function (Container $container, array $params, array $config) {
         if (!isset($config['languages'])) {
-            $config['languages'] = Language::toLocalizedArrayWithoutSourceLanguage(\Yii::$app->language);
+            $config['languages'] = filter(fn($lang) => $lang !== \Yii::$app->sourceLanguage, Language::toArray());
         }
         return new LocalizableInput($config);
     },
@@ -111,11 +92,6 @@ return [
         );
     },
     ProjectRepository::class => ProjectRepository::class,
-    WorkspaceRepository::class => WorkspaceRepository::class,
-    FacilityRepository::class => FacilityRepository::class,
-    ResponseForLimesurveyRepository::class => ResponseForLimesurveyRepository::class,
-    SurveyRepository::class => SurveyRepository::class,
-    SurveyResponseRepository::class => SurveyResponseRepository::class,
     ActiveRecordRepository::class => static function () {
         return new ActiveRecordRepository(Permission::class, [
             ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
@@ -141,10 +117,7 @@ return [
         return new SwitchInput($config);
     },
     GridView::class => static function (Container $container, array $params, array $config): GridView {
-
-        $result = new GridView(array_merge([
-            'dataColumnClass' => \prime\widgets\FunctionGetterDataColumn::class,
-        ], $config));
+        $result = new GridView($config);
         $result->export = false;
         $result->toggleData = false;
         return $result;
@@ -155,7 +128,6 @@ return [
     },
     CommandBus::class => function (Container $container) {
         return new CommandBus([
-            new \prime\helpers\LoggingMiddleware(),
             new CommandHandlerMiddleware(
                 $container->get(CommandNameExtractor::class),
                 $container->get(HandlerLocator::class),
@@ -173,7 +145,6 @@ return [
             ;
     },
     CommandNameExtractor::class => ClassNameExtractor::class,
-    EventDispatcherInterface::class => EventDispatcherProxy::class,
     HandlerLocator::class => ContainerMapLocator::class,
     JobFactoryInterface::class => JobFactory::class,
     JobQueueInterface::class => Synchronous::class,
@@ -181,7 +152,6 @@ return [
     MailerInterface::class => static function (Container $container, array $params, array $config): MailerInterface {
         return \Yii::$app->mailer;
     },
-    CacheInterface::class => FileCache::class,
     PermissionCheckImplicitAccessRequestGrantedHandler::class => static function (Container $container, array $params, array $config): PermissionCheckImplicitAccessRequestGrantedHandler {
         return new PermissionCheckImplicitAccessRequestGrantedHandler(
             \Yii::$app->abacManager,
@@ -199,10 +169,6 @@ return [
         'class' => NewsletterService::class,
         'mailchimpListId' => $env->getWrappedSecret('mailchimp/list_id'),
         'mailchimpTag' => $env->getWrappedSecret('mailchimp/tag'),
-    ],
-    TimestampBehavior::class => [
-        'class' => TimestampBehavior::class,
-        'value' => new Expression('NOW()'),
     ],
     UserRepository::class => UserRepository::class,
 ];

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\models\ar\elements;
 
 use prime\models\ar\Element;
@@ -15,9 +16,9 @@ class Map extends Element
         return $this->getWidgetConfig()['markerRadius'] ?? null;
     }
 
-    public static function labels(): array
+    public function attributeLabels(): array
     {
-        return array_merge(parent::labels(), [
+        return array_merge(parent::attributeLabels(), [
             'markerRadius' => \Yii::t('app', 'Marker radius')
         ]);
     }

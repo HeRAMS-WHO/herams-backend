@@ -1,17 +1,19 @@
 <?php
-
 declare(strict_types=1);
 
+use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
+use prime\models\ar\Project;
+use prime\widgets\menu\ProjectPageMenu;
 use yii\helpers\Html;
 use yii\web\View;
 
 /** @var View $this */
-/** @var \prime\models\project\ProjectForExternalDashboard $project */
+/** @var Project $project */
 /** @var Page $page */
 
 $this->title = $project->getDisplayField();
-
+$this->params['breadcrumbs'][] = $this->title;
 echo Html::tag('iframe', '', [
     'style' => [
         'grid-area' => 'main',
@@ -19,5 +21,5 @@ echo Html::tag('iframe', '', [
         'border' => 'none',
         'height' => '100%'
     ],
-    'src' => $project->getExternalUrl(),
+    'src' => $project->getOverride('dashboard'),
 ]);

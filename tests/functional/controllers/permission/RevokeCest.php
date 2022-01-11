@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\permission;
@@ -20,7 +19,7 @@ class RevokeCest
     public function test(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $user = User::findOne(['id' => TEST_USER_ID]);
         $permission = Permission::PERMISSION_ADMIN;
 
@@ -50,7 +49,7 @@ class RevokeCest
     public function testForbidden(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $user = User::findOne(['id' => TEST_OTHER_USER_ID]);
         $permission = Permission::PERMISSION_ADMIN;
 

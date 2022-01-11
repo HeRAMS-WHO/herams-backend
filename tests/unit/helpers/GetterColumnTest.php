@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\tests\unit\models;
 
 use Codeception\Test\Unit;

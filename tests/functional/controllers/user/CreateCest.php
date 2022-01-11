@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\user;
@@ -9,6 +8,8 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
 
 /**
  * @covers \prime\controllers\user\Create
+ * @covers \prime\controllers\UserController
+ * @covers \prime\models\forms\user\CreateForm
  */
 class CreateCest
 {

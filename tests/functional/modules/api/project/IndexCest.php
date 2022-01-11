@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\tests\functional\modules\api\project;
@@ -13,10 +12,11 @@ use yii\helpers\Url;
  */
 class IndexCest
 {
+
     public function testIndex(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $project->visibility = Project::VISIBILITY_PUBLIC;
         $I->save($project);
 
@@ -34,7 +34,7 @@ class IndexCest
     public function testIndexDoesNotContainHidden(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $project->visibility = Project::VISIBILITY_HIDDEN;
         $I->save($project);
 
@@ -50,7 +50,7 @@ class IndexCest
     public function testIndexDoesNotContainPrivate(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $project->visibility = Project::VISIBILITY_PRIVATE;
         $I->save($project);
 

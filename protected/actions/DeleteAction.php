@@ -1,5 +1,6 @@
 <?php
 
+
 namespace prime\actions;
 
 use prime\components\NotificationService;
@@ -43,8 +44,7 @@ class DeleteAction extends Action
         if (!isset($model)) {
             throw new NotFoundHttpException();
         }
-        if (
-            is_string($this->permission) && !$user->can($this->permission, $model)
+        if (is_string($this->permission) && !$user->can($this->permission, $model)
             || ($this->permission instanceof \Closure && !call_user_func($this->permission, $user, $model))
         ) {
             throw new ForbiddenHttpException();

@@ -1,6 +1,7 @@
 name: Check code style
 on:
   pull_request:
+    branches: [ master ]
 jobs:
   style:
     runs-on: ubuntu-latest

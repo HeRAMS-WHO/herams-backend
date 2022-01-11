@@ -1,18 +1,17 @@
 <?php
-
 declare(strict_types=1);
 
-use prime\helpers\Icon;
-use prime\models\ar\Permission;
-use prime\models\ar\User;
 use prime\repositories\UserNotificationRepository;
+use prime\helpers\Icon;
+use prime\models\ar\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use prime\models\ar\Permission;
 use yii\web\View;
 
 /**
  * @var View $this
- * @var array|null $class
+ * @var array $class
  */
 
 $this->registerCss(<<<CSS
@@ -55,7 +54,7 @@ $userNotificationService = \Yii::createObject(UserNotificationRepository::class)
 if ($user && ($notificationCount = $userNotificationService->getNewNotificationCountForUser($user)) > 0) {
     echo Html::a(Icon::bell() . Html::tag('div', $notificationCount, ['class' => ['badge']]), ['/user/notifications']);
 }
-echo Html::a(Icon::question() . '<small>' . Icon::external_link() . '</small>', Url::to('https://docs.herams.org/'), ['target' => '_blank']);
+echo Html::a(Icon::question().'<small>'.Icon::external_link().'</small>', Url::to('https://docs.herams.org/'), ['target' => '_blank']);
 echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
 ?>
 </div>

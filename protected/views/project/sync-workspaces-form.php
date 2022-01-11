@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use app\components\ActiveForm;
@@ -8,7 +7,7 @@ use Carbon\Carbon;
 use prime\assets\TimeElementBundle;
 use prime\components\View;
 use prime\models\ar\Project;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\models\forms\project\SyncWorkspaces;
 use prime\widgets\BetterSelect;
 use prime\widgets\FormButtonsWidget;
@@ -21,7 +20,14 @@ use yii\helpers\Html;
  * @var SyncWorkspaces $model
  */
 
-$this->title = $project->title;
+
+
+$this->params['breadcrumbs'][] = [
+    'label' => $project->title,
+    'url' => ['project/workspaces', 'id' => $project->id]
+];
+
+$this->title = \Yii::t('app', 'Sync workspaces');
 
 TimeElementBundle::register($this);
 Section::begin()->withHeader(\Yii::t('app', 'Sync workspaces'));
@@ -53,7 +59,7 @@ echo Form::widget([
             'widgetClass' => BetterSelect::class,
             'options' => [
                 'items' => (static function (iterable $workspaces) {
-                    /** @var WorkspaceForLimesurvey $workspace */
+                    /** @var Workspace $workspace */
                     foreach ($workspaces as $workspace) {
                         $title = Html::tag('span', $workspace->title);
 

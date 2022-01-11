@@ -1,17 +1,21 @@
 <?php
-
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\workspace;
 
 use prime\components\LimesurveyDataProvider;
+use prime\components\NotificationService;
 use prime\helpers\LimesurveyDataLoader;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
-use prime\models\ar\ResponseForLimesurvey;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Response;
+use prime\models\ar\Workspace;
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
+use yii\web\User;
+use function iter\toArrayWithKeys;
 
 class Refresh extends Action
 {
@@ -22,7 +26,7 @@ class Refresh extends Action
         LimesurveyDataLoader $loader,
         int $id
     ) {
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
+        $workspace = Workspace::findOne(['id' => $id]);
 
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_ADMIN);
 
@@ -33,11 +37,10 @@ class Refresh extends Action
             $ids[] = $response->getId();
             $key = [
                 'id' => $response->getId(),
-                'survey_id' => $workspace->project->base_survey_eid,
                 'workspace_id' => $workspace->id
             ];
 
-            $dataResponse = ResponseForLimesurvey::findOne($key) ?? new ResponseForLimesurvey($key);
+            $dataResponse = Response::findOne($key) ?? new Response($key);
             $loader->loadData($response->getData(), $workspace, $dataResponse);
             if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
@@ -50,7 +53,7 @@ class Refresh extends Action
             }
         }
         // Check for deleted responses as well.
-        $deleted = ResponseForLimesurvey::deleteAll([
+        $deleted = Response::deleteAll([
             'and',
             ['workspace_id' => $workspace->id],
             ['not', ['id' => $ids]]

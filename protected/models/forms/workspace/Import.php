@@ -1,9 +1,10 @@
 <?php
 
+
 namespace prime\models\forms\workspace;
 
 use prime\models\ar\Project;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\objects\BatchResult;
 use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use yii\base\InvalidConfigException;
@@ -82,7 +83,7 @@ class Import extends Model
 
     private function getName(TokenInterface $token): string
     {
-        return $token->getCustomAttributes()[$this->titleField] ?? $token->{'get' . ucfirst($this->titleField)}();
+        return $token->getCustomAttributes()[$this->titleField] ?? $token->{'get'. ucfirst($this->titleField)}();
     }
 
     public function rules()
@@ -95,8 +96,8 @@ class Import extends Model
                 foreach ($this->tokens as $token) {
                     /** @var TokenInterface $tokenObject */
                     $tokenObject = $this->tokenObjects[$token];
-                    $workspace = new WorkspaceForLimesurvey();
-                    $workspace->project_id = $this->project->id;
+                    $workspace = new Workspace();
+                    $workspace->tool_id = $this->project->id;
                     $workspace->title = $this->getName($tokenObject);
                     $workspace->setAttribute('token', $token);
                     if (!$workspace->validate()) {
@@ -120,8 +121,8 @@ class Import extends Model
         foreach ($this->tokens as $token) {
             /** @var TokenInterface $tokenObject */
             $tokenObject = $this->tokenObjects[$token];
-            $workspace = new WorkspaceForLimesurvey();
-            $workspace->project_id = $this->project->id;
+            $workspace = new Workspace();
+            $workspace->tool_id = $this->project->id;
             $workspace->title = $this->getName($tokenObject);
             $workspace->setAttribute('token', $token);
             if ($workspace->save()) {
