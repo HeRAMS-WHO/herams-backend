@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use prime\components\JwtSso;
+use prime\interfaces\EnvironmentInterface;
 use prime\models\ar\User as ActiveRecordUser;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -20,8 +21,7 @@ use yii\web\User;
 use yii\web\User as UserComponent;
 use yii\web\UserEvent;
 
-/** @var \prime\components\KubernetesSecretEnvironment|null $env */
-assert($env instanceof \prime\interfaces\EnvironmentInterface);
+assert(isset($env) && $env instanceof EnvironmentInterface);
 
 require_once __DIR__ . '/../helpers/functions.php';
 return [

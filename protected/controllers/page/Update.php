@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\controllers\page;
 
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use yii\base\Action;
@@ -16,7 +19,7 @@ class Update extends Action
     public function run(
         Request $request,
         NotificationService $notificationService,
-        User $user,
+        AccessCheckInterface $accessCheck,
         int $id
     ) {
         $page = Page::findOne(['id' => $id]);
@@ -24,9 +27,7 @@ class Update extends Action
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_WRITE, $page)) {
-            throw new ForbiddenHttpException();
-        }
+        $accessCheck->requirePermission($page, Permission::PERMISSION_WRITE);
 
         if ($request->isPut) {
             if ($page->load($request->bodyParams) && $page->save()) {

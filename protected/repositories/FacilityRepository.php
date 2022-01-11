@@ -211,7 +211,7 @@ class FacilityRepository
             $filter = new ResponseFilter($workspace->project->getSurvey(), new HeramsCodeMap());
 
             $limesurveyData = [];
-            /** @var \prime\models\ar\ResponseForLimesurvey $response */
+            /** @var ResponseForLimesurvey $response */
             foreach ($filter->filterQuery($workspace->getResponses())->each() as $response) {
                 $limesurveyData[$response->hf_id] = $this->createFromResponse($response);
             }
@@ -238,7 +238,7 @@ class FacilityRepository
                         $facility->code,
                         $facility->latitude,
                         $facility->longitude,
-                        $facility->responseCount,
+                        $facility->dataSurveyResponseCount,
                         new CanCurrentUserWrapper($this->accessCheck, $facility),
                     );
                 },

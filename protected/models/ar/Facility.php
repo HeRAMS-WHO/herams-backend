@@ -146,14 +146,14 @@ class Facility extends ActiveRecord
             'adminSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
 //                VirtualFieldBehavior::GREEDY =>,
-                VirtualFieldBehavior::LAZY => static function (self $model): string {
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return $model->getAdminSurveyResponses()->count();
                 }
             ],
             'dataSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
 //                VirtualFieldBehavior::GREEDY =>,
-                VirtualFieldBehavior::LAZY => static function (self $model): string {
+                VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return $model->getDataSurveyResponses()->count();
                 }
             ],

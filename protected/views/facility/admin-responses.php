@@ -40,8 +40,10 @@ Section::begin()
 echo GridView::widget([
     'dataProvider' => $responseProvider,
     'columns' => [
-        ResponseForList::ID,
-        'dateOfUpdate',
+        \prime\interfaces\AdminResponseForListInterface::ID,
+        \prime\interfaces\AdminResponseForListInterface::NAME
+
+
     ]
 ]);
 

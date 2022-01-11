@@ -6,6 +6,7 @@ namespace prime\controllers;
 
 use prime\actions\DeleteAction;
 use prime\components\Controller;
+use prime\controllers\element\PickQuestion;
 use prime\controllers\page\Create;
 use prime\controllers\page\Update;
 use prime\models\ar\Page;

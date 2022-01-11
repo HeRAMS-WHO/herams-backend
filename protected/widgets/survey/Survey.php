@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\widgets\survey;
 
 use prime\assets\SurveyJsBundle;
+use prime\assets\SurveyModificationBundle;
 use prime\objects\LanguageSet;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -21,7 +22,7 @@ class Survey extends Widget
     public function init(): void
     {
         parent::init();
-        SurveyJsBundle::register($this->view);
+        SurveyModificationBundle::register($this->view);
     }
 
     public function withConfig(array $config): self
@@ -50,51 +51,6 @@ class Survey extends Widget
 
     public function run(): string
     {
-
-
-        $structure = [
-            "completedHtml" => "good",
-            "pages" => [
-                [
-                    "name" => "page1",
-                    "elements" => [
-                        [
-                            "type" => "text",
-                            "name" => "name",
-                            "title" => \Yii::t('app', "Facility name"),
-                            "isRequired" => true,
-                        ],
-                        [
-                            "type" => "text",
-                            "name" => "i18nName[ar]",
-                            "title" => \Yii::t('app', "Facility name (Arabic)"),
-                        ],
-                        [
-                            "type" => "text",
-                            "name" => "i18nName[fr]",
-                            "title" => \Yii::t('app', "Facility name (French)"),
-                        ],
-                        [
-                            "type" => "text",
-                            "name" => "alternative_name",
-                            "title" => \Yii::t('app', "Alternative name"),
-                            "isRequired" => false,
-
-                        ],
-
-                        [
-                            "type" => "text",
-                            "name" => "coordinates",
-                            "title" => \Yii::t('app', "Coordinates"),
-                            "isRequired" => false,
-
-                        ],
-                    ]
-                ]
-            ],
-            "showQuestionNumbers" => "off"
-        ];
-
         $structure = Json::encode($this->config);
         $data = Json::encode($this->data ?? []);
         $languages = Json::encode($this->languages->toArray());
@@ -102,8 +58,11 @@ class Survey extends Widget
 Survey
     .StylesManager
     .applyTheme("modern");
+console.log($structure);
 const survey = new Survey.Model($structure);
 survey.data = $data;
+window.surveys = window.surveys ?? [];
+window.surveys.push(survey);
 survey.onServerValidateQuestions.add((sender, options) => {
     // Data is in options.data
     options.errors["promoter_features"] = "Server side error";

@@ -1,7 +1,6 @@
 
 ((Survey) => {
     [
-        "mode",
         "navigateToUrl",
         "navigateToUrlOnCondition",
         "maxTimeToFinish",
@@ -13,8 +12,6 @@
         "completedHtmlOnCondition",
         "showCompletedPage",
         "loadingHtml",
-        "storeOthersAsComment",
-        "sendResultOnPageNext",
         "requiredText",
         "questionStartIndex",
         // "logo",
@@ -41,6 +38,13 @@
 
 
     ].forEach((property) => Survey.Serializer.removeProperty("survey", property));
+    [
+        "storeOthersAsComment",
+        "mode",
+        "sendResultOnPageNext",
+
+
+    ].forEach((property) => Survey.Serializer.findProperty("survey", property).visible = false);
 
     Survey.Serializer.removeProperty("selectBase", "choicesByUrl");
     [
@@ -98,13 +102,14 @@
 
     });
 // New question type for facility type:
+    const widgetName = "facilitytype"
     const facilityQuestionType = {
-        name: "facilityType",
+        name: widgetName,
         title: "Facility Type",
         iconName: "icon-radiogroup",
         category: "HeRAMS",
         isFit(question) {
-            return question.getType() === 'facilityType';
+            return question.getType() === widgetName;
         },
         isDefaultRender: true,
 
@@ -123,14 +128,19 @@
                 }
             ], null, "itemvalue");
 
-            Survey.Serializer.addClass("facilityType", [
+            Survey.Serializer.addClass(widgetName, [
                 {
                     name: "choices",
                     type: "facilityitemvalue[]"
+
                 },
             ], null, "radiogroup");
 
-        }
+        },
+        afterRender(question, el) {
+
+        },
+
     };
 
     Survey.CustomWidgetCollection.Instance.add(facilityQuestionType, "customtype");

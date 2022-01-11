@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Collecthor\SurveyjsParser\SurveyParser;
 use DrewM\MailChimp\MailChimp;
 use JCIT\jobqueue\components\ContainerMapLocator;
 use JCIT\jobqueue\components\jobQueues\Synchronous;
@@ -29,7 +30,9 @@ use prime\helpers\AccessCheck;
 use prime\helpers\EventDispatcherProxy;
 use prime\helpers\JobQueueProxy;
 use prime\helpers\LimesurveyDataLoader;
+use prime\helpers\surveyjs\FacilityTypeQuestionParser;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\EnvironmentInterface;
 use prime\interfaces\EventDispatcherInterface;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
@@ -72,11 +75,18 @@ use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
 use yii\web\JqueryAsset;
 
-assert(isset($env) && $env instanceof \prime\interfaces\EnvironmentInterface);
+assert(isset($env) && $env instanceof EnvironmentInterface);
 
 return [
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
+    },
+    SurveyParser::class => static function (Container $container): SurveyParser {
+        $parser = new Collecthor\SurveyjsParser\SurveyParser();
+
+        $parser->setParser('facilitytype', $container->get(FacilityTypeQuestionParser::class));
+
+        return $parser;
     },
     \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
     \Psr\Http\Message\RequestFactoryInterface::class => \Http\Factory\Guzzle\RequestFactory::class,

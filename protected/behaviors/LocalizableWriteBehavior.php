@@ -39,7 +39,7 @@ class LocalizableWriteBehavior extends Behavior
     public function attach($owner)
     {
         parent::attach($owner);
-        assert($owner instanceof ActiveRecord);
+//        assert($owner instanceof ActiveRecord);
 
         $validator =  new InlineValidator();
         $behavior = $this;

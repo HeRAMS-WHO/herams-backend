@@ -10,6 +10,8 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', file_exists(__DIR__ . '/
 require_once __DIR__ . '/../vendor/autoload.php';
 spl_autoload_register(['Yii', 'autoload'], true, true);
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 // Detect if we are in K8s...
 if (!file_exists('/run/secrets')) {
     $env = new \prime\components\InsecureSecretEnvironment('/run/env.json', __DIR__ . '/config/env.json');

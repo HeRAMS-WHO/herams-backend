@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use Collecthor\DataInterfaces\VariableSetInterface;
+use Collecthor\SurveyjsParser\SurveyParser;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
@@ -27,6 +29,7 @@ use yii\db\QueryInterface;
 class SurveyRepository
 {
     public function __construct(
+        private SurveyParser $surveyParser,
         private AccessCheckInterface $accessCheck,
         private ModelHydrator $hydrator,
     ) {
@@ -61,6 +64,13 @@ class SurveyRepository
     {
         $record = SurveyForRead::findOne(['id' => $id]);
         return new SurveyForSurveyJs(new SurveyId($record->id), $record->config);
+    }
+
+    public function retrieveForDashboarding(SurveyId $surveyId): VariableSetInterface
+    {
+        $record = Survey::findOne(['id' => $surveyId->getValue()]);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
+        return $this->surveyParser->parseSurveyStructure($record->config);
     }
 
     public function retrieveForUpdate(SurveyId $id): UpdateForm

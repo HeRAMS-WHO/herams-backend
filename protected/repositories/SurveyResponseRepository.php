@@ -13,6 +13,7 @@ use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\SurveyResponse;
 use prime\models\forms\surveyResponse\CreateForm;
+use prime\models\response\AdminResponseForList;
 use prime\models\response\ResponseForList;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
 use prime\values\FacilityId;
@@ -103,16 +104,16 @@ class SurveyResponseRepository
         $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId]);
 
         return new HydratedActiveDataProvider(
-            static function (SurveyResponse $response): ResponseForListInterface {
-                return new ResponseForList($response);
+            static function (SurveyResponse $response): \prime\interfaces\AdminResponseForListInterface {
+                return new AdminResponseForList($response);
             },
             [
                 'sort' => [
                     'attributes' => [
-                        'id',
-                        'dateOfUpdate' => [
-                            'asc' => ['date' => SORT_ASC],
-                            'desc' => ['date' => SORT_DESC],
+                        ResponseForList::ID,
+                        ResponseForList::DATE_OF_UPDATE => [
+                            'asc' => ['created_at' => SORT_ASC],
+                            'desc' => ['created_at' => SORT_DESC],
                             'default' => SORT_DESC,
                         ]
                     ]

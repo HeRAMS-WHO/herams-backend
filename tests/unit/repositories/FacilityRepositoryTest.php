@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
+use Collecthor\SurveyjsParser\SurveyParser;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Facility;
@@ -54,7 +55,7 @@ class FacilityRepositoryTest extends Unit
         return new FacilityRepository(
             $accessCheck,
             $modelHydrator ?? new ModelHydrator(),
-            $surveyRepository ?? new SurveyRepository($newAccessCheck, new ModelHydrator()),
+            $surveyRepository ?? new SurveyRepository(new SurveyParser(), $newAccessCheck, new ModelHydrator()),
             $surveyResponseRepository ?? new SurveyResponseRepository($newAccessCheck, new ModelHydrator()),
             $workspaceRepository ?? new WorkspaceRepository($newAccessCheck, new ModelHydrator()),
         );

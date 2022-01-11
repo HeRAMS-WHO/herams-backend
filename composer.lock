@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04b011ce67994d1a2c81db31174c6570",
+    "content-hash": "0a052e584697597eb51bea30124e37e5",
     "packages": [
         {
             "name": "brick/math",
@@ -129,6 +129,104 @@
                 "source": "https://github.com/cebe/markdown"
             },
             "time": "2018-03-26T11:24:36+00:00"
+        },
+        {
+            "name": "collecthor/data-interfaces",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/collecthor/data-interfaces.git",
+                "reference": "cd8aae28392beea72b0e14ff60e928de28fa2764"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/collecthor/data-interfaces/zipball/cd8aae28392beea72b0e14ff60e928de28fa2764",
+                "reference": "cd8aae28392beea72b0e14ff60e928de28fa2764",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 8.1"
+            },
+            "require-dev": {
+                "captainhook/plugin-composer": "^5.3",
+                "phpstan/phpstan": "^1.2",
+                "ramsey/conventional-commits": "^1.2",
+                "symplify/easy-coding-standard": "^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collecthor\\DataInterfaces\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Interfaces for defining data structure like Survey data",
+            "support": {
+                "issues": "https://github.com/collecthor/data-interfaces/issues",
+                "source": "https://github.com/collecthor/data-interfaces/tree/v1.0.2"
+            },
+            "time": "2021-12-08T11:52:36+00:00"
+        },
+        {
+            "name": "collecthor/surveyjs-parser",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/collecthor/surveyjs-parser.git",
+                "reference": "a8ab1da239f154ea2ad2b47b35dc266e9794d3f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/collecthor/surveyjs-parser/zipball/a8ab1da239f154ea2ad2b47b35dc266e9794d3f9",
+                "reference": "a8ab1da239f154ea2ad2b47b35dc266e9794d3f9",
+                "shasum": ""
+            },
+            "require": {
+                "collecthor/data-interfaces": "> 1.0.1",
+                "php": ">= 8.1"
+            },
+            "require-dev": {
+                "captainhook/plugin-composer": "^5.3",
+                "nikic/iter": "dev-master",
+                "phpstan/extension-installer": "dev-master",
+                "phpstan/phpstan": "^1.2",
+                "phpstan/phpstan-phpunit": "1.0.x-dev",
+                "phpstan/phpstan-strict-rules": "1.1.x-dev",
+                "phpunit/phpunit": "^9.5",
+                "ramsey/conventional-commits": "1.x-dev",
+                "symplify/easy-coding-standard": "^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collecthor\\SurveyjsParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Parse SurveyJS survey structure into PHP classes",
+            "support": {
+                "issues": "https://github.com/collecthor/surveyjs-parser/issues",
+                "source": "https://github.com/collecthor/surveyjs-parser/tree/v1.2.1"
+            },
+            "time": "2021-12-15T15:26:46+00:00"
         },
         {
             "name": "creof/wkb-parser",
@@ -1079,16 +1177,16 @@
         },
         {
             "name": "kartik-v/yii2-bootstrap4-dropdown",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-bootstrap4-dropdown.git",
-                "reference": "8b5475acc3e38a569cf99023ebea5b05a74f5e2d"
+                "reference": "b65783f2de8ff0733e3787c853a53e9f13bebac1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-bootstrap4-dropdown/zipball/8b5475acc3e38a569cf99023ebea5b05a74f5e2d",
-                "reference": "8b5475acc3e38a569cf99023ebea5b05a74f5e2d",
+                "url": "https://api.github.com/repos/kartik-v/yii2-bootstrap4-dropdown/zipball/b65783f2de8ff0733e3787c853a53e9f13bebac1",
+                "reference": "b65783f2de8ff0733e3787c853a53e9f13bebac1",
                 "shasum": ""
             },
             "require": {
@@ -1131,22 +1229,22 @@
             ],
             "support": {
                 "issues": "https://github.com/kartik-v/yii2-bootstrap4-dropdown/issues",
-                "source": "https://github.com/kartik-v/yii2-bootstrap4-dropdown/tree/v1.0.3"
+                "source": "https://github.com/kartik-v/yii2-bootstrap4-dropdown/tree/v1.0.4"
             },
-            "time": "2021-12-28T04:02:02+00:00"
+            "time": "2022-01-10T04:03:23+00:00"
         },
         {
             "name": "kartik-v/yii2-bootstrap5-dropdown",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-bootstrap5-dropdown.git",
-                "reference": "e72294c47b2b662b741186d850613d66483399bc"
+                "reference": "459e4c06c64e49f89ac372ce7c2cabb961f56ec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-bootstrap5-dropdown/zipball/e72294c47b2b662b741186d850613d66483399bc",
-                "reference": "e72294c47b2b662b741186d850613d66483399bc",
+                "url": "https://api.github.com/repos/kartik-v/yii2-bootstrap5-dropdown/zipball/459e4c06c64e49f89ac372ce7c2cabb961f56ec9",
+                "reference": "459e4c06c64e49f89ac372ce7c2cabb961f56ec9",
                 "shasum": ""
             },
             "require": {
@@ -1189,9 +1287,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kartik-v/yii2-bootstrap5-dropdown/issues",
-                "source": "https://github.com/kartik-v/yii2-bootstrap5-dropdown/tree/v1.0.1"
+                "source": "https://github.com/kartik-v/yii2-bootstrap5-dropdown/tree/v1.0.2"
             },
-            "time": "2021-12-28T14:52:52+00:00"
+            "time": "2022-01-10T04:05:31+00:00"
         },
         {
             "name": "kartik-v/yii2-builder",
@@ -1431,21 +1529,22 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "bbf7b58b0000f44834c18c0f2eed13a0a7d04c09"
+                "reference": "23234fce6abc4b6f3f9ba1c7f66f56fbebcde139"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/bbf7b58b0000f44834c18c0f2eed13a0a7d04c09",
-                "reference": "bbf7b58b0000f44834c18c0f2eed13a0a7d04c09",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/23234fce6abc4b6f3f9ba1c7f66f56fbebcde139",
+                "reference": "23234fce6abc4b6f3f9ba1c7f66f56fbebcde139",
                 "shasum": ""
             },
             "suggest": {
                 "yiisoft/yii2-bootstrap": "for Krajee extensions to work with Bootstrap 3.x version",
-                "yiisoft/yii2-bootstrap4": "for Krajee extensions to work with Bootstrap 4.x version"
+                "yiisoft/yii2-bootstrap4": "for Krajee extensions to work with Bootstrap 4.x version",
+                "yiisoft/yii2-bootstrap5": "for Krajee extensions to work with Bootstrap 5.x version"
             },
             "type": "yii2-extension",
             "extra": {
@@ -1481,9 +1580,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kartik-v/yii2-krajee-base/issues",
-                "source": "https://github.com/kartik-v/yii2-krajee-base/tree/v3.0.1"
+                "source": "https://github.com/kartik-v/yii2-krajee-base/tree/v3.0.2"
             },
-            "time": "2021-09-03T10:16:59+00:00"
+            "time": "2022-01-10T03:59:20+00:00"
         },
         {
             "name": "kartik-v/yii2-password",
@@ -5138,22 +5237,30 @@
         },
         {
             "name": "codeception/module-yii2",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-yii2.git",
-                "reference": "aec2976c45136056f1b05c930cd376bb283d42e2"
+                "reference": "14269d059b8eaedf3d414a673907bd874cd4ed04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-yii2/zipball/aec2976c45136056f1b05c930cd376bb283d42e2",
-                "reference": "aec2976c45136056f1b05c930cd376bb283d42e2",
+                "url": "https://api.github.com/repos/Codeception/module-yii2/zipball/14269d059b8eaedf3d414a673907bd874cd4ed04",
+                "reference": "14269d059b8eaedf3d414a673907bd874cd4ed04",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "^4.0",
                 "codeception/lib-innerbrowser": "^1.0",
-                "php": ">=5.6.0 <=8.1"
+                "php": ">=5.6.0 <=8.1 | ~8.1.0"
+            },
+            "require-dev": {
+                "codeception/module-asserts": "^1.3",
+                "codeception/module-filesystem": "^1.0",
+                "codeception/verify": "<2",
+                "codemix/yii2-localeurls": "^1.7",
+                "yiisoft/yii2": "dev-master",
+                "yiisoft/yii2-app-advanced": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -5184,9 +5291,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-yii2/issues",
-                "source": "https://github.com/Codeception/module-yii2/tree/1.1.4"
+                "source": "https://github.com/Codeception/module-yii2/tree/1.1.5"
             },
-            "time": "2021-10-23T08:48:42+00:00"
+            "time": "2021-12-30T09:16:01+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -5239,16 +5346,16 @@
         },
         {
             "name": "codeception/stub",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Stub.git",
-                "reference": "4c9cf3e19bd5f064e08e7f3ba6be651c218dc6ae"
+                "reference": "ce0a9e418c775ca8b737d50c2b4ac1132f3990d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Stub/zipball/4c9cf3e19bd5f064e08e7f3ba6be651c218dc6ae",
-                "reference": "4c9cf3e19bd5f064e08e7f3ba6be651c218dc6ae",
+                "url": "https://api.github.com/repos/Codeception/Stub/zipball/ce0a9e418c775ca8b737d50c2b4ac1132f3990d8",
+                "reference": "ce0a9e418c775ca8b737d50c2b4ac1132f3990d8",
                 "shasum": ""
             },
             "require": {
@@ -5271,9 +5378,9 @@
             "description": "Flexible Stub wrapper for PHPUnit's Mock Builder",
             "support": {
                 "issues": "https://github.com/Codeception/Stub/issues",
-                "source": "https://github.com/Codeception/Stub/tree/4.0.0"
+                "source": "https://github.com/Codeception/Stub/tree/4.0.1"
             },
-            "time": "2021-12-07T14:39:17+00:00"
+            "time": "2022-01-08T09:35:36+00:00"
         },
         {
             "name": "comcast/php-legal-licenses",
@@ -5543,9 +5650,6 @@
             },
             "require": {
                 "php": "^7.1 || ^8.0"
-            },
-            "replace": {
-                "myclabs/deep-copy": "self.version"
             },
             "require-dev": {
                 "doctrine/collections": "^1.0",
@@ -7667,12 +7771,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "67c82d975fc15b67725c7e4a0312bf8f28354c0d"
+                "reference": "5672074bce33eb885980648d765bb29adca338a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/67c82d975fc15b67725c7e4a0312bf8f28354c0d",
-                "reference": "67c82d975fc15b67725c7e4a0312bf8f28354c0d",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5672074bce33eb885980648d765bb29adca338a2",
+                "reference": "5672074bce33eb885980648d765bb29adca338a2",
                 "shasum": ""
             },
             "require": {
@@ -7716,7 +7820,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2021-12-20T06:20:45+00:00"
+            "time": "2022-01-10T05:27:37+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -8971,7 +9075,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-gd": "*",
         "ext-pdo_mysql": "*",
         "ext-intl": "*",
@@ -8981,5 +9085,5 @@
         "ext-simplexml": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

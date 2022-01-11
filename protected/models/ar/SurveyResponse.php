@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use Carbon\Carbon;
+use Collecthor\DataInterfaces\RecordInterface;
+use DateTimeInterface;
 use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\interfaces\HeramsResponseInterface;
@@ -14,6 +16,8 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
+
+use function GuzzleHttp\Promise\is_settled;
 
 /**
  * Attributes
@@ -28,7 +32,7 @@ use yii\validators\SafeValidator;
  * @property-read Facility $facility
  * @property-read Survey $survey
  */
-class SurveyResponse extends ActiveRecord implements HeramsResponseInterface
+class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, RecordInterface
 {
     public function behaviors(): array
     {
@@ -177,5 +181,33 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface
             [['facility_id'], ExistValidator::class, 'targetRelation' => 'facility'],
             [['survey_id'], ExistValidator::class, 'targetRelation' => 'survey'],
         ];
+    }
+
+    public function getDataValue(array $path): string|int|float|null|array
+    {
+        $data = $this->data;
+        while (!empty($path)) {
+            $key = array_shift($path);
+            if (!isset($data[$key])) {
+                return null;
+            }
+            $data = $data[$key];
+        }
+        return $data;
+    }
+
+    public function getRecordId(): int
+    {
+        return $this->id;
+    }
+
+    public function getStarted(): DateTimeInterface
+    {
+        return new Carbon($this->created_at);
+    }
+
+    public function getLastUpdate(): DateTimeInterface
+    {
+        return new Carbon($this->created_at);
     }
 }

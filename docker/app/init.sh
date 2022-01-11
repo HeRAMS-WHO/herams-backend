@@ -17,4 +17,4 @@ if [ -d "/database-seed" ]; then
 fi
 
 
-exec php-fpm8 --force-stderr --fpm-config /php-fpm.conf
+exec php-fpm --force-stderr --fpm-config /php-fpm.conf

@@ -4,9 +4,12 @@ namespace prime\controllers\element;
 
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
+use prime\helpers\AccessCheck;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
+use prime\repositories\ProjectRepository;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
@@ -21,7 +24,7 @@ class Create extends Action
         Request $request,
         NotificationService $notificationService,
         LimesurveyDataProvider $limesurveyDataProvider,
-        User $user,
+        AccessCheckInterface $accessCheck,
         int $page_id,
         string $type
     ) {
@@ -32,9 +35,9 @@ class Create extends Action
 
         $project = $page->project;
 
-        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
-            throw new ForbiddenHttpException();
-        }
+
+        $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_DASHBOARD);
+
 
 
         try {
@@ -46,6 +49,7 @@ class Create extends Action
 
         $element->page_id = $page->id;
         $element->sort = $page->getElements()->select('max(sort)')->scalar() + 1;
+
         $model = new \prime\models\forms\Element($limesurveyDataProvider->getSurvey($project->base_survey_eid), $element);
         $model->load($request->queryParams);
         if ($request->isPost) {

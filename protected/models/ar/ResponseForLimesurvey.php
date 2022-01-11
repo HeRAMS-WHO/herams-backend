@@ -6,13 +6,11 @@ namespace prime\models\ar;
 
 use Carbon\Carbon;
 use prime\components\ActiveQuery;
-use prime\helpers\ArrayHelper;
 use prime\interfaces\HeramsResponseInterface;
 use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseForLimesurveyQuery;
-use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 
 /**

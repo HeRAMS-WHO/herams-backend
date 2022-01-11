@@ -35,16 +35,20 @@ Section::begin()
 $ajaxSaveUrl = Json::encode(Url::to(['survey/ajax-save']));
 $surveyId = Json::encode($model instanceof UpdateForm ? $model->getSurveyId() : null);
 echo Creator::widget([
+    'clientOptions' => [
+        'showState' => true,
+        'showTranslationTab' => true
+    ],
     'options' => [],
     'surveyCreatorCustomizers' => [
         new JsExpression('(creator) => { creator.toolbox.allowExpandMultipleCategories = true}'),
         new JsExpression(<<<JS
-function(surveyCreator) {
+(surveyCreator) => {
   let surveyId = {$surveyId};
-  surveyCreator.saveSurveyFunc = function (saveNo, callback) {
+  surveyCreator.saveSurveyFunc = async (saveNo, callback) => {
     const ajaxSaveUrl = {$ajaxSaveUrl} + (surveyId != null ? '?id=' + surveyId : '');
     
-    const response = fetch(
+    const response = await fetch(
       ajaxSaveUrl,
       {
         method: 'POST',
@@ -57,10 +61,17 @@ function(surveyCreator) {
         },
         body: JSON.stringify({config: surveyCreator.JSON}),
       }
-    )
-    .then(response => response.json())
-    .then(data => {callback(saveNo, true);surveyId = data.id})
-  } 
+    );
+    if (response.ok) {
+        const json = await response.json();
+        surveyId = json.id;
+        console.log('callback');
+        callback(saveNo, true);
+    } else {
+        callback(saveNo, false);
+    }
+    }
+    
 }
 JS
         ),

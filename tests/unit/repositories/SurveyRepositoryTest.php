@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
+use Collecthor\SurveyjsParser\SurveyParser;
 use prime\helpers\ArrayHelper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
@@ -34,7 +35,7 @@ class SurveyRepositoryTest extends Unit
         $accessChecker = $accessCheck ?? $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $modelHydrator = $modelHydrator ?? new ModelHydrator();
 
-        return new SurveyRepository($accessChecker, $modelHydrator);
+        return new SurveyRepository(new SurveyParser(), $accessChecker, $modelHydrator);
     }
 
     private function createSurvey(array $config = []): Survey
@@ -76,12 +77,7 @@ class SurveyRepositoryTest extends Unit
             ],
         ];
 
-        $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
-        $accessChecker->expects($this->once())
-            ->method('requirePermission');
-        $modelHydrator = new ModelHydrator();
-
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository();
         $repository->create($model);
     }
 
@@ -89,12 +85,7 @@ class SurveyRepositoryTest extends Unit
     {
         $model = new CreateForm();
 
-        $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
-        $accessChecker->expects($this->once())
-            ->method('requirePermission');
-        $modelHydrator = new ModelHydrator();
-
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository();
         $this->expectException(InvalidArgumentException::class);
         $repository->create($model);
     }
@@ -126,10 +117,7 @@ class SurveyRepositoryTest extends Unit
     {
         $survey = $this->createSurvey();
 
-        $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
-        $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
-
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository();
 
         $surveyId = new SurveyId($survey->id);
         $surveyForSurveyJs = $repository->retrieveForSurveyJs($surveyId);
@@ -147,7 +135,7 @@ class SurveyRepositoryTest extends Unit
             ->method('requirePermission');
         $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
 
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository($accessChecker, $modelHydrator);
         $model = $repository->retrieveForUpdate(new SurveyId($survey->id));
 
         $this->assertEquals($survey->config, $model->config);
@@ -161,7 +149,7 @@ class SurveyRepositoryTest extends Unit
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
 
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository($accessChecker, $modelHydrator);
         $surveyProvider = $repository->search($surveySearch);
         $this->assertInstanceOf(DataProviderInterface::class, $surveyProvider);
         $this->assertEquals(Survey::find()->count(), $surveyProvider->getTotalCount());
@@ -180,7 +168,7 @@ class SurveyRepositoryTest extends Unit
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $modelHydrator = new ModelHydrator();
 
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository($accessChecker, $modelHydrator);
         $surveyProvider = $repository->search($surveySearch);
         $this->assertEquals([$modelHydrator->hydrateConstructor($survey, SurveyForList::class)], $surveyProvider->getModels());
     }
@@ -194,7 +182,7 @@ class SurveyRepositoryTest extends Unit
             ->method('requirePermission');
         $modelHydrator = new ModelHydrator();
 
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository($accessChecker, $modelHydrator);
 
         $model = new UpdateForm(new SurveyId($survey->id));
         $newConfig = [
@@ -226,9 +214,7 @@ class SurveyRepositoryTest extends Unit
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $accessChecker->expects($this->once())
             ->method('requirePermission');
-        $modelHydrator = new ModelHydrator();
-
-        $repository = new SurveyRepository($accessChecker, $modelHydrator);
+        $repository = $this->createRepository($accessChecker);
 
         $model = new UpdateForm(new SurveyId($survey->id));
         $model->config = [];
