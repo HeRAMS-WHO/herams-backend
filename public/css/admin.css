@@ -26,31 +26,54 @@ html {
     box-sizing: border-box;
     width: 100%;
 }
+body {
+    /** This is the base mobile view */
+    display: block;
+}
 
 body {
     background-color: var(--main-background-color);
     font-family: "Source Sans Pro";
-    min-height: 100%;
+    min-height: 100vh;
     margin: 0;
-    overflow: auto !important;
-    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100vw;
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: max-content minmax(400px, auto);
-    grid-template-areas: "header" "main";
+    grid-template-columns: 1fr min(100vw, var(--max-site-width)) 1fr;
+    grid-template-rows: min-content minmax(400px, auto);
+    grid-template-areas:
+        "header header  header"
+        ".      main    ."
+    ;
 }
 
 header.admin-header {
     margin: 0;
-    padding: 0 15px;
     background-color: var(--header-background-color);
     grid-area: header;
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: max-content;
-    grid-template-areas: "user" "title";
-    /*grid-template-columns: auto minmax(auto, 880px) 400px auto;*/
-    /*grid-template-areas: ". title user .";*/
+}
+
+@media (min-width: 800px) {
+    /*header.admin-header::before{*/
+    /*    position: absolute;*/
+    /*    height: 100%;*/
+    /*    left: 0;*/
+    /*    width: 100vw;*/
+    /*    content: ' ';*/
+    /*}*/
+    header.admin-header {
+        display: grid;
+        position: relative;
+        padding-left: calc((100vw - var(--max-site-width)) / 2);
+        padding-right: calc((100vw - var(--max-site-width)) / 2);
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "breadcrumbs user"
+            "title       user";
+    }
+
 }
 
 section {
@@ -78,10 +101,7 @@ section {
     display: grid;
     width: 100%;
     max-width: var(--max-site-width);
-    margin: 0 auto;
-    margin-top: 30px;
-    margin-bottom: 70px;
-    padding: 0 15px;
+    margin-left: auto;
     grid-template-columns: auto;
     grid-template-rows: max-content;
     grid-template-areas: "tabs" "content";
@@ -103,13 +123,10 @@ tabbed-content::part(content) {
 
 .content {
     grid-area: content;
-    display: block;
-    width: 100%;
-    max-width: var(--max-site-width);
     padding: 20px;
-    margin: 0 auto;
     background-color: white;
     border-radius: 15px;
+    overflow-y: auto;
 }
 
 .content > *:not(section) {
@@ -496,33 +513,5 @@ body[data-modal]:after {
         top: 100px;
         bottom: 100px;
         border: 2px solid var(--highlight-background-color);
-    }
-}
-
-@media (min-width: 768px) {
-    header.admin-header {
-        grid-template-columns: auto minmax(auto, 980px) 400px auto;
-        grid-template-areas: ". title user .";
-    }
-}
-
-@media (min-width: 800px) {
-    .main {
-        padding: 0 30px;
-    }
-    header.admin-header {
-        padding: 0 30px;
-    }
-}
-
-@media(min-width: 1280px) {}
-
-@media(min-width: 1460px) {
-    .main {
-        padding: 0;
-    }
-    header.admin-header {
-        padding: 0;
-        grid-template-columns: auto minmax(auto, 1040px) 400px auto;
     }
 }

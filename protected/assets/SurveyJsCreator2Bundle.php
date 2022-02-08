@@ -21,5 +21,6 @@ class SurveyJsCreator2Bundle extends AssetBundle
     public $depends = [
         SurveyModificationBundle::class,
         SurveyJsKnockoutUiBundle::class,
+        AceEditorBundle::class
     ];
 }

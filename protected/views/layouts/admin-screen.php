@@ -46,8 +46,6 @@ echo Html::beginTag('header', ['class' => 'admin-header']);
 echo $this->render('//user-menu', [
     'class' => ['admin']
 ]);
-echo Html::beginTag('div', ['class' => 'title']);
-
 $links = [];
 foreach ($this->getBreadcrumbCollection() as $breadcrumb) {
     $links[] = ArrayHelper::merge(
@@ -63,17 +61,18 @@ if ($this->autoAddTitleToBreadcrumbs) {
     $links[] = $this->title;
 }
 
+
 echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
-    'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
-    'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
-    'homeLink' => [
-        'label' => \Yii::t('app', 'Administration'),
-        'url' => '/project/index'
-    ],
-    'links' => $links,
-]);
+        'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
+        'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
+        'homeLink' => [
+            'label' => \Yii::t('app', 'Administration'),
+            'url' => '/project/index'
+        ],
+        'links' => $links,
+    ]);
 echo Html::tag('span', $this->title, ['class' => 'page-title']);
-echo Html::endTag('div');
+
 echo Html::endTag('header');
 
 echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);

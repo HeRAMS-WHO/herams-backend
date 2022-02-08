@@ -13,9 +13,9 @@ use yii\helpers\Json;
 /**
  * @covers \prime\controllers\project\Update
  */
-class UpdateCest
+final class UpdateCest
 {
-    public function testAccessControl(FunctionalTester $I)
+    public function testAccessControl(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
@@ -24,7 +24,7 @@ class UpdateCest
         $I->seeResponseCodeIs(403);
     }
 
-    public function testAccessControlWithWriteAccess(FunctionalTester $I)
+    public function testAccessControlWithWriteAccess(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
@@ -37,7 +37,7 @@ class UpdateCest
         $I->dontSee('Empty project');
     }
 
-    public function testAccessControlWithAdminAccess(FunctionalTester $I)
+    public function testAccessControlWithAdminAccess(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
@@ -52,7 +52,7 @@ class UpdateCest
         $I->see('Empty project');
     }
 
-    public function testUpdate(FunctionalTester $I)
+    public function testUpdate(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();

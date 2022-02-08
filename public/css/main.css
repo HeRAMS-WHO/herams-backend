@@ -26,6 +26,8 @@
     --light-yellow: rgba(255, 255, 0, 0.3);
     --light-orange: rgba(255, 165, 0, 0.3);
 
+    --user-menu-icon-size: 20px;
+    --user-menu-background-color: var(--header-background-color);
 }
 
 /**
@@ -99,11 +101,14 @@ body {
     grid-area: user;
     color: var(--text-color);
     align-items: center;
+    background-color: var(--user-menu-background-color);
     display: flex;
     justify-content: flex-end;
     text-align: left;
-    font-size: 20px;
+    font-size: var(--user-menu-icon-size);
     padding: 10px 0;
+    min-height: calc(2 * var(--user-menu-icon-size));
+    overflow-y: auto;
 }
 
 .worldmap .user-menu {
@@ -147,7 +152,8 @@ body {
     text-decoration: inherit;
     color: var(--text-color);
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .user-menu a:first-child {
@@ -205,6 +211,7 @@ body {
     margin: 0;
     padding: 20px 0 15px;
     list-style-type: none;
+    grid-area: breadcrumbs;
 }
 
 .breadcrumb li {
@@ -277,7 +284,7 @@ input[type="text"] {
 }
 
 .btn {
-    display: inline-flex !important;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -876,9 +883,6 @@ input[type="text"] {
 @media (min-width: 768px) {
     body {
         overflow-y: hidden;
-    }
-    .user-menu {
-        padding: 0;
     }
     .content {
         display: block;

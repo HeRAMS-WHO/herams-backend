@@ -5,7 +5,8 @@ declare(strict_types=1);
 use prime\models\forms\survey\CreateForm;
 use prime\models\forms\survey\UpdateForm;
 use prime\widgets\Section;
-use prime\widgets\surveyJs\Creator2 as Creator;
+use prime\widgets\surveyJs\Creator2 as Creator2;
+use prime\widgets\surveyJs\Creator as Creator;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
@@ -21,11 +22,10 @@ $this->title = $model instanceof CreateForm
     : \Yii::t('app', 'Update survey');
 
 $this->registerCss(<<<CSS
-.main,
-.main .content {
-    max-width: inherit;
-    width: 100%;
+:root {
+    --max-site-width: 100vw;
 }
+
 CSS
 );
 
@@ -34,17 +34,17 @@ Section::begin()
 
 $ajaxSaveUrl = Json::encode(Url::to(['survey/ajax-save']));
 $surveyId = Json::encode($model instanceof UpdateForm ? $model->getSurveyId() : null);
-echo Creator::widget([
+echo Creator2::widget([
     'clientOptions' => [
         'showState' => true,
         'showTranslationTab' => true
     ],
-    'options' => [],
     'surveyCreatorCustomizers' => [
         new JsExpression('(creator) => { creator.toolbox.allowExpandMultipleCategories = true}'),
         new JsExpression(<<<JS
 (surveyCreator) => {
   let surveyId = {$surveyId};
+  console.log(surveyId);
   surveyCreator.saveSurveyFunc = async (saveNo, callback) => {
     const ajaxSaveUrl = {$ajaxSaveUrl} + (surveyId != null ? '?id=' + surveyId : '');
     
@@ -65,7 +65,7 @@ echo Creator::widget([
     if (response.ok) {
         const json = await response.json();
         surveyId = json.id;
-        console.log('callback');
+        console.log('callback', json);
         callback(saveNo, true);
     } else {
         callback(saveNo, false);

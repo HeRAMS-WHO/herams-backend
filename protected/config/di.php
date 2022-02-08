@@ -123,6 +123,7 @@ return [
     WorkspaceRepository::class => WorkspaceRepository::class,
     FacilityRepository::class => FacilityRepository::class,
     ResponseForLimesurveyRepository::class => ResponseForLimesurveyRepository::class,
+    SurveyParser::class => \prime\helpers\SurveyParser::class,
     SurveyRepository::class => SurveyRepository::class,
     SurveyResponseRepository::class => SurveyResponseRepository::class,
     ActiveRecordRepository::class => static function () {

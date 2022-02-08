@@ -19,7 +19,8 @@ class SurveyJsCreatorBundle extends AssetBundle
     ];
 
     public $depends = [
-        SurveyModificationBundle::class,
         SurveyJsBundle::class,
+        SurveyModificationBundle::class,
+
     ];
 }

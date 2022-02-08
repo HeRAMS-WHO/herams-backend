@@ -75,7 +75,9 @@
             name: "color",
             type: "color"
         },
-    ], null, "itemvalue");
+    ],
+    null,
+    "itemvalue");
     Survey.Serializer.addProperty("survey", {
         category: "Reporting & Dashboarding",
         default: [
@@ -87,20 +89,16 @@
                 value: "A2",
                 color: "#00ff00"
             }
-
         ],
         isLocalizable: false,
-        // onSetValue: (obj, value, jsonConverter) => {
-        //     debugger;
-        //     // obj.setPropertyValue("colors", value);
-        // },
-
-
+        className: "coloritemvalue",
         type: "coloritemvalue[]",
         name: "colors",
         displayName: "Color Dictionary",
 
+
     });
+
 // New question type for facility type:
     const widgetName = "facilitytype"
     const facilityQuestionType = {

@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 use Collecthor\DataInterfaces\ClosedVariableInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
+use prime\components\View;
 use prime\helpers\Icon;
+use prime\models\ar\Page;
+use prime\widgets\Section;
 use yii\helpers\Html;
 
 /**
  * @var VariableSetInterface $dataVariables
  * @var VariableSetInterface $adminVariables
- * @var \prime\models\ar\Page $page
- * @var \prime\components\View $this
+ * @var Page $page
+ * @var View $this
  */
 
 \prime\assets\IconBundle::register($this);
@@ -39,7 +42,7 @@ CSS
 );
 
 
-\prime\widgets\Section::begin()
+Section::begin()
     ->withHeader(\Yii::t('app', "Pick a variable for your new chart"));
 
 
@@ -79,4 +82,4 @@ foreach ($adminVariables->getVariables() as $variable) {
     echo Icon::user();
     echo Html::endTag('div');
 }
-\prime\widgets\Section::end();
+Section::end();

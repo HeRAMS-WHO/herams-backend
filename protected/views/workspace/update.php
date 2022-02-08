@@ -24,7 +24,7 @@ use yii\bootstrap\Html;
  * @var View $this
  */
 assert($this instanceof View);
-assert($model instanceof Update || $model instanceof WorkspaceForLimesurvey);
+assert($model instanceof Update || $model instanceof UpdateForLimesurvey);
 
 $this->title = $model->title;
 

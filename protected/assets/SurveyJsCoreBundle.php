@@ -12,7 +12,7 @@ class SurveyJsCoreBundle extends AssetBundle
 
     public $css = [
         'survey.min.css',
-        'defaultV2.min.css'
+        'defaultV2.min.css',
     ];
 
     public $js = [
@@ -20,6 +20,7 @@ class SurveyJsCoreBundle extends AssetBundle
     ];
 
     public $depends = [
-        KnockoutBundle::class
+        KnockoutBundle::class,
+
     ];
 }

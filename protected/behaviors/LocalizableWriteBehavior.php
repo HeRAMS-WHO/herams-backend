@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\behaviors;
 
 use yii\base\Behavior;
+use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\validators\InlineValidator;
@@ -39,13 +40,11 @@ class LocalizableWriteBehavior extends Behavior
     public function attach($owner)
     {
         parent::attach($owner);
-//        assert($owner instanceof ActiveRecord);
 
         $validator =  new InlineValidator();
         $behavior = $this;
         $validator->attributes = toArray(map(fn($attribute) => "i18n" . ucfirst($attribute), $this->attributes));
         $validator->method = function (string $attribute, ?array $params, InlineValidator $validator, $current) use ($behavior) {
-            assert($this instanceof ActiveRecord);
             $realAttributeName = $behavior->attributeName($attribute);
             // Store real value and real errors.
             $realValue = $this->{$realAttributeName};
