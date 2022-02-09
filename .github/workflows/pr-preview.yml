@@ -75,14 +75,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
-      - id: kaniko_build_app
-        name: Build app container
-        uses: aevea/action-kaniko@master
-        with:
-          registry: ghcr.io
-          password: ${{ secrets.GHCR_TOKEN }}
-          tag: ${{ github.sha }}
-          tag_with_latest: true
-          extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --build-arg INCLUDE_DATABASE_SEED=${{ needs.precondition.outputs.hasmigrations }} --use-new-run"
-          image: herams-who/herams-backend/app
-          build_file: docker/app/Dockerfile
+      - id: kaniko_build
+        run: >
+          docker run
+          -v ~/.docker:/kaniko/.docker
+          -v $(pwd)/php:/context
+          gcr.io/kaniko-project/executor
+          --context dir:///context/
+          --destination ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
+          --build-arg COMMIT_SHA=${{ github.sha }}
+          --build-arg INCLUDE_DATABASE_SEED=${{ needs.precondition.outputs.hasmigrations }}
+          --use-new-run
