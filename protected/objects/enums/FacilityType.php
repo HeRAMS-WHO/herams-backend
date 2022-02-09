@@ -6,8 +6,8 @@ namespace prime\objects\enums;
 
 enum FacilityType: string
 {
-case Primary = "primary";
-case Secondary = "secondary";
-case Tertiary = "tertiary";
+    case Primary = "primary";
+    case Secondary = "secondary";
+    case Tertiary = "tertiary";
 
-    }
+}
