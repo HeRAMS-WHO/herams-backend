@@ -12,9 +12,9 @@ use prime\tests\FunctionalTester;
  * @covers \prime\controllers\UserController
  * @covers \prime\models\forms\user\RequestResetForm
  */
-class RequestResetCest
+final class RequestResetCest
 {
-    public function testRequest(FunctionalTester $I)
+    public function testRequest(FunctionalTester $I): void
     {
         $I->amOnPage(['/user/request-reset']);
         $I->seeResponseCodeIs(200);
@@ -28,10 +28,10 @@ class RequestResetCest
         $I->fillField('Email', $user->email);
         $I->click('Request password reset');
         $I->seeResponseCodeIs(200);
-        $I->see('Too many attempts, try again in 120 seconds');
+        $I->see('Too many attempts, try again in');
     }
 
-    public function testUnknownUser(FunctionalTester $I)
+    public function testUnknownUser(FunctionalTester $I): void
     {
         $I->amOnPage(['/user/request-reset']);
         $I->seeResponseCodeIs(200);
