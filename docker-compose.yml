@@ -13,8 +13,7 @@ volumes:
 
 x-env:
   base: &base
-    build:
-      context: docker/php
+    image: ghcr.io/herams-who/docker/php:latest
     volumes:
       - .:/project:rw
       - ./tests:/project/tests:rw
@@ -78,8 +77,7 @@ services:
       - devdb
       - mailcatcher
       - phpmyadmin
-    build:
-      context: docker/php
+    image: ghcr.io/herams-who/docker/php:latest
     volumes:
       - type: bind
         source: ./
