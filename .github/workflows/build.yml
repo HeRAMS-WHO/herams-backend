@@ -82,7 +82,7 @@ jobs:
         with:
           registry: ghcr.io
           password: ${{ secrets.GHCR_TOKEN }}
-          tag: ${{ github.sha }}
+          tag: commit-${{ github.sha }}
           tag_with_latest: true
           extra_args: "--build-arg COMMIT_SHA=${{ github.sha }} --use-new-run"
           image: herams-who/herams-backend/app
