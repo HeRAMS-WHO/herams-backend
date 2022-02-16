@@ -75,19 +75,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
-<<<<<<< HEAD
-      - id: kaniko_build
-        run: >
-          docker run
-          -v ~/.docker:/kaniko/.docker
-          -v $(pwd)/php:/context
-          gcr.io/kaniko-project/executor
-          --context dir:///context/
-          --destination ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
-          --build-arg COMMIT_SHA=${{ github.sha }}
-          --build-arg INCLUDE_DATABASE_SEED=${{ needs.precondition.outputs.hasmigrations }}
-          --use-new-run
-=======
       - uses: docker/login-action@v1
         with:
           registry: ghcr.io
@@ -109,4 +96,3 @@ jobs:
             INCLUDE_DATABASE_SEED=${{ needs.precondition.outputs.hasmigrations }}
           tags: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
->>>>>>> hf-layer
