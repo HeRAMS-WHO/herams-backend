@@ -80,6 +80,7 @@ jobs:
         with:
           push: true
           context: .
+          file: docker/app/Dockerfile
           build-args: |
             COMMIT_SHA=${{ github.sha }}
           tags: |
