@@ -30,18 +30,25 @@ class WorkspaceControllerTest extends ControllerTest
         $workspaceForBreadcrumb->expects($this->once())
             ->method('getProjectId')
             ->willReturn(new ProjectId($projectId));
-        $workspaceRepository = $this->make(WorkspaceRepository::class, [
-            'retrieveForTabMenu' => Expected::once(function (WorkspaceId $id) {
-                $this->assertSame(12345, $id->getValue());
+        $workspaceRepository = $this->getMockBuilder(WorkspaceRepository::class)->disableOriginalConstructor()->getMock();
 
-                return $this->makeEmpty(WorkspaceForTabMenu::class);
-            }),
-            'retrieveForBreadcrumb' => Expected::once(function (WorkspaceId $id) use ($workspaceForBreadcrumb) {
+        $workspaceForTabMenu = $this->getMockBuilder(WorkspaceForTabMenu::class)->getMock();
+        $workspaceRepository->expects($this->once())
+            ->method('retrieveForTabMenu')
+            ->with($this->callback(function (WorkspaceId $id) {
                 $this->assertSame(12345, $id->getValue());
+                return true;
+            }))
+            ->willReturn($workspaceForTabMenu);
 
-                return $workspaceForBreadcrumb;
-            })
-        ]);
+        $workspaceRepository->expects($this->once())
+            ->method('retrieveForBreadcrumb')
+            ->with($this->callback(function (WorkspaceId $id) {
+                $this->assertSame(12345, $id->getValue());
+                return true;
+            }))
+            ->willReturn($workspaceForBreadcrumb);
+
         $projectRepository = $this->getMockBuilder(ProjectRepository::class)->disableOriginalConstructor()->getMock();
         $projectRepository->expects($this->once())
             ->method('retrieveForBreadcrumb')
@@ -52,19 +59,22 @@ class WorkspaceControllerTest extends ControllerTest
         $controller->action = $action;
         $controller->ensureBehaviors();
         $breadcrumbCollection = $this->getMockBuilder(BreadcrumbCollection::class)->getMock();
-        $view = $this->make(View::class, [
-            'render' => Expected::once(function ($viewName, $params) {
+
+        $view = $this->getMockBuilder(View::class)->getMock();
+        $view->expects($this->once())->method('render')
+            ->willReturnCallback(function ($view, array $params = []) {
                 $this->assertArrayHasKey('tabMenuModel', $params);
                 return 'renderresult';
-            }),
-            'getBreadcrumbCollection' => Expected::atLeastOnce(fn() => $breadcrumbCollection),
-        ]);
+            })
+        ;
+
+        $view->expects($this->once())->method('getBreadcrumbCollection')->willReturn($breadcrumbCollection);
         $controller->setView($view);
         $controller->layout = false;
         $controller->request = new Request([
             'queryParams' => ['id' => '12345']
         ]);
 
-        $this->assertSame('renderresult', $controller->render('test', []));
+        $this->assertSame('renderresult', $controller->render('test'));
     }
 }
