@@ -4,6 +4,7 @@ declare(strict_types=1);
 use prime\models\ar\Project;
 use prime\helpers\Icon;
 use yii\helpers\Html;
+return;
 ?>
 
 <div class="stats">

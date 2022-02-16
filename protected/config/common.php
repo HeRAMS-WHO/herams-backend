@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use prime\components\JwtSso;
 use prime\models\ar\User as ActiveRecordUser;
+use prime\objects\enums\Language;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
@@ -198,12 +199,7 @@ return [
         ]
     ],
     'params' => [
-        'languages' => [
-            'en-US',
-            'ar',
-            'nl-NL',
-            'fr-FR'
-        ],
+        'languages' => Language::toValues(),
         'defaultSettings' => [
             'icons.globalMonitor' => 'globe',
             'icons.projects' => 'tasks',

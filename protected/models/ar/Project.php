@@ -334,7 +334,7 @@ class Project extends ActiveRecord implements Linkable
                 'virtualFields' => self::virtualFields()
             ],
         ];
-        
+
         return $behaviors;
     }
 
