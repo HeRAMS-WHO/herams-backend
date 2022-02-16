@@ -99,7 +99,8 @@ jobs:
         uses: docker/build-push-action@v2.9.0
         with:
           push: true
-          context: php
+          context: .
+          file: docker/app/Dockerfile
           build-args: |
             COMMIT_SHA=${{ github.sha }}
           tags: |
