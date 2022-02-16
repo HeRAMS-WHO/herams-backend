@@ -179,7 +179,7 @@ class FacilityRepositoryTest extends Unit
         );
         $surveyResponseRepository = $this->getMockBuilder(SurveyResponseRepository::class)->disableOriginalConstructor()->getMock();
         $surveyResponseRepository->expects($this->once())
-            ->method('retrieveLastAdminSurveyResponseForFacility')
+            ->method('retrieveAdminSurveyResponseForFacilityUpdate')
             ->with($facilityId)
             ->willReturn($surveyResponse);
 
@@ -231,7 +231,7 @@ class FacilityRepositoryTest extends Unit
         );
         $surveyResponseRepository = $this->getMockBuilder(SurveyResponseRepository::class)->disableOriginalConstructor()->getMock();
         $surveyResponseRepository->expects($this->once())
-            ->method('retrieveLastDataSurveyResponseForFacility')
+            ->method('retrieveDataSurveyResponseForFacilitySituationUpdate')
             ->with($facilityId)
             ->willReturn($surveyResponse);
 

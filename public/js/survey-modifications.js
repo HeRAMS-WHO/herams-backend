@@ -142,4 +142,33 @@
     };
 
     Survey.CustomWidgetCollection.Instance.add(facilityQuestionType, "customtype");
+
+    // Add expression properties to survey
+    Survey.Serializer.addProperty('survey', {
+        name: "canReceiveSituationUpdate",
+        displayName: "Can receive a situation update (expression)",
+        isRequired: true,
+        type: "string",
+    });
+
+    Survey.Serializer.addProperty('survey', {
+        name: "platformUseInList",
+        displayName: "Use for list (expression)",
+        isRequired: true,
+        type: "string",
+    });
+
+    Survey.Serializer.addProperty('survey', {
+        name: "platformUseInDashboarding",
+        displayName: "Use in dashboarding (expression)",
+        isRequired: true,
+        type: "string",
+    });
+
+    Survey.Serializer.addProperty('survey', {
+        name: "platformUseForSituationUpdate",
+        displayName: "Use in situation update (expression)",
+        isRequired: true,
+        type: "string",
+    });
 })(Survey);
