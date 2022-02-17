@@ -19,7 +19,7 @@ use yii\web\Response;
  * - copy-latest-response for limesurvey
  * - update-situation for surveyJs
  *
- * TODO Limesurvey deprecation: remove projec type check
+ * TODO Limesurvey deprecation: remove project type check
  */
 class UpdateSituation extends Action
 {

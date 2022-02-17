@@ -19,6 +19,6 @@ class ColorMap implements \prime\interfaces\ColorMap
 
     public function getColor(string $index): null|string
     {
-        // TODO: Implement getColor() method.
+        return $this->dictionary[$index] ?? null;
     }
 }

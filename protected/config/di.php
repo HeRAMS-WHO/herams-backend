@@ -82,7 +82,7 @@ return [
         return new AuditableBehavior(\Yii::$app->auditService);
     },
     SurveyParser::class => static function (Container $container): SurveyParser {
-        $parser = new Collecthor\SurveyjsParser\SurveyParser();
+        $parser = new \prime\helpers\SurveyParser();
 
         $parser->setParser('facilitytype', $container->get(FacilityTypeQuestionParser::class));
 
@@ -123,7 +123,6 @@ return [
     WorkspaceRepository::class => WorkspaceRepository::class,
     FacilityRepository::class => FacilityRepository::class,
     ResponseForLimesurveyRepository::class => ResponseForLimesurveyRepository::class,
-    SurveyParser::class => \prime\helpers\SurveyParser::class,
     SurveyRepository::class => SurveyRepository::class,
     SurveyResponseRepository::class => SurveyResponseRepository::class,
     ActiveRecordRepository::class => static function () {

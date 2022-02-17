@@ -44,7 +44,9 @@ class LocalizableWriteBehavior extends Behavior
         $validator =  new InlineValidator();
         $behavior = $this;
         $validator->attributes = toArray(map(fn($attribute) => "i18n" . ucfirst($attribute), $this->attributes));
+
         $validator->method = function (string $attribute, ?array $params, InlineValidator $validator, $current) use ($behavior) {
+            assert($this instanceof Model);
             $realAttributeName = $behavior->attributeName($attribute);
             // Store real value and real errors.
             $realValue = $this->{$realAttributeName};

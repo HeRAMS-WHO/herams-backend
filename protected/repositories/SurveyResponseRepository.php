@@ -54,7 +54,7 @@ class SurveyResponseRepository
         );
     }
 
-    public function retrieveLastDataSurveyResponseForFacility(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
+    public function retrieveDataSurveyResponseForFacilitySituationUpdate(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
     {
         $facility = Facility::findOne(['id' => $facilityId]);
         if (!$facility) {
@@ -63,7 +63,17 @@ class SurveyResponseRepository
 
         $adminSurveyId = $facility->workspace->project->data_survey_id;
 
-        $surveyResponse = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId])->orderBy(['created_at' => SORT_DESC])->one();
+        $surveyResponseQuery = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId])->orderBy(['created_at' => SORT_DESC]);
+        $surveyResponse = null;
+
+        /** @var SurveyResponse $surveyResponseOption */
+        foreach ($surveyResponseQuery->each() as $surveyResponseOption) {
+            // TODO proper evaluation of the survey structure and use for situation update expression
+            if ((bool) ($surveyResponseOption->data['useForSituationUpdate'] ?? true)) {
+                $surveyResponse = $surveyResponseOption;
+                break;
+            }
+        }
 
         if (!$surveyResponse) {
             return null;
@@ -75,7 +85,7 @@ class SurveyResponseRepository
         );
     }
 
-    public function retrieveLastAdminSurveyResponseForFacility(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
+    public function retrieveAdminSurveyResponseForFacilityUpdate(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
     {
         $facility = Facility::findOne(['id' => $facilityId]);
         if (!$facility) {
