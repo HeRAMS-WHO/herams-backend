@@ -2,27 +2,45 @@
 declare(strict_types=1);
 namespace prime\tests\helpers;
 
+use JCIT\jobqueue\interfaces\JobQueueInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use prime\helpers\JobQueueProxy;
+
 /**
  * @covers \prime\helpers\JobQueueProxy
  */
 class JobQueueProxyTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \prime\tests\UnitTester
-     */
-    protected $tester;
-    
-    protected function _before()
-    {
-    }
+    private JobQueueInterface $jobQueueInterface;
+    private JobQueueProxy $jobQueue;
 
-    protected function _after()
-    {
-    }
+    public function test(){
 
-    // tests
-    public function testSomeFeature()
-    {
+        #create stub for JobQueueProxy class
+        $this->jobQueue = $this->getMockBuilder(JobQueueProxy::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        #create stub for JobQueueProxyInterface class
+        $this->jobQueueInterface = $this->getMockBuilder(JobQueueInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /*
+        #configure the stub
+        $this->jobQueue->expects($this->once())
+            ->method('get')
+            ->willReturn($this->jobQueueInterface);
+
+        $this->assertSame($this->jobQueue, $this->jobQueue->get());
+
+        */
+
+        $this->jobQueue = new JobQueueProxy($this->jobQueueInterface);
+
+        $this->assertSame($this->jobQueueInterface, $this->jobQueue->get());
+
+
 
     }
 }
