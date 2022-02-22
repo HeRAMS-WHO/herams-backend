@@ -13,9 +13,9 @@ use yii\web\User;
 /**
  * @covers \prime\controllers\SessionController
  */
-class SessionControllerTest extends ControllerTest
+final class SessionControllerTest extends ControllerTest
 {
-    public function testSessionRules()
+    public function testSessionRules(): void
     {
         $controller = $this->getController(); // new controller instance
         $this->assertInstanceOf(SessionController::class, $controller); //test instance

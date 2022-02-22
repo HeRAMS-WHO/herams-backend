@@ -15,7 +15,7 @@ use prime\models\ar\WorkspaceForLimesurvey;
 /**
  * @covers \prime\helpers\ProposedGrant
  */
-class ProposedGrantTest extends Unit
+final class ProposedGrantTest extends Unit
 {
     public function testConstructor(): void
     {
