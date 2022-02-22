@@ -26,10 +26,8 @@ class WorkspaceForBreadcrumbTest extends Unit
         $workspace->project_id = $projectId;
 
         $forBreadcrumb = new WorkspaceForBreadcrumb($workspace);
-
         $this->assertEquals(['/workspace/facilities', 'id' => $workspaceId], $forBreadcrumb->getUrl());
         $this->assertEquals(new ProjectId($projectId), $forBreadcrumb->getProjectId());
         $this->assertEquals($label, $forBreadcrumb->getLabel());
-
     }
 }
