@@ -8,6 +8,7 @@ use prime\controllers\SessionController;
 use yii\filters\AccessControl;
 use yii\filters\AccessRule;
 use yii\web\Request;
+use yii\web\User;
 
 /**
  * @covers \prime\controllers\SessionController
@@ -17,31 +18,26 @@ class SessionControllerTest extends ControllerTest
 
 
     // tests
-    public function testSessionCreate()
+    public function testSessionRules()
     {
-        $controller = $this->getController(); // new SessionController('test', \Yii::$app);
-        $this->assertInstanceOf(SessionController::class, $controller);
 
+        $controller = $this->getController(); // new controller instance
+        $this->assertInstanceOf(SessionController::class, $controller); //test instance
+
+        //get access behaviour and test that the rules exist
         $accessControl = $controller->getBehavior('access');
         $this->assertInstanceOf(AccessControl::class, $accessControl);
+
         $rule = $accessControl->rules[0];
         $this->assertInstanceOf(AccessRule::class, $rule);
-        //$this->assertTrue($rule->allows($controller->createAction('create'), false, new Request()));
 
-    }
-
-    // tests
-    public function testSessionDelete()
-    {
-        $controller = $this->getController(); // new SessionController('test', \Yii::$app);
-        $this->assertInstanceOf(SessionController::class, $controller);
-
-        $accessControl = $controller->getBehavior('access');
-        $this->assertInstanceOf(AccessControl::class, $accessControl);
         $rule = $accessControl->rules[1];
         $this->assertInstanceOf(AccessRule::class, $rule);
-        //$this->assertTrue($rule->allows($controller->createAction('delete'), false, new Request()));
+
+        #test create action
+        $this->assertTrue($rule->allows($controller->createAction('create'), false, new Request()));
 
     }
+
 
 }
