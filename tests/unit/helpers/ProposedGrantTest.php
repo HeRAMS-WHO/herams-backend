@@ -12,13 +12,13 @@ use prime\values\UserId;
 use prime\helpers\ProposedGrant;
 use prime\models\ar\WorkspaceForLimesurvey;
 
-
 /**
  * @covers \prime\helpers\ProposedGrant
  */
 class ProposedGrantTest extends Unit
 {
-    public function testConstructor(): void{
+    public function testConstructor(): void
+    {
         $email = 'test@test.com';
         $id = 12345;
         $name = 'Test user';
@@ -48,6 +48,5 @@ class ProposedGrantTest extends Unit
         $this->assertEquals($user, $proposedGrant->getSource());
         $this->assertEquals($workspace, $proposedGrant->getTarget());
         $this->assertEquals('Test permission', $proposedGrant->getPermission());
-
     }
 }

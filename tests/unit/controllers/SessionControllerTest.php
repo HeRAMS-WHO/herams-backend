@@ -15,12 +15,8 @@ use yii\web\User;
  */
 class SessionControllerTest extends ControllerTest
 {
-
-
-    // tests
     public function testSessionRules()
     {
-
         $controller = $this->getController(); // new controller instance
         $this->assertInstanceOf(SessionController::class, $controller); //test instance
 
@@ -36,8 +32,5 @@ class SessionControllerTest extends ControllerTest
 
         #test create action
         $this->assertTrue($rule->allows($controller->createAction('create'), false, new Request()));
-
     }
-
-
 }

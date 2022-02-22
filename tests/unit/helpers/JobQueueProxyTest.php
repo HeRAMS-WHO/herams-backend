@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
+
 namespace prime\tests\helpers;
 
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 use prime\helpers\JobQueueProxy;
 
 /**
@@ -14,8 +15,8 @@ class JobQueueProxyTest extends \Codeception\Test\Unit
     private JobQueueInterface $jobQueueInterface;
     private JobQueueProxy $jobQueue;
 
-    public function test(){
-
+    public function test()
+    {
         #create stub for JobQueueProxy class
         $this->jobQueue = $this->getMockBuilder(JobQueueProxy::class)
             ->disableOriginalConstructor()
@@ -39,8 +40,5 @@ class JobQueueProxyTest extends \Codeception\Test\Unit
         $this->jobQueue = new JobQueueProxy($this->jobQueueInterface);
 
         $this->assertSame($this->jobQueueInterface, $this->jobQueue->get());
-
-
-
     }
 }
