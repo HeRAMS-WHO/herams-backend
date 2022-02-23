@@ -76,10 +76,12 @@ class Workspace extends Model
                 'latestUpdate' => [
                     'asc' => [
                         new Expression('[[latestUpdate]] IS NOT NULL ASC'),
-                        'latestUpdate' => SORT_ASC
+                        'latestUpdate' => SORT_ASC,
+                        'id' => SORT_ASC
                     ],
                     'desc' => [
-                        'latestUpdate' => SORT_DESC
+                        'latestUpdate' => SORT_DESC,
+                        'id' => SORT_DESC
                     ],
                     'default' => SORT_DESC,
                 ],
