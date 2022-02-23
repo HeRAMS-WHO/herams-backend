@@ -24,7 +24,7 @@ final class SessionControllerTest extends ControllerTest
         $accessControl = $controller->getBehavior('access');
         $this->assertInstanceOf(AccessControl::class, $accessControl);
 
-git         $rule = $accessControl->rules[0];
+         $rule = $accessControl->rules[0];
         $this->assertInstanceOf(AccessRule::class, $rule);
 
         $rule = $accessControl->rules[1];
