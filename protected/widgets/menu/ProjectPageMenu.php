@@ -6,7 +6,6 @@ use prime\helpers\Icon;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Project;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Html;
 
 /**
@@ -16,14 +15,9 @@ use yii\helpers\Html;
  */
 class ProjectPageMenu extends SideMenu
 {
-    /** @var Project */
-    public $project;
+    public Project $project;
 
-    /** @var SurveyInterface */
-    public $survey;
-
-    /** @var PageInterface */
-    public $currentPage;
+    public PageInterface $currentPage;
 
     public $params = [];
 
@@ -75,7 +69,7 @@ class ProjectPageMenu extends SideMenu
         $headerOptions = [];
         ob_start();
         $result = false;
-        foreach ($page->getChildPages($this->survey) as $child) {
+        foreach ($page->getChildPages() as $child) {
             if ($this->renderPageMenu($child) && !$result) {
                 $result = true;
                 Html::addCssClass($headerOptions, 'expanded');

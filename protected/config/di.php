@@ -81,13 +81,8 @@ return [
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
-    SurveyParser::class => static function (Container $container): SurveyParser {
-        $parser = new \prime\helpers\SurveyParser();
-
-        $parser->setParser('facilitytype', $container->get(FacilityTypeQuestionParser::class));
-
-        return $parser;
-    },
+    \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
+    SurveyParser::class => \prime\helpers\SurveyParser::class,
     \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
     \Psr\Http\Message\RequestFactoryInterface::class => \Http\Factory\Guzzle\RequestFactory::class,
     \prime\helpers\ModelHydrator::class => \prime\helpers\ModelHydrator::class,

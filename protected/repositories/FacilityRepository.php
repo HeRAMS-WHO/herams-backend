@@ -13,6 +13,7 @@ use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\interfaces\FacilityForResponseCopy;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
+use prime\interfaces\SurveyRepositoryInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
@@ -45,7 +46,7 @@ class FacilityRepository
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private ModelHydrator $hydrator,
-        private SurveyRepository $surveyRepository,
+        private SurveyRepositoryInterface $surveyRepository,
         private SurveyResponseRepository $surveyResponseRepository,
         private WorkspaceRepository $workspaceRepository
     ) {

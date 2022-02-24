@@ -16,7 +16,7 @@ use prime\tests\FunctionalTester;
  * @covers \prime\controllers\AccessRequestController
  * @covers \prime\models\forms\accessRequest\Respond
  */
-class RespondCest
+final class RespondCest
 {
     protected function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target): AccessRequest
     {
@@ -30,7 +30,7 @@ class RespondCest
         return $accessRequest;
     }
 
-    public function testNotAllowed(FunctionalTester $I)
+    public function testNotAllowed(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();

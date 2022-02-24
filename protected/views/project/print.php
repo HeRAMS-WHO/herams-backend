@@ -30,7 +30,7 @@ if (isset($page)) {
     $projectPages = $project->mainPages;
     foreach ($projectPages as $key => $page) {
         $subpages = [];
-        foreach ($page->getChildPages($survey) as $child) {
+        foreach ($page->getChildPages() as $child) {
             $subpages[] = $child;
         }
 

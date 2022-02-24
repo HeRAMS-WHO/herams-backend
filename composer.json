@@ -38,7 +38,7 @@
         "sam-it/abac": ">= 3.1",
         "sam-it/yii2-abac": ">= 1.0.2",
         "sam-it/yii2-urlsigner": "^2.0",
-        "sam-it/yii2-virtual-fields": "^2.0",
+        "sam-it/yii2-virtual-fields": "^3.0",
         "yiisoft/yii2": "> 2 < 3",
         "yiisoft/yii2-bootstrap": "> 2",
         "yiisoft/yii2-swiftmailer": "^2.1",
