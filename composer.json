@@ -60,7 +60,8 @@
         "http-interop/http-factory-guzzle": "^1.0",
         "spatie/enum": "^3.7",
         "drewm/mailchimp-api": "^2.5",
-        "collecthor/surveyjs-parser": ">= 1.2"
+        "collecthor/surveyjs-parser": ">= 1.2",
+        "collecthor/yii2-session-auth": "^1.1"
     },
 
     "autoload": {

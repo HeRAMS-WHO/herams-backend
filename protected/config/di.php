@@ -82,6 +82,7 @@ return [
         return new AuditableBehavior(\Yii::$app->auditService);
     },
     \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
+    \prime\interfaces\HeramsVariableSetRepositoryInterface::class => \prime\repositories\HeramsVariableSetRepository::class,
     SurveyParser::class => \prime\helpers\SurveyParser::class,
     \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
     \Psr\Http\Message\RequestFactoryInterface::class => \Http\Factory\Guzzle\RequestFactory::class,

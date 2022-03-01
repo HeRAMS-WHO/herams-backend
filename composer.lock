@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa9136b41bbd446d95eb58cfab051af2",
+    "content-hash": "f0df893aa4f781466d54a250e71899c3",
     "packages": [
         {
             "name": "brick/math",
@@ -227,6 +227,48 @@
                 "source": "https://github.com/collecthor/surveyjs-parser/tree/v1.2.1"
             },
             "time": "2021-12-15T15:26:46+00:00"
+        },
+        {
+            "name": "collecthor/yii2-session-auth",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/collecthor/yii2-session-auth.git",
+                "reference": "c74d9a8d70ef2496c84f5c9f840d250f6a08f609"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/collecthor/yii2-session-auth/zipball/c74d9a8d70ef2496c84f5c9f840d250f6a08f609",
+                "reference": "c74d9a8d70ef2496c84f5c9f840d250f6a08f609",
+                "shasum": ""
+            },
+            "require-dev": {
+                "symplify/easy-coding-standard": "^10.1",
+                "vimeo/psalm": "^4.21",
+                "yiisoft/yii2": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collecthor\\Yii2SessionAuth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Session authentication for your API",
+            "support": {
+                "issues": "https://github.com/collecthor/yii2-session-auth/issues",
+                "source": "https://github.com/collecthor/yii2-session-auth/tree/v1.1.0"
+            },
+            "time": "2022-02-24T12:53:35+00:00"
         },
         {
             "name": "creof/wkb-parser",
