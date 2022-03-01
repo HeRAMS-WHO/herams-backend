@@ -67,9 +67,6 @@ echo Form::widget([
 
             'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
         ],
-        'add_services' => [
-            'type' => Form::INPUT_CHECKBOX
-        ],
         'sort' => [
             'type' => Form::INPUT_TEXT,
         ],

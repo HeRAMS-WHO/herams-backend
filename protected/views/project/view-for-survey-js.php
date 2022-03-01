@@ -23,17 +23,11 @@ echo ProjectPageMenu::widget([
     'collapsible' => false,
     'footer' => $this->render('//footer'),
     'params' => Yii::$app->request->queryParams,
-    'currentPage' => $page
+    'currentPage' => $page,
 ]);
 
 $this->title = \Yii::t('app.pagetitle', $page->getTitle());
 
-echo $this->render('view/filters', [
-    'survey' => $survey,
-    'project' => $project,
-    'filterModel' => $filterModel,
-    'data' => $data
-]);
 echo Html::beginTag('div', ['class' => 'content dashboard']);
 
 foreach ($page->getChildElements() as $element) {

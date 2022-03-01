@@ -11,12 +11,24 @@ use yii\web\UrlRule;
 
 class Module extends \yii\base\Module
 {
-    public static function urlRule(): array
+    public static function urlRules(): array
     {
         return [
             'class' => GroupUrlRule::class,
-            'prefix' => 'api/',
+            'prefix' => 'api',
             'rules' => [
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>',
+                    'route' => '<controller>/<action>',
+                    'verb' => ['get', 'post']
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>/<target_id:\d+>',
+                    'route' => '<controller>/<action>',
+                    'verb' => ['put', 'delete']
+                ],
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>s',
@@ -29,18 +41,8 @@ class Module extends \yii\base\Module
                     'route' => '<controller>/view',
                     'verb' => 'get'
                 ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller>/<id:\d+>/<action:\w+>/<target_id:\d+>',
-                    'route' => '<controller>/<action>',
-                    'verb' => ['put', 'delete']
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller>/<id:\d+>/<action:\w+>',
-                    'route' => '<controller>/<action>',
-                    'verb' => ['get', 'post']
-                ],
+
+
                 [
                     'class' => UrlRule::class,
                     'pattern' => 'response',

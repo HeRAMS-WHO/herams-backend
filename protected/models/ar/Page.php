@@ -9,6 +9,7 @@ use prime\objects\GroupPage;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\InvalidArgumentException;
+use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
@@ -118,20 +119,14 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return $this->getAttribute('title');
     }
 
-    public function getChildPages(SurveyInterface $survey): iterable
+    public function getChildPages(): iterable
     {
         foreach ($this->children as $page) {
             yield $page;
         }
 
         if ($this->add_services) {
-
-            /** @var GroupInterface $group */
-            foreach ($survey->getGroups() as $group) {
-                if (strpos($group->getTitle(), 'HeRAMS ') === 0) {
-                    yield new GroupPage($group, $this);
-                }
-            }
+            throw new NotSupportedException('This feature is no longer supported');
         }
     }
 

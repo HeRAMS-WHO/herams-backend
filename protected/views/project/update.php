@@ -9,8 +9,6 @@ use League\ISO3166\ISO3166;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
-use prime\models\ar\read\Project as ProjectRead;
-use prime\models\ar\Survey;
 use prime\models\forms\project\Update;
 use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
@@ -28,12 +26,12 @@ use function iter\map;
 use function iter\toArrayWithKeys;
 
 /**
- * @var ProjectRead $project
+ * @var \prime\models\ar\read\Project $project
  * @var Update $model
  * @var View $this
  */
 
-$this->title = $project->title;
+$this->title = $project->getLabel();
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([

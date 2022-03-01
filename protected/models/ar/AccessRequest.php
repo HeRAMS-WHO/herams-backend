@@ -5,20 +5,14 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use Carbon\Carbon;
-use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\attributes\Audits;
 use prime\attributes\TriggersJobWithId;
-use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery;
-use prime\interfaces\AuditCreation;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ActiveRecord;
-use prime\objects\enums\AuditEvent;
 use prime\queries\AccessRequestQuery;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
-use yii\db\BaseActiveRecord;
 use yii\db\Expression;
 use yii\validators\ExistValidator;
 use yii\validators\InlineValidator;
@@ -184,20 +178,20 @@ class AccessRequest extends ActiveRecord
 
     public static function permissionMap(Project|Workspace $target): array
     {
-        $map = [
-            Project::class => [
+        if ($target instanceof Project) {
+            return [
                 self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
                 self::PERMISSION_READ => Permission::PERMISSION_READ,
                 self::PERMISSION_WRITE => Permission::PERMISSION_SURVEY_DATA,
-            ],
-            Workspace::class => [
+            ];
+        } else {
+            return [
                 self::PERMISSION_CONTRIBUTE => Permission::PERMISSION_SURVEY_DATA,
                 self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
                 self::PERMISSION_READ => Permission::PERMISSION_READ,
                 self::PERMISSION_WRITE => Permission::PERMISSION_WRITE,
-            ],
-        ];
-        return $map[get_class($target)];
+            ];
+        }
     }
 
     public function permissionOptions(): array
@@ -213,7 +207,12 @@ class AccessRequest extends ActiveRecord
 
     public function setTarget(Project|Workspace $target): void
     {
-        $this->target_class = get_class($target);
+        if ($target instanceof Project) {
+            $this->target_class = Project::class;
+        } else {
+            $this->target_class = Workspace::class;
+        }
+
         $this->target_id = $target->id;
     }
 

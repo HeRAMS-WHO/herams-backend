@@ -25,7 +25,6 @@ class RequestAccessCest
         $I->fillField('Body', 'Test access request body');
         $I->checkOption('Download data');
         $I->click('Request');
-
         $I->seeRecord(AccessRequest::class, ['target_class' => get_class($project), 'target_id' => $project->id]);
     }
 }

@@ -1,24 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\controllers\project;
 
-use prime\exceptions\SurveyDoesNotExist;
+use prime\components\Controller;
+use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
-use prime\models\forms\ResponseFilter;
+use prime\models\ar\read\Project;
+use prime\objects\Breadcrumb;
+use prime\repositories\SurveyRepository;
+use prime\values\SurveyId;
+use SamIT\abac\interfaces\Resolver;
+use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\ServerErrorHttpException;
 use yii\web\User;
 
-class Pdf extends Action
+class ViewForSurveyJs extends Action
 {
     public function run(
+        Resolver $abacResolver,
+        PreloadingSourceRepository $preloadingSourceRepository,
+        SurveyRepository $surveyRepository,
         Request $request,
         User $user,
         int $id,
@@ -26,20 +35,21 @@ class Pdf extends Action
         int $parent_id = null,
         string $filter = null
     ) {
-        $this->controller->layout = 'print';
-        $project = Project::findOne(['id'  => $id]);
+        $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
+        $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
+        /** @var \prime\models\ar\surveyjs\Project|null $project */
+        $project = Project::find()
+            ->andWhere(['id'  => $id])
+            ->with('mainPages')
+            ->one();
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
+
         if (!$user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
-        try {
-            $survey = $project->getSurvey();
-        } catch (SurveyDoesNotExist $e) {
-            throw new ServerErrorHttpException($e->getMessage());
-        }
-
+        $variableSet = $surveyRepository->retrieveForDashboarding(new SurveyId($project->admin_survey_id), new SurveyId($project->data_survey_id));
 
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
@@ -58,36 +68,39 @@ class Pdf extends Action
             if (!isset($page) || $page->project_id !== $project->id) {
                 throw new NotFoundHttpException();
             }
+        } elseif (!empty($project->mainPages)) {
+            $page = $project->mainPages[0];
+        } else {
+            throw new NotFoundHttpException('No reporting has been set up for this project');
         }
-
 
         $responses = $project->getResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
 
-        $filterModel = new ResponseFilter($survey, $project->getMap());
-        if (!empty($filter)) {
-            $filterModel->fromQueryParam($filter);
+        /** @var \prime\components\View $view */
+        $view = $this->controller->view;
+        $stack = [];
+        $parent = $page;
+        while (null !== ($parent = $parent->getParentPage())) {
+            $stack[] = $parent;
         }
-        $filterModel->load($request->queryParams);
-        \Yii::endProfile('ResponseFilterinit');
 
-        /** @var  $filtered */
+        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl(['project/view', 'id' => $project->id]));
+        while (!empty($stack)) {
+            /** @var PageInterface $p */
+            $p = array_pop($stack);
+            $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($p->getTitle()));
+        }
+        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($page->getTitle()));
 
 
-        $filtered = $filterModel->filterQuery($responses)->all();
-
-        $params = [
-            'types' => $this->getTypes($survey, $project),
-            'data' => $filtered,
-            'filterModel' => $filterModel,
+        return $this->controller->render('view-for-survey-js', [
+            'data' => $responses,
             'project' => $project,
-            'survey' => $survey
-        ];
-        if (isset($page)) {
-            $params['page'] = $page;
-        }
-        return $this->controller->render('print', $params);
+            'page' => $page,
+            'variables' => $variableSet
+        ]);
     }
 
     private function getTypes(SurveyInterface $survey, Project $project): array
@@ -103,7 +116,7 @@ class Pdf extends Action
 
         $map = [];
         foreach ($answers as $answer) {
-            $map[$answer->getCode()] = trim(strtok($answer->getText(), ':('));
+            $map[$answer->getCode()] = trim(preg_split('/:\(/', $answer->getText())[0]);
         }
 
         \Yii::endProfile(__FUNCTION__);

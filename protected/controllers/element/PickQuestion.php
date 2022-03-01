@@ -25,16 +25,11 @@ class PickQuestion extends Action
         }
 
         $project = $projectRepository->retrieveForRead(new ProjectId($page->project_id));
-        if (isset($project->data_survey_id)) {
-            $dataVariables = $surveyRepository->retrieveForDashboarding(new SurveyId($project->data_survey_id));
-        }
-
-        $adminVariables = $surveyRepository->retrieveForDashboarding(new SurveyId($project->admin_survey_id));
-
-
         return $this->controller->render('pick-question', [
-            'dataVariables' => $dataVariables ?? [],
-            'adminVariables' => $adminVariables,
+            'variables' => $surveyRepository->retrieveForDashboarding(
+                new SurveyId($project->admin_survey_id),
+                new SurveyId($project->data_survey_id)
+            ),
             'page' => $page
         ]);
     }
