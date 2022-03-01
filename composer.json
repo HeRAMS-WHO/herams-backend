@@ -47,7 +47,7 @@
         "kartik-v/yii2-widget-select2": "^2.1",
         "kodus/file-cache": "^1.1",
         "kartik-v/yii2-widget-typeahead": "^1.0",
-        "league/iso3166": "^2.1",
+        "league/iso3166": "^4.0",
         "herams/i18n": "dev-master",
         "foxy/foxy": "^1",
         "woohoolabs/yin": "^4.1",
@@ -104,7 +104,8 @@
         "phpstan/phpstan": "> 1",
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
         "comcast/php-legal-licenses": "^1.1",
-        "codeception/lib-innerbrowser": "^1.4"
+        "codeception/lib-innerbrowser": "^1.4",
+        "vimeo/psalm": "^4.22"
     },
     "repositories": [
         {
@@ -126,6 +127,7 @@
         "lint-fix": "vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse protected --memory-limit 1024M",
+        "psalm": "vendor/vimeo/psalm/psalm --config=psalm.xml",
         "test-with-cc" : "docker-compose run --rm codeception run --fail-fast --coverage-html --coverage-xml",
         "post-install-cmd": "[ $COMPOSER_DEV_MODE -eq 0 ] || cghooks add --ignore-lock",
         "post-update-cmd": "cghooks update",

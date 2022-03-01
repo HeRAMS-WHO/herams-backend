@@ -17,7 +17,7 @@ use prime\models\ar\WorkspaceForLimesurvey;
  */
 final class ProposedGrantTest extends Unit
 {
-    public function testConstructor(): void
+    public function testGetters(): void
     {
         $email = 'test@test.com';
         $id = 12345;
@@ -45,8 +45,8 @@ final class ProposedGrantTest extends Unit
 
         $proposedGrant = new ProposedGrant($user, $workspace, 'Test permission');
 
-        $this->assertEquals($user, $proposedGrant->getSource());
-        $this->assertEquals($workspace, $proposedGrant->getTarget());
-        $this->assertEquals('Test permission', $proposedGrant->getPermission());
+        $this->assertSame($user, $proposedGrant->getSource());
+        $this->assertSame($workspace, $proposedGrant->getTarget());
+        $this->assertSame('Test permission', $proposedGrant->getPermission());
     }
 }

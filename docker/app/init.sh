@@ -1,4 +1,4 @@
-#!/bin/sh
+docke#!/bin/sh
 set -e
 cp -r /project/public/. /var/www/html
 mkdir -p /var/www/html/assets

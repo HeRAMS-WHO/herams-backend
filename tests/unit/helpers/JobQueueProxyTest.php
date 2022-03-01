@@ -12,18 +12,15 @@ use prime\helpers\JobQueueProxy;
  */
 final class JobQueueProxyTest extends \Codeception\Test\Unit
 {
-    private JobQueueInterface $jobQueueInterface;
-    private JobQueueProxy $jobQueue;
-
     public function test(): void
     {
         #create stub for JobQueueProxy class
-        $this->jobQueue = $this->getMockBuilder(JobQueueProxy::class)
+        $jobQueue = $this->getMockBuilder(JobQueueProxy::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         #create stub for JobQueueProxyInterface class
-        $this->jobQueueInterface = $this->getMockBuilder(JobQueueInterface::class)
+        $jobQueueInterface = $this->getMockBuilder(JobQueueInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -37,8 +34,8 @@ final class JobQueueProxyTest extends \Codeception\Test\Unit
 
         */
 
-        $this->jobQueue = new JobQueueProxy($this->jobQueueInterface);
+        $jobQueue = new JobQueueProxy($jobQueueInterface);
 
-        $this->assertSame($this->jobQueueInterface, $this->jobQueue->get());
+        $this->assertSame($jobQueueInterface, $jobQueue->get());
     }
 }

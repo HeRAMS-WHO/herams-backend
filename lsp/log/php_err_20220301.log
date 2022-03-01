@@ -1,0 +1,13 @@
+Uncaught RuntimeException: PHP Error: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.10. in D:\Dev\PHP\Apps\herams-backend\vendor\composer\platform_check.php:24 in D:\Dev\PHP\Apps\herams-backend\vendor\vimeo\psalm\src\Psalm\Internal\ErrorHandler.php:66
+Stack trace:
+#0 [internal function]: Psalm\Internal\ErrorHandler::Psalm\Internal\{closure}(256, 'Composer detect...', 'D:\\Dev\\PHP\\Apps...', 24)
+#1 D:\Dev\PHP\Apps\herams-backend\vendor\composer\platform_check.php(24): trigger_error('Composer detect...', 256)
+#2 D:\Dev\PHP\Apps\herams-backend\vendor\composer\autoload_real.php(25): require('D:\\Dev\\PHP\\Apps...')
+#3 D:\Dev\PHP\Apps\herams-backend\vendor\autoload.php(7): ComposerAutoloaderInitb40a83ec992ba5417406a911b1188439::getLoader()
+#4 D:\Dev\PHP\Apps\herams-backend\vendor\vimeo\psalm\src\Psalm\Internal\CliUtils.php(124): require_once('D:\\Dev\\PHP\\Apps...')
+#5 D:\Dev\PHP\Apps\herams-backend\vendor\vimeo\psalm\src\Psalm\Internal\Cli\LanguageServer.php(225): Psalm\Internal\CliUtils::requireAutoloaders('D:\\Dev\\PHP\\Apps...', false, 'vendor')
+#6 D:\Dev\PHP\Apps\herams-backend\vendor\vimeo\psalm\src\Psalm\Internal\IncludeCollector.php(34): Psalm\Internal\Cli\LanguageServer::Psalm\Internal\Cli\{closure}()
+#7 D:\Dev\PHP\Apps\herams-backend\vendor\vimeo\psalm\src\Psalm\Internal\Cli\LanguageServer.php(226): Psalm\Internal\IncludeCollector->runAndCollect(Object(Closure))
+#8 D:\Dev\PHP\Apps\herams-backend\vendor\vimeo\psalm\psalm-language-server(7): Psalm\Internal\Cli\LanguageServer::run(Array)
+#9 {main}
+(Psalm (unknown version) crashed due to an uncaught Throwable)
