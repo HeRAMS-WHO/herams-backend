@@ -175,7 +175,7 @@ services:
   composer:
     << : *base
     init: true
-    entrypoint: ["composer", "update"]
+    entrypoint: ["composer"]
     volumes:
       - /composer-cache
       - .:/project:rw

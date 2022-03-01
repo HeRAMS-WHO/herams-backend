@@ -104,8 +104,7 @@
         "phpstan/phpstan": "> 1",
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
         "comcast/php-legal-licenses": "^1.1",
-        "codeception/lib-innerbrowser": "^1.4",
-        "vimeo/psalm": "^4.22"
+        "codeception/lib-innerbrowser": "^1.4"
     },
     "repositories": [
         {
@@ -125,7 +124,6 @@
         "cli": "docker-compose run --rm cli",
         "lint": "vendor/bin/phpcs",
         "lint-fix": "vendor/bin/phpcbf",
-        "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse protected --memory-limit 1024M",
         "psalm": "vendor/vimeo/psalm/psalm --config=psalm.xml",
         "test-with-cc" : "docker-compose run --rm codeception run --fail-fast --coverage-html --coverage-xml",
