@@ -10,6 +10,7 @@ use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
+use prime\interfaces\project\ProjectForTabMenuInterface;
 use prime\interfaces\RequestableInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\limesurvey\Project as LimesurveyProject;
@@ -24,6 +25,7 @@ use prime\objects\LanguageSet;
 use prime\queries\ResponseForLimesurveyQuery;
 use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
+use prime\values\ProjectId;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
@@ -79,7 +81,7 @@ use yii\web\Linkable;
  * @mixin VirtualFieldBehavior
  *
  */
-class Project extends ActiveRecord implements Linkable, RequestableInterface
+class Project extends ActiveRecord implements Linkable, RequestableInterface, ProjectForTabMenuInterface
 {
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_PRIVATE = 'private';
@@ -600,5 +602,25 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface
     public static function tableName()
     {
         return '{{%project}}';
+    }
+
+    public function getLabel(): string
+    {
+        return $this->title;
+    }
+
+    public function getId(): ProjectId
+    {
+        return new ProjectId($this->getAttribute('id'));
+    }
+
+    public function getWorkspaceCount(): int
+    {
+        return $this->getVirtualField('workspaceCount');
+    }
+
+    public function getPermissionSourceCount(): int
+    {
+        return $this->getVirtualField('permissionSourceCount');
     }
 }
