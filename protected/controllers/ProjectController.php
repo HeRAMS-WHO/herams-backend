@@ -53,7 +53,7 @@ class ProjectController extends Controller
             'export' => [
                 'class' => ExportAction::class,
                 'subject' => static function (Request $request) {
-                    return ReadProject::findOne(['id' => $request->getQueryParam('id')]);
+                    return Project::findOne(['id' => $request->getQueryParam('id')]);
                 },
                 'responseQuery' => static function (Project $project): ResponseForLimesurveyQuery {
                     return ResponseForLimesurvey::find()->project($project)->with('workspace');

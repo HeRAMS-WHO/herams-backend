@@ -40,6 +40,9 @@ class HeramsVariableSet implements VariableSetInterface
         return $this->variables->getVariable($name);
     }
 
+    /**
+     * @return iterable<VariableInterface>
+     */
     public function getVariables(): iterable
     {
         return $this->variables->getVariables();
