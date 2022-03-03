@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace prime\tests\unit\controllers;
 
 use prime\controllers\SessionController;
+use prime\helpers\JobQueueProxy;
+use Yii;
+use yii\base\InvalidConfigException;
 use yii\filters\AccessControl;
 use yii\filters\AccessRule;
+use yii\web\ForbiddenHttpException;
 use yii\web\Request;
 use yii\web\User;
 
@@ -15,22 +19,52 @@ use yii\web\User;
  */
 final class SessionControllerTest extends ControllerTest
 {
-    public function testSessionRules(): void
+    public function testConstructor(): void
     {
-        $controller = $this->getController(); // new controller instance
-        $this->assertInstanceOf(SessionController::class, $controller); //test instance
+        $controller = $this->getController();
+        $this->assertInstanceOf(SessionController::class, $controller);
+    }
 
-        //get access behaviour and test that the rules exist
+    public function testCreateAction(): void
+    {
+        $controller = $this->getController();
+        $createAction = $controller->createAction('create');
+        $this->assertTrue($controller->beforeAction($createAction));
+    }
+
+
+    public function testGuestCannotDelete()
+    {
+        $isGuest = Yii::$app->user->isGuest;
+        $this->assertTrue($isGuest);
+        $controller = $this->getController();
         $accessControl = $controller->getBehavior('access');
-        $this->assertInstanceOf(AccessControl::class, $accessControl);
+        $accessControl->user = false;
+        $deleteAction = $controller->createAction('delete');
+        $this->expectException(InvalidConfigException::class);
+        $this->assertFalse($controller->beforeAction($deleteAction));
+    }
 
-         $rule = $accessControl->rules[0];
-        $this->assertInstanceOf(AccessRule::class, $rule);
+    public function testUserCanDelete()
+    {
+        $email = 'test@test.com';
+        $id = 12345;
+        $name = 'Test user';
 
-        $rule = $accessControl->rules[1];
-        $this->assertInstanceOf(AccessRule::class, $rule);
+        $user = new \prime\models\ar\User();
+        $user->email = $email;
+        $user->id = $id;
+        $user->name = $name;
 
-        #test create action
-        $this->assertTrue($rule->allows($controller->createAction('create'), false, new Request()));
+        Yii::$app->user->login($user);
+
+        $isGuest = Yii::$app->user->isGuest;
+        $this->assertFalse($isGuest);
+
+        $controller = $this->getController();
+        $accessControl = $controller->getBehavior('access');
+        $accessControl->user = Yii::$app->user;
+        $deleteAction = $controller->createAction('delete');
+        $this->assertTrue($controller->beforeAction($deleteAction));
     }
 }
