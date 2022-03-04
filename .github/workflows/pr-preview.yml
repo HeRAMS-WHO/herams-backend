@@ -3,7 +3,7 @@ on: [ pull_request ]
 jobs:
   precondition:
     name: "Check for migrations"
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.pull_request.head.repo.full_name == 'HeRAMS-WHO/herams-backend'
     runs-on: ubuntu-latest
     outputs:
       hasmigrations: ${{ steps.migrations.outputs.changed }}
