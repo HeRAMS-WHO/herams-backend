@@ -21,4 +21,4 @@ cghooks.lock
 /node_modules
 docker-compose.override.yml
 /tests/_data/db/50_prime2_session.sql
-/lsp/log/
+/lsp/
