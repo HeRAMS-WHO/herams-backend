@@ -12,7 +12,7 @@ use prime\helpers\JobQueueProxy;
  */
 final class JobQueueProxyTest extends \Codeception\Test\Unit
 {
-    public function test(): void
+    public function testGetters(): void
     {
         #create stub for JobQueueProxy class
         $jobQueue = $this->getMockBuilder(JobQueueProxy::class)
