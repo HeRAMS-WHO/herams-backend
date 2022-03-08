@@ -6,18 +6,25 @@ namespace prime\helpers;
 
 use Collecthor\DataInterfaces\VariableSetInterface;
 use Collecthor\SurveyjsParser\SurveyParser as BaseParser;
+use prime\helpers\surveyjs\FacilityTypeQuestionParser;
 use prime\interfaces\ColorMap;
 
 final class SurveyParser extends BaseParser
 {
-    public function parseSurveyStructure(array $structure): VariableSetInterface
+    private const TYPE_FACILITYTYPE = 'facilitytype';
+    public function __construct(FacilityTypeQuestionParser $facilityTypeQuestionParser)
+    {
+        parent::__construct();
+        $this->setParser(self::TYPE_FACILITYTYPE, $facilityTypeQuestionParser);
+    }
+
+
+    public function parseHeramsSurveyStructure(array $structure): HeramsVariableSet
     {
         $variableSet = parent::parseSurveyStructure($structure);
         // Parse additional platform specific things.
         $colorMap = $this->parseColorMap($structure);
-
-        // Todo: augment the variable set implementation to include the color map
-        return $variableSet;
+        return new HeramsVariableSet($variableSet, $colorMap);
     }
 
     private function parseColorMap(array $structure): ColorMap

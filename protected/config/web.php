@@ -67,7 +67,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                Module::urlRule(),
+                Module::urlRules(),
                 [
                     'pattern' => '<controller>',
                     'route' => '<controller>'

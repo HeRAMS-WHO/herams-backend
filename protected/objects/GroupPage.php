@@ -26,7 +26,7 @@ class GroupPage implements PageInterface
     /**
      * @return PageInterface[]
      */
-    public function getChildPages(SurveyInterface $survey): iterable
+    public function getChildPages(): iterable
     {
         return [];
     }

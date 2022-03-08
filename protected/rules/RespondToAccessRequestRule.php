@@ -46,7 +46,7 @@ class RespondToAccessRequestRule implements Rule
      */
     public function getDescription(): string
     {
-        return 'if you can grant the access request';
+        return 'if you have share permission on the target';
     }
 
     /**

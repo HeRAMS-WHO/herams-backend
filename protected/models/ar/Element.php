@@ -64,24 +64,22 @@ class Element extends ActiveRecord implements Exportable
         return '{{%element}}';
     }
 
-    public static function instantiate($row)
+    public static function instantiate($row): self
     {
         if (!isset($row['type'])) {
             throw new \InvalidArgumentException('Type must be set');
         }
 
-        switch ($row['type']) {
-            case 'map':
-                return new Map();
-            case 'chart':
-                return new Chart();
-            case 'barchart':
-                return new BarChart();
-            case 'table':
-                return new Table();
-            default:
-                throw new \InvalidArgumentException('Unknown type: ' . $row['type']);
-        }
+        $element = match ($row['type']) {
+            'map' => new Map(),
+            'chart' => new Chart(),
+            'barchart' => new BarChart(),
+            'table' => new Table(),
+            default => new \InvalidArgumentException('Unknown type: ' . $row['type'])
+        };
+        $element->type = $row['type'];
+
+        return $element;
     }
 
     protected function getWidgetInternal(SurveyInterface $survey, iterable $data)

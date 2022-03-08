@@ -9,6 +9,7 @@ use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\search\AccessRequest as AccessRequestSearch;
 use prime\tests\FunctionalTester;
 
 /**
@@ -30,7 +31,7 @@ class IndexCest
         return $accessRequest;
     }
 
-    public function testAccessRequestHistory(FunctionalTester $I)
+    public function testAccessRequestHistory(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
@@ -40,13 +41,15 @@ class IndexCest
         $I->amOnPage(['access-request/index']);
         $I->dontSee($accessRequest->subject);
 
+
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+
         $I->amOnPage(['access-request/index']);
         $I->see($project->title);
         $I->see(User::findOne(['id' => TEST_USER_ID])->name);
     }
 
-    public function testAccessRequestToRespondTo(FunctionalTester $I)
+    public function testAccessRequestToRespondTo(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();

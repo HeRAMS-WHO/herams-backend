@@ -9,7 +9,7 @@ use prime\exceptions\SurveyDoesNotExist;
 use prime\interfaces\PageInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
-use prime\models\ar\read\Project;
+use prime\models\ar\Project;
 use prime\models\forms\ResponseFilter;
 use prime\objects\Breadcrumb;
 use SamIT\abac\interfaces\Resolver;
@@ -37,15 +37,22 @@ class View extends Action
     ) {
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
+        /** @var Project|null $project */
         $project = Project::find()
             ->andWhere(['id'  => $id])
             ->with('mainPages')
             ->one();
+
         if (!isset($project)) {
             throw new NotFoundHttpException();
         }
+
         if (!$user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
+        }
+
+        if ($project instanceof \prime\models\ar\surveyjs\Project) {
+            return $this->controller->redirect('view-for-survey-js');
         }
         try {
             $survey = $project->getSurvey();
@@ -56,7 +63,7 @@ class View extends Action
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
             $parent = Page::findOne(['id' => $parent_id]);
-            foreach ($parent->getChildPages($survey) as $childPage) {
+            foreach ($parent->getChildPages() as $childPage) {
                 if ($childPage->getid() === $page_id) {
                     $page = $childPage;
                     break;

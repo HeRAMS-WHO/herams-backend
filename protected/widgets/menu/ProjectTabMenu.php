@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
+use prime\interfaces\project\ProjectForTabMenuInterface;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
 
 /**
  * Class Menu
@@ -14,7 +14,7 @@ use prime\models\ar\Project;
  */
 class ProjectTabMenu extends TabMenu
 {
-    public Project $project;
+    public ProjectForTabMenuInterface $project;
 
     public function init(): void
     {
@@ -24,34 +24,35 @@ class ProjectTabMenu extends TabMenu
 
     protected function renderMenu(): string
     {
+        $projectId = $this->project->getId();
         $this->tabs[] = [
-            'url' => ['project/workspaces', 'id' => $this->project->id],
-            'title' => \Yii::t('app', 'Workspaces ({n})', ['n' => $this->project->workspaceCount])
+            'url' => ['project/workspaces', 'id' => $projectId],
+            'title' => \Yii::t('app', 'Workspaces ({n})', ['n' => $this->project->getWorkspaceCount()])
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_EXPORT,
-            'url' => ['project/export', 'id' => $this->project->id],
+            'url' => ['project/export', 'id' => $projectId],
             'title' => \Yii::t('app', 'Export data')
         ];
         $this->tabs[] = [
-            'url' => ['project/pages', 'id' => $this->project->id],
+            'url' => ['project/pages', 'id' => $projectId],
             'permission' => Permission::PERMISSION_MANAGE_DASHBOARD,
             'title' => \Yii::t('app', 'Dashboard settings'),
             'active' => \Yii::$app->requestedRoute === 'project/import-dashboard',
         ];
         $this->tabs[] = [
-            'url' => ['project/update', 'id' => $this->project->id],
+            'url' => ['project/update', 'id' => $projectId],
             'permission' => Permission::PERMISSION_WRITE,
             'title' => \Yii::t('app', 'Project settings')
         ];
         $this->tabs[] = [
-            'url' => ['project/share', 'id' => $this->project->id],
-            'title' => \Yii::t('app', 'Users ({n})', ['n' => $this->project->permissionSourceCount]),
+            'url' => ['project/share', 'id' => $projectId],
+            'title' => \Yii::t('app', 'Users ({n})', ['n' => $this->project->getPermissionSourceCount()]),
             'permission' => Permission::PERMISSION_SHARE
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_SURVEY_BACKEND,
-            'url' => ['project/limesurvey', 'id' => $this->project->id],
+            'url' => ['project/limesurvey', 'id' => $projectId],
             'title' => \Yii::t('app', 'Backend administration')
         ];
 
