@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94777e9aaae96376e7641cf8e8d0b5d7",
+    "content-hash": "0c5cbe483562c6749e734609758de53a",
     "packages": [
         {
             "name": "brick/math",
@@ -635,80 +635,6 @@
                 "source": "https://github.com/ezyang/htmlpurifier/tree/v4.14.0"
             },
             "time": "2021-12-25T01:21:49+00:00"
-        },
-        {
-            "name": "foxy/foxy",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fxpio/foxy.git",
-                "reference": "dc2759ed5b1a84ad8966f31e1fd59b300b5b9605"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fxpio/foxy/zipball/dc2759ed5b1a84ad8966f31e1fd59b300b5b9605",
-                "reference": "dc2759ed5b1a84ad8966f31e1fd59b300b5b9605",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1|^2.0",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "composer/composer": "^1.5.0|^2.0.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Foxy\\Foxy",
-                "branch-alias": {
-                    "dev-1.2": "1.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Foxy\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Pluchino",
-                    "email": "francois.pluchino@gmail.com"
-                }
-            ],
-            "description": "Fast, reliable, and secure NPM/Yarn bridge for Composer",
-            "homepage": "https://github.com/fxpio/foxy",
-            "keywords": [
-                "Bridge",
-                "asset",
-                "composer",
-                "dependency manager",
-                "nodejs",
-                "npm",
-                "package",
-                "yarn"
-            ],
-            "support": {
-                "issues": "https://github.com/fxpio/foxy/issues",
-                "source": "https://github.com/fxpio/foxy/tree/v1.2.0"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/francoispluchino",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/francoispluchino",
-                    "type": "github"
-                }
-            ],
-            "time": "2022-03-06T09:40:36+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1943,23 +1869,24 @@
         },
         {
             "name": "league/iso3166",
-            "version": "4.0.0",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/iso3166.git",
-                "reference": "1a3ec7e6f1e4f16fce68dc239bafae217fbdcfef"
+                "reference": "aed3b32fc293afdf2c6c6a322c2408eb5d20804a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/iso3166/zipball/1a3ec7e6f1e4f16fce68dc239bafae217fbdcfef",
-                "reference": "1a3ec7e6f1e4f16fce68dc239bafae217fbdcfef",
+                "url": "https://api.github.com/repos/thephpleague/iso3166/zipball/aed3b32fc293afdf2c6c6a322c2408eb5d20804a",
+                "reference": "aed3b32fc293afdf2c6c6a322c2408eb5d20804a",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3|^8.0"
+                "php": "^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5"
+                "friendsofphp/php-cs-fixer": "^2.12",
+                "phpunit/phpunit": "^5.7.11 || ^6.0 || ^7.0"
             },
             "type": "library",
             "extra": {
@@ -1996,7 +1923,7 @@
                 "issues": "https://github.com/thephpleague/iso3166/issues",
                 "source": "https://github.com/thephpleague/iso3166"
             },
-            "time": "2021-10-22T12:47:55+00:00"
+            "time": "2020-01-29T07:08:12+00:00"
         },
         {
             "name": "league/tactician",
