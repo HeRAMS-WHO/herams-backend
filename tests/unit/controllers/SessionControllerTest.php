@@ -33,7 +33,7 @@ final class SessionControllerTest extends ControllerTest
     }
 
 
-    public function testGuestCannotDelete()
+    public function testGuestCannotDelete(): void
     {
         $isGuest = Yii::$app->user->isGuest;
         $this->assertTrue($isGuest);
@@ -45,7 +45,7 @@ final class SessionControllerTest extends ControllerTest
         $this->assertFalse($controller->beforeAction($deleteAction));
     }
 
-    public function testUserCanDelete()
+    public function testUserCanDelete(): void
     {
         $email = 'test@test.com';
         $id = 12345;
