@@ -45,12 +45,9 @@
         "kartik-v/yii2-widget-activeform": "^1.5",
         "kartik-v/yii2-widget-switchinput": "^1.3",
         "kartik-v/yii2-widget-select2": "^2.1",
-        "kodus/file-cache": "^1.1",
         "kartik-v/yii2-widget-typeahead": "^1.0",
         "league/iso3166": "^2.1",
         "herams/i18n": "dev-master",
-        "foxy/foxy": "^1",
-        "woohoolabs/yin": "^4.1",
         "psr/http-factory": "^1.0",
         "psr/http-server-handler": "^1.0",
         "ramsey/uuid": "^4.1",
@@ -61,7 +58,7 @@
         "spatie/enum": "^3.7",
         "drewm/mailchimp-api": "^2.5",
         "collecthor/surveyjs-parser": ">= 1.2",
-        "collecthor/yii2-session-auth": "^1.1"
+        "collecthor/yii2-session-auth": "^1.1.1"
     },
 
     "autoload": {
