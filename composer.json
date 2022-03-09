@@ -47,7 +47,7 @@
         "kartik-v/yii2-widget-select2": "^2.1",
         "kodus/file-cache": "^1.1",
         "kartik-v/yii2-widget-typeahead": "^1.0",
-        "league/iso3166": "^4.0",
+        "league/iso3166": "^2.1",
         "herams/i18n": "dev-master",
         "foxy/foxy": "^1",
         "woohoolabs/yin": "^4.1",
