@@ -20,4 +20,4 @@ jobs:
       - run: composer global require "--dev vimeo/psalm"
       - run: |
           ls ${{ github.workspace }}
-      - run: ~/.composer/vendor/vimeo/psalm/psalm --root=protected --config=./
+      - run: ~/.composer/vendor/vimeo/psalm/psalm source_dir=protected
