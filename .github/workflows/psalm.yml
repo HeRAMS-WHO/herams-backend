@@ -18,4 +18,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer global require "--dev vimeo/psalm"
-      - run: ~/vendor/vimeo/psalm/psalm --root=/project
+      - run: ~/.composer/vendor/vimeo/psalm/psalm --root=/project
