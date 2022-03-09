@@ -128,6 +128,7 @@
         "lint-fix": "vendor/bin/phpcbf",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse protected --memory-limit 1024M",
+        "psalm": "vendor/vimeo/psalm/psalm --config=psalm.xml",
         "test-with-cc" : "docker-compose run --rm codeception run --fail-fast --coverage-html --coverage-xml",
         "post-install-cmd": "[ $COMPOSER_DEV_MODE -eq 0 ] || cghooks add --ignore-lock",
         "post-update-cmd": "cghooks update",
@@ -135,7 +136,8 @@
         "git-pre-commit": [
             "composer dlint",
             "composer stan",
-            "composer test"
+            "composer test",
+            "composer psalm"
         ],
         "git-post-merge": [
             "composer install --ignore-platform-reqs"
