@@ -10,8 +10,5 @@
     <projectFiles>
         <directory name="protected" />
         <directory name="tests/_support" />
-        <ignoreFiles>
-            <directory name="protected/vendor" />
-        </ignoreFiles>
     </projectFiles>
 </psalm>
