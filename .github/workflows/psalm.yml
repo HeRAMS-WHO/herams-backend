@@ -18,4 +18,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer global require "--dev vimeo/psalm"
-      - run: ~/.composer/vendor/vimeo/psalm/psalm
+      - run: |
+          ls ${{ github.workspace }}
+      - run: ~/.composer/vendor/vimeo/psalm/psalm --root=~/
