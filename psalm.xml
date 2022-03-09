@@ -11,7 +11,7 @@
         <directory name="protected" />
         <directory name="tests/_support" />
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="protected/vendor" />
         </ignoreFiles>
     </projectFiles>
 </psalm>
