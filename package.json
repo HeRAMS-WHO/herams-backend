@@ -1,3 +1,22 @@
 {
-    "private": true
+    "name": "herams",
+    "license": "mit",
+    "private": true,
+    "dependencies": {
+        "@github/time-elements": "^3.1.2",
+        "ace-builds": "^1.4.13",
+        "bootstrap": "^4.6.0",
+        "choices.js": "^9.1.0",
+        "eslint": "^7.32.0",
+        "iframe-resizer": "^4.3.2",
+        "izitoast": "^1.4.0",
+        "jquery": "^3.6.0",
+        "popper.js": "^1.16.1",
+        "pretty-checkbox": "^3.0.3",
+        "survey-creator": "^1.9.8",
+        "survey-creator-knockout": "^1.9.8-beta.1",
+        "survey-knockout": "^1.9.8",
+        "survey-knockout-ui": "^1.9.8",
+        "yii2-pjax": "^2.0.7"
+    }
 }
