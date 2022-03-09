@@ -17,4 +17,4 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - run: ~/.composer/vendor/vimeo/psalm/psalm --root=/project
+      - run: ~/project/vendor/vimeo/psalm/psalm --root=/project
