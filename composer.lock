@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cfc5c519e7296a224af727bbcd6b7a8",
+    "content-hash": "94777e9aaae96376e7641cf8e8d0b5d7",
     "packages": [
         {
             "name": "brick/math",
@@ -1808,61 +1808,6 @@
             "time": "2019-05-29T12:06:56+00:00"
         },
         {
-            "name": "kodus/file-cache",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kodus/file-cache.git",
-                "reference": "6288bb5d4f524f4659e2d4c51755cb98206b988a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kodus/file-cache/zipball/6288bb5d4f524f4659e2d4c51755cb98206b988a",
-                "reference": "6288bb5d4f524f4659e2d4c51755cb98206b988a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 5.6",
-                "psr/simple-cache": "^1"
-            },
-            "provide": {
-                "psr/simple-cache-implementation": "1.0"
-            },
-            "require-dev": {
-                "cache/integration-tests": "dev-master",
-                "codeception/codeception": "^2",
-                "mindplay/simple-cache": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Kodus\\Cache\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rasmus Schultz",
-                    "email": "rasc@jfmedier.dk",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Thomas Pedersen",
-                    "email": "thno@jfmedier.dk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Minimal PSR-16 cache-implementation",
-            "support": {
-                "issues": "https://github.com/kodus/file-cache/issues",
-                "source": "https://github.com/kodus/file-cache/tree/master"
-            },
-            "time": "2019-05-16T08:25:49+00:00"
-        },
-        {
             "name": "lcobucci/clock",
             "version": "2.1.0",
             "source": {
@@ -2575,57 +2520,6 @@
                 "source": "https://github.com/php-fig/http-server-handler/tree/master"
             },
             "time": "2018-10-30T16:46:14+00:00"
-        },
-        {
-            "name": "psr/simple-cache",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/simple-cache.git",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\SimpleCache\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interfaces for simple caching",
-            "keywords": [
-                "cache",
-                "caching",
-                "psr",
-                "psr-16",
-                "simple-cache"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/simple-cache/tree/master"
-            },
-            "time": "2017-10-23T01:57:42+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -4255,70 +4149,6 @@
                 }
             ],
             "time": "2021-09-07T12:43:40+00:00"
-        },
-        {
-            "name": "woohoolabs/yin",
-            "version": "4.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/woohoolabs/yin.git",
-                "reference": "3e650f6d53d31b6fa24e6b047bbb5e7e61942634"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/woohoolabs/yin/zipball/3e650f6d53d31b6fa24e6b047bbb5e7e61942634",
-                "reference": "3e650f6d53d31b6fa24e6b047bbb5e7e61942634",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.0||^8.0.0",
-                "psr/http-message-implementation": "^1.0.0"
-            },
-            "require-dev": {
-                "justinrainbow/json-schema": "^5.2.0",
-                "laminas/laminas-diactoros": "^2.0.0",
-                "laminas/laminas-httphandlerrunner": "^1.0.0",
-                "phpstan/phpstan": "^0.12.0",
-                "phpstan/phpstan-phpunit": "^0.12.0",
-                "phpstan/phpstan-strict-rules": "^0.12.0",
-                "phpunit/phpunit": "^7.0.0||^8.2.0||^9.0.0",
-                "seld/jsonlint": "^1.7.0",
-                "squizlabs/php_codesniffer": "^3.5.1",
-                "woohoolabs/coding-standard": "^1.1.2",
-                "woohoolabs/releaser": "^1.1"
-            },
-            "suggest": {
-                "justinrainbow/json-schema": "Allows to validate the request and response body against the JSON API schema",
-                "seld/jsonlint": "Allows to lint the request and response body"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "WoohooLabs\\Yin\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Máté Kocsis",
-                    "email": "kocsismate@woohoolabs.com"
-                }
-            ],
-            "description": "Woohoo Labs. Yin",
-            "keywords": [
-                "Woohoo Labs.",
-                "Yin",
-                "json api",
-                "psr-7"
-            ],
-            "support": {
-                "issues": "https://github.com/woohoolabs/yin/issues",
-                "source": "https://github.com/woohoolabs/yin"
-            },
-            "time": "2021-04-20T11:04:25+00:00"
         },
         {
             "name": "yiisoft/yii2",
