@@ -8038,4 +8038,214 @@
       <code>array|ArrayAccess</code>
     </UndefinedDocblockClass>
   </file>
+  <file src="vendor/codeception/codeception/src/Codeception/Module.php">
+    <MissingParamType occurrences="1">
+      <code>$config</code>
+    </MissingParamType>
+    <MixedArgument occurrences="6">
+      <code>$className</code>
+      <code>$config</code>
+      <code>$this-&gt;config</code>
+      <code>$this-&gt;config</code>
+      <code>$this-&gt;requiredFields</code>
+      <code>$this-&gt;requiredFields</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$className</code>
+      <code>$package</code>
+    </MixedAssignment>
+  </file>
+  <file src="vendor/kartik-v/yii2-builder/src/Form.php">
+    <MixedArgument occurrences="1">
+      <code>$this-&gt;_fieldsetTag</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$this-&gt;_fieldsetTag</code>
+      <code>$this-&gt;columnSize</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$this-&gt;options['id']</code>
+    </MixedOperand>
+  </file>
+  <file src="vendor/kartik-v/yii2-widget-activeform/src/ActiveForm.php">
+    <MixedArgument occurrences="1">
+      <code>$this-&gt;_config[$this-&gt;type]</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$this-&gt;_config[$this-&gt;type]</code>
+    </MixedArrayAccess>
+    <MixedOperand occurrences="1">
+      <code>$this-&gt;options['id']</code>
+    </MixedOperand>
+    <RedundantPropertyInitializationCheck occurrences="1">
+      <code>$bsVer === 5 &amp;&amp; !isset($this-&gt;inlineFormCssClass)</code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="vendor/spatie/enum/src/Enum.php">
+    <MixedArgument occurrences="1">
+      <code>$value</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="4">
+      <code>$definition</code>
+      <code>$definition</code>
+      <code>$this-&gt;label</code>
+      <code>$this-&gt;value</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>equals</code>
+    </MixedMethodCall>
+    <MixedPropertyFetch occurrences="2">
+      <code>$definition-&gt;label</code>
+      <code>$definition-&gt;value</code>
+    </MixedPropertyFetch>
+    <MixedReturnStatement occurrences="1">
+      <code>$definition</code>
+    </MixedReturnStatement>
+    <RawObjectIteration occurrences="1">
+      <code>static::resolveDefinition()</code>
+    </RawObjectIteration>
+    <TooManyArguments occurrences="1">
+      <code>findDefinition</code>
+    </TooManyArguments>
+  </file>
+  <file src="vendor/yiisoft/yii2/base/ArrayableTrait.php">
+    <MixedArgument occurrences="3">
+      <code>$field</code>
+      <code>$field</code>
+      <code>$field</code>
+    </MixedArgument>
+    <MixedArrayOffset occurrences="2">
+      <code>$result[$field]</code>
+      <code>$result[$field]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="8">
+      <code>$definition</code>
+      <code>$definition</code>
+      <code>$field</code>
+      <code>$field</code>
+      <code>$field</code>
+      <code>$field</code>
+      <code>$result[$field]</code>
+      <code>$result[$field]</code>
+    </MixedAssignment>
+  </file>
+  <file src="vendor/yiisoft/yii2/base/Component.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$value instanceof Behavior ? $value : Yii::createObject($value)</code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$behavior</code>
+    </LessSpecificReturnStatement>
+    <MixedArgument occurrences="5">
+      <code>$this-&gt;_eventWildcards[$name]</code>
+      <code>$this-&gt;_events[$name]</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$wildcard</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="4">
+      <code>$handler[0]</code>
+      <code>$handler[1]</code>
+      <code>$this-&gt;_eventWildcards[$name]</code>
+      <code>$this-&gt;_events[$name]</code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment occurrences="4">
+      <code>$this-&gt;_behaviors[$name]</code>
+      <code>$this-&gt;_behaviors[]</code>
+      <code>$this-&gt;_eventWildcards[$name]</code>
+      <code>$this-&gt;_events[$name]</code>
+    </MixedArrayAssignment>
+    <MixedAssignment occurrences="13">
+      <code>$behavior</code>
+      <code>$behavior</code>
+      <code>$behavior</code>
+      <code>$eventHandlers</code>
+      <code>$eventHandlers[]</code>
+      <code>$eventHandlers[]</code>
+      <code>$handler</code>
+      <code>$handlers</code>
+      <code>$this-&gt;_behaviors</code>
+      <code>$this-&gt;_behaviors</code>
+      <code>$this-&gt;_eventWildcards</code>
+      <code>$this-&gt;_events</code>
+      <code>$wildcard</code>
+    </MixedAssignment>
+    <MixedFunctionCall occurrences="1">
+      <code>call_user_func($handler[0], $event)</code>
+    </MixedFunctionCall>
+    <MixedMethodCall occurrences="3">
+      <code>attach</code>
+      <code>attach</code>
+      <code>detach</code>
+    </MixedMethodCall>
+    <MixedPropertyFetch occurrences="1">
+      <code>$behavior-&gt;$name</code>
+    </MixedPropertyFetch>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;attachBehaviorInternal($name, $behavior)</code>
+    </MixedReturnStatement>
+    <PossiblyNullIterator occurrences="2">
+      <code>$this-&gt;_behaviors</code>
+      <code>$this-&gt;_behaviors</code>
+    </PossiblyNullIterator>
+  </file>
+  <file src="vendor/yiisoft/yii2/base/Widget.php">
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;_id</code>
+      <code>$this-&gt;_view</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="vendor/yiisoft/yii2/caching/FileCache.php">
+    <PossiblyFalseArgument occurrences="2">
+      <code>$this-&gt;cachePath</code>
+      <code>$this-&gt;cachePath</code>
+    </PossiblyFalseArgument>
+    <PossiblyFalsePropertyAssignmentValue occurrences="1">
+      <code>Yii::getAlias($this-&gt;cachePath)</code>
+    </PossiblyFalsePropertyAssignmentValue>
+  </file>
+  <file src="vendor/yiisoft/yii2/data/ActiveDataProvider.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>Instance::ensure($this-&gt;db)</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="vendor/yiisoft/yii2/data/BaseDataProvider.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>Sort|bool</code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="vendor/yiisoft/yii2/db/ActiveQuery.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>ActiveRecord|array|null</code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="vendor/yiisoft/yii2/db/ActiveRecord.php">
+    <MoreSpecificImplementedParamType occurrences="2">
+      <code>$condition</code>
+      <code>$record</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="vendor/yiisoft/yii2/db/Migration.php">
+    <DeprecatedMethod occurrences="1">
+      <code>Connection::className()</code>
+    </DeprecatedMethod>
+    <LessSpecificImplementedReturnType occurrences="2">
+      <code>false|void|mixed</code>
+      <code>false|void|mixed</code>
+    </LessSpecificImplementedReturnType>
+    <MixedMethodCall occurrences="2">
+      <code>getSchema</code>
+      <code>refresh</code>
+    </MixedMethodCall>
+    <PropertyTypeCoercion occurrences="1">
+      <code>Instance::ensure($this-&gt;db, Connection::className())</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="vendor/yiisoft/yii2/web/AssetBundle.php">
+    <PossiblyFalseArgument occurrences="3">
+      <code>Yii::getAlias($this-&gt;basePath)</code>
+      <code>Yii::getAlias($this-&gt;baseUrl)</code>
+      <code>Yii::getAlias($this-&gt;sourcePath)</code>
+    </PossiblyFalseArgument>
+  </file>
 </files>
