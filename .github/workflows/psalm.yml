@@ -17,8 +17,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - run: composer require "vimeo/psalm"
+      - run: composer global require "--dev vimeo/psalm"
       - run: |
           ls ${{ github.workspace }}
-      - run: ~/.composer/vendor/vimeo/psalm/psalm --version
-      - run: ~/.composer/vendor/vimeo/psalm/psalm --root=protected -c=./psalm.xml
+      - run: ~/.composer/vendor/vimeo/psalm/psalm --root=protected -c=./psalm.xml use-baseline=./psalm-baseline.xml
