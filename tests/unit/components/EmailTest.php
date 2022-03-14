@@ -8,7 +8,7 @@ use Yii;
 use yii\symfonymailer\Message;
 
 final class EmailTest extends \Codeception\Test\Unit
-{    
+{
     protected function _before()
     {
         \Yii::$app->mailer->messageClass = \yii\symfonymailer\Message::class;
