@@ -16,7 +16,7 @@ use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\i18n\MissingTranslationEvent;
-use yii\swiftmailer\Mailer;
+use yii\symfonymailer\Mailer;
 use yii\web\User;
 use yii\web\User as UserComponent;
 use yii\web\UserEvent;
@@ -175,6 +175,7 @@ return [
                 ],
             ]
         ],
+        /*
         'mailer' => static function () use ($env): Mailer {
             return \Yii::createObject([
                 'class' => Mailer::class,
@@ -193,6 +194,23 @@ return [
                 ]
             ]);
         },
+        */
+        'mailer' => [
+            'class' => Mailer::class,
+            'transport' => [
+                'scheme' => 'smtps',
+                'host' => $env->getWrappedSecret('smtp/host'),
+                'username' => $env->getWrappedSecret('smtp/username'),
+                'password' => $env->getWrappedSecret('smtp/password'),
+                'port' =>  $env->getSecret('smtp/port'), #465,
+                'dsn' => 'native://default',
+            ],
+            //'viewPath' => '@common/mail',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure transport
+            // for the mailer to send real emails.
+            'useFileTransport' => false,
+        ],
 
     ],
     'modules' => [
