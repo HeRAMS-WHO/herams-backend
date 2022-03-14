@@ -20,6 +20,7 @@ use prime\controllers\project\Share;
 use prime\controllers\project\SyncWorkspaces;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
+use prime\controllers\project\ViewForSurveyJs;
 use prime\controllers\project\Workspaces;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
@@ -52,7 +53,7 @@ class ProjectController extends Controller
             'export' => [
                 'class' => ExportAction::class,
                 'subject' => static function (Request $request) {
-                    return ReadProject::findOne(['id' => $request->getQueryParam('id')]);
+                    return Project::findOne(['id' => $request->getQueryParam('id')]);
                 },
                 'responseQuery' => static function (Project $project): ResponseForLimesurveyQuery {
                     return ResponseForLimesurvey::find()->project($project)->with('workspace');
@@ -77,6 +78,7 @@ class ProjectController extends Controller
             'sync-workspaces' => SyncWorkspaces::class,
             'update' => Update::class,
             'view' => View::class,
+            'view-for-survey-js' => ViewForSurveyJs::class,
             'workspaces' => Workspaces::class,
         ];
     }

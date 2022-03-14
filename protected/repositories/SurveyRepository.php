@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace prime\repositories;
 
 use Collecthor\DataInterfaces\VariableSetInterface;
-use Collecthor\SurveyjsParser\SurveyParser;
+use Collecthor\SurveyjsParser\VariableSet;
 use prime\components\HydratedActiveDataProvider;
+use prime\helpers\HeramsVariableSet;
 use prime\helpers\ModelHydrator;
+use prime\helpers\SurveyParser;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
+use prime\interfaces\SurveyRepositoryInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Survey as SurveyForRead;
 use prime\models\ar\read\Survey as SurveyRead;
@@ -26,7 +29,14 @@ use yii\base\InvalidArgumentException;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
 
-class SurveyRepository
+use function iter\chain;
+use function iter\map;
+use function iter\toArray;
+
+/**
+ *
+ */
+final class SurveyRepository implements SurveyRepositoryInterface
 {
     public function __construct(
         private SurveyParser $surveyParser,
@@ -66,11 +76,17 @@ class SurveyRepository
         return new SurveyForSurveyJs(new SurveyId($record->id), $record->config);
     }
 
-    public function retrieveForDashboarding(SurveyId $surveyId): VariableSetInterface
+    public function retrieveForDashboarding(SurveyId $adminSurveyId, SurveyId $dataSurveyId): HeramsVariableSet
     {
-        $record = Survey::findOne(['id' => $surveyId->getValue()]);
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
-        return $this->surveyParser->parseSurveyStructure($record->config);
+        $adminSurvey = Survey::findOne(['id' => $adminSurveyId->getValue()]);
+        $dataSurvey = Survey::findOne(['id' => $dataSurveyId->getValue()]);
+        $variables = [];
+
+        $adminVariables = $this->surveyParser->parseHeramsSurveyStructure($adminSurvey->config);
+        $dataVariables = $this->surveyParser->parseSurveyStructure($dataSurvey->config);
+
+        $allVariables = new VariableSet(...toArray(chain($dataVariables->getVariables(), $adminVariables->getVariables())));
+        return new HeramsVariableSet($allVariables, $adminVariables->colorMap);
     }
 
     public function retrieveForUpdate(SurveyId $id): UpdateForm

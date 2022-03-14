@@ -52,6 +52,13 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         return $record;
     }
 
+    public function retrieveForExport(ProjectId $id): \prime\models\ar\surveyjs\Project
+    {
+        $record = \prime\models\ar\surveyjs\Project::findOne(['id' => $id]);
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_EXPORT);
+        return $record;
+    }
+
     public function retrieveForUpdate(ProjectId $id): ProjectUpdate
     {
         $record = Project::findOne(['id' => $id]);

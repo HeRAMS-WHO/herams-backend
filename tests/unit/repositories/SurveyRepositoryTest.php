@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use Collecthor\SurveyjsParser\SurveyParser;
 use prime\helpers\ArrayHelper;
 use prime\helpers\ModelHydrator;
+use prime\helpers\surveyjs\FacilityTypeQuestionParser;
+use prime\helpers\SurveyParser;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\models\ar\Project;
@@ -35,7 +36,9 @@ class SurveyRepositoryTest extends Unit
         $accessChecker = $accessCheck ?? $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $modelHydrator = $modelHydrator ?? new ModelHydrator();
 
-        return new SurveyRepository(new SurveyParser(), $accessChecker, $modelHydrator);
+        $facilityTypeQuestionParser = $this->getMockBuilder(FacilityTypeQuestionParser::class)->disableOriginalConstructor()->getMock();
+        $surveyParser = new SurveyParser($facilityTypeQuestionParser);
+        return new SurveyRepository($surveyParser, $accessChecker, $modelHydrator);
     }
 
     private function createSurvey(array $config = []): Survey

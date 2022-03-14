@@ -10,8 +10,11 @@ use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
+use prime\interfaces\project\ProjectForTabMenuInterface;
 use prime\interfaces\RequestableInterface;
 use prime\models\ActiveRecord;
+use prime\models\ar\limesurvey\Project as LimesurveyProject;
+use prime\models\ar\surveyjs\Project as SurveyJsProject;
 use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectType;
@@ -22,10 +25,9 @@ use prime\objects\LanguageSet;
 use prime\queries\ResponseForLimesurveyQuery;
 use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
+use prime\values\ProjectId;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use yii\behaviors\AttributeTypecastBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
 use yii\db\Query;
@@ -43,11 +45,9 @@ use yii\web\Linkable;
  * Class Project
  *
  * Attributes
- * @property int $admin_survey_id
- * @property int $base_survey_eid
+
  * @property string $country
  * @property string|null $created_at
- * @property int $data_survey_id
  * @property boolean $hidden
  * @property array<string, array<string, string>> $i18n
  * @property int $id
@@ -78,10 +78,10 @@ use yii\web\Linkable;
  * @property-read Workspace[] $workspaces
  * @property-read Survey $adminSurvey
  *
- * @method ExpressionInterface getVirtualExpression(string $name)
- * @see VirtualFieldBehavior::getVirtualExpression()
+ * @mixin VirtualFieldBehavior
+ *
  */
-class Project extends ActiveRecord implements Linkable, RequestableInterface
+class Project extends ActiveRecord implements Linkable, RequestableInterface, ProjectForTabMenuInterface
 {
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_PRIVATE = 'private';
@@ -104,6 +104,15 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
             'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
         ];
+    }
+
+    public static function instantiate($row): static|LimesurveyProject|SurveyJsProject
+    {
+        if (isset($row['base_survey_eid'])) {
+            return new LimesurveyProject();
+        } else {
+            return new SurveyJsProject();
+        }
     }
 
     public function beforeSave($insert): bool
@@ -327,15 +336,6 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface
         return $result;
     }
 
-    public function getSurvey(): SurveyInterface|Survey
-    {
-        if ($this->getType()->equals(ProjectType::limesurvey())) {
-            return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
-        } else {
-            return Survey::findOne(['id' => $this->data_survey_id]);
-        }
-    }
-
     public function getType(): ProjectType
     {
         if (isset($this->base_survey_eid)) {
@@ -428,10 +428,6 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface
         ]);
     }
 
-    private function limesurveyDataProvider(): LimesurveyDataProvider
-    {
-        return app()->limesurveyDataProvider;
-    }
 
     public function manageWorkspacesImpliesCreatingFacilities(): bool
     {
@@ -601,5 +597,30 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface
     public function getProjectTitle(): string
     {
         return $this->getTitle();
+    }
+
+    public static function tableName()
+    {
+        return '{{%project}}';
+    }
+
+    public function getLabel(): string
+    {
+        return $this->title;
+    }
+
+    public function getId(): ProjectId
+    {
+        return new ProjectId($this->getAttribute('id'));
+    }
+
+    public function getWorkspaceCount(): int
+    {
+        return $this->getVirtualField('workspaceCount');
+    }
+
+    public function getPermissionSourceCount(): int
+    {
+        return $this->getVirtualField('permissionSourceCount');
     }
 }

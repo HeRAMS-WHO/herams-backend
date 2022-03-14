@@ -38,7 +38,7 @@ class AccessRequest extends Model
         ];
     }
 
-    public function search($params): DataProviderInterface
+    public function search(array $params): DataProviderInterface
     {
         $query = clone $this->query;
         $dataProvider = \Yii::createObject(FilteredActiveDataProvider::class, [[

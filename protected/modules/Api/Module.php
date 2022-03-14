@@ -4,19 +4,40 @@ declare(strict_types=1);
 
 namespace prime\modules\Api;
 
+use Collecthor\Yii2SessionAuth\IdentityInterfaceIdentityFinder;
+use Collecthor\Yii2SessionAuth\SessionAuth;
+use prime\models\ar\User;
+use yii\filters\auth\CompositeAuth;
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
 use yii\web\Response;
+use yii\web\Session;
 use yii\web\UrlRule;
 
+/**
+ * @property \yii\web\User $user
+ */
 class Module extends \yii\base\Module
 {
-    public static function urlRule(): array
+    public static function urlRules(): array
     {
         return [
             'class' => GroupUrlRule::class,
-            'prefix' => 'api/',
+            'prefix' => 'api',
             'rules' => [
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>/<target_id:\d+>',
+                    'route' => '<controller>/<action>',
+                    'verb' => ['put', 'delete']
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>',
+                    'route' => '<controller>/<action>',
+                    'verb' => ['get', 'post']
+                ],
+
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>s',
@@ -29,18 +50,8 @@ class Module extends \yii\base\Module
                     'route' => '<controller>/view',
                     'verb' => 'get'
                 ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller>/<id:\d+>/<action:\w+>/<target_id:\d+>',
-                    'route' => '<controller>/<action>',
-                    'verb' => ['put', 'delete']
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller>/<id:\d+>/<action:\w+>',
-                    'route' => '<controller>/<action>',
-                    'verb' => ['get', 'post']
-                ],
+
+
                 [
                     'class' => UrlRule::class,
                     'pattern' => 'response',
@@ -61,6 +72,13 @@ class Module extends \yii\base\Module
         ];
     }
 
+    public function beforeAction($action)
+    {
+        $this->user->enableSession = false;
+        return parent::beforeAction($action);
+    }
+
+
     public function behaviors()
     {
         return [
@@ -69,6 +87,14 @@ class Module extends \yii\base\Module
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ]
+            ],
+            'authenticator' => [
+                'class' => CompositeAuth::class,
+                'optional' => ['*'],
+                'authMethods' => [
+                    fn(Session $session) => new SessionAuth(new IdentityInterfaceIdentityFinder(User::class), $session)
+                ]
+
             ]
         ];
     }

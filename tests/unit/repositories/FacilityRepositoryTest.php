@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use Collecthor\SurveyjsParser\SurveyParser;
+use Collecthor\SurveyjsParser\Parsers\SingleChoiceQuestionParser;
 use prime\helpers\ModelHydrator;
+use prime\helpers\surveyjs\FacilityTypeQuestionParser;
+use prime\helpers\SurveyParser;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\SurveyRepositoryInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
-use prime\models\ar\SurveyResponse;
 use prime\models\forms\facility\CreateForm;
 use prime\models\forms\facility\UpdateForm;
 use prime\models\forms\facility\UpdateSituationForm;
@@ -24,7 +26,6 @@ use prime\repositories\FacilityRepository;
 use prime\repositories\SurveyRepository;
 use prime\repositories\SurveyResponseRepository;
 use prime\repositories\WorkspaceRepository;
-use prime\tests\_helpers\Survey;
 use prime\values\FacilityId;
 use prime\values\ProjectId;
 use prime\values\SurveyId;
@@ -39,7 +40,7 @@ class FacilityRepositoryTest extends Unit
     private function createRepository(
         AccessCheckInterface $accessCheck = null,
         ModelHydrator $modelHydrator = null,
-        SurveyRepository $surveyRepository = null,
+        SurveyRepositoryInterface $surveyRepository = null,
         SurveyResponseRepository $surveyResponseRepository = null,
         WorkspaceRepository $workspaceRepository = null,
     ): FacilityRepository {
@@ -55,7 +56,7 @@ class FacilityRepositoryTest extends Unit
         return new FacilityRepository(
             $accessCheck,
             $modelHydrator ?? new ModelHydrator(),
-            $surveyRepository ?? new SurveyRepository(new SurveyParser(), $newAccessCheck, new ModelHydrator()),
+            $surveyRepository ?? new SurveyRepository(new SurveyParser(new FacilityTypeQuestionParser(new SingleChoiceQuestionParser())), $newAccessCheck, new ModelHydrator()),
             $surveyResponseRepository ?? new SurveyResponseRepository($newAccessCheck, new ModelHydrator()),
             $workspaceRepository ?? new WorkspaceRepository($newAccessCheck, new ModelHydrator()),
         );
@@ -167,7 +168,7 @@ class FacilityRepositoryTest extends Unit
             ));
 
         $survey = new SurveyForSurveyJs(new SurveyId($facility->adminSurvey->id), $facility->adminSurvey->config);
-        $surveyRepository = $this->getMockBuilder(SurveyRepository::class)->disableOriginalConstructor()->getMock();
+        $surveyRepository = $this->getMockBuilder(SurveyRepositoryInterface::class)->disableOriginalConstructor()->getMock();
         $surveyRepository->expects($this->once())
             ->method('retrieveAdminSurveyForWorkspaceForSurveyJs')
             ->with(new WorkspaceId($facility->workspace_id))
@@ -219,7 +220,7 @@ class FacilityRepositoryTest extends Unit
             ));
 
         $survey = new SurveyForSurveyJs(new SurveyId($facility->adminSurvey->id), $facility->adminSurvey->config);
-        $surveyRepository = $this->getMockBuilder(SurveyRepository::class)->disableOriginalConstructor()->getMock();
+        $surveyRepository = $this->getMockBuilder(SurveyRepositoryInterface::class)->disableOriginalConstructor()->getMock();
         $surveyRepository->expects($this->once())
             ->method('retrieveDataSurveyForWorkspaceForSurveyJs')
             ->with(new WorkspaceId($facility->workspace_id))
