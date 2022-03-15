@@ -6,8 +6,8 @@ jobs:
     name: Static Analysis with Psalm
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Checkout code
+      - uses: actions/checkout@v2
       - run: composer global require "--dev vimeo/psalm"
       - run: |
           ls ${{ github.workspace }}
