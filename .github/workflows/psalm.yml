@@ -6,19 +6,7 @@ jobs:
     name: Static Analysis with Psalm
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-      - run: composer global require "--dev vimeo/psalm"
-      - run: |
-          ls ${{ github.workspace }}
-      - run: ~/.composer/vendor/vimeo/psalm/psalm --version
-      - run: ~/.composer/vendor/bin/psalm --root=protected --use-baseline=psalm-baseline2.xml -c=psalm.xml
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Psalm
+        uses: docker://vimeo/psalm-github-actions
