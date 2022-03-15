@@ -1,19 +1,19 @@
 <?php
 
 declare(strict_types=1);
+
 namespace prime\tests\helpers;
 
 use prime\helpers\MigrationHelper;
 use yii\base\NotSupportedException;
 use yii\db\Migration;
-use function PHPUnit\Framework\assertTrue;
 
 final class MigrationHelperTest extends \Codeception\Test\Unit
 {
     private Migration $migration;
     private MigrationHelper $helper;
-    private String $table = 'test_table_not_null';
-    private String $table_with_nulls = 'test_table_null';
+    private string $table = 'test_table_not_null';
+    private string $table_with_nulls = 'test_table_null';
     
     protected function _before()
     {
@@ -84,3 +84,4 @@ final class MigrationHelperTest extends \Codeception\Test\Unit
         $this->helper->changeColumnFromIntToDatetimeWithNull($this->table_with_nulls, 'dob');
     }
 }
+
