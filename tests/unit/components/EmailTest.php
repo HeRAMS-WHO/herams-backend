@@ -54,13 +54,12 @@ final class EmailTest extends \Codeception\Test\Unit
     /**
      * @depends testEmailSent
      */
-    public function testAttachFile(): void
+    public function testEmailWithAttachedFile(): void
     {
         $fileName = __FILE__;
 
         $message = \Yii::$app->mailer->compose()
             ->setTo('test@test.com')
-            ->setFrom('someuser@somedomain.com')
             ->setSubject('Attach file')
             ->setTextBody('Test body')
             ->attach($fileName)
