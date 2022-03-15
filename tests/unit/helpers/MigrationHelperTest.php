@@ -14,7 +14,6 @@ final class MigrationHelperTest extends \Codeception\Test\Unit
     private MigrationHelper $helper;
     private string $table = 'test_table_not_null';
     private string $table_with_nulls = 'test_table_null';
-    
     protected function _before()
     {
         $this->migration = new Migration();
@@ -23,7 +22,6 @@ final class MigrationHelperTest extends \Codeception\Test\Unit
             'dob' => 'int(1) not null',
             'gender' => 'datetime not null'
         ]);
-        
         $this->migration->createTable($this->table_with_nulls, [
             'dob' => 'int(1) null',
             'gender' => 'datetime null'
@@ -84,4 +82,3 @@ final class MigrationHelperTest extends \Codeception\Test\Unit
         $this->helper->changeColumnFromIntToDatetimeWithNull($this->table_with_nulls, 'dob');
     }
 }
-
