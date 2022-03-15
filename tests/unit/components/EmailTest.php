@@ -11,7 +11,7 @@ final class EmailTest extends \Codeception\Test\Unit
 {
     protected function _before()
     {
-        \Yii::$app->mailer->messageClass = \yii\symfonymailer\Message::class;
+        //\Yii::$app->mailer->messageClass = \yii\symfonymailer\Message::class;
     }
 
     protected function _after()
@@ -27,12 +27,28 @@ final class EmailTest extends \Codeception\Test\Unit
     public function testEmailSent(): void
     {
         $message = \Yii::$app->get('mailer')->compose()
-            ->setFrom('from@domain.com')
-            ->setTo('test@test.com')
+            #->setFrom('from@test.com')
+            ->setTo('to@test.com')
             ->setSubject('Test email')
-            ->send();
+            ->setTextBody('See you later.');
 
-        $this->assertTrue($message);
+        $this->assertSame('Test email', $message->getSubject());
+        $this->assertSame('support@herams.org', key($message->getFrom()));
+        $this->assertSame('to@test.com', key($message->getTo()));
+        $this->assertSame('See you later.', $message->getTextBody());
+        $this->assertTrue($message->send());
+    }
+
+    /**
+     * @depends testEmailSent
+     */
+    public function testHtmlEmailSent(): void
+    {
+        $message = \Yii::$app->get('mailer')->compose('layouts/html', ['content' => 'See you later.'])
+            ->setTo('to@test.com')
+            ->setSubject('Test email');
+
+        $this->assertTrue($message->send());
     }
 
     /**

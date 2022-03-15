@@ -197,6 +197,9 @@ return [
         */
         'mailer' => [
             'class' => Mailer::class,
+            'messageConfig' => [
+                'from' => [$env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support']
+            ],
             'transport' => [
                 'scheme' => 'smtps',
                 'host' => $env->getWrappedSecret('smtp/host'),
@@ -210,6 +213,7 @@ return [
             // 'useFileTransport' to false and configure transport
             // for the mailer to send real emails.
             'useFileTransport' => false,
+            'messageClass' => \yii\symfonymailer\Message::class,
         ],
 
     ],
