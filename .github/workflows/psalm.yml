@@ -21,5 +21,3 @@ jobs:
       - run: |
           ls ${{ github.workspace }}
       - run: ~/.composer/vendor/bin/psalm --root=protected --use-baseline=./psalm-baseline2.xml -c=./psalm.xml
-      - uses: docker://vimeo/psalm-github-actions
-      - name: Psalm
