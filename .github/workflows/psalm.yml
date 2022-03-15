@@ -6,10 +6,10 @@ jobs:
     name: Static Analysis with Psalm
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Psalm
-        uses: docker://vimeo/psalm-github-actions
-        with:
-          composer_require_dev: true
-          composer_ignore_platform_reqs: true
+      - run: composer global require "--dev vimeo/psalm"
+      - run: |
+          ls ${{ github.workspace }}
+      - run: ~/.composer/vendor/vimeo/psalm/psalm --version
+      - run: ~/.composer/vendor/bin/psalm --root=protected --use-baseline=psalm-baseline2.xml -c=psalm.xml
