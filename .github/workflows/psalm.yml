@@ -20,5 +20,5 @@ jobs:
       - run: composer global require "--dev vimeo/psalm"
       - run: |
           ls ${{ github.workspace }}
-      - run: ~/.composer/vendor/bin/psalm --version
+      - run: ~/project/vendor/vimeo/psalm/psalm --version
       - run: ~/.composer/vendor/bin/psalm --root=protected --use-baseline=psalm-baseline2.xml -c=psalm.xml
