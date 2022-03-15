@@ -10,34 +10,77 @@ use function PHPUnit\Framework\assertTrue;
 
 final class MigrationHelperTest extends \Codeception\Test\Unit
 {
-    private $migration;
-    private $helper;
-    private $table = 'test_table3';
+    private Migration $migration;
+    private MigrationHelper $helper;
+    private String $table = 'test_table_not_null';
+    private String $table_with_nulls = 'test_table_null';
     
     protected function _before()
     {
         $this->migration = new Migration();
         $this->helper = new MigrationHelper($this->migration);
         $this->migration->createTable($this->table, [
-            'dob' => 'datetime',
-            'gender' => 'int'
+            'dob' => 'int(1) not null',
+            'gender' => 'datetime not null'
+        ]);
+        
+        $this->migration->createTable($this->table_with_nulls, [
+            'dob' => 'int(1) null',
+            'gender' => 'datetime null'
         ]);
     }
 
     protected function _after()
     {
         $this->migration->dropTable($this->table);
+        $this->migration->dropTable($this->table_with_nulls);
     }
 
-    // tests
     public function testChangeColumnFromDatetimeToInt(): void
     {
-        $this->helper->changeColumnFromDatetimeToInt($this->table, 'dob');
-        $schema = $this->getDb()->getTableSchema($this->table, true);
-        $columnSchema = $schema->getColumn('dob');
+        $this->helper->changeColumnFromDatetimeToInt($this->table, 'gender');
+        $schema = $this->migration->db->getTableSchema($this->table, true);
+        $columnSchema = $schema->getColumn('gender');
         $this->assertTrue($columnSchema->dbType !== 'datetime');
-        
+        $this->assertTrue($columnSchema->dbType == 'int');
+
         $this->expectException(NotSupportedException::class);
-        $this->helper->changeColumnFromDatetimeToInt($this->table, 'dob');
+        $this->helper->changeColumnFromDatetimeToInt($this->table, 'gender');
+    }
+
+    public function testChangeColumnFromIntToDatetime(): void
+    {
+        $this->helper->changeColumnFromIntToDatetime($this->table, 'dob');
+        $schema = $this->migration->db->getTableSchema($this->table, true);
+        $columnSchema = $schema->getColumn('dob');
+        $this->assertTrue($columnSchema->dbType !== 'int');
+        $this->assertTrue($columnSchema->dbType == 'datetime');
+
+        $this->expectException(NotSupportedException::class);
+        $this->helper->changeColumnFromIntToDatetime($this->table, 'dob');
+    }
+
+    public function testChangeColumnFromDatetimeToIntWithNull(): void
+    {
+        $this->helper->changeColumnFromDatetimeToIntWithNull($this->table_with_nulls, 'gender');
+        $schema = $this->migration->db->getTableSchema($this->table_with_nulls, true);
+        $columnSchema = $schema->getColumn('gender');
+        $this->assertTrue($columnSchema->dbType !== 'datetime');
+        $this->assertTrue($columnSchema->dbType == 'int');
+
+        $this->expectException(NotSupportedException::class);
+        $this->helper->changeColumnFromDatetimeToIntWithNull($this->table_with_nulls, 'gender');
+    }
+
+    public function testChangeColumnFromIntToDatetimeWithNull(): void
+    {
+        $this->helper->changeColumnFromIntToDatetimeWithNull($this->table_with_nulls, 'dob');
+        $schema = $this->migration->db->getTableSchema($this->table_with_nulls, true);
+        $columnSchema = $schema->getColumn('dob');
+        $this->assertTrue($columnSchema->dbType !== 'int');
+        $this->assertTrue($columnSchema->dbType == 'datetime');
+
+        $this->expectException(NotSupportedException::class);
+        $this->helper->changeColumnFromIntToDatetimeWithNull($this->table_with_nulls, 'dob');
     }
 }
