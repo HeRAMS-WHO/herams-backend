@@ -16,29 +16,25 @@ final class MigrationHelperTest extends \Codeception\Test\Unit
     private string $table_with_nulls = 'test_table_null';
     protected function _before()
     {
+        parent::_before();
         $this->migration = new Migration();
         $this->helper = new MigrationHelper($this->migration);
-        $this->migration->createTable($this->table, [
-            'dob' => 'int(1) not null',
-            'gender' => 'datetime not null'
-        ]);
-        $this->migration->createTable($this->table_with_nulls, [
-            'dob' => 'int(1) null',
-            'gender' => 'datetime null'
-        ]);
+        \Yii::$app->db->createCommand("create table $this->table (dob int(1) not null, gender datetime not null)")->execute();
+        \Yii::$app->db->createCommand("create table $this->table_with_nulls (dob int(1) null, gender datetime  null)")->execute();
+
     }
 
     protected function _after()
     {
-        $this->migration->dropTable($this->table);
-        $this->migration->dropTable($this->table_with_nulls);
+        \Yii::$app->db->createCommand("drop table $this->table")->execute();
+        \Yii::$app->db->createCommand("drop table $this->table_with_nulls")->execute();
     }
 
     public function testChangeColumnFromDatetimeToInt(): void
     {
         $this->helper->changeColumnFromDatetimeToInt($this->table, 'gender');
-        $schema = $this->migration->db->getTableSchema($this->table, true);
-        $columnSchema = $schema->getColumn('gender');
+        $schema =  \Yii::$app->db->getTableSchema($this->table, true);
+        $columnSchema = $schema->getColumn("gender");
         $this->assertTrue($columnSchema->dbType !== 'datetime');
         $this->assertTrue($columnSchema->dbType == 'int');
 
