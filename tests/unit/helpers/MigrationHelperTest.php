@@ -21,7 +21,6 @@ final class MigrationHelperTest extends \Codeception\Test\Unit
         $this->helper = new MigrationHelper($this->migration);
         \Yii::$app->db->createCommand("create table $this->table (dob int(1) not null, gender datetime not null)")->execute();
         \Yii::$app->db->createCommand("create table $this->table_with_nulls (dob int(1) null, gender datetime  null)")->execute();
-
     }
 
     protected function _after()
