@@ -11,5 +11,5 @@ jobs:
       - run: composer global require "--dev vimeo/psalm"
       - run: composer install --ignore-platform-reqs
       - run: |
-          ls ${{ github.workspace }}/protected
-      - run: ~/.composer/vendor/bin/psalm -c=psalm.xml --root=protected
+          ls ${{ github.workspace }}
+      - run: ~/.composer/vendor/bin/psalm -c=psalm.xml --root=protected --debug
