@@ -2733,6 +2733,228 @@
       <code>$resetRoute</code>
     </UndefinedGlobalVariable>
   </file>
+  <file src="protected/migrations/m150921_103849_add_columns_to_user_drop_username.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m150921_103849_add_columns_to_user_drop_username</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m150921_110227_create_settings_table.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m150921_110227_create_settings_table</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m150928_101102_setting_add_primary.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m150928_101102_setting_add_primary</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151005_081802_create_tools.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151005_081802_create_tools</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151005_134258_create_project.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151005_134258_create_project</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151007_122334_add_permissions.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151007_122334_add_permissions</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151020_084719_add_progress_type_to_tool.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151020_084719_add_progress_type_to_tool</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151021_114420_create_userData.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151021_114420_create_userData</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151022_132419_create_report.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151022_132419_create_report</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151026_090031_add_thumbnail_to_tool.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151026_090031_add_thumbnail_to_tool</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151026_112253_create_user_lists.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151026_112253_create_user_lists</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151026_152935_add_generators_to_tool.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151026_152935_add_generators_to_tool</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151027_100100_add_default_generator_to_project.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151027_100100_add_default_generator_to_project</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151104_081900_create_country.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151104_081900_create_country</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151105_135351_add_latitude_longitude_to_project.php">
+    <ImplicitToStringCast occurrences="2">
+      <code>$this-&gt;decimal(12, 8)</code>
+      <code>$this-&gt;decimal(12, 8)</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151105_135351_add_latitude_longitude_to_project</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151105_145625_add_closed_to_project.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;date()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151105_145625_add_closed_to_project</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151112_092421_update_country.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151112_092421_update_country</code>
+    </PropertyNotSetInConstructor>
+    <UnevaluatedCode occurrences="6">
+      <code>$projectCountryTableName = '{{%project_country}}';</code>
+      <code>$this-&gt;dropTable('{{%project_country}}');</code>
+    </UnevaluatedCode>
+  </file>
+  <file src="protected/migrations/m151113_125634_add_title_to_report.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151113_125634_add_title_to_report</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151120_121551_add_acronym_to_tool.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string()-&gt;notNull()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151120_121551_add_acronym_to_tool</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151120_122716_add_locality_name_and_created_to_project.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151120_122716_add_locality_name_and_created_to_project</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151120_144934_remove_project_countries.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string(3)-&gt;notNull()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151120_144934_remove_project_countries</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151124_084028_create_translation_tables.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151124_084028_create_translation_tables</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151126_112952_project_add_token.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string(35)</code>
+    </ImplicitToStringCast>
+    <MixedAssignment occurrences="1">
+      <code>$projectId</code>
+    </MixedAssignment>
+    <PossiblyInvalidMethodCall occurrences="2">
+      <code>beginTransaction</code>
+      <code>createCommand</code>
+    </PossiblyInvalidMethodCall>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151126_112952_project_add_token</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151130_132254_update_report_data.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151130_132254_update_report_data</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151130_134444_add_file.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151130_134444_add_file</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m151130_134703_update_report_to_use_file.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;integer()-&gt;notNull()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m151130_134703_update_report_to_use_file</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m160114_120158_profile_defaults.php">
+    <ImplicitToStringCast occurrences="5">
+      <code>$this-&gt;string()-&gt;notNull()-&gt;defaultValue('')</code>
+      <code>$this-&gt;string()-&gt;notNull()-&gt;defaultValue('')</code>
+      <code>$this-&gt;string()-&gt;notNull()-&gt;defaultValue('')</code>
+      <code>$this-&gt;string()-&gt;notNull()-&gt;defaultValue('')</code>
+      <code>$this-&gt;string()-&gt;notNull()-&gt;defaultValue('')</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m160114_120158_profile_defaults</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m160223_125642_add_listed_to_tool.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;boolean()-&gt;defaultValue(0)</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m160223_125642_add_listed_to_tool</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m160225_082821_add_fields_to_profile.php">
+    <ImplicitToStringCast occurrences="4">
+      <code>$this-&gt;text()</code>
+      <code>$this-&gt;text()</code>
+      <code>$this-&gt;text()</code>
+      <code>$this-&gt;text()</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m160225_082821_add_fields_to_profile</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m160308_122659_user_add_access_token.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string(32)</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m160308_122659_user_add_access_token</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="protected/migrations/m160408_114341_tool_progress_optional.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;string(50)-&gt;defaultValue(null)</code>
+    </ImplicitToStringCast>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>m160408_114341_tool_progress_optional</code>
+    </PropertyNotSetInConstructor>
+  </file>
   <file src="protected/migrations/m160531_124602_tool_add_default_report.php">
     <ImplicitToStringCast occurrences="1">
       <code>$this-&gt;string()</code>
