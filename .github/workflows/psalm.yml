@@ -10,5 +10,6 @@ jobs:
         uses: actions/checkout@v2
       - run: composer global require "--dev vimeo/psalm"
       - run: |
-          ls ${{ github.workspace }}
-      - run: ~/.composer/vendor/bin/psalm -c=psalm.xml --root=protected
+          ls ${{ github.workspace }}/protected
+      - run: composer install --ignore-platform-reqs
+      - run: ~/.composer/bin/psalm -c=psalm.xml --root=protected
