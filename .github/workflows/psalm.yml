@@ -12,4 +12,4 @@ jobs:
       - run: composer install --ignore-platform-reqs
       - run: |
           ls ${{ github.workspace }}
-      - run: ~/.composer/vendor/bin/psalm -c=psalm.xml --root=protected --debug
+      - run: ~/.composer/vendor/bin/psalm -c=psalm.xml --root=protected
