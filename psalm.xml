@@ -16,6 +16,6 @@
         </ignoreFiles>
     </projectFiles>
     <stubs>
-        <file name="protected/entry.php" preloadClasses="true" />
+        <file name="protected/entry.php" />
     </stubs>
 </psalm>
