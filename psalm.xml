@@ -13,6 +13,8 @@
         <directory name="tests/_support" />
         <ignoreFiles>
             <directory name="vendor"/>
+            <directory name="tests/_support"/>
+            <directory name="tests/_output"/>
         </ignoreFiles>
     </projectFiles>
     <stubs>
