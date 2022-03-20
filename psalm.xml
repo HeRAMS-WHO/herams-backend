@@ -17,5 +17,6 @@
     </projectFiles>
     <stubs>
         <file name="protected/entry.php" />
+        <file name="vendor/yiisoft/yii2/BaseYii.php" />
     </stubs>
 </psalm>
