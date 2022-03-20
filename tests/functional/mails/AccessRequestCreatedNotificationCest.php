@@ -40,7 +40,9 @@ class AccessRequestCreatedNotificationCest
             ->send()
         ;
 
-        $htmlContent = $I->grabHtmlContentFromLastSentEmail();
+        $email = $I->grabLastSentEmail();
+        $htmlContent = $email->getHTmlBody();
+
         $I->assertStringContainsString($url, $htmlContent);
     }
 }
