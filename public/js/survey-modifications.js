@@ -46,22 +46,22 @@
 
     ].forEach((property) => Survey.Serializer.findProperty("survey", property).visible = false);
 
-    Survey.Serializer.removeProperty("selectBase", "choicesByUrl");
-    [
-        "signaturepad",
-        "file",
-        "multipletext",
-        "paneldynamic",
-        "matrixdynamic",
-        "comment",
-        "imagepicker",
-        "rating",
-        "matrix",
-        "image",
-        "expression"
-
-    ].forEach(Survey.QuestionFactory.Instance.unregisterElement, Survey.QuestionFactory.Instance);
-    console.log("Removed question types", Object.keys(Survey.QuestionFactory.Instance.creatorHash));
+    // Survey.Serializer.removeProperty("selectBase", "choicesByUrl");
+    // [
+    //     "signaturepad",
+    //     "file",
+    //     "multipletext",
+    //     "paneldynamic",
+    //     "matrixdynamic",
+    //     "comment",
+    //     "imagepicker",
+    //     "rating",
+    //     "matrix",
+    //     "image",
+    //     "expression"
+    //
+    // ].forEach(Survey.QuestionFactory.Instance.unregisterElement, Survey.QuestionFactory.Instance);
+    console.log("Remaining question types", Object.keys(Survey.QuestionFactory.Instance.creatorHash));
     /**
      * Todo:
      * sendResultOnPageNext --> should be forced to true

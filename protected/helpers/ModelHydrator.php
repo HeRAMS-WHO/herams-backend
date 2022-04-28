@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
+use BackedEnum;
 use CrEOF\Geo\WKB\Parser;
 use prime\attributes\DehydrateVia;
 use prime\attributes\HydrateVia;
@@ -17,6 +18,7 @@ use prime\values\IntegerId;
 use prime\values\StringId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use UnitEnum;
 use yii\base\Model;
 use yii\db\Expression;
 use yii\helpers\Inflector;
@@ -27,7 +29,7 @@ use function iter\toArray;
 class ModelHydrator
 {
     /**
-     * Version if Yii's canSetProperty that respects visibility.
+     * Version of Yii's canSetProperty that respects visibility.
      * @param Model $model
      * @return bool
      */
@@ -149,25 +151,25 @@ class ModelHydrator
         return new $class((string) $value);
     }
 
-    private function castType(\ReflectionNamedType $property, $value, string $attribute, HydrateSource $source)
+    private function castType(\ReflectionNamedType $property, mixed $value, string $attribute, HydrateSource $source)
     {
         if (!$property->isBuiltin()) {
             $name = $property->getName();
-            if (is_subclass_of($name, EnumSet::class)) {
-                return $this->castEnumSet($value, $name);
-            } elseif (is_subclass_of($name, Enum::class)) {
-                return $this->castEnum($value, $name);
-            } elseif (is_subclass_of($name, IntegerId::class)) {
-                return $this->castIntegerId($value, $name);
-            } elseif (is_subclass_of($name, StringId::class)) {
-                return $this->castStringId($value, $name);
-            } elseif (is_subclass_of($name, Geometry::class)) {
-                return $this->castGeometry($value, $name, $source);
-            } elseif (is_subclass_of($name, UuidInterface::class) || $name === UuidInterface::class) {
-                return $this->castUuid($value, $name, $source);
-            }
+            return match(true) {
+                is_subclass_of($name, BackedEnum::class) => $this->castUnitEnum($value, $name, $source),
+                is_subclass_of($name, UnitEnum::class) => $this->castUnitEnum($value, $name, $source),
+                is_subclass_of($name, EnumSet::class) => $this->castEnumSet($value, $name),
+                is_subclass_of($name, Enum::class) => $this->castEnum($value, $name),
+                is_subclass_of($name, IntegerId::class) => $this->castIntegerId($value, $name),
+                is_subclass_of($name, StringId::class) => $this->castStringId($value, $name),
+                is_subclass_of($name, Geometry::class) => $this->castGeometry($value, $name, $source),
+                is_subclass_of($name, UuidInterface::class)  || $name === UuidInterface::class => $this->castUuid($value, $name, $source),
 
-            throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}");
+                default => throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}")
+            };
+
+
+
         }
 
         if ($property->allowsNull() && ($value === "" || $value === null)) {
@@ -196,7 +198,7 @@ class ModelHydrator
         return Uuid::fromBytes($value);
     }
 
-    private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source)
+    private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source): mixed
     {
         try {
             $rc = new \ReflectionClass($model);
@@ -208,7 +210,6 @@ class ModelHydrator
             return $this->castType($property, $value, $attribute, $source);
         } catch (\Throwable $t) {
             $model->addError($attribute, $t->getMessage());
-            return null;
             throw new \RuntimeException("Failed to cast value for attribute $attribute", 0, $t);
         }
     }
@@ -219,6 +220,15 @@ class ModelHydrator
         $data = $parser->parse(substr($value, 4));
         $data['srid'] = unpack('i', $value)[1];
         return Geometry::fromParsedArray($data);
+    }
+
+    public function hydrateActiveRecordFromJson(\yii\db\ActiveRecord $record, array $data): void
+    {
+        foreach ($data as $key => $value) {
+            if ($record->canSetProperty($key)) {
+                $record->$key = $this->castForDatabase($value);
+            }
+        }
     }
 
     public function hydrateActiveRecord(ActiveRecord $record, Model $model): void
@@ -299,6 +309,19 @@ class ModelHydrator
         }
     }
 
+    /**
+     * @param Model $model
+     * @param array $data Array data extracted from JSON
+     */
+    public function hydrateFromJsonDictionary(Model $model, array $data): void
+    {
+        foreach ($model->safeAttributes() as $attribute) {
+            if (isset($data[$attribute])) {
+                $model->$attribute = $this->castValue($model, $attribute, $data[$attribute], HydrateSource::json());
+            }
+        }
+    }
+
     public function hydrateFromRequestBody(Model $model, Request $request): void
     {
         if ($request->getIsPost() || $request->getIsPut()) {
@@ -312,5 +335,16 @@ class ModelHydrator
     {
         // No check for request type since query params also come with other methods
         $this->hydrateFromRequestArray($model, $request->getQueryParams()[$model->formName()] ?? []);
+    }
+
+    /**
+     * @param $value
+     * @param class-string<UnitEnum> $name
+     * @param HydrateSource $source
+     * @return UnitEnum
+     */
+    private function castUnitEnum($value, string $name, HydrateSource $source): UnitEnum
+    {
+        return $name::from($value);
     }
 }

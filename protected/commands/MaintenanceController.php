@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace prime\commands;
 
+use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\components\MaintenanceMode;
+use prime\jobs\UpdateFacilityDataJob;
+use prime\models\ar\Facility;
+use prime\values\FacilityId;
 use yii\caching\Cache;
 use yii\caching\CacheInterface;
 use yii\console\Controller;
@@ -44,5 +48,14 @@ class MaintenanceController extends Controller
     {
         $cache->delete(MaintenanceMode::MAINTENANCE_MODE);
         $this->printStatus($cache);
+    }
+
+    public function actionUpdateAllFacilities(JobQueueInterface $jobQueue): void
+    {
+        /** @var Facility $facility */
+        foreach(Facility::find()->each() as $facility) {
+            $jobQueue->putJob(new UpdateFacilityDataJob(new FacilityId((string) $facility->id)));
+            echo '.';
+        }
     }
 }

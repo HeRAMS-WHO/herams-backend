@@ -17,6 +17,9 @@ use function iter\toArray;
  */
 abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayable, \Countable
 {
+    /**
+     * @var list<\Enum>
+     */
     private array $values = [];
 
     /**
@@ -43,9 +46,10 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
         return $result;
     }
 
-    public function add(string|int $value): void
+    public function add(Enum|string|int $value): void
     {
-        $this->values[] = static::getEnumClass()::from($value);
+
+        $this->values[] = is_object($value) ? $value : static::getEnumClass()::from($value);
     }
 
     public function jsonSerialize()

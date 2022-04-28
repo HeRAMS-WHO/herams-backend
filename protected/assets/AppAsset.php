@@ -16,7 +16,11 @@ class AppAsset extends AssetBundle
     ];
 
     public $js = [
-        '/js/main.js'
+        '/js/main.js',
+        [
+            '/js/MainModule.js',
+            'type' => 'module'
+        ]
     ];
 
     public $depends = [

@@ -130,6 +130,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         }
     }
 
+    /**
+     * @return iterable<Element>
+     */
     public function getChildElements(): iterable
     {
         yield from $this->elements;

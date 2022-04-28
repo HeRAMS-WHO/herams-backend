@@ -115,6 +115,6 @@ JS
         }
         $id = Json::encode($this->getId());
         $this->view->registerJs("survey.render($id);");
-        return Html::tag('div', '', ['id' => $this->getId()]);
+        return Html::tag('div', 'Survey here', ['id' => $this->getId(),]);
     }
 }

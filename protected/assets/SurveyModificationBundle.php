@@ -12,6 +12,7 @@ class SurveyModificationBundle extends AssetBundle
     public $baseUrl = '@web';
 
     public $depends = [
+        SurveyJsKnockoutUiBundle::class,
         SurveyJsCoreBundle::class
     ];
 

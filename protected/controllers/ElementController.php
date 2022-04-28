@@ -8,8 +8,8 @@ use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\element\Create;
 use prime\controllers\element\CreateForSurveyJs;
-use prime\controllers\element\PickQuestion;
 use prime\controllers\element\Preview;
+use prime\controllers\element\PreviewForSurveyJs;
 use prime\controllers\element\Update;
 use prime\models\ar\Element;
 use prime\objects\Breadcrumb;
@@ -42,8 +42,8 @@ class ElementController extends Controller
             'update' => Update::class,
             'create' => Create::class,
             'preview' => Preview::class,
-            'pick-question' => PickQuestion::class,
             'create-for-survey-js' => CreateForSurveyJs::class,
+            'preview-for-survey-js' => PreviewForSurveyJs::class,
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Element::find(),

@@ -7,6 +7,7 @@ use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\DeleteWorkspaces;
+use prime\controllers\project\Export;
 use prime\controllers\project\ExportDashboard;
 use prime\controllers\project\ExternalDashboard;
 use prime\controllers\project\Filter;
@@ -49,6 +50,9 @@ class ProjectController extends Controller
             ],
             'delete-workspaces' => [
                 'class' => DeleteWorkspaces::class
+            ],
+            'export-surveyjs' => [
+                'class' => Export::class
             ],
             'export' => [
                 'class' => ExportAction::class,

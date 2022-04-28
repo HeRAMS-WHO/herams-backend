@@ -9,6 +9,7 @@ use yii\helpers\Html;
 
 class View extends \yii\web\View
 {
+    public const POS_MODULE = 'module';
     public bool $autoAddTitleToBreadcrumbs = true;
     private BreadcrumbCollection $breadCrumbCollection;
 
@@ -78,4 +79,15 @@ class View extends \yii\web\View
         $js = sprintf('const %s = %s;', $name, \yii\helpers\Json::htmlEncode($value));
         $this->registerJs($js, $position, $name);
     }
+
+    protected function renderHeadHtml(): string
+    {
+        $lines = [];
+        foreach($this->js[self::POS_MODULE] ?? [] as $moduleScript) {
+            $lines[] = Html::script($moduleScript, ['type' => 'module']);
+        }
+        return parent::renderHeadHtml() . implode("\n", $lines);
+    }
+
+
 }

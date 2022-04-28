@@ -357,6 +357,28 @@ span.header {
     min-width: 0;
 }
 
+.card-widget {
+    background-color: white;
+    padding: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-widget select {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+}
+.card-widget header {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+.card-widget .chart-content {
+    margin-top: 24px;
+    height: calc(100% - 24px);
+}
 .content>.element.table {
     display: block;
 }

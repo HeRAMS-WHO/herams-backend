@@ -210,4 +210,14 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
     {
         return new Carbon($this->created_at);
     }
+
+    public function asArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'started' => $this->getStarted(),
+            'lastUpdate' => $this->getLastUpdate(),
+            'data' => $this->data
+        ];
+    }
 }

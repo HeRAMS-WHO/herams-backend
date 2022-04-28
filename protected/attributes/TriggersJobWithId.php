@@ -9,18 +9,21 @@ use JCIT\jobqueue\interfaces\JobInterface;
 use prime\interfaces\Dehydrator;
 use prime\objects\enums\AuditEvent;
 
+/**
+ * @template T
+ */
 #[Attribute(Attribute::TARGET_CLASS)]
 class TriggersJobWithId
 {
     /**
-     * @param class-string $jobClass
+     * @param class-string<T> $jobClass
      */
     public function __construct(private string $jobClass)
     {
     }
 
     /**
-     * @todo add return type hint for phpstan
+     * @return T
      */
     public function create(int $id): JobInterface
     {

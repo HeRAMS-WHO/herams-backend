@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace prime\controllers\project;
 
 use prime\components\Controller;
+use prime\helpers\CombinedHeramsFacilityRecord;
+use prime\interfaces\HeramsFacilityRecordInterface;
+use prime\interfaces\HeramsVariableSetRepositoryInterface;
 use prime\interfaces\PageInterface;
+use prime\models\ar\Facility;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
 use prime\objects\Breadcrumb;
+use prime\repositories\FacilityRepository;
 use prime\repositories\SurveyRepository;
+use prime\values\FacilityId;
+use prime\values\ProjectId;
 use prime\values\SurveyId;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\repositories\PreloadingSourceRepository;
@@ -21,6 +28,9 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\User;
+use function iter\flatten;
+use function iter\map;
+use function iter\toArray;
 
 class ViewForSurveyJs extends Action
 {
@@ -28,6 +38,8 @@ class ViewForSurveyJs extends Action
         Resolver $abacResolver,
         PreloadingSourceRepository $preloadingSourceRepository,
         SurveyRepository $surveyRepository,
+        FacilityRepository $facilityRepository,
+        HeramsVariableSetRepositoryInterface $heramsVariableSetRepository,
         Request $request,
         User $user,
         int $id,
@@ -49,7 +61,8 @@ class ViewForSurveyJs extends Action
         if (!$user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
-        $variableSet = $surveyRepository->retrieveForDashboarding(new SurveyId($project->admin_survey_id), new SurveyId($project->data_survey_id));
+
+        $variableSet = $heramsVariableSetRepository->retrieveForProject(ProjectId::fromProject($project));
 
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
@@ -74,7 +87,7 @@ class ViewForSurveyJs extends Action
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }
 
-        $responses = $project->getResponses();
+        $facilities = $facilityRepository->searchInProject(ProjectId::fromProject($project));
 
         \Yii::beginProfile('ResponseFilterinit');
 
@@ -94,9 +107,9 @@ class ViewForSurveyJs extends Action
         }
         $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($page->getTitle()));
 
-
+        $data = toArray(flatten(map(static fn(Facility $facility): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord($facility->getAdminRecord(), $facility->getDataRecord(), FacilityId::fromFacility($facility)), $facilities)));
         return $this->controller->render('view-for-survey-js', [
-            'data' => $responses,
+            'data' => $data,
             'project' => $project,
             'page' => $page,
             'variables' => $variableSet

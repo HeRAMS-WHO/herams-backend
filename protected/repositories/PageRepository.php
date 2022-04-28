@@ -16,4 +16,11 @@ class PageRepository
         $record = Page::findOne(['id' => $id]);
         return new PageForBreadcrumb($record);
     }
+
+
+
+    public function retrieveForDashboarding(PageId $id)
+    {
+
+    }
 }

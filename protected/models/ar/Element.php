@@ -9,6 +9,7 @@ use prime\models\ActiveRecord;
 use prime\models\ar\elements\BarChart;
 use prime\models\ar\elements\Chart;
 use prime\models\ar\elements\Map;
+use prime\models\ar\elements\Svelte;
 use prime\models\ar\elements\Table;
 use prime\widgets\element\Element as ElementWidget;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -75,7 +76,7 @@ class Element extends ActiveRecord implements Exportable
             'chart' => new Chart(),
             'barchart' => new BarChart(),
             'table' => new Table(),
-            default => new \InvalidArgumentException('Unknown type: ' . $row['type'])
+            default => new Svelte()
         };
         $element->type = $row['type'];
 

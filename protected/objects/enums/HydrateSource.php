@@ -6,6 +6,7 @@ namespace prime\objects\enums;
 
 /**
  * @method static self webForm()
+ * @method static self json()
  * @method static self database()
  */
 class HydrateSource extends Enum

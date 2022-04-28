@@ -16,7 +16,6 @@ class Variables extends Action
     public function run(HeramsVariableSetRepositoryInterface $heramsVariableSetRepository, int $id): array
     {
         $variableSet = $heramsVariableSetRepository->retrieveForProject(new ProjectId($id));
-
         $locale = \Yii::$app->language;
         $result = [];
         /**

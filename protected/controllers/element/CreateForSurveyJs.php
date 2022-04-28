@@ -6,7 +6,7 @@ namespace prime\controllers\element;
 
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
-use prime\helpers\AccessCheck;
+use prime\helpers\UserAccessCheck;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
@@ -26,8 +26,7 @@ class CreateForSurveyJs extends Action
         Request $request,
         NotificationService $notificationService,
         AccessCheckInterface $accessCheck,
-        int $page_id,
-        string $variable
+        int $page_id
     ) {
         $page = Page::findOne(['id' => $page_id]);
         if (!isset($page)) {
@@ -52,8 +51,9 @@ class CreateForSurveyJs extends Action
 
         $breadcrumbCollection = $this->controller->view->getBreadcrumbCollection();
 
-        return $this->controller->render('update', [
+        return $this->controller->render('update-survey-js', [
             'page' => $page,
+            'model' => $element,
             'project' => $project,
             'url' => Url::to(array_merge($request->queryParams, [
                 '__key__' => '__value__',

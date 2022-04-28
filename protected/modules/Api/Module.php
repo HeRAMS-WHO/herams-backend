@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace prime\modules\Api;
 
-use Collecthor\Yii2SessionAuth\IdentityInterfaceIdentityFinder;
 use Collecthor\Yii2SessionAuth\SessionAuth;
-use prime\models\ar\User;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
 use yii\web\Response;
-use yii\web\Session;
 use yii\web\UrlRule;
 
 /**
@@ -33,7 +30,13 @@ class Module extends \yii\base\Module
                 ],
                 [
                     'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>',
+                    'pattern' => '<controller>/<id:\d+>',
+                    'route' => '<controller>/view',
+                    'verb' => 'get'
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>/<id:\d+>/<action:[\w-]+>',
                     'route' => '<controller>/<action>',
                     'verb' => ['get', 'post']
                 ],
@@ -44,12 +47,7 @@ class Module extends \yii\base\Module
                     'verb' => 'get',
                     'route' => '<controller>/index'
                 ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller>/<id:\d+>',
-                    'route' => '<controller>/view',
-                    'verb' => 'get'
-                ],
+
 
 
                 [
@@ -63,6 +61,12 @@ class Module extends \yii\base\Module
                     'pattern' => 'response',
                     'route' => 'response/delete',
                     'verb' => 'delete'
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>',
+                    'route' => '<controller>/create',
+                    'verb' => 'POST'
                 ],
                 [
                     'pattern' => '<p:.*>',
@@ -92,7 +96,9 @@ class Module extends \yii\base\Module
                 'class' => CompositeAuth::class,
                 'optional' => ['*'],
                 'authMethods' => [
-                    fn(Session $session) => new SessionAuth(new IdentityInterfaceIdentityFinder(User::class), $session)
+                    [
+                        'class' => SessionAuth::class
+                    ]
                 ]
 
             ]

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\helpers\surveyjs;
 
 use Collecthor\DataInterfaces\ClosedVariableInterface;
+use Collecthor\DataInterfaces\Measure;
 use Collecthor\DataInterfaces\RecordInterface;
 use Collecthor\DataInterfaces\StringValueInterface;
 use Collecthor\DataInterfaces\ValueInterface;
@@ -47,8 +48,8 @@ class FacilityTypeVariable implements ClosedVariableInterface
         return $this->tierMap[$this->getValue($record)->getRawValue()];
     }
 
-    public function getMeasure(): string
+    public function getMeasure(): Measure
     {
-        return $this->closedVariable->getMeasure();
+        return Measure::Nominal;
     }
 }

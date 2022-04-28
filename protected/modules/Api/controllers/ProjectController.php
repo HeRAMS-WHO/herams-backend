@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers;
 
 use prime\modules\Api\controllers\project\Index;
+use prime\modules\Api\controllers\project\LatestData;
 use prime\modules\Api\controllers\project\Summary;
 use prime\modules\Api\controllers\project\Variables;
 use yii\filters\AccessControl;
@@ -25,7 +26,7 @@ class ProjectController extends Controller
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'actions' => ['variables']
+                        'actions' => ['variables', 'latest-data']
                     ],
                     [
                         'allow' => false
@@ -40,7 +41,8 @@ class ProjectController extends Controller
         return [
             'index' => Index::class,
             'summary' => Summary::class,
-            'variables' => Variables::class
+            'variables' => Variables::class,
+            'latest-data' => LatestData::class
         ];
     }
 }

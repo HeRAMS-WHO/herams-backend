@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use Collecthor\DataInterfaces\RecordInterface;
+use Collecthor\SurveyjsParser\ArrayRecord;
 use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
@@ -139,6 +141,18 @@ class Facility extends ActiveRecord
                 'workspace_id' => \Yii::t('app', 'Workspace'),
             ]
         );
+    }
+
+    public function getDataRecord(): RecordInterface
+    {
+        $dt = new \DateTime();
+        return new ArrayRecord($this->data ?? [], $this->id, $dt, $dt);
+    }
+
+    public function getAdminRecord(): RecordInterface
+    {
+        $dt = new \DateTime();
+        return new ArrayRecord($this->admin_data ?? [], $this->id, $dt, $dt);
     }
 
     public function rules(): array

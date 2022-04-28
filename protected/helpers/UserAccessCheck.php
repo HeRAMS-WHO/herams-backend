@@ -9,7 +9,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\User;
 
-class AccessCheck implements AccessCheckInterface
+class UserAccessCheck implements AccessCheckInterface
 {
     private User $user;
 

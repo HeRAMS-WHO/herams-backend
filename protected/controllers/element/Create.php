@@ -4,7 +4,7 @@ namespace prime\controllers\element;
 
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
-use prime\helpers\AccessCheck;
+use prime\helpers\UserAccessCheck;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Element;
 use prime\models\ar\Page;

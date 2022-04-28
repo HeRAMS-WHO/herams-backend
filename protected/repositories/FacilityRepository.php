@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use Collecthor\DataInterfaces\RecordInterface;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
@@ -207,6 +208,11 @@ class FacilityRepository
         return new FacilityId((string) $record->id);
     }
 
+    public function retrieveActiveRecord(FacilityId $id): Facility
+    {
+        return Facility::findOne(['id' => $id]);
+    }
+
     public function saveUpdateSituation(UpdateSituationForm $model): FacilityId
     {
         $record = Facility::findOne(['id' => $model->getFacilityId()]);
@@ -226,6 +232,19 @@ class FacilityRepository
         $transaction->commit();
 
         return new FacilityId((string) $record->id);
+    }
+
+    /**
+     * @param ProjectId $id
+     * @return iterable<Facility>
+     */
+    public function searchInProject(ProjectId $id): iterable
+    {
+
+        $workspaceIds = Workspace::find()
+            ->select('id')
+            ->andWhere(['project_id' => $id->getValue()])->column();
+        yield from Facility::find()->andWhere(['workspace_id' => $workspaceIds])->each();
     }
 
     public function searchInWorkspace(WorkspaceId $id, FacilitySearch $model): DataProviderInterface

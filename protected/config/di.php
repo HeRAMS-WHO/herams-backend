@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 use Collecthor\SurveyjsParser\SurveyParser;
+use Collecthor\Yii2SessionAuth\IdentityInterfaceIdentityFinder;
 use DrewM\MailChimp\MailChimp;
+use GuzzleHttp\Client;
+use Http\Factory\Guzzle\RequestFactory;
 use JCIT\jobqueue\components\ContainerMapLocator;
 use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\factories\JobFactory;
@@ -26,7 +29,7 @@ use prime\components\GlobalPermissionResolver;
 use prime\components\NewsletterService;
 use prime\components\ReadWriteModelResolver;
 use prime\components\SingleTableInheritanceResolver;
-use prime\helpers\AccessCheck;
+use prime\helpers\UserAccessCheck;
 use prime\helpers\EventDispatcherProxy;
 use prime\helpers\JobQueueProxy;
 use prime\helpers\LimesurveyDataLoader;
@@ -38,6 +41,7 @@ use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequest
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
 use prime\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler as PermissionCheckImplicitAccessRequestGrantedHandler;
+use prime\jobHandlers\UpdateFacilityDataHandler;
 use prime\jobHandlers\users\SyncNewsletterSubscriptionHandler as UserSyncNewsletterSubscriptionHandler;
 use prime\jobs\accessRequests\CreatedNotificationJob as AccessRequestCreatedNotificationJob;
 use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob as AccessrequestImplicitlyGrantedJob;
@@ -45,9 +49,11 @@ use prime\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNo
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionCheckImplicitAccessRequestGrantedJob;
 use prime\jobs\users\SyncNewsletterSubscriptionJob as UserSyncNewsletterSubscriptionJob;
 use prime\models\ar\Permission;
+use prime\models\ar\User;
 use prime\objects\enums\Language;
 use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
 use prime\repositories\FacilityRepository;
+use prime\repositories\HeramsVariableSetRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\ResponseForLimesurveyRepository;
@@ -81,11 +87,12 @@ return [
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
+    \Collecthor\Yii2SessionAuth\IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
     \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
-    \prime\interfaces\HeramsVariableSetRepositoryInterface::class => \prime\repositories\HeramsVariableSetRepository::class,
+    \prime\interfaces\HeramsVariableSetRepositoryInterface::class => HeramsVariableSetRepository::class,
     SurveyParser::class => \prime\helpers\SurveyParser::class,
-    \Psr\Http\Client\ClientInterface::class => \GuzzleHttp\Client::class,
-    \Psr\Http\Message\RequestFactoryInterface::class => \Http\Factory\Guzzle\RequestFactory::class,
+    \Psr\Http\Client\ClientInterface::class => Client::class,
+    \Psr\Http\Message\RequestFactoryInterface::class => RequestFactory::class,
     \prime\helpers\ModelHydrator::class => \prime\helpers\ModelHydrator::class,
     LocalizableInput::class => function (Container $container, array $params, array $config) {
         if (!isset($config['languages'])) {
@@ -94,9 +101,9 @@ return [
         return new LocalizableInput($config);
     },
     Dialog::class => \yii\base\Widget::class,
-    AccessCheckInterface::class => AccessCheck::class,
-    AccessCheck::class => static function () {
-        return new AccessCheck(\Yii::$app->user);
+    AccessCheckInterface::class => UserAccessCheck::class,
+    UserAccessCheck::class => static function () {
+        return new UserAccessCheck(\Yii::$app->user);
     },
     LimesurveyDataLoader::class => LimesurveyDataLoader::class,
     JqueryAsset::class => JqueryBundle::class,
@@ -118,6 +125,7 @@ return [
     ProjectRepository::class => ProjectRepository::class,
     WorkspaceRepository::class => WorkspaceRepository::class,
     FacilityRepository::class => FacilityRepository::class,
+    \prime\repositories\PageRepository::class => \prime\repositories\PageRepository::class,
     ResponseForLimesurveyRepository::class => ResponseForLimesurveyRepository::class,
     SurveyRepository::class => SurveyRepository::class,
     SurveyResponseRepository::class => SurveyResponseRepository::class,
@@ -175,6 +183,7 @@ return [
             ->setHandlerForCommand(AccessRequestResponseNotificationJob::class, AccessRequestResponseNotificationHandler::class)
             ->setHandlerForCommand(PermissionCheckImplicitAccessRequestGrantedJob::class, PermissionCheckImplicitAccessRequestGrantedHandler::class)
             ->setHandlerForCommand(UserSyncNewsletterSubscriptionJob::class, UserSyncNewsletterSubscriptionHandler::class)
+            ->setHandlerForCommand(\prime\jobs\UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
             ;
     },
     CommandNameExtractor::class => ClassNameExtractor::class,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use Collecthor\DataInterfaces\RecordInterface;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
@@ -104,6 +105,33 @@ class SurveyResponseRepository
             $surveyResponse->data,
             new SurveyResponseId($surveyResponse->id)
         );
+    }
+
+    public function getLatestAdminResponseForFacility(FacilityId $facilityId): null|RecordInterface
+    {
+        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
+        $adminSurveyId = $facility->workspace->project->admin_survey_id;
+        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId])
+            // TODO: use the date of update here.
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(1);
+        return $query->one();
+
+
+    }
+
+    public function getLatestDataResponseForFacility(FacilityId $facilityId): null|RecordInterface
+    {
+        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
+
+        $dataSurveyId = $facility->workspace->project->data_survey_id;
+        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $dataSurveyId])
+            // TODO: use the date of update here.
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(1);
+        return $query->one();
     }
 
     public function searchAdminInFacility(FacilityId $facilityId): DataProviderInterface

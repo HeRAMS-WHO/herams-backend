@@ -97,7 +97,7 @@ return [
         ]),
         'check' => static function (User $user) {
             assert($user === \Yii::$app->user);
-            return new \prime\helpers\AccessCheck($user);
+            return new \prime\helpers\UserAccessCheck($user);
         },
 
 

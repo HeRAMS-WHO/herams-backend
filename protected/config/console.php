@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 /** @var \prime\components\KubernetesSecretEnvironment $env */
 
+use prime\components\AuditService;
+
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\commands',
     'controllerMap' => [
@@ -14,7 +16,11 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         '@web' => '/',
         '@webroot' => realpath(__DIR__ . '/../../public')
     ],
+    'bootstrap' => [
+        'auditService',
+    ],
     'components' => [
+        'auditService' => \prime\helpers\AuditServiceProxy::class,
         // In console mode never read from the LS cache, this forces the data to be refreshed.
         'limesurveyCache' => function () {
             $result = new class ([

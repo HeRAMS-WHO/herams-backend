@@ -2,13 +2,9 @@
 
 declare(strict_types=1);
 
-use app\components\ActiveForm;
-use app\components\Form;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\forms\facility\UpdateForm;
-use prime\widgets\FormButtonsWidget;
-use prime\widgets\LocalizableInput;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
