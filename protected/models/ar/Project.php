@@ -23,6 +23,7 @@ use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\objects\LanguageSet;
 use prime\queries\ResponseForLimesurveyQuery;
+use prime\validators\BackedEnumValidator;
 use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
 use prime\values\ProjectId;
@@ -295,7 +296,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
 
     public function getStatusText(): string
     {
-        return ProjectStatus::from($this->status)->label;
+        return ProjectStatus::from($this->status)->label();
     }
 
     public function getSubjectAvailabilityCounts(): array
@@ -442,7 +443,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             [['base_survey_eid'], NumberValidator::class, 'integerOnly' => true],
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
-            [['languages'], RangeValidator::class, 'allowArray' => true, 'range' => Language::toValues()],
+            [['languages'], BackedEnumValidator::class, 'example' => Language::enUS, 'allowArray' => true],
             [['typemap', 'overrides', 'i18n'], function ($attribute) {
                 if (!is_array($this->$attribute)) {
                     $this->addError($attribute, \Yii::t('app', '{attribute} must be an array.', ['attribute' => $this->getAttributeLabel($attribute)]));

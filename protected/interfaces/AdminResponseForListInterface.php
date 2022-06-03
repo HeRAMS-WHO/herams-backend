@@ -21,4 +21,6 @@ interface AdminResponseForListInterface
     public function getId(): ResponseId;
 
     public function getName(): null|string;
+
+    public function getFacilityTypeLabel(): string;
 }

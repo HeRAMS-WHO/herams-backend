@@ -11,8 +11,6 @@ class ElementTest extends ActiveRecordTest
 {
     public function testSomething(): void
     {
-//        var_dump($this->getModel()->canGetProperty('sort'));
-//        die();
     }
 
     public function validSamples(): array

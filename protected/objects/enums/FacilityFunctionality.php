@@ -4,26 +4,12 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-/**
- * @method static self unknown()
- * @method static self full()
- * @method static self partial()
- * @method static self none()
- */
-class FacilityFunctionality extends Enum
+enum FacilityFunctionality: string
 {
-    /**
-     * @codeCoverageIgnore
-     */
-    protected static function values(): array
-    {
-        return [
-            'unknown' => 'unknown',
-            'full' => 'A1',
-            'partial' => 'A2',
-            'none' => 'A3',
-        ];
-    }
+    case Unknown = 'unknown';
+    case Full = 'A1';
+    case Partial = 'A2';
+    case None = 'A3';
 
     /**
      * @codeCoverageIgnore

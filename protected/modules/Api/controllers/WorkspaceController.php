@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
 
+use prime\modules\Api\controllers\workspace\Create;
 use prime\modules\Api\controllers\workspace\Import;
 use prime\modules\Api\controllers\workspace\Refresh;
 use yii\filters\AccessControl;
@@ -30,6 +31,7 @@ class WorkspaceController extends \yii\rest\Controller
     {
         return [
             'refresh' => Refresh::class,
+            'create' => Create::class
         ];
     }
 }

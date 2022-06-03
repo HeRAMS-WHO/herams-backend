@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
-use app\components\ActiveForm;
+use prime\components\ActiveForm;
 use Carbon\Carbon;
 use kartik\builder\Form;
 use kartik\select2\Select2;

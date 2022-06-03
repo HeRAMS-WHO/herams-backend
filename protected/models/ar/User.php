@@ -7,7 +7,9 @@ namespace prime\models\ar;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\jobs\users\SyncNewsletterSubscriptionJob;
 use prime\models\ActiveRecord;
+use prime\objects\enums\Language;
 use prime\queries\FavoriteQuery;
+use prime\validators\BackedEnumValidator;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\behaviors\TimestampBehavior;
@@ -72,12 +74,16 @@ class User extends ActiveRecord implements IdentityInterface
             ],
             ['name', StringValidator::class, 'max' => 50],
             ['name', RegularExpressionValidator::class, 'pattern' => self::NAME_REGEX],
-            ['language', RangeValidator::class, 'range' => \Yii::$app->params['languages']],
+            ['language', BackedEnumValidator::class, 'example' => Language::enUS],
             [['newsletter_subscription'], DefaultValueValidator::class, 'value' => false],
             [['newsletter_subscription'], BooleanValidator::class],
         ];
     }
 
+    public function getPreferredLanguage(): null|Language
+    {
+        return !empty($this->language) ? Language::tryFrom($this->language) : null;
+    }
     public function beforeDelete(): bool
     {
         /**

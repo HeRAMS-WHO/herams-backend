@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\widgets\surveyJs;
 
 use prime\assets\SurveyJsCreator2Bundle;
+use prime\assets\SurveyJsCreatorCoreBundle;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -46,7 +47,6 @@ JS
     public function run(): string
     {
         $this->registerAssetBundles();
-
         $result = parent::run();
         $result .= Html::tag('div', '', $this->options);
 

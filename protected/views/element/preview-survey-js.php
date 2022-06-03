@@ -23,11 +23,19 @@ use function iter\map;
  * @var iterable<Facility> $facilities
  */
 
-
 \prime\assets\IframeResizerContentWindowBundle::register($this);
-$data = flatten(map(static fn(Facility $facility): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord($facility->getAdminRecord(), $facility->getDataRecord(), new FacilityId((string) $facility->id)), $facilities));
-echo $element->renderWidget($variableSet, $this, $data);
 
+$this->registerCss('.card-widget { height: 500px; }');
+if (!$element->hasErrors()) {
+
+
+    $data = flatten(map(static fn(Facility $facility
+    ): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord($facility->getAdminRecord(),
+        $facility->getDataRecord(), new FacilityId((string)$facility->id)), $facilities));
+    echo $element->renderWidget($variableSet, $this, $data);
+} else {
+    var_dump($element->errors);
+}
 // Remove the debug toolbar from this iframe.
 if (class_exists('yii\debug\Module')) {
     $this->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);

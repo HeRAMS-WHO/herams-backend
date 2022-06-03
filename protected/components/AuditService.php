@@ -51,7 +51,7 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
                 /** @var Audits $audit */
                 $audit = $attribute->newInstance();
                 if ($audit->auditInsert()) {
-                    $this->add(NewAuditEntry::fromActiveRecord($event->sender, AuditEvent::insert()));
+                    $this->add(NewAuditEntry::fromActiveRecord($event->sender, AuditEvent::Insert));
                     return;
                 }
             }
@@ -63,7 +63,7 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
                 /** @var Audits $audit */
                 $audit = $attribute->newInstance();
                 if ($audit->auditUpdate()) {
-                    $this->add(NewAuditEntry::fromActiveRecord($event->sender, AuditEvent::update()));
+                    $this->add(NewAuditEntry::fromActiveRecord($event->sender, AuditEvent::Update));
                     return;
                 }
             }
@@ -75,7 +75,7 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
                 /** @var Audits $audit */
                 $audit = $attribute->newInstance();
                 if ($audit->auditDelete()) {
-                    $this->add(NewAuditEntry::fromActiveRecord($event->sender, AuditEvent::delete()));
+                    $this->add(NewAuditEntry::fromActiveRecord($event->sender, AuditEvent::Delete));
                     return;
                 }
             }
@@ -124,7 +124,7 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
             $rows[] = [
                 $entry->getSubjectName(),
                 $entry->getSubjectId(),
-                $entry->getEvent(),
+                $entry->getEvent()->value,
                 $timestamp,
                 $userId
             ];

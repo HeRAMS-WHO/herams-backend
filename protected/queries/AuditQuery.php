@@ -20,7 +20,7 @@ class AuditQuery extends ActiveQuery
     public function created(): self
     {
         return $this->andWhere([
-            'event' => AuditEvent::insert()
+            'event' => AuditEvent::Insert->value
         ]);
     }
 

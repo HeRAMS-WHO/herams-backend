@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use Collecthor\DataInterfaces\VariableSetInterface;
 use Collecthor\SurveyjsParser\SurveyParser as BaseParser;
 use prime\helpers\surveyjs\FacilityTypeQuestionParser;
 use prime\interfaces\ColorMap;

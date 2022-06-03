@@ -5,21 +5,18 @@ declare(strict_types=1);
 use prime\assets\DashboardElementUiBundle;
 use prime\components\View;
 use prime\models\ar\Element as ARElement;
-use prime\models\ar\Page;
-use prime\models\ar\Project;
 use prime\models\forms\Element as FormElement;
+use prime\objects\enums\ChartType;
 use prime\objects\enums\DataSort;
 use prime\widgets\Section;
 use yii\bootstrap\Html;
-use yii\helpers\Json;
 use yii\helpers\Url;
 
 /**
- * @var ARElement|FormElement $model
- * @var Project $project
+ * @var \prime\models\ar\elements\Svelte $model
+ * @var \prime\values\ProjectId $projectId
  * @var View $this
- * @var Page $page
- * @var string $url
+ * @var \prime\values\PageId $pageId
  */
 
 $this->title = $model->isNewRecord
@@ -30,61 +27,63 @@ Section::begin()
     ->withHeader($this->title);
 $bundle = DashboardElementUiBundle::register($this);
 \prime\assets\IframeResizeBundle::register($this);
-echo Html::beginTag('div', ['id' => 'app', 'style' => []]);
+echo Html::beginTag('div', ['style' => ['display' => 'flex']]);
+echo Html::beginTag('div', ['id' => 'app', 'style' => ['min-width' => '40%']]);
 echo Html::endTag('div');
 
 echo Html::tag('iframe', 'Your browser does not support iframes', [
     'id' => 'preview',
     'scrolling' => 'no',
-    'src' => Url::to(['element/preview-for-survey-js', 'projectId' => $project->id, 'config' => $model->toArray()], true),
+    'src' => Url::to(['element/preview-for-survey-js', 'projectId' => $projectId, 'config' => json_encode($model->toConfigurationArray())], true),
     'style' => [
-        'width' => '100%'
+        'display' => 'block',
+        'width' => '50%'
     ]
 ]);
+echo Html::endTag('div');
+$config = json_encode([
+    'previewUrl' => Url::to(['element/preview-for-survey-js', 'projectId' => $projectId, 'config' => '__placeholder__'], true),
+    'props' => [
+        'dataSortOptions' => DataSort::options(),
+        'chartTypes' => ChartType::options(),
+        'initialValues' => $model->toConfigurationArray()
+    ],
+    'endpointUrl' => Url::to($endpointUrl)
+], JSON_PRETTY_PRINT);
 
-$dataSortOptions = Json::encode(DataSort::options());
-$previewUrl = Json::encode(Url::to(['element/preview-for-survey-js', 'projectId' => $project->id, 'config' => '__placeholder__'], true));
 $this->registerJs(<<<JS
+  const config = $config;
   {$bundle->getImport("DashboardElementUI")}
   
-  const previewUrl = $previewUrl;
   iFrameResize({
     log: false
   }, document.getElementById('preview'));
-  const app = new DashboardElementUI({
-    target: document.getElementById('app'),
-    props: {
-      initialValues: {
-        width: 1,
-        height: 5,
-        title: "Preset",
-        variables: [],
-        colorMap: {},
-        groupingVariable: ""
-      },
-      previewUrl: previewUrl,
+  
+  const props = {...config.props,
       onSubmit: (values) => {
           console.log(values);
           const data = {...values};
-          data.pageId = {$page->id};
+          data.pageId = {$pageId};
         
           // Submit to API.
-          Herams.createElement('/api/element', data)
+          Herams.createElement(config.endpointUrl, data)
       },
       onChange: values => {
         const params = encodeURIComponent(JSON.stringify(values));
         console.log("onChange", values);
-        document.getElementById('preview').src = previewUrl.replace('__placeholder__', params); 
+        document.getElementById('preview').src = config.previewUrl.replace('__placeholder__', params); 
       },
       variables: (async () => {
-          const response = await fetch('/api/project/{$project->id}/variables');
+          const response = await fetch('/api/project/{$projectId}/variables');
           return response.json();
-      })(),
-      dataSortOptions: ${dataSortOptions}
+      })()
       
       
        
-    }
+  };
+  const app = new DashboardElementUI({
+    target: document.getElementById('app'),
+    props: props
   })
   JS, View::POS_MODULE
 );

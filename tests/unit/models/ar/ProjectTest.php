@@ -7,6 +7,7 @@ namespace prime\tests\unit\models\ar;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
 
@@ -28,13 +29,13 @@ class ProjectTest extends ActiveRecordTest
                     'country' => 'NLD',
                     'latitude' => 4,
                     'longitude' => 5,
-                    'status' => ProjectStatus::target()->value,
-                    'visibility' => ProjectVisibility::public()->value,
+                    'status' => ProjectStatus::Target->value,
+                    'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
                     'overrides' => ['contributorCount' => 15],
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
-                    'languages' => ['fr-FR']
+                    'languages' => [Language::frFR->value]
                 ],
             ],
             [
@@ -47,13 +48,13 @@ class ProjectTest extends ActiveRecordTest
                     'country' => 'NLD',
                     'latitude' => 4,
                     'longitude' => 5,
-                    'status' => ProjectStatus::target()->value,
-                    'visibility' => ProjectVisibility::public()->value,
+                    'status' => ProjectStatus::Target->value,
+                    'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
                     'overrides' => ['contributorCount' => 15],
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
-                    'languages' => ['fr-FR']
+                    'languages' => [Language::frFR->value]
                 ],
             ],
         ];
@@ -87,8 +88,8 @@ class ProjectTest extends ActiveRecordTest
                     'country' => 'NLD',
                     'latitude' => 4,
                     'longitude' => 5,
-                    'status' => ProjectStatus::target()->value,
-                    'visibility' => ProjectVisibility::public()->value,
+                    'status' => ProjectStatus::Target->value,
+                    'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
                     'overrides' => ['contributorCount' => 15],
                     'manage_implies_create_hf' => false,

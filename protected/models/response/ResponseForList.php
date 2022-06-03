@@ -27,17 +27,18 @@ class ResponseForList implements \prime\interfaces\ResponseForList
 
     public function getCondition(): FacilityCondition
     {
-        return FacilityCondition::tryFrom($this->response->getCondition()) ?? FacilityCondition::unknown();
+        return FacilityCondition::tryFrom($this->response->getCondition()) ?? FacilityCondition::Unknown;
     }
 
     public function getAccessibility(): FacilityAccessibility
     {
-        return FacilityAccessibility::tryFrom($this->response->getAccessibility()) ?? FacilityAccessibility::unknown();
+        return FacilityAccessibility::tryFrom($this->response->getAccessibility()) ?? FacilityAccessibility::Unknown;
     }
 
     public function getFunctionality(): FacilityFunctionality
     {
-        return FacilityFunctionality::tryFrom($this->response->getFunctionality()) ?? FacilityFunctionality::unknown();
+        codecept_debug($this->response->getFunctionality());
+        return FacilityFunctionality::tryFrom($this->response->getFunctionality()) ?? FacilityFunctionality::Unknown;
     }
 
     public function getDateOfUpdate(): null|\DateTimeInterface

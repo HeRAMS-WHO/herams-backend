@@ -4,37 +4,32 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-/**
- * @method static self ongoing()
- * @method static self baseline()
- * @method static self target()
- * @method static self emergency()
- */
-class ProjectStatus extends Enum
+use function iter\map;
+use function iter\toArrayWithKeys;
+
+enum ProjectStatus:int
 {
-    /**
-     * @codeCoverageIgnore
-     */
-    protected static function values(): array
+    case Ongoing = 0;
+    case Baseline = 1;
+    case Target = 2;
+    case Emergency = 3;
+
+    public function label(): string
     {
-        return [
-            'ongoing' => 0,
-            'baseline' => 1,
-            'target' => 2,
-            'emergency' => 3
-        ];
+        return match($this) {
+            self::Ongoing => \Yii::t('app', 'Ongoing'),
+            self::Baseline =>  \Yii::t('app', 'Baseline'),
+            self::Target => \Yii::t('app', 'Target'),
+            self::Emergency => \Yii::t('app', 'Emergency specific')
+        };
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
-    protected static function labels(): array
+    public static function toArray(): array
     {
-        return [
-            'ongoing' => \Yii::t('app', 'Ongoing'),
-            'baseline' => \Yii::t('app', 'Baseline'),
-            'target' => \Yii::t('app', 'Target'),
-            'emergency' => \Yii::t('app', 'Emergency specific')
-        ];
+        $result = [];
+        foreach(self::cases() as $projectStatus) {
+            $result[$projectStatus->value] = $projectStatus->label();
+        }
+        return $result;
     }
 }

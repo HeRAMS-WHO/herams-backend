@@ -11,7 +11,6 @@ class SurveyJsCreator2Bundle extends AssetBundle
     public $baseUrl = '@npm/survey-creator-knockout/';
 
     public $css = [
-        'survey-creator-knockout.min.css'
     ];
 
     public $js = [
@@ -20,6 +19,7 @@ class SurveyJsCreator2Bundle extends AssetBundle
 
     public $depends = [
         SurveyModificationBundle::class,
+        SurveyJsCreatorCoreBundle::class,
         SurveyJsKnockoutUiBundle::class,
         AceEditorBundle::class
     ];

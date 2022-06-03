@@ -7,15 +7,13 @@ namespace prime\components;
 use prime\models\ar\Element;
 use prime\models\ar\Workspace;
 use prime\models\ar\WorkspaceForLimesurvey;
+use SamIT\abac\exceptions\UnresolvableException;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Resolver;
 
 class SingleTableInheritanceResolver implements Resolver
 {
-    /**
-     * @inheritDoc
-     */
-    public function fromSubject(object $object): ?Authorizable
+    public function fromSubject(object $object): Authorizable
     {
         if ($object instanceof Element) {
             $id = implode('|', $object->getPrimaryKey(true));
@@ -25,14 +23,11 @@ class SingleTableInheritanceResolver implements Resolver
             $id = implode('|', $object->getPrimaryKey(true));
             return new \SamIT\abac\values\Authorizable($id, Workspace::class);
         }
-        return null;
+        throw new UnresolvableException();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toSubject(Authorizable $authorizable): ?object
+    public function toSubject(Authorizable $authorizable): never
     {
-        return null;
+        throw new UnresolvableException();
     }
 }

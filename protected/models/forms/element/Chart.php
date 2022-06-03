@@ -6,23 +6,24 @@ namespace prime\models\forms\element;
 use Collecthor\DataInterfaces\ClosedVariableInterface;
 use Collecthor\DataInterfaces\ValueOptionInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
-use prime\assets\DashboardCardsBundle;
 use prime\components\View;
+use prime\helpers\ChartHelper;
 use prime\helpers\HeramsVariableSet;
 use prime\interfaces\DashboardWidgetInterface;
 use prime\interfaces\HeramsFacilityRecordInterface;
+use prime\models\ar\Page;
 use prime\objects\enums\ChartType;
 use prime\objects\enums\DataSort;
 use prime\validators\EnumValidator;
+use prime\validators\VariableValidator;
 use prime\values\PageId;
+use prime\widgets\DashboardCard;
+use SamIT\Yii2\abac\PermissionValidator;
 use yii\base\InvalidArgumentException;
 use yii\base\Model;
-use yii\base\Widget;
-use yii\helpers\Html;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
-use function iter\chain;
 use function iter\map;
 use function iter\toArray;
 
@@ -33,7 +34,7 @@ class Chart extends Model implements DashboardWidgetInterface
     public int $width = 1;
     public int $height = 1;
     public int $sort = 1;
-    public string $title = "";
+    public string $title = "Chart";
 
     /**
      * @var list<string>
@@ -50,14 +51,26 @@ class Chart extends Model implements DashboardWidgetInterface
 
     public ChartType $type = ChartType::Bar;
 
+    public function __construct(
+        private VariableSetInterface $variableSet,
+        $config = [])
+    {
+        parent::__construct($config);
+    }
+
+
     public function rules(): array
     {
         return [
-            [['variables', 'colorMap', 'type', 'groupingVariable'], SafeValidator::class],
+            [['colorMap', ], SafeValidator::class],
             [['width', 'height', 'sort'], NumberValidator::class],
-            [['title'], RequiredValidator::class],
-            [['pageId'], PermissionValidator]
-            [['dataSort'], EnumValidator::class, 'enumClass' => DataSort::class]
+            [['title', 'variables'], RequiredValidator::class],
+            PermissionValidator::create(['pageId'], Page::find()),
+
+            [['dataSort'], EnumValidator::class, 'enumClass' => DataSort::class],
+            [['type'], EnumValidator::class, 'enumClass' => ChartType::class],
+            VariableValidator::multipleFromSet($this->variableSet, 'variables'),
+            VariableValidator::singleFromSet($this->variableSet, )
 
 
 
@@ -87,82 +100,25 @@ class Chart extends Model implements DashboardWidgetInterface
      */
     public function renderWidget(HeramsVariableSet $variableSet, View $view, iterable $data): void
     {
-        $locale = null;
-        $variables = [];
-        foreach($this->variables as $variableName) {
-            $variables[] = $variableSet->getVariable($variableName);
-        }
+        $locale = \Yii::$app->language;
 
-        // Get all categories for the chart.
-        if (isset($this->groupingVariable)) {
-            $groupingVariable = $variableSet->getVariable($this->groupingVariable);
-            if (!$groupingVariable instanceof ClosedVariableInterface) {
-                throw new InvalidArgumentException('Grouping variable must be closed');
-            }
+        $chartHelper = new ChartHelper();
+        $config = $chartHelper->createDataArray($variableSet, $this->groupingVariable, $this->variables, $this->colorMap, $locale, $data);
 
-            $groups = toArray(map(fn(ValueOptionInterface $option) => $option->getDisplayValue(), $groupingVariable->getValueOptions()));
-        } else {
-            $groups = [self::DEFAULT_GROUP];
-        }
-
-        $points = [];
-        foreach($groups as $group) {
-            foreach ($variables as $variable) {
-                if ($variable instanceof ClosedVariableInterface) {
-                    foreach ($variable->getValueOptions() as $valueOption) {
-                        $key = $valueOption->getRawValue();
-                        $points[$group][$key] = [
-                            'key' => $key,
-                            'group' => $group,
-                            'label' => $valueOption->getDisplayValue($locale),
-                            'value' => rand(1, 1000),
-                            'color' => $this->colorMap[$key] ?? 'rgb(' + implode(',',
-                                    [mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)]) + ')',
-                        ];
-                    }
-                }
-            }
-        }
-        // Iterate over data.
-        foreach($data as $record) {
-            $group = $this->getGroup($record, $variableSet);
-            foreach ($variables as $variable) {
-                $value = $variable->getValue($record)->getRawValue();
-                if (isset($points[$group][$value])) {
-                    $points[$group][$value]['value']++;
-                }
-            }
-        }
-
-        $widget = Widget::begin();
-        $bundle = DashboardCardsBundle::register($view);
-        $config = [
-            'type' => $this->type->value,
-            'data' => toArray(chain(...array_values($points ?? []))),
-            'title' => $this->title
-        ];
-
-        $jsonConfig = json_encode($config);
-        $js = <<<JS
-          {$bundle->getImport("DashboardCard")}
-
-          const app = new DashboardCard({
-            target: document.getElementById("{$widget->getId()}"),
-            props: $jsonConfig,
-               
-            
-          })
-        
-        JS;
-
-        $view->registerJs($js, View::POS_MODULE);
-        echo Html::beginTag('div', [
-            'id' => $widget->getId(),
-        ]);
+        DashboardCard::begin()
+            ->withType($this->type)
+            ->withData($config['data'])
+            ->withN($config['n'])
+            ->withTitle($this->title)
+            ->finish();
 
 
-//        echo(json_encode($config, JSON_PRETTY_PRINT));
 
-        echo Html::endTag('div');
+    }
+
+    public function toConfigurationArray(): array
+    {
+        return $this->attributes;
+
     }
 }

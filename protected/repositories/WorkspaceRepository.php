@@ -6,7 +6,8 @@ namespace prime\repositories;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
-use prime\interfaces\CreateModelRepositoryInterface;
+use prime\interfaces\ActiveRecordHydratorInterface;
+use prime\interfaces\ModelHydratorInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\interfaces\RetrieveWorkspaceForNewFacility;
 use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface as ForBreadcrumbInterface;
@@ -21,35 +22,34 @@ use prime\models\forms\workspace\Update as WorkspaceUpdate;
 use prime\models\forms\workspace\UpdateForLimesurvey as WorkspaceUpdateForLimesurvey;
 use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
+use prime\modules\Api\models\NewWorkspace;
 use prime\objects\enums\ProjectType;
-use prime\objects\LanguageSet;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\SurveyId;
 use prime\values\WorkspaceId;
 use yii\base\InvalidArgumentException;
-use yii\base\Model;
 use yii\web\NotFoundHttpException;
 
 class WorkspaceRepository implements
-    CreateModelRepositoryInterface,
     RetrieveReadModelRepositoryInterface,
     RetrieveWorkspaceForNewFacility
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,
-        private ModelHydrator $hydrator,
+        private ActiveRecordHydratorInterface $activeRecordHydrator,
+        private ModelHydratorInterface $modelHydrator
     ) {
     }
 
-    public function create(Model|CreateForLimesurvey|Create $model): WorkspaceId
+    public function create(CreateForLimesurvey|Create|NewWorkspace $model): WorkspaceId
     {
         if ($model instanceof CreateForLimesurvey) {
             $record = new WorkspaceForLimesurvey();
         } else {
             $record = new Workspace();
         }
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -158,7 +158,7 @@ class WorkspaceRepository implements
         } else {
             $update = new WorkspaceUpdate($workspaceId);
         }
-        $this->hydrator->hydrateFromActiveRecord($update, $record);
+        $this->modelHydrator->hydrateFromActiveRecord($record, $update);
 
         return $update;
     }
@@ -167,7 +167,7 @@ class WorkspaceRepository implements
     {
         $record = Workspace::findOne(['id' => $model->getId()]);
 
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }

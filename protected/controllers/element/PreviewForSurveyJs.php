@@ -21,33 +21,27 @@ use yii\web\User;
 class PreviewForSurveyJs extends Action
 {
     public function run(
-        User $user,
         ModelHydrator $modelHydrator,
-        PageRepository $pageRepository,
         FacilityRepository $facilityRepository,
-        SurveyResponseRepository $surveyResponseRepository,
         HeramsVariableSetRepositoryInterface $heramsVariableSetRepository,
         Request $request,
         int $projectId,
+        string $config
     ) {
         $this->controller->layout = Controller::LAYOUT_BASE;
 
-        $model = new Chart();
-        $modelHydrator->hydrateFromJsonDictionary($model, json_decode($request->queryParams['config'], true));
+        $variableSet = $heramsVariableSetRepository->retrieveForProject(new ProjectId($projectId));
+        $model = new Chart($variableSet);
+        $modelHydrator->hydrateFromJsonDictionary($model, json_decode($config, true));
 
-        if (!$model->validate()) {
-            throw new UnprocessableEntityHttpException();
-        }
-
-
-
+        $model->validate();
         $facilities = $facilityRepository->searchInProject(new ProjectId($projectId));
 
         $this->controller->layout = Controller::LAYOUT_BASE;
         return $this->controller->render('preview-survey-js', [
             'element' => $model,
             'facilities' => $facilities,
-            'variableSet' => $heramsVariableSetRepository->retrieveForProject(new ProjectId($projectId))
+            'variableSet' => $variableSet
         ]);
     }
 }

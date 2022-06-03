@@ -37,7 +37,7 @@ body {
     min-height: 100vh;
     margin: 0;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 100vw;
     display: grid;
     grid-template-columns: 1fr min(100vw, var(--max-site-width)) 1fr;

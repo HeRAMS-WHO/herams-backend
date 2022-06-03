@@ -30,7 +30,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
     public function create(Create $model): ProjectId
     {
         $record = new Project();
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $this->hydrator->hydrateActiveRecord($model, $record);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -66,7 +66,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
         $update = new ProjectUpdate(new ProjectId($record->id));
-        $this->hydrator->hydrateFromActiveRecord($update, $record);
+        $this->hydrator->hydrateFromActiveRecord($record, $update);
         $update->setScenario($record->getType()->value);
         return $update;
     }
@@ -74,7 +74,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
     public function save(ProjectUpdate $model): ProjectId
     {
         $record = Project::findOne(['id' => $model->id]);
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $this->hydrator->hydrateActiveRecord($model, $record);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }

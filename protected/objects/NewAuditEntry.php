@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\objects;
 
-use Carbon\Carbon;
 use prime\interfaces\NewAuditEntryInterface;
 use prime\objects\enums\AuditEvent;
 use yii\db\ActiveRecord;

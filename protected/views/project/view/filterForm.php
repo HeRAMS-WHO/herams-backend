@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use app\components\ActiveForm;
+use prime\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;

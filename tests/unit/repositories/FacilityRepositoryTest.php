@@ -58,7 +58,7 @@ class FacilityRepositoryTest extends Unit
             $modelHydrator ?? new ModelHydrator(),
             $surveyRepository ?? new SurveyRepository(new SurveyParser(new FacilityTypeQuestionParser(new SingleChoiceQuestionParser())), $newAccessCheck, new ModelHydrator()),
             $surveyResponseRepository ?? new SurveyResponseRepository($newAccessCheck, new ModelHydrator()),
-            $workspaceRepository ?? new WorkspaceRepository($newAccessCheck, new ModelHydrator()),
+            $workspaceRepository ?? \Yii::$container->get(WorkspaceRepository::class, [$newAccessCheck])
         );
     }
 

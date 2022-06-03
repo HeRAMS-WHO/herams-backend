@@ -57,7 +57,7 @@ class Survey extends Widget
         $this->view->registerJs(<<<JS
 Survey
     .StylesManager
-    .applyTheme("modern");
+    .applyTheme("defaultV2");
 console.log($structure);
 const survey = new Survey.Model($structure);
 survey.data = $data;

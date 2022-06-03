@@ -12,7 +12,7 @@ use Collecthor\DataInterfaces\ValueInterface;
 use Collecthor\DataInterfaces\ValueSetInterface;
 use prime\objects\enums\FacilityType;
 
-class FacilityTypeVariable implements ClosedVariableInterface
+class FacilityTierVariable implements ClosedVariableInterface
 {
     public function __construct(private ClosedVariableInterface $closedVariable, private array $tierMap)
     {

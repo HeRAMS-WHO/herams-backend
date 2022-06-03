@@ -77,6 +77,7 @@ class Create extends Action
             'page' => $page,
             'model' => $model,
             'project' => $project,
+            'endpointUrl' => ['/api/element/create'],
             'url' => Url::to(array_merge($request->queryParams, [
                 '__key__' => '__value__',
                 '0' => $this->uniqueId

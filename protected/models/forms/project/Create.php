@@ -33,7 +33,7 @@ class Create extends Model
     public function __construct()
     {
         parent::__construct([]);
-        $this->visibility = ProjectVisibility::public();
+        $this->visibility = ProjectVisibility::Public;
     }
 
     public function attributeLabels(): array

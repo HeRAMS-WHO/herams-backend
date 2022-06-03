@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace prime\objects;
 
 use prime\objects\enums\Enum;
+use prime\validators\BackedEnumValidator;
+use prime\validators\EnumValidator;
 use yii\base\Arrayable;
 use yii\base\NotSupportedException;
+use \BackedEnum;
 use yii\validators\RangeValidator;
 
 use function iter\map;
@@ -18,12 +21,12 @@ use function iter\toArray;
 abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayable, \Countable
 {
     /**
-     * @var list<\Enum>
+     * @var list<BackedEnum>
      */
     private array $values = [];
 
     /**
-     * @return class-string
+     * @return class-string<BackedEnum>
      */
     private static function getEnumClass(): string
     {
@@ -41,15 +44,18 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
     {
         $result = new static();
         foreach ($values ?? [] as $value) {
-            $result->add($value);
+            if (!is_subclass_of($value, self::getEnumClass(), false)) {
+                $result->add(self::getEnumClass()::from($value));
+            } else {
+                $result->add($value);
+            }
         }
         return $result;
     }
 
-    public function add(Enum|string|int $value): void
+    public function add(\UnitEnum $value): void
     {
-
-        $this->values[] = is_object($value) ? $value : static::getEnumClass()::from($value);
+        $this->values[] = $value;
     }
 
     public function jsonSerialize()
@@ -67,7 +73,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
     /*****************************************************************************************/
     public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
-        return toArray(map(fn(Enum $enum) => $enum->value, $this->values));
+        return toArray(map(fn(Enum|BackedEnum $enum) => $enum->value, $this->values));
     }
 
     public function fields()
@@ -87,7 +93,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
      */
     public static function validatorFor(string $attribute): array
     {
-        return [[$attribute], RangeValidator::class, 'allowArray' => true, 'range' => static::getEnumClass()::toValues()];
+        return [[$attribute], BackedEnumValidator::class, 'allowArray' => true, 'example' => static::getEnumClass()::cases()[0]];
     }
 
     public function count(): int

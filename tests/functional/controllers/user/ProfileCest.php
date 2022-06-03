@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\user;
 
 use prime\models\ar\User;
+use prime\objects\enums\Language;
 use prime\tests\FunctionalTester;
 
 /**
  * @covers \prime\controllers\user\Profile
  * @covers \prime\controllers\UserController
  */
-class ProfileCest
+final class ProfileCest
 {
-    public function testPageLoad(FunctionalTester $I)
+    public function testPageLoad(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['user/profile']);
         $I->seeResponseCodeIs(200);
     }
 
-    public function testUpdateName(FunctionalTester $I)
+    public function testUpdateName(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['user/profile']);
@@ -36,18 +37,19 @@ class ProfileCest
         $I->assertSame($newName, $user->name);
     }
 
-    public function testUpdateLanguage(FunctionalTester $I)
+    public function testUpdateLanguage(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['user/profile']);
         $I->seeResponseCodeIs(200);
-        $I->selectOption('Language', 'fr-FR');
+        $I->selectOption('Language', Language::frFR->value);
         $I->click('Update profile');
         /** @var User $user */
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
         $user->refresh();
-        $I->assertSame('fr-FR', $user->language);
-        $I->assertSame('fr-FR', \Yii::$app->language);
+        $I->assertSame(Language::frFR->value, $user->language);
+        $I->amOnPage(['user/profile']);
+        $I->assertSame(Language::frFR->value, \Yii::$app->language);
     }
 }

@@ -344,6 +344,10 @@ span.header {
     background-color: var(--main-background-color);
     grid-area: main;
     position: relative;
+    grid-row-gap: var(--gutter-size);
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(250px, min-content);
+    grid-column-gap: var(--gutter-size);
 }
 
 .content>.element {
@@ -357,28 +361,7 @@ span.header {
     min-width: 0;
 }
 
-.card-widget {
-    background-color: white;
-    padding: 10px;
-    overflow: hidden;
-    position: relative;
-}
 
-.card-widget select {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 10;
-}
-.card-widget header {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-}
-.card-widget .chart-content {
-    margin-top: 24px;
-    height: calc(100% - 24px);
-}
 .content>.element.table {
     display: block;
 }
@@ -701,11 +684,6 @@ body {
     }
     .content {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-auto-rows: minmax(200px, min-content);
-        grid-auto-flow: dense;
-        grid-row-gap: var(--gutter-size);
-        grid-column-gap: var(--gutter-size);
     }
     .content.layout-form {
         grid-auto-rows: 1fr;

@@ -26,10 +26,7 @@ class WorkspaceRepositoryTest extends Unit
         ]);
         $this->assertTrue($model->save());
 
-        $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
-        $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
-
-        $repository = new WorkspaceRepository($accessChecker, $modelHydrator);
+        $repository = \Yii::$container->get(WorkspaceRepository::class);
         $breadcrumb = $repository->retrieveForBreadcrumb(new WorkspaceId($model->id));
 
         $this->assertEquals($model->title, $breadcrumb->getLabel());

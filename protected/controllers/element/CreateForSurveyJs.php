@@ -12,12 +12,15 @@ use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\repositories\ProjectRepository;
+use prime\values\PageId;
+use prime\values\ProjectId;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
+use yii\web\UnprocessableEntityHttpException;
 use yii\web\User;
 
 class CreateForSurveyJs extends Action
@@ -30,7 +33,7 @@ class CreateForSurveyJs extends Action
     ) {
         $page = Page::findOne(['id' => $page_id]);
         if (!isset($page)) {
-            throw new NotFoundHttpException();
+            throw new UnprocessableEntityHttpException(\Yii::t('app', 'Page with id {id} not found', ['id' => $page_id]));
         }
 
         $project = $page->project;
@@ -40,25 +43,22 @@ class CreateForSurveyJs extends Action
 
 
         try {
-            $element = Element::instantiate(['type' => "chart"]);
+            $element = Element::instantiate(['type' => "bar"]);
         } catch (\InvalidArgumentException $e) {
             throw new BadRequestHttpException('Invalid element type', 0, $e);
         }
 
         $element->page_id = $page->id;
-        $element->sort = $page->getElements()->select('max(sort)')->scalar() + 1;
-
+        $element->sort = $page->getElements()->getNextSortValue();
 
         $breadcrumbCollection = $this->controller->view->getBreadcrumbCollection();
 
+        $projectId = new ProjectId($page->project_id);
         return $this->controller->render('update-survey-js', [
-            'page' => $page,
+            'pageId' => PageId::fromPage($page),
+            'projectId' => $projectId,
+            'endpointUrl' => ['/api/element/create', 'projectId' => $projectId],
             'model' => $element,
-            'project' => $project,
-            'url' => Url::to(array_merge($request->queryParams, [
-                '__key__' => '__value__',
-                '0' => $this->uniqueId
-            ]))
         ]);
     }
 }

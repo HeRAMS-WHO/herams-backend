@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use app\components\ActiveForm;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Project;
 use prime\models\forms\Share;

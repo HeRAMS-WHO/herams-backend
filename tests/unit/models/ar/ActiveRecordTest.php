@@ -32,7 +32,7 @@ abstract class ActiveRecordTest extends ModelTest
         $class = get_class($this->getModel());
         /** @var ActiveQuery $query */
         $query = $class::find();
-        $this->assertSame($class, $query->modelClass);
+        $this->assertTrue($class === $query->modelClass || is_subclass_of($class, $query->modelClass));
     }
 
     /**

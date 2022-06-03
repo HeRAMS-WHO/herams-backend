@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use app\components\ActiveForm;
 use app\components\Form;
+use kartik\form\ActiveForm;
 use kartik\select2\Select2;
 use League\ISO3166\ISO3166;
 use prime\components\View;
@@ -61,7 +61,7 @@ echo Form::widget([
         ],
         'languages' => [
             'type' => Form::INPUT_CHECKBOX_LIST,
-            'items' => Language::toLocalizedArrayWithoutSourceLanguage(\Yii::$app->language),
+            'items' => Language::toLocalizedArrayWithoutSourceLanguage(Language::from(\Yii::$app->language)),
         ],
         'i18nTitle' => [
             'type' => Form::INPUT_WIDGET,

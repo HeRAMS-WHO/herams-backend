@@ -31,10 +31,14 @@ class FacilityTypeQuestionParser implements ElementParserInterface
             $tierMap[$choice['value']] = FacilityType::from($choice['tier']);
         }
 
+        yield from $this->singleChoiceQuestionParser->parse($root, $questionConfig, $surveyConfiguration, $dataPrefix);
+
+
+
         foreach ($this->singleChoiceQuestionParser->parse($root, $questionConfig, $surveyConfiguration, $dataPrefix) as $variable) {
             // We want to alter the closed question only.
             if ($variable instanceof ClosedVariableInterface) {
-                yield new FacilityTypeVariable($variable, $tierMap);
+                yield new FacilityTierVariable($variable, $tierMap);
             } else {
                 yield $variable;
             }

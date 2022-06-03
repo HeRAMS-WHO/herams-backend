@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\controllers\workspace;
 
 use prime\components\Controller;

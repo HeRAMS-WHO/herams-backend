@@ -2,6 +2,7 @@
 
 namespace prime\models\ar;
 
+use prime\components\ActiveQuery;
 use prime\interfaces\Exportable;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\PageInterface;
@@ -11,6 +12,7 @@ use prime\models\ar\elements\Chart;
 use prime\models\ar\elements\Map;
 use prime\models\ar\elements\Svelte;
 use prime\models\ar\elements\Table;
+use prime\queries\ElementQuery;
 use prime\widgets\element\Element as ElementWidget;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
@@ -43,6 +45,12 @@ class Element extends ActiveRecord implements Exportable
     const TYPE_CHART = 'chart';
     const TYPE_MAP = 'map';
     const TYPE_TABLE = 'table';
+
+    final public static function find(): ElementQuery
+    {
+        return new ElementQuery(self::class);
+    }
+
 
     public function __construct($config = [])
     {

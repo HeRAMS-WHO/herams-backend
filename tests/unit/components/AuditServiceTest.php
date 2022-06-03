@@ -43,7 +43,7 @@ class AuditServiceTest extends Unit
 
             public function getEvent(): AuditEvent
             {
-                return AuditEvent::insert();
+                return AuditEvent::Insert;
             }
         };
     }

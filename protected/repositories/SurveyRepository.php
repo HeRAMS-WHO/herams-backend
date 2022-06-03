@@ -49,7 +49,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
     {
         $record = new Survey();
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_CREATE);
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $this->hydrator->hydrateActiveRecord($model, $record);
         if (!$record->save()) {
             throw new InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -129,7 +129,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
     {
         $record = Survey::findOne(['id' => $model->getSurveyId()]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $this->hydrator->hydrateActiveRecord($model, $record);
         if (!$record->save()) {
             throw new InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }

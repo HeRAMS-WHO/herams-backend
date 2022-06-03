@@ -26,12 +26,10 @@ class ResponseForListTest extends Unit
 
             public function getLatitude(): ?float
             {
-                // TODO: Implement getLatitude() method.
             }
 
             public function getLongitude(): ?float
             {
-                // TODO: Implement getLongitude() method.
             }
 
             public function getId(): int
@@ -46,48 +44,39 @@ class ResponseForListTest extends Unit
 
             public function getType(): ?string
             {
-                // TODO: Implement getType() method.
             }
 
             public function getName(): ?string
             {
-                // TODO: Implement getName() method.
             }
 
             public function getValueForCode(string $code)
             {
-                // TODO: Implement getValueForCode() method.
             }
 
             public function getSubjectId(): string
             {
-                // TODO: Implement getSubjectId() method.
             }
 
             public function getLocation(): ?string
             {
-                // TODO: Implement getLocation() method.
             }
 
             public function getDate(): ?Carbon
             {
                 return Carbon::createFromTimestampUTC(123456);
-                // TODO: Implement getDate() method.
             }
 
             public function getSubjects(): iterable
             {
-                // TODO: Implement getSubjects() method.
             }
 
             public function getSubjectAvailability(): float
             {
-                // TODO: Implement getSubjectAvailability() method.
             }
 
             public function getSubjectAvailabilityBucket(): int
             {
-                // TODO: Implement getSubjectAvailabilityBucket() method.
             }
 
             public function getFunctionality(): string
@@ -97,12 +86,12 @@ class ResponseForListTest extends Unit
 
             public function getAccessibility(): string
             {
-                return $this->accessibility;
+                return (FacilityAccessibility::tryFrom($this->accessibility) ?? FacilityAccessibility::Unknown)->value;
             }
 
             public function getCondition(): string
             {
-                return $this->condition;
+                return (FacilityCondition::tryFrom($this->condition) ?? FacilityCondition::Unknown)->value;
             }
 
             public function getMainReason(): ?string
@@ -136,12 +125,12 @@ class ResponseForListTest extends Unit
         $response = $this->getHeramsResponse();
         $model = new ResponseForList($response);
 
-        $this->assertSame(FacilityCondition::unknown(), $model->getCondition());
+        $this->assertSame(FacilityCondition::Unknown, $model->getCondition());
         $response->condition = 'badvalue';
-        $this->assertSame(FacilityCondition::unknown(), $model->getCondition());
-        foreach (FacilityCondition::toValues() as $value) {
-            $response->condition = $value;
-            $this->assertSame($value, $model->getCondition()->value);
+        $this->assertSame(FacilityCondition::Unknown, $model->getCondition());
+        foreach (FacilityCondition::cases() as $case) {
+            $response->condition = $case->value;
+            $this->assertSame($case->value, $model->getCondition()->value);
         }
     }
 
@@ -150,12 +139,12 @@ class ResponseForListTest extends Unit
         $response = $this->getHeramsResponse();
         $model = new ResponseForList($response);
 
-        $this->assertSame(FacilityAccessibility::unknown(), $model->getAccessibility());
+        $this->assertSame(FacilityAccessibility::Unknown, $model->getAccessibility());
         $response->accessibility = 'badvalue';
-        $this->assertSame(FacilityAccessibility::unknown(), $model->getAccessibility());
-        foreach (FacilityAccessibility::toValues() as $value) {
-            $response->accessibility = $value;
-            $this->assertSame($value, $model->getAccessibility()->value);
+        $this->assertSame(FacilityAccessibility::Unknown, $model->getAccessibility());
+        foreach (FacilityAccessibility::cases() as $case) {
+            $response->accessibility = $case->value;
+            $this->assertSame($case->value, $model->getAccessibility()->value);
         }
     }
 
@@ -164,12 +153,12 @@ class ResponseForListTest extends Unit
         $response = $this->getHeramsResponse();
         $model = new ResponseForList($response);
 
-        $this->assertSame(FacilityFunctionality::unknown(), $model->getFunctionality());
+        $this->assertSame(FacilityFunctionality::Unknown, $model->getFunctionality());
         $response->functionality = 'badvalue';
-        $this->assertSame(FacilityFunctionality::unknown(), $model->getFunctionality());
-        foreach (FacilityFunctionality::toValues() as $value) {
-            $response->functionality = $value;
-            $this->assertSame($value, $model->getFunctionality()->value);
+        $this->assertSame(FacilityFunctionality::Unknown, $model->getFunctionality());
+        foreach (FacilityFunctionality::cases() as $case) {
+            $response->functionality = $case->value;
+            $this->assertSame($case->value, $model->getFunctionality()->value);
         }
     }
 

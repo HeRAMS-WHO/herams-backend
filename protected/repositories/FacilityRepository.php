@@ -157,7 +157,7 @@ class FacilityRepository
             $this->surveyRepository->retrieveAdminSurveyForWorkspaceForSurveyJs($workspaceId)
         );
         $surveyResponse = $this->surveyResponseRepository->retrieveAdminSurveyResponseForFacilityUpdate($facilityId);
-        $this->hydrator->hydrateFromActiveRecord($form, $record);
+        $this->hydrator->hydrateFromActiveRecord($record, $form);
         $form->data = $surveyResponse->getData();
         return $form;
     }

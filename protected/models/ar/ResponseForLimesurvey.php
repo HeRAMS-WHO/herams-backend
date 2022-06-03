@@ -36,7 +36,7 @@ use yii\validators\RequiredValidator;
  */
 class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterface
 {
-    private static $surveySubjectKeys = [];
+    private static array $surveySubjectKeys = [];
 
     public function afterFind()
     {

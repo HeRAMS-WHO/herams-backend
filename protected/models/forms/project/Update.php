@@ -11,6 +11,7 @@ use prime\objects\enums\ProjectType;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\LanguageSet;
 use prime\traits\StrictModelScenario;
+use prime\validators\BackedEnumValidator;
 use prime\validators\ClientJsonValidator;
 use prime\validators\CountryValidator;
 use prime\values\ProjectId;
@@ -83,8 +84,8 @@ class Update extends Model
 
             // These are strongly typed so no validation is needed
             [['manage_implies_create_hf'], SafeValidator::class],
-            ProjectVisibility::validatorFor('visibility'),
-            ProjectStatus::validatorFor('status'),
+            [['visibility'], BackedEnumValidator::class, 'example' => ProjectVisibility::Private],
+            [['status'], BackedEnumValidator::class, 'example' => ProjectStatus::Ongoing],
             LanguageSet::validatorFor('languages'),
             [['typemap', 'overrides'], ClientJsonValidator::class],
             [['country'], CountryValidator::class]

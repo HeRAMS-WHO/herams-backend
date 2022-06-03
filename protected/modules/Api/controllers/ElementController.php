@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers;
 
 use prime\modules\Api\controllers\element\Create;
+use prime\modules\Api\controllers\element\Update;
 use prime\modules\Api\models\Element;
 use yii\rest\ViewAction;
 
@@ -14,6 +15,7 @@ class ElementController extends Controller
     {
         return [
             'create' => Create::class,
+            'update' => Update::class,
             'view' => [
                 'class' => ViewAction::class,
                 'modelClass' => Element::class

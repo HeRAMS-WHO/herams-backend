@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use app\components\ActiveForm;
+use prime\components\ActiveForm;
 use app\components\Form;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;

@@ -73,7 +73,6 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
 
     public function getCondition(): string
     {
-        // TODO: Implement getCondition() method.
         return HeramsResponseInterface::UNKNOWN_VALUE;
     }
 
@@ -84,7 +83,6 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
 
     public function getFunctionality(): string
     {
-        // TODO: Implement getFunctionality() method.
         return HeramsResponseInterface::UNKNOWN_VALUE;
     }
 
@@ -95,31 +93,26 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
 
     public function getLatitude(): ?float
     {
-        // TODO: Implement getLatitude() method.
         return null;
     }
 
     public function getLocation(): ?string
     {
-        // TODO: Implement getLocation() method.
         return null;
     }
 
     public function getLongitude(): ?float
     {
-        // TODO: Implement getLongitude() method.
         return null;
     }
 
     public function getMainReason(): ?string
     {
-        // TODO: Implement getMainReason() method.
         return null;
     }
 
     public function getName(): ?string
     {
-        // TODO: Implement getName() method.
         return null;
     }
 

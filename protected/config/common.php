@@ -5,6 +5,7 @@ declare(strict_types=1);
 use prime\components\JwtSso;
 use prime\interfaces\EnvironmentInterface;
 use prime\models\ar\User as ActiveRecordUser;
+use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
@@ -86,15 +87,9 @@ return [
             $environment = new class extends ArrayObject implements Environment {
             };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new \SamIT\abac\AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
+            return new AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
         },
-        'authManager' => static fn (\SamIT\abac\AuthManager $abacManager) => new \prime\components\AuthManager($abacManager, [
-            'userClass' => ActiveRecordUser::class,
-            'globalId' => AccessChecker::GLOBAL,
-            'globalName' => AccessChecker::BUILTIN,
-            'guestName' => AccessChecker::BUILTIN,
-            'guestId' => AccessChecker::GUEST,
-        ]),
+        'authManager' => static fn (AuthManager $abacManager) =>  new \prime\components\AuthManager($abacManager, ActiveRecordUser::class),
         'check' => static function (User $user) {
             assert($user === \Yii::$app->user);
             return new \prime\helpers\UserAccessCheck($user);
@@ -201,12 +196,6 @@ return [
         ]
     ],
     'params' => [
-        'languages' => [
-            'en-US',
-            'ar',
-            'nl-NL',
-            'fr-FR'
-        ],
         'defaultSettings' => [
             'icons.globalMonitor' => 'globe',
             'icons.projects' => 'tasks',

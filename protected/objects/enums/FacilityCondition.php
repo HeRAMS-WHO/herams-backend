@@ -12,8 +12,14 @@ namespace prime\objects\enums;
  * @method static self fullyDamaged()
  * @method static self notRelevant()
  */
-class FacilityCondition extends Enum
+enum FacilityCondition:string
 {
+    case Unknown = 'unknown';
+    case NotDamaged = 'A1';
+    case SlightlyDamaged = 'A2';
+    case SubstantiallyDamaged = 'A3';
+    case FullyDamaged = 'A4';
+    case NotRelevant = 'A5';
     /**
      * @codeCoverageIgnore
      */

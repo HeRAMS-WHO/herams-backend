@@ -37,7 +37,7 @@ class SurveyResponseRepository
         $record = new SurveyResponse();
         $record->survey_id = $model->getSurveyId()->getValue();
         $record->facility_id = $model->getFacilityId()->getValue();
-        $this->hydrator->hydrateActiveRecord($record, $model);
+        $this->hydrator->hydrateActiveRecord($model, $record);
         if (!$record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }

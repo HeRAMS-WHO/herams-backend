@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\components;
 
+use SamIT\abac\exceptions\UnresolvableException;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Resolver;
 
@@ -13,10 +14,7 @@ use SamIT\abac\interfaces\Resolver;
  */
 class ReadWriteModelResolver implements Resolver
 {
-    /**
-     * @inheritDoc
-     */
-    public function fromSubject(object $object): ?Authorizable
+    public function fromSubject(object $object): Authorizable
     {
         $rc = new \ReflectionClass($object);
 
@@ -24,14 +22,11 @@ class ReadWriteModelResolver implements Resolver
             $id = implode('|', $object->getPrimaryKey(true));
             return new \SamIT\abac\values\Authorizable($id, $rc->getParentClass()->getName());
         }
-        return null;
+        throw new UnresolvableException();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toSubject(Authorizable $authorizable): ?object
+    public function toSubject(Authorizable $authorizable): never
     {
-        return null;
+        throw new UnresolvableException();
     }
 }

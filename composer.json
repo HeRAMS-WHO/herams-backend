@@ -23,7 +23,7 @@
         "ext-xlswriter": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
-        "guzzlehttp/psr7": "^1.2",
+        "guzzlehttp/psr7": "^2",
         "jc-it/yii2-job-queue": "^2.0",
         "kartik-v/yii2-builder": "^1.6",
         "kartik-v/yii2-grid": "^3.0",
@@ -96,7 +96,6 @@
         "ifsnop/mysqldump-php": "> 2",
         "phpunit/phpunit": ">= 9",
         "yiisoft/yii2-debug": "> 2",
-        "brainmaestro/composer-git-hooks": "^2.8",
         "phpstan/phpstan": "> 1",
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
         "comcast/php-legal-licenses": "^1.1",
@@ -121,28 +120,7 @@
         "cli": "docker-compose run --rm cli",
         "test" : "docker-compose run --rm codeception run",
         "stan": "phpstan analyse protected --memory-limit 1024M",
-        "test-with-cc" : "docker-compose run --rm codeception run --fail-fast --coverage-html --coverage-xml",
-        "post-install-cmd": "[ $COMPOSER_DEV_MODE -eq 0 ] || cghooks add --ignore-lock",
-        "post-update-cmd": "cghooks update",
-        "dlint": "docker-compose run --rm --user=$(id -u):$(id -g) composer lint",
-        "git-pre-commit": [
-            "composer dlint",
-            "composer stan",
-            "composer test"
-        ],
-        "git-post-merge": [
-            "composer install --ignore-platform-reqs"
-        ]
-    },
-    "extra": {
-        "hooks": {
-            "pre-commit": [
-                "composer git-pre-commit"
-            ],
-            "post-merge": [
-                "composer git-post-merge"
-            ]
-        }
+        "test-with-cc" : "docker-compose run --rm codeception run --fail-fast --coverage-html --coverage-xml"
     },
     "config": {
         "allow-plugins": {

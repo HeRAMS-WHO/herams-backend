@@ -44,7 +44,8 @@ echo GridView::widget([
     'dataProvider' => $responseProvider,
     'columns' => [
         \prime\interfaces\AdminResponseForListInterface::ID,
-        \prime\interfaces\AdminResponseForListInterface::NAME
+        \prime\interfaces\AdminResponseForListInterface::NAME,
+//        \prime\interfaces\AdminResponseForListInterface::
 
 
     ]

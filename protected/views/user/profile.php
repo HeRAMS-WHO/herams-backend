@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use app\components\ActiveForm;
+use prime\components\ActiveForm;
 use app\components\Form;
 use prime\models\ar\User;
+use prime\objects\enums\Language;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
@@ -45,19 +46,12 @@ echo Form::widget([
         ],
         'language' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => array_merge([
+            'items' => [
                 '' => \Yii::t('app', 'Autodetected ({language}', [
-                    'language' => \Yii::$app->request->getPreferredLanguage(\Yii::$app->params['languages'])
-                ])
-            ], ArrayHelper::map(
-                \Yii::$app->params['languages'],
-                static function (string $language): string {
-                    return $language;
-                },
-                static function (string $language): string {
-                    return locale_get_display_name($language);
-                }
-            ))
+                    'language' => \Yii::$app->languageSelector->getPreferredLanguage(\Yii::$app->request)
+                ]),
+                ...Language::toLocalizedArray()
+            ]
         ],
         'newsletter_subscription' => [
             'type' => Form::INPUT_CHECKBOX,

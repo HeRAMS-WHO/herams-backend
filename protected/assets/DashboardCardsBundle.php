@@ -7,20 +7,12 @@ use yii\web\AssetBundle;
 
 class DashboardCardsBundle extends AssetBundle
 {
-    public $sourcePath = __DIR__ . '/../../frontend/dashboard-cards/dist';
+    public $baseUrl = '@npm/@herams/dashboard-cards/dist';
 
     /**
      * We don't include the actual JS, it is imported when needed.
      * @var \string[][]
      */
-//    public $js = [
-//        [
-//            'dashboard-element-ui.es.js',
-//            'type' => 'module'
-//        ]
-//    ];
-
-
     public function getImport(string $alias): string
     {
         $file = 'dashboard-cards';

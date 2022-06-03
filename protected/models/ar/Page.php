@@ -6,6 +6,8 @@ use prime\interfaces\Exportable;
 use prime\interfaces\PageInterface;
 use prime\models\ActiveRecord;
 use prime\objects\GroupPage;
+use prime\queries\ElementQuery;
+use prime\values\PageId;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\InvalidArgumentException;
@@ -138,7 +140,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         yield from $this->elements;
     }
 
-    public function getElements(): ActiveQuery
+    public function getElements(): ElementQuery
     {
         return $this
             ->hasMany(Element::class, ['page_id' => 'id'])

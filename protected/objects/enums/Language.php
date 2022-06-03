@@ -4,36 +4,52 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-/**
- * @method static self enUS()
- * @method static self ar()
- * @method static self frFR()
- */
-class Language extends Enum
+enum Language: string
 {
-    /**
-     * @codeCoverageIgnore
-     */
-    protected static function values(): \Closure
+    case en = 'en';
+    case enUS = 'en-US';
+    case ar = 'ar';
+    case fr = 'fr';
+    case frFR = 'fr-FR';
+
+    public static function default(): self
     {
-        return static fn(string $method) => implode('-', str_split($method, 2));
+        return self::enUS;
+    }
+    public function label(null|Language $displayLocale = null): string
+    {
+        return locale_get_display_name($this->value, $displayLocale?->value);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
-    protected static function labels(): \Closure
+    public static function toLocalizedArray(null|Language $displayLocale = null): array
     {
-        return static fn(string $method): string => locale_get_display_name(implode('-', str_split($method, 2)));
-    }
-
-    public static function toLocalizedArrayWithoutSourceLanguage(string $displayLocale): array
-    {
-        $result = self::toArray();
-        unset($result['en-US']);
-        foreach ($result as $locale => &$label) {
-            $label = locale_get_display_name($locale, $displayLocale);
+        $result = [];
+        foreach (self::cases() as $language) {
+            $result[$language->value] = $language->label($displayLocale);
         }
         return $result;
+    }
+
+    public static function toLocalizedArrayWithoutSourceLanguage(null|Language $displayLocale = null): array
+    {
+        $result = [];
+        foreach (self::cases() as $language) {
+            if ($language !== Language::enUS) {
+                $result[$language->value] = $language->label($displayLocale);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function values(): array
+    {
+        $values = [];
+        foreach(self::cases() as $language) {
+            $values[] = $language->value;
+        }
+        return $values;
     }
 }

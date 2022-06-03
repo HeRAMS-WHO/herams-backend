@@ -49,17 +49,17 @@ class AuditableBehavior extends Behavior
         return [
             BaseActiveRecord::EVENT_AFTER_INSERT => function (AfterSaveEvent $event): void {
                 if ($this->auditCreate) {
-                    $this->addEntryForEvent(AuditEvent::insert());
+                    $this->addEntryForEvent(AuditEvent::Insert);
                 }
             },
             BaseActiveRecord::EVENT_AFTER_UPDATE => function (AfterSaveEvent $event): void {
                 if ($this->auditUpdate && (!empty($event->changedAttributes) || $this->auditEmptyUpdates)) {
-                    $this->addEntryForEvent(AuditEvent::update());
+                    $this->addEntryForEvent(AuditEvent::Update);
                 }
             },
             BaseActiveRecord::EVENT_AFTER_DELETE => function (): void {
                 if ($this->auditDelete) {
-                    $this->addEntryForEvent(AuditEvent::delete());
+                    $this->addEntryForEvent(AuditEvent::Delete);
                 }
             }
         ];

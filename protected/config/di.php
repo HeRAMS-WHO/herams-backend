@@ -29,14 +29,17 @@ use prime\components\GlobalPermissionResolver;
 use prime\components\NewsletterService;
 use prime\components\ReadWriteModelResolver;
 use prime\components\SingleTableInheritanceResolver;
-use prime\helpers\UserAccessCheck;
 use prime\helpers\EventDispatcherProxy;
-use prime\helpers\JobQueueProxy;
 use prime\helpers\LimesurveyDataLoader;
-use prime\helpers\surveyjs\FacilityTypeQuestionParser;
+use prime\helpers\ModelHydrator;
+use prime\helpers\StrategyActiveRecordHydrator;
+use prime\helpers\UserAccessCheck;
+use prime\hydrators\NewWorkspaceHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\EnvironmentInterface;
 use prime\interfaces\EventDispatcherInterface;
+use prime\interfaces\ModelHydratorInterface;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
@@ -84,19 +87,31 @@ use yii\web\JqueryAsset;
 assert(isset($env) && $env instanceof EnvironmentInterface);
 
 return [
+    ActiveRecordHydratorInterface::class => static function(): ActiveRecordHydratorInterface {
+        $result = new StrategyActiveRecordHydrator();
+        $result->registerAttributeStrategy(new NewWorkspaceHydrator());
+        $result->registerAttributeStrategy(new ModelHydrator());
+        return $result;
+    },
+    ModelHydratorInterface::class => ModelHydrator::class,
+    \kartik\form\ActiveField::class => static function(Container $container, array $params, array $config) {
+        $result = new \prime\components\ActiveField($config);
+        return $result;
+    },
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
     \Collecthor\Yii2SessionAuth\IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
     \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
+    \prime\repositories\ElementRepository::class => \prime\repositories\ElementRepository::class,
     \prime\interfaces\HeramsVariableSetRepositoryInterface::class => HeramsVariableSetRepository::class,
     SurveyParser::class => \prime\helpers\SurveyParser::class,
     \Psr\Http\Client\ClientInterface::class => Client::class,
     \Psr\Http\Message\RequestFactoryInterface::class => RequestFactory::class,
-    \prime\helpers\ModelHydrator::class => \prime\helpers\ModelHydrator::class,
+    ModelHydrator::class => ModelHydrator::class,
     LocalizableInput::class => function (Container $container, array $params, array $config) {
         if (!isset($config['languages'])) {
-            $config['languages'] = Language::toLocalizedArrayWithoutSourceLanguage(\Yii::$app->language);
+            $config['languages'] = Language::toLocalizedArrayWithoutSourceLanguage(Language::from(\Yii::$app->language));
         }
         return new LocalizableInput($config);
     },
@@ -113,7 +128,7 @@ return [
     CachedReadRepository::class => function (Container $container) {
         return new CachedReadRepository($container->get(ActiveRecordRepository::class));
     },
-    RuleEngine::class => static fn() => new SimpleEngine(require __DIR__ . '/rule-config.php'),
+    RuleEngine::class => static fn() => new SimpleEngine(...require __DIR__ . '/rule-config.php'),
     Resolver::class => static function (): Resolver {
         return new ChainedResolver(
             new SingleTableInheritanceResolver(),

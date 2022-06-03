@@ -1,11 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace prime\controllers\element;
 
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
 use prime\models\ar\Element;
+use prime\models\ar\elements\Svelte;
 use prime\models\ar\Permission;
+use prime\models\ar\Project;
+use prime\values\PageId;
+use prime\values\ProjectId;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
@@ -15,6 +21,16 @@ use yii\web\User;
 
 class Update extends Action
 {
+    private function handleSurveyJs(Request $request, Svelte $element)
+    {
+        return $this->controller->render('update-survey-js', [
+            'model' => $element,
+            'pageId' => new PageId($element->page_id),
+            'endpointUrl' => ['/api/element/update', 'id' => $element->id],
+            'projectId' => new ProjectId($element->page->project_id)
+        ]);
+    }
+
     public function run(
         Request $request,
         LimesurveyDataProvider $limesurveyDataProvider,
@@ -30,6 +46,9 @@ class Update extends Action
             throw new ForbiddenHttpException();
         }
 
+        if ($element instanceof Svelte) {
+            return $this->handleSurveyJs($request, $element);
+        }
         $model = new \prime\models\forms\Element(
             $limesurveyDataProvider->getSurvey($element->project->base_survey_eid),
             $element

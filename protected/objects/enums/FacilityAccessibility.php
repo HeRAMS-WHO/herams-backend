@@ -10,8 +10,13 @@ namespace prime\objects\enums;
  * @method static self partial()
  * @method static self none()
  */
-class FacilityAccessibility extends Enum
+enum FacilityAccessibility:string
 {
+    case Unknown = 'unknown';
+    case Full = 'full';
+    case Partial = 'partial';
+    case None = 'none';
+
     /**
      * @codeCoverageIgnore
      */

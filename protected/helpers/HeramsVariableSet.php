@@ -6,16 +6,16 @@ namespace prime\helpers;
 
 use Collecthor\DataInterfaces\VariableInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
-use prime\helpers\surveyjs\FacilityTypeVariable;
+use prime\helpers\surveyjs\FacilityTierVariable;
 use prime\interfaces\ColorMap;
 
 class HeramsVariableSet implements VariableSetInterface
 {
-    private readonly FacilityTypeVariable $facilityTypeVariable;
+    private readonly FacilityTierVariable $facilityTypeVariable;
     public function __construct(private readonly VariableSetInterface $variables, public readonly ColorMap $colorMap)
     {
         foreach ($variables->getVariables() as $variable) {
-            if ($variable instanceof FacilityTypeVariable) {
+            if ($variable instanceof FacilityTierVariable) {
                 $this->facilityTypeVariable = $variable;
             }
         }

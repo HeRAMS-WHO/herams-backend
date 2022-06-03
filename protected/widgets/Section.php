@@ -132,6 +132,9 @@ class Section extends Widget
                 margin-bottom: 10px;
                 padding: 10px;
             }
+            .Section:only-child {
+                margin-bottom: 0px;
+            }
             
                         
             .Section.dangerous header {

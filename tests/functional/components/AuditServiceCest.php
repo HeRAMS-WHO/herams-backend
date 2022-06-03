@@ -40,7 +40,7 @@ class AuditServiceCest
 
             public function getEvent(): AuditEvent
             {
-                return AuditEvent::insert();
+                return AuditEvent::Insert;
             }
         };
     }
@@ -58,6 +58,7 @@ class AuditServiceCest
     public function testCommit(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
+        /** @var AuditService $service */
         $service = \Yii::$app->get('auditService');
 
         $entry = $this->createEntry();
@@ -91,7 +92,7 @@ class AuditServiceCest
 
         $audit = Audit::find()->one();
         $I->assertSame($accessRequest->id, $audit->subject_id);
-        $I->assertSame(AuditEvent::update()->value, $audit->event);
+        $I->assertSame(AuditEvent::Update->value, $audit->event);
     }
 
     public function testDelete(FunctionalTester $I): void
@@ -114,7 +115,7 @@ class AuditServiceCest
 
         $audit = Audit::find()->one();
         $I->assertSame($accessRequest->id, $audit->subject_id);
-        $I->assertSame(AuditEvent::delete()->value, $audit->event);
+        $I->assertSame(AuditEvent::Delete->value, $audit->event);
     }
 
     public function testInsert(FunctionalTester $I): void
@@ -137,6 +138,6 @@ class AuditServiceCest
 
         $audit = Audit::find()->one();
         $I->assertSame($accessRequest->id, $audit->subject_id);
-        $I->assertSame(AuditEvent::insert()->value, $audit->event);
+        $I->assertSame(AuditEvent::Insert->value, $audit->event);
     }
 }

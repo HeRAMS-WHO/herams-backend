@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
+use prime\helpers\ModelHydrator;
 use prime\models\ar\Element;
 use prime\repositories\ElementRepository;
 use prime\values\ElementId;
@@ -19,7 +20,7 @@ class ElementRepositoryTest extends Unit
     {
         $element = Element::findOne(['id' => 37]);
 
-        $pageRepository = new ElementRepository();
+        $pageRepository = new ElementRepository(new ModelHydrator());
         $breadcrumb = $pageRepository->retrieveForBreadcrumb(new ElementId($element->id));
 
         $this->assertEquals($element->getTitle(), $breadcrumb->getLabel());

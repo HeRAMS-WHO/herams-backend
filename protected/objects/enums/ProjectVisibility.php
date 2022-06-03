@@ -9,17 +9,27 @@ namespace prime\objects\enums;
  * @method static self public()
  * @method static self private()
  */
-class ProjectVisibility extends Enum
+enum ProjectVisibility: string
 {
-    /**
-     * @codeCoverageIgnore
-     */
-    protected static function labels()
+
+    case Hidden = 'hidden';
+    case Public = 'public';
+    case Private = 'private';
+
+    public function label(): string {
+        return match($this) {
+            self::Hidden => \Yii::t('app', 'Hidden, this project is only visible to people with permissions'),
+            self::Public => \Yii::t('app', 'Public, anyone can view this project'),
+            self::Private => \Yii::t('app', 'Private, this project is visible on the map and in the list, but people need permission to view it')
+        };
+    }
+
+    public static function toArray(): array
     {
-        return [
-            'hidden' => \Yii::t('app', 'Hidden, this project is only visible to people with permissions'),
-            'public' => \Yii::t('app', 'Public, anyone can view this project'),
-            'private' => \Yii::t('app', 'Private, this project is visible on the map and in the list, but people need permission to view it')
-        ];
+        $result = [];
+        foreach(self::cases() as $projectStatus) {
+            $result[$projectStatus->value] = $projectStatus->label();
+        }
+        return $result;
     }
 }

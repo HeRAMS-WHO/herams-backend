@@ -6,7 +6,6 @@ use prime\models\forms\survey\CreateForm;
 use prime\models\forms\survey\UpdateForm;
 use prime\widgets\Section;
 use prime\widgets\surveyJs\Creator2 as Creator2;
-use prime\widgets\surveyJs\Creator as Creator;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;

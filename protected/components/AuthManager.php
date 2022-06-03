@@ -1,16 +1,29 @@
 <?php
+declare(strict_types=1);
 
 namespace prime\components;
 
-class AuthManager extends \SamIT\Yii2\abac\AuthManager
+use SamIT\abac\interfaces\AccessChecker as AccessCheckerInterface;
+use SamIT\Yii2\abac\AccessChecker;
+
+class AuthManager extends AccessChecker implements AccessCheckerInterface
 {
-    public function checkAccess($userId, $permissionName, $params = [])
+    public function __construct(private readonly \SamIT\abac\AuthManager $manager, string $userClass)
+    {
+        parent::__construct($manager, $userClass);
+    }
+
+    public function checkAccess($userId, $permissionName, $params = []): bool
     {
         if (is_object($params)) {
             $params = [self::TARGET_PARAM => $params];
         }
 
-        $result = parent::checkAccess($userId, $permissionName, $params);
-        return $result;
+        return parent::checkAccess($userId, $permissionName, $params);
+    }
+
+    public function check(object $source, object $target, string $permission,): bool
+    {
+        return $this->manager->check($source, $target, $permission);
     }
 }
