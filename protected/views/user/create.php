@@ -32,35 +32,38 @@ echo Form::widget([
             'type' => Form::INPUT_STATIC,
         ],
         'name' => [
-            'type' => Form::INPUT_TEXT
+            'type' => Form::INPUT_TEXT,
         ],
         'password' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
-                'autocomplete' => 'new-password'
-            ]
+                'autocomplete' => 'new-password',
+            ],
         ],
         'confirm_password' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
-                'autocomplete' => 'new-password'
-            ]
+                'autocomplete' => 'new-password',
+            ],
         ],
         'subscribeToNewsletter' => [
             'type' => Form::INPUT_CHECKBOX,
         ],
-        FormButtonsWidget::embed([
-            'options' => [
-                'class' => [
-                    'pull-right'
+        FormButtonsWidget::embed(
+            [
+                'options' => [
+                    'class' => [
+                        'pull-right',
+                    ],
                 ],
-            ],
-            'buttons' => [
-                Html::submitButton(Yii::t('app', 'Create account'), ['class' => ['btn', 'btn-primary', 'btn-block']])
+                'buttons' => [
+                    Html::submitButton(Yii::t('app', 'Create account'), [
+                        'class' => ['btn', 'btn-primary', 'btn-block'],
+                    ]),
+                ],
             ]
-        ])
-
-    ]
+        ),
+    ],
 ]);
 
 ActiveForm::end();

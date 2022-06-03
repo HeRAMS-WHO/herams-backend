@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\forms\facility\UpdateForm;
@@ -23,7 +23,9 @@ $this->title = $tabMenuModel->getTitle();
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
-    ['facility' => $tabMenuModel]
+    [
+        'facility' => $tabMenuModel,
+    ]
 );
 $this->endBlock();
 
@@ -33,7 +35,10 @@ Section::begin()
 $survey = Survey::begin()
     ->withConfig($model->getSurvey()->getConfig())
     ->withData($model->data ?? [])
-    ->withSubmitRoute(['update-situation', 'id' => $model->getFacilityId()])
+    ->withSubmitRoute([
+        'update-situation',
+        'id' => $model->getFacilityId(),
+    ])
     ->withLanguages($model->getLanguages())
 ;
 

@@ -19,8 +19,10 @@ class PickQuestion extends Action
         SurveyRepository $surveyRepository,
         int $page_id
     ) {
-        $page = Page::findOne(['id' => $page_id]);
-        if (!isset($page)) {
+        $page = Page::findOne([
+            'id' => $page_id,
+        ]);
+        if (! isset($page)) {
             throw new NotFoundHttpException();
         }
 
@@ -30,7 +32,7 @@ class PickQuestion extends Action
                 new SurveyId($project->admin_survey_id),
                 new SurveyId($project->data_survey_id)
             ),
-            'page' => $page
+            'page' => $page,
         ]);
     }
 }

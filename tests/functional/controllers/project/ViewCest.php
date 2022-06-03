@@ -20,7 +20,10 @@ class ViewCest
         $scenario->incomplete('Project dashboard is open to all users');
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $I->amOnPage(['project/view', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/view',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -28,8 +31,13 @@ class ViewCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
-        $I->amOnPage(['project/view', 'id' => $project->id]);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
+        $I->amOnPage([
+            'project/view',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(404);
     }
 
@@ -41,8 +49,13 @@ class ViewCest
         $page->title = 'Main page';
         $page->project_id = $project->id;
         $I->save($page);
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
-        $I->amOnPage(['project/view', 'id' => $project->id]);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
+        $I->amOnPage([
+            'project/view',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
         $I->assertSame($page->title, $I->grabTextFrom('.header'));
@@ -58,11 +71,17 @@ class ViewCest
         $page->title = 'Main page';
         $page->project_id = $project->id;
         $I->save($page);
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
-        $I->amOnPage(['project/view', 'id' => $project->id]);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
+        $I->amOnPage([
+            'project/view',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->assertSame($page->title, $I->grabTextFrom('.header'));
     }
+
     public function testWrongPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
@@ -71,8 +90,14 @@ class ViewCest
         $page->title = 'Main page';
         $page->project_id = $project->id;
         $I->save($page);
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
-        $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $page->id + 1]);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
+        $I->amOnPage([
+            'project/view',
+            'id' => $project->id,
+            'page_id' => $page->id + 1,
+        ]);
         $I->seeResponseCodeIs(404);
     }
 
@@ -80,7 +105,9 @@ class ViewCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
 
         $page = new Page();
         $page->title = 'Main page';
@@ -92,7 +119,11 @@ class ViewCest
         $otherPage->project_id = $project->id;
         $I->save($otherPage);
 
-        $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $otherPage->id]);
+        $I->amOnPage([
+            'project/view',
+            'id' => $project->id,
+            'page_id' => $otherPage->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->assertSame($otherPage->title, $I->grabTextFrom('.header'));
     }
@@ -101,7 +132,9 @@ class ViewCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
 
         $page = new Page();
         $page->title = 'Main page';
@@ -114,7 +147,12 @@ class ViewCest
         $child->project_id = $project->id;
         $I->save($child);
 
-        $I->amOnPage(['project/view', 'id' => $project->id, 'page_id' => $child->id, 'parent_id' => $child->parent_id]);
+        $I->amOnPage([
+            'project/view',
+            'id' => $project->id,
+            'page_id' => $child->id,
+            'parent_id' => $child->parent_id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->assertSame($child->title, $I->grabTextFrom('.header'));
     }

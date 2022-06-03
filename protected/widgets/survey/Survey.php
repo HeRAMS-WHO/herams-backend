@@ -15,8 +15,11 @@ use yii\helpers\Url;
 class Survey extends Widget
 {
     private array $config;
+
     private array $data;
+
     private LanguageSet $languages;
+
     private array $submitRoute;
 
     public function init(): void
@@ -54,7 +57,8 @@ class Survey extends Widget
         $structure = Json::encode($this->config);
         $data = Json::encode($this->data ?? []);
         $languages = Json::encode($this->languages->toArray());
-        $this->view->registerJs(<<<JS
+        $this->view->registerJs(
+            <<<JS
 Survey
     .StylesManager
     .applyTheme("defaultV2");
@@ -74,7 +78,8 @@ JS
         );
         if (isset($this->submitRoute)) {
             $url = Json::encode(Url::to($this->submitRoute));
-            $this->view->registerJs(<<<JS
+            $this->view->registerJs(
+                <<<JS
             survey.onComplete.add(async (sender, options) => {
                 options.showDataSaving();
                 try {
@@ -115,6 +120,8 @@ JS
         }
         $id = Json::encode($this->getId());
         $this->view->registerJs("survey.render($id);");
-        return Html::tag('div', 'Survey here', ['id' => $this->getId(),]);
+        return Html::tag('div', 'Survey here', [
+            'id' => $this->getId(),
+        ]);
     }
 }

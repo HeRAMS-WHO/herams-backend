@@ -13,7 +13,7 @@ trait StrictModelScenario
     public function setScenario($value): void
     {
         parent::setScenario($value);
-        if (!isset($this->scenarios()[$value])) {
+        if (! isset($this->scenarios()[$value])) {
             throw new \InvalidArgumentException("Scenario '$value' is not valid");
         }
     }

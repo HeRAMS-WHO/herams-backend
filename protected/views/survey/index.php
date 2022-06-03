@@ -28,7 +28,7 @@ Section::begin()
             'link' => ['survey/create'],
             'style' => 'primary',
             'icon' => Icon::add(),
-        ]
+        ],
     ])
     ->withHeader($this->title);
 
@@ -48,14 +48,17 @@ echo GridView::widget([
                 'update' => static function ($url, SurveyForList $model, $key) {
                     return Html::a(
                         Icon::pencilAlt(),
-                        ['survey/update', 'id' => (string) $model->getId()],
+                        [
+                            'survey/update',
+                            'id' => (string) $model->getId(),
+                        ],
                         [
                             'title' => \Yii::t('app', 'Update'),
                         ]
                     );
-                }
+                },
             ],
-        ]
+        ],
     ],
 ]);
 

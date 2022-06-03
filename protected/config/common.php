@@ -40,7 +40,7 @@ return [
         '@npm' => '/node_modules',
         '@composer' => realpath(__DIR__ . '/../../vendor'),
         '@yii/debug' => '@composer/yiisoft/yii2-debug/src',
-        '@kartik' => ''
+        '@kartik' => '',
     ],
     'bootstrap' => [
         'log',
@@ -53,11 +53,11 @@ return [
             'dsn' => $env->getWrappedSecret('database/dsn'),
             'password' => $env->getWrappedSecret('database/password'),
             'username' => $env->getWrappedSecret('database/username'),
-            'enableSchemaCache' => !YII_DEBUG,
+            'enableSchemaCache' => ! YII_DEBUG,
             'schemaCache' => 'cache',
             'enableQueryCache' => true,
             'queryCache' => 'cache',
-            'tablePrefix' => 'prime2_'
+            'tablePrefix' => 'prime2_',
         ],
         'limesurveySSo' => [
             'class' => JwtSso::class,
@@ -66,7 +66,7 @@ return [
             'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
             'userNameGenerator' => static function ($id) use ($env) {
                 return $env->get('SSO_PREFIX', 'prime_') . $id;
-            }
+            },
         ],
         'urlSigner' => static function () use ($env): UrlSigner {
             // Use a closure to allow lazy secret loading
@@ -75,7 +75,7 @@ return [
                 'secret' => $env->getSecret('app/url_signer_secret'),
                 'hmacParam' => 'h',
                 'paramsParam' => 'p',
-                'expirationParam' => 'e'
+                'expirationParam' => 'e',
             ]);
         },
         'preloadingSourceRepository' => PreloadingSourceRepository::class,
@@ -84,12 +84,12 @@ return [
             RuleEngine $engine, // Taken from container
             PermissionRepository $preloadingSourceRepository  // Taken from app
         ) {
-            $environment = new class extends ArrayObject implements Environment {
+            $environment = new class() extends ArrayObject implements Environment {
             };
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
             return new AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
         },
-        'authManager' => static fn (AuthManager $abacManager) =>  new \prime\components\AuthManager($abacManager, ActiveRecordUser::class),
+        'authManager' => static fn (AuthManager $abacManager) => new \prime\components\AuthManager($abacManager, ActiveRecordUser::class),
         'check' => static function (User $user) {
             assert($user === \Yii::$app->user);
             return new \prime\helpers\UserAccessCheck($user);
@@ -98,18 +98,18 @@ return [
 
         'limesurveyCache' => [
             'class' => \yii\caching\FileCache::class,
-            'cachePath' => '@runtime/limesurveyCache'
+            'cachePath' => '@runtime/limesurveyCache',
         ],
         'cache' => [
-            'class' => \yii\caching\CacheInterface::class
+            'class' => \yii\caching\CacheInterface::class,
         ],
-//        'formatter' => [
-//            'numberFormatterOptions' => [
-//                NumberFormatter::MIN_FRACTION_DIGITS => 0,
-//                NumberFormatter::MAX_FRACTION_DIGITS => 2,
-//            ]
-//
-//        ],
+        //        'formatter' => [
+        //            'numberFormatterOptions' => [
+        //                NumberFormatter::MIN_FRACTION_DIGITS => 0,
+        //                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+        //            ]
+        //
+        //        ],
         'limesurveyDataProvider' => [
             'class' => \prime\components\LimesurveyDataProvider::class,
             'client' => 'limesurvey',
@@ -140,9 +140,9 @@ return [
                     'exportInterval' => 1,
                     'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
-                    'logFile' => '@runtime/logs/error.log'
-                ]
-            ]
+                    'logFile' => '@runtime/logs/error.log',
+                ],
+            ],
         ],
         'user' => [
             'class' => UserComponent::class,
@@ -152,7 +152,7 @@ return [
                 if (isset($event->identity->language)) {
                     \Yii::$app->language = $event->identity->language;
                 }
-            }
+            },
         ],
         'i18n' => [
             'class' => \yii\i18n\I18N::class,
@@ -166,15 +166,17 @@ return [
                         if (YII_DEBUG) {
                             $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
                         }
-                    }
+                    },
                 ],
-            ]
+            ],
         ],
         'mailer' => static function () use ($env): Mailer {
             return \Yii::createObject([
                 'class' => Mailer::class,
                 'messageConfig' => [
-                    'from' => [$env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support']
+                    'from' => [
+                        $env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support',
+                    ],
                 ],
                 'transport' => [
                     'class' => Swift_SmtpTransport::class,
@@ -183,9 +185,9 @@ return [
                     'constructArgs' => [
                         $env->getWrappedSecret('smtp/host'),
                         $env->getSecret('smtp/port'),
-                        $env->getWrappedSecret('smtp/encryption')
-                    ]
-                ]
+                        $env->getWrappedSecret('smtp/encryption'),
+                    ],
+                ],
             ]);
         },
 
@@ -193,7 +195,7 @@ return [
     'modules' => [
         'api' => [
             'class' => \prime\modules\Api\Module::class,
-        ]
+        ],
     ],
     'params' => [
         'defaultSettings' => [
@@ -215,8 +217,9 @@ return [
             'icons.remove' => 'trash',
             'icons.request' => 'forward',
             'icons.limeSurveyUpdate' => 'pencil',
-            'icons.requestAccess' => 'info-sign'
+            'icons.requestAccess' => 'info-sign',
         ],
-        'responseSubmissionKey' => $env->getWrappedSecret('limesurvey/response_submission_key')
-    ]
+        'responseSubmissionKey' => $env->getWrappedSecret('limesurvey/response_submission_key'),
+
+    ],
 ];

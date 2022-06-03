@@ -30,7 +30,7 @@ echo WorkspaceTabMenu::widget([
 $this->endBlock();
 
 Section::begin([
-    'header' => \Yii::t('app', 'Responses')
+    'header' => \Yii::t('app', 'Responses'),
 ]);
 
 echo GridView::widget([
@@ -38,8 +38,8 @@ echo GridView::widget([
     'pjaxSettings' => [
         'options' => [
             // Just links in the header.
-            'linkSelector' => 'th a'
-        ]
+            'linkSelector' => 'th a',
+        ],
     ],
     'layout' => "{items}\n{pager}",
     'filterModel' => $responseSearch,
@@ -49,25 +49,25 @@ echo GridView::widget([
             'attribute' => 'id',
         ],
         [
-            'attribute' => 'date'
+            'attribute' => 'date',
         ],
         [
             'attribute' => 'hf_id',
         ],
         [
-            'attribute' => 'updated_at'
+            'attribute' => 'updated_at',
         ],
-//        [
-//            'label' => '# Health facilities',
-//            'attribute' => 'facilityCount',
-//        ],
-//        [
-//            'label' => '# Responses',
-//            'value' => 'responseCount'
-//        ],
-//        [
-//            'class' => \prime\widgets\FavoriteColumn\FavoriteColumn::class
-//        ],
+        //        [
+        //            'label' => '# Health facilities',
+        //            'attribute' => 'facilityCount',
+        //        ],
+        //        [
+        //            'label' => '# Responses',
+        //            'value' => 'responseCount'
+        //        ],
+        //        [
+        //            'class' => \prime\widgets\FavoriteColumn\FavoriteColumn::class
+        //        ],
         'actions' => [
             'class' => ActionColumn::class,
             'width' => '150px',
@@ -75,14 +75,19 @@ echo GridView::widget([
             'template' => '{compare}',
             'buttons' => [
                 'compare' => function ($url, \prime\models\ar\ResponseForLimesurvey $model, $key) {
-                    $url = ['response/compare', 'id' => $model->id, 'survey_id' => $model->survey_id];
+                    $url = [
+                        'response/compare',
+                        'id' => $model->id,
+                        'survey_id' => $model->survey_id,
+                    ];
                     $result = Html::a(Icon::eye(), $url, [
-                        'title' => \Yii::t('app', 'Refresh data from limesurvey')
+                        'title' => \Yii::t('app', 'Refresh data from limesurvey'),
                     ]);
                     return $result;
                 },
-            ]
-        ]
-    ]
+
+            ],
+        ],
+    ],
 ]);
 Section::end();

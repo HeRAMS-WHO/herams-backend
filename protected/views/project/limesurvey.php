@@ -25,8 +25,8 @@ echo \yii\helpers\Html::tag('iframe', '', [
         'left' => 0,
         'top' => 0,
         'width' => '100%',
-        'height' => '100%'
-    ]
+        'height' => '100%',
+    ],
 ]);
 
 echo Icon::windowMaximize([

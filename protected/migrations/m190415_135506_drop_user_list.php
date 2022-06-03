@@ -2,14 +2,8 @@
 
 use yii\db\Migration;
 
-/**
- * Class m190415_135506_drop_user_list
- */
 class m190415_135506_drop_user_list extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->dropTable('{{%user_list_user}}');
@@ -17,9 +11,6 @@ class m190415_135506_drop_user_list extends Migration
         $this->dropTable('{{%user_data}}');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         echo "m190415_135506_drop_user_list cannot be reverted.\n";

@@ -18,7 +18,7 @@ class Map extends Element
     public static function labels(): array
     {
         return array_merge(parent::labels(), [
-            'markerRadius' => \Yii::t('app', 'Marker radius')
+            'markerRadius' => \Yii::t('app', 'Marker radius'),
         ]);
     }
 
@@ -32,6 +32,7 @@ class Map extends Element
         }
         $this->config = $config;
     }
+
     protected function getWidgetInternal(
         SurveyInterface $survey,
         iterable $data
@@ -45,7 +46,11 @@ class Map extends Element
     public function rules(): array
     {
         $rules = parent::rules();
-        $rules[] = [['markerRadius'], NumberValidator::class, 'min' => 1, 'max' => 100];
+        $rules[] = [['markerRadius'],
+            NumberValidator::class,
+            'min' => 1,
+            'max' => 100,
+        ];
         return $rules;
     }
 }

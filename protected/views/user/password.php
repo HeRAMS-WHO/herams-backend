@@ -37,27 +37,33 @@ echo Form::widget([
         'currentPassword' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
-                'autocomplete' => 'current-password'
-            ]
+                'autocomplete' => 'current-password',
+            ],
         ],
         'newPassword' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
-                'autocomplete' => 'new-password'
-            ]
+                'autocomplete' => 'new-password',
+            ],
         ],
         'newPasswordRepeat' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
-                'autocomplete' => 'new-password'
-            ]
+                'autocomplete' => 'new-password',
+            ],
         ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                ['label' => Yii::t('app', 'Update password'), 'style' => 'primary'],
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    [
+                        'label' => Yii::t('app', 'Update password'),
+                        'style' => 'primary',
+                    ],
+                ],
             ]
-        ])
-    ]
+        ),
+
+    ],
 ]);
 
 ActiveForm::end();

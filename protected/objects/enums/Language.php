@@ -16,6 +16,7 @@ enum Language: string
     {
         return self::enUS;
     }
+
     public function label(null|Language $displayLocale = null): string
     {
         return locale_get_display_name($this->value, $displayLocale?->value);
@@ -47,7 +48,7 @@ enum Language: string
     public static function values(): array
     {
         $values = [];
-        foreach(self::cases() as $language) {
+        foreach (self::cases() as $language) {
             $values[] = $language->value;
         }
         return $values;

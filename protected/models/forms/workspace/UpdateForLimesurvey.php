@@ -25,7 +25,9 @@ use yii\validators\UniqueValidator;
 class UpdateForLimesurvey extends Model
 {
     public null|array $i18n;
+
     public string $title;
+
     public string $token;
 
     public function __construct(
@@ -40,8 +42,8 @@ class UpdateForLimesurvey extends Model
         return [
             LocalizableWriteBehavior::class => [
                 'class' => LocalizableWriteBehavior::class,
-                'attributes' => ['title']
-            ]
+                'attributes' => ['title'],
+            ],
         ];
     }
 
@@ -64,7 +66,10 @@ class UpdateForLimesurvey extends Model
     {
         return [
             [['title'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+            ],
         ];
     }
 }

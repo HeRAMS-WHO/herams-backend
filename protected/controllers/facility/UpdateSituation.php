@@ -40,7 +40,10 @@ class UpdateSituation extends Action
                 $response->format = Response::FORMAT_JSON;
                 $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
                 if ($model->validate(null, false)) {
-                    $response->headers->add('X-Suggested-Location', Url::to(['responses', 'id' => $facilityRepository->saveUpdateSituation($model)], true));
+                    $response->headers->add('X-Suggested-Location', Url::to([
+                        'responses',
+                        'id' => $facilityRepository->saveUpdateSituation($model),
+                    ], true));
                     $notificationService->success(\Yii::t('app', 'Facility situation updated'));
                     return $response;
                 } else {
@@ -51,10 +54,12 @@ class UpdateSituation extends Action
 
             return $this->controller->render('updateSituation', [
                 'model' => $model,
-                'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId)
+                'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
             ]);
         } else {
-            return $this->controller->redirect(['copy-latest-response' => $id]);
+            return $this->controller->redirect([
+                'copy-latest-response' => $id,
+            ]);
         }
     }
 }

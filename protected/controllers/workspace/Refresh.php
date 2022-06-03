@@ -24,11 +24,13 @@ class Refresh extends Action
         LimesurveyDataLoader $loader,
         int $id
     ) {
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
-        if (!isset($workspace)) {
+        $workspace = WorkspaceForLimesurvey::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) {
+        if (! $user->can(Permission::PERMISSION_SURVEY_DATA, $workspace)) {
             throw new ForbiddenHttpException();
         }
 
@@ -39,7 +41,7 @@ class Refresh extends Action
             $ids[] = $response->getId();
             $key = [
                 'id' => $response->getId(),
-                'workspace_id' => $workspace->id
+                'workspace_id' => $workspace->id,
             ];
 
             $dataResponse = ResponseForLimesurvey::findOne($key) ?? new ResponseForLimesurvey($key);
@@ -57,8 +59,15 @@ class Refresh extends Action
         // Check for deleted responses as well.
         $deleted = ResponseForLimesurvey::deleteAll([
             'and',
-            ['workspace_id' => $workspace->id],
-            ['not', ['id' => $ids]]
+            [
+                'workspace_id' => $workspace->id,
+            ],
+            [
+                'not', [
+                    'id' =>
+                    $ids,
+
+                ], ],
         ]);
         $notificationService->success(\Yii::t('app', 'Refreshing data took {time} seconds; 
         {new} new records, 
@@ -71,7 +80,7 @@ class Refresh extends Action
             'updated' => $updated,
             'deleted' => $deleted,
             'unchanged' => $unchanged,
-            'failed' => $failed
+            'failed' => $failed,
         ]));
 
         return $this->controller->redirect($request->getReferrer());

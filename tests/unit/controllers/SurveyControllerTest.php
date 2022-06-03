@@ -17,7 +17,9 @@ use yii\web\Request;
 class SurveyControllerTest extends ControllerTest
 {
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
+
     private string $renderResult = 'testRender';
+
     private View|MockObject $view;
 
     protected function prepareController(): SurveyController

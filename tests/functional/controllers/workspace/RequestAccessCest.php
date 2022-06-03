@@ -23,7 +23,10 @@ class RequestAccessCest
         $workspace = $I->haveWorkspaceForLimesurvey();
 
         $I->assertUserCan($workspace->project, Permission::PERMISSION_SUMMARY);
-        $I->amOnPage(['workspace/request-access', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/request-access',
+            'id' => $workspace->id,
+        ]);
 
         $I->seeResponseCodeIs(200);
         $I->fillField('Subject', 'Test access request subject');
@@ -31,6 +34,9 @@ class RequestAccessCest
         $I->checkOption('Download data');
         $I->click('Request');
 
-        $I->seeRecord(AccessRequest::class, ['target_class' => Workspace::class, 'target_id' => $workspace->id]);
+        $I->seeRecord(AccessRequest::class, [
+            'target_class' => Workspace::class,
+            'target_id' => $workspace->id,
+        ]);
     }
 }

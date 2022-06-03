@@ -28,10 +28,15 @@ use yii\web\Request;
 class FacilityControllerTest extends Unit
 {
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
+
     private FacilityRepository|MockObject $facilityRepository;
+
     private ProjectRepository|MockObject $projectRepository;
+
     private string $renderResult = 'testRender';
+
     private View|MockObject $view;
+
     private WorkspaceRepository|MockObject $workspaceRepository;
 
     protected function prepareController(): FacilityController
@@ -81,7 +86,9 @@ class FacilityControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['workspaceId' => $workspaceId],
+            'queryParams' => [
+                'workspaceId' => $workspaceId,
+            ],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }
@@ -123,7 +130,9 @@ class FacilityControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['id' => $facilityId],
+            'queryParams' => [
+                'id' => $facilityId,
+            ],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }

@@ -25,7 +25,9 @@ class Import extends Action
         int $project_id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $project = Project::findOne(['id' => $project_id]);
+        $project = Project::findOne([
+            'id' => $project_id,
+        ]);
         $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_WORKSPACES);
 
         /** @var array $tokens */
@@ -35,7 +37,10 @@ class Import extends Action
             $model = new ImportModel($project, $samples);
         } catch (InvalidConfigException $e) {
             $notificationService->error($e->getMessage());
-            return $this->controller->redirect(['project/workspaces', 'id' => $project->id]);
+            return $this->controller->redirect([
+                'project/workspaces',
+                'id' => $project->id,
+            ]);
         }
 
         if ($request->isPost) {
@@ -48,13 +53,16 @@ class Import extends Action
                     'success' => $result->getSuccessCount(),
                     'fail' => $result->getFailCount(),
                 ]));
-                return $this->controller->redirect(['project/workspaces', 'id' => $project->id]);
+                return $this->controller->redirect([
+                    'project/workspaces',
+                    'id' => $project->id,
+                ]);
             }
         }
 
         return $this->controller->render('import', [
             'model' => $model,
-            'project' => $project
+            'project' => $project,
         ]);
     }
 }

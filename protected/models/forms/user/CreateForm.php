@@ -19,9 +19,13 @@ use yii\validators\UniqueValidator;
 class CreateForm extends Model
 {
     public string $email = '';
+
     public string $confirm_password = '';
+
     public string $name = '';
+
     public string $password = '';
+
     public bool $subscribeToNewsletter = false;
 
     public function __construct(
@@ -49,17 +53,31 @@ class CreateForm extends Model
                 UniqueValidator::class,
                 'targetClass' => User::class,
                 'targetAttribute' => 'email',
-                'message' => \Yii::t('app', 'Email already taken')
+                'message' => \Yii::t('app', 'Email already taken'),
             ],
-            [['name'], StringValidator::class, 'max' => 50],
-            [['name'], RegularExpressionValidator::class, 'pattern' => User::NAME_REGEX],
-            [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => StrengthValidator::NORMAL],
+            [['name'],
+                StringValidator::class,
+                'max' => 50,
+            ],
+            [['name'],
+                RegularExpressionValidator::class,
+                'pattern' => User::NAME_REGEX,
+            ],
+            [['password'],
+                StrengthValidator::class,
+                'usernameValue' => $this->email,
+                'preset' => StrengthValidator::NORMAL,
+            ],
             [
                 ['confirm_password'],
-                CompareValidator::class, 'compareAttribute' => 'password',
-                'message' => \Yii::t('app', 'Passwords don\'t match')
+                CompareValidator::class,
+                'compareAttribute' => 'password',
+                'message' => \Yii::t('app', 'Passwords don\'t match'),
             ],
-            [['subscribeToNewsletter'], DefaultValueValidator::class, 'value' => false],
+            [['subscribeToNewsletter'],
+                DefaultValueValidator::class,
+                'value' => false,
+            ],
             [['subscribeToNewsletter'], BooleanValidator::class],
         ];
     }
@@ -70,7 +88,7 @@ class CreateForm extends Model
         $this->user->name = $this->name;
         $this->user->setPassword($this->password);
         $this->user->newsletter_subscription = $this->subscribeToNewsletter;
-        if (!$this->user->save()) {
+        if (! $this->user->save()) {
             throw new \RuntimeException('Failed to create user');
         }
     }

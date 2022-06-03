@@ -15,7 +15,10 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $survey = $I->haveAdminSurvey();
-        $I->amOnPage(['/survey/update', 'id' => $survey->id]);
+        $I->amOnPage([
+            '/survey/update',
+            'id' => $survey->id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
     }
 }

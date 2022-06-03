@@ -36,7 +36,7 @@ class AuditableBehaviorTest extends \Codeception\Test\Unit
 
         $auditableBehavior = new AuditableBehavior($auditService);
 
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public $primaryKey = 15;
         };
 
@@ -55,7 +55,7 @@ class AuditableBehaviorTest extends \Codeception\Test\Unit
         $auditableBehavior = new AuditableBehavior($auditService);
         $auditableBehavior->auditCreate = false;
 
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public $primaryKey = 15;
         };
 
@@ -73,13 +73,15 @@ class AuditableBehaviorTest extends \Codeception\Test\Unit
 
         $auditableBehavior = new AuditableBehavior($auditService);
 
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public $primaryKey = 15;
         };
 
         $model->attachBehavior('audit', $auditableBehavior);
         $event = new AfterSaveEvent();
-        $event->changedAttributes = ['a' => 5];
+        $event->changedAttributes = [
+            'a' => 5,
+        ];
         $model->trigger(ActiveRecord::EVENT_AFTER_UPDATE, $event);
     }
 
@@ -93,7 +95,7 @@ class AuditableBehaviorTest extends \Codeception\Test\Unit
 
         $auditableBehavior = new AuditableBehavior($auditService);
 
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public $primaryKey = 15;
         };
 
@@ -114,7 +116,7 @@ class AuditableBehaviorTest extends \Codeception\Test\Unit
         $auditableBehavior = new AuditableBehavior($auditService);
         $auditableBehavior->auditEmptyUpdates = true;
 
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public $primaryKey = 15;
         };
 
@@ -135,13 +137,15 @@ class AuditableBehaviorTest extends \Codeception\Test\Unit
         $auditableBehavior = new AuditableBehavior($auditService);
         $auditableBehavior->auditUpdate = false;
 
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public $primaryKey = 15;
         };
 
         $model->attachBehavior('audit', $auditableBehavior);
         $event = new AfterSaveEvent();
-        $event->changedAttributes = ['a' => 5];
+        $event->changedAttributes = [
+            'a' => 5,
+        ];
         $model->trigger(ActiveRecord::EVENT_AFTER_UPDATE, $event);
     }
 
@@ -156,7 +160,7 @@ class AuditableBehaviorTest extends \Codeception\Test\Unit
         $auditableBehavior = new AuditableBehavior($auditService);
         $auditableBehavior->auditUpdate = false;
 
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public $primaryKey = 15;
         };
 

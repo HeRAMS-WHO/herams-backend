@@ -16,10 +16,6 @@ use yii\web\UnauthorizedHttpException;
 class ResetPassword extends Action
 {
     /**
-     * @param Request $request
-     * @param NotificationService $notificationService
-     * @param int $id
-     * @param int $crc
      * @return string
      * @throws HttpException
      * @throws UnauthorizedHttpException
@@ -32,8 +28,10 @@ class ResetPassword extends Action
         int $crc
     ) {
         /** @var ?User $user */
-        $user = User::find()->andWhere(['id' => $id])->one();
-        if (!isset($user)) {
+        $user = User::find()->andWhere([
+            'id' => $id,
+        ])->one();
+        if (! isset($user)) {
             throw new NotFoundHttpException(\Yii::t('app', "User not found"));
         }
 
@@ -50,6 +48,8 @@ class ResetPassword extends Action
             $notificationService->success(\Yii::t('app', 'Your password has been reset'));
             return $this->controller->goHome();
         }
-        return $this->controller->render('reset-password', ['model' => $model]);
+        return $this->controller->render('reset-password', [
+            'model' => $model,
+        ]);
     }
 }

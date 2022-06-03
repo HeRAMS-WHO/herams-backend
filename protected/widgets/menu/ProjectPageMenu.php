@@ -27,13 +27,13 @@ class ProjectPageMenu extends SideMenu
         parent::init();
     }
 
-
     protected function renderMenu()
     {
         foreach ($this->project->mainPages as $page) {
             $this->renderPageMenu($page);
         }
     }
+
     /**
      * @return bool whether the link is active
      */
@@ -53,7 +53,7 @@ class ProjectPageMenu extends SideMenu
             'project/view',
             'id' => $this->project->id,
             'parent_id' => $page->getParentId(),
-            'page_id' => $page->getId()
+            'page_id' => $page->getId(),
         ]) : null;
         echo Html::a(\Yii::t('app.pagetitle', $page->getTitle()), $route, $options);
 
@@ -70,7 +70,7 @@ class ProjectPageMenu extends SideMenu
         ob_start();
         $result = false;
         foreach ($page->getChildPages() as $child) {
-            if ($this->renderPageMenu($child) && !$result) {
+            if ($this->renderPageMenu($child) && ! $result) {
                 $result = true;
                 Html::addCssClass($headerOptions, 'expanded');
             }
@@ -82,7 +82,11 @@ class ProjectPageMenu extends SideMenu
             return $this->renderPageLink($page);
         }
         echo Html::beginTag('section');
-        echo Html::tag('header', Html::a(\Yii::t('app.pagetitle', $page->title)) . Icon::chevronRight(['class' => 'collapsed-only']) . Icon::chevronDown(['class' => 'expanded-only']), $headerOptions);
+        echo Html::tag('header', Html::a(\Yii::t('app.pagetitle', $page->title)) . Icon::chevronRight([
+            'class' => 'collapsed-only',
+        ]) . Icon::chevronDown([
+            'class' => 'expanded-only',
+        ]), $headerOptions);
         echo $sub;
         echo Html::endTag('section');
         return $result;

@@ -27,7 +27,10 @@ class CreateForLimesurveyCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $this->getWorkspace($I);
-        $I->amOnPage(['facility/create', 'workspaceId' => $workspace->id]);
+        $I->amOnPage([
+            'facility/create',
+            'workspaceId' => $workspace->id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
         $I->seeElement('iframe[name="limesurvey"]');
     }

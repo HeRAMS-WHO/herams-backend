@@ -14,12 +14,12 @@ defined('YII_DEBUG') or define('YII_DEBUG', file_exists(__DIR__ . '/config/debug
 error_reporting(E_ALL & ~E_DEPRECATED);
 call_user_func(function () {
     $autoload = __DIR__ . '/../vendor/autoload.php';
-    if (!file_exists($autoload)) {
+    if (! file_exists($autoload)) {
         die("Could not locate composer autoloader");
     }
 
     require_once $autoload;
-    if (!file_exists('/run/secrets')) {
+    if (! file_exists('/run/secrets')) {
         $env = new \prime\components\InsecureSecretEnvironment('/run/env.json', __DIR__ . '/config/env.json');
     } else {
         $env = new KubernetesSecretEnvironment('/run/secrets', __DIR__ . '/config/env.json', '/run/config/config.json', '/run/env.json');

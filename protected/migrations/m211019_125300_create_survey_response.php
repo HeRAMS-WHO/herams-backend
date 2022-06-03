@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 use yii\db\Migration;
 
-/**
- * Class m211019_125300_create_survey_response
- */
 class m211019_125300_create_survey_response extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp(): bool
     {
         $this->createTable(
@@ -32,9 +26,6 @@ class m211019_125300_create_survey_response extends Migration
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown(): bool
     {
         $this->dropTable('{{%survey_response}}');

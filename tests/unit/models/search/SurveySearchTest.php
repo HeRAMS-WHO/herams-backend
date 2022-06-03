@@ -22,7 +22,7 @@ class SurveySearchTest extends Unit
             [
                 [
                     'id' => "15",
-                    'title' => 'test123'
+                    'title' => 'test123',
                 ],
             ],
 
@@ -35,9 +35,9 @@ class SurveySearchTest extends Unit
             [
                 [
                     'id' => "cool",
-                    'title' => 'test123'
+                    'title' => 'test123',
                 ],
-            ]
+            ],
         ];
     }
 

@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m180405_145645_create_response_master_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('{{%response_master}}', [
@@ -23,7 +20,7 @@ class m180405_145645_create_response_master_table extends Migration
             'hf_type' => $this->string(40),
             'lga' => $this->string(200),
             'latitude' => $this->decimal(9, 6),
-            'longitude' => $this->decimal(9, 6)
+            'longitude' => $this->decimal(9, 6),
         ]);
 
         $this->createIndex(
@@ -33,9 +30,6 @@ class m180405_145645_create_response_master_table extends Migration
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%response_master}}');

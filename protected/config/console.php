@@ -14,7 +14,7 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'aliases' => [
         // Mainly for console apps.
         '@web' => '/',
-        '@webroot' => realpath(__DIR__ . '/../../public')
+        '@webroot' => realpath(__DIR__ . '/../../public'),
     ],
     'bootstrap' => [
         'auditService',
@@ -23,8 +23,8 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
         'auditService' => \prime\helpers\AuditServiceProxy::class,
         // In console mode never read from the LS cache, this forces the data to be refreshed.
         'limesurveyCache' => function () {
-            $result = new class ([
-                'cachePath' => '@runtime/limesurveyCache'
+            $result = new class([
+                'cachePath' => '@runtime/limesurveyCache',
             ]) extends \yii\caching\FileCache {
                 protected function getValue($key)
                 {
@@ -32,8 +32,8 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
                 }
             };
             return $result;
-        }
-    ]
+        },
+    ],
 ]);
 
 if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {

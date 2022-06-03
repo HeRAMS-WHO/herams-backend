@@ -17,12 +17,16 @@ class PeclWriter implements WriterInterface
     private Excel $file;
 
     private $buffer = [];
+
     private float $time = 0;
+
     private float $mapping = 0;
 
     public function __construct()
     {
-        $excel = new Excel(['path' => sys_get_temp_dir()]);
+        $excel = new Excel([
+            'path' => sys_get_temp_dir(),
+        ]);
         $this->file = $excel->constMemory('xlsx' . md5(microtime()) . '.xlsx');
         $this->file = $excel->fileName('tutorial01.xlsx', 'sheet1');
     }
@@ -38,7 +42,7 @@ class PeclWriter implements WriterInterface
     private function flush(): void
     {
         $start = microtime(true);
-        if (!empty($this->buffer)) {
+        if (! empty($this->buffer)) {
             $this->file->data($this->buffer);
             $this->buffer = [];
         }

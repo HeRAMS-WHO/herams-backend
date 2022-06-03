@@ -23,12 +23,12 @@ class MaintenanceController extends Controller
             echo strtr("Maintenance mode has been {maintenanceStatus} since {since}, the platform is {platformStatus}\n", [
                 '{maintenanceStatus}' => Console::ansiFormat("ACTIVE", [Console::FG_GREEN]),
                 '{since}' => date('d-m-Y H:i:s', $enabledTime),
-                '{platformStatus}' => Console::ansiFormat("NOT REACHABLE", [Console::FG_RED])
+                '{platformStatus}' => Console::ansiFormat("NOT REACHABLE", [Console::FG_RED]),
             ]);
         } else {
             echo strtr("Maintenance mode is currently {maintenanceStatus}, the platform should be {platformStatus}\n", [
                 '{maintenanceStatus}' => Console::ansiFormat("NOT ACTIVE", [Console::FG_RED]),
-                '{platformStatus}' => Console::ansiFormat("REACHABLE", [Console::FG_GREEN])
+                '{platformStatus}' => Console::ansiFormat("REACHABLE", [Console::FG_GREEN]),
             ]);
         }
     }
@@ -53,7 +53,7 @@ class MaintenanceController extends Controller
     public function actionUpdateAllFacilities(JobQueueInterface $jobQueue): void
     {
         /** @var Facility $facility */
-        foreach(Facility::find()->each() as $facility) {
+        foreach (Facility::find()->each() as $facility) {
             $jobQueue->putJob(new UpdateFacilityDataJob(new FacilityId((string) $facility->id)));
             echo '.';
         }

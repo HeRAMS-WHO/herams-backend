@@ -40,7 +40,7 @@ return [
         Permission::PERMISSION_MANAGE_WORKSPACES,
         Permission::PERMISSION_MANAGE_DASHBOARD,
         Permission::PERMISSION_DELETE_ALL_WORKSPACES,
-        Permission::PERMISSION_CREATE_FACILITY
+        Permission::PERMISSION_CREATE_FACILITY,
     ]),
     new ImpliedPermission(Permission::PERMISSION_WRITE, [
         Permission::PERMISSION_READ,
@@ -50,12 +50,12 @@ return [
     ]),
     new ImpliedPermission(Permission::PERMISSION_READ, [
         Permission::PERMISSION_LIST_WORKSPACES,
-        Permission::PERMISSION_LIST_FACILITIES
+        Permission::PERMISSION_LIST_FACILITIES,
     ]),
     new ImpliedPermission(Permission::PERMISSION_EXPORT, [
         Permission::PERMISSION_LIST_WORKSPACES,
         Permission::PERMISSION_READ,
-        Permission::PERMISSION_LIST_FACILITIES
+        Permission::PERMISSION_LIST_FACILITIES,
     ]),
     new ProjectImplicitReadViaExplicitWorkspacePermission(),
     new PublicProjectRule(),

@@ -18,6 +18,7 @@ use yii\helpers\Url;
 class JwtSso extends Component implements TicketingInterface
 {
     public ?string $issuer;
+
     public $loginUrl;
 
     /**
@@ -36,13 +37,10 @@ class JwtSso extends Component implements TicketingInterface
      */
     public $paramName = 'jwt';
 
-
-
     /**
      * @var int Default validity period for a ticket, in case of clock skew between servers this might need to be increased.
      */
     public $defaultExpiration = 300;
-
 
     /**
      * A closure that given a user ID generates a username for SSO.
@@ -63,11 +61,11 @@ class JwtSso extends Component implements TicketingInterface
     public function init()
     {
         parent::init();
-        if (!isset($this->privateKey)) {
+        if (! isset($this->privateKey)) {
             throw new InvalidConfigException("Private key must be configured");
         }
 
-        if (!isset($this->loginUrl)) {
+        if (! isset($this->loginUrl)) {
             throw new InvalidConfigException("Login URL is mandatory");
         }
     }
@@ -76,7 +74,6 @@ class JwtSso extends Component implements TicketingInterface
         string $identifier,
         ?int $expires = null
     ): string {
-
         $builder = new Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
         $builder
             ->issuedBy($this->issuer ?? \Yii::$app->name)
@@ -89,8 +86,10 @@ class JwtSso extends Component implements TicketingInterface
             $builder->withClaim('errorUrl', Url::to($this->errorRoute, true));
         }
 
-        $key = Signer\Key\InMemory::plainText(strtr((string)$this->privateKey, ['    ' => "\n"]));
-        $jwt =  $builder->getToken(new Signer\Rsa\Sha256(), $key)->toString();
+        $key = Signer\Key\InMemory::plainText(strtr((string) $this->privateKey, [
+            '    ' => "\n",
+        ]));
+        $jwt = $builder->getToken(new Signer\Rsa\Sha256(), $key)->toString();
         return $jwt;
     }
 
@@ -101,7 +100,6 @@ class JwtSso extends Component implements TicketingInterface
 
     /**
      * @throws \yii\base\ExitException
-     * @inheritdoc
      */
     public function loginAndRedirectCurrentUser(): void
     {
@@ -109,7 +107,9 @@ class JwtSso extends Component implements TicketingInterface
             throw new InvalidCallException("This function cannot be called when there is no logged in user");
         }
 
-        $form = Html::beginForm($this->loginUrl, 'post', ['id' => 'ssoform'])
+        $form = Html::beginForm($this->loginUrl, 'post', [
+            'id' => 'ssoform',
+        ])
             . Html::hiddenInput($this->paramName, $this->createToken(\Yii::$app->user->id))
             . Html::endForm();
         \Yii::$app->response->content = <<<HTML
@@ -135,7 +135,6 @@ HTML;
     /**
      * Setter to allow configuring a generator for usernames,
      * allows for more flexibility with respect to just a prefix
-     * @param \Closure $closure
      */
     public function setUserNameGenerator(\Closure $closure)
     {
@@ -144,9 +143,7 @@ HTML;
 
     /**
      * Setter to allow configuring a prefix for username generation
-     * @param string $prefix
      */
-
     public function setUserNamePrefix(string $prefix)
     {
         $this->_userNameGenerator = function ($id) use ($prefix) {

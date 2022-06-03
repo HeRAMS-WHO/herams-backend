@@ -29,8 +29,8 @@ Section::begin()
 $form = ActiveForm::begin([
     "type" => ActiveForm::TYPE_HORIZONTAL,
     'formConfig' => [
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 
 echo $model->renderForm($form);

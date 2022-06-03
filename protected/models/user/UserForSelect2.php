@@ -11,6 +11,7 @@ use prime\values\UserId;
 class UserForSelect2 implements UserForSelect2Interface
 {
     private string $text;
+
     private UserId $userId;
 
     public function __construct(

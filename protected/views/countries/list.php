@@ -15,16 +15,16 @@ $this->params['subMenu']['items'] = [];
     echo \kartik\grid\GridView::widget([
         'caption' => \yii\bootstrap\ButtonGroup::widget([
             'options' => [
-                'class' => 'pull-right'
+                'class' => 'pull-right',
             ],
             'buttons' => [
                 [
                     'label' => 'Add new country',
                     'options' => [
-                        'class' => 'btn-primary'
-                    ]
+                        'class' => 'btn-primary',
+                    ],
                 ],
-            ]
+            ],
         ]),
         'dataProvider' => $countriesDataProvider,
         'columns' => [
@@ -36,12 +36,15 @@ $this->params['subMenu']['items'] = [];
                     'update' => function ($url, $model, $key) {
                         return Html::a(
                             Html::icon('pencil'),
-                            ['/countries/update', 'id' => $model->id]
+                            [
+                                '/countries/update',
+                                'id' => $model->id,
+                            ]
                         );
-                    }
-                ]
-            ]
-        ]
+                    },
+                ],
+            ],
+        ],
     ]);
     ?>
 </div>

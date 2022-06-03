@@ -80,20 +80,26 @@ use yii\web\Linkable;
  * @property-read Survey $adminSurvey
  *
  * @mixin VirtualFieldBehavior
- *
  */
 class Project extends ActiveRecord implements Linkable, RequestableInterface, ProjectForTabMenuInterface
 {
     public const VISIBILITY_PUBLIC = 'public';
+
     public const VISIBILITY_PRIVATE = 'private';
+
     public const VISIBILITY_HIDDEN = 'hidden';
+
     public const STATUS_ONGOING = 0;
+
     public const STATUS_BASELINE = 1;
+
     public const STATUS_TARGET = 2;
+
     public const STATUS_EMERGENCY_SPECIFIC = 3;
 
-    const PROGRESS_ABSOLUTE = 'absolute';
-    const PROGRESS_PERCENTAGE = 'percentage';
+    public const PROGRESS_ABSOLUTE = 'absolute';
+
+    public const PROGRESS_PERCENTAGE = 'percentage';
 
     public function attributeHints(): array
     {
@@ -128,7 +134,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             AuditableBehavior::class,
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
-                'virtualFields' => self::virtualFields()
+                'virtualFields' => self::virtualFields(),
             ],
         ];
     }
@@ -178,7 +184,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
     {
         $query = $this->getResponses()
             ->groupBy([
-                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))"
+                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))",
             ])
             ->select([
                 'count' => 'count(*)',
@@ -191,7 +197,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         $map = [
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
-            'A3' => \Yii::t('app', 'None')
+            'A3' => \Yii::t('app', 'None'),
         ];
 
         $result = [];
@@ -222,30 +228,44 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             'target' => self::class,
             'target_id' => $this->id,
             'source' => User::class,
-            'permission' => Permission::ROLE_LEAD
+            'permission' => Permission::ROLE_LEAD,
         ]);
 
-        return User::find()->andWhere(['id' => $permissionQuery->select('source_id')])->all();
+        return User::find()->andWhere([
+            'id' => $permissionQuery->select('source_id'),
+        ])->all();
     }
 
     public function getLinks(): array
     {
         $result = [];
-        $result[Link::REL_SELF] = Url::to(['project/view', 'id' => $this->id]);
-        $result['summary'] = Url::to(['project/summary', 'id' => $this->id]);
+        $result[Link::REL_SELF] = Url::to([
+            'project/view',
+            'id' => $this->id,
+        ]);
+        $result['summary'] = Url::to([
+            'project/summary',
+            'id' => $this->id,
+        ]);
 
         if (\Yii::$app->user->can(Permission::PERMISSION_READ, $this)) {
             if ($this->getOverride('dashboard')) {
                 $result['dashboard'] = new Link([
                     'title' => \Yii::t('app', 'Dashboard'),
                     'type' => 'text/html',
-                    'href' => Url::to(['/project/external-dashboard', 'id' => $this->id]),
+                    'href' => Url::to([
+                        '/project/external-dashboard',
+                        'id' => $this->id,
+                    ]),
                 ]);
             } elseif ($this->getMainPages()->exists()) {
                 $result['dashboard'] = new Link([
                     'title' => \Yii::t('app', 'Dashboard'),
                     'type' => 'text/html',
-                    'href' => Url::to(['/project/view', 'id' => $this->id]),
+                    'href' => Url::to([
+                        '/project/view',
+                        'id' => $this->id,
+                    ]),
                 ]);
             }
         }
@@ -253,14 +273,21 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         $result['workspaces'] = new Link([
             'title' => \Yii::t('app', 'Workspaces'),
             'type' => 'text/html',
-            'href' => Url::to(['/project/workspaces', 'id' => $this->id])
+            'href' => Url::to(
+                [
+                    '/project/workspaces',
+                    'id' => $this->id,
+                ]
+            ),
         ]);
         return $result;
     }
 
     public function getMainPages(): ActiveQuery
     {
-        return $this->getPages()->andWhere(['parent_id' => null])->orderBy('sort');
+        return $this->getPages()->andWhere([
+            'parent_id' => null,
+        ])->orderBy('sort');
     }
 
     public function getMap(): HeramsCodeMap
@@ -275,23 +302,35 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
 
     public function getPages(): ActiveQuery
     {
-        return $this->hasMany(Page::class, ['project_id' => 'id'])
+        return $this->hasMany(Page::class, [
+            'project_id' => 'id',
+        ])
             ->inverseOf('project')
             // First sort by parent_id ?? id to "group" by page id
             // Secondly order by parent_id to make sure the actual parent is first
             // Last order by the sorting column
-            ->orderBy(['COALESCE([[parent_id]], [[id]])' => SORT_ASC, 'parent_id' => SORT_ASC, 'sort' => SORT_ASC]);
+            ->orderBy([
+                'COALESCE([[parent_id]], [[id]])' => SORT_ASC,
+                'parent_id' => SORT_ASC,
+                'sort' => SORT_ASC,
+            ]);
     }
 
     public function getPermissions(): ActiveQuery
     {
-        return $this->hasMany(Permission::class, ['target_id' => 'id'])
-            ->andWhere(['target' => self::class]);
+        return $this->hasMany(Permission::class, [
+            'target_id' => 'id',
+        ])
+            ->andWhere([
+                'target' => self::class,
+            ]);
     }
 
     public function getResponses(): ResponseForLimesurveyQuery
     {
-        return $this->hasMany(ResponseForLimesurvey::class, ['workspace_id' => 'id'])->via('workspaces');
+        return $this->hasMany(ResponseForLimesurvey::class, [
+            'workspace_id' => 'id',
+        ])->via('workspaces');
     }
 
     public function getStatusText(): string
@@ -312,7 +351,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         foreach ($this->getResponses()->each() as $heramsResponse) {
             foreach ($heramsResponse->getSubjects() as $subject) {
                 $subjectAvailability = $subject->getAvailability();
-                if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
+                if (! isset($subjectAvailability, $counts[$subjectAvailability])) {
                     continue;
                 }
                 $counts[$subjectAvailability]++;
@@ -323,7 +362,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
             'A3' => \Yii::t('app', 'None'),
-//            'A4' => \Yii::t('app', 'Not normally provided'),
+            //            'A4' => \Yii::t('app', 'Not normally provided'),
         ];
 
         $result = [];
@@ -361,7 +400,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
 
         $query = $this->getResponses()
             ->groupBy([
-                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))"
+                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))",
             ])
             ->select([
                 'count' => 'count(*)',
@@ -384,7 +423,9 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
 
     public function getWorkspaces(): ActiveQuery
     {
-        return $this->hasMany(Workspace::class, ['project_id' => 'id'])->inverseOf('project');
+        return $this->hasMany(Workspace::class, [
+            'project_id' => 'id',
+        ])->inverseOf('project');
     }
 
     public function init(): void
@@ -429,7 +470,6 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         ]);
     }
 
-
     public function manageWorkspacesImpliesCreatingFacilities(): bool
     {
         return (bool) $this->manage_implies_create_hf;
@@ -440,17 +480,35 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         return [
             [['title'], RequiredValidator::class],
             [['title'], UniqueValidator::class],
-            [['base_survey_eid'], NumberValidator::class, 'integerOnly' => true],
+            [['base_survey_eid'],
+                NumberValidator::class,
+                'integerOnly' => true,
+            ],
             [['hidden'], BooleanValidator::class],
-            [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
-            [['languages'], BackedEnumValidator::class, 'example' => Language::enUS, 'allowArray' => true],
+            [['latitude', 'longitude'],
+                NumberValidator::class,
+                'integerOnly' => false,
+            ],
+            [['languages'],
+                BackedEnumValidator::class,
+                'example' => Language::enUS,
+                'allowArray' => true,
+            ],
             [['typemap', 'overrides', 'i18n'], function ($attribute) {
-                if (!is_array($this->$attribute)) {
-                    $this->addError($attribute, \Yii::t('app', '{attribute} must be an array.', ['attribute' => $this->getAttributeLabel($attribute)]));
+                if (! is_array($this->$attribute)) {
+                    $this->addError($attribute, \Yii::t('app', '{attribute} must be an array.', [
+                        'attribute' => $this->getAttributeLabel($attribute),
+                    ]));
                 }
             }],
-            [['status'], EnumValidator::class, 'enumClass' => ProjectStatus::class],
-            [['visibility'], EnumValidator::class, 'enumClass' => ProjectVisibility::class],
+            [['status'],
+                EnumValidator::class,
+                'enumClass' => ProjectStatus::class,
+            ],
+            [['visibility'],
+                EnumValidator::class,
+                'enumClass' => ProjectVisibility::class,
+            ],
             [['country'], function () {
                 $data = new ISO3166();
                 try {
@@ -459,25 +517,35 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                     $this->addError('country', $t->getMessage());
                 }
             }],
-            [['country'], DefaultValueValidator::class, 'value' => null],
+            [['country'],
+                DefaultValueValidator::class,
+                'value' => null,
+            ],
             [['manage_implies_create_hf'], BooleanValidator::class],
-            [['admin_survey_id', 'data_survey_id'], ExistValidator::class, 'targetClass' => Survey::class, 'targetAttribute' => 'id'],
-            [['data_survey_id', 'admin_survey_id', 'base_survey_eid'], function (string $attribute, null|array $params, InlineValidator $validator) {
-                if (empty($this->base_survey_eid) && (empty($this->admin_survey_id) || empty($this->data_survey_id))) {
-                    $this->addError(
-                        $attribute,
-                        \Yii::t(
-                            'app',
-                            'Either {baseSurveyEid} or {adminSurveyId} and {dataSurveyId} must be set.',
-                            [
-                                'baseSurveyEid' => $this->getAttributeLabel('base_survey_eid'),
-                                'adminSurveyId' => $this->getAttributeLabel('admin_survey_id'),
-                                'dataSurveyId' => $this->getAttributeLabel('data_survey_id'),
-                            ]
-                        )
-                    );
-                }
-            }, 'skipOnEmpty' => false],
+            [['admin_survey_id', 'data_survey_id'],
+                ExistValidator::class,
+                'targetClass' => Survey::class,
+                'targetAttribute' => 'id',
+            ],
+            [['data_survey_id', 'admin_survey_id', 'base_survey_eid'],
+                function (string $attribute, null|array $params, InlineValidator $validator) {
+                    if (empty($this->base_survey_eid) && (empty($this->admin_survey_id) || empty($this->data_survey_id))) {
+                        $this->addError(
+                            $attribute,
+                            \Yii::t(
+                                'app',
+                                'Either {baseSurveyEid} or {adminSurveyId} and {dataSurveyId} must be set.',
+                                [
+                                    'baseSurveyEid' => $this->getAttributeLabel('base_survey_eid'),
+                                    'adminSurveyId' => $this->getAttributeLabel('admin_survey_id'),
+                                    'dataSurveyId' => $this->getAttributeLabel('data_survey_id'),
+                                ]
+                            )
+                        );
+                    }
+                },
+                'skipOnEmpty' => false,
+            ],
         ];
     }
 
@@ -486,57 +554,76 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         return [
             'latestDate' => [
                 VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('max(date)')
-                    ->where(['workspace_id' => Workspace::find()->select('id')->andWhere([
-                        'project_id' => new Expression(self::tableName() . '.[[id]]')])
+                    ->where([
+                        'workspace_id' => Workspace::find()->select('id')->andWhere([
+                            'project_id' => new Expression(self::tableName() . '.[[id]]'),
+                        ]),
+
                     ]),
-                VirtualFieldBehavior::LAZY => static fn(self $model): ?string
-                    => $model->getResponses()->select('max([[date]])')->scalar()
+                VirtualFieldBehavior::LAZY => static fn (self $model): ?string
+                    => $model->getResponses()->select('max([[date]])')->scalar(),
             ],
             'workspaceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = Workspace::find()->limit(1)->select('count(*)')
-                    ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
-                VirtualFieldBehavior::LAZY => static fn(self $model): int
-                    => (int) $model->getWorkspaces()->count()
+                    ->where([
+                        'project_id' => new Expression(self::tableName() . '.[[id]]'),
+                    ]),
+                VirtualFieldBehavior::LAZY => static fn (self $model): int
+                    => (int) $model->getWorkspaces()->count(
+),
 
             ],
             'pageCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => Page::find()->limit(1)->select('count(*)')
-                    ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
+                    ->where([
+                        'project_id' => new Expression(self::tableName() . '.[[id]]'),
+                    ]),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return (int) $model->getMainPages()->count();
-                }
+                },
             ],
             'facilityCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->andWhere([
                     'workspace_id' => Workspace::find()->select('id')
-                        ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
-                ])->addParams([':path' => '$.facilityCount'])->
+                        ->where([
+                            'project_id' => new Expression(self::tableName() . '.[[id]]'),
+                        ]),
+                ])->addParams([
+                    ':path' => '$.facilityCount',
+                ])->
                 select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(distinct [[workspace_id]], [[hf_id]]))')),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     $override = $model->getOverride('facilityCount');
                     if (isset($override)) {
-                        return (int)$override;
+                        return (int) $override;
                     }
-                    return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
-                }
+                    return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(
+                        new Expression('DISTINCT [[hf_id]]')
+                    );
+                },
             ],
             'responseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->andWhere([
                     'workspace_id' => Workspace::find()->select('id')
-                        ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
-                ])->addParams([':path' => '$.responseCount'])->
-                select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))'))
-                ,
+                        ->where([
+                            'project_id' => new Expression(self::tableName() . '.[[id]]'),
+                        ]),
+                ])->addParams([
+                    ':path' => '$.responseCount',
+                ])->
+                select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))')),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     if ($model->workspaceCount === 0) {
                         return 0;
                     }
-                    return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
-                }
+                    return (int) (
+                        $model->getOverride('responseCount') ?? $model->getResponses()->count()
+                    );
+                },
             ],
             'permissionSourceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -544,28 +631,29 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                     ->where([
                         'source' => User::class,
                         'target' => self::class,
-                        'target_id' => new Expression(self::tableName() . '.[[id]]')
+                        'target_id' => new Expression(self::tableName() . '.[[id]]'),
                     ]),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return (int) $model->getPermissions()->count('distinct source_id');
-                }
+                },
             ],
             'contributorPermissionCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([
                     'target' => Workspace::class,
                     'target_id' => Workspace::find()->select('id')
-                        ->where(['project_id' => new Expression(self::tableName() . '.[[id]]')]),
+                        ->where([
+                            'project_id' => new Expression(self::tableName() . '.[[id]]'),
+                        ]),
                     'source' => User::class,
-                ])->select('count(distinct [[source_id]])')
-                ,
+                ])->select('count(distinct [[source_id]])'),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return (int) Permission::find()->where([
                         'target' => Workspace::class,
                         'target_id' => $model->getWorkspaces()->select('id'),
                         'source' => User::class,
                     ])->count('distinct [[source_id]]');
-                }
+                },
             ],
             'contributorCount' => [
                 VirtualFieldBehavior::GREEDY => (function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
@@ -573,15 +661,17 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                     $permissionCount = self::getDb()->queryBuilder->buildExpression($contributorPermissionCountGreedy, $result->params);
                     $workspaceCount = self::getDb()->queryBuilder->buildExpression($workspaceCountGreedy, $result->params);
 
-                    $result->addParams([':ccpath' => '$.contributorCount']);
+                    $result->addParams([
+                        ':ccpath' => '$.contributorCount',
+                    ]);
                     $result->select(new Expression("coalesce(cast(json_unquote(json_extract([[overrides]], :ccpath)) as unsigned), greatest($permissionCount, $workspaceCount))"));
                     return $result;
                 })(),
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
-                }
-            ]
+                },
+            ],
         ];
     }
 
@@ -592,7 +682,10 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
 
     public function getRoute(): array
     {
-        return ['project/update', 'id' => $this->id];
+        return [
+            'project/update',
+            'id' => $this->id,
+        ];
     }
 
     public function getProjectTitle(): string

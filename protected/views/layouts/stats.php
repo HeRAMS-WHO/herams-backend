@@ -15,14 +15,14 @@ use yii\helpers\Html;
     $stats[] = [
         'icon' => Icon::project(),
         'count' => count($projects),
-        'label' => \Yii::t('app', 'Projects')
+        'label' => \Yii::t('app', 'Projects'),
     ];
     $stats[] = [
         'icon' => Icon::healthFacility(),
-        'count' =>  \iter\reduce(static function (int $accumulator, Project $project) {
+        'count' => \iter\reduce(static function (int $accumulator, Project $project) {
             return $accumulator + $project->facilityCount;
         }, $projects, 0),
-        'label' => \Yii::t('app', 'Health Facilities')
+        'label' => \Yii::t('app', 'Health Facilities'),
     ];
 
     $stats[] = [
@@ -30,26 +30,28 @@ use yii\helpers\Html;
         'count' => \iter\reduce(static function (int $accumulator, Project $project) {
             return $accumulator + $project->contributorCount;
         }, $projects, 0),
-        'label' => \Yii::t('app', 'Contributors')
+        'label' => \Yii::t('app', 'Contributors'),
     ];
 
 
     foreach ($stats as $stat) {
-        echo Html::beginTag('div', ['class' => 'stat']);
+        echo Html::beginTag('div', [
+            'class' => 'stat',
+        ]);
         echo $stat['icon'];
         echo Html::tag('span', $stat['count']);
         echo $stat['label'];
         echo Html::endTag('div');
     }
 
-    if (!empty($projects)) {
+    if (! empty($projects)) {
         $latest = array_pop($projects);
         foreach ($projects as $project) {
             if ($project->latestDate > $latest->latestDate) {
                 $latest = $project;
             };
         }
-        $latestStatus =  "{$latest->title} / {$latest->latestDate}";
+        $latestStatus = "{$latest->title} / {$latest->latestDate}";
     } else {
         $latestStatus = \Yii::t('app', "No data loaded");
     }

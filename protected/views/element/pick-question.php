@@ -18,9 +18,12 @@ use yii\helpers\Html;
 
 \prime\assets\IconBundle::register($this);
 // Get some data here.
-$response =  \prime\models\ar\SurveyResponse::find()->andWhere(['survey_id' => 3])->one();
+$response = \prime\models\ar\SurveyResponse::find()->andWhere([
+    'survey_id' => 3,
+])->one();
 
-$this->registerCss(<<<CSS
+$this->registerCss(
+    <<<CSS
     .card {
         padding: 20px;
         margin: 10px;
@@ -45,7 +48,7 @@ Section::begin()
 foreach ($variables->getVariables() as $variable) {
     echo Html::beginTag('div', [
         'data-name' => $variable->getName(),
-        'class' => ['card', 'data-survey']
+        'class' => ['card', 'data-survey'],
     ]);
     echo "{$variable->getTitle(\Yii::$app->language)} ({$variable->getName()})";
     if ($variable instanceof ClosedVariableInterface) {
@@ -59,18 +62,26 @@ foreach ($variables->getVariables() as $variable) {
         'style' => [
             'position' => 'absolute',
             'right' => '10px',
-            'bottom' => '10px'
-        ]
+            'bottom' => '10px',
+        ],
     ]);
 
     echo \prime\widgets\ButtonGroup::widget([
         'buttons' => [
             [
                 'type' => 'link',
-                'link' => ['create-for-survey-js', 'page_id' => $page->id, 'variable' => $variable->getName()],
-                'label' => \Yii::t('app', 'Create element for this question')
-            ]
-        ]
+                'link' => [
+                    'create-for-survey-js',
+                    'page_id' => $page->id,
+                    'variable' => $variable->getName(),
+                ],
+                'label' => \Yii::t(
+                    'app',
+                    'Create element for this question'
+                ),
+            ],
+
+        ],
     ]);
     echo Html::endTag('div');
 }

@@ -15,14 +15,20 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspaceForLimesurvey();
-        $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/update',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
     public function testNotFound(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['workspace/update', 'id' => 12345]);
+        $I->amOnPage([
+            'workspace/update',
+            'id' => 12345,
+        ]);
         $I->seeResponseCodeIs(404);
     }
 
@@ -31,9 +37,14 @@ class UpdateCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
         $workspace = $I->haveWorkspaceForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_WRITE);
 
-        $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/update',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -42,9 +53,14 @@ class UpdateCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
         $workspace = $I->haveWorkspaceForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/update',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
     }
 
@@ -52,9 +68,14 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspaceForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $workspace, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['workspace/update', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/update',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
         $attributes = [
@@ -62,7 +83,9 @@ class UpdateCest
         ];
 
         foreach ($attributes as $key => $value) {
-            $I->fillField(['name' => "Workspace[$key]"], $value);
+            $I->fillField([
+                'name' => "Workspace[$key]",
+            ], $value);
         }
 
         $I->click('Save');

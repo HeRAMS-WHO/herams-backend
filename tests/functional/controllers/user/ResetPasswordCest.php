@@ -31,7 +31,9 @@ class ResetPasswordCest
 
     public function testReset(FunctionalTester $I)
     {
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $newPassword = 'S' . bin2hex(random_bytes(16));
         $I->amOnPage($this->getResetSignedUrl($user));
         $I->seeResponseCodeIs(200);
@@ -46,7 +48,9 @@ class ResetPasswordCest
 
     public function testResetWithoutSignature(FunctionalTester $I)
     {
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $url = $this->getResetSignedUrl($user);
         unset($url['h']);
         $I->amOnPage($url);
@@ -55,7 +59,9 @@ class ResetPasswordCest
 
     public function testConfirmAfterChangedPassword(FunctionalTester $I)
     {
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $url = $this->getResetSignedUrl($user);
         $I->amOnPage($url);
         $I->seeResponseCodeIs(200);

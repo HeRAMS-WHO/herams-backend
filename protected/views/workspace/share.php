@@ -25,18 +25,22 @@ echo WorkspaceTabMenu::widget([
 ]);
 $this->endBlock();
 
-Section::begin(['header' => \Yii::t('app', 'Add new user')]);
+Section::begin([
+    'header' => \Yii::t('app', 'Add new user'),
+]);
 $form = ActiveForm::begin([
     'method' => 'POST',
     "type" => ActiveForm::TYPE_HORIZONTAL,
     'formConfig' => [
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 
 echo $model->renderForm($form);
 $form->end();
 Section::end();
-Section::begin(['header' => \Yii::t('app', 'View user permissions')]);
+Section::begin([
+    'header' => \Yii::t('app', 'View user permissions'),
+]);
 echo $model->renderTable();
 Section::end();

@@ -20,7 +20,9 @@ class ImportDashboard extends Action
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         /** @var Project|null $project */
-        $project = Project::findOne(['id' => $id]);
+        $project = Project::findOne([
+            'id' => $id,
+        ]);
 
         $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_DASHBOARD);
 
@@ -32,9 +34,15 @@ class ImportDashboard extends Action
             && $model->validate()
         ) {
             $model->run();
-            return $this->controller->redirect(['project/pages', 'id' => $project->id]);
+            return $this->controller->redirect([
+                'project/pages',
+                'id' => $project->id,
+            ]);
         }
 
-        return $this->controller->render('import-dashboard', ['model' => $model, 'project' => $project]);
+        return $this->controller->render('import-dashboard', [
+            'model' => $model,
+            'project' => $project,
+        ]);
     }
 }

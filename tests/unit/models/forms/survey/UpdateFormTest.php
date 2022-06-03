@@ -29,7 +29,7 @@ class UpdateFormTest extends ModelTest
                 'attributes' => [
                     'config' => [],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -58,8 +58,8 @@ class UpdateFormTest extends ModelTest
                                 ],
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }

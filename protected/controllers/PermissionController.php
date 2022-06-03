@@ -20,7 +20,6 @@ class PermissionController extends Controller
         ];
     }
 
-
     public function behaviors(): array
     {
         return ArrayHelper::merge(
@@ -31,8 +30,8 @@ class PermissionController extends Controller
                     'actions' => [
                         'delete' => ['delete'],
                         'grant' => ['post'],
-                        'revoke' => ['post']
-                    ]
+                        'revoke' => ['post'],
+                    ],
                 ],
                 'access' => [
                     'rules' => [
@@ -40,8 +39,8 @@ class PermissionController extends Controller
                             'allow' => true,
                             'roles' => ['@'],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
     }

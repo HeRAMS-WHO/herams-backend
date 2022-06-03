@@ -26,7 +26,10 @@ class PageForBreadcrumbTest extends Unit
         $page->project_id = $projectId;
 
         $forBreadcrumb = new PageForBreadcrumb($page);
-        $this->assertEquals(['/page/update', 'id' => $pageId], $forBreadcrumb->getUrl());
+        $this->assertEquals([
+            '/page/update',
+            'id' => $pageId,
+        ], $forBreadcrumb->getUrl());
         $this->assertEquals(new ProjectId($projectId), $forBreadcrumb->getProjectId());
         $this->assertEquals($label, $forBreadcrumb->getLabel());
     }

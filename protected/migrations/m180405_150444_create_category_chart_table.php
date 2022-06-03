@@ -7,15 +7,12 @@ use yii\db\Migration;
  */
 class m180405_150444_create_category_chart_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('{{%category_chart}}', [
             'category_id' => $this->integer(),
             'indicator_id' => $this->integer(),
-            'display_order' => $this->integer()
+            'display_order' => $this->integer(),
         ]);
 
         $this->createIndex(
@@ -26,9 +23,6 @@ class m180405_150444_create_category_chart_table extends Migration
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%category_chart}}');

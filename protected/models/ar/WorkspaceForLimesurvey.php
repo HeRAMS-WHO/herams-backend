@@ -31,7 +31,11 @@ class WorkspaceForLimesurvey extends Workspace
 
     public static function find(): ActiveQuery
     {
-        return parent::find()->andWhere(['not', ['token' => null]]);
+        return parent::find()->andWhere([
+            'not', [
+                'token' => null,
+
+            ], ]);
     }
 
     public function isTransactional($operation)
@@ -47,7 +51,7 @@ class WorkspaceForLimesurvey extends Workspace
             'token' => \Yii::t('app.model.workspace', 'Token'),
             'contributorCount' => \Yii::t('app.model.workspace', 'Contributors'),
             'facilityCount' => \Yii::t('app.model.workspace', 'Facilities'),
-            'responseCount' => \Yii::t('app.model.workspace', 'Responses')
+            'responseCount' => \Yii::t('app.model.workspace', 'Responses'),
         ]);
     }
 
@@ -56,9 +60,14 @@ class WorkspaceForLimesurvey extends Workspace
         return ArrayHelper::merge(
             parent::rules(),
             [
-                [['token'], UniqueValidator::class, 'filter' => function (Query $query) {
-                    $query->andWhere(['project_id' => $this->project_id]);
-                }],
+                [['token'],
+                    UniqueValidator::class,
+                    'filter' => function (Query $query) {
+                        $query->andWhere([
+                            'project_id' => $this->project_id,
+                        ]);
+                    },
+                ],
             ]
         );
     }
@@ -95,7 +104,7 @@ class WorkspaceForLimesurvey extends Workspace
                 'seamless' => 1,
                 'deleteButton' => $canDelete ?? $canWrite,
                 'editButton' => $canWrite,
-                'copyButton' => $canWrite
+                'copyButton' => $canWrite,
             ]
         );
     }

@@ -18,11 +18,13 @@ class Limesurvey extends Action
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne([
+            'id' => $id,
+        ]);
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
 
         return $this->controller->render('limesurvey', [
-            'model' => $workspace
+            'model' => $workspace,
         ]);
     }
 }

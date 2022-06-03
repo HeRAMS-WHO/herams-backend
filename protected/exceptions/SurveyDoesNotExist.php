@@ -6,7 +6,9 @@ class SurveyDoesNotExist extends \Exception
 {
     public function __construct(int $surveyId, ?\Throwable $previous)
     {
-        parent::__construct(\Yii::t('app', 'Survey {id} does not exist', ['id' => $surveyId]), $surveyId, $previous);
+        parent::__construct(\Yii::t('app', 'Survey {id} does not exist', [
+            'id' => $surveyId,
+        ]), $surveyId, $previous);
     }
 
     public static function fromClient(\Exception $e): ?self

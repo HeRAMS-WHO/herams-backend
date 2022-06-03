@@ -30,7 +30,10 @@ class WorkspaceRepositoryTest extends Unit
         $breadcrumb = $repository->retrieveForBreadcrumb(new WorkspaceId($model->id));
 
         $this->assertEquals($model->title, $breadcrumb->getLabel());
-        $this->assertEquals(['/workspace/facilities', 'id' => $model->id], $breadcrumb->getUrl());
+        $this->assertEquals([
+            '/workspace/facilities',
+            'id' => $model->id,
+        ], $breadcrumb->getUrl());
         $this->assertEquals(new ProjectId($model->project_id), $breadcrumb->getProjectId());
     }
 }

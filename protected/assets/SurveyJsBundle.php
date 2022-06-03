@@ -11,14 +11,14 @@ class SurveyJsBundle extends AssetBundle
     public $baseUrl = '@npm/survey-knockout/';
 
     public $css = [
-        'modern.min.css'
+        'modern.min.css',
     ];
 
     public $js = [
-        'survey.ko.min.js'
+        'survey.ko.min.js',
     ];
 
     public $depends = [
-        KnockoutBundle::class
+        KnockoutBundle::class,
     ];
 }

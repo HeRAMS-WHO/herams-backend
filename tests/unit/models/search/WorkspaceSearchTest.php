@@ -26,9 +26,9 @@ class WorkspaceSearchTest extends Unit
                     'id' => 15,
                     'title' => 'test',
                     'created_at' => '2021',
-                    'favorite' => '0'
-                ]
-            ]
+                    'favorite' => '0',
+                ],
+            ],
         ];
     }
 
@@ -41,8 +41,8 @@ class WorkspaceSearchTest extends Unit
                     // This can be fixed by using a typehint on the property
                     'title' => ['array value'],
                     'favorite' => 'not a boolean',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 

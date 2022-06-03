@@ -24,9 +24,9 @@ class ProjectSearchTest extends Unit
             [
                 [
                     'id' => 15,
-                    'title' => 'test'
-                ]
-            ]
+                    'title' => 'test',
+                ],
+            ],
         ];
     }
 
@@ -37,9 +37,9 @@ class ProjectSearchTest extends Unit
                 [
                     'id' => 'not a number',
                     // This can be fixed by using a typehint on the property
-                    'title' => ['array value']
-                ]
-            ]
+                    'title' => ['array value'],
+                ],
+            ],
         ];
     }
 

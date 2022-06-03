@@ -21,9 +21,9 @@ class WorkspaceController extends \yii\rest\Controller
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 
@@ -31,7 +31,7 @@ class WorkspaceController extends \yii\rest\Controller
     {
         return [
             'refresh' => Refresh::class,
-            'create' => Create::class
+            'create' => Create::class,
         ];
     }
 }

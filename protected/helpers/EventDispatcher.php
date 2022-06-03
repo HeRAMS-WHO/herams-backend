@@ -10,16 +10,14 @@ use yii\base\Event;
 use function iter\chain;
 use function iter\flatten;
 
-/**
- *
- */
 class EventDispatcher implements EventDispatcherInterface
 {
     private array $handlers = [];
+
     public function on(string $class, string $name, \Closure $handler, $data = null, bool $append = true): void
     {
         $key = "{$class}#{$name}";
-        if (!isset($this->handlers[$key])) {
+        if (! isset($this->handlers[$key])) {
             $this->handlers[$key] = [];
         }
         if ($append) {

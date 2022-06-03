@@ -17,12 +17,12 @@ class ServerRequest implements ServerRequestInterface
     private Request $request;
 
     private string $version;
+
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->version = $_SERVER['SERVER_PROTOCOL'] ?? '1.0';
     }
-
 
     public function getProtocolVersion()
     {

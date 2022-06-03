@@ -42,7 +42,6 @@ final class UpdateSituationForm extends Model
 
     /**
      * This validates only the absolutely necessary requirements
-     * @return array
      */
     public function rules(): array
     {

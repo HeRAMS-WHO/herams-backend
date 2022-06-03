@@ -26,7 +26,9 @@ class Respond extends Action
         JobQueueInterface $jobQueue,
         int $id
     ) {
-        $accessRequest = AccessRequest::findOne(['id' => $id]);
+        $accessRequest = AccessRequest::findOne([
+            'id' => $id,
+        ]);
 
         $accessCheck->requirePermission($accessRequest, Permission::PERMISSION_RESPOND);
         $model = new RespondFormModel(

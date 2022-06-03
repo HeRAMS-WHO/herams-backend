@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 use yii\db\Migration;
 
-/**
- * Class m211026_103049_redo_facility
- */
 class m211026_103049_redo_facility extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp(): bool
     {
         $this->dropColumn('{{%facility}}', 'uuid');
@@ -24,9 +18,6 @@ class m211026_103049_redo_facility extends Migration
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown(): bool
     {
         $this->addColumn('{{%facility}}', 'uuid', ' binary(16) not null');

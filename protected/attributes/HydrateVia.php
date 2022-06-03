@@ -11,18 +11,15 @@ use prime\interfaces\Hydrator;
 class HydrateVia
 {
     /**
-     * @var class-string $type
+     * @var class-string
      */
     public function __construct(private string $type)
     {
-        if (!is_subclass_of($type, Hydrator::class)) {
+        if (! is_subclass_of($type, Hydrator::class)) {
             throw new \InvalidArgumentException('Class does not exist or does not have implement Hydrator');
         }
     }
 
-    /**
-     * @param int|array|string|null $value
-     */
     public function create(int|null|array|string $value): null|object
     {
         return $this->type::fromDatabase($value);

@@ -10,6 +10,7 @@ use yii\base\InvalidConfigException;
 class InsecureSecretEnvironment implements EnvironmentInterface
 {
     private array $data = [];
+
     public function __construct(string ...$files)
     {
         $this->data = getenv();
@@ -27,7 +28,7 @@ class InsecureSecretEnvironment implements EnvironmentInterface
 
     public function getSecret(string $name): string
     {
-        if (!isset($this->data["SECRET_$name"])) {
+        if (! isset($this->data["SECRET_$name"])) {
             throw new InvalidConfigException("Missing variable SECRET_$name");
         }
         return trim($this->data["SECRET_$name"]);

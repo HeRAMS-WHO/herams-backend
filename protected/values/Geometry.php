@@ -25,7 +25,7 @@ class Geometry implements Hydrator, Dehydrator
 
     public static function fromDatabase(float|int|string|null $value): null|static
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return null;
         }
         $parser = new Parser();

@@ -32,7 +32,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         'jobQueue' => \JCIT\jobqueue\interfaces\JobQueueInterface::class,
         'auditService' => AuditService::class,
         'formatter' => [
-            'class' => Formatter::class
+            'class' => Formatter::class,
         ],
         'session' => [
             'class' => DbSession::class,
@@ -47,17 +47,17 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                     'created_at' => $session->get('created', Carbon::now()),
                     'updated_at' => Carbon::now(),
                     // Workaround for https://github.com/yiisoft/yii2/issues/19130
-                    'expire' => time() + $session->getTimeout()
+                    'expire' => time() + $session->getTimeout(),
                 ];
                 $session->remove('__id');
                 return $fields;
-            }
+            },
         ],
         'languageSelector' => [
-            'class' => LanguageSelector::class
+            'class' => LanguageSelector::class,
         ],
         'notificationService' => [
-            'class' => NotificationService::class
+            'class' => NotificationService::class,
         ],
         'view' => \prime\components\View::class,
         'urlManager' => [
@@ -70,28 +70,28 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                 Module::urlRules(),
                 [
                     'pattern' => '<controller>',
-                    'route' => '<controller>'
+                    'route' => '<controller>',
                 ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
-                    'route' => '<controller>'
+                    'route' => '<controller>',
                 ],
                 [
                     'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',
-                    'route' => '<controller>/<action>'
+                    'route' => '<controller>/<action>',
                 ],
                 [
                     'pattern' => '<controller>/<action:[\w-]+>',
-                    'route' => '<controller>/<action>'
+                    'route' => '<controller>/<action>',
                 ],
                 // For testing.
                 [
                     'pattern' => '/',
-                    'route' => 'site/world-map'
+                    'route' => 'site/world-map',
                 ],
 
 
-            ]
+            ],
         ],
         'request' => [
             'class' => \yii\web\Request::class,
@@ -105,22 +105,22 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'scriptUrl' => '/',
             'parsers' => [
                 'application/json' => yii\web\JsonParser::class,
-            ]
+            ],
         ],
         'response' => [
             'class' => \yii\web\Response::class,
             'formatters' => [
                 \yii\web\Response::FORMAT_JSON => [
                     'class' => \yii\web\JsonResponseFormatter::class,
-                    'prettyPrint' => true
-                ]
-            ]
+                    'prettyPrint' => true,
+                ],
+            ],
         ],
         'assetManager' => [
             'class' => \yii\web\AssetManager::class,
             // http://www.yiiframework.com/doc-2.0/guide-structure-assets.html#cache-busting
             'appendTimestamp' => true,
-            'forceCopy' =>  YII_DEBUG,
+            'forceCopy' => YII_DEBUG,
             'bundles' => [
                 PjaxAsset::class => [
                     'baseUrl' => '@npm/yii2-pjax',
@@ -133,25 +133,25 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                 ],
                 DialogAsset::class => false,
                 DialogBootstrapAsset::class => false,
-//                \yii\bootstrap\BootstrapThemeAsset::class => false
+                //                \yii\bootstrap\BootstrapThemeAsset::class => false
                 \yii\bootstrap\BootstrapAsset::class => [
                     'baseUrl' => '@npm/bootstrap/dist',
                     'sourcePath' => null,
                     'css' => [
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ],
         'errorHandler' => [
-            'errorAction' => '/site/error'
-        ]
+            'errorAction' => '/site/error',
+        ],
     ],
     'modules' => [
         'gridview' => [
             'class' => \kartik\grid\Module::class,
-            'controllerMap' => []
-        ]
-    ]
+            'controllerMap' => [],
+        ],
+    ],
 ]);
 
 if (YII_DEBUG && file_exists(__DIR__ . '/debug.php')) {

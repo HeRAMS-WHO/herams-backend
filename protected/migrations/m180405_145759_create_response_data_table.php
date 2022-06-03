@@ -7,16 +7,13 @@ use yii\db\Migration;
  */
 class m180405_145759_create_response_data_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('{{%response_data}}', [
             'id' => $this->primaryKey(),
             'response_id' => $this->integer(),
             'question_code' => $this->string(100),
-            'response_value' => $this->string(200)
+            'response_value' => $this->string(200),
         ]);
 
         $this->createIndex(
@@ -41,9 +38,6 @@ class m180405_145759_create_response_data_table extends Migration
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%response_data}}');

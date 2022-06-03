@@ -40,7 +40,7 @@ echo GridView::widget([
         'subject',
         [
             'label' => \Yii::t('app', 'Target type'),
-            'value' => fn(AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
+            'value' => fn (AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
         ],
         [
             'label' => \Yii::t('app', 'Target title'),
@@ -60,7 +60,7 @@ echo GridView::widget([
         ],
         'response',
         'responded_at:dateTime',
-    ]
+    ],
 ]);
 
 Section::end();
@@ -78,7 +78,7 @@ echo GridView::widget([
         'subject',
         [
             'label' => \Yii::t('app', 'Target type'),
-            'value' => fn(AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
+            'value' => fn (AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
         ],
         [
             'label' => \Yii::t('app', 'Target title'),
@@ -94,7 +94,7 @@ echo GridView::widget([
         ],
         'response',
         'responded_at:dateTime',
-    ]
+    ],
 ]);
 
 echo Html::tag('p', Html::a(\Yii::t('app', 'Access request history'), ['access-requests/index']));

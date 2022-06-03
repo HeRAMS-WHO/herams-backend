@@ -23,7 +23,7 @@ class FacilityListResponsesRule implements Rule
     public function getTargetNames(): array
     {
         return [
-            Facility::class
+            Facility::class,
         ];
     }
 
@@ -44,12 +44,11 @@ class FacilityListResponsesRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        if (!($target instanceof Facility && in_array($permission, $this->getPermissions()))) {
+        if (! ($target instanceof Facility && in_array($permission, $this->getPermissions()))) {
             return false;
         }
 
-        return
-            $accessChecker->check($source, $target->workspace, Permission::PERMISSION_SURVEY_DATA)
+        return $accessChecker->check($source, $target->workspace, Permission::PERMISSION_SURVEY_DATA)
             && $target->workspace->project->manageWorkspacesImpliesCreatingFacilities()
         ;
     }

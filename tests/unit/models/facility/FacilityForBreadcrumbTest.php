@@ -27,7 +27,10 @@ class FacilityForBreadcrumbTest extends Unit
         $facility->workspace_id = $workspaceId;
 
         $forBreadcrumb = new FacilityForBreadcrumb($facility);
-        $this->assertEquals(['/facility/responses', 'id' => $facilityId], $forBreadcrumb->getUrl());
+        $this->assertEquals([
+            '/facility/responses',
+            'id' => $facilityId,
+        ], $forBreadcrumb->getUrl());
         $this->assertEquals(new WorkspaceId($workspaceId), $forBreadcrumb->getWorkspaceId());
         $this->assertEquals($label, $forBreadcrumb->getLabel());
     }
@@ -42,7 +45,10 @@ class FacilityForBreadcrumbTest extends Unit
         $response->workspace_id = $workspaceId;
 
         $forBreadcrumb = new FacilityForBreadcrumb($response);
-        $this->assertEquals(['/facility/responses', 'id' => $facilityId], $forBreadcrumb->getUrl());
+        $this->assertEquals([
+            '/facility/responses',
+            'id' => $facilityId,
+        ], $forBreadcrumb->getUrl());
         $this->assertEquals(new WorkspaceId($workspaceId), $forBreadcrumb->getWorkspaceId());
         $this->assertEquals($facilityId, $forBreadcrumb->getLabel());
     }

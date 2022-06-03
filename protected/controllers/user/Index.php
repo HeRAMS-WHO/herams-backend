@@ -18,7 +18,7 @@ class Index extends Action
 
         return $this->controller->render('index', [
             'dataProvider' => $search->search($request->queryParams),
-            'searchModel' => $search
+            'searchModel' => $search,
         ]);
     }
 }

@@ -29,7 +29,7 @@ class GlobalPermission implements Authorizable
         return Permission::find()
             ->andWhere([
                 'target_id' => AccessChecker::GLOBAL,
-                'target' => AccessChecker::BUILTIN
+                'target' => AccessChecker::BUILTIN,
             ]);
     }
 }

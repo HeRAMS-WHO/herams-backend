@@ -37,11 +37,17 @@ echo Form::widget([
         'newEmail' => [
             'type' => Form::INPUT_TEXT,
         ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                ['label' => Yii::t('app', 'Send confirmation'), 'style' => 'primary'],
-            ],
-        ]),
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    [
+                        'label' => Yii::t('app', 'Send confirmation'),
+                        'style' => 'primary',
+                    ],
+                ],
+            ]
+        ),
+
     ],
 ]);
 

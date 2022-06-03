@@ -20,16 +20,16 @@ class MailController extends Controller
     public function behaviors(): array
     {
         return ArrayHelper::merge(parent::behaviors(), [
-                'access' => [
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'actions' => [
-                                'webhook'
-                            ],
+            'access' => [
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => [
+                            'webhook',
                         ],
-                    ]
+                    ],
                 ],
-            ]);
+            ],
+        ]);
     }
 }

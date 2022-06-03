@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets;
@@ -15,15 +16,18 @@ use function iter\toArray;
 
 class DashboardCard extends Widget
 {
-
-
     private ChartType $type;
+
     private string $title;
+
     private array $points;
+
     private bool $shadowRoot = false;
 
     private DashboardCardsBundle $bundle;
+
     private int $n;
+
     private string|array $updateRoute;
 
     public function withShadowRoot(): static
@@ -43,6 +47,7 @@ class DashboardCard extends Widget
         $this->shadowRoot = false;
         return $this;
     }
+
     public function withType(ChartType $type): static
     {
         $this->type = $type;
@@ -72,14 +77,10 @@ class DashboardCard extends Widget
         self::end();
     }
 
-
     public function init(): void
     {
         parent::init();
-        $this->bundle =DashboardCardsBundle::register($this->view);
-
-
-
+        $this->bundle = DashboardCardsBundle::register($this->view);
     }
 
     public function run(): string
@@ -89,11 +90,10 @@ class DashboardCard extends Widget
             'n' => $this->n ?? null,
             'data' => $this->points,
             'title' => $this->title,
-            'typeSelector' => false
+            'typeSelector' => false,
         ];
         $jsonId = json_encode($this->getId());
         $jsonConfig = json_encode($config);
-
 
         $js = <<<JS
           {$this->bundle->getImport("DashboardCard")}
@@ -169,18 +169,17 @@ class DashboardCard extends Widget
         $this->view->registerJs($js, View::POS_MODULE);
         $this->view->registerCss($css);
 
-
-        $updateButton = false && isset($this->updateRoute) ? Html::a(Icon::edit(), Url::to($this->updateRoute), ['class' => 'update']) : '';
+        $updateButton = false && isset($this->updateRoute) ? Html::a(Icon::edit(), Url::to($this->updateRoute), [
+            'class' => 'update',
+        ]) : '';
         return Html::tag('div', $updateButton, [
             'id' => $this->getId(),
             'class' => ['card-widget'],
             'data' => [
                 'update-uri' => isset($this->updateRoute) ? Url::to($this->updateRoute) : null,
                 'use-shadow-root' => $this->shadowRoot,
-                ''
-            ]
+                '',
+            ],
         ]); //.  "<!-- " . json_encode($config['data'], JSON_PRETTY_PRINT)."-->";
     }
-
-
 }

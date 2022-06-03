@@ -10,7 +10,7 @@ class ClientJsonValidator extends Validator
 {
     protected function validateValue($value): array|null
     {
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return ['Value is not an array', []];
         }
         return null;

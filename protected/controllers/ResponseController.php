@@ -34,7 +34,7 @@ class ResponseController extends Controller
         return [
             'compare' => Compare::class,
             'update' => Update::class,
-            'surveyjs' => SurveyJs::class
+            'surveyjs' => SurveyJs::class,
 
         ];
     }

@@ -26,6 +26,8 @@ class DateTimeColumn extends DataColumn
         }
         $dateTime = new Carbon($value);
 
-        return Html::tag('time-ago', $value, ['datetime' => $dateTime->format(Carbon::ISO8601)]);
+        return Html::tag('time-ago', $value, [
+            'datetime' => $dateTime->format(Carbon::ISO8601),
+        ]);
     }
 }

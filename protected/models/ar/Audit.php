@@ -26,7 +26,7 @@ class Audit extends ActiveRecord
         return [
             'subject_name' => \Yii::t('app', "Type of the audited entry"),
             'subject_id' => \Yii::t('app', "Id of the audited entry"),
-            'event' => \Yii::t('app', 'Type of the event')
-            ] + parent::labels();
+            'event' => \Yii::t('app', 'Type of the event'),
+        ] + parent::labels();
     }
 }

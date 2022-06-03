@@ -23,7 +23,10 @@ class SyncWorkspacesCest
         $project = $I->haveProjectForLimesurvey();
 
         $I->assertFalse(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
-        $I->amOnPage(['/project/sync-workspaces', 'id' => $project->id]);
+        $I->amOnPage([
+            '/project/sync-workspaces',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -44,7 +47,7 @@ class SyncWorkspacesCest
                 $I->assertArrayHasKey('model', $params);
                 $I->assertInstanceOf(\prime\models\forms\project\SyncWorkspaces::class, $params['model']);
                 return '';
-            })
+            }),
         ], $this);
         $action = new SyncWorkspaces('sync-workspaces', $controller);
         $action->run(\Yii::$app->request, \Yii::$app->notificationService, \Yii::$container->get(AccessCheckInterface::class), $project->id);
@@ -67,7 +70,7 @@ class SyncWorkspacesCest
                 $I->assertArrayHasKey('model', $params);
                 $I->assertInstanceOf(\prime\models\forms\project\SyncWorkspaces::class, $params['model']);
                 return '';
-            })
+            }),
         ], $this);
         $action = new SyncWorkspaces('sync-workspaces', $controller);
 
@@ -76,9 +79,9 @@ class SyncWorkspacesCest
         $request->bodyParams = [
             'SyncWorkspaces' => [
                 'workspaces' => [
-                    15
-                ]
-            ]
+                    15,
+                ],
+            ],
         ];
         $action->run($request, \Yii::$app->notificationService, \Yii::$container->get(AccessCheckInterface::class), $project->id);
     }

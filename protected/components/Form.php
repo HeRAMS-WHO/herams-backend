@@ -7,7 +7,7 @@ class Form extends \kartik\builder\Form
     protected function renderActiveInput($form, $model, $attribute, $settings)
     {
         if (
-            !isset($settings['options']['placeholder']) &&
+            ! isset($settings['options']['placeholder']) &&
             isset($form->formConfig['defaultPlaceholder']) &&
             $form->formConfig['defaultPlaceholder'] &&
             isset($settings['type']) &&

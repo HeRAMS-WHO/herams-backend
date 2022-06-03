@@ -34,12 +34,16 @@ class UserRepositoryTest extends Unit
     {
         $repository = $this->createRepository();
 
-        $this->assertEquals(User::findOne(['id' => TEST_USER_ID]), $repository->retrieve(TEST_USER_ID));
+        $this->assertEquals(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $repository->retrieve(TEST_USER_ID));
     }
 
     public function testRetrieveForSelect2(): void
     {
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $repository = $this->createRepository();
 
         $this->assertEquals([new UserForSelect2($user)], $repository->retrieveForSelect2($user->email));
@@ -49,7 +53,9 @@ class UserRepositoryTest extends Unit
     {
         $repository = $this->createRepository();
 
-        $this->assertEquals(User::findOne(['id' => TEST_USER_ID]), $repository->retrieveOrThrow(TEST_USER_ID));
+        $this->assertEquals(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $repository->retrieveOrThrow(TEST_USER_ID));
     }
 
     public function testRetrieveOrThrowFailed(): void

@@ -15,7 +15,9 @@ class Element extends Model
         getAnswers as getQuestionAnswers;
     }
 
-    /** @var \prime\models\ar\Element  */
+    /**
+     * @var \prime\models\ar\Element
+     */
     private $element;
 
     public function __construct(
@@ -40,7 +42,6 @@ class Element extends Model
         return false;
     }
 
-
     public function __isset($name)
     {
         return parent::__isset($name) || isset($this->element->$name);
@@ -50,7 +51,7 @@ class Element extends Model
     {
         if (preg_match('/^color\.(.*)/', $name, $matches)) {
             $this->setColor($matches[1], $value);
-        } elseif (!$this->canSetProperty($name)) {
+        } elseif (! $this->canSetProperty($name)) {
             $this->element->{$name} = $value;
         } else {
             parent::__set($name, $value);
@@ -61,7 +62,7 @@ class Element extends Model
     {
         if (preg_match('/^color\.(.*)/', $name, $matches)) {
             return $this->getColor($matches[1]);
-        } elseif (!$this->canGetProperty($name)) {
+        } elseif (! $this->canGetProperty($name)) {
             return $this->element->{$name};
         }
         return parent::__get($name);
@@ -74,12 +75,13 @@ class Element extends Model
         // Add color labels.
         if ($this->element->code !== null) {
             foreach ($this->getAnswers($this->element->getCode()) as $code => $answer) {
-                $result[strtr("color.$code", ['-' => '_'])] = $answer;
+                $result[strtr("color.$code", [
+                    '-' => '_',
+                ])] = $answer;
             }
         }
         return $result;
     }
-
 
     public function attributeHints(): array
     {
@@ -89,13 +91,12 @@ class Element extends Model
         return $result;
     }
 
-
     public function __call($name, $params)
     {
         try {
             return parent::__call($name, $params);
         } catch (UnknownMethodException $e) {
-            return $this->element->$name(... $params);
+            return $this->element->$name(...$params);
         }
     }
 
@@ -103,22 +104,27 @@ class Element extends Model
     {
         return array_merge($this->element->rules(), [
             $this->colorRule(),
-            [['code'], RangeValidator::class, 'range' => function () {
-                return array_keys($this->codeOptions());
-            }]
+            [['code'],
+                RangeValidator::class,
+                'range' => function () {
+                    return array_keys($this->codeOptions());
+                },
+            ],
         ]);
     }
 
     private function colorRule(): array
     {
         return [
-            $this->colorAttributes(), RegularExpressionValidator::class, 'pattern' => '/^\#[0-9a-fA-F]{6}$/'
+            $this->colorAttributes(),
+            RegularExpressionValidator::class,
+            'pattern' => '/^\#[0-9a-fA-F]{6}$/',
         ];
     }
 
     public function answerCodes(): array
     {
-        if (!isset($this->element->code)) {
+        if (! isset($this->element->code)) {
             return [];
         }
         return array_keys($this->getAnswers($this->element->code));
@@ -133,14 +139,15 @@ class Element extends Model
         }
     }
 
-
     public function colorAttributes(): array
     {
-        if (!$this->element->isAttributeSafe('colors')) {
+        if (! $this->element->isAttributeSafe('colors')) {
             return [];
         }
         return array_map(function ($code) {
-            return strtr("color.$code", ['-' => '_']);
+            return strtr("color.$code", [
+                '-' => '_',
+            ]);
         }, $this->answerCodes());
     }
 
@@ -185,8 +192,6 @@ class Element extends Model
         $this->element->setColors($colors);
     }
 
-
-
     public function save(): bool
     {
         return $this->validate() && $this->element->save();
@@ -196,7 +201,9 @@ class Element extends Model
     {
         switch ($code) {
             case 'causes':
-                $expr = strtr($this->element->project->getMap()->getSubjectExpression(), ['$' => 'x$']);
+                $expr = strtr($this->element->project->getMap()->getSubjectExpression(), [
+                    '$' => 'x$',
+                ]);
                 foreach ($this->survey->getGroups() as $group) {
                     foreach ($group->getQuestions() as $question) {
                         if (preg_match($expr, $question->getTitle())) {

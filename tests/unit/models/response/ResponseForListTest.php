@@ -19,9 +19,11 @@ class ResponseForListTest extends Unit
 {
     private function getHeramsResponse()
     {
-        return new class implements HeramsResponseInterface {
+        return new class() implements HeramsResponseInterface {
             public string $condition = '';
+
             public string $accessibility = '';
+
             public string $functionality = '';
 
             public function getLatitude(): ?float
@@ -96,19 +98,16 @@ class ResponseForListTest extends Unit
 
             public function getMainReason(): ?string
             {
-                // TODO: Implement getMainReason() method.
             }
 
             public function getRawData(): array
             {
-                // TODO: Implement getRawData() method.
             }
         };
     }
 
     public function testGetId(): void
     {
-
         $model = new ResponseForList($this->getHeramsResponse());
 
         $this->assertSame(54321, $model->getId()->getValue());

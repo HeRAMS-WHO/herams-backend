@@ -21,10 +21,12 @@ class GrantCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProjectForLimesurvey();
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $permission = Permission::PERMISSION_ADMIN;
 
-            /** @var AuthManager $abacManager */
+        /** @var AuthManager $abacManager */
         $abacManager = \Yii::$app->abacManager;
         $I->assertFalse($abacManager->check($user, $project, $permission));
 

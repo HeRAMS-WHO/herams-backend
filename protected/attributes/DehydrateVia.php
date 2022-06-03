@@ -11,11 +11,11 @@ use prime\interfaces\Dehydrator;
 class DehydrateVia
 {
     /**
-     * @var class-string $type
+     * @var class-string
      */
     public function __construct(private string $type)
     {
-        if (!is_subclass_of($type, Dehydrator::class)) {
+        if (! is_subclass_of($type, Dehydrator::class)) {
             throw new \InvalidArgumentException('Class does not exist or does not have implement Dehydrator');
         }
     }

@@ -24,8 +24,8 @@ class AccessRequestTest extends ActiveRecordTest
     {
         return [
             [
-                []
-            ]
+                [],
+            ],
         ];
     }
 
@@ -40,7 +40,7 @@ class AccessRequestTest extends ActiveRecordTest
         $accessRequest = new AccessRequest();
 
         AccessRequest::populateRecord($accessRequest, [
-            'id' => 12345
+            'id' => 12345,
         ]);
         $this->assertNull($accessRequest->expires_at);
     }

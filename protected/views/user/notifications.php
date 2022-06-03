@@ -35,7 +35,7 @@ echo GridView::widget([
     'columns' => [
         [
             'label' => \Yii::t('app', 'Title'),
-            'value' => static fn(UserNotificationInterface $model) => $model->getTitle(),
+            'value' => static fn (UserNotificationInterface $model) => $model->getTitle(),
         ],
         [
             'class' => ActionColumn::class,
@@ -48,15 +48,15 @@ echo GridView::widget([
                             'title' => \Yii::t('app', 'View'),
                         ]
                     );
-                }
+                },
             ],
             'visibleButtons' => [
                 'view' => function (UserNotificationInterface $model) {
                     return $model->getUrl() !== null;
                 },
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ]);
 
 Section::end();

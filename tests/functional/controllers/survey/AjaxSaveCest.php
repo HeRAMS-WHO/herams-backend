@@ -36,7 +36,7 @@ class AjaxSaveCest
                             ],
                         ],
                     ],
-                ]
+                ],
             ]
         );
         $I->seeResponseCodeIsSuccessful();
@@ -68,7 +68,7 @@ class AjaxSaveCest
                             ],
                         ],
                     ],
-                ]
+                ],
             ]
         );
         $I->seeResponseCodeIsSuccessful();

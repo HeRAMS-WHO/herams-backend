@@ -9,5 +9,6 @@ use prime\values\UserId;
 interface UserForSelect2Interface
 {
     public function getText(): string;
+
     public function getUserId(): UserId|null;
 }

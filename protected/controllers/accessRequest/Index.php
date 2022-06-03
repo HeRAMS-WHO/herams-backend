@@ -22,17 +22,21 @@ class Index extends Action
                 ->withoutResponse()
                 ->notExpired()
                 ->withFields('created_at')
-                ->orderBy(['created_at' => SORT_DESC]),
+                ->orderBy([
+                    'created_at' => SORT_DESC,
+                ]),
             $user->identity,
-            static fn(AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
+            static fn (AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
         );
 
         $closedAccessRequestsSearchModel = new AccessRequestSearch(
             AccessRequest::find()
-                ->orderBy(['responded_at' => SORT_DESC])
+                ->orderBy([
+                    'responded_at' => SORT_DESC,
+                ])
                 ->withResponse(),
             $user->identity,
-            static fn(AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
+            static fn (AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
         );
 
         return $this->controller->render(

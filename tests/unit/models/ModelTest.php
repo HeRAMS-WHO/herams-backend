@@ -26,8 +26,6 @@ abstract class ModelTest extends Unit
 
     abstract protected function getModel(): Model;
 
-
-
     public function testGetModel()
     {
         $model = $this->getModel();

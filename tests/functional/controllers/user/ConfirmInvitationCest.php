@@ -45,7 +45,9 @@ class ConfirmInvitationCest
         \Yii::$app->user->logout();
         $email = 'email@test.com';
         $url = $this->getSignedUrl($email, $page->project, [Permission::PERMISSION_READ, PERMISSION::PERMISSION_WRITE]);
-        $I->dontSeeRecord(User::class, ['email' => $email]);
+        $I->dontSeeRecord(User::class, [
+            'email' => $email,
+        ]);
 
         $I->amOnPage($url);
         $I->seeResponseCodeIs(200);
@@ -57,11 +59,16 @@ class ConfirmInvitationCest
         $I->click('Create account');
         $I->seeResponseCodeIs(200);
 
-        $user = User::findOne(['email' => $email]);
+        $user = User::findOne([
+            'email' => $email,
+        ]);
         $I->assertNotNull($user);
 
         $I->amLoggedInAs($user->id);
-        $I->amOnPage(['project/view', 'id' => $page->project->id]);
+        $I->amOnPage([
+            'project/view',
+            'id' => $page->project->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
         $I->assertUserCan($page->project, Permission::PERMISSION_WRITE);

@@ -16,9 +16,13 @@ $this->title = \Yii::$app->name;
 
     /** @var \yii\web\View $this */
 
-    echo Html::beginTag('div', ['class' => 'signin']);
+    echo Html::beginTag('div', [
+        'class' => 'signin',
+    ]);
 
-    echo Html::tag('span', \Yii::t('app', "Log in"), ['class' => 'title']);
+    echo Html::tag('span', \Yii::t('app', "Log in"), [
+        'class' => 'title',
+    ]);
 
     $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -35,38 +39,49 @@ $this->title = \Yii::$app->name;
                 'type' => Form::INPUT_TEXT,
                 'options' => [
                     'autocomplete' => 'username',
-                    'placeholder' => 'email'
-                ]
+                    'placeholder' => 'email',
+                ],
             ],
             'password' => [
                 'type' => Form::INPUT_PASSWORD,
                 'options' => [
                     'autocomplete' => 'current-password',
-                    'placeholder' => 'password'
-                ]
+                    'placeholder' => 'password',
+                ],
             ],
             [
                 'type' => 'raw',
-                'value' => Html::a(\Yii::t('app', 'Forgot your password ?'), ['/user/request-reset'], ['class' => 'request-reset'])
+                'value' => Html::a(
+                    \Yii::t('app', 'Forgot your password ?'),
+                    ['/user/request-reset'],
+                    [
+                        'class' => 'request-reset',
+                    ]
+                ),
             ],
             FormButtonsWidget::embed([
                 'buttons' => [
                     [
                         'type' => 'submit',
                         'label' => \Yii::t('app', 'Log in'),
-                        'style' => 'primary'
-                    ]
-                ]
-            ])
-        ]
+                        'style' => 'primary',
+                    ],
+                ],
+            ]),
+
+        ],
     ]);
 
     ActiveForm::end();
 
     echo Html::endTag('div');
     echo Html::tag('hr');
-        echo Html::beginTag('div', ['class' => 'signup']);
-        echo Html::tag('span', \Yii::t('app', "Register"), ['class' => 'title']);
+        echo Html::beginTag('div', [
+            'class' => 'signup',
+        ]);
+        echo Html::tag('span', \Yii::t('app', "Register"), [
+            'class' => 'title',
+        ]);
         echo Form::widget([
             'model' => $requestAccountForm,
             'form' => $form = ActiveForm::begin([
@@ -84,19 +99,19 @@ $this->title = \Yii::$app->name;
                 'email' => [
                     'type' => Form::INPUT_TEXT,
                     'options' => [
-                        'placeholder' => 'email'
-                    ]
+                        'placeholder' => 'email',
+                    ],
                 ],
                 FormButtonsWidget::embed([
                     'buttons' => [
                         [
                             'type' => 'submit',
                             'label' => \Yii::t('app', 'Register'),
-                            'style' => 'primary-inverse'
-                        ]
-                    ]
-                ])
-            ]
+                            'style' => 'primary-inverse',
+                        ],
+                    ],
+                ]),
+            ],
         ]);
         ActiveForm::end();
         echo Html::endTag('div');

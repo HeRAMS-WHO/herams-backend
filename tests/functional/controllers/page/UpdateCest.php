@@ -30,12 +30,14 @@ class UpdateCest
         $I->save($parentPage);
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['page/update', 'id' => $parentPage->id]);
+        $I->amOnPage([
+            'page/update',
+            'id' => $parentPage->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
     /**
-     * @param FunctionalTester $I
      * @incomplete
      */
     public function testUpdate(FunctionalTester $I)
@@ -43,7 +45,6 @@ class UpdateCest
     }
 
     /**
-     * @param FunctionalTester $I
      * @incomplete
      */
     public function testUpdateParent(FunctionalTester $I)

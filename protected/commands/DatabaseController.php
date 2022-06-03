@@ -63,7 +63,6 @@ class DatabaseController extends Controller
 
         $this->runMigrateCommand('up');
 
-
         // Get table names.
         $tables = $db->schema->getTableNames('', true);
 
@@ -80,7 +79,7 @@ class DatabaseController extends Controller
         foreach ($db->schema->tableSchemas as $schema) {
             $columns = array_flip($schema->columnNames);
             $ddl = $db->createCommand('SHOW CREATE TABLE ' . $db->quoteTableName($schema->name))->queryOne();
-            if (!isset($ddl['Create Table'])) {
+            if (! isset($ddl['Create Table'])) {
                 continue;
             }
             foreach (explode("\n", $ddl['Create Table']) as $line) {

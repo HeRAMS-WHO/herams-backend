@@ -28,12 +28,15 @@ use function iter\toArray;
 class Export extends Model
 {
     private const DEFAULT_LANGUAGE = 'default';
+
     public $includeTextHeader = true;
+
     public $includeCodeHeader = true;
 
     public $answersAsText = false;
 
     private SurveyInterface $survey;
+
     public $language = self::DEFAULT_LANGUAGE;
 
     private $filter;
@@ -44,15 +47,15 @@ class Export extends Model
             'includeTextHeader' => \Yii::t('app', 'Include text header'),
             'includeCodeHeader' => \Yii::t('app', 'Include code header'),
             'answersAsText' => \Yii::t('app', 'Answers as text'),
-            'language' => \Yii::t('app', 'Language')
+            'language' => \Yii::t('app', 'Language'),
         ];
     }
-
 
     public function getFilterModel(): ResponseFilter
     {
         return $this->filter;
     }
+
     public function __construct(SurveyInterface $survey, $config = [])
     {
         parent::__construct($config);
@@ -64,7 +67,10 @@ class Export extends Model
     {
         return [
             [['includeTextHeader', 'includeCodeHeader', 'answersAsText'], BooleanValidator::class],
-            [['language'], RangeValidator::class, 'range' => array_keys($this->getLanguages())]
+            [['language'],
+                RangeValidator::class,
+                'range' => array_keys($this->getLanguages()),
+            ],
         ];
     }
 
@@ -76,9 +82,7 @@ class Export extends Model
         return parent::load($data, $formName);
     }
 
-
     /**
-     * @param SurveyInterface $survey
      * @return iterable|ColumnDefinition[]
      * @throws NotSupportedException
      */
@@ -161,7 +165,6 @@ class Export extends Model
         WriterInterface $writer,
         ResponseForLimesurveyQuery $responseQuery
     ): void {
-
         $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 
         if (
@@ -198,9 +201,11 @@ class Export extends Model
             return \Locale::getDisplayLanguage($code);
         }, $codes));
 
-        $result =  array_combine($codes, $names);
-        return array_merge([self::DEFAULT_LANGUAGE => \Yii::t('app', 'Survey default ({lang})', [
-            'lang' => \Locale::getDisplayLanguage($this->survey->getDefaultLanguage())
-        ])], $result);
+        $result = array_combine($codes, $names);
+        return array_merge([
+            self::DEFAULT_LANGUAGE => \Yii::t('app', 'Survey default ({lang})', [
+                'lang' => \Locale::getDisplayLanguage($this->survey->getDefaultLanguage()),
+            ]),
+        ], $result);
     }
 }

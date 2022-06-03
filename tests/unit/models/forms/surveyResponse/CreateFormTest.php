@@ -26,7 +26,7 @@ class CreateFormTest extends ModelTest
                 [
                     'data' => [],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -35,8 +35,10 @@ class CreateFormTest extends ModelTest
         return [
             [
                 [
-                    'data' => ['name' => 'test'],
-                ]
+                    'data' => [
+                        'name' => 'test',
+                    ],
+                ],
             ],
         ];
     }

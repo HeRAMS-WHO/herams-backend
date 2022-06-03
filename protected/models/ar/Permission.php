@@ -29,40 +29,63 @@ use yii\validators\UniqueValidator;
  */
 class Permission extends ActiveRecord
 {
-    const PERMISSION_READ = 'read';
-    const PERMISSION_SUMMARY = 'summary';
-    const PERMISSION_WRITE = 'write';
-    const PERMISSION_CREATE = 'create';
-    const PERMISSION_ADMIN = 'admin';
+    public const PERMISSION_READ = 'read';
 
-    const PERMISSION_DEBUG_TOOLBAR = 'debug-toolbar';
-    const PERMISSION_MANAGE_DASHBOARD = 'manage-dashboard';
-    const PERMISSION_MANAGE_FAVORITES = 'manage-favorites';
-    const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
-    const PERMISSION_LIST_ADMIN_RESPONSES = 'list-admin-responses';
-    const PERMISSION_LIST_DATA_RESPONSES = 'list-data-responses';
-    const PERMISSION_LIST_FACILITIES = 'list-facilities';
-    const PERMISSION_LIST_WORKSPACES = 'list-workspaces';
-    const PERMISSION_CREATE_PROJECT = 'create-project';
-    const PERMISSION_SURVEY_DATA = 'update-data';
-    const PERMISSION_SURVEY_BACKEND = 'survey-backend';
-    const PERMISSION_SHARE = 'share';
-    const PERMISSION_SUPER_SHARE = 'super-share';
-    const PERMISSION_DELETE = 'delete';
-    const PERMISSION_EXPORT = 'export';
-    const PERMISSION_RESPOND = 'respond';
+    public const PERMISSION_SUMMARY = 'summary';
 
-    const PERMISSION_CREATE_FACILITY = 'create-facility';
+    public const PERMISSION_WRITE = 'write';
 
-    const ROLE_LEAD = 'ROLE_LEAD';
-    const ROLE_WORKSPACE_CONTRIBUTOR = 'ROLE_WORKSPACE_CONTRIBUTOR';
-    const ROLE_WORKSPACE_OWNER = 'ROLE_WORKSPACE_OWNER';
-    const ROLE_PROJECT_VIEWER = 'ROLE_PROJECT_VIEWER';
-    const ROLE_PROJECT_OWNER = 'ROLE_PROJECT_OWNER';
-    const ROLE_PROJECT_ADMIN = 'ROLE_PROJECT_ADMIN';
+    public const PERMISSION_CREATE = 'create';
 
+    public const PERMISSION_ADMIN = 'admin';
 
-    const PERMISSION_DELETE_ALL_WORKSPACES = 'delete-workspaces';
+    public const PERMISSION_DEBUG_TOOLBAR = 'debug-toolbar';
+
+    public const PERMISSION_MANAGE_DASHBOARD = 'manage-dashboard';
+
+    public const PERMISSION_MANAGE_FAVORITES = 'manage-favorites';
+
+    public const PERMISSION_MANAGE_WORKSPACES = 'manage-workspaces';
+
+    public const PERMISSION_LIST_ADMIN_RESPONSES = 'list-admin-responses';
+
+    public const PERMISSION_LIST_DATA_RESPONSES = 'list-data-responses';
+
+    public const PERMISSION_LIST_FACILITIES = 'list-facilities';
+
+    public const PERMISSION_LIST_WORKSPACES = 'list-workspaces';
+
+    public const PERMISSION_CREATE_PROJECT = 'create-project';
+
+    public const PERMISSION_SURVEY_DATA = 'update-data';
+
+    public const PERMISSION_SURVEY_BACKEND = 'survey-backend';
+
+    public const PERMISSION_SHARE = 'share';
+
+    public const PERMISSION_SUPER_SHARE = 'super-share';
+
+    public const PERMISSION_DELETE = 'delete';
+
+    public const PERMISSION_EXPORT = 'export';
+
+    public const PERMISSION_RESPOND = 'respond';
+
+    public const PERMISSION_CREATE_FACILITY = 'create-facility';
+
+    public const ROLE_LEAD = 'ROLE_LEAD';
+
+    public const ROLE_WORKSPACE_CONTRIBUTOR = 'ROLE_WORKSPACE_CONTRIBUTOR';
+
+    public const ROLE_WORKSPACE_OWNER = 'ROLE_WORKSPACE_OWNER';
+
+    public const ROLE_PROJECT_VIEWER = 'ROLE_PROJECT_VIEWER';
+
+    public const ROLE_PROJECT_OWNER = 'ROLE_PROJECT_OWNER';
+
+    public const ROLE_PROJECT_ADMIN = 'ROLE_PROJECT_ADMIN';
+
+    public const PERMISSION_DELETE_ALL_WORKSPACES = 'delete-workspaces';
 
     public function afterSave($insert, $changedAttributes): void
     {
@@ -77,10 +100,9 @@ class Permission extends ActiveRecord
     public function behaviors(): array
     {
         return [
-            AuditableBehavior::class
+            AuditableBehavior::class,
         ];
     }
-
 
     public static function labels(): array
     {
@@ -90,7 +112,7 @@ class Permission extends ActiveRecord
             'target' => \Yii::t('app.permission', 'Target type'),
             'target_id' => \Yii::t('app.permission', 'Target ID'),
             'permission' => \Yii::t('app.permission', 'Permission'),
-            'permissionLabel' => \Yii::t('app', 'Permission')
+            'permissionLabel' => \Yii::t('app', 'Permission'),
         ]);
     }
 
@@ -129,8 +151,10 @@ class Permission extends ActiveRecord
     {
         return [
             [['source', 'source_id', 'target', 'target_id', 'permission'], RequiredValidator::class],
-            [['source', 'source_id', 'target', 'target_id', 'permission'], UniqueValidator::class,
-                'targetAttribute' => ['source', 'source_id', 'target', 'target_id', 'permission']],
+            [['source', 'source_id', 'target', 'target_id', 'permission'],
+                UniqueValidator::class,
+                'targetAttribute' => ['source', 'source_id', 'target', 'target_id', 'permission'],
+            ],
         ];
     }
 

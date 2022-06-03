@@ -42,7 +42,7 @@ class FacilityCascadeWorkspaceRule implements Rule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        if (!($target instanceof Facility && in_array($permission, $this->getPermissions()))) {
+        if (! ($target instanceof Facility && in_array($permission, $this->getPermissions()))) {
             return false;
         }
         return $accessChecker->check($source, $target->workspace, Permission::PERMISSION_CREATE_FACILITY)

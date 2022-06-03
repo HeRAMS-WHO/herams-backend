@@ -29,13 +29,21 @@ class WorkspacesCest
         $I->amLoggedInAs(TEST_USER_ID);
 
         $I->assertSame(0, (int) Favorite::find()->count());
-        $I->sendPUT(Url::to(['/api/user/workspaces', 'id' => TEST_USER_ID, 'target_id' => 123123]));
+        $I->sendPUT(Url::to([
+            '/api/user/workspaces',
+            'id' => TEST_USER_ID,
+            'target_id' => 123123,
+        ]));
         $I->seeResponseCodeIs(422);
         $I->assertSame(0, (int) Favorite::find()->count());
 
         $workspace = $I->haveWorkspaceForLimesurvey();
         $I->assertSame(0, (int) Favorite::find()->count());
-        $I->sendPUT(Url::to(['/api/user/workspaces', 'id' => TEST_USER_ID, 'target_id' => $workspace->id]));
+        $I->sendPUT(Url::to([
+            '/api/user/workspaces',
+            'id' => TEST_USER_ID,
+            'target_id' => $workspace->id,
+        ]));
         $I->seeResponseCodeIs(201);
         $I->assertSame(1, (int) Favorite::find()->count());
     }
@@ -45,7 +53,11 @@ class WorkspacesCest
         $I->amLoggedInAs(TEST_USER_ID);
 
         $I->assertSame(0, (int) Favorite::find()->count());
-        $I->sendDELETE(Url::to(['/api/user/workspaces', 'id' => TEST_USER_ID, 'target_id' => 123123]));
+        $I->sendDELETE(Url::to([
+            '/api/user/workspaces',
+            'id' => TEST_USER_ID,
+            'target_id' => 123123,
+        ]));
         $I->seeResponseCodeIs(200);
         $I->assertSame(0, (int) Favorite::find()->count());
 
@@ -58,7 +70,11 @@ class WorkspacesCest
         $I->save($favorite);
 
         $I->assertSame(1, (int) Favorite::find()->count());
-        $I->sendDELETE(Url::to(['/api/user/workspaces', 'id' => TEST_USER_ID, 'target_id' => $workspace->id]));
+        $I->sendDELETE(Url::to([
+            '/api/user/workspaces',
+            'id' => TEST_USER_ID,
+            'target_id' => $workspace->id,
+        ]));
         $I->seeResponseCodeIs(200);
         $I->assertSame(0, (int) Favorite::find()->count());
     }

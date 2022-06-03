@@ -19,8 +19,8 @@ class SurveyTest extends ActiveRecordTest
         return [
             [
                 'attributes' => [],
-                'scenario' => User::SCENARIO_DEFAULT
-            ]
+                'scenario' => User::SCENARIO_DEFAULT,
+            ],
         ];
     }
 
@@ -31,11 +31,15 @@ class SurveyTest extends ActiveRecordTest
 
     public function testTitle(): void
     {
-        $survey = new Survey(['id' => 12345]);
+        $survey = new Survey([
+            'id' => 12345,
+        ]);
         $this->assertEquals('Survey without title, id 12345', $survey->getTitle());
 
         $title = 'Survey test title';
-        $survey->config = ['title' => $title];
+        $survey->config = [
+            'title' => $title,
+        ];
         $this->assertEquals($title, $survey->getTitle());
     }
 
@@ -45,9 +49,9 @@ class SurveyTest extends ActiveRecordTest
             [
                 [
                     'config' => [
-                        'pages' => []
+                        'pages' => [],
                     ],
-                ]
+                ],
             ],
         ];
     }

@@ -22,10 +22,16 @@ class RefreshCest
         $workspace = $I->haveWorkspaceForLimesurvey();
         $workspace->token = 'token1';
         $I->save($workspace);
-        $I->sendPost(Url::to(['/api/workspace/refresh', 'id' => $workspace->id]));
+        $I->sendPost(Url::to([
+            '/api/workspace/refresh',
+            'id' => $workspace->id,
+        ]));
         $I->seeResponseCodeIs(403);
         $I->grantCurrentUser($workspace, Permission::PERMISSION_ADMIN);
-        $I->sendPost(Url::to(['/api/workspace/refresh', 'id' => $workspace->id]));
+        $I->sendPost(Url::to([
+            '/api/workspace/refresh',
+            'id' => $workspace->id,
+        ]));
         $I->seeResponseCodeIs(200);
     }
 }

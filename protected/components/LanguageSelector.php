@@ -24,7 +24,7 @@ class LanguageSelector implements BootstrapInterface
                     $app->language = $language->value;
                     return;
                 }
-                if (!$app->user->isGuest && $app->user->identity->preferredLanguage) {
+                if (! $app->user->isGuest && $app->user->identity->preferredLanguage) {
                     $app->language = $app->user->identity->preferredLanguage->value;
                     return;
                 }
@@ -38,7 +38,7 @@ class LanguageSelector implements BootstrapInterface
     public function getPreferredLanguage(Request $request): string
     {
         // We implement our own logic for determining the preferred language. The Yii implementation doesn't prioritize properly.
-        foreach($request->getAcceptableLanguages() as $acceptableLanguage) {
+        foreach ($request->getAcceptableLanguages() as $acceptableLanguage) {
             if (Language::tryFrom($acceptableLanguage) !== null) {
                 return Language::from($acceptableLanguage)->value;
             }

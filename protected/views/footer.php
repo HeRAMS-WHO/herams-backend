@@ -4,7 +4,9 @@ use prime\helpers\Icon;
 use prime\models\ar\Project;
 use yii\helpers\Html;
 
-echo Html::beginTag('div', ['class' => 'footer']);
+echo Html::beginTag('div', [
+    'class' => 'footer',
+]);
 // Render all statistics.
 /**
  * @var Project[] $projects
@@ -14,7 +16,7 @@ $projects = Project::find()->withFields('contributorPermissionCount', 'facilityC
 $stats[] = [
     'icon' => Icon::project(),
     'count' => count($projects),
-    'subject' => \Yii::t('app', 'HeRAMS projects')
+    'subject' => \Yii::t('app', 'HeRAMS projects'),
 ];
 $stats[] = [
     'icon' => Icon::contributors(),
@@ -22,7 +24,7 @@ $stats[] = [
         \iter\reduce(function (int $accumulator, Project $project) {
             return $accumulator + $project->contributorCount;
         }, $projects, 0),
-        'subject' => \Yii::t('app', 'Contributors')
+    'subject' => \Yii::t('app', 'Contributors'),
 ];
 
 $stats[] = [
@@ -31,20 +33,26 @@ $stats[] = [
         return $accumulator + $project->facilityCount;
     }, $projects, 0),
 
-    'subject' => \Yii::t('app', 'Health facilities')
+    'subject' => \Yii::t('app', 'Health facilities'),
 ];
 
-echo Html::beginTag('div', ['class' => 'stats']);
+echo Html::beginTag('div', [
+    'class' => 'stats',
+]);
 foreach ($stats as $stat) {
     echo Html::beginTag('div');
     echo $stat['icon'];
-    echo Html::tag('div', $stat['count'], ['class' => 'counter']);
-    echo Html::tag('div', $stat['subject'], ['class' => 'subject']);
+    echo Html::tag('div', $stat['count'], [
+        'class' => 'counter',
+    ]);
+    echo Html::tag('div', $stat['subject'], [
+        'class' => 'subject',
+    ]);
     echo Html::endTag('div');
 }
 echo Html::endTag('div');
 
-if (!empty($projects)) {
+if (! empty($projects)) {
     $latest = $projects[0];
 
     foreach ($projects as $project) {
@@ -60,18 +68,27 @@ if (!empty($projects)) {
 
 echo Html::beginTag('div', [
     'class' => 'status',
-    'title' => $status
+    'title' => $status,
 ]);
     echo Icon::recycling() . ' ';
     echo \Yii::t('app', 'Latest update') . ': ';
-    echo Html::tag('span', $status, ['class' => 'value']);
+    echo Html::tag('span', $status, [
+        'class' => 'value',
+    ]);
 echo Html::endTag('div');
 
-echo Html::a(Icon::chevronLeft(), '#', ['class' => 'left', 'id' => 'footer-left']);
-echo Html::a(Icon::chevronRight(), '#', ['class' => 'right', 'id' => 'footer-right']);
+echo Html::a(Icon::chevronLeft(), '#', [
+    'class' => 'left',
+    'id' => 'footer-left',
+]);
+echo Html::a(Icon::chevronRight(), '#', [
+    'class' => 'right',
+    'id' => 'footer-right',
+]);
 
 echo Html::endTag('div');
-$this->registerJs(<<<JS
+$this->registerJs(
+    <<<JS
 try {
     const footer = document.querySelector('.footer .stats');
     let timer;
@@ -93,7 +110,6 @@ try {
 }
 
 JS
-
 );
 
 

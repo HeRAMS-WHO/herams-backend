@@ -33,7 +33,9 @@ class Share extends Action
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $project = Project::findOne(['id' => $id]);
+        $project = Project::findOne([
+            'id' => $id,
+        ]);
 
         $accessCheck->requirePermission($project, Permission::PERMISSION_SHARE, \Yii::t('app', 'You are not allowed to share this project'));
 
@@ -84,7 +86,7 @@ class Share extends Action
 
         return $this->controller->render('share', [
             'model' => $model,
-            'project' => $project
+            'project' => $project,
         ]);
     }
 }

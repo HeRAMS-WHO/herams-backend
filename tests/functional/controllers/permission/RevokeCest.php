@@ -21,7 +21,9 @@ class RevokeCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProjectForLimesurvey();
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $permission = Permission::PERMISSION_ADMIN;
 
         /** @var AuthManager $abacManager */
@@ -51,7 +53,9 @@ class RevokeCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $user = User::findOne(['id' => TEST_OTHER_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_OTHER_USER_ID,
+        ]);
         $permission = Permission::PERMISSION_ADMIN;
 
         /** @var AuthManager $abacManager */

@@ -28,7 +28,9 @@ $this->title = $tabMenuModel->title();
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget(
-    ['workspace' => $tabMenuModel]
+    [
+        'workspace' => $tabMenuModel,
+    ]
 );
 $this->endBlock();
 
@@ -37,48 +39,60 @@ Section::begin([
         [
             'icon' => Icon::add(),
             'label' => \Yii::t('app', 'Register new facility'),
-            'link' => ['facility/create', 'workspaceId' => $tabMenuModel->id()],
-            'permission' => Permission::PERMISSION_CREATE_FACILITY
+            'link' => [
+                'facility/create',
+                'workspaceId' => $tabMenuModel->id(),
+            ],
+            'permission' => Permission::
+PERMISSION_CREATE_FACILITY,
         ],
         [
             'icon' => Icon::recycling(),
             'label' => \Yii::t('app', 'Refresh workspace'),
-            'link' => ['workspace/refresh', 'id' => $tabMenuModel->id()],
-            'permission' => Permission::PERMISSION_SURVEY_DATA
+            'link' => [
+                'workspace/refresh',
+                'id' => $tabMenuModel->id(),
+            ],
+            'permission' => Permission::
+PERMISSION_SURVEY_DATA,
+
         ],
-    ]
+    ],
 ])->withSubject($tabMenuModel);
 
 echo GridView::widget(
     [
-        'pjax'         => true,
-        'export'       => false,
+        'pjax' => true,
+        'export' => false,
         'pjaxSettings' => [
             'options' => [
                 // Just links in the header.
                 'linkSelector' => 'th a',
             ],
         ],
-        'filterModel'  => $facilitySearch,
+        'filterModel' => $facilitySearch,
         'dataProvider' => $facilityProvider,
-        'columns'      => [
+        'columns' => [
             [
-                'class'      => DrilldownColumn::class,
-                'attribute'  => FacilityForList::NAME,
+                'class' => DrilldownColumn::class,
+                'attribute' => FacilityForList::NAME,
                 'permission' => Permission::PERMISSION_READ,
-                'link'       => static fn(FacilityForList $facility) => ['facility/responses', 'id' => (string) $facility->getId()]
+                'link' => static fn (FacilityForList $facility) => [
+                    'facility/responses',
+                    'id' => (string) $facility->getId(),
+                ],
             ],
             [
-                'class' => IdColumn::class
+                'class' => IdColumn::class,
             ],
             [
-                'attribute'  => FacilityForList::ALTERNATIVE_NAME,
+                'attribute' => FacilityForList::ALTERNATIVE_NAME,
             ],
             [
-                'attribute'  => FacilityForList::CODE,
+                'attribute' => FacilityForList::CODE,
             ],
             [
-                'attribute' => FacilityForList::RESPONSE_COUNT
+                'attribute' => FacilityForList::RESPONSE_COUNT,
             ],
         ],
     ]

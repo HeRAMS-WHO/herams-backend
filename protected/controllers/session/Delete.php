@@ -14,7 +14,7 @@ class Delete extends Action
 {
     public function run(Request $request, User $user): Response
     {
-        if (!$request->isDelete) {
+        if (! $request->isDelete) {
             throw new MethodNotAllowedHttpException();
         }
         $user->logout();

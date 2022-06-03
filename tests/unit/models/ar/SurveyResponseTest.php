@@ -14,7 +14,7 @@ class SurveyResponseTest extends ActiveRecordTest
         return [
             'invalid' => [
                 'attributes' => [],
-            ]
+            ],
         ];
     }
 
@@ -25,7 +25,7 @@ class SurveyResponseTest extends ActiveRecordTest
                 [
                     'created_by' => TEST_USER_ID,
                     'data' => [
-                        'q1' => 'Yes'
+                        'q1' => 'Yes',
                     ],
                     'facility_id' => 1,
                     'survey_id' => 1,

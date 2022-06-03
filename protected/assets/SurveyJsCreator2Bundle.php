@@ -14,13 +14,13 @@ class SurveyJsCreator2Bundle extends AssetBundle
     ];
 
     public $js = [
-        'survey-creator-knockout.js'
+        'survey-creator-knockout.js',
     ];
 
     public $depends = [
         SurveyModificationBundle::class,
         SurveyJsCreatorCoreBundle::class,
         SurveyJsKnockoutUiBundle::class,
-        AceEditorBundle::class
+        AceEditorBundle::class,
     ];
 }

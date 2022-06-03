@@ -6,9 +6,7 @@
 
 namespace {
 
-    /**
-     *
-     */
+
     function app()
     {
         return \Yii::$app;
@@ -17,7 +15,7 @@ namespace {
 
     function requireParameter(mixed $value, string $type, string $name)
     {
-        if (!$value instanceof $type) {
+        if (! $value instanceof $type) {
             throw new InvalidArgumentException("Param {$name} must be of type {$type}");
         }
     }

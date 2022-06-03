@@ -30,7 +30,7 @@ class WorkspaceForTabMenuTest extends Unit
         $workspace->title = 'workspace title';
         $workspace->responseCount = 1233;
         $workspace->populateRelation('project', new Project([
-            'title' => 'project title'
+            'title' => 'project title',
         ]));
         $workspace->isNewRecord = false;
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->getMock();

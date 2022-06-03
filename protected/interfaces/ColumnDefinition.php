@@ -7,6 +7,7 @@ namespace prime\interfaces;
 interface ColumnDefinition
 {
     public function getHeaderCode(): string;
+
     public function getHeaderText(): string;
 
     public function getValue(HeramsResponseInterface $response): ?string;

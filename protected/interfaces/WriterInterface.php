@@ -9,12 +9,12 @@ use Psr\Http\Message\StreamInterface;
 interface WriterInterface
 {
     public function writeRecord(HeramsResponseInterface $record, ColumnDefinition ...$columns): void;
+
     public function writeHeader(string ...$headers): void;
 
     /**
      * This should relinquish any underlying resources.
      * Any writing after this should happen on a new stream.
-     * @return StreamInterface
      */
     public function getStream(): StreamInterface;
 

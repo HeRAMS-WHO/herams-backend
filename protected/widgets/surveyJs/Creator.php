@@ -13,10 +13,17 @@ use yii\web\JsExpression;
 class Creator extends Widget
 {
     public array $clientOptions = [];
+
     public array $options = [];
-    /** Survey content */
+
+    /**
+     * Survey content
+     */
     public array $survey = [];
-    /** JavaScript methods that are called after the initialization and get the surveyCreate as an argument */
+
+    /**
+     * JavaScript methods that are called after the initialization and get the surveyCreate as an argument
+     */
     public array $surveyCreatorCustomizers = [];
 
     public function init(): void
@@ -25,7 +32,8 @@ class Creator extends Widget
 
         $this->options['id'] = $this->options['id'] ?? $this->getId();
         $survey = Json::encode($this->survey);
-        $this->surveyCreatorCustomizers[] = new JsExpression(<<<JS
+        $this->surveyCreatorCustomizers[] = new JsExpression(
+            <<<JS
 function(surveyCreator) {
   surveyCreator.JSON = {$survey};
 }
@@ -48,7 +56,8 @@ JS
         $clientOptions = Json::encode($this->clientOptions);
         $surveyJsCustomizers = Json::encode(array_values($this->surveyCreatorCustomizers));
         $id = Json::encode($this->options['id']);
-        $this->view->registerJs(<<<JS
+        $this->view->registerJs(
+            <<<JS
 const options = {$clientOptions};
 const surveyCreator = new SurveyCreator.SurveyCreator({$id}, options);
 {$surveyJsCustomizers}.forEach(customizer => customizer(surveyCreator));

@@ -5,10 +5,10 @@ declare(strict_types=1);
 use prime\assets\PdfBundle;
 use yii\helpers\Html;
 
-/**
- * @var \prime\components\View $this
- * @var string $content
- */
+    /**
+     * @var \prime\components\View $this
+     * @var string $content
+     */
     $this->beginPage();
 
     $this->registerAssetBundle(PdfBundle::class);

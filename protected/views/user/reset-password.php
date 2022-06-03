@@ -28,18 +28,25 @@ echo Form::widget([
     'columns' => 1,
     'attributes' => [
         'password' => [
-            'type' => Form::INPUT_PASSWORD
+            'type' => Form::INPUT_PASSWORD,
         ],
         'password_repeat' => [
-            'type' => Form::INPUT_PASSWORD
+            'type' => Form::INPUT_PASSWORD,
         ],
         FormButtonsWidget::embed([
-            'buttons' =>  [
-                ['label' => \Yii::t('app', 'Back to sign in'), 'type' => ButtonGroup::TYPE_LINK, 'link' => ['/session/create']],
-                ['label' => \Yii::t('app', 'Reset password'), 'style' => 'primary'],
-            ]
-        ])
-    ]
+            'buttons' => [
+                [
+                    'label' => \Yii::t('app', 'Back to sign in'),
+                    'type' => ButtonGroup::TYPE_LINK,
+                    'link' => ['/session/create'],
+                ],
+                [
+                    'label' => \Yii::t('app', 'Reset password'),
+                    'style' => 'primary',
+                ],
+            ],
+        ]),
+    ],
 ]);
 
 ActiveForm::end();

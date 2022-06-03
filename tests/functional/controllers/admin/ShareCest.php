@@ -40,6 +40,8 @@ class ShareCest
         $I->seeEmailIsSent();
         /** @var MessageInterface $email */
         $email = $I->grabLastSentEmail();
-        $I->assertEquals([$toEmail => null], $email->getTo());
+        $I->assertEquals([
+            $toEmail => null,
+        ], $email->getTo());
     }
 }

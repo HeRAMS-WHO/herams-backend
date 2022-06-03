@@ -14,8 +14,10 @@ use prime\objects\enums\FacilityType;
 
 class FacilityTierVariable implements ClosedVariableInterface
 {
-    public function __construct(private ClosedVariableInterface $closedVariable, private array $tierMap)
-    {
+    public function __construct(
+        private ClosedVariableInterface $closedVariable,
+        private array $tierMap
+    ) {
     }
 
     public function getValueOptions(): array

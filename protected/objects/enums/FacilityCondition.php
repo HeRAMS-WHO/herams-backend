@@ -20,6 +20,7 @@ enum FacilityCondition:string
     case SubstantiallyDamaged = 'A3';
     case FullyDamaged = 'A4';
     case NotRelevant = 'A5';
+
     /**
      * @codeCoverageIgnore
      */

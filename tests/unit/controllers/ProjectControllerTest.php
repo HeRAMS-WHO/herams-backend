@@ -18,7 +18,9 @@ use yii\web\Request;
 class ProjectControllerTest extends Unit
 {
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
+
     private string $renderResult = 'testRender';
+
     private View|MockObject $view;
 
     protected function prepareController(): ProjectController

@@ -19,7 +19,10 @@ class ShareCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
 
-        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/share',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -29,7 +32,10 @@ class ShareCest
         $project = $I->haveProjectForLimesurvey();
         $I->grantCurrentUser($project, Permission::PERMISSION_WRITE);
 
-        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/share',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -37,9 +43,14 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProjectForLimesurvey();
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
 
-        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/share',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->see(\Yii::t('app', 'Project coordinator'));
 
@@ -56,7 +67,10 @@ class ShareCest
         $project = $I->haveProjectForLimesurvey();
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/share',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
         $toEmail = 'test-random@test.com';
@@ -71,7 +85,9 @@ class ShareCest
         $I->seeEmailIsSent();
         /** @var MessageInterface $email */
         $email = $I->grabLastSentEmail();
-        $I->assertEquals([$toEmail => null], $email->getTo());
+        $I->assertEquals([
+            $toEmail => null,
+        ], $email->getTo());
     }
 
     public function testShareWithInviteExistingUser(FunctionalTester $I)
@@ -80,10 +96,15 @@ class ShareCest
         $project = $I->haveProjectForLimesurvey();
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/share',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
-        $toUser = User::findOne(['id' => TEST_OTHER_USER_ID]);
+        $toUser = User::findOne([
+            'id' => TEST_OTHER_USER_ID,
+        ]);
 
         $I->submitForm(
             'form',
@@ -97,7 +118,10 @@ class ShareCest
 
         // Check implicitly that permission was granted
         $I->amLoggedInAs($toUser->id);
-        $I->amOnPage(['project/share', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/share',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
     }
 }

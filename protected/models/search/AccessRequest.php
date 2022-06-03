@@ -18,7 +18,9 @@ use yii\validators\NumberValidator;
 class AccessRequest extends Model
 {
     public ?int $projectId = null;
+
     public ?int $workspaceId = null;
+
     public $favorite = null;
 
     public function __construct(
@@ -34,7 +36,7 @@ class AccessRequest extends Model
     {
         return [
             [['projectId', 'workspaceId'], NumberValidator::class],
-            [['favorite'], BooleanValidator::class]
+            [['favorite'], BooleanValidator::class],
         ];
     }
 
@@ -46,11 +48,11 @@ class AccessRequest extends Model
             'id' => 'access-request-provider',
             'filter' => $this->filter,
             'pagination' => [
-                'pageSize' => 10
+                'pageSize' => 10,
             ],
         ]]);
 
-        if (!$this->load($params) || !$this->validate()) {
+        if (! $this->load($params) || ! $this->validate()) {
             return $dataProvider;
         }
 
@@ -66,18 +68,28 @@ class AccessRequest extends Model
                 'target_class' => WorkspaceForLimesurvey::class,
             ]);
         }
-        if (!is_null($this->favorite)) {
+        if (! is_null($this->favorite)) {
             $baseFavoriteCondition = [
                 [
                     'and',
-                    ['target_class' => Project::class],
-                    ['target_id' => Favorite::find()->projects()->user($this->user)->select('target_id')],
+                    [
+                        'target_class' => Project::class,
+                    ],
+                    [
+                        'target_id' => Favorite::find()->projects()->user($this->user)->select('target_id'),
+
+                    ],
                 ],
                 [
                     'and',
-                    ['target_class' => WorkspaceForLimesurvey::class],
-                    ['target_id' => Favorite::find()->workspaces()->user($this->user)->select('target_id')],
-                ]
+                    [
+                        'target_class' => WorkspaceForLimesurvey::class,
+                    ],
+                    [
+                        'target_id' => Favorite::find()->workspaces()->user($this->user)->select('target_id'),
+
+                    ],
+                ],
             ];
 
             if ($this->favorite) {

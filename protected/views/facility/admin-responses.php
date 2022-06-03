@@ -23,7 +23,9 @@ $this->title = $facility->getTitle();
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
-    ['facility' => $facility]
+    [
+        'facility' => $facility,
+    ]
 );
 $this->endBlock();
 
@@ -31,10 +33,13 @@ Section::begin()
     ->withActions([
         [
             'label' => \Yii::t('app', 'Update admin for facility'),
-            'link' => Url::to(['update', 'id' => $facility->getId()]),
+            'link' => Url::to([
+                'update',
+                'id' => $facility->getId(),
+            ]),
             'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
                 return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(Permission::PERMISSION_WRITE);
-            }
+            },
         ],
     ])
     ->withSubject($facility)
@@ -45,10 +50,10 @@ echo GridView::widget([
     'columns' => [
         \prime\interfaces\AdminResponseForListInterface::ID,
         \prime\interfaces\AdminResponseForListInterface::NAME,
-//        \prime\interfaces\AdminResponseForListInterface::
+        //        \prime\interfaces\AdminResponseForListInterface::
 
 
-    ]
+    ],
 ]);
 
 Section::end();

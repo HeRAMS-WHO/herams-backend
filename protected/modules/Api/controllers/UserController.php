@@ -19,16 +19,16 @@ class UserController extends \yii\rest\Controller
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 
     public function actions()
     {
         return [
-            'workspaces' => Workspaces::class
+            'workspaces' => Workspaces::class,
         ];
     }
 }

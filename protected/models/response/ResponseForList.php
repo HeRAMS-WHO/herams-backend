@@ -20,6 +20,7 @@ class ResponseForList implements \prime\interfaces\ResponseForList
     {
         return $this->response->getId();
     }
+
     public function getId(): ResponseId
     {
         return new ResponseId($this->response->getAutoIncrementId());

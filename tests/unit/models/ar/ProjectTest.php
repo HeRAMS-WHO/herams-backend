@@ -32,10 +32,13 @@ class ProjectTest extends ActiveRecordTest
                     'status' => ProjectStatus::Target->value,
                     'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
-                    'overrides' => ['contributorCount' => 15],
+                    'overrides' => [
+                        'contributorCount' => 15,
+                    ],
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
-                    'languages' => [Language::frFR->value]
+                    'languages' => [Language::frFR->value,
+                    ],
                 ],
             ],
             [
@@ -51,10 +54,13 @@ class ProjectTest extends ActiveRecordTest
                     'status' => ProjectStatus::Target->value,
                     'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
-                    'overrides' => ['contributorCount' => 15],
+                    'overrides' => [
+                        'contributorCount' => 15,
+                    ],
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
-                    'languages' => [Language::frFR->value]
+                    'languages' => [Language::frFR->value,
+                    ],
                 ],
             ],
         ];
@@ -75,8 +81,8 @@ class ProjectTest extends ActiveRecordTest
                     'manage_implies_create_hf' => 'dontknow',
                     'overrides' => 'b',
                     'i18n' => 'test',
-                    'languages' => ['nl-NL']
-                ]
+                    'languages' => ['nl-NL'],
+                ],
             ],
             [
                 [
@@ -91,17 +97,20 @@ class ProjectTest extends ActiveRecordTest
                     'status' => ProjectStatus::Target->value,
                     'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
-                    'overrides' => ['contributorCount' => 15],
+                    'overrides' => [
+                        'contributorCount' => 15,
+                    ],
                     'manage_implies_create_hf' => false,
                     'i18n' => [],
-                    'languages' => ['nl-NL']
+                    'languages' => ['nl-NL',
+                    ],
                 ],
             ],
             [
                 [
 
-                ]
-            ]
+                ],
+            ],
         ];
     }
 

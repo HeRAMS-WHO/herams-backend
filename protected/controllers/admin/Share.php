@@ -38,7 +38,7 @@ class Share extends Action
             Permission::PERMISSION_SHARE,
             Permission::PERMISSION_CREATE_PROJECT,
             Permission::PERMISSION_DEBUG_TOOLBAR,
-            Permission::PERMISSION_ADMIN
+            Permission::PERMISSION_ADMIN,
         ];
         $model = new ShareForm(
             new GlobalPermission(),
@@ -69,7 +69,7 @@ class Share extends Action
         }
 
         return $this->controller->render('share', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 }

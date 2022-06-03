@@ -2,33 +2,23 @@
 
 use yii\db\Migration;
 
-/**
- * Class m190417_141532_clean_up_permissions
- */
 class m190417_141532_clean_up_permissions extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
-
         $this->delete('{{%permission}}', [
-            'permission' => 'instantiate'
+            'permission' => 'instantiate',
         ]);
 
         $this->delete('{{%permission}}', [
-            'permission' => 'share'
+            'permission' => 'share',
         ]);
         $this->delete('{{%permission}}', [
             'permission' => 'read',
-            'target' => \prime\models\ar\Workspace::class
+            'target' => \prime\models\ar\Workspace::class,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         return true;

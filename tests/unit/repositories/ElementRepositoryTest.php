@@ -18,13 +18,18 @@ class ElementRepositoryTest extends Unit
 {
     public function testFindForBreadcrumb(): void
     {
-        $element = Element::findOne(['id' => 37]);
+        $element = Element::findOne([
+            'id' => 37,
+        ]);
 
         $pageRepository = new ElementRepository(new ModelHydrator());
         $breadcrumb = $pageRepository->retrieveForBreadcrumb(new ElementId($element->id));
 
         $this->assertEquals($element->getTitle(), $breadcrumb->getLabel());
-        $this->assertEquals(['/element/preview', 'id' => $element->id], $breadcrumb->getUrl());
+        $this->assertEquals([
+            '/element/preview',
+            'id' => $element->id,
+        ], $breadcrumb->getUrl());
         $this->assertEquals(new PageId($element->page_id), $breadcrumb->getPageId());
     }
 }

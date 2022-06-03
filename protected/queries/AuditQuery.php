@@ -20,7 +20,7 @@ class AuditQuery extends ActiveQuery
     public function created(): self
     {
         return $this->andWhere([
-            'event' => AuditEvent::Insert->value
+            'event' => AuditEvent::Insert->value,
         ]);
     }
 
@@ -29,11 +29,15 @@ class AuditQuery extends ActiveQuery
      */
     public function forModelClass(string $class): self
     {
-        return $this->andWhere(['subject_name' => $class]);
+        return $this->andWhere([
+            'subject_name' => $class,
+        ]);
     }
 
     public function forSubjectId(int|Expression $id): self
     {
-        return $this->andWhere(['subject_id' => $id]);
+        return $this->andWhere([
+            'subject_id' => $id,
+        ]);
     }
 }

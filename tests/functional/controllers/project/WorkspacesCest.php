@@ -19,17 +19,37 @@ class WorkspacesCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $I->amOnPage(['project/workspaces', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/workspaces',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
-        $I->dontSeeLink('Import workspaces', Url::to(['/workspace/import', 'project_id' => $project->id]));
-        $I->dontSeeLink('Create workspace', Url::to(['/workspace/create', 'project_id' => $project->id]));
+        $I->dontSeeLink('Import workspaces', Url::to([
+            '/workspace/import',
+            'project_id' => $project->id,
+        ]));
+        $I->dontSeeLink('Create workspace', Url::to([
+            '/workspace/create',
+            'project_id' => $project->id,
+        ]));
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_MANAGE_WORKSPACES);
-        $I->amOnPage(['project/workspaces', 'id' => $project->id]);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_MANAGE_WORKSPACES);
+        $I->amOnPage([
+            'project/workspaces',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->seeInSource('Import workspaces');
-        $I->seeLink('Import workspaces', Url::to(['/workspace/import', 'project_id' => $project->id]));
-        $I->seeLink('Create workspace', Url::to(['/workspace/create', 'project_id' => $project->id]));
+        $I->seeLink('Import workspaces', Url::to([
+            '/workspace/import',
+            'project_id' => $project->id,
+        ]));
+        $I->seeLink('Create workspace', Url::to([
+            '/workspace/create',
+            'project_id' => $project->id,
+        ]));
     }
 
     public function testNoLogin(FunctionalTester $I)
@@ -39,14 +59,20 @@ class WorkspacesCest
         $project = $I->haveProjectForLimesurvey();
         \Yii::$app->user->logout();
 
-        $I->amOnPage(['project/workspaces', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/workspaces',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(302);
     }
 
     public function testInvalidProject(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['project/workspaces', 'id' => 12345]);
+        $I->amOnPage([
+            'project/workspaces',
+            'id' => 12345,
+        ]);
         $I->seePageNotFound();
     }
 }

@@ -27,6 +27,8 @@ $this->endBlock();
 Section::begin()
     ->withHeader('Export data');
 
-echo $this->render('//shared/exportform', ['model' => $model]);
+echo $this->render('//shared/exportform', [
+    'model' => $model,
+]);
 
 Section::end();

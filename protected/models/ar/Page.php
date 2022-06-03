@@ -41,7 +41,6 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         parent::init();
     }
 
-
     public function titleOptions(): array
     {
         $sourceLanguage = \Yii::$app->sourceLanguage;
@@ -82,16 +81,25 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             \Yii::t('app.pagetitle', 'Mental health', null, $sourceLanguage),
         ];
     }
+
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id'])->inverseOf('pages');
+        return $this->hasOne(Project::class, [
+            'id' => 'project_id',
+        ])->inverseOf('pages');
     }
 
     public function getChildren()
     {
-        return $this->hasMany(Page::class, ['parent_id' => 'id'])
-            ->from(['childpage' => self::tableName()])
-            ->orderBy(['sort' => SORT_ASC])
+        return $this->hasMany(Page::class, [
+            'parent_id' => 'id',
+        ])
+            ->from([
+                'childpage' => self::tableName(),
+            ])
+            ->orderBy([
+                'sort' => SORT_ASC,
+            ])
             ->inverseOf('parent');
     }
 
@@ -106,10 +114,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             'parent_id' => \Yii::t('app', 'Parent page'),
             'sort' => \Yii::t('app', 'Sort index'),
             'add_services' => \Yii::t('app', 'Add services'),
-            'project_id' => \Yii::t('app', 'Project')
+            'project_id' => \Yii::t('app', 'Project'),
         ]);
     }
-
 
     public function getId(): int
     {
@@ -143,14 +150,22 @@ class Page extends ActiveRecord implements PageInterface, Exportable
     public function getElements(): ElementQuery
     {
         return $this
-            ->hasMany(Element::class, ['page_id' => 'id'])
+            ->hasMany(Element::class, [
+                'page_id' => 'id',
+            ])
             ->inverseOf('page')
-            ->orderBy(['sort' => SORT_ASC]);
+            ->orderBy([
+                'sort' => SORT_ASC,
+            ]);
     }
 
     public function getParent(): ActiveQuery
     {
-        return $this->hasOne(Page::class, ['id' => 'parent_id'])->from(['parentpage' => self::tableName()])->inverseOf('children');
+        return $this->hasOne(Page::class, [
+            'id' => 'parent_id',
+        ])->from([
+            'parentpage' => self::tableName(),
+        ])->inverseOf('children');
     }
 
     public function rules(): array
@@ -159,10 +174,21 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             [['title', 'sort', 'project_id'], RequiredValidator::class],
             [['sort'], NumberValidator::class],
             [['title'], StringValidator::class],
-            [['parent_id'], ExistValidator::class, 'targetClass' => __CLASS__, 'targetAttribute' => 'id', 'filter' => function (ActiveQuery $query) {
-                return $query->andWhere(['project_id' => $this->project_id]);
-            }],
-            [['project_id'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
+            [['parent_id'],
+                ExistValidator::class,
+                'targetClass' => __CLASS__,
+                'targetAttribute' => 'id',
+                'filter' => function (ActiveQuery $query) {
+                    return $query->andWhere([
+                        'project_id' => $this->project_id,
+                    ]);
+                },
+            ],
+            [['project_id'],
+                ExistValidator::class,
+                'targetClass' => Project::class,
+                'targetAttribute' => 'id',
+            ],
         ];
     }
 
@@ -172,7 +198,6 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         $result[self::SCENARIO_DEFAULT][] = '!project_id';
         return $result;
     }
-
 
     public function beforeDelete()
     {
@@ -192,14 +217,18 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         $result = $this->find()
             ->andWhere([
                 'project_id' => $this->project_id,
-                'parent_id' => null
+                'parent_id' => null,
             ])
-            ->andFilterWhere(['not', ['id' => $this->id]])
+            ->andFilterWhere([
+                'not', [
+                    'id' => $this->id,
+
+                ], ])
             ->select(['title', 'id'])
             ->indexBy('id')
             ->column();
 
-        $result = map(static fn($v) => \Yii::t('app.pagetitle', $v), $result);
+        $result = map(static fn ($v) => \Yii::t('app.pagetitle', $v), $result);
 
         return $result;
     }
@@ -209,7 +238,6 @@ class Page extends ActiveRecord implements PageInterface, Exportable
         return $this->parent;
     }
 
-
     public function filterResponses(iterable $responses): iterable
     {
         return $responses;
@@ -217,7 +245,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
 
     public function export(): array
     {
-        if (!$this->validate()) {
+        if (! $this->validate()) {
             throw new \LogicException('Cannot export an invalid page: ' . print_r($this->errors, true));
         }
         $attributes = $this->attributes;
@@ -237,18 +265,16 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             'type' => 'page',
             'attributes' => $attributes,
             'elements' => $elements,
-            'pages' => $pages
+            'pages' => $pages,
         ];
     }
 
     /**
      * @param Page|Project $parent
-     * @param array $data
-     * @return Page
      */
     public static function import($parent, array $data): Page
     {
-        if (!($parent instanceof Page || $parent instanceof Project)) {
+        if (! ($parent instanceof Page || $parent instanceof Project)) {
             throw new \InvalidArgumentException('Parent must be instance of Page or Project');
         }
         $result = new Page();
@@ -260,7 +286,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             $result->project_id = $parent->id;
         }
 
-        if (!$result->validate()) {
+        if (! $result->validate()) {
             throw new InvalidArgumentException('Validation failed: ' . print_r($result->errors, true));
         }
 

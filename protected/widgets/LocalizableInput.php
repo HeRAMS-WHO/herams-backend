@@ -12,6 +12,7 @@ use function iter\toArrayWithKeys;
 class LocalizableInput extends InputWidget
 {
     public iterable $languages = [];
+
     public function init(): void
     {
         parent::init();
@@ -33,7 +34,9 @@ class LocalizableInput extends InputWidget
 CSS;
 
         $this->view->registerCss($css);
-        $this->view->registerJsFile('/js/components/localizable-text.js', ['type' => 'module']);
+        $this->view->registerJsFile('/js/components/localizable-text.js', [
+            'type' => 'module',
+        ]);
         echo Html::endTag('localizable-input');
         return ob_get_clean();
     }

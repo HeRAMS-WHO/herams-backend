@@ -12,10 +12,9 @@ use prime\models\ar\Facility;
  */
 class FacilityId extends StringId
 {
-
     public static function fromFacility(Facility $facility): static
     {
-        if (!isset($facility->id)) {
+        if (! isset($facility->id)) {
             throw new \InvalidArgumentException('Facility must have an id');
         }
         return new self((string) $facility->id);

@@ -9,7 +9,8 @@ use yii\web\AssetBundle;
 class ChoicesJsBundle extends AssetBundle
 {
     public $baseUrl = '@npm/choices.js/public/assets';
+
     public $js = [
-        'knockout-latest.js'
+        'knockout-latest.js',
     ];
 }

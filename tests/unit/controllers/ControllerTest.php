@@ -18,7 +18,7 @@ abstract class ControllerTest extends Unit
     {
         $class = strtr(get_class($this), [
             __NAMESPACE__ => 'prime\controllers',
-            'Test' => ''
+            'Test' => '',
         ]);
         return \Yii::$container->get($class, ['test', \Yii::$app]);
     }

@@ -25,6 +25,7 @@ use yii\validators\UniqueValidator;
 class Update extends Model
 {
     public null|array $i18n;
+
     public string $title;
 
     public function __construct(
@@ -39,8 +40,8 @@ class Update extends Model
         return [
             LocalizableWriteBehavior::class => [
                 'class' => LocalizableWriteBehavior::class,
-                'attributes' => ['title']
-            ]
+                'attributes' => ['title'],
+            ],
         ];
     }
 
@@ -63,7 +64,10 @@ class Update extends Model
     {
         return [
             [['title'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+            ],
         ];
     }
 }

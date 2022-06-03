@@ -22,7 +22,9 @@ class ProjectRepositoryTest extends Unit
 {
     public function testFindForBreadcrumb(): void
     {
-        $project = Project::findOne(['id' => 1]);
+        $project = Project::findOne([
+            'id' => 1,
+        ]);
 
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
         $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
@@ -31,13 +33,17 @@ class ProjectRepositoryTest extends Unit
         $breadcrumb = $projectRepository->retrieveForBreadcrumb(new ProjectId($project->id));
 
         $this->assertEquals($project->title, $breadcrumb->getLabel());
-        $this->assertEquals(['/project/view', 'id' => $project->id], $breadcrumb->getUrl());
+        $this->assertEquals([
+            '/project/view',
+            'id' => $project->id,
+        ], $breadcrumb->getUrl());
     }
-
 
     public function testRetrieveForUpdate(): void
     {
-        $project = Project::findOne(['id' => 1]);
+        $project = Project::findOne([
+            'id' => 1,
+        ]);
 
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
 

@@ -5,14 +5,8 @@ declare(strict_types=1);
 use prime\models\ar\Survey;
 use yii\db\Migration;
 
-/**
- * Class m210921_130000_project_add_data_survey
- */
 class m210921_130000_project_add_data_survey extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->addColumn('{{%project}}', 'data_survey_id', $this->integer()->null()->after('admin_survey_id'));
@@ -20,9 +14,6 @@ class m210921_130000_project_add_data_survey extends Migration
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropForeignKey('project_data_survey', '{{%project}}');

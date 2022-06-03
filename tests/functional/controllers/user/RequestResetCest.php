@@ -18,7 +18,9 @@ final class RequestResetCest
     {
         $I->amOnPage(['/user/request-reset']);
         $I->seeResponseCodeIs(200);
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $I->fillField('Email', $user->email);
         $I->click('Request password reset');
         $I->seeEmailIsSent();

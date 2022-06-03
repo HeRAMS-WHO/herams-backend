@@ -16,11 +16,11 @@ class CookieAuth implements AuthInterface
     public function authenticate($user, $request, $response): ?IdentityInterface
     {
         /** @var Session $session */
-        $session =  \Yii::$app->get('session');
+        $session = \Yii::$app->get('session');
         \Yii::warning(__CLASS__ . ':' . __FUNCTION__);
         if ($session->hasSessionId) {
             $request->enableCsrfValidation = true;
-            if (!$request->validateCsrfToken()) {
+            if (! $request->validateCsrfToken()) {
                 throw new ForbiddenHttpException('CSRF Token missing or invalid');
             }
             $request->enableCsrfValidation = false;
@@ -28,7 +28,9 @@ class CookieAuth implements AuthInterface
             $id = $session->get($user->idParam);
             $session->close();
 
-            if (null !== $identity = User::findOne(['id' => $id])) {
+            if (null !== $identity = User::findOne([
+                'id' => $id,
+            ])) {
                 $user->login($identity);
             }
             return $identity;
@@ -38,7 +40,6 @@ class CookieAuth implements AuthInterface
 
     public function challenge($response)
     {
-        // TODO: Implement challenge() method.
     }
 
     public function handleFailure($response)

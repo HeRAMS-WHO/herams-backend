@@ -31,7 +31,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
     {
         $record = new Project();
         $this->hydrator->hydrateActiveRecord($model, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new ProjectId($record->id);
@@ -39,13 +39,17 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
 
     public function retrieveForBreadcrumb(ProjectId $id): ProjectForBreadcrumbInterface
     {
-        $record = Project::findOne(['id' => $id]);
+        $record = Project::findOne([
+            'id' => $id,
+        ]);
         return new ProjectForBreadcrumb($record);
     }
 
     public function retrieveForRead(IntegerId $id): ProjectRead
     {
-        $record = ProjectRead::findOne(['id' => $id]);
+        $record = ProjectRead::findOne([
+            'id' => $id,
+        ]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
 
@@ -54,14 +58,18 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
 
     public function retrieveForExport(ProjectId $id): \prime\models\ar\surveyjs\Project
     {
-        $record = \prime\models\ar\surveyjs\Project::findOne(['id' => $id]);
+        $record = \prime\models\ar\surveyjs\Project::findOne([
+            'id' => $id,
+        ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_EXPORT);
         return $record;
     }
 
     public function retrieveForUpdate(ProjectId $id): ProjectUpdate
     {
-        $record = Project::findOne(['id' => $id]);
+        $record = Project::findOne([
+            'id' => $id,
+        ]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
@@ -73,9 +81,11 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
 
     public function save(ProjectUpdate $model): ProjectId
     {
-        $record = Project::findOne(['id' => $model->id]);
+        $record = Project::findOne([
+            'id' => $model->id,
+        ]);
         $this->hydrator->hydrateActiveRecord($model, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new ProjectId($record->id);
@@ -83,13 +93,14 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
 
     public function retrieveForExternalDashboard(ProjectId $id): ProjectForExternalDashboard
     {
-        $record = ProjectRead::findOne(['id' => $id]);
-        if (!isset($record) || null === $dashboard = $record->getOverride('dashboard')) {
+        $record = ProjectRead::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($record) || null === $dashboard = $record->getOverride('dashboard')) {
             throw new NotFoundHttpException();
         };
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
-
 
         return new ProjectForExternalDashboard($record->title, $dashboard);
     }

@@ -75,9 +75,11 @@ class FacilityRepository
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
             $responseQuery = ResponseForLimesurvey::find()->andWhere([
                 'hf_id' => $matches['hf_id'],
-                'survey_id' => $matches['survey_id']
-            ])->orderBy(['id' => SORT_DESC]);
-            // TODO: permission checking for HFs defined in LS.
+                'survey_id' => $matches['survey_id'],
+            ])->orderBy([
+                'id' => SORT_DESC,
+            ]);
+        // TODO: permission checking for HFs defined in LS.
         } else {
             throw new InvalidArgumentException('Response copy only works for Limesurvey projects.');
         }
@@ -113,7 +115,7 @@ class FacilityRepository
         $record = new Facility();
         $record->workspace_id = $model->getWorkspaceId()->getValue();
         $this->hydrateFacilityFromAdminResponseData($model->getSurvey(), $record, $model->data);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         $facilityId = new FacilityId((string) $record->id);
@@ -134,7 +136,9 @@ class FacilityRepository
             $this->surveyRepository->retrieveAdminSurveyForWorkspaceForSurveyJs($workspace->getId()),
             $workspace->getId(),
         );
-        $record = new Facility(['workspace_id' => $workspace->getId()->getValue()]);
+        $record = new Facility([
+            'workspace_id' => $workspace->getId()->getValue(),
+        ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_CREATE);
         return $model;
     }
@@ -145,7 +149,9 @@ class FacilityRepository
     public function retrieveForUpdate(FacilityId $facilityId): UpdateForm
     {
         /** @var null|Facility $record */
-        $record = Facility::find()->andWhere(['id' => $facilityId])->one();
+        $record = Facility::find()->andWhere([
+            'id' => $facilityId,
+        ])->one();
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
         $workspaceId = new WorkspaceId($record->workspace_id);
@@ -168,8 +174,10 @@ class FacilityRepository
     public function retrieveForUpdateSituation(FacilityId $facilityId): UpdateSituationForm
     {
         /** @var null|Facility $record */
-        $record = Facility::find()->andWhere(['id' => $facilityId])->one();
-        if (!$record->canReceiveSituationUpdate()) {
+        $record = Facility::find()->andWhere([
+            'id' => $facilityId,
+        ])->one();
+        if (! $record->canReceiveSituationUpdate()) {
             throw new ForbiddenHttpException('Situation cannot be updated.');
         }
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
@@ -189,13 +197,15 @@ class FacilityRepository
 
     public function saveUpdate(UpdateForm $model): FacilityId
     {
-        $record = Facility::findOne(['id' => $model->getFacilityId()]);
+        $record = Facility::findOne([
+            'id' => $model->getFacilityId(),
+        ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
         $transaction = Facility::getDb()->beginTransaction();
 
         $this->hydrateFacilityFromAdminResponseData($model->getSurvey(), $record, $model->data);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
 
@@ -210,18 +220,22 @@ class FacilityRepository
 
     public function retrieveActiveRecord(FacilityId $id): Facility
     {
-        return Facility::findOne(['id' => $id]);
+        return Facility::findOne([
+            'id' => $id,
+        ]);
     }
 
     public function saveUpdateSituation(UpdateSituationForm $model): FacilityId
     {
-        $record = Facility::findOne(['id' => $model->getFacilityId()]);
+        $record = Facility::findOne([
+            'id' => $model->getFacilityId(),
+        ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
 
         $transaction = Facility::getDb()->beginTransaction();
 
         $this->hydrateFacilityFromDataResponseData($model->getSurvey(), $record, $model->data);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
 
@@ -235,21 +249,25 @@ class FacilityRepository
     }
 
     /**
-     * @param ProjectId $id
      * @return iterable<Facility>
      */
     public function searchInProject(ProjectId $id): iterable
     {
-
         $workspaceIds = Workspace::find()
             ->select('id')
-            ->andWhere(['project_id' => $id->getValue()])->column();
-        yield from Facility::find()->andWhere(['workspace_id' => $workspaceIds])->each();
+            ->andWhere([
+                'project_id' => $id->getValue(),
+            ])->column();
+        yield from Facility::find()->andWhere([
+            'workspace_id' => $workspaceIds,
+        ])->each();
     }
 
     public function searchInWorkspace(WorkspaceId $id, FacilitySearch $model): DataProviderInterface
     {
-        $workspace = Workspace::findOne(['id' => $id->getValue()]);
+        $workspace = Workspace::findOne([
+            'id' => $id->getValue(),
+        ]);
 
         if ($workspace instanceof WorkspaceForLimesurvey) {
             $filter = new ResponseFilter($workspace->project->getSurvey(), new HeramsCodeMap());
@@ -261,16 +279,22 @@ class FacilityRepository
             }
 
             $dataProvider = new ArrayDataProvider([
-                'allModels' => $limesurveyData
+                'allModels' => $limesurveyData,
             ]);
         } else {
-            $query = FacilityReadRecord::find()->andWhere(['use_in_list' => true]);
+            $query = FacilityReadRecord::find()->andWhere([
+                'use_in_list' => true,
+            ]);
 
-            $query->andFilterWhere(['workspace_id' => $id->getValue()]);
+            $query->andFilterWhere([
+                'workspace_id' => $id->getValue(),
+            ]);
 
             if ($model->validate()) {
                 $query->andFilterWhere(['like', 'name', $model->name]);
-                $query->andFilterWhere(['id' => $model->id]);
+                $query->andFilterWhere([
+                    'id' => $model->id,
+                ]);
             }
 
             $dataProvider = new HydratedActiveDataProvider(
@@ -292,7 +316,7 @@ class FacilityRepository
                      * Optimize total count since we don't have HF specific permissions.
                      * If this ever changes, pagination may break but permission checking will not
                      */
-                    'totalCount' => fn(QueryInterface $query) => (int) $query->count(),
+                    'totalCount' => fn (QueryInterface $query) => (int) $query->count(),
                 ]
             );
         }
@@ -306,8 +330,8 @@ class FacilityRepository
                 FacilityForList::NAME,
                 FacilityForList::ALTERNATIVE_NAME,
                 FacilityForList::CODE,
-                FacilityForList::RESPONSE_COUNT
-            ]
+                FacilityForList::RESPONSE_COUNT,
+            ],
         ]);
 
         return $dataProvider;
@@ -325,7 +349,10 @@ class FacilityRepository
             $latitude,
             $longitude,
             // This is very inefficient for the response list; for now we accept it.
-            (int) ResponseForLimesurvey::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count()
+            (int) ResponseForLimesurvey::find()->andWhere([
+                'hf_id' => $response->hf_id,
+                'survey_id' => $response->survey_id,
+            ])->count()
         );
     }
 
@@ -334,52 +361,57 @@ class FacilityRepository
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
             $response = ResponseForLimesurvey::findOne([
                 'hf_id' => $matches['hf_id'],
-                'survey_id' => $matches['survey_id']
+                'survey_id' => $matches['survey_id'],
             ]);
 
-            if (!isset($response)) {
+            if (! isset($response)) {
                 throw new NotFoundHttpException();
             }
 
             return new FacilityForBreadcrumb($response);
         } else {
-            $facility = Facility::findOne(['id' => (int) $id->getValue()]);
+            $facility = Facility::findOne([
+                'id' => (int) $id->getValue(),
+            ]);
             return new FacilityForBreadcrumb($facility);
         }
     }
 
     public function retrieveForRead(FacilityId $id): FacilityForList
     {
-
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
             $response = ResponseForLimesurvey::findOne([
                 'hf_id' => $matches['hf_id'],
-                'survey_id' => $matches['survey_id']
+                'survey_id' => $matches['survey_id'],
             ]);
-            if (!isset($response)) {
+            if (! isset($response)) {
                 throw new NotFoundHttpException();
             }
             return $this->createFromResponse($response);
         } else {
-            $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);
+            $facility = FacilityReadRecord::findOne([
+                'id' => (int) $id->getValue(),
+            ]);
             return $this->hydrator->hydrateConstructor($facility, FacilityForList::class);
         }
     }
 
     public function retrieveForTabMenu(FacilityId $id): FacilityForTabMenu
     {
-
         if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
             $response = ResponseForLimesurvey::find()
                 ->with('workspace')
                 ->andWhere([
                     'hf_id' => $matches['hf_id'],
-                    'survey_id' => $matches['survey_id']
+                    'survey_id' => $matches['survey_id'],
                 ])
-                ->orderBy(['date' => SORT_DESC, 'id' => SORT_DESC])
+                ->orderBy([
+                    'date' => SORT_DESC,
+                    'id' => SORT_DESC,
+                ])
                 ->limit(1)
                 ->one();
-            if (!isset($response)) {
+            if (! isset($response)) {
                 throw new NotFoundHttpException();
             }
             return new \prime\models\facility\FacilityForTabMenu(
@@ -389,11 +421,14 @@ class FacilityRepository
                 $response->workspace->project->title,
                 new WorkspaceId($response->workspace_id),
                 $response->workspace->title,
-                (int) ResponseForLimesurvey::find()->andWhere(['hf_id' => $response->hf_id, 'survey_id' => $response->survey_id])->count(),
+                (int) ResponseForLimesurvey::find()->andWhere([
+                    'hf_id' => $response->hf_id,
+                    'survey_id' => $response->survey_id,
+                ])->count(),
                 0,
                 true,
                 // Access checker for LS based data.
-                new class implements CanCurrentUser {
+                new class() implements CanCurrentUser {
                     public function canCurrentUser(string $permission): bool
                     {
                         return true;
@@ -401,7 +436,9 @@ class FacilityRepository
                 }
             );
         } else {
-            $facility = FacilityReadRecord::findOne(['id' => (int) $id->getValue()]);
+            $facility = FacilityReadRecord::findOne([
+                'id' => (int) $id->getValue(),
+            ]);
             return new \prime\models\facility\FacilityForTabMenu(
                 $id,
                 $facility->name,

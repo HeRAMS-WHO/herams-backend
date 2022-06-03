@@ -26,7 +26,11 @@ class Table extends Element
         $result = array_merge(parent::rules(), [
             [['reasonCode'], RequiredValidator::class],
             [['groupCode'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1, 'max' => 100]
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+                'max' => 100,
+            ],
         ]);
         unset($result['colors']);
         return $result;

@@ -10,7 +10,9 @@ use yii\helpers\Html;
 class Tabs extends Widget
 {
     public array $items = [];
+
     public array $options = [];
+
     public function init()
     {
         parent::init();
@@ -54,11 +56,17 @@ class Tabs extends Widget
 CSS;
 
         $this->view->registerCss($css);
-        $this->view->registerJsFile('/js/components/tabbed-content.js', ['type' => 'module']);
+        $this->view->registerJsFile('/js/components/tabbed-content.js', [
+            'type' => 'module',
+        ]);
         foreach ($this->items as $item) {
             // Render label then content.
-            echo Html::tag('span', $item['label'], ['slot' => 'header']);
-            echo Html::tag('div', $item['content'], ['slot' => 'content']);
+            echo Html::tag('span', $item['label'], [
+                'slot' => 'header',
+            ]);
+            echo Html::tag('div', $item['content'], [
+                'slot' => 'content',
+            ]);
         }
         echo Html::endTag('tabbed-content');
         return ob_get_clean();

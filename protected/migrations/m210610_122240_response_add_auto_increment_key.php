@@ -2,14 +2,8 @@
 
 use yii\db\Migration;
 
-/**
- * Class m210610_122240_response_add_auto_increment_key
- */
 class m210610_122240_response_add_auto_increment_key extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createIndex('oldprimary', '{{%response}}', ['id', 'survey_id']);
@@ -23,9 +17,6 @@ class m210610_122240_response_add_auto_increment_key extends Migration
         $this->alterColumn('{{%response}}', 'survey_id', $this->integer()->null());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         return true;

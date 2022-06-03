@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 use yii\db\Migration;
 
-/**
- * Class m211012_120836_session_rename_timestamps
- */
 class m211012_120836_session_rename_timestamps extends Migration
 {
     public function safeUp()

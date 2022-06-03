@@ -9,6 +9,7 @@ use yii\web\AssetBundle;
 class AceEditorBundle extends AssetBundle
 {
     public $baseUrl = '@npm/ace-builds/src-min';
+
     public $js = [
         'ace.js',
         'worker-json.js',

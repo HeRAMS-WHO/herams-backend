@@ -26,59 +26,57 @@ class Module extends \yii\base\Module
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>/<target_id:\d+>',
                     'route' => '<controller>/<action>',
-                    'verb' => ['put', 'delete']
+                    'verb' => ['put', 'delete'],
                 ],
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller>/<id:\d+>',
                     'route' => '<controller>/view',
-                    'verb' => 'get'
+                    'verb' => 'get',
                 ],
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>/<id:\d+>',
                     'route' => '<controller>/update',
-                    'verb' => ['get', 'post']
+                    'verb' => ['get', 'post'],
                 ],
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>/<id:\d+>/<action:[\w-]+>',
                     'route' => '<controller>/<action>',
-                    'verb' => ['get', 'post']
+                    'verb' => ['get', 'post'],
                 ],
 
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>s',
                     'verb' => 'get',
-                    'route' => '<controller>/index'
+                    'route' => '<controller>/index',
                 ],
-
-
 
                 [
                     'class' => UrlRule::class,
                     'pattern' => 'response',
                     'route' => 'response/update',
-                    'verb' => 'post'
+                    'verb' => 'post',
                 ],
                 [
                     'class' => UrlRule::class,
                     'pattern' => 'response',
                     'route' => 'response/delete',
-                    'verb' => 'delete'
+                    'verb' => 'delete',
                 ],
                 [
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>',
                     'route' => '<controller>/create',
-                    'verb' => 'POST'
+                    'verb' => 'POST',
                 ],
                 [
                     'pattern' => '<p:.*>',
                     'route' => '',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -88,7 +86,6 @@ class Module extends \yii\base\Module
         return parent::beforeAction($action);
     }
 
-
     public function behaviors()
     {
         return [
@@ -96,18 +93,18 @@ class Module extends \yii\base\Module
                 'class' => ContentNegotiator::class,
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
-                ]
+                ],
             ],
             'authenticator' => [
                 'class' => CompositeAuth::class,
                 'optional' => ['*'],
                 'authMethods' => [
                     [
-                        'class' => SessionAuth::class
-                    ]
-                ]
+                        'class' => SessionAuth::class,
+                    ],
+                ],
 
-            ]
+            ],
         ];
     }
 }

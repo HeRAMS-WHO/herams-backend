@@ -30,7 +30,7 @@ class AuditServiceTest extends Unit
 {
     private function createEntry(): NewAuditEntryInterface
     {
-        return new class implements NewAuditEntryInterface {
+        return new class() implements NewAuditEntryInterface {
             public function getSubjectName(): string
             {
                 return 'testname';
@@ -51,13 +51,13 @@ class AuditServiceTest extends Unit
     public function testCommitSilencesErrors(): void
     {
         $db = $this->makeEmpty(Connection::class, [
-            'createCommand' => Expected::atLeastOnce(fn() => throw new \Exception())
+            'createCommand' => Expected::atLeastOnce(fn () => throw new \Exception()),
         ]);
         $app = $this->make(Application::class, [
             'on' => Expected::atLeastOnce(),
             'getDb' => $db,
             'getUser' => Stub::make(User::class, [
-                'getId' => 15
+                'getId' => 15,
             ]),
         ]);
 

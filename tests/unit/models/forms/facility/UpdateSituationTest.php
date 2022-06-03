@@ -84,8 +84,8 @@ class UpdateSituationTest extends Unit
             [
                 'data' => [
                     'name' => 'cool stuff',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -94,7 +94,7 @@ class UpdateSituationTest extends Unit
         yield [
             [
                 'data' => [],
-            ]
+            ],
         ];
     }
 }

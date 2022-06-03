@@ -10,7 +10,9 @@ use yii\base\InvalidConfigException;
 class KubernetesSecretEnvironment implements EnvironmentInterface
 {
     private array $data = [];
+
     private string $secretDir;
+
     private array $secretCache = [];
 
     public function __construct(string $secretDir, string ...$files)
@@ -30,7 +32,6 @@ class KubernetesSecretEnvironment implements EnvironmentInterface
         return [];
     }
 
-
     public function get(string $name, $default = null)
     {
         return $this->data[$name] ?? getenv($name) ?: $default;
@@ -38,9 +39,9 @@ class KubernetesSecretEnvironment implements EnvironmentInterface
 
     public function getSecret(string $name): string
     {
-        if (!isset($this->secretCache[$name])) {
+        if (! isset($this->secretCache[$name])) {
             $secretFile = "{$this->secretDir}/{$name}";
-            if (!file_exists($secretFile)) {
+            if (! file_exists($secretFile)) {
                 throw new InvalidConfigException("Missing value for secret $name");
             }
             if (false === $secret = file_get_contents($secretFile)) {

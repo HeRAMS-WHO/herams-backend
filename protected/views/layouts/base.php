@@ -19,7 +19,7 @@ $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro"
     <html>
 
     <head>
-        <?= $this->head();?>
+        <?= $this->head(); ?>
 
         <?= Html::tag('title', $this->title); ?>
     </head>

@@ -31,7 +31,11 @@ class CreatedNotificationHandlerTest extends Unit
         $project = $this->getMockBuilder(Project::class)->getMock();
         $project->expects($this->once())
             ->method('getLeads')
-            ->willReturn([new User(['id' => 12345, 'email' => $emails[0]])]);
+            ->willReturn([
+                new User([
+                    'id' => 12345,
+                    'email' => $emails[0],
+                ]), ]);
         $accessRequest = $this->getMockBuilder(AccessRequest::class)->getMock();
         $accessRequest->expects($this->any())
             ->method('__get')
@@ -52,7 +56,10 @@ class CreatedNotificationHandlerTest extends Unit
             ->with(
                 'access_request_created_notification',
                 [
-                    'respondUrl' => Url::to(['/access-request/respond', 'id' => $id], true),
+                    'respondUrl' => Url::to([
+                        '/access-request/respond',
+                        'id' => $id,
+                    ], true),
                     'accessRequest' => $accessRequest,
                 ]
             )

@@ -18,7 +18,7 @@ class ExternalDashboard extends Action
         $project = $projectRepository->retrieveForExternalDashboard(new ProjectId($id));
 
         return $this->controller->render('external-dashboard', [
-            'project' => $project
+            'project' => $project,
         ]);
     }
 }

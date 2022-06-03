@@ -23,12 +23,10 @@ class CreateCest
             'projectId' => $I->haveProject()->id,
             'title' => [
                 'fr' => 'test',
-                'en-US' => 'Test'
-            ]
-
+                'en-US' => 'Test',
+            ],
         ];
         $I->sendPost(Url::to(['/api/workspace/create']), $data);
         $I->seeResponseCodeIs(201);
-
     }
 }

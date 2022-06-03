@@ -13,9 +13,6 @@ use SamIT\abac\interfaces\Rule;
 
 class RespondToAccessRequestRule implements Rule
 {
-    /**
-     * @inheritDoc
-     */
     public function getPermissions(): array
     {
         return [
@@ -23,9 +20,6 @@ class RespondToAccessRequestRule implements Rule
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTargetNames(): array
     {
         return [
@@ -33,25 +27,16 @@ class RespondToAccessRequestRule implements Rule
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSourceNames(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
         return 'if you have share permission on the target';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(
         object $source,
         object $target,
@@ -60,8 +45,7 @@ class RespondToAccessRequestRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         /** @var AccessRequest $target */
-        return
-            $source instanceof User
+        return $source instanceof User
             && $target instanceof AccessRequest
             && $target->created_by !== $source->id
             && isset($target->target)

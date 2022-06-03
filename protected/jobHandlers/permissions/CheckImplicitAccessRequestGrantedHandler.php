@@ -36,8 +36,8 @@ class CheckImplicitAccessRequestGrantedHandler
         $target = $this->resolver->toSubject($permission->targetAuthorizable());
 
         if (
-            !$target
-            || !(
+            ! $target
+            || ! (
                 $target instanceof Project
                 || $target instanceof WorkspaceForLimesurvey
             )
@@ -54,7 +54,7 @@ class CheckImplicitAccessRequestGrantedHandler
             $partial = false;
             foreach ($accessRequest->permissions as $requestedPermission) {
                 // The requested permission cannot be checked automatically (like "other")
-                if (!isset($permissionMap[$requestedPermission])) {
+                if (! isset($permissionMap[$requestedPermission])) {
                     $partial = true;
                 } elseif ($this->abacManager->check($accessRequest->createdByUser, $accessRequest->target, $permissionMap[$requestedPermission])) {
                     $result = true;

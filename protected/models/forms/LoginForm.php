@@ -15,25 +15,29 @@ class LoginForm extends Model
     use DisableYiiLoad;
 
     public string|null $login = null;
+
     public string|null $password = null;
 
     public function attributeLabels(): array
     {
         return [
             'login' => \Yii::t('app', 'Email'),
-            'password' => \Yii::t('app', 'Password')
+            'password' => \Yii::t('app', 'Password'),
         ];
     }
-
 
     public function rules(): array
     {
         return [
             [['login', 'password'], RequiredValidator::class],
             ['login', 'validateLogin'],
-            ['password', 'validatePassword', 'when' => function (self $model) {
-                return null !== $model->getUser();
-            }]
+            [
+                'password',
+                'validatePassword',
+                'when' => function (self $model) {
+                    return null !== $model->getUser();
+                },
+            ],
         ];
     }
 
@@ -46,8 +50,8 @@ class LoginForm extends Model
 
     public function validatePassword($attribute, $params): void
     {
-        if (!$this->hasErrors()) {
-            if (!password_verify($this->password, $this->getUser()->password_hash)) {
+        if (! $this->hasErrors()) {
+            if (! password_verify($this->password, $this->getUser()->password_hash)) {
                 $this->addError($attribute, 'Incorrect password.');
             }
         }
@@ -69,6 +73,8 @@ class LoginForm extends Model
 
     private function getUser(): ?User
     {
-        return User::find()->andWhere(['email' => $this->login])->one();
+        return User::find()->andWhere([
+            'email' => $this->login,
+        ])->one();
     }
 }

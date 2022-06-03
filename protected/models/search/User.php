@@ -15,9 +15,13 @@ use yii\validators\StringValidator;
 class User extends Model
 {
     public $email;
+
     public $name;
+
     public $id;
+
     public $created_at;
+
     public function rules(): array
     {
         return [
@@ -34,8 +38,8 @@ class User extends Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10
-            ]
+                'pageSize' => 10,
+            ],
         ]);
 
         $sort = new Sort([
@@ -45,17 +49,21 @@ class User extends Model
                 'email',
                 'created_at',
             ],
-            'defaultOrder' => ['id' => SORT_ASC]
+            'defaultOrder' => [
+                'id' => SORT_ASC,
+            ],
         ]);
         $dataProvider->setSort($sort);
-        if (!$this->load($params) || !$this->validate()) {
+        if (! $this->load($params) || ! $this->validate()) {
             return $dataProvider;
         }
 
         $query->andFilterWhere(['like', 'name', $this->name]);
         $query->andFilterWhere(['like', 'email', $this->email]);
         $query->andFilterWhere(['like', 'created_at', $this->created_at]);
-        $query->andFilterWhere(['id' => $this->id]);
+        $query->andFilterWhere([
+            'id' => $this->id,
+        ]);
         return $dataProvider;
     }
 }

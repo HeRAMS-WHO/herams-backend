@@ -13,12 +13,17 @@ use yii\web\Request;
 class NewsletterService extends Component
 {
     public Secret|string $mailchimpListId;
+
     public Secret|string $mailchimpTag;
 
     private const MAILCHIMP_MEMBERSHIP_STATUS_CLEANED = 'cleaned';
+
     private const MAILCHIMP_MEMBERSHIP_STATUS_PENDING = 'pending';
+
     private const MAILCHIMP_MEMBERSHIP_STATUS_SUBSCRIBED = 'subscribed';
+
     private const MAILCHIMP_MEMBERSHIP_STATUS_TRANSACTIONAL = 'transactional';
+
     private const MAILCHIMP_MEMBERSHIP_STATUS_UNSUBSCRIBED = 'unsubscribed';
 
     public function __construct(
@@ -31,15 +36,23 @@ class NewsletterService extends Component
 
     public function handleWebhook(Request $request): void
     {
-        if ($request->getBodyParam('type') === 'subscribe' && !empty($data = $request->getBodyParam('data'))) {
-            if ($user = $this->userRepository->find()->andWhere(['email' => $data['email']])->one()) {
-                $user->updateAttributes(['newsletter_subscription' => true]);
+        if ($request->getBodyParam('type') === 'subscribe' && ! empty($data = $request->getBodyParam('data'))) {
+            if ($user = $this->userRepository->find()->andWhere([
+                'email' => $data['email'],
+            ])->one()) {
+                $user->updateAttributes([
+                    'newsletter_subscription' => true,
+                ]);
             }
         }
 
-        if ($request->getBodyParam('type') === 'unsubscribe' && !empty($data = $request->getBodyParam('data'))) {
-            if ($user = $this->userRepository->find()->andWhere(['email' => $data['email']])->one()) {
-                $user->updateAttributes(['newsletter_subscription' => false]);
+        if ($request->getBodyParam('type') === 'unsubscribe' && ! empty($data = $request->getBodyParam('data'))) {
+            if ($user = $this->userRepository->find()->andWhere([
+                'email' => $data['email'],
+            ])->one()) {
+                $user->updateAttributes([
+                    'newsletter_subscription' => false,
+                ]);
             }
         }
     }
@@ -52,7 +65,11 @@ class NewsletterService extends Component
             $response = $this->client->get("lists/{$this->mailchimpListId}/members?offset={$offset}&count={$count}&fields=members.email_address,members.status");
             $members = $response['members'];
             foreach ($members as $member) {
-                $this->userRepository->updateAll(['newsletter_subscription' => $this->isSubscribed($member['status'])], ['email' => $member['email_address']]);
+                $this->userRepository->updateAll([
+                    'newsletter_subscription' => $this->isSubscribed($member['status']),
+                ], [
+                    'email' => $member['email_address'],
+                ]);
             }
 
             $offset += $count;
@@ -73,7 +90,7 @@ class NewsletterService extends Component
     public function syncToExternal(User $user, bool $insert): void
     {
         // If this is not configured, we don't want external syncing
-        if (!$this->mailchimpListId || !$this->mailchimpTag) {
+        if (! $this->mailchimpListId || ! $this->mailchimpTag) {
             return;
         }
 
@@ -85,7 +102,7 @@ class NewsletterService extends Component
             'status' => $user->newsletter_subscription ? self::MAILCHIMP_MEMBERSHIP_STATUS_SUBSCRIBED : self::MAILCHIMP_MEMBERSHIP_STATUS_UNSUBSCRIBED,
             'tags' => [
                 $this->mailchimpTag,
-            ]
+            ],
         ]);
     }
 }

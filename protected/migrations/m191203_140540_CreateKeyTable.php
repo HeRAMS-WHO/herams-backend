@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m191203_140540_CreateKeyTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%key}}', [
@@ -19,9 +16,6 @@ class m191203_140540_CreateKeyTable extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('{{%key}}');

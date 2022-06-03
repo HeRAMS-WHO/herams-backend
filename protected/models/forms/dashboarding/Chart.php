@@ -11,7 +11,9 @@ use yii\base\Model;
 class Chart extends Model
 {
     public int|string $width;
+
     public int|string $height;
+
     public function __construct(
         private VariableSetInterface $variables
     ) {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 define('YII_ENV', getenv('YII_ENV'));

@@ -64,10 +64,10 @@ trait SurveyHelper
                 }
                 $answers = $question->getAnswers() ??
                     (
-                    $question->getDimensions() > 0
+                        $question->getDimensions() > 0
                         ? $question->getQuestions(0)[0]->getAnswers() ?? []
                         : []
-                    ) ?? [] ;
+                    ) ?? [];
 
                 assert(count($answers) > 0);
                 $map = [];
@@ -76,7 +76,7 @@ trait SurveyHelper
                     $map[$code] = trim(strtok($answer->getText(), ':('));
                 }
                 ksort($map);
-                if (!isset($map[HeramsSubject::UNKNOWN_VALUE])) {
+                if (! isset($map[HeramsSubject::UNKNOWN_VALUE])) {
                     $map[HeramsSubject::UNKNOWN_VALUE] = \Yii::t('app', 'Unknown');
                 }
                 return $map;

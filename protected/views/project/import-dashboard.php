@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Project;
 use prime\widgets\InlineUpload\InlineUpload;
@@ -33,8 +33,8 @@ $form = ActiveForm::begin([
     'formConfig' => [
         'showLabels' => true,
         'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 
 echo Form::widget([
@@ -44,14 +44,19 @@ echo Form::widget([
     "attributes" => [
         'pages' => [
             'type' => Form::INPUT_WIDGET,
-            'widgetClass' => InlineUpload::class
+            'widgetClass' => InlineUpload::class,
         ],
-        \prime\widgets\FormButtonsWidget::embed([
+        \prime\widgets\FormButtonsWidget::embed(
+            [
                 'buttons' => [
-                    Html::submitButton(\Yii::t('app', 'Import pages'), ['class' => 'btn btn-primary'])
-                ]
-        ])
-    ]
+                    Html::submitButton(\Yii::t('app', 'Import pages'), [
+                        'class' => 'btn btn-primary',
+                    ]),
+                ],
+            ]
+        ),
+
+    ],
 ]);
 $form->end();
 

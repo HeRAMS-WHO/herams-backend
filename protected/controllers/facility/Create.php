@@ -41,8 +41,14 @@ class Create extends Action
         if ($model->validate()) {
             $id = $repository->create($model);
             $response->statusCode = 201;
-            $response->headers->add('X-Suggested-Location', Url::to(['update', 'id' => $id], true));
-            $response->headers->add('Location', Url::to(['update', 'id' => $id], true));
+            $response->headers->add('X-Suggested-Location', Url::to([
+                'update',
+                'id' => $id,
+            ], true));
+            $response->headers->add('Location', Url::to([
+                'update',
+                'id' => $id,
+            ], true));
             return $response;
         } else {
             \Yii::error($model->errors);
@@ -71,13 +77,17 @@ class Create extends Action
             // In case it is a Limesurvey project we need to create a new response
             $workspace = $workspaceRepository->retrieveForRead($id);
             assertInstanceOf(WorkspaceForLimesurvey::class, $workspace);
-            return $this->controller->render('createForLimesurvey', ['model' => $workspace]);
+            return $this->controller->render('createForLimesurvey', [
+                'model' => $workspace,
+            ]);
         }
 
         if ($request->isPost) {
             return $this->handlePost($request, $hydrator, $model, $facilityRepository, $response);
         }
 
-        return $this->controller->render('create', ['model' => $model]);
+        return $this->controller->render('create', [
+            'model' => $model,
+        ]);
     }
 }

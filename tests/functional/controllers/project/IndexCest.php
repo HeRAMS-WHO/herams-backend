@@ -40,7 +40,10 @@ class IndexCest
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/view', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/view',
+                'id' => $project->id,
+            ]),
         ]);
 
         $page = new Page();
@@ -51,14 +54,22 @@ class IndexCest
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/view', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/view',
+                'id' => $project->id,
+            ]),
         ]);
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
-            'href' => Url::to(['project/view', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/view',
+                'id' => $project->id,
+            ]),
         ]);
     }
 
@@ -70,21 +81,34 @@ class IndexCest
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/update', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/update',
+                'id' => $project->id,
+            ]),
         ]);
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/update', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/update',
+                'id' => $project->id,
+            ]),
         ]);
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_WRITE);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
-            'href' => Url::to(['project/update', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/update',
+                'id' => $project->id,
+            ]),
         ]);
     }
 
@@ -96,28 +120,46 @@ class IndexCest
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/share', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/share',
+                'id' => $project->id,
+            ]),
         ]);
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/share', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/share',
+                'id' => $project->id,
+            ]),
         ]);
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_WRITE);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/share', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/share',
+                'id' => $project->id,
+            ]),
         ]);
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_ADMIN);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
-            'href' => Url::to(['project/share', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/share',
+                'id' => $project->id,
+            ]),
         ]);
     }
 
@@ -129,7 +171,10 @@ class IndexCest
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
-            'href' => Url::to(['project/workspaces', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/workspaces',
+                'id' => $project->id,
+            ]),
         ]);
 
         // Private visibility
@@ -139,7 +184,10 @@ class IndexCest
 
         // Don't see the link
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/workspaces', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/workspaces',
+                'id' => $project->id,
+            ]),
         ]);
         // But do see the project title listed
         $I->see($project->title, 'table tr td');
@@ -151,7 +199,10 @@ class IndexCest
 
         // Don't see the link
         $I->dontSeeElement('a', [
-            'href' => Url::to(['project/workspaces', 'id' => $project->id]),
+            'href' => Url::to([
+                'project/workspaces',
+                'id' => $project->id,
+            ]),
         ]);
         // Don't see the project title listed
         $I->dontSee($project->title, 'table tr td');

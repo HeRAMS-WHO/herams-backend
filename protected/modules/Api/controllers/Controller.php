@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
@@ -11,7 +12,6 @@ use yii\web\Response;
 abstract class Controller extends \yii\rest\Controller
 {
     public $enableCsrfValidation = false;
-
 
     public function behaviors(): array
     {
@@ -29,11 +29,9 @@ abstract class Controller extends \yii\rest\Controller
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
-
-
 }

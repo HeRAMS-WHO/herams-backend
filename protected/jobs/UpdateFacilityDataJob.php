@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\jobs;
@@ -10,7 +11,6 @@ final class UpdateFacilityDataJob implements JobInterface
 {
     public function __construct(public readonly FacilityId $facilityId)
     {
-
     }
 
     public static function fromArray(array $config): JobInterface
@@ -21,7 +21,7 @@ final class UpdateFacilityDataJob implements JobInterface
     public function jsonSerialize(): mixed
     {
         return [
-            'facilityId' => $this->facilityId->getValue()
+            'facilityId' => $this->facilityId->getValue(),
         ];
     }
 }

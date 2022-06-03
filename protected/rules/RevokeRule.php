@@ -13,41 +13,26 @@ use SamIT\abac\interfaces\Rule;
 
 class RevokeRule implements Rule
 {
-    /**
-     * @inheritDoc
-     */
     public function getPermissions(): array
     {
         return [Permission::PERMISSION_DELETE];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTargetNames(): array
     {
         return [ProposedGrant::class];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSourceNames(): array
     {
         return [User::class];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
         return 'you have the share permission on its target and you are not trying to grant share permissions';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(
         object $source,
         object $target,

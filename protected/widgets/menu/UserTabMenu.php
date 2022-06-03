@@ -20,23 +20,23 @@ class UserTabMenu extends TabMenu
     {
         $this->tabs[] = [
             'url' => ['user/profile'],
-            'title' => \Yii::t('app', 'Profile')
+            'title' => \Yii::t('app', 'Profile'),
         ];
         $this->tabs[] = [
             'url' => ['user/password'],
-            'title' => \Yii::t('app', 'Password')
+            'title' => \Yii::t('app', 'Password'),
         ];
         $this->tabs[] = [
             'url' => ['user/email'],
-            'title' => \Yii::t('app', 'Email')
+            'title' => \Yii::t('app', 'Email'),
         ];
         $this->tabs[] = [
             'url' => ['user/notifications'],
-            'title' => \Yii::t('app', 'Notifications')
+            'title' => \Yii::t('app', 'Notifications'),
         ];
         $this->tabs[] = [
             'url' => ['user/access-requests'],
-            'title' => \Yii::t('app', 'Access requests')
+            'title' => \Yii::t('app', 'Access requests'),
         ];
 
         return parent::renderMenu();

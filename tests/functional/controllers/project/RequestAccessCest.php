@@ -19,12 +19,18 @@ class RequestAccessCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
 
-        $I->amOnPage(['project/request-access', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/request-access',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->fillField('Subject', 'Test access request subject');
         $I->fillField('Body', 'Test access request body');
         $I->checkOption('Download data');
         $I->click('Request');
-        $I->seeRecord(AccessRequest::class, ['target_class' => get_class($project), 'target_id' => $project->id]);
+        $I->seeRecord(AccessRequest::class, [
+            'target_class' => get_class($project),
+            'target_id' => $project->id,
+        ]);
     }
 }

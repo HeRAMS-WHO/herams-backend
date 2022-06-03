@@ -30,19 +30,19 @@ echo GridView::widget([
                     'href' => Url::to(['create']),
                     'class' => 'btn-default',
                 ],
-                'visible' => app()->user->can(Permission::PERMISSION_ADMIN)
+                'visible' => app()->user->can(Permission::PERMISSION_ADMIN),
             ],
-        ]
+        ],
     ]),
     'dataProvider' => $facilityProvider,
-//    'filterModel' => $projectSearch,
+    //    'filterModel' => $projectSearch,
     'layout' => "{items}\n{pager}",
     'columns' => [
         'id',
         'code',
         'name',
-        'alternative_name'
-    ]
+        'alternative_name',
+    ],
 ]);
 
 Section::end();

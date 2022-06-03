@@ -45,7 +45,10 @@ class ResponseRepositoryTest extends Unit
         $breadcrumb = $repository->retrieveForBreadcrumb(new ResponseId($response->id));
 
         $this->assertEquals($response->getName(), $breadcrumb->getLabel());
-        $this->assertEquals(['/response/compare', 'id' => $response->id], $breadcrumb->getUrl());
+        $this->assertEquals([
+            '/response/compare',
+            'id' => $response->id,
+        ], $breadcrumb->getUrl());
         $this->assertEquals(new WorkspaceId($response->workspace_id), $breadcrumb->getWorkspaceId());
     }
 }

@@ -39,12 +39,16 @@ class SurveyResponseRepositoryTest extends Unit
         $surveyId = new SurveyId(1);
         $facilityId = new FacilityId('1');
         $model = new CreateForm($surveyId, $facilityId);
-        $model->data = ['test' => 'test123'];
+        $model->data = [
+            'test' => 'test123',
+        ];
 
         $repository = $this->createRepository();
         $surveyResponseId = $repository->create($model);
 
-        $surveyResponse = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
+        $surveyResponse = SurveyResponse::findOne([
+            'id' => $surveyResponseId->getValue(),
+        ]);
         $this->assertEquals($surveyId->getValue(), $surveyResponse->survey_id);
         $this->assertEquals($facilityId->getValue(), $surveyResponse->facility_id);
         $this->assertEquals($model->data, $surveyResponse->data);
@@ -79,11 +83,38 @@ class SurveyResponseRepositoryTest extends Unit
     {
         $facility = Facility::find()->one();
 
-        $surveyResponse1 = new SurveyResponse(['survey_id' => $facility->dataSurvey->id, 'facility_id' => $facility->id, 'data' => ['name' => 'Name 1', 'useForSituationUpdate' => 0], 'created_at' => '2021-11-10 15:40:00']);
+        $surveyResponse1 = new SurveyResponse([
+            'survey_id' => $facility->dataSurvey->id,
+            'facility_id' => $facility->id,
+            'data' => [
+                'name' => 'Name 1',
+                'useForSituationUpdate' => 0,
+            ],
+            'created_at' =>
+             '2021-11-10 15:40:00',
+        ]);
         $this->assertTrue($surveyResponse1->save());
-        $surveyResponse2 = new SurveyResponse(['survey_id' => $facility->dataSurvey->id, 'facility_id' => $facility->id, 'data' => ['name' => 'Name 2', 'useForSituationUpdate' => 1], 'created_at' => '2021-11-10 15:30:00']);
+        $surveyResponse2 = new SurveyResponse([
+            'survey_id' => $facility->dataSurvey->id,
+            'facility_id' => $facility->id,
+            'data' => [
+                'name' => 'Name 2',
+                'useForSituationUpdate' => 1,
+            ],
+            'created_at' =>
+             '2021-11-10 15:30:00',
+        ]);
         $this->assertTrue($surveyResponse2->save());
-        $surveyResponse3 = new SurveyResponse(['survey_id' => $facility->dataSurvey->id, 'facility_id' => $facility->id, 'data' => ['name' => 'Name 3', 'useForSituationUpdate' => 1], 'created_at' => '2021-11-10 15:20:00']);
+        $surveyResponse3 = new SurveyResponse([
+            'survey_id' => $facility->dataSurvey->id,
+            'facility_id' => $facility->id,
+            'data' => [
+                'name' => 'Name 3',
+                'useForSituationUpdate' => 1,
+            ],
+            'created_at' =>
+             '2021-11-10 15:20:00',
+        ]);
         $this->assertTrue($surveyResponse3->save());
 
         $repository = $this->createRepository();
@@ -106,9 +137,25 @@ class SurveyResponseRepositoryTest extends Unit
     {
         $facility = Facility::find()->one();
 
-        $surveyResponse1 = new SurveyResponse(['survey_id' => $facility->adminSurvey->id, 'facility_id' => $facility->id, 'data' => ['name' => 'Name 1'], 'created_at' => '2021-11-10 15:40:00']);
+        $surveyResponse1 = new SurveyResponse([
+            'survey_id' => $facility->adminSurvey->id,
+            'facility_id' => $facility->id,
+            'data' => [
+                'name' => 'Name 1',
+            ],
+            'created_at' =>
+             '2021-11-10 15:40:00',
+        ]);
         $this->assertTrue($surveyResponse1->save());
-        $surveyResponse2 = new SurveyResponse(['survey_id' => $facility->adminSurvey->id, 'facility_id' => $facility->id, 'data' => ['name' => 'Name 2'], 'created_at' => '2021-11-10 15:30:00']);
+        $surveyResponse2 = new SurveyResponse([
+            'survey_id' => $facility->adminSurvey->id,
+            'facility_id' => $facility->id,
+            'data' => [
+                'name' => 'Name 2',
+            ],
+            'created_at' =>
+             '2021-11-10 15:30:00',
+        ]);
         $this->assertTrue($surveyResponse2->save());
 
         $repository = $this->createRepository();

@@ -90,14 +90,18 @@ class FacilityRepositoryTest extends Unit
 
     public function testCreate(): void
     {
-        $surveyForSurveyJs = new SurveyForSurveyJs(new SurveyId(12345), ['pages' => []]);
+        $surveyForSurveyJs = new SurveyForSurveyJs(new SurveyId(12345), [
+            'pages' => [],
+        ]);
         $model = new CreateForm(
             LanguageSet::fullSet(),
             $surveyForSurveyJs,
             new WorkspaceId(1),
         );
         $name = 'Test new created facility';
-        $model->data = ['name' => $name];
+        $model->data = [
+            'name' => $name,
+        ];
 
         $surveyResponseCreateFormModel = new SurveyResponseCreateForm($surveyForSurveyJs->getId(), new FacilityId('34567'));
         $surveyResponseRepository = $this->getMockBuilder(SurveyResponseRepository::class)->disableOriginalConstructor()->getMock();
@@ -109,7 +113,9 @@ class FacilityRepositoryTest extends Unit
 
         $repository = $this->createRepository(surveyResponseRepository: $surveyResponseRepository);
         $facilityId = $repository->create($model);
-        $this->assertTrue(Facility::find()->andWhere(['id' => $facilityId])->exists());
+        $this->assertTrue(Facility::find()->andWhere([
+            'id' => $facilityId,
+        ])->exists());
     }
 
     public function testCreateFormModel(): void
@@ -127,7 +133,9 @@ class FacilityRepositoryTest extends Unit
         $accessCheck = $this->getMockBuilder(AccessCheckInterface::class)->getMock();
         $accessCheck->expects($this->once())
             ->method('requirePermission')
-            ->with(new Facility(['workspace_id' => $workspace->getId()->getValue()]), Permission::PERMISSION_CREATE);
+            ->with(new Facility([
+                'workspace_id' => $workspace->getId()->getValue(),
+            ]), Permission::PERMISSION_CREATE);
 
         $repository = $this->createRepository($accessCheck);
         $createModel = $repository->createFormModel($workspace);
@@ -175,7 +183,9 @@ class FacilityRepositoryTest extends Unit
             ->willReturn($survey);
 
         $surveyResponse = new SurveyResponseForSurveyJs(
-            ['name' => 'Test facility update'],
+            [
+                'name' => 'Test facility update',
+            ],
             new SurveyResponseId(12345)
         );
         $surveyResponseRepository = $this->getMockBuilder(SurveyResponseRepository::class)->disableOriginalConstructor()->getMock();
@@ -227,7 +237,9 @@ class FacilityRepositoryTest extends Unit
             ->willReturn($survey);
 
         $surveyResponse = new SurveyResponseForSurveyJs(
-            ['Q1' => 'A1'],
+            [
+                'Q1' => 'A1',
+            ],
             new SurveyResponseId(23456)
         );
         $surveyResponseRepository = $this->getMockBuilder(SurveyResponseRepository::class)->disableOriginalConstructor()->getMock();
@@ -256,7 +268,9 @@ class FacilityRepositoryTest extends Unit
         $survey = new SurveyForSurveyJs(new SurveyId($facility->adminSurvey->id), $facility->adminSurvey->config);
         $model = new UpdateForm($facilityId, $facility->project->getLanguageSet(), $survey);
         $updatedName = 'Facility name after tested update';
-        $model->data = ['name' => $updatedName];
+        $model->data = [
+            'name' => $updatedName,
+        ];
 
         $accessCheck = $this->getMockBuilder(AccessCheckInterface::class)->getMock();
         $accessCheck->expects($this->once())
@@ -306,7 +320,9 @@ class FacilityRepositoryTest extends Unit
             accessCheck: $accessCheck,
             surveyResponseRepository: $surveyResponseRepository
         );
-        $model->data = ['Q1' => 'A1'];
+        $model->data = [
+            'Q1' => 'A1',
+        ];
         $updatedFacilityId = $repository->saveUpdateSituation($model);
         $facility->refresh();
 

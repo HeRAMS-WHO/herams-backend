@@ -26,7 +26,7 @@ class ConfirmEmail extends Action
             $old_hash
         );
 
-        if (!$model->validate()) {
+        if (! $model->validate()) {
             throw new GoneHttpException($model->getFirstError('newMail') ?? $model->getFirstError('oldHash'));
         }
 
@@ -36,6 +36,8 @@ class ConfirmEmail extends Action
             return $this->controller->goHome();
         }
 
-        return $this->controller->render('confirm-email', ['model' => $model]);
+        return $this->controller->render('confirm-email', [
+            'model' => $model,
+        ]);
     }
 }

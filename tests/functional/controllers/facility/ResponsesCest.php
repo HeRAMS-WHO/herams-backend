@@ -26,7 +26,10 @@ class ResponsesCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $facility = $this->getFacility($I);
-        $I->amOnPage(['facility/responses', 'id' => $facility->id]);
+        $I->amOnPage([
+            'facility/responses',
+            'id' => $facility->id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
     }
 }

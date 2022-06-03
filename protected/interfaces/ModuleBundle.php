@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\interfaces;
@@ -8,10 +9,8 @@ namespace prime\interfaces;
  */
 interface ModuleBundle
 {
-
     /**
      * @return string Must be a javascript quoted string
      */
     public function getUrlForImport(): string;
-
 }

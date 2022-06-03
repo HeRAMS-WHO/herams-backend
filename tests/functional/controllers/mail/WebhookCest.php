@@ -15,10 +15,20 @@ class WebhookCest
 {
     public function testSubscribeCall(FunctionalTester $I)
     {
-        $user = User::findOne(['id' => TEST_USER_ID]);
-        $user->updateAttributes(['newsletter_subscription' => false]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
+        $user->updateAttributes([
+            'newsletter_subscription' => false,
+        ]);
 
-        $I->sendPost('mail/webhook', ['type' => 'subscribe', 'data' => ['email' => $user->email]]);
+        $I->sendPost('mail/webhook', [
+            'type' => 'subscribe',
+            'data' => [
+                'email' => $user->email,
+
+            ],
+        ]);
         $I->seeResponseCodeIsSuccessful();
 
         $user->refresh();
@@ -27,10 +37,18 @@ class WebhookCest
 
     public function testUnsubscribeCall(FunctionalTester $I)
     {
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $I->assertTrue($user->newsletter_subscription == true);
 
-        $I->sendPost('mail/webhook', ['type' => 'unsubscribe', 'data' => ['email' => $user->email]]);
+        $I->sendPost('mail/webhook', [
+            'type' => 'unsubscribe',
+            'data' => [
+                'email' => $user->email,
+
+            ],
+        ]);
         $I->seeResponseCodeIsSuccessful();
 
         $user->refresh();

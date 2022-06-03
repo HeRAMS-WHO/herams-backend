@@ -54,7 +54,6 @@ class ResponseFilter extends Model
         return $attributes;
     }
 
-
     public function setDate($date)
     {
         $this->date = empty($date) ? null : new Carbon($date);
@@ -75,6 +74,7 @@ class ResponseFilter extends Model
             $this->initAdvancedFilterMap($survey);
         }
     }
+
     private function initAdvancedFilterMap(SurveyInterface $survey)
     {
         $groups = $survey->getGroups();
@@ -93,7 +93,10 @@ class ResponseFilter extends Model
     public function rules()
     {
         $rules = [];
-        $rules[] = [['date'], DateValidator::class, 'format' => 'php:Y-m-d'];
+        $rules[] = [['date'],
+            DateValidator::class,
+            'format' => 'php:Y-m-d',
+        ];
 //        $rules[] = [['locations'], RangeValidator::class, 'range' => array_values($this->nestedLocationOptions()), 'allowArray' => true];
 //        $rules[] = [['types'], RangeValidator::class, 'range' => array_values($this->typeOptions()), 'allowArray' => true];
         foreach ($this->advancedFilterMap as $code => $question) {
@@ -102,7 +105,7 @@ class ResponseFilter extends Model
                 RangeValidator::class,
                 'range' => array_map(function (AnswerInterface $answer) {
                     return $answer->getCode();
-                }, $question->getAnswers())
+                }, $question->getAnswers()),
             ];
         }
         return $rules;
@@ -129,8 +132,6 @@ class ResponseFilter extends Model
 
     /**
      * Get the answer options (code => label) for a question identified by $fieldName
-     * @param string $fieldName
-     * @return array
      */
     public function advancedOptions(string $fieldName): array
     {
@@ -144,7 +145,7 @@ class ResponseFilter extends Model
                     $result[$group][$answer->getCode()] = $title;
                 } else {
                     $result[$group] = [
-                        $answer->getCode() => $title
+                        $answer->getCode() => $title,
                     ];
                 }
             } else {
@@ -172,9 +173,8 @@ class ResponseFilter extends Model
         $query->andFilterWhere([
             '<=',
             'date',
-            (string) $this->date
+            (string) $this->date,
         ]);
-
 
         // Clone the primary query
         $sub = clone $query;
@@ -188,35 +188,34 @@ class ResponseFilter extends Model
                 [
                     '>',
                     "[[sub]].[[date]]",
-                    new Expression("{$query->primaryTableName}.[[date]]")
+                    new Expression("{$query->primaryTableName}.[[date]]"),
                 ],
                 [
                     'and',
                     [
                         '=',
                         "[[sub]].[[date]]",
-                        new Expression("{$query->primaryTableName}.[[date]]")
+                        new Expression("{$query->primaryTableName}.[[date]]"),
                     ],
                     [
                         '>',
                         "[[sub]].[[id]]",
-                        new Expression("{$query->primaryTableName}.[[id]]")
+                        new Expression("{$query->primaryTableName}.[[id]]"),
                     ],
-                ]
+                ],
             ]);
 
         $query->andWhere(['not exists', $sub]);
 
         foreach ($this->advanced as $key => $value) {
-            if (!empty($value)) {
+            if (! empty($value)) {
                 $query->andWhere([
-                    "json_unquote(json_extract([[data]],'$.{$key}'))" => $value
+                    "json_unquote(json_extract([[data]],'$.{$key}'))" => $value,
                 ]);
             }
         }
         return $query;
     }
-
 
     public function formName()
     {

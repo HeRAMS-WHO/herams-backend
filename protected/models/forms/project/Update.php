@@ -28,15 +28,25 @@ class Update extends Model
     use StrictModelScenario;
 
     public null|string $country;
+
     public null|array $i18n;
+
     public LanguageSet $languages;
+
     public null|float $latitude;
+
     public null|float $longitude;
+
     public bool $manage_implies_create_hf;
+
     public null|array $overrides;
+
     public ProjectStatus $status;
+
     public string $title;
+
     public null|array $typemap;
+
     public ProjectVisibility $visibility;
 
     public function __construct(public ProjectId $id)
@@ -50,8 +60,8 @@ class Update extends Model
         return [
             LocalizableWriteBehavior::class => [
                 'class' => LocalizableWriteBehavior::class,
-                'attributes' => ['title']
-            ]
+                'attributes' => ['title'],
+            ],
         ];
     }
 
@@ -63,10 +73,9 @@ class Update extends Model
     public function attributeHints(): array
     {
         return [
-            'languages' => \Yii::t('app', 'These languages will be available for translating project, workspace and facility titles')
+            'languages' => \Yii::t('app', 'These languages will be available for translating project, workspace and facility titles'),
         ];
     }
-
 
     public function formName(): string
     {
@@ -77,18 +86,46 @@ class Update extends Model
     {
         return [
             [['title'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1],
-            [['title'], UniqueValidator::class, 'targetAttribute' => 'title', 'targetClass' => Project::class, 'filter' => ['not', ['id' => $this->id]]],
-            [['latitude'], NumberValidator::class, 'integerOnly' => false, 'min' => -90, 'max' => 90],
-            [['longitude'], NumberValidator::class, 'integerOnly' => false, 'min' => -180, 'max' => 180],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+            ],
+            [['title'],
+                UniqueValidator::class,
+                'targetAttribute' => 'title',
+                'targetClass' => Project::class,
+                'filter' => [
+                    'not', [
+                        'id' => $this->id,
+
+                    ], ],
+            ],
+            [['latitude'],
+                NumberValidator::class,
+                'integerOnly' => false,
+                'min' => -90,
+                'max' => 90,
+            ],
+            [['longitude'],
+                NumberValidator::class,
+                'integerOnly' => false,
+                'min' => -180,
+                'max' => 180,
+            ],
 
             // These are strongly typed so no validation is needed
             [['manage_implies_create_hf'], SafeValidator::class],
-            [['visibility'], BackedEnumValidator::class, 'example' => ProjectVisibility::Private],
-            [['status'], BackedEnumValidator::class, 'example' => ProjectStatus::Ongoing],
+            [['visibility'],
+                BackedEnumValidator::class,
+                'example' => ProjectVisibility::Private,
+            ],
+            [['status'],
+                BackedEnumValidator::class,
+                'example' => ProjectStatus::Ongoing,
+            ],
             LanguageSet::validatorFor('languages'),
             [['typemap', 'overrides'], ClientJsonValidator::class],
-            [['country'], CountryValidator::class]
+            [['country'], CountryValidator::class],
         ];
     }
 

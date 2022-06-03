@@ -19,7 +19,9 @@ class SyncNewsletterSubscriptionHandlerTest extends Unit
 {
     public function test()
     {
-        $user = new User(['id' => 999999]);
+        $user = new User([
+            'id' => 999999,
+        ]);
         $insert = false;
         $userRepository = $this->getMockBuilder(UserRepository::class)->getMock();
         $userRepository->expects($this->once())

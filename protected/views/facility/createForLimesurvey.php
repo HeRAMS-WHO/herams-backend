@@ -26,9 +26,9 @@ echo Html::tag('iframe', '', [
     'src' => "https://ls.herams.org/{$model->project->base_survey_eid}?ResponsePicker=new&token={$model->token}&lang={$language}&newtest=Y",
     'style' => [
         'width' => '100%',
-        'min-height' => '600px'
+        'min-height' => '600px',
         //'height' => '800px'
-    ]
+    ],
 ]);
 
 $this->registerJs('iFrameResize({ log: true, scrolling: true }, "iframe[name=limesurvey]");');

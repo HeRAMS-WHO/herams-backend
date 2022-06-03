@@ -23,9 +23,9 @@ class UpdateCest
 
         $I->sendPost(Url::to(['/api/response']), [
             'json' => [
-                'ab' => true
+                'ab' => true,
 
-            ]
+            ],
         ]);
         $I->seeResponseCodeIs(401);
     }

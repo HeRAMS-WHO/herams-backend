@@ -13,6 +13,7 @@ use yii\helpers\Url;
 class PermissionColumn extends DataColumn
 {
     public $target;
+
     public $permission;
 
     public function init()
@@ -34,7 +35,7 @@ class PermissionColumn extends DataColumn
             'target_id' => $this->target->getId(),
             'source_name' => $model['source']->getAuthName(),
             'target_name' => $this->target->getAuthName(),
-            'permission' => $this->permission
+            'permission' => $this->permission,
         ]);
         $grant = Url::to([
             'permission/grant',
@@ -42,19 +43,25 @@ class PermissionColumn extends DataColumn
             'target_id' => $this->target->getId(),
             'source_name' => $model['source']->getAuthName(),
             'target_name' => $this->target->getAuthName(),
-            'permission' => $this->permission
+            'permission' => $this->permission,
         ]);
         $label =
-              Html::tag('div', Html::label('&nbsp;'), ['class' => ['state', 'p-success', 'p-on']])
-            . Html::tag('div', Html::label('&nbsp;'), ['class' => ['state', 'p-danger', 'p-off']])
-        . Html::tag('div', Html::label('&nbsp;'), ['class' => ['state', 'p-warning', 'p-is-indeterminate', 'p-smooth']]);
+              Html::tag('div', Html::label('&nbsp;'), [
+                'class' => ['state', 'p-success', 'p-on'],
+            ])
+            . Html::tag('div', Html::label('&nbsp;'), [
+                'class' => ['state', 'p-danger', 'p-off'],
+            ])
+        . Html::tag('div', Html::label('&nbsp;'), [
+            'class' => ['state', 'p-warning', 'p-is-indeterminate', 'p-smooth'],
+        ]);
         $cb = Html::checkbox('perm', $value, [
             'data-revoke' => $revoke,
-            'data-grant' => $grant
+            'data-grant' => $grant,
         ]);
 
-
-        $this->grid->view->registerJs(<<<JS
+        $this->grid->view->registerJs(
+            <<<JS
     document.addEventListener('change', (e) => {
         if (!e.target.matches('.pretty input[type=checkbox][data-revoke], .pretty input[type=checkbox][data-grant]')) {
             return;
@@ -95,7 +102,9 @@ JS
             $cb . $label,
             [
                 'class' => ['pretty', 'p-toggle', 'p-switch', 'p-has-indeterminate'],
-                'style' => ['margin-right' => 0]
+                'style' => [
+                    'margin-right' => 0,
+                ],
             ]
         );
         return $value ? 'Yes' : 'No';

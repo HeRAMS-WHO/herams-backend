@@ -48,9 +48,12 @@ class ElementController extends Controller
                 'class' => DeleteAction::class,
                 'query' => Element::find(),
                 'redirect' => function (Element $element) {
-                    return ['page/update', 'id' => $element->page_id];
-                }
-            ]
+                    return [
+                        'page/update',
+                        'id' => $element->page_id,
+                    ];
+                },
+            ],
         ];
     }
 
@@ -62,8 +65,8 @@ class ElementController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'delete' => ['delete']
-                    ]
+                        'delete' => ['delete'],
+                    ],
                 ],
                 'access' => [
                     'rules' => [
@@ -71,8 +74,8 @@ class ElementController extends Controller
                             'allow' => true,
                             'roles' => ['@'],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
     }

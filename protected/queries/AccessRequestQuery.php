@@ -14,7 +14,9 @@ class AccessRequestQuery extends ActiveQuery
 {
     public function createdBy(int $userId): self
     {
-        return $this->andWhere(['created_by' => $userId]);
+        return $this->andWhere([
+            'created_by' => $userId,
+        ]);
     }
 
     /**
@@ -27,11 +29,17 @@ class AccessRequestQuery extends ActiveQuery
 
     public function withResponse(): self
     {
-        return $this->andWhere(['not', ['response' => null]]);
+        return $this->andWhere([
+            'not', [
+                'response' => null,
+
+            ], ]);
     }
 
     public function withoutResponse(): self
     {
-        return $this->andWhere(['response' => null]);
+        return $this->andWhere([
+            'response' => null,
+        ]);
     }
 }

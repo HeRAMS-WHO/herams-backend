@@ -14,6 +14,7 @@ use yii\validators\StringValidator;
 class Create extends Model
 {
     public null|string $title = null;
+
     public null|ProjectId $project_id = null;
 
     public function attributeLabels(): array
@@ -24,7 +25,10 @@ class Create extends Model
     public function rules(): array
     {
         return [
-            [['title'], FilterValidator::class, 'filter' => 'trim'],
+            [['title'],
+                FilterValidator::class,
+                'filter' => 'trim',
+            ],
             [['title'], RequiredValidator::class],
             [['title'], StringValidator::class],
         ];

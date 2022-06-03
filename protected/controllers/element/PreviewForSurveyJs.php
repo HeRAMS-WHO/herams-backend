@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\element;
@@ -41,7 +42,7 @@ class PreviewForSurveyJs extends Action
         return $this->controller->render('preview-survey-js', [
             'element' => $model,
             'facilities' => $facilities,
-            'variableSet' => $variableSet
+            'variableSet' => $variableSet,
         ]);
     }
 }

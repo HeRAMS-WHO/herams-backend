@@ -51,14 +51,16 @@ class ViewForSurveyJs extends Action
         $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
         /** @var \prime\models\ar\surveyjs\Project|null $project */
         $project = Project::find()
-            ->andWhere(['id'  => $id])
+            ->andWhere([
+                'id' => $id,
+            ])
             ->with('mainPages')
             ->one();
-        if (!isset($project)) {
+        if (! isset($project)) {
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_READ, $project)) {
+        if (! $user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
 
@@ -66,22 +68,26 @@ class ViewForSurveyJs extends Action
 
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
-            $parent = Page::findOne(['id' => $parent_id]);
+            $parent = Page::findOne([
+                'id' => $parent_id,
+            ]);
             foreach ($parent->getChildPages() as $childPage) {
                 if ($childPage->getid() === $page_id) {
                     $page = $childPage;
                     break;
                 }
             }
-            if (!isset($page)) {
+            if (! isset($page)) {
                 throw new NotFoundHttpException();
             }
         } elseif (isset($page_id)) {
-            $page = Page::findOne(['id' => $page_id]);
-            if (!isset($page) || $page->project_id !== $project->id) {
+            $page = Page::findOne([
+                'id' => $page_id,
+            ]);
+            if (! isset($page) || $page->project_id !== $project->id) {
                 throw new NotFoundHttpException();
             }
-        } elseif (!empty($project->mainPages)) {
+        } elseif (! empty($project->mainPages)) {
             $page = $project->mainPages[0];
         } else {
             throw new NotFoundHttpException('No reporting has been set up for this project');
@@ -99,20 +105,23 @@ class ViewForSurveyJs extends Action
             $stack[] = $parent;
         }
 
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl(['project/view', 'id' => $project->id]));
-        while (!empty($stack)) {
+        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl([
+            'project/view',
+            'id' => $project->id,
+        ]));
+        while (! empty($stack)) {
             /** @var PageInterface $p */
             $p = array_pop($stack);
             $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($p->getTitle()));
         }
         $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($page->getTitle()));
 
-        $data = toArray(flatten(map(static fn(Facility $facility): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord($facility->getAdminRecord(), $facility->getDataRecord(), FacilityId::fromFacility($facility)), $facilities)));
+        $data = toArray(flatten(map(static fn (Facility $facility): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord($facility->getAdminRecord(), $facility->getDataRecord(), FacilityId::fromFacility($facility)), $facilities)));
         return $this->controller->render('view-for-survey-js', [
             'data' => $data,
             'project' => $project,
             'page' => $page,
-            'variables' => $variableSet
+            'variables' => $variableSet,
         ]);
     }
 
@@ -121,7 +130,7 @@ class ViewForSurveyJs extends Action
         \Yii::beginProfile(__FUNCTION__);
         $question = $this->findQuestionByCode($survey, $project->getMap()->getType());
 
-        if (!isset($question)) {
+        if (! isset($question)) {
             return [];
         }
 

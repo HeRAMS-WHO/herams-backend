@@ -27,7 +27,7 @@ class AuditServiceCest
 {
     private function createEntry(): NewAuditEntryInterface
     {
-        return new class implements NewAuditEntryInterface {
+        return new class() implements NewAuditEntryInterface {
             public function getSubjectName(): string
             {
                 return 'testname';
@@ -44,9 +44,6 @@ class AuditServiceCest
             }
         };
     }
-
-
-
 
     public function testCommitWithoutEntriesDoesNothing(FunctionalTester $I): void
     {

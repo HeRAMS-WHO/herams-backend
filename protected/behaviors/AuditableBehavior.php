@@ -15,24 +15,27 @@ use yii\db\BaseActiveRecord;
 class AuditableBehavior extends Behavior
 {
     public bool $auditUpdate = true;
+
     public bool $auditCreate = true;
+
     public bool $auditDelete = true;
 
     public bool $auditEmptyUpdates = false;
 
-    public function __construct(private AuditServiceInterface $auditService, array $config = [])
-    {
+    public function __construct(
+        private AuditServiceInterface $auditService,
+        array $config = []
+    ) {
         parent::__construct($config);
     }
 
     public function attach($owner): void
     {
-        if (!$owner instanceof ActiveRecord) {
+        if (! $owner instanceof ActiveRecord) {
             throw new \InvalidArgumentException('Behavior can only be attached to ActiveRecord instances');
         }
         parent::attach($owner);
     }
-
 
     private function getService(): AuditServiceInterface
     {
@@ -53,7 +56,7 @@ class AuditableBehavior extends Behavior
                 }
             },
             BaseActiveRecord::EVENT_AFTER_UPDATE => function (AfterSaveEvent $event): void {
-                if ($this->auditUpdate && (!empty($event->changedAttributes) || $this->auditEmptyUpdates)) {
+                if ($this->auditUpdate && (! empty($event->changedAttributes) || $this->auditEmptyUpdates)) {
                     $this->addEntryForEvent(AuditEvent::Update);
                 }
             },
@@ -61,7 +64,7 @@ class AuditableBehavior extends Behavior
                 if ($this->auditDelete) {
                     $this->addEntryForEvent(AuditEvent::Delete);
                 }
-            }
+            },
         ];
     }
 }

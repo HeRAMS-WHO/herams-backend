@@ -18,12 +18,12 @@ class FormButtonsWidget
     public static function embed(array $config): array
     {
         // Set the default button type to submit, which makes sense for forms.
-        if (!isset($config['defaultButtonType'])) {
+        if (! isset($config['defaultButtonType'])) {
             $config['defaultButtonType'] = 'submit';
         }
         return [
             'type' => Form::INPUT_RAW,
-            'value' => \prime\widgets\ButtonGroup::widget($config)
+            'value' => \prime\widgets\ButtonGroup::widget($config),
         ];
     }
 }

@@ -26,8 +26,8 @@ echo Html::tag('iframe', '', [
     'class' => [],
     'style' => [
         'width' => '100%',
-        'min-height' => '600px'
-    ]
+        'min-height' => '600px',
+    ],
 ]);
 $this->registerJs('iFrameResize({ log: false, checkOrigin: ["https://ls.herams.org"]}, "iframe[name=limesurvey]");');
 

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\interfaces\WorkspaceForTabMenu;
@@ -58,17 +58,21 @@ $attributes += [
         'type' => Form::INPUT_WIDGET,
         'widgetClass' => LocalizableInput::class,
     ],
-    FormButtonsWidget::embed([
-        'buttons' => [
-            Html::submitButton(\Yii::t('app', 'Save'), ['class' => 'btn btn-primary']),
+    FormButtonsWidget::embed(
+        [
+            'buttons' => [
+                Html::submitButton(\Yii::t('app', 'Save'), [
+                    'class' => 'btn btn-primary',
+                ]),
+            ],
         ]
-    ])
+    ),
 ];
 
 echo Form::widget([
     'form' => $form,
     'model' => $model,
-    'attributes' => $attributes
+    'attributes' => $attributes,
 ]);
 ActiveForm::end();
 Section::end();
@@ -82,20 +86,23 @@ echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
 echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this workspace?')));
 
 echo ButtonGroup::widget([
-'buttons' => [
-    [
-        'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $model),
-        'icon' => Icon::trash(),
-        'label' => \Yii::t('app', 'Delete'),
-        'link' => ['workspace/delete', 'id' => $model->id],
-        'style' => 'delete',
-        'linkOptions' => [
-            'data-method' => 'delete',
-            'title' => \Yii::t('app', 'Delete workspace'),
-            'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
-        ]
-    ]
-]
+    'buttons' => [
+        [
+            'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $model),
+            'icon' => Icon::trash(),
+            'label' => \Yii::t('app', 'Delete'),
+            'link' => [
+                'workspace/delete',
+                'id' => $model->id,
+            ],
+            'style' => 'delete',
+            'linkOptions' => [
+                'data-method' => 'delete',
+                'title' => \Yii::t('app', 'Delete workspace'),
+                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
+            ],
+        ],
+    ],
 ]);
 
 Section::end();

@@ -21,7 +21,9 @@ class Responses extends Action
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne([
+            'id' => $id,
+        ]);
 
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
 
@@ -29,7 +31,7 @@ class Responses extends Action
         return $this->controller->render('responses', [
             'responseSearch' => $responseSearch,
             'responseProvider' => $responseSearch->search($request->queryParams),
-            'workspace' => $workspace
+            'workspace' => $workspace,
         ]);
     }
 }

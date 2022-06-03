@@ -18,7 +18,7 @@ class MapBundle extends AssetBundle
         [
             'https://cdn.jsdelivr.net/npm/chroma-js@2.0.2/chroma.min.js',
             'integrity' => 'sha256-A6e6m2HRvOpsUi37pgdyPYK2rbumr3kp6WcvGUMQ5Bc=',
-            'crossorigin' => 'anonymous'
+            'crossorigin' => 'anonymous',
         ],
         [
             'https://d3js.org/d3.v3.min.js',
@@ -28,19 +28,20 @@ class MapBundle extends AssetBundle
         ],
         [
             'PopupRenderer.js',
-            'position' => View::POS_HEAD
+            'position' => View::POS_HEAD,
         ],
         [
             'DashboardMapRenderer.js',
-            'position' => View::POS_HEAD
+            'position' => View::POS_HEAD,
         ],
         [
             'PopupListRenderer.js',
-            'position' => View::POS_HEAD
-        ]
+            'position' => View::POS_HEAD,
+        ],
 
     ];
+
     public $css = [
-        'map.css'
+        'map.css',
     ];
 }

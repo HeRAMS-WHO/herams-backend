@@ -15,7 +15,6 @@ class FacilityForResponseCopy implements \prime\interfaces\FacilityForResponseCo
     {
     }
 
-
     public function getLastResponseId(): ResponseId
     {
         return $this->lastResponseId;

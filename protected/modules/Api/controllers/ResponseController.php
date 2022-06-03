@@ -13,12 +13,14 @@ use yii\web\Controller;
 class ResponseController extends Controller
 {
     public $enableCsrfValidation = false;
+
     public $layout = '@app/views/layouts/simple';
+
     public function actions()
     {
         return [
             'update' => Update::class,
-            'delete' => Delete::class
+            'delete' => Delete::class,
         ];
     }
 
@@ -29,9 +31,9 @@ class ResponseController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'update' => ['post'],
-                    'delete' => ['delete']
-                ]
-            ]
+                    'delete' => ['delete'],
+                ],
+            ],
         ]);
     }
 }

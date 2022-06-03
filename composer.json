@@ -57,7 +57,8 @@
         "spatie/enum": "^3.7",
         "drewm/mailchimp-api": "^2.5",
         "collecthor/surveyjs-parser": ">= 3",
-        "collecthor/yii2-session-auth": "^1.1.1"
+        "collecthor/yii2-session-auth": "^1.1.1",
+        "ramsey/conventional-commits": "^1.3"
     },
 
     "autoload": {

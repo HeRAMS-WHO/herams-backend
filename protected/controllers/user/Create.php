@@ -27,7 +27,7 @@ class Create extends Action
         }
 
         return $this->controller->render('create', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 }

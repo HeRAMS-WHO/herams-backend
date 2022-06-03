@@ -12,13 +12,11 @@ class Secret implements \Stringable
 
     private EnvironmentInterface $environment;
 
-
     public function __construct(EnvironmentInterface $environment, string $name)
     {
         $this->environment = $environment;
-        $this->name        = $name;
+        $this->name = $name;
     }
-
 
     public function __toString()
     {

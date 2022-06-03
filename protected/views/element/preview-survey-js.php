@@ -26,12 +26,14 @@ use function iter\map;
 \prime\assets\IframeResizerContentWindowBundle::register($this);
 
 $this->registerCss('.card-widget { height: 500px; }');
-if (!$element->hasErrors()) {
-
-
-    $data = flatten(map(static fn(Facility $facility
-    ): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord($facility->getAdminRecord(),
-        $facility->getDataRecord(), new FacilityId((string)$facility->id)), $facilities));
+if (! $element->hasErrors()) {
+    $data = flatten(map(static fn (
+        Facility $facility
+    ): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord(
+        $facility->getAdminRecord(),
+        $facility->getDataRecord(),
+        new FacilityId((string) $facility->id)
+    ), $facilities));
     echo $element->renderWidget($variableSet, $this, $data);
 } else {
     var_dump($element->errors);

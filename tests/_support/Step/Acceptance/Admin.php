@@ -2,8 +2,8 @@
 
 namespace Step\Acceptance;
 
-use Page\Login;
 use Codeception\Scenario;
+use Page\Login;
 
 class Admin extends User
 {

@@ -46,18 +46,20 @@ class ProjectController extends Controller
             'delete' => [
                 'class' => DeleteAction::class,
                 'query' => Project::find(),
-                'redirect' => ['/project']
+                'redirect' => ['/project'],
             ],
             'delete-workspaces' => [
-                'class' => DeleteWorkspaces::class
+                'class' => DeleteWorkspaces::class,
             ],
             'export-surveyjs' => [
-                'class' => Export::class
+                'class' => Export::class,
             ],
             'export' => [
                 'class' => ExportAction::class,
                 'subject' => static function (Request $request) {
-                    return Project::findOne(['id' => $request->getQueryParam('id')]);
+                    return Project::findOne([
+                        'id' => $request->getQueryParam('id'),
+                    ]);
                 },
                 'responseQuery' => static function (Project $project): ResponseForLimesurveyQuery {
                     return ResponseForLimesurvey::find()->project($project)->with('workspace');
@@ -67,7 +69,7 @@ class ProjectController extends Controller
                 },
                 'checkAccess' => function (Project $project, User $user) {
                     return $user->can(Permission::PERMISSION_EXPORT, $project);
-                }
+                },
             ],
             'export-dashboard' => ExportDashboard::class,
             'external-dashboard' => ExternalDashboard::class,
@@ -96,16 +98,16 @@ class ProjectController extends Controller
                     'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['delete'],
-                        'filter' => ['post']
-                    ]
+                        'filter' => ['post'],
+                    ],
                 ],
 
                 'pageCache' => [
                     'class' => PageCache::class,
-                    'enabled' => !YII_DEBUG,
+                    'enabled' => ! YII_DEBUG,
                     'only' => ['summary'],
                     'variations' => [
-                        \Yii::$app->request->getQueryParam('id')
+                        \Yii::$app->request->getQueryParam('id'),
                     ],
                     'duration' => 120,
                 ],
@@ -137,12 +139,12 @@ class ProjectController extends Controller
                         [
                             'allow' => true,
                             'actions' => [
-                                'create'
+                                'create',
                             ],
-                            'roles' => [Permission::PERMISSION_CREATE_PROJECT]
-                        ]
+                            'roles' => [Permission::PERMISSION_CREATE_PROJECT],
+                        ],
                     ],
-                ]
+                ],
             ]
         );
     }

@@ -35,7 +35,10 @@ class Update extends Action
             $response->format = Response::FORMAT_JSON;
             $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
             if ($model->validate(null, false)) {
-                $response->headers->add('X-Suggested-Location', Url::to(['update', 'id' => $facilityRepository->saveUpdate($model)], true));
+                $response->headers->add('X-Suggested-Location', Url::to([
+                    'update',
+                    'id' => $facilityRepository->saveUpdate($model),
+                ], true));
                 $notificationService->success(\Yii::t('app', 'Facility updated'));
                 return $response;
             } else {
@@ -45,7 +48,7 @@ class Update extends Action
         }
         return $this->controller->render('update', [
             'model' => $model,
-            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId)
+            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
         ]);
     }
 }

@@ -9,6 +9,7 @@ use yii\web\AssetBundle;
 class JqueryBundle extends AssetBundle
 {
     public $baseUrl = '@npm/jquery/dist';
+
     public $js = [
         'jquery.min.js',
     ];

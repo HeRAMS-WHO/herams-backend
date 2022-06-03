@@ -58,11 +58,10 @@ abstract class ActiveRecordTest extends ModelTest
     {
         $class = strtr(get_class($this), [
             __NAMESPACE__ => 'prime\models\ar',
-            'Test' => ''
+            'Test' => '',
         ]);
         return new $class();
     }
-
 
     public function testGetDisplayField(): void
     {
@@ -71,7 +70,7 @@ abstract class ActiveRecordTest extends ModelTest
 
     public function testGetDisplayFieldCascade(): void
     {
-        $model = new class extends \prime\models\ActiveRecord {
+        $model = new class() extends \prime\models\ActiveRecord {
             public function attributes()
             {
                 return ['name', 'email'];

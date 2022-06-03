@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\forms\element;
@@ -30,16 +31,22 @@ use function iter\toArray;
 class Chart extends Model implements DashboardWidgetInterface
 {
     private const DEFAULT_GROUP = 'default';
+
     public null|PageId $pageId = null;
+
     public int $width = 1;
+
     public int $height = 1;
+
     public int $sort = 1;
+
     public string $title = "Chart";
 
     /**
      * @var list<string>
      */
     public array $variables = [];
+
     public null|string $groupingVariable = null;
 
     public DataSort $dataSort = DataSort::Source;
@@ -53,34 +60,36 @@ class Chart extends Model implements DashboardWidgetInterface
 
     public function __construct(
         private VariableSetInterface $variableSet,
-        $config = [])
-    {
+        $config = []
+    ) {
         parent::__construct($config);
     }
-
 
     public function rules(): array
     {
         return [
-            [['colorMap', ], SafeValidator::class],
+            [['colorMap'], SafeValidator::class],
             [['width', 'height', 'sort'], NumberValidator::class],
             [['title', 'variables'], RequiredValidator::class],
             PermissionValidator::create(['pageId'], Page::find()),
 
-            [['dataSort'], EnumValidator::class, 'enumClass' => DataSort::class],
-            [['type'], EnumValidator::class, 'enumClass' => ChartType::class],
+            [['dataSort'],
+                EnumValidator::class,
+                'enumClass' => DataSort::class,
+            ],
+            [['type'],
+                EnumValidator::class,
+                'enumClass' => ChartType::class,
+            ],
             VariableValidator::multipleFromSet($this->variableSet, 'variables'),
-            VariableValidator::singleFromSet($this->variableSet, )
-
-
-
+            VariableValidator::singleFromSet($this->variableSet, ),
 
         ];
     }
 
     private function getGroup(HeramsFacilityRecordInterface $record, VariableSetInterface $variableSet): string
     {
-        if (!isset($this->groupingVariable)) {
+        if (! isset($this->groupingVariable)) {
             return self::DEFAULT_GROUP;
         }
 
@@ -93,10 +102,7 @@ class Chart extends Model implements DashboardWidgetInterface
     }
 
     /**
-     * @param HeramsVariableSet $variableSet
-     * @param View $view
      * @param iterable<HeramsFacilityRecordInterface $data
-     * @return void
      */
     public function renderWidget(HeramsVariableSet $variableSet, View $view, iterable $data): void
     {
@@ -111,14 +117,10 @@ class Chart extends Model implements DashboardWidgetInterface
             ->withN($config['n'])
             ->withTitle($this->title)
             ->finish();
-
-
-
     }
 
     public function toConfigurationArray(): array
     {
         return $this->attributes;
-
     }
 }

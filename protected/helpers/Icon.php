@@ -66,7 +66,6 @@ class Icon
 
     public static function icon($name, array $options = [])
     {
-
         Html::addCssClass($options, ['icon', "icon-$name"]);
         return Html::tag(
             'svg',
@@ -88,7 +87,7 @@ class Icon
     {
         // Register the icon bundle, this is needed for the CSS file that defines sizes for all icons.
         IconBundle::register(\Yii::$app->view);
-        if (!isset(self::$icons)) {
+        if (! isset(self::$icons)) {
             \Yii::beginProfile('loadIcons');
             /** @var \SimpleXMLElement $file */
             $symbols = simplexml_load_file(\Yii::getAlias('@app/assets/icons/symbol-defs.svg'));
@@ -98,8 +97,10 @@ class Icon
             \Yii::endProfile('loadIcons');
         }
 
-        $use = Html::tag('use', '', ['href' => "#icon-{$name}"]);
-        if (!isset(self::$registeredIcons["icon-{$name}"])) {
+        $use = Html::tag('use', '', [
+            'href' => "#icon-{$name}",
+        ]);
+        if (! isset(self::$registeredIcons["icon-{$name}"])) {
             self::$registeredIcons["icon-{$name}"] = true;
             return self::$icons["icon-{$name}"] . $use;
         } else {

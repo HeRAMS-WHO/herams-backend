@@ -84,7 +84,7 @@ class MigrationHelper
         // We set a default since the column doesn't allow nulls.
         $this->migration->addColumn($table, $tempColumn, $this->integer()->null());
         $this->migration->update($table, [
-            $tempColumn => new Expression("UNIX_TIMESTAMP([[$column]])")
+            $tempColumn => new Expression("UNIX_TIMESTAMP([[$column]])"),
         ]);
     }
 
@@ -99,7 +99,7 @@ class MigrationHelper
         // We set a default since the column doesn't allow nulls.
         $this->migration->addColumn($table, $tempColumn, $this->dateTime()->null());
         $this->migration->update($table, [
-            $tempColumn => new Expression("FROM_UNIXTIME([[$column]])")
+            $tempColumn => new Expression("FROM_UNIXTIME([[$column]])"),
         ]);
     }
 
@@ -110,7 +110,7 @@ class MigrationHelper
         if ($columnSchema->dbType !== 'datetime') {
             throw new NotSupportedException("Column is currently not datetime: {$columnSchema->dbType}");
         }
-        if (!$columnSchema->allowNull) {
+        if (! $columnSchema->allowNull) {
             throw new NotSupportedException("Column allows null, please use changeColumnFromDatetimeToInt instead");
         }
 
@@ -127,7 +127,7 @@ class MigrationHelper
         if ($columnSchema->dbType !== 'int') {
             throw new NotSupportedException("Column is currently not int");
         }
-        if (!$columnSchema->allowNull) {
+        if (! $columnSchema->allowNull) {
             throw new NotSupportedException("Column allows null, please use changeColumnFromIntToDatetime instead");
         }
         $this->createTempDateTimeColumnWithData($table, $column);

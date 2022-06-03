@@ -16,14 +16,18 @@ class Filter extends Action
         int $parent_id = null
     ) {
         $this->controller->layout = 'css3-grid';
-        $project = Project::findOne(['id'  => $id]);
+        $project = Project::findOne([
+            'id' => $id,
+        ]);
         $survey = $project->getSurvey();
         $filter = new ResponseFilter($survey, $project->getMap());
         $filter->load($request->bodyParams);
-        return $this->controller->redirect(['project/view',
+        return $this->controller->redirect([
+            'project/view',
             'id' => $id,
             'page_id' => $page_id,
             'parent_id' => $parent_id,
-            'filter' => $filter->toQueryParam()]);
+            'filter' => $filter->toQueryParam(),
+        ]);
     }
 }

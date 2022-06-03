@@ -12,9 +12,17 @@ class Login
      * public static $usernameField = '#username';
      * public static $formSubmitButton = "#mainForm input[type=submit]";
      */
-    public static $emailField = ['css' => 'input[name*="[login]"]'];
-    public static $passwordField = ['css' => 'input[name*="[password]"]'];
-    public static $loginButton = ['css' => 'button[type=submit]'];
+    public static $emailField = [
+        'css' => 'input[name*="[login]"]',
+    ];
+
+    public static $passwordField = [
+        'css' => 'input[name*="[password]"]',
+    ];
+
+    public static $loginButton = [
+        'css' => 'button[type=submit]',
+    ];
 
     /**
      * @var \AcceptanceTester
@@ -31,20 +39,21 @@ class Login
         return static::$URL . $param;
     }
 
-
     public function login($user, $password, $admin = false)
     {
         $I = $this->tester;
         $I->amOnPage(self::route());
 
         $key = md5('login' . $user . $password);
-        if (!$I->loadSessionSnapshot($key)) {
+        if (! $I->loadSessionSnapshot($key)) {
             $I->fillField(self::$emailField, $user);
             $I->fillField(self::$passwordField, $password);
             $I->click(self::$loginButton);
             $I->expectTo("See the logout menu item.");
             $I->wait(1);
-            $I->seeElementInDOM(['css' => 'a[href$="logout"]']);
+            $I->seeElementInDOM([
+                'css' => 'a[href$="logout"]',
+            ]);
             codecept_debug("Logged in!");
             if ($admin) {
                 $I->seeInSource('Configuration', '.navbar');
@@ -52,7 +61,6 @@ class Login
             $I->saveSessionSnapshot($key);
         }
     }
-
 
     public function __construct(\AcceptanceTester $tester)
     {

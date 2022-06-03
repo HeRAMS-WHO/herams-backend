@@ -21,18 +21,18 @@ class ProjectController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'summary']
+                        'actions' => ['index', 'summary'],
                     ],
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'actions' => ['variables', 'latest-data']
+                        'actions' => ['variables', 'latest-data'],
                     ],
                     [
-                        'allow' => false
-                    ]
-                ]
-            ]
+                        'allow' => false,
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -42,7 +42,7 @@ class ProjectController extends Controller
             'index' => Index::class,
             'summary' => Summary::class,
             'variables' => Variables::class,
-            'latest-data' => LatestData::class
+            'latest-data' => LatestData::class,
         ];
     }
 }

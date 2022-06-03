@@ -45,12 +45,11 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     /**
      * Returns a field useful for displaying this record
-     * @return string
      */
     public function getDisplayField(): string
     {
         foreach (['title', 'name', 'email'] as $attribute) {
-            if ($this->hasAttribute($attribute) && !empty($result = $this->getAttribute($attribute))) {
+            if ($this->hasAttribute($attribute) && ! empty($result = $this->getAttribute($attribute))) {
                 return $result;
             }
         }

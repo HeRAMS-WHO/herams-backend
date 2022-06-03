@@ -20,12 +20,11 @@ class Create extends Action
         CacheInterface $cache,
         ModelHydrator $modelHydrator,
     ) {
-        if (!$user->getIsGuest()) {
+        if (! $user->getIsGuest()) {
             return $this->controller->goHome();
         }
 
         $model = new LoginForm();
-
 
         if ($request->isPost) {
             $modelHydrator->hydrateFromRequestBody($model, $request);
@@ -36,7 +35,7 @@ class Create extends Action
 
         return $this->controller->render('create', [
             'model' => $model,
-            'requestAccountForm' => new RequestAccountForm($cache)
+            'requestAccountForm' => new RequestAccountForm($cache),
         ]);
     }
 }

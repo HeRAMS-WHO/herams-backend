@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
 use Carbon\Carbon;
 use prime\assets\TimeElementBundle;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Project;
 use prime\models\ar\WorkspaceForLimesurvey;
@@ -25,7 +25,8 @@ $this->title = $project->title;
 
 TimeElementBundle::register($this);
 Section::begin()->withHeader(\Yii::t('app', 'Sync workspaces'));
-$this->registerCss(<<<CSS
+$this->registerCss(
+    <<<CSS
     data > * {
         display: inline-block;
         margin-right: 20px;
@@ -59,7 +60,7 @@ echo Form::widget([
 
                         if (isset($workspace->latestUpdate)) {
                             $latestUpdate = Html::tag('time-ago', $workspace->latestUpdate, [
-                                'datetime' => (new Carbon($workspace->latestUpdate))->toIso8601String()
+                                'datetime' => (new Carbon($workspace->latestUpdate))->toIso8601String(),
                             ]);
                         } else {
                             $latestUpdate = \Yii::t('app', 'never');
@@ -70,20 +71,20 @@ echo Form::widget([
                 'options' => [
                     'style' => [
                         'column-width' => '350px',
-                        'max-height' => '500px'
-                    ]
-                ]
-            ]
+                        'max-height' => '500px',
+                    ],
+                ],
+            ],
         ],
         FormButtonsWidget::embed([
             'buttons' => [
                 [
                     'type' => \prime\widgets\ButtonGroup::TYPE_SUBMIT,
-                    'label' => \Yii::t('app', 'Start sync')
-                ]
-            ]
-        ])
-    ]
+                    'label' => \Yii::t('app', 'Start sync'),
+                ],
+            ],
+        ]),
+    ],
 ]);
 
 ActiveForm::end();

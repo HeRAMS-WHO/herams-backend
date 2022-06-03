@@ -19,10 +19,15 @@ use yii\validators\StringValidator;
 class Workspace extends Model
 {
     public $created_at;
+
     public $favorite;
+
     public $id;
+
     private Project $project;
+
     public $title;
+
     private \prime\models\ar\User $user;
 
     public function __construct(
@@ -41,7 +46,7 @@ class Workspace extends Model
             [['created_at'], SafeValidator::class],
             [['title'], StringValidator::class],
             [['id'], NumberValidator::class],
-            [['favorite'], BooleanValidator::class]
+            [['favorite'], BooleanValidator::class],
         ];
     }
 
@@ -51,14 +56,16 @@ class Workspace extends Model
 
         $query->with('project');
         $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'contributorCount');
-        $query->andFilterWhere(['project_id' => $this->project->id]);
+        $query->andFilterWhere([
+            'project_id' => $this->project->id,
+        ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'id' => 'workspace-data-provider',
             'pagination' => [
-                'pageSize' => 10
-            ]
+                'pageSize' => 10,
+            ],
         ]);
 
         // We are forced to do it this way because Yii doesn't properly bind query params from the order by clause.
@@ -77,11 +84,11 @@ class Workspace extends Model
                     'asc' => [
                         new Expression('[[latestUpdate]] IS NOT NULL ASC'),
                         'latestUpdate' => SORT_ASC,
-                        'id' => SORT_ASC
+                        'id' => SORT_ASC,
                     ],
                     'desc' => [
                         'latestUpdate' => SORT_DESC,
-                        'id' => SORT_DESC
+                        'id' => SORT_DESC,
                     ],
                     'default' => SORT_DESC,
                 ],
@@ -89,16 +96,16 @@ class Workspace extends Model
                     'asc' => new Expression("[[id]] IN ($favorites)"),
                     'desc' => new Expression("[[id]] NOT IN ($favorites)"),
                     'default' => SORT_DESC,
-                ]
+                ],
             ],
             'defaultOrder' => [
                 'favorite' => SORT_DESC,
-                'latestUpdate' => SORT_DESC
-            ]
+                'latestUpdate' => SORT_DESC,
+            ],
         ]);
 
         $dataProvider->setSort($sort);
-        if (!$this->load($params) || !$this->validate()) {
+        if (! $this->load($params) || ! $this->validate()) {
             return $dataProvider;
         }
 
@@ -108,13 +115,15 @@ class Workspace extends Model
                 $query->andFilterWhere([
                     'and',
                     ['>=', 'created_at', $interval[0]],
-                    ['<=', 'created_at', $interval[1] . ' 23:59:59']
+                    ['<=', 'created_at', $interval[1] . ' 23:59:59'],
                 ]);
             }
         }
 
         if ($this->favorite !== "") {
-            $condition = ['id' => $this->user->getFavorites()->workspaces()->select('target_id')];
+            $condition = [
+                'id' => $this->user->getFavorites()->workspaces()->select('target_id'),
+            ];
             if ($this->favorite) {
                 $query->andWhere($condition);
             } else {
@@ -122,7 +131,9 @@ class Workspace extends Model
             }
         }
         $query->andFilterWhere(['like', 'title', trim($this->title)]);
-        $query->andFilterWhere(['id' => $this->id]);
+        $query->andFilterWhere([
+            'id' => $this->id,
+        ]);
         return $dataProvider;
     }
 }

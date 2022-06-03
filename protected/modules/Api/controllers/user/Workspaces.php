@@ -23,8 +23,10 @@ class Workspaces extends Action
         int $id,
         int $target_id
     ) {
-        $userModel = User::findOne(['id' => $id]);
-        if (!$user->can(Permission::PERMISSION_MANAGE_FAVORITES, $userModel)) {
+        $userModel = User::findOne([
+            'id' => $id,
+        ]);
+        if (! $user->can(Permission::PERMISSION_MANAGE_FAVORITES, $userModel)) {
             throw new ForbiddenHttpException();
         }
 
@@ -32,7 +34,7 @@ class Workspaces extends Action
             $result = Favorite::deleteAll([
                 'user_id' => $userModel->id,
                 'target_class' => WorkspaceForLimesurvey::class,
-                'target_id' => $target_id
+                'target_id' => $target_id,
             ]);
             return;
         } elseif ($request->isPut) {

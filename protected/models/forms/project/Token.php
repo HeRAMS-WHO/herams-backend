@@ -27,7 +27,6 @@ class Token extends Model
         $this->_token = $token;
     }
 
-
     public function __get($name)
     {
         $getter = 'get' . ucfirst($name);
@@ -52,13 +51,14 @@ class Token extends Model
 
     public function setValidFrom($string)
     {
-        $this->_token->setValidFrom(!empty($string) ? new Carbon($string) : null);
+        $this->_token->setValidFrom(! empty($string) ? new Carbon($string) : null);
     }
 
     public function setValidUntil($string)
     {
-        $this->_token->setValidUntil(!empty($string) ? new Carbon($string) : null);
+        $this->_token->setValidUntil(! empty($string) ? new Carbon($string) : null);
     }
+
     public function __set($name, $value)
     {
         $setter = 'set' . ucfirst($name);
@@ -104,23 +104,28 @@ class Token extends Model
 //        return array_key_exists($name, $this->_attributes) || parent::canSetProperty($name, $checkVars, $checkBehaviors);
 //    }
 
-
-
     public function rules()
     {
         return [
             [['firstName', 'lastName'], SafeValidator::class],
             [array_map('lcfirst', array_keys($this->_token->getCustomAttributes())), SafeValidator::class],
-            [['validFrom', 'validUntil'], DateValidator::class, 'format' => 'php:Y-m-d H:i:s'],
-            [['usesLeft'], NumberValidator::class, 'min' => 1]
+            [['validFrom', 'validUntil'],
+                DateValidator::class,
+                'format' => 'php:Y-m-d H:i:s',
+            ],
+            [['usesLeft'],
+                NumberValidator::class,
+                'min' => 1,
+            ],
         ];
     }
+
     /**
      * Save the token to limesurvey.
      */
     public function save($runValidation = true)
     {
-        return (!$runValidation || $this->validate()) && $this->_token->save();
+        return (! $runValidation || $this->validate()) && $this->_token->save();
     }
 
     /**
@@ -135,7 +140,7 @@ class Token extends Model
     {
         return [
             'firstName' => \Yii::t('app', 'We use this field to store the country for the project'),
-            'lastName' => \Yii::t('app', 'We use this field to store the last name of the project owner')
+            'lastName' => \Yii::t('app', 'We use this field to store the last name of the project owner'),
         ];
     }
 }

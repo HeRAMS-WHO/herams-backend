@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
@@ -19,7 +19,9 @@ use function iter\map;
  * @var View $this
  */
 
-$this->title = \Yii::t('app', 'Respond to: {modelName}', ['modelName' => $model->getAccessRequest()->subject]);
+$this->title = \Yii::t('app', 'Respond to: {modelName}', [
+    'modelName' => $model->getAccessRequest()->subject,
+]);
 
 Section::begin()
     ->withHeader($this->title);
@@ -47,8 +49,14 @@ echo Form::widget([
         'requestedPermissions' => [
             'type' => Form::INPUT_STATIC,
             'label' => \Yii::t('app', 'Requested permissions'),
-            'staticValue' => Html::ul(map(static fn($permission) =>
-                Permission::permissionLabels()[AccessRequest::permissionMap($model->getAccessRequest()->target)[$permission] ?? null] ?? $model->getAccessRequest()->permissionOptions()[$permission], $model->getAccessRequest()->permissions), ['style' => ['margin-top' => 0, 'padding-left' => '17px']]),
+            'staticValue' => Html::ul(map(static fn ($permission) =>
+                Permission::permissionLabels()[AccessRequest::permissionMap($model->getAccessRequest()->target)[$permission] ?? null] ?? $model->getAccessRequest()->permissionOptions()[$permission], $model->getAccessRequest()->permissions), [
+                    'style' => [
+                        'margin-top' => 0,
+                        'padding-left' => '17px',
+
+                    ],
+                ]),
         ],
         'response' => [
             'type' => Form::INPUT_TEXTAREA,
@@ -60,10 +68,13 @@ echo Form::widget([
 
         FormButtonsWidget::embed([
             'buttons' => [
-                ['label' => Yii::t('app', 'Respond'), 'style' => 'primary'],
+                [
+                    'label' => Yii::t('app', 'Respond'),
+                    'style' => 'primary',
+                ],
             ],
         ]),
-    ]
+    ],
 ]);
 
 ActiveForm::end();

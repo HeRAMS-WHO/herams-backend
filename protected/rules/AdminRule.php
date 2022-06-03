@@ -12,17 +12,11 @@ use SamIT\abac\interfaces\SimpleRule;
 
 class AdminRule implements SimpleRule
 {
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
         return 'you have global admin permissions';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(
         object $source,
         object $target,
@@ -30,7 +24,7 @@ class AdminRule implements SimpleRule
         Environment $environment,
         AccessChecker $accessChecker
     ): bool {
-        return  !$target instanceof GlobalPermission
+        return ! $target instanceof GlobalPermission
             && $accessChecker->check($source, new GlobalPermission(), Permission::PERMISSION_ADMIN);
     }
 }

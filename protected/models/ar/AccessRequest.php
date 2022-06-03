@@ -43,8 +43,6 @@ use function iter\keys;
  *
  * @property User $createdByUser
  * @property Project|Workspace $target
- *
- *
  */
 #[
     Audits(self::EVENT_AFTER_INSERT),
@@ -54,16 +52,20 @@ use function iter\keys;
 ]
 class AccessRequest extends ActiveRecord
 {
-    const PERMISSION_CONTRIBUTE = 'contribute';
-    const PERMISSION_EXPORT = 'export';
-    const PERMISSION_OTHER = 'other';
-    const PERMISSION_READ = 'read';
-    const PERMISSION_WRITE = 'write';
+    public const PERMISSION_CONTRIBUTE = 'contribute';
+
+    public const PERMISSION_EXPORT = 'export';
+
+    public const PERMISSION_OTHER = 'other';
+
+    public const PERMISSION_READ = 'read';
+
+    public const PERMISSION_WRITE = 'write';
 
     private static function defaultValues(): array
     {
         return [
-            'expires_at' => Carbon::now()->addWeek(2)
+            'expires_at' => Carbon::now()->addWeek(2),
         ];
     }
 
@@ -83,28 +85,27 @@ class AccessRequest extends ActiveRecord
     {
         // Need to deal with default values here, they must be unset if not being loaded from the database.
         foreach (keys(self::defaultValues()) as $attribute) {
-            if (!isset($row[$attribute])) {
+            if (! isset($row[$attribute])) {
                 $record->setAttribute($attribute, null);
             }
         }
         parent::populateRecord($record, $row);
     }
 
-
     public static function labels(): array
     {
         return parent::labels() + [
-                'accepted' => \Yii::t('app.model.accessRequest', 'Accepted'),
-                'body' => \Yii::t('app.model.accessRequest', 'Body'),
-                'expires_at' => \Yii::t('app.model.accessRequest', 'Expires at'),
-                'permissions' => \Yii::t('app.model.accessRequest', 'Subject'),
-                'responded_at' => \Yii::t('app.model.accessRequest', 'Responded at'),
-                'responded_by' => \Yii::t('app.model.accessRequest', 'Responded by'),
-                'response' => \Yii::t('app.model.accessRequest', 'Response'),
-                'subject' => \Yii::t('app.model.accessRequest', 'Subject'),
-                'target_class' => \Yii::t('app.model.accessRequest', 'Target class'),
-                'target_id' => \Yii::t('app.model.accessRequest', 'Target'),
-            ];
+            'accepted' => \Yii::t('app.model.accessRequest', 'Accepted'),
+            'body' => \Yii::t('app.model.accessRequest', 'Body'),
+            'expires_at' => \Yii::t('app.model.accessRequest', 'Expires at'),
+            'permissions' => \Yii::t('app.model.accessRequest', 'Subject'),
+            'responded_at' => \Yii::t('app.model.accessRequest', 'Responded at'),
+            'responded_by' => \Yii::t('app.model.accessRequest', 'Responded by'),
+            'response' => \Yii::t('app.model.accessRequest', 'Response'),
+            'subject' => \Yii::t('app.model.accessRequest', 'Subject'),
+            'target_class' => \Yii::t('app.model.accessRequest', 'Target class'),
+            'target_id' => \Yii::t('app.model.accessRequest', 'Target'),
+        ];
     }
 
     private static function virtualFields(): array
@@ -114,11 +115,10 @@ class AccessRequest extends ActiveRecord
                 VirtualFieldBehavior::GREEDY => Audit::find()->limit(1)->select('max([[created_at]])')
                     ->created()
                     ->forModelClass(static::class)
-                    ->forSubjectId(new Expression(self::tableName() . '.[[id]]'))
-                ,
-                VirtualFieldBehavior::LAZY => static fn(self $model): ?string
-                => Audit::find()->forModel($model)->created()->select('max([[created_at]])')->scalar()
-            ]
+                    ->forSubjectId(new Expression(self::tableName() . '.[[id]]')),
+                VirtualFieldBehavior::LAZY => static fn (self $model): ?string
+                => Audit::find()->forModel($model)->created()->select('max([[created_at]])')->scalar(),
+            ],
         ];
     }
 
@@ -129,9 +129,9 @@ class AccessRequest extends ActiveRecord
                 'class' => BlameableBehavior::class,
                 'updatedByAttribute' => false,
             ],
-                VirtualFieldBehavior::class => [
+            VirtualFieldBehavior::class => [
                 'class' => VirtualFieldBehavior::class,
-                'virtualFields' => self::virtualFields()
+                'virtualFields' => self::virtualFields(),
             ],
         ];
     }
@@ -143,17 +143,23 @@ class AccessRequest extends ActiveRecord
 
     public function getCreatedByUser(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'created_by']);
+        return $this->hasOne(User::class, [
+            'id' => 'created_by',
+        ]);
     }
 
     public function getRespondedByUser(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'responded_by']);
+        return $this->hasOne(User::class, [
+            'id' => 'responded_by',
+        ]);
     }
 
     public function getTarget(): ActiveQuery
     {
-        return $this->hasOne($this->target_class, ['id' => 'target_id']);
+        return $this->hasOne($this->target_class, [
+            'id' => 'target_id',
+        ]);
     }
 
     public function rules(): array
@@ -161,15 +167,22 @@ class AccessRequest extends ActiveRecord
         return [
             [['permissions', 'subject', 'target_class', 'target_id'], RequiredValidator::class],
             [['body', 'response', 'subject'], StringValidator::class],
-            [['permissions'], RangeValidator::class, 'range' => array_keys($this->permissionOptions()), 'allowArray' => true],
-            [['target_class'], RangeValidator::class, 'range' => array_keys($this->targetClassOptions())],
+            [['permissions'],
+                RangeValidator::class,
+                'range' => array_keys($this->permissionOptions()),
+                'allowArray' => true,
+            ],
+            [['target_class'],
+                RangeValidator::class,
+                'range' => array_keys($this->targetClassOptions()),
+            ],
             [['target_id'], function ($attribute, $params, InlineValidator $validator) {
                 $existValidator = \Yii::createObject(ExistValidator::class, [[
                     'targetClass' => $this->target_class,
                     'targetAttribute' => 'id',
                 ]]);
                 $error = '';
-                if (!$existValidator->validate($this->{$attribute}, $error)) {
+                if (! $existValidator->validate($this->{$attribute}, $error)) {
                     $this->addError($attribute, $error);
                 }
             }],

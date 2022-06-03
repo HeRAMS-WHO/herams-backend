@@ -92,8 +92,8 @@ class CreateTest extends Unit
             [
                 'data' => [
                     'name' => 'cool stuff',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -102,7 +102,7 @@ class CreateTest extends Unit
         yield [
             [
                 'data' => [],
-            ]
+            ],
         ];
     }
 }

@@ -19,7 +19,9 @@ use yii\di\Instance;
 
 class LimesurveyDataProvider extends Component
 {
-    /** @var Client */
+    /**
+     * @var Client
+     */
     public $client = 'limesurvey';
 
     public function __construct(
@@ -29,7 +31,6 @@ class LimesurveyDataProvider extends Component
     ) {
         parent::__construct($config);
     }
-
 
     public function init()
     {
@@ -42,10 +43,9 @@ class LimesurveyDataProvider extends Component
         string $token
     ) {
         return $this->client->createToken($surveyId, [
-            'token' => $token
+            'token' => $token,
         ]);
     }
-
 
     public function getToken(int $surveyId, string $token)
     {
@@ -55,7 +55,6 @@ class LimesurveyDataProvider extends Component
     /**
      * Get all responses in a survey and store them in the cache.
      * This function never uses the cache for reading.
-     * @param int $surveyId
      * @return iterable|ResponseInterface[]
      */
     public function refreshResponsesByToken(int $surveyId, string $token): iterable
@@ -93,7 +92,9 @@ class LimesurveyDataProvider extends Component
         return $this->client->listSurveys();
     }
 
-    /** @return TokenInterface[] */
+    /**
+     * @return TokenInterface[]
+     */
     public function getTokens(int $surveyId): array
     {
         try {
@@ -108,7 +109,6 @@ class LimesurveyDataProvider extends Component
         }
     }
 
-
     public function copyResponse(ExternalResponseId $externalResponseId): ExternalResponseId
     {
         $request = $this->requestFactory->createRequest('POST', "https://ls.herams.org/plugins/unsecure?plugin=ResponsePicker&function=copy&surveyId={$externalResponseId->getSurveyId()}&responseId={$externalResponseId->getResponseId()}&token={$externalResponseId->getToken()}");
@@ -117,7 +117,6 @@ class LimesurveyDataProvider extends Component
             throw new \RuntimeException('Failed to copy response');
         }
         parse_str(parse_url($response->getHeaderLine('location'), PHP_URL_QUERY), $parsed);
-
 
         return new ExternalResponseId((int) $parsed['ResponsePicker'], $externalResponseId->getSurveyId(), $parsed['token']);
     }

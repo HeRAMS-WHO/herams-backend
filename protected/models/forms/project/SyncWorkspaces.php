@@ -14,7 +14,6 @@ class SyncWorkspaces extends Model
 
     public array $workspaces = [];
 
-
     public function __construct(
         Project $project,
         $config = []
@@ -35,8 +34,11 @@ class SyncWorkspaces extends Model
 
     public function getSelectedWorkspaces(): iterable
     {
-        return $this->project->getWorkspaces()->andWhere(['id' => $this->workspaces])->each();
+        return $this->project->getWorkspaces()->andWhere([
+            'id' => $this->workspaces,
+        ])->each();
     }
+
     public function rules(): array
     {
         return [

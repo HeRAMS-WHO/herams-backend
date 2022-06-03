@@ -25,6 +25,6 @@ class SecretTest extends Unit
 
         $secret = new Secret($environment, 'test');
 
-        $this->assertSame('secretvalue', (string)$secret);
+        $this->assertSame('secretvalue', (string) $secret);
     }
 }

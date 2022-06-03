@@ -11,14 +11,16 @@ class PermissionRepository
 {
     public function retrieve(int $id): ?Permission
     {
-        return Permission::findOne(['id' => $id]);
+        return Permission::findOne([
+            'id' => $id,
+        ]);
     }
 
     public function retrieveOrThrow(int $id): ?Permission
     {
         $result = $this->retrieve($id);
 
-        if (!$result) {
+        if (! $result) {
             throw new InvalidArgumentException('No such Permission.');
         }
 

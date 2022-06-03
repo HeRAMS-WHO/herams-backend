@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m180405_150114_create_indicator_option_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('{{%indicator_option}}', [
@@ -17,7 +14,7 @@ class m180405_150114_create_indicator_option_table extends Migration
             'indicator_id' => $this->integer(),
             'option_code' => $this->string(20),
             'option_label' => $this->string(200),
-            'option_color' => $this->string(40)
+            'option_color' => $this->string(40),
         ]);
 
         $this->createIndex(
@@ -33,9 +30,6 @@ class m180405_150114_create_indicator_option_table extends Migration
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%indicator_option}}');

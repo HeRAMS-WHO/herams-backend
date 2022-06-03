@@ -24,6 +24,7 @@ use yii\web\User as UserComponent;
 class AcceptInvitationForm extends Model
 {
     public bool $loggedInAccept = false;
+
     public string $email = '';
 
     public function __construct(
@@ -65,13 +66,16 @@ class AcceptInvitationForm extends Model
 
     public function isLoggedIn(): bool
     {
-        return !$this->user->isGuest;
+        return ! $this->user->isGuest;
     }
 
     public function rules(): array
     {
         return [
-            [['email'], RequiredValidator::class, 'when' => fn() => !$this->loggedInAccept],
+            [['email'],
+                RequiredValidator::class,
+                'when' => fn () => ! $this->loggedInAccept,
+            ],
             [['email'], EmailValidator::class],
             [
                 ['email'],
@@ -79,9 +83,12 @@ class AcceptInvitationForm extends Model
                 'targetClass' => User::class,
                 'targetAttribute' => 'email',
                 'message' => \Yii::t('app', 'This email is already in use, log in and click the link again.'),
-                'when' => static fn(self $model) => !$model->loggedInAccept,
+                'when' => static fn (self $model) => ! $model->loggedInAccept,
             ],
-            [['loggedInAccept'], BooleanValidator::class, 'when' => fn() => $this->isLoggedIn()],
+            [['loggedInAccept'],
+                BooleanValidator::class,
+                'when' => fn () => $this->isLoggedIn(),
+            ],
         ];
     }
 
@@ -99,7 +106,7 @@ class AcceptInvitationForm extends Model
         $mailer->compose(
             'confirm_invitation',
             [
-                'confirmationRoute' => $url
+                'confirmationRoute' => $url,
             ]
         )
             ->setTo($this->email)

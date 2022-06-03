@@ -74,7 +74,10 @@ class AcceptInvitationCest
         $I->click('Accept invitation');
         $I->seeResponseCodeIs(200);
 
-        $I->amOnPage(['project/view', 'id' => $page->project_id]);
+        $I->amOnPage([
+            'project/view',
+            'id' => $page->project_id,
+        ]);
         $I->seeResponseCodeIs(200);
     }
 

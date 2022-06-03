@@ -16,7 +16,9 @@ class RequestAccountCest
     public function test(FunctionalTester $I)
     {
         $I->amOnPage('/session/create');
-        $I->fillField(['css' => '[name="RequestAccountForm[email]"]'], 'newEmail@email.com');
+        $I->fillField([
+            'css' => '[name="RequestAccountForm[email]"]',
+        ], 'newEmail@email.com');
         $I->click('Register');
         $I->seeResponseCodeIsSuccessful();
         $I->seeEmailIsSent();

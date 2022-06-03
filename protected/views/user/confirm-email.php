@@ -29,20 +29,25 @@ echo Form::widget([
         'newMail' => [
             'type' => Form::INPUT_STATIC,
         ],
-        FormButtonsWidget::embed([
-            'options' => [
-                'class' => [
-                    'pull-right'
+        FormButtonsWidget::embed(
+            [
+                'options' => [
+                    'class' => [
+                        'pull-right',
+                    ],
                 ],
-            ],
-            'buttons' => [
-                Html::submitButton(
-                    Yii::t('app', 'Apply changes'),
-                    ['class' => 'btn btn-primary btn-block', 'tabindex' => '4']
-                )
+                'buttons' => [
+                    Html::submitButton(
+                        Yii::t('app', 'Apply changes'),
+                        [
+                            'class' => 'btn btn-primary btn-block',
+                            'tabindex' => '4',
+                        ]
+                    ),
+                ],
             ]
-        ])
-    ]
+        ),
+    ],
 ]);
 
 ActiveForm::end();

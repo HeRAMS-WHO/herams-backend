@@ -36,7 +36,6 @@ class RequestAccess extends Action
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $workspace = $workspaceRepository->retrieveForRequestAccess(new WorkspaceId($id));
 
-
         $accessCheck->requirePermission(
             $workspace->project,
             Permission::PERMISSION_SUMMARY,
@@ -64,10 +63,9 @@ class RequestAccess extends Action
             return $this->controller->goBack();
         }
 
-
         return $this->controller->render('request-access', [
             'model' => $model,
-            'workspace' => $workspace
+            'workspace' => $workspace,
         ]);
     }
 }

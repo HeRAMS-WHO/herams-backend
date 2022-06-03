@@ -13,6 +13,10 @@ class Index extends Action
     public function run()
     {
         $query = Facility::find();
-        return $this->controller->render('index', ['facilityProvider' => new ActiveDataProvider(['query' => $query])]);
+        return $this->controller->render('index', [
+            'facilityProvider' => new ActiveDataProvider([
+                'query' => $query,
+            ]),
+        ]);
     }
 }

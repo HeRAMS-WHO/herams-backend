@@ -31,13 +31,16 @@ class Update extends Action
                 $workspaceRepository->save($model);
                 $notificationService->success(\Yii::t('app', 'Workspace updated'));
 
-                return $this->controller->redirect(['workspace/responses', 'id' => $workspaceId]);
+                return $this->controller->redirect([
+                    'workspace/responses',
+                    'id' => $workspaceId,
+                ]);
             }
         }
 
         return $this->controller->render('update', [
             'model' => $model,
-            'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId)
+            'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId),
         ]);
     }
 }

@@ -29,23 +29,27 @@ echo ProjectPageMenu::widget([
 ]);
 
 $this->title = \Yii::t('app.pagetitle', $page->getTitle());
-echo Html::beginTag('div', ['class' => 'content dashboard']);
+echo Html::beginTag('div', [
+    'class' => 'content dashboard',
+]);
 
 foreach ($page->getChildElements() as $element) {
     Yii::beginProfile('Render element ' . $element->id);
     echo "<!-- Begin element {$element->id} -->";
     if ($element instanceof DashboardWidgetInterface) {
         try {
-
             $element->renderWidget($variables, $this, $data);
         } catch (Throwable $t) {
-            if (!YII_ENV_PROD) {
+            if (! YII_ENV_PROD) {
                 throw $t;
             }
             \Yii::error($t);
             echo Html::tag(
                 'div',
-                "Rendering this element caused an error: <strong>{$t->getMessage()}</strong>. The most common reason for the error is an invalid question code in its configuration. You can edit the element " . Html::a('here', ['/element/update', 'id' => $element->id]) . '.',
+                "Rendering this element caused an error: <strong>{$t->getMessage()}</strong>. The most common reason for the error is an invalid question code in its configuration. You can edit the element " . Html::a('here', [
+                    '/element/update',
+                    'id' => $element->id,
+                ]) . '.',
                 [
                     'class' => 'element',
                 ]

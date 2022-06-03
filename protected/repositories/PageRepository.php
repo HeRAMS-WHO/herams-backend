@@ -13,14 +13,13 @@ class PageRepository
 {
     public function retrieveForBreadcrumb(PageId $id): ForBreadcrumbInterface
     {
-        $record = Page::findOne(['id' => $id]);
+        $record = Page::findOne([
+            'id' => $id,
+        ]);
         return new PageForBreadcrumb($record);
     }
 
-
-
     public function retrieveForDashboarding(PageId $id)
     {
-
     }
 }

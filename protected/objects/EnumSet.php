@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\objects;
 
+use BackedEnum;
 use prime\objects\enums\Enum;
 use prime\validators\BackedEnumValidator;
 use prime\validators\EnumValidator;
 use yii\base\Arrayable;
 use yii\base\NotSupportedException;
-use \BackedEnum;
 use yii\validators\RangeValidator;
 
 use function iter\map;
@@ -30,7 +30,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
      */
     private static function getEnumClass(): string
     {
-        if (!preg_match('/^prime\\\\objects\\\\(.*)Set$/', static::class, $matches)) {
+        if (! preg_match('/^prime\\\\objects\\\\(.*)Set$/', static::class, $matches)) {
             throw new \RuntimeException('Could not identify enum class for ' . static::class);
         }
         return "prime\\objects\\enums\\{$matches[1]}";
@@ -44,7 +44,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
     {
         $result = new static();
         foreach ($values ?? [] as $value) {
-            if (!is_subclass_of($value, self::getEnumClass(), false)) {
+            if (! is_subclass_of($value, self::getEnumClass(), false)) {
                 $result->add(self::getEnumClass()::from($value));
             } else {
                 $result->add($value);
@@ -73,7 +73,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
     /*****************************************************************************************/
     public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
-        return toArray(map(fn(Enum|BackedEnum $enum) => $enum->value, $this->values));
+        return toArray(map(fn (Enum|BackedEnum $enum) => $enum->value, $this->values));
     }
 
     public function fields()
@@ -88,12 +88,14 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
 
     /**
      * This is Yii2 specific...
-     * @param string $attribute
-     * @return array
      */
     public static function validatorFor(string $attribute): array
     {
-        return [[$attribute], BackedEnumValidator::class, 'allowArray' => true, 'example' => static::getEnumClass()::cases()[0]];
+        return [[$attribute],
+            BackedEnumValidator::class,
+            'allowArray' => true,
+            'example' => static::getEnumClass()::cases()[0],
+        ];
     }
 
     public function count(): int

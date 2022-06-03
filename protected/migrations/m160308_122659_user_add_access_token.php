@@ -9,8 +9,8 @@ class m160308_122659_user_add_access_token extends Migration
         $this->addColumn('{{%user}}', 'access_token', $this->string(32));
         $this->update('{{%user}}', [
             'access_token' => new \yii\db\Expression('md5(concat(:seed, email, id, password_hash, auth_key, :seed))', [
-                ':seed' => mt_rand()
-            ])
+                ':seed' => mt_rand(),
+            ]),
         ]);
     }
 

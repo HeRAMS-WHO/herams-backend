@@ -53,8 +53,8 @@ class UserController extends Controller
             'create' => Create::class,
             'delete' => [
                 'class' => DeleteAction::class,
-                'query' => User::find()
-            ]
+                'query' => User::find(),
+            ],
         ];
     }
 
@@ -71,7 +71,7 @@ class UserController extends Controller
                             'create',
                             'request-account',
                             'reset-password',
-                            'request-reset'
+                            'request-reset',
                         ],
                     ],
                     [
@@ -88,8 +88,8 @@ class UserController extends Controller
                             'profile',
                             'select-2',
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             HmacFilter::class => [
                 'class' => HmacFilter::class,
@@ -98,7 +98,7 @@ class UserController extends Controller
                     'accept-invitation',
                     'confirm-email',
                     'confirm-invitation',
-                    'reset-password'
+                    'reset-password',
                 ],
             ],
         ]);

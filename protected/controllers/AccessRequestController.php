@@ -33,9 +33,9 @@ class AccessRequestController extends Controller
                             'index',
                             'respond',
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 }

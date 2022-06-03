@@ -28,7 +28,9 @@ class Workspaces extends Action
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        $project = Project::findOne(['id' => $id]);
+        $project = Project::findOne([
+            'id' => $id,
+        ]);
         $accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
         $workspaceSearch = new WorkspaceSearch($project, $user->identity);
         $workspaceProvider = $workspaceSearch->search($request->queryParams);

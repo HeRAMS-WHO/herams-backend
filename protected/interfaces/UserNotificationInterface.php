@@ -7,5 +7,6 @@ namespace prime\interfaces;
 interface UserNotificationInterface
 {
     public function getTitle(): string;
+
     public function getUrl(): ?array;
 }

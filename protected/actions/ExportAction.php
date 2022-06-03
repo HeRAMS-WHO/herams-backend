@@ -21,16 +21,21 @@ use yii\web\User;
 
 class ExportAction extends Action
 {
-    /** @var \Closure */
+    /**
+     * @var \Closure
+     */
     public $subject;
+
     /**
      * @var \Closure
      */
     public $checkAccess;
+
     /**
      * @var \Closure
      */
     public $responseQuery;
+
     /**
      * @var \Closure
      */
@@ -41,16 +46,16 @@ class ExportAction extends Action
     public function init()
     {
         parent::init();
-        if (!$this->subject instanceof \Closure) {
+        if (! $this->subject instanceof \Closure) {
             throw new InvalidConfigException('Subject must be a closure');
         }
-        if (!$this->responseQuery instanceof \Closure) {
+        if (! $this->responseQuery instanceof \Closure) {
             throw new InvalidConfigException('Response iterator must be a closure');
         }
-        if (!$this->surveyFinder instanceof \Closure) {
+        if (! $this->surveyFinder instanceof \Closure) {
             throw new InvalidConfigException('Survey finder must be a closure');
         }
-        if (!$this->checkAccess instanceof \Closure) {
+        if (! $this->checkAccess instanceof \Closure) {
             throw new InvalidConfigException('Checkaccess must be a closure');
         }
     }
@@ -62,9 +67,9 @@ class ExportAction extends Action
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $subject = ($this->subject)($request);
-        if (!isset($subject)) {
+        if (! isset($subject)) {
             throw new NotFoundHttpException();
-        } elseif (!($this->checkAccess)($subject, $user)) {
+        } elseif (! ($this->checkAccess)($subject, $user)) {
             throw new ForbiddenHttpException('Check access failed');
         }
         $survey = ($this->surveyFinder)($subject);
@@ -89,10 +94,13 @@ class ExportAction extends Action
             $extension = FileHelper::getExtensionsByMimeType($writer->getMimeType())[0] ?? 'unknown';
             return $response->sendStreamAsFile(StreamWrapper::getResource($stream), date('Ymd his') . ".$extension", [
                 'mimeType' => $writer->getMimeType(),
-                'fileSize' => $stream->getSize()
+                'fileSize' => $stream->getSize(),
             ]);
         } else {
-            return $this->controller->render($this->view, ['model' => $model, 'subject' => $subject]);
+            return $this->controller->render($this->view, [
+                'model' => $model,
+                'subject' => $subject,
+            ]);
         }
     }
 }

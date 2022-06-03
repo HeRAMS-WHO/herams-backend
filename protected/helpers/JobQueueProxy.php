@@ -13,7 +13,6 @@ class JobQueueProxy
     {
     }
 
-
     public function get(): JobQueueInterface
     {
         return $this->jobQueue;

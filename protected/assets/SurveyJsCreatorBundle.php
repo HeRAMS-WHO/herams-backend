@@ -11,11 +11,11 @@ class SurveyJsCreatorBundle extends AssetBundle
     public $baseUrl = '@npm/survey-creator/';
 
     public $css = [
-        'survey-creator.min.css'
+        'survey-creator.min.css',
     ];
 
     public $js = [
-        'survey-creator.min.js'
+        'survey-creator.min.js',
     ];
 
     public $depends = [

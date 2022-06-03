@@ -25,7 +25,7 @@ class ConfirmEmailForm extends Model
     {
         return [
             'newMail' => \Yii::t('app', 'New email address'),
-            'oldMail' => \Yii::t('app', 'Old email address')
+            'oldMail' => \Yii::t('app', 'Old email address'),
         ];
     }
 
@@ -34,12 +34,16 @@ class ConfirmEmailForm extends Model
         return [
             [['oldHash', 'newMail'], RequiredValidator::class],
             [['newMail'], function () {
-                if (!password_verify($this->user->email, $this->oldHash)) {
+                if (! password_verify($this->user->email, $this->oldHash)) {
                     $this->addError('newMail', \Yii::t('app', 'Your email address has already been changed'));
                 }
             }],
             [['newMail'], EmailValidator::class],
-            [['newMail'], UniqueValidator::class, 'targetClass' => User::class, 'targetAttribute'  => 'email'],
+            [['newMail'],
+                UniqueValidator::class,
+                'targetClass' => User::class,
+                'targetAttribute' => 'email',
+            ],
 
         ];
     }
@@ -48,6 +52,7 @@ class ConfirmEmailForm extends Model
     {
         return $this->oldHash;
     }
+
     public function getNewMail(): string
     {
         return $this->newMail;
@@ -57,10 +62,11 @@ class ConfirmEmailForm extends Model
     {
         return $this->user->email;
     }
+
     public function run(): void
     {
         $this->user->email = $this->newMail;
-        if (!$this->user->save()) {
+        if (! $this->user->save()) {
             throw new \RuntimeException(\Yii::t('app', 'Failed to update email address'));
         }
     }

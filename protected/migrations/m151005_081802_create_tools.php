@@ -12,7 +12,7 @@ class m151005_081802_create_tools extends Migration
             'image' => \yii\db\mysql\Schema::TYPE_STRING,
             'description' => \yii\db\mysql\Schema::TYPE_TEXT,
             'intake_survey_eid' => \yii\db\mysql\Schema::TYPE_INTEGER,
-            'base_survey_eid' => \yii\db\mysql\Schema::TYPE_INTEGER
+            'base_survey_eid' => \yii\db\mysql\Schema::TYPE_INTEGER,
         ]);
         $this->createIndex('title', '{{%tool}}', ['title'], true);
     }

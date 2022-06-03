@@ -25,14 +25,23 @@ echo Form::widget([
     'form' => $form,
     'attributes' => [
         'email' => [
-            'type' => Form::INPUT_TEXT
+            'type' => Form::INPUT_TEXT,
         ],
-        FormButtonsWidget::embed([
-            'buttons' =>  [
-                ['label' => \Yii::t('app', 'Back to sign in'), 'type' => ButtonGroup::TYPE_LINK, 'link' => ['/session/create']],
-                ['label' => \Yii::t('app', 'Request password reset'), 'style' => 'primary'],
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    [
+                        'label' => \Yii::t('app', 'Back to sign in'),
+                        'type' => ButtonGroup::TYPE_LINK,
+                        'link' => ['/session/create'],
+                    ],
+                    [
+                        'label' => \Yii::t('app', 'Request password reset'),
+                        'style' => 'primary',
+                    ],
+                ],
             ]
-        ]),
+        ),
     ],
 ]);
 

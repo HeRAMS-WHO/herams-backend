@@ -28,19 +28,23 @@ class Survey extends ActiveRecord
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                AuditableBehavior::class
+                AuditableBehavior::class,
             ]
         );
     }
 
     public function getSurveyResponses(): ActiveQuery
     {
-        return $this->hasMany(SurveyResponse::class, ['survey_id' => 'id']);
+        return $this->hasMany(SurveyResponse::class, [
+            'survey_id' => 'id',
+        ]);
     }
 
     public function getTitle(): string
     {
-        return $this->config['title'] ?? \Yii::t('app', "Survey without title, id {id}", ['id' => $this->id]);
+        return $this->config['title'] ?? \Yii::t('app', "Survey without title, id {id}", [
+            'id' => $this->id,
+        ]);
     }
 
     public static function labels(): array
@@ -54,7 +58,7 @@ class Survey extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['config'], RequiredValidator::class]
+            [['config'], RequiredValidator::class],
         ];
     }
 }

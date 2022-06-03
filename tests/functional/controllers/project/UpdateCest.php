@@ -20,7 +20,10 @@ final class UpdateCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
 
-        $I->amOnPage(['project/update', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/update',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -28,10 +31,15 @@ final class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_WRITE);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project));
 
-        $I->amOnPage(['project/update', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/update',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->dontSee('Delete project');
         $I->dontSee('Empty project');
@@ -41,12 +49,17 @@ final class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_ADMIN);
 
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_ADMIN, $project));
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $project));
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_DELETE_ALL_WORKSPACES, $project));
-        $I->amOnPage(['project/update', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/update',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->see('Delete project');
         $I->see('Empty project');
@@ -56,9 +69,14 @@ final class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $project, Permission::PERMISSION_ADMIN);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['project/update', 'id' => $project->id]);
+        $I->amOnPage([
+            'project/update',
+            'id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
         $attributes = [
@@ -68,18 +86,22 @@ final class UpdateCest
         ];
 
         foreach ($attributes as $key => $value) {
-            $I->fillField(['name' => "Project[$key]"], $value);
+            $I->fillField([
+                'name' => "Project[$key]",
+            ], $value);
         }
 
         $overrides = [
             'typeCounts' => [
                 'A1' => 15,
-                'A2' => 30
+                'A2' => 30,
             ],
             'facilityCount' => 20,
-            'contributorCount' => 40
+            'contributorCount' => 40,
         ];
-        $I->fillField(['name' => "Project[overrides]"], json_encode($overrides));
+        $I->fillField([
+            'name' => "Project[overrides]",
+        ], json_encode($overrides));
 
         $typemap = [
             'A1' => 'primary',
@@ -87,15 +109,19 @@ final class UpdateCest
             'A3' => 'primary',
             'A4' => 'secondary',
             'A5' => 'secondary',
-            'A6' => 'secondary'
+            'A6' => 'secondary',
         ];
-        $I->fillField(['name' => "Project[typemap]"], json_encode($typemap));
+        $I->fillField([
+            'name' => "Project[typemap]",
+        ], json_encode($typemap));
 
         $options = [
             'status' => Project::STATUS_EMERGENCY_SPECIFIC,
         ];
         foreach ($options as $key => $value) {
-            $I->selectOption(['name' => "Project[$key]"], $value);
+            $I->selectOption([
+                'name' => "Project[$key]",
+            ], $value);
         }
 
         $I->click('Update');

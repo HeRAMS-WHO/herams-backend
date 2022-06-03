@@ -17,7 +17,9 @@ class DeleteAction extends Action
 {
     public ActiveQueryInterface $query;
 
-    /** @var string|\Closure */
+    /**
+     * @var string|\Closure
+     */
     public $permission = Permission::PERMISSION_DELETE;
 
     public $redirect;
@@ -25,7 +27,7 @@ class DeleteAction extends Action
     public function init()
     {
         parent::init();
-        if (!isset($this->query)) {
+        if (! isset($this->query)) {
             throw new InvalidConfigException('Query must be instance of ActiveRecordInterface');
         }
     }
@@ -35,17 +37,19 @@ class DeleteAction extends Action
         NotificationService $notificationService,
         int $id
     ) {
-        if (!\Yii::$app->request->isDelete) {
+        if (! \Yii::$app->request->isDelete) {
             throw new MethodNotAllowedHttpException();
         }
         /** @var ActiveRecordInterface| null $model */
-        $model = $this->query->andWhere(['id' => $id])->one();
-        if (!isset($model)) {
+        $model = $this->query->andWhere([
+            'id' => $id,
+        ])->one();
+        if (! isset($model)) {
             throw new NotFoundHttpException();
         }
         if (
-            is_string($this->permission) && !$user->can($this->permission, $model)
-            || ($this->permission instanceof \Closure && !call_user_func($this->permission, $user, $model))
+            is_string($this->permission) && ! $user->can($this->permission, $model)
+            || ($this->permission instanceof \Closure && ! call_user_func($this->permission, $user, $model))
         ) {
             throw new ForbiddenHttpException();
         }

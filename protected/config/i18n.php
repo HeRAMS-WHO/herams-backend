@@ -44,5 +44,4 @@ return [
     'format' => 'pot',
     // boolean, whether the message file should be overwritten with the merged messages
     'overwrite' => true,
-
 ];

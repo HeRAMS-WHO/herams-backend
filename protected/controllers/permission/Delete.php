@@ -22,15 +22,17 @@ class Delete extends Action
         int $id,
         string $redirect
     ) {
-        $permission = Permission::findOne(['id' => $id]);
-        if (!isset($permission)) {
+        $permission = Permission::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($permission)) {
             throw new NotFoundHttpException();
         }
 
         $source = $abacResolver->toSubject($permission->sourceAuthorizable());
         $target = $abacResolver->toSubject($permission->targetAuthorizable());
         $proposedGrant = new ProposedGrant($source, $target, $permission->permission);
-        if (!$user->can(Permission::PERMISSION_DELETE, $proposedGrant)) {
+        if (! $user->can(Permission::PERMISSION_DELETE, $proposedGrant)) {
             throw new ForbiddenHttpException();
         }
 

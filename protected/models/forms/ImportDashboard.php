@@ -12,6 +12,7 @@ class ImportDashboard extends Model
     public $pages;
 
     private $project;
+
     public function __construct(Project $project)
     {
         parent::__construct();
@@ -28,7 +29,7 @@ class ImportDashboard extends Model
                     Page::import($this->project, $page);
                 }
                 $transaction->rollBack();
-            }]
+            }],
         ];
     }
 

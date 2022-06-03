@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\interfaces;
@@ -12,5 +13,6 @@ use Collecthor\DataInterfaces\RecordInterface;
 interface HeramsFacilityRecordInterface extends RecordInterface
 {
     public function getLatitude(): ?float;
+
     public function getLongitude(): ?float;
 }

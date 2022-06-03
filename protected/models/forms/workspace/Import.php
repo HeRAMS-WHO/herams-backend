@@ -13,7 +13,9 @@ use yii\validators\RequiredValidator;
 
 class Import extends Model
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     private $project;
 
     /**
@@ -22,14 +24,15 @@ class Import extends Model
     private $tokenObjects = [];
 
     public $titleField;
+
     public $tokens = [];
 
-
     private $fieldOptions = [];
+
     private $tokenOptions = [];
+
     /**
      * Import constructor.
-     * @param Project $project
      * @param TokenInterface[] $tokens
      * @param array $config
      */
@@ -52,7 +55,7 @@ class Import extends Model
             $this->tokenObjects[$token->getToken()] = $token;
             $this->fieldOptions['token'] = 'token';
             foreach ($token->getCustomAttributes() as $key => $value) {
-                if (!empty($value)) {
+                if (! empty($value)) {
                     $this->fieldOptions[$key] = $key;
                 }
             }
@@ -61,7 +64,6 @@ class Import extends Model
             throw new InvalidConfigException('No available tokens');
         }
     }
-
 
     public function tokenOptions(): array
     {
@@ -89,8 +91,15 @@ class Import extends Model
     {
         return [
             [['titleField', 'tokens'], RequiredValidator::class],
-            [['titleField'], RangeValidator::class, 'range' => array_keys($this->fieldOptions())],
-            [['tokens'], RangeValidator::class, 'range' => array_keys($this->tokenOptions()), 'allowArray' => true],
+            [['titleField'],
+                RangeValidator::class,
+                'range' => array_keys($this->fieldOptions()),
+            ],
+            [['tokens'],
+                RangeValidator::class,
+                'range' => array_keys($this->tokenOptions()),
+                'allowArray' => true,
+            ],
             [['tokens'], function ($params) {
                 foreach ($this->tokens as $token) {
                     /** @var TokenInterface $tokenObject */
@@ -99,7 +108,7 @@ class Import extends Model
                     $workspace->project_id = $this->project->id;
                     $workspace->title = $this->getName($tokenObject);
                     $workspace->setAttribute('token', $token);
-                    if (!$workspace->validate()) {
+                    if (! $workspace->validate()) {
                         foreach ($workspace->errors as $attribute => $errors) {
                             foreach ($errors as $error) {
                                 $this->addError('tokens', "Invalid configuration for token {$token}: $error");
@@ -108,10 +117,9 @@ class Import extends Model
                     }
                     return false;
                 }
-            }]
+            }],
         ];
     }
-
 
     public function run()
     {

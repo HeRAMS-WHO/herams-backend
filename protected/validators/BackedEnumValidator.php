@@ -22,18 +22,20 @@ class BackedEnumValidator extends Validator
         }
     }
 
-
     protected function validateValue($value): array|null
     {
-        if (is_array($value) && !$this->allowArray) {
+        if (is_array($value) && ! $this->allowArray) {
             return [\Yii::t('app', "Unexpected array value"), []];
         }
-        foreach(is_array($value) ? $value : [$value] as $v) {
-            if (!$v instanceof $this->example && is_string($v) && $this->example::tryFrom($v) === null) {
-                return [\Yii::t('app', "Invalid value {value} for enum"), ['value' => $v]];
+        foreach (is_array($value) ? $value : [$value] as $v) {
+            if (! $v instanceof $this->example && is_string($v) && $this->example::tryFrom($v) === null) {
+                return [
+                    \Yii::t('app', "Invalid value {value} for enum"), [
+                        'value' => $v,
+
+                    ], ];
             }
         }
-
 
         return null;
     }

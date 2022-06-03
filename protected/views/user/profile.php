@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\models\ar\User;
 use prime\objects\enums\Language;
 use prime\widgets\FormButtonsWidget;
@@ -39,29 +39,31 @@ echo Form::widget([
     'attributes' => [
         [
             'type' => Form::INPUT_RAW,
-            'value' => $form->errorSummary($model)
+            'value' => $form->errorSummary($model),
         ],
         'name' => [
-            'type' => Form::INPUT_TEXT
+            'type' => Form::INPUT_TEXT,
         ],
         'language' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' => [
                 '' => \Yii::t('app', 'Autodetected ({language}', [
-                    'language' => \Yii::$app->languageSelector->getPreferredLanguage(\Yii::$app->request)
+                    'language' => \Yii::$app->languageSelector->getPreferredLanguage(\Yii::$app->request),
                 ]),
-                ...Language::toLocalizedArray()
-            ]
+                ...Language::toLocalizedArray(),
+            ],
         ],
         'newsletter_subscription' => [
             'type' => Form::INPUT_CHECKBOX,
         ],
         FormButtonsWidget::embed([
             'buttons' => [
-                Html::submitButton(Yii::t('app', 'Update profile'), ['class' => ['btn', 'btn-primary']])
-            ]
-        ])
-    ]
+                Html::submitButton(Yii::t('app', 'Update profile'), [
+                    'class' => ['btn', 'btn-primary'],
+                ]),
+            ],
+        ]),
+    ],
 ]);
 ActiveForm::end();
 

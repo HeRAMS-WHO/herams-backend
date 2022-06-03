@@ -15,7 +15,7 @@ class StrictModelScenarioTest extends Unit
 {
     public function testInvalidScenarioThrowsException()
     {
-        $subject = new class extends Model {
+        $subject = new class() extends Model {
             use StrictModelScenario;
 
             public string $a = 'test';
@@ -23,7 +23,7 @@ class StrictModelScenarioTest extends Unit
             public function scenarios(): array
             {
                 return [
-                    'scenario1' => ['a']
+                    'scenario1' => ['a'],
                 ];
             }
         };

@@ -10,7 +10,9 @@ use prime\interfaces\HeramsResponseInterface;
 class ClosureColumn implements ColumnDefinition
 {
     private $value;
+
     private $headerCode;
+
     private $headerText;
 
     public function __construct(\Closure $value, string $headerCode, string $headerText)

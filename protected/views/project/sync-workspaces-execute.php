@@ -17,8 +17,16 @@ use yii\helpers\Url;
 
 $this->title = $project->title;
 
-Section::begin(['options' => ['style' => ['column-width' => '500px']]])->withHeader(\Yii::t('app', 'Sync workspaces'));
-echo Html::beginTag('table', ['id' => 'progress-table']);
+Section::begin([
+    'options' => [
+        'style' => [
+            'column-width' => '500px',
+        ],
+    ],
+])->withHeader(\Yii::t('app', 'Sync workspaces'));
+echo Html::beginTag('table', [
+    'id' => 'progress-table',
+]);
 echo Html::beginTag('thead');
 echo Html::beginTag('tr');
 echo Html::tag('th', \Yii::t('app', 'Workspace'));
@@ -34,18 +42,34 @@ foreach ($model->getSelectedWorkspaces() as $workspace) {
     echo Html::beginTag('tr', [
         'style' => [
             'padding' => '10px',
-            'break-inside' => 'avoid'
+            'break-inside' => 'avoid',
         ],
-        'data-uri' => Url::to(['/api/workspace/refresh', 'id' => $workspace->id]),
-        'class' => 'pending'
+        'data-uri' => Url::to([
+            '/api/workspace/refresh',
+            'id' => $workspace->id,
+        ]),
+        'class' =>
+'pending',
     ]);
     echo Html::tag('td', $workspace->title);
-    echo Html::tag('td', '', ['data-attribute' => 'new']);
-    echo Html::tag('td', '', ['data-attribute' => 'updated']);
-    echo Html::tag('td', '', ['data-attribute' => 'deleted']);
-    echo Html::tag('td', '', ['data-attribute' => 'unchanged']);
-    echo Html::tag('td', '', ['data-attribute' => 'failed']);
-    echo Html::tag('td', '', ['data-attribute' => 'time']);
+    echo Html::tag('td', '', [
+        'data-attribute' => 'new',
+    ]);
+    echo Html::tag('td', '', [
+        'data-attribute' => 'updated',
+    ]);
+    echo Html::tag('td', '', [
+        'data-attribute' => 'deleted',
+    ]);
+    echo Html::tag('td', '', [
+        'data-attribute' => 'unchanged',
+    ]);
+    echo Html::tag('td', '', [
+        'data-attribute' => 'failed',
+    ]);
+    echo Html::tag('td', '', [
+        'data-attribute' => 'time',
+    ]);
     echo Html::endTag('tr');
 }
 echo Html::endTag('table');

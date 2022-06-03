@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -10,9 +11,9 @@ use prime\objects\enums\Language;
  */
 class StringLocalization
 {
-
-    public function __construct(public readonly Language $language, public readonly string $value)
-    {
-
+    public function __construct(
+        public readonly Language $language,
+        public readonly string $value
+    ) {
     }
 }

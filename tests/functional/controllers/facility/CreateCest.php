@@ -27,7 +27,10 @@ class CreateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $this->getWorkspace($I);
-        $I->amOnPage(['facility/create', 'workspaceId' => $workspace->id]);
+        $I->amOnPage([
+            'facility/create',
+            'workspaceId' => $workspace->id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
     }
 
@@ -36,9 +39,22 @@ class CreateCest
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $this->getWorkspace($I);
         $name = 'Test facility';
-        $I->dontSeeRecord(Facility::class, ['workspace_id' => $workspace->id]);
-        $I->sendPostWithCsrf(Url::to(['/facility/create', 'workspaceId' => $workspace->id]), ['data' => ['name' => $name]]);
-        $I->seeRecord(Facility::class, ['workspace_id' => $workspace->id, 'name' => $name]);
+        $I->dontSeeRecord(Facility::class, [
+            'workspace_id' => $workspace->id,
+        ]);
+        $I->sendPostWithCsrf(Url::to([
+            '/facility/create',
+            'workspaceId' => $workspace->id,
+        ]), [
+            'data' => [
+                'name' => $name,
+
+            ],
+        ]);
+        $I->seeRecord(Facility::class, [
+            'workspace_id' => $workspace->id,
+            'name' => $name,
+        ]);
 
         $I->seeResponseCodeIsSuccessful();
     }
@@ -47,7 +63,12 @@ class CreateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $this->getWorkspace($I);
-        $I->sendPostWithCsrf(Url::to(['/facility/create', 'workspaceId' => $workspace->id]), ['data' => []]);
+        $I->sendPostWithCsrf(Url::to([
+            '/facility/create',
+            'workspaceId' => $workspace->id,
+        ]), [
+            'data' => [],
+        ]);
         $I->seeResponseCodeIs(400);
     }
 }

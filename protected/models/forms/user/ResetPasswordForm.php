@@ -15,7 +15,9 @@ class ResetPasswordForm extends Model
      * @var User
      */
     private $user;
+
     public $password;
+
     public $password_repeat;
 
     public function __construct(User $user, array $config = [])
@@ -24,13 +26,20 @@ class ResetPasswordForm extends Model
         $this->user = $user;
     }
 
-
     public function rules()
     {
         return [
             [['password', 'password_repeat'], RequiredValidator::class],
-            ['password', StrengthValidator::class, 'usernameValue' => $this->user->email, 'preset' => StrengthValidator::NORMAL],
-            [['password_repeat'], CompareValidator::class, 'compareAttribute' => 'password'],
+            [
+                'password',
+                StrengthValidator::class,
+                'usernameValue' => $this->user->email,
+                'preset' => StrengthValidator::NORMAL,
+            ],
+            [['password_repeat'],
+                CompareValidator::class,
+                'compareAttribute' => 'password',
+            ],
         ];
     }
 
@@ -44,7 +53,7 @@ class ResetPasswordForm extends Model
 
     public function resetPassword()
     {
-        if (!$this->validate()) {
+        if (! $this->validate()) {
             throw new InvalidConfigException(\Yii::t('app', 'Validation failed'));
         }
 

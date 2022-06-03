@@ -31,7 +31,7 @@ class Password extends Action
         return $this->controller->render(
             'password',
             [
-                'model' => $model
+                'model' => $model,
             ]
         );
     }

@@ -22,9 +22,13 @@ use yii\web\ServerErrorHttpException;
 class Create extends Model
 {
     public string $body = '';
+
     private array $permissionOptions = [];
+
     public array $permissions = [];
+
     private array $permissionMap;
+
     public string $subject = '';
 
     public function __construct(
@@ -36,7 +40,7 @@ class Create extends Model
     ) {
         $this->permissionMap = AccessRequest::permissionMap($this->target);
         foreach ($permissionOptions as $arPermission => $permissionDescription) {
-            if (!isset($this->permissionMap[$arPermission]) || !$authManager->check($user, $target, $this->permissionMap[$arPermission])) {
+            if (! isset($this->permissionMap[$arPermission]) || ! $authManager->check($user, $target, $this->permissionMap[$arPermission])) {
                 $this->permissionOptions[$arPermission] = $permissionDescription;
             }
         }
@@ -50,7 +54,7 @@ class Create extends Model
         $accessRequest->permissions = $this->permissions;
         $accessRequest->subject = $this->subject;
         $accessRequest->target = $this->target;
-        if (!$accessRequest->save()) {
+        if (! $accessRequest->save()) {
             throw new ServerErrorHttpException('Failed saving the record');
         }
     }
@@ -65,7 +69,11 @@ class Create extends Model
         return [
             [['body', 'permissions', 'subject'], RequiredValidator::class],
             [['body', 'subject'], StringValidator::class],
-            [['permissions'], RangeValidator::class, 'range' => array_keys($this->permissionOptions), 'allowArray' => true],
+            [['permissions'],
+                RangeValidator::class,
+                'range' => array_keys($this->permissionOptions),
+                'allowArray' => true,
+            ],
         ];
     }
 }

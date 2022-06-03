@@ -32,14 +32,17 @@ class Create extends Action
             if ($model->validate()) {
                 $projectId = $projectRepository->create($model);
                 $notificationService->success(\Yii::t('app', "Project <strong>{project}</strong> created", [
-                    'project' => $model->title
+                    'project' => $model->title,
                 ]));
-                return $this->controller->redirect(['update', 'id' => $projectId]);
+                return $this->controller->redirect([
+                    'update',
+                    'id' => $projectId,
+                ]);
             }
         }
 
         return $this->controller->render('create', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 }

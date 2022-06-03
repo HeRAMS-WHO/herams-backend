@@ -7,6 +7,7 @@ use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
 class TokenStub implements WritableTokenInterface
 {
     private $data = [];
+
     private $surveyId;
 
     public function __construct($surveyId, array $tokenData)
@@ -145,7 +146,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param string $value
-     * @return void
      */
     public function setFirstName($value)
     {
@@ -154,7 +154,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param string $value
-     * @return void
      */
     public function setLastName($value)
     {
@@ -163,7 +162,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param string $value
-     * @return void
      */
     public function setToken($value)
     {
@@ -172,7 +170,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param \DateTimeInterface $value The valid from datetime for this token, pass null to not use a valid from datetime.
-     * @return void
      */
     public function setValidFrom(\DateTimeInterface $value = null)
     {
@@ -181,7 +178,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param \DateTimeInterface $value The valid until datetime for this token, pass null to not use a valid until datetime.
-     * @return void
      */
     public function setValidUntil(\DateTimeInterface $value = null)
     {
@@ -190,7 +186,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param int $value The number of uses left for the token.
-     * @return void
      */
     public function setUsesLeft($value)
     {
@@ -199,7 +194,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param string $value
-     * @return void
      */
     public function setEmail($value)
     {
@@ -208,7 +202,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param \DateTimeInterface $value The completion datetime for this token, pass null to mark token as incomplete.
-     * @return void
      */
     public function setCompleted(\DateTimeInterface $value = null)
     {
@@ -217,7 +210,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param \DateTimeInterface $value The datetime on which an invitation was sent to this token, set to null to mark as not invited.
-     * @return void
      */
     public function setInvitationSent(\DateTimeInterface $value = null)
     {
@@ -226,7 +218,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param int $value The number of reminders that have been sent for the token.
-     * @return void
      */
     public function setReminderCount($value)
     {
@@ -235,7 +226,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param \DateTimeInterface $value The datetime on which the last reminder was sent to this token, set to null to mark as no reminder sent.
-     * @return void
      */
     public function setReminderSent(\DateTimeInterface $value = null)
     {
@@ -244,7 +234,6 @@ class TokenStub implements WritableTokenInterface
 
     /**
      * @param string $value The language to use for this token.
-     * @return void
      */
     public function setLanguage($value)
     {
@@ -254,7 +243,6 @@ class TokenStub implements WritableTokenInterface
     /**
      * @param string $name The name of the attribute.
      * @param string $value The value of this attribute, it is always stored as a string.
-     * @return void
      * @throws \InvalidArgumentException When $name is an unknown custom attribute.
      */
     public function setCustomAttribute($name, $value)

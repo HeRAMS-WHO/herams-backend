@@ -17,14 +17,16 @@ class AccessRequestRepository
 
     public function retrieve(int $id): ?AccessRequest
     {
-        return AccessRequest::findOne(['id' => $id]);
+        return AccessRequest::findOne([
+            'id' => $id,
+        ]);
     }
 
     public function retrieveOrThrow(int $id): ?AccessRequest
     {
         $result = $this->retrieve($id);
 
-        if (!$result) {
+        if (! $result) {
             throw new InvalidArgumentException('No such Access Request.');
         }
 

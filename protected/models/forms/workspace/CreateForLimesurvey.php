@@ -18,7 +18,9 @@ use yii\validators\UniqueValidator;
 class CreateForLimesurvey extends Model
 {
     public null|string $title = null;
+
     public null|ProjectId $project_id = null;
+
     public null|string $token = null;
 
     public function attributeLabels(): array
@@ -35,10 +37,19 @@ class CreateForLimesurvey extends Model
     {
         return [
             [['title'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1],
-            [['token'], UniqueValidator::class, 'targetClass' => WorkspaceForLimesurvey::class, 'filter' => function (Query $query) {
-                $query->andWhere(['project_id' => $this->project_id]);
-            }],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+            ],
+            [['token'],
+                UniqueValidator::class,
+                'targetClass' => WorkspaceForLimesurvey::class,
+                'filter' => function (Query $query) {
+                    $query->andWhere([
+                        'project_id' => $this->project_id,
+                    ]);
+                },
+            ],
         ];
     }
 
@@ -52,9 +63,13 @@ class CreateForLimesurvey extends Model
          * Maybe not needed since we are migrating away from lime survey. Joey 29-09-2021
          */
         $limesurveyDataProvider = $this->getLimesurveyDataProvider();
-        $usedTokens = WorkspaceForLimesurvey::find()->andWhere(['project_id' => $this->project_id])->select(['token'])->indexBy('token')->column();
+        $usedTokens = WorkspaceForLimesurvey::find()->andWhere([
+            'project_id' => $this->project_id,
+        ])->select(['token'])->indexBy('token')->column();
 
-        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere(['id' => $this->project_id])->select('base_survey_eid')->scalar());
+        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere([
+            'id' => $this->project_id,
+        ])->select('base_survey_eid')->scalar());
 
         $result = [];
         /** @var TokenInterface $token */
@@ -62,7 +77,7 @@ class CreateForLimesurvey extends Model
             if (isset($usedTokens[$token->getToken()])) {
                 continue;
             }
-            if (!empty($token->getToken())) {
+            if (! empty($token->getToken())) {
                 $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
                     ', ',
                     array_filter($token->getCustomAttributes())
@@ -71,6 +86,8 @@ class CreateForLimesurvey extends Model
         }
         asort($result);
 
-        return array_merge(['' => \Yii::t('app', 'Create new token')], $result);
+        return array_merge([
+            '' => \Yii::t('app', 'Create new token'),
+        ], $result);
     }
 }

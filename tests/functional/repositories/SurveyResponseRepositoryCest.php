@@ -41,14 +41,18 @@ class SurveyResponseRepositoryCest
         $I->assertEquals(1, $dataProvider->getTotalCount());
 
         $dataResponse = new SurveyResponse([
-            'data' => ['name' => 'Test'],
+            'data' => [
+                'name' => 'Test',
+            ],
             'facility_id' => $facility->id,
             'survey_id' => $facility->workspace->project->data_survey_id,
         ]);
         $I->assertTrue($dataResponse->save());
 
         $dataResponse = new SurveyResponse([
-            'data' => ['name' => 'Test'],
+            'data' => [
+                'name' => 'Test',
+            ],
             'facility_id' => $facility->id,
             'survey_id' => $facility->workspace->project->admin_survey_id,
         ]);
@@ -70,7 +74,9 @@ class SurveyResponseRepositoryCest
         $I->assertEquals(0, $dataProvider->getTotalCount());
 
         $dataResponse = new SurveyResponse([
-            'data' => ['name' => 'Test'],
+            'data' => [
+                'name' => 'Test',
+            ],
             'facility_id' => $facility->id,
             'survey_id' => $facility->workspace->project->data_survey_id,
         ]);

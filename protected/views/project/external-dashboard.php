@@ -17,7 +17,7 @@ echo Html::tag('iframe', '', [
         'grid-area' => 'main',
         'width' => '100%',
         'border' => 'none',
-        'height' => '100%'
+        'height' => '100%',
     ],
     'src' => $project->getExternalUrl(),
 ]);

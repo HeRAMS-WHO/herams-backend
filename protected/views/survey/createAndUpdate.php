@@ -20,7 +20,8 @@ $this->title = $model instanceof CreateForm
     ? \Yii::t('app', 'Create survey')
     : \Yii::t('app', 'Update survey');
 
-$this->registerCss(<<<CSS
+$this->registerCss(
+    <<<CSS
 :root {
     --max-site-width: 100vw;
 }
@@ -36,11 +37,12 @@ $surveyId = Json::encode($model instanceof UpdateForm ? $model->getSurveyId() : 
 echo Creator2::widget([
     'clientOptions' => [
         'showState' => true,
-        'showTranslationTab' => true
+        'showTranslationTab' => true,
     ],
     'surveyCreatorCustomizers' => [
         new JsExpression('(creator) => { creator.toolbox.allowExpandMultipleCategories = true}'),
-        new JsExpression(<<<JS
+        new JsExpression(
+            <<<JS
 (surveyCreator) => {
   let surveyId = {$surveyId};
   console.log(surveyId);

@@ -27,11 +27,13 @@ class Pdf extends Action
         string $filter = null
     ) {
         $this->controller->layout = 'print';
-        $project = Project::findOne(['id'  => $id]);
-        if (!isset($project)) {
+        $project = Project::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($project)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_READ, $project)) {
+        if (! $user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
         try {
@@ -40,40 +42,41 @@ class Pdf extends Action
             throw new ServerErrorHttpException($e->getMessage());
         }
 
-
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
-            $parent = Page::findOne(['id' => $parent_id]);
+            $parent = Page::findOne([
+                'id' => $parent_id,
+            ]);
             foreach ($parent->getChildPages() as $childPage) {
                 if ($childPage->getid() === $page_id) {
                     $page = $childPage;
                     break;
                 }
             }
-            if (!isset($page)) {
+            if (! isset($page)) {
                 throw new NotFoundHttpException();
             }
         } elseif (isset($page_id)) {
-            $page = Page::findOne(['id' => $page_id]);
-            if (!isset($page) || $page->project_id !== $project->id) {
+            $page = Page::findOne([
+                'id' => $page_id,
+            ]);
+            if (! isset($page) || $page->project_id !== $project->id) {
                 throw new NotFoundHttpException();
             }
         }
-
 
         $responses = $project->getResponses();
 
         \Yii::beginProfile('ResponseFilterinit');
 
         $filterModel = new ResponseFilter($survey, $project->getMap());
-        if (!empty($filter)) {
+        if (! empty($filter)) {
             $filterModel->fromQueryParam($filter);
         }
         $filterModel->load($request->queryParams);
         \Yii::endProfile('ResponseFilterinit');
 
-        /** @var  $filtered */
-
+        /** @var $filtered */
 
         $filtered = $filterModel->filterQuery($responses)->all();
 
@@ -82,7 +85,7 @@ class Pdf extends Action
             'data' => $filtered,
             'filterModel' => $filterModel,
             'project' => $project,
-            'survey' => $survey
+            'survey' => $survey,
         ];
         if (isset($page)) {
             $params['page'] = $page;
@@ -95,7 +98,7 @@ class Pdf extends Action
         \Yii::beginProfile(__FUNCTION__);
         $question = $this->findQuestionByCode($survey, $project->getMap()->getType());
 
-        if (!isset($question)) {
+        if (! isset($question)) {
             return [];
         }
 

@@ -9,5 +9,6 @@ use prime\values\SurveyId;
 interface SurveyForSurveyJsInterface
 {
     public function getId(): SurveyId;
+
     public function getConfig(): array;
 }

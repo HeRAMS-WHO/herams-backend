@@ -18,7 +18,7 @@ class AccessRequestCreatedNotificationCest
     public function testContent(FunctionalTester $I)
     {
         $target = new Project([
-            'title' => 'Test project'
+            'title' => 'Test project',
         ]);
         $accessRequest = new AccessRequest([
             'id' => 12345,
@@ -27,7 +27,10 @@ class AccessRequestCreatedNotificationCest
         ]);
         $accessRequest->populateRelation('target', $target);
 
-        $url = Url::to(['/access-request/respond', 'id' => $accessRequest->id], true);
+        $url = Url::to([
+            '/access-request/respond',
+            'id' => $accessRequest->id,
+        ], true);
 
         \Yii::$app->mailer->compose(
             'access_request_created_notification',

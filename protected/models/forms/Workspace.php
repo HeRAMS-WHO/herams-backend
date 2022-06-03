@@ -31,11 +31,24 @@ class Workspace extends Model
     {
         return [
             [['title'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1],
-            [['!projectId'], ExistValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'id'],
-            [['token'], UniqueValidator::class, 'targetClass' => WorkspaceModel::class, 'filter' => function (Query $query) {
-                $query->andWhere(['project_id' => $this->projectId]);
-            }],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+            ],
+            [['!projectId'],
+                ExistValidator::class,
+                'targetClass' => Project::class,
+                'targetAttribute' => 'id',
+            ],
+            [['token'],
+                UniqueValidator::class,
+                'targetClass' => WorkspaceModel::class,
+                'filter' => function (Query $query) {
+                    $query->andWhere([
+                        'project_id' => $this->projectId,
+                    ]);
+                },
+            ],
         ];
     }
 
@@ -45,12 +58,15 @@ class Workspace extends Model
          * TODO: Model this better
          * - Project dependency
          * - Other workspaces dependency
-         *
          */
         $limesurveyDataProvider = $this->getLimesurveyDataProvider();
-        $usedTokens = WorkspaceModel::find()->andWhere(['project_id' => $this->projectId])->select(['token'])->indexBy('token')->column();
+        $usedTokens = WorkspaceModel::find()->andWhere([
+            'project_id' => $this->projectId,
+        ])->select(['token'])->indexBy('token')->column();
 
-        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere(['id' => $this->projectId])->select('base_survey_eid')->scalar());
+        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere([
+            'id' => $this->projectId,
+        ])->select('base_survey_eid')->scalar());
 
         $result = [];
         /** @var TokenInterface $token */
@@ -58,7 +74,7 @@ class Workspace extends Model
             if (isset($usedTokens[$token->getToken()])) {
                 continue;
             }
-            if (!empty($token->getToken())) {
+            if (! empty($token->getToken())) {
                 $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
                     ', ',
                     array_filter($token->getCustomAttributes())
@@ -67,7 +83,9 @@ class Workspace extends Model
         }
         asort($result);
 
-        return array_merge(['' => \Yii::t('app', 'Create new token')], $result);
+        return array_merge([
+            '' => \Yii::t('app', 'Create new token'),
+        ], $result);
     }
 
     private function getLimesurveyDataProvider(): LimesurveyDataProvider

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 use yii\db\Migration;
 
-/**
- * Class m211012_135333_permission_use_auditlog
- */
 class m211012_135333_permission_use_auditlog extends Migration
 {
     public function safeUp(): bool

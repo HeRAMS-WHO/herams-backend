@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\element;
@@ -21,19 +22,22 @@ class Update extends Action
     ) {
         $model = new Chart();
         $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
-        if (!$model->validate()) {
+        if (! $model->validate()) {
             $response->setStatusCode(422);
             return $model->errors;
         }
 
         \Yii::error($model->attributes);
-        var_dump($model->attributes); die();
+        var_dump($model->attributes);
+        die();
 
         $model->save(false);
 
         $response->setStatusCode(201);
-        $response->headers->add('Location', Url::to(['/api/element/view', 'id' => $model->id], true));
+        $response->headers->add('Location', Url::to([
+            '/api/element/view',
+            'id' => $model->id,
+        ], true));
         return $model;
     }
-
 }

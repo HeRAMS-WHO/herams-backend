@@ -46,14 +46,13 @@ class CompositeDataProvider extends BaseDataProvider
             $pagination->totalCount = $this->getTotalCount();
         }
 
-
         $models = array_merge($this->a->getModels(), $this->b->getModels());
 
         // Sort
         $sort = $this->getSort();
         if ($sort !== false) {
             $orders = $sort->getOrders();
-            if (!empty($orders)) {
+            if (! empty($orders)) {
                 ArrayHelper::multisort($models, array_keys($orders), array_values($orders), $sort->sortFlags);
             }
         }
@@ -68,8 +67,8 @@ class CompositeDataProvider extends BaseDataProvider
     protected function prepareKeys($models): array
     {
         return toArray(chain(
-            map(fn(string $key) => "A:$key", $this->a->getKeys()),
-            map(fn(string $key) => "B:$key", $this->b->getKeys()),
+            map(fn (string $key) => "A:$key", $this->a->getKeys()),
+            map(fn (string $key) => "B:$key", $this->b->getKeys()),
         ));
     }
 

@@ -17,7 +17,9 @@ class Project extends \prime\models\ar\Project
 {
     public function getSurvey(): Survey
     {
-        return Survey::findOne(['id' => $this->data_survey_id]);
+        return Survey::findOne([
+            'id' => $this->data_survey_id,
+        ]);
     }
 
     public function getAdminSurveyId(): SurveyId

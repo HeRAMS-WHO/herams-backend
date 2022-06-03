@@ -31,19 +31,23 @@ class CreateForSurveyJs extends Action
         AccessCheckInterface $accessCheck,
         int $page_id
     ) {
-        $page = Page::findOne(['id' => $page_id]);
-        if (!isset($page)) {
-            throw new UnprocessableEntityHttpException(\Yii::t('app', 'Page with id {id} not found', ['id' => $page_id]));
+        $page = Page::findOne([
+            'id' => $page_id,
+        ]);
+        if (! isset($page)) {
+            throw new UnprocessableEntityHttpException(\Yii::t('app', 'Page with id {id} not found', [
+                'id' => $page_id,
+            ]));
         }
 
         $project = $page->project;
 
         $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_DASHBOARD);
 
-
-
         try {
-            $element = Element::instantiate(['type' => "bar"]);
+            $element = Element::instantiate([
+                'type' => "bar",
+            ]);
         } catch (\InvalidArgumentException $e) {
             throw new BadRequestHttpException('Invalid element type', 0, $e);
         }
@@ -57,7 +61,10 @@ class CreateForSurveyJs extends Action
         return $this->controller->render('update-survey-js', [
             'pageId' => PageId::fromPage($page),
             'projectId' => $projectId,
-            'endpointUrl' => ['/api/element/create', 'projectId' => $projectId],
+            'endpointUrl' => [
+                '/api/element/create',
+                'projectId' => $projectId,
+            ],
             'model' => $element,
         ]);
     }

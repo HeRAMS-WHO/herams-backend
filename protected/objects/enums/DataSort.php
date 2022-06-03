@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\objects\enums;
@@ -17,8 +18,8 @@ enum DataSort: string
     case CodeAscending = "code_ascending";
     case CodeDescending = "code_descending";
 
-
-    private static function labels(): array {
+    private static function labels(): array
+    {
         return [
             self::Source->value => "As defined in the survey",
             self::ValueAscending->value => "By value, ascending",
@@ -29,15 +30,14 @@ enum DataSort: string
             self::CodeDescending->value => "By code, descending",
         ];
     }
+
     public function label(): string
     {
         return self::labels()[$this->value];
     }
 
-
     public static function options(): array
     {
         return self::labels();
     }
-
 }

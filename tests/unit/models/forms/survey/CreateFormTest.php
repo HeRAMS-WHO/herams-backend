@@ -24,7 +24,7 @@ class CreateFormTest extends ModelTest
                 'attributes' => [
                     'config' => [],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -47,8 +47,8 @@ class CreateFormTest extends ModelTest
                                 ],
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }

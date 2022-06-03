@@ -14,15 +14,17 @@ use yii\db\ActiveRecord;
 class SupportedType implements ValidateTypeInterface
 {
     /**
-     * @var class-string $source
-     * @var class-string $target
+     * @var class-string
+     * @var class-string
      */
-    public function __construct(private string $source, private string $target)
-    {
-        if (!class_exists($source)) {
+    public function __construct(
+        private string $source,
+        private string $target
+    ) {
+        if (! class_exists($source)) {
             throw new \InvalidArgumentException("Class $source does not exist");
         }
-        if (!class_exists($target)) {
+        if (! class_exists($target)) {
             throw new \InvalidArgumentException("Class $target does not exist");
         }
     }

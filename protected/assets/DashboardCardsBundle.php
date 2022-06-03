@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\assets;
@@ -17,9 +18,10 @@ class DashboardCardsBundle extends AssetBundle
     {
         $file = 'dashboard-cards';
         $url = json_encode("{$this->baseUrl}/{$file}.es.js");
-        return  "import $alias from $url;";
+        return "import $alias from $url;";
     }
+
     public $css = [
-        'style.css'
+        'style.css',
     ];
 }

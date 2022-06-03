@@ -9,13 +9,13 @@ class m151124_084028_create_translation_tables extends Migration
         $this->createTable('{{%source_message}}', [
             'id' => $this->primaryKey(),
             'category' => $this->string(32),
-            'message' => $this->text()
+            'message' => $this->text(),
         ]);
 
         $this->createTable('{{%message}}', [
             'id' => $this->integer(),
             'language' => $this->string(16),
-            'translation' => $this->text()
+            'translation' => $this->text(),
         ]);
 
         $this->addPrimaryKey('primaryKey', '{{%message}}', ['id', 'language']);

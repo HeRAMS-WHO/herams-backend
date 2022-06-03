@@ -23,11 +23,14 @@ use function iter\toArrayWithKeys;
 
 class Create extends Model
 {
-    /** @var SurveyId|null  */
     public null|SurveyId $admin_survey_id = null;
+
     public null|int $base_survey_eid = null;
+
     public null|SurveyId $data_survey_id = null;
+
     public string $title = '';
+
     public ProjectVisibility $visibility;
 
     public function __construct()
@@ -46,7 +49,7 @@ class Create extends Model
         $existing = Project::find()->select('base_survey_eid')->indexBy('base_survey_eid')->column();
 
         $surveys = filter(function ($details) use ($existing) {
-            return (isset($this->base_survey_eid) && $this->base_survey_eid == $details['sid']) || !isset($existing[$details['sid']]);
+            return (isset($this->base_survey_eid) && $this->base_survey_eid == $details['sid']) || ! isset($existing[$details['sid']]);
         }, app()->limesurveyDataProvider->listSurveys());
 
         $result = ArrayHelper::map($surveys, 'sid', function ($details) {
@@ -65,27 +68,43 @@ class Create extends Model
     {
         return [
             [['title'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1],
-            [['title'], UniqueValidator::class, 'targetAttribute' => 'title', 'targetClass' => Project::class],
-            [['base_survey_eid'], RangeValidator::class, 'range' => array_keys($this->dataSurveyOptions())],
-            [['admin_survey_id', 'data_survey_id'], RangeValidator::class, 'range' => array_keys($this->surveyIdOptions())],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+            ],
+            [['title'],
+                UniqueValidator::class,
+                'targetAttribute' => 'title',
+                'targetClass' => Project::class,
+            ],
+            [['base_survey_eid'],
+                RangeValidator::class,
+                'range' => array_keys($this->dataSurveyOptions()),
+            ],
+            [['admin_survey_id', 'data_survey_id'],
+                RangeValidator::class,
+                'range' => array_keys($this->surveyIdOptions()),
+            ],
             [['visibility'], SafeValidator::class],
-            [['data_survey_id', 'admin_survey_id', 'base_survey_eid'], function (string $attribute, null|array $params, InlineValidator $validator) {
-                if (empty($this->base_survey_eid) && (empty($this->admin_survey_id) || empty($this->data_survey_id))) {
-                    $this->addError(
-                        $attribute,
-                        \Yii::t(
-                            'app',
-                            'Either {baseSurveyEid} or {adminSurveyId} and {dataSurveyId} must be set.',
-                            [
-                                'baseSurveyEid' => $this->getAttributeLabel('base_survey_eid'),
-                                'adminSurveyId' => $this->getAttributeLabel('admin_survey_id'),
-                                'dataSurveyId' => $this->getAttributeLabel('data_survey_id'),
-                            ]
-                        )
-                    );
-                }
-            }, 'skipOnEmpty' => false],
+            [['data_survey_id', 'admin_survey_id', 'base_survey_eid'],
+                function (string $attribute, null|array $params, InlineValidator $validator) {
+                    if (empty($this->base_survey_eid) && (empty($this->admin_survey_id) || empty($this->data_survey_id))) {
+                        $this->addError(
+                            $attribute,
+                            \Yii::t(
+                                'app',
+                                'Either {baseSurveyEid} or {adminSurveyId} and {dataSurveyId} must be set.',
+                                [
+                                    'baseSurveyEid' => $this->getAttributeLabel('base_survey_eid'),
+                                    'adminSurveyId' => $this->getAttributeLabel('admin_survey_id'),
+                                    'dataSurveyId' => $this->getAttributeLabel('data_survey_id'),
+                                ]
+                            )
+                        );
+                    }
+                },
+                'skipOnEmpty' => false,
+            ],
         ];
     }
 

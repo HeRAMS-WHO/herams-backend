@@ -10,8 +10,12 @@ use yii\validators\RegularExpressionValidator;
 class Point extends Geometry
 {
     private const DEFAULT_SRID = 4326;
-    public function __construct(int|null $srid, private float $x, private float $y)
-    {
+
+    public function __construct(
+        int|null $srid,
+        private float $x,
+        private float $y
+    ) {
         parent::__construct($srid);
     }
 
@@ -23,20 +27,20 @@ class Point extends Geometry
     public static function fromString(string $value): self
     {
         if (preg_match("/^\s*\(\s*(?P<x>-?\d*(\.\d*)?)\s*,\s*(?P<y>-?\d*(\.\d*)?)\s*\)$/", $value, $matches)) {
-            return  new self(self::DEFAULT_SRID, floatval($matches['x']), floatval($matches['y']));
+            return new self(self::DEFAULT_SRID, floatval($matches['x']), floatval($matches['y']));
         }
         throw new \InvalidArgumentException();
     }
 
-
     /**
      * This is Yii2 specific...
-     * @param string $attribute
-     * @return array
      */
     public static function validatorFor(string $attribute): array
     {
-        return [[$attribute], RegularExpressionValidator::class, 'pattern' => "/^\s*\(\s*(-?\d*(\.\d*)?)\s*,\s*(-?\d*(\.\d*)?)\s*\)$/"];
+        return [[$attribute],
+            RegularExpressionValidator::class,
+            'pattern' => "/^\s*\(\s*(-?\d*(\.\d*)?)\s*,\s*(-?\d*(\.\d*)?)\s*\)$/",
+        ];
     }
 
     public function getX(): float

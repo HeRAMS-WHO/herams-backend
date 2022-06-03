@@ -33,27 +33,42 @@ Section::begin([
         [
             'icon' => Icon::add(),
             'label' => \Yii::t('app', 'Create page'),
-            'link' => ['page/create', 'project_id' => $project->id],
-            'style' => 'primary'
+            'link' => [
+                'page/create',
+                'project_id' => $project->id,
+            ],
+            'style' =>
+'primary',
         ],
         [
             'icon' => Icon::download_1(),
             'label' => \Yii::t('app', 'Import pages'),
-            'link' => ['project/import-dashboard', 'id' => $project->id],
+            'link' => [
+                'project/import-dashboard',
+                'id' => $project->id,
+            ],
         ],
         [
             'icon' => Icon::export(),
             'label' => \Yii::t('app', 'Export all'),
-            'link' => ['project/export-dashboard', 'id' => $project->id],
+            'link' => [
+                'project/export-dashboard',
+                'id' => $project->id,
+            ],
         ],
         [
             'icon' => Icon::add(),
             'label' => \Yii::t('app', 'Project dashboard'),
-            'link' => ['project/view', 'id' => $project->id],
+            'link' => [
+                'project/view',
+                'id' => $project->id,
+            ],
             'permission' => Permission::PERMISSION_READ,
-            'visible' => $project->pageCount > 0
-        ]
-    ]
+            'visible' => $project->
+pageCount >
+0,
+        ],
+    ],
 ])->withHeader(\Yii::t('app', 'pages'));
 
 echo GridView::widget([
@@ -64,14 +79,14 @@ echo GridView::widget([
             'attribute' => 'title',
             'value' => static function (Page $page): string {
                 return \Yii::t('app.pagetitle', $page->title);
-            }
+            },
         ],
 
         'parent_id' => [
             'attribute' => 'parent_id',
             'value' => function (Page $project) {
                 return isset($project->parent_id) ? \Yii::t('app.pagetitle', $project->parent->title) . " ({$project->parent_id})" : null;
-            }
+            },
         ],
         'sort',
         'actions' => [
@@ -92,12 +107,12 @@ echo GridView::widget([
                         Icon::trash(),
                         [
                             'page/delete',
-                            'id' => $page->id
+                            'id' => $page->id,
                         ],
                         [
                             'title' => \Yii::t('app', 'Delete'),
                             'data-method' => 'delete',
-                            'data-confirm' => \Yii::t('app', 'Are you sure you want to delete this page?')
+                            'data-confirm' => \Yii::t('app', 'Are you sure you want to delete this page?'),
                         ]
                     );
                 },
@@ -106,16 +121,16 @@ echo GridView::widget([
                         Icon::edit(),
                         [
                             'page/update',
-                            'id' => $page->id
+                            'id' => $page->id,
                         ],
                         [
-                            'title' => \Yii::t('app', 'Edit')
+                            'title' => \Yii::t('app', 'Edit'),
                         ]
                     );
                 },
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ]);
 
 Section::end();

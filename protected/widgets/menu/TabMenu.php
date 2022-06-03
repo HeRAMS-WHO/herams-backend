@@ -15,6 +15,7 @@ use yii\helpers\Html;
 class TabMenu extends Widget
 {
     public array $tabs = [];
+
     /**
      * @var ?object Permissions are checked against this object
      */
@@ -22,8 +23,6 @@ class TabMenu extends Widget
 
     /**
      * This uses a global service locator for easier use.
-     * @param array $route
-     * @return bool
      */
     private function isCurrentPage(array $route): bool
     {
@@ -36,17 +35,16 @@ class TabMenu extends Widget
         // Check if user has permission
         if (isset($tab['permission'])) {
             if (
-                ($this->permissionSubject instanceof CanCurrentUser && !$this->permissionSubject->canCurrentUser($tab['permission']))
-                || (!$this->permissionSubject instanceof CanCurrentUser && !\Yii::$app->user->can($tab['permission'], $this->permissionSubject))
+                ($this->permissionSubject instanceof CanCurrentUser && ! $this->permissionSubject->canCurrentUser($tab['permission']))
+                || (! $this->permissionSubject instanceof CanCurrentUser && ! \Yii::$app->user->can($tab['permission'], $this->permissionSubject))
             ) {
                 return false;
             }
         }
 
-        if (isset($tab['visible']) && !$tab['visible']($tab, $this)) {
+        if (isset($tab['visible']) && ! $tab['visible']($tab, $this)) {
             return false;
         }
-
 
         return true;
     }
@@ -57,9 +55,11 @@ class TabMenu extends Widget
             return '';
         }
 
-        $result = Html::beginTag('div', ['class' => 'tabs']);
+        $result = Html::beginTag('div', [
+            'class' => 'tabs',
+        ]);
         foreach ($this->tabs as $tab) {
-            if (!$this->isVisible($tab)) {
+            if (! $this->isVisible($tab)) {
                 continue;
             }
 
@@ -70,7 +70,7 @@ class TabMenu extends Widget
 
             $classes += ($tab['class'] ?? []);
 
-            $result .=  Html::a($tab['title'], $tab['url'], [
+            $result .= Html::a($tab['title'], $tab['url'], [
                 'class' => $classes,
             ]);
         }

@@ -30,7 +30,7 @@ class UpdateEmailForm extends Model
     public function attributeHints(): array
     {
         return [
-            'newEmail' => \Yii::t('app', 'We will send a confirmation message to this address')
+            'newEmail' => \Yii::t('app', 'We will send a confirmation message to this address'),
         ];
     }
 
@@ -51,7 +51,11 @@ class UpdateEmailForm extends Model
         return [
             [['newEmail'], RequiredValidator::class],
             [['newEmail'], EmailValidator::class],
-            [['newEmail'], UniqueValidator::class, 'targetAttribute'  => 'email', 'targetClass' => User::class]
+            [['newEmail'],
+                UniqueValidator::class,
+                'targetAttribute' => 'email',
+                'targetClass' => User::class,
+            ],
         ];
     }
 
@@ -60,18 +64,18 @@ class UpdateEmailForm extends Model
         $url = [
             '/user/confirm-email',
             'email' => $this->newEmail,
-            'old_hash' => password_hash($this->user->email, PASSWORD_DEFAULT)
+            'old_hash' => password_hash($this->user->email, PASSWORD_DEFAULT),
         ];
         $this->urlSigner->signParams($url, false, Carbon::now()->addHours(3));
 
         $result = $this->mailer->compose('change-email', [
             'url' => Url::to($url, true),
-            'user' => $this->user
+            'user' => $this->user,
         ])
             ->setTo($this->newEmail)
             ->send();
 
-        if (!$result) {
+        if (! $result) {
             throw new \RuntimeException('Failed to send email');
         }
     }

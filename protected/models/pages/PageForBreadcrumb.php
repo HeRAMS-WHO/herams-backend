@@ -20,7 +20,10 @@ class PageForBreadcrumb implements PageForBreadcrumbInterface
     ) {
         $this->label = $model->title;
         $this->projectId = new ProjectId($model->project_id);
-        $this->url = ['/page/update', 'id' => $model->id];
+        $this->url = [
+            '/page/update',
+            'id' => $model->id,
+        ];
     }
 
     public function getProjectId(): ProjectId

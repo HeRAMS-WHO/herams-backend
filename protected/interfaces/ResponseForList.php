@@ -12,9 +12,13 @@ use prime\values\ResponseId;
 interface ResponseForList
 {
     public const DATE_OF_UPDATE = "dateOfUpdate";
+
     public const ID = "id";
+
     public const CONDITION = "condition";
+
     public const ACCESSIBILITY = "accessibility";
+
     public const FUNCTIONALITY = "functionality";
 
     public const ATTRIBUTES = [self::ID, self::DATE_OF_UPDATE, self::CONDITION, self::ACCESSIBILITY, self::FUNCTIONALITY];

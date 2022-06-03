@@ -34,7 +34,6 @@ class CreateFacilityCest
 
         $manager->grant($user, $workspace, Permission::PERMISSION_MANAGE_WORKSPACES);
 
-
         $I->assertFalse($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
     }
 

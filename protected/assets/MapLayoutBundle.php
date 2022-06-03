@@ -9,6 +9,7 @@ use yii\web\AssetBundle;
 class MapLayoutBundle extends AssetBundle
 {
     public $basePath = '@webroot';
+
     public $baseUrl = '@web';
 
     public $css = [
@@ -19,6 +20,6 @@ class MapLayoutBundle extends AssetBundle
     ];
 
     public $depends = [
-        NewAppAsset::class
+        NewAppAsset::class,
     ];
 }

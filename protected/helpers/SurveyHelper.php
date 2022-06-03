@@ -12,7 +12,6 @@ class SurveyHelper
         SurveyHelperTrait::getAnswers as public;
     }
 
-
     public function __construct(SurveyInterface $survey)
     {
         $this->survey = $survey;

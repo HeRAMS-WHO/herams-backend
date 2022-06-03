@@ -17,9 +17,15 @@ use yii\web\View;
 
 if ($model->isLoggedIn()) {
     Section::begin()
-        ->withHeader(\Yii::t('app', 'Accept invitation'), ['style' => ['display' => 'block']]);
+        ->withHeader(\Yii::t('app', 'Accept invitation'), [
+            'style' => [
+                'display' => 'block',
+            ],
+        ]);
 
-    echo Html::tag('p', \Yii::t('app', 'You are currently logged in with {user}. You can either accept the invitation with the current account or create a new account below.', ['user' => $model->getUser()->email]));
+    echo Html::tag('p', \Yii::t('app', 'You are currently logged in with {user}. You can either accept the invitation with the current account or create a new account below.', [
+        'user' => $model->getUser()->email,
+    ]));
 
     $form = ActiveForm::begin([
 
@@ -50,7 +56,12 @@ if ($model->isLoggedIn()) {
 }
 
 Section::begin()
-    ->withHeader(\Yii::t('app', 'Create account'), ['style' => ['display' => 'block']]);
+    ->withHeader(\Yii::t('app', 'Create account'), [
+        'style' => [
+            'display' => 'block',
+
+        ],
+    ]);
 
 echo Html::tag('p', \Yii::t('app', 'Enter the email address you want to use for your account.'));
 
@@ -65,11 +76,17 @@ echo Form::widget([
         'email' => [
             'type' => Form::INPUT_TEXT,
         ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                ['label' => Yii::t('app', 'Create account'), 'style' => 'primary'],
-            ],
-        ]),
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    [
+                        'label' => Yii::t('app', 'Create account'),
+                        'style' => 'primary',
+                    ],
+                ],
+            ]
+        ),
+
     ],
 ]);
 

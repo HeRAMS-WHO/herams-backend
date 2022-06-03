@@ -17,12 +17,13 @@ use yii\helpers\Url;
  */
 
 echo Html::beginForm([
-    'project/filter', 'id' => $project->id,
+    'project/filter',
+    'id' => $project->id,
     'page_id' => \Yii::$app->request->getQueryParam('page_id'),
-    'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
+    'parent_id' => \Yii::$app->request->getQueryParam('parent_id'),
 ], 'post', [
     'autocomplete' => 'off',
-    'class' => 'filters topbar'
+    'class' => 'filters topbar',
 ]);
 
 ?>
@@ -48,7 +49,7 @@ echo Html::beginForm([
     $lastUpdate = null;
     foreach ($data as $heramsResponse) {
         $date = $heramsResponse->getDate();
-        if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
+        if (! isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
             $lastUpdate = $date;
         }
     }
@@ -56,19 +57,34 @@ echo Html::beginForm([
     ?>
 </div>
 <?php
-$filterCount = !empty($filterModel->date) ? 1 : 0;
+$filterCount = ! empty($filterModel->date) ? 1 : 0;
 $filterCount += count($filterModel->advanced);
 $filterCountSpan = "<span>{$filterCount}</span>";
 
 $params = Yii::$app->request->queryParams;
-if (!array_key_exists('page_id', $params) && !empty($project->mainPages)) {
+if (! array_key_exists('page_id', $params) && ! empty($project->mainPages)) {
     $params['page_id'] = $project->mainPages[0]->getid();
 }
-echo Html::a(\Yii::t('app', 'Print'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export this page to pdf')]);
+echo Html::a(\Yii::t('app', 'Print'), array_merge($params, [
+    'project/pdf',
+    'id' => $project->id,
+]), [
+    'class' => 'btn btn-white btn-icon',
+    'title' => \Yii::t('app', 'Export this page to pdf'),
+]);
 unset($params['page_id']);
 //echo Html::a(\Yii::t('app', 'Print all pages'), array_merge($params, ['project/pdf', 'id' => $project->id]), ['class' => 'btn btn-white btn-icon', 'title' => \Yii::t('app', 'Export all pages to pdf')]);
-echo Html::a(Icon::list() . ' ' . \Yii::t('app', 'Workspaces'), ['project/workspaces', 'id' => $project->id], ['class' => 'btn btn-white', 'title' => \Yii::t('app', 'Go to workspaces')]);
-echo Html::a(\Yii::t('app', 'Filters') . $filterCountSpan, '#', ['id' => 'filter-expand', 'class' => 'btn btn-default']);
+echo Html::a(Icon::list() . ' ' . \Yii::t('app', 'Workspaces'), [
+    'project/workspaces',
+    'id' => $project->id,
+], [
+    'class' => 'btn btn-white',
+    'title' => \Yii::t('app', 'Go to workspaces'),
+]);
+echo Html::a(\Yii::t('app', 'Filters') . $filterCountSpan, '#', [
+    'id' => 'filter-expand',
+    'class' => 'btn btn-default',
+]);
 
 $this->registerJs(
     <<<JS
@@ -87,7 +103,7 @@ JS
                 echo Icon::search();
                 echo Html::textInput('search', null, [
                     'id' => 'search-filter',
-                    'placeholder' => \Yii::t('app', 'Search')
+                    'placeholder' => \Yii::t('app', 'Search'),
                 ]);
                 ?>
         </div>
@@ -96,13 +112,16 @@ JS
                 echo Html::tag('li', \Yii::t('app', 'You may search for multiple terms, only results that contain all terms are shown'));
                 echo Html::tag('li', \Yii::t('app', 'Search also uses the group name, for example try typing "Trauma"'));
                 echo Html::tag('li', \Yii::t('app', 'After closing this screen you must click {{apply}} to see the changes', [
-                    'apply' => Html::tag('em', \Yii::t('app', 'Apply filters'))
+                    'apply' => Html::tag('em', \Yii::t('app', 'Apply filters')),
                 ]));
                 ?>
         </ul>
     </div>
     <?php
-    echo $this->render('filterForm', ['filterModel' => $filterModel, 'project' => $project]);
+    echo $this->render('filterForm', [
+        'filterModel' => $filterModel,
+        'project' => $project,
+    ]);
 
     ?>
 
@@ -147,11 +166,11 @@ JS
     <script>
         document.getElementById('clear').addEventListener('click', function() {
             window.location.href = <?= Json::encode(Url::to([
-                                        'project/view',
-                                        'id' => $project->id,
-                                        'page_id' => \Yii::$app->request->getQueryParam('page_id'),
-                                        'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-                                    ])) ?>;
+                'project/view',
+                'id' => $project->id,
+                'page_id' => \Yii::$app->request->getQueryParam('page_id'),
+                'parent_id' => \Yii::$app->request->getQueryParam('parent_id'),
+            ])) ?>;
         })
     </script>
     <button type="submit"><i class="fas fa-check"></i> Apply all</button>

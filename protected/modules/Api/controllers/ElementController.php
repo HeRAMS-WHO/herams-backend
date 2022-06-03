@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
@@ -10,7 +11,6 @@ use yii\rest\ViewAction;
 
 class ElementController extends Controller
 {
-
     public function actions(): array
     {
         return [
@@ -18,10 +18,8 @@ class ElementController extends Controller
             'update' => Update::class,
             'view' => [
                 'class' => ViewAction::class,
-                'modelClass' => Element::class
-            ]
+                'modelClass' => Element::class,
+            ],
         ];
     }
-
-
 }

@@ -31,6 +31,8 @@ class RequestReset extends Action
             $notificationService->success(\Yii::t('app', "A password reset email has been sent to your address"));
             return $this->controller->goHome();
         }
-        return $this->controller->render('request-reset', ['model' => $model]);
+        return $this->controller->render('request-reset', [
+            'model' => $model,
+        ]);
     }
 }

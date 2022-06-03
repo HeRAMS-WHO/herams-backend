@@ -33,7 +33,10 @@ class DeleteCest
         $I->save($parentPage);
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->sendDELETE(Url::to(['/page/delete', 'id' => $parentPage->id]));
+        $I->sendDELETE(Url::to([
+            '/page/delete',
+            'id' => $parentPage->id,
+        ]));
         $I->seeResponseCodeIs(403);
     }
 
@@ -56,7 +59,10 @@ class DeleteCest
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
-        $I->sendDELETE(Url::to(['/page/delete', 'id' => $parentPage->id]));
+        $I->sendDELETE(Url::to([
+            '/page/delete',
+            'id' => $parentPage->id,
+        ]));
         $I->seeResponseCodeIs(302);
         $I->assertFalse($childPage->refresh());
         $I->assertFalse($parentPage->refresh());
@@ -81,7 +87,10 @@ class DeleteCest
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
-        $I->sendDELETE(Url::to(['/page/delete', 'id' => $childPage->id]));
+        $I->sendDELETE(Url::to([
+            '/page/delete',
+            'id' => $childPage->id,
+        ]));
         $I->seeResponseCodeIs(302);
         $I->assertFalse($childPage->refresh());
         $I->assertTrue($parentPage->refresh());

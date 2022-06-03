@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\models\ar\Project;
 use prime\models\forms\workspace\Import;
 use prime\widgets\BetterSelect;
@@ -31,7 +31,7 @@ Section::begin()->withHeader($this->title);
         "attributes" => [
             'titleField' => [
                 'type' => Form::INPUT_DROPDOWN_LIST,
-                'items' => $model->fieldOptions()
+                'items' => $model->fieldOptions(),
             ],
             'tokens' => [
                 'type' => Form::INPUT_WIDGET,
@@ -42,18 +42,23 @@ Section::begin()->withHeader($this->title);
                         'style' => [
                             'column-count' => 2,
                             'height' => 'auto',
-                        ]
+                        ],
                     ],
-                    'items' => $model->tokenOptions()
-                ]
+                    'items' => $model->tokenOptions(),
+                ],
             ],
-            \prime\widgets\FormButtonsWidget::embed([
-                'buttons' => [
-                    Html::submitButton(\Yii::t('app', 'Import workspaces'), ['class' => 'btn btn-primary']),
+            \prime\widgets\FormButtonsWidget::embed(
+                [
+                    'buttons' => [
+                        Html::submitButton(\Yii::t('app', 'Import workspaces'), [
+                            'class' => 'btn btn-primary',
+                        ]),
+                    ],
                 ]
-            ])
+            ),
 
-        ]
+
+        ],
     ]);
     $form->end();
     Section::end();

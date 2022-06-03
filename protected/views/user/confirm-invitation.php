@@ -17,7 +17,11 @@ use yii\web\View;
 $this->title = \Yii::t('app', 'Create account');
 
 Section::begin()
-    ->withHeader($this->title, ['style' => ['display' => 'block']]);
+    ->withHeader($this->title, [
+        'style' => [
+            'display' => 'block',
+        ],
+    ]);
 
 $form = ActiveForm::begin([
 
@@ -32,28 +36,34 @@ echo Form::widget([
             'type' => Form::INPUT_STATIC,
         ],
         'name' => [
-            'type' => Form::INPUT_TEXT
+            'type' => Form::INPUT_TEXT,
         ],
         'password' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
-                'autocomplete' => 'new-password'
-            ]
+                'autocomplete' => 'new-password',
+            ],
         ],
         'confirmPassword' => [
             'type' => Form::INPUT_PASSWORD,
             'options' => [
-                'autocomplete' => 'new-password'
-            ]
+                'autocomplete' => 'new-password',
+            ],
         ],
         'subscribeToNewsletter' => [
             'type' => Form::INPUT_CHECKBOX,
         ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                ['label' => Yii::t('app', 'Create account'), 'style' => 'primary'],
-            ],
-        ]),
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    [
+                        'label' => Yii::t('app', 'Create account'),
+                        'style' => 'primary',
+                    ],
+                ],
+            ]
+        ),
+
     ],
 ]);
 

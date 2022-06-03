@@ -35,8 +35,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
 {
     /**
      * Version of Yii's canSetProperty that respects visibility.
-     * @param Model $model
-     * @return bool
      */
     private function canSetProperty(Model $model, $attribute): bool
     {
@@ -83,12 +81,12 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     private function castEnumSet(string|null|array $value, string $class): EnumSet
     {
         // This will still crash on non-empty strings, that is intended. If a string is passed it has to be empty
-        return $class::from(!empty($value) ? $value : []);
+        return $class::from(! empty($value) ? $value : []);
     }
 
     private function castFloat(string|int|float $value): float
     {
-        if (is_string($value) && !preg_match('/^-?\d+(\.\d+)?$/', $value)) {
+        if (is_string($value) && ! preg_match('/^-?\d+(\.\d+)?$/', $value)) {
             throw new \InvalidArgumentException("String must match \d+(.\d+)");
         }
         return (float) $value;
@@ -97,7 +95,7 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     private function castForDatabase(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null|Expression
     {
         if (is_object($complex)) {
-            return match(true) {
+            return match (true) {
                 $complex instanceof BackedEnum => $complex->value,
                 $complex instanceof UnitEnum => $complex->name,
                 $complex instanceof Enum => $complex->value,
@@ -128,12 +126,13 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
             HydrateSource::webForm() => $class::fromString($value)
         };
     }
+
     private function castInt(bool|int|string $value, bool $optional = false): int|null
     {
         if (is_string($value) && $optional && $value === "") {
             return null;
         }
-        if (is_string($value) && !preg_match('/^-?\d+$/', $value)) {
+        if (is_string($value) && ! preg_match('/^-?\d+$/', $value)) {
             throw new \InvalidArgumentException("String must consist of digits only, got: $value");
         }
         return (int) $value;
@@ -161,9 +160,9 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
 
     private function castType(\ReflectionNamedType $property, mixed $value, string $attribute, HydrateSource $source)
     {
-        if (!$property->isBuiltin()) {
+        if (! $property->isBuiltin()) {
             $name = $property->getName();
-            return match(true) {
+            return match (true) {
                 $name === LocalizedString::class => $this->castLocalizedString($value, $name),
                 is_subclass_of($name, BackedEnum::class) => $this->castBackedEnum($value, $name, $source),
                 is_subclass_of($name, EnumSet::class) => $this->castEnumSet($value, $name),
@@ -172,20 +171,17 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
 
                 is_subclass_of($name, StringId::class) => $this->castStringId($value, $name),
                 is_subclass_of($name, Geometry::class) => $this->castGeometry($value, $name, $source),
-                is_subclass_of($name, UuidInterface::class)  || $name === UuidInterface::class => $this->castUuid($value, $name, $source),
+                is_subclass_of($name, UuidInterface::class) || $name === UuidInterface::class => $this->castUuid($value, $name, $source),
 
                 default => throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}")
             };
-
-
-
         }
 
         if ($property->allowsNull() && ($value === "" || $value === null)) {
             return null;
         }
 
-        if (!$property->allowsNull() && $value === null) {
+        if (! $property->allowsNull() && $value === null) {
             throw new \RuntimeException("Property {$property->getName()} does not allow null, but value is null");
         }
 
@@ -211,8 +207,8 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     {
         try {
             $rc = new \ReflectionClass($model);
-            if (!$rc->hasProperty($attribute)) {
-                return (string)$value;
+            if (! $rc->hasProperty($attribute)) {
+                return (string) $value;
             }
             /** @var \ReflectionNamedType $property */
             $property = $rc->getProperty($attribute)->getType();
@@ -298,13 +294,11 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     }
 
     /**
-     * @param Model $model
      * @param array $data Array data extracted from a HTTP request (so all values are strings)
      */
     public function hydrateFromRequestArray(Model $model, array $data): void
     {
         foreach ($model->safeAttributes() as $attribute) {
-
             if (isset($data[$attribute])) {
                 $model->$attribute = $this->castValue($model, $attribute, $data[$attribute], HydrateSource::webForm());
             }
@@ -312,7 +306,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     }
 
     /**
-     * @param Model $model
      * @param array $data Array data extracted from JSON
      */
     public function hydrateFromJsonDictionary(Model $model, array $data): void
@@ -345,8 +338,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     /**
      * @param $value
      * @param class-string<UnitEnum> $name
-     * @param HydrateSource $source
-     * @return UnitEnum
      */
     private function castUnitEnum($value, string $name, HydrateSource $source): UnitEnum
     {
@@ -359,11 +350,11 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
 
         $backingType = $reflectionEnum->getBackingType();
 
-        if (!$backingType instanceof \ReflectionNamedType) {
+        if (! $backingType instanceof \ReflectionNamedType) {
             throw new \Exception("Could not find backing type for enum of type $name");
         }
 
-        return $name::from(match($backingType->getName()) {
+        return $name::from(match ($backingType->getName()) {
             'int' => $this->castInt($value, false),
             'string' => $value
         });
@@ -371,8 +362,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
 
     /**
      * @param string|array<string, string> $value
-     * @param string $name
-     * @return LocalizedString
      */
     private function castLocalizedString(string|array $value, string $name): LocalizedString
     {

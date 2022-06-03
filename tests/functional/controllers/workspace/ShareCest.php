@@ -20,7 +20,10 @@ class ShareCest
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspaceForLimesurvey();
 
-        $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -30,7 +33,10 @@ class ShareCest
         $workspace = $I->haveWorkspaceForLimesurvey();
         $I->grantCurrentUser($workspace, Permission::PERMISSION_WRITE);
 
-        $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -38,15 +44,23 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $workspace = $I->haveWorkspaceForLimesurvey();
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
 
-        $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->see(\Yii::t('app', 'Workspace owner'));
 
         $I->amLoggedInAs(TEST_USER_ID);
         $I->grantCurrentUser($workspace, Permission::ROLE_LEAD);
-        $I->amOnPage(['project/workspaces', 'id' => $workspace->project->id]);
+        $I->amOnPage([
+            'project/workspaces',
+            'id' => $workspace->project->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->see($user->name, 'table tr td');
     }
@@ -57,10 +71,15 @@ class ShareCest
         $workspace = $I->haveWorkspaceForLimesurvey();
         $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
-        $toUser = User::findOne(['id' => TEST_OTHER_USER_ID]);
+        $toUser = User::findOne([
+            'id' => TEST_OTHER_USER_ID,
+        ]);
 
         $I->submitForm(
             'form',
@@ -75,14 +94,20 @@ class ShareCest
         // Check implicitly that permission was granted
         $I->amLoggedInAs($toUser->id);
         $I->stopFollowingRedirects();
-        $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIsRedirection();
     }
 
     public function testNotFound(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $I->amOnPage(['workspace/share', 'id' => 99999999]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => 99999999,
+        ]);
         $I->seePageNotFound();
     }
 
@@ -92,7 +117,10 @@ class ShareCest
         $workspace = $I->haveWorkspaceForLimesurvey();
         $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
         $toEmail = 'test-random@test.com';
@@ -107,7 +135,9 @@ class ShareCest
         $I->seeEmailIsSent();
         /** @var MessageInterface $email */
         $email = $I->grabLastSentEmail();
-        $I->assertEquals([$toEmail => null], $email->getTo());
+        $I->assertEquals([
+            $toEmail => null,
+        ], $email->getTo());
     }
 
     public function testShareWithInviteExistingUser(FunctionalTester $I)
@@ -116,10 +146,15 @@ class ShareCest
         $workspace = $I->haveWorkspaceForLimesurvey();
         $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['workspace/share', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/share',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
-        $toUser = User::findOne(['id' => TEST_OTHER_USER_ID]);
+        $toUser = User::findOne([
+            'id' => TEST_OTHER_USER_ID,
+        ]);
 
         $I->submitForm(
             'form',
@@ -133,7 +168,10 @@ class ShareCest
 
         // Check implicitly that permission was granted
         $I->amLoggedInAs($toUser->id);
-        $I->amOnPage(['workspace/export', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/export',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
     }
 }

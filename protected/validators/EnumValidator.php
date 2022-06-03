@@ -23,11 +23,14 @@ class EnumValidator extends Validator
         }
     }
 
-
     protected function validateValue($value): array|null
     {
-        if (!$value instanceof $this->enumClass && $this->enumClass::tryFrom($value) === null) {
-            return [\Yii::t('app', "Invalid value {value} for enum"), ['value' => $value]];
+        if (! $value instanceof $this->enumClass && $this->enumClass::tryFrom($value) === null) {
+            return [
+                \Yii::t('app', "Invalid value {value} for enum"), [
+                    'value' => $value,
+
+                ], ];
         }
         return null;
     }

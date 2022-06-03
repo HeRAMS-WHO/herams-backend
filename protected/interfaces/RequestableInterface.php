@@ -10,11 +10,11 @@ namespace prime\interfaces;
 interface RequestableInterface
 {
     public function getTitle(): string;
+
     public function getRoute(): array;
 
     /**
      * Since most of our entities are in a hierarchy below a project we require this for now.
-     * @return string
      */
     public function getProjectTitle(): string;
 }

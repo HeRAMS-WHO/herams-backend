@@ -31,7 +31,10 @@ class ResponseForBreadcrumbTest extends Unit
             ->willReturnOnConsecutiveCalls($workspaceId, $responseId);
 
         $forBreadcrumb = new ResponseForBreadcrumb($response);
-        $this->assertEquals(['/response/compare', 'id' => $responseId], $forBreadcrumb->getUrl());
+        $this->assertEquals([
+            '/response/compare',
+            'id' => $responseId,
+        ], $forBreadcrumb->getUrl());
         $this->assertEquals(new WorkspaceId($workspaceId), $forBreadcrumb->getWorkspaceId());
         $this->assertEquals($label, $forBreadcrumb->getLabel());
     }

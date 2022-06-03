@@ -50,7 +50,9 @@ usort($groups, function (GroupInterface $a, GroupInterface $b) {
 $date = $filterModel->attributes['date'];
 $filters = $filterModel->attributes['advanced'];
 if (isset($date) || (is_array($filters) && count($filters) > 0)) {
-    $filtersContent = Html::beginTag('div', ['class' => 'filters-list']);
+    $filtersContent = Html::beginTag('div', [
+        'class' => 'filters-list',
+    ]);
     $filtersContent .= "<span class='list-title'>" . \Yii::t('app', 'Filters') . "</span> : ";
     if (isset($date)) {
         $filtersContent .= "<strong>" . \Yii::t('app', 'Date') . "</strong> {$date} ";
@@ -116,7 +118,7 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
                             $lastUpdate = null;
                             foreach ($data as $heramsResponse) {
                                 $date = $heramsResponse->getDate();
-                                if (!isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
+                                if (! isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
                                     $lastUpdate = $date;
                                 }
                             }
@@ -137,7 +139,9 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
             echo isset($filtersContent) ? $filtersContent : '';
             echo Html::beginTag('tr');
             echo Html::beginTag('td');
-            echo Html::beginTag('div', ['class' => 'content']);
+            echo Html::beginTag('div', [
+                'class' => 'content',
+            ]);
 
             echo "<h2 class='page-title'>{$subpage->title}</h2>";
 
@@ -150,7 +154,9 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
                     echo Html::endTag('tr');
                     echo Html::beginTag('tr');
                     echo Html::beginTag('td');
-                    echo Html::beginTag('div', ['class' => 'content']);
+                    echo Html::beginTag('div', [
+                        'class' => 'content',
+                    ]);
                     $blockCount = 0;
                 }
 

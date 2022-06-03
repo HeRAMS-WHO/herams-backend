@@ -40,7 +40,7 @@ class SurveyController extends Controller
                         'create' => ['get'],
                         'index' => ['get'],
                         'update' => ['get'],
-                    ]
+                    ],
                 ],
                 'access' => [
                     'rules' => [
@@ -48,7 +48,7 @@ class SurveyController extends Controller
                             'allow' => true,
                             'roles' => [Permission::PERMISSION_ADMIN],
                         ],
-                    ]
+                    ],
                 ],
             ]
         );

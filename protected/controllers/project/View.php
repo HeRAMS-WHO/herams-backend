@@ -39,15 +39,17 @@ class View extends Action
         $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
         /** @var Project|null $project */
         $project = Project::find()
-            ->andWhere(['id'  => $id])
+            ->andWhere([
+                'id' => $id,
+            ])
             ->with('mainPages')
             ->one();
 
-        if (!isset($project)) {
+        if (! isset($project)) {
             throw new NotFoundHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_READ, $project)) {
+        if (! $user->can(Permission::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
 
@@ -62,22 +64,26 @@ class View extends Action
 
         if (isset($parent_id, $page_id)) {
             /** @var PageInterface $parent */
-            $parent = Page::findOne(['id' => $parent_id]);
+            $parent = Page::findOne([
+                'id' => $parent_id,
+            ]);
             foreach ($parent->getChildPages() as $childPage) {
                 if ($childPage->getid() === $page_id) {
                     $page = $childPage;
                     break;
                 }
             }
-            if (!isset($page)) {
+            if (! isset($page)) {
                 throw new NotFoundHttpException();
             }
         } elseif (isset($page_id)) {
-            $page = Page::findOne(['id' => $page_id]);
-            if (!isset($page) || $page->project_id !== $project->id) {
+            $page = Page::findOne([
+                'id' => $page_id,
+            ]);
+            if (! isset($page) || $page->project_id !== $project->id) {
                 throw new NotFoundHttpException();
             }
-        } elseif (!empty($project->mainPages)) {
+        } elseif (! empty($project->mainPages)) {
             $page = $project->mainPages[0];
         } else {
             throw new NotFoundHttpException('No reporting has been set up for this project');
@@ -88,14 +94,13 @@ class View extends Action
         \Yii::beginProfile('ResponseFilterinit');
 
         $filterModel = new ResponseFilter($survey, $project->getMap());
-        if (!empty($filter)) {
+        if (! empty($filter)) {
             $filterModel->fromQueryParam($filter);
         }
         $filterModel->load($request->queryParams);
         \Yii::endProfile('ResponseFilterinit');
 
-        /** @var  $filtered */
-
+        /** @var $filtered */
 
         $filtered = $filterModel->filterQuery($responses)->all();
 
@@ -107,14 +112,16 @@ class View extends Action
             $stack[] = $parent;
         }
 
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl(['project/view', 'id' => $project->id]));
-        while (!empty($stack)) {
+        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl([
+            'project/view',
+            'id' => $project->id,
+        ]));
+        while (! empty($stack)) {
             /** @var PageInterface $p */
             $p = array_pop($stack);
             $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($p->getTitle()));
         }
         $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($page->getTitle()));
-
 
         return $this->controller->render('view', [
             'types' => $this->getTypes($survey, $project),
@@ -122,7 +129,7 @@ class View extends Action
             'filterModel' => $filterModel,
             'project' => $project,
             'page' => $page,
-            'survey' => $survey
+            'survey' => $survey,
         ]);
     }
 
@@ -131,7 +138,7 @@ class View extends Action
         \Yii::beginProfile(__FUNCTION__);
         $question = $this->findQuestionByCode($survey, $project->getMap()->getType());
 
-        if (!isset($question)) {
+        if (! isset($question)) {
             return [];
         }
 

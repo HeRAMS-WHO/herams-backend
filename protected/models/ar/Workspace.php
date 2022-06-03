@@ -59,43 +59,61 @@ class Workspace extends ActiveRecord implements RequestableInterface
                         'projectTitle' => [
                             VirtualFieldBehavior::GREEDY => Project::find()
                                 ->limit(1)->select('title')
-                                ->where(['id' => new Expression(self::tableName() . '.[[project_id]]')]),
+                                ->where([
+                                    'id' => new Expression(self::tableName() . '.[[project_id]]'),
+                                ]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace): null|string {
                                 return $workspace->getProject()->limit(1)->one()->title ?? null;
-                            }
+                            },
                         ],
                         'latestUpdate' => [
                             VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()
                                 ->limit(1)->select('max(last_updated)')
-                                ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
+                                ->where([
+                                    'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                                ]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
-                                return $workspace->getResponses()->orderBy(['updated_at' => SORT_DESC])->limit(1)
-                                        ->one()->updated_at ?? null;
-                            }
+                                return $workspace->getResponses()->orderBy([
+                                    'updated_at' => SORT_DESC,
+                                ])->limit(1)
+                                    ->one()->updated_at ?? null
+;
+                            },
                         ],
                         'facilityCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                             VirtualFieldBehavior::GREEDY => (function () {
                                 $responseQuery = ResponseForLimesurvey::find()
-                                    ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
-                                    ->select(['count' => 'count(distinct hf_id)']);
+                                    ->where([
+                                        'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                                    ])
+                                    ->select([
+                                        'count' => 'count(distinct hf_id)',
+                                    ]);
                                 $facilityQuery = Facility::find()
-                                    ->andWhere(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
-                                    ->select(['count' => 'count(*)']);
+                                    ->andWhere([
+                                        'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                                    ])
+                                    ->select([
+                                        'count' => 'count(*)',
+                                    ]);
 
                                 $responseQuery->union($facilityQuery);
                                 $query = new Query();
-                                $query->from(['sub' => $responseQuery]);
+                                $query->from([
+                                    'sub' => $responseQuery,
+                                ]);
                                 $query->select('sum(count)');
                                 return $query;
                             })(),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                                 $filter = new ResponseFilter(null, new HeramsCodeMap());
                                 return $filter->filterQuery($workspace->getResponses())->count()
-                                    + $workspace->getFacilities()->count()
+                                    + $workspace->getFacilities(
+)->count()
 
                                     ;
-                            }
+                            },
                         ],
                         'contributorCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -103,15 +121,14 @@ class Workspace extends ActiveRecord implements RequestableInterface
                                 'target' => Workspace::class,
                                 'target_id' => new Expression(self::tableName() . '.[[id]]'),
                                 'source' => User::class,
-                            ])->select('count(distinct [[source_id]])')
-                            ,
+                            ])->select('count(distinct [[source_id]])'),
                             VirtualFieldBehavior::LAZY => static function (self $model): int {
                                 return (int) Permission::find()->where([
                                     'target' => Workspace::class,
                                     'target_id' => $model->id,
                                     'source' => User::class,
                                 ])->count('distinct [[source_id]]');
-                            }
+                            },
                         ],
                         'permissionSourceCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -119,29 +136,33 @@ class Workspace extends ActiveRecord implements RequestableInterface
                                 ->where([
                                     'source' => User::class,
                                     'target' => self::class,
-                                    'target_id' => new Expression(self::tableName() . '.[[id]]')
+                                    'target_id' => new Expression(self::tableName() . '.[[id]]'),
                                 ]),
                             VirtualFieldBehavior::LAZY => static function (self $model): int {
                                 return (int) $model->getPermissions()->count('distinct source_id');
-                            }
+                            },
                         ],
                         'responseCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                             VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('count(*)')
-                                ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
+                                ->where([
+                                    'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                                ]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                                 return $workspace->getResponses()->count();
-                            }
-                        ]
-                    ]
-                ]
+                            },
+                        ],
+                    ],
+                ],
             ]
         );
     }
 
     public function getFacilities(): FacilityQuery
     {
-        return $this->hasMany(Facility::class, ['workspace_id' => 'id']);
+        return $this->hasMany(Facility::class, [
+            'workspace_id' => 'id',
+        ]);
     }
 
     /**
@@ -153,34 +174,44 @@ class Workspace extends ActiveRecord implements RequestableInterface
             'target' => self::class,
             'target_id' => $this->id,
             'source' => User::class,
-            'permission' => Permission::ROLE_LEAD
+            'permission' => Permission::ROLE_LEAD,
         ]);
 
-        $result = User::find()->andWhere(['id' => $permissionQuery->select('source_id')])->all();
+        $result = User::find()->andWhere([
+            'id' => $permissionQuery->select('source_id'),
+        ])->all();
 
-        return !empty($result) ? $result : $this->project->getLeads();
+        return ! empty($result) ? $result : $this->project->getLeads();
     }
 
     public function getPermissions(): ActiveQuery
     {
-        return $this->hasMany(Permission::class, ['target_id' => 'id'])
-            ->andWhere(['target' => self::class]);
+        return $this->hasMany(Permission::class, [
+            'target_id' => 'id',
+        ])
+            ->andWhere([
+                'target' => self::class,
+            ]);
     }
 
     public function getProject(): ActiveQuery
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id'])->inverseOf('workspaces');
+        return $this->hasOne(Project::class, [
+            'id' => 'project_id',
+        ])->inverseOf('workspaces');
     }
 
     public function getResponses(): ResponseForLimesurveyQuery
     {
-        return $this->hasMany(ResponseForLimesurvey::class, ['workspace_id' => 'id'])->inverseOf('workspace');
+        return $this->hasMany(ResponseForLimesurvey::class, [
+            'workspace_id' => 'id',
+        ])->inverseOf('workspace');
     }
 
     public static function instantiate($row): ActiveRecord
     {
         // Single table inheritance: when we need a WorkspaceForLimesurvey instance,
-        if (!empty($row['token'])) {
+        if (! empty($row['token'])) {
             return new WorkspaceForLimesurvey();
         }
 
@@ -200,11 +231,19 @@ class Workspace extends ActiveRecord implements RequestableInterface
     {
         return [
             [['title', 'project_id'], RequiredValidator::class],
-            [['title'], StringValidator::class, 'min' => 1],
-            [['project_id'], ExistValidator::class, 'targetRelation' => 'project'],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+            ],
+            [['project_id'],
+                ExistValidator::class,
+                'targetRelation' => 'project',
+            ],
             [['i18n'], function ($attribute) {
-                if (!is_array($this->$attribute)) {
-                    $this->addError($attribute, \Yii::t('app', '{attribute} must be an array.', ['attribute' => $this->getAttributeLabel($attribute)]));
+                if (! is_array($this->$attribute)) {
+                    $this->addError($attribute, \Yii::t('app', '{attribute} must be an array.', [
+                        'attribute' => $this->getAttributeLabel($attribute),
+                    ]));
                 }
             }],
         ];
@@ -229,7 +268,10 @@ class Workspace extends ActiveRecord implements RequestableInterface
 
     public function getRoute(): array
     {
-        return ['workspace/update', 'id' => $this->id];
+        return [
+            'workspace/update',
+            'id' => $this->id,
+        ];
     }
 
     public function getProjectTitle(): string

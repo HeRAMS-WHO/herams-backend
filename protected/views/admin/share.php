@@ -31,8 +31,8 @@ $form = ActiveForm::begin([
     'formConfig' => [
         'showLabels' => true,
         'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 echo $model->renderForm($form);
 ActiveForm::end();

@@ -23,17 +23,29 @@ class SyncWorkspaces extends Action
     ): string {
         /** @var Project|null $project */
         $project = Project::find()
-            ->with(['workspaces' => static function (ActiveQuery $query) {
-                $query->withFields('latestUpdate')
-                    ->orderBy(['latestUpdate' => SORT_DESC]);
-            }])
-            ->andWhere(['id' => $id])->one();
+            ->with([
+                'workspaces' => static function (ActiveQuery $query) {
+                    $query->withFields('latestUpdate')
+                        ->orderBy([
+                            'latestUpdate' => SORT_DESC,
+                        ]);
+                },
+            ])
+            ->andWhere([
+                'id' => $id,
+            ])->one();
         $accessCheck->requirePermission($project, Permission::PERMISSION_ADMIN);
 
         $model = new SyncWorkspacesForm($project);
         if ($request->isPost && $model->load($request->bodyParams) && $model->validate()) {
-            return $this->controller->render('sync-workspaces-execute', ['project' => $project, 'model' => $model]);
+            return $this->controller->render('sync-workspaces-execute', [
+                'project' => $project,
+                'model' => $model,
+            ]);
         }
-        return $this->controller->render('sync-workspaces-form', ['project' => $project, 'model' => $model]);
+        return $this->controller->render('sync-workspaces-form', [
+            'project' => $project,
+            'model' => $model,
+        ]);
     }
 }

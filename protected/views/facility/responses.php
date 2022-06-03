@@ -24,7 +24,9 @@ $this->title = $facility->getTitle();
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
-    ['facility' => $facility]
+    [
+        'facility' => $facility,
+    ]
 );
 $this->endBlock();
 
@@ -35,7 +37,7 @@ Section::begin()
             'link' => Url::to($updateSituationUrl),
             'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
                 return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(Permission::PERMISSION_SURVEY_DATA);
-            }
+            },
         ],
     ])
     ->withSubject($facility)
@@ -50,7 +52,7 @@ echo GridView::widget([
         ResponseForList::CONDITION,
         ResponseForList::FUNCTIONALITY,
         ResponseForList::ACCESSIBILITY,
-    ]
+    ],
 ]);
 
 Section::end();

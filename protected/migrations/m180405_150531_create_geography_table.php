@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m180405_150531_create_geography_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('{{%geography}}', [
@@ -19,13 +16,10 @@ class m180405_150531_create_geography_table extends Migration
             'parent_id' => $this->integer(),
             'locale_code' => $this->string(255),
             'cr_date' => $this->dateTime(),
-            'end_date' => $this->dateTime()
+            'end_date' => $this->dateTime(),
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%geography}}');

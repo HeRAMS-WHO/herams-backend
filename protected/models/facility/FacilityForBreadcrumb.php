@@ -21,11 +21,17 @@ class FacilityForBreadcrumb implements FacilityForBreadcrumbInterface
     ) {
         if ($model instanceof ResponseForLimesurvey) {
             $this->label = (string) $model->hf_id;
-            $this->url = ['/facility/responses', 'id' => $model->hf_id];
+            $this->url = [
+                '/facility/responses',
+                'id' => $model->hf_id,
+            ];
             $this->workspaceId = new WorkspaceId($model->workspace_id);
         } elseif ($model instanceof Facility) {
             $this->label = $model->name;
-            $this->url = ['/facility/responses', 'id' => $model->id];
+            $this->url = [
+                '/facility/responses',
+                'id' => $model->id,
+            ];
             $this->workspaceId = new WorkspaceId($model->workspace_id);
         }
     }

@@ -17,13 +17,15 @@ class Favorites extends Action
         /** @var User $model */
         $model = $user->identity;
 
-        $query = WorkspaceForLimesurvey::find()->andWhere(['id' =>
-            $model->getFavorites()->filterTargetClass(WorkspaceForLimesurvey::class)->select('target_id')]);
+        $query = WorkspaceForLimesurvey::find()->andWhere([
+            'id' =>
+                        $model->getFavorites()->filterTargetClass(WorkspaceForLimesurvey::class)->select('target_id'),
+        ]);
         $dataProvider = new ActiveDataProvider([
-            'query' => $query
+            'query' => $query,
         ]);
         return $this->controller->render('favorites', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
         ]);
     }
 }

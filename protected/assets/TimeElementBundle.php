@@ -14,11 +14,12 @@ use yii\web\AssetBundle;
 class TimeElementBundle extends AssetBundle
 {
     public $baseUrl = '@npm/@github/time-elements/dist';
+
     public $js = [
         'index.js',
     ];
 
     public $jsOptions = [
-        'type' => 'module'
+        'type' => 'module',
     ];
 }

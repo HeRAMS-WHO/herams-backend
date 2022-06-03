@@ -2,17 +2,10 @@
 
 use yii\db\Migration;
 
-/**
- * Class m191024_124402_assignments_to_permissions
- */
 class m191024_124402_assignments_to_permissions extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
-
         foreach ((new \yii\db\Query())->from('{{%auth_assignment}}')->all() as $assignment) {
             try {
                 \Yii::$app->authManager->assign(
@@ -25,9 +18,6 @@ class m191024_124402_assignments_to_permissions extends Migration
         $this->dropTable('{{%auth_assignment}}');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         echo "m191024_124402_assignments_to_permissions cannot be reverted.\n";

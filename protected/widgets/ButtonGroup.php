@@ -12,14 +12,20 @@ use function iter\toArrayWithKeys;
 
 class ButtonGroup extends Widget
 {
-    const STYLE_DELETE = 'delete';
-    const TYPE_LINK = 'link';
-    const TYPE_RAW = 'raw';
-    const TYPE_SUBMIT = 'submit';
+    public const STYLE_DELETE = 'delete';
+
+    public const TYPE_LINK = 'link';
+
+    public const TYPE_RAW = 'raw';
+
+    public const TYPE_SUBMIT = 'submit';
 
     public string $defaultButtonType = 'link';
+
     public string $tagName = 'div';
+
     public array $options = [];
+
     private int $outputBuffer;
 
     public iterable $buttons = [];
@@ -94,11 +100,10 @@ class ButtonGroup extends Widget
     {
         $options = $button['linkOptions'] ?? [];
         Html::addCssClass($options, ['btn', 'btn-' . ($button['style'] ?? 'default')]);
-        $link = is_array($button['link']) ? toArrayWithKeys(mapWithKeys(static fn($queryParam) => (
+        $link = is_array($button['link']) ? toArrayWithKeys(mapWithKeys(static fn ($queryParam) => (
             $queryParam instanceof \Stringable
             ? (string) $queryParam
             : $queryParam
-
         ), $button['link'])) : $button['link'];
         echo Html::a(($button['icon'] ?? '') . $button['label'], $link, $options);
     }

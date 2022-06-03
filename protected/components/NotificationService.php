@@ -14,6 +14,7 @@ use yii\web\View;
 class NotificationService extends Component
 {
     private int $counter = 0;
+
     public function __construct(array $config = [])
     {
         parent::__construct($config);
@@ -32,12 +33,12 @@ class NotificationService extends Component
         /** @var View $view */
         $view = $event->sender;
 
-        if (!$view->context instanceof Controller) {
+        if (! $view->context instanceof Controller) {
             return;
         }
 
         if (
-            !\Yii::$app->has('session', true)
+            ! \Yii::$app->has('session', true)
         ) {
             return;
         }
@@ -46,11 +47,11 @@ class NotificationService extends Component
 
         $jsNotifications = [];
         foreach ($this->getSession()->getAllFlashes(true) as $key => $flash) {
-            if (!is_array($flash)) {
+            if (! is_array($flash)) {
                 $flash = [
                     'type' => $key,
                     'message' => $flash,
-                    'title' => ucfirst($key)
+                    'title' => ucfirst($key),
                 ];
             }
             $type = ArrayHelper::remove($flash, 'type', 'show');
@@ -58,10 +59,9 @@ class NotificationService extends Component
 
             $config = json_encode($flash);
 
-
             $jsNotifications[] = "iziToast.$type($config);";
         }
-        if (!empty($jsNotifications)) {
+        if (! empty($jsNotifications)) {
             $view->registerJs(implode("\n", $jsNotifications));
         }
     }

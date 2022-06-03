@@ -39,8 +39,12 @@ class CheckImplicitAccessRequestGrantedHandlerTest extends Unit
             AccessRequest::PERMISSION_OTHER,
         ];
 
-        $project = new Project(['id' => $projectId]);
-        $user = new User(['id' => $permissionCreatedById]);
+        $project = new Project([
+            'id' => $projectId,
+        ]);
+        $user = new User([
+            'id' => $permissionCreatedById,
+        ]);
         $resolver = $this->getMockBuilder(Resolver::class)->getMock();
         $resolver->expects($this->once())
             ->method('toSubject')
@@ -105,7 +109,9 @@ class CheckImplicitAccessRequestGrantedHandlerTest extends Unit
         $permissionId = 1;
         $elementId = 4;
 
-        $element = new Element(['id' => $elementId]);
+        $element = new Element([
+            'id' => $elementId,
+        ]);
         $resolver = $this->getMockBuilder(Resolver::class)->getMock();
         $resolver->expects($this->once())
             ->method('toSubject')

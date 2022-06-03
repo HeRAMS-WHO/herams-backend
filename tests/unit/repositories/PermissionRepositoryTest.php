@@ -37,7 +37,6 @@ class PermissionRepositoryTest extends Unit
 
     public function test()
     {
-
         $respository = new PermissionRepository();
 
         $this->assertEquals(null, $respository->retrieve(10));

@@ -28,20 +28,21 @@ class Create extends Action
         int $page_id,
         string $type
     ) {
-        $page = Page::findOne(['id' => $page_id]);
-        if (!isset($page)) {
+        $page = Page::findOne([
+            'id' => $page_id,
+        ]);
+        if (! isset($page)) {
             throw new NotFoundHttpException();
         }
 
         $project = $page->project;
 
-
         $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_DASHBOARD);
 
-
-
         try {
-            $element = Element::instantiate(['type' => $type]);
+            $element = Element::instantiate([
+                'type' => $type,
+            ]);
             $element->type = $type;
         } catch (\InvalidArgumentException $e) {
             throw new BadRequestHttpException('Invalid element type', 0, $e);
@@ -60,11 +61,14 @@ class Create extends Action
                         return $this->controller->redirect([
                             'project/view',
                             'page_id' => $element->page->id,
-                            'id' => $element->project->id
+                            'id' => $element->project->id,
                         ]);
                     case 'refresh':
                     default:
-                        return $this->controller->redirect(['update', 'id' => $model->id]);
+                        return $this->controller->redirect([
+                            'update',
+                            'id' => $model->id,
+                        ]);
                 }
             } else {
                 $notificationService->error(\Yii::t('app', "Element not created"));
@@ -80,8 +84,8 @@ class Create extends Action
             'endpointUrl' => ['/api/element/create'],
             'url' => Url::to(array_merge($request->queryParams, [
                 '__key__' => '__value__',
-                '0' => $this->uniqueId
-            ]))
+                '0' => $this->uniqueId,
+            ])),
         ]);
     }
 }

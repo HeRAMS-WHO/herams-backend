@@ -11,7 +11,9 @@ use yii\helpers\Inflector;
 class GetterColumn implements ColumnDefinition
 {
     private $property;
+
     private $headerText;
+
     private $headerCode;
 
     public function __construct(string $property, string $headerText, ?string $headerCode = null)

@@ -25,35 +25,40 @@ class Update extends Action
         LimesurveyDataLoader $loader
     ) {
         // Hardcoded bearer check.
-        if (!$request->headers->has('Authorization')) {
+        if (! $request->headers->has('Authorization')) {
             throw new UnauthorizedHttpException();
         }
         $key = \Yii::$app->params['responseSubmissionKey'];
         if (empty($key)) {
             throw new ServerErrorHttpException('No key configured');
         }
-        if (!hash_equals("Bearer $key", $request->headers->get('Authorization'))) {
+        if (! hash_equals("Bearer $key", $request->headers->get('Authorization'))) {
             throw new ForbiddenHttpException();
         }
         $data = $request->getBodyParam('response');
 
-        if (!isset($data, $data['id'], $data['token'], $request->bodyParams['surveyId'])) {
+        if (! isset($data, $data['id'], $data['token'], $request->bodyParams['surveyId'])) {
             throw new BadRequestHttpException();
         }
         $key = [
             'survey_id' => $request->getBodyParam('surveyId'),
-            'id' => $data['id']
+            'id' => $data['id'],
         ];
 
         // Find the project.
-        $project = Project::find()->andWhere(['base_survey_eid' => $request->getBodyParam('surveyId')])->one();
-        if (!(isset($project))) {
+        $project = Project::find()->andWhere([
+            'base_survey_eid' => $request->getBodyParam('surveyId'),
+        ])->one();
+        if (! (isset($project))) {
             throw new NotFoundHttpException('Unknown survey ID: ' . $request->getBodyParam('surveyId'));
         }
 
         /** @var WorkspaceForLimesurvey|null $workspace */
-        $workspace = WorkspaceForLimesurvey::find()->andWhere(['token' => $data['token'], 'project_id' => $project->id])->one();
-        if (!isset($workspace)) {
+        $workspace = WorkspaceForLimesurvey::find()->andWhere([
+            'token' => $data['token'],
+            'project_id' => $project->id,
+        ])->one();
+        if (! isset($workspace)) {
             throw new NotFoundHttpException('Unknown token');
         }
 

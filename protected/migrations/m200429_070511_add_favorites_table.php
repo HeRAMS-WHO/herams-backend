@@ -2,14 +2,8 @@
 
 use yii\db\Migration;
 
-/**
- * Class m200429_070511_add_favorites_table
- */
 class m200429_070511_add_favorites_table extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         if ($this->db->getTableSchema('{{%favorite}}') === null) {
@@ -23,13 +17,10 @@ class m200429_070511_add_favorites_table extends Migration
         $this->addPrimaryKey('favorite_primary', '{{%favorite}}', [
             'user_id',
             'target_class',
-            'target_id'
+            'target_id',
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         echo "m200429_070511_add_favorites_table cannot be reverted.\n";

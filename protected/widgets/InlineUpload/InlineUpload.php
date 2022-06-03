@@ -19,9 +19,10 @@ class InlineUpload extends InputWidget
         }
         echo Html::fileInput('file', null, [
             'form' => 'none',
-            'id' => $this->options['id'] . '-f'
+            'id' => $this->options['id'] . '-f',
         ]);
-        $this->view->registerJs(<<<JS
+        $this->view->registerJs(
+            <<<JS
     document.getElementById("{$this->options['id']}-f").addEventListener('change', function() {
         let input = document.getElementById('{$this->options['id']}');
         if (this.files.length === 1) {

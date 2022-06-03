@@ -15,11 +15,12 @@ use function iter\toArray;
 class FilteredActiveDataProvider extends ActiveDataProvider
 {
     public Closure $filter;
+
     public Closure $totalCount;
 
     protected function prepareModels()
     {
-        if (!$this->query instanceof QueryInterface) {
+        if (! $this->query instanceof QueryInterface) {
             throw new InvalidConfigException('The "query" property must be an instance of a class that implements the QueryInterface e.g. yii\db\Query or its subclasses.');
         }
         /** @var QueryInterface|Query $query */

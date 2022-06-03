@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Element as ARElement;
 use prime\models\ar\Page;
@@ -42,7 +42,7 @@ echo Form::widget([
             'type' => Form::INPUT_RADIO_BUTTON_GROUP,
             'items' => [
                 1 => \Yii::t('app', 'Yes'),
-                0 => \Yii::t('app', 'No')
+                0 => \Yii::t('app', 'No'),
             ],
             'options' => [
                 'class' => 'btn-radio',
@@ -57,7 +57,7 @@ echo Form::widget([
         ],
         'sort' => [
             'type' => Form::INPUT_HTML5,
-            'html5type' => 'number'
+            'html5type' => 'number',
         ],
         'width' => [
             'type' => Form::INPUT_HTML5,
@@ -65,7 +65,7 @@ echo Form::widget([
         ],
         'height' => [
             'type' => Form::INPUT_HTML5,
-            'html5type' => 'number'
+            'html5type' => 'number',
         ],
         'reasonCode' => [
             'type' => Form::INPUT_WIDGET,
@@ -73,7 +73,7 @@ echo Form::widget([
             'options' => [
                 'data' => $model->codeOptions(),
             ],
-            'visible' => $model->isAttributeSafe('reasonCode')
+            'visible' => $model->isAttributeSafe('reasonCode'),
         ],
         'groupCode' => [
             'type' => Form::INPUT_WIDGET,
@@ -81,34 +81,34 @@ echo Form::widget([
             'options' => [
                 'data' => $model->codeOptions(),
             ],
-            'visible' => $model->isAttributeSafe('groupCode')
+            'visible' => $model->isAttributeSafe('groupCode'),
         ],
         'title' => [
             'type' => Form::INPUT_TEXT,
             'options' => [
                 'placeholder' => $model->getTitlePlaceHolder(),
             ],
-            'visible' => $model->isAttributeSafe('title')
+            'visible' => $model->isAttributeSafe('title'),
         ],
         'markerRadius' => [
             'type' => Form::INPUT_HTML5,
             'html5type' => 'number',
             'options' => [
-                'placeholder' => \prime\widgets\map\DashboardMap::DEFAULT_MARKER_RADIUS
+                'placeholder' => \prime\widgets\map\DashboardMap::DEFAULT_MARKER_RADIUS,
             ],
-            'visible' => $model->isAttributeSafe('markerRadius')
+            'visible' => $model->isAttributeSafe('markerRadius'),
         ],
         'chartType' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' => $model->isAttributeSafe('chartType') ? $model->chartTypeOptions() : [],
-            'visible' => $model->isAttributeSafe('chartType')
+            'visible' => $model->isAttributeSafe('chartType'),
         ],
-    ]
+    ],
 ]);
 
 $url = Json::encode($url);
 $this->registerJs(
-<<<JS
+    <<<JS
 $('#element-code, #element-transpose').on('change', function(e) {
     // Refresh page on change.
     window.location.href = ${url}.replace("__value__", e.target.value).replace("__key__", e.target.name);
@@ -128,7 +128,8 @@ foreach ($model->colorAttributes() as $attribute) {
     ];
 }
 
-$this->registerCss(<<<CSS
+$this->registerCss(
+    <<<CSS
 .columns .form-group {
     break-inside: avoid;
 }
@@ -142,12 +143,18 @@ $this->registerCss(<<<CSS
 CSS
 );
 
-echo Html::beginTag('div', ['style' => ['column-width' => '250px'], 'class' => ['columns']]);
-if (!empty($attributes)) {
+echo Html::beginTag('div', [
+    'style' => [
+        'column-width' => '250px',
+    ],
+    'class' => [
+        'columns', ],
+]);
+if (! empty($attributes)) {
     echo Form::widget([
         'form' => $form,
         'model' => $model,
-        'attributes' => $attributes
+        'attributes' => $attributes,
     ]);
 }
 echo Html::endTag('div');
@@ -164,18 +171,23 @@ echo Form::widget([
                     'style' => 'primary',
                     'buttonOptions' => [
                         'name' => 'action',
-                        'value' => 'refresh'
+                        'value' => 'refresh',
                     ],
                 ],
                 [
                     'label' => $model->isNewRecord
-                        ? \Yii::t('app', 'Create element & go back', ['action' => $this->title])
-                        : \Yii::t('app', 'Update element & go back', ['action' => $this->title]),
+                        ? \Yii::t('app', 'Create element & go back', [
+                            'action' => $this->title,
+                        ])
+                        : \Yii::t('app', 'Update element & go back', [
+                            'action' => $this->title,
+                        ]),
                     'type' => ButtonGroup::TYPE_SUBMIT,
                     'style' => 'default',
                     'buttonOptions' => [
                         'name' => 'action',
-                        'value' => 'dashboard'
+                        'value' => 'dashboard',
+
                     ],
                 ],
                 [
@@ -209,8 +221,8 @@ if (isset($model->id)) {
             'border' => 'none',
             'width' => '100%',
             'height' => '100%',
-            'background-color' => 'white'
-        ]
+            'background-color' => 'white',
+        ],
     ]);
 }
 

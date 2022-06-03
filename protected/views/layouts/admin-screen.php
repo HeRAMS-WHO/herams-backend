@@ -41,10 +41,12 @@ $this->registerAssetBundle(AdminBundle::class);
 echo Html::beginTag('body', $this->params['body'] ?? []);
 $this->beginBody();
 
-echo Html::beginTag('header', ['class' => 'admin-header']);
+echo Html::beginTag('header', [
+    'class' => 'admin-header',
+]);
 
 echo $this->render('//user-menu', [
-    'class' => ['admin']
+    'class' => ['admin'],
 ]);
 $links = [];
 foreach ($this->getBreadcrumbCollection() as $breadcrumb) {
@@ -63,19 +65,23 @@ if ($this->autoAddTitleToBreadcrumbs) {
 
 
 echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([
-        'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
-        'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
-        'homeLink' => [
-            'label' => \Yii::t('app', 'Administration'),
-            'url' => '/project/index'
-        ],
-        'links' => $links,
-    ]);
-echo Html::tag('span', $this->title, ['class' => 'page-title']);
+    'itemTemplate' => "<li>{link}" . \prime\helpers\Icon::chevronRight() . " </li>\n",
+    'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
+    'homeLink' => [
+        'label' => \Yii::t('app', 'Administration'),
+        'url' => '/project/index',
+    ],
+    'links' => $links,
+]);
+echo Html::tag('span', $this->title, [
+    'class' => 'page-title',
+]);
 
 echo Html::endTag('header');
 
-echo Html::beginTag('div', ['class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo Html::beginTag('div', [
+    'class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}",
+]);
 echo $content;
 echo Html::endTag('div');
 

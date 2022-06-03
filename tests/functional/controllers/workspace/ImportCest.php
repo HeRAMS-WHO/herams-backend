@@ -15,7 +15,10 @@ class ImportCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $I->amOnPage(['workspace/import', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'workspace/import',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -24,21 +27,26 @@ class ImportCest
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProjectForLimesurvey();
 
-        $I->amOnPage(['workspace/import', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'workspace/import',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
-        $I->selectOption(['name' => 'Import[titleField]'], 'token');
+        $I->selectOption([
+            'name' => 'Import[titleField]',
+        ], 'token');
         $I->dontSeeElement('input', [
             'name' => 'Import[tokens][]',
-            'value' => $I->haveWorkspaceForLimesurvey()->getAttribute('token')
+            'value' => $I->haveWorkspaceForLimesurvey()->getAttribute('token'),
         ]);
         $I->submitForm('form', [
-            'Import[tokens]' => ['token2']
+            'Import[tokens]' => ['token2'],
         ]);
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'token2',
             'project_id' => $project->id,
-            'token' => 'token2'
+            'token' => 'token2',
         ]);
     }
 }

@@ -18,11 +18,15 @@ class ResponseForLimesurveyQuery extends ActiveQuery
 {
     public function project(Project $project): self
     {
-        return $this->andWhere(["{$this->getPrimaryTableName()}.[[workspace_id]]" => $project->getWorkspaces()->select('id')->column()]);
+        return $this->andWhere([
+            "{$this->getPrimaryTableName()}.[[workspace_id]]" => $project->getWorkspaces()->select('id')->column(),
+        ]);
     }
 
     public function workspace(Workspace $workspace): self
     {
-        return $this->andWhere(["{$this->getPrimaryTableName()}.[[workspace_id]]" => $workspace->id]);
+        return $this->andWhere([
+            "{$this->getPrimaryTableName()}.[[workspace_id]]" => $workspace->id,
+        ]);
     }
 }

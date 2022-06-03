@@ -11,12 +11,12 @@ use prime\interfaces\ColorMap;
 final class SurveyParser extends BaseParser
 {
     private const TYPE_FACILITYTYPE = 'facilitytype';
+
     public function __construct(FacilityTypeQuestionParser $facilityTypeQuestionParser)
     {
         parent::__construct();
         $this->setParser(self::TYPE_FACILITYTYPE, $facilityTypeQuestionParser);
     }
-
 
     public function parseHeramsSurveyStructure(array $structure): HeramsVariableSet
     {

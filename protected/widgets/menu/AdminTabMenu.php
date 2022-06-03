@@ -19,22 +19,22 @@ class AdminTabMenu extends TabMenu
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_ADMIN,
             'url' => ['admin/dashboard'],
-            'title' => \Yii::t('app', 'Dashboard')
+            'title' => \Yii::t('app', 'Dashboard'),
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_ADMIN,
             'url' => ['user/index'],
-            'title' => \Yii::t('app', 'Users')
+            'title' => \Yii::t('app', 'Users'),
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_ADMIN,
             'url' => ['admin/share'],
-            'title' => \Yii::t('app', 'Global permissions')
+            'title' => \Yii::t('app', 'Global permissions'),
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_ADMIN,
             'url' => ['admin/limesurvey'],
-            'title' => \Yii::t('app', 'Backend administration')
+            'title' => \Yii::t('app', 'Backend administration'),
         ];
 
         return parent::renderMenu();

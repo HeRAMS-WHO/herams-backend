@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\widgets\FormButtonsWidget;
 use yii\helpers\Html;
 
@@ -14,7 +14,7 @@ use yii\helpers\Html;
 $form = ActiveForm::begin([
     'id' => 'export',
     'method' => 'POST',
-    "type" => ActiveForm::TYPE_HORIZONTAL
+    "type" => ActiveForm::TYPE_HORIZONTAL,
 ]);
 echo Form::widget([
     'form' => $form,
@@ -23,23 +23,21 @@ echo Form::widget([
     "attributes" => [
         'includeTextHeader' => [
             'type' => Form::INPUT_WIDGET,
-            'widgetClass' => \kartik\switchinput\SwitchInput::class
+            'widgetClass' => \kartik\switchinput\SwitchInput::class,
         ],
         'includeCodeHeader' => [
             'type' => Form::INPUT_WIDGET,
-            'widgetClass' => \kartik\switchinput\SwitchInput::class
+            'widgetClass' => \kartik\switchinput\SwitchInput::class,
         ],
         'answersAsText' => [
             'type' => Form::INPUT_WIDGET,
-            'widgetClass' => \kartik\switchinput\SwitchInput::class
+            'widgetClass' => \kartik\switchinput\SwitchInput::class,
         ],
         'language' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => $model->getLanguages()
-
+            'items' => $model->getLanguages(),
         ],
-
-    ]
+    ],
 ]);
 
 echo Form::widget([
@@ -62,10 +60,10 @@ echo Form::widget([
                 Html::submitButton(\Yii::t('app', 'Export XLSX'), [
                     'class' => 'btn btn-default',
                     'name' => 'format',
-                    'value' => 'xlsx'
+                    'value' => 'xlsx',
                 ]),
-            ]
-        ])
-    ]
+            ],
+        ]),
+    ],
 ]);
 $form->end();

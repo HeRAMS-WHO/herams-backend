@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\assets;
@@ -20,14 +21,14 @@ class DashboardElementUiBundle extends AssetBundle
 //        ]
 //    ];
 
-
     public function getImport(string $alias): string
     {
         $file = 'dashboard-element-ui';
         $url = json_encode("{$this->baseUrl}/{$file}.es.js");
-        return  "import $alias from $url;";
+        return "import $alias from $url;";
     }
+
     public $css = [
-        'style.css'
+        'style.css',
     ];
 }

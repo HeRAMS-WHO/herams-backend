@@ -17,8 +17,10 @@ class RequestResetForm extends Model
 {
     public $email;
 
-    public function __construct(private CacheInterface $cache, $config = [])
-    {
+    public function __construct(
+        private CacheInterface $cache,
+        $config = []
+    ) {
         parent::__construct($config);
     }
 
@@ -36,7 +38,7 @@ class RequestResetForm extends Model
 
         $mailer->compose('password_reset', [
             'user' => $this,
-            'resetRoute' => $params
+            'resetRoute' => $params,
 
         ])
             ->setTo($this->email)
@@ -46,6 +48,7 @@ class RequestResetForm extends Model
         $this->cache->set(__CLASS__ . $this->email, time() + 120);
         return true;
     }
+
     public function rules(): array
     {
         return [
@@ -55,25 +58,29 @@ class RequestResetForm extends Model
                 $lastAttempt = $this->cache->get(__CLASS__ . $this->email);
                 if ($lastAttempt > time()) {
                     $this->addError('email', \Yii::t('app', "Too many attempts, try again in {seconds} seconds", [
-                        'seconds' => $lastAttempt - time()
+                        'seconds' => $lastAttempt - time(),
                     ]));
                 }
-                if (!User::find()->andWhere(['email' => $this->email])->exists()) {
+                if (! User::find()->andWhere([
+                    'email' => $this->email,
+                ])->exists()) {
                     $this->addError('email', "This user is not known or not yet verified");
                 }
-            }]
+            }],
         ];
     }
 
     public function getUser(): User
     {
-        return User::findOne(['email' => $this->email]);
+        return User::findOne([
+            'email' => $this->email,
+        ]);
     }
 
     public function attributeHints(): array
     {
         return [
-            'email' => \Yii::t('app', 'We will send you a secure link to the reset form')
+            'email' => \Yii::t('app', 'We will send you a secure link to the reset form'),
         ];
     }
 }

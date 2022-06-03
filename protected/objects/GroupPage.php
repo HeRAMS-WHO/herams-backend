@@ -12,9 +12,13 @@ use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 class GroupPage implements PageInterface
 {
-    /** @var GroupInterface */
+    /**
+     * @var GroupInterface
+     */
     private $group;
+
     private $parent;
+
     public function __construct(
         GroupInterface $group,
         PageInterface $parent
@@ -36,12 +40,11 @@ class GroupPage implements PageInterface
      */
     public function getChildElements(): iterable
     {
-
         return [
             new Map([
                 'transpose' => false,
                 'config' => [
-                    'code' => 'MoSD3'
+                    'code' => 'MoSD3',
                 ],
             ]),
             new Chart([
@@ -53,9 +56,9 @@ class GroupPage implements PageInterface
                         'A1' => 'Fully available',
                         'A2' => 'Partially available',
                         'A3' => 'Not available',
-                        'A4' => 'Not normally provided'
-                    ]
-                ]
+                        'A4' => 'Not normally provided',
+                    ],
+                ],
             ]),
             new Chart([
                 'transpose' => true,
@@ -68,16 +71,16 @@ class GroupPage implements PageInterface
                         "rgb(75, 192, 192)",
                         "rgb(54, 162, 235)",
                         "rgb(153, 102, 255)",
-                        "rgb(201, 203, 207)"
+                        "rgb(201, 203, 207)",
                     ],
                     'map' => [
                         'A1' => 'Lack of health staff',
                         'A2' => 'Lack of training of health staff',
                         'A3' => 'Lack of medical supplies',
                         'A4' => 'Lack of medical equipment',
-                        'A5' => 'Lack of finances'
-                    ]
-                ]
+                        'A5' => 'Lack of finances',
+                    ],
+                ],
             ]),
             new Table([
                 'transpose' => true,
@@ -90,17 +93,17 @@ class GroupPage implements PageInterface
                         'A2' => 'Lack of training of health staff',
                         'A3' => 'Lack of medical supplies',
                         'A4' => 'Lack of medical equipment',
-                        'A5' => 'Lack of finances'
-                    ]
-                ]
-            ])
+                        'A5' => 'Lack of finances',
+                    ],
+                ],
+            ]),
         ];
     }
 
     public function getTitle(): string
     {
         return trim(strtr($this->group->getTitle(), [
-            'HeRAMS' => ''
+            'HeRAMS' => '',
         ]));
     }
 
@@ -113,7 +116,6 @@ class GroupPage implements PageInterface
     {
         return $this->parent->getId();
     }
-
 
     public function getParentPage(): PageInterface
     {
@@ -128,7 +130,7 @@ class GroupPage implements PageInterface
         }
 
         foreach ($responses as $response) {
-            if (!$response instanceof HeramsSubject || isset($codes[$response->getCode()])) {
+            if (! $response instanceof HeramsSubject || isset($codes[$response->getCode()])) {
                 yield $response;
             }
         }

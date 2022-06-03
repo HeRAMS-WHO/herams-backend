@@ -55,6 +55,7 @@ trait AttributeValidationByExample
     }
 
     private static array $validAttributes;
+
     private static array $invalidAttributes;
 
     public static function setUpBeforeClass(): void
@@ -113,13 +114,13 @@ trait AttributeValidationByExample
         $otherValidatorAttributes = [];
         foreach ($model->getValidators() as $validator) {
             foreach ($validator->attributeNames as $attribute) {
-                if (!($validator instanceof SafeValidator || $validator instanceof FilterValidator)) {
+                if (! ($validator instanceof SafeValidator || $validator instanceof FilterValidator)) {
                     $otherValidatorAttributes[$attribute] = true;
                 }
             }
         }
         foreach (keys($attributes) as $attribute) {
-            if (!$model->isAttributeSafe($attribute)) {
+            if (! $model->isAttributeSafe($attribute)) {
                 continue;
             }
             $this->assertArrayHasKey($attribute, self::$validAttributes, "Attribute {$attribute} does not appear in any valid example");

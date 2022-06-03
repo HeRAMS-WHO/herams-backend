@@ -18,7 +18,9 @@ class UserRepository
 
     public function retrieve(int $id): ?User
     {
-        return User::findOne(['id' => $id]);
+        return User::findOne([
+            'id' => $id,
+        ]);
     }
 
     /**
@@ -27,7 +29,11 @@ class UserRepository
     public function retrieveForSelect2(string $q, ?int $excludeUserId = null, $page = 0, $perPage = 5): array
     {
         $query = $this->find()
-            ->andFilterWhere(['not', ['id' => $excludeUserId]])
+            ->andFilterWhere([
+                'not', [
+                    'id' => $excludeUserId,
+
+                ], ])
             ->andWhere(['OR', ['like', 'name', $q], ['like', 'email', $q]])
             ->offset($page * $perPage)
             ->limit($perPage);
@@ -44,7 +50,7 @@ class UserRepository
     {
         $result = $this->retrieve($id);
 
-        if (!$result) {
+        if (! $result) {
             throw new InvalidArgumentException('No such User.');
         }
 

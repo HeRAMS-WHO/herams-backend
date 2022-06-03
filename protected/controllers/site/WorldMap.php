@@ -13,7 +13,7 @@ class WorldMap extends Action
         $dataProvider = (new \prime\models\search\Project())->search([], $user);
         $dataProvider->setPagination(false);
         return $this->controller->render('world-map', [
-            'projects' => $dataProvider
+            'projects' => $dataProvider,
         ]);
     }
 }

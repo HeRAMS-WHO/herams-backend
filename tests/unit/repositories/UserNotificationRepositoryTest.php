@@ -23,7 +23,9 @@ class UserNotificationRepositoryTest extends Unit
      */
     public function test(bool $canRespond, int $notificationCount)
     {
-        $accessRequest = new AccessRequest(['id' => 1]);
+        $accessRequest = new AccessRequest([
+            'id' => 1,
+        ]);
         $activeQuery = $this->getMockBuilder(AccessRequestQuery::class)->disableOriginalConstructor()->getMock();
         $activeQuery->expects($this->once())
             ->method('notExpired')
@@ -38,7 +40,9 @@ class UserNotificationRepositoryTest extends Unit
         $accessRequestRepository->expects($this->once())
             ->method('find')
             ->willReturn($activeQuery);
-        $user = new User(['id' => 2]);
+        $user = new User([
+            'id' => 2,
+        ]);
         $abacManager = $this->getMockBuilder(AuthManager::class)->disableOriginalConstructor()->getMock();
         $abacManager->expects($this->once())
             ->method('check')

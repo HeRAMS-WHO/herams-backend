@@ -14,7 +14,7 @@ class NavigationButtonGroup extends Widget
     {
         return ButtonGroup::widget([
             'options' => [
-                'class' => ['NavigationButtonGroup']
+                'class' => ['NavigationButtonGroup'],
             ],
             'buttons' => $this->buttons,
             'tagName' => 'nav',

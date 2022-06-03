@@ -27,9 +27,9 @@ class UserSearchTest extends Unit
                     'id' => 15,
                     'name' => 'test',
                     'email' => 'test',
-                    'created_at' => '2021'
-                ]
-            ]
+                    'created_at' => '2021',
+                ],
+            ],
         ];
     }
 
@@ -41,9 +41,9 @@ class UserSearchTest extends Unit
                     'id' => 'not a number',
                     // This can be fixed by a typehint
                     'email' => ['not a string'],
-                    'name' => ['not a string']
-                ]
-            ]
+                    'name' => ['not a string'],
+                ],
+            ],
         ];
     }
 

@@ -20,7 +20,7 @@ class BreadcrumbCollectionTest extends Unit
             $breadcrumbs[] = (new Breadcrumb())->setLabel((string) $i);
         }
 
-        $breadcrumbCollection =  new BreadcrumbCollection($breadcrumbs);
+        $breadcrumbCollection = new BreadcrumbCollection($breadcrumbs);
 
         $this->assertEquals(0, $breadcrumbCollection->key());
         $this->assertEquals('0', $breadcrumbCollection->current()->getLabel());

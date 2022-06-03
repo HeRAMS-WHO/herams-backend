@@ -26,8 +26,13 @@ class Update extends Action
         return $this->controller->render('update-survey-js', [
             'model' => $element,
             'pageId' => new PageId($element->page_id),
-            'endpointUrl' => ['/api/element/update', 'id' => $element->id],
-            'projectId' => new ProjectId($element->page->project_id)
+            'endpointUrl' => [
+                '/api/element/update',
+                'id' => $element->id,
+            ],
+            'projectId' => new ProjectId(
+                $element->page->project_id
+            ),
         ]);
     }
 
@@ -38,11 +43,13 @@ class Update extends Action
         User $user,
         int $id
     ) {
-        $element = Element::findOne(['id' => $id]);
-        if (!isset($element)) {
+        $element = Element::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($element)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_WRITE, $element)) {
+        if (! $user->can(Permission::PERMISSION_WRITE, $element)) {
             throw new ForbiddenHttpException();
         }
 
@@ -62,7 +69,7 @@ class Update extends Action
                         return $this->controller->redirect([
                             'project/view',
                             'page_id' => $element->page->id,
-                            'id' => $element->project->id
+                            'id' => $element->project->id,
                         ]);
                         //return $this->controller->redirect($request->bodyParams['Element']['referrer']);
                     case 'refresh':
@@ -83,8 +90,8 @@ class Update extends Action
             'page' => $model->page,
             'url' => Url::to(array_merge($request->queryParams, [
                 '__key__' => '__value__',
-                '0' => $this->uniqueId
-            ]))
+                '0' => $this->uniqueId,
+            ])),
         ]);
     }
 }

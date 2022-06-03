@@ -17,7 +17,9 @@ class Update extends Action
         $responseId = new ResponseId($id);
         $response = $responseRepository->retrieveForSurvey($responseId);
         if ($response->usesLimeSurvey()) {
-            return $this->controller->render('update-limesurvey', ['model' => $response]);
+            return $this->controller->render('update-limesurvey', [
+                'model' => $response,
+            ]);
         }
     }
 }

@@ -24,7 +24,7 @@ class EmailCest
         $url = [
             '/user/confirm-email',
             'email' => $newEmail,
-            'old_hash' => password_hash($oldEmail, PASSWORD_DEFAULT)
+            'old_hash' => password_hash($oldEmail, PASSWORD_DEFAULT),
         ];
         $urlSigner->signParams($url, false, Carbon::now()->addHours(3));
         return $url;

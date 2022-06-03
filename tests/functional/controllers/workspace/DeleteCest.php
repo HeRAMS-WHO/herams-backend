@@ -19,10 +19,15 @@ class DeleteCest
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
         $workspace = $I->haveWorkspaceForLimesurvey();
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
-        $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
+        $I->sendDELETE(Url::to([
+            '/workspace/delete',
+            'id' => $workspace->id,
+        ]));
         $I->seeResponseCodeIs(403);
     }
 
@@ -31,14 +36,21 @@ class DeleteCest
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspaceForLimesurvey();
 
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_DELETE);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $workspace, Permission::PERMISSION_DELETE);
 
         $I->stopFollowingRedirects();
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
-        $I->sendDELETE(Url::to(['/workspace/delete', 'id' => $workspace->id]));
+        $I->sendDELETE(Url::to([
+            '/workspace/delete',
+            'id' => $workspace->id,
+        ]));
 
         $I->seeResponseCodeIs(302);
-        $I->dontSeeRecord(WorkspaceForLimesurvey::class, ['id' => $workspace->id]);
+        $I->dontSeeRecord(WorkspaceForLimesurvey::class, [
+            'id' => $workspace->id,
+        ]);
     }
 }

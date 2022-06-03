@@ -17,7 +17,9 @@ class ConfirmEmailFormTest extends Unit
     {
         $oldEmail = 'old@test.com';
         $newEmail = 'new@test.com';
-        $user = new User(['email' => $newEmail]);
+        $user = new User([
+            'email' => $newEmail,
+        ]);
 
         $model = new ConfirmEmailForm($user, $newEmail, $oldEmail);
         $this->assertFalse($model->validate());
@@ -31,7 +33,9 @@ class ConfirmEmailFormTest extends Unit
     {
         $oldEmail = 'old@test.com';
         $newEmail = 'new@test.com';
-        $user = new User(['email' => $newEmail]);
+        $user = new User([
+            'email' => $newEmail,
+        ]);
 
         $model = new ConfirmEmailForm($user, $newEmail, $oldEmail);
         $this->expectExceptionObject(new \RuntimeException('Failed to update email address'));

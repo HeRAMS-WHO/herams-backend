@@ -23,14 +23,14 @@ Section::begin([
         [
             'link' => ['survey/index'],
             'label' => \Yii::t('app', 'Surveys'),
-            'style' => 'default'
+            'style' => 'default',
         ],
         [
             'link' => ['project/index'],
             'label' => \Yii::t('app', 'Projects'),
-            'style' => 'default'
-        ]
-    ]
+            'style' => 'default',
+        ],
+    ],
 ]);
 
 Section::end();

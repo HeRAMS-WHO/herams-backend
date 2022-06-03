@@ -1,7 +1,7 @@
 <?php
 
-    /** @var User $user */
-    /** @var array $resetRoute */
+/** @var User $user */
+/** @var array $resetRoute */
 
 use prime\models\ar\User;
 use yii\helpers\Url;

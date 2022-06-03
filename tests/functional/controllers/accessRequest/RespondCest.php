@@ -37,7 +37,10 @@ final class RespondCest
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
-        $I->amOnPage(['access-request/respond', 'id' => $accessRequest->id]);
+        $I->amOnPage([
+            'access-request/respond',
+            'id' => $accessRequest->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -50,9 +53,17 @@ final class RespondCest
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
-        $I->dontSeeRecord(Permission::class, ['source' => User::class, 'source_id' => TEST_USER_ID, 'target' => $project::class, 'target_id' => $project->id]);
+        $I->dontSeeRecord(Permission::class, [
+            'source' => User::class,
+            'source_id' => TEST_USER_ID,
+            'target' => $project::class,
+            'target_id' => $project->id,
+        ]);
 
-        $I->amOnPage(['access-request/respond', 'id' => $accessRequest->id]);
+        $I->amOnPage([
+            'access-request/respond',
+            'id' => $accessRequest->id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
 
         $I->fillField('Explanation of grant or deny', 'Sorry no access');
@@ -61,7 +72,12 @@ final class RespondCest
         $accessRequest->refresh();
         $I->assertFalse((bool) $accessRequest->accepted);
 
-        $I->dontSeeRecord(Permission::class, ['source' => User::class, 'source_id' => TEST_USER_ID, 'target' => $project::class, 'target_id' => $project->id]);
+        $I->dontSeeRecord(Permission::class, [
+            'source' => User::class,
+            'source_id' => TEST_USER_ID,
+            'target' => $project::class,
+            'target_id' => $project->id,
+        ]);
     }
 
     public function testGrant(FunctionalTester $I)
@@ -73,9 +89,17 @@ final class RespondCest
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
-        $I->dontSeeRecord(Permission::class, ['source' => User::class, 'source_id' => TEST_USER_ID, 'target' => $project::class, 'target_id' => $project->id]);
+        $I->dontSeeRecord(Permission::class, [
+            'source' => User::class,
+            'source_id' => TEST_USER_ID,
+            'target' => $project::class,
+            'target_id' => $project->id,
+        ]);
 
-        $I->amOnPage(['access-request/respond', 'id' => $accessRequest->id]);
+        $I->amOnPage([
+            'access-request/respond',
+            'id' => $accessRequest->id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
 
         $I->fillField('Explanation of grant or deny', 'Go ahead');
@@ -85,6 +109,11 @@ final class RespondCest
         $accessRequest->refresh();
         $I->assertTrue((bool) $accessRequest->accepted);
 
-        $I->seeRecord(Permission::class, ['source' => User::class, 'source_id' => TEST_USER_ID, 'target' => $project::class, 'target_id' => $project->id]);
+        $I->seeRecord(Permission::class, [
+            'source' => User::class,
+            'source_id' => TEST_USER_ID,
+            'target' => $project::class,
+            'target_id' => $project->id,
+        ]);
     }
 }

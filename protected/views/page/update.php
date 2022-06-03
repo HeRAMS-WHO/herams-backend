@@ -36,8 +36,8 @@ $form = ActiveForm::begin([
     'formConfig' => [
         'showLabels' => true,
         'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 
 echo Form::widget([
@@ -55,17 +55,21 @@ echo Form::widget([
                 'dataset' => [
                     [
                         'local' => $page->titleOptions(),
-                        'sufficient' => 0
-                    ]
+                        'sufficient' => 0,
+                    ],
 
                 ],
-            ]
+            ],
         ],
         'parent_id' => [
             'attribute' => 'parent_id',
             'type' => Form::INPUT_DROPDOWN_LIST,
 
-            'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
+            'items' => toArrayWithKeys(
+                chain([
+                    '' => 'No parent',
+                ], $page->parentOptions())
+            ),
         ],
         'sort' => [
             'type' => Form::INPUT_TEXT,
@@ -74,37 +78,54 @@ echo Form::widget([
             'type' => Form::INPUT_RAW,
             'value' => ButtonGroup::widget([
                 'options' => [
-                    'class' => 'pull-right'
+                    'class' => 'pull-right',
                 ],
                 'buttons' => [
-                    ['label' => \Yii::t('app', 'Update page'), 'options' => ['class' => ['btn', 'btn-primary']]],
-                    Html::a(\Yii::t('app', 'Back to list'), ['project/pages', 'id' => $page->project_id], ['class' => ['btn', 'btn-default']])
-                ]
-            ])
-        ]
-    ]
+                    [
+                        'label' => \Yii::t('app', 'Update page'),
+                        'options' => [
+                            'class' => ['btn', 'btn-primary'],
+
+                        ],
+                    ],
+                    Html::a(\Yii::t('app', 'Back to list'), [
+                        'project/pages',
+                        'id' => $page->project_id,
+                    ], [
+                        'class' => ['btn',
+                            'btn-default', ],
+
+                    ]),
+                ],
+            ]),
+        ],
+    ],
 ]);
 ActiveForm::end();
 
 Section::end();
 
 Section::begin()
-->withHeader(\Yii::t('app', 'Page elements'));
+    ->withHeader(\Yii::t('app', 'Page elements'));
 
 echo GridView::widget([
     'caption' => ButtonGroup::widget([
         'options' => [
             'class' => 'pull-right',
             'style' => [
-                'margin-bottom' => '10px'
-            ]
+                'margin-bottom' => '10px',
+            ],
         ],
         'buttons' => [
             [
                 'label' => \Yii::t('app', 'Create table'),
                 'tagName' => 'a',
                 'options' => [
-                    'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'table']),
+                    'href' => Url::to([
+                        'element/create',
+                        'page_id' => $page->id,
+                        'type' => 'table',
+                    ]),
                     'class' => 'btn-default',
                 ],
             ],
@@ -112,7 +133,11 @@ echo GridView::widget([
                 'label' => \Yii::t('app', 'Create map'),
                 'tagName' => 'a',
                 'options' => [
-                    'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'map']),
+                    'href' => Url::to([
+                        'element/create',
+                        'page_id' => $page->id,
+                        'type' => 'map',
+                    ]),
                     'class' => 'btn-default',
                 ],
             ],
@@ -120,13 +145,20 @@ echo GridView::widget([
                 'label' => \Yii::t('app', 'Create chart'),
                 'tagName' => 'a',
                 'options' => [
-                    'href' => Url::to(['element/create', 'page_id' => $page->id, 'type' => 'chart']),
+                    'href' => Url::to([
+                        'element/create',
+                        'page_id' => $page->id,
+                        'type' => 'chart',
+                    ]),
                     'class' => 'btn-default',
+
                 ],
             ],
-        ]
+        ],
     ]),
-    'dataProvider' => new ActiveDataProvider(['query' => $page->getElements()]),
+    'dataProvider' => new ActiveDataProvider([
+        'query' => $page->getElements(),
+    ]),
     'columns' => [
         'id',
         'title',
@@ -143,7 +175,10 @@ echo GridView::widget([
                     if (app()->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $model->page->project)) {
                         return Html::a(
                             Icon::edit(),
-                            ['element/update', 'id' => $model->id]
+                            [
+                                'element/update',
+                                'id' => $model->id,
+                            ]
                         );
                     }
                 },
@@ -151,16 +186,20 @@ echo GridView::widget([
                     if (app()->user->can(Permission::PERMISSION_DELETE, $model)) {
                         return Html::a(
                             Icon::trash(),
-                            ['element/delete', 'id' => $model->id],
+                            [
+                                'element/delete',
+                                'id' => $model->id,
+                            ],
                             [
                                 'data-method' => 'delete',
-                                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this element from the page?')
+                                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this element from the page?'),
                             ]
                         );
                     }
                 },
-            ]
-        ]
-    ]
+
+            ],
+        ],
+    ],
 ]);
 Section::end();

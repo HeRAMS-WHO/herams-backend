@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-enum ChartType: string {
+enum ChartType: string
+{
     case Bar = "bar";
     case Donut = "donut";
     case EChartsPie = "echartspie";
     case EChartsBar = "echartsbar";
 
-    private static function labels(): array {
+    private static function labels(): array
+    {
         return [
             self::Bar->value => "Bar chart",
             self::Donut->value => "Donut chart",
@@ -18,11 +20,11 @@ enum ChartType: string {
             self::EChartsBar->value => "Bar chart (echarts)",
         ];
     }
+
     public function label(): string
     {
         return self::labels()[$this->value];
     }
-
 
     public static function options(): array
     {

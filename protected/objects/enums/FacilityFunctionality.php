@@ -20,7 +20,7 @@ enum FacilityFunctionality: string
             'unknown' => \Yii::t('app', 'Unknown'),
             'full' => \Yii::t('app', 'Fully functioning'),
             'partial' => \Yii::t('app', 'Partially functioning'),
-            'none' => \Yii::t('app', 'Non-functioning')
+            'none' => \Yii::t('app', 'Non-functioning'),
         ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\ar\elements;
@@ -29,10 +30,9 @@ class Svelte extends Element implements DashboardWidgetInterface
         ], $this->getWidgetConfig()));
     }
 
-
     private function getGroup(HeramsFacilityRecordInterface $record, VariableSetInterface $variableSet): string
     {
-        if (!isset($this->config['groupingVariable'])) {
+        if (! isset($this->config['groupingVariable'])) {
             return self::DEFAULT_GROUP;
         }
 
@@ -45,10 +45,7 @@ class Svelte extends Element implements DashboardWidgetInterface
     }
 
     /**
-     * @param HeramsVariableSet $variableSet
-     * @param View $view
      * @param iterable<HeramsFacilityRecordInterface $data
-     * @return void
      */
     public function renderWidget(HeramsVariableSet $variableSet, View $view, iterable $data): void
     {
@@ -64,13 +61,13 @@ class Svelte extends Element implements DashboardWidgetInterface
         DashboardCard::begin()
             ->withType(ChartType::from($this->type))
             ->withData($formatted['data'])
-            ->withUpdateRoute(['element/update', 'id' => $this->id])
+            ->withUpdateRoute([
+                'element/update',
+                'id' => $this->id,
+            ])
             ->withN($formatted['n'])
             ->withTitle($this->config['title'] ?? '')
             ->finish();
-
-
-
     }
 
     public function toConfigurationArray(): array
@@ -80,8 +77,7 @@ class Svelte extends Element implements DashboardWidgetInterface
             'type' => $this->type,
             'sort' => $this->sort,
             'width' => $this->width,
-            'height' => $this->height
+            'height' => $this->height,
         ];
-
     }
 }

@@ -2,14 +2,8 @@
 
 use yii\db\Migration;
 
-/**
- * Class m200330_105922_project_fix_overrides
- */
 class m200330_105922_project_fix_overrides extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         /** @var \prime\models\ar\Project $project */
@@ -18,9 +12,6 @@ class m200330_105922_project_fix_overrides extends Migration
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         echo "m200330_105922_project_fix_overrides cannot be reverted.\n";

@@ -34,10 +34,15 @@ use yii\web\Request;
 class ResponsesControllerTest extends Unit
 {
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
+
     private ProjectRepository|MockObject $projectRepository;
+
     private string $renderResult = 'testRender';
+
     private ResponseForLimesurveyRepository|MockObject $responseRepository;
+
     private View|MockObject $view;
+
     private WorkspaceRepository|MockObject $workspaceRepository;
 
     protected function prepareController(): ResponseController
@@ -97,7 +102,9 @@ class ResponsesControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['id' => $responseId],
+            'queryParams' => [
+                'id' => $responseId,
+            ],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }

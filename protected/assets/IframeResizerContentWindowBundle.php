@@ -11,6 +11,6 @@ class IframeResizerContentWindowBundle extends AssetBundle
     public $baseUrl = '@npm/iframe-resizer/js';
 
     public $js = [
-        'iframeResizer.contentWindow.min.js'
+        'iframeResizer.contentWindow.min.js',
     ];
 }

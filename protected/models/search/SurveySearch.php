@@ -13,12 +13,16 @@ use yii\validators\SafeValidator;
 class SurveySearch extends Model
 {
     public null|string $title = null;
+
     public null|string $id = null;
 
     public function rules(): array
     {
         return [
-            [['title'], FilterValidator::class, 'filter' => 'trim'],
+            [['title'],
+                FilterValidator::class,
+                'filter' => 'trim',
+            ],
             [['title'], SafeValidator::class],
             [['id'], NumberValidator::class],
         ];

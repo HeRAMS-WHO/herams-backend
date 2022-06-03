@@ -31,8 +31,8 @@ $form = ActiveForm::begin([
     'formConfig' => [
         'showLabels' => true,
         'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 
 echo Form::widget([
@@ -50,29 +50,37 @@ echo Form::widget([
                 'dataset' => [
                     [
                         'local' => $page->titleOptions(),
-                        'sufficient' => 0
-                    ]
+                        'sufficient' => 0,
+                    ],
 
                 ],
-            ]
+            ],
         ],
         'parent_id' => [
-            'attribute' => 'parent_id' ,
+            'attribute' => 'parent_id',
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => toArrayWithKeys(chain(['' => 'No parent'], $page->parentOptions()))
+            'items' => toArrayWithKeys(
+                chain([
+                    '' => 'No parent',
+                ], $page->parentOptions())
+            ),
         ],
         'sort' => [
-           'type' => Form::INPUT_TEXT,
+            'type' => Form::INPUT_TEXT,
         ],
         [
             'type' => Form::INPUT_RAW,
-            'value' => ButtonGroup::widget([
-                'buttons' => [
-                    Html::submitButton(\Yii::t('app', 'Create page'), ['class' => 'btn btn-primary'])
+            'value' => ButtonGroup::widget(
+                [
+                    'buttons' => [
+                        Html::submitButton(\Yii::t('app', 'Create page'), [
+                            'class' => 'btn btn-primary',
+                        ]),
+                    ],
                 ]
-            ])
-        ]
-    ]
+            ),
+        ],
+    ],
 ]);
 ActiveForm::end();
 

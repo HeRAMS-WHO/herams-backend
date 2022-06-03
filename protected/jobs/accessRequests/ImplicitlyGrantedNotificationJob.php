@@ -33,7 +33,7 @@ class ImplicitlyGrantedNotificationJob extends AccessRequestJob
         return array_merge(
             parent::jsonSerialize(),
             [
-            'partial' => $this->partial,
+                'partial' => $this->partial,
             ]
         );
     }

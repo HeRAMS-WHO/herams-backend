@@ -21,6 +21,7 @@ use yii\web\Request;
 class ModelHydratorTest extends Unit
 {
     private ModelHydrator $modelHydrator;
+
     private object $targetType;
 
     public function sourceAttributeProvider(): array
@@ -30,20 +31,18 @@ class ModelHydratorTest extends Unit
                 [
                     'integer_property' => -13,
                     'integer_or_null_property' => 14,
-                    'language_set' => ['en-US', 'fr-FR']
+                    'language_set' => ['en-US', 'fr-FR'],
                 ],
-
 
             ],
             [
                 [
                     'integer_property' => -13,
                     'integer_or_null_property' => 14,
-                    'language_set' => ['en-US', 'fr-FR']
-                ]
+                    'language_set' => ['en-US', 'fr-FR'],
+                ],
 
-            ]
-
+            ],
 
         ];
     }
@@ -66,8 +65,9 @@ class ModelHydratorTest extends Unit
         parent::_before();
         $this->modelHydrator = new ModelHydrator();
 
-        $this->targetType = new class (1, 1, LanguageSet::from([]), 1) {
+        $this->targetType = new class(1, 1, LanguageSet::from([]), 1) {
             public int|null $integerOrNullProperty = 5;
+
             public function __construct(
                 public int|null $unknownProperty,
                 public int $integerProperty,
@@ -90,7 +90,6 @@ class ModelHydratorTest extends Unit
         $this->doAssertions($sourceAttributes, $target);
     }
 
-
     private function doAssertions(array $sourceAttributes, object $target): void
     {
         $this->assertInstanceOf(get_class($this->targetType), $target);
@@ -102,6 +101,7 @@ class ModelHydratorTest extends Unit
             $this->assertSame($expected, $value);
         }
     }
+
     /**
      * @dataProvider camelCasedSourceAttributeProvider
      */
@@ -153,7 +153,7 @@ class ModelHydratorTest extends Unit
         $requestData = [
             $model->formName() => [
                 'name' => $testName,
-            ]
+            ],
         ];
         $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
         $request->expects($this->once())
@@ -194,7 +194,7 @@ class ModelHydratorTest extends Unit
         $requestData = [
             $model->formName() => [
                 'name' => $testName,
-            ]
+            ],
         ];
         $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
         $request->expects($this->once())
@@ -208,9 +208,9 @@ class ModelHydratorTest extends Unit
     public function testInvalidIntegerValue(): void
     {
         $source = new DynamicModel([
-            'integerProperty' => 'abc'
+            'integerProperty' => 'abc',
         ]);
-        $type = new class (null) {
+        $type = new class(null) {
             public function __construct(public int|null $integerProperty)
             {
             }
@@ -222,9 +222,9 @@ class ModelHydratorTest extends Unit
     public function testInvalidFloatValue(): void
     {
         $source = new DynamicModel([
-            'floatProperty' => 'abc'
+            'floatProperty' => 'abc',
         ]);
-        $type = new class (null) {
+        $type = new class(null) {
             public function __construct(public float|null $floatProperty)
             {
             }
@@ -237,9 +237,9 @@ class ModelHydratorTest extends Unit
     {
         $source = new DynamicModel([
             'floatProperty1' => '5.13',
-            'floatProperty2' => 5.14
+            'floatProperty2' => 5.14,
         ]);
-        $type = new class (1, 1) {
+        $type = new class(1, 1) {
             public function __construct(
                 public float $floatProperty1,
                 public float $floatProperty2
@@ -257,10 +257,10 @@ class ModelHydratorTest extends Unit
             'property1' => '1',
             'property2' => '0',
             'property3' => true,
-            'property4' => false
+            'property4' => false,
         ]);
 
-        $type = new class (false, false, false, false) {
+        $type = new class(false, false, false, false) {
             public function __construct(
                 public bool $property1,
                 public bool $property2,

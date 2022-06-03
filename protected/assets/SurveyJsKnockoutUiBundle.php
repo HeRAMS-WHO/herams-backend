@@ -11,10 +11,10 @@ class SurveyJsKnockoutUiBundle extends AssetBundle
     public $baseUrl = '@npm/survey-knockout-ui/';
 
     public $js = [
-        'survey-knockout-ui.min.js'
+        'survey-knockout-ui.min.js',
     ];
 
     public $depends = [
-        SurveyJsCoreBundle::class
+        SurveyJsCoreBundle::class,
     ];
 }

@@ -15,7 +15,10 @@ class ExportCest
     public function testNotFound(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['workspace/export', 'id' => 12345]);
+        $I->amOnPage([
+            'workspace/export',
+            'id' => 12345,
+        ]);
         $I->seeResponseCodeIs(404);
     }
 
@@ -30,10 +33,15 @@ class ExportCest
         $response->survey_id = 12345;
         $response->id = 1;
         $I->save($response);
-        \Yii::$app->abacManager->grant(User::findOne(['id' => TEST_USER_ID]), $workspace, Permission::PERMISSION_EXPORT);
+        \Yii::$app->abacManager->grant(User::findOne([
+            'id' => TEST_USER_ID,
+        ]), $workspace, Permission::PERMISSION_EXPORT);
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_EXPORT, $workspace));
 
-        $I->amOnPage(['workspace/export', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/export',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
 
         $I->seeResponseCodeIsSuccessful();

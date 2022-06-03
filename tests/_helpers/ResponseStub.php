@@ -18,7 +18,7 @@ class ResponseStub implements ResponseInterface
         $this->data = [
             'id' => $id,
             'UOID' => 'test',
-            'Update' => '1900-01-01 10:00:00'
+            'Update' => '1900-01-01 10:00:00',
         ];
         $desiredLength = mt_rand(0, 50);
         while (count($this->data) < $desiredLength) {

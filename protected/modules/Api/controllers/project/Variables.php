@@ -18,9 +18,7 @@ class Variables extends Action
         $variableSet = $heramsVariableSetRepository->retrieveForProject(new ProjectId($id));
         $locale = \Yii::$app->language;
         $result = [];
-        /**
-         *
-         */
+
         foreach ($variableSet->getVariables() as $variable) {
             $variableData = [
                 'label' => $variable->getTitle($locale),

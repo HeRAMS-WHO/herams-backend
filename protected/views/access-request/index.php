@@ -35,7 +35,7 @@ echo GridView::widget([
         'createdByUser.name',
         [
             'label' => \Yii::t('app', 'Target type'),
-            'value' => fn(AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
+            'value' => fn (AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
         ],
         [
             'label' => \Yii::t('app', 'Target title'),
@@ -47,7 +47,7 @@ echo GridView::widget([
                 } else {
                     return Html::encode($target->getDisplayField());
                 }
-            }
+            },
 
         ],
         [
@@ -62,7 +62,7 @@ echo GridView::widget([
                 true => \Yii::t('app', 'Favorites only'),
                 false => \Yii::t('app', 'Non-favorites only'),
             ],
-            'value' => static fn(AccessRequest $model) => $model->target,
+            'value' => static fn (AccessRequest $model) => $model->target,
         ],
         [
             'class' => ActionColumn::class,
@@ -70,15 +70,19 @@ echo GridView::widget([
                 'view' => static function ($url, AccessRequest $model, $key) {
                     return Html::a(
                         Icon::chevronRight(),
-                        ['access-request/respond', 'id' => $model->id],
+                        [
+                            'access-request/respond',
+                            'id' => $model->id,
+                        ],
                         [
                             'title' => \Yii::t('app', 'Respond'),
                         ]
                     );
-                }
+                },
             ],
-        ]
-    ]
+
+        ],
+    ],
 ]);
 
 Section::end();
@@ -100,7 +104,7 @@ echo GridView::widget([
         'subject',
         [
             'label' => \Yii::t('app', 'Target type'),
-            'value' => fn(AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
+            'value' => fn (AccessRequest $model) => $model->targetClassOptions()[$model->target_class],
         ],
         [
             'label' => \Yii::t('app', 'Target title'),
@@ -116,7 +120,7 @@ echo GridView::widget([
         ],
         'response',
         'responded_at:dateTime',
-    ]
+    ],
 ]);
 
 Section::end();

@@ -20,7 +20,10 @@ class ElementForBreadcrumb implements ElementForBreadcrumbInterface
     ) {
         $this->label = $model->getTitle();
         $this->pageId = new PageId($model->page_id);
-        $this->url = ['/element/preview', 'id' => $model->id];
+        $this->url = [
+            '/element/preview',
+            'id' => $model->id,
+        ];
     }
 
     public function getPageId(): PageId

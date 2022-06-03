@@ -83,7 +83,9 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
 
     public function getFacility(): ActiveQuery
     {
-        return $this->hasOne(Facility::class, ['id' => 'facility_id']);
+        return $this->hasOne(Facility::class, [
+            'id' => 'facility_id',
+        ]);
     }
 
     public function getFunctionality(): string
@@ -98,7 +100,7 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
 
     public function getLatitude(): ?float
     {
-        if (!isset($this->data['MoSDGPS']['SQ001']) || empty($this->data['MoSDGPS']['SQ001'])) {
+        if (! isset($this->data['MoSDGPS']['SQ001']) || empty($this->data['MoSDGPS']['SQ001'])) {
             return null;
         }
         return (float) $this->data['MoSDGPS']['SQ001'];
@@ -106,7 +108,7 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
 
     public function getLimesurveyUrl(string $language): string|null
     {
-        if (!isset($this->survey_id)) {
+        if (! isset($this->survey_id)) {
             return null;
         }
         return "https://ls.herams.org/{$this->survey_id}?ResponsePicker={$this->id}&token={$this->workspace->token}&lang={$language}&newtest=Y";
@@ -119,7 +121,7 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
 
     public function getLongitude(): ?float
     {
-        if (!isset($this->data['MoSDGPS']['SQ002']) || empty($this->data['MoSDGPS']['SQ002'])) {
+        if (! isset($this->data['MoSDGPS']['SQ002']) || empty($this->data['MoSDGPS']['SQ002'])) {
             return null;
         }
         return (float) $this->data['MoSDGPS']['SQ002'];
@@ -159,7 +161,9 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
 
     public function getProject(): ActiveQuery
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id'])->via('workspace');
+        return $this->hasOne(Project::class, [
+            'id' => 'project_id',
+        ])->via('workspace');
     }
 
     public function getRawData(): array
@@ -216,7 +220,7 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
 
     private function getSubjectKeys()
     {
-        if (!isset(self::$surveySubjectKeys[$this->survey_id])) {
+        if (! isset(self::$surveySubjectKeys[$this->survey_id])) {
             self::$surveySubjectKeys[$this->survey_id] = [];
         }
         foreach ($this->data as $key => $dummy) {
@@ -254,13 +258,15 @@ class ResponseForLimesurvey extends ActiveRecord implements HeramsResponseInterf
 
     public function getWorkspace(): ActiveQuery
     {
-        return $this->hasOne(Workspace::class, ['id' => 'workspace_id']);
+        return $this->hasOne(Workspace::class, [
+            'id' => 'workspace_id',
+        ]);
     }
 
     public function rules(): array
     {
         return [
-            [['date', 'hf_id', 'id', 'survey_id', 'workspace_id'], RequiredValidator::class]
+            [['date', 'hf_id', 'id', 'survey_id', 'workspace_id'], RequiredValidator::class],
         ];
     }
 

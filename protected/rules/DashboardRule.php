@@ -27,14 +27,14 @@ class DashboardRule implements Rule
     {
         return [
             Page::class,
-            Element::class
+            Element::class,
         ];
     }
 
     public function getSourceNames(): array
     {
         return [
-            User::class
+            User::class,
         ];
     }
 

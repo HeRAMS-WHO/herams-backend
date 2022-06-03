@@ -14,5 +14,7 @@ echo Html::img("/img/HeRAMS.svg", [
 ]);
 echo Icon::bug();
 
-echo Html::tag('span', \Yii::t('app', 'Down for maintenance'), ['class' => 'help']);
+echo Html::tag('span', \Yii::t('app', 'Down for maintenance'), [
+    'class' => 'help',
+]);
 echo Html::endTag('div');

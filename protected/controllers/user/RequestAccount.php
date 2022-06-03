@@ -23,7 +23,7 @@ class RequestAccount extends Action
         NotificationService $notificationService,
         CacheInterface $cache
     ) {
-        if (!$user->getIsGuest()) {
+        if (! $user->getIsGuest()) {
             return $this->controller->goHome();
         }
 

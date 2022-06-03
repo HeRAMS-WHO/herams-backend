@@ -18,15 +18,17 @@ class Pages extends Action
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $model = Project::findOne(['id' => $id]);
+        $model = Project::findOne([
+            'id' => $id,
+        ]);
 
         $accessCheck->requirePermission($model, Permission::PERMISSION_MANAGE_DASHBOARD);
 
         return $this->controller->render('pages', [
             'project' => $model,
             'dataProvider' => new ActiveDataProvider([
-                'query' => $model->getPages()
-            ])
+                'query' => $model->getPages(),
+            ]),
         ]);
     }
 }

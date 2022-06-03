@@ -12,6 +12,7 @@ use prime\values\ResponseId;
 interface AdminResponseForListInterface
 {
     public const ID = "id";
+
     public const NAME = "name";
 
     public const ATTRIBUTES = [self::ID, self::NAME];

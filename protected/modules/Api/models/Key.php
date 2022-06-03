@@ -10,17 +10,13 @@ use yii\web\IdentityInterface;
 
 class Key extends ActiveRecord implements IdentityInterface
 {
-    /**
-     * @inheritDoc
-     */
     public static function findIdentity($id)
     {
-        return self::findOne(['id' => $id]);
+        return self::findOne([
+            'id' => $id,
+        ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         // Split the token in to id and hash.
@@ -33,25 +29,16 @@ class Key extends ActiveRecord implements IdentityInterface
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getId()
     {
         return $this->getAttribute('id');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAuthKey()
     {
         throw new NotSupportedException();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function validateAuthKey($authKey)
     {
         return false;

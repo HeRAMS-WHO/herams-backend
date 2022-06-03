@@ -22,8 +22,10 @@ class Update extends Action
         AccessCheckInterface $accessCheck,
         int $id
     ) {
-        $page = Page::findOne(['id' => $id]);
-        if (!isset($page)) {
+        $page = Page::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($page)) {
             throw new NotFoundHttpException();
         }
 
@@ -32,16 +34,15 @@ class Update extends Action
         if ($request->isPut) {
             if ($page->load($request->bodyParams) && $page->save()) {
                 $notificationService->success(\Yii::t('app', "Page <strong>{page}</strong> updated", [
-                    'page' => $page->title
+                    'page' => $page->title,
                 ]));
                 return $this->controller->refresh();
             }
         }
 
-
         return $this->controller->render('update', [
             'page' => $page,
-            'project' => $page->project
+            'project' => $page->project,
         ]);
     }
 }

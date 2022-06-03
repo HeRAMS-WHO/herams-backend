@@ -18,7 +18,10 @@ class CreateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'workspace/create',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -26,16 +29,23 @@ class CreateCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProjectForLimesurvey();
-        $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'workspace/create',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => Html::getInputName(new CreateForLimesurvey(), 'title')], 'Cool stuff');
-        $I->selectOption(['name' => Html::getInputName(new CreateForLimesurvey(), 'token')], 'token2');
+        $I->fillField([
+            'name' => Html::getInputName(new CreateForLimesurvey(), 'title'),
+        ], 'Cool stuff');
+        $I->selectOption([
+            'name' => Html::getInputName(new CreateForLimesurvey(), 'token'),
+        ], 'token2');
         $I->click('Create workspace');
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(WorkspaceForLimesurvey::class, [
             'title' => 'Cool stuff',
             'project_id' => $project->id,
-            'token' => 'token2'
+            'token' => 'token2',
         ]);
     }
 
@@ -43,10 +53,17 @@ class CreateCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProjectForLimesurvey();
-        $I->amOnPage(['workspace/create', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'workspace/create',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => Html::getInputName(new CreateForLimesurvey(), 'title')], 'Cool stuff');
-        $I->selectOption(['name' => Html::getInputName(new CreateForLimesurvey(), 'token')], '');
+        $I->fillField([
+            'name' => Html::getInputName(new CreateForLimesurvey(), 'title'),
+        ], 'Cool stuff');
+        $I->selectOption([
+            'name' => Html::getInputName(new CreateForLimesurvey(), 'token'),
+        ], '');
         $I->click('Create workspace');
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(WorkspaceForLimesurvey::class, [
@@ -62,7 +79,7 @@ class CreateCest
             'title' => 'Cool stuff',
             'project_id' => $project->id,
 
-            'token' => array_pop($tokens)->getToken()
+            'token' => array_pop($tokens)->getToken(),
         ]);
     }
 }

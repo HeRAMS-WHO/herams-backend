@@ -28,7 +28,7 @@ class ManageDashboardCest
 
         $page = new Page([
             'title' => 'test',
-            'project_id' => $project->id
+            'project_id' => $project->id,
         ]);
         $I->save($page);
 
@@ -38,13 +38,16 @@ class ManageDashboardCest
             'sort' => 1,
             'type' => 'chart',
             'page_id' => $page->id,
-            'code' => 'q1'
+            'code' => 'q1',
         ]);
         $I->save($element);
 
         $I->assertTrue($manager->check($user, $element, Permission::PERMISSION_WRITE));
         $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $element));
-        $I->amOnPage(['element/update', 'id' => $element->id]);
+        $I->amOnPage([
+            'element/update',
+            'id' => $element->id,
+        ]);
         $I->seeResponseCodeIs(200);
     }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
+use prime\components\ActiveForm;
 use prime\models\forms\workspace\Create;
 use prime\models\forms\workspace\CreateForLimesurvey;
 use prime\widgets\ButtonGroup;
@@ -42,8 +42,12 @@ if ($model instanceof CreateForLimesurvey) {
 
 $attributes[] = FormButtonsWidget::embed([
     'buttons' => [
-        ['label' => \Yii::t('app', 'Create workspace'), 'type' => ButtonGroup::TYPE_SUBMIT, 'style' => 'primary'],
-    ]
+        [
+            'label' => \Yii::t('app', 'Create workspace'),
+            'type' => ButtonGroup::TYPE_SUBMIT,
+            'style' => 'primary',
+        ],
+    ],
 ]);
 
 echo Form::widget([

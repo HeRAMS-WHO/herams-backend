@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\models;
@@ -17,11 +18,17 @@ class Element extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['width', 'height', 'sort', 'page_id'], NumberValidator::class, 'integerOnly' => true],
+            [['width', 'height', 'sort', 'page_id'],
+                NumberValidator::class,
+                'integerOnly' => true,
+            ],
             [['page_id', 'height', 'title'], RequiredValidator::class],
             [['colorMap', 'variables', 'groupingVariable'], SafeValidator::class],
             [['dataSort']],
-            [['sort'], DefaultValueValidator::class, 'value' => 0],
+            [['sort'],
+                DefaultValueValidator::class,
+                'value' => 0,
+            ],
 
         ];
     }
@@ -53,7 +60,8 @@ class Element extends \yii\db\ActiveRecord
         $this->config = $config;
     }
 
-    public function getVariables(): array {
+    public function getVariables(): array
+    {
         return $this->config['variables'] ?? [];
     }
 
@@ -68,7 +76,8 @@ class Element extends \yii\db\ActiveRecord
         $this->config = $config;
     }
 
-    public function getColorMap(): array {
+    public function getColorMap(): array
+    {
         return $this->config['colorMap'] ?? [];
     }
 
@@ -85,8 +94,6 @@ class Element extends \yii\db\ActiveRecord
 
     public function getGroupingVariable(): null|string
     {
-        return $this->config['groupingVariable']  ?? null;
+        return $this->config['groupingVariable'] ?? null;
     }
-
-
 }

@@ -17,14 +17,13 @@ class JobAccessCheck implements AccessCheckInterface
     public function __construct()
     {
     }
+
     public function requirePermission(?object $model, string $permission, ?string $forbiddenMessage = null): void
     {
-
     }
 
     public function requireGlobalPermission(string $permission, ?string $forbiddenMessage = null): void
     {
-
     }
 
     public function checkPermission(object $model, string $permission): bool

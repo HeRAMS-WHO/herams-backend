@@ -31,17 +31,23 @@ class Create extends Action
         int $project_id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $project = Project::findOne(['id' => $project_id]);
+        $project = Project::findOne([
+            'id' => $project_id,
+        ]);
 
-        if (!$project) {
+        if (! $project) {
             throw new NotFoundHttpException('Project not found.');
         }
         $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_WORKSPACES);
 
         if ($project->getType()->equals(ProjectType::limesurvey())) {
-            $model = new CreateForLimesurvey(['project_id' => new ProjectId($project->id)]);
+            $model = new CreateForLimesurvey([
+                'project_id' => new ProjectId($project->id),
+            ]);
         } else {
-            $model = new \prime\models\forms\workspace\Create(['project_id' => new ProjectId($project->id)]);
+            $model = new \prime\models\forms\workspace\Create([
+                'project_id' => new ProjectId($project->id),
+            ]);
         }
 
         if ($request->isPost) {
@@ -49,14 +55,19 @@ class Create extends Action
             if ($model->validate()) {
                 $workspaceRepository->create($model);
                 $notificationService->success(
-                    \Yii::t('app', "Workspace <strong>{modelName}</strong> created", ['modelName' => $model->title])
+                    \Yii::t('app', "Workspace <strong>{modelName}</strong> created", [
+                        'modelName' => $model->title,
+                    ])
                 );
-                return $this->controller->redirect(['project/workspaces', 'id' => $project->id]);
+                return $this->controller->redirect([
+                    'project/workspaces',
+                    'id' => $project->id,
+                ]);
             }
         }
 
         return $this->controller->render('create', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 }

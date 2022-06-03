@@ -20,7 +20,10 @@ Section::begin()
 Survey::begin()
     ->withConfig($model->getSurvey()->getConfig())
     ->withLanguages($model->getLanguages())
-    ->withSubmitRoute(['facility/create', 'workspaceId' => $model->getWorkspaceId()])
+    ->withSubmitRoute([
+        'facility/create',
+        'workspaceId' => $model->getWorkspaceId(),
+    ])
 ;
 
 Survey::end();

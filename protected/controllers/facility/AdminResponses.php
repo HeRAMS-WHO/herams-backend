@@ -35,7 +35,7 @@ class AdminResponses extends Action
             'admin-responses',
             [
                 'responseProvider' => $dataProvider,
-                'facility' => $facility
+                'facility' => $facility,
             ]
         );
     }

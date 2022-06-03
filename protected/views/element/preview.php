@@ -35,6 +35,8 @@ $this->registerCss(<<<CSS
     }
 CSS);
 
-echo Html::beginTag('div', ['class' => 'content']);
+echo Html::beginTag('div', [
+    'class' => 'content',
+]);
 echo $element->getWidget($survey, $data, $element->page)->run();
 echo Html::endTag('div');

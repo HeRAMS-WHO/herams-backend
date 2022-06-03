@@ -13,12 +13,12 @@ class UserTest extends ActiveRecordTest
     public function validSamples(): array
     {
         return [
-//            [
-//                [
-//                    'title' => __CLASS__,
-//                    'base_survey_eid' => 12345,
-//                ]
-//            ],
+            //            [
+            //                [
+            //                    'title' => __CLASS__,
+            //                    'base_survey_eid' => 12345,
+            //                ]
+            //            ],
         ];
     }
 
@@ -27,8 +27,8 @@ class UserTest extends ActiveRecordTest
         return [
             [
                 'attributes' => [],
-                'scenario' => User::SCENARIO_DEFAULT
-            ]
+                'scenario' => User::SCENARIO_DEFAULT,
+            ],
         ];
     }
 

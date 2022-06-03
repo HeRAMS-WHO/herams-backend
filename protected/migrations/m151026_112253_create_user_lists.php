@@ -9,12 +9,12 @@ class m151026_112253_create_user_lists extends Migration
         $this->createTable('{{%user_list}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'name' => $this->string()->notNull()
+            'name' => $this->string()->notNull(),
         ]);
 
         $this->createTable('{{%user_list_user}}', [
             'user_list_id' => $this->integer()->notNull(),
-            'user_id' => $this->integer()->notNull()
+            'user_id' => $this->integer()->notNull(),
         ]);
 
         $this->createIndex(
@@ -22,7 +22,7 @@ class m151026_112253_create_user_lists extends Migration
             '{{%user_list_user}}',
             [
                 'user_list_id',
-                'user_id'
+                'user_id',
             ],
             true
         );

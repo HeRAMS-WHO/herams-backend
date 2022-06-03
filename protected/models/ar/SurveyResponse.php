@@ -62,7 +62,6 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
 
     public function getAccessibility(): string
     {
-        // TODO: Implement getAccessibility() method.
         return HeramsResponseInterface::UNKNOWN_VALUE;
     }
 
@@ -123,13 +122,11 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
 
     public function getSubjectAvailability(): float
     {
-        // TODO: Implement getSubjectAvailability() method.
         return 0;
     }
 
     public function getSubjectAvailabilityBucket(): int
     {
-        // TODO: Implement getSubjectAvailabilityBucket() method.
         return 0;
     }
 
@@ -140,30 +137,31 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
 
     public function getSubjects(): iterable
     {
-        // TODO: Implement getSubjects() method.
         return [];
     }
 
     public function getType(): ?string
     {
-        // TODO: Implement getType() method.
         return null;
     }
 
     public function getValueForCode(string $code)
     {
-        // TODO: Implement getValueForCode() method.
         return null;
     }
 
     public function getFacility(): ActiveQuery
     {
-        return $this->hasOne(Facility::class, ['id' => 'facility_id']);
+        return $this->hasOne(Facility::class, [
+            'id' => 'facility_id',
+        ]);
     }
 
     public function getSurvey(): ActiveQuery
     {
-        return $this->hasOne(Survey::class, ['id' => 'survey_id']);
+        return $this->hasOne(Survey::class, [
+            'id' => 'survey_id',
+        ]);
     }
 
     public function rules(): array
@@ -171,17 +169,23 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
         return [
             [['data', 'facility_id', 'survey_id'], RequiredValidator::class],
             [['data'], SafeValidator::class],
-            [['facility_id'], ExistValidator::class, 'targetRelation' => 'facility'],
-            [['survey_id'], ExistValidator::class, 'targetRelation' => 'survey'],
+            [['facility_id'],
+                ExistValidator::class,
+                'targetRelation' => 'facility',
+            ],
+            [['survey_id'],
+                ExistValidator::class,
+                'targetRelation' => 'survey',
+            ],
         ];
     }
 
     public function getDataValue(array $path): string|int|float|null|array
     {
         $data = $this->data;
-        while (!empty($path)) {
+        while (! empty($path)) {
             $key = array_shift($path);
-            if (!isset($data[$key])) {
+            if (! isset($data[$key])) {
                 return null;
             }
             $data = $data[$key];
@@ -210,7 +214,7 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
             'id' => $this->id,
             'started' => $this->getStarted(),
             'lastUpdate' => $this->getLastUpdate(),
-            'data' => $this->data
+            'data' => $this->data,
         ];
     }
 }

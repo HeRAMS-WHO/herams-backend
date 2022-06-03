@@ -11,6 +11,7 @@ class ProjectForExternalDashboard
         private string $externalUrl
     ) {
     }
+
     public function getTitle(): string
     {
         return $this->title;

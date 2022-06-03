@@ -79,7 +79,7 @@ class Share extends Action
         return $this->controller->render('share', [
             'model' => $model,
             'workspace' => $workspace,
-            'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId)
+            'tabMenuModel' => $workspaceRepository->retrieveForTabMenu($workspaceId),
         ]);
     }
 }

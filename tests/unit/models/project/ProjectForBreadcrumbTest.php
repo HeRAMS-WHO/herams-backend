@@ -23,7 +23,10 @@ class ProjectForBreadcrumbTest extends Unit
         $project->title = $label;
 
         $forBreadcrumb = new ProjectForBreadcrumb($project);
-        $this->assertEquals(['/project/view', 'id' => $projectId], $forBreadcrumb->getUrl());
+        $this->assertEquals([
+            '/project/view',
+            'id' => $projectId,
+        ], $forBreadcrumb->getUrl());
         $this->assertEquals($label, $forBreadcrumb->getLabel());
     }
 }

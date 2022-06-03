@@ -2,14 +2,8 @@
 
 use yii\db\Migration;
 
-/**
- * Class m190925_131139_response_table_foreign_keys
- */
 class m190925_131139_response_table_foreign_keys extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->dropForeignKey('workspace', '{{%response}}');
@@ -17,9 +11,6 @@ class m190925_131139_response_table_foreign_keys extends Migration
         $this->addForeignKey('workspace', '{{%response}}', ['workspace_id'], '{{%workspace}}', ['id'], 'CASCADE');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         echo "m190925_131139_response_table_foreign_keys cannot be reverted.\n";

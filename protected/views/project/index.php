@@ -37,9 +37,9 @@ Section::begin([
             'link' => ['project/create'],
             'style' => 'primary',
             'icon' => Icon::add(),
-            'permission' => Permission::PERMISSION_CREATE_PROJECT
-        ]
-    ]
+            'permission' => Permission::PERMISSION_CREATE_PROJECT,
+        ],
+    ],
 ])->withHeader($this->title);
 
 echo GridView::widget([
@@ -47,8 +47,8 @@ echo GridView::widget([
     'pjaxSettings' => [
         'options' => [
             // Just links in the header.
-            'linkSelector' => 'th a'
-        ]
+            'linkSelector' => 'th a',
+        ],
     ],
     'dataProvider' => $projectProvider,
     'filterModel' => $projectSearch,
@@ -58,25 +58,28 @@ echo GridView::widget([
             'attribute' => 'title',
             'class' => DrilldownColumn::class,
             'link' => static function ($project) {
-                return ['project/workspaces', 'id' => $project->id];
+                return [
+                    'project/workspaces',
+                    'id' => $project->id,
+                ];
             },
             'permission' => Permission::PERMISSION_LIST_WORKSPACES,
         ],
         [
             'label' => \Yii::t('app', '# Workspaces'),
-            'attribute'  => 'workspaceCount',
+            'attribute' => 'workspaceCount',
         ],
         [
             'label' => \Yii::t('app', '# Contributors'),
-            'attribute' => 'contributorCount'
+            'attribute' => 'contributorCount',
         ],
         [
             'label' => \Yii::t('app', '# Health facilities'),
-            'attribute' => 'facilityCount'
+            'attribute' => 'facilityCount',
         ],
         [
             'label' => \Yii::t('app', '# Responses'),
-            'attribute' => 'responseCount'
+            'attribute' => 'responseCount',
         ],
         [
             'label' => \Yii::t('app', 'Project coordinator'),
@@ -86,13 +89,16 @@ echo GridView::widget([
                     ArrayHelper::merge(
                         toArray(map(index('name'), $project->getLeads())),
                         // For now we just don't want to display the link, at some point it is desired to show the link
-                        array_filter([false && !$userComponent->can(Permission::PERMISSION_ADMIN, $project) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), ['project/request-access', 'id' => $project->id])) : null])
+                        array_filter([false && ! $userComponent->can(Permission::PERMISSION_ADMIN, $project) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), [
+                            'project/request-access',
+                            'id' => $project->id,
+                        ])) : null])
                     )
                 );
             },
             'format' => 'html',
         ],
-    ]
+    ],
 ]);
 
 Section::end();

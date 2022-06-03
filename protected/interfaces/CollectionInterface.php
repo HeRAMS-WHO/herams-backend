@@ -11,17 +11,15 @@ interface CollectionInterface extends \Traversable
 
     /**
      * @param mixed $key
-     * @return Object
+     * @return object
      */
     public function get($key);
 
     /**
      * @param mixed $key
-     * @param Object $item
-     * @return void
+     * @param object $item
      */
     public function add($key, $item);
-
 
     public function append($item);
 

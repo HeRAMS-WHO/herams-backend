@@ -21,12 +21,14 @@ class Preview extends Action
         Request $request,
         int $id
     ) {
-        $element = Element::findOne(['id' => $id]);
+        $element = Element::findOne([
+            'id' => $id,
+        ]);
 
-        if (!isset($element)) {
+        if (! isset($element)) {
             throw new NotFoundHttpException();
         }
-        if (!$user->can(Permission::PERMISSION_WRITE, $element)) {
+        if (! $user->can(Permission::PERMISSION_WRITE, $element)) {
             throw new ForbiddenHttpException();
         }
         $element->load($request->queryParams);
@@ -51,7 +53,7 @@ class Preview extends Action
         return $this->controller->render('preview', [
             'survey' => $survey,
             'element' => $element,
-            'data' => $filter->filterQuery($responses)->all()
+            'data' => $filter->filterQuery($responses)->all(),
         ]);
     }
 }

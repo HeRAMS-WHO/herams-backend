@@ -28,10 +28,15 @@ use yii\web\Request;
 class ElementControllerTest extends Unit
 {
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
+
     private ElementRepository|MockObject $elementRepository;
+
     private PageRepository|MockObject $pageRepository;
+
     private ProjectRepository|MockObject $projectRepository;
+
     private string $renderResult = 'testRender';
+
     private View|MockObject $view;
 
     protected function prepareController(): ElementController
@@ -81,7 +86,9 @@ class ElementControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['page_id' => $pageId],
+            'queryParams' => [
+                'page_id' => $pageId,
+            ],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }
@@ -123,7 +130,9 @@ class ElementControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['id' => $elementId],
+            'queryParams' => [
+                'id' => $elementId,
+            ],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }

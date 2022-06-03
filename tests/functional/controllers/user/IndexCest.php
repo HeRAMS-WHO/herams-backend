@@ -17,7 +17,10 @@ class IndexCest
         $I->amLoggedInAs(TEST_ADMIN_ID);
         /** @var User $user */
         $user = \Yii::$app->user->identity;
-        $I->amOnPage(['user/index', 'User[email]' => $user->email]);
+        $I->amOnPage([
+            'user/index',
+            'User[email]' => $user->email,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->see($user->id);
         $I->see($user->name);

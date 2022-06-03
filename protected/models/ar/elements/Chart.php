@@ -16,7 +16,7 @@ class Chart extends Element
     public static function labels(): array
     {
         return array_merge(parent::labels(), [
-            'chartType' => \Yii::t('app', 'Chart type')
+            'chartType' => \Yii::t('app', 'Chart type'),
         ]);
     }
 
@@ -33,7 +33,7 @@ class Chart extends Element
 
     public function setChartType(string $value): void
     {
-        if (!isset($this->chartTypeOptions()[$value])) {
+        if (! isset($this->chartTypeOptions()[$value])) {
             throw new \InvalidArgumentException('Invalid chart type');
         }
         $config = $this->config;
@@ -53,17 +53,20 @@ class Chart extends Element
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['title'], StringValidator::class, 'min' => 1, 'max' => 100],
+            [['title'],
+                StringValidator::class,
+                'min' => 1,
+                'max' => 100,
+            ],
             [['chartType'], SafeValidator::class],
         ]);
     }
-
 
     public function chartTypeOptions(): array
     {
         return [
             ChartWidget::TYPE_DOUGHNUT => \Yii::t('app', 'Donut'),
-            ChartWidget::TYPE_BAR => \Yii::t('app', 'Bar')
+            ChartWidget::TYPE_BAR => \Yii::t('app', 'Bar'),
 
         ];
     }

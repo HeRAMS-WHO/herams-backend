@@ -19,7 +19,6 @@ class LoginFormTest extends Unit
 {
     use ModelTestTrait;
 
-
     private function getModel(): LoginForm
     {
         return new LoginForm();
@@ -71,7 +70,7 @@ class LoginFormTest extends Unit
                 'login' => 'cool stuff',
                 'password' => 'test',
 
-            ]
+            ],
         ];
     }
 }

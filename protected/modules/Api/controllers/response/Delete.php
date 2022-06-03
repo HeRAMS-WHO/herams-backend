@@ -18,19 +18,22 @@ class Delete extends Action
     public function run(Response $response, Request $request, int $surveyId, int $responseId)
     {
         // Hardcoded bearer check.
-        if (!$request->headers->has('Authorization')) {
+        if (! $request->headers->has('Authorization')) {
             throw new UnauthorizedHttpException("No authorization header found");
         }
         $key = \Yii::$app->params['responseSubmissionKey'];
         if (empty($key)) {
             throw new ServerErrorHttpException('No key configured');
         }
-        if (!hash_equals("Bearer $key", $request->headers->get('Authorization'))) {
+        if (! hash_equals("Bearer $key", $request->headers->get('Authorization'))) {
             throw new ForbiddenHttpException();
         }
 
-        $heramsResponse = HeramsResponse::findOne(['id' => $responseId, 'survey_id' => $surveyId]);
-        if (!isset($heramsResponse)) {
+        $heramsResponse = HeramsResponse::findOne([
+            'id' => $responseId,
+            'survey_id' => $surveyId,
+        ]);
+        if (! isset($heramsResponse)) {
             throw new NotFoundHttpException();
         }
 

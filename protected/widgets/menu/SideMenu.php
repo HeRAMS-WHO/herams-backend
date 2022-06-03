@@ -15,8 +15,11 @@ use yii\helpers\Json;
 class SideMenu extends Widget
 {
     public $params = [];
+
     public $title;
+
     public $footer;
+
     public $collapsible = false;
 
     protected function registerClientScript()
@@ -50,7 +53,7 @@ class SideMenu extends Widget
     {
         parent::init();
         $options = [
-            'id' => $this->getId()
+            'id' => $this->getId(),
         ];
 
         Html::addCssClass($options, ['expanded', 'menu']);
@@ -64,13 +67,16 @@ class SideMenu extends Widget
         echo Html::beginTag('div', $options);
         echo Html::a(Html::img("/img/HeRAMS.svg"), '/');
         // We always render the toggle so we can later enable / disable menu collapsing.
-        echo Html::a(Icon::chevronRight(), '#', ['class' => ['toggle', 'collapsed-only']]);
-        echo Html::a(Icon::chevronDown(), '#', ['class' => ['toggle', 'expanded-only']]);
+        echo Html::a(Icon::chevronRight(), '#', [
+            'class' => ['toggle', 'collapsed-only'],
+        ]);
+        echo Html::a(Icon::chevronDown(), '#', [
+            'class' => ['toggle', 'expanded-only'],
+        ]);
         echo Html::tag('h1', $this->title);
         echo Html::tag('hr');
         echo Html::beginTag('nav');
     }
-
 
     public function run(): string
     {

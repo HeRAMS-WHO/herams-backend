@@ -33,10 +33,14 @@ class BetterSelect extends InputWidget
 CSS;
 
         $this->view->registerCss($css);
-        $this->view->registerJsFile('/js/components/better-select.js', ['type' => 'module']);
+        $this->view->registerJsFile('/js/components/better-select.js', [
+            'type' => 'module',
+        ]);
         foreach ($this->items as $value => $label) {
             // Render label then content.
-            echo Html::tag('data', $label, ['value' => $value]);
+            echo Html::tag('data', $label, [
+                'value' => $value,
+            ]);
         }
         echo Html::endTag('better-select');
         return ob_get_clean();

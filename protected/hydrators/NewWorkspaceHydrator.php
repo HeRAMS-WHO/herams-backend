@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\hydrators;
@@ -14,11 +15,9 @@ use yii\base\Model;
 #[SupportedType(NewWorkspace::class, Workspace::class)]
 class NewWorkspaceHydrator implements ActiveRecordHydratorInterface
 {
-
     /**
      * @param NewWorkspace $source
      * @param Workspace $target
-     * @return void
      */
     public function hydrateActiveRecord(Model $source, ActiveRecord $target): void
     {

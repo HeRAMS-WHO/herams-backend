@@ -13,12 +13,16 @@ use yii\validators\SafeValidator;
 class FacilitySearch extends Model
 {
     public null|string $name = null;
+
     public null|string $id = null;
 
     public function rules(): array
     {
         return [
-            [['name'], FilterValidator::class, 'filter' => 'trim'],
+            [['name'],
+                FilterValidator::class,
+                'filter' => 'trim',
+            ],
             [['name'], SafeValidator::class],
             [['id'], NumberValidator::class],
         ];

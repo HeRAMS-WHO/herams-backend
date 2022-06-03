@@ -21,10 +21,10 @@ class SiteController extends Controller
             'error' => [
                 'class' => ErrorAction::class,
                 'layout' => 'map-popover-error',
-                'view' => 'error'
+                'view' => 'error',
             ],
             'world-map' => WorldMap::class,
-            'lime-survey' => LimeSurvey::class
+            'lime-survey' => LimeSurvey::class,
         ];
     }
 
@@ -34,11 +34,11 @@ class SiteController extends Controller
         // Prepend this rule so we don't needlessly open a session.
         array_unshift($behaviors['access']['rules'], [
             'allow' => 'true',
-            'actions' => ['captcha', 'logout', 'error', 'status', 'maintenance']
+            'actions' => ['captcha', 'logout', 'error', 'status', 'maintenance'],
         ]);
         $behaviors['access']['rules'][] = [
             'allow' => 'true',
-            'roles' => ['@']
+            'roles' => ['@'],
         ];
         return $behaviors;
     }

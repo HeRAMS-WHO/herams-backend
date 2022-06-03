@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -15,9 +16,7 @@ class CombinedHeramsFacilityRecord implements HeramsFacilityRecordInterface
         private RecordInterface $dataRecord,
         private FacilityId $facilityId
     ) {
-
     }
-
 
     public function getLatitude(): ?float
     {
@@ -53,7 +52,7 @@ class CombinedHeramsFacilityRecord implements HeramsFacilityRecordInterface
     {
         return [
             ...$this->adminRecord->asArray(),
-            ...$this->dataRecord->asArray()
+            ...$this->dataRecord->asArray(),
         ];
     }
 }

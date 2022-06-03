@@ -26,7 +26,10 @@ class ElementForBreadcrumbTest extends Unit
         $element->setTitle($label);
 
         $forBreadcrumb = new ElementForBreadcrumb($element);
-        $this->assertEquals(['/element/preview', 'id' => $elementId], $forBreadcrumb->getUrl());
+        $this->assertEquals([
+            '/element/preview',
+            'id' => $elementId,
+        ], $forBreadcrumb->getUrl());
         $this->assertEquals(new PageId($pageId), $forBreadcrumb->getPageId());
         $this->assertEquals($label, $forBreadcrumb->getLabel());
     }

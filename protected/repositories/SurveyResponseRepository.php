@@ -38,7 +38,7 @@ class SurveyResponseRepository
         $record->survey_id = $model->getSurveyId()->getValue();
         $record->facility_id = $model->getFacilityId()->getValue();
         $this->hydrator->hydrateActiveRecord($model, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
 
@@ -57,14 +57,21 @@ class SurveyResponseRepository
 
     public function retrieveDataSurveyResponseForFacilitySituationUpdate(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
     {
-        $facility = Facility::findOne(['id' => $facilityId]);
-        if (!$facility) {
+        $facility = Facility::findOne([
+            'id' => $facilityId,
+        ]);
+        if (! $facility) {
             throw new NotFoundHttpException('No such facility.');
         }
 
         $adminSurveyId = $facility->workspace->project->data_survey_id;
 
-        $surveyResponseQuery = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId])->orderBy(['created_at' => SORT_DESC]);
+        $surveyResponseQuery = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $adminSurveyId,
+        ])->orderBy([
+            'created_at' => SORT_DESC,
+        ]);
         $surveyResponse = null;
 
         /** @var SurveyResponse $surveyResponseOption */
@@ -76,7 +83,7 @@ class SurveyResponseRepository
             }
         }
 
-        if (!$surveyResponse) {
+        if (! $surveyResponse) {
             return null;
         }
 
@@ -88,16 +95,23 @@ class SurveyResponseRepository
 
     public function retrieveAdminSurveyResponseForFacilityUpdate(FacilityId $facilityId): ?SurveyResponseForSurveyJsInterface
     {
-        $facility = Facility::findOne(['id' => $facilityId]);
-        if (!$facility) {
+        $facility = Facility::findOne([
+            'id' => $facilityId,
+        ]);
+        if (! $facility) {
             throw new NotFoundHttpException('No such facility.');
         }
 
         $adminSurveyId = $facility->workspace->project->admin_survey_id;
 
-        $surveyResponse = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId])->orderBy(['created_at' => SORT_DESC])->one();
+        $surveyResponse = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $adminSurveyId,
+        ])->orderBy([
+            'created_at' => SORT_DESC,
+        ])->one();
 
-        if (!$surveyResponse) {
+        if (! $surveyResponse) {
             return null;
         }
 
@@ -109,37 +123,54 @@ class SurveyResponseRepository
 
     public function getLatestAdminResponseForFacility(FacilityId $facilityId): null|RecordInterface
     {
-        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $facility = Facility::findOne([
+            'id' => $facilityId->getValue(),
+        ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
         $adminSurveyId = $facility->workspace->project->admin_survey_id;
-        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId])
+        $query = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $adminSurveyId,
+        ])
             // TODO: use the date of update here.
-            ->orderBy(['created_at' => SORT_DESC])
+            ->orderBy([
+                'created_at' => SORT_DESC,
+            ])
             ->limit(1);
         return $query->one();
-
-
     }
 
     public function getLatestDataResponseForFacility(FacilityId $facilityId): null|RecordInterface
     {
-        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $facility = Facility::findOne([
+            'id' => $facilityId->getValue(),
+        ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
 
         $dataSurveyId = $facility->workspace->project->data_survey_id;
-        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $dataSurveyId])
+        $query = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $dataSurveyId,
+        ])
             // TODO: use the date of update here.
-            ->orderBy(['created_at' => SORT_DESC])
+            ->orderBy([
+                'created_at' => SORT_DESC,
+            ])
             ->limit(1);
         return $query->one();
     }
 
     public function searchAdminInFacility(FacilityId $facilityId): DataProviderInterface
     {
-        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $facility = Facility::findOne([
+            'id' => $facilityId->getValue(),
+        ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
         $adminSurveyId = $facility->workspace->project->admin_survey_id;
-        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $adminSurveyId]);
+        $query = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $adminSurveyId,
+        ]);
 
         return new HydratedActiveDataProvider(
             static function (SurveyResponse $response): \prime\interfaces\AdminResponseForListInterface {
@@ -150,24 +181,37 @@ class SurveyResponseRepository
                     'attributes' => [
                         ResponseForList::ID,
                         ResponseForList::DATE_OF_UPDATE => [
-                            'asc' => ['created_at' => SORT_ASC],
-                            'desc' => ['created_at' => SORT_DESC],
-                            'default' => SORT_DESC,
-                        ]
-                    ]
+                            'asc' => [
+                                'created_at' => SORT_ASC,
+                            ],
+                            'desc' => [
+                                'created_at' => SORT_DESC,
+                            ],
+                            'default' =>
+
+SORT_DESC,
+
+                        ],
+                    ],
                 ],
                 'query' => $query,
-                'pagination' => false,
+                'pagination'
+ => false,
             ]
         );
     }
 
     public function searchDataInFacility(FacilityId $facilityId): DataProviderInterface
     {
-        $facility = Facility::findOne(['id' => $facilityId->getValue()]);
+        $facility = Facility::findOne([
+            'id' => $facilityId->getValue(),
+        ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
         $dataSurveyId = $facility->workspace->project->data_survey_id;
-        $query = SurveyResponse::find()->andWhere(['facility_id' => $facilityId, 'survey_id' => $dataSurveyId]);
+        $query = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $dataSurveyId,
+        ]);
 
         return new HydratedActiveDataProvider(
             static function (SurveyResponse $response): ResponseForListInterface {
@@ -178,14 +222,22 @@ class SurveyResponseRepository
                     'attributes' => [
                         'id',
                         'dateOfUpdate' => [
-                            'asc' => ['date' => SORT_ASC],
-                            'desc' => ['date' => SORT_DESC],
-                            'default' => SORT_DESC,
-                        ]
-                    ]
+                            'asc' => [
+                                'date' => SORT_ASC,
+                            ],
+                            'desc' => [
+                                'date' => SORT_DESC,
+                            ],
+                            'default' =>
+
+SORT_DESC,
+
+                        ],
+                    ],
                 ],
                 'query' => $query,
-                'pagination' => false,
+                'pagination'
+ => false,
             ]
         );
     }

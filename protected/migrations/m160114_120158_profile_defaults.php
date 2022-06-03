@@ -6,7 +6,6 @@ class m160114_120158_profile_defaults extends Migration
 {
     public function up()
     {
-
         $this->alterColumn('{{%profile}}', 'first_name', $this->string()->notNull()->defaultValue(''));
         $this->alterColumn('{{%profile}}', 'last_name', $this->string()->notNull()->defaultValue(''));
         $this->alterColumn('{{%profile}}', 'organization', $this->string()->notNull()->defaultValue(''));

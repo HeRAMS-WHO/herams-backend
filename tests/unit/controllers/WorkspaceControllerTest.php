@@ -72,7 +72,9 @@ class WorkspaceControllerTest extends ControllerTest
         $controller->setView($view);
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['id' => '12345']
+            'queryParams' => [
+                'id' => '12345',
+            ],
         ]);
 
         $this->assertSame('renderresult', $controller->render('test'));

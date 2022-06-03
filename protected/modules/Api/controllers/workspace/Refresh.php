@@ -22,7 +22,9 @@ class Refresh extends Action
         LimesurveyDataLoader $loader,
         int $id
     ) {
-        $workspace = WorkspaceForLimesurvey::findOne(['id' => $id]);
+        $workspace = WorkspaceForLimesurvey::findOne([
+            'id' => $id,
+        ]);
 
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_ADMIN);
 
@@ -34,7 +36,7 @@ class Refresh extends Action
             $key = [
                 'id' => $response->getId(),
                 'survey_id' => $workspace->project->base_survey_eid,
-                'workspace_id' => $workspace->id
+                'workspace_id' => $workspace->id,
             ];
 
             $dataResponse = ResponseForLimesurvey::findOne($key) ?? new ResponseForLimesurvey($key);
@@ -52,8 +54,15 @@ class Refresh extends Action
         // Check for deleted responses as well.
         $deleted = ResponseForLimesurvey::deleteAll([
             'and',
-            ['workspace_id' => $workspace->id],
-            ['not', ['id' => $ids]]
+            [
+                'workspace_id' => $workspace->id,
+            ],
+            [
+                'not', [
+                    'id' =>
+                    $ids,
+
+                ], ],
         ]);
         return [
             'new' => $new,
@@ -61,7 +70,7 @@ class Refresh extends Action
             'deleted' => $deleted,
             'unchanged' => $unchanged,
             'failed' => $failed,
-            'time' => number_format(microtime(true) - $start, 2) . 's'
+            'time' => number_format(microtime(true) - $start, 2) . 's',
         ];
     }
 }

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Project;
 use prime\models\forms\accessRequest\Create;
@@ -20,7 +20,11 @@ use yii\helpers\Html;
 $this->title = $project->title;
 
 Section::begin()
-    ->withHeader(Yii::t('app', 'Request access'), ['style' => ['display' => 'block']]);
+    ->withHeader(Yii::t('app', 'Request access'), [
+        'style' => [
+            'display' => 'block',
+        ],
+    ]);
 
 echo Html::tag('p', \Yii::t('app', 'Explain what permissions you need and why you need them.'));
 
@@ -42,18 +46,23 @@ echo Form::widget([
             'type' => Form::INPUT_TEXT,
         ],
         'body' => [
-            'type' => Form::INPUT_TEXTAREA
+            'type' => Form::INPUT_TEXTAREA,
         ],
         'permissions' => [
             'type' => Form::INPUT_CHECKBOX_LIST,
             'items' => $model->getPermissionOptions(),
         ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                ['label' => Yii::t('app', 'Request'), 'style' => 'primary'],
-            ],
-        ]),
-    ]
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    [
+                        'label' => Yii::t('app', 'Request'),
+                        'style' => 'primary',
+                    ],
+                ],
+            ]
+        ),
+    ],
 ]);
 
 ActiveForm::end();

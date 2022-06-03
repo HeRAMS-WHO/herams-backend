@@ -19,7 +19,9 @@ class Select2 extends Action
     ): array {
         $response->format = Response::FORMAT_JSON;
 
-        $result = ['results' => []];
+        $result = [
+            'results' => [],
+        ];
 
         if (empty($q)) {
             return $result;
@@ -29,7 +31,10 @@ class Select2 extends Action
         $users = $userRepository->retrieveForSelect2($q, $user->id, 0, 5);
 
         foreach ($users as $user) {
-            $result['results'][] = ['id' => $user->getUserId()->getValue(), 'text' => $user->getText()];
+            $result['results'][] = [
+                'id' => $user->getUserId()->getValue(),
+                'text' => $user->getText(),
+            ];
         }
 
         return $result;

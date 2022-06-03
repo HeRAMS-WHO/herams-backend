@@ -16,9 +16,9 @@ enum ProjectStatus:int
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Ongoing => \Yii::t('app', 'Ongoing'),
-            self::Baseline =>  \Yii::t('app', 'Baseline'),
+            self::Baseline => \Yii::t('app', 'Baseline'),
             self::Target => \Yii::t('app', 'Target'),
             self::Emergency => \Yii::t('app', 'Emergency specific')
         };
@@ -27,7 +27,7 @@ enum ProjectStatus:int
     public static function toArray(): array
     {
         $result = [];
-        foreach(self::cases() as $projectStatus) {
+        foreach (self::cases() as $projectStatus) {
             $result[$projectStatus->value] = $projectStatus->label();
         }
         return $result;

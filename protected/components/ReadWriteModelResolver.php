@@ -18,7 +18,7 @@ class ReadWriteModelResolver implements Resolver
     {
         $rc = new \ReflectionClass($object);
 
-        if (($rc->getParentClass() ?: null )?->getShortName() === $rc->getShortName()) {
+        if (($rc->getParentClass() ?: null)?->getShortName() === $rc->getShortName()) {
             $id = implode('|', $object->getPrimaryKey(true));
             return new \SamIT\abac\values\Authorizable($id, $rc->getParentClass()->getName());
         }

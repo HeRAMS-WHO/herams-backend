@@ -18,7 +18,6 @@ class GeoJsonResponseFormatter implements ResponseFormatterInterface
     {
         $response->getHeaders()->set('Content-Type', 'application/geo+json');
 
-
         if ($response->data !== null) {
             $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT;
 
@@ -32,12 +31,12 @@ class GeoJsonResponseFormatter implements ResponseFormatterInterface
     {
         $data = [
             "type" => "FeatureCollection",
-            "features" => []
+            "features" => [],
         ];
 
         foreach ($entries as $entry) {
             // Check if this is a valid GeoJSON feature.
-            if (!isset($entry['latitude'], $entry['longitude'])) {
+            if (! isset($entry['latitude'], $entry['longitude'])) {
                 continue;
             }
 
@@ -46,9 +45,9 @@ class GeoJsonResponseFormatter implements ResponseFormatterInterface
                 "id" => ArrayHelper::remove($entry, 'id'),
                 "geometry" => [
                     "type" => "Point",
-                    "coordinates" => [ArrayHelper::remove($entry, 'longitude'), ArrayHelper::remove($entry, 'latitude')]
+                    "coordinates" => [ArrayHelper::remove($entry, 'longitude'), ArrayHelper::remove($entry, 'latitude')],
                 ],
-                "properties" => $entry
+                "properties" => $entry,
             ];
         }
         return $data;

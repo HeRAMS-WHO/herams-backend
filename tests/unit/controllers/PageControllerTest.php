@@ -26,9 +26,13 @@ use yii\web\Request;
 class PageControllerTest extends Unit
 {
     private BreadcrumbCollection|MockObject $breadcrumbCollection;
+
     private PageRepository|MockObject $pageRepository;
+
     private ProjectRepository|MockObject $projectRepository;
+
     private string $renderResult = 'testRender';
+
     private View|MockObject $view;
 
     protected function prepareController(): PageController
@@ -68,7 +72,9 @@ class PageControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['project_id' => $projectId],
+            'queryParams' => [
+                'project_id' => $projectId,
+            ],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }
@@ -100,7 +106,9 @@ class PageControllerTest extends Unit
         $controller->action = $action;
         $controller->layout = false;
         $controller->request = new Request([
-            'queryParams' => ['id' => $pageId],
+            'queryParams' => [
+                'id' => $pageId,
+            ],
         ]);
         $this->assertSame($this->renderResult, $controller->render('test', []));
     }

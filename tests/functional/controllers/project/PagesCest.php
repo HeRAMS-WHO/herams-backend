@@ -17,7 +17,10 @@ class PagesCest
         $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();
         $I->grantCurrentUser($page->project, Permission::PERMISSION_ADMIN);
-        $I->amOnPage(['project/pages', 'id' => $page->project_id]);
+        $I->amOnPage([
+            'project/pages',
+            'id' => $page->project_id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
 
         $I->see($page->title);

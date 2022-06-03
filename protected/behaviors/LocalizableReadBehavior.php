@@ -16,8 +16,11 @@ use yii\db\ActiveRecord;
 class LocalizableReadBehavior extends Behavior
 {
     public string $translationProperty = 'i18n';
+
     public string $defaultLocale = 'en-US';
+
     public string $locale = 'en-US';
+
     /**
      * @var array Attribute names that are localizable
      */
@@ -40,7 +43,7 @@ class LocalizableReadBehavior extends Behavior
 
     private function loadLocalizedAttributes(Model $model): void
     {
-        if ($this->locale === $this->defaultLocale || !is_array($model->{$this->translationProperty})) {
+        if ($this->locale === $this->defaultLocale || ! is_array($model->{$this->translationProperty})) {
             return;
         }
 

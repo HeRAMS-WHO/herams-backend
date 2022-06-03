@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\interfaces;
@@ -8,7 +9,5 @@ use yii\base\Model;
 
 interface ActiveRecordHydratorInterface
 {
-
-
     public function hydrateActiveRecord(Model $source, ActiveRecord $target): void;
 }

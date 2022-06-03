@@ -2,14 +2,8 @@
 
 use yii\db\Migration;
 
-/**
- * Class m210430_105442_create_event_log
- */
 class m210430_105442_create_event_log extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%event_log}}', [
@@ -29,9 +23,6 @@ class m210430_105442_create_event_log extends Migration
         $this->createIndex('event', '{{%event_log}}', ['event', 'created']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('{{%event_log}}');

@@ -20,39 +20,45 @@ $this->registerLinkTag([
     'rel' => 'preload',
     'href' => $font,
     'as' => 'font',
-    'crossorigin' => 'anonymous'
+    'crossorigin' => 'anonymous',
 ], 'icomoon');
 
 $this->params['body'] = [
-    'class' => ['no-title', 'worldmap']
+    'class' => ['no-title', 'worldmap'],
 ];
 // Order projects by status.
 $collections = [];
 foreach ($projects->getModels() as $project) {
-    if (!isset($collections[$project->status])) {
+    if (! isset($collections[$project->status])) {
         $collections[$project->status] = [
             "type" => "FeatureCollection",
             "title" => $project->statusText,
-            "features" => []
+            "features" => [],
         ];
     }
     $collections[$project->status]["features"][] = [
         "type" => "Feature",
         "geometry" => [
             "type" => "Point",
-            "coordinates" => [$project->longitude, $project->latitude]
+            "coordinates" => [$project->longitude, $project->latitude],
         ],
         "properties" => [
             'id' => $project->id,
             'title' => $project->getDisplayField(),
-            'url' => Url::to(['/api/project/summary', 'id' => $project->id])
-        ]
+            'url' => Url::to(
+                [
+                    '/api/project/summary',
+                    'id' => $project->id,
+                ]
+            ),
+
+        ],
 
     ];
 }
 SideMenu::begin([
     'collapsible' => true,
-    'footer' => $this->render('//footer')
+    'footer' => $this->render('//footer'),
 ]);
 
 /** @var \prime\models\ar\Project $project */
@@ -60,14 +66,14 @@ foreach ($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [
             'id' => $project->id,
-        ]
+        ],
     ]);
 }
 if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
     echo Html::a('New project', ['project/create'], [
         'style' => [
-            'color' => '#737373'
-        ]
+            'color' => '#737373',
+        ],
     ]);
 }
 SideMenu::end();
@@ -102,5 +108,5 @@ echo Map::widget([
     'options' => [
         'class' => 'content',
     ],
-    'data' => $collections
+    'data' => $collections,
 ]);

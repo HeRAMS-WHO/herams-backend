@@ -16,7 +16,6 @@ class VariableSetAnnotator
 
     /**
      * @param iterable<RecordInterface> $records
-     * @return iterable
      */
     public function getDisplayValues(iterable $records, null|string $locale = null): iterable
     {
@@ -31,7 +30,6 @@ class VariableSetAnnotator
 
     /**
      * @param iterable<RecordInterface> $records
-     * @return iterable
      */
     public function getCodedValues(iterable $records): iterable
     {

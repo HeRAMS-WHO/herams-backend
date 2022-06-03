@@ -11,26 +11,30 @@ use yii\web\JsExpression;
 class Map extends Widget
 {
     public const TILE_LAYER = 'tileLayer';
+
     public $baseLayers = [
         [
             "type" => self::TILE_LAYER,
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
-                'maxNativeZoom' => 17
-            ]
+                'maxNativeZoom' => 17,
+            ],
         ],
     ];
 
     public $options = [
         'class' => [
-            'map'
-        ]
+            'map',
+        ],
     ];
 
     public $center = [8.6753, 9.0820];
+
     public $zoom = 5.4;
+
     public $minZoom = 3;
+
     public $maxZoom = 5;
 
     public $colors;
@@ -38,6 +42,7 @@ class Map extends Widget
     public $data = [];
 
     public $markerRadius = 12.5;
+
     public function init()
     {
         $this->colors = $this->colors ?? new JsExpression('chroma.brewer.OrRd');
@@ -48,7 +53,9 @@ class Map extends Widget
     {
         $this->registerClientScript();
         $options = $this->options;
-        Html::addCssClass($options, strtr(__CLASS__, ['\\' => '_']));
+        Html::addCssClass($options, strtr(__CLASS__, [
+            '\\' => '_',
+        ]));
         $options['id'] = $this->getId();
         $id = Json::encode($this->getId());
         $config = Json::encode([
@@ -57,7 +64,7 @@ class Map extends Widget
             'zoom' => $this->zoom,
             'zoomControl' => false,
             'maxZoom' => $this->maxZoom,
-            'minZoom' => $this->minZoom
+            'minZoom' => $this->minZoom,
         ]);
         $translations = Json::encode([
             'health-facilities' => \Yii::t('app', 'Health facilities'),
@@ -84,7 +91,7 @@ class Map extends Widget
             'loading-error' => \Yii::t('app', 'Loading Error'),
             'refresh' => \Yii::t('app', 'Refresh'),
             'refresh-infos' => \Yii::t('app', 'Try refreshing the project'),
-            'in-progress' => \Yii::t('app', 'In Progress')
+            'in-progress' => \Yii::t('app', 'In Progress'),
         ]);
 
         $baseLayers = Json::encode($this->baseLayers);
@@ -255,7 +262,6 @@ JS);
 
         return Html::tag('div', '', $options);
     }
-
 
     protected function registerClientScript()
     {

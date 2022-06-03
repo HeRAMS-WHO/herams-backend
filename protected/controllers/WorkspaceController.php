@@ -31,6 +31,7 @@ use yii\web\User;
 class WorkspaceController extends Controller
 {
     public $layout = self::LAYOUT_ADMIN_TABS;
+
     public $defaultAction = 'facilities';
 
     public function __construct(
@@ -50,7 +51,9 @@ class WorkspaceController extends Controller
             'export' => [
                 'class' => ExportAction::class,
                 'subject' => static function (Request $request) {
-                      return WorkspaceForLimesurvey::findOne(['id' => $request->getQueryParam('id')]);
+                    return WorkspaceForLimesurvey::findOne([
+                        'id' => $request->getQueryParam('id'),
+                    ]);
                 },
                 'responseQuery' => static function (WorkspaceForLimesurvey $workspace): ResponseForLimesurveyQuery {
                     return $workspace->getResponses();
@@ -60,7 +63,7 @@ class WorkspaceController extends Controller
                 },
                 'checkAccess' => function (WorkspaceForLimesurvey $workspace, User $user) {
                     return $user->can(Permission::PERMISSION_EXPORT, $workspace);
-                }
+                },
             ],
             'facilities' => Facilities::class,
             'update' => Update::class,
@@ -72,10 +75,14 @@ class WorkspaceController extends Controller
                 'class' => DeleteAction::class,
                 'query' => WorkspaceForLimesurvey::find(),
                 'redirect' => function (WorkspaceForLimesurvey $workspace) {
-                    return ['/project/workspaces', 'id' => $workspace->project_id];
-                }
+                    return [
+                        '/project/workspaces',
+                        'id' => $workspace->project_id,
+                    ];
+                },
             ],
-            'request-access' => RequestAccess::class,
+            'request-access' => RequestAccess
+::class,
         ];
     }
 
@@ -87,8 +94,8 @@ class WorkspaceController extends Controller
                 'verb' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'create' => ['get', 'post']
-                    ]
+                        'create' => ['get', 'post'],
+                    ],
                 ],
                 'access' => [
                     'rules' => [
@@ -96,7 +103,7 @@ class WorkspaceController extends Controller
                             'allow' => true,
                             'roles' => ['@'],
                         ],
-                    ]
+                    ],
                 ],
             ]
         );
@@ -120,7 +127,7 @@ class WorkspaceController extends Controller
             $breadcrumbCollection->add($project);
         }
 
-        if (!isset($params['tabMenuModel']) && $this->request->getQueryParam('id')) {
+        if (! isset($params['tabMenuModel']) && $this->request->getQueryParam('id')) {
             $workspaceId = new WorkspaceId((int) $this->request->getQueryParam('id'));
             $params['tabMenuModel'] = $this->workspaceRepository->retrieveForTabMenu($workspaceId);
         }

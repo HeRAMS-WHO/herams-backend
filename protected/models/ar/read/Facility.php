@@ -26,18 +26,20 @@ class Facility extends \prime\models\ar\Facility
                         'responseCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                             VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('count(*)')
-                                ->where(['facility_id' => new Expression(self::tableName() . '.[[id]]')]),
-                            VirtualFieldBehavior::LAZY => static fn (\prime\models\ar\Facility $facility) => $facility->getResponses()->count()
-
-                        ]
-                    ]
+                                ->where([
+                                    'facility_id' => new Expression(self::tableName() . '.[[id]]'),
+                                ]),
+                            VirtualFieldBehavior::LAZY => static fn (\prime\models\ar\Facility $facility) => $facility->getResponses()->count(
+),
+                        ],
+                    ],
                 ],
                 LocalizableReadBehavior::class => [
                     'class' => LocalizableReadBehavior::class,
                     'attributes' => ['name', 'alternative_name'],
                     'locale' => \Yii::$app->language,
                     'defaultLocale' => \Yii::$app->sourceLanguage,
-                ]
+                ],
             ]
         );
     }
@@ -48,7 +50,7 @@ class Facility extends \prime\models\ar\Facility
     public static function labels(): array
     {
         return [
-            'uuid' => \Yii::t('app', 'Universal ID')
+            'uuid' => \Yii::t('app', 'Universal ID'),
         ] + parent::labels();
     }
 }

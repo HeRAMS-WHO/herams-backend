@@ -20,7 +20,6 @@ class CreateFormTest extends Unit
             ->method('save')
             ->willReturn(false);
 
-
         $model = new CreateForm($user);
         $this->expectExceptionObject(new \RuntimeException('Failed to create user'));
         $model->run();

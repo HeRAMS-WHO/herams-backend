@@ -18,7 +18,11 @@ class CreateCest
         $page = $I->havePage();
         $I->grantCurrentUser($page->project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['element/create', 'page_id' => $page->id, 'type' => 'chart']);
+        $I->amOnPage([
+            'element/create',
+            'page_id' => $page->id,
+            'type' => 'chart',
+        ]);
         $I->seeResponseCodeIs(200);
     }
 
@@ -28,7 +32,11 @@ class CreateCest
         $page = $I->havePage();
         $I->grantCurrentUser($page->project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['element/create', 'page_id' => $page->id, 'type' => 'map']);
+        $I->amOnPage([
+            'element/create',
+            'page_id' => $page->id,
+            'type' => 'map',
+        ]);
         $I->seeResponseCodeIs(200);
     }
 
@@ -38,7 +46,11 @@ class CreateCest
         $page = $I->havePage();
         $I->grantCurrentUser($page->project, Permission::PERMISSION_ADMIN);
 
-        $I->amOnPage(['element/create', 'page_id' => $page->id, 'type' => 'table']);
+        $I->amOnPage([
+            'element/create',
+            'page_id' => $page->id,
+            'type' => 'table',
+        ]);
         $I->seeResponseCodeIs(200);
     }
 }

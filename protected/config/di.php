@@ -87,14 +87,14 @@ use yii\web\JqueryAsset;
 assert(isset($env) && $env instanceof EnvironmentInterface);
 
 return [
-    ActiveRecordHydratorInterface::class => static function(): ActiveRecordHydratorInterface {
+    ActiveRecordHydratorInterface::class => static function (): ActiveRecordHydratorInterface {
         $result = new StrategyActiveRecordHydrator();
         $result->registerAttributeStrategy(new NewWorkspaceHydrator());
         $result->registerAttributeStrategy(new ModelHydrator());
         return $result;
     },
     ModelHydratorInterface::class => ModelHydrator::class,
-    \kartik\form\ActiveField::class => static function(Container $container, array $params, array $config) {
+    \kartik\form\ActiveField::class => static function (Container $container, array $params, array $config) {
         $result = new \prime\components\ActiveField($config);
         return $result;
     },
@@ -110,7 +110,7 @@ return [
     \Psr\Http\Message\RequestFactoryInterface::class => RequestFactory::class,
     ModelHydrator::class => ModelHydrator::class,
     LocalizableInput::class => function (Container $container, array $params, array $config) {
-        if (!isset($config['languages'])) {
+        if (! isset($config['languages'])) {
             $config['languages'] = Language::toLocalizedArrayWithoutSourceLanguage(Language::from(\Yii::$app->language));
         }
         return new LocalizableInput($config);
@@ -128,7 +128,7 @@ return [
     CachedReadRepository::class => function (Container $container) {
         return new CachedReadRepository($container->get(ActiveRecordRepository::class));
     },
-    RuleEngine::class => static fn() => new SimpleEngine(...require __DIR__ . '/rule-config.php'),
+    RuleEngine::class => static fn () => new SimpleEngine(...require __DIR__ . '/rule-config.php'),
     Resolver::class => static function (): Resolver {
         return new ChainedResolver(
             new SingleTableInheritanceResolver(),
@@ -150,11 +150,11 @@ return [
             ActiveRecordRepository::SOURCE_NAME => 'source',
             ActiveRecordRepository::TARGET_ID => ActiveRecordRepository::TARGET_ID,
             ActiveRecordRepository::TARGET_NAME => 'target',
-            ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION
+            ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION,
         ]);
     },
     ActionColumn::class => static function (Container $container, array $params = [], array $config = []): \yii\grid\ActionColumn {
-        if (!isset($config['header'])) {
+        if (! isset($config['header'])) {
             $config['header'] = \Yii::t('app', 'Actions');
         }
         return new ActionColumn($config);
@@ -164,12 +164,11 @@ return [
             'pluginOptions' => [
                 'offText' => \Yii::t('app', 'Off'),
                 'onText' => \Yii::t('app', 'On'),
-            ]
+            ],
         ], $config);
         return new SwitchInput($config);
     },
     GridView::class => static function (Container $container, array $params, array $config): GridView {
-
         $result = new GridView(array_merge([
             'dataColumnClass' => \prime\widgets\FunctionGetterDataColumn::class,
         ], $config));
@@ -188,7 +187,7 @@ return [
                 $container->get(CommandNameExtractor::class),
                 $container->get(HandlerLocator::class),
                 $container->get(MethodNameInflector::class)
-            )
+            ),
         ]);
     },
     ContainerMapLocator::class => function (Container $container) {

@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 class SessionController extends Controller
 {
     public $layout = 'map-popover-session';
+
     public function behaviors(): array
     {
         return ArrayHelper::merge(
@@ -23,15 +24,15 @@ class SessionController extends Controller
                     'rules' => [
                         [
                             'allow' => 'true',
-                            'actions' => ['create']
+                            'actions' => ['create'],
                         ],
                         [
                             'allow' => 'true',
                             'actions' => ['delete'],
-                            'roles' => ['@']
-                        ]
-                    ]
-                ]
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -40,7 +41,7 @@ class SessionController extends Controller
     {
         return [
             'create' => Create::class,
-            'delete' => Delete::class
+            'delete' => Delete::class,
         ];
     }
 }

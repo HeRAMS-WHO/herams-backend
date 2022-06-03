@@ -5,6 +5,7 @@ namespace prime\objects;
 class BatchResult
 {
     private $successCount = 0;
+
     private $failCount = 0;
 
     public function __construct(int $success, int $fail)

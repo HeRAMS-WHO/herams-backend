@@ -10,7 +10,7 @@ class m151130_134444_add_file extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(),
             'mime_type' => $this->string()->notNull(),
-            'data' => 'longblob NOT NULL'
+            'data' => 'longblob NOT NULL',
         ]);
     }
 

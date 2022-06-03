@@ -16,6 +16,9 @@ class ProjectForBreadcrumb implements ProjectForBreadcrumbInterface
         Project $model
     ) {
         $this->label = $model->title;
-        $this->url = ['/project/view', 'id' => $model->id];
+        $this->url = [
+            '/project/view',
+            'id' => $model->id,
+        ];
     }
 }

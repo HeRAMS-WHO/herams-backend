@@ -14,8 +14,8 @@ class m151112_092421_update_country extends Migration
         $this->createTable(
             '{{%project_country}}',
             [
-            'project_id' => $this->integer()->notNull(),
-            'country_iso_3' => $this->string(3)->notNull()
+                'project_id' => $this->integer()->notNull(),
+                'country_iso_3' => $this->string(3)->notNull(),
             ]
         );
 
@@ -32,7 +32,7 @@ class m151112_092421_update_country extends Migration
             '{{%project_country}}',
             [
                 'project_id',
-                'country_iso_3'
+                'country_iso_3',
             ],
             true
         );
@@ -47,13 +47,13 @@ class m151112_092421_update_country extends Migration
             'name' => $this->string()->notNull(),
             'iso_code' => $this->string(3)->notNull(),
             'latitude' => $this->decimal(12, 8)->notNull(),
-            'longitude' => $this->decimal(12, 8)->notNull()
+            'longitude' => $this->decimal(12, 8)->notNull(),
         ]);
 
         $projectCountryTableName = '{{%project_country}}';
         $this->createTable($projectCountryTableName, [
             'project_id' => $this->integer()->notNull(),
-            'country_id' => $this->integer()->notNull()
+            'country_id' => $this->integer()->notNull(),
         ]);
 
         $this->addForeignKey(

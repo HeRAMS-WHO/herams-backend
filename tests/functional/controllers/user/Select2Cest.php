@@ -19,17 +19,29 @@ class Select2Cest
         $I->amLoggedInAs(TEST_USER_ID);
         $I->amOnPage(['user/select-2']);
         $I->seeResponseCodeIsSuccessful();
-        $I->assertEquals(['results' => []], Json::decode($I->grabResponse()));
+        $I->assertEquals([
+            'results' => [],
+        ], Json::decode($I->grabResponse()));
     }
 
     public function testSearch(FunctionalTester $I): void
     {
-        $user = User::findOne(['id' => TEST_ADMIN_ID]);
+        $user = User::findOne([
+            'id' => TEST_ADMIN_ID,
+        ]);
         $userForSelect2 = new UserForSelect2($user);
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['user/select-2', 'q' => $user->name]);
+        $I->amOnPage([
+            'user/select-2',
+            'q' => $user->name,
+        ]);
         $I->seeResponseCodeIsSuccessful();
 
-        $I->assertEquals(['results' => [['id' => $user->id, 'text' => $userForSelect2->getText()]]], Json::decode($I->grabResponse()));
+        $I->assertEquals([
+            'results' => [[
+                'id' => $user->id,
+                'text' => $userForSelect2->getText(),
+            ]],
+        ], Json::decode($I->grabResponse()));
     }
 }

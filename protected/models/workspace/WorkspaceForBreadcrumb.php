@@ -20,7 +20,10 @@ class WorkspaceForBreadcrumb implements WorkspaceForBreadcrumbInterface
     ) {
         $this->label = $model->title;
         $this->projectId = new ProjectId($model->project_id);
-        $this->url = ['/workspace/facilities', 'id' => $model->id];
+        $this->url = [
+            '/workspace/facilities',
+            'id' => $model->id,
+        ];
     }
 
     public function getProjectId(): ProjectId

@@ -12,17 +12,15 @@ class ActiveRecordTest extends Unit
 {
     public function testGetDisplayField(): void
     {
-
-        $model = new class extends ActiveRecord {
+        $model = new class() extends ActiveRecord {
             public function attributes()
             {
                 return [
                     'title',
                     'name',
-                    'email'
+                    'email',
                 ];
             }
-
 
             public function getPrimaryKey($asArray = false)
             {

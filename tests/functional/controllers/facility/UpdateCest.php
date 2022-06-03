@@ -28,7 +28,10 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $facility = $this->getFacility($I);
-        $I->amOnPage(['facility/update', 'id' => $facility->id]);
+        $I->amOnPage([
+            'facility/update',
+            'id' => $facility->id,
+        ]);
         $I->seeResponseCodeIsSuccessful();
     }
 
@@ -37,21 +40,40 @@ class UpdateCest
         $I->amLoggedInAs(TEST_USER_ID);
         $facility = $this->getFacility($I);
         $name = 'Updated facility name';
-        $I->assertEquals(1, $facility->adminSurvey->getSurveyResponses()->andWhere(['facility_id' => $facility->id])->count());
-        $I->sendPostWithCsrf(Url::to(['/facility/update', 'id' => $facility->id]), ['data' => ['name' => $name]]);
+        $I->assertEquals(1, $facility->adminSurvey->getSurveyResponses()->andWhere([
+            'facility_id' => $facility->id,
+        ])->count());
+        $I->sendPostWithCsrf(Url::to([
+            '/facility/update',
+            'id' => $facility->id,
+        ]), [
+            'data' => [
+                'name' => $name,
+
+            ],
+        ]);
         $I->seeResponseCodeIsSuccessful();
 
         $facility->refresh();
         $I->assertEquals($name, $facility->name);
-        $I->assertEquals(2, $facility->adminSurvey->getSurveyResponses()->andWhere(['facility_id' => $facility->id])->count());
+        $I->assertEquals(2, $facility->adminSurvey->getSurveyResponses()->andWhere([
+            'facility_id' => $facility->id,
+        ])->count());
     }
 
     public function testPostInvalid(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $facility = $this->getFacility($I);
-        $I->assertEquals(1, $facility->adminSurvey->getSurveyResponses()->andWhere(['facility_id' => $facility->id])->count());
-        $I->sendPostWithCsrf(Url::to(['/facility/update', 'id' => $facility->id]), ['data' => '{}']);
+        $I->assertEquals(1, $facility->adminSurvey->getSurveyResponses()->andWhere([
+            'facility_id' => $facility->id,
+        ])->count());
+        $I->sendPostWithCsrf(Url::to([
+            '/facility/update',
+            'id' => $facility->id,
+        ]), [
+            'data' => '{}',
+        ]);
         $I->seeResponseCodeIs(422);
     }
 }

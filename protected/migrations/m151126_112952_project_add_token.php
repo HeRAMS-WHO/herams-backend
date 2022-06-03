@@ -12,7 +12,11 @@ class m151126_112952_project_add_token extends Migration
         $query = new \yii\db\Query();
         $transaction = $this->db->beginTransaction();
         foreach ($query->from($table)->select('id')->column() as $projectId) {
-            if (1 !== $this->db->createCommand()->update($table, ['token' => \Yii::$app->security->generateRandomString(35)], ['id' => $projectId])->execute()) {
+            if (1 !== $this->db->createCommand()->update($table, [
+                'token' => \Yii::$app->security->generateRandomString(35),
+            ], [
+                'id' => $projectId,
+            ])->execute()) {
                 throw new \Exception("Something went wrong while generating tokens.");
             }
         }

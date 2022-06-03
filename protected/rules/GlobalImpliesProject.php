@@ -14,46 +14,31 @@ use SamIT\abac\interfaces\Rule;
 
 class GlobalImpliesProject implements Rule
 {
-    /**
-     * @inheritDoc
-     */
     public function getPermissions(): array
     {
         return [
             Permission::PERMISSION_SHARE,
             Permission::PERMISSION_EXPORT,
             Permission::PERMISSION_SURVEY_DATA,
-            Permission::PERMISSION_ADMIN
+            Permission::PERMISSION_ADMIN,
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTargetNames(): array
     {
         return [Project::class];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSourceNames(): array
     {
         return [User::class];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
         return 'if you can share the project it belongs to';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(
         object $source,
         object $target,

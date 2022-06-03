@@ -6,8 +6,11 @@ namespace prime\values;
 
 class ExternalResponseId
 {
-    public function __construct(private int $responseId, private int $surveyId, private string $token)
-    {
+    public function __construct(
+        private int $responseId,
+        private int $surveyId,
+        private string $token
+    ) {
     }
 
     public function getResponseId(): int

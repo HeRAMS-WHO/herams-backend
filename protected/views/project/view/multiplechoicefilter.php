@@ -22,6 +22,6 @@ foreach ($question->getQuestions(0) as $subQuestion) {
                 return strtok($answer->getText(), ':(');
             }
         );
-      //  $renderFilter($subQuestion, $group, $filterModel, $items);
+        //  $renderFilter($subQuestion, $group, $filterModel, $items);
     }
 }

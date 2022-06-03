@@ -26,8 +26,12 @@ class CreateCest
         $user->setPassword('test123');
         $user->email = 'abc@def.nl';
         $I->save($user);
-        $I->fillField(['css' => '[autocomplete=username]'], $user->email);
-        $I->fillField(['css' => '[autocomplete=current-password]'], 'test123');
+        $I->fillField([
+            'css' => '[autocomplete=username]',
+        ], $user->email);
+        $I->fillField([
+            'css' => '[autocomplete=current-password]',
+        ], 'test123');
         $I->assertTrue(\Yii::$app->user->isGuest);
         $I->click('Log in');
         $I->seeResponseCodeIsSuccessful();

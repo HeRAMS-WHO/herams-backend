@@ -23,7 +23,7 @@ class FacilitySearchTest extends Unit
             [
                 [
                     'id' => "15",
-                    'name' => 'test123'
+                    'name' => 'test123',
                 ],
             ],
 
@@ -36,9 +36,9 @@ class FacilitySearchTest extends Unit
             [
                 [
                     'id' => "cool",
-                    'name' => 'test123'
+                    'name' => 'test123',
                 ],
-            ]
+            ],
         ];
     }
 

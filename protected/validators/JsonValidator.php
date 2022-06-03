@@ -10,7 +10,7 @@ class JsonValidator extends Validator
 {
     protected function validateValue($value)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return ['Value is not a string', []];
         }
         try {

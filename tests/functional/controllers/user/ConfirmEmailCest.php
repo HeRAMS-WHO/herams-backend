@@ -22,7 +22,7 @@ class ConfirmEmailCest
         $url = [
             '/user/confirm-email',
             'email' => $newEmail,
-            'old_hash' => password_hash($oldEmail, PASSWORD_DEFAULT)
+            'old_hash' => password_hash($oldEmail, PASSWORD_DEFAULT),
         ];
         $urlSigner->signParams($url);
         return $url;
@@ -31,7 +31,9 @@ class ConfirmEmailCest
     public function testChange(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $newEmail = 'testNew@test.com';
         $url = $this->getSignedUrl($user->email, $newEmail);
         $I->amOnPage($url);
@@ -46,11 +48,15 @@ class ConfirmEmailCest
     public function testAlreadyChanged(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $user = User::findOne(['id' => TEST_USER_ID]);
+        $user = User::findOne([
+            'id' => TEST_USER_ID,
+        ]);
         $newEmail = 'testNew@test.com';
         $changedEmail = 'changedEmail@test.com';
         $url = $this->getSignedUrl($user->email, $newEmail);
-        $user->updateAttributes(['email' => $changedEmail]);
+        $user->updateAttributes([
+            'email' => $changedEmail,
+        ]);
         $I->amLoggedInAs(TEST_USER_ID);
 
         $I->amOnPage($url);

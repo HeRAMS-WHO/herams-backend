@@ -30,24 +30,32 @@ use yii\web\Request;
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class FunctionalTester extends \Codeception\Actor
 {
     use _generated\FunctionalTesterActions;
 
     private Element $element;
+
     private Facility $facility;
+
     private Page $page;
+
     private Project $project;
+
     private Project $projectForLimesurvey;
+
     private Survey $adminSurvey;
+
     private Survey $dataSurvey;
+
     private Workspace $workspace;
+
     private WorkspaceForLimesurvey $workspaceForLimesurvey;
 
     /**
-    * Define custom actions here
-    */
+     * Define custom actions here
+     */
     public function grabHtmlContentFromEmail(\Swift_Message $email): ?string
     {
         foreach ($email->getChildren() as $child) {
@@ -72,7 +80,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveAdminSurvey(): Survey
     {
-        if (!isset($this->adminSurvey)) {
+        if (! isset($this->adminSurvey)) {
             $this->adminSurvey = $survey = new Survey();
             $survey->config = [
                 'pages' => [
@@ -96,7 +104,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveDataSurvey(): Survey
     {
-        if (!isset($this->dataSurvey)) {
+        if (! isset($this->dataSurvey)) {
             $this->dataSurvey = $survey = new Survey();
             $survey->config = [
                 'pages' => [
@@ -120,7 +128,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveElement(): Element
     {
-        if (!isset($this->element)) {
+        if (! isset($this->element)) {
             $this->element = new Element();
             $this->element->page_id = $this->havePage()->id;
             $this->element->sort = 0;
@@ -137,7 +145,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveFacility(): Facility
     {
-        if (!isset($this->facility)) {
+        if (! isset($this->facility)) {
             $adminData = [
                 'name' => 'Test facility name',
             ];
@@ -159,7 +167,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function havePage(): Page
     {
-        if (!isset($this->page)) {
+        if (! isset($this->page)) {
             $this->page = new Page();
             $this->page->title = 'Test page';
             $this->page->sort = 0;
@@ -172,7 +180,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveProject(): Project
     {
-        if (!isset($this->project)) {
+        if (! isset($this->project)) {
             $this->project = $project = new Project();
             $project->title = 'Test project';
             $project->admin_survey_id = $this->haveAdminSurvey()->id;
@@ -185,7 +193,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveProjectForLimesurvey(): Project
     {
-        if (!isset($this->projectForLimesurvey)) {
+        if (! isset($this->projectForLimesurvey)) {
             $this->projectForLimesurvey = $project = new Project();
             $project->title = 'Test project';
             $project->base_survey_eid = 12345;
@@ -197,7 +205,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveWorkspace(): Workspace
     {
-        if (!isset($this->workspace)) {
+        if (! isset($this->workspace)) {
             $this->workspace = $workspace = new Workspace();
             $workspace->title = 'WS2';
             $workspace->project_id = $this->haveProject()->id;
@@ -209,7 +217,7 @@ class FunctionalTester extends \Codeception\Actor
 
     public function haveWorkspaceForLimesurvey(): WorkspaceForLimesurvey
     {
-        if (!isset($this->workspaceForLimesurvey)) {
+        if (! isset($this->workspaceForLimesurvey)) {
             $this->workspaceForLimesurvey = $workspace = new WorkspaceForLimesurvey();
             $workspace->title = 'WS1';
             $workspace->project_id = $this->haveProjectForLimesurvey()->id;

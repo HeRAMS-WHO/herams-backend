@@ -14,16 +14,21 @@ use yii\helpers\Url;
 class FavoriteColumn extends DataColumn
 {
     public bool $enableClick = true;
+
     public $route;
+
     public User $user;
 
     public function init()
     {
         $this->user = \Yii::$app->user->identity;
-        $this->value = $this->value ?? static fn(object $model) => $model;
+        $this->value = $this->value ?? static fn (object $model) => $model;
         $this->attribute = $this->attribute ?? 'favorite';
-        if (!isset($this->route)) {
-            $this->route = ['/api/user/workspaces', 'id' => \Yii::$app->user->id];
+        if (! isset($this->route)) {
+            $this->route = [
+                '/api/user/workspaces',
+                'id' => \Yii::$app->user->id,
+            ];
         }
 
         $targetIds = $this->user->getFavorites()->workspaces()->
@@ -31,7 +36,7 @@ class FavoriteColumn extends DataColumn
         parent::init();
         $this->content = function ($model, $key, $index, self $column) use ($targetIds) {
             $model = $this->getDataCellValue($model, $key, $index);
-            if (!$model instanceof WorkspaceForLimesurvey) {
+            if (! $model instanceof WorkspaceForLimesurvey) {
                 return '';
             }
 
@@ -39,16 +44,21 @@ class FavoriteColumn extends DataColumn
                 'title' => \Yii::t('app', 'Favorites'),
                 'class' => [
                     'FavoriteButton',
-                    isset($targetIds[$model->id]) ? 'favorite' : null
+                    isset($targetIds[$model->id]) ? 'favorite' : null,
                 ],
                 'data' => [
-                    'uri' => Url::to(array_merge($column->route, ['target_id' => $model->id]))
+                    'uri' => Url::to(
+                        array_merge($column->route, [
+                            'target_id' => $model->id,
+                        ])
+                    ),
                 ],
             ]);
         };
 
         if ($this->enableClick) {
-            $this->grid->view->registerJs(<<<JS
+            $this->grid->view->registerJs(
+                <<<JS
 
             document.addEventListener('click', async (e) => {
                 let button = e.target.closest('td .FavoriteButton');

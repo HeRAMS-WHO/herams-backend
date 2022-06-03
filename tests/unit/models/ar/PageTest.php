@@ -12,17 +12,11 @@ use prime\models\ar\Project;
  */
 class PageTest extends ActiveRecordTest
 {
-    /**
-     * @inheritDoc
-     */
     public function validSamples(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function invalidSamples(): array
     {
         return [];

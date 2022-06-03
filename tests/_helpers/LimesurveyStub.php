@@ -16,9 +16,14 @@ class LimesurveyStub extends Client
         // Don't call parent
         $this->tokens = [
             12345 => [
-                'token1' => new TokenStub(12345, ['token' => 'token1']),
-                'token2' => new TokenStub(12345, ['token' => 'token2'])
-            ]
+                'token1' => new TokenStub(12345, [
+                    'token' => 'token1',
+                ]),
+                'token2' => new TokenStub(12345, [
+                    'token' => 'token2',
+
+                ]),
+            ],
         ];
     }
 
@@ -26,7 +31,6 @@ class LimesurveyStub extends Client
     {
         return 'https://limesurvey/' . $surveyId;
     }
-
 
     public function __invoke($name)
     {
@@ -43,7 +47,13 @@ class LimesurveyStub extends Client
         switch ($surveyId) {
             case 12345:
                 return [
-                    new Group($this, ['id' => 1, 'title' => 'Group title'], ['surveyId' => $surveyId])
+                    new Group($this, [
+                        'id' => 1,
+                        'title' => 'Group title',
+                    ], [
+                        'surveyId' => $surveyId,
+
+                    ]),
                 ];
             default:
                 return [];
@@ -55,7 +65,7 @@ class LimesurveyStub extends Client
         return new \SamIT\LimeSurvey\JsonRpc\Concrete\Survey($this, [
             'id' => $id,
             'languages' => ['en', 'nl', 'fr'],
-            'language' => 'en'
+            'language' => 'en',
         ], [
         ]);
     }
@@ -66,13 +76,13 @@ class LimesurveyStub extends Client
             [
                 'sid' => 12345,
                 'surveyls_title' => 'Test title',
-                'active' => 'Y'
+                'active' => 'Y',
             ],
             [
                 'sid' => 11111,
                 'surveyls_title' => 'Another survey title',
-                'active' => 'Y'
-            ]
+                'active' => 'Y',
+            ],
         ];
     }
 
@@ -85,7 +95,7 @@ class LimesurveyStub extends Client
                         'id' => 1,
                         'index' => 5,
                         'title' => 'noe',
-                        'text' => 'random'
+                        'text' => 'random',
                     ]),
                     new Question($this, [
                         'id' => 'MoSD3',
@@ -94,15 +104,17 @@ class LimesurveyStub extends Client
                         'text' => 'Question text',
                     ], [
                         'answers' => [
-                            new Answer($this, ['text' => 'Primary', 'code' => 'A1'])
-                        ]
-                    ])
+                            new Answer($this, [
+                                'text' => 'Primary',
+                                'code' => 'A1',
+                            ]),
+                        ],
+                    ]),
                 ];
             default:
                 return [];
         }
     }
-
 
     public function createToken($surveyId, array $tokenData, $generateToken = true)
     {

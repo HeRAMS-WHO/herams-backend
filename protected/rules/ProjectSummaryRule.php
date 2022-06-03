@@ -41,6 +41,6 @@ class ProjectSummaryRule implements Rule
     ): bool {
         return $target instanceof Project
             && in_array($permission, $this->getPermissions())
-            && (!$target->isHidden() || $accessChecker->check($source, $target, Permission::PERMISSION_READ));
+            && (! $target->isHidden() || $accessChecker->check($source, $target, Permission::PERMISSION_READ));
     }
 }

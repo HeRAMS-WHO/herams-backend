@@ -8,7 +8,7 @@ use yii\behaviors\BlameableBehavior;
 // Disable the audit service since we do not want to have this run on every unit test.
 \Yii::$container->set(AuditService::class, [
     'class' => AuditService::class,
-    'enabled' => false
+    'enabled' => false,
 ]);
 
 // Preserve blamable non-empty values since there is (normally) no user logged in during unit tests, otherwise

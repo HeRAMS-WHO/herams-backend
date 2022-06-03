@@ -11,7 +11,7 @@ class CountryValidator extends Validator
 {
     protected function validateValue($value): array|null
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return ['Value is not an array', []];
         }
 
@@ -20,7 +20,10 @@ class CountryValidator extends Validator
             $data->alpha3($value);
         } catch (\Throwable $t) {
             return [
-                \Yii::t('app.validator.country', 'Country code {value} is not valid'), ['value' => $value]];
+                \Yii::t('app.validator.country', 'Country code {value} is not valid'), [
+                    'value' => $value,
+
+                ], ];
         }
         return null;
     }

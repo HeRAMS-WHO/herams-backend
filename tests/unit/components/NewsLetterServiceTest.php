@@ -38,11 +38,15 @@ class NewsLetterServiceTest extends Unit
         $userEmail = 'test@test.com';
         $user->expects($this->once())
             ->method('updateAttributes')
-            ->with(['newsletter_subscription' => $subscription]);
+            ->with([
+                'newsletter_subscription' => $subscription,
+            ]);
         $activeQuery = $this->getMockBuilder(ActiveQuery::class)->disableOriginalConstructor()->getMock();
         $activeQuery->expects(($this->once()))
             ->method('andWhere')
-            ->with(['email' => $userEmail])
+            ->with([
+                'email' => $userEmail,
+            ])
             ->willReturnSelf();
         $activeQuery->expects($this->once())
             ->method('one')
@@ -57,7 +61,7 @@ class NewsLetterServiceTest extends Unit
         $request->setRawBody(http_build_query([
             'type' => $type,
             'data' => [
-                'email' => $userEmail
+                'email' => $userEmail,
             ],
         ]));
         $newsletterService->handleWebhook($request);
@@ -91,7 +95,11 @@ class NewsLetterServiceTest extends Unit
         $userRepository = $this->getUserRepository();
         $userRepository->expects($this->once())
             ->method('updateAll')
-            ->with(['newsletter_subscription' => $subscribed], ['email' => $userEmail]);
+            ->with([
+                'newsletter_subscription' => $subscribed,
+            ], [
+                'email' => $userEmail,
+            ]);
         $mailChimp = $this->getMailChimp();
         $mailChimp->expects($this->once())
             ->method('get')
@@ -100,8 +108,8 @@ class NewsLetterServiceTest extends Unit
                     [
                         'email_address' => $userEmail,
                         'status' => $status,
-                    ]
-                ]
+                    ],
+                ],
             ]);
         $newsletterService = new NewsletterService($mailChimp, $userRepository);
         $newsletterService->mailchimpListId = 'testListId';
@@ -114,7 +122,10 @@ class NewsLetterServiceTest extends Unit
      */
     public function testSyncToExternal(string $email, bool $subscribed)
     {
-        $user = new User(['email' => $email, 'newsletter_subscription' => $subscribed]);
+        $user = new User([
+            'email' => $email,
+            'newsletter_subscription' => $subscribed,
+        ]);
         $userRepository = $this->getUserRepository();
         $mailChimp = $this->getMailChimp();
         $listId = 'testListId';
@@ -130,7 +141,7 @@ class NewsLetterServiceTest extends Unit
                 'status' => $subscribed ? 'subscribed' : 'unsubscribed',
                 'tags' => [
                     $tag,
-                ]
+                ],
             ]);
 
         $newsletterService = new NewsletterService($mailChimp, $userRepository);

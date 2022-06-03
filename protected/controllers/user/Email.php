@@ -39,7 +39,7 @@ class Email extends Action
         return $this->controller->render(
             'email',
             [
-                'model' => $model
+                'model' => $model,
             ]
         );
     }

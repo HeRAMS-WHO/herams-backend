@@ -30,8 +30,8 @@ class FacilityTest extends ActiveRecordTest
                     'code' => 'abc123',
                     'latitude' => 1,
                     'longitude' => 1,
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -39,7 +39,7 @@ class FacilityTest extends ActiveRecordTest
     {
         return [
             [
-                []
+                [],
             ],
             [
                 [
@@ -47,7 +47,7 @@ class FacilityTest extends ActiveRecordTest
                     'name' => 'Test facility',
                     'alternative_name' => new FacilityId('1'),
                     'code' => new FacilityId('1'),
-                ]
+                ],
             ],
             [
                 [
@@ -55,7 +55,7 @@ class FacilityTest extends ActiveRecordTest
                     'name' => '',
                     'latitude' => 'test',
                     'longitude' => 'test',
-                ]
+                ],
             ],
         ];
     }

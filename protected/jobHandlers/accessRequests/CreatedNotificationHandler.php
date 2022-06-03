@@ -33,7 +33,10 @@ class CreatedNotificationHandler
         $this->mailer->compose(
             'access_request_created_notification',
             [
-                'respondUrl' => Url::to(['/access-request/respond', 'id' => $accessRequest->id], true),
+                'respondUrl' => Url::to([
+                    '/access-request/respond',
+                    'id' => $accessRequest->id,
+                ], true),
                 'accessRequest' => $accessRequest,
             ]
         )
@@ -49,7 +52,7 @@ class CreatedNotificationHandler
     {
         $target = $accessRequest->target;
         $leads = $target->getLeads();
-        $leads = filter(static fn(User $user) => $user->id != $accessRequest->created_by, $leads);
+        $leads = filter(static fn (User $user) => $user->id != $accessRequest->created_by, $leads);
         return toArray(map(index('email'), $leads));
     }
 }

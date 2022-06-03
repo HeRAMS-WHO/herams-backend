@@ -19,7 +19,10 @@ class ResponseForBreadcrumb implements ResponseForBreadcrumbInterface
     {
         $this->workspaceId = new WorkspaceId($model->workspace_id);
         $this->label = $model->getName();
-        $this->url = ['/response/compare', 'id' => $model->id];
+        $this->url = [
+            '/response/compare',
+            'id' => $model->id,
+        ];
     }
 
     public function getWorkspaceId(): WorkspaceId

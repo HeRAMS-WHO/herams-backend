@@ -15,16 +15,19 @@ use yii\validators\UniqueValidator;
 class RequestAccountForm extends Model
 {
     public $email;
-    /** @var CacheInterface $cache */
+
+    /**
+     * @var CacheInterface
+     */
     private $cache;
 
     public function attributeHints()
     {
         return [
-            'email' => ''//\Yii::t('app', 'We will send you a secure link to the sign up form')
+            'email' => '',
+            //\Yii::t('app', 'We will send you a secure link to the sign up form')
         ];
     }
-
 
     public function __construct(CacheInterface $cache, $config = [])
     {
@@ -37,15 +40,18 @@ class RequestAccountForm extends Model
         return [
             [['email'], RequiredValidator::class],
             [['email'], EmailValidator::class],
-            [['email'], UniqueValidator::class, 'targetClass' => User::class],
+            [['email'],
+                UniqueValidator::class,
+                'targetClass' => User::class,
+            ],
             [['email'], function () {
                 $lastAttempt = $this->cache->get(__CLASS__ . $this->email);
                 if (is_int($lastAttempt) && Carbon::createFromTimestamp($lastAttempt)->isFuture()) {
                     $this->addError('email', \Yii::t('app', "Too many attempts, try again in {seconds} seconds", [
-                        'seconds' => $lastAttempt - Carbon::now()->timestamp
+                        'seconds' => $lastAttempt - Carbon::now()->timestamp,
                     ]));
                 }
-            }]
+            }],
         ];
     }
 
@@ -61,7 +67,7 @@ class RequestAccountForm extends Model
 
         $mailer->compose('email_verification', [
             'user' => $this,
-            'verificationRoute' => $params
+            'verificationRoute' => $params,
 
         ])
             ->setTo($this->email)

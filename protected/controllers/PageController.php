@@ -40,9 +40,12 @@ class PageController extends Controller
                 'class' => DeleteAction::class,
                 'query' => Page::find(),
                 'redirect' => function (Page $page) {
-                    return ['project/pages', 'id' => $page->project->id];
-                }
-            ]
+                    return [
+                        'project/pages',
+                        'id' => $page->project->id,
+                    ];
+                },
+            ],
         ];
     }
 
@@ -57,13 +60,13 @@ class PageController extends Controller
                             'allow' => true,
                             'roles' => ['@'],
                         ],
-                    ]
+                    ],
                 ],
                 'verbs' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'delete' => ['delete']
-                    ]
+                        'delete' => ['delete'],
+                    ],
                 ],
             ]
         );

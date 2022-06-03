@@ -18,8 +18,11 @@ use yii\validators\StringValidator;
 class ConfirmInvitationForm extends Model
 {
     public string $password = '';
+
     public string $confirmPassword = '';
+
     public string $name = '';
+
     public bool $subscribeToNewsletter = false;
 
     public function __construct(
@@ -49,7 +52,7 @@ class ConfirmInvitationForm extends Model
         $user->name = $this->name;
         $user->newsletter_subscription = $this->subscribeToNewsletter;
         $user->setPassword($this->password);
-        if (!$user->save()) {
+        if (! $user->save()) {
             throw new \RuntimeException('Failed to create user');
         }
 
@@ -63,11 +66,28 @@ class ConfirmInvitationForm extends Model
     {
         return [
             [['confirmPassword', 'name', 'password'], RequiredValidator::class],
-            [['name'], StringValidator::class, 'max' => 50],
-            [['name'], RegularExpressionValidator::class, 'pattern' => User::NAME_REGEX],
-            [['password'], StrengthValidator::class, 'usernameValue' => $this->email, 'preset' => StrengthValidator::NORMAL],
-            [['confirmPassword'], CompareValidator::class, 'compareAttribute' => 'password', 'message' => \Yii::t('app', "Passwords don't match")],
-            [['subscribeToNewsletter'], DefaultValueValidator::class, 'value' => false],
+            [['name'],
+                StringValidator::class,
+                'max' => 50,
+            ],
+            [['name'],
+                RegularExpressionValidator::class,
+                'pattern' => User::NAME_REGEX,
+            ],
+            [['password'],
+                StrengthValidator::class,
+                'usernameValue' => $this->email,
+                'preset' => StrengthValidator::NORMAL,
+            ],
+            [['confirmPassword'],
+                CompareValidator::class,
+                'compareAttribute' => 'password',
+                'message' => \Yii::t('app', "Passwords don't match"),
+            ],
+            [['subscribeToNewsletter'],
+                DefaultValueValidator::class,
+                'value' => false,
+            ],
         ];
     }
 }

@@ -50,7 +50,7 @@ class WorkspaceRepository implements
             $record = new Workspace();
         }
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new WorkspaceId($record->id);
@@ -58,14 +58,18 @@ class WorkspaceRepository implements
 
     public function retrieveForBreadcrumb(WorkspaceId $id): ForBreadcrumbInterface
     {
-        $record = Workspace::findOne(['id' => $id]);
+        $record = Workspace::findOne([
+            'id' => $id,
+        ]);
         return new WorkspaceForBreadcrumb($record);
     }
 
     public function retrieveForFacilityList(WorkspaceId $id): WorkspaceForCreateOrUpdateFacility
     {
         /** @var null|Workspace $workspace */
-        $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
+        $workspace = Workspace::find()->with('project')->andWhere([
+            'id' => $id,
+        ])->one();
         $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
         $project = $workspace->project;
 
@@ -89,7 +93,9 @@ class WorkspaceRepository implements
     public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForCreateOrUpdateFacility
     {
         /** @var null|Workspace $workspace */
-        $workspace = Workspace::find()->with('project')->andWhere(['id' => $id])->one();
+        $workspace = Workspace::find()->with('project')->andWhere([
+            'id' => $id,
+        ])->one();
         $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_CREATE_FACILITY);
         $project = $workspace->project;
 
@@ -109,7 +115,9 @@ class WorkspaceRepository implements
 
     public function retrieveForRead(IntegerId|WorkspaceId $id): Workspace
     {
-        $record = Workspace::findOne(['id' => $id]);
+        $record = Workspace::findOne([
+            'id' => $id,
+        ]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
 
@@ -118,7 +126,9 @@ class WorkspaceRepository implements
 
     public function retrieveForRequestAccess(WorkspaceId $id): Workspace
     {
-        $record = Workspace::find()->andWhere(['id' => $id])->asArray()->one();
+        $record = Workspace::find()->andWhere([
+            'id' => $id,
+        ])->asArray()->one();
 
         $workspace = Workspace::instantiate([]);
         Workspace::populateRecord($workspace, $record);
@@ -127,7 +137,9 @@ class WorkspaceRepository implements
 
     public function retrieveForShare(WorkspaceId $id): Workspace
     {
-        $record = Workspace::findOne(['id' => $id]);
+        $record = Workspace::findOne([
+            'id' => $id,
+        ]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_SHARE);
 
@@ -138,9 +150,11 @@ class WorkspaceRepository implements
     {
         $record = Workspace::find()
             ->withFields('facilityCount')
-            ->andWhere(['id' => $id])->one();
+            ->andWhere([
+                'id' => $id,
+            ])->one();
 
-        if (!isset($record)) {
+        if (! isset($record)) {
             throw new NotFoundHttpException();
         }
         return new \prime\models\workspace\WorkspaceForTabMenu($this->accessCheck, $record);
@@ -148,7 +162,9 @@ class WorkspaceRepository implements
 
     public function retrieveForUpdate(IntegerId|WorkspaceId $id): WorkspaceUpdate|WorkspaceUpdateForLimesurvey
     {
-        $record = Workspace::findOne(['id' => $id]);
+        $record = Workspace::findOne([
+            'id' => $id,
+        ]);
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
         $workspaceId = new WorkspaceId($record->id);
@@ -165,10 +181,12 @@ class WorkspaceRepository implements
 
     public function save(WorkspaceUpdate|WorkspaceUpdateForLimesurvey $model): WorkspaceId
     {
-        $record = Workspace::findOne(['id' => $model->getId()]);
+        $record = Workspace::findOne([
+            'id' => $model->getId(),
+        ]);
 
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new WorkspaceId($record->id);

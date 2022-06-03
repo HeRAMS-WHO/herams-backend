@@ -23,6 +23,7 @@ use yii\web\User;
 class AuditService implements BootstrapInterface, AuditServiceInterface
 {
     public string $table = '{{%audit}}';
+
     /**
      * @var array<NewAuditEntryInterface, int>
      */
@@ -97,16 +98,15 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
         return $this->user->getId();
     }
 
-
     public function bootstrap($app): void
     {
-        if (!$app instanceof Application) {
+        if (! $app instanceof Application) {
             throw new NotSupportedException('This service only supports web application');
         }
         $this->db = $app->getDb();
         $this->user = $app->getUser();
 
-        $app->on(Application::EVENT_AFTER_REQUEST, fn() => $this->commit());
+        $app->on(Application::EVENT_AFTER_REQUEST, fn () => $this->commit());
     }
 
     public function commit(): void
@@ -126,7 +126,7 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
                 $entry->getSubjectId(),
                 $entry->getEvent()->value,
                 $timestamp,
-                $userId
+                $userId,
             ];
         }
 

@@ -27,7 +27,10 @@ class ProjectOwnerCest
         $manager->grant($user, $project, Permission::PERMISSION_SURVEY_DATA);
 
         $I->assertUserCan($workspace, Permission::PERMISSION_SURVEY_DATA);
-        $I->amOnPage(['workspace/facilities', 'id' => $workspace->id]);
+        $I->amOnPage([
+            'workspace/facilities',
+            'id' => $workspace->id,
+        ]);
         $I->seeResponseCodeIs(200);
         $I->seeInSource('Refresh workspace');
     }

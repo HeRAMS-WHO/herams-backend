@@ -25,7 +25,10 @@ class CreateCest
         $project = $I->haveProjectForLimesurvey();
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->amOnPage(['page/create', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'page/create',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(403);
     }
 
@@ -33,9 +36,14 @@ class CreateCest
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
         $project = $I->haveProjectForLimesurvey();
-        $I->amOnPage(['page/create', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'page/create',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => 'Page[title]'], 'Test');
+        $I->fillField([
+            'name' => 'Page[title]',
+        ], 'Test');
         $I->click('Create page');
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(Page::class, [
@@ -47,7 +55,10 @@ class CreateCest
     public function testCreateInvalidProject(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $I->amOnPage(['page/create', 'project_id' => 1245]);
+        $I->amOnPage([
+            'page/create',
+            'project_id' => 1245,
+        ]);
         $I->seeResponseCodeIs(404);
     }
 
@@ -59,10 +70,17 @@ class CreateCest
         $parentPage->title = 'parent';
         $parentPage->project_id = $project->id;
         $I->save($parentPage);
-        $I->amOnPage(['page/create', 'project_id' => $project->id]);
+        $I->amOnPage([
+            'page/create',
+            'project_id' => $project->id,
+        ]);
         $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => 'Page[title]'], 'Test');
-        $I->selectOption(['name' => 'Page[parent_id]'], $parentPage->id);
+        $I->fillField([
+            'name' => 'Page[title]',
+        ], 'Test');
+        $I->selectOption([
+            'name' => 'Page[parent_id]',
+        ], $parentPage->id);
         $I->click('Create page');
         $I->seeResponseCodeIsSuccessful();
         $I->seeRecord(Page::class, [

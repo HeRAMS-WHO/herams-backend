@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 class AdminController extends Controller
 {
     public $defaultAction = 'dashboard';
+
     public $layout = self::LAYOUT_ADMIN;
 
     public function actions(): array
@@ -20,7 +21,7 @@ class AdminController extends Controller
         return [
             'dashboard' => Dashboard::class,
             'limesurvey' => Limesurvey::class,
-            'share' => Share::class
+            'share' => Share::class,
         ];
     }
 
@@ -35,8 +36,8 @@ class AdminController extends Controller
                             'allow' => ['dashboard'],
                             'roles' => ['@'],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
     }

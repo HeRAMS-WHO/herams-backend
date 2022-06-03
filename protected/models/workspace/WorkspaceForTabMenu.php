@@ -15,7 +15,9 @@ final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
     use CanCurrentUser;
 
     private WorkspaceId $id;
+
     private ProjectId $projectId;
+
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private Workspace $model

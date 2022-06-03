@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
+use prime\components\ActiveForm;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use yii\helpers\Html;
@@ -14,14 +14,13 @@ use yii\helpers\Json as Json;
  * @var \prime\models\forms\ResponseFilter $filterModel
  * @var \prime\models\ar\Project $project
  * @var \prime\components\View $this
- *
  */
 
 
 $form = ActiveForm::begin([
-        'method' => 'GET',
-        "type" => ActiveForm::TYPE_HORIZONTAL,
-    ]);
+    'method' => 'GET',
+    "type" => ActiveForm::TYPE_HORIZONTAL,
+]);
     /** @var \SamIT\LimeSurvey\Interfaces\SurveyInterface $survey */
     $groups = $project->getSurvey()->getGroups();
     usort($groups, function (GroupInterface $a, GroupInterface $b) {
@@ -30,7 +29,8 @@ $form = ActiveForm::begin([
 
     $filters = [];
 
-    $matcher = new \yii\web\JsExpression(<<<JS
+    $matcher = new \yii\web\JsExpression(
+        <<<JS
     function(params, data) {
         if (typeof params.term === 'undefined' || params.term.length === 0) {
             return data;
@@ -79,7 +79,9 @@ JS
     $date = $filterModel->date;
     $filtersList = $filterModel->advanced;
     if (isset($date) || (is_array($filtersList) && count($filtersList) > 0)) {
-        echo Html::beginTag('div', ['class' => 'selected-filters-list']);
+        echo Html::beginTag('div', [
+            'class' => 'selected-filters-list',
+        ]);
         echo "<span class='list-title'>" . \Yii::t('app', 'Filters') . " :</span>";
         if (isset($date)) {
             echo "<span class='label'>" . \Yii::t('app', 'Date') . " : </span> <span class='value'>{$date}</span> ";
@@ -119,8 +121,10 @@ JS
             'project/view',
             'id' => $project->id,
             'page_id' => \Yii::$app->request->getQueryParam('page_id'),
-            'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-        ], ['class' => 'btn btn-close']);
+            'parent_id' => \Yii::$app->request->getQueryParam('parent_id'),
+        ], [
+            'class' => 'btn btn-close',
+        ]);
         echo Html::endTag('div');
     }
 
@@ -150,12 +154,12 @@ JS
                         'labelOptions' => [
                             'title' => implode(': ', [
                                 trim(html_entity_decode($group->getTitle())),
-                                $filterModel->getAttributeLabel($attribute)
+                                $filterModel->getAttributeLabel($attribute),
                             ]),
                             'data-keywords' => implode(' ', [
                                 trim(html_entity_decode($group->getTitle())),
-                                $filterModel->getAttributeLabel($attribute)
-                            ])
+                                $filterModel->getAttributeLabel($attribute),
+                            ]),
                         ],
                     ],
                     'options' => [
@@ -166,13 +170,13 @@ JS
 
                         ],
                         'pluginOptions' => [
-                            'matcher' => $matcher
+                            'matcher' => $matcher,
                         ],
 
                         'data' => $filterModel->advancedOptions($question->getTitle()),
 
 
-                    ]
+                    ],
                 ];
             } elseif ($question->getAnswers() !== null && $question->getDimensions() === 1) {
                 continue;
@@ -196,10 +200,16 @@ JS
 
 
 
-    echo Html::beginTag('div', ['class' => 'filterlist']);
+    echo Html::beginTag('div', [
+        'class' => 'filterlist',
+    ]);
 
-    echo Html::beginTag('div', ['class' => 'group']);
-        echo Html::beginTag('div', ['class' => 'group-title']);
+    echo Html::beginTag('div', [
+        'class' => 'group',
+    ]);
+        echo Html::beginTag('div', [
+            'class' => 'group-title',
+        ]);
             echo "Date";
         echo Html::endTag('div');
             echo Form::widget([
@@ -210,47 +220,57 @@ JS
                     'date' => [
                         'options' => [
                             'autocomplete' => 'off',
-                            'size' => 8
+                            'size' => 8,
                         ],
                         'fieldConfig' => [
                             'labelOptions' => [
                                 'title' => implode(': ', [
                                     trim(html_entity_decode($filterModel->getAttributeLabel('date'))),
-                                    $filterModel->getAttributeLabel('date')
+                                    $filterModel->getAttributeLabel('date'),
                                 ]),
                                 'data-keywords' => implode(' ', [
                                     trim(html_entity_decode($filterModel->getAttributeLabel('date'))),
-                                    $filterModel->getAttributeLabel('date')
-                                ])
+                                    $filterModel->getAttributeLabel('date'),
+                                ]),
                             ],
                         ],
                         'class' => 'filter filter_when',
-                    ]
-                ])
+                    ],
+                ]),
             ]);
             echo Html::endTag('div');
 
             foreach ($filters as $groupTitle => $questionGroup) {
-                echo Html::beginTag('div', ['class' => 'group']);
-                    echo Html::beginTag('div', ['class' => 'group-title']);
+                echo Html::beginTag('div', [
+                    'class' => 'group',
+                ]);
+                echo Html::beginTag('div', [
+                    'class' => 'group-title',
+                ]);
                 echo $groupTitle;
-                    echo Html::endTag('div');
-                    echo Form::widget([
-                'form' => $form,
-                'model' => $filterModel,
-                'columns' => 2,
-                "attributes" => \iter\toArrayWithKeys($questionGroup)
-                    ]);
+                echo Html::endTag('div');
+                echo Form::widget([
+                    'form' => $form,
+                    'model' => $filterModel,
+                    'columns' => 2,
+                    "attributes" => \iter\toArrayWithKeys($questionGroup),
+                ]);
                 echo Html::endTag('div');
             }
             echo Html::endTag('div');
-            echo Html::beginTag('div', ['class' => 'actions']);
-                echo Html::submitButton(\Yii::t('app', 'Apply'), ['class' => 'btn btn-primary']);
+            echo Html::beginTag('div', [
+                'class' => 'actions',
+            ]);
+                echo Html::submitButton(\Yii::t('app', 'Apply'), [
+                    'class' => 'btn btn-primary',
+                ]);
                 echo Html::a(\Yii::t('app', 'Clear'), [
-                'project/view',
-                'id' => $project->id,
-                'page_id' => \Yii::$app->request->getQueryParam('page_id'),
-                'parent_id' => \Yii::$app->request->getQueryParam('parent_id')
-                ], ['class' => 'btn btn-clear']);
+                    'project/view',
+                    'id' => $project->id,
+                    'page_id' => \Yii::$app->request->getQueryParam('page_id'),
+                    'parent_id' => \Yii::$app->request->getQueryParam('parent_id'),
+                ], [
+                    'class' => 'btn btn-clear',
+                ]);
                 echo Html::endTag('div');
                 $form->end();

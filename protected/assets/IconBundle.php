@@ -9,11 +9,11 @@ class IconBundle extends AssetBundle
     public $sourcePath = __DIR__ . '/icons';
 
     public $js = [
-        'svgxuse.js'
+        'svgxuse.js',
     ];
 
     public $css = [
         'style.css',
-        'font.css'
+        'font.css',
     ];
 }

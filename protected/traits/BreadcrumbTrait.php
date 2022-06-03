@@ -13,9 +13,13 @@ namespace prime\traits;
 trait BreadcrumbTrait
 {
     private bool $encode = true;
+
     private array $htmlOptions = [];
+
     private string|null $label = null;
+
     private string|null $template = null;
+
     private string|array|null $url = null;
 
     public function getEncode(): bool

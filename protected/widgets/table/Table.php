@@ -15,7 +15,7 @@ class Table extends Element
     use SurveyHelper;
 
     public $options = [
-        'class' => 'table'
+        'class' => 'table',
     ];
 
     public string $code;
@@ -24,7 +24,9 @@ class Table extends Element
 
     public $reasonMap;
 
-    /** @var HeramsResponseInterface[] $data */
+    /**
+     * @var HeramsResponseInterface[]
+     */
     public $data = [];
 
     public $groupCode;
@@ -33,7 +35,7 @@ class Table extends Element
         'Name',
         'Availability (%)',
         'Main problem',
-        'Main cause (%)'
+        'Main cause (%)',
     ];
 
     public $title;
@@ -132,7 +134,7 @@ class Table extends Element
                 /** @phpstan-ignore-next-line */
                 empty($reasons) ? 'Unknown' : $reasonMap[array_keys($reasons)[0]] ?? array_keys($reasons)[0],
                 /** @phpstan-ignore-next-line */
-                empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 0)
+                empty($reasons) ? 'Unknown' : number_format(100.0 * array_values($reasons)[0] / $total, 0),
             ];
         }
     }
@@ -153,7 +155,6 @@ class Table extends Element
 
     /**
      * @param HeramsSubject|HeramsResponseInterface $data
-     * @return string|null
      */
     private function getGroup($data): ?string
     {

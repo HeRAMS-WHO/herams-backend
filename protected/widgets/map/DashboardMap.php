@@ -14,7 +14,9 @@ class DashboardMap extends Element
     use SurveyHelper;
 
     public const DEFAULT_MARKER_RADIUS = 2;
+
     public const TILE_LAYER = 'tileLayer';
+
     public $baseLayers = [
         [
             "type" => DashboardMap::TILE_LAYER,
@@ -22,19 +24,21 @@ class DashboardMap extends Element
             "url" => "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             'options' => [
                 'maxZoom' => 30,
-                'maxNativeZoom' => 17
-            ]
-        ]
+                'maxNativeZoom' => 17,
+            ],
+        ],
     ];
 
     public $options = [
-        'class' => ['map']
+        'class' => ['map'],
     ];
 
     private $center = [8.6753, 9.0820];
+
     private $zoom = 5.4;
 
     public $markerRadius = self::DEFAULT_MARKER_RADIUS;
+
     /**
      * @var HeramsResponseInterface[]
      */
@@ -53,7 +57,7 @@ class DashboardMap extends Element
 
     private function getCollections(iterable $data)
     {
-        $method  = 'get' . ucfirst($this->code);
+        $method = 'get' . ucfirst($this->code);
         if (method_exists(HeramsResponseInterface::class, $method)) {
             $getter = function ($response) use ($method) {
                 return $response->$method();
@@ -94,13 +98,16 @@ class DashboardMap extends Element
                 if (is_array($value)) {
                     $value = array_shift($value);
                 }
-                if (!isset($collections[$value])) {
+                if (! isset($collections[$value])) {
                     $collections[$value] = [
                         "type" => "FeatureCollection",
                         'features' => [],
                         "title" => $this->types[$value] ?? $value ?? 'Unknown',
                         'value' => $value,
-                        'color' => $this->colors[strtr($value, ['-' => '_'])] ?? '#000000'
+                        'color' => $this->colors[strtr($value, [
+                            '-' => '_',
+                        ])] ??
+'#000000',
                     ];
                 }
 
@@ -109,7 +116,10 @@ class DashboardMap extends Element
                     try {
                         $qtitle = $titles[$key];
                         $qvalue = $answers[$key][$response->getValueForCode($key)];
-                        $pointData[] =  ["title" => "{$qtitle}", "value" => "{$qvalue}"];
+                        $pointData[] = [
+                            "title" => "{$qtitle}",
+                            "value" => "{$qvalue}",
+                        ];
                     } catch (\Throwable $t) {
                     }
                 }
@@ -122,7 +132,7 @@ class DashboardMap extends Element
                     "type" => "Feature",
                     "geometry" => [
                         "type" => "Point",
-                        "coordinates" => [$longitude, $latitude]
+                        "coordinates" => [$longitude, $latitude],
                     ],
                     "properties" => [
                         'title' => $response->getName() ?? 'No name',
@@ -131,7 +141,7 @@ class DashboardMap extends Element
                         'data' => $pointData,
                         'value' => $value,
                         'color' => $collections[$value]['color'],
-                    ]
+                    ],
                 ];
                 $collections[$value]['features'][] = $point;
             } catch (\Throwable $t) {
@@ -158,12 +168,12 @@ class DashboardMap extends Element
             'center' => $this->center,
             'zoom' => $this->zoom,
             'zoomControl' => false,
-            'maxZoom' => 15
+            'maxZoom' => 15,
         ]);
 
         $id = Json::encode($this->getId());
         $this->types = $this->getAnswers($this->code);
-        $data =  Json::encode($this->getCollections($this->data));
+        $data = Json::encode($this->getCollections($this->data));
         $baseLayers = Json::encode($this->baseLayers);
         $code = Json::encode($this->code);
         $markerRadius = Json::encode($this->markerRadius);
@@ -224,10 +234,8 @@ JS);
         unset($this->data);
         unset($this->types);
 
-
         return parent::run();
     }
-
 
     protected function registerClientScript()
     {

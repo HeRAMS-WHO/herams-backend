@@ -20,12 +20,15 @@ use yii\helpers\Html;
  * @var View $this
  */
 
-$this->title = \Yii::t('app', 'Compare data for HF {hf}', ['hf' => $storedResponse->hf_id]);
+$this->title = \Yii::t('app', 'Compare data for HF {hf}', [
+    'hf' => $storedResponse->hf_id,
+]);
 
 $export = new Export($storedResponse->workspace->project->survey);
 $export->answersAsText = true;
-$writer = new class implements WriterInterface {
+$writer = new class() implements WriterInterface {
     private $table = [];
+
     private $columnCount = 0;
 
     public function writeRecord(
@@ -75,7 +78,8 @@ $writer = new class implements WriterInterface {
     }
 };
 
-$this->registerCss(<<<CSS
+$this->registerCss(
+    <<<CSS
 .main,
 .main .content {
     max-width: inherit;
@@ -106,7 +110,9 @@ Section::begin();
 
 $export->run($writer, ResponseForLimesurvey::find()->andWhere($storedResponse->getPrimaryKey(true)));
 
-$options = ['class' => ['column']];
+$options = [
+    'class' => ['column'],
+];
 
 echo Html::beginTag('div', $options);
     echo Html::tag('h1', 'Our latest data');

@@ -11,6 +11,8 @@ class FacilityQuery extends ActiveQuery
 {
     public function withIdentity(string $id): self
     {
-        return $this->andWhere(['id' => Uuid::fromString($id)->getBytes()]);
+        return $this->andWhere([
+            'id' => Uuid::fromString($id)->getBytes(),
+        ]);
     }
 }

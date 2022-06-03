@@ -4,7 +4,7 @@ use prime\models\ar\Permission;
 
 $debug = [];
 if (class_exists(\yii\debug\Module::class)) {
-    if (!CONSOLE) {
+    if (! CONSOLE) {
         $debug['modules']['debug'] = [
             'dataPath' => '/tmp/debug',
             'as ' . \yii\filters\AccessControl::class => [
@@ -12,12 +12,12 @@ if (class_exists(\yii\debug\Module::class)) {
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => [Permission::PERMISSION_DEBUG_TOOLBAR]
+                        'roles' => [Permission::PERMISSION_DEBUG_TOOLBAR],
                     ],
                     [
                         'allow' => true,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'class' => yii\debug\Module::class,
             'allowedIPs' => ['*'],

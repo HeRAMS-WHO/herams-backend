@@ -15,12 +15,14 @@ class Limesurvey extends Action
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $project = Project::findOne(['id' => $id]);
-        if (!isset($project)) {
+        $project = Project::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($project)) {
             throw new NotFoundHttpException();
         }
         return $this->controller->render('limesurvey', [
-            'project' => $project
+            'project' => $project,
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -18,8 +19,7 @@ class ChartHelper
     private function getGroup(
         HeramsFacilityRecordInterface $record,
         VariableInterface $groupingVariable
-    ): string|null
-    {
+    ): string|null {
         $value = $groupingVariable->getValue($record);
         if ($value instanceof ValueOptionInterface) {
             return $value->getDisplayValue();
@@ -39,8 +39,10 @@ class ChartHelper
                         'group' => $group,
                         'label' => $valueOption->getDisplayValue($locale),
                         'value' => rand(1, 1000),
-                        'color' => $colorMap[$key] ?? 'rgb(' . implode(',',
-                                [mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)]) . ')',
+                        'color' => $colorMap[$key] ?? 'rgb(' . implode(
+                            ',',
+                            [mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)]
+                        ) . ')',
                     ];
                 }
             }
@@ -55,12 +57,9 @@ class ChartHelper
         array $colorMap,
         string $locale,
         iterable $data
-
-    ): array
-    {
-
+    ): array {
         $variables = [];
-        foreach($variableNames as $variableName) {
+        foreach ($variableNames as $variableName) {
             $variables[] = $variableSet->getVariable($variableName);
         }
 
@@ -68,23 +67,21 @@ class ChartHelper
         // Get all categories for the chart.
         if (isset($groupingVariableName)) {
             $groupingVariable = $variableSet->getVariable($groupingVariableName);
-            if (!$groupingVariable instanceof ClosedVariableInterface) {
+            if (! $groupingVariable instanceof ClosedVariableInterface) {
                 throw new InvalidArgumentException('Grouping variable must be closed');
             }
 
-            $groups = toArray(map(fn(ValueOptionInterface $option) => $option->getDisplayValue(), $groupingVariable->getValueOptions()));
-            foreach($groups as $group) {
+            $groups = toArray(map(fn (ValueOptionInterface $option) => $option->getDisplayValue(), $groupingVariable->getValueOptions()));
+            foreach ($groups as $group) {
                 $points[$group] = $this->initializeGroup($group, $locale, $colorMap, ...$variables);
             }
         } else {
             $points[null] = $this->initializeGroup(null, $locale, $colorMap, ...$variables);
         }
 
-
-
         // Iterate over data.
         $n = 0;
-        foreach($data as $record) {
+        foreach ($data as $record) {
             $group = isset($groupingVariable) ? $this->getGroup($record, $groupingVariable) : null;
 
             // A record is counted towards the 'n' if it contains any value
@@ -100,13 +97,11 @@ class ChartHelper
             if ($relevant) {
                 $n++;
             }
-
         }
 
         return [
             'data' => toArray(flatten($points, 1)),
-            'n' => $n
+            'n' => $n,
         ];
-
     }
 }

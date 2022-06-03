@@ -17,7 +17,10 @@ class CreateCest
         $email = 'testnew@test.com';
 
         $signer = \Yii::$app->urlSigner;
-        $route = ['/user/create', 'email' => $email];
+        $route = [
+            '/user/create',
+            'email' => $email,
+        ];
         $signer->signParams($route);
         $I->amOnPage($route);
         $I->seeResponseCodeIs(200);

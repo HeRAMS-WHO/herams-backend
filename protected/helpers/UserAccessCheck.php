@@ -17,20 +17,21 @@ class UserAccessCheck implements AccessCheckInterface
     {
         $this->user = $user;
     }
+
     public function requirePermission(?object $model, string $permission, ?string $forbiddenMessage = null): void
     {
-        if (!isset($model)) {
+        if (! isset($model)) {
             throw new NotFoundHttpException();
         }
 
-        if (!$this->user->can($permission, $model)) {
+        if (! $this->user->can($permission, $model)) {
             throw new ForbiddenHttpException($forbiddenMessage);
         }
     }
 
     public function requireGlobalPermission(string $permission, ?string $forbiddenMessage = null): void
     {
-        if (!$this->user->can($permission)) {
+        if (! $this->user->can($permission)) {
             throw new ForbiddenHttpException($forbiddenMessage);
         }
     }

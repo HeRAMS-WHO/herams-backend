@@ -61,8 +61,8 @@ class FacilityController extends Controller
                             'allow' => true,
                             'roles' => ['@'],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
     }

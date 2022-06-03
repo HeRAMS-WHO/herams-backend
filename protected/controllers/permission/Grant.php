@@ -34,7 +34,7 @@ class Grant extends Action
             $abacResolver->toSubject($target),
             $permission
         );
-        if (!$user->can(Permission::PERMISSION_CREATE, $proposedGrant)) {
+        if (! $user->can(Permission::PERMISSION_CREATE, $proposedGrant)) {
             throw new ForbiddenHttpException();
         }
 

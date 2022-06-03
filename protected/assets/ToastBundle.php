@@ -9,9 +9,10 @@ class ToastBundle extends AssetBundle
     public $baseUrl = '@npm/izitoast/dist';
 
     public $js = [
-        'js/iziToast.js'
+        'js/iziToast.js',
     ];
+
     public $css = [
-        'css/iziToast.css'
+        'css/iziToast.css',
     ];
 }

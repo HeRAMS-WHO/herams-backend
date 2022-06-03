@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m190722_084803_create_response_table extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%response}}', [
@@ -19,7 +16,7 @@ class m190722_084803_create_response_table extends Migration
             'data' => $this->json(),
             'date' => $this->date()->notNull(),
             'hf_id' => $this->string(20)->append('COLLATE ascii_bin')->notNull(),
-            'last_updated' => $this->dateTime()->defaultExpression('NOW()')
+            'last_updated' => $this->dateTime()->defaultExpression('NOW()'),
         ]);
 
         $this->addPrimaryKey('response', '{{%response}}', ['id', 'survey_id']);
@@ -28,9 +25,6 @@ class m190722_084803_create_response_table extends Migration
         $this->addForeignKey('workspace', '{{%response}}', ['workspace_id'], '{{%workspace}}', ['id']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('{{%response}}');

@@ -13,11 +13,17 @@ use yii\web\User;
 class Section extends Widget
 {
     public iterable $actions = [];
+
     public string $header;
+
     public array $headerOptions = [];
+
     public array $options = [];
+
     private int $outputBuffer;
+
     public string $permission;
+
     public object $subject;
 
     private function filterButtons(): iterable
@@ -29,7 +35,7 @@ class Section extends Widget
 
             if (isset($action['permission'])) {
                 if ($action['permission'] instanceof \Closure) {
-                    if (!$action['permission']($this->subject, $this->getUserComponent())) {
+                    if (! $action['permission']($this->subject, $this->getUserComponent())) {
                         continue;
                     }
                 } elseif (isset($this->subject) && $this->subject instanceof CanCurrentUser) {
@@ -37,7 +43,7 @@ class Section extends Widget
                         yield $action;
                     }
                     continue;
-                } elseif (!$this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
+                } elseif (! $this->getUserComponent()->can($action['permission'], $this->subject ?? [])) {
                     continue;
                 }
             }
@@ -165,8 +171,7 @@ class Section extends Widget
 
     public function run(): string
     {
-
-        if (isset($this->permission) && !$this->getUserComponent()->can($this->permission, $this->subject)) {
+        if (isset($this->permission) && ! $this->getUserComponent()->can($this->permission, $this->subject)) {
             ob_get_clean();
             return '';
         }
@@ -178,7 +183,7 @@ class Section extends Widget
         $result .= Html::tag('h1', $this->header ?? '', $this->headerOptions);
 
         $result .= NavigationButtonGroup::widget([
-            'buttons' => $this->filterButtons()
+            'buttons' => $this->filterButtons(),
         ]);
 
         $result .= Html::endTag('header');

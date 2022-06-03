@@ -15,7 +15,7 @@ class Status extends Action
         $response->format = Response::FORMAT_JSON;
         $response->data = array_filter([
             'commit' => $hash ?? 'unknown',
-            'github' => $hash ? "https://github.com/HeRAMS-WHO/herams-backend/commit/$hash" : null
+            'github' => $hash ? "https://github.com/HeRAMS-WHO/herams-backend/commit/$hash" : null,
         ]);
     }
 }

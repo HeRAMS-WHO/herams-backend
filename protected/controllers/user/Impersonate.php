@@ -20,16 +20,18 @@ class Impersonate extends Action
         User $user,
         int $id
     ): Response {
-        if (!$request->isPost) {
+        if (! $request->isPost) {
             throw new MethodNotAllowedHttpException();
         }
 
-        if (!$user->can(Permission::PERMISSION_ADMIN)) {
+        if (! $user->can(Permission::PERMISSION_ADMIN)) {
             throw new ForbiddenHttpException();
         }
 
-        $targetUser = \prime\models\ar\User::findOne(['id' => $id]);
-        if (!isset($targetUser)) {
+        $targetUser = \prime\models\ar\User::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($targetUser)) {
             throw new NotFoundHttpException();
         }
 

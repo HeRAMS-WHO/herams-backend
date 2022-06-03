@@ -20,8 +20,11 @@ use function iter\toArray;
 class LocalizableWriteBehavior extends Behavior
 {
     public string $translationProperty = 'i18n';
+
     public string $defaultLocale = 'en-US';
+
     public string $locale = 'en-US';
+
     /**
      * @var array Attribute names that are localizable
      */
@@ -31,7 +34,7 @@ class LocalizableWriteBehavior extends Behavior
 
     private function attributeName(string $name): string
     {
-        if (!preg_match(self::REGEX, $name, $matches)) {
+        if (! preg_match(self::REGEX, $name, $matches)) {
             throw new \InvalidArgumentException("$name does not have expected format");
         }
         return lcfirst($matches[1]);
@@ -41,9 +44,9 @@ class LocalizableWriteBehavior extends Behavior
     {
         parent::attach($owner);
 
-        $validator =  new InlineValidator();
+        $validator = new InlineValidator();
         $behavior = $this;
-        $validator->attributes = toArray(map(fn($attribute) => "i18n" . ucfirst($attribute), $this->attributes));
+        $validator->attributes = toArray(map(fn ($attribute) => "i18n" . ucfirst($attribute), $this->attributes));
 
         $validator->method = function (string $attribute, ?array $params, InlineValidator $validator, $current) use ($behavior) {
             assert($this instanceof Model);
@@ -68,9 +71,13 @@ class LocalizableWriteBehavior extends Behavior
                 }
             } finally {
                 $this->{$realAttributeName} = $realValue;
-                $this->addErrors([$attribute => $this->getErrors($realAttributeName)]);
+                $this->addErrors([
+                    $attribute => $this->getErrors($realAttributeName),
+                ]);
                 $this->clearErrors($realAttributeName);
-                $this->addErrors([$realAttributeName => $realErrors]);
+                $this->addErrors([
+                    $realAttributeName => $realErrors,
+                ]);
             }
         };
         $owner->getValidators()->append($validator);
@@ -81,7 +88,6 @@ class LocalizableWriteBehavior extends Behavior
         $this->owner->getValidators()->offsetUnset(self::class);
         parent::detach();
     }
-
 
     public function canSetProperty($name, $checkVars = true)
     {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use prime\components\ActiveForm;
 use app\components\Form;
 use kartik\select2\Select2;
+use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Survey;
 use prime\models\forms\project\Create;
@@ -27,8 +27,8 @@ $form = ActiveForm::begin([
     'formConfig' => [
         'showLabels' => true,
         'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 echo Form::widget([
     'form' => $form,
@@ -47,7 +47,7 @@ echo Form::widget([
                     'admin_survey_id' => $model->getAttributeLabel('admin_survey_id'),
                     'data_survey_id' => $model->getAttributeLabel('data_survey_id'),
                 ]
-            )
+            ),
         ],
         'base_survey_eid' => [
             'type' => Form::INPUT_WIDGET,
@@ -69,7 +69,6 @@ echo Form::widget([
                 'data' => $model->surveyIdOptions(),
                 'options' => [
                     'placeholder' => '',
-
                 ],
                 'pluginOptions' => [
                     'allowClear' => true,
@@ -91,13 +90,18 @@ echo Form::widget([
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => ProjectVisibility::toArray()
+            'items' => ProjectVisibility::toArray(),
         ],
-        FormButtonsWidget::embed([
-            'buttons' =>  [
-                ['label' => \Yii::t('app', 'Create project'), 'style' => 'primary'],
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    [
+                        'label' => \Yii::t('app', 'Create project'),
+                        'style' => 'primary',
+                    ],
+                ],
             ]
-        ])
+        ),
     ],
 ]);
 $form->end();

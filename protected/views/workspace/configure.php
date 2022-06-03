@@ -15,26 +15,38 @@ use yii\bootstrap\Html;
 
 $this->title = Yii::t('app', 'Update workspace token');
 
-echo Html::beginTag('div', ['class' => 'content no-tab']);
+echo Html::beginTag('div', [
+    'class' => 'content no-tab',
+]);
 
 
 
-echo Html::beginTag('div', ['class' => 'topbar']);
-echo Html::beginTag('div', ['class' => 'pull-left']);
+echo Html::beginTag('div', [
+    'class' => 'topbar',
+]);
+echo Html::beginTag('div', [
+    'class' => 'pull-left',
+]);
 
-echo Html::beginTag('div', ['class' => 'count']);
+echo Html::beginTag('div', [
+    'class' => 'count',
+]);
 echo Icon::list();
 echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
 echo Html::tag('em', $model->facilityCount);
 echo Html::endTag('div');
 
-echo Html::beginTag('div', ['class' => 'count']);
+echo Html::beginTag('div', [
+    'class' => 'count',
+]);
 echo Icon::contributors();
 echo Html::tag('span', \Yii::t('app', 'Contributors'));
 echo Html::tag('em', $model->contributorCount);
 echo Html::endTag('div');
 
-echo Html::beginTag('div', ['class' => 'count']);
+echo Html::beginTag('div', [
+    'class' => 'count',
+]);
 echo Icon::recycling();
 echo Html::tag('span', \Yii::t('app', 'Latest update'));
 echo Html::tag('em', $model->latestUpdate);
@@ -42,12 +54,22 @@ echo Html::endTag('div');
 
 echo Html::endTag('div');
 
-echo Html::beginTag('div', ['class' => 'btn-group pull-right']);
-echo Html::a(Icon::project(), ['project/view', 'id' => $model->project->id], ['title' => \Yii::t('app', 'Project dashboard'), 'class' => 'btn btn-white btn-circle']);
+echo Html::beginTag('div', [
+    'class' => 'btn-group pull-right',
+]);
+echo Html::a(Icon::project(), [
+    'project/view',
+    'id' => $model->project->id,
+], [
+    'title' => \Yii::t('app', 'Project dashboard'),
+    'class' => 'btn btn-white btn-circle',
+]);
 echo Html::endTag('div');
 echo Html::endTag('div');
 
-echo Html::beginTag('div', ['class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}"]);
+echo Html::beginTag('div', [
+    'class' => "content layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}",
+]);
 
 ?>
 <div class="form-content form-bg">
@@ -59,16 +81,18 @@ $form = ActiveForm::begin([
     'formConfig' => [
         'showLabels' => true,
         'defaultPlaceholder' => false,
-        'labelSpan' => 3
-    ]
+        'labelSpan' => 3,
+    ],
 ]);
 foreach ($token->attributes() as $attribute) {
-    echo Html::beginTag('div', ['class' => "row"]);
+    echo Html::beginTag('div', [
+        'class' => "row",
+    ]);
     if ($token->isAttributeSafe($attribute)) {
         echo $form->field($token, $attribute);
     } else {
         echo $form->field($token, $attribute)->textInput([
-            'readonly' => true
+            'readonly' => true,
         ]);
     }
     echo Html::endTag('div');
@@ -76,11 +100,13 @@ foreach ($token->attributes() as $attribute) {
 
 echo ButtonGroup::widget([
     'options' => [
-        'class' => 'pull-right'
+        'class' => 'pull-right',
     ],
     'buttons' => [
-        Html::submitButton(\Yii::t('app', 'Update token'), ['class' => 'btn btn-primary'])
-    ]
+        Html::submitButton(\Yii::t('app', 'Update token'), [
+            'class' => 'btn btn-primary',
+        ]),
+    ],
 ]);
 $form->end();
 ?>

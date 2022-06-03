@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -29,14 +30,13 @@ class StrategyActiveRecordHydrator implements ActiveRecordHydratorInterface
         $this->strategies[] = [$source, $hydrator];
     }
 
-
     public function hydrateActiveRecord(Model $source, ActiveRecord $target): void
     {
         /**
          * @var ValidateTypeInterface $validator
          * @var ActiveRecordHydratorInterface $hydrator
          */
-        foreach($this->strategies as [$validator, $hydrator]) {
+        foreach ($this->strategies as [$validator, $hydrator]) {
             if ($validator->validate($source, $target)) {
                 $hydrator->hydrateActiveRecord($source, $target);
                 return;

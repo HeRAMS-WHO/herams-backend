@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m180405_150034_create_indicator_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('{{%indicator}}', [
@@ -20,13 +17,10 @@ class m180405_150034_create_indicator_table extends Migration
             'query' => $this->text(),
             'cr_date' => $this->dateTime(),
             'up_date' => $this->dateTime(),
-            'end_date' => $this->dateTime()
+            'end_date' => $this->dateTime(),
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%indicator}}');

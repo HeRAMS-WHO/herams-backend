@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\element;
@@ -25,24 +26,24 @@ class Create extends Action
         Response $response,
         int $projectId
     ) {
-
         $variableSet = $variableSetRepository->retrieveForProject(new ProjectId($projectId));
         $model = new Chart($variableSet);
         $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
-        if (!$model->validate()) {
+        if (! $model->validate()) {
             $response->setStatusCode(422);
 
             return $model->errors;
         }
-
 
         \Yii::error($model->attributes);
 
         $createdElement = $elementRepository->create($model);
 
         $response->setStatusCode(201);
-        $response->headers->add('Location', Url::to(['/api/element/view', 'id' => $createdElement->id], true));
+        $response->headers->add('Location', Url::to([
+            '/api/element/view',
+            'id' => $createdElement->id,
+        ], true));
         return $model;
     }
-
 }

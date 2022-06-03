@@ -12,7 +12,9 @@ use yii\validators\CompareValidator;
 class UpdatePasswordForm extends Model
 {
     public string $currentPassword = '';
+
     public string $newPassword = '';
+
     public string $newPasswordRepeat = '';
 
     public function __construct(
@@ -39,13 +41,20 @@ class UpdatePasswordForm extends Model
     public function rules(): array
     {
         return [
-            [['newPasswordRepeat'], CompareValidator::class, 'compareAttribute' => 'newPassword'],
-            [['newPassword'], StrengthValidator::class, 'usernameValue' => $this->user->email, 'preset' => 'normal'],
+            [['newPasswordRepeat'],
+                CompareValidator::class,
+                'compareAttribute' => 'newPassword',
+            ],
+            [['newPassword'],
+                StrengthValidator::class,
+                'usernameValue' => $this->user->email,
+                'preset' => 'normal',
+            ],
             [['currentPassword'], function ($attribute, $params, $validator) {
-                if (!password_verify($this->currentPassword, $this->user->password_hash)) {
+                if (! password_verify($this->currentPassword, $this->user->password_hash)) {
                     $this->addError($attribute, "Incorrect password");
                 }
-            }]
+            }],
         ];
     }
 

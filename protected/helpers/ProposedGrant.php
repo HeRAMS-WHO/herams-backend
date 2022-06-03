@@ -7,8 +7,11 @@ namespace prime\helpers;
 class ProposedGrant
 {
     private $source;
+
     private $target;
+
     private $permission;
+
     public function __construct(object $source, object $target, string $permission)
     {
         $this->source = $source;

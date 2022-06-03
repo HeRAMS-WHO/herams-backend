@@ -33,8 +33,8 @@ echo GridView::widget([
     'pjaxSettings' => [
         'options' => [
             // Just links in the header.
-            'linkSelector' => 'th a'
-        ]
+            'linkSelector' => 'th a',
+        ],
     ],
     'layout' => "{items}\n{pager}",
     'dataProvider' => $dataProvider,
@@ -45,7 +45,10 @@ echo GridView::widget([
         [
             'attribute' => 'project.title',
             'value' => function (WorkspaceForLimesurvey $workspace) {
-                return Html::a($workspace->project->title, ['/project/workspaces', 'id' => $workspace->project->id]);
+                return Html::a($workspace->project->title, [
+                    '/project/workspaces',
+                    'id' => $workspace->project->id,
+                ]);
             },
             'format' => 'raw',
         ],
@@ -53,7 +56,10 @@ echo GridView::widget([
             'class' => DrilldownColumn::class,
             'label' => 'Workspace',
             'link' => static function (WorkspaceForLimesurvey $workspace) {
-                return ['workspace/limesurvey', 'id' => $workspace->id];
+                return [
+                    'workspace/limesurvey',
+                    'id' => $workspace->id,
+                ];
             },
             'permission' => Permission::PERMISSION_SURVEY_DATA,
             'attribute' => 'title',
@@ -63,7 +69,7 @@ echo GridView::widget([
         ],
         [
             'label' => '# Contributors',
-            'attribute' => 'contributorCount'
+            'attribute' => 'contributorCount',
         ],
         [
             'label' => '# Health facilities',
@@ -71,12 +77,13 @@ echo GridView::widget([
         ],
         [
             'label' => '# Responses',
-            'value' => 'responseCount'
+            'value' => 'responseCount',
         ],
         [
-            'class' => FavoriteColumn::class
+            'class' => FavoriteColumn::class,
+
         ],
-    ]
+    ],
 ]);
 
 Section::end();

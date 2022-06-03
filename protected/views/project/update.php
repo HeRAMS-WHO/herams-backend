@@ -72,60 +72,66 @@ echo Form::widget([
             'html5type' => 'number',
             'options' => [
                 'min' => -90,
-                'max' => 90
-            ]
+                'max' => 90,
+            ],
         ],
         'longitude' => [
-            'type' => Form::INPUT_TEXT
+            'type' => Form::INPUT_TEXT,
         ],
         'status' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => ProjectStatus::toArray()
+            'items' => ProjectStatus::toArray(),
         ],
         'visibility' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => ProjectVisibility::toArray()
+            'items' => ProjectVisibility::toArray(),
         ],
         'country' => [
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => Select2::class,
             'options' => [
                 'data' => toArrayWithKeys(chain(
-                    ['' => Yii::t('app', '(Not set)')],
+                    [
+                        '' => Yii::t('app', '(Not set)'),
+                    ],
                     map(nested_index('name'), (new ISO3166())->iterator(ISO3166::KEY_ALPHA3))
                 )),
 
-            ]
+
+            ],
         ],
         'manage_implies_create_hf' => [
             'type' => Form::INPUT_DROPDOWN_LIST,
             'items' => [
                 '0' => Yii::t('app', 'Disabled'),
-                '1' => Yii::t('app', 'Enabled')
-            ]
+                '1' => Yii::t('app', 'Enabled'),
+            ],
         ],
         'typemap' => [
             'type' => Form::INPUT_TEXTAREA,
             'options' => [
                 'value' => json_encode($model->typemap, JSON_PRETTY_PRINT),
-                'rows' => 5
+                'rows' => 5,
             ],
-            'visible' => $model->isAttributeSafe('typemap')
+            'visible' => $model->isAttributeSafe('typemap'),
         ],
         'overrides' => [
             'type' => Form::INPUT_TEXTAREA,
             'options' => [
                 'value' => json_encode($model->overrides, JSON_PRETTY_PRINT),
-                'rows' => 5
+                'rows' => 5,
             ],
 
         ],
         FormButtonsWidget::embed([
             'buttons' => [
-                ['label' => Yii::t('app', 'Update'), 'style' => 'primary'],
+                [
+                    'label' => Yii::t('app', 'Update'),
+                    'style' => 'primary',
+                ],
             ],
         ]),
-    ]
+    ],
 ]);
 
 ActiveForm::end();
@@ -147,15 +153,18 @@ echo ButtonGroup::widget([
         [
             'icon' => Icon::trash(),
             'label' => Yii::t('app', 'Delete'),
-            'link' => ['project/delete', 'id' => $project->id],
+            'link' => [
+                'project/delete',
+                'id' => $project->id,
+            ],
             'style' => ButtonGroup::STYLE_DELETE,
             'linkOptions' => [
                 'data-method' => 'delete',
                 'title' => Yii::t('app', 'Delete project'),
                 'data-confirm' => Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ]);
 
 Section::end();
@@ -176,15 +185,18 @@ echo ButtonGroup::widget([
         [
             'icon' => Icon::trash(),
             'label' => Yii::t('app', 'Delete all workspaces'),
-            'link' => ['project/delete-workspaces', 'id' => $project->id],
+            'link' => [
+                'project/delete-workspaces',
+                'id' => $project->id,
+            ],
             'style' => ButtonGroup::STYLE_DELETE,
             'linkOptions' => [
                 'data-method' => 'delete',
                 'title' => Yii::t('app', 'Delete all workspaces in project'),
                 'data-confirm' => Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ]);
 
 Section::end();
@@ -200,10 +212,14 @@ try {
             [
                 'icon' => Icon::sync(),
                 'label' => Yii::t('app', 'Sync'),
-                'link' => ['project/sync-workspaces', 'id' => $project->id],
+                'link' => [
+                    'project/sync-workspaces',
+                    'id' => $project->id,
+                ],
                 'style' => 'default',
-            ]
-        ]
+            ],
+
+        ],
     ]);
 } catch (Exception $e) {
 }

@@ -73,29 +73,39 @@ class Facility extends ActiveRecord
 
     public function getAdminSurvey(): ActiveQuery
     {
-        return $this->hasOne(Survey::class, ['id' => 'admin_survey_id'])
+        return $this->hasOne(Survey::class, [
+            'id' => 'admin_survey_id',
+        ])
             ->via('project');
     }
 
     public function getAdminSurveyResponses(): ActiveQuery
     {
-        return $this->getSurveyResponses()->andWhere(['survey_id' => $this->project->admin_survey_id]);
+        return $this->getSurveyResponses()->andWhere([
+            'survey_id' => $this->project->admin_survey_id,
+        ]);
     }
 
     public function getDataSurvey(): ActiveQuery
     {
-        return $this->hasOne(Survey::class, ['id' => 'data_survey_id'])
+        return $this->hasOne(Survey::class, [
+            'id' => 'data_survey_id',
+        ])
             ->via('project');
     }
 
     public function getDataSurveyResponses(): ActiveQuery
     {
-        return $this->getSurveyResponses()->andWhere(['survey_id' => $this->project->data_survey_id]);
+        return $this->getSurveyResponses()->andWhere([
+            'survey_id' => $this->project->data_survey_id,
+        ]);
     }
 
     public function getProject(): ActiveQuery
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id'])
+        return $this->hasOne(Project::class, [
+            'id' => 'project_id',
+        ])
             ->via('workspace');
     }
 
@@ -109,14 +119,14 @@ class Facility extends ActiveRecord
     public function getSurveyResponses(): ActiveQuery
     {
         return $this->hasMany(SurveyResponse::class, [
-            'facility_id' => 'id'
+            'facility_id' => 'id',
         ]);
     }
 
     public function getWorkspace(): ActiveQuery
     {
         return $this->hasOne(Workspace::class, [
-            'id' => 'workspace_id'
+            'id' => 'workspace_id',
         ]);
     }
 
@@ -160,7 +170,11 @@ class Facility extends ActiveRecord
         return [
             [['name', 'workspace_id'], RequiredValidator::class],
             [['alternative_name', 'name', 'code'], StringValidator::class],
-            [['workspace_id'], ExistValidator::class, 'targetClass' => Workspace::class, 'targetAttribute' => 'id'],
+            [['workspace_id'],
+                ExistValidator::class,
+                'targetClass' => Workspace::class,
+                'targetAttribute' => 'id',
+            ],
             [['latitude', 'longitude'], NumberValidator::class],
         ];
     }
@@ -170,17 +184,17 @@ class Facility extends ActiveRecord
         return [
             'adminSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-//                VirtualFieldBehavior::GREEDY =>,
+                //                VirtualFieldBehavior::GREEDY =>,
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return $model->getAdminSurveyResponses()->count();
-                }
+                },
             ],
             'dataSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-//                VirtualFieldBehavior::GREEDY =>,
+                //                VirtualFieldBehavior::GREEDY =>,
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return $model->getDataSurveyResponses()->count();
-                }
+                },
             ],
         ];
     }

@@ -18,14 +18,15 @@ class ExportDashboard extends Action
         int $id
     ) {
         $this->controller->layout = \prime\components\Controller::LAYOUT_ADMIN;
-        $project = Project::find()->with('mainPages')->where(['id' => $id])->one();
-        if (!isset($project)) {
+        $project = Project::find()->with('mainPages')->where([
+            'id' => $id,
+        ])->one();
+        if (! isset($project)) {
             throw new NotFoundHttpException('Project not found');
         }
-        if (!$user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
+        if (! $user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
-
 
         $response->format = Response::FORMAT_JSON;
         $response->data = $project->exportDashboard();

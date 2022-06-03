@@ -15,13 +15,16 @@ $this->registerAssetBundle(\prime\assets\AppAsset::class);
 
 echo $this->render('//menu');
 
-echo Html::tag('div', $content, ['class' => [
-    'content',
-    "layout-{$this->context->layout}",
-    "controller-{$this->context->id}",
-    "action-{$this->context->action->id}"
+echo Html::tag('div', $content, [
+    'class' => [
+        'content',
+        "layout-{$this->context->layout}",
+        "controller-{$this->context->id}",
+        "action-{$this->context->action->id}",
 
-], 'style' => [
-]]);
+    ],
+    'style' => [
+    ],
+]);
 
 $this->endContent();

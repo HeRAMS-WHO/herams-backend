@@ -9,10 +9,10 @@ use yii\helpers\Html;
 use yii\web\YiiAsset;
 use yii\widgets\Breadcrumbs;
 
-/**
- * @var View $this
- * @var string $content
- */
+    /**
+     * @var View $this
+     * @var string $content
+     */
 
     $this->beginPage();
 
@@ -43,7 +43,7 @@ echo Html::beginTag('body', $this->params['body'] ?? []);
 $this->beginBody();
 
 echo $this->render('//user-menu', [
-    'class' => ['front']
+    'class' => ['front'],
 ]);
 ?>
 <div class="title">
@@ -65,11 +65,13 @@ foreach ($this->getBreadcrumbCollection() as $breadcrumb) {
         'activeItemTemplate' => "<li class=\"active\">{link}" . \prime\helpers\Icon::chevronRight() . "</li>\n",
         'homeLink' => [
             'label' => \Yii::t('app', 'World overview'),
-            'url' => '/'
+            'url' => '/',
         ],
         'links' => $links,
     ]);
-    echo Html::tag('span', $this->title, ['class' => 'header']);
+    echo Html::tag('span', $this->title, [
+        'class' => 'header',
+    ]);
     ?></div>
 <?php
     echo $content;

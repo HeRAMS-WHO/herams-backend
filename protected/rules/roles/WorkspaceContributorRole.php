@@ -13,44 +13,29 @@ use SamIT\abac\interfaces\Rule;
 
 class WorkspaceContributorRole implements Rule
 {
-    /**
-     * @inheritDoc
-     */
     public function getPermissions(): array
     {
         return [
             Permission::PERMISSION_SURVEY_DATA,
-            Permission::PERMISSION_EXPORT
+            Permission::PERMISSION_EXPORT,
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTargetNames(): array
     {
         return [WorkspaceForLimesurvey::class];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSourceNames(): array
     {
         return [User::class];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
         return 'have the correct role';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(
         object $source,
         object $target,

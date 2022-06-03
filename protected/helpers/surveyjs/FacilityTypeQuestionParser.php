@@ -33,8 +33,6 @@ class FacilityTypeQuestionParser implements ElementParserInterface
 
         yield from $this->singleChoiceQuestionParser->parse($root, $questionConfig, $surveyConfiguration, $dataPrefix);
 
-
-
         foreach ($this->singleChoiceQuestionParser->parse($root, $questionConfig, $surveyConfiguration, $dataPrefix) as $variable) {
             // We want to alter the closed question only.
             if ($variable instanceof ClosedVariableInterface) {

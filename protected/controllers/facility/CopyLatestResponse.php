@@ -38,8 +38,14 @@ class CopyLatestResponse extends Action
 
             $responseRepository->updateExternalId($newInternalId, $newExternalId);
         } else {
-            return $this->controller->redirect(['update-situation', 'id' => $id]);
+            return $this->controller->redirect([
+                'update-situation',
+                'id' => $id,
+            ]);
         }
-        return $this->controller->redirect(['responses', 'id' => $facilityId]);
+        return $this->controller->redirect([
+            'responses',
+            'id' => $facilityId,
+        ]);
     }
 }

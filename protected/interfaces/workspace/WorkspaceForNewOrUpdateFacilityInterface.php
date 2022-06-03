@@ -12,9 +12,14 @@ use prime\values\WorkspaceId;
 interface WorkspaceForNewOrUpdateFacilityInterface
 {
     public function getAdminSurveyId(): SurveyId;
+
     public function getId(): WorkspaceId;
+
     public function getLanguages(): LanguageSet;
+
     public function getProjectId(): ProjectId;
+
     public function getProjectTitle(): string;
+
     public function getTitle(): string;
 }

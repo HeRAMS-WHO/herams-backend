@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\validators;
@@ -16,32 +17,31 @@ class VariableValidator extends Validator
 
     protected function validateValue($value)
     {
-        if (is_array($value) && !$this->allowArray) {
+        if (is_array($value) && ! $this->allowArray) {
             return ['Expected one variable, got a list of variables', []];
         }
 
         $variables = is_array($value) ? $value : [$value];
 
         $dictionary = [];
-        foreach($this->variableSet->getVariableNames() as $variableName) {
+        foreach ($this->variableSet->getVariableNames() as $variableName) {
             $dictionary[$variableName] = true;
         }
 
         $invalid = [];
-        foreach($variables as $variableName) {
-            if (!isset($dictionary[$variableName])) {
+        foreach ($variables as $variableName) {
+            if (! isset($dictionary[$variableName])) {
                 $invalid[] = $variableName;
             }
         }
 
-        if (!empty($invalid)) {
+        if (! empty($invalid)) {
             return ["The following variables are invalid: {names}", [
-                'names' => implode(',', $invalid)
+                'names' => implode(',', $invalid),
             ]];
         }
         return null;
     }
-
 
     public static function singleFromSet(VariableSetInterface $variableSet, string ...$attributes): static
     {

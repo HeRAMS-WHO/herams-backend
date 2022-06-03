@@ -15,7 +15,9 @@ use yii\validators\StringValidator;
 class Project extends Model
 {
     public $title;
+
     public $id;
+
     public function rules(): array
     {
         return [
@@ -26,17 +28,17 @@ class Project extends Model
 
     public function search($params, \yii\web\User $user): FilteredActiveDataProvider
     {
-        /** @var  $query */
+        /** @var $query */
         $query = ProjectRead::find()
             ->withFields('contributorCount', 'workspaceCount', 'facilityCount', 'responseCount', 'pageCount');
         $dataProvider = new FilteredActiveDataProvider([
             'filter' => function (\prime\models\ar\Project $project) use ($user) {
-                return !$project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
+                return ! $project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
             },
             'query' => $query,
             'pagination' => [
-                'pageSize' => 50
-            ]
+                'pageSize' => 50,
+            ],
         ]);
 
         $sort = new Sort([
@@ -47,17 +49,21 @@ class Project extends Model
                 'workspaceCount',
                 'facilityCount',
                 'responseCount',
-                'contributorCount'
+                'contributorCount',
             ],
-            'defaultOrder' => ['title' => SORT_ASC]
+            'defaultOrder' => [
+                'title' => SORT_ASC,
+            ],
         ]);
         $dataProvider->setSort($sort);
-        if (!$this->load($params) || !$this->validate()) {
+        if (! $this->load($params) || ! $this->validate()) {
             return $dataProvider;
         }
 
         $query->andFilterWhere(['like', 'title', $this->title]);
-        $query->andFilterWhere(['id' => $this->id]);
+        $query->andFilterWhere([
+            'id' => $this->id,
+        ]);
         return $dataProvider;
     }
 }

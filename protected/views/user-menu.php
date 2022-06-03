@@ -15,7 +15,8 @@ use yii\web\View;
  * @var array|null $class
  */
 
-$this->registerCss(<<<CSS
+$this->registerCss(
+    <<<CSS
 .user-menu a .badge {
   position: absolute;
   margin-top: -8px;
@@ -32,7 +33,9 @@ CSS
 );
 
 
-echo Html::beginTag('div', ['class' => array_merge(['user-menu'], $class ?? [])]);
+echo Html::beginTag('div', [
+    'class' => array_merge(['user-menu'], $class ?? []),
+]);
 /** @var User $user */
 $user = \Yii::$app->user->identity;
 ?>
@@ -47,15 +50,25 @@ if (strpos($lang, '-')) {
 if (app()->user->can(Permission::PERMISSION_ADMIN)) {
     echo Html::a(Icon::level(), ['/admin']);
 }
-echo Html::a(Icon::home(), ['/'], ['class' => 'home']);
-echo Html::a(Icon::admin(), ['/project/index'], ['class' => 'admin']);
+echo Html::a(Icon::home(), ['/'], [
+    'class' => 'home',
+]);
+echo Html::a(Icon::admin(), ['/project/index'], [
+    'class' => 'admin',
+]);
 echo Html::a(Icon::star(), ['/user/favorites']);
 echo Html::a(Icon::user(), ['/user/profile']);
 $userNotificationService = \Yii::createObject(UserNotificationRepository::class);
 if ($user && ($notificationCount = $userNotificationService->getNewNotificationCountForUser($user)) > 0) {
-    echo Html::a(Icon::bell() . Html::tag('div', $notificationCount, ['class' => ['badge']]), ['/user/notifications']);
+    echo Html::a(Icon::bell() . Html::tag('div', $notificationCount, [
+        'class' => ['badge'],
+    ]), ['/user/notifications']);
 }
-echo Html::a(Icon::question() . '<small>' . Icon::external_link() . '</small>', Url::to('https://docs.herams.org/'), ['target' => '_blank']);
-echo Html::a(Icon::signOutAlt(), ['/session/delete'], ['data-method' => 'delete']);
+echo Html::a(Icon::question() . '<small>' . Icon::external_link() . '</small>', Url::to('https://docs.herams.org/'), [
+    'target' => '_blank',
+]);
+echo Html::a(Icon::signOutAlt(), ['/session/delete'], [
+    'data-method' => 'delete',
+]);
 ?>
 </div>

@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 use yii\db\Migration;
 
-/**
- * Class m211012_112105_create_audit_log
- */
 class m211012_112105_create_audit_log extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%audit}}', [
@@ -20,14 +14,11 @@ class m211012_112105_create_audit_log extends Migration
             'subject_id' => $this->integer()->notNull(),
             'event' => $this->string(30)->notNull()->append('COLLATE ascii_bin'),
             'created_at' => $this->dateTime()->notNull(),
-            'created_by' => $this->integer()->notNull()
+            'created_by' => $this->integer()->notNull(),
         ]);
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('{{%audit}}');

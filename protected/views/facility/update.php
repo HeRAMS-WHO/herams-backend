@@ -19,7 +19,9 @@ $this->title = $tabMenuModel->getTitle();
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
-    ['facility' => $tabMenuModel]
+    [
+        'facility' => $tabMenuModel,
+    ]
 );
 $this->endBlock();
 
@@ -29,7 +31,10 @@ Section::begin()
 $survey = Survey::begin()
     ->withConfig($model->getSurvey()->getConfig())
     ->withData($model->data ?? [])
-    ->withSubmitRoute(['facility/update', 'id' => $model->getFacilityId()])
+    ->withSubmitRoute([
+        'facility/update',
+        'id' => $model->getFacilityId(),
+    ])
     ->withLanguages($model->getLanguages())
 ;
 

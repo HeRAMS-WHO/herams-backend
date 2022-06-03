@@ -9,6 +9,7 @@ use prime\interfaces\BreadcrumbInterface;
 class BreadcrumbCollection implements \Iterator
 {
     private array $values = [];
+
     private int $position = 0;
 
     public function __construct(array $values = [])

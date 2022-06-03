@@ -11,8 +11,11 @@ use yii\db\ActiveRecord;
 class NewAuditEntry implements NewAuditEntryInterface
 {
     private string $subjectName;
+
     private int $subjectId;
+
     private AuditEvent $event;
+
     private function __construct()
     {
     }

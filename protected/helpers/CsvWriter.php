@@ -16,6 +16,7 @@ use function iter\toArray;
 class CsvWriter implements WriterInterface
 {
     private $stream;
+
     private $size;
 
     public function __construct()
@@ -23,12 +24,12 @@ class CsvWriter implements WriterInterface
         $this->reset();
     }
 
-
     private function reset()
     {
         $this->stream = fopen('php://temp', 'w');
         $this->size = 0;
     }
+
     private function fputcsv(iterable $data): void
     {
         $result = fputcsv($this->stream, is_array($data) ? $data : toArray($data));
@@ -53,7 +54,9 @@ class CsvWriter implements WriterInterface
     public function getStream(): StreamInterface
     {
         rewind($this->stream);
-        $result = new Stream($this->stream, ['size' => $this->size]);
+        $result = new Stream($this->stream, [
+            'size' => $this->size,
+        ]);
         $this->reset();
         return $result;
     }

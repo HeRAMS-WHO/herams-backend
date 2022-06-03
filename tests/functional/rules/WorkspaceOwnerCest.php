@@ -28,20 +28,21 @@ class WorkspaceOwnerCest
         $manager->grant($user, $workspace, Permission::PERMISSION_EXPORT);
         $manager->grant($user, $workspace, Permission::PERMISSION_SHARE);
 
-
         foreach (
             [
-            Permission::PERMISSION_EXPORT => true,
-            Permission::PERMISSION_SURVEY_DATA => true,
-            Permission::PERMISSION_SHARE => false,
-            Permission::PERMISSION_WRITE => false,
-            Permission::PERMISSION_READ => true,
-            Permission::PERMISSION_ADMIN => false,
-            Permission::PERMISSION_MANAGE_WORKSPACES => false,
-            Permission::PERMISSION_MANAGE_DASHBOARD => false,
+                Permission::PERMISSION_EXPORT => true,
+                Permission::PERMISSION_SURVEY_DATA => true,
+                Permission::PERMISSION_SHARE => false,
+                Permission::PERMISSION_WRITE => false,
+                Permission::PERMISSION_READ => true,
+                Permission::PERMISSION_ADMIN => false,
+                Permission::PERMISSION_MANAGE_WORKSPACES => false,
+                Permission::PERMISSION_MANAGE_DASHBOARD => false,
             ] as $permission => $result
         ) {
-            $proposedGrant = new ProposedGrant(User::findOne(['id' => TEST_OTHER_USER_ID]), $workspace, $permission);
+            $proposedGrant = new ProposedGrant(User::findOne([
+                'id' => TEST_OTHER_USER_ID,
+            ]), $workspace, $permission);
             $I->assertSame($result, $manager->check($user, $proposedGrant, Permission::PERMISSION_CREATE), $result ? "Permission $permission not allowed" : "Permission $permission allowed");
         }
     }

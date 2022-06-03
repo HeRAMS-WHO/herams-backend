@@ -24,7 +24,9 @@ use yii\web\IdentityInterface;
 class Respond extends Model
 {
     private array $permissionOptions = [];
+
     public $permissions = [];
+
     public string $response = '';
 
     public function __construct(
@@ -43,7 +45,7 @@ class Respond extends Model
     {
         return [
             'permissions' => \Yii::t('app', 'Permissions to grant'),
-            'response' => \Yii::t('app', 'Explanation of grant or deny')
+            'response' => \Yii::t('app', 'Explanation of grant or deny'),
         ];
     }
 
@@ -55,9 +57,9 @@ class Respond extends Model
         try {
             $this->accessRequest->response = $this->response;
             $this->accessRequest->responded_by = $this->identity->id;
-            $this->accessRequest->accepted = !empty($this->permissions);
+            $this->accessRequest->accepted = ! empty($this->permissions);
             $this->accessRequest->responded_at = Carbon::now();
-            if (!$this->accessRequest->save()) {
+            if (! $this->accessRequest->save()) {
                 throw new \RuntimeException('Failed saving the access request.');
             }
 
@@ -125,7 +127,7 @@ class Respond extends Model
                 Permission::PERMISSION_SUPER_SHARE,
 
                 Permission::ROLE_LEAD => \Yii::t('app', 'Workspace owner'),
-            ]
+            ],
         ];
 
         $permissionOptions = $permissionOptions ?? $defaultPermissionOptions[$this->accessRequest->target_class];
@@ -145,11 +147,21 @@ class Respond extends Model
     public function rules(): array
     {
         return [
-            [['response'], FilterValidator::class, 'filter' => 'trim'],
+            [['response'],
+                FilterValidator::class,
+                'filter' => 'trim',
+            ],
             [['response'], RequiredValidator::class],
             [['response'], StringValidator::class],
-            [['permissions'], DefaultValueValidator::class, 'value' => []],
-            [['permissions'], RangeValidator::class, 'range' => array_keys($this->permissionOptions), 'allowArray' => true],
+            [['permissions'],
+                DefaultValueValidator::class,
+                'value' => [],
+            ],
+            [['permissions'],
+                RangeValidator::class,
+                'range' => array_keys($this->permissionOptions),
+                'allowArray' => true,
+            ],
         ];
     }
 }

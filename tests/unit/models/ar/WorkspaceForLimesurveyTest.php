@@ -24,12 +24,12 @@ class WorkspaceForLimesurveyTest extends ActiveRecordTest
                         $project->base_survey_eid = '12345';
                         $this->assertTrue($project->save(), print_r($project->errors, true));
                         return $project->id;
-                    }
-                ]
+                    },
+                ],
             ],
-//            [
-//                []
-//            ]
+            //            [
+            //                []
+            //            ]
         ];
     }
 
@@ -41,21 +41,21 @@ class WorkspaceForLimesurveyTest extends ActiveRecordTest
                     'closed_at' => 'abc',
                     'token' => 'test123',
 
-                ]
+                ],
             ],
             [
                 [
                     'token' => 'test123',
-                    'project_id' => 1
+                    'project_id' => 1,
                 ],
                 null,
                 // This is a pre inserted record, so it has to be valid.
                 [
                     'token' => 'test123',
                     'title' => 'test',
-                    'project_id' => 1
-                ]
-            ]
+                    'project_id' => 1,
+                ],
+            ],
         ];
     }
 }

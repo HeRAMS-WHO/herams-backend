@@ -20,8 +20,8 @@ class Project extends \prime\models\ar\Project implements ProjectForTabMenuInter
             'localizable' => [
                 'class' => LocalizableReadBehavior::class,
                 'locale' => \Yii::$app->language,
-                'attributes' => ['title']
-            ]
+                'attributes' => ['title'],
+            ],
         ]);
     }
 

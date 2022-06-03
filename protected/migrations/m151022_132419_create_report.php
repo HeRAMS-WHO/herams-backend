@@ -19,7 +19,7 @@ class m151022_132419_create_report extends Migration
                 'published' => $this->dateTime()->notNull(),
                 'user_data' => $this->text()->notNull(),
                 'project_id' => $this->integer(),
-                'generator' => $this->string()
+                'generator' => $this->string(),
             ]
         );
     }

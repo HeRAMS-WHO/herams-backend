@@ -2,22 +2,13 @@
 
 use yii\db\Migration;
 
-/**
- * Class m190213_140128_rename_tool_table
- */
 class m190213_140128_rename_tool_table extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->renameTable('{{%tool}}', '{{%project}}');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->renameTable('{{%project}}', '{{%tool}}');

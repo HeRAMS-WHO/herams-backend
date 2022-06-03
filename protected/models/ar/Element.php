@@ -41,16 +41,18 @@ use yii\validators\SafeValidator;
  */
 class Element extends ActiveRecord implements Exportable
 {
-    const TYPE_BARCHART = 'barchart';
-    const TYPE_CHART = 'chart';
-    const TYPE_MAP = 'map';
-    const TYPE_TABLE = 'table';
+    public const TYPE_BARCHART = 'barchart';
+
+    public const TYPE_CHART = 'chart';
+
+    public const TYPE_MAP = 'map';
+
+    public const TYPE_TABLE = 'table';
 
     final public static function find(): ElementQuery
     {
         return new ElementQuery(self::class);
     }
-
 
     public function __construct($config = [])
     {
@@ -64,7 +66,7 @@ class Element extends ActiveRecord implements Exportable
     {
         return array_merge($this->config, [
             'width' => $this->width,
-            'height' => $this->height
+            'height' => $this->height,
         ]);
     }
 
@@ -75,7 +77,7 @@ class Element extends ActiveRecord implements Exportable
 
     public static function instantiate($row): self
     {
-        if (!isset($row['type'])) {
+        if (! isset($row['type'])) {
             throw new \InvalidArgumentException('Type must be set');
         }
 
@@ -118,7 +120,6 @@ class Element extends ActiveRecord implements Exportable
         return 'Element';
     }
 
-
     public function getCode(): ?string
     {
         return $this->config['code'] ?? null;
@@ -145,19 +146,23 @@ class Element extends ActiveRecord implements Exportable
 
     public function getPage()
     {
-        return $this->hasOne(Page::class, ['id' => 'page_id'])->inverseOf('elements');
+        return $this->hasOne(Page::class, [
+            'id' => 'page_id',
+        ])->inverseOf('elements');
     }
 
     public function getProject()
     {
-        return $this->hasOne(Project::class, ['id' => 'project_id'])->via('page');
+        return $this->hasOne(Project::class, [
+            'id' => 'project_id',
+        ])->via('page');
     }
 
     public function getConfigAsJson()
     {
         $result = [];
         foreach ($this->config ?? [] as $key => $value) {
-            if (!$this->canGetProperty($key)) {
+            if (! $this->canGetProperty($key)) {
                 $result[$key] = $value;
             }
         }
@@ -178,6 +183,7 @@ class Element extends ActiveRecord implements Exportable
             yield from $data;
         }
     }
+
     public function getTitle(): ?string
     {
         return $this->config['title'] ?? null;
@@ -198,9 +204,20 @@ class Element extends ActiveRecord implements Exportable
     {
         return [
             [['sort', 'type', 'transpose', 'code', 'width', 'height'], RequiredValidator::class],
-            [['type'], RangeValidator::class, 'range' => array_keys($this->typeOptions())],
-            [['width', 'height'], NumberValidator::class, 'integerOnly' => true, 'min' => 1, 'max' => 4],
-            [['sort'], NumberValidator::class, 'integerOnly' => true],
+            [['type'],
+                RangeValidator::class,
+                'range' => array_keys($this->typeOptions()),
+            ],
+            [['width', 'height'],
+                NumberValidator::class,
+                'integerOnly' => true,
+                'min' => 1,
+                'max' => 4,
+            ],
+            [['sort'],
+                NumberValidator::class,
+                'integerOnly' => true,
+            ],
             [['transpose'], BooleanValidator::class],
             'colors' => [['colors'], SafeValidator::class],
         ];
@@ -216,7 +233,7 @@ class Element extends ActiveRecord implements Exportable
             'sort' => \Yii::t('app', 'Sort'),
             'transpose' => \Yii::t('app', 'Transpose'),
             'width' => \Yii::t('app', 'Width'),
-            'height' => \Yii::t('app', 'Height')
+            'height' => \Yii::t('app', 'Height'),
         ]);
     }
 
@@ -238,7 +255,6 @@ class Element extends ActiveRecord implements Exportable
         ];
     }
 
-
     public function export(): array
     {
         $attributes = $this->attributes;
@@ -254,18 +270,16 @@ class Element extends ActiveRecord implements Exportable
 
     /**
      * @param Page $parent
-     * @param array $data
-     * @return Element
      */
     public static function import($parent, array $data): Element
     {
-        if (!$parent instanceof Page) {
+        if (! $parent instanceof Page) {
             throw new \InvalidArgumentException('Parent must be instance of page');
         }
         $result = Element::instantiate($data['attributes']);
         $result->setAttributes($data['attributes'], false);
         $result->page_id = $parent->id;
-        if (!$result->validate()) {
+        if (! $result->validate()) {
             throw new InvalidArgumentException('Validation failed: ' . print_r($result->errors, true));
         }
         $result->save(false);

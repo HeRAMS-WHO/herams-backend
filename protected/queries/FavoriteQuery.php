@@ -13,7 +13,9 @@ class FavoriteQuery extends ActiveQuery
 {
     public function filterTargetClass(string $class): self
     {
-        return $this->andWhere(['target_class' => $class]);
+        return $this->andWhere([
+            'target_class' => $class,
+        ]);
     }
 
     public function projects(): self
@@ -23,7 +25,9 @@ class FavoriteQuery extends ActiveQuery
 
     public function user(User $user): self
     {
-        return $this->andWhere(['user_id' => $user->id]);
+        return $this->andWhere([
+            'user_id' => $user->id,
+        ]);
     }
 
     public function workspaces(): self

@@ -30,7 +30,9 @@ class AjaxSave extends Action
 
         $hydrator->hydrateFromRequestArray($model, $request->getBodyParams());
         if ($model->validate()) {
-            return ['id' => $repository->create($model)];
+            return [
+                'id' => $repository->create($model),
+            ];
         } else {
             $response->setStatusCode(422);
             return $model->errors;
@@ -47,7 +49,7 @@ class AjaxSave extends Action
     ): array {
         $response->format = Response::FORMAT_JSON;
 
-        if (!$request->isPost) {
+        if (! $request->isPost) {
             throw new MethodNotAllowedHttpException();
         }
 
@@ -69,7 +71,9 @@ class AjaxSave extends Action
 
         $hydrator->hydrateFromRequestArray($model, $request->getBodyParams());
         if ($model->validate()) {
-            return ['id' => $repository->update($model)];
+            return [
+                'id' => $repository->update($model),
+            ];
         } else {
             $response->setStatusCode(422);
             return $model->errors;

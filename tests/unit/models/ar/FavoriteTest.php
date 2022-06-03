@@ -25,7 +25,6 @@ class FavoriteTest extends ActiveRecordTest
         return [];
     }
 
-
     public function testRelations(): void
     {
         $this->testRelation('user', User::class);

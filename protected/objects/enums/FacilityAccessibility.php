@@ -39,7 +39,7 @@ enum FacilityAccessibility:string
             'unknown' => \Yii::t('app', 'Unknown'),
             'full' => \Yii::t('app', 'Fully accessible'),
             'partial' => \Yii::t('app', 'Partially accessible'),
-            'none' => \Yii::t('app', 'Not accessible')
+            'none' => \Yii::t('app', 'Not accessible'),
         ];
     }
 }
