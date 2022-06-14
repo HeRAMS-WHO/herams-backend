@@ -57,4 +57,12 @@ class VariableValidator extends Validator
         $result->allowArray = true;
         return $result;
     }
+
+    public function withCondition(callable $when): self
+    {
+        $this->when = $when;
+        return $this;
+    }
+
+
 }

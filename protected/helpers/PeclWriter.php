@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
+use GuzzleHttp\Psr7\Utils;
 use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
 use Psr\Http\Message\StreamInterface;
 use Vtiful\Kernel\Excel;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 class PeclWriter implements WriterInterface
 {
@@ -71,7 +70,7 @@ class PeclWriter implements WriterInterface
         \Yii::error('Time spent writing: ' . $this->time);
         \Yii::error('Time spent mapping: ' . $this->mapping);
         $file = $this->file->output();
-        return stream_for(fopen($file, 'r'));
+        return Utils::streamFor(Utils::tryFopen($file, 'r'));
     }
 
     public function getMimeType(): string

@@ -6,18 +6,15 @@ namespace prime\controllers\element;
 
 use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Element;
 use prime\models\ar\elements\Svelte;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\values\PageId;
 use prime\values\ProjectId;
 use yii\base\Action;
 use yii\helpers\Url;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\User;
 
 class Update extends Action
 {
@@ -40,18 +37,14 @@ class Update extends Action
         Request $request,
         LimesurveyDataProvider $limesurveyDataProvider,
         NotificationService $notificationService,
-        User $user,
+        AccessCheckInterface $accessCheck,
         int $id
     ) {
         $element = Element::findOne([
             'id' => $id,
         ]);
-        if (! isset($element)) {
-            throw new NotFoundHttpException();
-        }
-        if (! $user->can(Permission::PERMISSION_WRITE, $element)) {
-            throw new ForbiddenHttpException();
-        }
+
+        $accessCheck->requirePermission($element, Permission::PERMISSION_WRITE);
 
         if ($element instanceof Svelte) {
             return $this->handleSurveyJs($request, $element);

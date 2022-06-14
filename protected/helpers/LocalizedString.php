@@ -26,10 +26,10 @@ class LocalizedString
     {
         $this->valueMap = new WeakMap();
         if (is_string($value)) {
-            $this->valueMap[Language::default()] = $value;
+            $this->valueMap->offsetSet(Language::default(), $value);
         } else {
             foreach ($value as $key => $localizedValue) {
-                $this->valueMap[Language::from($key)] = $localizedValue;
+                $this->valueMap->offsetSet(Language::from($key), $localizedValue);
             }
         }
         if (! isset($this->valueMap[Language::default()])) {

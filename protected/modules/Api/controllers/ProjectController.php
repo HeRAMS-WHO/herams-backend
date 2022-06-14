@@ -9,7 +9,10 @@ use prime\modules\Api\controllers\project\LatestData;
 use prime\modules\Api\controllers\project\Summary;
 use prime\modules\Api\controllers\project\Variables;
 use yii\filters\AccessControl;
+use yii\filters\auth\CompositeAuth;
+use yii\filters\ContentNegotiator;
 use yii\web\Controller;
+use yii\web\Response;
 
 class ProjectController extends Controller
 {

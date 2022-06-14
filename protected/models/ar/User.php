@@ -113,14 +113,12 @@ class User extends ActiveRecord implements IdentityInterface
             $manager = \Yii::$app->abacManager;
             $subject = $manager->resolveSubject($this);
             $repository = $manager->getRepository();
-            if (isset($subject)) {
-                apply(static function (Grant $grant) use ($repository) {
-                    $repository->revoke($grant);
-                }, chain(
-                    $repository->search($subject, null, null),
-                    $repository->search(null, $subject, null)
-                ));
-            }
+            apply(static function (Grant $grant) use ($repository) {
+                $repository->revoke($grant);
+            }, chain(
+                $repository->search($subject, null, null),
+                $repository->search(null, $subject, null)
+            ));
             return true;
         }
         return false;

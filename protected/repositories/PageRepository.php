@@ -8,6 +8,8 @@ use prime\interfaces\page\PageForBreadcrumbInterface as ForBreadcrumbInterface;
 use prime\models\ar\Page;
 use prime\models\pages\PageForBreadcrumb;
 use prime\values\PageId;
+use prime\values\ProjectId;
+use yii\web\NotFoundHttpException;
 
 class PageRepository
 {
@@ -21,5 +23,19 @@ class PageRepository
 
     public function retrieveForDashboarding(PageId $id)
     {
+    }
+
+    public function retrieveProjectId(PageId $pageId): ProjectId
+    {
+        $id = Page::find()
+            ->andWhere(['id' => $pageId->getValue()])
+            ->select('project_id')
+            ->scalar();
+
+        if (!isset($id)) {
+            throw new NotFoundHttpException();
+        }
+        return new ProjectId($id);
+
     }
 }

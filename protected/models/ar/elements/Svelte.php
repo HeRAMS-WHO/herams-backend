@@ -30,20 +30,6 @@ class Svelte extends Element implements DashboardWidgetInterface
         ], $this->getWidgetConfig()));
     }
 
-    private function getGroup(HeramsFacilityRecordInterface $record, VariableSetInterface $variableSet): string
-    {
-        if (! isset($this->config['groupingVariable'])) {
-            return self::DEFAULT_GROUP;
-        }
-
-        $closedVariable = $variableSet->getVariable($this->config['groupingVariable']);
-        $value = $closedVariable->getValue($record);
-        if ($value instanceof ValueOptionInterface) {
-            return $value->getDisplayValue();
-        }
-        return $value->getRawValue();
-    }
-
     /**
      * @param iterable<HeramsFacilityRecordInterface $data
      */
@@ -59,7 +45,7 @@ class Svelte extends Element implements DashboardWidgetInterface
             $data
         );
         DashboardCard::begin()
-            ->withType(ChartType::from($this->type))
+            ->withType(ChartType::from($this->config['type']))
             ->withData($formatted['data'])
             ->withUpdateRoute([
                 'element/update',
@@ -74,7 +60,6 @@ class Svelte extends Element implements DashboardWidgetInterface
     {
         return [
             ...($this->config ?? []),
-            'type' => $this->type,
             'sort' => $this->sort,
             'width' => $this->width,
             'height' => $this->height,

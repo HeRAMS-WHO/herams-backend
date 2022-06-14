@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Collecthor\SurveyjsParser\SurveyParser;
+use Collecthor\Yii2SessionAuth\IdentityFinderInterface;
 use Collecthor\Yii2SessionAuth\IdentityInterfaceIdentityFinder;
 use DrewM\MailChimp\MailChimp;
 use GuzzleHttp\Client;
@@ -101,7 +102,8 @@ return [
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
-    \Collecthor\Yii2SessionAuth\IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
+    \yii\web\Session::class => fn() => \Yii::$app->session,
+    IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
     \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
     \prime\repositories\ElementRepository::class => \prime\repositories\ElementRepository::class,
     \prime\interfaces\HeramsVariableSetRepositoryInterface::class => HeramsVariableSetRepository::class,

@@ -9,9 +9,11 @@ use Collecthor\DataInterfaces\ValueOptionInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
 use prime\components\View;
 use prime\helpers\ChartHelper;
+use prime\helpers\DeferredVariableSet;
 use prime\helpers\HeramsVariableSet;
 use prime\interfaces\DashboardWidgetInterface;
 use prime\interfaces\HeramsFacilityRecordInterface;
+use prime\interfaces\HeramsVariableSetRepositoryInterface;
 use prime\models\ar\Page;
 use prime\objects\enums\ChartType;
 use prime\objects\enums\DataSort;
@@ -32,24 +34,24 @@ class Chart extends Model implements DashboardWidgetInterface
 {
     private const DEFAULT_GROUP = 'default';
 
-    public null|PageId $pageId = null;
+    public mixed $pageId = null;
 
-    public int $width = 1;
+    public mixed $width = 1;
 
-    public int $height = 1;
+    public mixed $height = 1;
 
-    public int $sort = 1;
+    public mixed  $sort = 1;
 
-    public string $title = "Chart";
+    public mixed $title = "Chart";
 
     /**
      * @var list<string>
      */
-    public array $variables = [];
+    public mixed $variables = [];
 
-    public null|string $groupingVariable = null;
+    public mixed $groupingVariable = null;
 
-    public DataSort $dataSort = DataSort::Source;
+    public mixed $dataSort = DataSort::Source;
 
     /**
      * @var array<string, string>
@@ -59,17 +61,22 @@ class Chart extends Model implements DashboardWidgetInterface
     public ChartType $type = ChartType::Bar;
 
     public function __construct(
-        private VariableSetInterface $variableSet,
+        private HeramsVariableSetRepositoryInterface $variableSetRepository,
         $config = []
     ) {
         parent::__construct($config);
     }
 
+    private function getVariableSet(): VariableSetInterface
+    {
+        return $this->variableSetRepository->retrieveForPage(new PageId($this->pageId));
+    }
     public function rules(): array
     {
         return [
             [['colorMap'], SafeValidator::class],
-            [['width', 'height', 'sort'], NumberValidator::class],
+            [['width', 'height'], NumberValidator::class, 'max' => 4, 'min' => 1, 'integerOnly' => true],
+            [['sort'], NumberValidator::class, 'min' => 1, 'integerOnly' => true],
             [['title', 'variables'], RequiredValidator::class],
             PermissionValidator::create(['pageId'], Page::find()),
 
@@ -81,8 +88,9 @@ class Chart extends Model implements DashboardWidgetInterface
                 EnumValidator::class,
                 'enumClass' => ChartType::class,
             ],
-            VariableValidator::multipleFromSet($this->variableSet, 'variables'),
-            VariableValidator::singleFromSet($this->variableSet, ),
+            VariableValidator::multipleFromSet(new DeferredVariableSet(fn() => $this->getVariableSet()), 'variables')
+                ->withCondition(fn($model, $attribute) => !$this->hasErrors('pageId')),
+            VariableValidator::singleFromSet(new DeferredVariableSet(fn() => $this->getVariableSet()), 'groupingVariable'),
 
         ];
     }

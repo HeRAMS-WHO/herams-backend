@@ -17,6 +17,7 @@ use yii\helpers\Url;
  * @var \prime\values\ProjectId $projectId
  * @var View $this
  * @var \prime\values\PageId $pageId
+ * @var string $endpointUrl
  */
 
 $this->title = $model->isNewRecord

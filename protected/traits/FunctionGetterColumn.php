@@ -6,6 +6,9 @@ namespace prime\traits;
 
 trait FunctionGetterColumn
 {
+    /**
+     * @psalm-suppress LessSpecificImplementedReturnType
+     */
     public function getDataCellValue($model, $key, $index): mixed
     {
         $method = 'get' . ucfirst($this->attribute ?? '');

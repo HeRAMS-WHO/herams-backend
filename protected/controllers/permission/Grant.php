@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace prime\controllers\permission;
 
 use prime\helpers\ProposedGrant;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\values\Authorizable;
 use SamIT\abac\values\Grant as GrantValue;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
-use yii\web\User;
+use yii\web\Response;
 
 class Grant extends Action
 {
     public function run(
-        User $user,
         AuthManager $abacManager,
         Resolver $abacResolver,
-        \yii\web\Response $response,
+        AccessCheckInterface $accessCheck,
+        Response $response,
         string $source_id,
         string $target_id,
         string $source_name,
@@ -34,12 +34,10 @@ class Grant extends Action
             $abacResolver->toSubject($target),
             $permission
         );
-        if (! $user->can(Permission::PERMISSION_CREATE, $proposedGrant)) {
-            throw new ForbiddenHttpException();
-        }
+        $accessCheck->requirePermission($proposedGrant, Permission::PERMISSION_CREATE);
 
         $abacManager->getRepository()->grant(new GrantValue($source, $target, $permission));
-        $response->format = \yii\web\Response::FORMAT_JSON;
+        $response->format = Response::FORMAT_JSON;
         return $response;
     }
 }

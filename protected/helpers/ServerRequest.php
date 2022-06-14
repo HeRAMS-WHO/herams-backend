@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 use yii\base\NotSupportedException;
 use yii\web\Request;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 class ServerRequest implements ServerRequestInterface
 {
@@ -49,9 +48,9 @@ class ServerRequest implements ServerRequestInterface
         return $this->request->headers->get($name, null, false);
     }
 
-    public function getHeaderLine($name)
+    public function getHeaderLine($name): string
     {
-        return $this->request->headers->get($name, null, true);
+        return $this->request->headers->get($name, "", true);
     }
 
     public function withHeader($name, $value)
@@ -71,7 +70,7 @@ class ServerRequest implements ServerRequestInterface
 
     public function getBody()
     {
-        return stream_for($this->request->rawBody);
+        return Utils::streamFor($this->request->rawBody);
     }
 
     public function withBody(StreamInterface $body)

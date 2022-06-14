@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace prime\modules\Api;
 
 use Collecthor\Yii2SessionAuth\SessionAuth;
+use prime\models\ar\User;
 use yii\filters\auth\CompositeAuth;
+use yii\filters\auth\HttpBasicAuth;
 use yii\filters\ContentNegotiator;
 use yii\web\GroupUrlRule;
+use yii\web\Request;
 use yii\web\Response;
 use yii\web\UrlRule;
 
 /**
  * @property \yii\web\User $user
+ * @property Request $request
  */
 class Module extends \yii\base\Module
 {
@@ -83,6 +87,7 @@ class Module extends \yii\base\Module
     public function beforeAction($action)
     {
         $this->user->enableSession = false;
+        $this->request->enableCsrfCookie = false;
         return parent::beforeAction($action);
     }
 
@@ -102,6 +107,16 @@ class Module extends \yii\base\Module
                     [
                         'class' => SessionAuth::class,
                     ],
+                    [
+                        'class' => HttpBasicAuth::class,
+                        'auth' => function($username, $password) {
+                            \Yii::warning('Logging in via auth closure');
+                            $user = User::findOne(['email' => $username]);
+                            if (isset($user) && password_verify($password, $user->password_hash)) {
+                                return $user;
+                            }
+                        }
+                    ]
                 ],
 
             ],

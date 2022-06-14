@@ -24,6 +24,7 @@ class UserAccessCheck implements AccessCheckInterface
             throw new NotFoundHttpException();
         }
 
+        /** @psalm-suppress InvalidArgument */
         if (! $this->user->can($permission, $model)) {
             throw new ForbiddenHttpException($forbiddenMessage);
         }

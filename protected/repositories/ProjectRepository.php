@@ -11,12 +11,14 @@ use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\read\Project as ProjectRead;
+use prime\models\ar\surveyjs\Project as SurveyjsProject;
 use prime\models\forms\project\Create;
 use prime\models\forms\project\Update as ProjectUpdate;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\models\project\ProjectForExternalDashboard;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
+use prime\values\SurveyId;
 use yii\web\NotFoundHttpException;
 
 class ProjectRepository implements RetrieveReadModelRepositoryInterface
@@ -56,9 +58,9 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         return $record;
     }
 
-    public function retrieveForExport(ProjectId $id): \prime\models\ar\surveyjs\Project
+    public function retrieveForExport(ProjectId $id): SurveyjsProject
     {
-        $record = \prime\models\ar\surveyjs\Project::findOne([
+        $record = SurveyjsProject::findOne([
             'id' => $id,
         ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_EXPORT);
@@ -103,5 +105,26 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
 
         return new ProjectForExternalDashboard($record->title, $dashboard);
+    }
+
+
+    public function retrieveAdminSurveyId(ProjectId $projectId): SurveyId
+    {
+        /** @var null|SurveyjsProject $project */
+        $project = SurveyjsProject::find()->andWhere(['id' => $projectId->getValue()])->one();
+        if (!isset($project)) {
+            throw new NotFoundHttpException();
+        }
+        return $project->getAdminSurveyId();
+    }
+
+    public function retrieveDataSurveyId(ProjectId $projectId): SurveyId
+    {
+        /** @var null|SurveyjsProject $project */
+        $project = SurveyjsProject::find()->andWhere(['id' => $projectId->getValue()])->one();
+        if (!isset($project)) {
+            throw new NotFoundHttpException();
+        }
+        return $project->getDataSurveyId();
     }
 }

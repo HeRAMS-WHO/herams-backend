@@ -23,6 +23,16 @@
                 "action": "vendor/bin/ecs",
                 "options": [],
                 "conditions": []
+            },
+            {
+                "action": "vendor/bin/phpstan",
+                "options": [],
+                "conditions": []
+            },
+            {
+                "action": "vendor/bin/psalm",
+                "options": [],
+                "conditions": []
             }
         ]
     },

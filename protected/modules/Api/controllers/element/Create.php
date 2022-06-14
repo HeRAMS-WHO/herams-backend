@@ -7,6 +7,7 @@ namespace prime\modules\Api\controllers\element;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\HeramsVariableSetRepositoryInterface;
 use prime\models\forms\element\Chart;
+use prime\models\forms\element\SvelteElement;
 use prime\modules\Api\models\Element;
 use prime\repositories\ElementRepository;
 use prime\values\ProjectId;
@@ -24,26 +25,26 @@ class Create extends Action
         ElementRepository $elementRepository,
         Request $request,
         Response $response,
-        int $projectId
     ) {
-        $variableSet = $variableSetRepository->retrieveForProject(new ProjectId($projectId));
-        $model = new Chart($variableSet);
-        $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
+        $model = new SvelteElement($variableSetRepository);
+
+        $model->load($request->bodyParams);
+//        $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
         if (! $model->validate()) {
             $response->setStatusCode(422);
-
-            return $model->errors;
+            return [
+                'errors' => $model->errors
+            ];
         }
 
-        \Yii::error($model->attributes);
+        $elementId = $elementRepository->create($model);
 
-        $createdElement = $elementRepository->create($model);
-
-        $response->setStatusCode(201);
+        $response->setStatusCode(204);
+        $response->headers->add('Content-Length', 0);
         $response->headers->add('Location', Url::to([
             '/api/element/view',
-            'id' => $createdElement->id,
+            'id' => $elementId,
         ], true));
-        return $model;
+        return $response;
     }
 }

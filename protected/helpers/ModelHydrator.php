@@ -7,7 +7,9 @@ namespace prime\helpers;
 use BackedEnum;
 use CrEOF\Geo\WKB\Parser;
 use prime\attributes\DehydrateVia;
+use prime\attributes\Field;
 use prime\attributes\HydrateVia;
+use prime\attributes\JsonField;
 use prime\attributes\SupportedType;
 use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\ModelHydratorInterface;
@@ -95,6 +97,7 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     private function castForDatabase(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null|Expression
     {
         if (is_object($complex)) {
+
             return match (true) {
                 $complex instanceof BackedEnum => $complex->value,
                 $complex instanceof UnitEnum => $complex->name,
@@ -191,6 +194,7 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
             'float' => $this->castFloat($value),
             'bool' => $this->castBool($value),
             'array' => $this->castArray($value),
+            'mixed' => $value,
             default => die("Unknown type: {$property->getName()} for property $attribute")
         };
     }
@@ -231,16 +235,37 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     public function hydrateActiveRecord(Model $model, ActiveRecord $record): void
     {
         $reflectionClass = new \ReflectionClass($model);
+        $jsonFields = [];
         foreach ($model->attributes as $key => $value) {
+            $field = $key;
             if ($reflectionClass->hasProperty($key)) {
-                foreach ($reflectionClass->getProperty($key)->getAttributes() as $attribute) {
+                $reflectionProperty = $reflectionClass->getProperty($key);
+                // Field renaming via PHP8 attributes
+                $field = ($reflectionProperty->getAttributes(Field::class)[0] ?? null)?->newInstance()->field ?? $key;
+
+                // Special dehydrator
+                foreach ($reflectionProperty->getAttributes(DehydrateVia::class) as $attribute) {
                     if ($attribute->getName() === DehydrateVia::class) {
                         $value = $attribute->newInstance()->create($value);
                     }
                 }
+
+                // Handle JSON fields.
+                if (null !== $jsonField = ($reflectionProperty->getAttributes(JsonField::class)[0] ?? null)?->newInstance()->field) {
+                    $jsonFields[$jsonField] ??= [];
+                    $jsonFields[$jsonField][$field] = $this->castForDatabase($value);
+                    continue;
+                }
+
             }
-            if ($record->canSetProperty($key)) {
-                $record->$key = $this->castForDatabase($value);
+            if ($record->canSetProperty($field)) {
+                $record->$field = $this->castForDatabase($value);
+            }
+        }
+
+        foreach($jsonFields as $field => $value) {
+            if ($record->canSetProperty($field)) {
+                $record->$field = $value;
             }
         }
     }

@@ -31,6 +31,6 @@ class AdminResponseForList implements AdminResponseForListInterface
 
     public function getFacilityTypeLabel(): string
     {
-        $this->surveyResponse->getType();
+        return $this->surveyResponse->getType() ?? '';
     }
 }

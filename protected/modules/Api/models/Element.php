@@ -11,7 +11,7 @@ use yii\validators\SafeValidator;
 
 /**
  * @property int $id
- * @property json $config
+ * @property array|null $config
  */
 class Element extends \yii\db\ActiveRecord
 {

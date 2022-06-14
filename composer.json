@@ -101,7 +101,8 @@
         "viest/php-ext-xlswriter-ide-helper": "dev-master",
         "comcast/php-legal-licenses": "^1.1",
         "codeception/lib-innerbrowser": "^1.4",
-        "symplify/easy-coding-standard": "^10.2"
+        "symplify/easy-coding-standard": "^10.2",
+        "vimeo/psalm": "^4.23"
     },
     "repositories": [
         {

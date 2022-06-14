@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\accessRequest;
 
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\search\AccessRequest as AccessRequestSearch;
@@ -15,6 +16,7 @@ class Index extends Action
 {
     public function run(
         Request $request,
+        AccessCheckInterface $accessCheck,
         UserComponent $user
     ) {
         $openAccessRequestsSearchModel = new AccessRequestSearch(
@@ -26,7 +28,7 @@ class Index extends Action
                     'created_at' => SORT_DESC,
                 ]),
             $user->identity,
-            static fn (AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
+            static fn (AccessRequest $model) => $accessCheck->checkPermission($model, Permission::PERMISSION_RESPOND),
         );
 
         $closedAccessRequestsSearchModel = new AccessRequestSearch(
@@ -36,7 +38,7 @@ class Index extends Action
                 ])
                 ->withResponse(),
             $user->identity,
-            static fn (AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
+            static fn (AccessRequest $model) => $accessCheck->checkPermission($model, Permission::PERMISSION_RESPOND),
         );
 
         return $this->controller->render(

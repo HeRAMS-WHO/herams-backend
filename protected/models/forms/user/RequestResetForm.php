@@ -15,7 +15,7 @@ use yii\validators\RequiredValidator;
 
 class RequestResetForm extends Model
 {
-    public $email;
+    public mixed $email;
 
     public function __construct(
         private CacheInterface $cache,

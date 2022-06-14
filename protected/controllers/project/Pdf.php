@@ -3,6 +3,7 @@
 namespace prime\controllers\project;
 
 use prime\exceptions\SurveyDoesNotExist;
+use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
@@ -20,7 +21,7 @@ class Pdf extends Action
 {
     public function run(
         Request $request,
-        User $user,
+        AccessCheckInterface $accessCheck,
         int $id,
         int $page_id = null,
         int $parent_id = null,
@@ -30,12 +31,7 @@ class Pdf extends Action
         $project = Project::findOne([
             'id' => $id,
         ]);
-        if (! isset($project)) {
-            throw new NotFoundHttpException();
-        }
-        if (! $user->can(Permission::PERMISSION_READ, $project)) {
-            throw new ForbiddenHttpException();
-        }
+        $accessCheck->requirePermission($project, Permission::PERMISSION_READ);
         try {
             $survey = $project->getSurvey();
         } catch (SurveyDoesNotExist $e) {
@@ -43,7 +39,6 @@ class Pdf extends Action
         }
 
         if (isset($parent_id, $page_id)) {
-            /** @var PageInterface $parent */
             $parent = Page::findOne([
                 'id' => $parent_id,
             ]);

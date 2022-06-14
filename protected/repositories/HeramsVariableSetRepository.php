@@ -6,19 +6,32 @@ namespace prime\repositories;
 
 use prime\helpers\HeramsVariableSet;
 use prime\interfaces\HeramsVariableSetRepositoryInterface;
+use prime\models\ar\Page;
+use prime\values\PageId;
 use prime\values\ProjectId;
 
 class HeramsVariableSetRepository implements HeramsVariableSetRepositoryInterface
 {
     public function __construct(
         private ProjectRepository $projectRepository,
+        private PageRepository $pageRepository,
         private SurveyRepository $surveyRepository,
     ) {
     }
 
     public function retrieveForProject(ProjectId $projectId): HeramsVariableSet
     {
-        $project = $this->projectRepository->retrieveForExport($projectId);
-        return $this->surveyRepository->retrieveForDashboarding($project->getAdminSurveyId(), $project->getDataSurveyId());
+        $adminSurveyId = $this->projectRepository->retrieveAdminSurveyId($projectId);
+        $dataSurveyId =  $this->projectRepository->retrieveDataSurveyId($projectId);
+        return $this->surveyRepository->retrieveForDashboarding($adminSurveyId, $dataSurveyId);
+    }
+
+    public function retrieveForPage(PageId $pageId): HeramsVariableSet
+    {
+
+        $projectId = $this->pageRepository->retrieveProjectId($pageId);
+
+        return $this->retrieveForProject($projectId);
+
     }
 }

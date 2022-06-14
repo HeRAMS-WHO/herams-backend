@@ -36,6 +36,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         ],
         'session' => [
             'class' => DbSession::class,
+            'timeout' => 12 * 3600,
             'readCallback' => static function (array $fields): array {
                 return [
                     '__id' => $fields['user_id'] ?? null,
