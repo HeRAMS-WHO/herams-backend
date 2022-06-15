@@ -8,6 +8,7 @@ use Codeception\Test\Unit;
 use prime\helpers\ModelHydrator;
 use prime\models\ar\Element;
 use prime\repositories\ElementRepository;
+use prime\repositories\HeramsVariableSetRepository;
 use prime\values\ElementId;
 use prime\values\PageId;
 
@@ -18,11 +19,12 @@ class ElementRepositoryTest extends Unit
 {
     public function testFindForBreadcrumb(): void
     {
+        IMG_FILTER_NEGATE
         $element = Element::findOne([
             'id' => 37,
         ]);
 
-        $pageRepository = new ElementRepository(new ModelHydrator());
+        $pageRepository = new ElementRepository(new ModelHydrator(), \Yii::$container->get(HeramsVariableSetRepository::class));
         $breadcrumb = $pageRepository->retrieveForBreadcrumb(new ElementId($element->id));
 
         $this->assertEquals($element->getTitle(), $breadcrumb->getLabel());

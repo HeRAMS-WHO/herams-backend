@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="5"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    errorBaseline="psalm-baseline.xml"
+>
+    <projectFiles>
+        <directory name="protected" />
+<!--        <directory name="tests/_support" />-->
+<!--        <directory name="tests/" />-->
+        <ignoreFiles>
+            <directory name="vendor" />
+<!--            <directory name="tests/_support/_generated" />-->
+        </ignoreFiles>
+    </projectFiles>
+    <stubs>
+        <file name="tests/constants.php" preloadClasses="true"/>
+    </stubs>
+
+    <issueHandlers>
+        <InvalidScope>
+            <errorLevel type="suppress">
+                <directory name="protected/views" />
+            </errorLevel>
+        </InvalidScope>
+    </issueHandlers>
+</psalm>
