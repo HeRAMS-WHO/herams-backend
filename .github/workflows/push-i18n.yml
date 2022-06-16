@@ -26,7 +26,7 @@ jobs:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '7.4'
+          php-version: '8.1'
       - run: composer install --ignore-platform-reqs
       - name: Extract translations
         run: protected/yiic message/extract protected/config/i18n.php --message-path .
