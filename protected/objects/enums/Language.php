@@ -6,6 +6,7 @@ namespace prime\objects\enums;
 /**
  * @method static self enUS()
  * @method static self ar()
+ * @method static self pt()
  * @method static self nlNL()
  * @method static self frFR()
  */
