@@ -42,13 +42,13 @@ foreach ($stats as $stat) {
 }
 echo Html::endTag('div');
 
-/** @var \prime\models\ar\Response $response */
+/** @var null|\prime\models\ar\Response $response */
 $response = \prime\models\ar\Response::find()
     ->select(['workspace_id', 'date'])
     ->orderBy(['date' => SORT_DESC])
     ->limit(1)
     ->one();
-/** @var Project $latest */
+/** @var null|Project $latest */
 $latest = Project::find()
     ->andWhere(['id' => \prime\models\ar\Workspace::find()
         ->select('tool_id')
