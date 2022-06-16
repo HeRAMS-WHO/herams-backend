@@ -443,16 +443,16 @@
         },
         {
             "name": "foxy/foxy",
-            "version": "v1.1.2",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fxpio/foxy.git",
-                "reference": "f9b17ec6701413a17358af21f47a35f2dc690616"
+                "reference": "c4154031e18ff404f07608c6778c30bd9afe9966"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fxpio/foxy/zipball/f9b17ec6701413a17358af21f47a35f2dc690616",
-                "reference": "f9b17ec6701413a17358af21f47a35f2dc690616",
+                "url": "https://api.github.com/repos/fxpio/foxy/zipball/c4154031e18ff404f07608c6778c30bd9afe9966",
+                "reference": "c4154031e18ff404f07608c6778c30bd9afe9966",
                 "shasum": ""
             },
             "require": {
@@ -466,7 +466,7 @@
             "extra": {
                 "class": "Foxy\\Foxy",
                 "branch-alias": {
-                    "dev-1.1": "1.1-dev"
+                    "dev-1.2": "1.2-dev"
                 }
             },
             "autoload": {
@@ -501,7 +501,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fxpio/foxy/issues",
-                "source": "https://github.com/fxpio/foxy/tree/v1.1.2"
+                "source": "https://github.com/fxpio/foxy/tree/v1.2.1"
             },
             "funding": [
                 {
@@ -513,7 +513,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-09T16:18:51+00:00"
+            "time": "2022-04-17T15:36:56+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -8613,5 +8613,5 @@
         "ext-simplexml": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
