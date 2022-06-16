@@ -5,6 +5,7 @@ namespace prime\behaviors;
 
 use yii\base\Behavior;
 use yii\base\Event;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\ModelEvent;
 use yii\base\NotSupportedException;
@@ -40,13 +41,15 @@ class LocalizableWriteBehavior extends Behavior
     public function attach($owner)
     {
         parent::attach($owner);
-        assert($owner instanceof ActiveRecord);
+        if (!$owner instanceof Model) {
+            throw new InvalidConfigException('LocalizableWriteBehavior can only be attached to models');
+        }
 
         $validator =  new InlineValidator();
         $behavior = $this;
         $validator->attributes = toArray(map(fn($attribute) => "i18n" . ucfirst($attribute), $this->attributes));
         $validator->method = function (string $attribute, ?array $params, InlineValidator $validator, $current) use ($behavior) {
-            assert($this instanceof ActiveRecord);
+            assert($this instanceof Model);
             $realAttributeName = $behavior->attributeName($attribute);
             // Store real value and real errors.
             $realValue = $this->{$realAttributeName};

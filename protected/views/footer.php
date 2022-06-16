@@ -52,7 +52,7 @@ $response = \prime\models\ar\Response::find()
 $latest = Project::find()
     ->andWhere(['id' => \prime\models\ar\Workspace::find()
         ->select('tool_id')
-        ->andWhere(['id' => $response->workspace_id])
+        ->andWhere(['id' => $response->workspace_id ?? null])
     ])->one();
 
 
