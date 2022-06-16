@@ -2,6 +2,7 @@
 <?php
 
 use prime\helpers\Icon;
+use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use yii\helpers\Html;
 
@@ -10,27 +11,24 @@ use yii\helpers\Html;
  * @var Project[] $projects
  * @var \prime\components\View $this
  */
-$projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate', 'workspaceCount')->all();
+$projects = Project::find()->withFields('facilityCount', 'latestDate')->all();
 $stats[] = [
     'icon' => Icon::project(),
-    'count' => count($projects),
+    'count' => Project::find()->count(),
     'subject' => \Yii::t('app', 'HeRAMS projects')
 ];
 $stats[] = [
     'icon' => Icon::contributors(),
-    'count' =>
-        \iter\reduce(function (int $accumulator, Project $project) {
-            return $accumulator + $project->contributorCount;
-        }, $projects, 0),
+    'count' => Permission::find()
+        ->andWhere(['target' => 'prime\\models\\ar\\Workspace', 'source' => 'prime\\models\\ar\\User'])
+        ->count('distinct [[source_id]]'),
         'subject' => \Yii::t('app', 'Contributors')
 ];
 
 $stats[] = [
     'icon' => Icon::healthFacility(),
-    'count' => \iter\reduce(function (int $accumulator, Project $project) {
-        return $accumulator + $project->facilityCount;
-    }, $projects, 0),
-
+    'count' => \prime\models\ar\Response::find()
+        ->count('distinct [[workspace_id]], [[hf_id]]'),
     'subject' => \Yii::t('app', 'Health facilities')
 ];
 
@@ -44,15 +42,22 @@ foreach ($stats as $stat) {
 }
 echo Html::endTag('div');
 
-if (!empty($projects)) {
-    $latest = $projects[0];
+/** @var null|\prime\models\ar\Response $response */
+$response = \prime\models\ar\Response::find()
+    ->select(['workspace_id', 'date'])
+    ->orderBy(['date' => SORT_DESC])
+    ->limit(1)
+    ->one();
+/** @var null|Project $latest */
+$latest = Project::find()
+    ->andWhere(['id' => \prime\models\ar\Workspace::find()
+        ->select('tool_id')
+        ->andWhere(['id' => $response->workspace_id ?? null])
+    ])->one();
 
-    foreach ($projects as $project) {
-        if ($project->latestDate > $latest->latestDate) {
-            $latest = $project;
-        };
-    }
-    $localizedDate = \Yii::$app->formatter->asDate($latest->latestDate, 'short');
+
+if (isset($latest)) {
+    $localizedDate = \Yii::$app->formatter->asDate($response->date, 'short');
     $status = "{$latest->title} / {$localizedDate}";
 } else {
     $status = \Yii::t('app', "No data loaded");

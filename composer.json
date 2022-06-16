@@ -149,7 +149,8 @@
     "config": {
         "allow-plugins": {
             "yiisoft/yii2-composer": true,
-            "foxy/foxy": true
+            "foxy/foxy": true,
+            "captainhook/plugin-composer": false
         }
     }
 }
