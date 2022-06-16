@@ -15,6 +15,7 @@ RUN mkdir -p /run && chown nobody:nobody /run
 ARG COMMIT_SHA
 RUN echo "${COMMIT_SHA}" > /run/commit_sha
 
+RUN apk add --no-cache dumb-init jq
 #Mount a tmpfs here
 VOLUME /run
 ENTRYPOINT ["/usr/bin/dumb-init", "-c", "-r", "15:3", "--", "/sbin/init.sh"]
