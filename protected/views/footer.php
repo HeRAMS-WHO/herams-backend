@@ -8,10 +8,8 @@ use yii\helpers\Html;
 
 // Render all statistics.
 /**
- * @var Project[] $projects
  * @var \prime\components\View $this
  */
-$projects = Project::find()->withFields('facilityCount', 'latestDate')->all();
 $stats[] = [
     'icon' => Icon::project(),
     'count' => Project::find()->count(),
