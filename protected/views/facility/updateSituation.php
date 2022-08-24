@@ -39,7 +39,7 @@ $survey = Survey::begin()
         'update-situation',
         'id' => $model->getFacilityId(),
     ])
-    ->withLanguages($model->getLanguages())
+    ->withProjectId($projectId)
 ;
 
 Survey::end();

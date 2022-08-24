@@ -13,6 +13,7 @@ use prime\models\ar\Permission;
 use prime\objects\Breadcrumb;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 class SurveyController extends Controller
 {
@@ -56,7 +57,7 @@ class SurveyController extends Controller
 
     public function render($view, $params = [])
     {
-        $this->view->getBreadcrumbCollection()->add((new Breadcrumb())->setUrl(['/survey/index'])->setLabel(\Yii::t('app', 'Surveys')));
+        $this->view->getBreadcrumbCollection()->add(new Breadcrumb(\Yii::t('app', 'Surveys'), Url::to(['/survey/index'])));
 
         return parent::render($view, $params);
     }

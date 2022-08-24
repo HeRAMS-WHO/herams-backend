@@ -47,8 +47,7 @@ echo GridView::widget([
     'dataProvider' => $responseProvider,
     'columns' => [
         ResponseForList::ID,
-        'externalId',
-        'dateOfUpdate',
+        ResponseForList::DATE_OF_UPDATE,
         ResponseForList::CONDITION,
         ResponseForList::FUNCTIONALITY,
         ResponseForList::ACCESSIBILITY,

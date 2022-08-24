@@ -6,6 +6,7 @@ namespace prime\widgets\surveyJs;
 
 use prime\assets\SurveyJsCreator2Bundle;
 use prime\assets\SurveyJsCreatorCoreBundle;
+use prime\components\View;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -61,18 +62,17 @@ JS
         $clientOptions = Json::encode($this->clientOptions);
         $surveyJsCustomizers = Json::encode(array_values($this->surveyCreatorCustomizers));
         $id = Json::encode($this->options['id']);
-        $this->view->registerJs(
-            <<<JS
+        $this->view->registerJs(<<<JS
             const element = document.getElementById({$id});
             const options = {$clientOptions};
-            console.log(options);
+            console.log('creating creator', options);
             const surveyCreator = new SurveyCreator.SurveyCreator(options);
             window.surveyCreator = surveyCreator;
             {$surveyJsCustomizers}.forEach(customizer => customizer(surveyCreator));
             surveyCreator.render(element);
 
 
-JS
+        JS, View::POS_HERAMS_INIT
         );
 
         return $result;

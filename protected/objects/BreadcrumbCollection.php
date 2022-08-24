@@ -5,53 +5,33 @@ declare(strict_types=1);
 namespace prime\objects;
 
 use prime\interfaces\BreadcrumbInterface;
+use Traversable;
 
-class BreadcrumbCollection implements \Iterator
+class BreadcrumbCollection implements \IteratorAggregate
 {
+    /**
+     * @var list<BreadcrumbInterface>
+     */
     private array $values = [];
 
-    private int $position = 0;
-
-    public function __construct(array $values = [])
+    public function add(BreadcrumbInterface ...$values): self
     {
         foreach ($values as $value) {
-            $this->add($value);
-        }
-    }
-
-    public function add(BreadcrumbInterface $value, ?int $index = null): self
-    {
-        if (is_null($index)) {
             $this->values[] = $value;
-        } else {
-            $this->values[$index] = $value;
         }
-
         return $this;
     }
 
-    public function current(): BreadcrumbInterface
+    public function mergeWith(BreadcrumbCollection $collection): void
     {
-        return $this->values[$this->position];
+        $this->values = [...$this->values, ...$collection->values];
     }
 
-    public function key(): int
+    /**
+     * @return Traversable<BreadcrumbInterface>
+     */
+    public function getIterator(): Traversable
     {
-        return $this->position;
-    }
-
-    public function next(): void
-    {
-        $this->position++;
-    }
-
-    public function rewind(): void
-    {
-        $this->position = 0;
-    }
-
-    public function valid(): bool
-    {
-        return isset($this->values[$this->position]);
+        return new \ArrayIterator($this->values);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\interfaces\facility;
 
 use prime\interfaces\CanCurrentUser;
+use prime\objects\enums\FacilityTier;
 use prime\values\FacilityId;
 
 interface FacilityForListInterface extends CanCurrentUser
@@ -34,6 +35,8 @@ interface FacilityForListInterface extends CanCurrentUser
     public function getLatitude(): null|float;
 
     public function getLongitude(): null|float;
+
+    public function getTier(): FacilityTier;
 
     public function getName(): string;
 

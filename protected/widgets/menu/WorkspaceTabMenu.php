@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
+use prime\helpers\Icon;
 use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
 
@@ -68,7 +69,7 @@ Permission::PERMISSION_SHARE,
             ),
         ];
         $this->tabs[] = [
-            'title' => \Yii::t('app', 'Export data'),
+            'title' => Icon::broken() . \Yii::t('app', 'Export data'),
             'url' => [
                 'workspace/export',
                 'id' => $this->workspace->id(),

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
+use prime\interfaces\LabeledEnum;
+
 /**
  * @method static self unknown()
  * @method static self notDamaged()
@@ -12,7 +14,7 @@ namespace prime\objects\enums;
  * @method static self fullyDamaged()
  * @method static self notRelevant()
  */
-enum FacilityCondition:string
+enum FacilityCondition:string implements LabeledEnum
 {
     case Unknown = 'unknown';
     case NotDamaged = 'A1';
@@ -49,5 +51,10 @@ enum FacilityCondition:string
             'fullyDamaged' => \Yii::t('app', 'Fully damaged'),
             'notRelevant' => \Yii::t('app', 'Not relevant'),
         ];
+    }
+
+    public function label(): string
+    {
+        return self::labels()[$this->value];
     }
 }

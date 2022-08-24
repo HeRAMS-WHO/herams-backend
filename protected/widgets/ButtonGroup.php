@@ -7,6 +7,7 @@ namespace prime\widgets;
 use yii\base\Widget;
 use yii\helpers\Html;
 
+use yii\helpers\Url;
 use function iter\mapWithKeys;
 use function iter\toArrayWithKeys;
 
@@ -17,6 +18,7 @@ class ButtonGroup extends Widget
     public const TYPE_LINK = 'link';
 
     public const TYPE_RAW = 'raw';
+    public const TYPE_DELETE_BUTTON = 'delete_button';
 
     public const TYPE_SUBMIT = 'submit';
 
@@ -83,6 +85,9 @@ class ButtonGroup extends Widget
                 case self::TYPE_SUBMIT:
                     $this->renderSubmitButton($button);
                     break;
+                case self::TYPE_DELETE_BUTTON:
+                    $this->renderDeleteButton($button);
+                    break;
                 default:
                     throw new \InvalidArgumentException("Unknown button type: $type");
             }
@@ -106,6 +111,18 @@ class ButtonGroup extends Widget
             : $queryParam
         ), $button['link'])) : $button['link'];
         echo Html::a(($button['icon'] ?? '') . $button['label'], $link, $options);
+    }
+
+    private function renderDeleteButton(array $button): void
+    {
+        $options = [
+            'class' => ['btn', 'btn-delete'],
+            'data-herams-action' => 'delete',
+            'data-herams-confirm' => $button['confirm'] ?? \Yii::t('app', 'Are you sure you want to delete this item?'),
+            'data-herams-endpoint' => Url::to($button['endpoint'], true),
+            'data-herams-redirect' => Url::to($button['redirect'], true),
+        ];
+        echo Html::button(($button['icon'] ?? '') . $button['label'], $options);
     }
 
     public function run()

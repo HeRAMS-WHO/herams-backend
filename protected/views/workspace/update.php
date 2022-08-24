@@ -6,28 +6,30 @@ use app\components\Form;
 use prime\components\ActiveForm;
 use prime\components\View;
 use prime\helpers\Icon;
+use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
-use prime\models\ar\WorkspaceForLimesurvey;
-use prime\models\forms\workspace\Update;
 use prime\models\forms\workspace\UpdateForLimesurvey;
+use prime\values\WorkspaceId;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
+use prime\widgets\survey\Survey;
 use yii\bootstrap\Html;
 
 /**
- * @var Update|UpdateForLimesurvey $model
+ * @var WorkspaceId $workspaceId
  * @var WorkspaceForTabMenu $tabMenuModel
+ * @var SurveyForSurveyJsInterface | null $survey
  * @var View $this
+ * @var null|object $model
  */
 assert($this instanceof View);
-assert($model instanceof Update || $model instanceof UpdateForLimesurvey);
 
-$this->title = $model->title;
 
+$this->title = \Yii::t('app', 'Update settings for {workspace}', ['workspace' => $tabMenuModel->title()]);
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
     'workspace' => $tabMenuModel,
@@ -35,46 +37,61 @@ echo WorkspaceTabMenu::widget([
 $this->endBlock();
 
 Section::begin()
-    ->withSubject($model)
-    ->withHeader($this->title);
+    ->withSubject($workspaceId)
+    ;
 
-$form = ActiveForm::begin([
-    'method' => 'PUT',
-]);
+if (isset($survey)) {
+    $survey = Survey::begin()
+        ->withConfig($survey->getConfig())
+        ->withProjectId($tabMenuModel->projectId())
+        ->withDataRoute(['/api/workspace/view', 'id' => $workspaceId])
+        ->withExtraData([
+            'id' => $workspaceId
+        ])
+        ->withSubmitRoute([
+            '/api/workspace/update', 'id' => $workspaceId,
+        ])
+        ->withServerValidationRoute(['/api/workspace/validate', 'id' => $workspaceId])
+    ;
 
-$attributes = [];
+    Survey::end();
 
-if ($model instanceof UpdateForLimesurvey) {
+} elseif ($model instanceof UpdateForLimesurvey) {
+    $form = ActiveForm::begin([
+        'method' => 'PUT',
+    ]);
+
+    $attributes = [];
+
     $attributes['token'] = [
         'type' => Form::INPUT_STATIC,
     ];
+    $attributes += [
+        'title' => [
+            'type' => Form::INPUT_TEXT,
+        ],
+        'i18nTitle' => [
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => LocalizableInput::class,
+        ],
+        FormButtonsWidget::embed(
+            [
+                'buttons' => [
+                    Html::submitButton(\Yii::t('app', 'Save'), [
+                        'class' => 'btn btn-primary',
+                    ]),
+                ],
+            ]
+        ),
+    ];
+
+    echo Form::widget([
+        'form' => $form,
+        'model' => $model,
+        'attributes' => $attributes,
+    ]);
+    ActiveForm::end();
 }
-
-$attributes += [
-    'title' => [
-        'type' => Form::INPUT_TEXT,
-    ],
-    'i18nTitle' => [
-        'type' => Form::INPUT_WIDGET,
-        'widgetClass' => LocalizableInput::class,
-    ],
-    FormButtonsWidget::embed(
-        [
-            'buttons' => [
-                Html::submitButton(\Yii::t('app', 'Save'), [
-                    'class' => 'btn btn-primary',
-                ]),
-            ],
-        ]
-    ),
-];
-
-echo Form::widget([
-    'form' => $form,
-    'model' => $model,
-    'attributes' => $attributes,
-]);
-ActiveForm::end();
 Section::end();
 
 Section::begin()
@@ -88,21 +105,21 @@ echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you 
 echo ButtonGroup::widget([
     'buttons' => [
         [
-            'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $model),
+            'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $workspaceId),
             'icon' => Icon::trash(),
+            'type' => ButtonGroup::TYPE_DELETE_BUTTON,
             'label' => \Yii::t('app', 'Delete'),
-            'link' => [
-                'workspace/delete',
-                'id' => $model->id,
+            'endpoint' => [
+                'api/workspace/delete',
+                'id' => $workspaceId,
             ],
-            'style' => 'delete',
-            'linkOptions' => [
-                'data-method' => 'delete',
-                'title' => \Yii::t('app', 'Delete workspace'),
-                'data-confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
+            'redirect' => [
+                'project/workspaces',
+                'id' => $tabMenuModel->projectId()->getValue()
             ],
+            'confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
+            'title' => \Yii::t('app', 'Delete workspace'),
         ],
     ],
 ]);
-
 Section::end();

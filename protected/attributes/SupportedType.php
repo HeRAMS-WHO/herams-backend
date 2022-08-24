@@ -10,7 +10,7 @@ use prime\interfaces\ValidateTypeInterface;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 
-#[Attribute(Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_CLASS + Attribute::IS_REPEATABLE)]
 class SupportedType implements ValidateTypeInterface
 {
     /**

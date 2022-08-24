@@ -15,7 +15,11 @@ interface AdminResponseForListInterface
 
     public const NAME = "name";
 
-    public const ATTRIBUTES = [self::ID, self::NAME];
+    public const DATE_OF_UPDATE = 'dateOfUpdate';
+
+    public const FACILITY_TYPE_LABEL = 'facilityTypeLabel';
+
+    public const ATTRIBUTES = [self::ID, self::NAME, self::DATE_OF_UPDATE, self::FACILITY_TYPE_LABEL];
 
     public function getDateOfUpdate(): null|\DateTimeInterface;
 
@@ -23,5 +27,5 @@ interface AdminResponseForListInterface
 
     public function getName(): null|string;
 
-    public function getFacilityTypeLabel(): string;
+    public function getFacilityTypeLabel(): ?string;
 }

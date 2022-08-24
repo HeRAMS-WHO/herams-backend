@@ -6,7 +6,9 @@ namespace prime\repositories;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\project\ProjectForBreadcrumbInterface;
+use prime\interfaces\project\ProjectLocalesRetriever;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
@@ -16,23 +18,27 @@ use prime\models\forms\project\Create;
 use prime\models\forms\project\Update as ProjectUpdate;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\models\project\ProjectForExternalDashboard;
+use prime\models\project\ProjectLocales;
+use prime\modules\Api\models\NewProject;
+use prime\modules\Api\models\UpdateProject;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\SurveyId;
 use yii\web\NotFoundHttpException;
 
-class ProjectRepository implements RetrieveReadModelRepositoryInterface
+class ProjectRepository implements RetrieveReadModelRepositoryInterface, ProjectLocalesRetriever
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,
+        private ActiveRecordHydratorInterface $activeRecordHydrator,
         private ModelHydrator $hydrator
     ) {
     }
 
-    public function create(Create $model): ProjectId
+    public function create(NewProject|Create $model): ProjectId
     {
         $record = new Project();
-        $this->hydrator->hydrateActiveRecord($model, $record);
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -67,7 +73,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
         return $record;
     }
 
-    public function retrieveForUpdate(ProjectId $id): ProjectUpdate
+    public function retrieveForUpdate(ProjectId $id): UpdateProject
     {
         $record = Project::findOne([
             'id' => $id,
@@ -75,18 +81,24 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
 
-        $update = new ProjectUpdate(new ProjectId($record->id));
-        $this->hydrator->hydrateFromActiveRecord($record, $update);
-        $update->setScenario($record->getType()->value);
+        $update = new UpdateProject($id);
+        $this->activeRecordHydrator->hydrateRequestModel($record, $update);
         return $update;
     }
 
-    public function save(ProjectUpdate $model): ProjectId
+    public function save(ProjectUpdate|UpdateProject $model): ProjectId
     {
         $record = Project::findOne([
             'id' => $model->id,
         ]);
-        $this->hydrator->hydrateActiveRecord($model, $record);
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
+        if (empty($record->getDirtyAttributes())) {
+            \Yii::debug([
+                'message' => 'Record has no dirty attributes',
+                'source' => $model->attributes,
+                'target' => $record->attributes
+            ]);
+        }
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -126,5 +138,17 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface
             throw new NotFoundHttpException();
         }
         return $project->getDataSurveyId();
+    }
+
+    public function retrieveProjectLocales(ProjectId $id): ProjectLocales
+    {
+        $project = Project::findOne(['id' => $id]);
+        if (!isset($project)) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->accessCheck->requirePermission($project, Permission::PERMISSION_READ);
+
+        var_dump($project->languages); die();
     }
 }

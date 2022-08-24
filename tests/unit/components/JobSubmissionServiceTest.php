@@ -28,9 +28,8 @@ class JobSubmissionServiceTest extends Unit
         $jobQueue->expects($this->once())
             ->method('putJob');
         $dispatcher = new EventDispatcher();
-        $jobQueueProxy = new JobQueueProxy($jobQueue);
 
-        $subject = new JobSubmissionService($jobQueueProxy, $dispatcher);
+        $subject = new JobSubmissionService($jobQueue, $dispatcher);
 
         // Class
         $accessRequest = new AccessRequest();

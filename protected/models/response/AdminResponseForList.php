@@ -33,4 +33,9 @@ class AdminResponseForList implements AdminResponseForListInterface
     {
         return $this->surveyResponse->getType() ?? '';
     }
+
+    public function getData(): array
+    {
+        return $this->surveyResponse->getRawData();
+    }
 }

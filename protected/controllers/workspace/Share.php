@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
+use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
@@ -18,6 +19,7 @@ use yii\base\Action;
 use yii\mail\MailerInterface;
 use yii\web\Request;
 use yii\web\User;
+use function iter\toArray;
 
 class Share extends Action
 {
@@ -30,11 +32,13 @@ class Share extends Action
         User $user,
         MailerInterface $mailer,
         UrlSigner $urlSigner,
+        BreadcrumbService $breadcrumbService,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $workspaceId = new WorkspaceId($id);
 
+        $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForWorkspace($workspaceId)->getIterator()));
         $workspace = $workspaceRepository->retrieveForShare($workspaceId);
 
         try {

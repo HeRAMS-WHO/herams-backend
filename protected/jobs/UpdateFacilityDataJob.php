@@ -9,13 +9,16 @@ use prime\values\FacilityId;
 
 final class UpdateFacilityDataJob implements JobInterface
 {
-    public function __construct(public readonly FacilityId $facilityId)
+    public readonly FacilityId $facilityId;
+
+    public function __construct(FacilityId|string|int $facilityId)
     {
+        $this->facilityId = $facilityId instanceof FacilityId ? $facilityId : new FacilityId($facilityId);
     }
 
     public static function fromArray(array $config): JobInterface
     {
-        return new self(new FacilityId($config['facilityId']));
+        return new self($config['facilityId']);
     }
 
     public function jsonSerialize(): mixed

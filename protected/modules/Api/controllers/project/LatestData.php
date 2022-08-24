@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\project;
 
-use Collecthor\DataInterfaces\ClosedVariableInterface;
-use Collecthor\DataInterfaces\ValueOptionInterface;
-use prime\interfaces\HeramsVariableSetRepositoryInterface;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
 use prime\values\ProjectId;
 use yii\base\Action;
-use yii\web\User;
 
 class LatestData extends Action
 {

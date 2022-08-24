@@ -1,6 +1,6 @@
 # Request Models
 
-Request models model the data received in a request. They are often called for models because they are used in web forms.
+Request models model the data received in a request. They are often called form models because they are used in web forms.
 Yii2 supports model validation on both the client and the server side.
 
 To easily use this form validation while at the same time keeping our request models separated from our database models
@@ -30,9 +30,11 @@ Hydration is the process of filling a model's properties with data. The source o
 data from the request.
 
 In Yii2 there is a default implementation for hydration in the form of `Model::load()` which can read data from the request
-object and put it in the safe properties.
-
-For a `RequestModel` this is the proper way.
+object and put it in the safe properties. For a simple `RequestModel` this might work, but because we want to take advantage
+of strong typing this is not the best solution.
+Instead inject the `ModelHydrator` and use its `hydrateFromJsonDictionary` and similar functions to load your model. 
+Advantage of this hydrator is that it can intelligently cast complex data types like enums. If any of the hydration fails
+the error is added to the attribute as a validation error.
 
 ### Hydrating the `ActiveRecord`
 This may require some translation between how the API or UI exposes information and how we internally store it. This

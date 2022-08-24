@@ -6,7 +6,7 @@ namespace prime\models\ar;
 
 use Carbon\Carbon;
 use prime\attributes\Audits;
-use prime\attributes\TriggersJobWithId;
+use prime\attributes\TriggersJob;
 use prime\components\ActiveQuery;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ActiveRecord;
@@ -48,7 +48,7 @@ use function iter\keys;
     Audits(self::EVENT_AFTER_INSERT),
     Audits(self::EVENT_AFTER_DELETE),
     Audits(self::EVENT_AFTER_UPDATE),
-    TriggersJobWithId(CreatedNotificationJob::class)
+    TriggersJob(CreatedNotificationJob::class)
 ]
 class AccessRequest extends ActiveRecord
 {

@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
+use prime\values\ProjectId;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
+use function iter\toArray;
 
 class Pages extends Action
 {
     public function run(
+        BreadcrumbService $breadcrumbService,
         AccessCheckInterface $accessCheck,
         int $id
     ) {
@@ -22,8 +26,9 @@ class Pages extends Action
             'id' => $id,
         ]);
 
+        $projectId = new ProjectId($id);
         $accessCheck->requirePermission($model, Permission::PERMISSION_MANAGE_DASHBOARD);
-
+        $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator()));
         return $this->controller->render('pages', [
             'project' => $model,
             'dataProvider' => new ActiveDataProvider([

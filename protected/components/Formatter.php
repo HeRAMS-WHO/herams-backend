@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\components;
 
 use CrEOF\Geo\WKB\Parser;
+use prime\interfaces\LabeledEnum;
 use prime\objects\enums\Enum;
 use Ramsey\Uuid\Uuid;
 
@@ -30,6 +31,12 @@ class Formatter extends \yii\i18n\Formatter
         if ($value instanceof Enum) {
             return parent::asText($value->label);
         }
+        if ($value instanceof LabeledEnum) {
+            return parent::asText($value->label());
+        }
+
+
+
         return parent::asText($value);
     }
 }

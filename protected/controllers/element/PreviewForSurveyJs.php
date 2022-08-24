@@ -12,6 +12,7 @@ use prime\repositories\FacilityRepository;
 use prime\repositories\HeramsVariableSetRepository;
 use prime\repositories\PageRepository;
 use prime\repositories\ProjectRepository;
+use prime\repositories\SurveyRepository;
 use prime\repositories\SurveyResponseRepository;
 use prime\values\ProjectId;
 use yii\base\Action;
@@ -24,14 +25,19 @@ class PreviewForSurveyJs extends Action
     public function run(
         ModelHydrator $modelHydrator,
         FacilityRepository $facilityRepository,
-        HeramsVariableSetRepositoryInterface $heramsVariableSetRepository,
-        Request $request,
+        ProjectRepository $projectRepository,
+        SurveyRepository $surveyRepository,
         int $projectId,
         string $config
     ) {
         $this->controller->layout = Controller::LAYOUT_BASE;
 
-        $variableSet = $heramsVariableSetRepository->retrieveForProject(new ProjectId($projectId));
+        $projectId = new ProjectId($projectId);
+
+        $adminSurveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+        $dataSurveyId = $projectRepository->retrieveDataSurveyId($projectId);
+        $variableSet = $surveyRepository->retrieveVariableSet($adminSurveyId, $dataSurveyId);
+
         $model = new Chart($variableSet);
         $modelHydrator->hydrateFromJsonDictionary($model, json_decode($config, true));
 

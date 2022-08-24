@@ -9,7 +9,7 @@ use Collecthor\SurveyjsParser\ElementParserInterface;
 use Collecthor\SurveyjsParser\ParserHelpers;
 use Collecthor\SurveyjsParser\Parsers\SingleChoiceQuestionParser;
 use Collecthor\SurveyjsParser\SurveyConfiguration;
-use prime\objects\enums\FacilityType;
+use prime\objects\enums\FacilityTier;
 
 class FacilityTypeQuestionParser implements ElementParserInterface
 {
@@ -28,18 +28,15 @@ class FacilityTypeQuestionParser implements ElementParserInterface
     ): iterable {
         $tierMap = [];
         foreach ($questionConfig['choices'] as $choice) {
-            $tierMap[$choice['value']] = FacilityType::from($choice['tier']);
+            $tierMap[$choice['value']] = FacilityTier::from($choice['tier'] ?? FacilityTier::Primary->value);
         }
-
-        yield from $this->singleChoiceQuestionParser->parse($root, $questionConfig, $surveyConfiguration, $dataPrefix);
 
         foreach ($this->singleChoiceQuestionParser->parse($root, $questionConfig, $surveyConfiguration, $dataPrefix) as $variable) {
             // We want to alter the closed question only.
             if ($variable instanceof ClosedVariableInterface) {
                 yield new FacilityTierVariable($variable, $tierMap);
-            } else {
-                yield $variable;
             }
+            yield $variable;
         }
     }
 }

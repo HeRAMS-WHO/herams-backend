@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace prime\controllers\facility;
 
+use prime\components\BreadcrumbService;
+use prime\components\Controller;
+use prime\helpers\ConfigurationProvider;
 use prime\helpers\ModelHydrator;
+use prime\interfaces\AccessCheckInterface;
+use prime\models\ar\Permission;
+use prime\models\ar\Workspace;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\facility\CreateForm as CreateModel;
 use prime\repositories\FacilityRepository;
+use prime\repositories\ProjectRepository;
+use prime\repositories\SurveyRepository;
 use prime\repositories\WorkspaceRepository;
+use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 use yii\base\Action;
 use yii\base\InvalidArgumentException;
@@ -17,6 +26,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Request;
 use yii\web\Response;
 
+use function iter\toArray;
 use function PHPUnit\Framework\assertInstanceOf;
 
 class Create extends Action
@@ -30,64 +40,27 @@ class Create extends Action
         parent::__construct($id, $controller, $config);
     }
 
-    final protected function handlePost(
-        Request $request,
-        ModelHydrator $hydrator,
-        CreateModel $model,
-        FacilityRepository $repository,
-        Response $response
-    ): null|Response {
-        $hydrator->hydrateFromRequestArray($model, $request->bodyParams);
-        if ($model->validate()) {
-            $id = $repository->create($model);
-            $response->statusCode = 201;
-            $response->headers->add('X-Suggested-Location', Url::to([
-                'update',
-                'id' => $id,
-            ], true));
-            $response->headers->add('Location', Url::to([
-                'update',
-                'id' => $id,
-            ], true));
-            return $response;
-        } else {
-            \Yii::error($model->errors);
-            throw new BadRequestHttpException(print_r($model->errors, true));
-        }
-    }
-
-    /**
-     * @throws \yii\web\NotFoundHttpException
-     */
     public function run(
-        FacilityRepository $facilityRepository,
+        AccessCheckInterface $accessCheck,
+        SurveyRepository $surveyRepository,
         WorkspaceRepository $workspaceRepository,
-        ModelHydrator $hydrator,
-        Request $request,
-        Response $response,
-        int $workspaceId,
+        ProjectRepository $projectRepository,
+        BreadcrumbService $breadcrumbService,
+        int $workspaceId
     ) {
-        $response->headers->add('Access-Control-Allow-Origin', '*');
-        $response->headers->add('Access-Control-Allow-Credentials', 'true');
-        $id = new WorkspaceId($workspaceId);
-        try {
-            $workspace = $workspaceRepository->retrieveForNewFacility($id);
-            $model = $facilityRepository->createFormModel($workspace);
-        } catch (InvalidArgumentException $e) {
-            // In case it is a Limesurvey project we need to create a new response
-            $workspace = $workspaceRepository->retrieveForRead($id);
-            assertInstanceOf(WorkspaceForLimesurvey::class, $workspace);
-            return $this->controller->render('createForLimesurvey', [
-                'model' => $workspace,
-            ]);
-        }
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        if ($request->isPost) {
-            return $this->handlePost($request, $hydrator, $model, $facilityRepository, $response);
-        }
+        $workspaceId = new WorkspaceId($workspaceId);
+        $accessCheck->requirePermission($workspaceId, Permission::PERMISSION_CREATE_FACILITY);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForWorkspace($workspaceId)->getIterator()));
+        $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
 
         return $this->controller->render('create', [
-            'model' => $model,
+            'projectId' => $projectId,
+            'workspaceId' => $workspaceId,
+            'survey' => $surveyRepository->retrieveForSurveyJs($surveyId)
         ]);
     }
 }

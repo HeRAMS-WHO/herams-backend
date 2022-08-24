@@ -23,6 +23,7 @@ use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\objects\enums\ProjectType;
 use prime\objects\LanguageSet;
 use prime\repositories\FacilityRepository;
+use prime\repositories\HeramsVariableSetRepository;
 use prime\repositories\SurveyRepository;
 use prime\repositories\SurveyResponseRepository;
 use prime\repositories\WorkspaceRepository;
@@ -58,7 +59,8 @@ class FacilityRepositoryTest extends Unit
             $modelHydrator ?? new ModelHydrator(),
             $surveyRepository ?? new SurveyRepository(new SurveyParser(new FacilityTypeQuestionParser(new SingleChoiceQuestionParser())), $newAccessCheck, new ModelHydrator()),
             $surveyResponseRepository ?? new SurveyResponseRepository($newAccessCheck, new ModelHydrator()),
-            $workspaceRepository ?? \Yii::$container->get(WorkspaceRepository::class, [$newAccessCheck])
+            $workspaceRepository ?? \Yii::$container->get(WorkspaceRepository::class, [$newAccessCheck]),
+            new HeramsVariableSetRepository()
         );
     }
 

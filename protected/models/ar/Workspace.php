@@ -7,12 +7,14 @@ namespace prime\models\ar;
 use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\helpers\ArrayHelper;
+use prime\interfaces\ConditionallyDeletable;
 use prime\interfaces\RequestableInterface;
 use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsCodeMap;
 use prime\queries\FacilityQuery;
 use prime\queries\ResponseForLimesurveyQuery;
+use prime\values\ProjectId;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
 use yii\db\Query;
@@ -28,6 +30,7 @@ use yii\validators\StringValidator;
  * @property string $title
  * @property string $token
  * @property int $project_id
+ * @property array|null $data
  * @property string|null $updated_at
  *
  * Virtual attributes
@@ -41,7 +44,7 @@ use yii\validators\StringValidator;
  * @property-read User $owner
  * @property-read Project $project
  */
-class Workspace extends ActiveRecord implements RequestableInterface
+class Workspace extends ActiveRecord implements RequestableInterface, ConditionallyDeletable
 {
     public function behaviors(): array
     {
@@ -277,5 +280,15 @@ class Workspace extends ActiveRecord implements RequestableInterface
     public function getProjectTitle(): string
     {
         return $this->getBehavior(VirtualFieldBehavior::class)->__get('projectTitle');
+    }
+
+    public function canBeDeleted(): bool
+    {
+        return !$this->getFacilities()->exists();
+    }
+
+    public function getProjectId(): ProjectId
+    {
+        return new ProjectId($this->project_id);
     }
 }

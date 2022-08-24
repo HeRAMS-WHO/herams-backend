@@ -25,6 +25,7 @@ use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\User;
 
@@ -71,16 +72,6 @@ class WorkspaceController extends Controller
             'share' => Share::class,
             'import' => Import::class,
             'refresh' => Refresh::class,
-            'delete' => [
-                'class' => DeleteAction::class,
-                'query' => WorkspaceForLimesurvey::find(),
-                'redirect' => function (WorkspaceForLimesurvey $workspace) {
-                    return [
-                        '/project/workspaces',
-                        'id' => $workspace->project_id,
-                    ];
-                },
-            ],
             'request-access' => RequestAccess
 ::class,
         ];
@@ -114,19 +105,18 @@ class WorkspaceController extends Controller
      */
     public function render($view, $params = [])
     {
-        $breadcrumbCollection = $this->view->getBreadcrumbCollection()
-            ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')))
-        ;
-
-        if (in_array($this->action->id, ['create', 'import']) && $projectId = (int) $this->request->getQueryParam('project_id')) {
-            $project = $this->projectRepository->retrieveForBreadcrumb(new ProjectId($projectId));
-            $breadcrumbCollection->add($project);
-        } elseif ($id = $this->request->getQueryParam('id')) {
-            $model = $this->workspaceRepository->retrieveForBreadcrumb(new WorkspaceId((int) $id));
-            $project = $this->projectRepository->retrieveForBreadcrumb($model->getProjectId());
-            $breadcrumbCollection->add($project);
-        }
-
+//
+//        $this->view->getBreadcrumbCollection()->add(new Breadcrumb(\Yii::t('app', 'Projects'), Url::to(['/project/index'])));
+//
+//        if (in_array($this->action->id, ['create', 'import']) && $projectId = (int) $this->request->getQueryParam('project_id')) {
+//            $project = $this->projectRepository->retrieveForBreadcrumb(new ProjectId($projectId));
+//            $breadcrumbCollection->add($project);
+//        } elseif ($id = $this->request->getQueryParam('id')) {
+//            $model = $this->workspaceRepository->retrieveForBreadcrumb(new WorkspaceId((int) $id));
+//            $project = $this->projectRepository->retrieveForBreadcrumb($model->getProjectId());
+//            $breadcrumbCollection->add($project);
+//        }
+//
         if (! isset($params['tabMenuModel']) && $this->request->getQueryParam('id')) {
             $workspaceId = new WorkspaceId((int) $this->request->getQueryParam('id'));
             $params['tabMenuModel'] = $this->workspaceRepository->retrieveForTabMenu($workspaceId);

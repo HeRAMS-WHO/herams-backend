@@ -29,7 +29,6 @@ class Create extends Action
         $model = new SvelteElement($variableSetRepository);
 
         $model->load($request->bodyParams);
-//        $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
         if (! $model->validate()) {
             $response->setStatusCode(422);
             return [

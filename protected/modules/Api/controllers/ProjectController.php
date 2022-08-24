@@ -4,39 +4,30 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
 
+use prime\modules\Api\controllers\project\Create;
 use prime\modules\Api\controllers\project\Index;
 use prime\modules\Api\controllers\project\LatestData;
+use prime\modules\Api\controllers\project\Locales;
 use prime\modules\Api\controllers\project\Summary;
+use prime\modules\Api\controllers\project\Update;
+use prime\modules\Api\controllers\project\Validate;
 use prime\modules\Api\controllers\project\Variables;
+use prime\modules\Api\controllers\project\View;
 use yii\filters\AccessControl;
-use yii\filters\auth\CompositeAuth;
-use yii\filters\ContentNegotiator;
-use yii\web\Controller;
-use yii\web\Response;
 
 class ProjectController extends Controller
 {
     public function behaviors(): array
     {
-        return [
-            AccessControl::class => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'summary'],
-                    ],
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'actions' => ['variables', 'latest-data'],
-                    ],
-                    [
-                        'allow' => false,
-                    ],
-                ],
+        $behaviors = parent::behaviors();
+        $behaviors['access']['rules'] = [
+            [
+                'allow' => true,
+                'actions' => ['index', 'summary'],
             ],
+            ...$behaviors['access']['rules']
         ];
+        return $behaviors;
     }
 
     public function actions(): array
@@ -46,6 +37,11 @@ class ProjectController extends Controller
             'summary' => Summary::class,
             'variables' => Variables::class,
             'latest-data' => LatestData::class,
+            'validate' => Validate::class,
+            'create' => Create::class,
+            'update' => Update::class,
+            'view' => View::class,
+            'locales' => Locales::class
         ];
     }
 }

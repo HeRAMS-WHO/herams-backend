@@ -50,14 +50,11 @@ echo $this->render('//user-menu', [
 <?php
     $links = [];
 foreach ($this->getBreadcrumbCollection() as $breadcrumb) {
-    $links[] = ArrayHelper::merge(
-        $breadcrumb->getHtmlOptions(),
-        [
-            'label' => $breadcrumb->getLabel(),
-            'url' => $breadcrumb->getUrl(),
-            'encode' => $breadcrumb->getEncode(),
-        ]
-    );
+    $links[] = [
+        'label' => $breadcrumb->getLabel(),
+        'url' => $breadcrumb->getUrl(),
+        'encode' => true
+    ];
 }
 
     echo '<!-- Breadcrumbs -->' . Breadcrumbs::widget([

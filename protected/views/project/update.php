@@ -18,6 +18,7 @@ use prime\widgets\FormButtonsWidget;
 use prime\widgets\LocalizableInput;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
+use prime\widgets\survey\Survey;
 use yii\helpers\Html;
 
 use function iter\chain;
@@ -27,11 +28,12 @@ use function iter\toArrayWithKeys;
 
 /**
  * @var \prime\models\ar\read\Project $project
- * @var Update $model
+ * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
+ * @var \prime\values\ProjectId $projectId
  * @var View $this
  */
 
-$this->title = $project->getLabel();
+$this->title = \Yii::t('app', "Update settings for {project}", ['project' => $project->getLabel()]);
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
@@ -43,98 +45,24 @@ Section::begin()
     ->withSubject($project)
     ->withHeader(Yii::t('app', 'Project settings'));
 
-/** @var ActiveForm $form */
-$form = ActiveForm::begin([
-    'method' => 'PUT',
-]);
+$survey = Survey::begin()
+    ->withConfig($survey->getConfig())
+    ->withDataRoute(['/api/project/view', 'id' => $projectId])
+    ->withExtraData([
+        'id' => $projectId
+    ])
+    ->withSubmitRoute([
+        '/api/project/update', 'id' => $projectId,
+    ])
+    ->withServerValidationRoute(['/api/project/validate', 'id' => $projectId])
+//    ->withRedirectRoute([
+//        'project/update',
+//        'id' => $projectId
+//    ])
+;
 
-echo Form::widget([
-    'form' => $form,
-    'model' => $model,
-    "attributes" => [
-        'errors' => [
-            'type' => Form::INPUT_RAW,
-            'value' => Html::errorSummary($model),
-        ],
-        'title' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'languages' => [
-            'type' => Form::INPUT_CHECKBOX_LIST,
-            'items' => Language::toLocalizedArrayWithoutSourceLanguage(Language::from(\Yii::$app->language)),
-        ],
-        'i18nTitle' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => LocalizableInput::class,
-        ],
-        'latitude' => [
-            'type' => Form::INPUT_TEXT,
-            'html5type' => 'number',
-            'options' => [
-                'min' => -90,
-                'max' => 90,
-            ],
-        ],
-        'longitude' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'status' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => ProjectStatus::toArray(),
-        ],
-        'visibility' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => ProjectVisibility::toArray(),
-        ],
-        'country' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => Select2::class,
-            'options' => [
-                'data' => toArrayWithKeys(chain(
-                    [
-                        '' => Yii::t('app', '(Not set)'),
-                    ],
-                    map(nested_index('name'), (new ISO3166())->iterator(ISO3166::KEY_ALPHA3))
-                )),
+Survey::end();
 
-
-            ],
-        ],
-        'manage_implies_create_hf' => [
-            'type' => Form::INPUT_DROPDOWN_LIST,
-            'items' => [
-                '0' => Yii::t('app', 'Disabled'),
-                '1' => Yii::t('app', 'Enabled'),
-            ],
-        ],
-        'typemap' => [
-            'type' => Form::INPUT_TEXTAREA,
-            'options' => [
-                'value' => json_encode($model->typemap, JSON_PRETTY_PRINT),
-                'rows' => 5,
-            ],
-            'visible' => $model->isAttributeSafe('typemap'),
-        ],
-        'overrides' => [
-            'type' => Form::INPUT_TEXTAREA,
-            'options' => [
-                'value' => json_encode($model->overrides, JSON_PRETTY_PRINT),
-                'rows' => 5,
-            ],
-
-        ],
-        FormButtonsWidget::embed([
-            'buttons' => [
-                [
-                    'label' => Yii::t('app', 'Update'),
-                    'style' => 'primary',
-                ],
-            ],
-        ]),
-    ],
-]);
-
-ActiveForm::end();
 Section::end();
 
 Section::begin()

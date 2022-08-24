@@ -183,4 +183,12 @@ class User extends ActiveRecord implements IdentityInterface
             'user_id' => 'id',
         ])->inverseOf('user');
     }
+
+    public function fields()
+    {
+        $result = parent::fields();
+        unset($result['password_hash']);
+        return $result;
+    }
+
 }

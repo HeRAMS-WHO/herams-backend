@@ -32,6 +32,7 @@ use prime\queries\ResponseForLimesurveyQuery;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\User;
 
@@ -147,12 +148,5 @@ class ProjectController extends Controller
                 ],
             ]
         );
-    }
-
-    public function render($view, $params = [])
-    {
-        $this->view->getBreadcrumbCollection()->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
-
-        return parent::render($view, $params);
     }
 }

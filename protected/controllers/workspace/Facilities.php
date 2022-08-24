@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
+use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\models\search\FacilitySearch;
 use prime\repositories\FacilityRepository;
 use prime\values\WorkspaceId;
 use yii\base\Action;
 use yii\web\Request;
+use function iter\toArray;
 
 class Facilities extends Action
 {
     public function run(
         Request $request,
+        BreadcrumbService $breadcrumbService,
         FacilityRepository $facilityRepository,
         int $id
     ) {
@@ -24,6 +27,7 @@ class Facilities extends Action
         $facilitySearch = new FacilitySearch();
         $facilitySearch->load($request->queryParams);
         $facilityProvider = $facilityRepository->searchInWorkspace($workspaceId, $facilitySearch);
+        $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForWorkspace($workspaceId)->getIterator()));
         return $this->controller->render('facilities', [
             'facilitySearch' => $facilitySearch,
             'facilityProvider' => $facilityProvider,

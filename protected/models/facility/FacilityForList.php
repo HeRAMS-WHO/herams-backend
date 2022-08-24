@@ -7,6 +7,7 @@ namespace prime\models\facility;
 use prime\interfaces\CanCurrentUser;
 use prime\interfaces\facility\FacilityForListInterface;
 use prime\models\ar\Facility;
+use prime\objects\enums\FacilityTier;
 use prime\values\FacilityId;
 
 /**
@@ -22,6 +23,7 @@ class FacilityForList implements FacilityForListInterface
         private null|float $latitude,
         private null|float $longitude,
         private int $responseCount,
+        private FacilityTier $tier,
         private CanCurrentUser|null $checker = null
     ) {
     }
@@ -64,5 +66,10 @@ class FacilityForList implements FacilityForListInterface
     public function getResponseCount(): int
     {
         return $this->responseCount;
+    }
+
+    public function getTier(): FacilityTier
+    {
+        return $this->tier;
     }
 }

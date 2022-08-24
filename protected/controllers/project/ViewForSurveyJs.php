@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\helpers\CombinedHeramsFacilityRecord;
 use prime\interfaces\HeramsFacilityRecordInterface;
@@ -37,7 +38,7 @@ class ViewForSurveyJs extends Action
     public function run(
         Resolver $abacResolver,
         PreloadingSourceRepository $preloadingSourceRepository,
-        SurveyRepository $surveyRepository,
+        BreadcrumbService $breadcrumbService,
         FacilityRepository $facilityRepository,
         HeramsVariableSetRepositoryInterface $heramsVariableSetRepository,
         Request $request,
@@ -93,7 +94,8 @@ class ViewForSurveyJs extends Action
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }
 
-        $facilities = $facilityRepository->searchInProject(ProjectId::fromProject($project));
+        $projectId = ProjectId::fromProject($project);
+        $facilities = $facilityRepository->searchInProject($projectId);
 
         \Yii::beginProfile('ResponseFilterinit');
 
@@ -105,16 +107,7 @@ class ViewForSurveyJs extends Action
             $stack[] = $parent;
         }
 
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl([
-            'project/view',
-            'id' => $project->id,
-        ]));
-        while (! empty($stack)) {
-            /** @var PageInterface $p */
-            $p = array_pop($stack);
-            $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($p->getTitle()));
-        }
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($page->getTitle()));
+        $view->getBreadcrumbCollection()->add(...toArray($breadcrumbService->retrieveForProject($projectId)));
 
         $data = toArray(flatten(map(static fn (Facility $facility): HeramsFacilityRecordInterface => new CombinedHeramsFacilityRecord($facility->getAdminRecord(), $facility->getDataRecord(), FacilityId::fromFacility($facility)), $facilities)));
         return $this->controller->render('view-for-survey-js', [

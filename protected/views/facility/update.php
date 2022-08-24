@@ -5,6 +5,7 @@ declare(strict_types=1);
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\forms\facility\UpdateForm;
+use prime\values\FacilityId;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
@@ -13,6 +14,9 @@ use prime\widgets\survey\Survey;
  * @var View $this
  * @var UpdateForm $model
  * @var FacilityForTabMenu $tabMenuModel
+ * @var FacilityId $id
+ * @var \prime\values\ProjectId $projectId
+ * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
  */
 
 $this->title = $tabMenuModel->getTitle();
@@ -29,13 +33,20 @@ Section::begin()
     ->withHeader(Yii::t('app', 'Update facility'));
 
 $survey = Survey::begin()
-    ->withConfig($model->getSurvey()->getConfig())
-    ->withData($model->data ?? [])
-    ->withSubmitRoute([
-        'facility/update',
-        'id' => $model->getFacilityId(),
+    ->withConfig($survey->getConfig())
+    ->withDataRoute(['/api/facility/view', 'id' => $id], ['adminData'])
+    ->withProjectId($projectId)
+    ->withExtraData([
+        'facilityId' => $id,
+        'surveyId' => $survey->getId()
     ])
-    ->withLanguages($model->getLanguages())
+    ->withSubmitRoute([
+        'api/survey-response/create'
+    ])
+    ->withRedirectRoute([
+        'facility/admin-responses',
+        'id' => $id
+    ])
 ;
 
 Survey::end();

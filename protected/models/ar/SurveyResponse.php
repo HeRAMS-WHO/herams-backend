@@ -5,19 +5,20 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use Carbon\Carbon;
-use Collecthor\DataInterfaces\RecordInterface;
 use DateTimeInterface;
+use prime\attributes\TriggersJob;
 use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\interfaces\HeramsResponseInterface;
+use prime\interfaces\RecordInterface;
+use prime\jobs\UpdateFacilityDataJob;
 use prime\models\ActiveRecord;
 use prime\validators\ExistValidator;
+use prime\values\SurveyId;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
-
-use function GuzzleHttp\Promise\is_settled;
 
 /**
  * Attributes
@@ -32,6 +33,7 @@ use function GuzzleHttp\Promise\is_settled;
  * @property-read Facility $facility
  * @property-read Survey $survey
  */
+#[TriggersJob(UpdateFacilityDataJob::class, 'facility_id')]
 class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, RecordInterface
 {
     public function behaviors(): array
@@ -216,5 +218,15 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
             'lastUpdate' => $this->getLastUpdate(),
             'data' => $this->data,
         ];
+    }
+
+    public function getSurveyId(): SurveyId
+    {
+        return new SurveyId($this->survey_id);
+    }
+
+    public function allData(): array
+    {
+        return $this->data;
     }
 }

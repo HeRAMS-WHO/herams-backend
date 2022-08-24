@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
+use JetBrains\PhpStorm\Internal\TentativeType;
 use function iter\map;
 use function iter\toArrayWithKeys;
 
-enum ProjectStatus:int
+enum ProjectStatus:int implements \JsonSerializable
 {
     case Ongoing = 0;
     case Baseline = 1;
@@ -31,5 +32,10 @@ enum ProjectStatus:int
             $result[$projectStatus->value] = $projectStatus->label();
         }
         return $result;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->value;
     }
 }

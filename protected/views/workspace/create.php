@@ -2,61 +2,41 @@
 
 declare(strict_types=1);
 
-use app\components\Form;
-use kartik\select2\Select2;
-use prime\components\ActiveForm;
-use prime\models\forms\workspace\Create;
-use prime\models\forms\workspace\CreateForLimesurvey;
-use prime\widgets\ButtonGroup;
-use prime\widgets\FormButtonsWidget;
+use prime\components\View;
 use prime\widgets\Section;
-use yii\web\View;
+use prime\widgets\survey\Survey;
 
 /**
+ * @var \prime\values\ProjectId $projectId
+ * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
+ *
  * @var View $this
- * @var CreateForLimesurvey|Create $model
  */
+assert($this instanceof View);
 
-$this->title = \Yii::t('app', 'Create workspace');
+$this->title = \Yii::t('app', "Create new workspace");
+
+$this->beginBlock('tabs');
+$this->endBlock();
 
 Section::begin()
-    ->withHeader($this->title);
+;
 
-$form = ActiveForm::begin();
+$survey = Survey::begin()
+    ->withConfig($survey->getConfig())
+    ->withProjectId($projectId)
+    ->withData([
+        'projectId' => $projectId
+    ])
+    ->withSubmitRoute([
+        '/api/workspace/create',
+    ])
+    ->withServerValidationRoute(['/api/workspace/validate'])
+    ->withRedirectRoute([
+        'project/workspaces', 'id' => $projectId
+    ])
+;
 
-$attributes = [
-    'title' => [
-        'type' => Form::INPUT_TEXT,
-    ],
-];
-
-if ($model instanceof CreateForLimesurvey) {
-    $attributes['token'] = [
-        'type' => Form::INPUT_WIDGET,
-        'widgetClass' => Select2::class,
-        'options' => [
-            'data' => $model->tokenOptions(),
-        ],
-    ];
-}
-
-$attributes[] = FormButtonsWidget::embed([
-    'buttons' => [
-        [
-            'label' => \Yii::t('app', 'Create workspace'),
-            'type' => ButtonGroup::TYPE_SUBMIT,
-            'style' => 'primary',
-        ],
-    ],
-]);
-
-echo Form::widget([
-    'form' => $form,
-    'model' => $model,
-    'columns' => 1,
-    'attributes' => $attributes,
-]);
-
-ActiveForm::end();
+Survey::end();
 
 Section::end();

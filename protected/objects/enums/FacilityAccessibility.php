@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
+use prime\interfaces\LabeledEnum;
+
 /**
  * @method static self unknown()
  * @method static self full()
  * @method static self partial()
  * @method static self none()
  */
-enum FacilityAccessibility:string
+enum FacilityAccessibility:string implements LabeledEnum
 {
     case Unknown = 'unknown';
     case Full = 'full';
@@ -41,5 +43,11 @@ enum FacilityAccessibility:string
             'partial' => \Yii::t('app', 'Partially accessible'),
             'none' => \Yii::t('app', 'Not accessible'),
         ];
+    }
+
+
+    public function label(): string
+    {
+        return self::labels()[$this->value];
     }
 }

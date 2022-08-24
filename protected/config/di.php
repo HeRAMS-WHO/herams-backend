@@ -35,7 +35,9 @@ use prime\helpers\LimesurveyDataLoader;
 use prime\helpers\ModelHydrator;
 use prime\helpers\StrategyActiveRecordHydrator;
 use prime\helpers\UserAccessCheck;
-use prime\hydrators\NewWorkspaceHydrator;
+use prime\hydrators\FacilityHydrator;
+use prime\hydrators\ProjectHydrator;
+use prime\hydrators\WorkspaceHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\EnvironmentInterface;
@@ -88,9 +90,17 @@ use yii\web\JqueryAsset;
 assert(isset($env) && $env instanceof EnvironmentInterface);
 
 return [
+    \prime\helpers\ConfigurationProvider::class => \prime\helpers\ConfigurationProvider::class,
+    \yii\widgets\PjaxAsset::class => [
+        'baseUrl' => '@npm/yii2-pjax',
+        'sourcePath' => null
+    ],
+    \prime\components\BreadcrumbService::class => \prime\components\BreadcrumbService::class,
     ActiveRecordHydratorInterface::class => static function (): ActiveRecordHydratorInterface {
         $result = new StrategyActiveRecordHydrator();
-        $result->registerAttributeStrategy(new NewWorkspaceHydrator());
+        $result->registerAttributeStrategy(new WorkspaceHydrator());
+        $result->registerAttributeStrategy(new ProjectHydrator());
+        $result->registerAttributeStrategy(new FacilityHydrator());
         $result->registerAttributeStrategy(new ModelHydrator());
         return $result;
     },
@@ -107,10 +117,12 @@ return [
     \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
     \prime\repositories\ElementRepository::class => \prime\repositories\ElementRepository::class,
     \prime\interfaces\HeramsVariableSetRepositoryInterface::class => HeramsVariableSetRepository::class,
+    \prime\interfaces\project\ProjectLocalesRetriever::class => ProjectRepository::class,
     SurveyParser::class => \prime\helpers\SurveyParser::class,
     \Psr\Http\Client\ClientInterface::class => Client::class,
     \Psr\Http\Message\RequestFactoryInterface::class => RequestFactory::class,
     ModelHydrator::class => ModelHydrator::class,
+    \prime\helpers\ModelValidator::class => \prime\helpers\ModelValidator::class,
     LocalizableInput::class => function (Container $container, array $params, array $config) {
         if (! isset($config['languages'])) {
             $config['languages'] = Language::toLocalizedArrayWithoutSourceLanguage(Language::from(\Yii::$app->language));
@@ -171,9 +183,10 @@ return [
         return new SwitchInput($config);
     },
     GridView::class => static function (Container $container, array $params, array $config): GridView {
-        $result = new GridView(array_merge([
-            'dataColumnClass' => \prime\widgets\FunctionGetterDataColumn::class,
-        ], $config));
+        $result = new GridView([
+            'dataColumnClass' => \prime\widgets\DataColumn::class,
+            ...$config
+        ]);
         $result->export = false;
         $result->toggleData = false;
         return $result;

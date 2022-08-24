@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-enum FacilityFunctionality: string
+use prime\interfaces\LabeledEnum;
+
+enum FacilityFunctionality: string implements LabeledEnum
 {
     case Unknown = 'unknown';
     case Full = 'A1';
@@ -22,5 +24,10 @@ enum FacilityFunctionality: string
             'partial' => \Yii::t('app', 'Partially functioning'),
             'none' => \Yii::t('app', 'Non-functioning'),
         ];
+    }
+
+    public function label(): string
+    {
+        return self::labels()[$this->value];
     }
 }

@@ -4,51 +4,44 @@ declare(strict_types=1);
 
 namespace prime\controllers\facility;
 
+use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
+use prime\interfaces\AccessCheckInterface;
 use prime\repositories\FacilityRepository;
+use prime\repositories\ProjectRepository;
+use prime\repositories\SurveyRepository;
+use prime\repositories\WorkspaceRepository;
 use prime\values\FacilityId;
+use prime\values\WorkspaceId;
 use yii\base\Action;
-use yii\helpers\Url;
-use yii\web\BadRequestHttpException;
 use yii\web\Request;
 use yii\web\Response;
-use yii\web\UnprocessableEntityHttpException;
 
 class Update extends Action
 {
-    /**
-     * @throws \yii\web\NotFoundHttpException
-     */
     public function run(
-        Request $request,
-        Response $response,
+        SurveyRepository $surveyRepository,
+        WorkspaceRepository $workspaceRepository,
+        ProjectRepository $projectRepository,
         FacilityRepository $facilityRepository,
-        NotificationService $notificationService,
-        ModelHydrator $modelHydrator,
-        string $id
+        int $id
     ) {
-        $facilityId = new FacilityId($id);
-        $model = $facilityRepository->retrieveForUpdate($facilityId);
+        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        if ($request->isPost) {
-            $response->format = Response::FORMAT_JSON;
-            $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
-            if ($model->validate(null, false)) {
-                $response->headers->add('X-Suggested-Location', Url::to([
-                    'update',
-                    'id' => $facilityRepository->saveUpdate($model),
-                ], true));
-                $notificationService->success(\Yii::t('app', 'Facility updated'));
-                return $response;
-            } else {
-                $response->statusCode = 422;
-                return $model->errors;
-            }
-        }
+        $facilityId = new FacilityId($id);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+
         return $this->controller->render('update', [
-            'model' => $model,
+            'projectId' => $projectId,
+            'workspaceId' => $workspaceId,
+            'id' => $facilityId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
+            'survey' => $surveyRepository->retrieveForSurveyJs($surveyId)
         ]);
     }
+
 }

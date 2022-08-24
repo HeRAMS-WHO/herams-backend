@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace prime\modules\Api\models;
 
 use prime\helpers\LocalizedString;
+use prime\interfaces\ValidationErrorCollection;
+use prime\models\RequestModel;
 use prime\values\ProjectId;
 use yii\base\Model;
 use yii\validators\RequiredValidator;
 
-class NewWorkspace extends Model
+final class NewWorkspace extends RequestModel
 {
-    public LocalizedString $title;
+    public null|LocalizedString $title = null;
 
-    public ProjectId $projectId;
+    public null|ProjectId $projectId = null;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['title', 'projectId'], RequiredValidator::class],

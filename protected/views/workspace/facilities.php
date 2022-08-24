@@ -45,18 +45,7 @@ Section::begin([
             ],
             'permission' => Permission::
 PERMISSION_CREATE_FACILITY,
-        ],
-        [
-            'icon' => Icon::recycling(),
-            'label' => \Yii::t('app', 'Refresh workspace'),
-            'link' => [
-                'workspace/refresh',
-                'id' => $tabMenuModel->id(),
-            ],
-            'permission' => Permission::
-PERMISSION_SURVEY_DATA,
-
-        ],
+        ]
     ],
 ])->withSubject($tabMenuModel);
 
@@ -94,6 +83,9 @@ echo GridView::widget(
             [
                 'attribute' => FacilityForList::RESPONSE_COUNT,
             ],
+            [
+                'attribute' => 'tier'
+            ]
         ],
     ]
 );

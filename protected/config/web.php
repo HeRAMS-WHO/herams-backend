@@ -75,7 +75,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                 ],
                 [
                     'pattern' => '<controller>/<id:\d+>',
-                    'route' => '<controller>',
+                    'route' => '<controller>/view',
                 ],
                 [
                     'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',
@@ -123,10 +123,6 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'appendTimestamp' => true,
             'forceCopy' => YII_DEBUG,
             'bundles' => [
-                PjaxAsset::class => [
-                    'baseUrl' => '@npm/yii2-pjax',
-                    'sourcePath' => null,
-                ],
                 // Override bootstrap
                 \yii\bootstrap\BootstrapPluginAsset::class => [
                     'baseUrl' => '@npm/bootstrap/dist',

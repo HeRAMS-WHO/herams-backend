@@ -13,11 +13,11 @@
         "jquery": "^3.6.0",
         "popper.js": "^1.16.1",
         "pretty-checkbox": "^3.0.3",
-        "survey-creator": "^1.9.26",
-        "survey-creator-core": "^1.9.26",
-        "survey-creator-knockout": "^1.9.27",
-        "survey-knockout": "^1.9.26",
-        "survey-knockout-ui": "^1.9.26",
+        "survey-creator": "^1.9.45",
+        "survey-creator-core": "^1.9.45",
+        "survey-creator-knockout": "^1.9.45",
+        "survey-knockout": "^1.9.45",
+        "survey-knockout-ui": "^1.9.45",
         "yii2-pjax": "^2.0.7"
     },
     "devDependencies": {

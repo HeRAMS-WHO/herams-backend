@@ -9,5 +9,7 @@ use yii\base\Model;
 
 interface ActiveRecordHydratorInterface
 {
-    public function hydrateActiveRecord(Model $source, ActiveRecord $target): void;
+    public function hydrateActiveRecord(\prime\models\RequestModel $source, ActiveRecord $target): void;
+
+    public function hydrateRequestModel(ActiveRecord $source, \prime\models\RequestModel $target): void;
 }

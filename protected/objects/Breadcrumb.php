@@ -7,43 +7,22 @@ namespace prime\objects;
 use prime\interfaces\BreadcrumbInterface;
 use prime\traits\BreadcrumbTrait;
 
-/**
- * Class Breadcrumb
- * @package prime\objects
- *
- * @codeCoverageIgnore it are only simple property setters
- */
 class Breadcrumb implements BreadcrumbInterface
 {
-    use BreadcrumbTrait;
+    public function __construct(
+        private string $label,
+        private array|string|null $url = null
+    ) {
 
-    public function setEncode(bool $value): self
-    {
-        $this->encode = $value;
-        return $this;
     }
 
-    public function setHtmlOptions(array $value): self
+    public function getLabel(): string
     {
-        $this->htmlOptions = $value;
-        return $this;
+        return $this->label;
     }
 
-    public function setLabel(string|null $value): self
+    public function getUrl(): string|null|array
     {
-        $this->label = $value;
-        return $this;
-    }
-
-    public function setTemplate(string|null $value): self
-    {
-        $this->template = $value;
-        return $this;
-    }
-
-    public function setUrl(string|array|null $value): self
-    {
-        $this->url = $value;
-        return $this;
+        return $this->url;
     }
 }

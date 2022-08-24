@@ -15,9 +15,14 @@ class SurveyModificationBundle extends AssetBundle
     public $depends = [
         SurveyJsKnockoutUiBundle::class,
         SurveyJsCoreBundle::class,
+        AppAsset::class
     ];
 
     public $js = [
         '/js/survey-modifications.js',
+    ];
+
+    public $css = [
+        '/css/survey-modifications.css'
     ];
 }

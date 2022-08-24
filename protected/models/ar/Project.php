@@ -22,6 +22,7 @@ use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\objects\LanguageSet;
+use prime\objects\Locale;
 use prime\queries\ResponseForLimesurveyQuery;
 use prime\validators\BackedEnumValidator;
 use prime\validators\EnumValidator;
@@ -41,6 +42,8 @@ use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
 use yii\web\Linkable;
+use function iter\keys;
+use function iter\toArray;
 
 /**
  * Class Project
@@ -52,7 +55,7 @@ use yii\web\Linkable;
  * @property boolean $hidden
  * @property array<string, array<string, string>> $i18n
  * @property int $id
- * @property array<string> $languages
+ * @property list<string> $languages
  * @property float $latitude
  * @property float $longitude
  * @property boolean $manage_implies_create_hf
@@ -490,8 +493,8 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                 'integerOnly' => false,
             ],
             [['languages'],
-                BackedEnumValidator::class,
-                'example' => Language::enUS,
+                RangeValidator::class,
+                'range' => Locale::keys(),
                 'allowArray' => true,
             ],
             [['typemap', 'overrides', 'i18n'], function ($attribute) {
@@ -501,10 +504,10 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                     ]));
                 }
             }],
-            [['status'],
-                EnumValidator::class,
-                'enumClass' => ProjectStatus::class,
-            ],
+//            [['status'],
+//                EnumValidator::class,
+//                'enumClass' => ProjectStatus::class,
+//            ],
             [['visibility'],
                 EnumValidator::class,
                 'enumClass' => ProjectVisibility::class,

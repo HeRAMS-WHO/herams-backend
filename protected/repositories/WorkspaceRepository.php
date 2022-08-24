@@ -18,11 +18,11 @@ use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\Workspace as WorkspaceForm;
 use prime\models\forms\workspace\Create;
 use prime\models\forms\workspace\CreateForLimesurvey;
-use prime\models\forms\workspace\Update as WorkspaceUpdate;
 use prime\models\forms\workspace\UpdateForLimesurvey as WorkspaceUpdateForLimesurvey;
 use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\modules\Api\models\NewWorkspace;
+use prime\modules\Api\models\UpdateWorkspace;
 use prime\objects\enums\ProjectType;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
@@ -160,7 +160,7 @@ class WorkspaceRepository implements
         return new \prime\models\workspace\WorkspaceForTabMenu($this->accessCheck, $record);
     }
 
-    public function retrieveForUpdate(IntegerId|WorkspaceId $id): WorkspaceUpdate|WorkspaceUpdateForLimesurvey
+    public function retrieveForUpdate(IntegerId|WorkspaceId $id): WorkspaceUpdateForLimesurvey|UpdateWorkspace
     {
         $record = Workspace::findOne([
             'id' => $id,
@@ -172,23 +172,49 @@ class WorkspaceRepository implements
         if ($record instanceof WorkspaceForLimesurvey) {
             $update = new WorkspaceUpdateForLimesurvey($workspaceId);
         } else {
-            $update = new WorkspaceUpdate($workspaceId);
+            $update = new UpdateWorkspace($workspaceId);
         }
-        $this->modelHydrator->hydrateFromActiveRecord($record, $update);
+        $this->activeRecordHydrator->hydrateRequestModel($record, $update);
 
         return $update;
     }
 
-    public function save(WorkspaceUpdate|WorkspaceUpdateForLimesurvey $model): WorkspaceId
+    public function save(UpdateWorkspace|WorkspaceUpdateForLimesurvey $model): WorkspaceId
     {
         $record = Workspace::findOne([
             'id' => $model->getId(),
         ]);
+        \Yii::debug($model->attributes);
 
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new WorkspaceId($record->id);
+    }
+
+    public function update(UpdateWorkspace $model): void
+    {
+        $record = Workspace::findOne([
+            'id' => $model->id,
+        ]);
+        \Yii::debug($model->attributes);
+
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
+        if (! $record->save()) {
+            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+        }
+    }
+
+
+    public function getProjectId(WorkspaceId $id): ProjectId
+    {
+        $workspace = Workspace::findOne(['id' => $id]);
+        if (!isset($workspace)) {
+            throw new NotFoundHttpException();
+        }
+        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
+
+        return $workspace->getProjectId();
     }
 }

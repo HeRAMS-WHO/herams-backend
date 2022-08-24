@@ -79,7 +79,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
         return new SurveyForSurveyJs(new SurveyId($record->id), $record->config);
     }
 
-    public function retrieveForDashboarding(SurveyId $adminSurveyId, SurveyId $dataSurveyId): HeramsVariableSet
+    public function retrieveVariableSet(SurveyId $adminSurveyId, SurveyId $dataSurveyId): HeramsVariableSet
     {
         $adminSurvey = Survey::findOne([
             'id' => $adminSurveyId->getValue(),
@@ -87,13 +87,17 @@ final class SurveyRepository implements SurveyRepositoryInterface
         $dataSurvey = Survey::findOne([
             'id' => $dataSurveyId->getValue(),
         ]);
-        $variables = [];
 
         $adminVariables = $this->surveyParser->parseHeramsSurveyStructure($adminSurvey->config);
         $dataVariables = $this->surveyParser->parseSurveyStructure($dataSurvey->config);
 
         $allVariables = new VariableSet(...toArray(chain($dataVariables->getVariables(), $adminVariables->getVariables())));
         return new HeramsVariableSet($allVariables, $adminVariables->colorMap);
+    }
+
+    public function retrieveSimpleVariableSet(SurveyId $surveyId): VariableSet
+    {
+        return $this->surveyParser->parseSurveyStructure(Survey::findOne(['id' => $surveyId->getValue()])->config);
     }
 
     public function retrieveForUpdate(SurveyId $id): UpdateForm

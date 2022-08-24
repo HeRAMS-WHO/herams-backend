@@ -28,7 +28,7 @@ class HeramsVariableSet implements VariableSetInterface
         }
     }
 
-    public function getFacilityTypeVariable(): VariableInterface
+    public function getFacilityTierVariable(): FacilityTierVariable
     {
         return $this->facilityTypeVariable;
     }

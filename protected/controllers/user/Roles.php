@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
+use prime\components\Controller;
 use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\values\Grant;
@@ -21,7 +22,7 @@ class Roles extends Action
         AuthManager $abacManager,
         int $id
     ) {
-        $this->controller->layout = 'admin-content';
+        $this->controller->layout = Controller::LAYOUT_ADMIN_CONTENT;
         if (! $user->can(Permission::PERMISSION_ADMIN)) {
             throw new ForbiddenHttpException();
         }

@@ -16,11 +16,12 @@ class SurveyJsCoreBundle extends AssetBundle
     ];
 
     public $js = [
-        'survey.core.min.js',
+        'survey.core.js',
         'survey.i18n.min.js',
     ];
 
     public $depends = [
         KnockoutBundle::class,
+        AppAsset::class
     ];
 }

@@ -10,6 +10,7 @@ use yii\helpers\Html;
 class View extends \yii\web\View
 {
     public const POS_MODULE = 'module';
+    public const POS_HERAMS_INIT = 'herams_init';
 
     public bool $autoAddTitleToBreadcrumbs = true;
 
@@ -31,6 +32,14 @@ class View extends \yii\web\View
         // Not calling parent to prevent registration of JQueryAsset.
         $key = $key ?: md5($js);
         $this->js[$position][$key] = $js;
+    }
+
+    public function endPage($ajaxMode = false): void
+    {
+        parent::endPage($ajaxMode);
+        if (empty($this->title)) {
+            \Yii::warning("This page does not seem to have a title: " . \Yii::$app->requestedRoute);
+        }
     }
 
     protected function renderBodyEndHtml($ajaxMode)
@@ -67,7 +76,8 @@ class View extends \yii\web\View
                 $js .= "\n}, { passive: true });";
                 $lines[] = Html::script($js);
             }
-            if (! empty($this->js[self::POS_LOAD])) {
+            if (
+                ! empty($this->js[self::POS_LOAD])) {
                 $js = "document.addEventListener('load', function () {\n" . implode("\n", $this->js[self::POS_LOAD]) . "\n});";
                 $lines[] = Html::script($js);
             }
@@ -90,6 +100,23 @@ class View extends \yii\web\View
                 'type' => 'module',
             ]);
         }
+
+        // Render scripts that run on HeRAMS init.
+        if (!empty($this->js[self::POS_HERAMS_INIT])) {
+            // Add a callback that is called after the Herams module is initialized.
+            $sections[] = 'window.__herams_init_callbacks = window.__herams_init_callbacks ?? []';
+
+            foreach($this->js[self::POS_HERAMS_INIT] as $callback) {
+                $sections[] = <<<JS
+                    window.__herams_init_callbacks.push(async () => {
+                        $callback
+                    })
+                JS;
+            }
+
+            $this->js[self::POS_HEAD][] = implode("\n", $sections);
+        }
+
         return parent::renderHeadHtml() . implode("\n", $lines);
     }
 }

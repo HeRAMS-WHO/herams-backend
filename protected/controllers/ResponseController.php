@@ -8,11 +8,13 @@ use prime\components\Controller;
 use prime\controllers\response\Compare;
 use prime\controllers\response\SurveyJs;
 use prime\controllers\response\Update;
+use prime\controllers\response\View;
 use prime\objects\Breadcrumb;
 use prime\repositories\ProjectRepository;
 use prime\repositories\ResponseForLimesurveyRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ResponseId;
+use yii\helpers\Url;
 
 class ResponseController extends Controller
 {
@@ -35,23 +37,28 @@ class ResponseController extends Controller
             'compare' => Compare::class,
             'update' => Update::class,
             'surveyjs' => SurveyJs::class,
+            'view' => View::class
 
         ];
     }
 
     public function render($view, $params = [])
     {
-        $breadcrumbCollection = $this->view->getBreadcrumbCollection()
-            ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
+        $breadcrumbCollection = $this->view->getBreadcrumbCollection();
+        $breadcrumbCollection->add(new Breadcrumb(\Yii::t('app', 'Projects'), Url::to(['/project/index'])));
 
         if ($id = $this->request->getQueryParam('id')) {
-            $model = $this->responseRepository->retrieveForBreadcrumb(new ResponseId((int) $id));
-            $workspace = $this->workspaceRepository->retrieveForBreadcrumb($model->getWorkspaceId());
-            $project = $this->projectRepository->retrieveForBreadcrumb($workspace->getProjectId());
-            $breadcrumbCollection
-                ->add($project)
-                ->add($workspace)
-            ;
+            try {
+                $model = $this->responseRepository->retrieveForBreadcrumb(new ResponseId((int)$id));
+                $workspace = $this->workspaceRepository->retrieveForBreadcrumb($model->getWorkspaceId());
+                $project = $this->projectRepository->retrieveForBreadcrumb($workspace->getProjectId());
+                $breadcrumbCollection
+                    ->add($project)
+                    ->add($workspace);
+            } catch (\Throwable $t) {
+                \Yii::warning(new \Exception('Error during breadcrumb rendering: ' . $this->route, 0, $t));
+            }
+
         }
 
         return parent::render($view, $params);

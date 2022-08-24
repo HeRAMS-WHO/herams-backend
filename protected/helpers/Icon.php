@@ -56,6 +56,7 @@ use yii\helpers\Inflector;
  * @method static string edit(array $options = [])
  * @method static string download(array $options = [])
  * @method static string sync(array$options = [])
+ *
  */
 class Icon
 {
@@ -64,7 +65,7 @@ class Icon
         return self::partner($options);
     }
 
-    public static function icon($name, array $options = [])
+    public static function icon($name, array $options = []): string
     {
         Html::addCssClass($options, ['icon', "icon-$name"]);
         return Html::tag(
@@ -111,5 +112,10 @@ class Icon
     public static function __callStatic($name, $arguments)
     {
         return self::icon(Inflector::camel2id($name), $arguments[0] ?? []);
+    }
+
+    public static function broken(): string
+    {
+        return self::icon('exclamation-circle', ['color' => 'red']);
     }
 }

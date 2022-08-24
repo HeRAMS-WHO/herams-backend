@@ -20,7 +20,7 @@ use yii\web\View;
  * @var Project $project
  */
 
-$this->title = $project->title;
+$this->title = \Yii::t('app', "Dashboard settings for {project}", ['project' => $project->title]);
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([

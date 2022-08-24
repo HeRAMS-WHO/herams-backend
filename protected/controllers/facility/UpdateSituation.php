@@ -8,6 +8,7 @@ use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
 use prime\objects\enums\ProjectType;
 use prime\repositories\FacilityRepository;
+use prime\repositories\WorkspaceRepository;
 use prime\values\FacilityId;
 use yii\base\Action;
 use yii\helpers\Url;
@@ -27,6 +28,7 @@ class UpdateSituation extends Action
         FacilityRepository $facilityRepository,
         ModelHydrator $modelHydrator,
         NotificationService $notificationService,
+        WorkspaceRepository $workspaceRepository,
         Request $request,
         Response $response,
         string $id
@@ -35,7 +37,8 @@ class UpdateSituation extends Action
 
         if ($facilityRepository->isOfProjectType($facilityId, ProjectType::surveyJs())) {
             $model = $facilityRepository->retrieveForUpdateSituation($facilityId);
-
+            $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+            $projectId = $workspaceRepository->getProjectId($workspaceId);
             if ($request->isPost) {
                 $response->format = Response::FORMAT_JSON;
                 $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
@@ -55,6 +58,7 @@ class UpdateSituation extends Action
             return $this->controller->render('updateSituation', [
                 'model' => $model,
                 'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
+                'projectId' => $projectId
             ]);
         } else {
             return $this->controller->redirect([

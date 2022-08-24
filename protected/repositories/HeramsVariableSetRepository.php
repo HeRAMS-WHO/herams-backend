@@ -23,7 +23,7 @@ class HeramsVariableSetRepository implements HeramsVariableSetRepositoryInterfac
     {
         $adminSurveyId = $this->projectRepository->retrieveAdminSurveyId($projectId);
         $dataSurveyId =  $this->projectRepository->retrieveDataSurveyId($projectId);
-        return $this->surveyRepository->retrieveForDashboarding($adminSurveyId, $dataSurveyId);
+        return $this->surveyRepository->retrieveVariableSet($adminSurveyId, $dataSurveyId);
     }
 
     public function retrieveForPage(PageId $pageId): HeramsVariableSet

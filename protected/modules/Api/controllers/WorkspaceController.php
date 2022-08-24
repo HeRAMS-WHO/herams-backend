@@ -4,34 +4,29 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
 
+use prime\models\ar\Workspace;
+use prime\modules\Api\actions\DeleteAction;
 use prime\modules\Api\controllers\workspace\Create;
-use prime\modules\Api\controllers\workspace\Import;
 use prime\modules\Api\controllers\workspace\Refresh;
-use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
+use prime\modules\Api\controllers\workspace\Update;
+use prime\modules\Api\controllers\workspace\Validate;
+use prime\modules\Api\controllers\workspace\View;
 
-class WorkspaceController extends \yii\rest\Controller
+class WorkspaceController extends Controller
 {
-    public function behaviors(): array
-    {
-        return ArrayHelper::merge(parent::behaviors(), [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ]);
-    }
 
     public function actions()
     {
         return [
             'refresh' => Refresh::class,
             'create' => Create::class,
+            'view' => View::class,
+            'validate' => Validate::class,
+            'update' => Update::class,
+            'delete' => [
+                'class' => DeleteAction::class,
+                'query' => Workspace::find(),
+            ]
         ];
     }
 }

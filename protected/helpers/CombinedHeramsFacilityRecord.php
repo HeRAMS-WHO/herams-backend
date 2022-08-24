@@ -48,11 +48,11 @@ class CombinedHeramsFacilityRecord implements HeramsFacilityRecordInterface
         return max($this->adminRecord->getLastUpdate(), $this->dataRecord->getLastUpdate());
     }
 
-    public function asArray(): array
+    public function allData(): array
     {
         return [
-            ...$this->adminRecord->asArray(),
-            ...$this->dataRecord->asArray(),
+            ...$this->adminRecord->allData(),
+            ...$this->dataRecord->allData(),
         ];
     }
 }

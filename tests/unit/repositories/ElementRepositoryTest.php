@@ -19,7 +19,6 @@ class ElementRepositoryTest extends Unit
 {
     public function testFindForBreadcrumb(): void
     {
-        IMG_FILTER_NEGATE
         $element = Element::findOne([
             'id' => 37,
         ]);

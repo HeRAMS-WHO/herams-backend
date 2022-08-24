@@ -6,16 +6,22 @@ namespace prime\helpers;
 
 use Collecthor\SurveyjsParser\SurveyParser as BaseParser;
 use prime\helpers\surveyjs\FacilityTypeQuestionParser;
+use prime\helpers\surveyjs\LocalizableTextQuestionParser;
+use prime\helpers\surveyjs\MultipleTextQuestionParser;
 use prime\interfaces\ColorMap;
 
 final class SurveyParser extends BaseParser
 {
-    private const TYPE_FACILITYTYPE = 'facilitytype';
+    private const TYPE_FACILITY_TYPE = 'facilitytype';
+    private const TYPE_FACILITY_NAME = 'facilityName';
 
     public function __construct(FacilityTypeQuestionParser $facilityTypeQuestionParser)
     {
         parent::__construct();
-        $this->setParser(self::TYPE_FACILITYTYPE, $facilityTypeQuestionParser);
+        $this->setParser(self::TYPE_FACILITY_TYPE, $facilityTypeQuestionParser);
+        $this->setParser('localizableprojecttext', new LocalizableTextQuestionParser());
+
+//        $this->setParser(self::TYPE_FACILITY_NAME, $facilityTypeQuestionParser);
     }
 
     public function parseHeramsSurveyStructure(array $structure): HeramsVariableSet

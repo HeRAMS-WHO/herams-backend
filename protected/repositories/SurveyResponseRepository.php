@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
-use Collecthor\DataInterfaces\RecordInterface;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\ActiveRecordHydratorInterface;
+use prime\interfaces\AdminResponseForListInterface;
+use prime\interfaces\RecordInterface;
 use prime\interfaces\ResponseForList as ResponseForListInterface;
 use prime\interfaces\surveyResponse\SurveyResponseForSurveyJsInterface;
 use prime\models\ar\Facility;
@@ -17,16 +19,20 @@ use prime\models\forms\surveyResponse\CreateForm;
 use prime\models\response\AdminResponseForList;
 use prime\models\response\ResponseForList;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
+use prime\modules\Api\models\NewSurveyResponse;
 use prime\values\FacilityId;
+use prime\values\ProjectId;
 use prime\values\SurveyId;
 use prime\values\SurveyResponseId;
 use yii\data\DataProviderInterface;
+use yii\data\Sort;
 use yii\web\NotFoundHttpException;
 
 class SurveyResponseRepository
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,
+        private ActiveRecordHydratorInterface $activeRecordHydrator,
         private ModelHydrator $hydrator,
     ) {
     }
@@ -43,6 +49,18 @@ class SurveyResponseRepository
         }
 
         return new SurveyResponseId($record->id);
+    }
+
+    public function save(NewSurveyResponse $model): SurveyResponseId
+    {
+        $record = new SurveyResponse();
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
+
+        if (! $record->save()) {
+            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+        }
+        return new SurveyResponseId($record->id);
+
     }
 
     public function createFormModel(
@@ -89,7 +107,9 @@ class SurveyResponseRepository
 
         return new SurveyResponseForSurveyJs(
             $surveyResponse->data,
-            new SurveyResponseId($surveyResponse->id)
+            new SurveyId($surveyResponse->survey_id),
+            new SurveyResponseId($surveyResponse->id),
+            new ProjectId($surveyResponse->facility->workspace->project_id)
         );
     }
 
@@ -117,7 +137,21 @@ class SurveyResponseRepository
 
         return new SurveyResponseForSurveyJs(
             $surveyResponse->data,
-            new SurveyResponseId($surveyResponse->id)
+            new SurveyId($surveyResponse->survey_id),
+            new SurveyResponseId($surveyResponse->id),
+            new ProjectId($surveyResponse->facility->workspace->project_id)
+        );
+    }
+
+    public function retrieve(SurveyResponseId $id): SurveyResponseForSurveyJsInterface
+    {
+        $surveyResponse = SurveyResponse::find()->andWhere(['id' => $id])->one();
+        $this->accessCheck->requirePermission($surveyResponse, Permission::PERMISSION_READ);
+        return new SurveyResponseForSurveyJs(
+            $surveyResponse->data,
+            new SurveyId($surveyResponse->survey_id),
+            $id,
+            new ProjectId($surveyResponse->facility->workspace->project_id)
         );
     }
 
@@ -167,17 +201,22 @@ class SurveyResponseRepository
         ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
         $adminSurveyId = $facility->workspace->project->admin_survey_id;
+
         $query = SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
             'survey_id' => $adminSurveyId,
         ]);
 
         return new HydratedActiveDataProvider(
-            static function (SurveyResponse $response): \prime\interfaces\AdminResponseForListInterface {
+            static function (SurveyResponse $response): AdminResponseForListInterface {
                 return new AdminResponseForList($response);
             },
             [
                 'sort' => [
+                    'class' => Sort::class,
+                    'defaultOrder' => [
+                        ResponseForList::ID => SORT_DESC
+                    ],
                     'attributes' => [
                         ResponseForList::ID,
                         ResponseForList::DATE_OF_UPDATE => [
@@ -187,9 +226,7 @@ class SurveyResponseRepository
                             'desc' => [
                                 'created_at' => SORT_DESC,
                             ],
-                            'default' =>
-
-SORT_DESC,
+                            'default' => SORT_DESC,
 
                         ],
                     ],

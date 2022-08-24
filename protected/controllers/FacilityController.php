@@ -12,6 +12,7 @@ use prime\controllers\facility\Index;
 use prime\controllers\facility\Responses;
 use prime\controllers\facility\Update;
 use prime\controllers\facility\UpdateSituation;
+use prime\controllers\facility\View;
 use prime\objects\Breadcrumb;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
@@ -20,6 +21,7 @@ use prime\values\FacilityId;
 use prime\values\WorkspaceId;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 class FacilityController extends Controller
 {
@@ -45,6 +47,7 @@ class FacilityController extends Controller
             'index' => Index::class,
             'responses' => Responses::class,
             'update' => Update::class,
+            'view' => View::class,
             'update-situation' => UpdateSituation::class,
         ];
     }
@@ -65,28 +68,5 @@ class FacilityController extends Controller
                 ],
             ]
         );
-    }
-
-    public function render($view, $params = [])
-    {
-        $breadcrumbCollection = $this->view->getBreadcrumbCollection()
-            ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
-
-        if (in_array($this->action->id, ['create']) && $workspaceId = (int) $this->request->getQueryParam('workspaceId')) {
-            $workspace = $this->workspaceRepository->retrieveForBreadcrumb(new WorkspaceId($workspaceId));
-            $project = $this->projectRepository->retrieveForBreadcrumb($workspace->getProjectId());
-            $breadcrumbCollection
-                ->add($project)
-                ->add($workspace);
-        } elseif ($id = $this->request->getQueryParam('id')) {
-            $facility = $this->facilityRepository->retrieveForBreadcrumb(new FacilityId($id));
-            $workspace = $this->workspaceRepository->retrieveForBreadcrumb($facility->getWorkspaceId());
-            $project = $this->projectRepository->retrieveForBreadcrumb($workspace->getProjectId());
-            $breadcrumbCollection
-                ->add($project)
-                ->add($workspace);
-        }
-
-        return parent::render($view, $params);
     }
 }

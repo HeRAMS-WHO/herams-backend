@@ -13,11 +13,9 @@ use yii\helpers\ArrayHelper;
  *
  * @property View $view
  */
-class Controller extends \yii\web\Controller
+abstract class Controller extends \yii\web\Controller
 {
     public const LAYOUT_BASE = '//base';
-
-    public const LAYOUT_FORM_POPOVER = '//form-popover';
 
     public const LAYOUT_ADMIN = '//admin-screen';
 

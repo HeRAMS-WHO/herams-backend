@@ -135,4 +135,15 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211019_113352
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211019_125300_create_survey_response', 1635231088);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211026_103049_redo_facility', 1635248365);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m211208_085045_add_expression_results_to_facility', 1639470613);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_064630_drop_old_setting_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_064802_drop_indicator_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_064955_drop_message_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_065209_drop_country_status_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_065627_drop_file_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_070133_drop_auth_tables', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_070506_drop_key_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_070642_drop_event_log_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_070854_drop_token_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_071124_create_configuration_table', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_091630_workspace_add_data', 1658066942);
 SET FOREIGN_KEY_CHECKS=1;

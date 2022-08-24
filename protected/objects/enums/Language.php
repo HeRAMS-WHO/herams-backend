@@ -8,13 +8,14 @@ enum Language: string
 {
     case en = 'en';
     case enUS = 'en-US';
+    case arAR = 'ar-AR';
     case ar = 'ar';
     case fr = 'fr';
     case frFR = 'fr-FR';
 
     public static function default(): self
     {
-        return self::enUS;
+        return self::en;
     }
 
     public function label(null|Language $displayLocale = null): string

@@ -54,7 +54,7 @@ class View extends Action
         }
 
         if ($project instanceof \prime\models\ar\surveyjs\Project) {
-            return $this->controller->redirect('view-for-survey-js');
+            return $this->controller->redirect(['view-for-survey-js', 'id' => $project->id]);
         }
         try {
             $survey = $project->getSurvey();

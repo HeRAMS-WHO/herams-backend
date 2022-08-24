@@ -9,29 +9,23 @@ use prime\models\ar\Facility;
 use prime\models\ar\ResponseForLimesurvey;
 use prime\traits\BreadcrumbTrait;
 use prime\values\WorkspaceId;
+use yii\helpers\Url;
 
 class FacilityForBreadcrumb implements FacilityForBreadcrumbInterface
 {
-    use BreadcrumbTrait;
-
     private WorkspaceId $workspaceId;
 
+    private string $url;
+    private string $label;
     public function __construct(
-        Facility|ResponseForLimesurvey $model
+        Facility $model
     ) {
-        if ($model instanceof ResponseForLimesurvey) {
-            $this->label = (string) $model->hf_id;
-            $this->url = [
-                '/facility/responses',
-                'id' => $model->hf_id,
-            ];
-            $this->workspaceId = new WorkspaceId($model->workspace_id);
-        } elseif ($model instanceof Facility) {
+        if ($model instanceof Facility) {
             $this->label = $model->name;
-            $this->url = [
+            $this->url = Url::to([
                 '/facility/responses',
                 'id' => $model->id,
-            ];
+            ]);
             $this->workspaceId = new WorkspaceId($model->workspace_id);
         }
     }
@@ -39,5 +33,15 @@ class FacilityForBreadcrumb implements FacilityForBreadcrumbInterface
     public function getWorkspaceId(): WorkspaceId
     {
         return $this->workspaceId;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    public function getUrl(): string|null
+    {
+        return $this->url;
     }
 }

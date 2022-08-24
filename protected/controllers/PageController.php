@@ -16,6 +16,7 @@ use prime\values\PageId;
 use prime\values\ProjectId;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 class PageController extends Controller
 {
@@ -75,7 +76,7 @@ class PageController extends Controller
     public function render($view, $params = [])
     {
         $breadcrumbCollection = $this->view->getBreadcrumbCollection()
-            ->add((new Breadcrumb())->setUrl(['/project/index'])->setLabel(\Yii::t('app', 'Projects')));
+            ->add(new Breadcrumb(\Yii::t('app', 'Projects'), Url::to(['/project/index'])));
 
         if (in_array($this->action->id, ['create']) && $projectId = (int) $this->request->getQueryParam('project_id')) {
             $project = $this->projectRepository->retrieveForBreadcrumb(new ProjectId($projectId));

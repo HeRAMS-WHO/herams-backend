@@ -6,8 +6,10 @@ namespace prime\values;
 
 class StringId extends Id
 {
-    public function __construct(private string $id)
+    private string $id;
+    public function __construct(string|int $id)
     {
+        $this->id = (string) $id;
     }
 
     public function getValue(): string

@@ -88,9 +88,26 @@ class FunctionalTester extends \Codeception\Actor
                         'name' => 'page1',
                         'elements' => [
                             [
-                                'type' => 'text',
-                                'name' => 'question1',
-                                'title' => 'title1',
+                                'type' => 'facilitytype',
+                                'name' => 'type',
+                                'title' => "Type of the facility",
+                                'choices' => [
+                                    [
+                                        'value' => 'clinic',
+                                        'text' => 'Clinic',
+                                    ],
+                                    [
+                                        'value' => 'mobile',
+                                        'text' => 'Mobile Cinic',
+                                        'tier' => 'secondary',
+                                    ],
+                                    [
+                                        'value' => 'private',
+                                        'text' => 'Private Clinic',
+                                        'tier' => 'tertiary'
+                                    ]
+
+                                ]
                             ],
                         ],
                     ],

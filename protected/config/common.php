@@ -149,7 +149,7 @@ return [
             'loginUrl' => '/session/create',
             'identityClass' => ActiveRecordUser::class,
             'on ' . UserComponent::EVENT_AFTER_LOGIN => function (UserEvent $event) {
-                if (isset($event->identity->language)) {
+                if (!empty($event->identity->language)) {
                     \Yii::$app->language = $event->identity->language;
                 }
             },

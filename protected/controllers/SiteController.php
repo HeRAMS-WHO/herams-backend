@@ -20,7 +20,7 @@ class SiteController extends Controller
             'maintenance' => Maintenance::class,
             'error' => [
                 'class' => ErrorAction::class,
-                'layout' => 'map-popover-error',
+                'layout' => Controller::LAYOUT_MAP_POPOVER_ERROR,
                 'view' => 'error',
             ],
             'world-map' => WorldMap::class,
@@ -41,5 +41,10 @@ class SiteController extends Controller
             'roles' => ['@'],
         ];
         return $behaviors;
+    }
+
+    protected function getDefaultEntityAction(): string|null
+    {
+        return null;
     }
 }

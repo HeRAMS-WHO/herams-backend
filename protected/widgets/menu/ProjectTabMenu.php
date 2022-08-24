@@ -77,18 +77,6 @@ class ProjectTabMenu extends TabMenu
             'permission' =>
 Permission::PERMISSION_SHARE,
         ];
-        $this->tabs[] = [
-            'permission' => Permission::PERMISSION_SURVEY_BACKEND,
-            'url' => [
-                'project/limesurvey',
-                'id' => $projectId,
-            ],
-            'title' => \Yii::t(
-                'app',
-                'Backend administration'
-            ),
-        ];
-
         return parent::renderMenu();
     }
 }

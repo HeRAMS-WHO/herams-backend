@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-/**
- * @method static self hidden()
- * @method static self public()
- * @method static self private()
- */
-enum ProjectVisibility: string
+enum ProjectVisibility: string implements \JsonSerializable
 {
     case Hidden = 'hidden';
     case Public = 'public';
@@ -31,5 +26,10 @@ enum ProjectVisibility: string
             $result[$projectStatus->value] = $projectStatus->label();
         }
         return $result;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->value;
     }
 }

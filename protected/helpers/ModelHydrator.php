@@ -5,22 +5,25 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use BackedEnum;
-use CrEOF\Geo\WKB\Parser;
+use Collecthor\DataInterfaces\RecordInterface;
+use Collecthor\SurveyjsParser\ArrayDataRecord;
 use prime\attributes\DehydrateVia;
 use prime\attributes\Field;
 use prime\attributes\HydrateVia;
 use prime\attributes\JsonField;
+use prime\attributes\SourcePath;
 use prime\attributes\SupportedType;
 use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\ModelHydratorInterface;
 use prime\models\ActiveRecord;
 use prime\objects\enums\Enum;
 use prime\objects\enums\HydrateSource;
-use prime\objects\enums\Language;
 use prime\objects\EnumSet;
 use prime\values\Geometry;
 use prime\values\Id;
 use prime\values\IntegerId;
+use prime\values\Latitude;
+use prime\values\Longitude;
 use prime\values\StringId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -29,7 +32,6 @@ use yii\base\Model;
 use yii\db\Expression;
 use yii\helpers\Inflector;
 use yii\web\Request;
-use function iter\mapWithKeys;
 use function iter\toArray;
 
 #[SupportedType(Model::class, \yii\db\ActiveRecord::class)]
@@ -105,29 +107,14 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                 $complex instanceof UuidInterface => $complex->getBytes(),
                 is_iterable($complex) => toArray($complex),
                 $complex instanceof Id => $complex->getValue(),
-                $complex instanceof Geometry => $complex->toWKT(),
                 $complex instanceof Expression => $complex,
+                $complex instanceof RecordInterface => $complex->allData(),
                 default => throw new \InvalidArgumentException("Unknown complex type: " . get_class($complex))
             };
         } elseif (is_bool($complex)) {
             return $complex ? 1 : 0;
         }
         return $complex;
-    }
-
-    /**
-     * @param class-string $class
-     */
-    private function castGeometry(null|string $value, string $class, HydrateSource $source): Geometry|null
-    {
-        if (empty($value)) {
-            return null;
-        }
-
-        return match ($source) {
-            HydrateSource::database() => $this->castWKBToGeometry($value),
-            HydrateSource::webForm() => $class::fromString($value)
-        };
     }
 
     private function castInt(bool|int|string $value, bool $optional = false): int|null
@@ -165,16 +152,19 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     {
         if (! $property->isBuiltin()) {
             $name = $property->getName();
+
             return match (true) {
                 $name === LocalizedString::class => $this->castLocalizedString($value, $name),
+                $name === Latitude::class => new Latitude((float) $value),
+                $name === Longitude::class => new Longitude((float) $value),
+                $name === RecordInterface::class => isset($value) ? new NormalizedArrayDataRecord($value) : null,
                 is_subclass_of($name, BackedEnum::class) => $this->castBackedEnum($value, $name, $source),
                 is_subclass_of($name, EnumSet::class) => $this->castEnumSet($value, $name),
                 is_subclass_of($name, Enum::class) => $this->castEnum($value, $name),
                 is_subclass_of($name, IntegerId::class) => $this->castIntegerId($value, $name, $property->allowsNull()),
-
                 is_subclass_of($name, StringId::class) => $this->castStringId($value, $name),
-                is_subclass_of($name, Geometry::class) => $this->castGeometry($value, $name, $source),
                 is_subclass_of($name, UuidInterface::class) || $name === UuidInterface::class => $this->castUuid($value, $name, $source),
+
 
                 default => throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}")
             };
@@ -207,29 +197,35 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
         return Uuid::fromBytes($value);
     }
 
+
+    private function getTypeForAttribute(Model $model, string $property): \ReflectionNamedType
+    {
+        $rc = new \ReflectionClass($model);
+        // Simple property
+        if ($rc->hasProperty($property)) {
+            return $rc->getProperty($property)->getType();
+        }
+        // Property with setter.
+        $setter = "set" . ucfirst($property);
+        if ($rc->hasMethod($setter)) {
+            $method = $rc->getMethod($setter);
+            if ($method->isPublic() && $method->getNumberOfRequiredParameters() === 1) {
+                return $method->getParameters()[0]->getType();
+            }
+        }
+
+    }
+
     private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source): mixed
     {
         try {
-            $rc = new \ReflectionClass($model);
-            if (! $rc->hasProperty($attribute)) {
-                return (string) $value;
-            }
-            /** @var \ReflectionNamedType $property */
-            $property = $rc->getProperty($attribute)->getType();
-            return $this->castType($property, $value, $attribute, $source);
+            $type = $this->getTypeForAttribute($model, $attribute);
+            return $this->castType($type, $value, $attribute, $source);
         } catch (\Throwable $t) {
-            throw $t;
+            \Yii::error($t);
             $model->addError($attribute, $t->getMessage());
-            throw new \RuntimeException("Failed to cast value for attribute $attribute", 0, $t);
         }
-    }
-
-    private function castWKBToGeometry(string $value): Geometry
-    {
-        $parser = new Parser();
-        $data = $parser->parse(substr($value, 4));
-        $data['srid'] = unpack('i', $value)[1];
-        return Geometry::fromParsedArray($data);
+        return null;
     }
 
     public function hydrateActiveRecord(Model $model, ActiveRecord $record): void
@@ -330,17 +326,48 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
         }
     }
 
+
+    private function getPath(Model $model, string $attribute): array
+    {
+        $reflectionClass = new \ReflectionClass($model);
+        if ($reflectionClass->hasProperty($attribute)) {
+            $property = $reflectionClass->getProperty($attribute);
+            /** @var \ReflectionAttribute<SourcePath> $propertyAttribute */
+            foreach($property->getAttributes(SourcePath::class) as $propertyAttribute) {
+                return $propertyAttribute->newInstance()->path;
+            }
+        }
+
+        return [$attribute];
+    }
+
+    private function pathExists(array $path, array $data): bool
+    {
+        return $this->getValue($path, $data) !== null;
+    }
+
+    private function getValue(array $path, array $data): mixed
+    {
+        return ArrayHelper::getValue($data, $path);
+    }
+
+
     /**
+     * Hydrates a model from a json dictionary
      * @param array $data Array data extracted from JSON
      */
     public function hydrateFromJsonDictionary(Model $model, array $data): void
     {
         foreach ($model->safeAttributes() as $attribute) {
-            if (isset($data[$attribute])) {
-                $value = $this->castValue($model, $attribute, $data[$attribute], HydrateSource::json());
-                \Yii::warning(["Setting", $attribute, $data[$attribute], $value]);
+            $path = $this->getPath($model, $attribute);
 
-                $model->$attribute = $value;
+            if ($this->pathExists($path, $data)) {
+                try {
+                    $value = $this->castValue($model, $attribute, $this->getValue($path, $data), HydrateSource::json());
+                    $model->$attribute = $value;
+                } catch (\InvalidArgumentException $e) {
+                    $model->addError($attribute, $e->getMessage());
+                }
             }
         }
     }
@@ -358,15 +385,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     {
         // No check for request type since query params also come with other methods
         $this->hydrateFromRequestArray($model, $request->getQueryParams()[$model->formName()] ?? []);
-    }
-
-    /**
-     * @param $value
-     * @param class-string<UnitEnum> $name
-     */
-    private function castUnitEnum($value, string $name, HydrateSource $source): UnitEnum
-    {
-        return $name::from($value);
     }
 
     private function castBackedEnum($value, string $name, HydrateSource $source): BackedEnum
@@ -391,5 +409,10 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     private function castLocalizedString(string|array $value, string $name): LocalizedString
     {
         return new LocalizedString($value);
+    }
+
+    public function hydrateRequestModel(ActiveRecord $source, \prime\models\RequestModel $target): void
+    {
+        $this->hydrateFromActiveRecord($source, $target);
     }
 }

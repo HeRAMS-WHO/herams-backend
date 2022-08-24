@@ -10,7 +10,8 @@ use Collecthor\DataInterfaces\RecordInterface;
 use Collecthor\DataInterfaces\StringValueInterface;
 use Collecthor\DataInterfaces\ValueInterface;
 use Collecthor\DataInterfaces\ValueSetInterface;
-use prime\objects\enums\FacilityType;
+use Collecthor\SurveyjsParser\Values\InvalidValue;
+use prime\objects\enums\FacilityTier;
 
 class FacilityTierVariable implements ClosedVariableInterface
 {
@@ -27,7 +28,7 @@ class FacilityTierVariable implements ClosedVariableInterface
 
     public function getName(): string
     {
-        return $this->closedVariable->getName();
+        return $this->closedVariable->getName() . " - Tier";
     }
 
     public function getTitle(?string $locale = null): string
@@ -45,9 +46,10 @@ class FacilityTierVariable implements ClosedVariableInterface
         return $this->closedVariable->getDisplayValue($record, $locale);
     }
 
-    public function getTier(RecordInterface $record): FacilityType
+    public function getTier(RecordInterface $record): FacilityTier
     {
-        return $this->tierMap[$this->getValue($record)->getRawValue()];
+        $value = $this->getValue($record);
+        return $this->tierMap[$value->getRawValue()] ?? FacilityTier::Unknown;
     }
 
     public function getMeasure(): Measure
