@@ -59,8 +59,7 @@ use yii\mail\MailerInterface;
 use yii\web\JqueryAsset;
 use function iter\filter;
 
-/** @var \prime\components\KubernetesSecretEnvironment|null $env */
-assert(isset($env) && $env instanceof \prime\components\KubernetesSecretEnvironment);
+assert(isset($env) && $env instanceof \prime\interfaces\EnvironmentInterface);
 
 return [
     LocalizableInput::class => function (Container $container, array $params, array $config) {

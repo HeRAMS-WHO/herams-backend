@@ -13,8 +13,7 @@ volumes:
 
 x-env:
   base: &base
-    build:
-      context: docker/php
+    image: ghcr.io/herams-who/docker/php:latest
     volumes:
       - .:/project:rw
       - ./tests:/project/tests:rw

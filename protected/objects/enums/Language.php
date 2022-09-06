@@ -7,6 +7,10 @@ namespace prime\objects\enums;
  * @method static self enUS()
  * @method static self ar()
  * @method static self pt()
+ * @method static self uk()
+ * @method static self ku()
+ * @method static self ps()
+ * @method static self faAf()
  * @method static self nlNL()
  * @method static self frFR()
  */
