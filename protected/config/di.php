@@ -62,7 +62,6 @@ use prime\repositories\FacilityRepository;
 use prime\repositories\HeramsVariableSetRepository;
 use prime\repositories\PermissionRepository as PermissionARRepository;
 use prime\repositories\ProjectRepository;
-use prime\repositories\ResponseForLimesurveyRepository;
 use prime\repositories\SurveyRepository;
 use prime\repositories\SurveyResponseRepository;
 use prime\repositories\UserNotificationRepository;
@@ -93,7 +92,7 @@ return [
     \prime\helpers\ConfigurationProvider::class => \prime\helpers\ConfigurationProvider::class,
     \yii\widgets\PjaxAsset::class => [
         'baseUrl' => '@npm/yii2-pjax',
-        'sourcePath' => null
+        'sourcePath' => null,
     ],
     \prime\components\BreadcrumbService::class => \prime\components\BreadcrumbService::class,
     ActiveRecordHydratorInterface::class => static function (): ActiveRecordHydratorInterface {
@@ -112,7 +111,7 @@ return [
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
-    \yii\web\Session::class => fn() => \Yii::$app->session,
+    \yii\web\Session::class => fn () => \Yii::$app->session,
     IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
     \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
     \prime\repositories\ElementRepository::class => \prime\repositories\ElementRepository::class,
@@ -155,7 +154,6 @@ return [
     WorkspaceRepository::class => WorkspaceRepository::class,
     FacilityRepository::class => FacilityRepository::class,
     \prime\repositories\PageRepository::class => \prime\repositories\PageRepository::class,
-    ResponseForLimesurveyRepository::class => ResponseForLimesurveyRepository::class,
     SurveyRepository::class => SurveyRepository::class,
     SurveyResponseRepository::class => SurveyResponseRepository::class,
     ActiveRecordRepository::class => static function () {
@@ -185,7 +183,7 @@ return [
     GridView::class => static function (Container $container, array $params, array $config): GridView {
         $result = new GridView([
             'dataColumnClass' => \prime\widgets\DataColumn::class,
-            ...$config
+            ...$config,
         ]);
         $result->export = false;
         $result->toggleData = false;

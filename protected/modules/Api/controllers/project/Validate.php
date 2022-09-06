@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\project;
@@ -13,14 +14,12 @@ use yii\web\Request;
 
 final class Validate extends Action
 {
-
     public function run(
         Request $request,
         ModelHydrator $modelHydrator,
         int $id = null
-    ): array
-    {
-        if (!isset($id)) {
+    ): array {
+        if (! isset($id)) {
             $model = new NewProject();
         } else {
             $model = new UpdateProject(new ProjectId($id));

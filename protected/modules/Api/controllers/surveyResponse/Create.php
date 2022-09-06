@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\surveyResponse;
@@ -14,21 +15,18 @@ use yii\web\Response;
 
 final class Create extends Action
 {
-
     public function run(
         ModelHydrator $modelHydrator,
         ModelValidator $modelValidator,
-
         SurveyResponseRepository $surveyResponseRepository,
         Request $request,
         Response $response
-    )
-    {
+    ) {
         $model = new NewSurveyResponse();
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
 
         // Our model is now hydrated, we should validate it.
-        if (!$modelValidator->validateModel($model)) {
+        if (! $modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
 
@@ -41,5 +39,4 @@ final class Create extends Action
 
         return $response;
     }
-
 }

@@ -58,7 +58,7 @@ class UpdateSituation extends Action
             return $this->controller->render('updateSituation', [
                 'model' => $model,
                 'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-                'projectId' => $projectId
+                'projectId' => $projectId,
             ]);
         } else {
             return $this->controller->redirect([

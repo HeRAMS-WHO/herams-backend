@@ -27,7 +27,7 @@ class Create extends Action
 
         return $this->controller->render('create', [
             'projectId' => new ProjectId($project_id),
-            'survey' => $surveyRepository->retrieveForSurveyJs($configurationProvider->getCreateWorkspaceSurveyId())
+            'survey' => $surveyRepository->retrieveForSurveyJs($configurationProvider->getCreateWorkspaceSurveyId()),
         ]);
     }
 }

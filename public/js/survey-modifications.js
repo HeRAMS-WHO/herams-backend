@@ -124,12 +124,25 @@ window.__herams_init_callbacks.unshift(async () => {
         choices: ['primary', 'secondary', 'tertiary'],
         default: 'primary',
       })
-
       Survey.Serializer.addClass(this.name, [
         {
           name: 'choices',
           type: this.name + 'value[]',
 
+        },
+        {
+          category: 'Reporting & Dashboarding',
+          name: 'showTierInResponseList',
+          displayName: 'Show the derived tier question in the response list',
+          isRequired: false,
+          type: 'number',
+        },
+        {
+          category: 'Reporting & Dashboarding',
+          name: 'showFacilityInResponseList',
+          displayName: 'Show the derived tier question in the facility list',
+          isRequired: false,
+          type: 'number',
         },
         {
           name: 'readOnly',
@@ -162,6 +175,7 @@ window.__herams_init_callbacks.unshift(async () => {
     },
 
   }, 'customtype')
+
 
   console.log('waiting for locales')
   const platformLocales = await window.Herams.fetchWithCsrf('/api/configuration/locales', null, 'GET')
@@ -324,8 +338,17 @@ window.__herams_init_callbacks.unshift(async () => {
     name: 'showInResponseList',
     displayName: 'Show this question in the response list',
     isRequired: false,
-    type: 'boolean',
-    default: false,
+    type: 'number',
+    // default: false,
+  })
+
+  Survey.Serializer.addProperty('question', {
+    category: 'Reporting & Dashboarding',
+    name: 'showInFacilityList',
+    displayName: 'Show this question in the facility list',
+    isRequired: false,
+    type: 'number',
+    // default: false,
   })
 
   Survey.defaultV2Css.saveData.success = 'success'

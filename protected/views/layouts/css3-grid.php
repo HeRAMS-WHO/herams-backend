@@ -53,7 +53,7 @@ foreach ($this->getBreadcrumbCollection() as $breadcrumb) {
     $links[] = [
         'label' => $breadcrumb->getLabel(),
         'url' => $breadcrumb->getUrl(),
-        'encode' => true
+        'encode' => true,
     ];
 }
 

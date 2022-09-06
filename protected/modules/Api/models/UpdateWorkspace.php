@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\models;
@@ -10,7 +11,6 @@ use yii\validators\RequiredValidator;
 
 final class UpdateWorkspace extends RequestModel
 {
-
     public LocalizedString|null $title;
 
     /**
@@ -30,6 +30,4 @@ final class UpdateWorkspace extends RequestModel
 
         ];
     }
-
-
 }

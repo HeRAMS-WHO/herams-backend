@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\response;
@@ -12,25 +13,19 @@ use yii\base\Action;
 
 class View extends Action
 {
-
-
     public function run(
         SurveyResponseRepository $surveyResponseRepository,
         SurveyRepository $surveyRepository,
         int $id
-    ): string
-    {
+    ): string {
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($id));
 
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-
         return $this->controller->render('view', [
             'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
             'projectId' => $response->getProjectId(),
-            'id' => new SurveyResponseId($id)
+            'id' => new SurveyResponseId($id),
         ]);
-
-
     }
 }

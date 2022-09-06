@@ -56,7 +56,7 @@
         "http-interop/http-factory-guzzle": "^1.0",
         "spatie/enum": "^3.7",
         "drewm/mailchimp-api": "^2.5",
-        "collecthor/surveyjs-parser": ">= 4.1",
+        "collecthor/surveyjs-parser": ">= 5.1",
         "collecthor/yii2-session-auth": "^1.1.1",
         "ramsey/conventional-commits": "^1.3"
     },

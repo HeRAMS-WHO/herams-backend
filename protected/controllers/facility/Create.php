@@ -60,7 +60,7 @@ class Create extends Action
         return $this->controller->render('create', [
             'projectId' => $projectId,
             'workspaceId' => $workspaceId,
-            'survey' => $surveyRepository->retrieveForSurveyJs($surveyId)
+            'survey' => $surveyRepository->retrieveForSurveyJs($surveyId),
         ]);
     }
 }

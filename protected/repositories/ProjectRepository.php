@@ -96,7 +96,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
             \Yii::debug([
                 'message' => 'Record has no dirty attributes',
                 'source' => $model->attributes,
-                'target' => $record->attributes
+                'target' => $record->attributes,
             ]);
         }
         if (! $record->save()) {
@@ -119,12 +119,13 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
         return new ProjectForExternalDashboard($record->title, $dashboard);
     }
 
-
     public function retrieveAdminSurveyId(ProjectId $projectId): SurveyId
     {
         /** @var null|SurveyjsProject $project */
-        $project = SurveyjsProject::find()->andWhere(['id' => $projectId->getValue()])->one();
-        if (!isset($project)) {
+        $project = SurveyjsProject::find()->andWhere([
+            'id' => $projectId->getValue(),
+        ])->one();
+        if (! isset($project)) {
             throw new NotFoundHttpException();
         }
         return $project->getAdminSurveyId();
@@ -133,8 +134,10 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
     public function retrieveDataSurveyId(ProjectId $projectId): SurveyId
     {
         /** @var null|SurveyjsProject $project */
-        $project = SurveyjsProject::find()->andWhere(['id' => $projectId->getValue()])->one();
-        if (!isset($project)) {
+        $project = SurveyjsProject::find()->andWhere([
+            'id' => $projectId->getValue(),
+        ])->one();
+        if (! isset($project)) {
             throw new NotFoundHttpException();
         }
         return $project->getDataSurveyId();
@@ -142,13 +145,16 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
 
     public function retrieveProjectLocales(ProjectId $id): ProjectLocales
     {
-        $project = Project::findOne(['id' => $id]);
-        if (!isset($project)) {
+        $project = Project::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($project)) {
             throw new NotFoundHttpException();
         }
 
         $this->accessCheck->requirePermission($project, Permission::PERMISSION_READ);
 
-        var_dump($project->languages); die();
+        var_dump($project->languages);
+        die();
     }
 }

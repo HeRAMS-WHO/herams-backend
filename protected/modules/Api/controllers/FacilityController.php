@@ -10,7 +10,6 @@ use prime\modules\Api\controllers\facility\View;
 
 class FacilityController extends Controller
 {
-
     public function actions()
     {
         return [

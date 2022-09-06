@@ -30,7 +30,7 @@ class UserController extends \yii\rest\Controller
     {
         return [
             'workspaces' => Workspaces::class,
-            'view' => View::class
+            'view' => View::class,
         ];
     }
 }

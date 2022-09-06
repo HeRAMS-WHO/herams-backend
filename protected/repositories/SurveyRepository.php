@@ -97,7 +97,9 @@ final class SurveyRepository implements SurveyRepositoryInterface
 
     public function retrieveSimpleVariableSet(SurveyId $surveyId): VariableSet
     {
-        return $this->surveyParser->parseSurveyStructure(Survey::findOne(['id' => $surveyId->getValue()])->config);
+        return $this->surveyParser->parseSurveyStructure(Survey::findOne([
+            'id' => $surveyId->getValue(),
+        ])->config);
     }
 
     public function retrieveForUpdate(SurveyId $id): UpdateForm

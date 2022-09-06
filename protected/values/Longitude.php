@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\values;
@@ -16,5 +17,4 @@ class Longitude implements \JsonSerializable
     {
         return $this->value;
     }
-
 }

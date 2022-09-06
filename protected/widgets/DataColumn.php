@@ -17,9 +17,6 @@ class DataColumn extends \yii\grid\DataColumn
     {
         $value = $this->getFunctionDataCellValue($model, $key, $index);
 
-
         return $value instanceof LabeledEnum ? $value->label() : $value;
     }
-
-
 }

@@ -33,7 +33,9 @@ use function iter\toArrayWithKeys;
  * @var View $this
  */
 
-$this->title = \Yii::t('app', "Update settings for {project}", ['project' => $project->getLabel()]);
+$this->title = \Yii::t('app', "Update settings for {project}", [
+    'project' => $project->getLabel(),
+]);
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
@@ -47,14 +49,21 @@ Section::begin()
 
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
-    ->withDataRoute(['/api/project/view', 'id' => $projectId])
+    ->withDataRoute([
+        '/api/project/view',
+        'id' => $projectId,
+    ])
     ->withExtraData([
-        'id' => $projectId
+        'id' => $projectId,
     ])
     ->withSubmitRoute([
-        '/api/project/update', 'id' => $projectId,
+        '/api/project/update',
+        'id' => $projectId,
     ])
-    ->withServerValidationRoute(['/api/project/validate', 'id' => $projectId])
+    ->withServerValidationRoute([
+        '/api/project/validate',
+        'id' => $projectId,
+    ])
 //    ->withRedirectRoute([
 //        'project/update',
 //        'id' => $projectId

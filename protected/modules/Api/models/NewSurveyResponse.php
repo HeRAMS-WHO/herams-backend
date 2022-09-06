@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\models;
@@ -20,13 +21,10 @@ class NewSurveyResponse extends Model
 
     public RecordInterface|null $data = null;
 
-
     public function rules(): array
     {
         return [
-            [['surveyId', 'facilityId', 'data'], RequiredValidator::class]
+            [['surveyId', 'facilityId', 'data'], RequiredValidator::class],
         ];
     }
-
-
 }

@@ -34,18 +34,21 @@ Section::begin()
 
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
-    ->withDataRoute(['/api/facility/view', 'id' => $id], ['adminData'])
+    ->withDataRoute([
+        '/api/facility/view',
+        'id' => $id,
+    ], ['adminData'])
     ->withProjectId($projectId)
     ->withExtraData([
         'facilityId' => $id,
-        'surveyId' => $survey->getId()
+        'surveyId' => $survey->getId(),
     ])
     ->withSubmitRoute([
-        'api/survey-response/create'
+        'api/survey-response/create',
     ])
     ->withRedirectRoute([
         'facility/admin-responses',
-        'id' => $id
+        'id' => $id,
     ])
 ;
 

@@ -51,22 +51,18 @@ class ProjectHydrator implements ActiveRecordHydratorInterface
         $target->admin_survey_id = $source->adminSurveyId->getValue();
 
         $target->data_survey_id = $source->dataSurveyId->getValue();
-
     }
-
-
 
     /**
      * @param Project $source
      * @param UpdateProject $target
-     * @return void
      */
     public function hydrateRequestModel(ActiveRecord $source, RequestModel $target): void
     {
         assert($target instanceof UpdateProject);
         $titleValues = [
             Language::default()->value => $source->title,
-            ...$source->i18n['title'] ?? []
+            ...$source->i18n['title'] ?? [],
         ];
         $target->title = new LocalizedString($titleValues);
 
@@ -77,7 +73,7 @@ class ProjectHydrator implements ActiveRecordHydratorInterface
         $target->adminSurveyId = new SurveyId($source->admin_survey_id);
         $target->dataSurveyId = new SurveyId($source->data_survey_id);
         $target->latitude = isset($source->latitude) ? new Latitude($source->latitude) : null;
-        $target->longitude = isset($source->longitude) ?new Longitude($source->longitude) : null;
+        $target->longitude = isset($source->longitude) ? new Longitude($source->longitude) : null;
         $target->manageImpliesCreateHf = (bool) $source->manage_implies_create_hf;
 
         $target->languages = $source->languages ?? [];

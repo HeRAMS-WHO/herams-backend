@@ -32,7 +32,7 @@ class LocalizedString implements \JsonSerializable, \Stringable
         }
         if (! isset($this->valueMap[Locale::default()])) {
             throw new \InvalidArgumentException(\Yii::t('app', "A value for the default language, {language}, is required", [
-                'language' => Locale::default()->label
+                'language' => Locale::default()->label,
             ]));
         }
     }
@@ -82,7 +82,6 @@ class LocalizedString implements \JsonSerializable, \Stringable
     {
         return $this->asArray();
     }
-
 
     public function __toString()
     {

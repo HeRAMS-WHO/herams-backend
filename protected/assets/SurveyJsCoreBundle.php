@@ -22,6 +22,6 @@ class SurveyJsCoreBundle extends AssetBundle
 
     public $depends = [
         KnockoutBundle::class,
-        AppAsset::class
+        AppAsset::class,
     ];
 }

@@ -28,14 +28,15 @@ class PageRepository
     public function retrieveProjectId(PageId $pageId): ProjectId
     {
         $id = Page::find()
-            ->andWhere(['id' => $pageId->getValue()])
+            ->andWhere([
+                'id' => $pageId->getValue(),
+            ])
             ->select('project_id')
             ->scalar();
 
-        if (!isset($id)) {
+        if (! isset($id)) {
             throw new NotFoundHttpException();
         }
         return new ProjectId($id);
-
     }
 }

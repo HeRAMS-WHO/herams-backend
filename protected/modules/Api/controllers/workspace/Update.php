@@ -29,7 +29,6 @@ final class Update extends Action
         Response $response,
         int $id
     ) {
-
         $model = new UpdateWorkspace(new WorkspaceId($id));
 
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams['data']);

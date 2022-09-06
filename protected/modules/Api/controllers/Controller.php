@@ -10,6 +10,7 @@ use yii\rest\Serializer;
 abstract class Controller extends \yii\rest\Controller
 {
     public $enableCsrfValidation = false;
+
     public $serializer = \prime\helpers\Serializer::class;
 
     public function behaviors(): array
@@ -24,8 +25,8 @@ abstract class Controller extends \yii\rest\Controller
                         'roles' => ['@'],
                     ],
                     [
-                        'allow' => false
-                    ]
+                        'allow' => false,
+                    ],
                 ],
             ],
         ];

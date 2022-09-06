@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\interfaces;
@@ -9,6 +10,5 @@ use yii\db\ActiveRecordInterface;
 
 interface QueueJobFromModelInterface
 {
-
     public function create(ActiveRecordInterface $model): JobInterface;
 }

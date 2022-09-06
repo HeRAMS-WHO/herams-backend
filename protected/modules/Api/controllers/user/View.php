@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\user;
@@ -9,13 +10,12 @@ use yii\web\User;
 
 final class View extends Action
 {
-
     public function run(
         UserRepository $userRepository,
         User $user,
-        int $id = null)
+        int $id = null
+    )
     {
         return $userRepository->retrieve($user->id);
     }
-
 }

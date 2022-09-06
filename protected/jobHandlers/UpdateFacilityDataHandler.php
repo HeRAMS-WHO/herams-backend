@@ -39,11 +39,11 @@ class UpdateFacilityDataHandler
 
         $facility->data = $data?->allData();
 
-        if (!$facility->save()) {
+        if (! $facility->save()) {
             throw new \Exception(print_r([
                 'message' => 'failed to save',
                 'errors' => $facility->errors,
-                'values' => $facility->attributes
+                'values' => $facility->attributes,
             ], true));
         }
     }

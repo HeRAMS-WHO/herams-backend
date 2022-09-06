@@ -13,7 +13,6 @@ class Breadcrumb implements BreadcrumbInterface
         private string $label,
         private array|string|null $url = null
     ) {
-
     }
 
     public function getLabel(): string

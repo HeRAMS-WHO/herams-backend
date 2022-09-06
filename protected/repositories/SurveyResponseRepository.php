@@ -60,7 +60,6 @@ class SurveyResponseRepository
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         return new SurveyResponseId($record->id);
-
     }
 
     public function createFormModel(
@@ -145,7 +144,9 @@ class SurveyResponseRepository
 
     public function retrieve(SurveyResponseId $id): SurveyResponseForSurveyJsInterface
     {
-        $surveyResponse = SurveyResponse::find()->andWhere(['id' => $id])->one();
+        $surveyResponse = SurveyResponse::find()->andWhere([
+            'id' => $id,
+        ])->one();
         $this->accessCheck->requirePermission($surveyResponse, Permission::PERMISSION_READ);
         return new SurveyResponseForSurveyJs(
             $surveyResponse->data,
@@ -215,7 +216,7 @@ class SurveyResponseRepository
                 'sort' => [
                     'class' => Sort::class,
                     'defaultOrder' => [
-                        ResponseForList::ID => SORT_DESC
+                        ResponseForList::ID => SORT_DESC,
                     ],
                     'attributes' => [
                         ResponseForList::ID,

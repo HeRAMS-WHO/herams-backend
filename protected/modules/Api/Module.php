@@ -133,19 +133,19 @@ class Module extends \yii\base\Module
                     ],
                     [
                         'class' => HttpBasicAuth::class,
-                        'auth' => function($username, $password) {
+                        'auth' => function ($username, $password) {
                             \Yii::warning('Logging in via auth closure');
-                            $user = User::findOne(['email' => $username]);
+                            $user = User::findOne([
+                                'email' => $username,
+                            ]);
                             if (isset($user) && password_verify($password, $user->password_hash)) {
                                 return $user;
                             }
-                        }
-                    ]
+                        },
+                    ],
                 ],
 
             ],
         ];
     }
-
-
 }

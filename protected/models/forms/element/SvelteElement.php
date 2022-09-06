@@ -23,7 +23,6 @@ use yii\validators\SafeValidator;
 
 final class SvelteElement extends RequestModel
 {
-
     #[Field('page_id')]
     public mixed $pageId = null;
 
@@ -51,20 +50,29 @@ final class SvelteElement extends RequestModel
     #[JsonField('config')]
     public mixed $type = ChartType::Bar;
 
-    public function __construct(private HeramsVariableSetRepositoryInterface $variableSetRepository    ) {
+    public function __construct(private HeramsVariableSetRepositoryInterface $variableSetRepository)
+    {
         parent::__construct([]);
     }
 
     private function getVariableSet(): VariableSetInterface
     {
-        return new DeferredVariableSet(fn() => $this->variableSetRepository->retrieveForPage(new PageId($this->pageId)));
+        return new DeferredVariableSet(fn () => $this->variableSetRepository->retrieveForPage(new PageId($this->pageId)));
     }
+
     public function rules(): array
     {
         return [
             [['colorMap'], SafeValidator::class],
-            [['width', 'height'], NumberValidator::class, 'max' => 4, 'min' => 1, 'integerOnly' => true],
-            [['sort'], NumberValidator::class, 'min' => 1, 'integerOnly' => true],
+            [['width', 'height'],
+                NumberValidator::class,
+                'max' => 4,
+                'min' => 1,
+                'integerOnly' => true, ],
+            [['sort'],
+                NumberValidator::class,
+                'min' => 1,
+                'integerOnly' => true, ],
             [['pageId', 'title', 'variables'], RequiredValidator::class],
             PermissionValidator::create(['pageId'], Page::find()),
 
@@ -77,13 +85,9 @@ final class SvelteElement extends RequestModel
                 'enumClass' => ChartType::class,
             ],
             VariableValidator::multipleFromSet($this->getVariableSet(), 'variables')
-                ->withCondition(fn($model, $attribute) => !$this->hasErrors('pageId')),
+                ->withCondition(fn ($model, $attribute) => ! $this->hasErrors('pageId')),
             VariableValidator::singleFromSet($this->getVariableSet(), 'groupingVariable'),
 
         ];
     }
-
-
-
-
 }

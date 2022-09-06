@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use kartik\grid\GridView;
 use prime\components\View;
 use prime\interfaces\AdminResponseForListInterface;
 use prime\interfaces\FacilityForTabMenu;
-use prime\interfaces\ResponseForList;
 use prime\models\ar\Permission;
+use prime\widgets\DataColumn;
+use prime\widgets\GridView;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
@@ -19,6 +19,7 @@ use yii\web\User;
  * @var ActiveDataProvider $responseProvider
  * @var View $this
  * @var FacilityForTabMenu $facility
+ * @var iterable<\Collecthor\DataInterfaces\VariableInterface> $variables
  */
 
 $this->title = $facility->getTitle();
@@ -52,26 +53,25 @@ echo GridView::widget([
     'columns' => [
         AdminResponseForListInterface::ID,
         [
-            'class' => \prime\widgets\DataColumn::class,
+            'class' => DataColumn::class,
             'attribute' => AdminResponseForListInterface::DATE_OF_UPDATE,
             'format' => 'raw',
-            'value' => function(AdminResponseForListInterface $response) {
+            'value' => function (AdminResponseForListInterface $response) {
                 $label = \Yii::$app->formatter->asDate($response->getDateOfUpdate());
                 $icon = \prime\helpers\Icon::eye();
-                return Html::a($label . $icon, ['/response/view', 'id' => $response->getId()]);
-            }
+                return Html::a($label . $icon, [
+                    '/response/view',
+                    'id' => $response->getId(),
+                ]);
+            },
 
         ],
-
-        AdminResponseForListInterface::FACILITY_TYPE_LABEL,
+        \prime\widgets\VariableColumn::configForVariables(...$variables),
         [
-            'class' => \prime\widgets\DataColumn::class,
+            'class' => DataColumn::class,
             'attribute' => 'data',
-            'format' => function(array $value) {
-                return Html::tag('pre', json_encode($value, JSON_PRETTY_PRINT));
-            }
+            'format' => 'json',
         ],
-
     ],
 ]);
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\project;
@@ -12,10 +13,11 @@ final class Locales extends Action
 {
     public function run(
         ProjectLocalesRetriever $projectRepository,
-        int $id)
+        int $id
+    )
     {
         $locales = $projectRepository->retrieveProjectLocales(new ProjectId($id));
-        var_dump($locales); die();
-
+        var_dump($locales);
+        die();
     }
 }

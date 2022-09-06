@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\workspace;
@@ -18,14 +19,12 @@ use yii\web\Request;
 
 class Validate extends Action
 {
-
     public function run(
         Request $request,
         ModelHydrator $modelHydrator,
         int $id = null
-    ): array
-    {
-        if (!isset($id)) {
+    ): array {
+        if (! isset($id)) {
             $model = new NewWorkspace();
         } else {
             $model = new UpdateWorkspace(new WorkspaceId($id));

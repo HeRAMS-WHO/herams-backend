@@ -30,7 +30,7 @@ final class Create extends Action
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams['data']);
 
         // Our model is now hydrated, we should validate it.
-        if (!$modelValidator->validateModel($model)) {
+        if (! $modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
 

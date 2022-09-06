@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -14,17 +15,14 @@ use yii\web\UnprocessableEntityHttpException;
  */
 class ModelValidator
 {
-
-
     public function validateModel(Model $model): bool
     {
         return $model->validate(clearErrors: false);
-
     }
 
     public function renderValidationErrors(Model $model, Response $response): Response
     {
-        if (!$model->hasErrors()) {
+        if (! $model->hasErrors()) {
             throw new \InvalidArgumentException("Model has no validation errors");
         }
         $response->setStatusCode(422);

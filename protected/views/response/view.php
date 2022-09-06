@@ -42,7 +42,10 @@ Section::begin()
 Survey::begin()
     ->withProjectId($projectId)
     ->inDisplayMode()
-    ->withDataRoute(['/api/survey-response/view', 'id' => $id])
+    ->withDataRoute([
+        '/api/survey-response/view',
+        'id' => $id,
+    ])
     ->withConfig($survey->getConfig());
 
 Survey::end();

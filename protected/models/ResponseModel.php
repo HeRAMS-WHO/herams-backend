@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models;
@@ -7,8 +8,8 @@ use yii\base\NotSupportedException;
 
 abstract class ResponseModel extends RequestModel
 {
-
-    final public function rules(): array {
+    final public function rules(): array
+    {
         return [];
     }
 
@@ -16,6 +17,4 @@ abstract class ResponseModel extends RequestModel
     {
         throw new NotSupportedException('A response model should not use validation');
     }
-
-
 }

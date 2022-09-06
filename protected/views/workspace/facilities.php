@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-use kartik\grid\GridView;
+use Collecthor\DataInterfaces\VariableInterface;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\facility\FacilityForList;
 use prime\widgets\DrilldownColumn;
+use prime\widgets\GridView;
 use prime\widgets\IdColumn;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
-use prime\widgets\UuidColumn;
+use prime\widgets\VariableColumn;
 use SamIT\abac\interfaces\Resolver;
 use yii\data\ActiveDataProvider;
 use yii\web\View;
@@ -22,6 +23,7 @@ use yii\web\View;
  * @var View $this
  * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
  * @var Resolver $abacResolver
+ * @var iterable<VariableInterface> $variables
  */
 
 $this->title = $tabMenuModel->title();
@@ -45,7 +47,7 @@ Section::begin([
             ],
             'permission' => Permission::
 PERMISSION_CREATE_FACILITY,
-        ]
+        ],
     ],
 ])->withSubject($tabMenuModel);
 
@@ -64,7 +66,7 @@ echo GridView::widget(
         'columns' => [
             [
                 'class' => DrilldownColumn::class,
-                'attribute' => FacilityForList::NAME,
+                'attribute' => 'name',
                 'permission' => Permission::PERMISSION_READ,
                 'link' => static fn (FacilityForList $facility) => [
                     'facility/responses',
@@ -74,18 +76,8 @@ echo GridView::widget(
             [
                 'class' => IdColumn::class,
             ],
-            [
-                'attribute' => FacilityForList::ALTERNATIVE_NAME,
-            ],
-            [
-                'attribute' => FacilityForList::CODE,
-            ],
-            [
-                'attribute' => FacilityForList::RESPONSE_COUNT,
-            ],
-            [
-                'attribute' => 'tier'
-            ]
+            VariableColumn::configForVariables(...$variables),
+
         ],
     ]
 );

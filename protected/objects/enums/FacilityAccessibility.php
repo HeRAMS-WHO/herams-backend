@@ -45,7 +45,6 @@ enum FacilityAccessibility:string implements LabeledEnum
         ];
     }
 
-
     public function label(): string
     {
         return self::labels()[$this->value];

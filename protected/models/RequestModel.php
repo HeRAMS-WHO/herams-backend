@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models;
@@ -8,12 +9,10 @@ use yii\base\NotSupportedException;
 
 abstract class RequestModel extends Model
 {
-
     public function __construct()
     {
         parent::__construct([]);
     }
-
 
     final public function formName(): string
     {
@@ -25,7 +24,8 @@ abstract class RequestModel extends Model
         return parent::load($data, '');
     }
 
-    public function rules(): array {
+    public function rules(): array
+    {
         throw new NotSupportedException('Do not call parent::rules() in your request model');
     }
 

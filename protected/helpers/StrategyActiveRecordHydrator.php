@@ -26,13 +26,12 @@ class StrategyActiveRecordHydrator implements ActiveRecordHydratorInterface
             throw new \InvalidArgumentException("Hydrator is missing source attribute, add it or use manual registration");
         }
 
-        foreach($attributes as $attribute) {
+        foreach ($attributes as $attribute) {
             /** @var SupportedType $source */
             $source = $attribute->newInstance();
 
             $this->strategies[] = [$source, $hydrator];
         }
-
     }
 
     public function hydrateActiveRecord(Model $source, ActiveRecord $target): void

@@ -27,8 +27,6 @@ class Update extends Action
         Response $response,
         int $id
     ) {
-
-
         $model = $elementRepository->retrieveForUpdate(new ElementId($id));
 
         $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);

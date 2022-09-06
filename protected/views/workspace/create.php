@@ -26,14 +26,15 @@ $survey = Survey::begin()
     ->withConfig($survey->getConfig())
     ->withProjectId($projectId)
     ->withData([
-        'projectId' => $projectId
+        'projectId' => $projectId,
     ])
     ->withSubmitRoute([
         '/api/workspace/create',
     ])
     ->withServerValidationRoute(['/api/workspace/validate'])
     ->withRedirectRoute([
-        'project/workspaces', 'id' => $projectId
+        'project/workspaces',
+        'id' => $projectId,
     ])
 ;
 

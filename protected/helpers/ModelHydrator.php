@@ -99,7 +99,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     private function castForDatabase(bool|float|int|string|array|object|null $complex): bool|float|int|string|array|null|Expression
     {
         if (is_object($complex)) {
-
             return match (true) {
                 $complex instanceof BackedEnum => $complex->value,
                 $complex instanceof UnitEnum => $complex->name,
@@ -165,7 +164,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                 is_subclass_of($name, StringId::class) => $this->castStringId($value, $name),
                 is_subclass_of($name, UuidInterface::class) || $name === UuidInterface::class => $this->castUuid($value, $name, $source),
 
-
                 default => throw new \InvalidArgumentException("Attribute $attribute has a complex type: {$property->getName()}")
             };
         }
@@ -197,7 +195,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
         return Uuid::fromBytes($value);
     }
 
-
     private function getTypeForAttribute(Model $model, string $property): \ReflectionNamedType
     {
         $rc = new \ReflectionClass($model);
@@ -213,7 +210,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                 return $method->getParameters()[0]->getType();
             }
         }
-
     }
 
     private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source): mixed
@@ -252,14 +248,13 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                     $jsonFields[$jsonField][$field] = $this->castForDatabase($value);
                     continue;
                 }
-
             }
             if ($record->canSetProperty($field)) {
                 $record->$field = $this->castForDatabase($value);
             }
         }
 
-        foreach($jsonFields as $field => $value) {
+        foreach ($jsonFields as $field => $value) {
             if ($record->canSetProperty($field)) {
                 $record->$field = $value;
             }
@@ -326,14 +321,13 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
         }
     }
 
-
     private function getPath(Model $model, string $attribute): array
     {
         $reflectionClass = new \ReflectionClass($model);
         if ($reflectionClass->hasProperty($attribute)) {
             $property = $reflectionClass->getProperty($attribute);
             /** @var \ReflectionAttribute<SourcePath> $propertyAttribute */
-            foreach($property->getAttributes(SourcePath::class) as $propertyAttribute) {
+            foreach ($property->getAttributes(SourcePath::class) as $propertyAttribute) {
                 return $propertyAttribute->newInstance()->path;
             }
         }
@@ -350,7 +344,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     {
         return ArrayHelper::getValue($data, $path);
     }
-
 
     /**
      * Hydrates a model from a json dictionary

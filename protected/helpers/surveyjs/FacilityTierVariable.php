@@ -10,15 +10,22 @@ use Collecthor\DataInterfaces\RecordInterface;
 use Collecthor\DataInterfaces\StringValueInterface;
 use Collecthor\DataInterfaces\ValueInterface;
 use Collecthor\DataInterfaces\ValueSetInterface;
+use Collecthor\SurveyjsParser\Traits\GetRawConfiguration;
 use Collecthor\SurveyjsParser\Values\InvalidValue;
+use Collecthor\SurveyjsParser\Values\StringValue;
 use prime\objects\enums\FacilityTier;
+use prime\objects\Locale;
 
 class FacilityTierVariable implements ClosedVariableInterface
 {
+    use GetRawConfiguration;
+
     public function __construct(
         private ClosedVariableInterface $closedVariable,
-        private array $tierMap
+        private array $tierMap,
+        array $rawConfiguration = []
     ) {
+        $this->rawConfiguration = $rawConfiguration;
     }
 
     public function getValueOptions(): array
@@ -28,28 +35,23 @@ class FacilityTierVariable implements ClosedVariableInterface
 
     public function getName(): string
     {
-        return $this->closedVariable->getName() . " - Tier";
+        return $this->closedVariable->getName() . "_tier";
     }
 
     public function getTitle(?string $locale = null): string
     {
-        return $this->closedVariable->getTitle($locale);
+        return \Yii::t('app', 'Tier', language: $locale);
     }
 
-    public function getValue(RecordInterface $record): ValueInterface|ValueSetInterface
+    public function getValue(RecordInterface $record): FacilityTier
     {
-        return $this->closedVariable->getValue($record);
+        $value = $this->closedVariable->getValue($record);
+        return $this->tierMap[$value->getRawValue()] ?? FacilityTier::Unknown;
     }
 
     public function getDisplayValue(RecordInterface $record, ?string $locale = null): StringValueInterface
     {
-        return $this->closedVariable->getDisplayValue($record, $locale);
-    }
-
-    public function getTier(RecordInterface $record): FacilityTier
-    {
-        $value = $this->getValue($record);
-        return $this->tierMap[$value->getRawValue()] ?? FacilityTier::Unknown;
+        return new StringValue($this->getValue($record)->label($locale));
     }
 
     public function getMeasure(): Measure

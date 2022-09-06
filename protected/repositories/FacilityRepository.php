@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
-use Carbon\Carbon;
-use Collecthor\DataInterfaces\RecordInterface;
-use Collecthor\SurveyjsParser\ArrayRecord;
+use Collecthor\SurveyjsParser\ArrayDataRecord;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
@@ -16,7 +14,6 @@ use prime\interfaces\CanCurrentUser;
 use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\interfaces\FacilityForResponseCopy;
 use prime\interfaces\FacilityForTabMenu;
-use prime\interfaces\HeramsVariableSetRepositoryInterface;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\interfaces\SurveyRepositoryInterface;
 use prime\models\ar\Facility;
@@ -24,24 +21,17 @@ use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
 use prime\models\ar\ResponseForLimesurvey;
 use prime\models\ar\Workspace;
-use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
 use prime\models\forms\facility\CreateForm;
 use prime\models\forms\facility\UpdateForm;
 use prime\models\forms\facility\UpdateSituationForm;
-use prime\models\forms\ResponseFilter;
-use prime\models\forms\workspace\UpdateForLimesurvey as WorkspaceUpdateForLimesurvey;
 use prime\models\search\FacilitySearch;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\modules\Api\models\NewFacility;
 use prime\modules\Api\models\UpdateFacility;
-use prime\modules\Api\models\UpdateWorkspace;
-use prime\objects\enums\FacilityTier;
 use prime\objects\enums\ProjectType;
-use prime\objects\HeramsCodeMap;
 use prime\values\FacilityId;
-use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\ResponseId;
 use prime\values\WorkspaceId;
@@ -65,11 +55,13 @@ class FacilityRepository
     ) {
     }
 
-
     public function getWorkspaceId(FacilityId $id): WorkspaceId
     {
-        return new WorkspaceId(Facility::find()->andWhere(['id' => $id])->select('workspace_id')->scalar());
+        return new WorkspaceId(Facility::find()->andWhere([
+            'id' => $id,
+        ])->select('workspace_id')->scalar());
     }
+
     /**
      * TODO Limesurvey deprecation: remove
      */
@@ -265,73 +257,46 @@ class FacilityRepository
             'id' => $id->getValue(),
         ]);
 
-        if ($workspace instanceof WorkspaceForLimesurvey) {
-            $filter = new ResponseFilter($workspace->project->getSurvey(), new HeramsCodeMap());
+        // Get survey as well for variable interpretation
+        $variables = $this->heramsVariableSetRepository->retrieveForProject(new ProjectId($workspace->project_id));
 
-            $limesurveyData = [];
-            /** @var ResponseForLimesurvey $response */
-            foreach ($filter->filterQuery($workspace->getResponses())->each() as $response) {
-                $limesurveyData[$response->hf_id] = $this->createFromResponse($response);
-            }
+        $query = FacilityReadRecord::find()->andWhere([
+            'use_in_list' => true,
+        ]);
 
-            $dataProvider = new ArrayDataProvider([
-                'allModels' => $limesurveyData,
-            ]);
-        } else {
-            // Get survey as well for variable interpretation
-            $variables = $this->heramsVariableSetRepository->retrieveForProject(new ProjectId($workspace->project_id));
+        $query->andFilterWhere([
+            'workspace_id' => $id->getValue(),
+        ]);
 
-            $typeVariable = $variables->getFacilityTierVariable();
-            $query = FacilityReadRecord::find()->andWhere([
-                'use_in_list' => true,
-            ]);
-
+        if ($model->validate()) {
+            $query->andFilterWhere(['like', 'name', $model->name]);
             $query->andFilterWhere([
-                'workspace_id' => $id->getValue(),
+                'id' => $model->id,
             ]);
-
-            if ($model->validate()) {
-                $query->andFilterWhere(['like', 'name', $model->name]);
-                $query->andFilterWhere([
-                    'id' => $model->id,
-                ]);
-            }
-
-            $dataProvider = new HydratedActiveDataProvider(
-                function (Facility $facility) use ($typeVariable) {
-                    return new FacilityForList(
-                        new FacilityId((string) $facility->id),
-                        $facility->name,
-                        $facility->alternative_name,
-                        $facility->code,
-                        $facility->latitude,
-                        $facility->longitude,
-                        $facility->dataSurveyResponseCount,
-                        $typeVariable->getTier(new ArrayRecord($facility->data ?? [], 100000000 + $facility->id, Carbon::now(), Carbon::now())),
-                        new CanCurrentUserWrapper($this->accessCheck, $facility),
-                    );
-                },
-                [
-                    'query' => $query,
-                    /**
-                     * Optimize total count since we don't have HF specific permissions.
-                     * If this ever changes, pagination may break but permission checking will not
-                     */
-                    'totalCount' => fn (QueryInterface $query) => (int) $query->count(),
-                ]
-            );
         }
+
+        $models = array_map(fn (FacilityReadRecord $facility) => new FacilityForList(
+            new FacilityId((string) $facility->id),
+            $facility->name,
+            $facility->dataSurveyResponseCount,
+            new ArrayDataRecord([...($facility->data ?? []), ...($facility->admin_data ?? [])]),
+            new CanCurrentUserWrapper($this->accessCheck, $facility),
+        ), $query->all());
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $models,
+        ]);
 
         $dataProvider->setPagination([
             'pageSize' => 15,
         ]);
         $dataProvider->setSort([
             'attributes' => [
-                FacilityForList::ID,
-                FacilityForList::NAME,
-                FacilityForList::ALTERNATIVE_NAME,
-                FacilityForList::CODE,
-                FacilityForList::RESPONSE_COUNT,
+                //                FacilityForList::ID,
+                //                FacilityForList::NAME,
+                //                FacilityForList::ALTERNATIVE_NAME,
+                //                FacilityForList::CODE,
+                //                FacilityForList::RESPONSE_COUNT,
             ],
         ]);
 
@@ -364,7 +329,6 @@ class FacilityRepository
         ]);
         return new FacilityForBreadcrumb($facility);
     }
-
 
     public function retrieveForTabMenu(FacilityId $id): FacilityForTabMenu
     {

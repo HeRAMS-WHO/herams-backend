@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -10,13 +11,14 @@ use InvalidArgumentException;
 class DeferredVariableSet implements VariableSetInterface
 {
     private VariableSetInterface $variableSet;
+
     public function __construct(private \Closure $creator)
     {
-
     }
+
     private function getVariableSet(): VariableSetInterface
     {
-        if (!isset($this->variableSet)) {
+        if (! isset($this->variableSet)) {
             $this->variableSet = ($this->creator)();
         }
         return $this->variableSet;

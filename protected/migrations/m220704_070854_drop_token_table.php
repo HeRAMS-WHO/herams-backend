@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 use yii\db\Migration;
 
@@ -12,8 +13,8 @@ final class m220704_070854_drop_token_table extends Migration
         if ($this->db->getTableSchema('{{%token}}')) {
             $this->dropTable('{{%token}}');
         }
-    return true;
-}
+        return true;
+    }
 
     public function down(): bool
     {

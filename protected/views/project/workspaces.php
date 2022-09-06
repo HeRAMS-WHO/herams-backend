@@ -35,7 +35,9 @@ use function iter\toArray;
  * @var UserComponent $userComponent
  */
 
-$this->title = \Yii::t('app', 'Workspaces in {project}', ['project' => $project->title]);
+$this->title = \Yii::t('app', 'Workspaces in {project}', [
+    'project' => $project->title,
+]);
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget(
     [

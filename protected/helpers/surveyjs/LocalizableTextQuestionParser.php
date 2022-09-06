@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers\surveyjs;
@@ -19,7 +20,6 @@ class LocalizableTextQuestionParser implements ElementParserInterface
         $name = implode('.', [...$dataPrefix, $questionConfig['name']]);
         $titles = $this->extractTitles($questionConfig, $surveyConfiguration);
 
-
-        yield new LocalizableTextVariable($name, $titles, $dataPath);
+        yield new LocalizableTextVariable($name, $titles, $dataPath, $questionConfig);
     }
 }

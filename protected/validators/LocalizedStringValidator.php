@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\validators;
@@ -17,6 +18,4 @@ final class LocalizedStringValidator extends Validator
         }
         return null;
     }
-
-
 }

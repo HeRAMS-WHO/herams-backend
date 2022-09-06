@@ -10,7 +10,6 @@ use yii\web\Controller;
 
 class SurveyController extends Controller
 {
-
     public function actionIndex(SurveyRepository $surveyRepository)
     {
         return $surveyRepository->search(new SurveySearch())->getModels();

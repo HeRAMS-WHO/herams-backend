@@ -8,6 +8,7 @@ use CrEOF\Geo\WKB\Parser;
 use prime\interfaces\LabeledEnum;
 use prime\objects\enums\Enum;
 use Ramsey\Uuid\Uuid;
+use yii\helpers\Html;
 
 class Formatter extends \yii\i18n\Formatter
 {
@@ -26,7 +27,7 @@ class Formatter extends \yii\i18n\Formatter
         return isset($value) ? $parser->parse($value) : $this->nullDisplay;
     }
 
-    public function asText($value)
+    public function asText($value): string
     {
         if ($value instanceof Enum) {
             return parent::asText($value->label);
@@ -35,8 +36,11 @@ class Formatter extends \yii\i18n\Formatter
             return parent::asText($value->label());
         }
 
-
-
         return parent::asText($value);
+    }
+
+    public function asJson(array $value): string
+    {
+        return Html::tag('pre', json_encode($value, JSON_PRETTY_PRINT));
     }
 }

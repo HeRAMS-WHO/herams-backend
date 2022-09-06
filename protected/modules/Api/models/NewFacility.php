@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\models;
@@ -26,5 +27,4 @@ final class NewFacility extends RequestModel
             [['workspaceId', 'data', 'name'], RequiredValidator::class],
         ];
     }
-
 }

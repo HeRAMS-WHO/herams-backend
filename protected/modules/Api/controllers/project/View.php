@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\project;
@@ -9,12 +10,11 @@ use yii\base\Action;
 
 final class View extends Action
 {
-
     public function run(
         ProjectRepository $projectRepository,
-        int $id)
+        int $id
+    )
     {
         return $projectRepository->retrieveForUpdate(new ProjectId($id));
     }
-
 }

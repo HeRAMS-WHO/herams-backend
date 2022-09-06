@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
@@ -10,7 +11,6 @@ use yii\helpers\ArrayHelper;
 
 class SurveyResponseController extends Controller
 {
-
     public function actions(): array
     {
         return [
@@ -18,5 +18,4 @@ class SurveyResponseController extends Controller
             'view' => View::class,
         ];
     }
-
 }

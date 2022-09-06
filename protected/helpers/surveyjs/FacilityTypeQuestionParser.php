@@ -34,7 +34,11 @@ class FacilityTypeQuestionParser implements ElementParserInterface
         foreach ($this->singleChoiceQuestionParser->parse($root, $questionConfig, $surveyConfiguration, $dataPrefix) as $variable) {
             // We want to alter the closed question only.
             if ($variable instanceof ClosedVariableInterface) {
-                yield new FacilityTierVariable($variable, $tierMap);
+                yield new FacilityTierVariable($variable, $tierMap, [
+                    ...$questionConfig,
+                    'showInResponseList' => $questionConfig['showTierInResponseList'] ?? false,
+                    'showFacilityInResponseList' => $questionConfig['showTierInFacilityResponseList'] ?? false,
+                ]);
             }
             yield $variable;
         }

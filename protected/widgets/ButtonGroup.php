@@ -18,6 +18,7 @@ class ButtonGroup extends Widget
     public const TYPE_LINK = 'link';
 
     public const TYPE_RAW = 'raw';
+
     public const TYPE_DELETE_BUTTON = 'delete_button';
 
     public const TYPE_SUBMIT = 'submit';

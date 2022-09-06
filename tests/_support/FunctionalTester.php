@@ -104,10 +104,10 @@ class FunctionalTester extends \Codeception\Actor
                                     [
                                         'value' => 'private',
                                         'text' => 'Private Clinic',
-                                        'tier' => 'tertiary'
-                                    ]
+                                        'tier' => 'tertiary',
+                                    ],
 
-                                ]
+                                ],
                             ],
                         ],
                     ],

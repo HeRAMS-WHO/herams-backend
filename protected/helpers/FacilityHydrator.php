@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
@@ -11,16 +12,13 @@ use prime\objects\Locale;
 
 class FacilityHydrator
 {
-
     public function hydrateFromAdminSurvey(
         Facility $facility,
         NewFacility $newFacility,
         VariableSet $variableSet
     ): void {
-
         $record = $newFacility->data;
         $facility->admin_data = $record->allData();
-
 
         $name = $variableSet->getVariable('name');
 
@@ -42,5 +40,4 @@ class FacilityHydrator
 
         $facility->i18n = $i18n;
     }
-
 }

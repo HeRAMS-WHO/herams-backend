@@ -45,8 +45,10 @@ class ElementRepository
 
     public function retrieveForUpdate(ElementId $elementId): SvelteElement
     {
-        $element = RawElement::findOne(['id' => $elementId->getValue()]);
-        if (!isset($element)) {
+        $element = RawElement::findOne([
+            'id' => $elementId->getValue(),
+        ]);
+        if (! isset($element)) {
             throw new NotFoundHttpException();
         }
 

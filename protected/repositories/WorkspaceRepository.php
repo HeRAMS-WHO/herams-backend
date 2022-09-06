@@ -206,11 +206,12 @@ class WorkspaceRepository implements
         }
     }
 
-
     public function getProjectId(WorkspaceId $id): ProjectId
     {
-        $workspace = Workspace::findOne(['id' => $id]);
-        if (!isset($workspace)) {
+        $workspace = Workspace::findOne([
+            'id' => $id,
+        ]);
+        if (! isset($workspace)) {
             throw new NotFoundHttpException();
         }
         $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\actions;
@@ -18,13 +19,14 @@ class DeleteAction extends Action
 {
     public ActiveQuery $query;
 
-    public function __construct($id, $controller,
+    public function __construct(
+        $id,
+        $controller,
         private AccessCheckInterface $accessCheck,
-        $config = [])
-    {
+        $config = []
+    ) {
         parent::__construct($id, $controller, $config);
     }
-
 
     /**
      * Deletes a model.
@@ -37,7 +39,7 @@ class DeleteAction extends Action
 
         $this->accessCheck->requirePermission($model, Permission::PERMISSION_DELETE);
 
-        if ($model instanceof ConditionallyDeletable && !$model->canBeDeleted()) {
+        if ($model instanceof ConditionallyDeletable && ! $model->canBeDeleted()) {
             throw new ConflictHttpException(\Yii::t('app', 'This model can not currently be deleted'));
         }
 
@@ -48,14 +50,11 @@ class DeleteAction extends Action
         \Yii::$app->getResponse()->setStatusCode(204);
     }
 
-
-
     public function init(): void
     {
-        if (!isset($this->query)) {
+        if (! isset($this->query)) {
             throw new InvalidConfigException(get_class($this) . '::$query must be set.');
         }
-
     }
 
     /**
@@ -67,7 +66,9 @@ class DeleteAction extends Action
      */
     public function findModel($id): ActiveRecordInterface
     {
-        $model = $this->query->andWhere(['id' => $id])->one();
+        $model = $this->query->andWhere([
+            'id' => $id,
+        ])->one();
 
         if (isset($model)) {
             return $model;

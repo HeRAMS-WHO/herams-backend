@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 namespace prime\models\response;
 
+use Collecthor\DataInterfaces\RecordInterface;
 use prime\interfaces\HeramsResponseInterface;
 use prime\objects\enums\FacilityAccessibility;
 use prime\objects\enums\FacilityCondition;
 use prime\objects\enums\FacilityFunctionality;
 use prime\values\ResponseId;
 
-class ResponseForList implements \prime\interfaces\ResponseForList
+class ResponseForList implements \prime\interfaces\ResponseForList, RecordInterface
 {
-    public function __construct(private HeramsResponseInterface $response)
+    public function __construct(private HeramsResponseInterface & RecordInterface $response)
     {
-    }
-
-    public function getExternalId()
-    {
-        return $this->response->getId();
     }
 
     public function getId(): ResponseId
@@ -45,5 +41,15 @@ class ResponseForList implements \prime\interfaces\ResponseForList
     public function getDateOfUpdate(): null|\DateTimeInterface
     {
         return $this->response->getDate();
+    }
+
+    public function getDataValue(array $path): string|int|float|bool|null|array
+    {
+        return $this->response->getDataValue($path);
+    }
+
+    public function allData(): array
+    {
+        return $this->response->allData();
     }
 }

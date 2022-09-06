@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use yii\db\Migration;
@@ -8,12 +9,11 @@ use yii\db\Migration;
  */
 final class m220704_071124_create_configuration_table extends Migration
 {
-
     public function up(): bool
     {
         $this->createTable('{{%configuration}}', [
             'key' => $this->string(100)->append('collate ascii_bin')->notNull(),
-            'value' => $this->json()
+            'value' => $this->json(),
         ]);
         $this->addPrimaryKey('PRIMARY', '{{%configuration}}', ['key']);
         return true;

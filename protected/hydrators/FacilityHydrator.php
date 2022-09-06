@@ -43,13 +43,10 @@ class FacilityHydrator implements ActiveRecordHydratorInterface
         if ($source instanceof NewFacility) {
             $target->workspace_id = $source->workspaceId->getValue();
         }
-
     }
 
     /**
-     * @param Facility $sourceNormalizedArrayDataRecord
      * @param UpdateFacility $target
-     * @return void
      */
     public function hydrateRequestModel(ActiveRecord $source, RequestModel $target): void
     {

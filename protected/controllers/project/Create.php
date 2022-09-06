@@ -30,9 +30,8 @@ class Create extends Action
 
         $accessCheck->requireGlobalPermission(Permission::PERMISSION_CREATE_PROJECT);
 
-
         return $this->controller->render('create-surveyjs', [
-            'survey' => $surveyRepository->retrieveForSurveyJs($configurationProvider->getCreateProjectSurveyId())
+            'survey' => $surveyRepository->retrieveForSurveyJs($configurationProvider->getCreateProjectSurveyId()),
         ]);
     }
 }

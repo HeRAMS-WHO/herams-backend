@@ -21,8 +21,10 @@ class TriggersJob implements QueueJobFromModelInterface
     /**
      * @param class-string<JobInterface> $jobClass
      */
-    public function __construct(private string $jobClass, private string $attribute = 'id')
-    {
+    public function __construct(
+        private string $jobClass,
+        private string $attribute = 'id'
+    ) {
     }
 
     public function create(ActiveRecordInterface $model): JobInterface

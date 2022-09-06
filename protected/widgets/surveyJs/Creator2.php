@@ -62,7 +62,8 @@ JS
         $clientOptions = Json::encode($this->clientOptions);
         $surveyJsCustomizers = Json::encode(array_values($this->surveyCreatorCustomizers));
         $id = Json::encode($this->options['id']);
-        $this->view->registerJs(<<<JS
+        $this->view->registerJs(
+            <<<JS
             const element = document.getElementById({$id});
             const options = {$clientOptions};
             console.log('creating creator', options);
@@ -72,7 +73,8 @@ JS
             surveyCreator.render(element);
 
 
-        JS, View::POS_HERAMS_INIT
+        JS,
+            View::POS_HERAMS_INIT
         );
 
         return $result;

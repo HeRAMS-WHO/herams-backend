@@ -20,12 +20,17 @@ class Survey extends Widget
      * @var array Data dat should be submitted with the result
      */
     private array $extraData;
+
     private array $data;
 
     private array|string $submitRoute;
+
     private array|string $serverValidationRoute;
+
     private array|string $redirectRoute;
+
     private array|string $dataRoute;
+
     private array $dataPath = [];
 
     private null|string $localeEndpoint = null;
@@ -43,16 +48,22 @@ class Survey extends Widget
         $this->displayMode = true;
         return $this;
     }
+
     public function withExtraData(array $extraData): self
     {
         $this->extraData = $extraData;
         return $this;
     }
 
-    public function withProjectId(ProjectId $projectId): self {
-        $this->localeEndpoint = Url::to(['/api/project/view', 'id' => $projectId]);
+    public function withProjectId(ProjectId $projectId): self
+    {
+        $this->localeEndpoint = Url::to([
+            '/api/project/view',
+            'id' => $projectId,
+        ]);
         return $this;
     }
+
     public function withConfig(array $config): self
     {
         $this->config = $config;
@@ -98,14 +109,15 @@ class Survey extends Widget
             'extraData' => $this->extraData ?? null,
             'submissionUrl' => isset($this->submitRoute) ? Url::to($this->submitRoute) : null,
             'validationUrl' => isset($this->serverValidationRoute) ? Url::to($this->serverValidationRoute) : null,
-            'dataUrl' => isset($this->dataRoute) ? Url::to($this->dataRoute): null,
+            'dataUrl' => isset($this->dataRoute) ? Url::to($this->dataRoute) : null,
             'dataPath' => $this->dataPath,
-            'redirectUrl' => isset($this->redirectRoute) ? Url::to($this->redirectRoute): null,
+            'redirectUrl' => isset($this->redirectRoute) ? Url::to($this->redirectRoute) : null,
             'elementId' => $this->getId(),
             'displayMode' => $this->displayMode,
-            'localeEndpoint' => $this->localeEndpoint
+            'localeEndpoint' => $this->localeEndpoint,
         ]);
-        $this->view->registerJs(<<<JS
+        $this->view->registerJs(
+            <<<JS
             const config = $config;
             
             const surveyStructure = config.structure
@@ -228,7 +240,8 @@ class Survey extends Widget
             await waitForDataPromise
             console.log('rendering survey')
             survey.render(config.elementId);
-        JS, View::POS_HERAMS_INIT
+        JS,
+            View::POS_HERAMS_INIT
         );
 
         return Html::tag('div', 'Loading...', [

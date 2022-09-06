@@ -56,7 +56,6 @@ use yii\helpers\Inflector;
  * @method static string edit(array $options = [])
  * @method static string download(array $options = [])
  * @method static string sync(array$options = [])
- *
  */
 class Icon
 {
@@ -116,6 +115,8 @@ class Icon
 
     public static function broken(): string
     {
-        return self::icon('exclamation-circle', ['color' => 'red']);
+        return self::icon('exclamation-circle', [
+            'color' => 'red',
+        ]);
     }
 }

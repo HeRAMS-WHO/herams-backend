@@ -17,7 +17,9 @@ use prime\widgets\Section;
  * @var View $this
  */
 
-$this->title = \Yii::t('app', 'Manage permissions for {workspace}', ['workspace' => $workspace->title]);
+$this->title = \Yii::t('app', 'Manage permissions for {workspace}', [
+    'workspace' => $workspace->title,
+]);
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([

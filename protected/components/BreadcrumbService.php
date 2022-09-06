@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
@@ -23,28 +24,28 @@ class BreadcrumbService
         private ProjectRepository $projectRepository,
         private WorkspaceRepository $workspaceRepository,
         private FacilityRepository $facilityRepository,
-    )
-    {
-
+    ) {
     }
-
 
     public function retrieveForAdministration(): BreadcrumbCollection
     {
         return new BreadcrumbCollection();
     }
+
     public function retrieveForProjects(): BreadcrumbCollection
     {
         return $this->retrieveForAdministration()->add(new Breadcrumb(\Yii::t('app', 'Projects'), Url::to(['project/index'])));
     }
-
 
     public function retrieveForProject(ProjectId $id): BreadcrumbCollection
     {
         $result = $this->retrieveForProjects();
         if (\Yii::$app->requestedRoute !== 'project/workspaces') {
             $project = $this->projectRepository->retrieveForBreadcrumb($id);
-            $result->add(new Breadcrumb($project->getLabel(), ['project/workspaces', 'id' => $id]));
+            $result->add(new Breadcrumb($project->getLabel(), [
+                'project/workspaces',
+                'id' => $id,
+            ]));
         }
         return $result;
     }
@@ -55,7 +56,10 @@ class BreadcrumbService
         $result = $this->retrieveForProject($workspace->projectId());
         if (\Yii::$app->requestedRoute !== 'workspace/facilities') {
             $result->add(
-                new Breadcrumb($workspace->title(), Url::to(['workspace/facilities', 'id' => $id]))
+                new Breadcrumb($workspace->title(), Url::to([
+                    'workspace/facilities',
+                    'id' => $id,
+                ]))
             );
         }
         return $result;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\actions;
@@ -30,5 +31,4 @@ abstract class FrontendAction extends Action
         assert($view instanceof View);
         return $view->getBreadcrumbCollection();
     }
-
 }

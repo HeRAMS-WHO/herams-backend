@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use kartik\grid\GridView;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\ResponseForList;
 use prime\models\ar\Permission;
+use prime\widgets\GridView;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
@@ -18,6 +18,7 @@ use yii\web\User;
  * @var ActiveDataProvider $responseProvider
  * @var View $this
  * @var array $updateSituationUrl
+ * @var iterable<\Collecthor\DataInterfaces\VariableInterface> $variables
  */
 
 $this->title = $facility->getTitle();
@@ -47,10 +48,7 @@ echo GridView::widget([
     'dataProvider' => $responseProvider,
     'columns' => [
         ResponseForList::ID,
-        ResponseForList::DATE_OF_UPDATE,
-        ResponseForList::CONDITION,
-        ResponseForList::FUNCTIONALITY,
-        ResponseForList::ACCESSIBILITY,
+        \prime\widgets\VariableColumn::configForVariables(...$variables),
     ],
 ]);
 

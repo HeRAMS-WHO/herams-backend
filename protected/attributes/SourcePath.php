@@ -11,7 +11,7 @@ use prime\interfaces\Hydrator;
 class SourcePath
 {
     /**
-     * @var list<string> $path
+     * @var list<string>
      */
     public function __construct(public readonly array $path)
     {

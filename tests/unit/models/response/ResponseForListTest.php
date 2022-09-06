@@ -113,12 +113,6 @@ class ResponseForListTest extends Unit
         $this->assertSame(54321, $model->getId()->getValue());
     }
 
-    public function testGetExternalId(): void
-    {
-        $model = new ResponseForList($this->getHeramsResponse());
-        $this->assertSame(12345, $model->getExternalId());
-    }
-
     public function testGetCondition(): void
     {
         $response = $this->getHeramsResponse();

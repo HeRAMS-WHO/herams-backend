@@ -30,7 +30,7 @@ class Project extends Model
     {
         /** @var $query */
         $query = ProjectRead::find()
-            ->withFields('contributorCount', 'workspaceCount', 'facilityCount', 'responseCount', 'pageCount');
+            ->withFields('contributorCount', 'workspaceCount', 'responseCount', 'pageCount', 'facilityCount');
         $dataProvider = new FilteredActiveDataProvider([
             'filter' => function (\prime\models\ar\Project $project) use ($user) {
                 return ! $project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);

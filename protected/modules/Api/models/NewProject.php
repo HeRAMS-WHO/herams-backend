@@ -32,6 +32,7 @@ final class NewProject extends RequestModel
     public null|LocalizedString $title = null;
 
     public null|SurveyId $dataSurveyId = null;
+
     public null|SurveyId $adminSurveyId = null;
 
     public null|ProjectVisibility $visibility = null;
@@ -51,14 +52,19 @@ final class NewProject extends RequestModel
     {
         return [
             [['title', 'dataSurveyId', 'adminSurveyId'], RequiredValidator::class],
-            [['title'], UniqueValidator::class, 'targetClass' => Project::class, 'targetAttribute' => 'title', ],
+            [['title'],
+                UniqueValidator::class,
+                'targetClass' => Project::class,
+                'targetAttribute' => 'title',
+            ],
             [['dataSurveyId', 'adminSurveyId'],
                 ExistValidator::class,
                 'targetAttribute' => 'id',
-                'targetClass' => Survey::class
+                'targetClass' => Survey::class,
             ],
-            [['visibility'], BackedEnumValidator::class, 'example' => ProjectVisibility::Public],
+            [['visibility'],
+                BackedEnumValidator::class,
+                'example' => ProjectVisibility::Public, ],
         ];
     }
-
 }

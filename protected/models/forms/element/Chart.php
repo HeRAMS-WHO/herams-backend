@@ -71,12 +71,20 @@ class Chart extends Model implements DashboardWidgetInterface
     {
         return $this->variableSetRepository->retrieveForPage(new PageId($this->pageId));
     }
+
     public function rules(): array
     {
         return [
             [['colorMap'], SafeValidator::class],
-            [['width', 'height'], NumberValidator::class, 'max' => 4, 'min' => 1, 'integerOnly' => true],
-            [['sort'], NumberValidator::class, 'min' => 1, 'integerOnly' => true],
+            [['width', 'height'],
+                NumberValidator::class,
+                'max' => 4,
+                'min' => 1,
+                'integerOnly' => true, ],
+            [['sort'],
+                NumberValidator::class,
+                'min' => 1,
+                'integerOnly' => true, ],
             [['title', 'variables'], RequiredValidator::class],
             PermissionValidator::create(['pageId'], Page::find()),
 
@@ -88,9 +96,9 @@ class Chart extends Model implements DashboardWidgetInterface
                 EnumValidator::class,
                 'enumClass' => ChartType::class,
             ],
-            VariableValidator::multipleFromSet(new DeferredVariableSet(fn() => $this->getVariableSet()), 'variables')
-                ->withCondition(fn($model, $attribute) => !$this->hasErrors('pageId')),
-            VariableValidator::singleFromSet(new DeferredVariableSet(fn() => $this->getVariableSet()), 'groupingVariable'),
+            VariableValidator::multipleFromSet(new DeferredVariableSet(fn () => $this->getVariableSet()), 'variables')
+                ->withCondition(fn ($model, $attribute) => ! $this->hasErrors('pageId')),
+            VariableValidator::singleFromSet(new DeferredVariableSet(fn () => $this->getVariableSet()), 'groupingVariable'),
 
         ];
     }

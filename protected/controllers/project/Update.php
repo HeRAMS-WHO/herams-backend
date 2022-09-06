@@ -37,7 +37,7 @@ class Update extends Action
         return $this->controller->render('update', [
             'project' => $project,
             'projectId' => $projectId,
-            'survey' => $survey
+            'survey' => $survey,
         ]);
     }
 }

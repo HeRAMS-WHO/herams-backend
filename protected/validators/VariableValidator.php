@@ -63,6 +63,4 @@ class VariableValidator extends Validator
         $this->when = $when;
         return $this;
     }
-
-
 }

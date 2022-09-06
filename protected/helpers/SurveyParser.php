@@ -13,6 +13,7 @@ use prime\interfaces\ColorMap;
 final class SurveyParser extends BaseParser
 {
     private const TYPE_FACILITY_TYPE = 'facilitytype';
+
     private const TYPE_FACILITY_NAME = 'facilityName';
 
     public function __construct(FacilityTypeQuestionParser $facilityTypeQuestionParser)

@@ -504,10 +504,10 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                     ]));
                 }
             }],
-//            [['status'],
-//                EnumValidator::class,
-//                'enumClass' => ProjectStatus::class,
-//            ],
+            //            [['status'],
+            //                EnumValidator::class,
+            //                'enumClass' => ProjectStatus::class,
+            //            ],
             [['visibility'],
                 EnumValidator::class,
                 'enumClass' => ProjectVisibility::class,
@@ -589,23 +589,19 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             ],
             'facilityCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->andWhere([
+                VirtualFieldBehavior::GREEDY => Facility::find()->andWhere([
                     'workspace_id' => Workspace::find()->select('id')
                         ->where([
                             'project_id' => new Expression(self::tableName() . '.[[id]]'),
                         ]),
-                ])->addParams([
-                    ':path' => '$.facilityCount',
-                ])->
-                select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(distinct [[workspace_id]], [[hf_id]]))')),
+                ])->select('count(*)'),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    $override = $model->getOverride('facilityCount');
-                    if (isset($override)) {
-                        return (int) $override;
-                    }
-                    return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(
-                        new Expression('DISTINCT [[hf_id]]')
-                    );
+                    return Facility::find()->andWhere([
+                        'workspace_id' => $model->getWorkspaces()->select('id')
+                            ->where([
+                                'project_id' => $model->id,
+                            ]),
+                    ])->count();
                 },
             ],
             'responseCount' => [

@@ -16,7 +16,9 @@ class FacilityForBreadcrumb implements FacilityForBreadcrumbInterface
     private WorkspaceId $workspaceId;
 
     private string $url;
+
     private string $label;
+
     public function __construct(
         Facility $model
     ) {

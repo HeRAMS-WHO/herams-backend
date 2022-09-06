@@ -29,7 +29,9 @@ use yii\bootstrap\Html;
 assert($this instanceof View);
 
 
-$this->title = \Yii::t('app', 'Update settings for {workspace}', ['workspace' => $tabMenuModel->title()]);
+$this->title = \Yii::t('app', 'Update settings for {workspace}', [
+    'workspace' => $tabMenuModel->title(),
+]);
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
     'workspace' => $tabMenuModel,
@@ -44,18 +46,24 @@ if (isset($survey)) {
     $survey = Survey::begin()
         ->withConfig($survey->getConfig())
         ->withProjectId($tabMenuModel->projectId())
-        ->withDataRoute(['/api/workspace/view', 'id' => $workspaceId])
+        ->withDataRoute([
+            '/api/workspace/view',
+            'id' => $workspaceId,
+        ])
         ->withExtraData([
-            'id' => $workspaceId
+            'id' => $workspaceId,
         ])
         ->withSubmitRoute([
-            '/api/workspace/update', 'id' => $workspaceId,
+            '/api/workspace/update',
+            'id' => $workspaceId,
         ])
-        ->withServerValidationRoute(['/api/workspace/validate', 'id' => $workspaceId])
+        ->withServerValidationRoute([
+            '/api/workspace/validate',
+            'id' => $workspaceId,
+        ])
     ;
 
     Survey::end();
-
 } elseif ($model instanceof UpdateForLimesurvey) {
     $form = ActiveForm::begin([
         'method' => 'PUT',
@@ -115,7 +123,7 @@ echo ButtonGroup::widget([
             ],
             'redirect' => [
                 'project/workspaces',
-                'id' => $tabMenuModel->projectId()->getValue()
+                'id' => $tabMenuModel->projectId()->getValue(),
             ],
             'confirm' => \Yii::t('app', 'Are you sure you wish to remove this workspace from the system?'),
             'title' => \Yii::t('app', 'Delete workspace'),

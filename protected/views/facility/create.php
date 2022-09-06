@@ -22,12 +22,20 @@ Section::begin()
 Survey::begin()
     ->withConfig($survey->getConfig())
     ->withProjectId($projectId)
-    ->withExtraData(['workspaceId' => $workspaceId])
-    ->withSubmitRoute([
-        '/api/facility/create'
+    ->withExtraData([
+        'workspaceId' => $workspaceId,
     ])
-    ->withServerValidationRoute(['/api/facility/validate', 'workspace_id' => $workspaceId])
-    ->withRedirectRoute(['/workspace/facilities', 'id' => $workspaceId])
+    ->withSubmitRoute([
+        '/api/facility/create',
+    ])
+    ->withServerValidationRoute([
+        '/api/facility/validate',
+        'workspace_id' => $workspaceId,
+    ])
+    ->withRedirectRoute([
+        '/workspace/facilities',
+        'id' => $workspaceId,
+    ])
 ;
 
 Survey::end();

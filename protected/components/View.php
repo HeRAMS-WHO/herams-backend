@@ -10,6 +10,7 @@ use yii\helpers\Html;
 class View extends \yii\web\View
 {
     public const POS_MODULE = 'module';
+
     public const POS_HERAMS_INIT = 'herams_init';
 
     public bool $autoAddTitleToBreadcrumbs = true;
@@ -102,11 +103,11 @@ class View extends \yii\web\View
         }
 
         // Render scripts that run on HeRAMS init.
-        if (!empty($this->js[self::POS_HERAMS_INIT])) {
+        if (! empty($this->js[self::POS_HERAMS_INIT])) {
             // Add a callback that is called after the Herams module is initialized.
             $sections[] = 'window.__herams_init_callbacks = window.__herams_init_callbacks ?? []';
 
-            foreach($this->js[self::POS_HERAMS_INIT] as $callback) {
+            foreach ($this->js[self::POS_HERAMS_INIT] as $callback) {
                 $sections[] = <<<JS
                     window.__herams_init_callbacks.push(async () => {
                         $callback

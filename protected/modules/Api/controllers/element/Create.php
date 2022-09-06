@@ -32,7 +32,7 @@ class Create extends Action
         if (! $model->validate()) {
             $response->setStatusCode(422);
             return [
-                'errors' => $model->errors
+                'errors' => $model->errors,
             ];
         }
 

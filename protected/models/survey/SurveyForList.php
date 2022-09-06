@@ -33,7 +33,7 @@ class SurveyForList implements SurveyForListInterface, \JsonSerializable
     {
         return [
             'id' => $this->id->getValue(),
-            'title' => $this->title
+            'title' => $this->title,
         ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\widgets;
@@ -23,7 +24,7 @@ class Breadcrumbs extends Widget
 
     public function run(): string
     {
-        if (!isset($this->breadcrumbCollection)) {
+        if (! isset($this->breadcrumbCollection)) {
             throw new InvalidConfigException("Breadcrumb collection was not configured");
         }
         // Render the breadcrumb widget.
@@ -33,8 +34,9 @@ class Breadcrumbs extends Widget
                 'label' => \Yii::t('app', 'Administration'),
                 'url' => '/project/index',
             ],
-            'links' => map(fn(BreadcrumbInterface $breadcrumb) => [
-                'label' => $breadcrumb->getLabel(), 'url' => $breadcrumb->getUrl()
+            'links' => map(fn (BreadcrumbInterface $breadcrumb) => [
+                'label' => $breadcrumb->getLabel(),
+                'url' => $breadcrumb->getUrl(),
             ], $this->breadcrumbCollection),
         ]);
     }

@@ -43,5 +43,4 @@ class SurveyResponseForSurveyJs extends ArrayDataRecord implements SurveyRespons
     {
         return $this->allData();
     }
-
 }

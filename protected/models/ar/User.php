@@ -190,5 +190,4 @@ class User extends ActiveRecord implements IdentityInterface
         unset($result['password_hash']);
         return $result;
     }
-
 }

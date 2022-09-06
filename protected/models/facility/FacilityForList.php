@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace prime\models\facility;
 
+use Collecthor\DataInterfaces\RecordInterface;
 use prime\interfaces\CanCurrentUser;
 use prime\interfaces\facility\FacilityForListInterface;
-use prime\models\ar\Facility;
 use prime\objects\enums\FacilityTier;
 use prime\values\FacilityId;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters
  */
-class FacilityForList implements FacilityForListInterface
+class FacilityForList implements FacilityForListInterface, RecordInterface
 {
     public function __construct(
         private FacilityId $id,
         private string $name,
-        private null|string $alternativeName,
-        private null|string $code,
-        private null|float $latitude,
-        private null|float $longitude,
         private int $responseCount,
-        private FacilityTier $tier,
+        private RecordInterface $record,
         private CanCurrentUser|null $checker = null
     ) {
     }
@@ -33,29 +29,9 @@ class FacilityForList implements FacilityForListInterface
         return isset($this->checker) && $this->checker->canCurrentUser($permission);
     }
 
-    public function getAlternativeName(): null|string
-    {
-        return $this->alternativeName;
-    }
-
-    public function getCode(): null|string
-    {
-        return $this->code;
-    }
-
     public function getId(): FacilityId
     {
         return $this->id;
-    }
-
-    public function getLatitude(): null|float
-    {
-        return $this->latitude;
-    }
-
-    public function getLongitude(): null|float
-    {
-        return $this->longitude;
     }
 
     public function getName(): string
@@ -68,8 +44,13 @@ class FacilityForList implements FacilityForListInterface
         return $this->responseCount;
     }
 
-    public function getTier(): FacilityTier
+    public function getDataValue(array $path): string|int|float|bool|null|array
     {
-        return $this->tier;
+        return $this->record->getDataValue($path);
+    }
+
+    public function allData(): array
+    {
+        return $this->record->allData();
     }
 }

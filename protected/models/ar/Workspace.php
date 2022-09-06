@@ -284,7 +284,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
 
     public function canBeDeleted(): bool
     {
-        return !$this->getFacilities()->exists();
+        return ! $this->getFacilities()->exists();
     }
 
     public function getProjectId(): ProjectId

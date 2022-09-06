@@ -34,7 +34,10 @@ Section::begin()
 
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
-    ->withDataRoute(['/api/facility/view', 'id' => $id], ['adminData'])
+    ->withDataRoute([
+        '/api/facility/view',
+        'id' => $id,
+    ], ['adminData'])
     ->withProjectId($projectId)
     ->inDisplayMode()
 

@@ -25,7 +25,7 @@ class ProjectController extends Controller
                 'allow' => true,
                 'actions' => ['index', 'summary'],
             ],
-            ...$behaviors['access']['rules']
+            ...$behaviors['access']['rules'],
         ];
         return $behaviors;
     }
@@ -41,7 +41,7 @@ class ProjectController extends Controller
             'create' => Create::class,
             'update' => Update::class,
             'view' => View::class,
-            'locales' => Locales::class
+            'locales' => Locales::class,
         ];
     }
 }

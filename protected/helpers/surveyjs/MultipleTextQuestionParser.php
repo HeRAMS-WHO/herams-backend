@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers\surveyjs;
@@ -20,7 +21,6 @@ class MultipleTextQuestionParser implements ElementParserInterface
 
         $name = implode('.', [...$dataPrefix, $questionConfig['name']]);
         $titles = $this->extractTitles($questionConfig, $surveyConfiguration);
-
 
         \Yii::debug($questionConfig);
         return [];

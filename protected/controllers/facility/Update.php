@@ -40,8 +40,7 @@ class Update extends Action
             'workspaceId' => $workspaceId,
             'id' => $facilityId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-            'survey' => $surveyRepository->retrieveForSurveyJs($surveyId)
+            'survey' => $surveyRepository->retrieveForSurveyJs($surveyId),
         ]);
     }
-
 }

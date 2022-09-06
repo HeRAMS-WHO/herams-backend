@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\exceptions;
@@ -13,10 +14,8 @@ class UnprocessableEntityException extends UnprocessableEntityHttpException
         parent::__construct();
     }
 
-
     public static function forModel(Model $model): self
     {
         return new self($model);
     }
-
 }

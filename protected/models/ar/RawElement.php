@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\models\ar;
@@ -25,14 +26,13 @@ class RawElement extends ActiveRecord
         $this->type ??= ElementType::Svelte->value;
     }
 
-
     public function rules(): array
     {
         return [
             [['sort', 'type', 'width', 'height'], RequiredValidator::class],
             [['type'],
                 BackedEnumValidator::class,
-                'example' => ElementType::Svelte
+                'example' => ElementType::Svelte,
             ],
             [['width', 'height'],
                 NumberValidator::class,
@@ -46,6 +46,4 @@ class RawElement extends ActiveRecord
             ],
         ];
     }
-
-
 }

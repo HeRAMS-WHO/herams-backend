@@ -28,13 +28,12 @@ final class Create extends Action
         Response $response,
         SurveyResponseRepository $surveyResponseRepository,
         FacilityRepository $facilityRepository
-    ): Response
-    {
-        $facility = new NewFacility;
+    ): Response {
+        $facility = new NewFacility();
 
         $modelHydrator->hydrateFromJsonDictionary($facility, $request->bodyParams);
 
-        if (!$modelValidator->validateModel($facility)) {
+        if (! $modelValidator->validateModel($facility)) {
             return $modelValidator->renderValidationErrors($facility, $response);
         }
 
@@ -55,8 +54,4 @@ final class Create extends Action
 
         return $response;
     }
-
-
-
-
 }
