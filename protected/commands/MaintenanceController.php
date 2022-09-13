@@ -9,7 +9,6 @@ use prime\components\MaintenanceMode;
 use prime\jobs\UpdateFacilityDataJob;
 use prime\models\ar\Facility;
 use prime\values\FacilityId;
-use yii\caching\Cache;
 use yii\caching\CacheInterface;
 use yii\console\Controller;
 use yii\helpers\Console;

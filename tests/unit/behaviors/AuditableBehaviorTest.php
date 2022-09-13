@@ -7,7 +7,6 @@ namespace prime\tests\unit\behaviors;
 use prime\behaviors\AuditableBehavior;
 use prime\interfaces\AuditServiceInterface;
 use yii\base\Component;
-use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\db\AfterSaveEvent;
 

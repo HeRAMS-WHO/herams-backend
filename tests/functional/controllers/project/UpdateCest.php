@@ -8,7 +8,6 @@ use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
-use yii\helpers\Json;
 
 /**
  * @covers \prime\controllers\project\Update

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\objects;
 
 use prime\interfaces\BreadcrumbInterface;
-use prime\traits\BreadcrumbTrait;
 
 class Breadcrumb implements BreadcrumbInterface
 {

@@ -47,9 +47,15 @@ class LocalizableReadBehavior extends Behavior
             return;
         }
 
+        $translations = $model->{$this->translationProperty};
+        $locale = $this->locale;
+        $fallbackLocale = explode('-', $locale)[0];
+
         foreach ($this->attributes as $attribute) {
-            if (isset($model->{$this->translationProperty}[$attribute][$this->locale])) {
-                $model->$attribute = $model->{$this->translationProperty}[$attribute][$this->locale];
+            if (isset($translations[$attribute][$locale])) {
+                $model->$attribute = $translations[$attribute][$locale];
+            } elseif (isset($translations[$attribute][$fallbackLocale])) {
+                $model->$attribute = $translations[$attribute][$fallbackLocale];
             }
         }
     }

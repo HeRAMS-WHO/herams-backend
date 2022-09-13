@@ -2,16 +2,12 @@
 
 declare(strict_types=1);
 
-use prime\assets\DashboardBundle;
 use prime\components\View;
 use prime\helpers\CombinedHeramsFacilityRecord;
 use prime\interfaces\HeramsFacilityRecordInterface;
-use prime\models\ar\Element;
 use prime\models\ar\Facility;
 use prime\values\FacilityId;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
-use yii\helpers\Html;
-use yii\web\JqueryAsset;
 use function iter\flatten;
 use function iter\map;
 

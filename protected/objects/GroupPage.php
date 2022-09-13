@@ -8,7 +8,6 @@ use prime\models\ar\elements\Chart;
 use prime\models\ar\elements\Map;
 use prime\models\ar\elements\Table;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 class GroupPage implements PageInterface
 {

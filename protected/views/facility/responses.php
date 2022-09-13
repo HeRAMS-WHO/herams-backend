@@ -44,12 +44,12 @@ Section::begin()
     ->withSubject($facility)
     ->withHeader(\Yii::t('app', 'Responses'));
 
-echo GridView::widget([
-    'dataProvider' => $responseProvider,
-    'columns' => [
-        ResponseForList::ID,
-        \prime\widgets\VariableColumn::configForVariables(...$variables),
-    ],
-]);
+//echo GridView::widget([
+//    'dataProvider' => $responseProvider,
+//    'columns' => [
+//        'id',
+//        \prime\widgets\VariableColumn::configForVariables(...$variables),
+//    ],
+//]);
 
 Section::end();

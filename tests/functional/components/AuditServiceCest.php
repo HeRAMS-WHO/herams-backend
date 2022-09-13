@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\components;
 
-use Codeception\Stub;
 use prime\components\AuditService;
 use prime\helpers\EventDispatcher;
 use prime\interfaces\AuditServiceInterface;
@@ -13,12 +12,7 @@ use prime\models\ar\AccessRequest;
 use prime\models\ar\Audit;
 use prime\objects\enums\AuditEvent;
 use prime\tests\FunctionalTester;
-use yii\base\NotSupportedException;
-use yii\console\Application as ConsoleApplication;
 use yii\db\AfterSaveEvent;
-use yii\db\Connection;
-use yii\web\Application;
-use yii\web\User;
 
 /**
  * @covers \prime\components\AuditService

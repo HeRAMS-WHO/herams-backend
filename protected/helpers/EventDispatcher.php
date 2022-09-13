@@ -8,7 +8,6 @@ use prime\interfaces\EventDispatcherInterface;
 use yii\base\Event;
 
 use function iter\chain;
-use function iter\flatten;
 
 class EventDispatcher implements EventDispatcherInterface
 {

@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
-use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Project;
-use prime\tests\FunctionalTester;
 
 /**
  * @covers \prime\models\ar\AccessRequest

@@ -9,10 +9,6 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([__DIR__ . '/protected', __DIR__ . '/tests']);
 
-    $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
-        'syntax' => 'short',
-    ]);
-
     $ecsConfig->sets([
         // run and fix, one by one
          SetList::SPACES,
@@ -20,4 +16,11 @@ return static function (ECSConfig $ecsConfig): void {
          SetList::DOCBLOCK,
          SetList::PSR_12,
     ]);
+
+    $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
+        'syntax' => 'short',
+    ]);
+
+    $ecsConfig->rule(\PhpCsFixer\Fixer\Import\NoUnusedImportsFixer::class);
+
 };

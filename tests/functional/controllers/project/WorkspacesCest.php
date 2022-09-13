@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
-use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;

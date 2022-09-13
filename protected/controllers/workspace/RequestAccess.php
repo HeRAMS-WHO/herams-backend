@@ -9,7 +9,6 @@ use prime\components\NotificationService;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
-use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
 use prime\repositories\WorkspaceRepository;
 use prime\values\WorkspaceId;

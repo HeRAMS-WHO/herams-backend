@@ -7,7 +7,6 @@ namespace prime\helpers;
 use Collecthor\SurveyjsParser\SurveyParser as BaseParser;
 use prime\helpers\surveyjs\FacilityTypeQuestionParser;
 use prime\helpers\surveyjs\LocalizableTextQuestionParser;
-use prime\helpers\surveyjs\MultipleTextQuestionParser;
 use prime\interfaces\ColorMap;
 
 final class SurveyParser extends BaseParser

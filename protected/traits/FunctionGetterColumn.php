@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace prime\traits;
 
-use yii\helpers\ArrayHelper;
-
 trait FunctionGetterColumn
 {
     /**

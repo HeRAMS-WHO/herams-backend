@@ -13,7 +13,7 @@ abstract class Id implements \Stringable, \JsonSerializable
         return (string) $this->getValue();
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): int|string
     {
         return $this->getValue();
     }

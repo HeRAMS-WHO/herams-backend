@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace prime\validators;
 
 use Collecthor\DataInterfaces\VariableSetInterface;
-use prime\helpers\HeramsVariableSet;
 use yii\validators\Validator;
-use function iter\toArray;
 
 class VariableValidator extends Validator
 {

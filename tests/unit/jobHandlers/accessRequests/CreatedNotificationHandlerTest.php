@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\unit\jobHandlers\accessRequests;
 
 use Codeception\Test\Unit;
-use prime\components\ActiveQuery;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;

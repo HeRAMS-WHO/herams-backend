@@ -8,13 +8,9 @@ use Collecthor\DataInterfaces\ClosedVariableInterface;
 use Collecthor\DataInterfaces\Measure;
 use Collecthor\DataInterfaces\RecordInterface;
 use Collecthor\DataInterfaces\StringValueInterface;
-use Collecthor\DataInterfaces\ValueInterface;
-use Collecthor\DataInterfaces\ValueSetInterface;
 use Collecthor\SurveyjsParser\Traits\GetRawConfiguration;
-use Collecthor\SurveyjsParser\Values\InvalidValue;
 use Collecthor\SurveyjsParser\Values\StringValue;
 use prime\objects\enums\FacilityTier;
-use prime\objects\Locale;
 
 class FacilityTierVariable implements ClosedVariableInterface
 {

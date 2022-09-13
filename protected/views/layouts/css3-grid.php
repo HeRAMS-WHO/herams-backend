@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use prime\assets\DashboardBundle;
 use prime\components\View;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\YiiAsset;
 use yii\widgets\Breadcrumbs;

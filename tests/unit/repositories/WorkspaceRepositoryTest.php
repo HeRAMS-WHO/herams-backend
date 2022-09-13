@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use prime\helpers\ModelHydrator;
-use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Workspace;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ProjectId;

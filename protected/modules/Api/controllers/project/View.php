@@ -13,8 +13,7 @@ final class View extends Action
     public function run(
         ProjectRepository $projectRepository,
         int $id
-    )
-    {
+    ) {
         return $projectRepository->retrieveForUpdate(new ProjectId($id));
     }
 }

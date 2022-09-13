@@ -239,44 +239,22 @@ class SurveyResponseRepository
         );
     }
 
-    public function searchDataInFacility(FacilityId $facilityId): DataProviderInterface
+    /**
+     * @param FacilityId $facilityId
+     * @return list<SurveyResponse>
+     */
+    public function retrieveDataInFacility(FacilityId $facilityId): array
     {
         $facility = Facility::findOne([
             'id' => $facilityId->getValue(),
         ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
         $dataSurveyId = $facility->workspace->project->data_survey_id;
-        $query = SurveyResponse::find()->andWhere([
+        return SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
             'survey_id' => $dataSurveyId,
-        ]);
+        ])->all();
 
-        return new HydratedActiveDataProvider(
-            static function (SurveyResponse $response): ResponseForListInterface {
-                return new ResponseForList($response);
-            },
-            [
-                'sort' => [
-                    'attributes' => [
-                        'id',
-                        'dateOfUpdate' => [
-                            'asc' => [
-                                'date' => SORT_ASC,
-                            ],
-                            'desc' => [
-                                'date' => SORT_DESC,
-                            ],
-                            'default' =>
 
-SORT_DESC,
-
-                        ],
-                    ],
-                ],
-                'query' => $query,
-                'pagination'
- => false,
-            ]
-        );
     }
 }

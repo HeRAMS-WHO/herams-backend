@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers;
 
 use yii\filters\AccessControl;
-use yii\rest\Serializer;
 
 abstract class Controller extends \yii\rest\Controller
 {

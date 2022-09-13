@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace prime\attributes;
 
 use Attribute;
-use prime\interfaces\Hydrator;
 use prime\interfaces\ValidateTypeInterface;
-use yii\base\Model;
-use yii\db\ActiveRecord;
 
 #[Attribute(Attribute::TARGET_CLASS + Attribute::IS_REPEATABLE)]
 class SupportedType implements ValidateTypeInterface

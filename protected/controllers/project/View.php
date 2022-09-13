@@ -115,16 +115,16 @@ class View extends Action
             $stack[] = $parent;
         }
 
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($project->title)->setUrl([
+        $view->getBreadcrumbCollection()->add((new Breadcrumb($project->title, [
             'project/view',
             'id' => $project->id,
-        ]));
+        ])));
         while (! empty($stack)) {
             /** @var PageInterface $p */
             $p = array_pop($stack);
-            $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($p->getTitle()));
+            $view->getBreadcrumbCollection()->add((new Breadcrumb($p->getTitle())));
         }
-        $view->getBreadcrumbCollection()->add((new Breadcrumb())->setLabel($page->getTitle()));
+        $view->getBreadcrumbCollection()->add((new Breadcrumb($page->getTitle())));
 
         return $this->controller->render('view', [
             'types' => $this->getTypes($survey, $project),

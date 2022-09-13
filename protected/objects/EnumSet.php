@@ -7,10 +7,8 @@ namespace prime\objects;
 use BackedEnum;
 use prime\objects\enums\Enum;
 use prime\validators\BackedEnumValidator;
-use prime\validators\EnumValidator;
 use yii\base\Arrayable;
 use yii\base\NotSupportedException;
-use yii\validators\RangeValidator;
 
 use function iter\map;
 use function iter\toArray;

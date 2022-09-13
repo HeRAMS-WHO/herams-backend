@@ -6,16 +6,12 @@ namespace prime\modules\Api\controllers\element;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\HeramsVariableSetRepositoryInterface;
-use prime\models\forms\element\Chart;
 use prime\models\forms\element\SvelteElement;
-use prime\modules\Api\models\Element;
 use prime\repositories\ElementRepository;
-use prime\values\ProjectId;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\Response;
-use yii\web\ServerErrorHttpException;
 
 class Create extends Action
 {

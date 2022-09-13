@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\unit\values;
 
 use Codeception\Test\Unit;
-use prime\values\IntegerId;
 use prime\values\StringId;
 
 /**

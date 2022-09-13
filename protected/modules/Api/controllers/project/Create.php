@@ -7,14 +7,11 @@ namespace prime\modules\Api\controllers\project;
 use prime\helpers\ModelHydrator;
 use prime\helpers\ModelValidator;
 use prime\modules\Api\models\NewProject;
-use prime\modules\Api\models\NewWorkspace;
 use prime\repositories\ProjectRepository;
-use prime\repositories\WorkspaceRepository;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\Response;
-use yii\web\UnprocessableEntityHttpException;
 
 final class Create extends Action
 {

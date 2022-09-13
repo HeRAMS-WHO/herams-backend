@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\values;
 
-use _PHPStan_ae8980142\React\Socket\FixedUriConnector;
 use prime\models\ar\Facility;
 
 /**

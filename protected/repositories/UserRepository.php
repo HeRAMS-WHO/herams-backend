@@ -26,7 +26,7 @@ class UserRepository
     /**
      * @return UserForSelect2[]
      */
-    public function retrieveForSelect2(string $q, ?int $excludeUserId = null, $page = 0, $perPage = 5): array
+    public function retrieveForSelect2(string|null $q, ?int $excludeUserId = null, $page = 0, $perPage = 5): array
     {
         $query = $this->find()
             ->andFilterWhere([
@@ -34,11 +34,12 @@ class UserRepository
                     'id' => $excludeUserId,
 
                 ], ])
-            ->andWhere(['OR', ['like', 'name', $q], ['like', 'email', $q]])
+            ->andFilterWhere(['OR', ['like', 'name', $q], ['like', 'email', $q]])
             ->offset($page * $perPage)
             ->limit($perPage);
 
         $result = [];
+//        var_dump($query); die();
         foreach ($query->each() as $user) {
             $result[] = new UserForSelect2($user);
         }

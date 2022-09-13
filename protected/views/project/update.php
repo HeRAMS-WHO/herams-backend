@@ -2,29 +2,14 @@
 
 declare(strict_types=1);
 
-use app\components\Form;
-use kartik\form\ActiveForm;
-use kartik\select2\Select2;
-use League\ISO3166\ISO3166;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
-use prime\models\forms\project\Update;
-use prime\objects\enums\Language;
-use prime\objects\enums\ProjectStatus;
-use prime\objects\enums\ProjectVisibility;
 use prime\widgets\ButtonGroup;
-use prime\widgets\FormButtonsWidget;
-use prime\widgets\LocalizableInput;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
 use yii\helpers\Html;
-
-use function iter\chain;
-use function iter\func\nested_index;
-use function iter\map;
-use function iter\toArrayWithKeys;
 
 /**
  * @var \prime\models\ar\read\Project $project

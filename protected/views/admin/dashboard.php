@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use prime\components\View;
-use prime\models\ar\Permission;
 use prime\widgets\menu\AdminTabMenu;
 use prime\widgets\Section;
 

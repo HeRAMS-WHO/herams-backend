@@ -13,7 +13,7 @@ use prime\values\WorkspaceId;
 /**
  * @covers \prime\models\facility\FacilityForBreadcrumb
  */
-class FacilityForBreadcrumbTest extends Unit
+final class FacilityForBreadcrumbTest extends Unit
 {
     public function testConstructorForFacility(): void
     {
@@ -33,23 +33,5 @@ class FacilityForBreadcrumbTest extends Unit
         ], $forBreadcrumb->getUrl());
         $this->assertEquals(new WorkspaceId($workspaceId), $forBreadcrumb->getWorkspaceId());
         $this->assertEquals($label, $forBreadcrumb->getLabel());
-    }
-
-    public function testConstructorForResponse(): void
-    {
-        $facilityId = 12345;
-        $workspaceId = 23456;
-
-        $response = new ResponseForLimesurvey();
-        $response->hf_id = $facilityId;
-        $response->workspace_id = $workspaceId;
-
-        $forBreadcrumb = new FacilityForBreadcrumb($response);
-        $this->assertEquals([
-            '/facility/responses',
-            'id' => $facilityId,
-        ], $forBreadcrumb->getUrl());
-        $this->assertEquals(new WorkspaceId($workspaceId), $forBreadcrumb->getWorkspaceId());
-        $this->assertEquals($facilityId, $forBreadcrumb->getLabel());
     }
 }

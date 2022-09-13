@@ -35,35 +35,29 @@ class UpdateSituation extends Action
     ) {
         $facilityId = new FacilityId($id);
 
-        if ($facilityRepository->isOfProjectType($facilityId, ProjectType::surveyJs())) {
-            $model = $facilityRepository->retrieveForUpdateSituation($facilityId);
-            $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
-            $projectId = $workspaceRepository->getProjectId($workspaceId);
-            if ($request->isPost) {
-                $response->format = Response::FORMAT_JSON;
-                $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
-                if ($model->validate(null, false)) {
-                    $response->headers->add('X-Suggested-Location', Url::to([
-                        'responses',
-                        'id' => $facilityRepository->saveUpdateSituation($model),
-                    ], true));
-                    $notificationService->success(\Yii::t('app', 'Facility situation updated'));
-                    return $response;
-                } else {
-                    $response->statusCode = 422;
-                    return $model->errors;
-                }
+        $model = $facilityRepository->retrieveForUpdateSituation($facilityId);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        if ($request->isPost) {
+            $response->format = Response::FORMAT_JSON;
+            $modelHydrator->hydrateFromRequestArray($model, $request->bodyParams);
+            if ($model->validate(null, false)) {
+                $response->headers->add('X-Suggested-Location', Url::to([
+                    'responses',
+                    'id' => $facilityRepository->saveUpdateSituation($model),
+                ], true));
+                $notificationService->success(\Yii::t('app', 'Facility situation updated'));
+                return $response;
+            } else {
+                $response->statusCode = 422;
+                return $model->errors;
             }
-
-            return $this->controller->render('updateSituation', [
-                'model' => $model,
-                'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-                'projectId' => $projectId,
-            ]);
-        } else {
-            return $this->controller->redirect([
-                'copy-latest-response' => $id,
-            ]);
         }
+
+        return $this->controller->render('updateSituation', [
+            'model' => $model,
+            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
+            'projectId' => $projectId,
+        ]);
     }
 }

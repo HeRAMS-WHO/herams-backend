@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use prime\assets\DashboardElementUiBundle;
 use prime\components\View;
-use prime\models\ar\Element as ARElement;
-use prime\models\forms\Element as FormElement;
 use prime\objects\enums\ChartType;
 use prime\objects\enums\DataSort;
 use prime\widgets\Section;

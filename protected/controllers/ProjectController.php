@@ -25,14 +25,9 @@ use prime\controllers\project\ViewForSurveyJs;
 use prime\controllers\project\Workspaces;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\ar\read\Project as ReadProject;
-use prime\models\ar\ResponseForLimesurvey;
-use prime\objects\Breadcrumb;
-use prime\queries\ResponseForLimesurveyQuery;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\User;
 
@@ -62,9 +57,6 @@ class ProjectController extends Controller
                         'id' => $request->getQueryParam('id'),
                     ]);
                 },
-                'responseQuery' => static function (Project $project): ResponseForLimesurveyQuery {
-                    return ResponseForLimesurvey::find()->project($project)->with('workspace');
-                },
                 'surveyFinder' => function (Project $project) {
                     return $project->getSurvey();
                 },
@@ -77,7 +69,6 @@ class ProjectController extends Controller
             'filter' => Filter::class,
             'import-dashboard' => ImportDashboard::class,
             'index' => Index::class,
-            'limesurvey' => Limesurvey::class,
             'pages' => Pages::class,
             'pdf' => Pdf::class,
             'request-access' => RequestAccess::class,

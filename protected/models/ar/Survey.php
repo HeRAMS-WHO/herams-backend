@@ -8,7 +8,6 @@ use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
 
 /**

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\page;
 
 use prime\models\ar\Page;
-use prime\models\ar\Project;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;

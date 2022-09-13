@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-use function iter\map;
-use function iter\toArray;
-use function iter\toArrayWithKeys;
-
 enum DataSort: string
 {
     case Source = "source";

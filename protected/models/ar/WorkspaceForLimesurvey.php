@@ -7,11 +7,7 @@ namespace prime\models\ar;
 use prime\components\ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\helpers\ArrayHelper;
-use prime\models\forms\ResponseFilter;
-use prime\objects\HeramsCodeMap;
 use SamIT\LimeSurvey\Interfaces\WritableTokenInterface;
-use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use yii\db\Expression;
 use yii\db\Query;
 use yii\validators\UniqueValidator;
 

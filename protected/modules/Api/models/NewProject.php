@@ -5,27 +5,15 @@ declare(strict_types=1);
 namespace prime\modules\Api\models;
 
 use prime\helpers\LocalizedString;
-use prime\interfaces\ValidationErrorCollection;
 use prime\models\ar\Project;
 use prime\models\ar\Survey;
 use prime\models\RequestModel;
 use prime\objects\enums\ProjectVisibility;
 use prime\validators\BackedEnumValidator;
 use prime\validators\ExistValidator;
-use prime\validators\RangeValidator;
-use prime\values\ProjectId;
 use prime\values\SurveyId;
-use SamIT\Yii2\abac\PermissionValidator;
-use yii\base\Model;
-use yii\helpers\ArrayHelper;
-use yii\validators\InlineValidator;
 use yii\validators\RequiredValidator;
-use yii\validators\SafeValidator;
-use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
-use function iter\filter;
-use function iter\mapWithKeys;
-use function iter\toArrayWithKeys;
 
 final class NewProject extends RequestModel
 {
@@ -39,7 +27,7 @@ final class NewProject extends RequestModel
 
     public function __construct()
     {
-        parent::__construct([]);
+        parent::__construct();
         $this->visibility = ProjectVisibility::Public;
     }
 
@@ -64,7 +52,8 @@ final class NewProject extends RequestModel
             ],
             [['visibility'],
                 BackedEnumValidator::class,
-                'example' => ProjectVisibility::Public, ],
+                'example' => ProjectVisibility::Public,
+            ],
         ];
     }
 }

@@ -11,11 +11,9 @@ use prime\models\forms\ResponseFilter;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\ServerErrorHttpException;
-use yii\web\User;
 
 class Pdf extends Action
 {

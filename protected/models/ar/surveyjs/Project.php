@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace prime\models\ar\surveyjs;
 
 use prime\models\ar\Survey;
-use prime\objects\enums\ProjectType;
 use prime\values\SurveyId;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 
 /**
  * @property int $admin_survey_id

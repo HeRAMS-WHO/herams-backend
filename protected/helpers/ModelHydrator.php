@@ -6,7 +6,6 @@ namespace prime\helpers;
 
 use BackedEnum;
 use Collecthor\DataInterfaces\RecordInterface;
-use Collecthor\SurveyjsParser\ArrayDataRecord;
 use prime\attributes\DehydrateVia;
 use prime\attributes\Field;
 use prime\attributes\HydrateVia;
@@ -19,7 +18,6 @@ use prime\models\ActiveRecord;
 use prime\objects\enums\Enum;
 use prime\objects\enums\HydrateSource;
 use prime\objects\EnumSet;
-use prime\values\Geometry;
 use prime\values\Id;
 use prime\values\IntegerId;
 use prime\values\Latitude;

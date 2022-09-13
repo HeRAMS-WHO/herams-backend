@@ -6,7 +6,6 @@ namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;

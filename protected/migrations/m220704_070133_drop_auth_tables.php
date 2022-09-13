@@ -3,7 +3,6 @@
 declare(strict_types=1);
 use yii\db\Migration;
 
-
 final class m220704_070133_drop_auth_tables extends Migration
 {
     public function up(): bool

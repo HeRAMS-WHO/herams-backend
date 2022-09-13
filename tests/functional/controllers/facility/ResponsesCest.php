@@ -6,9 +6,7 @@ namespace prime\tests\functional\controllers\facility;
 
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
 use prime\tests\FunctionalTester;
-use yii\helpers\Url;
 
 /**
  * @covers \prime\controllers\facility\Responses

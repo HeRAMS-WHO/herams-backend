@@ -13,7 +13,7 @@ use prime\models\ActiveRecord;
 use prime\models\forms\ResponseFilter;
 use prime\objects\HeramsCodeMap;
 use prime\queries\FacilityQuery;
-use prime\queries\ResponseForLimesurveyQuery;
+use prime\queries\WorkspaceQuery;
 use prime\values\ProjectId;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
@@ -21,6 +21,8 @@ use yii\db\Query;
 use yii\validators\ExistValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
+use function iter\map;
+use function iter\toArray;
 
 /**
  * Attributes
@@ -56,9 +58,38 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                  * Since a project can only contain workspaces of 1 type (Limesurvey or SurveyJS), we do not need to worry about
                  * "combined case" behaviors, especially the greedy case.
                  */
-                VirtualFieldBehavior::class => [
+                'virtualFields' => [
                     'class' => VirtualFieldBehavior::class,
                     'virtualFields' => [
+                        'leadNames' => [
+                            VirtualFieldBehavior::GREEDY => (function() {
+                                $permissionQuery = Permission::find()->andWhere([
+                                    'target' => self::class,
+                                    'target_id' => new Expression(self::tableName() . '.[[id]]'),
+                                    'source' => User::class,
+                                    'permission' => Permission::ROLE_LEAD,
+                                ]);
+
+                                return User::find()->andWhere([
+                                    'id' => $permissionQuery->select('source_id'),
+                                ])->select(new Expression("GROUP_CONCAT(name SEPARATOR ', ')"));
+                            })(),
+                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): array {
+                                return \iter\join(', ', map(fn(User $user) => $user->name, $workspace->getLeads()));
+                            },
+                        ],
+
+                        // This is a clunky trick since we depend on the current user...
+                        'isFavorite' => [
+                            VirtualFieldBehavior::GREEDY => Project::find()
+                                ->limit(1)->select('title')
+                                ->where([
+                                    'id' => new Expression(self::tableName() . '.[[project_id]]'),
+                                ]),
+                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): null|string {
+                                return $workspace->getProject()->limit(1)->one()->title ?? null;
+                            },
+                        ],
                         'projectTitle' => [
                             VirtualFieldBehavior::GREEDY => Project::find()
                                 ->limit(1)->select('title')
@@ -70,53 +101,29 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                             },
                         ],
                         'latestUpdate' => [
-                            VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()
-                                ->limit(1)->select('max(last_updated)')
+                            VirtualFieldBehavior::GREEDY => Facility::find()
+                                ->limit(1)->select('max(latest_date)')
                                 ->where([
                                     'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
                                 ]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
-                                return $workspace->getResponses()->orderBy([
-                                    'updated_at' => SORT_DESC,
+                                return $workspace->getFacilities()->orderBy([
+                                    'latest_date' => SORT_DESC,
                                 ])->limit(1)
-                                    ->one()->updated_at ?? null
+                                    ->one()->latest_date ?? null
 ;
                             },
                         ],
                         'facilityCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => (function () {
-                                $responseQuery = ResponseForLimesurvey::find()
-                                    ->where([
-                                        'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
-                                    ])
-                                    ->select([
-                                        'count' => 'count(distinct hf_id)',
-                                    ]);
-                                $facilityQuery = Facility::find()
-                                    ->andWhere([
-                                        'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
-                                    ])
-                                    ->select([
-                                        'count' => 'count(*)',
-                                    ]);
-
-                                $responseQuery->union($facilityQuery);
-                                $query = new Query();
-                                $query->from([
-                                    'sub' => $responseQuery,
-                                ]);
-                                $query->select('sum(count)');
-                                return $query;
-                            })(),
-                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
-                                $filter = new ResponseFilter(null, new HeramsCodeMap());
-                                return $filter->filterQuery($workspace->getResponses())->count()
-                                    + $workspace->getFacilities(
-)->count()
-
-                                    ;
-                            },
+                            VirtualFieldBehavior::GREEDY => Facility::find()
+                                ->andWhere([
+                                    'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                                ])
+                                ->select([
+                                    'count' => 'count(*)',
+                                ]),
+                            VirtualFieldBehavior::LAZY => static fn(Workspace $workspace) => $workspace->getFacilities()->count(),
                         ],
                         'contributorCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -147,7 +154,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                         ],
                         'responseCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('count(*)')
+                            VirtualFieldBehavior::GREEDY => SurveyResponse::find()->limit(1)->select('count(*)')
                                 ->where([
                                     'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
                                 ]),
@@ -164,7 +171,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
     public function getFacilities(): FacilityQuery
     {
         return $this->hasMany(Facility::class, [
-            'workspace_id' => 'id',
+            'id' => 'workspace_id',
         ]);
     }
 
@@ -197,6 +204,11 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
             ]);
     }
 
+    public static function find(): WorkspaceQuery
+    {
+        return new WorkspaceQuery(static::class);
+    }
+
     public function getProject(): ActiveQuery
     {
         return $this->hasOne(Project::class, [
@@ -204,21 +216,11 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
         ])->inverseOf('workspaces');
     }
 
-    public function getResponses(): ResponseForLimesurveyQuery
+    public function getResponses(): ActiveQuery
     {
-        return $this->hasMany(ResponseForLimesurvey::class, [
+        return $this->hasMany(SurveyResponse::class, [
             'workspace_id' => 'id',
-        ])->inverseOf('workspace');
-    }
-
-    public static function instantiate($row): ActiveRecord
-    {
-        // Single table inheritance: when we need a WorkspaceForLimesurvey instance,
-        if (! empty($row['token'])) {
-            return new WorkspaceForLimesurvey();
-        }
-
-        return parent::instantiate($row);
+        ])->via('facilities');
     }
 
     public static function labels(): array
@@ -279,7 +281,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
 
     public function getProjectTitle(): string
     {
-        return $this->getBehavior(VirtualFieldBehavior::class)->__get('projectTitle');
+        return $this->getBehavior('virtualFields')->__get('projectTitle');
     }
 
     public function canBeDeleted(): bool
@@ -290,5 +292,33 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
     public function getProjectId(): ProjectId
     {
         return new ProjectId($this->project_id);
+    }
+
+    public function extraFields(): array
+    {
+        $result = parent::extraFields();
+//        $result['subjectAvailabilityCounts'] = 'subjectAvailabilityCounts';
+//        $result['functionalityCounts'] = 'functionalityCounts';
+//        $result['typeCounts'] = 'typeCounts';
+//        $result['coordinatorName'] = static fn(self $project) => implode(', ', $project->getLeads());
+//        $result['statusText'] = 'statusText';
+
+        return $result;
+    }
+
+    public function fields(): array
+    {
+        $fields = parent::fields();
+        $fields['name'] = 'title';
+
+        /** @var VirtualFieldBehavior $virtualFields */
+        $virtualFields = $this->getBehavior('virtualFields');
+        foreach ($virtualFields->virtualFields as $key => $definition) {
+            $fields[$key] = $key;
+        }
+//        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount'] as $hidden) {
+//            unset($fields[$hidden]);
+//        }
+        return $fields;
     }
 }

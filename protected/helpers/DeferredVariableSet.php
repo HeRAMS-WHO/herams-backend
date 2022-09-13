@@ -6,7 +6,6 @@ namespace prime\helpers;
 
 use Collecthor\DataInterfaces\VariableInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
-use InvalidArgumentException;
 
 class DeferredVariableSet implements VariableSetInterface
 {

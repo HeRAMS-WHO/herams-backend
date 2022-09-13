@@ -6,19 +6,12 @@ namespace prime\controllers\element;
 
 use prime\components\Controller;
 use prime\helpers\ModelHydrator;
-use prime\interfaces\HeramsVariableSetRepositoryInterface;
 use prime\models\forms\element\Chart;
 use prime\repositories\FacilityRepository;
-use prime\repositories\HeramsVariableSetRepository;
-use prime\repositories\PageRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\SurveyRepository;
-use prime\repositories\SurveyResponseRepository;
 use prime\values\ProjectId;
 use yii\base\Action;
-use yii\web\Request;
-use yii\web\UnprocessableEntityHttpException;
-use yii\web\User;
 
 class PreviewForSurveyJs extends Action
 {

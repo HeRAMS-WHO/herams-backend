@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use Carbon\Carbon;
 use yii\base\NotSupportedException;
 use yii\db\ColumnSchemaBuilder;
 use yii\db\Connection;

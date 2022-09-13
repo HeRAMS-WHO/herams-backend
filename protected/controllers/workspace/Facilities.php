@@ -16,7 +16,6 @@ use prime\values\WorkspaceId;
 use yii\base\Action;
 use yii\web\Request;
 use function iter\filter;
-use function iter\map;
 use function iter\toArray;
 
 class Facilities extends Action
@@ -41,12 +40,10 @@ class Facilities extends Action
         $variables = toArray(filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInFacilityList') !== null, $variableSet->getVariables()));
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInFacilityList') <=> $b->getRawConfigurationValue('showInFacilityList'));
 
-        $facilityProvider = $facilityRepository->searchInWorkspace($workspaceId, $facilitySearch);
         $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForWorkspace($workspaceId)->getIterator()));
         return $this->controller->render('facilities', [
             'facilitySearch' => $facilitySearch,
             'variables' => $variables,
-            'facilityProvider' => $facilityProvider,
         ]);
     }
 }

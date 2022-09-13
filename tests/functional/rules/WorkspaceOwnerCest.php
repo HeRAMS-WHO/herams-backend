@@ -18,7 +18,7 @@ class WorkspaceOwnerCest
     public function testSharing(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
 

@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
-use prime\components\ActiveQuery;
 use prime\models\ar\Project;
 use prime\models\ar\ResponseForLimesurvey;
 use prime\models\ar\Survey;
 use prime\models\ar\SurveyResponse;
 use prime\models\ar\Workspace;
-use prime\models\ar\WorkspaceForLimesurvey;
-use prime\queries\ResponseForLimesurveyQuery;
 use prime\values\FacilityId;
 
 /**
@@ -73,11 +70,6 @@ class FacilityTest extends ActiveRecordTest
     public function testGetProject(): void
     {
         $this->testRelation('project', Project::class);
-    }
-
-    public function testGetResponses(): void
-    {
-        $this->testRelation('responses', ResponseForLimesurvey::class);
     }
 
     public function testGetSurveyResponses(): void

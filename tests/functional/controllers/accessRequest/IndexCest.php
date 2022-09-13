@@ -9,7 +9,6 @@ use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\models\ar\WorkspaceForLimesurvey;
-use prime\models\search\AccessRequest as AccessRequestSearch;
 use prime\tests\FunctionalTester;
 
 /**
@@ -19,7 +18,7 @@ use prime\tests\FunctionalTester;
  */
 class IndexCest
 {
-    private function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target): AccessRequest
+    private function createAccessRequest(FunctionalTester $I, Project $target): AccessRequest
     {
         $accessRequest = new AccessRequest([
             'subject' => 'test',
@@ -54,7 +53,7 @@ class IndexCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $accessRequest = $this->createAccessRequest($I, $project, null);
+        $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
         $I->amOnPage(['access-request/index']);

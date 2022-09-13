@@ -11,26 +11,10 @@ use prime\interfaces\ColorMap;
 
 class HeramsVariableSet implements VariableSetInterface
 {
-    private readonly FacilityTierVariable $facilityTypeVariable;
-
     public function __construct(
         private readonly VariableSetInterface $variables,
         public readonly ColorMap $colorMap
     ) {
-        foreach ($variables->getVariables() as $variable) {
-            if ($variable instanceof FacilityTierVariable) {
-                $this->facilityTypeVariable = $variable;
-            }
-        }
-
-        if (! isset($this->facilityTypeVariable)) {
-            throw new \InvalidArgumentException("Variable set must contain a facility type question");
-        }
-    }
-
-    public function getFacilityTierVariable(): FacilityTierVariable
-    {
-        return $this->facilityTypeVariable;
     }
 
     public function getVariableNames(): iterable

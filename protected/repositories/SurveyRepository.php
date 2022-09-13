@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
-use Collecthor\DataInterfaces\VariableSetInterface;
 use Collecthor\SurveyjsParser\VariableSet;
 use prime\components\HydratedActiveDataProvider;
 use prime\helpers\HeramsVariableSet;
@@ -30,7 +29,6 @@ use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
 
 use function iter\chain;
-use function iter\map;
 use function iter\toArray;
 
 final class SurveyRepository implements SurveyRepositoryInterface

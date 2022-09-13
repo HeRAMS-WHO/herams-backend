@@ -2,23 +2,14 @@
 
 declare(strict_types=1);
 
-use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\models\search\Project as SearchModelProject;
-use prime\widgets\DrilldownColumn;
 use prime\widgets\Section;
 use SamIT\abac\interfaces\Resolver;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use yii\web\User;
 use yii\web\View;
-
-use function iter\func\index;
-use function iter\rewindable\map;
-use function iter\toArray;
 
 /**
  * @var View $this
@@ -41,64 +32,58 @@ Section::begin([
         ],
     ],
 ])->withHeader($this->title);
-
-echo GridView::widget([
-    'pjax' => true,
-    'pjaxSettings' => [
-        'options' => [
-            // Just links in the header.
-            'linkSelector' => 'th a',
-        ],
-    ],
-    'dataProvider' => $projectProvider,
-    'filterModel' => $projectSearch,
+$icon = json_encode(Icon::eye());
+echo \prime\widgets\AgGrid\AgGrid::widget([
+    'route' => ['api/project/index'],
     'columns' => [
-        'id',
         [
-            'attribute' => 'title',
-            'class' => DrilldownColumn::class,
-            'link' => static function ($project) {
-                return [
-                    'project/workspaces',
-                    'id' => $project->id,
-                ];
-            },
-            'permission' => Permission::PERMISSION_LIST_WORKSPACES,
+            'headerName' => \Yii::t('app', 'Name'),
+            'cellRenderer' => new \yii\web\JsExpression(<<<JS
+                params => {
+                    const a = document.createElement('a');
+                    a.textContent = params.value;
+                    a.href = '/project/{id}/workspaces'.replace('{id}', params.data.id);
+                    return a;
+                }
+            JS),
+            'field' => 'name',
+            //            'filter' => 'agNumberColumnFilter',
         ],
         [
-            'label' => \Yii::t('app', '# Workspaces'),
-            'attribute' => 'workspaceCount',
+
+            'headerName' => \Yii::t('app', 'Id'),
+            'field' => 'id',
+            'filter' => 'agNumberColumnFilter',
         ],
         [
-            'label' => \Yii::t('app', '# Contributors'),
-            'attribute' => 'contributorCount',
+
+            'headerName' => \Yii::t('app', '# Workspaces'),
+            'field' => 'workspaceCount',
+            'filter' => 'agNumberColumnFilter',
         ],
         [
-            'label' => \Yii::t('app', '# Health facilities'),
-            'attribute' => 'facilityCount',
+
+            'headerName' => \Yii::t('app', '# Contributors'),
+            'field' => 'contributorCount',
+            'filter' => 'agNumberColumnFilter',
         ],
         [
-            'label' => \Yii::t('app', '# Responses'),
-            'attribute' => 'responseCount',
+
+            'headerName' => \Yii::t('app', '# Health facilities'),
+            'field' => 'facilityCount',
+            'filter' => 'agNumberColumnFilter',
         ],
         [
-            'label' => \Yii::t('app', 'Project coordinator'),
-            'value' => static function (Project $project) use ($userComponent) {
-                return implode(
-                    '<br>',
-                    ArrayHelper::merge(
-                        toArray(map(index('name'), $project->getLeads())),
-                        // For now we just don't want to display the link, at some point it is desired to show the link
-                        array_filter([false && ! $userComponent->can(Permission::PERMISSION_ADMIN, $project) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), [
-                            'project/request-access',
-                            'id' => $project->id,
-                        ])) : null])
-                    )
-                );
-            },
-            'format' => 'html',
+            'headerName' => \Yii::t('app', '# Responses'),
+            'field' => 'responseCount',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+            'headerName' => \Yii::t('app', 'Project coordinator'),
+            'field' => 'coordinator',
+            'filter' => 'agTextColumnFilter',
         ],
     ],
-]);
 
+]);
 Section::end();

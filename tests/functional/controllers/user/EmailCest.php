@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\user;
 
 use Carbon\Carbon;
-use PHPUnit\Framework\MockObject\MockBuilder;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use SamIT\Yii2\UrlSigner\UrlSigner;

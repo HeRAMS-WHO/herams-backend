@@ -7,7 +7,6 @@ namespace prime\tests\unit\models\search;
 use Codeception\Test\Unit;
 use prime\models\search\FacilitySearch;
 use prime\tests\_helpers\SearchModelTestTrait;
-use prime\tests\unit\models\ModelTest;
 use yii\base\Model;
 
 /**

@@ -23,12 +23,9 @@ class Select2 extends Action
             'results' => [],
         ];
 
-        if (empty($q)) {
-            return $result;
-        }
 
         // Could later be extended with pagination
-        $users = $userRepository->retrieveForSelect2($q, $user->id, 0, 5);
+        $users = $userRepository->retrieveForSelect2($q, null, 0, 5);
 
         foreach ($users as $user) {
             $result['results'][] = [

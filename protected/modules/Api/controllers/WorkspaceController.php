@@ -18,7 +18,6 @@ class WorkspaceController extends Controller
     public function actions()
     {
         return [
-            'refresh' => Refresh::class,
             'create' => Create::class,
             'view' => View::class,
             'validate' => Validate::class,

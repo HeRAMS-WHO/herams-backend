@@ -9,7 +9,6 @@ use Collecthor\DataInterfaces\ValueOptionInterface;
 use prime\interfaces\HeramsVariableSetRepositoryInterface;
 use prime\values\ProjectId;
 use yii\base\Action;
-use yii\web\User;
 
 class Variables extends Action
 {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\user;
 
 use prime\tests\FunctionalTester;
-use SamIT\Yii2\UrlSigner\UrlSigner;
 
 /**
  * @covers \prime\controllers\user\Create

@@ -6,7 +6,6 @@ namespace prime\controllers\site;
 
 use prime\components\Controller;
 use yii\base\Action;
-use yii\caching\CacheInterface;
 use yii\web\Response;
 
 class Maintenance extends Action

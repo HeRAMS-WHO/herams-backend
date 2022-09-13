@@ -52,7 +52,7 @@ final class SvelteElement extends RequestModel
 
     public function __construct(private HeramsVariableSetRepositoryInterface $variableSetRepository)
     {
-        parent::__construct([]);
+        parent::__construct();
     }
 
     private function getVariableSet(): VariableSetInterface
@@ -68,11 +68,13 @@ final class SvelteElement extends RequestModel
                 NumberValidator::class,
                 'max' => 4,
                 'min' => 1,
-                'integerOnly' => true, ],
+                'integerOnly' => true,
+            ],
             [['sort'],
                 NumberValidator::class,
                 'min' => 1,
-                'integerOnly' => true, ],
+                'integerOnly' => true,
+            ],
             [['pageId', 'title', 'variables'], RequiredValidator::class],
             PermissionValidator::create(['pageId'], Page::find()),
 

@@ -11,7 +11,6 @@ use prime\repositories\WorkspaceRepository;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;
-use yii\web\UnprocessableEntityHttpException;
 
 class Create extends Action
 {

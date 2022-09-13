@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use prime\models\ar\Survey;
 use yii\db\Migration;
 
 class m210921_130000_project_add_data_survey extends Migration

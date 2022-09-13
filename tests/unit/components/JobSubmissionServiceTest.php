@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\components;
 
-use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\components\JobSubmissionService;
 use prime\helpers\EventDispatcher;
-use prime\helpers\JobQueueProxy;
 use prime\models\ar\AccessRequest;
 use yii\db\AfterSaveEvent;
 

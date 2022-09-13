@@ -15,7 +15,6 @@ use SamIT\abac\interfaces\Grant;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
-use yii\validators\RangeValidator;
 use yii\validators\RegularExpressionValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;

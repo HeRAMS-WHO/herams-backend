@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\rules;
 
-use prime\models\ar\Element;
-use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 

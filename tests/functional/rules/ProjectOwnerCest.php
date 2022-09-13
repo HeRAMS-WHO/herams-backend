@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\rules;
 
-use prime\helpers\ProposedGrant;
 use prime\models\ar\Permission;
 use prime\models\ar\User;
 use prime\tests\FunctionalTester;
@@ -19,7 +18,7 @@ class ProjectOwnerCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
         $user = \Yii::$app->user->identity;

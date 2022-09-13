@@ -31,7 +31,6 @@ class Responses extends FrontendAction
 
         $this->controller->view->breadcrumbCollection->mergeWith($breadcrumbService->retrieveForFacility($facilityId));
 
-        $dataProvider = $surveyResponseRepository->searchDataInFacility($facilityId);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
 
         $projectId = $workspaceRepository->getProjectId($workspaceId);
@@ -47,7 +46,6 @@ class Responses extends FrontendAction
         return $this->controller->render(
             'responses',
             [
-                'responseProvider' => $dataProvider,
                 'facility' => $facility,
                 'updateSituationUrl' => $updateSituationUrl,
                 'variables' => filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') === true, $variableSet->getVariables()),

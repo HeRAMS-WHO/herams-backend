@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
-use prime\values\SurveyId;
 use yii\db\ActiveRecord;
 
 /**

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use prime\components\CompositeDataProvider;
-use prime\exceptions\UnprocessableEntityException;
 use yii\base\Model;
 use yii\web\Response;
-use yii\web\UnprocessableEntityHttpException;
 
 /**
  * @yii-depends \Yii::$app->response

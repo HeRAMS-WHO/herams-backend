@@ -232,19 +232,6 @@ class FunctionalTester extends \Codeception\Actor
         return $this->workspace;
     }
 
-    public function haveWorkspaceForLimesurvey(): WorkspaceForLimesurvey
-    {
-        if (! isset($this->workspaceForLimesurvey)) {
-            $this->workspaceForLimesurvey = $workspace = new WorkspaceForLimesurvey();
-            $workspace->title = 'WS1';
-            $workspace->project_id = $this->haveProjectForLimesurvey()->id;
-            $workspace->token = 'TestToken1';
-            $this->save($workspace);
-        }
-
-        return $this->workspaceForLimesurvey;
-    }
-
     public function assertUserCan(object $subject, string $permission): void
     {
         $this->assertTrue(\Yii::$app->user->can($permission, $subject));

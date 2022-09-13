@@ -13,7 +13,7 @@ use prime\modules\Api\controllers\project\Update;
 use prime\modules\Api\controllers\project\Validate;
 use prime\modules\Api\controllers\project\Variables;
 use prime\modules\Api\controllers\project\View;
-use yii\filters\AccessControl;
+use prime\modules\Api\controllers\project\Workspaces;
 
 class ProjectController extends Controller
 {
@@ -42,6 +42,7 @@ class ProjectController extends Controller
             'update' => Update::class,
             'view' => View::class,
             'locales' => Locales::class,
+            'workspaces' => Workspaces::class,
         ];
     }
 }

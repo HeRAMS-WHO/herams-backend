@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use prime\components\ActiveForm;
 use prime\components\View;
-use prime\models\ar\Permission;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\Share;
 use prime\widgets\menu\AdminTabMenu;

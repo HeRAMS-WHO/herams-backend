@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace prime\controllers\element;
 
-use prime\components\LimesurveyDataProvider;
 use prime\components\NotificationService;
-use prime\helpers\UserAccessCheck;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Element;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
-use prime\repositories\ProjectRepository;
 use prime\values\PageId;
 use prime\values\ProjectId;
 use yii\base\Action;
-use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\UnprocessableEntityHttpException;
-use yii\web\User;
 
 class CreateForSurveyJs extends Action
 {

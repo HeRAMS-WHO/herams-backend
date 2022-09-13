@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use Collecthor\SurveyjsParser\ArrayDataRecord;
-use JetBrains\PhpStorm\Internal\TentativeType;
 
 class NormalizedArrayDataRecord extends ArrayDataRecord implements \JsonSerializable
 {

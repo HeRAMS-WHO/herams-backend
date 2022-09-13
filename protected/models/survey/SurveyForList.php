@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\models\survey;
 
-use JetBrains\PhpStorm\Internal\TentativeType;
 use prime\interfaces\survey\SurveyForListInterface;
 use prime\values\SurveyId;
 

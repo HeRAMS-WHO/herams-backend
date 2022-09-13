@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\repositories;
 
-use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\forms\project\Update;
-use prime\models\user\UserForSelect2;
 use prime\repositories\ProjectRepository;
 use prime\values\ProjectId;
 

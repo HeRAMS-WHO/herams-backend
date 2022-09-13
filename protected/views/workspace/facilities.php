@@ -5,19 +5,12 @@ declare(strict_types=1);
 use Collecthor\DataInterfaces\VariableInterface;
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
-use prime\models\facility\FacilityForList;
-use prime\widgets\DrilldownColumn;
-use prime\widgets\GridView;
-use prime\widgets\IdColumn;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
-use prime\widgets\VariableColumn;
 use SamIT\abac\interfaces\Resolver;
-use yii\data\ActiveDataProvider;
 use yii\web\View;
 
 /**
- * @var ActiveDataProvider $facilityProvider
  * @var \prime\models\search\FacilitySearch $facilitySearch
  * @var int $closedCount
  * @var View $this
@@ -51,35 +44,29 @@ PERMISSION_CREATE_FACILITY,
     ],
 ])->withSubject($tabMenuModel);
 
-echo GridView::widget(
-    [
-        'pjax' => true,
-        'export' => false,
-        'pjaxSettings' => [
-            'options' => [
-                // Just links in the header.
-                'linkSelector' => 'th a',
-            ],
-        ],
-        'filterModel' => $facilitySearch,
-        'dataProvider' => $facilityProvider,
-        'columns' => [
-            [
-                'class' => DrilldownColumn::class,
-                'attribute' => 'name',
-                'permission' => Permission::PERMISSION_READ,
-                'link' => static fn (FacilityForList $facility) => [
-                    'facility/responses',
-                    'id' => (string) $facility->getId(),
-                ],
-            ],
-            [
-                'class' => IdColumn::class,
-            ],
-            VariableColumn::configForVariables(...$variables),
+echo \prime\widgets\AgGrid\AgGrid::widget([
+    'route' => [
+        'api/workspace/facilities',
+        'id' => $tabMenuModel->id(),
+    ],
+    'columns' => [
+        [
 
+            'headerName' => \Yii::t('app', 'Name'),
+            'field' => 'name',
+            //            'filter' => 'agNumberColumnFilter',
         ],
-    ]
-);
+        [
 
+            'headerName' => \Yii::t('app', 'Id'),
+            'field' => 'id',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        ...\iter\map(fn (VariableInterface $variable) => [
+            'field' => $variable->getName(),
+            'headerName' => $variable->getTitle(\Yii::$app->language),
+        ], $variables),
+    ],
+
+]);
 Section::end();

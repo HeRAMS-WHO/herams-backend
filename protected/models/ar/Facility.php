@@ -11,9 +11,7 @@ use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
 use prime\queries\FacilityQuery;
 use prime\queries\ResponseForLimesurveyQuery;
-use Ramsey\Uuid\Uuid;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -45,7 +43,6 @@ use yii\validators\StringValidator;
  * @property-read Survey $adminSurvey
  * @property-read Survey $dataSurvey
  * @property-read Project $project
- * @property-read ResponseForLimesurvey[] $responses
  * @property-read SurveyResponse[] $surveyResponses
  * @property-read Workspace $workspace
  */
@@ -109,14 +106,7 @@ class Facility extends ActiveRecord
             ->via('workspace');
     }
 
-    public function getResponses(): ResponseForLimesurveyQuery
-    {
-        return $this->hasMany(ResponseForLimesurvey::class, [
-            'facility_id' => 'id',
-        ])->inverseOf('facility');
-    }
-
-    public function getSurveyResponses(): ActiveQuery
+  public function getSurveyResponses(): ActiveQuery
     {
         return $this->hasMany(SurveyResponse::class, [
             'facility_id' => 'id',

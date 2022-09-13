@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace prime\models\ar\elements;
 
-use Collecthor\DataInterfaces\ValueOptionInterface;
-use Collecthor\DataInterfaces\VariableSetInterface;
 use prime\components\View;
 use prime\helpers\ChartHelper;
 use prime\helpers\HeramsVariableSet;

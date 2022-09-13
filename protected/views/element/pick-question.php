@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Collecthor\DataInterfaces\ClosedVariableInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
 use prime\components\View;
-use prime\helpers\Icon;
 use prime\models\ar\Page;
 use prime\widgets\Section;
 use yii\helpers\Html;

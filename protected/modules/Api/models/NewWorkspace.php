@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace prime\modules\Api\models;
 
 use prime\helpers\LocalizedString;
-use prime\interfaces\ValidationErrorCollection;
 use prime\models\RequestModel;
 use prime\values\ProjectId;
-use yii\base\Model;
 use yii\validators\RequiredValidator;
 
 final class NewWorkspace extends RequestModel

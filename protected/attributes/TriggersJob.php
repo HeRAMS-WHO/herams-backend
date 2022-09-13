@@ -6,9 +6,7 @@ namespace prime\attributes;
 
 use Attribute;
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\interfaces\Dehydrator;
 use prime\interfaces\QueueJobFromModelInterface;
-use prime\objects\enums\AuditEvent;
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 

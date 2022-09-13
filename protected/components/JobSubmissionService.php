@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\components;
 
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\attributes\TriggersJob;
 use prime\interfaces\EventDispatcherInterface;
 use prime\interfaces\QueueJobFromModelInterface;
 use yii\base\Event;

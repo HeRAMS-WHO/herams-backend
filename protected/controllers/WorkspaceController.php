@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
-use prime\actions\DeleteAction;
-use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\workspace\Create;
 use prime\controllers\workspace\Facilities;
 use prime\controllers\workspace\Import;
-use prime\controllers\workspace\Refresh;
 use prime\controllers\workspace\RequestAccess;
 use prime\controllers\workspace\Responses;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
-use prime\models\ar\Permission;
-use prime\models\ar\WorkspaceForLimesurvey;
 use prime\objects\Breadcrumb;
-use prime\queries\ResponseForLimesurveyQuery;
 use prime\repositories\ProjectRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\ProjectId;
@@ -27,7 +21,6 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Request;
-use yii\web\User;
 
 class WorkspaceController extends Controller
 {
@@ -48,30 +41,10 @@ class WorkspaceController extends Controller
     public function actions(): array
     {
         return [
-            'responses' => Responses::class,
-            'export' => [
-                'class' => ExportAction::class,
-                'subject' => static function (Request $request) {
-                    return WorkspaceForLimesurvey::findOne([
-                        'id' => $request->getQueryParam('id'),
-                    ]);
-                },
-                'responseQuery' => static function (WorkspaceForLimesurvey $workspace): ResponseForLimesurveyQuery {
-                    return $workspace->getResponses();
-                },
-                'surveyFinder' => function (WorkspaceForLimesurvey $workspace) {
-                    return $workspace->project->getSurvey();
-                },
-                'checkAccess' => function (WorkspaceForLimesurvey $workspace, User $user) {
-                    return $user->can(Permission::PERMISSION_EXPORT, $workspace);
-                },
-            ],
             'facilities' => Facilities::class,
             'update' => Update::class,
             'create' => Create::class,
             'share' => Share::class,
-            'import' => Import::class,
-            'refresh' => Refresh::class,
             'request-access' => RequestAccess
 ::class,
         ];

@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace prime\repositories;
 
 use Collecthor\SurveyjsParser\ArrayDataRecord;
-use prime\components\HydratedActiveDataProvider;
 use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\ActiveRecordHydratorInterface;
-use prime\interfaces\CanCurrentUser;
 use prime\interfaces\facility\FacilityForBreadcrumbInterface;
-use prime\interfaces\FacilityForResponseCopy;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\interfaces\SurveyRepositoryInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
-use prime\models\ar\ResponseForLimesurvey;
 use prime\models\ar\Workspace;
 use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
@@ -33,12 +29,9 @@ use prime\modules\Api\models\UpdateFacility;
 use prime\objects\enums\ProjectType;
 use prime\values\FacilityId;
 use prime\values\ProjectId;
-use prime\values\ResponseId;
 use prime\values\WorkspaceId;
-use yii\base\InvalidArgumentException;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
-use yii\db\QueryInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -60,42 +53,6 @@ class FacilityRepository
         return new WorkspaceId(Facility::find()->andWhere([
             'id' => $id,
         ])->select('workspace_id')->scalar());
-    }
-
-    /**
-     * TODO Limesurvey deprecation: remove
-     */
-    public function isOfProjectType(FacilityId $facilityId, ProjectType $type): bool
-    {
-        return (
-            $type->equals(ProjectType::limesurvey())
-            && preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $facilityId->getValue())
-        ) || (
-            $type->equals(ProjectType::surveyJs())
-            && is_numeric($facilityId->getValue())
-        );
-    }
-
-    /**
-     * TODO Limesurvey deprecation: remove
-     */
-    public function retrieveForResponseCopy(FacilityId $id): FacilityForResponseCopy
-    {
-        if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
-            $responseQuery = ResponseForLimesurvey::find()->andWhere([
-                'hf_id' => $matches['hf_id'],
-                'survey_id' => $matches['survey_id'],
-            ])->orderBy([
-                'id' => SORT_DESC,
-            ]);
-        // TODO: permission checking for HFs defined in LS.
-        } else {
-            throw new InvalidArgumentException('Response copy only works for Limesurvey projects.');
-        }
-
-        $response = $responseQuery->limit(1)->one();
-
-        return new \prime\models\facility\FacilityForResponseCopy(new ResponseId($response->auto_increment_id));
     }
 
     private function hydrateFacilityFromDataResponseData(SurveyForSurveyJsInterface $survey, Facility $facility, array $data): void
@@ -206,7 +163,7 @@ class FacilityRepository
         return new FacilityId((string) $record->id);
     }
 
-    public function retrieveActiveRecord(FacilityId $id): Facility
+    public function retrieveActiveRecord(FacilityId $id): Facility|null
     {
         return Facility::findOne([
             'id' => $id,
@@ -251,14 +208,27 @@ class FacilityRepository
         ])->each();
     }
 
-    public function searchInWorkspace(WorkspaceId $id, FacilitySearch $model): DataProviderInterface
+    /**
+     * @return list<FacilityReadRecord>
+     */
+    public function retrieveForWorkspace(WorkspaceId $id): array
     {
         $workspace = Workspace::findOne([
             'id' => $id->getValue(),
         ]);
+        $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
+        $query = FacilityReadRecord::find()
+            ->inWorkspace($id)
+            ->useInList()
+        ;
+        return $query->all();
+    }
 
-        // Get survey as well for variable interpretation
-        $variables = $this->heramsVariableSetRepository->retrieveForProject(new ProjectId($workspace->project_id));
+    public function searchInWorkspace(WorkspaceId $id, null|FacilitySearch $model): DataProviderInterface
+    {
+        $workspace = Workspace::findOne([
+            'id' => $id->getValue(),
+        ]);
 
         $query = FacilityReadRecord::find()->andWhere([
             'use_in_list' => true,
@@ -303,25 +273,6 @@ class FacilityRepository
         return $dataProvider;
     }
 
-    private function createFromResponse(ResponseForLimesurvey $response): FacilityForList
-    {
-        $latitude = $response->getLatitude();
-        $longitude = $response->getLongitude();
-        return new FacilityForList(
-            new FacilityId("LS_{$response->survey_id}_{$response->hf_id}"),
-            $response->name,
-            null,
-            $response->hf_id,
-            $latitude,
-            $longitude,
-            // This is very inefficient for the response list; for now we accept it.
-            (int) ResponseForLimesurvey::find()->andWhere([
-                'hf_id' => $response->hf_id,
-                'survey_id' => $response->survey_id,
-            ])->count()
-        );
-    }
-
     public function retrieveForBreadcrumb(FacilityId $id): FacilityForBreadcrumbInterface
     {
         $facility = Facility::findOne([
@@ -332,59 +283,23 @@ class FacilityRepository
 
     public function retrieveForTabMenu(FacilityId $id): FacilityForTabMenu
     {
-        if (preg_match('/^LS_(?<survey_id>\d+)_(?<hf_id>.*)$/', $id->getValue(), $matches)) {
-            $response = ResponseForLimesurvey::find()
-                ->with('workspace')
-                ->andWhere([
-                    'hf_id' => $matches['hf_id'],
-                    'survey_id' => $matches['survey_id'],
-                ])
-                ->orderBy([
-                    'date' => SORT_DESC,
-                    'id' => SORT_DESC,
-                ])
-                ->limit(1)
-                ->one();
-            if (! isset($response)) {
-                throw new NotFoundHttpException();
-            }
-            return new \prime\models\facility\FacilityForTabMenu(
-                $id,
-                $response->name,
-                new ProjectId($response->workspace->project_id),
-                $response->workspace->project->title,
-                new WorkspaceId($response->workspace_id),
-                $response->workspace->title,
-                (int) ResponseForLimesurvey::find()->andWhere([
-                    'hf_id' => $response->hf_id,
-                    'survey_id' => $response->survey_id,
-                ])->count(),
-                0,
-                true,
-                // Access checker for LS based data.
-                new class() implements CanCurrentUser {
-                    public function canCurrentUser(string $permission): bool
-                    {
-                        return true;
-                    }
-                }
-            );
-        } else {
-            $facility = FacilityReadRecord::findOne([
-                'id' => (int) $id->getValue(),
-            ]);
-            return new \prime\models\facility\FacilityForTabMenu(
-                $id,
-                $facility->name,
-                new ProjectId($facility->workspace->project_id),
-                $facility->workspace->project->title,
-                new WorkspaceId($facility->workspace_id),
-                $facility->workspace->title,
-                $facility->dataSurveyResponseCount,
-                $facility->adminSurveyResponseCount,
-                $facility->canReceiveSituationUpdate(),
-                new CanCurrentUserWrapper($this->accessCheck, $facility)
-            );
+        $facility = FacilityReadRecord::findOne([
+            'id' => (int) $id->getValue(),
+        ]);
+        if (!isset($facility)) {
+            throw new NotFoundHttpException();
         }
+        return new \prime\models\facility\FacilityForTabMenu(
+            $id,
+            $facility->name,
+            new ProjectId($facility->workspace->project_id),
+            $facility->workspace->project->title,
+            new WorkspaceId($facility->workspace_id),
+            $facility->workspace->title,
+            $facility->dataSurveyResponseCount,
+            $facility->adminSurveyResponseCount,
+            $facility->canReceiveSituationUpdate(),
+            new CanCurrentUserWrapper($this->accessCheck, $facility)
+        );
     }
 }

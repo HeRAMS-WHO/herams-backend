@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\components;
 
 use yii\base\BootstrapInterface;
-use yii\base\Component;
 use yii\web\Application;
 
 class MaintenanceMode implements BootstrapInterface

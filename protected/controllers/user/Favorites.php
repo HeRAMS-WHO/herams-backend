@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\user;
 
 use prime\models\ar\User;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
 
@@ -17,9 +17,9 @@ class Favorites extends Action
         /** @var User $model */
         $model = $user->identity;
 
-        $query = WorkspaceForLimesurvey::find()->andWhere([
+        $query = Workspace::find()->andWhere([
             'id' =>
-                        $model->getFavorites()->filterTargetClass(WorkspaceForLimesurvey::class)->select('target_id'),
+                        $model->getFavorites()->filterTargetClass(Workspace::class)->select('target_id'),
         ]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

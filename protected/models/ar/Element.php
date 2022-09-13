@@ -2,7 +2,6 @@
 
 namespace prime\models\ar;
 
-use prime\components\ActiveQuery;
 use prime\interfaces\Exportable;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\PageInterface;

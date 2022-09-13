@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 /** @var \prime\components\KubernetesSecretEnvironment $env */
 
-use prime\components\AuditService;
 
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\commands',

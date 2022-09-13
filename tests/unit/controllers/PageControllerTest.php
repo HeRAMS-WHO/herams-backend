@@ -7,7 +7,6 @@ namespace prime\tests\unit\controllers;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
 use prime\components\View;
-use prime\controllers\facility\Responses;
 use prime\controllers\page\Create;
 use prime\controllers\page\Update;
 use prime\controllers\PageController;

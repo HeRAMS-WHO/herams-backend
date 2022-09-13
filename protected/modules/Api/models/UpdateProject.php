@@ -42,7 +42,7 @@ final class UpdateProject extends RequestModel
 
     public function __construct(public readonly ProjectId $id)
     {
-        parent::__construct([]);
+        parent::__construct();
     }
 
     public function attributeLabels(): array
@@ -59,7 +59,8 @@ final class UpdateProject extends RequestModel
             [['latitude', 'longitude', 'manageImpliesCreateHf'], SafeValidator::class],
             [['visibility'],
                 BackedEnumValidator::class,
-                'example' => ProjectVisibility::Public, ],
+                'example' => ProjectVisibility::Public,
+            ],
         ];
     }
 }

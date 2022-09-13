@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\widgets\surveyJs;
 
 use prime\assets\SurveyJsCreator2Bundle;
-use prime\assets\SurveyJsCreatorCoreBundle;
 use prime\components\View;
 use yii\base\Widget;
 use yii\helpers\Html;

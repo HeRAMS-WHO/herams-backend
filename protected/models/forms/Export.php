@@ -13,6 +13,7 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
 use prime\objects\HeramsCodeMap;
 use prime\queries\ResponseForLimesurveyQuery;
+use prime\queries\SurveyResponseQuery;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -163,7 +164,7 @@ class Export extends Model
      */
     public function run(
         WriterInterface $writer,
-        ResponseForLimesurveyQuery $responseQuery
+        SurveyResponseQuery $responseQuery
     ): void {
         $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 

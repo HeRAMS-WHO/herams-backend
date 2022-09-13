@@ -14,7 +14,7 @@ class UpdateCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         $I->amOnPage([
             'workspace/update',
             'id' => $workspace->id,
@@ -36,7 +36,7 @@ class UpdateCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProjectForLimesurvey();
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
         ]), $project, Permission::PERMISSION_WRITE);
@@ -51,8 +51,8 @@ class UpdateCest
     public function testAccessControlWithAdminAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $project = $I->haveWorkspace();
+        $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
         ]), $project, Permission::PERMISSION_ADMIN);
@@ -67,7 +67,7 @@ class UpdateCest
     public function testUpdate(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
         ]), $workspace, Permission::PERMISSION_ADMIN);

@@ -31,7 +31,6 @@ use prime\components\NewsletterService;
 use prime\components\ReadWriteModelResolver;
 use prime\components\SingleTableInheritanceResolver;
 use prime\helpers\EventDispatcherProxy;
-use prime\helpers\LimesurveyDataLoader;
 use prime\helpers\ModelHydrator;
 use prime\helpers\StrategyActiveRecordHydrator;
 use prime\helpers\UserAccessCheck;
@@ -133,7 +132,6 @@ return [
     UserAccessCheck::class => static function () {
         return new UserAccessCheck(\Yii::$app->user);
     },
-    LimesurveyDataLoader::class => LimesurveyDataLoader::class,
     JqueryAsset::class => JqueryBundle::class,
     PermissionRepository::class => PreloadingSourceRepository::class,
     PreloadingSourceRepository::class =>

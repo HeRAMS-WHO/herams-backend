@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\models\forms;
 
 use Carbon\Carbon;
-use prime\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsCodeMap;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
@@ -17,11 +16,6 @@ use yii\db\Expression;
 use yii\helpers\StringHelper;
 use yii\validators\DateValidator;
 use yii\validators\RangeValidator;
-
-use function iter\all;
-use function iter\apply;
-use function iter\enumerate;
-use function iter\filter;
 
 /**
  * Class ResponseFilter implements filtering for Response Collections

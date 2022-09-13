@@ -9,7 +9,6 @@ use prime\objects\enums\Language;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 

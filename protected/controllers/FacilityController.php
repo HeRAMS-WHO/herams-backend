@@ -13,15 +13,11 @@ use prime\controllers\facility\Responses;
 use prime\controllers\facility\Update;
 use prime\controllers\facility\UpdateSituation;
 use prime\controllers\facility\View;
-use prime\objects\Breadcrumb;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\WorkspaceRepository;
-use prime\values\FacilityId;
-use prime\values\WorkspaceId;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 
 class FacilityController extends Controller
 {
@@ -42,7 +38,6 @@ class FacilityController extends Controller
     {
         return [
             'admin-responses' => AdminResponses::class,
-            'copy-latest-response' => CopyLatestResponse::class,
             'create' => Create::class,
             'index' => Index::class,
             'responses' => Responses::class,

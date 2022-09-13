@@ -11,8 +11,6 @@ use prime\objects\enums\ChartType;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use function iter\chain;
-use function iter\toArray;
 
 class DashboardCard extends Widget
 {

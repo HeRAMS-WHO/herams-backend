@@ -15,7 +15,6 @@ use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
-
 use function iter\chain;
 use function iter\toArrayWithKeys;
 

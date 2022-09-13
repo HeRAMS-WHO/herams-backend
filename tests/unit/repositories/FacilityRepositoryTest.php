@@ -64,31 +64,6 @@ class FacilityRepositoryTest extends Unit
         );
     }
 
-    public function isOfTypeDataProvider(): array
-    {
-        return [
-            [
-                1,
-                ProjectType::surveyJs(),
-                true,
-            ],
-            [
-                'LS_1_a1b',
-                ProjectType::limesurvey(),
-                true,
-            ],
-            [
-                1,
-                ProjectType::limesurvey(),
-                false,
-            ],
-            [
-                'LS_1_a1b',
-                ProjectType::surveyJs(),
-                false,
-            ],
-        ];
-    }
 
     public function testCreate(): void
     {
@@ -144,15 +119,6 @@ class FacilityRepositoryTest extends Unit
 
         $this->assertSame($workspace->getLanguages(), $createModel->getLanguages());
         $this->assertEquals($workspace->getId(), $createModel->getWorkspaceId());
-    }
-
-    /**
-     * @dataProvider isOfTypeDataProvider
-     */
-    public function testIsOfProjectType(string|int $facilityId, ProjectType $projectType, $result): void
-    {
-        $repository = $this->createRepository();
-        $this->assertEquals($result, $repository->isOfProjectType(new FacilityId((string) $facilityId), $projectType));
     }
 
     public function testRetrieveForUpdate(): void

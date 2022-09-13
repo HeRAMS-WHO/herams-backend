@@ -14,8 +14,7 @@ final class View extends Action
         UserRepository $userRepository,
         User $user,
         int $id = null
-    )
-    {
+    ) {
         return $userRepository->retrieve($user->id);
     }
 }

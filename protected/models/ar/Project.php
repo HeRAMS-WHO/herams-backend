@@ -7,7 +7,6 @@ namespace prime\models\ar;
 use League\ISO3166\ISO3166;
 use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
-use prime\components\LimesurveyDataProvider;
 use prime\components\Link;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\project\ProjectForTabMenuInterface;
@@ -15,7 +14,6 @@ use prime\interfaces\RequestableInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\limesurvey\Project as LimesurveyProject;
 use prime\models\ar\surveyjs\Project as SurveyJsProject;
-use prime\objects\enums\Language;
 use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectType;
 use prime\objects\enums\ProjectVisibility;
@@ -23,8 +21,8 @@ use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\objects\LanguageSet;
 use prime\objects\Locale;
-use prime\queries\ResponseForLimesurveyQuery;
-use prime\validators\BackedEnumValidator;
+use prime\queries\FacilityQuery;
+use prime\queries\WorkspaceQuery;
 use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
 use prime\values\ProjectId;
@@ -42,8 +40,6 @@ use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\UniqueValidator;
 use yii\web\Linkable;
-use function iter\keys;
-use function iter\toArray;
 
 /**
  * Class Project
@@ -157,6 +153,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         $result['subjectAvailabilityCounts'] = 'subjectAvailabilityCounts';
         $result['functionalityCounts'] = 'functionalityCounts';
         $result['typeCounts'] = 'typeCounts';
+        $result['coordinatorName'] = static fn (self $project) => implode(', ', $project->getLeads());
         $result['statusText'] = 'statusText';
 
         return $result;
@@ -172,7 +169,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         foreach ($virtualFields->virtualFields as $key => $definition) {
             $fields[$key] = $key;
         }
-        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount', 'responseCount'] as $hidden) {
+        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount'] as $hidden) {
             unset($fields[$hidden]);
         }
         return $fields;
@@ -181,36 +178,6 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
     public static function find(): ActiveQuery
     {
         return new ActiveQuery(get_called_class());
-    }
-
-    public function getFunctionalityCounts(): array
-    {
-        $query = $this->getResponses()
-            ->groupBy([
-                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))",
-            ])
-            ->select([
-                'count' => 'count(*)',
-                'functionality' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))",
-            ])
-            ->indexBy('functionality')
-            ->orderBy('functionality')
-            ->asArray();
-
-        $map = [
-            'A1' => \Yii::t('app', 'Full'),
-            'A2' => \Yii::t('app', 'Partial'),
-            'A3' => \Yii::t('app', 'None'),
-        ];
-
-        $result = [];
-        foreach ($query->column() as $key => $value) {
-            if (isset($map[$key])) {
-                $label = $map[$key];
-                $result[$label] = ($result[$label] ?? 0) + $value;
-            }
-        }
-        return $result;
     }
 
     public function getLanguageSet(): LanguageSet
@@ -329,120 +296,28 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             ]);
     }
 
-    public function getResponses(): ResponseForLimesurveyQuery
-    {
-        return $this->hasMany(ResponseForLimesurvey::class, [
-            'workspace_id' => 'id',
-        ])->via('workspaces');
-    }
-
     public function getStatusText(): string
     {
         return ProjectStatus::from($this->status)->label();
     }
 
-    public function getSubjectAvailabilityCounts(): array
-    {
-        \Yii::beginProfile(__FUNCTION__);
-        $counts = [
-            HeramsSubject::FULLY_AVAILABLE => 0,
-            HeramsSubject::PARTIALLY_AVAILABLE => 0,
-            HeramsSubject::NOT_AVAILABLE => 0,
-            HeramsSubject::NOT_PROVIDED => 0,
-        ];
-        /** @var HeramsResponseInterface $heramsResponse */
-        foreach ($this->getResponses()->each() as $heramsResponse) {
-            foreach ($heramsResponse->getSubjects() as $subject) {
-                $subjectAvailability = $subject->getAvailability();
-                if (! isset($subjectAvailability, $counts[$subjectAvailability])) {
-                    continue;
-                }
-                $counts[$subjectAvailability]++;
-            }
-        }
-        ksort($counts);
-        $map = [
-            'A1' => \Yii::t('app', 'Full'),
-            'A2' => \Yii::t('app', 'Partial'),
-            'A3' => \Yii::t('app', 'None'),
-            //            'A4' => \Yii::t('app', 'Not normally provided'),
-        ];
-
-        $result = [];
-        foreach ($counts as $key => $value) {
-            if (isset($map[$key])) {
-                $result[$map[$key]] = $value;
-            }
-        }
-
-        \Yii::endProfile(__FUNCTION__);
-        return $result;
-    }
-
-    public function getType(): ProjectType
-    {
-        if (isset($this->base_survey_eid)) {
-            return ProjectType::limesurvey();
-        } else {
-            return ProjectType::surveyJs();
-        }
-    }
-
-    public function getTypeCounts(): array
-    {
-        if (null !== $result = $this->getOverride('typeCounts')) {
-            return $result;
-        }
-        \Yii::beginProfile(__FUNCTION__);
-        $map = is_array($this->typemap) ? $this->typemap : [];
-        // Initialize counts
-        $counts = [];
-        foreach ($map as $key => $value) {
-            $counts[$value] = 0;
-        }
-
-        $query = $this->getResponses()
-            ->groupBy([
-                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))",
-            ])
-            ->select([
-                'count' => 'count(*)',
-                'type' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))",
-            ])
-            ->indexBy('type')
-            ->asArray();
-
-        foreach ($query->column() as $type => $count) {
-            if (empty($map)) {
-                $counts[$type] = ($counts[$type] ?? 0) + $count;
-            } elseif (isset($map[$type])) {
-                $counts[$map[$type]] += $count;
-            }
-        }
-
-        \Yii::endProfile(__FUNCTION__);
-        return $counts;
-    }
-
-    public function getWorkspaces(): ActiveQuery
+    public function getWorkspaces(): WorkspaceQuery
     {
         return $this->hasMany(Workspace::class, [
             'project_id' => 'id',
         ])->inverseOf('project');
     }
 
+    public function getFacilities(): FacilityQuery
+    {
+        return $this->hasMany(Facility::class, [
+            'workspace_id' => 'id'
+        ])->via('workspaces');
+    }
+
     public function init(): void
     {
         parent::init();
-        $this->typemap = [
-            'A1' => 'Primary',
-            'A2' => 'Primary',
-            'A3' => 'Secondary',
-            'A4' => 'Secondary',
-            'A5' => 'Tertiary',
-            'A6' => 'Tertiary',
-            "" => 'Other',
-        ];
 
         $this->overrides = [];
         $this->status = self::STATUS_ONGOING;
@@ -556,15 +431,15 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
     {
         return [
             'latestDate' => [
-                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->limit(1)->select('max(date)')
-                    ->where([
+                VirtualFieldBehavior::GREEDY => Facility::find()->limit(1)->select('max([[latest_date]])')
+                    ->andWhere([
                         'workspace_id' => Workspace::find()->select('id')->andWhere([
                             'project_id' => new Expression(self::tableName() . '.[[id]]'),
                         ]),
 
                     ]),
                 VirtualFieldBehavior::LAZY => static fn (self $model): ?string
-                    => $model->getResponses()->select('max([[date]])')->scalar(),
+                    => $model->getFacilities()->select('max([[latest_date]])')->scalar(),
             ],
             'workspaceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -572,9 +447,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                     ->where([
                         'project_id' => new Expression(self::tableName() . '.[[id]]'),
                     ]),
-                VirtualFieldBehavior::LAZY => static fn (self $model): int
-                    => (int) $model->getWorkspaces()->count(
-),
+                VirtualFieldBehavior::LAZY => static fn (self $model) => $model->getWorkspaces()->count(),
 
             ],
             'pageCount' => [
@@ -583,9 +456,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                     ->where([
                         'project_id' => new Expression(self::tableName() . '.[[id]]'),
                     ]),
-                VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    return (int) $model->getMainPages()->count();
-                },
+                VirtualFieldBehavior::LAZY => static fn (self $model) => $model->getMainPages()->count(),
             ],
             'facilityCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -606,23 +477,19 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             ],
             'responseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => ResponseForLimesurvey::find()->andWhere([
-                    'workspace_id' => Workspace::find()->select('id')
-                        ->where([
-                            'project_id' => new Expression(self::tableName() . '.[[id]]'),
-                        ]),
-                ])->addParams([
-                    ':path' => '$.responseCount',
-                ])->
-                select(new Expression('coalesce(cast(json_unquote(json_extract([[overrides]], :path)) as unsigned), count(*))')),
-                VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    if ($model->workspaceCount === 0) {
-                        return 0;
-                    }
-                    return (int) (
-                        $model->getOverride('responseCount') ?? $model->getResponses()->count()
-                    );
-                },
+                VirtualFieldBehavior::GREEDY => SurveyResponse::find()->andWhere([
+                    'survey_id' => new Expression(self::tableName() . '.[[data_survey_id]]'),
+                    'facility_id' => Facility::find()->andWhere([
+                        'workspace_id' => Workspace::find()->select('id')
+                            ->where([
+                                'project_id' => new Expression(self::tableName() . '.[[id]]'),
+                            ]),
+                    ])->select('id')
+                ])->select('count(*)'),
+//                VirtualFieldBehavior::LAZY => static fn (self $model) => SurveyResponse::find()->andWhere([
+//                    'survey_id' => $model->data_survey_id,
+//                    'workspace_id' => $this->getWorkspaces()->select('id')
+//                ])->count()
             ],
             'permissionSourceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\_helpers;
 
 use ReflectionMethod;
-use yii\base\Model;
 
 trait AllFunctionsMustHaveReturnTypes
 {

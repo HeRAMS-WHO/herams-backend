@@ -46,6 +46,7 @@ class Workspaces extends Action
             'workspaceSearch' => $workspaceSearch,
             'workspaceProvider' => $workspaceProvider,
             'project' => $project,
+            'projectId' => $projectId,
             'userComponent' => $user,
         ]);
     }

@@ -6,7 +6,6 @@ namespace prime\queries;
 
 use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
-use prime\models\ar\Audit;
 use prime\objects\enums\AuditEvent;
 use yii\db\Expression;
 

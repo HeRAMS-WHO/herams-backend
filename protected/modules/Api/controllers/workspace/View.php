@@ -13,8 +13,7 @@ final class View extends Action
     public function run(
         WorkspaceRepository $workspaceRepository,
         int $id
-    )
-    {
+    ) {
         return $workspaceRepository->retrieveForUpdate(new WorkspaceId($id));
     }
 }

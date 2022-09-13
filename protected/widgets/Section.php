@@ -121,6 +121,7 @@ class Section extends Widget
             .Section header {
                 display: flex;
                 flex-wrap: wrap;
+                flex-grow: 0;
                 justify-content: space-between;
             }
             .Section header > h1 {
@@ -137,10 +138,17 @@ class Section extends Widget
             .Section {
                 margin-bottom: 10px;
                 padding: 10px;
+                display: flex;
+                flex-direction: column;
             }
+            .Section > header ~ * {
+                flex-grow: 1;
+            } 
             .Section:only-child {
+                height: 100%;
                 margin-bottom: 0px;
             }
+            
             
                         
             .Section.dangerous header {

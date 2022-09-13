@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\unit\models;
 
 use Codeception\Test\Unit;
-use prime\components\ActiveQuery;
 use prime\models\ActiveRecord;
 
 class ActiveRecordTest extends Unit

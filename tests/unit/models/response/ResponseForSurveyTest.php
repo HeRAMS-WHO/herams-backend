@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\response;
 
-use Carbon\Carbon;
 use Codeception\Test\Unit;
-use prime\interfaces\HeramsResponseInterface;
-use prime\models\response\ResponseForList;
 use prime\models\response\ResponseForSurvey;
-use prime\objects\enums\FacilityAccessibility;
-use prime\objects\enums\FacilityCondition;
-use prime\objects\enums\FacilityFunctionality;
-use prime\values\IntegerId;
 use prime\values\ResponseId;
 
 /**

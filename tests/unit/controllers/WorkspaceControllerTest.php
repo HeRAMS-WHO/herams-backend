@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\controllers;
 
-use Codeception\Stub\Expected;
 use prime\components\View;
 use prime\controllers\workspace\Facilities;
 use prime\controllers\WorkspaceController;

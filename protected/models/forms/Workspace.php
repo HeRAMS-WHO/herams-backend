@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
-use prime\components\LimesurveyDataProvider;
 use prime\models\ar\Project;
 use prime\models\ar\WorkspaceForLimesurvey as WorkspaceModel;
 use prime\values\ProjectId;
-use SamIT\LimeSurvey\Interfaces\TokenInterface;
 use yii\base\Model;
 use yii\db\Query;
 use yii\validators\ExistValidator;
@@ -50,46 +48,5 @@ class Workspace extends Model
                 },
             ],
         ];
-    }
-
-    public function tokenOptions(): array
-    {
-        /**
-         * TODO: Model this better
-         * - Project dependency
-         * - Other workspaces dependency
-         */
-        $limesurveyDataProvider = $this->getLimesurveyDataProvider();
-        $usedTokens = WorkspaceModel::find()->andWhere([
-            'project_id' => $this->projectId,
-        ])->select(['token'])->indexBy('token')->column();
-
-        $tokens = $limesurveyDataProvider->getTokens((int) Project::find()->andWhere([
-            'id' => $this->projectId,
-        ])->select('base_survey_eid')->scalar());
-
-        $result = [];
-        /** @var TokenInterface $token */
-        foreach ($tokens as $token) {
-            if (isset($usedTokens[$token->getToken()])) {
-                continue;
-            }
-            if (! empty($token->getToken())) {
-                $result[$token->getToken()] = "{$token->getFirstName()} {$token->getLastName()} ({$token->getToken()}) " . implode(
-                    ', ',
-                    array_filter($token->getCustomAttributes())
-                );
-            }
-        }
-        asort($result);
-
-        return array_merge([
-            '' => \Yii::t('app', 'Create new token'),
-        ], $result);
-    }
-
-    private function getLimesurveyDataProvider(): LimesurveyDataProvider
-    {
-        return \Yii::$app->get('limesurveyDataProvider');
     }
 }

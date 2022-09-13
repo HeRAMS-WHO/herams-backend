@@ -6,8 +6,6 @@ namespace prime\models\facility;
 
 use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\models\ar\Facility;
-use prime\models\ar\ResponseForLimesurvey;
-use prime\traits\BreadcrumbTrait;
 use prime\values\WorkspaceId;
 use yii\helpers\Url;
 

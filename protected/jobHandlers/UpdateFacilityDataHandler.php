@@ -23,14 +23,18 @@ class UpdateFacilityDataHandler
 
     public function handle(UpdateFacilityDataJob $job): void
     {
+        $facility = $this->facilityRepository->retrieveActiveRecord($job->facilityId);
+
         $adminData = $this->surveyResponseRepository->getLatestAdminResponseForFacility($job->facilityId);
+        if (! isset($facility, $adminData)) {
+            return;
+        }
         $data = $this->surveyResponseRepository->getLatestDataResponseForFacility($job->facilityId);
 
         $workspaceId = new WorkspaceId($this->facilityRepository->retrieveActiveRecord($job->facilityId)->workspace_id);
         $adminSurveyId = $this->surveyRepository->retrieveAdminSurveyForWorkspaceForSurveyJs($workspaceId)->getId();
         $dataSurveyId = $this->surveyRepository->retrieveDataSurveyForWorkspaceForSurveyJs($workspaceId)->getId();
         $variableSet = $this->surveyRepository->retrieveVariableSet($adminSurveyId, $dataSurveyId);
-        $facility = $this->facilityRepository->retrieveActiveRecord($job->facilityId);
 
         $nameVariable = $variableSet->getVariable('name');
         $facility->name = $nameVariable->getDisplayValue($adminData)->getRawValue();

@@ -22,7 +22,7 @@ use yii\bootstrap\Html;
 /**
  * @var WorkspaceId $workspaceId
  * @var WorkspaceForTabMenu $tabMenuModel
- * @var SurveyForSurveyJsInterface | null $survey
+ * @var SurveyForSurveyJsInterface $survey
  * @var View $this
  * @var null|object $model
  */
@@ -42,64 +42,28 @@ Section::begin()
     ->withSubject($workspaceId)
     ;
 
-if (isset($survey)) {
-    $survey = Survey::begin()
-        ->withConfig($survey->getConfig())
-        ->withProjectId($tabMenuModel->projectId())
-        ->withDataRoute([
-            '/api/workspace/view',
-            'id' => $workspaceId,
-        ])
-        ->withExtraData([
-            'id' => $workspaceId,
-        ])
-        ->withSubmitRoute([
-            '/api/workspace/update',
-            'id' => $workspaceId,
-        ])
-        ->withServerValidationRoute([
-            '/api/workspace/validate',
-            'id' => $workspaceId,
-        ])
-    ;
+$survey = Survey::begin()
+    ->withConfig($survey->getConfig())
+    ->withProjectId($tabMenuModel->projectId())
+    ->withDataRoute([
+        '/api/workspace/view',
+        'id' => $workspaceId,
+    ])
+    ->withExtraData([
+        'id' => $workspaceId,
+    ])
+    ->withSubmitRoute([
+        '/api/workspace/update',
+        'id' => $workspaceId,
+    ])
+    ->withServerValidationRoute([
+        '/api/workspace/validate',
+        'id' => $workspaceId,
+    ])
+;
 
-    Survey::end();
-} elseif ($model instanceof UpdateForLimesurvey) {
-    $form = ActiveForm::begin([
-        'method' => 'PUT',
-    ]);
+Survey::end();
 
-    $attributes = [];
-
-    $attributes['token'] = [
-        'type' => Form::INPUT_STATIC,
-    ];
-    $attributes += [
-        'title' => [
-            'type' => Form::INPUT_TEXT,
-        ],
-        'i18nTitle' => [
-            'type' => Form::INPUT_WIDGET,
-            'widgetClass' => LocalizableInput::class,
-        ],
-        FormButtonsWidget::embed(
-            [
-                'buttons' => [
-                    Html::submitButton(\Yii::t('app', 'Save'), [
-                        'class' => 'btn btn-primary',
-                    ]),
-                ],
-            ]
-        ),
-    ];
-
-    echo Form::widget([
-        'form' => $form,
-        'model' => $model,
-        'attributes' => $attributes,
-    ]);
-    ActiveForm::end();
-}
 Section::end();
 
 Section::begin()

@@ -7,7 +7,6 @@ namespace prime\models\facility;
 use Collecthor\DataInterfaces\RecordInterface;
 use prime\interfaces\CanCurrentUser;
 use prime\interfaces\facility\FacilityForListInterface;
-use prime\objects\enums\FacilityTier;
 use prime\values\FacilityId;
 
 /**

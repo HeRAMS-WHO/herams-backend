@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\components;
 
-use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
-use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastOnce;
 use prime\components\Secret;
 use prime\interfaces\EnvironmentInterface;
 

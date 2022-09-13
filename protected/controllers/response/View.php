@@ -7,7 +7,6 @@ namespace prime\controllers\response;
 use prime\components\Controller;
 use prime\repositories\SurveyRepository;
 use prime\repositories\SurveyResponseRepository;
-use prime\values\FacilityId;
 use prime\values\SurveyResponseId;
 use yii\base\Action;
 

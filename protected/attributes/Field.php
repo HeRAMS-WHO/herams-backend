@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\attributes;
 
 use Attribute;
-use prime\interfaces\Dehydrator;
 
 /**
  * Set the target field for a model property

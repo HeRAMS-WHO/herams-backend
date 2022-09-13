@@ -6,10 +6,6 @@ namespace prime\modules\Api\controllers\element;
 
 use prime\helpers\ModelHydrator;
 use prime\interfaces\HeramsVariableSetRepositoryInterface;
-use prime\models\ar\RawElement;
-use prime\models\forms\element\Chart;
-use prime\models\forms\element\SvelteElement;
-use prime\modules\Api\models\Element;
 use prime\repositories\ElementRepository;
 use prime\values\ElementId;
 use yii\base\Action;

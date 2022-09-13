@@ -9,10 +9,8 @@ use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use yii\base\Action;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
-use yii\web\User;
 
 class Update extends Action
 {

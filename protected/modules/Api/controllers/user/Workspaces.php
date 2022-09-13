@@ -7,7 +7,7 @@ namespace prime\modules\Api\controllers\user;
 use prime\models\ar\Favorite;
 use prime\models\ar\Permission;
 use prime\models\ar\User;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use yii\base\Action;
 use yii\db\IntegrityException;
 use yii\web\ForbiddenHttpException;
@@ -33,7 +33,7 @@ class Workspaces extends Action
         if ($request->isDelete) {
             $result = Favorite::deleteAll([
                 'user_id' => $userModel->id,
-                'target_class' => WorkspaceForLimesurvey::class,
+                'target_class' => Workspace::class,
                 'target_id' => $target_id,
             ]);
             return;
@@ -41,7 +41,7 @@ class Workspaces extends Action
             try {
                 $favorite = new Favorite();
                 $favorite->user_id = $userModel->id;
-                $favorite->target_class = WorkspaceForLimesurvey::class;
+                $favorite->target_class = Workspace::class;
                 $favorite->target_id = $target_id;
                 if ($favorite->save()) {
                     $response->setStatusCode(201);

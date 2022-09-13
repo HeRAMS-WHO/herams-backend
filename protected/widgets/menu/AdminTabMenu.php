@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\widgets\menu;
 
 use prime\models\ar\Permission;
-use prime\models\ar\Project;
 
 /**
  * Class Menu

@@ -7,7 +7,6 @@ namespace prime\tests\unit\controllers;
 use Codeception\Test\Unit;
 use yii\base\Action;
 use yii\base\Controller;
-use yii\db\ActiveRecord;
 
 /**
  * @coversNothing

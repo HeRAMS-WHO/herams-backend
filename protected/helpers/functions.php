@@ -23,7 +23,6 @@ namespace {
 
 namespace yii\web {
 
-    use prime\values\Id;
 
     function http_build_query(array $params)
     {

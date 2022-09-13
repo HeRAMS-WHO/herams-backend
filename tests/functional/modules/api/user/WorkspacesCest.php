@@ -6,7 +6,7 @@ namespace prime\tests\functional\modules\api\user;
 
 use prime\models\ar\Favorite;
 use prime\models\ar\Permission;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 
@@ -15,13 +15,13 @@ use yii\helpers\Url;
  * @package prime\tests\functional\modules\api\user
  * @covers \prime\modules\Api\controllers\user\Workspaces
  */
-class WorkspacesCest
+final class WorkspacesCest
 {
     public function testPrecondition(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $I->assertFalse(\Yii::$app->user->can(Permission::PERMISSION_ADMIN));
-        $I->assertTrue(\YiI::$app->user->can(Permission::PERMISSION_MANAGE_FAVORITES, \Yii::$app->user->identity));
+        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_MANAGE_FAVORITES, \Yii::$app->user->identity));
     }
 
     public function testCreate(FunctionalTester $I)
@@ -37,7 +37,7 @@ class WorkspacesCest
         $I->seeResponseCodeIs(422);
         $I->assertSame(0, (int) Favorite::find()->count());
 
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         $I->assertSame(0, (int) Favorite::find()->count());
         $I->sendPUT(Url::to([
             '/api/user/workspaces',
@@ -61,10 +61,10 @@ class WorkspacesCest
         $I->seeResponseCodeIs(200);
         $I->assertSame(0, (int) Favorite::find()->count());
 
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         codecept_debug('Created WS with id: ' . $workspace->id);
         $favorite = new Favorite();
-        $favorite->target_class = WorkspaceForLimesurvey::class;
+        $favorite->target_class = Workspace::class;
         $favorite->target_id = $workspace->id;
         $favorite->user_id = TEST_USER_ID;
         $I->save($favorite);

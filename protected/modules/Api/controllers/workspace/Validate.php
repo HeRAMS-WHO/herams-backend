@@ -5,14 +5,8 @@ declare(strict_types=1);
 namespace prime\modules\Api\controllers\workspace;
 
 use prime\helpers\ModelHydrator;
-use prime\interfaces\ModelHydratorInterface;
-use prime\models\ar\Workspace;
-use prime\modules\Api\models\NewProject;
 use prime\modules\Api\models\NewWorkspace;
-use prime\modules\Api\models\UpdateProject;
 use prime\modules\Api\models\UpdateWorkspace;
-use prime\repositories\WorkspaceRepository;
-use prime\values\ProjectId;
 use prime\values\WorkspaceId;
 use yii\base\Action;
 use yii\web\Request;

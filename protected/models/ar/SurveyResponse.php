@@ -13,6 +13,7 @@ use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\RecordInterface;
 use prime\jobs\UpdateFacilityDataJob;
 use prime\models\ActiveRecord;
+use prime\queries\SurveyResponseQuery;
 use prime\validators\ExistValidator;
 use prime\values\SurveyId;
 use yii\behaviors\BlameableBehavior;
@@ -34,7 +35,7 @@ use yii\validators\SafeValidator;
  * @property-read Survey $survey
  */
 #[TriggersJob(UpdateFacilityDataJob::class, 'facility_id')]
-class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, RecordInterface
+final class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, RecordInterface
 {
     public function behaviors(): array
     {
@@ -48,6 +49,11 @@ class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, Re
                 'updatedAtAttribute' => false,
             ],
         ];
+    }
+
+    public static function find(): SurveyResponseQuery
+    {
+        return new SurveyResponseQuery(static::class);
     }
 
     public static function labels(): array

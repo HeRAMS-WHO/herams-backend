@@ -31,12 +31,12 @@ class Favorite extends ActiveRecord
         ])->inverseOf('favorites');
     }
 
-    public function getTarget(): null|Project|WorkspaceForLimesurvey
+    public function getTarget(): null|Project|Workspace
     {
         if (
             ! in_array($this->target_class, [
                 Project::class,
-                WorkspaceForLimesurvey::class,
+                Workspace::class,
             ])
         ) {
             throw new \RuntimeException('Unknown favorite type: ' . $this->target_class);
@@ -61,7 +61,7 @@ class Favorite extends ActiveRecord
         return [
             [['target_class'],
                 RangeValidator::class,
-                'range' => [WorkspaceForLimesurvey::class],
+                'range' => [Workspace::class],
             ],
             [['user_id'],
                 ExistValidator::class,
@@ -70,9 +70,9 @@ class Favorite extends ActiveRecord
             [['target_id'],
                 ExistValidator::class,
                 'targetAttribute' => 'id',
-                'targetClass' => WorkspaceForLimesurvey::class,
+                'targetClass' => Workspace::class,
                 'when' => static function (Favorite $model) {
-                    return $model->target_class === WorkspaceForLimesurvey::class;
+                    return $model->target_class === Workspace::class;
                 },
             ],
         ];

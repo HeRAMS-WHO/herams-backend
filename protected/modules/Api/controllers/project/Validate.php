@@ -7,7 +7,6 @@ namespace prime\modules\Api\controllers\project;
 use prime\helpers\ModelHydrator;
 use prime\modules\Api\models\NewProject;
 use prime\modules\Api\models\UpdateProject;
-use prime\repositories\ProjectRepository;
 use prime\values\ProjectId;
 use yii\base\Action;
 use yii\web\Request;

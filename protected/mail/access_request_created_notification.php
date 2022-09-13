@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use prime\models\ar\AccessRequest;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\mail\MessageInterface;
 use yii\web\View;
 

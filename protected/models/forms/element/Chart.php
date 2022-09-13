@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace prime\models\forms\element;
 
-use Collecthor\DataInterfaces\ClosedVariableInterface;
 use Collecthor\DataInterfaces\ValueOptionInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
 use prime\components\View;
@@ -22,13 +21,10 @@ use prime\validators\VariableValidator;
 use prime\values\PageId;
 use prime\widgets\DashboardCard;
 use SamIT\Yii2\abac\PermissionValidator;
-use yii\base\InvalidArgumentException;
 use yii\base\Model;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
-use function iter\map;
-use function iter\toArray;
 
 class Chart extends Model implements DashboardWidgetInterface
 {
@@ -80,11 +76,13 @@ class Chart extends Model implements DashboardWidgetInterface
                 NumberValidator::class,
                 'max' => 4,
                 'min' => 1,
-                'integerOnly' => true, ],
+                'integerOnly' => true,
+            ],
             [['sort'],
                 NumberValidator::class,
                 'min' => 1,
-                'integerOnly' => true, ],
+                'integerOnly' => true,
+            ],
             [['title', 'variables'], RequiredValidator::class],
             PermissionValidator::create(['pageId'], Page::find()),
 

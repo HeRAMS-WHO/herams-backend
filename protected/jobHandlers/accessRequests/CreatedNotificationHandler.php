@@ -7,10 +7,8 @@ namespace prime\jobHandlers\accessRequests;
 use JCIT\jobqueue\interfaces\JobInterface;
 use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\repositories\AccessRequestRepository;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\mail\MailerInterface;
 

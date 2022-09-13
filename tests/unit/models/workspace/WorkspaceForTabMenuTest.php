@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\workspace;
 
-use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Project;
 use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\workspace\WorkspaceForTabMenu;
 use prime\tests\_helpers\AllFunctionsMustHaveReturnTypes;
-use yii\base\BaseObject;
 
 /**
  * @covers \prime\models\workspace\WorkspaceForTabMenu
