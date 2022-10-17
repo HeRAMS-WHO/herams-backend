@@ -10,7 +10,6 @@ use prime\components\ActiveQuery;
 use prime\helpers\ArrayHelper;
 use prime\models\ActiveRecord;
 use prime\queries\FacilityQuery;
-use prime\queries\ResponseForLimesurveyQuery;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
@@ -106,7 +105,7 @@ class Facility extends ActiveRecord
             ->via('workspace');
     }
 
-  public function getSurveyResponses(): ActiveQuery
+    public function getSurveyResponses(): ActiveQuery
     {
         return $this->hasMany(SurveyResponse::class, [
             'facility_id' => 'id',
@@ -158,8 +157,8 @@ class Facility extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'workspace_id'], RequiredValidator::class],
-            [['alternative_name', 'name', 'code'], StringValidator::class],
+            [['workspace_id'], RequiredValidator::class],
+            [['code'], StringValidator::class],
             [['workspace_id'],
                 ExistValidator::class,
                 'targetClass' => Workspace::class,

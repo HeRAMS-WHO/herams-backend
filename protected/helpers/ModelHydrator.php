@@ -208,6 +208,7 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                 return $method->getParameters()[0]->getType();
             }
         }
+        throw new \RuntimeException("Could not resolve type");
     }
 
     private function castValue(Model $model, string $attribute, mixed $value, HydrateSource $source): mixed

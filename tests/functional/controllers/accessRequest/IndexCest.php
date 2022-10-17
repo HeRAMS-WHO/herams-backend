@@ -8,7 +8,6 @@ use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 
 /**
@@ -33,7 +32,7 @@ class IndexCest
     public function testAccessRequestHistory(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
@@ -52,7 +51,7 @@ class IndexCest
     public function testAccessRequestToRespondTo(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);

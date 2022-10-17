@@ -6,7 +6,6 @@ namespace prime\helpers;
 
 use Collecthor\DataInterfaces\VariableInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
-use prime\helpers\surveyjs\FacilityTierVariable;
 use prime\interfaces\ColorMap;
 
 class HeramsVariableSet implements VariableSetInterface

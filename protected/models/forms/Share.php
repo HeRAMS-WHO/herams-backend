@@ -13,6 +13,8 @@ use prime\helpers\ProposedGrant;
 use prime\models\ActiveRecord;
 use prime\models\ar\Permission;
 use prime\models\ar\User;
+use prime\models\ar\Workspace;
+use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
@@ -31,6 +33,8 @@ use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\web\IdentityInterface;
 use yii\web\JsExpression;
+use function iter\mapWithKeys;
+use function iter\values;
 
 /**
  * Class Share
@@ -40,47 +44,26 @@ class Share extends Model
 {
     private array $permissionOptions = [];
 
-    private int $linkExpirationDays;
-
     public array $userIdsAndEmails = [];
 
     public array $permissions = [];
 
-    private object $model;
-
-    public $confirmationMessage;
-
-    private AuthManager $abacManager;
-
-    private IdentityInterface $currentUser;
-
-    private MailerInterface $mailer;
-
-    private Resolver $resolver;
-
-    private UrlSigner $urlSigner;
+    public string $confirmationMessage;
 
     public function __construct(
-        object $model,
-        AuthManager $abacManager,
-        Resolver $resolver,
-        IdentityInterface $identity,
-        MailerInterface $mailer,
-        UrlSigner $urlSigner,
+        private object $model,
+        private AuthManager $abacManager,
+        private Resolver $resolver,
+        private IdentityInterface $currentUser,
+        private MailerInterface $mailer,
+        private UrlSigner $urlSigner,
         ?array $availablePermissions,
-        int $linkExpirationDays = 7
+        private int $linkExpirationDays = 7
     ) {
         if ($model instanceof ActiveRecord && $model->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model must not be new');
         }
         parent::__construct([]);
-        $this->abacManager = $abacManager;
-        $this->currentUser = $identity;
-        $this->linkExpirationDays = $linkExpirationDays;
-        $this->mailer = $mailer;
-        $this->model = $model;
-        $this->resolver = $resolver;
-        $this->urlSigner = $urlSigner;
         $this->setPermissionOptions($availablePermissions);
         if (empty($this->permissionOptions)) {
             throw new NoGrantablePermissions();
@@ -195,10 +178,22 @@ class Share extends Model
                         ],
                         'pluginOptions' => [
                             'ajax' => [
-                                'url' => Url::to(['user/select-2']),
+                                'url' => Url::to(['/api/user/index']),
                                 'dataType' => 'json',
-                                'data' => new JsExpression('function(params){ return {q:params.term};}'),
+                                'data' => new JsExpression('(params) => ({q:params.term})'),
                                 'delay' => 400,
+                                'processResults' => new JsExpression(<<<JS
+                                    (data) => ({
+                                        results: data.map((userObject) => {
+                                            return {
+                                                id: userObject.id,
+                                                text: userObject.email
+                                            }
+                                        })
+                                    })
+                                    
+
+                                JS),
                             ],
                             'tags' => true,
                             'maintainOrder' => true,
@@ -253,7 +248,8 @@ class Share extends Model
             }
             $permissions[$key]['permissions'][$permission->permission] = $permission;
         }
-        return \yii\grid\GridView::widget([
+
+        $old = \yii\grid\GridView::widget([
             'dataProvider' => new ArrayDataProvider([
                 'allModels' => $permissions,
             ]),
@@ -264,6 +260,53 @@ class Share extends Model
                 ],
             ], $columns),
         ]);
+
+        $target = $this->resolver->fromSubject($this->model);
+        $route = $this->model instanceof Workspace ? '/api/workspace/permissions' : '/api/project/permissions';
+        $new = AgGrid::widget([
+            'route' => [
+                $route,
+                'id' => $target->getId(),
+            ],
+            'columns' => [
+                [
+
+                    'headerName' => \Yii::t('app', 'Name'),
+                    'field' => 'name',
+
+                    //                    'cellRenderer' => new JsExpression('ToggleButtonRenderer'),
+                    //                    'cellRendererParams' => [
+                    //                        'endpoint' => \yii\helpers\Url::to(['/api/user/workspaces', 'id' => \Yii::$app->user->id], true),
+                    //                'idField' => 'id'
+                    //            'width'=> 100,
+                    //            'suppressSizeToFit' => true,
+                    //                    'comparator' => new JsExpression('(a, b) => a == b ? 0 : a ? 1: -1')
+                ],
+                [
+                    'headerName' => \Yii::t('app', 'Email'),
+                    'field' => 'email',
+                ],
+                ...values(mapWithKeys(fn (string $label, string $permission) => [
+                    'headerName' => $label,
+                    'cellRenderer' => new JsExpression('ToggleButtonRenderer'),
+                    'filter' => new JsExpression('ToggleButtonFilter'),
+                    'field' => "permissions.$permission",
+                    'cellRendererParams' => [
+                        'onIcon' => 'mdi-toggle-switch',
+                        'offIcon' => 'mdi-toggle-switch-off',
+                        'paramName' => 'source_id',
+                        'endpoint' => \yii\helpers\Url::to([
+                            '/api/permission/grant',
+                            'source' => User::class,
+                            'target' => $target->getAuthName(),
+                            'target_id' => $target->getId(),
+                            'permission' => $permission,
+                        ], true),
+                    ],
+                ], $this->permissionOptions)),
+            ],
+        ]);
+        return $new;
     }
 
     private function replaceExistingEmailsWithIds(): void

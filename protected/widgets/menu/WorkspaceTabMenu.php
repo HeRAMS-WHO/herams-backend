@@ -54,21 +54,6 @@ class WorkspaceTabMenu extends TabMenu
 Permission::PERMISSION_SHARE,
         ];
         $this->tabs[] = [
-            'visible' => function () {
-                // The permission check in visible is added since we only want to show the tab for global admins.
-                // The permission key uses the project as a target
-                return \Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $this->workspace->getResponseCount() > 0;
-            },
-            'url' => [
-                'workspace/responses',
-                'id' => $this->workspace->id(),
-            ],
-            'title' => \Yii::t(
-                'app',
-                'Responses'
-            ),
-        ];
-        $this->tabs[] = [
             'title' => Icon::broken() . \Yii::t('app', 'Export data'),
             'url' => [
                 'workspace/export',

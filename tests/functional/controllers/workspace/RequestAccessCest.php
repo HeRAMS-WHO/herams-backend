@@ -20,7 +20,7 @@ class RequestAccessCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
 
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
 
         $I->assertUserCan($workspace->project, Permission::PERMISSION_SUMMARY);
         $I->amOnPage([

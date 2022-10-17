@@ -9,7 +9,6 @@ use prime\helpers\Icon;
 use prime\interfaces\RequestableInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\search\AccessRequest as AccessRequestSearch;
-use prime\widgets\FavoriteColumn\FavoriteColumn;
 use prime\widgets\Section;
 use yii\data\DataProviderInterface;
 use yii\helpers\Html;
@@ -55,15 +54,6 @@ echo GridView::widget([
             'value' => 'target.projectTitle',
         ],
         'created_at:dateTime',
-        [
-            'class' => FavoriteColumn::class,
-            'enableClick' => false,
-            'filter' => [
-                true => \Yii::t('app', 'Favorites only'),
-                false => \Yii::t('app', 'Non-favorites only'),
-            ],
-            'value' => static fn (AccessRequest $model) => $model->target,
-        ],
         [
             'class' => ActionColumn::class,
             'buttons' => [

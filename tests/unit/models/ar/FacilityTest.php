@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\ar;
 
 use prime\models\ar\Project;
-use prime\models\ar\ResponseForLimesurvey;
 use prime\models\ar\Survey;
 use prime\models\ar\SurveyResponse;
 use prime\models\ar\Workspace;

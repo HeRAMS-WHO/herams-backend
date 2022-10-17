@@ -11,7 +11,8 @@ use yii\web\UrlManager;
 class Index extends Action
 {
     public function run(
-        UrlManager $urlManager)
+        UrlManager $urlManager
+    )
     {
         $data = [];
         foreach (Project::find()
@@ -22,7 +23,10 @@ class Index extends Action
                 'visibility' => Project::VISIBILITY_PUBLIC,
             ])
             ->withFields(
-                'latestDate', 'workspaceCount', 'facilityCount', 'contributorPermissionCount',
+                'latestDate',
+                'workspaceCount',
+                'facilityCount',
+                'contributorPermissionCount',
                 'responseCount'
             )->all() as $project) {
             $data[] = $project->toArray([], ['coordinatorName']);

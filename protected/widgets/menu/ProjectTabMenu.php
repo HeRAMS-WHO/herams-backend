@@ -25,6 +25,13 @@ class ProjectTabMenu extends TabMenu
     protected function renderMenu(): string
     {
         $projectId = $this->project->getId();
+//        $this->tabs[] = [
+//            'url' => [
+//                'project/favorite-workspaces',
+//                'id' => $projectId,
+//            ],
+//            'title' => \Yii::t('app', 'Favorite Workspaces')
+//        ];
         $this->tabs[] = [
             'url' => [
                 'project/workspaces',
@@ -63,7 +70,7 @@ class ProjectTabMenu extends TabMenu
             'permission' => Permission::PERMISSION_WRITE,
             'title' => \Yii::t(
                 'app',
-                'Project settings'
+                'Project management'
             ),
         ];
         $this->tabs[] = [

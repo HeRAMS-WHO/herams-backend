@@ -13,12 +13,10 @@ use prime\controllers\project\ExternalDashboard;
 use prime\controllers\project\Filter;
 use prime\controllers\project\ImportDashboard;
 use prime\controllers\project\Index;
-use prime\controllers\project\Limesurvey;
 use prime\controllers\project\Pages;
 use prime\controllers\project\Pdf;
 use prime\controllers\project\RequestAccess;
 use prime\controllers\project\Share;
-use prime\controllers\project\SyncWorkspaces;
 use prime\controllers\project\Update;
 use prime\controllers\project\View;
 use prime\controllers\project\ViewForSurveyJs;
@@ -73,7 +71,6 @@ class ProjectController extends Controller
             'pdf' => Pdf::class,
             'request-access' => RequestAccess::class,
             'share' => Share::class,
-            'sync-workspaces' => SyncWorkspaces::class,
             'update' => Update::class,
             'view' => View::class,
             'view-for-survey-js' => ViewForSurveyJs::class,
@@ -125,6 +122,7 @@ class ProjectController extends Controller
                                 'update',
                                 'view',
                                 'workspaces',
+                                'favorite-workspaces',
                             ],
                             'roles' => ['@'],
                         ],

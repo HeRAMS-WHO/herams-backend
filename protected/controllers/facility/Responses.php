@@ -10,7 +10,6 @@ use prime\components\BreadcrumbService;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\SurveyRepository;
-use prime\repositories\SurveyResponseRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\FacilityId;
 use function iter\filter;
@@ -21,7 +20,6 @@ class Responses extends FrontendAction
         FacilityRepository $facilityRepository,
         WorkspaceRepository $workspaceRepository,
         ProjectRepository $projectRepository,
-        SurveyResponseRepository $surveyResponseRepository,
         SurveyRepository $surveyRepository,
         BreadcrumbService $breadcrumbService,
         string $id
@@ -48,6 +46,7 @@ class Responses extends FrontendAction
             [
                 'facility' => $facility,
                 'updateSituationUrl' => $updateSituationUrl,
+                'facilityId' => $facilityId,
                 'variables' => filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') === true, $variableSet->getVariables()),
             ]
         );

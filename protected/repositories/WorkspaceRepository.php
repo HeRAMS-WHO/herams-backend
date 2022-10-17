@@ -9,24 +9,19 @@ use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\ModelHydratorInterface;
 use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\interfaces\RetrieveWorkspaceForNewFacility;
-use prime\interfaces\workspace\WorkspaceForBreadcrumbInterface as ForBreadcrumbInterface;
 use prime\interfaces\WorkspaceForTabMenu;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Workspace;
-use prime\models\ar\WorkspaceForLimesurvey;
-use prime\models\forms\Workspace as WorkspaceForm;
-use prime\models\forms\workspace\UpdateForLimesurvey as WorkspaceUpdateForLimesurvey;
-use prime\models\workspace\WorkspaceForBreadcrumb;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\modules\Api\models\NewWorkspace;
 use prime\modules\Api\models\UpdateWorkspace;
-use prime\objects\enums\ProjectType;
+use prime\queries\WorkspaceQuery;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\SurveyId;
+use prime\values\UserId;
 use prime\values\WorkspaceId;
-use yii\base\InvalidArgumentException;
 use yii\web\NotFoundHttpException;
 
 class WorkspaceRepository implements
@@ -40,6 +35,28 @@ class WorkspaceRepository implements
     ) {
     }
 
+
+    public function retrieveFavoritesForProject(ProjectId $id, UserId $userId): array
+    {
+        $project = Project::findOne([
+            'id' => $id->getValue(),
+        ]);
+        $this->accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
+
+        return $this->workspaceQuery($id)
+            ->isFavoriteOfUser($userId)
+            ->all();
+    }
+
+    private function workspaceQuery(ProjectId $projectId): WorkspaceQuery
+    {
+        return Workspace::find()
+            ->withFields('leadNames', 'latestUpdate', 'responseCount', 'facilityCount', 'isFavorite')
+            ->andWhere([
+                'project_id' => $projectId->getValue(),
+            ]);
+    }
+
     /**
      * @return list<Workspace>
      */
@@ -49,12 +66,7 @@ class WorkspaceRepository implements
             'id' => $id->getValue(),
         ]);
         $this->accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
-
-        return Workspace::find()
-            ->withFields('leadNames')
-            ->andWhere([
-            'project_id' => $id->getValue(),
-        ])->all();
+        return $this->workspaceQuery($id)->all();
     }
 
     public function create(NewWorkspace $model): WorkspaceId
@@ -66,16 +78,6 @@ class WorkspaceRepository implements
         }
         return new WorkspaceId($record->id);
     }
-
-    public function retrieveForBreadcrumb(WorkspaceId $id): ForBreadcrumbInterface
-    {
-        $record = Workspace::findOne([
-            'id' => $id,
-        ]);
-        return new WorkspaceForBreadcrumb($record);
-    }
-
-
 
     public function retrieveForNewFacility(WorkspaceId $id): WorkspaceForCreateOrUpdateFacility
     {

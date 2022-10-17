@@ -17,7 +17,6 @@ class ResponseController extends Controller
         return [
             'surveyjs' => SurveyJs::class,
             'view' => View::class,
-
         ];
     }
 }

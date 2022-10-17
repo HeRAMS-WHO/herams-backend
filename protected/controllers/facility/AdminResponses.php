@@ -6,9 +6,8 @@ namespace prime\controllers\facility;
 
 use Collecthor\DataInterfaces\VariableInterface;
 use prime\actions\FrontendAction;
+use prime\components\BreadcrumbService;
 use prime\components\Controller;
-use prime\objects\Breadcrumb;
-use prime\objects\BreadcrumbCollection;
 use prime\repositories\FacilityRepository;
 use prime\repositories\ProjectRepository;
 use prime\repositories\SurveyRepository;
@@ -33,12 +32,14 @@ class AdminResponses extends FrontendAction
         WorkspaceRepository $workspaceRepository,
         SurveyResponseRepository $surveyResponseRepository,
         ProjectRepository $projectRepository,
+        BreadcrumbService $breadcrumbService,
+        \prime\components\View $view,
         string $id
     ) {
         $facilityId = new FacilityId($id);
         $facility = $facilityRepository->retrieveForTabMenu($facilityId);
 
-        $this->getBreadcrumbCollection()->add($facilityRepository->retrieveForBreadcrumb($facilityId));
+        $view->getBreadcrumbCollection()->mergeWith($breadcrumbService->retrieveForFacility($facilityId));
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
 
         $projectId = $workspaceRepository->getProjectId($workspaceId);
@@ -54,10 +55,5 @@ class AdminResponses extends FrontendAction
                 'variables' => filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') === true, $variableSet->getVariables()),
             ]
         );
-    }
-
-    protected function configureBreadcrumbs(BreadcrumbCollection $breadcrumbCollection): void
-    {
-        $breadcrumbCollection->add(new Breadcrumb(\Yii::t('app', 'Administrative responses')));
     }
 }

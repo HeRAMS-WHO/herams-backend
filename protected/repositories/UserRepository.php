@@ -6,7 +6,6 @@ namespace prime\repositories;
 
 use prime\components\ActiveQuery;
 use prime\models\ar\User;
-use prime\models\user\UserForSelect2;
 use yii\base\InvalidArgumentException;
 
 class UserRepository
@@ -23,28 +22,11 @@ class UserRepository
         ]);
     }
 
-    /**
-     * @return UserForSelect2[]
-     */
-    public function retrieveForSelect2(string|null $q, ?int $excludeUserId = null, $page = 0, $perPage = 5): array
+    public function retrieveAll(): array
     {
-        $query = $this->find()
-            ->andFilterWhere([
-                'not', [
-                    'id' => $excludeUserId,
-
-                ], ])
-            ->andFilterWhere(['OR', ['like', 'name', $q], ['like', 'email', $q]])
-            ->offset($page * $perPage)
-            ->limit($perPage);
-
-        $result = [];
-//        var_dump($query); die();
-        foreach ($query->each() as $user) {
-            $result[] = new UserForSelect2($user);
-        }
-
-        return $result;
+        return User::find()
+            ->select(['id', 'email', 'name'])
+            ->all();
     }
 
     public function retrieveOrThrow(int $id): ?User

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
@@ -11,6 +12,7 @@ use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
 use prime\models\forms\Share as ShareForm;
+use prime\values\ProjectId;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
@@ -18,6 +20,7 @@ use yii\base\Action;
 use yii\mail\MailerInterface;
 use yii\web\Request;
 use yii\web\User;
+use function iter\toArray;
 
 class Share extends Action
 {
@@ -30,14 +33,19 @@ class Share extends Action
         User $user,
         MailerInterface $mailer,
         UrlSigner $urlSigner,
+        BreadcrumbService $breadcrumbService,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $project = Project::findOne([
             'id' => $id,
         ]);
-
+        $projectId = new ProjectId($id);
         $accessCheck->requirePermission($project, Permission::PERMISSION_SHARE, \Yii::t('app', 'You are not allowed to share this project'));
+
+        $this->controller->view->breadcrumbCollection->add(
+            ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())
+        );
 
         try {
             $model = new ShareForm(

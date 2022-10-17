@@ -11,7 +11,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\User;
 
-class Summary extends Action
+final class Summary extends Action
 {
     public function run(
         User $user,
@@ -29,9 +29,12 @@ class Summary extends Action
             throw new ForbiddenHttpException();
         }
         return $this->controller->asJson($project->toArray([], [
-            'typeCounts',
-            'functionalityCounts',
-            'subjectAvailabilityCounts',
+            'primaryTierCount',
+            'secondaryTierCount',
+            'tertiaryTierCount',
+            'unknownTierCount',
+            //            'functionalityCounts',
+            //            'subjectAvailabilityCounts',
             'statusText',
         ]));
     }

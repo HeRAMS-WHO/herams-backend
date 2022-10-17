@@ -7,7 +7,6 @@ namespace prime\tests\unit\repositories;
 use Codeception\Test\Unit;
 use prime\components\ActiveQuery;
 use prime\models\ar\User;
-use prime\models\user\UserForSelect2;
 use prime\repositories\UserRepository;
 use yii\base\InvalidArgumentException;
 
@@ -37,16 +36,6 @@ class UserRepositoryTest extends Unit
         $this->assertEquals(User::findOne([
             'id' => TEST_USER_ID,
         ]), $repository->retrieve(TEST_USER_ID));
-    }
-
-    public function testRetrieveForSelect2(): void
-    {
-        $user = User::findOne([
-            'id' => TEST_USER_ID,
-        ]);
-        $repository = $this->createRepository();
-
-        $this->assertEquals([new UserForSelect2($user)], $repository->retrieveForSelect2($user->email));
     }
 
     public function testRetrieveOrThrowSuccess(): void

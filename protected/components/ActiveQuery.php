@@ -8,6 +8,8 @@ use SamIT\Yii2\VirtualFields\VirtualFieldQueryTrait;
 
 /**
  * @codeCoverageIgnore
+ * @method static andWhere($condition, $params = [])
+ * @method static withFields(string ...$fields)
  */
 class ActiveQuery extends \yii\db\ActiveQuery
 {

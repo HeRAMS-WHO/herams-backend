@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\jobHandlers;
 
+use prime\helpers\surveyjs\FacilityTierVariable;
 use prime\helpers\SurveyParser;
 use prime\jobs\UpdateFacilityDataJob;
 use prime\repositories\FacilityRepository;
@@ -11,7 +12,7 @@ use prime\repositories\SurveyRepository;
 use prime\repositories\SurveyResponseRepository;
 use prime\values\WorkspaceId;
 
-class UpdateFacilityDataHandler
+final class UpdateFacilityDataHandler
 {
     public function __construct(
         private SurveyParser $surveyParser,
@@ -36,8 +37,12 @@ class UpdateFacilityDataHandler
         $dataSurveyId = $this->surveyRepository->retrieveDataSurveyForWorkspaceForSurveyJs($workspaceId)->getId();
         $variableSet = $this->surveyRepository->retrieveVariableSet($adminSurveyId, $dataSurveyId);
 
-        $nameVariable = $variableSet->getVariable('name');
-        $facility->name = $nameVariable->getDisplayValue($adminData)->getRawValue();
+        foreach ($variableSet->getVariables() as $variable) {
+            if ($variable instanceof FacilityTierVariable) {
+//                var_dump($variable->getValue($adminData));
+//                die();
+            }
+        }
 
         $facility->admin_data = $adminData->allData();
 

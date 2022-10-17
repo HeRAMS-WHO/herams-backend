@@ -6,7 +6,6 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\controllers\facility\AdminResponses;
-use prime\controllers\facility\CopyLatestResponse;
 use prime\controllers\facility\Create;
 use prime\controllers\facility\Index;
 use prime\controllers\facility\Responses;

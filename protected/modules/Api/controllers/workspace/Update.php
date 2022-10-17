@@ -33,7 +33,6 @@ final class Update extends Action
         $workspaceRepository->update($model);
 
         $response->setStatusCode(200);
-//        sleep(10);
         return $response;
     }
 }

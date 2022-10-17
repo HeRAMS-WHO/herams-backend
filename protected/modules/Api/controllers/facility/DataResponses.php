@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\facility;
@@ -47,7 +48,6 @@ final class DataResponses extends Action
                 )->getRawValue();
             }
             $data[] = $row;
-
         }
         return $data;
     }

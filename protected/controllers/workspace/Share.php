@@ -21,7 +21,7 @@ use yii\web\Request;
 use yii\web\User;
 use function iter\toArray;
 
-class Share extends Action
+final class Share extends Action
 {
     public function run(
         NotificationService $notificationService,

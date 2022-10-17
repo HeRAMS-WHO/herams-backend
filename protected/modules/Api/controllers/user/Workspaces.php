@@ -23,6 +23,7 @@ class Workspaces extends Action
         int $id,
         int $target_id
     ) {
+        sleep(2);
         $userModel = User::findOne([
             'id' => $id,
         ]);
@@ -36,7 +37,8 @@ class Workspaces extends Action
                 'target_class' => Workspace::class,
                 'target_id' => $target_id,
             ]);
-            return;
+            $response->setStatusCode(204);
+            return $response;
         } elseif ($request->isPut) {
             try {
                 $favorite = new Favorite();
@@ -44,13 +46,14 @@ class Workspaces extends Action
                 $favorite->target_class = Workspace::class;
                 $favorite->target_id = $target_id;
                 if ($favorite->save()) {
-                    $response->setStatusCode(201);
-                    return;
+                    $response->setStatusCode(204);
+                    return $response;
                 } else {
                     $response->setStatusCode(422);
                     return $favorite;
                 };
             } catch (IntegrityException $e) {
+                throw $e;
                 // Silence this for idempotence
                 return;
             }

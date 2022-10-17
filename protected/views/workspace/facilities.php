@@ -21,6 +21,7 @@ use yii\web\View;
 
 $this->title = $tabMenuModel->title();
 
+
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget(
     [
@@ -54,6 +55,14 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'Name'),
             'field' => 'name',
+            'cellRenderer' => new \yii\web\JsExpression(<<<JS
+                params => {
+                    const a = document.createElement('a');
+                    a.textContent = params.value;
+                    a.href = '/facility/{id}/responses'.replace('{id}', params.data.id);
+                    return a;
+                }
+            JS),
             //            'filter' => 'agNumberColumnFilter',
         ],
         [

@@ -13,9 +13,7 @@ use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\read\Project as ProjectRead;
-use prime\models\ar\surveyjs\Project as SurveyjsProject;
 use prime\models\forms\project\Create;
-use prime\models\forms\project\Update as ProjectUpdate;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\models\project\ProjectForExternalDashboard;
 use prime\models\project\ProjectLocales;
@@ -64,9 +62,9 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
         return $record;
     }
 
-    public function retrieveForExport(ProjectId $id): SurveyjsProject
+    public function retrieveForExport(ProjectId $id): Project
     {
-        $record = SurveyjsProject::findOne([
+        $record = Project::findOne([
             'id' => $id,
         ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_EXPORT);
@@ -86,7 +84,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
         return $update;
     }
 
-    public function save(ProjectUpdate|UpdateProject $model): ProjectId
+    public function save(UpdateProject $model): ProjectId
     {
         $record = Project::findOne([
             'id' => $model->id,
@@ -121,8 +119,8 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
 
     public function retrieveAdminSurveyId(ProjectId $projectId): SurveyId
     {
-        /** @var null|SurveyjsProject $project */
-        $project = SurveyjsProject::find()->andWhere([
+        /** @var null|Project $project */
+        $project = Project::find()->andWhere([
             'id' => $projectId->getValue(),
         ])->one();
         if (! isset($project)) {
@@ -133,8 +131,8 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
 
     public function retrieveDataSurveyId(ProjectId $projectId): SurveyId
     {
-        /** @var null|SurveyjsProject $project */
-        $project = SurveyjsProject::find()->andWhere([
+        /** @var null|Project $project */
+        $project = Project::find()->andWhere([
             'id' => $projectId->getValue(),
         ])->one();
         if (! isset($project)) {

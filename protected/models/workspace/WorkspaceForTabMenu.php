@@ -54,11 +54,6 @@ final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
         return $this->model->facilityCount;
     }
 
-    public function getResponseCount(): int
-    {
-        return $this->model->responseCount;
-    }
-
     public function getPermissionSourceCount(): int
     {
         return $this->model->permissionSourceCount;

@@ -17,7 +17,7 @@ class WorkspacesCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->amOnPage([
             'project/workspaces',
             'id' => $project->id,
@@ -55,7 +55,7 @@ class WorkspacesCest
     {
         $I->stopFollowingRedirects();
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         \Yii::$app->user->logout();
 
         $I->amOnPage([

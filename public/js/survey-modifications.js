@@ -100,6 +100,14 @@ window.__herams_init_callbacks.unshift(async () => {
     displayName: 'Color Dictionary',
 
   })
+  // Survey.Serializer.addProperty('survey', {
+  //   category: 'general',
+  //   choices: ['projectUpdate', 'workspaceUpdate', 'facilityAdmin','facilityData'],
+  //   isLocalizable: false,
+  //   name: 'surveyType',
+  //   displayName: 'Survey type',
+  //
+  // })
 
   // New question type for facility type:
   Survey.CustomWidgetCollection.Instance.add({
@@ -261,6 +269,44 @@ window.__herams_init_callbacks.unshift(async () => {
         valueName: 'alpha3',
         titleName: 'name',
       },
+    },
+    onInit () {
+      // debugger;
+    },
+  })
+
+  Survey.ComponentCollection.Instance.add({
+    iconName: 'icon-arrow-right',
+    name: 'longitude',
+    title: 'Longitude',
+    category: 'HeRAMS',
+    questionJSON: {
+      "type": "text",
+      "name": "longitude",
+      "title": "Longitude",
+      "inputType": "number",
+      "min": -180,
+      "max": 180,
+      "step": 0.00001
+    },
+    onInit () {
+      // debugger;
+    },
+  })
+
+  Survey.ComponentCollection.Instance.add({
+    iconName: 'icon-keyboard-dragging',
+    name: 'latitude',
+    title: 'Latitude',
+    category: 'HeRAMS',
+    questionJSON: {
+      "type": "text",
+      "name": "longitude",
+      "title": "Longitude",
+      "inputType": "number",
+      "min": -90,
+      "max": 90,
+      "step": 0.00001
     },
     onInit () {
       // debugger;

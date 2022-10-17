@@ -18,9 +18,8 @@ use yii\helpers\Html;
  * @var View $this
  */
 
-$this->title = \Yii::t('app', "Update settings for {project}", [
-    'project' => $project->getLabel(),
-]);
+$this->title = \Yii::t('app', "Project management");
+$this->params['subject'] = $project->getTitle();
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([
@@ -48,12 +47,7 @@ $survey = Survey::begin()
     ->withServerValidationRoute([
         '/api/project/validate',
         'id' => $projectId,
-    ])
-//    ->withRedirectRoute([
-//        'project/update',
-//        'id' => $projectId
-//    ])
-;
+    ]);
 
 Survey::end();
 
@@ -121,28 +115,4 @@ echo ButtonGroup::widget([
     ],
 ]);
 
-Section::end();
-Section::begin()
-    ->withHeader(Yii::t('app', 'Mass workspace sync'))
-    ->withSubject($project)
-    ->forAdministrativeAction()
-;
-echo Html::tag('p', Yii::t('app', 'Select and sync any number of workspaces in the project'));
-try {
-    echo ButtonGroup::widget([
-        'buttons' => [
-            [
-                'icon' => Icon::sync(),
-                'label' => Yii::t('app', 'Sync'),
-                'link' => [
-                    'project/sync-workspaces',
-                    'id' => $project->id,
-                ],
-                'style' => 'default',
-            ],
-
-        ],
-    ]);
-} catch (Exception $e) {
-}
 Section::end();

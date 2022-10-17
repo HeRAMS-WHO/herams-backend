@@ -10,8 +10,9 @@ use yii\helpers\Html;
  * @var string $content
  */
 
+$this->registerJsFile("//code.iconify.design/1/1.0.6/iconify.min.js");
 $this->beginContent('@views/layouts/admin-screen.php');
-
+//
 if (isset($this->blocks['tabs'])) {
     echo $this->blocks['tabs'];
 } elseif (! empty($this->params['tabs'])) {
@@ -19,9 +20,14 @@ if (isset($this->blocks['tabs'])) {
         'tabs' => $this->params['tabs'],
     ]);
 }
-echo Html::tag('div', $content, [
+echo Html::beginTag('div', [
     'class' => 'content',
 ]);
+echo Html::tag('h1', $this->title, [
+    //    'class' => 'page-title',
+]);
+
+echo $content;
 
 
 $this->endContent();

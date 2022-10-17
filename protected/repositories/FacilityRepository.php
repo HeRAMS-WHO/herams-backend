@@ -9,7 +9,6 @@ use prime\helpers\CanCurrentUserWrapper;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\ActiveRecordHydratorInterface;
-use prime\interfaces\facility\FacilityForBreadcrumbInterface;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\interfaces\SurveyRepositoryInterface;
@@ -17,7 +16,6 @@ use prime\models\ar\Facility;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Facility as FacilityReadRecord;
 use prime\models\ar\Workspace;
-use prime\models\facility\FacilityForBreadcrumb;
 use prime\models\facility\FacilityForList;
 use prime\models\forms\facility\CreateForm;
 use prime\models\forms\facility\UpdateForm;
@@ -26,7 +24,6 @@ use prime\models\search\FacilitySearch;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\modules\Api\models\NewFacility;
 use prime\modules\Api\models\UpdateFacility;
-use prime\objects\enums\ProjectType;
 use prime\values\FacilityId;
 use prime\values\ProjectId;
 use prime\values\WorkspaceId;
@@ -273,25 +270,17 @@ class FacilityRepository
         return $dataProvider;
     }
 
-    public function retrieveForBreadcrumb(FacilityId $id): FacilityForBreadcrumbInterface
-    {
-        $facility = Facility::findOne([
-            'id' => (int) $id->getValue(),
-        ]);
-        return new FacilityForBreadcrumb($facility);
-    }
-
     public function retrieveForTabMenu(FacilityId $id): FacilityForTabMenu
     {
         $facility = FacilityReadRecord::findOne([
             'id' => (int) $id->getValue(),
         ]);
-        if (!isset($facility)) {
+        if (! isset($facility)) {
             throw new NotFoundHttpException();
         }
         return new \prime\models\facility\FacilityForTabMenu(
             $id,
-            $facility->name,
+            $facility->name ?? 'test_name',
             new ProjectId($facility->workspace->project_id),
             $facility->workspace->project->title,
             new WorkspaceId($facility->workspace_id),

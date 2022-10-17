@@ -12,7 +12,6 @@ use prime\interfaces\ColumnDefinition;
 use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
 use prime\objects\HeramsCodeMap;
-use prime\queries\ResponseForLimesurveyQuery;
 use prime\queries\SurveyResponseQuery;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;

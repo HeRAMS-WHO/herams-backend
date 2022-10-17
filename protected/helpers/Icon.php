@@ -59,6 +59,11 @@ use yii\helpers\Inflector;
  */
 class Icon
 {
+    public static function workspace(array $options = []): string
+    {
+        return self::folder($options);
+    }
+
     public static function contributors(array $options = []): string
     {
         return self::partner($options);

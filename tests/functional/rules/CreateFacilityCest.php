@@ -17,11 +17,11 @@ class CreateFacilityCest
     public function testProjectManageImpliesCreateDisabled(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $project->manage_implies_create_hf = false;
         $I->save($project);
 
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
         $user = \Yii::$app->user->identity;
@@ -37,11 +37,11 @@ class CreateFacilityCest
     public function testProjectManageImpliesCreateEnabled(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $project->manage_implies_create_hf = true;
         $I->save($project);
 
-        $workspace = $I->haveWorkspaceForLimesurvey();
+        $workspace = $I->haveWorkspace();
         /** @var AuthManager $manager */
         $manager = \Yii::$app->abacManager;
         $user = \Yii::$app->user->identity;

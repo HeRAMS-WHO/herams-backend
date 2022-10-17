@@ -35,7 +35,7 @@ class UpdateCest
     public function testAccessControlWithWriteAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,

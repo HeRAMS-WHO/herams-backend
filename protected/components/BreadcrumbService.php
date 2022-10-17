@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\components;
 
+use prime\helpers\Icon;
 use prime\objects\Breadcrumb;
 use prime\objects\BreadcrumbCollection;
 use prime\repositories\FacilityRepository;
@@ -42,8 +43,9 @@ class BreadcrumbService
         $result = $this->retrieveForProjects();
         if (\Yii::$app->requestedRoute !== 'project/workspaces') {
             $project = $this->projectRepository->retrieveForBreadcrumb($id);
-            $result->add(new Breadcrumb($project->getLabel(), [
+            $result->add(new Breadcrumb(Icon::project() . ' ' . $project->getLabel(), [
                 'project/workspaces',
+                'encode' => false,
                 'id' => $id,
             ]));
         }
@@ -56,8 +58,9 @@ class BreadcrumbService
         $result = $this->retrieveForProject($workspace->projectId());
         if (\Yii::$app->requestedRoute !== 'workspace/facilities') {
             $result->add(
-                new Breadcrumb($workspace->title(), Url::to([
+                new Breadcrumb(Icon::workspace() . ' ' . $workspace->title(), Url::to([
                     'workspace/facilities',
+                    'encode' => false,
                     'id' => $id,
                 ]))
             );
@@ -67,11 +70,15 @@ class BreadcrumbService
 
     public function retrieveForFacility(FacilityId $id): BreadcrumbCollection
     {
-        $facility = $this->facilityRepository->retrieveForBreadcrumb($id);
+        $facility = $this->facilityRepository->retrieveForTabMenu($id);
         $result = $this->retrieveForWorkspace($facility->getWorkspaceId());
-        if (\Yii::$app->requestedRoute !== 'facility/responses') {
-            $result->add($facility);
-        }
+        $result->add(new Breadcrumb(
+            Icon::healthFacility() . ' ' . $facility->getTitle(),
+            Url::to([
+                'facility/responses',
+                'id' => $id,
+            ])
+        ));
         return $result;
     }
 }

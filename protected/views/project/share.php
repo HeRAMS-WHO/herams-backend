@@ -15,7 +15,8 @@ use prime\widgets\Section;
  * @var Share $model
  */
 
-$this->title = $project->title;
+$this->params['subject'] = $project->getTitle();
+$this->title = \Yii::t('app', "Users");
 
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget([

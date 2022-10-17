@@ -21,7 +21,7 @@ class UpdateCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         $parentPage = new Page();
         $parentPage->title = 'parent';

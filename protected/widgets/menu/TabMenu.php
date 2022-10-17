@@ -63,7 +63,7 @@ class TabMenu extends Widget
                 continue;
             }
 
-            $classes = ['btn', 'btn-tab'];
+            $classes = ['btn-tab'];
             if (ArrayHelper::getValue($tab, 'active') || $this->isCurrentPage($tab['url'])) {
                 $classes[] = 'active';
             }

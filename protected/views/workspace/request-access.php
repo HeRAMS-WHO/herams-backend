@@ -5,7 +5,7 @@ declare(strict_types=1);
 use app\components\Form;
 use prime\components\ActiveForm;
 use prime\components\View;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\models\forms\accessRequest\Create;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
@@ -13,7 +13,7 @@ use yii\helpers\Html;
 
 /**
  * @var Create $model
- * @var WorkspaceForLimesurvey $workspace
+ * @var Workspace $workspace
  * @var View $this
  */
 

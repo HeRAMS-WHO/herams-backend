@@ -22,8 +22,8 @@ class SurveyResponseRepositoryCest
     ): SurveyResponseRepository {
         $accessCheck = \Yii::createObject(AccessCheckInterface::class);
         $modelHydrator = $modelHydrator ?? new ModelHydrator();
-
         return new SurveyResponseRepository(
+            activeRecordHydrator: $activeRecordHydrator,
             accessCheck: $accessCheck,
             hydrator: $modelHydrator,
         );

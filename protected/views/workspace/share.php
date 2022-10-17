@@ -5,21 +5,18 @@ declare(strict_types=1);
 use prime\components\ActiveForm;
 use prime\components\View;
 use prime\interfaces\WorkspaceForTabMenu;
-use prime\models\ar\WorkspaceForLimesurvey;
 use prime\models\forms\Share;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
 
 /**
- * @var WorkspaceForLimesurvey $workspace
+ * @var \prime\models\ar\Workspace $workspace
  * @var Share $model
  * @var WorkspaceForTabMenu $tabMenuModel
  * @var View $this
  */
-
-$this->title = \Yii::t('app', 'Manage permissions for {workspace}', [
-    'workspace' => $workspace->title,
-]);
+$this->params['subject'] = $tabMenuModel->title();
+$this->title = \Yii::t('app', "Users");
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([

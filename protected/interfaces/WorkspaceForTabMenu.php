@@ -19,7 +19,5 @@ interface WorkspaceForTabMenu extends CanCurrentUser
 
     public function getFacilityCount(): int;
 
-    public function getResponseCount(): int;
-
     public function getPermissionSourceCount(): int;
 }

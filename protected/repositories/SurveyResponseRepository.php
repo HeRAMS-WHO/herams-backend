@@ -10,7 +10,6 @@ use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\AdminResponseForListInterface;
 use prime\interfaces\RecordInterface;
-use prime\interfaces\ResponseForList as ResponseForListInterface;
 use prime\interfaces\surveyResponse\SurveyResponseForSurveyJsInterface;
 use prime\models\ar\Facility;
 use prime\models\ar\Permission;
@@ -240,7 +239,6 @@ class SurveyResponseRepository
     }
 
     /**
-     * @param FacilityId $facilityId
      * @return list<SurveyResponse>
      */
     public function retrieveDataInFacility(FacilityId $facilityId): array
@@ -254,7 +252,5 @@ class SurveyResponseRepository
             'facility_id' => $facilityId,
             'survey_id' => $dataSurveyId,
         ])->all();
-
-
     }
 }

@@ -29,13 +29,16 @@ class Breadcrumbs extends Widget
         }
         // Render the breadcrumb widget.
         return \yii\widgets\Breadcrumbs::widget([
-            'itemTemplate' => Html::tag('li', "{link}" . Icon::chevronRight()),
+            'itemTemplate' => Html::tag('li', "{link}" . Icon::chevronRight([
+                'class' => 'separator',
+            ])),
             'homeLink' => [
                 'label' => \Yii::t('app', 'Administration'),
                 'url' => '/project/index',
             ],
             'links' => map(fn (BreadcrumbInterface $breadcrumb) => [
                 'label' => $breadcrumb->getLabel(),
+                'encode' => false,
                 'url' => $breadcrumb->getUrl(),
             ], $this->breadcrumbCollection),
         ]);

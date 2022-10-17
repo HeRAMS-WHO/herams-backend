@@ -8,7 +8,6 @@ use prime\models\ar\AccessRequest;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\User;
-use prime\models\ar\WorkspaceForLimesurvey;
 use prime\tests\FunctionalTester;
 
 /**
@@ -18,7 +17,7 @@ use prime\tests\FunctionalTester;
  */
 final class RespondCest
 {
-    protected function createAccessRequest(FunctionalTester $I, Project|WorkspaceForLimesurvey $target): AccessRequest
+    protected function createAccessRequest(FunctionalTester $I, Project $target): AccessRequest
     {
         $accessRequest = new AccessRequest([
             'subject' => 'test',
@@ -33,7 +32,7 @@ final class RespondCest
     public function testNotAllowed(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
@@ -47,7 +46,7 @@ final class RespondCest
     public function testReject(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
@@ -83,7 +82,7 @@ final class RespondCest
     public function testGrant(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);

@@ -28,6 +28,12 @@ class Module extends \yii\base\Module
             'rules' => [
                 [
                     'class' => UrlRule::class,
+                    'pattern' => 'permission/grant',
+                    'route' => 'permission/grant',
+                    'verb' => ['put', 'delete'],
+                ],
+                [
+                    'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>/<id:\d+>/validate',
                     'route' => '<controller>/validate',
                     'verb' => ['post'],
@@ -75,6 +81,12 @@ class Module extends \yii\base\Module
                     'verb' => 'get',
                     'route' => '<controller>/index',
                 ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => '<controller:\w+>/<action:[\w-]+>',
+                    'verb' => 'get',
+                    'route' => '<controller>/<action>',
+                ],
 
                 [
                     'class' => UrlRule::class,
@@ -93,6 +105,12 @@ class Module extends \yii\base\Module
                     'pattern' => 'response',
                     'route' => 'response/delete',
                     'verb' => 'delete',
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'pattern' => 'user/<id:\d+>/workspaces',
+                    'route' => 'user/workspaces',
+                    'verb' => ['delete', 'put'],
                 ],
                 [
                     'class' => UrlRule::class,

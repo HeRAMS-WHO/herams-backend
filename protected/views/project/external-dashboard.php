@@ -6,9 +6,11 @@ use prime\models\ar\Page;
 use yii\helpers\Html;
 use yii\web\View;
 
-/** @var View $this */
-/** @var \prime\models\project\ProjectForExternalDashboard $project */
-/** @var Page $page */
+/**
+ * @var View $this
+ * @var \prime\models\project\ProjectForExternalDashboard $project
+ * @var Page $page
+ */
 
 $this->title = $project->getDisplayField();
 

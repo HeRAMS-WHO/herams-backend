@@ -6,7 +6,6 @@ namespace prime\controllers\facility;
 
 use prime\components\NotificationService;
 use prime\helpers\ModelHydrator;
-use prime\objects\enums\ProjectType;
 use prime\repositories\FacilityRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\FacilityId;

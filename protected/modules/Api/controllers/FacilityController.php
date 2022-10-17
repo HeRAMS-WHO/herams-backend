@@ -17,7 +17,7 @@ final class FacilityController extends Controller
             'create' => Create::class,
             'view' => View::class,
             'validate' => ValidateNew::class,
-            'data-responses' => DataResponses::class
+            'data-responses' => DataResponses::class,
         ];
     }
 }

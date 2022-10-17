@@ -17,7 +17,7 @@ class ShareCest
     public function testAccessControl(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         $I->amOnPage([
             'project/share',
@@ -29,7 +29,7 @@ class ShareCest
     public function testShareWithWriteAccess(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->grantCurrentUser($project, Permission::PERMISSION_WRITE);
 
         $I->amOnPage([
@@ -42,7 +42,7 @@ class ShareCest
     public function testLeadPermission(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_ADMIN_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $user = User::findOne([
             'id' => TEST_USER_ID,
         ]);
@@ -64,7 +64,7 @@ class ShareCest
     public function testShareWithInviteUser(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage([
@@ -93,7 +93,7 @@ class ShareCest
     public function testShareWithInviteExistingUser(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
 
         $I->amOnPage([

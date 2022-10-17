@@ -40,10 +40,16 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'headerName' => \Yii::t('app', 'Name'),
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 params => {
+                    if (params.data == null) {
+                        const a = document.createElement('span');
+                        a.textContent = params.value;
+                        return a; 
+                    }
                     const a = document.createElement('a');
                     a.textContent = params.value;
                     a.href = '/project/{id}/workspaces'.replace('{id}', params.data.id);
                     return a;
+                    
                 }
             JS),
             'field' => 'name',

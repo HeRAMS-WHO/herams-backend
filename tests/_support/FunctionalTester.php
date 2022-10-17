@@ -11,7 +11,6 @@ use prime\models\ar\Project;
 use prime\models\ar\Survey;
 use prime\models\ar\SurveyResponse;
 use prime\models\ar\Workspace;
-use prime\models\ar\WorkspaceForLimesurvey;
 use SamIT\abac\AuthManager;
 use yii\db\ActiveRecord;
 use yii\web\Request;
@@ -50,8 +49,6 @@ class FunctionalTester extends \Codeception\Actor
     private Survey $dataSurvey;
 
     private Workspace $workspace;
-
-    private WorkspaceForLimesurvey $workspaceForLimesurvey;
 
     /**
      * Define custom actions here
@@ -188,7 +185,7 @@ class FunctionalTester extends \Codeception\Actor
             $this->page = new Page();
             $this->page->title = 'Test page';
             $this->page->sort = 0;
-            $this->page->project_id = $this->haveProjectForLimesurvey()->id;
+            $this->page->project_id = $this->haveProject()->id;
             $this->save($this->page);
         }
 
@@ -206,18 +203,6 @@ class FunctionalTester extends \Codeception\Actor
         }
 
         return $this->project;
-    }
-
-    public function haveProjectForLimesurvey(): Project
-    {
-        if (! isset($this->projectForLimesurvey)) {
-            $this->projectForLimesurvey = $project = new Project();
-            $project->title = 'Test project';
-            $project->base_survey_eid = 12345;
-            $this->save($project);
-        }
-
-        return $this->projectForLimesurvey;
     }
 
     public function haveWorkspace(): Workspace

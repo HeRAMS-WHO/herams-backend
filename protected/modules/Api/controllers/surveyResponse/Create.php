@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers\surveyResponse;
 
+use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\helpers\ModelHydrator;
 use prime\helpers\ModelValidator;
+use prime\jobs\UpdateFacilityDataJob;
 use prime\modules\Api\models\NewSurveyResponse;
 use prime\repositories\SurveyResponseRepository;
 use yii\base\Action;
@@ -20,17 +22,26 @@ final class Create extends Action
         ModelValidator $modelValidator,
         SurveyResponseRepository $surveyResponseRepository,
         Request $request,
-        Response $response
+        Response $response,
+        JobQueueInterface $jobQueue,
     ) {
         $model = new NewSurveyResponse();
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
 
         // Our model is now hydrated, we should validate it.
+        /**
+         * @psalm-assert FacilityId $model->facilityId
+         */
         if (! $modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
 
+        $updateFacilityJob = new UpdateFacilityDataJob($model->facilityId);
+        $jobQueue->putJob($updateFacilityJob);
+
         $id = $surveyResponseRepository->save($model);
+        // For now update the facility synchronously.
+
         $response->setStatusCode(201);
         $response->headers->add('Location', Url::to([
             '/api/survey-response/view',

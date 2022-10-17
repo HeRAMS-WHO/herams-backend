@@ -2,7 +2,7 @@
 --
 -- Host: testdb	Database: test
 -- ------------------------------------------------------
--- Server version 	8.0.29
+-- Server version 	8.0.30
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -57,7 +57,7 @@ CREATE TABLE `prime2_audit` (
   `created_at` datetime NOT NULL,
   `created_by` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1656 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1666 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,9 +104,6 @@ DROP TABLE IF EXISTS `prime2_facility`;
 CREATE TABLE `prime2_facility` (
   `id` int NOT NULL AUTO_INCREMENT,
   `workspace_id` int NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `alternative_name` varchar(255) DEFAULT NULL,
-  `i18n` json DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
   `data` json DEFAULT NULL,
   `admin_data` json DEFAULT NULL,
@@ -117,6 +114,7 @@ CREATE TABLE `prime2_facility` (
   `use_in_dashboarding` tinyint(1) NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
   `deactivated_at` datetime DEFAULT NULL,
+  `latest_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `workspace_id` (`workspace_id`),
   CONSTRAINT `workspace_id` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`)
@@ -189,7 +187,7 @@ CREATE TABLE `prime2_permission` (
   `target_id` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1618 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1620 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +205,6 @@ CREATE TABLE `prime2_project` (
   `latitude` float DEFAULT NULL,
   `longitude` float DEFAULT NULL,
   `status` int NOT NULL,
-  `typemap` json NOT NULL,
   `overrides` json NOT NULL,
   `visibility` varchar(10) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'public',
   `country` char(3) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
@@ -309,7 +306,7 @@ CREATE TABLE `prime2_survey` (
   `id` int NOT NULL AUTO_INCREMENT,
   `config` json NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -343,8 +340,8 @@ DROP TABLE IF EXISTS `prime2_user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prime2_user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
-  `password_hash` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password_hash` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `last_login_at` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `language` varchar(10) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
@@ -353,7 +350,7 @@ CREATE TABLE `prime2_user` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `prime2_user_unique_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

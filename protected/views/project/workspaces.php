@@ -5,28 +5,23 @@ declare(strict_types=1);
 use prime\helpers\Icon;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\search\Workspace as WorkspaceSearch;
+use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use SamIT\abac\interfaces\Resolver;
-use yii\data\ActiveDataProvider;
-use yii\web\User as UserComponent;
+use yii\web\JsExpression;
 use yii\web\View;
 
 /**
- * @var ActiveDataProvider $workspaceProvider
- * @var WorkspaceSearch $workspaceSearch
  * @var int $closedCount
  * @var View $this
  * @var Project $project
- * @var Resolver $abacResolver
  * @var \prime\values\ProjectId $projectId
- * @var UserComponent $userComponent
+ * @var array $dataRoute
  */
 
-$this->title = \Yii::t('app', 'Workspaces in {project}', [
-    'project' => $project->title,
-]);
+
+$this->params['subject'] = $project->getTitle();
+$this->title = \Yii::t('app', 'Workspaces');
 $this->beginBlock('tabs');
 echo ProjectTabMenu::widget(
     [
@@ -34,7 +29,6 @@ echo ProjectTabMenu::widget(
     ]
 );
 $this->endBlock();
-
 Section::begin(
     [
         'subject' => $project,
@@ -61,29 +55,32 @@ Section::begin(
     ]
 );
 
-echo \prime\widgets\AgGrid\AgGrid::widget([
-    'route' => [
-        'api/project/workspaces',
-        'id' => $projectId
-    ],
+echo AgGrid::widget([
+    'route' => $dataRoute,
     'columns' => [
         [
 
             'headerName' => \Yii::t('app', 'Favorite'),
-            'field' => 'id',
-            'filter' => 'agNumberColumnFilter',
-            'cellRenderer' => new \yii\web\JsExpression('ToggleButtonRenderer'),
+            'field' => 'isFavorite',
+            'filter' => new JsExpression('ToggleButtonFilter'),
+            'cellRenderer' => new JsExpression('ToggleButtonRenderer'),
             'cellRendererParams' => [
-                'endpoint' => \yii\helpers\Url::to(['/api/user/workspaces', 'id' => \Yii::$app->user->id], true),
-                'clicked' => new \yii\web\JsExpression('function(field) {
-                    alert(`${field} was clicked`);
-                }')
-            ]
+                'endpoint' => \yii\helpers\Url::to([
+                    '/api/user/workspaces',
+                    'id' => \Yii::$app->user->id,
+                ], true),
+                //                'idField' => 'id'
+            ],
+            //            'width'=> 100,
+            //            'suppressSizeToFit' => true,
+            'comparator' => new JsExpression(
+                '(a, b) => a == b ? 0 : a ? 1: -1'
+            ),
         ],
         [
 
             'headerName' => \Yii::t('app', 'Name'),
-            'cellRenderer' => new \yii\web\JsExpression(<<<JS
+            'cellRenderer' => new JsExpression(<<<JS
                 params => {
                     const a = document.createElement('a');
                     a.textContent = params.value;
@@ -136,71 +133,5 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
 
 ]);
 
-//echo GridView::widget(
-//    [
-//        'pjax' => true,
-//        'export' => false,
-//        'pjaxSettings' => [
-//            'options' => [
-//                // Just links in the header.
-//                'linkSelector' => 'th a',
-//            ],
-//        ],
-//        'filterModel' => $workspaceSearch,
-//        'dataProvider' => $workspaceProvider,
-//        'columns' => [
-//            [
-//                'class' => FavoriteColumn::class,
-//
-//                'filter' => [
-//                    "1" => \Yii::t('app', 'Favorites only'),
-//                    "0" => \Yii::t('app', 'Non-favorites only'),
-//                ],
-//            ],
-//            [
-//                'class' => IdColumn::class,
-//            ],
-//            [
-//                'class' => DrilldownColumn::class,
-//                'attribute' => 'title',
-//                'permission' => Permission::PERMISSION_LIST_FACILITIES,
-//                'link' => static fn (Workspace $workspace) => [
-//                    'workspace/facilities',
-//                    'id' => $workspace->id,
-//                ],
-//            ],
-//            [
-//                'attribute' => 'latestUpdate',
-//                'class' => DateTimeColumn::class,
-//            ],
-//            [
-//                'attribute' => 'contributorCount',
-//            ],
-//            [
-//                'attribute' => 'facilityCount',
-//            ],
-//            [
-//                'attribute' => 'responseCount',
-//            ],
-//            [
-//                'label' => \Yii::t('app', 'Workspace owner'),
-//                'value' => static function (Workspace $workspace) use ($userComponent) {
-//                    return implode(
-//                        '<br>',
-//                        ArrayHelper::merge(
-//                            toArray(map(index('name'), $workspace->getLeads())),
-//                            array_filter([! $userComponent->can(Permission::PERMISSION_ADMIN, $workspace) ? Html::tag('i', Html::a(\Yii::t('app', 'Request access'), [
-//                                'workspace/request-access',
-//                                'id' => $workspace->id,
-//                            ])) : null])
-//                        )
-//                    );
-//                },
-//                'format' =>
-//'html',
-//            ],
-//        ],
-//    ]
-//);
 
 Section::end();

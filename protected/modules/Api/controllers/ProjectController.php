@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace prime\modules\Api\controllers;
 
+use prime\models\ar\Workspace;
+use prime\modules\Api\actions\UserPermissions;
 use prime\modules\Api\controllers\project\Create;
 use prime\modules\Api\controllers\project\Index;
 use prime\modules\Api\controllers\project\LatestData;
@@ -43,6 +45,10 @@ class ProjectController extends Controller
             'view' => View::class,
             'locales' => Locales::class,
             'workspaces' => Workspaces::class,
+            'permissions' => [
+                'class' => UserPermissions::class,
+                'target' => Workspace::class,
+            ],
         ];
     }
 }

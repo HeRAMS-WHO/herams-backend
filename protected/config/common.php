@@ -12,8 +12,6 @@ use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\interfaces\RuleEngine;
 use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\values\Authorizable;
-use SamIT\LimeSurvey\JsonRpc\Client;
-use SamIT\LimeSurvey\JsonRpc\JsonRpcClient;
 use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\i18n\MissingTranslationEvent;
@@ -110,28 +108,6 @@ return [
         //            ]
         //
         //        ],
-        'limesurveyDataProvider' => [
-            'class' => \prime\components\LimesurveyDataProvider::class,
-            'client' => 'limesurvey',
-        ],
-        'limesurvey' => function () use ($env) {
-            $json = new JsonRpcClient($env->getSecret('limesurvey/host'), false, 30);
-            $result = new Client($json, $env->getSecret('limesurvey/username'), $env->getSecret('limesurvey/password'));
-            $result->setCache(function ($key, $value, $duration) {
-                \Yii::debug('Setting cache key: ' . $key, 'ls');
-                // Ignore hardcoded duration passed in downstream library
-                return app()->get('limesurveyCache')->set($key, $value, 6 * 3600);
-            }, function ($key) {
-                $result = app()->get('limesurveyCache')->get($key);
-                if ($result === false) {
-                    \Yii::debug('Getting MISS key: ' . $key, 'ls');
-                } else {
-                    \Yii::debug('Getting HIT key: ' . $key, 'ls');
-                }
-                return $result;
-            });
-            return $result;
-        },
         'log' => [
             'flushInterval' => 1,
             'traceLevel' => YII_DEBUG ? 3 : 0,

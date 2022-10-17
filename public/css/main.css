@@ -118,6 +118,7 @@ body {
     grid-area: none;
     position: absolute;
     top: 15px;
+    background-color: white;
     right: 15px;
     z-index: 401;
 }
@@ -243,7 +244,7 @@ body {
     text-decoration: none;
 }
 
-.breadcrumb .icon {
+.breadcrumb .separator {
     margin: 0 5px;
     height: 12px;
     fill: var(--separator-color);
@@ -410,6 +411,7 @@ input[type="text"] {
 
 .btn-tab, .btn-tab:visited {
     font-size: 13px;
+    display: inline-block;
     line-height: 13px;
     background-color: var(--tab-button-background-color);
     color: var(--tab-button-text-color);

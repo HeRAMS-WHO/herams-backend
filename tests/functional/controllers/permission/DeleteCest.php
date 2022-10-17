@@ -19,7 +19,7 @@ class DeleteCest
     public function test(FunctionalTester $I): void
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
 
         // Create a permission
         \Yii::$app->abacManager->grant(User::findOne([

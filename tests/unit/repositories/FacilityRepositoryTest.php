@@ -20,7 +20,6 @@ use prime\models\forms\surveyResponse\CreateForm as SurveyResponseCreateForm;
 use prime\models\survey\SurveyForSurveyJs;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
-use prime\objects\enums\ProjectType;
 use prime\objects\LanguageSet;
 use prime\repositories\FacilityRepository;
 use prime\repositories\HeramsVariableSetRepository;
@@ -63,7 +62,6 @@ class FacilityRepositoryTest extends Unit
             new HeramsVariableSetRepository()
         );
     }
-
 
     public function testCreate(): void
     {

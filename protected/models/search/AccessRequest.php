@@ -9,6 +9,7 @@ use prime\models\ar\Favorite;
 use prime\models\ar\Project;
 use prime\models\ar\User;
 use prime\queries\AccessRequestQuery;
+use prime\values\UserId;
 use yii\base\Model;
 use yii\data\DataProviderInterface;
 use yii\validators\BooleanValidator;
@@ -75,7 +76,7 @@ class AccessRequest extends Model
                         'target_class' => Project::class,
                     ],
                     [
-                        'target_id' => Favorite::find()->projects()->user($this->user)->select('target_id'),
+                        'target_id' => Favorite::find()->projects()->user(UserId::fromUser($this->user))->select('target_id'),
 
                     ],
                 ],
@@ -85,7 +86,7 @@ class AccessRequest extends Model
                         'target_class' => \prime\models\ar\Workspace::class,
                     ],
                     [
-                        'target_id' => Favorite::find()->workspaces()->user($this->user)->select('target_id'),
+                        'target_id' => Favorite::find()->workspaces()->user(UserId::fromUser($this->user))->select('target_id'),
 
                     ],
                 ],

@@ -8,17 +8,12 @@ use League\ISO3166\ISO3166;
 use prime\behaviors\AuditableBehavior;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\Link;
-use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\project\ProjectForTabMenuInterface;
 use prime\interfaces\RequestableInterface;
 use prime\models\ActiveRecord;
-use prime\models\ar\limesurvey\Project as LimesurveyProject;
-use prime\models\ar\surveyjs\Project as SurveyJsProject;
 use prime\objects\enums\ProjectStatus;
-use prime\objects\enums\ProjectType;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\HeramsCodeMap;
-use prime\objects\HeramsSubject;
 use prime\objects\LanguageSet;
 use prime\objects\Locale;
 use prime\queries\FacilityQuery;
@@ -26,6 +21,7 @@ use prime\queries\WorkspaceQuery;
 use prime\validators\EnumValidator;
 use prime\validators\ExistValidator;
 use prime\values\ProjectId;
+use prime\values\SurveyId;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
@@ -58,7 +54,6 @@ use yii\web\Linkable;
  * @property array $overrides
  * @property int $status
  * @property string $title
- * @property array<string, string> $typemap
  * @property string|null $updated_at
  * @property string $visibility
  *
@@ -108,17 +103,24 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             'name_code' => \Yii::t('app', 'Question code containing the name (case sensitive)'),
             'status' => \Yii::t('app', 'Project status is shown on the world map'),
             'type_code' => \Yii::t('app', 'Question code containing the type (case sensitive)'),
-            'typemap' => \Yii::t('app', 'Map facility types for use in the world map'),
         ];
     }
 
-    public static function instantiate($row): static|LimesurveyProject|SurveyJsProject
+    public function getSurvey(): Survey
     {
-        if (isset($row['base_survey_eid'])) {
-            return new LimesurveyProject();
-        } else {
-            return new SurveyJsProject();
-        }
+        return Survey::findOne([
+            'id' => $this->data_survey_id,
+        ]);
+    }
+
+    public function getAdminSurveyId(): SurveyId
+    {
+        return new SurveyId($this->admin_survey_id);
+    }
+
+    public function getDataSurveyId(): SurveyId
+    {
+        return new SurveyId($this->data_survey_id);
     }
 
     public function beforeSave($insert): bool
@@ -169,7 +171,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         foreach ($virtualFields->virtualFields as $key => $definition) {
             $fields[$key] = $key;
         }
-        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount'] as $hidden) {
+        foreach (['overrides', 'title', 'contributorPermissionCount'] as $hidden) {
             unset($fields[$hidden]);
         }
         return $fields;
@@ -311,7 +313,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
     public function getFacilities(): FacilityQuery
     {
         return $this->hasMany(Facility::class, [
-            'workspace_id' => 'id'
+            'workspace_id' => 'id',
         ])->via('workspaces');
     }
 
@@ -343,7 +345,6 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
             'overrides' => \Yii::t('app', 'Overrides'),
             'status' => \Yii::t('app', 'Status'),
-            'typemap' => \Yii::t('app', 'Typemap'),
             'visibility' => \Yii::t('app', 'Visibility'),
         ]);
     }
@@ -372,7 +373,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                 'range' => Locale::keys(),
                 'allowArray' => true,
             ],
-            [['typemap', 'overrides', 'i18n'], function ($attribute) {
+            [['overrides', 'i18n'], function ($attribute) {
                 if (! is_array($this->$attribute)) {
                     $this->addError($attribute, \Yii::t('app', '{attribute} must be an array.', [
                         'attribute' => $this->getAttributeLabel($attribute),
@@ -478,18 +479,21 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
             'responseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => SurveyResponse::find()->andWhere([
-                    'survey_id' => new Expression(self::tableName() . '.[[data_survey_id]]'),
                     'facility_id' => Facility::find()->andWhere([
                         'workspace_id' => Workspace::find()->select('id')
                             ->where([
                                 'project_id' => new Expression(self::tableName() . '.[[id]]'),
                             ]),
-                    ])->select('id')
+                    ])->select('id'),
                 ])->select('count(*)'),
-//                VirtualFieldBehavior::LAZY => static fn (self $model) => SurveyResponse::find()->andWhere([
-//                    'survey_id' => $model->data_survey_id,
-//                    'workspace_id' => $this->getWorkspaces()->select('id')
-//                ])->count()
+                VirtualFieldBehavior::LAZY => static fn (self $model) => SurveyResponse::find()->andWhere([
+                    'survey_id' => $model->data_survey_id,
+                    'facility_id' => Facility::find()->andFilterWhere([
+                        'workspace_id' => $model->getWorkspaces()->select('id'),
+                    ])->select(
+    'id'
+),
+                ])->count(),
             ],
             'permissionSourceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -537,6 +541,43 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
                 },
+            ],
+            'tierPrimaryCount' => [
+
+                VirtualFieldBehavior::LAZY => static function (self $model) {
+                    return Facility::find()->andFilterWhere([
+                        'workspace_id' => $model->getWorkspaces()->select('id'),
+                        'tier' => 1,
+                    ])->count();
+                },
+            ],
+            'tierSecondaryCount' => [
+
+                VirtualFieldBehavior::LAZY => static function (self $model) {
+                    return Facility::find()->andFilterWhere([
+                        'workspace_id' => $model->getWorkspaces()->select('id'),
+                        'tier' => 2,
+                    ])->count();
+                },
+            ],
+            'tierTertiaryCount' => [
+
+                VirtualFieldBehavior::LAZY => static function (self $model) {
+                    return Facility::find()->andFilterWhere([
+                        'workspace_id' => $model->getWorkspaces()->select('id'),
+                        'tier' => 3,
+                    ])->count();
+                },
+            ],
+            'tierUnknownCount' => [
+
+                VirtualFieldBehavior::LAZY => static function (self $model) {
+                    return Facility::find()->andFilterWhere([
+                        'workspace_id' => $model->getWorkspaces()->select('id'),
+                        'tier' => null,
+                    ])->count();
+                },
+                
             ],
         ];
     }

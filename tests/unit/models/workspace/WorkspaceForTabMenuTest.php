@@ -7,7 +7,7 @@ namespace prime\tests\unit\models\workspace;
 use Codeception\Test\Unit;
 use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\Project;
-use prime\models\ar\WorkspaceForLimesurvey;
+use prime\models\ar\Workspace;
 use prime\models\workspace\WorkspaceForTabMenu;
 use prime\tests\_helpers\AllFunctionsMustHaveReturnTypes;
 
@@ -20,7 +20,7 @@ class WorkspaceForTabMenuTest extends Unit
 
     private function getModel(): WorkspaceForTabMenu
     {
-        $workspace = new WorkspaceForLimesurvey();
+        $workspace = new Workspace();
         $workspace->id = 15;
         $workspace->project_id = 123;
         $workspace->permissionSourceCount = 5;
@@ -38,7 +38,7 @@ class WorkspaceForTabMenuTest extends Unit
     public function testExceptionIfRecordIsNew(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new WorkspaceForTabMenu($this->getMockBuilder(AccessCheckInterface::class)->getMock(), new WorkspaceForLimesurvey());
+        new WorkspaceForTabMenu($this->getMockBuilder(AccessCheckInterface::class)->getMock(), new Workspace());
     }
 
     public function testGetId(): void
@@ -78,7 +78,7 @@ class WorkspaceForTabMenuTest extends Unit
 
     public function testCanCurrentUser(): void
     {
-        $workspace = new WorkspaceForLimesurvey();
+        $workspace = new Workspace();
         $workspace->id = 121333;
         $workspace->project_id = 1;
         $workspace->isNewRecord = false;
@@ -86,7 +86,7 @@ class WorkspaceForTabMenuTest extends Unit
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->getMock();
         $accessChecker->expects($this->once())
             ->method('checkPermission')
-            ->willReturnCallback(function (WorkspaceForLimesurvey $model, string $permission) use ($workspace): bool {
+            ->willReturnCallback(function (Workspace $model, string $permission) use ($workspace): bool {
                 $this->assertSame($workspace, $model);
                 $this->assertSame('test', $permission);
                 return false;

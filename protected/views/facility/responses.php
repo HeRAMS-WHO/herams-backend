@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 use prime\components\View;
+use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
-use prime\interfaces\ResponseForList;
 use prime\models\ar\Permission;
-use prime\widgets\GridView;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
@@ -15,13 +14,15 @@ use yii\web\User;
 
 /**
  * @var FacilityForTabMenu $facility
+ * @var \prime\values\FacilityId $facilityId
  * @var ActiveDataProvider $responseProvider
  * @var View $this
  * @var array $updateSituationUrl
  * @var iterable<\Collecthor\DataInterfaces\VariableInterface> $variables
  */
 
-$this->title = $facility->getTitle();
+$this->params['subject'] = Icon::healthFacility() . $facility->getTitle();
+$this->title = \Yii::t('app', 'Responses');
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
@@ -43,13 +44,38 @@ Section::begin()
     ])
     ->withSubject($facility)
     ->withHeader(\Yii::t('app', 'Responses'));
+echo \prime\widgets\AgGrid\AgGrid::widget([
+    'route' => [
+        '/api/facility/data-responses',
+        'id' => $facilityId,
+    ],
+    'columns' => [
+        [
 
-//echo GridView::widget([
-//    'dataProvider' => $responseProvider,
-//    'columns' => [
-//        'id',
-//        \prime\widgets\VariableColumn::configForVariables(...$variables),
-//    ],
-//]);
+            'headerName' => \Yii::t('app', 'Name'),
+            'field' => 'name',
+            //            'cellRenderer' => new \yii\web\JsExpression(<<<JS
+            //                params => {
+            //                    const a = document.createElement('a');
+            //                    a.textContent = params.value;
+            //                    a.href = '/facility/{id}/responses'.replace('{id}', params.data.id);
+            //                    return a;
+            //                }
+            //            JS),
+            //            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Id'),
+            'field' => 'id',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        ...\iter\map(fn (VariableInterface $variable) => [
+            'field' => $variable->getName(),
+            'headerName' => $variable->getTitle(\Yii::$app->language),
+        ], $variables),
+    ],
+
+]);
 
 Section::end();

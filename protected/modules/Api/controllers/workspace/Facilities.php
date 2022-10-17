@@ -11,7 +11,6 @@ use prime\repositories\SurveyRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\WorkspaceId;
 use yii\base\Action;
-use yii\web\Request;
 use function iter\filter;
 use function iter\toArray;
 
@@ -33,18 +32,20 @@ final class Facilities extends Action
 
         $data = [];
         foreach ($facilityRepository->retrieveForWorkspace($workspaceId) as $model) {
-                $row = [
-                    'id' => $model->id,
-                    'name' => $model->name,
-                ];
-                /** @var VariableInterface $variable */
-                foreach ($variables as $variable) {
-                    $row[$variable->getName()] = $variable->getDisplayValue(
-                        $model,
-                        \Yii::$app->language
-                    )->getRawValue();
-                }
-                $data[] = $row;
+            $row = [
+                'id' => $model->id,
+            ];
+            /** @var VariableInterface $variable */
+            foreach ($variables as $variable) {
+                $row[$variable->getName()] = $variable->getDisplayValue(
+                    $model,
+                    \Yii::$app->language
+                )->getRawValue();
+            }
+            if (empty($row['name'])) {
+                $row['name'] = 'no name';
+            }
+            $data[] = $row;
         }
         return $data;
     }

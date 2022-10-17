@@ -103,8 +103,8 @@ section {
     max-width: var(--max-site-width);
     margin-left: auto;
     grid-template-columns: auto;
-    grid-template-rows: max-content;
-    grid-template-areas: "tabs" "content";
+    grid-template-rows: min-content min-content 1fr;
+    grid-template-areas: "tabs"  "header" "content";
 }
 
 .tabs {
@@ -127,13 +127,15 @@ tabbed-content::part(content) {
     background-color: white;
     border-radius: 15px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .content > *:not(section) {
     position: relative;
 
 }
-.content > *:not(section):before {
+.content > *:not(section, h1):before {
     position: absolute;
     display: block;
     left: 0;
@@ -143,6 +145,11 @@ tabbed-content::part(content) {
     text-align: center;
     z-index: 10000;
     content: "This content should be in a SECTION";
+}
+
+.content > h1 {
+    color: var(--primary-color);
+    margin: 0;
 }
 
 .tabs + .content {

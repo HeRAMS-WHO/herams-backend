@@ -6,8 +6,8 @@ namespace prime\queries;
 
 use prime\components\ActiveQuery;
 use prime\models\ar\Project;
-use prime\models\ar\User;
 use prime\models\ar\Workspace;
+use prime\values\UserId;
 
 class FavoriteQuery extends ActiveQuery
 {
@@ -23,10 +23,10 @@ class FavoriteQuery extends ActiveQuery
         return $this->filterTargetClass(Project::class);
     }
 
-    public function user(User $user): self
+    public function user(UserId $user): self
     {
         return $this->andWhere([
-            'user_id' => $user->id,
+            'user_id' => $user->getValue(),
         ]);
     }
 

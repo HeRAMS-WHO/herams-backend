@@ -19,7 +19,7 @@ class ViewCest
     {
         $scenario->incomplete('Project dashboard is open to all users');
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $I->amOnPage([
             'project/view',
             'id' => $project->id,
@@ -30,7 +30,7 @@ class ViewCest
     public function testViewWithRead(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
         ]), $project, Permission::PERMISSION_READ);
@@ -44,7 +44,7 @@ class ViewCest
     public function testViewWithPageAndRead(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $page = new Page();
         $page->title = 'Main page';
         $page->project_id = $project->id;
@@ -64,7 +64,7 @@ class ViewCest
     public function testViewBadSurvey(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $project->base_survey_eid = 11111;
         $I->save($project);
         $page = new Page();
@@ -85,7 +85,7 @@ class ViewCest
     public function testWrongPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         $page = new Page();
         $page->title = 'Main page';
         $page->project_id = $project->id;
@@ -104,7 +104,7 @@ class ViewCest
     public function testOtherPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
         ]), $project, Permission::PERMISSION_READ);
@@ -131,7 +131,7 @@ class ViewCest
     public function testChildPage(FunctionalTester $I)
     {
         $I->amLoggedInAs(TEST_USER_ID);
-        $project = $I->haveProjectForLimesurvey();
+        $project = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
         ]), $project, Permission::PERMISSION_READ);

@@ -25,6 +25,7 @@ class AppAsset extends AssetBundle
     ];
 
     public $depends = [
+        NormalizeCssBundle::class,
         BootstrapAsset::class,
         YiiAsset::class,
         SourceSansProBundle::class,

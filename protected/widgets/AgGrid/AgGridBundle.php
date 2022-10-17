@@ -16,9 +16,11 @@ class AgGridBundle extends AssetBundle
 
     public $css = [
         'styles/ag-grid.min.css',
+        'styles/ag-theme-material.min.css',
+        //        'styles/ag-theme-alpine.min.css'
     ];
 
     public $depends = [
-        CustomRendererBundle::class
+        CustomRendererBundle::class,
     ];
 }

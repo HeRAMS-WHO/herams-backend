@@ -133,6 +133,7 @@ return [
         return new UserAccessCheck(\Yii::$app->user);
     },
     JqueryAsset::class => JqueryBundle::class,
+    \prime\repositories\PermissionRepository::class => \prime\repositories\PermissionRepository::class,
     PermissionRepository::class => PreloadingSourceRepository::class,
     PreloadingSourceRepository::class =>
         fn (Container $container) => new PreloadingSourceRepository($container->get(CachedReadRepository::class)),

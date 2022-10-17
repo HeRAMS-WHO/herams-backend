@@ -11,7 +11,7 @@ trait FunctionGetterColumn
      */
     public function getDataCellValue($model, $key, $index): mixed
     {
-        if ($this->value !== null) {
+        if ($this->value !== null && is_callable($this->value)) {
             return call_user_func($this->value, $model, $key, $index, $this);
         }
         $method = 'get' . ucfirst($this->attribute ?? '');

@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
+use prime\values\SurveyResponseId;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
 
 /**
- * @var \prime\values\SurveyResponseId $id
+ * @var SurveyResponseId $id
  * @var SurveyForSurveyJsInterface | null $survey
  * @var View $this
- * @var null|object $model
+ * @var \prime\values\ProjectId $projectId
  */
 assert($this instanceof View);
 
 $this->beginBlock('tabs');
-//echo WorkspaceTabMenu::widget([
-//    'workspace' => $tabMenuModel,
-//]);
 $this->endBlock();
 
 $this->title = \Yii::t('app', 'View response');

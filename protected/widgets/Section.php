@@ -106,13 +106,13 @@ class Section extends Widget
     private function initCss(): void
     {
         $css = <<<CSS
-        
-            .Section:only-child > header > h1 {
+            .Section > h1 {
+                margin: 0;
+            }
+            .Section:only-of-type > header > h2 {
                 display: none;
                 margin-bottom: 0;
             }
-            
-            
             
             .Section > header > *:last-child {
                 margin-left: auto;
@@ -140,6 +140,7 @@ class Section extends Widget
                 padding: 10px;
                 display: flex;
                 flex-direction: column;
+                flex-grow: 1;
             }
             .Section > header ~ * {
                 flex-grow: 1;
@@ -188,7 +189,7 @@ class Section extends Widget
         Html::addCssClass($options, 'Section');
         $result = Html::beginTag('section', $options);
         $result .= Html::beginTag('header');
-        $result .= Html::tag('h1', $this->header ?? '', $this->headerOptions);
+        $result .= Html::tag('h2', $this->header ?? '', $this->headerOptions);
 
         $result .= NavigationButtonGroup::widget([
             'buttons' => $this->filterButtons(),

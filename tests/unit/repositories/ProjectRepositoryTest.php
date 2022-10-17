@@ -7,9 +7,10 @@ namespace prime\tests\unit\repositories;
 use Codeception\Test\Unit;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
-use prime\models\forms\project\Update;
+use prime\modules\Api\models\UpdateProject;
 use prime\repositories\ProjectRepository;
 use prime\values\ProjectId;
 
@@ -25,9 +26,10 @@ class ProjectRepositoryTest extends Unit
         ]);
 
         $accessChecker = $this->getMockBuilder(AccessCheckInterface::class)->disableOriginalConstructor()->getMock();
+        $activeRecordHydrator = $this->getMockBuilder(ActiveRecordHydratorInterface::class)->disableOriginalConstructor()->getMock();
         $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
 
-        $projectRepository = new ProjectRepository($accessChecker, $modelHydrator);
+        $projectRepository = new ProjectRepository($accessChecker, $activeRecordHydrator, $modelHydrator);
         $breadcrumb = $projectRepository->retrieveForBreadcrumb(new ProjectId($project->id));
 
         $this->assertEquals($project->title, $breadcrumb->getLabel());
@@ -54,11 +56,12 @@ class ProjectRepositoryTest extends Unit
         $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();
         // Test that hydrator is called
         $modelHydrator->expects($this->once())->method('hydrateFromActiveRecord');
-        $projectRepository = new ProjectRepository($accessChecker, $modelHydrator);
+        $activeRecordHydrator = $this->getMockBuilder(ActiveRecordHydratorInterface::class)->disableOriginalConstructor()->getMock();
+        $projectRepository = new ProjectRepository($accessChecker, $activeRecordHydrator, $modelHydrator);
 
         $retrieved = $projectRepository->retrieveForUpdate(new ProjectId($project->id));
-        $this->assertInstanceOf(Update::class, $retrieved);
+        $this->assertInstanceOf(UpdateProject::class, $retrieved);
         // Test that scenario is set
-        $this->assertNotSame(Update::SCENARIO_DEFAULT, $retrieved->getScenario());
+        $this->assertNotSame(UpdateProject::SCENARIO_DEFAULT, $retrieved->getScenario());
     }
 }

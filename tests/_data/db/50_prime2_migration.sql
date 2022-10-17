@@ -146,4 +146,7 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_070642
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_070854_drop_token_table', 1658066942);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_071124_create_configuration_table', 1658066942);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_091630_workspace_add_data', 1658066942);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220909_115828_facility_add_latest_data_update', 1665049994);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220914_112823_facility_drop_names', 1665049994);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m221006_091619_project_drop_typemap', 1665049994);
 SET FOREIGN_KEY_CHECKS=1;
