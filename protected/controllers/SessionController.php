@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers;
 
 use prime\components\Controller;
+use prime\controllers\session\AuthToken;
 use prime\controllers\session\Create;
 use prime\controllers\session\Delete;
 use yii\filters\AccessControl;
@@ -28,7 +29,7 @@ class SessionController extends Controller
                         ],
                         [
                             'allow' => 'true',
-                            'actions' => ['delete'],
+                            'actions' => ['delete', 'auth-token'],
                             'roles' => ['@'],
                         ],
                     ],
@@ -42,6 +43,7 @@ class SessionController extends Controller
         return [
             'create' => Create::class,
             'delete' => Delete::class,
+            'auth-token' => AuthToken::class
         ];
     }
 }

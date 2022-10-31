@@ -19,7 +19,7 @@ use prime\widgets\survey\Survey;
  * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
  */
 
-$this->title = $tabMenuModel->getTitle();
+$this->title = \Yii::t('app', 'Facility settings');
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(

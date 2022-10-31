@@ -4,6 +4,11 @@ networks:
     external:
       name: devproxy
 volumes:
+  debugdata:
+    driver_opts:
+      type: tmpfs
+      o: "uid=65534"
+      device: "/docker/example"
   devdb:
   assets:
     driver_opts:
@@ -52,7 +57,7 @@ x-env:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
 services:
-  phpfpm:
+  api:
     environment:
       SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
@@ -60,10 +65,42 @@ services:
       SECRET_app/cookie_validation_key: secret
       SECRET_app/url_signer_secret: secret
       YII_ENV: $YII_ENV
+      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
+      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
+      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
+      RUNTIME_PATH: /run
+      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
+      SECRET_smtp/encryption: ''
+    depends_on:
+      - devdb
+      - mailcatcher
+      - phpmyadmin
+    image: ghcr.io/herams-who/docker/php:latest
+    volumes:
+      - type: bind
+        source: ./
+        target: /project
+        read_only: true
+      - type: volume
+        source: debugdata
+        target: /debugdata
+  phpfpm:
+    environment:
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/username: ${DB_USER}
+      SECRET_database/password: ${DB_PASS}
+      SECRET_app/cookie_validation_key: secret
+      SECRET_app/sso_private_key: ${LS_PRIV_KEY}
+      SECRET_app/url_signer_secret: secret
+      YII_ENV: $YII_ENV
       SECRET_limesurvey/host: ${LS_HOST}
       SECRET_limesurvey/password: ${LS_PASS}
       SECRET_limesurvey/username: ${LS_USER}
       SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
+
       SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
       SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
       SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
@@ -89,6 +126,9 @@ services:
       - type: volume
         source: assets
         target: /project/public/assets
+      - type: volume
+        source: debugdata
+        target: /debugdata
   coverage:
     labels:
       com.awesam.proxy.domains: "coverage.herams"
@@ -107,9 +147,11 @@ services:
     image: ghcr.io/herams-who/docker/nginx:latest
     environment:
       PHPFPM: "phpfpm:9000"
+      API: "api:9000"
       RESOLVER: "127.0.0.11"
     depends_on:
       - phpfpm
+      - api
       - coverage
     ports:
       - "0.0.0.0:12346:80"

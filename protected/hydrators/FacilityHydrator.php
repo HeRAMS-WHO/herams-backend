@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace prime\hydrators;
 
+use herams\api\models\NewFacility;
+use herams\api\models\UpdateFacility;
 use prime\attributes\SupportedType;
 use prime\helpers\LocalizedString;
 use prime\helpers\NormalizedArrayDataRecord;
@@ -11,8 +13,6 @@ use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\Facility;
 use prime\models\RequestModel;
-use prime\modules\Api\models\NewFacility;
-use prime\modules\Api\models\UpdateFacility;
 
 #[
     SupportedType(NewFacility::class, Facility::class),
@@ -26,14 +26,12 @@ class FacilityHydrator implements ActiveRecordHydratorInterface
      */
     public function hydrateActiveRecord(RequestModel $source, ActiveRecord $target): void
     {
-        $i18n = $target->i18n;
-
-        $i18n['name'] = $source->name;
-
-        $target->i18n = $i18n;
-        $target->name = $source->name->getDefault();
+        if (!$target instanceof Facility) {
+            throw new \InvalidArgumentException();
+        }
 
         if ($source instanceof NewFacility) {
+            $target->admin_data = $source->data->allData();
             $target->workspace_id = $source->workspaceId->getValue();
         }
     }

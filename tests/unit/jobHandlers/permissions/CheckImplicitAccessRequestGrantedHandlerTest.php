@@ -59,7 +59,7 @@ class CheckImplicitAccessRequestGrantedHandlerTest extends Unit
             ->willReturn($permissionCreatedById);
         $permissionRepository = $this->getMockBuilder(PermissionRepository::class)->getMock();
         $permissionRepository->expects($this->once())
-            ->method('retrieveOrThrow')
+            ->method('retrieve')
             ->with($permissionId)
             ->willReturn($permission);
 
@@ -122,7 +122,7 @@ class CheckImplicitAccessRequestGrantedHandlerTest extends Unit
             ->willReturn(new Authorizable((string) $elementId, Element::class));
         $permissionRepository = $this->getMockBuilder(PermissionRepository::class)->getMock();
         $permissionRepository->expects($this->once())
-            ->method('retrieveOrThrow')
+            ->method('retrieve')
             ->with($permissionId)
             ->willReturn($permission);
 

@@ -32,34 +32,35 @@ Section::begin()
     ])
     ->withHeader($this->title);
 
-echo GridView::widget([
-    'dataProvider' => $surveyProvider,
-    'filterModel' => $surveySearchModel,
+echo \prime\widgets\AgGrid\AgGrid::widget([
+    'route' => ['/api/survey/index'],
     'columns' => [
         [
-            'class' => IdColumn::class,
+            'headerName' => \Yii::t('app', 'Title'),
+            'cellRenderer' => new \yii\web\JsExpression(<<<JS
+                params => {
+                    if (params.data == null) {
+                        const a = document.createElement('span');
+                        a.textContent = params.value;
+                        return a; 
+                    }
+                    const a = document.createElement('a');
+                    a.textContent = params.value;
+                    a.href = '/survey/{id}/update'.replace('{id}', params.data.id);
+                    return a;
+                    
+                }
+            JS),
+            'field' => 'title',
+            //            'filter' => 'agNumberColumnFilter',
         ],
         [
-            'attribute' => 'title',
-        ],
-        [
-            'class' => ActionColumn::class,
-            'buttons' => [
-                'update' => static function ($url, SurveyForList $model, $key) {
-                    return Html::a(
-                        Icon::pencilAlt(),
-                        [
-                            'survey/update',
-                            'id' => (string) $model->getId(),
-                        ],
-                        [
-                            'title' => \Yii::t('app', 'Update'),
-                        ]
-                    );
-                },
-            ],
+
+            'headerName' => \Yii::t('app', 'Id'),
+            'field' => 'id',
+            'filter' => 'agNumberColumnFilter',
         ],
     ],
-]);
 
+]);
 Section::end();

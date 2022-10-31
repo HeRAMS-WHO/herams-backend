@@ -24,11 +24,4 @@ abstract class FrontendAction extends Action
     {
         return $this->getController()->render($view, $params);
     }
-
-    final protected function getBreadcrumbCollection(): BreadcrumbCollection
-    {
-        $view = $this->controller->view;
-        assert($view instanceof View);
-        return $view->getBreadcrumbCollection();
-    }
 }

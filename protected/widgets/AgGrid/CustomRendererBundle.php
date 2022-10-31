@@ -15,6 +15,9 @@ class CustomRendererBundle extends AssetBundle
         'ToggleButtonRenderer.js',
         'ToggleButtonFilter.js',
     ];
+    public $css = [
+        'customizations.css'
+    ];
 
     public $depends = [
         AnimateCssBundle::class,

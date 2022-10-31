@@ -223,7 +223,6 @@ class Share extends Model
     public function renderTable(string $deleteAction = '/permission/delete')
     {
         $target = $this->resolver->fromSubject($this->model);
-        $permissions = [];
         $columns = [];
         foreach ($this->permissionOptions as $permission => $label) {
             $columns[] = [
@@ -235,35 +234,9 @@ class Share extends Model
             ];
         }
 
-        /** @var \prime\models\ar\Permission $permission */
-        foreach ($this->model->getPermissions()->each() as $permission) {
-            $source = $permission->sourceAuthorizable();
-            $key = $source->getAuthName() . '|' . $source->getId();
-            if (! isset($permissions[$key])) {
-                $permissions[$key] = [
-                    'source' => $source,
-                    'user' => $this->resolver->toSubject($source)->displayField ?? \Yii::t('app', 'Deleted user'),
-                    'permissions' => [],
-                ];
-            }
-            $permissions[$key]['permissions'][$permission->permission] = $permission;
-        }
-
-        $old = \yii\grid\GridView::widget([
-            'dataProvider' => new ArrayDataProvider([
-                'allModels' => $permissions,
-            ]),
-            'columns' => array_merge([
-                [
-                    'attribute' => 'user',
-                    'label' => \Yii::t('app', 'User'),
-                ],
-            ], $columns),
-        ]);
-
         $target = $this->resolver->fromSubject($this->model);
         $route = $this->model instanceof Workspace ? '/api/workspace/permissions' : '/api/project/permissions';
-        $new = AgGrid::widget([
+        return AgGrid::widget([
             'route' => [
                 $route,
                 'id' => $target->getId(),
@@ -296,17 +269,18 @@ class Share extends Model
                         'offIcon' => 'mdi-toggle-switch-off',
                         'paramName' => 'source_id',
                         'endpoint' => \yii\helpers\Url::to([
-                            '/api/permission/grant',
+                            '/api/permission/create',
+                        ], true),
+                        'postData' => [
                             'source' => User::class,
                             'target' => $target->getAuthName(),
                             'target_id' => $target->getId(),
                             'permission' => $permission,
-                        ], true),
+                        ],
                     ],
                 ], $this->permissionOptions)),
             ],
         ]);
-        return $new;
     }
 
     private function replaceExistingEmailsWithIds(): void

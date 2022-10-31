@@ -31,7 +31,7 @@ class CheckImplicitAccessRequestGrantedHandler
      */
     public function handle(JobInterface $job): void
     {
-        $permission = $this->permissionRepository->retrieveOrThrow($job->getPermissionId());
+        $permission = $this->permissionRepository->retrieve($job->getPermissionId());
         $target = $this->resolver->toSubject($permission->targetAuthorizable());
 
         if (

@@ -58,7 +58,8 @@
         "drewm/mailchimp-api": "^2.5",
         "collecthor/surveyjs-parser": ">= 5.1",
         "collecthor/yii2-session-auth": "^1.1.1",
-        "ramsey/conventional-commits": "^1.3"
+        "ramsey/conventional-commits": "^1.3",
+      "ext-random": "*"
     },
 
     "autoload": {
@@ -66,6 +67,7 @@
             "protected/helpers/functions.php"
         ],
         "psr-4": {
+            "herams\\": ["src"],
             "prime\\": [
                 "protected"
             ],

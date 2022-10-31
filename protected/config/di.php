@@ -17,6 +17,7 @@ use kartik\dialog\Dialog;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use kartik\switchinput\SwitchInput;
+use Lcobucci\JWT\Configuration;
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
@@ -93,6 +94,14 @@ return [
         'baseUrl' => '@npm/yii2-pjax',
         'sourcePath' => null,
     ],
+    Configuration::class => static function() use ($env): Configuration {
+        $result = Configuration::forSymmetricSigner(
+            new \Lcobucci\JWT\Signer\Hmac\Sha256(),
+            \Lcobucci\JWT\Signer\Key\InMemory::plainText('secretsecretsecretsecretsecretsecretsecretsecretsecret' ?? $env->getSecret('app/sso_private_key'))
+        );
+        $result->setValidationConstraints(new \Lcobucci\JWT\Validation\Constraint\SignedWith($result->signer(), $result->signingKey()));
+        return $result;
+    },
     \prime\components\BreadcrumbService::class => \prime\components\BreadcrumbService::class,
     ActiveRecordHydratorInterface::class => static function (): ActiveRecordHydratorInterface {
         $result = new StrategyActiveRecordHydrator();
@@ -110,6 +119,7 @@ return [
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
+    \prime\components\ApiProxy::class => \prime\components\ApiProxy::class,
     \yii\web\Session::class => fn () => \Yii::$app->session,
     IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
     \prime\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
@@ -117,7 +127,14 @@ return [
     \prime\interfaces\HeramsVariableSetRepositoryInterface::class => HeramsVariableSetRepository::class,
     \prime\interfaces\project\ProjectLocalesRetriever::class => ProjectRepository::class,
     SurveyParser::class => \prime\helpers\SurveyParser::class,
-    \Psr\Http\Client\ClientInterface::class => Client::class,
+    \Psr\Http\Client\ClientInterface::class => static function(Container $container) {
+        return new Client([
+            'verify' => false
+//            'curl' => [
+//                CURLOPT_SSL_VERIFYPEER
+//            ]
+        ]);
+    },
     \Psr\Http\Message\RequestFactoryInterface::class => RequestFactory::class,
     ModelHydrator::class => ModelHydrator::class,
     \prime\helpers\ModelValidator::class => \prime\helpers\ModelValidator::class,

@@ -12,22 +12,7 @@ use yii\web\Request;
 
 class Index extends Action
 {
-    public function run(
-        ModelHydrator $modelHydrator,
-        Request $request,
-        SurveyRepository $repository
-    ) {
-        $this->controller->view->autoAddTitleToBreadcrumbs = false;
-
-        $surveySearch = new SurveySearch();
-        $modelHydrator->hydrateFromRequestQuery($surveySearch, $request);
-
-        return $this->controller->render(
-            'index',
-            [
-                'surveyProvider' => $repository->search($surveySearch),
-                'surveySearchModel' => $surveySearch,
-            ]
-        );
+    public function run() {
+        return $this->controller->render('index');
     }
 }

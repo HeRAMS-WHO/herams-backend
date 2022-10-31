@@ -118,7 +118,7 @@ class Survey extends Widget
         ]);
         $this->view->registerJs(
             <<<JS
-            const config = $config;
+            const config = {$config};
             
             const surveyStructure = config.structure
             if (config.localeEndpoint) {
@@ -206,10 +206,9 @@ class Survey extends Widget
                             ...(config.extraData ?? {}),
                             data: sender.data
                         });
-                        
                         let visibleError = false
                         console.log(json, options.data);
-                        for (const [attribute, errors] of Object.entries(json)) {
+                        for (const [attribute, errors] of Object.entries(json.errors)) {
                             options.errors[attribute] = errors.join(', ');
                             visibleError = visibleError 
                                 || typeof options.data[attribute] !== 'undefined'
@@ -219,13 +218,11 @@ class Survey extends Widget
                         // If the error is not visible, add it to all questions
                         if (!visibleError) {
                             for (const question of sender.currentPage.questions) {
-                                for (const [attribute, errors] of Object.entries(json)) {
+                                for (const [attribute, errors] of Object.entries(json.errors)) {
                                     options.errors[question.name] = errors.join(', ');
                                 }
                             }
                         }
-                        
-                        console.error("Errors:" , options.errors);
                         
                     } catch (error) {
                         // This is a big error, add it to all questions on the page.

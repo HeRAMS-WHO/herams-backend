@@ -12,13 +12,11 @@ use yii\web\JsExpression;
 use yii\web\View;
 
 /**
- * @var CreateForm|UpdateForm $model
  * @var View $this
  */
 
-$this->title = $model instanceof CreateForm
-    ? \Yii::t('app', 'Create survey')
-    : \Yii::t('app', 'Update survey');
+$this->title = \Yii::t('app', 'Create survey');
+$this->title = \Yii::t('app', 'Update survey');
 
 $this->registerCss(
     <<<CSS
@@ -76,8 +74,7 @@ echo Creator2::widget([
 }
 JS
         ),
-    ],
-    'survey' => $model->config,
+    ]
 ]);
 
 Section::end();

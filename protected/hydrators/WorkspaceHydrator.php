@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\hydrators;
 
+use herams\api\models\NewWorkspace;
+use herams\api\models\UpdateWorkspace;
 use prime\attributes\SupportedType;
 use prime\helpers\LocalizedString;
 use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\Workspace;
 use prime\models\RequestModel;
-use prime\modules\Api\models\NewWorkspace;
-use prime\modules\Api\models\UpdateWorkspace;
 use prime\objects\enums\Language;
 
 #[

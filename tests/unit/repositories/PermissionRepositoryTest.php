@@ -35,15 +35,5 @@ class PermissionRepositoryTest extends Unit
         return $permission;
     }
 
-    public function test()
-    {
-        $respository = new PermissionRepository();
 
-        $this->assertEquals(null, $respository->retrieve(10));
-        $this->expectException(InvalidArgumentException::class);
-        $respository->retrieveOrThrow(10);
-
-        $permission = $this->createPermission();
-        $this->assertObjectEquals($permission, $respository->retrieveOrThrow($permission->id));
-    }
 }

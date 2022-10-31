@@ -247,10 +247,28 @@ class SurveyResponseRepository
             'id' => $facilityId->getValue(),
         ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
-        $dataSurveyId = $facility->workspace->project->data_survey_id;
+        return $this->retrieveData($facilityId, $facility->workspace->project->getDataSurveyId());
+    }
+
+    /**
+     * @return list<SurveyResponse>
+     */
+    private function retrieveData(FacilityId $facilityId, SurveyId $surveyId): array
+    {
         return SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
-            'survey_id' => $dataSurveyId,
+            'survey_id' => $surveyId,
         ])->all();
+    }
+    /**
+     * @return list<SurveyResponse>
+     */
+    public function retrieveAdminDataInFacility(FacilityId $facilityId): array
+    {
+        $facility = Facility::findOne([
+            'id' => $facilityId->getValue(),
+        ]);
+        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
+        return $this->retrieveData($facilityId, $facility->workspace->project->getAdminSurveyId());
     }
 }

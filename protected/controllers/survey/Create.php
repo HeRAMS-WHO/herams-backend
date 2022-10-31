@@ -16,13 +16,10 @@ class Create extends Action
         AccessCheckInterface $accessCheck,
     ): string {
         $model = new CreateForm();
-        $accessCheck->checkPermission(new Survey(), Permission::PERMISSION_CREATE);
+        $accessCheck->requireGlobalPermission(Permission::PERMISSION_CREATE_SURVEY);
 
         return $this->controller->render(
-            'createAndUpdate',
-            [
-                'model' => $model,
-            ]
+            'create',
         );
     }
 }

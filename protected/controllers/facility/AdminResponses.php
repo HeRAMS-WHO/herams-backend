@@ -14,6 +14,7 @@ use prime\repositories\SurveyRepository;
 use prime\repositories\SurveyResponseRepository;
 use prime\repositories\WorkspaceRepository;
 use prime\values\FacilityId;
+use yii\helpers\Url;
 use function iter\filter;
 
 class AdminResponses extends FrontendAction
@@ -45,14 +46,13 @@ class AdminResponses extends FrontendAction
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
         $variableSet = $surveyRepository->retrieveSimpleVariableSet($surveyId);
-        $dataProvider = $surveyResponseRepository->searchAdminInFacility($facilityId);
 
         return $this->render(
             'admin-responses',
             [
-                'responseProvider' => $dataProvider,
                 'facility' => $facility,
-                'variables' => filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') === true, $variableSet->getVariables()),
+                'dataRoute' => Url::to(['/api/facility/admin-responses', 'id' => $facilityId, 'language' => \Yii::$app->language]),
+                'variables' => filter(static fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') === true, $variableSet->getVariables()),
             ]
         );
     }

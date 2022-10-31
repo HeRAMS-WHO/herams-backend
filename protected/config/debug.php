@@ -6,7 +6,7 @@ $debug = [];
 if (class_exists(\yii\debug\Module::class)) {
     if (! CONSOLE) {
         $debug['modules']['debug'] = [
-            'dataPath' => '/tmp/debug',
+            'dataPath' => '/debugdata',
             'as ' . \yii\filters\AccessControl::class => [
                 'class' => \yii\filters\AccessControl::class,
                 'rules' => [

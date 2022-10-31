@@ -8,16 +8,19 @@ use prime\helpers\Icon;
 use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\Project;
+use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\web\View;
 
 /**
  * @var ActiveDataProvider $dataProvider
  * @var View $this
  * @var Project $project
+ * @var array $dataRoute
  */
 
 $this->params['subject'] = $project->getTitle();
@@ -72,66 +75,42 @@ pageCount >
     ],
 ])->withHeader(\Yii::t('app', 'pages'));
 
-echo GridView::widget([
-    'dataProvider' => $dataProvider,
+echo AgGrid::widget([
+    'route' => $dataRoute,
     'columns' => [
-        'id',
-        'title' => [
-            'attribute' => 'title',
-            'value' => static function (Page $page): string {
-                return \Yii::t('app.pagetitle', $page->title);
-            },
-        ],
+        [
 
-        'parent_id' => [
-            'attribute' => 'parent_id',
-            'value' => function (Page $project) {
-                return isset($project->parent_id) ? \Yii::t('app.pagetitle', $project->parent->title) . " ({$project->parent_id})" : null;
-            },
+            'headerName' => \Yii::t('app', 'Title'),
+            'cellRenderer' => new JsExpression(<<<JS
+                params => {
+                    const a = document.createElement('a');
+                    a.textContent = params.value;
+                    a.href = '/page/{id}/update'.replace('{id}', params.data.id);
+                    return a;
+                }
+            JS),
+            'field' => 'title',
+            //            'filter' => 'agNumberColumnFilter',
         ],
-        'sort',
-        'actions' => [
-            'class' => ActionColumn::class,
-            'width' => '100px',
-            'template' => '{update} {delete}',
-            'visibleButtons' => [
-                'update' => function (Page $page) {
-                    return app()->user->can(Permission::PERMISSION_WRITE, $page);
-                },
-                'delete' => function (Page $page) {
-                    return app()->user->can(Permission::PERMISSION_DELETE, $page);
-                },
-            ],
-            'buttons' => [
-                'delete' => function ($url, Page $page, $key) {
-                    return Html::a(
-                        Icon::trash(),
-                        [
-                            'page/delete',
-                            'id' => $page->id,
-                        ],
-                        [
-                            'title' => \Yii::t('app', 'Delete'),
-                            'data-method' => 'delete',
-                            'data-confirm' => \Yii::t('app', 'Are you sure you want to delete this page?'),
-                        ]
-                    );
-                },
-                'update' => function ($url, Page $page, $key) {
-                    return Html::a(
-                        Icon::edit(),
-                        [
-                            'page/update',
-                            'id' => $page->id,
-                        ],
-                        [
-                            'title' => \Yii::t('app', 'Edit'),
-                        ]
-                    );
-                },
-            ],
+        [
+
+            'headerName' => \Yii::t('app', 'Id'),
+            'field' => 'id',
+            'filter' => 'agNumberColumnFilter',
         ],
+        [
+
+            'headerName' => \Yii::t('app', 'Parent Id'),
+            'field' => 'parent_id',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Sort'),
+            'field' => 'sort',
+            'filter' => 'agNumberColumnFilter',
+        ]
     ],
-]);
 
+]);
 Section::end();

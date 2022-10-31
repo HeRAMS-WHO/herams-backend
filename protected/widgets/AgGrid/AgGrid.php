@@ -27,6 +27,7 @@ class AgGrid extends Widget
         $config = Json::encode([
             'id' => $this->getId(),
             'gridId' => "{$this->getId()}-grid",
+
             'gridOptions' => [
                 'columnDefs' => $this->columns,
                 'animateRows' => true,

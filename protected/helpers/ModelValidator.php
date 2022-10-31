@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use yii\base\Model;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\Response;
 
 /**
  * @yii-depends \Yii::$app->response
  */
-class ModelValidator
+final class ModelValidator
 {
     public function validateModel(Model $model): bool
     {
@@ -29,10 +30,21 @@ class ModelValidator
         return $response;
     }
 
+    /**
+     * Renders a response for use by a validation endpoint.
+     * Validation endpoints differ from normal ones because their HTTP status code will be 200 even when the payload
+     * has errors; this makes sense because the validation works and the result is a list of errors.
+     * @param Model $model
+     * @param Response $response
+     * @return Response
+     */
     public function renderForValidationEndpoint(Model $model, Response $response): Response
     {
+
         $response->setStatusCode(200);
-        $response->data = $model->errors;
+        $response->data = [
+            'errors' => $model->errors,
+        ];
         return $response;
     }
 }

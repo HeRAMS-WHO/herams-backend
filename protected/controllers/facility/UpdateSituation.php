@@ -14,14 +14,7 @@ use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\Response;
 
-/*
- * We have 2 routes for updating the situation:
- * - copy-latest-response for limesurvey
- * - update-situation for surveyJs
- *
- * TODO Limesurvey deprecation: remove project type check
- */
-class UpdateSituation extends Action
+final class UpdateSituation extends Action
 {
     public function run(
         FacilityRepository $facilityRepository,

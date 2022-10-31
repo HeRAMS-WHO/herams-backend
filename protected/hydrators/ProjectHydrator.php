@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace prime\hydrators;
 
+use herams\api\models\NewProject;
+use herams\api\models\UpdateProject;
 use prime\attributes\SupportedType;
 use prime\helpers\LocalizedString;
 use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\models\ActiveRecord;
 use prime\models\ar\Project;
 use prime\models\RequestModel;
-use prime\modules\Api\models\NewProject;
-use prime\modules\Api\models\UpdateProject;
 use prime\objects\enums\Language;
-use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
 use prime\values\Latitude;
 use prime\values\Longitude;

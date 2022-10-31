@@ -34,7 +34,7 @@ class Breadcrumbs extends Widget
             ])),
             'homeLink' => [
                 'label' => \Yii::t('app', 'Administration'),
-                'url' => '/project/index',
+                'url' => ['/admin'],
             ],
             'links' => map(fn (BreadcrumbInterface $breadcrumb) => [
                 'label' => $breadcrumb->getLabel(),

@@ -28,5 +28,7 @@ call_user_func(function () {
     $config = require __DIR__ . '/config/web.php';
     \Yii::$container->set(\yii\web\Application::class, $config);
     $app = \Yii::$container->get(\yii\web\Application::class);
+    \Yii::beginProfile('app run');
     $app->run();
+    \Yii::endProfile('app run');
 });

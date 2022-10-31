@@ -1,0 +1,32 @@
+<?php
+declare(strict_types=1);
+
+namespace prime\traits;
+
+use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\ActiveRecordHydratorInterface;
+use prime\models\ActiveRecord;
+use prime\models\ar\Permission;
+use yii\base\Model;
+
+trait RepositorySave
+{
+    private readonly AccessCheckInterface $accessCheck;
+    private readonly ActiveRecordHydratorInterface $activeRecordHydrator;
+
+    private function internalSave(ActiveRecord $record, Model $model): void
+    {
+        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
+        if (empty($record->getDirtyAttributes())) {
+            \Yii::debug([
+                'message' => 'Record has no dirty attributes',
+                'source' => $model->attributes,
+                'target' => $record->attributes,
+            ]);
+        }
+        if (! $record->save()) {
+            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+        }
+    }
+}

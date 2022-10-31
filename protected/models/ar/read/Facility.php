@@ -36,19 +36,13 @@ class Facility extends \prime\models\ar\Facility implements RecordInterface
                         ],
                     ],
                 ],
-                LocalizableReadBehavior::class => [
-                    'class' => LocalizableReadBehavior::class,
-                    'attributes' => ['name', 'alternative_name'],
-                    'locale' => \Yii::$app->language,
-                    'defaultLocale' => \Yii::$app->sourceLanguage,
-                ],
             ]
         );
     }
 
     public function getDataValue(array $path): string|int|float|bool|null|array
     {
-        $data = $this->data;
+        $data = [...($this->data ?? []), ...($this->admin_data ?? [])];
 
         while (count($path) > 0 && is_array($data)) {
             $key = array_shift($path);

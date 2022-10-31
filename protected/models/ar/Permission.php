@@ -58,6 +58,7 @@ class Permission extends ActiveRecord
     public const PERMISSION_LIST_USERS = 'list-users';
 
     public const PERMISSION_CREATE_PROJECT = 'create-project';
+    public const PERMISSION_CREATE_SURVEY = 'create-survey';
 
     public const PERMISSION_SURVEY_DATA = 'update-data';
 

@@ -13,7 +13,6 @@ use prime\components\JobSubmissionService;
 use prime\components\LanguageSelector;
 use prime\components\MaintenanceMode;
 use prime\components\NotificationService;
-use prime\modules\Api\Module;
 use yii\web\DbSession;
 
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
@@ -36,6 +35,10 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         'session' => [
             'class' => DbSession::class,
             'timeout' => 12 * 3600,
+            'cookieParams' => [
+                'httponly' => 'true',
+                'samesite' => 'strict'
+            ],
             'readCallback' => static function (array $fields): array {
                 return [
                     '__id' => $fields['user_id'] ?? null,
@@ -67,7 +70,10 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                Module::urlRules(),
+                [
+                    'pattern' => '/api-proxy/<api:[\w-]+>/<sub:.*>',
+                    'route' => '/api-proxy/<api>'
+                ],
                 [
                     'pattern' => '<controller>',
                     'route' => '<controller>',
@@ -95,6 +101,10 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         ],
         'request' => [
             'class' => \yii\web\Request::class,
+            'csrfCookie' => [
+                'httpOnly' => true,
+                'sameSite' => \yii\web\Cookie::SAME_SITE_STRICT
+            ],
             'trustedHosts' => [
                 '10.0.0.0/8',
                 '172.0.0.0/8',

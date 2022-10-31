@@ -6,12 +6,15 @@ namespace prime\widgets\surveyJs;
 
 use prime\assets\SurveyJsCreator2Bundle;
 use prime\components\View;
+use prime\values\SurveyId;
+use prime\widgets\survey\Survey;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 
-class Creator2 extends Widget
+final class Creator2 extends Widget
 {
     public array $clientOptions = [];
 
@@ -22,30 +25,12 @@ class Creator2 extends Widget
     ];
 
     /**
-     * Survey content
-     */
-    public array $survey = [];
-
-    /**
      * JavaScript methods that are called after the initialization and get the surveyCreate as an argument
+     *
      */
     public array $surveyCreatorCustomizers = [];
 
-    public function init(): void
-    {
-        parent::init();
-
-        $this->options['id'] = $this->options['id'] ?? $this->getId();
-        $survey = Json::encode($this->survey);
-        $this->surveyCreatorCustomizers[] = new JsExpression(
-            <<<JS
-function(surveyCreator) {
-  surveyCreator.haveCommercialLicense = false;
-  surveyCreator.JSON = {$survey};
-}
-JS
-        );
-    }
+    public null|SurveyId $surveyId = null;
 
     private function registerAssetBundles(): void
     {
@@ -55,20 +40,31 @@ JS
     public function run(): string
     {
         $this->registerAssetBundles();
-        $result = parent::run();
-        $result .= Html::tag('div', '', $this->options);
+        $htmlOptions = ['id' => $this->getId(), ...$this->options];
+        $result = Html::tag('div', '', $htmlOptions);
 
-        $clientOptions = Json::encode($this->clientOptions);
-        $surveyJsCustomizers = Json::encode(array_values($this->surveyCreatorCustomizers));
-        $id = Json::encode($this->options['id']);
+        $config = Json::encode([
+            'creatorOptions' => $this->clientOptions,
+            'createEndpoint' => Url::to(['/api/survey/create']),
+            'updateEndpoint' => Url::to(['/api/survey/update', 'id' => '__id__']),
+            'idPlaceholder' => '__id__',
+            'customizers' => array_values($this->surveyCreatorCustomizers),
+            'elementId' => $htmlOptions['id'],
+            'surveyId' => $this->surveyId
+
+        ]);
         $this->view->registerJs(
             <<<JS
-            const element = document.getElementById({$id});
-            const options = {$clientOptions};
-            console.log('creating creator', options);
-            const surveyCreator = new SurveyCreator.SurveyCreator(options);
+            const config = {$config}
+            if (!config.updateEndpoint.includes(config.idPlaceholder)) {
+                throw `ID placeholder \${config.idPlaceholder} not found in \${config.updateEndpoint}`;
+            }
+            const element = document.getElementById(config.elementId);
+            console.log('creating creator', config);
+            const surveyCreator = new SurveyCreator.SurveyCreator(config.creatorOptions);
+            surveyCreator.haveCommercialLicense = false
             window.surveyCreator = surveyCreator;
-            {$surveyJsCustomizers}.forEach(customizer => customizer(surveyCreator));
+            config.customizers.forEach(customizer => customizer(surveyCreator));
             surveyCreator.render(element);
 
 

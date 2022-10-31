@@ -12,6 +12,7 @@ use prime\models\ar\read\Project;
 use prime\values\ProjectId;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 use function iter\toArray;
 
 class Pages extends Action
@@ -31,6 +32,7 @@ class Pages extends Action
         $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator()));
         return $this->controller->render('pages', [
             'project' => $model,
+            'dataRoute' => ['/api/project/pages', 'id' => $projectId],
             'dataProvider' => new ActiveDataProvider([
                 'query' => $model->getPages(),
             ]),

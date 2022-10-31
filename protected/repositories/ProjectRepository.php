@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use herams\api\models\NewProject;
+use herams\api\models\UpdateProject;
 use prime\helpers\ModelHydrator;
 use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\ActiveRecordHydratorInterface;
@@ -17,8 +19,7 @@ use prime\models\forms\project\Create;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\models\project\ProjectForExternalDashboard;
 use prime\models\project\ProjectLocales;
-use prime\modules\Api\models\NewProject;
-use prime\modules\Api\models\UpdateProject;
+use prime\traits\RepositorySave;
 use prime\values\IntegerId;
 use prime\values\ProjectId;
 use prime\values\SurveyId;
@@ -26,10 +27,11 @@ use yii\web\NotFoundHttpException;
 
 class ProjectRepository implements RetrieveReadModelRepositoryInterface, ProjectLocalesRetriever
 {
+    use RepositorySave;
     public function __construct(
-        private AccessCheckInterface $accessCheck,
-        private ActiveRecordHydratorInterface $activeRecordHydrator,
-        private ModelHydrator $hydrator
+        private readonly AccessCheckInterface $accessCheck,
+        private readonly ActiveRecordHydratorInterface $activeRecordHydrator,
+        private readonly ModelHydrator $hydrator
     ) {
     }
 
@@ -89,17 +91,7 @@ class ProjectRepository implements RetrieveReadModelRepositoryInterface, Project
         $record = Project::findOne([
             'id' => $model->id,
         ]);
-        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
-        if (empty($record->getDirtyAttributes())) {
-            \Yii::debug([
-                'message' => 'Record has no dirty attributes',
-                'source' => $model->attributes,
-                'target' => $record->attributes,
-            ]);
-        }
-        if (! $record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
-        }
+        $this->internalSave($record, $model);
         return new ProjectId($record->id);
     }
 

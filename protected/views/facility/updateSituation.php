@@ -32,6 +32,10 @@ Section::begin()
 $survey = Survey::begin()
     ->withConfig($model->getSurvey()->getConfig())
     ->withData($model->data ?? [])
+    ->withExtraData([
+        'facilityId' => $model->getFacilityId(),
+        'surveyId' => $model->getSurvey()->getId()
+    ])
     ->withSubmitRoute([
         'update-situation',
         'id' => $model->getFacilityId(),

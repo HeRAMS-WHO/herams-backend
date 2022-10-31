@@ -42,7 +42,6 @@ return [
     ],
     'bootstrap' => [
         'log',
-
     ],
     'components' => [
         'db' => [
@@ -56,15 +55,6 @@ return [
             'enableQueryCache' => true,
             'queryCache' => 'cache',
             'tablePrefix' => 'prime2_',
-        ],
-        'limesurveySSo' => [
-            'class' => JwtSso::class,
-            'errorRoute' => ['site/lime-survey'],
-            'privateKey' => $env->getWrappedSecret('limesurvey/sso_private_key'),
-            'loginUrl' => 'https://ls.herams.org/plugins/unsecure?plugin=FederatedLogin&function=SSO',
-            'userNameGenerator' => static function ($id) use ($env) {
-                return $env->get('SSO_PREFIX', 'prime_') . $id;
-            },
         ],
         'urlSigner' => static function () use ($env): UrlSigner {
             // Use a closure to allow lazy secret loading
@@ -167,11 +157,6 @@ return [
             ]);
         },
 
-    ],
-    'modules' => [
-        'api' => [
-            'class' => \prime\modules\Api\Module::class,
-        ],
     ],
     'params' => [
         'defaultSettings' => [

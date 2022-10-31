@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use Collecthor\DataInterfaces\VariableSetInterface;
 use Collecthor\SurveyjsParser\VariableSet;
-use prime\components\HydratedActiveDataProvider;
 use prime\helpers\HeramsVariableSet;
 use prime\helpers\ModelHydrator;
 use prime\helpers\SurveyParser;
 use prime\interfaces\AccessCheckInterface;
+use prime\interfaces\ActiveRecordHydratorInterface;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\interfaces\SurveyRepositoryInterface;
 use prime\models\ar\Permission;
@@ -19,24 +20,24 @@ use prime\models\ar\Survey;
 use prime\models\ar\Workspace;
 use prime\models\forms\survey\CreateForm;
 use prime\models\forms\survey\UpdateForm;
-use prime\models\search\SurveySearch;
 use prime\models\survey\SurveyForList;
 use prime\models\survey\SurveyForSurveyJs;
+use prime\modules\Api\models\UpdateSurvey;
+use prime\traits\RepositorySave;
 use prime\values\SurveyId;
 use prime\values\WorkspaceId;
 use yii\base\InvalidArgumentException;
-use yii\data\DataProviderInterface;
-use yii\db\QueryInterface;
-
 use function iter\chain;
 use function iter\toArray;
 
 final class SurveyRepository implements SurveyRepositoryInterface
 {
+    use RepositorySave;
     public function __construct(
-        private SurveyParser $surveyParser,
-        private AccessCheckInterface $accessCheck,
-        private ModelHydrator $hydrator,
+        private readonly SurveyParser $surveyParser,
+        private readonly AccessCheckInterface $accessCheck,
+        private readonly ActiveRecordHydratorInterface $activeRecordHydrator,
+        private readonly ModelHydrator $hydrator,
     ) {
     }
 
@@ -56,8 +57,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
         $workspace = Workspace::findOne([
             'id' => $workspaceId,
         ]);
-        $surveyId = new SurveyId($workspace->project->admin_survey_id);
-        return $this->retrieveForSurveyJs($surveyId);
+        return $this->retrieveForSurveyJs($workspace->project->getAdminSurveyId());
     }
 
     public function retrieveDataSurveyForWorkspaceForSurveyJs(WorkspaceId $workspaceId): SurveyForSurveyJsInterface
@@ -65,8 +65,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
         $workspace = Workspace::findOne([
             'id' => $workspaceId,
         ]);
-        $surveyId = new SurveyId($workspace->project->data_survey_id);
-        return $this->retrieveForSurveyJs($surveyId);
+        return $this->retrieveForSurveyJs($workspace->project->getDataSurveyId());
     }
 
     public function retrieveForSurveyJs(SurveyId $id): SurveyForSurveyJsInterface
@@ -93,51 +92,28 @@ final class SurveyRepository implements SurveyRepositoryInterface
         return new HeramsVariableSet($allVariables, $adminVariables->colorMap);
     }
 
-    public function retrieveSimpleVariableSet(SurveyId $surveyId): VariableSet
+    public function retrieveSimpleVariableSet(SurveyId $surveyId): VariableSetInterface
     {
         return $this->surveyParser->parseSurveyStructure(Survey::findOne([
             'id' => $surveyId->getValue(),
         ])->config);
     }
 
-    public function retrieveForUpdate(SurveyId $id): UpdateForm
+    public function retrieveForUpdate(SurveyId $id): Survey
     {
         $record = Survey::findOne([
             'id' => $id,
         ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        return $record;    }
 
-        $model = new UpdateForm($id);
-        $model->config = $record->config;
-
-        return $model;
-    }
-
-    public function search(SurveySearch $model): DataProviderInterface
+    public function retrieveAll(): iterable
     {
-        $query = SurveyRead::find();
-
-        if ($model->validate()) {
-            $query->andFilterWhere([
-                'id' => $model->id,
-            ]);
-            $query->andFilterWhere(['like', 'JSON_EXTRACT(`config`, "$.title")', $model->title]);
+        foreach (SurveyRead::find()->all() as $survey) {
+            if ($this->accessCheck->checkPermission($survey, Permission::PERMISSION_READ)) {
+                yield $this->hydrator->hydrateConstructor($survey, SurveyForList::class);
+            }
         }
-
-        $dataProvider = new HydratedActiveDataProvider(
-            fn (Survey $survey) => $this->hydrator->hydrateConstructor($survey, SurveyForList::class),
-            [
-                'query' => $query,
-            ]
-        );
-
-        /**
-         * Optimize total count since we don't have Survey specific permissions.
-         * If this ever changes, pagination may break but permission checking will not
-         */
-        $dataProvider->totalCount = fn (QueryInterface $query) => (int) $query->count();
-
-        return $dataProvider;
     }
 
     public function update(UpdateForm $model): SurveyId
@@ -150,6 +126,15 @@ final class SurveyRepository implements SurveyRepositoryInterface
         if (! $record->save()) {
             throw new InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
+        return new SurveyId($record->id);
+    }
+
+    public function save(UpdateSurvey $model): SurveyId
+    {
+        $record = Survey::findOne([
+            'id' => $model->id,
+        ]);
+        $this->internalSave($record, $model);
         return new SurveyId($record->id);
     }
 }
