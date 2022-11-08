@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\ar;
 
 /**
- * @covers \prime\models\ar\SurveyResponse
+ * @covers \herams\common\models\SurveyResponse
  */
 class SurveyResponseTest extends ActiveRecordTest
 {

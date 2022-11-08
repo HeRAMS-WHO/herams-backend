@@ -7,7 +7,7 @@ use prime\widgets\Section;
 use prime\widgets\survey\Survey;
 
 /**
- * @var \prime\values\ProjectId $projectId
+ * @var \herams\common\values\ProjectId $projectId
  * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
  *
  * @var View $this

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\page;
 
 use Codeception\Test\Unit;
-use prime\models\ar\Page;
+use herams\common\models\Page;
+use herams\common\values\ProjectId;
 use prime\models\pages\PageForBreadcrumb;
-use prime\values\ProjectId;
 
 /**
  * @covers \prime\models\pages\PageForBreadcrumb

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Project;
 use prime\helpers\Icon;
-use prime\models\ar\Project;
 use yii\helpers\Html;
 
 ?>

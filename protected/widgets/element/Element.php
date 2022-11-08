@@ -2,8 +2,8 @@
 
 namespace prime\widgets\element;
 
+use herams\common\models\Permission;
 use prime\helpers\Icon;
-use prime\models\ar\Permission;
 use yii\base\Widget;
 use yii\helpers\Html;
 

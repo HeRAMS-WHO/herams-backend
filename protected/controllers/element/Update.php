@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\controllers\element;
 
-use prime\interfaces\AccessCheckInterface;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
+use herams\common\values\PageId;
+use herams\common\values\ProjectId;
 use prime\models\ar\Element;
 use prime\models\ar\elements\Svelte;
-use prime\models\ar\Permission;
-use prime\values\PageId;
-use prime\values\ProjectId;
 use yii\base\Action;
 use yii\web\Request;
 

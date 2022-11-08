@@ -6,12 +6,12 @@ class m191114_143505_page_rename_project extends Migration
 {
     public function safeUp()
     {
-        $this->renameColumn(\prime\models\ar\Page::tableName(), 'tool_id', 'project_id');
+        $this->renameColumn(\herams\common\models\Page::tableName(), 'tool_id', 'project_id');
     }
 
     public function safeDown()
     {
-        $this->renameColumn(\prime\models\ar\Page::tableName(), 'project_id', 'tool_id');
+        $this->renameColumn(\herams\common\models\Page::tableName(), 'project_id', 'tool_id');
     }
 
     /*

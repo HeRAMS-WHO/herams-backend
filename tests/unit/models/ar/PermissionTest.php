@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
-use prime\models\ar\User;
 
 /**
- * @covers \prime\models\ar\Permission
+ * @covers \herams\common\models\Permission
  */
 class PermissionTest extends ActiveRecordTest
 {

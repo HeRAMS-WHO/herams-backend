@@ -2,7 +2,7 @@
 
 namespace prime\objects;
 
-use prime\interfaces\HeramsResponseInterface;
+use herams\common\interfaces\HeramsResponseInterface;
 
 /**
  * Class HeramsSubject

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use prime\components\AuditService;
+use herams\common\components\AuditService;
 use yii\behaviors\BlameableBehavior;
 
 // Disable the audit service since we do not want to have this run on every unit test.

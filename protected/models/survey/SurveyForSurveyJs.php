@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\models\survey;
 
+use herams\common\values\SurveyId;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
-use prime\values\SurveyId;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters

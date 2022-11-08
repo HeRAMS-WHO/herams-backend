@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
-use prime\models\ar\Permission;
-use prime\models\ar\User;
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
 use prime\tests\FunctionalTester;
 use yii\mail\MessageInterface;
 

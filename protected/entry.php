@@ -1,6 +1,7 @@
 <?php
 
-use prime\components\KubernetesSecretEnvironment;
+use herams\common\helpers\InsecureSecretEnvironment;
+use herams\common\helpers\KubernetesSecretEnvironment;
 
 defined('CONSOLE') or define('CONSOLE', false);
 /**
@@ -20,7 +21,7 @@ call_user_func(function () {
 
     require_once $autoload;
     if (! file_exists('/run/secrets')) {
-        $env = new \prime\components\InsecureSecretEnvironment('/run/env.json', __DIR__ . '/config/env.json');
+        $env = new InsecureSecretEnvironment('/run/env.json', __DIR__ . '/config/env.json');
     } else {
         $env = new KubernetesSecretEnvironment('/run/secrets', __DIR__ . '/config/env.json', '/run/config/config.json', '/run/env.json');
     }

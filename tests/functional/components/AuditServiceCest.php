@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\components;
 
-use prime\components\AuditService;
+use herams\common\components\AuditService;
+use herams\common\enums\AuditEvent;
+use herams\common\interfaces\AuditServiceInterface;
+use herams\common\interfaces\NewAuditEntryInterface;
 use prime\helpers\EventDispatcher;
-use prime\interfaces\AuditServiceInterface;
-use prime\interfaces\NewAuditEntryInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Audit;
-use prime\objects\enums\AuditEvent;
 use prime\tests\FunctionalTester;
 use yii\db\AfterSaveEvent;
 
 /**
- * @covers \prime\components\AuditService
+ * @covers \herams\common\components\AuditService
  */
 class AuditServiceCest
 {

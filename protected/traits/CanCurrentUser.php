@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\traits;
 
-use prime\interfaces\AccessCheckInterface;
+use herams\common\interfaces\AccessCheckInterface;
 
 trait CanCurrentUser
 {

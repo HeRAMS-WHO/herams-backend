@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use herams\common\interfaces\PageInterface;
+use herams\common\models\Page;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\components\Controller;
 use prime\exceptions\SurveyDoesNotExist;
-use prime\interfaces\PageInterface;
-use prime\models\ar\Page;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\models\forms\ResponseFilter;
 use prime\objects\Breadcrumb;
 use SamIT\abac\interfaces\Resolver;

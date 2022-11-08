@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\models\search;
 
-use prime\models\ar\Facility;
+use herams\common\domain\facility\Facility;
 use yii\base\Model;
 use yii\validators\FilterValidator;
 use yii\validators\NumberValidator;

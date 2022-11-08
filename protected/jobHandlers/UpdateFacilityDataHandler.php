@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace prime\jobHandlers;
 
-use prime\helpers\surveyjs\FacilityTierVariable;
-use prime\helpers\SurveyParser;
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\helpers\surveyjs\FacilityTierVariable;
+use herams\common\helpers\surveyjs\SurveyParser;
+use herams\common\values\WorkspaceId;
 use prime\jobs\UpdateFacilityDataJob;
-use prime\repositories\FacilityRepository;
-use prime\repositories\SurveyRepository;
-use prime\repositories\SurveyResponseRepository;
-use prime\values\WorkspaceId;
 
 final class UpdateFacilityDataHandler
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\models\project;
 
+use herams\common\models\Project;
 use prime\interfaces\project\ProjectForBreadcrumbInterface;
-use prime\models\ar\Project;
 use prime\traits\BreadcrumbTrait;
 
 class ProjectForBreadcrumb implements ProjectForBreadcrumbInterface

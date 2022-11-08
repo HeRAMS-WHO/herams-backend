@@ -1,6 +1,6 @@
 <?php
 
-use prime\components\KubernetesSecretEnvironment;
+use herams\common\helpers\KubernetesSecretEnvironment;
 
 define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 define('YII_ENV', getenv('YII_ENV'));

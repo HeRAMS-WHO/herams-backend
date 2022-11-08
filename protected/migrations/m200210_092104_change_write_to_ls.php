@@ -1,6 +1,6 @@
 <?php
 
-use prime\models\ar\Permission;
+use herams\common\models\Permission;
 use yii\db\Migration;
 
 class m200210_092104_change_write_to_ls extends Migration

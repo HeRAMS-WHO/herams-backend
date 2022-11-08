@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace prime\controllers\survey;
 
-use prime\helpers\ModelHydrator;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
-use prime\models\ar\Survey;
+use herams\common\domain\survey\Survey;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
+use herams\common\values\SurveyId;
 use prime\models\forms\survey\CreateForm;
-use prime\repositories\SurveyRepository;
-use prime\values\SurveyId;
 use yii\base\Action;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\Request;

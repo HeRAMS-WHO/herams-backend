@@ -3,15 +3,14 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\models\Permission;
 use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
 use prime\models\forms\accessRequest\Respond;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 use yii\helpers\Html;
-
 use function iter\map;
 
 /**

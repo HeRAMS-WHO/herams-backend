@@ -7,7 +7,7 @@ class m210719_133325_project_add_admin_survey extends Migration
     public function safeUp()
     {
         // Create a default survey.
-        $default = new \prime\models\ar\Survey();
+        $default = new \herams\common\domain\survey\Survey();
         $default->config = [
             'pages' => [
             ],

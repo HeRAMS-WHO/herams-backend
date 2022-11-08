@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\modules\api\user;
 
-use prime\models\ar\Favorite;
-use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
+use herams\common\domain\favorite\Favorite;
+use herams\common\models\Permission;
+use herams\common\models\Workspace;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 

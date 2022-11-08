@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
-use prime\models\ar\User;
-use prime\repositories\PermissionRepository;
-use yii\base\InvalidArgumentException;
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 
 /**
- * @covers \prime\repositories\PermissionRepository
+ * @covers \herams\common\domain\permission\PermissionRepository
  */
 class PermissionRepositoryTest extends Unit
 {

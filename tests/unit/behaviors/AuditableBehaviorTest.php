@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\behaviors;
 
-use prime\behaviors\AuditableBehavior;
-use prime\interfaces\AuditServiceInterface;
+use herams\common\behaviors\AuditableBehavior;
+use herams\common\interfaces\AuditServiceInterface;
 use yii\base\Component;
 use yii\db\ActiveRecord;
 use yii\db\AfterSaveEvent;
 
 /**
- * @covers \prime\behaviors\AuditableBehavior
+ * @covers \herams\common\behaviors\AuditableBehavior
  */
 class AuditableBehaviorTest extends \Codeception\Test\Unit
 {

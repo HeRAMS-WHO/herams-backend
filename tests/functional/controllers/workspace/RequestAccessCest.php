@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\workspace;
 
+use herams\common\models\Permission;
+use herams\common\models\Workspace;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
-use prime\models\ar\Workspace;
 use prime\tests\FunctionalTester;
 
 /**

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\models\forms\facility;
 
+use herams\common\values\FacilityId;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\objects\LanguageSet;
 use prime\traits\DisableYiiLoad;
-use prime\values\FacilityId;
 use yii\base\Model;
 use yii\validators\RequiredValidator;
 

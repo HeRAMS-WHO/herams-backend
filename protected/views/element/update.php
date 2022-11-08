@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\models\Page;
+use herams\common\models\Project;
 use kartik\select2\Select2;
 use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\Element as ARElement;
-use prime\models\ar\Page;
-use prime\models\ar\Project;
 use prime\models\forms\Element as FormElement;
 use prime\widgets\ButtonGroup;
 use prime\widgets\FormButtonsWidget;

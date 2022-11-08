@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
+use herams\common\domain\facility\Facility;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\SurveyResponse;
+use herams\common\values\FacilityId;
+use herams\common\values\SurveyId;
 use InvalidArgumentException;
-use prime\helpers\ModelHydrator;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Facility;
-use prime\models\ar\SurveyResponse;
 use prime\models\forms\surveyResponse\CreateForm;
-use prime\repositories\SurveyResponseRepository;
-use prime\values\FacilityId;
-use prime\values\SurveyId;
 use yii\web\NotFoundHttpException;
 
 /**
- * @covers \prime\repositories\SurveyResponseRepository
+ * @covers \herams\common\domain\surveyResponse\SurveyResponseRepository
  */
 class SurveyResponseRepositoryTest extends Unit
 {

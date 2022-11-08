@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\interfaces;
 
-use prime\values\ResponseId;
+use herams\common\values\ResponseId;
 
 interface FacilityForResponseCopy
 {

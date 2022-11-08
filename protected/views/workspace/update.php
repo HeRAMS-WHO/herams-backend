@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
+use herams\common\values\WorkspaceId;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\interfaces\WorkspaceForTabMenu;
-use prime\models\ar\Permission;
-use prime\values\WorkspaceId;
 use prime\widgets\ButtonGroup;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;

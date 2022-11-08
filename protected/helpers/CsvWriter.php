@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace prime\helpers;
 
 use GuzzleHttp\Psr7\Stream;
+use herams\common\interfaces\HeramsResponseInterface;
 use prime\interfaces\ColumnDefinition;
-use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
 use Psr\Http\Message\StreamInterface;
-
 use function iter\map;
 use function iter\toArray;
 

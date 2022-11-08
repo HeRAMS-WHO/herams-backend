@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\controllers\accessRequest;
 
-use prime\interfaces\AccessCheckInterface;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
 use prime\models\search\AccessRequest as AccessRequestSearch;
 use yii\base\Action;
 use yii\web\Request;

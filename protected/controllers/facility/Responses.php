@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace prime\controllers\facility;
 
 use Collecthor\DataInterfaces\VariableInterface;
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\values\FacilityId;
 use prime\actions\FrontendAction;
 use prime\components\BreadcrumbService;
-use prime\repositories\FacilityRepository;
-use prime\repositories\ProjectRepository;
-use prime\repositories\SurveyRepository;
-use prime\repositories\WorkspaceRepository;
-use prime\values\FacilityId;
 use function iter\filter;
 
 class Responses extends FrontendAction

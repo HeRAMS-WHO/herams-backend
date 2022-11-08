@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
-use prime\models\ar\Permission;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
@@ -14,7 +14,7 @@ use yii\web\User;
 
 /**
  * @var FacilityForTabMenu $facility
- * @var \prime\values\FacilityId $facilityId
+ * @var \herams\common\values\FacilityId $facilityId
  * @var ActiveDataProvider $responseProvider
  * @var View $this
  * @var array $updateSituationUrl

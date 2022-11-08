@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
-use prime\repositories\ProjectRepository;
-use prime\values\ProjectId;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\values\ProjectId;
 use yii\base\Action;
 
 class ExternalDashboard extends Action

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
+use herams\common\values\ProjectId;
+use prime\actions\FrontendAction;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
-use prime\values\ProjectId;
-use yii\base\Action;
 use yii\web\User;
 use function iter\toArray;
 
-class Workspaces extends Action
+final class Workspaces extends FrontendAction
 {
     public array $dataRoute = [
         'api/project/workspaces',
@@ -37,7 +37,7 @@ class Workspaces extends Action
         $this->controller->view->breadcrumbCollection->add(
             ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())
         );
-        return $this->controller->render('workspaces', [
+        return $this->render('workspaces', [
             'project' => $project,
             'projectId' => $projectId,
             'userComponent' => $user,

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
 use kartik\grid\GridView;
 use prime\components\View;
-use prime\models\ar\Permission;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;

@@ -9,7 +9,6 @@ use prime\models\forms\LoginForm;
 use prime\models\forms\NewFacility;
 use prime\models\forms\UpdateFacility;
 use prime\tests\_helpers\ModelTestTrait;
-use prime\values\FacilityId;
 
 /**
  * @covers \prime\models\forms\LoginForm

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\queries;
 
-use prime\components\ActiveQuery;
-use prime\models\ActiveRecord;
-use prime\objects\enums\AuditEvent;
+use herams\common\enums\AuditEvent;
+use herams\common\models\ActiveRecord;
+use herams\common\queries\ActiveQuery;
 use yii\db\Expression;
 
 class AuditQuery extends ActiveQuery

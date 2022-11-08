@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace prime\tests\unit\jobHandlers\users;
 
 use Codeception\Test\Unit;
+use herams\common\domain\user\User;
+use herams\common\domain\user\UserRepository;
 use prime\components\NewsletterService;
 use prime\jobHandlers\users\SyncNewsletterSubscriptionHandler;
 use prime\jobs\users\SyncNewsletterSubscriptionJob;
-use prime\models\ar\User;
-use prime\repositories\UserRepository;
 
 /**
  * @covers \prime\jobHandlers\users\SyncNewsletterSubscriptionHandler

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
+use herams\common\domain\user\User;
 use prime\components\NotificationService;
-use prime\models\ar\User;
 use yii\base\Action;
 use yii\web\Request;
 use yii\web\User as UserComponent;

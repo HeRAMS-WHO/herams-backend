@@ -10,8 +10,8 @@ class m191025_093828_drop_profile extends Migration
             $this->dropColumn('{{%user}}', $column);
         }
         $this->addColumn('{{%user}}', 'name', $this->string()->append('collate utf8mb4_general_ci'));
-        /** @var \prime\models\ar\User $user */
-        foreach (\prime\models\ar\User::find()->each() as $user) {
+        /** @var \herams\common\domain\user\User $user */
+        foreach (\herams\common\domain\user\User::find()->each() as $user) {
             $profile = (new \yii\db\Query())->from('{{%profile}}')->andWhere([
                 'user_id' => $user->id,
             ])->one();

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace prime\models\facility;
 
+use herams\common\values\FacilityId;
+use herams\common\values\WorkspaceId;
 use prime\interfaces\CanCurrentUser;
-use prime\values\FacilityId;
-use prime\values\ProjectId;
-use prime\values\WorkspaceId;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters
@@ -17,10 +16,7 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
     public function __construct(
         private FacilityId $id,
         private string $title,
-        private ProjectId $projectId,
-        private string $projectTitle,
         private WorkspaceId $workspaceId,
-        private string $workspaceTitle,
         private int $responseCount,
         private int $adminResponseCount,
         private bool $canReceiveSituationUpdate,
@@ -48,16 +44,6 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
         return $this->id;
     }
 
-    public function getProjectId(): ProjectId
-    {
-        return $this->projectId;
-    }
-
-    public function getProjectTitle(): string
-    {
-        return $this->projectTitle;
-    }
-
     public function getResponseCount(): int
     {
         return $this->responseCount;
@@ -73,8 +59,4 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
         return $this->workspaceId;
     }
 
-    public function getWorkspaceTitle(): string
-    {
-        return $this->workspaceTitle;
-    }
 }

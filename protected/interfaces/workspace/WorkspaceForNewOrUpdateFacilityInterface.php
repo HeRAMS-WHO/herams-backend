@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\interfaces\workspace;
 
+use herams\common\values\ProjectId;
+use herams\common\values\SurveyId;
+use herams\common\values\WorkspaceId;
 use prime\objects\LanguageSet;
-use prime\values\ProjectId;
-use prime\values\SurveyId;
-use prime\values\WorkspaceId;
 
 interface WorkspaceForNewOrUpdateFacilityInterface
 {

@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
 use prime\helpers\Icon;
-use prime\models\ar\Permission;
 use prime\models\search\Project as SearchModelProject;
+use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\Section;
 use SamIT\abac\interfaces\Resolver;
 use yii\data\ActiveDataProvider;
@@ -13,10 +14,6 @@ use yii\web\View;
 
 /**
  * @var View $this
- * @var ActiveDataProvider $projectProvider
- * @var SearchModelProject $projectSearch
- * @var Resolver $abacResolver
- * @var User $userComponent
  */
 
 $this->title = \Yii::t('app', 'Projects');
@@ -33,7 +30,7 @@ Section::begin([
     ],
 ])->withHeader($this->title);
 $icon = json_encode(Icon::eye());
-echo \prime\widgets\AgGrid\AgGrid::widget([
+echo AgGrid::widget([
     'route' => ['api/project/index'],
     'columns' => [
         [

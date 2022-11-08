@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use prime\interfaces\EventDispatcherInterface;
+use herams\common\interfaces\EventDispatcherInterface;
 use yii\base\Event;
-
 use function iter\chain;
 
 class EventDispatcher implements EventDispatcherInterface

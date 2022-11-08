@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\modules\api\response;
 
-use prime\models\ar\Project;
+use herams\common\models\Project;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 

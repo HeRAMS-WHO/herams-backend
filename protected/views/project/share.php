@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Project;
 use prime\components\ActiveForm;
 use prime\components\View;
-use prime\models\ar\Project;
 use prime\models\forms\Share;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;

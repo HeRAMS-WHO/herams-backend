@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Workspace;
 use prime\components\View;
 use prime\helpers\Icon;
-use prime\models\ar\Workspace;
 use yii\bootstrap\Html;
 
 /**

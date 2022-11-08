@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 use prime\models\forms\user\UpdateEmailForm;
 use prime\models\forms\user\UpdatePasswordForm;
 use prime\widgets\Section;

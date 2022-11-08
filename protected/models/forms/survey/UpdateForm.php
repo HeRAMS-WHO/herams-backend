@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\models\forms\survey;
 
+use herams\common\values\SurveyId;
 use prime\traits\DisableYiiLoad;
-use prime\values\SurveyId;
 use yii\base\Model;
 use yii\validators\RequiredValidator;
 

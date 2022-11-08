@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use prime\models\ar\Project;
+use herams\common\models\Project;
 use prime\models\forms\Export;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;

@@ -15,7 +15,7 @@ class m190417_141532_clean_up_permissions extends Migration
         ]);
         $this->delete('{{%permission}}', [
             'permission' => 'read',
-            'target' => \prime\models\ar\Workspace::class,
+            'target' => \herams\common\models\Workspace::class,
         ]);
     }
 

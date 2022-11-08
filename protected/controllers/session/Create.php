@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\session;
 
-use prime\helpers\ModelHydrator;
+use herams\common\helpers\ModelHydrator;
 use prime\models\forms\LoginForm;
 use prime\models\forms\user\RequestAccountForm;
 use yii\base\Action;

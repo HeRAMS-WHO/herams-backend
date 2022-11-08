@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
+use herams\common\interfaces\HeramsResponseInterface;
+use herams\common\queries\SurveyResponseQuery;
 use prime\helpers\ClosureColumn;
 use prime\helpers\DataTextColumn;
 use prime\helpers\GetterColumn;
 use prime\helpers\RawDataColumn;
 use prime\interfaces\ColumnDefinition;
-use prime\interfaces\HeramsResponseInterface;
 use prime\interfaces\WriterInterface;
 use prime\objects\HeramsCodeMap;
-use prime\queries\SurveyResponseQuery;
 use SamIT\LimeSurvey\Interfaces\GroupInterface;
 use SamIT\LimeSurvey\Interfaces\LocaleAwareInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -21,7 +21,6 @@ use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\validators\BooleanValidator;
 use yii\validators\RangeValidator;
-
 use function iter\map;
 use function iter\toArray;
 

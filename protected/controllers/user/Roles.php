@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
+use herams\common\models\Permission;
 use prime\components\Controller;
-use prime\models\ar\Permission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\values\Grant;
 use yii\base\Action;
 use yii\data\ArrayDataProvider;
 use yii\web\ForbiddenHttpException;
 use yii\web\User;
-
 use function iter\toArray;
 
 class Roles extends Action
@@ -26,7 +25,7 @@ class Roles extends Action
         if (! $user->can(Permission::PERMISSION_ADMIN)) {
             throw new ForbiddenHttpException();
         }
-        $model = \prime\models\ar\User::findOne([
+        $model = \herams\common\domain\user\User::findOne([
             'id' => $id,
         ]);
         if (! isset($model)) {

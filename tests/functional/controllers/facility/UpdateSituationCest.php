@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\facility;
 
-use prime\models\ar\Facility;
-use prime\models\ar\Permission;
+use herams\common\domain\facility\Facility;
+use herams\common\models\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 

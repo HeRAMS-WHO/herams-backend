@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
-use prime\models\ar\Survey;
-use prime\models\ar\SurveyResponse;
-use prime\models\ar\User;
+use herams\common\domain\survey\Survey;
+use herams\common\domain\user\User;
+use herams\common\models\SurveyResponse;
 
 /**
- * @covers \prime\models\ar\Survey
+ * @covers \herams\common\domain\survey\Survey
  */
 class SurveyTest extends ActiveRecordTest
 {

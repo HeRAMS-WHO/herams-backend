@@ -12,7 +12,7 @@ use yii\helpers\Json as Json;
 
 /**
  * @var \prime\models\forms\ResponseFilter $filterModel
- * @var \prime\models\ar\Project $project
+ * @var \herams\common\models\Project $project
  * @var \prime\components\View $this
  */
 

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
+use herams\common\models\Project;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Project;
 use prime\repositories\AccessRequestRepository;
 use yii\base\InvalidArgumentException;
 

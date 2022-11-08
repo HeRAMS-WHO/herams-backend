@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\models\Project;
 use prime\components\ActiveForm;
 use prime\components\View;
-use prime\models\ar\Project;
 use prime\models\forms\accessRequest\Create;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;

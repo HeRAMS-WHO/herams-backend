@@ -1,9 +1,8 @@
 <?php
 
-/** @var User $user */
+/** @var \herams\common\domain\user\User $user */
 /** @var array $resetRoute */
 
-use prime\models\ar\User;
 use yii\helpers\Url;
 
 ?>

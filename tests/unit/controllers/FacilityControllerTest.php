@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace prime\tests\unit\controllers;
 
 use Codeception\Test\Unit;
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use prime\components\View;
 use prime\controllers\FacilityController;
 use prime\objects\BreadcrumbCollection;
-use prime\repositories\FacilityRepository;
-use prime\repositories\ProjectRepository;
-use prime\repositories\WorkspaceRepository;
 
 /**
  * @covers \prime\controllers\FacilityController

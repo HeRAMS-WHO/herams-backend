@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\workspace;
 
 use Codeception\Test\Unit;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Project;
-use prime\models\ar\Workspace;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Project;
+use herams\common\models\Workspace;
 use prime\models\workspace\WorkspaceForTabMenu;
 use prime\tests\_helpers\AllFunctionsMustHaveReturnTypes;
 

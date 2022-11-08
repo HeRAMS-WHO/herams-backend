@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\models\search;
 
+use herams\common\domain\favorite\Favorite;
+use herams\common\domain\user\User;
+use herams\common\models\Project;
+use herams\common\values\UserId;
 use prime\components\FilteredActiveDataProvider;
-use prime\models\ar\Favorite;
-use prime\models\ar\Project;
-use prime\models\ar\User;
 use prime\queries\AccessRequestQuery;
-use prime\values\UserId;
 use yii\base\Model;
 use yii\data\DataProviderInterface;
 use yii\validators\BooleanValidator;
@@ -65,7 +65,7 @@ class AccessRequest extends Model
         if ($this->workspaceId) {
             $query->andWhere([
                 'target_id' => $this->workspaceId,
-                'target_class' => \prime\models\ar\Workspace::class,
+                'target_class' => \herams\common\models\Workspace::class,
             ]);
         }
         if (! is_null($this->favorite)) {
@@ -83,7 +83,7 @@ class AccessRequest extends Model
                 [
                     'and',
                     [
-                        'target_class' => \prime\models\ar\Workspace::class,
+                        'target_class' => \herams\common\models\Workspace::class,
                     ],
                     [
                         'target_id' => Favorite::find()->workspaces()->user(UserId::fromUser($this->user))->select('target_id'),

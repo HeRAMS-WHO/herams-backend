@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use prime\interfaces\AccessCheckInterface;
+use herams\common\interfaces\AccessCheckInterface;
 use prime\interfaces\CanCurrentUser;
 
 class CanCurrentUserWrapper implements CanCurrentUser

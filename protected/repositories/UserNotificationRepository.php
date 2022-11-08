@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
-use prime\models\ar\User;
 use prime\objects\UserNotification;
 use SamIT\abac\AuthManager;
 use yii\base\Component;

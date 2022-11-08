@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\interfaces\user;
 
-use prime\values\UserId;
+use herams\common\values\UserId;
 
 interface UserForSelect2Interface
 {

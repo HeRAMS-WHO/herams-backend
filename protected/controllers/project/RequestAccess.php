@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\components\Controller;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
 use SamIT\abac\AuthManager;
 use yii\base\Action;

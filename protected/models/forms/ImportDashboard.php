@@ -2,8 +2,8 @@
 
 namespace prime\models\forms;
 
-use prime\models\ar\Page;
-use prime\models\ar\Project;
+use herams\common\models\Page;
+use herams\common\models\Project;
 use prime\validators\JsonValidator;
 use yii\base\Model;
 

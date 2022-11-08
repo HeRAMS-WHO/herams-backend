@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\models\Permission;
+use herams\common\values\WorkspaceId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
-use prime\models\ar\Permission;
 use prime\models\forms\Share as ShareForm;
-use prime\repositories\WorkspaceRepository;
-use prime\values\WorkspaceId;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;

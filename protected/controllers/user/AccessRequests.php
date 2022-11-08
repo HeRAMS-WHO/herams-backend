@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
+use herams\common\domain\user\User as ActiveRecordUser;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\User as ActiveRecordUser;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
 use yii\web\User as UserComponent;

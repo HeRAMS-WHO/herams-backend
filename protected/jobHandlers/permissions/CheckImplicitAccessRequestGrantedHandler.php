@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\jobHandlers\permissions;
 
+use herams\common\domain\permission\PermissionRepository;
+use herams\common\models\Project;
 use JCIT\jobqueue\interfaces\JobInterface;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Project;
 use prime\repositories\AccessRequestRepository;
-use prime\repositories\PermissionRepository;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 

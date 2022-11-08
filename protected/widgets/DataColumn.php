@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
-use prime\interfaces\LabeledEnum;
+use herams\common\interfaces\LabeledEnum;
 use prime\traits\FunctionGetterColumn;
 
 class DataColumn extends \yii\grid\DataColumn

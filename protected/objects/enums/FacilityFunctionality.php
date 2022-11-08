@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-use prime\interfaces\LabeledEnum;
+use herams\common\interfaces\LabeledEnum;
 
 enum FacilityFunctionality: string implements LabeledEnum
 {

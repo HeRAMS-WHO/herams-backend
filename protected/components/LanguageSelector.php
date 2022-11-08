@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-use prime\objects\enums\Language;
+use herams\common\enums\Language;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\web\Request;

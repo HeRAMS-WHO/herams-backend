@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace prime\models\forms\accessRequest;
 
 use Carbon\Carbon;
+use herams\common\domain\permission\ProposedGrant;
+use herams\common\models\Permission;
+use herams\common\models\Project;
+use herams\common\models\Workspace;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\helpers\ProposedGrant;
 use prime\jobs\accessRequests\ResponseNotificationJob;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
-use prime\models\ar\Workspace;
 use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\validators\DefaultValueValidator;

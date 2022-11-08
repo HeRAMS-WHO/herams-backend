@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\models\workspace;
 
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Workspace;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Workspace;
+use herams\common\values\ProjectId;
+use herams\common\values\WorkspaceId;
 use prime\traits\CanCurrentUser;
-use prime\values\ProjectId;
-use prime\values\WorkspaceId;
 
 final class WorkspaceForTabMenu implements \prime\interfaces\WorkspaceForTabMenu
 {

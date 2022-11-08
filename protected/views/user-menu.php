@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
 use prime\helpers\Icon;
-use prime\models\ar\Permission;
-use prime\models\ar\User;
 use prime\repositories\UserNotificationRepository;
 use yii\helpers\Html;
 use yii\helpers\Url;

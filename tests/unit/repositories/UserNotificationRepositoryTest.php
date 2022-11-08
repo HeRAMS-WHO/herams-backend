@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
-use prime\models\ar\User;
 use prime\queries\AccessRequestQuery;
 use prime\repositories\AccessRequestRepository;
 use prime\repositories\UserNotificationRepository;

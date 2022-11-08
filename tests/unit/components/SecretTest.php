@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace prime\tests\unit\components;
 
 use Codeception\Test\Unit;
-use prime\components\Secret;
-use prime\interfaces\EnvironmentInterface;
+use herams\common\helpers\Secret;
+use herams\common\interfaces\EnvironmentInterface;
 
 /**
- * @covers \prime\components\Secret
+ * @covers \herams\common\helpers\Secret
  */
 class SecretTest extends Unit
 {

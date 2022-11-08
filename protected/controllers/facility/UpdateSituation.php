@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\controllers\facility;
 
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\values\FacilityId;
 use prime\components\NotificationService;
-use prime\helpers\ModelHydrator;
-use prime\repositories\FacilityRepository;
-use prime\repositories\WorkspaceRepository;
-use prime\values\FacilityId;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;

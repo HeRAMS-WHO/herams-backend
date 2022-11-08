@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\models\forms\project;
 
-use prime\models\ar\Project;
-use prime\models\ar\Survey;
-use prime\objects\enums\ProjectVisibility;
+use herams\common\domain\survey\Survey;
+use herams\common\enums\ProjectVisibility;
+use herams\common\models\Project;
+use herams\common\values\SurveyId;
 use prime\validators\RangeValidator;
-use prime\values\SurveyId;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\validators\InlineValidator;
@@ -16,7 +16,6 @@ use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
-
 use function iter\filter;
 use function iter\mapWithKeys;
 use function iter\toArrayWithKeys;

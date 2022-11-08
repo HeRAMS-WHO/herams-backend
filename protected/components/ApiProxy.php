@@ -5,16 +5,12 @@ namespace prime\components;
 
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Utils;
-use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\None;
-use League\Tactician\Handler\Locator\InMemoryLocator;
+use herams\common\values\UserId;
+use Lcobucci\JWT\Configuration;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use yii\web\IdentityInterface;
 use yii\web\Request;
-use Lcobucci\JWT\Configuration;
-use yii\web\Response;
 
 class ApiProxy
 {
@@ -27,7 +23,7 @@ class ApiProxy
     }
 
 
-    public function forwardRequestToCore(Request $request, IdentityInterface $user): ResponseInterface
+    public function forwardRequestToCore(Request $request, UserId $user): ResponseInterface
     {
         return $this->forwardRequest(strtr($request->getAbsoluteUrl(), [
             'https://herams.test' => 'https://172.30.2.1',
@@ -35,7 +31,7 @@ class ApiProxy
         ]), $request, $user);
     }
 
-    private function forwardRequest(string $targetUri, Request $request, IdentityInterface $user): ResponseInterface
+    private function forwardRequest(string $targetUri, Request $request, UserId $user): ResponseInterface
     {
         $token = $this->configuration->builder()
             ->issuedBy('https://app.herams.org')
@@ -44,7 +40,7 @@ class ApiProxy
 
             ->expiresAt(Carbon::now()->addMinute()->toDateTimeImmutable())
             ->permittedFor('https://api.herams.org')
-            ->withClaim('userId', $user->getId())
+            ->withClaim('userId', $user)
             ->getToken($this->configuration->signer(), $this->configuration->signingKey())
             ->toString();
         /**
@@ -52,16 +48,25 @@ class ApiProxy
          * 2. Add bearer header
          */
 
+        $upstreamRequest = $this->requestFactory->createRequest($request->getMethod(), $targetUri)->withBody(Utils::streamFor($request->getRawBody()));
+        $headers = $request->getHeaders();
 
-        $request = $this->requestFactory->createRequest($request->getMethod(), $targetUri)
-            ->withHeader('Host', 'herams.test')
-            ->withAddedHeader('Authorization', "Bearer $token")
-            ->withBody(Utils::streamFor($request->getRawBody()))
-        ;
-        $response = $this->client->sendRequest($request);
-        foreach($request->getHeaders() as $key => $value) {
-            $response = $response->withAddedHeader("X-Upstream-Request-$key", $value);
+        foreach([
+            'Content-Type', 'Accept', 'Cache-Control'
+                ] as $forwardHeader) {
+            if ($headers->has($forwardHeader) && !empty($headers->get($forwardHeader))) {
+                $upstreamRequest = $upstreamRequest->withHeader($forwardHeader, $headers->get($forwardHeader));
+            }
         }
+
+
+
+        $upstreamRequest = $upstreamRequest
+            ->withHeader('Host', 'herams.test')
+            ->withHeader('Accept', 'application/json')
+            ->withHeader('Authorization', "Bearer $token")
+        ;
+        $response = $this->client->sendRequest($upstreamRequest);
         return $response;
 
     }

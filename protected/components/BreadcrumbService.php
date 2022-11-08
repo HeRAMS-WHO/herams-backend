@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace prime\components;
 
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\values\FacilityId;
+use herams\common\values\ProjectId;
+use herams\common\values\WorkspaceId;
 use prime\helpers\Icon;
 use prime\objects\Breadcrumb;
 use prime\objects\BreadcrumbCollection;
-use prime\repositories\FacilityRepository;
-use prime\repositories\ProjectRepository;
-use prime\repositories\WorkspaceRepository;
-use prime\values\FacilityId;
-use prime\values\ProjectId;
-use prime\values\WorkspaceId;
 use yii\helpers\Url;
 
 /**

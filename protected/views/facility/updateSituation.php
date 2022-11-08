@@ -12,7 +12,7 @@ use prime\widgets\survey\Survey;
 /**
  * @var View $this
  * @var UpdateForm $model
- * @var \prime\values\ProjectId $projectId
+ * @var \herams\common\values\ProjectId $projectId
  * @var FacilityForTabMenu $tabMenuModel
  */
 

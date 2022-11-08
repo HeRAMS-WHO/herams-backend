@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models;
 
 use Codeception\Test\Unit;
-use prime\models\ActiveRecord;
+use herams\common\models\ActiveRecord;
 
 class ActiveRecordTest extends Unit
 {

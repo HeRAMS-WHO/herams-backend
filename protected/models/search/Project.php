@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\models\search;
 
+use herams\common\models\Permission;
 use prime\components\FilteredActiveDataProvider;
-use prime\models\ar\Permission;
 use prime\models\ar\read\Project as ProjectRead;
 use yii\base\Model;
 use yii\data\Sort;
@@ -32,7 +32,7 @@ class Project extends Model
         $query = ProjectRead::find()
             ->withFields('contributorCount', 'workspaceCount', 'responseCount', 'pageCount', 'facilityCount');
         $dataProvider = new FilteredActiveDataProvider([
-            'filter' => function (\prime\models\ar\Project $project) use ($user) {
+            'filter' => function (\herams\common\models\Project $project) use ($user) {
                 return ! $project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
             },
             'query' => $query,

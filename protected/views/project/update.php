@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
 use prime\components\View;
 use prime\helpers\Icon;
-use prime\models\ar\Permission;
 use prime\widgets\ButtonGroup;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /**
  * @var \prime\models\ar\read\Project $project
  * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
- * @var \prime\values\ProjectId $projectId
+ * @var \herams\common\values\ProjectId $projectId
  * @var View $this
  */
 

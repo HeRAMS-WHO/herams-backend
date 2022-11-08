@@ -6,8 +6,8 @@ class m200330_105922_project_fix_overrides extends Migration
 {
     public function safeUp()
     {
-        /** @var \prime\models\ar\Project $project */
-        foreach (\prime\models\ar\Project::find()->each() as $project) {
+        /** @var \herams\common\models\Project $project */
+        foreach (\herams\common\models\Project::find()->each() as $project) {
             $project->save(true, ['overrides']);
         }
     }

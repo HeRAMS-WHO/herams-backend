@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use prime\helpers\ModelHydrator;
-use prime\interfaces\AccessCheckInterface;
-use prime\interfaces\ActiveRecordHydratorInterface;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\interfaces\ActiveRecordHydratorInterface;
+use herams\common\models\Permission;
+use herams\common\models\Project;
+use herams\common\values\ProjectId;
 use prime\modules\Api\models\UpdateProject;
-use prime\repositories\ProjectRepository;
-use prime\values\ProjectId;
 
 /**
- * @covers \prime\repositories\ProjectRepository
+ * @covers \herams\common\domain\project\ProjectRepository
  */
 class ProjectRepositoryTest extends Unit
 {

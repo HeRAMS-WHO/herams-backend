@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\jobs;
 
+use herams\common\values\FacilityId;
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\values\FacilityId;
 
 final class UpdateFacilityDataJob implements JobInterface
 {

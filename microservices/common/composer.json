@@ -1,0 +1,26 @@
+{
+    "name": "herams/common",
+    "description": "HeRAMS Common",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "herams\\common\\": ["src/"]
+        }
+    },
+    "authors": [
+        {
+            "name": "Sam Mousa",
+            "email": "sam@mousa.nl"
+        }
+    ],
+    "require": {
+        "sam-it/yii2-virtual-fields": "^4.1",
+        "collecthor/data-interfaces": ">= 5.2",
+        "collecthor/surveyjs-parser": ">= 5.1",
+        "sam-it/yii2-abac": ">= 2.0.1",
+        "league/iso3166": "^3"
+    },
+    "config": {
+        "lock": false
+    }
+}

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\validators;
 
-use prime\values\IntegerId;
+use herams\common\values\IntegerId;
 
 class RangeValidator extends \yii\validators\RangeValidator
 {

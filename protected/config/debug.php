@@ -1,6 +1,6 @@
 <?php
 
-use prime\models\ar\Permission;
+use herams\common\models\Permission;
 
 $debug = [];
 if (class_exists(\yii\debug\Module::class)) {

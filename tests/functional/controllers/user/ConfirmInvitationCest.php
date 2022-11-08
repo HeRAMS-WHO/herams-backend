@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\user;
 
 use Carbon\Carbon;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
-use prime\models\ar\User;
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\tests\FunctionalTester;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;

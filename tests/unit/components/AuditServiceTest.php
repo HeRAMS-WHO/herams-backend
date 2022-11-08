@@ -7,10 +7,10 @@ namespace prime\tests\unit\components;
 use Codeception\Stub;
 use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
-use prime\components\AuditService;
+use herams\common\components\AuditService;
+use herams\common\enums\AuditEvent;
+use herams\common\interfaces\NewAuditEntryInterface;
 use prime\helpers\EventDispatcher;
-use prime\interfaces\NewAuditEntryInterface;
-use prime\objects\enums\AuditEvent;
 use yii\base\NotSupportedException;
 use yii\console\Application as ConsoleApplication;
 use yii\db\Connection;
@@ -18,7 +18,7 @@ use yii\web\Application;
 use yii\web\User;
 
 /**
- * @covers \prime\components\AuditService
+ * @covers \herams\common\components\AuditService
  */
 class AuditServiceTest extends Unit
 {

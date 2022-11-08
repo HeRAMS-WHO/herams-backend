@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace prime\objects;
 
 use BackedEnum;
+use herams\common\validators\BackedEnumValidator;
 use prime\objects\enums\Enum;
-use prime\validators\BackedEnumValidator;
 use yii\base\Arrayable;
 use yii\base\NotSupportedException;
-
 use function iter\map;
 use function iter\toArray;
 

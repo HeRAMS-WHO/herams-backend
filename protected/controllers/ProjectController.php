@@ -2,6 +2,8 @@
 
 namespace prime\controllers;
 
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\actions\DeleteAction;
 use prime\actions\ExportAction;
 use prime\components\Controller;
@@ -21,8 +23,6 @@ use prime\controllers\project\Update;
 use prime\controllers\project\View;
 use prime\controllers\project\ViewForSurveyJs;
 use prime\controllers\project\Workspaces;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -113,7 +113,6 @@ class ProjectController extends Controller
                                 'filter',
                                 'import-dashboard',
                                 'index',
-                                'limesurvey',
                                 'pages',
                                 'pdf',
                                 'request-access',
@@ -122,7 +121,6 @@ class ProjectController extends Controller
                                 'update',
                                 'view',
                                 'workspaces',
-                                'favorite-workspaces',
                             ],
                             'roles' => ['@'],
                         ],

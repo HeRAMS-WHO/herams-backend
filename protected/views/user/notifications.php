@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use herams\common\domain\user\User;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\interfaces\UserNotificationInterface;
-use prime\models\ar\User;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
 use yii\data\DataProviderInterface;

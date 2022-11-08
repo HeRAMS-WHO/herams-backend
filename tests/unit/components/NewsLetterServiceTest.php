@@ -6,11 +6,11 @@ namespace prime\tests\unit\components;
 
 use Codeception\Test\Unit;
 use DrewM\MailChimp\MailChimp;
+use herams\common\domain\user\User;
+use herams\common\domain\user\UserRepository;
+use herams\common\queries\ActiveQuery;
 use PHPUnit\Framework\MockObject\MockObject;
-use prime\components\ActiveQuery;
 use prime\components\NewsletterService;
-use prime\models\ar\User;
-use prime\repositories\UserRepository;
 use yii\web\Request;
 
 /**

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
 use prime\components\Controller;
 use prime\controllers\facility\AdminResponses;
 use prime\controllers\facility\Create;
@@ -12,9 +15,6 @@ use prime\controllers\facility\Responses;
 use prime\controllers\facility\Update;
 use prime\controllers\facility\UpdateSituation;
 use prime\controllers\facility\View;
-use prime\repositories\FacilityRepository;
-use prime\repositories\ProjectRepository;
-use prime\repositories\WorkspaceRepository;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 

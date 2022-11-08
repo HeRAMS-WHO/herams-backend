@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\jobHandlers\accessRequests;
 
 use Codeception\Test\Unit;
+use herams\common\domain\user\User;
 use prime\jobHandlers\accessRequests\ResponseNotificationHandler;
 use prime\jobs\accessRequests\ResponseNotificationJob;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\User;
 use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 use yii\mail\MessageInterface;

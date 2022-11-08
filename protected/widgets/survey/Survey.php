@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\widgets\survey;
 
+use herams\common\values\ProjectId;
 use prime\assets\SurveyModificationBundle;
 use prime\components\View;
-use prime\values\ProjectId;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;

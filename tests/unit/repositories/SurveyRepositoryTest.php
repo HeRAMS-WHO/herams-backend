@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
+use herams\common\domain\survey\Survey;
+use herams\common\domain\survey\SurveyForList;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\helpers\surveyjs\FacilityTypeQuestionParser;
+use herams\common\helpers\surveyjs\SurveyParser;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Project;
+use herams\common\models\Workspace;
+use herams\common\values\SurveyId;
+use herams\common\values\WorkspaceId;
 use prime\helpers\ArrayHelper;
-use prime\helpers\ModelHydrator;
-use prime\helpers\surveyjs\FacilityTypeQuestionParser;
-use prime\helpers\SurveyParser;
-use prime\interfaces\AccessCheckInterface;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
-use prime\models\ar\Project;
-use prime\models\ar\Survey;
-use prime\models\ar\Workspace;
 use prime\models\forms\survey\CreateForm;
 use prime\models\forms\survey\UpdateForm;
 use prime\models\search\SurveySearch;
-use prime\models\survey\SurveyForList;
-use prime\repositories\SurveyRepository;
-use prime\values\SurveyId;
-use prime\values\WorkspaceId;
 use yii\base\InvalidArgumentException;
 use yii\data\DataProviderInterface;
 
 /**
- * @covers \prime\repositories\SurveyRepository
+ * @covers \herams\common\domain\survey\SurveyRepository
  */
 class SurveyRepositoryTest extends Unit
 {

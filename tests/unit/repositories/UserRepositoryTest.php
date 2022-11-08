@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use prime\components\ActiveQuery;
-use prime\models\ar\User;
-use prime\repositories\UserRepository;
+use herams\common\domain\user\User;
+use herams\common\domain\user\UserRepository;
+use herams\common\queries\ActiveQuery;
 use yii\base\InvalidArgumentException;
 
 /**
- * @covers \prime\repositories\UserRepository
+ * @covers \herams\common\domain\user\UserRepository
  */
 class UserRepositoryTest extends Unit
 {

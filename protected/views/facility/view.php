@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use herams\common\values\FacilityId;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\forms\facility\UpdateForm;
-use prime\values\FacilityId;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
@@ -15,7 +15,7 @@ use prime\widgets\survey\Survey;
  * @var UpdateForm $model
  * @var FacilityForTabMenu $tabMenuModel
  * @var FacilityId $id
- * @var \prime\values\ProjectId $projectId
+ * @var \herams\common\values\ProjectId $projectId
  * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
  */
 

@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\enums\ProjectVisibility;
 use kartik\select2\Select2;
 use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\forms\project\Create;
-use prime\objects\enums\ProjectVisibility;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\Section;
 

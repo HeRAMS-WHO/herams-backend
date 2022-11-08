@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms\surveyResponse;
 
+use herams\common\values\FacilityId;
+use herams\common\values\SurveyId;
 use prime\models\forms\surveyResponse\CreateForm;
 use prime\tests\unit\models\ModelTest;
-use prime\values\FacilityId;
-use prime\values\SurveyId;
 
 /**
  * @covers \prime\models\forms\surveyResponse\CreateForm

@@ -6,13 +6,23 @@ namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
 use Collecthor\SurveyjsParser\Parsers\SingleChoiceQuestionParser;
-use prime\helpers\ModelHydrator;
-use prime\helpers\surveyjs\FacilityTypeQuestionParser;
-use prime\helpers\SurveyParser;
-use prime\interfaces\AccessCheckInterface;
-use prime\interfaces\SurveyRepositoryInterface;
-use prime\models\ar\Facility;
-use prime\models\ar\Permission;
+use herams\common\domain\facility\Facility;
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\domain\variableSet\HeramsVariableSetRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\helpers\surveyjs\FacilityTypeQuestionParser;
+use herams\common\helpers\surveyjs\SurveyParser;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\interfaces\SurveyRepositoryInterface;
+use herams\common\models\Permission;
+use herams\common\values\FacilityId;
+use herams\common\values\ProjectId;
+use herams\common\values\SurveyId;
+use herams\common\values\SurveyResponseId;
+use herams\common\values\WorkspaceId;
 use prime\models\forms\facility\CreateForm;
 use prime\models\forms\facility\UpdateForm;
 use prime\models\forms\facility\UpdateSituationForm;
@@ -21,19 +31,9 @@ use prime\models\survey\SurveyForSurveyJs;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
 use prime\models\workspace\WorkspaceForCreateOrUpdateFacility;
 use prime\objects\LanguageSet;
-use prime\repositories\FacilityRepository;
-use prime\repositories\HeramsVariableSetRepository;
-use prime\repositories\SurveyRepository;
-use prime\repositories\SurveyResponseRepository;
-use prime\repositories\WorkspaceRepository;
-use prime\values\FacilityId;
-use prime\values\ProjectId;
-use prime\values\SurveyId;
-use prime\values\SurveyResponseId;
-use prime\values\WorkspaceId;
 
 /**
- * @covers \prime\repositories\FacilityRepository
+ * @covers \herams\common\domain\facility\FacilityRepository
  */
 class FacilityRepositoryTest extends Unit
 {
@@ -227,40 +227,6 @@ class FacilityRepositoryTest extends Unit
         $this->assertEquals($model->getLanguages(), $facility->project->getLanguageSet());
     }
 
-    public function testSaveUpdate(): void
-    {
-        $facility = Facility::find()->one();
-        $facilityId = new FacilityId((string) $facility->id);
-        $survey = new SurveyForSurveyJs(new SurveyId($facility->adminSurvey->id), $facility->adminSurvey->config);
-        $model = new UpdateForm($facilityId, $facility->project->getLanguageSet(), $survey);
-        $updatedName = 'Facility name after tested update';
-        $model->data = [
-            'name' => $updatedName,
-        ];
-
-        $accessCheck = $this->getMockBuilder(AccessCheckInterface::class)->getMock();
-        $accessCheck->expects($this->once())
-            ->method('requirePermission');
-
-        $surveyResponseCreateFormModel = new SurveyResponseCreateForm(new SurveyId($facility->adminSurvey->id), $facilityId);
-        $surveyResponseRepository = $this->getMockBuilder(SurveyResponseRepository::class)->disableOriginalConstructor()->getMock();
-        $surveyResponseRepository->expects($this->once())
-            ->method('createFormModel')
-            ->with(new SurveyId($facility->adminSurvey->id), $facilityId)
-            ->willReturn($surveyResponseCreateFormModel);
-        $surveyResponseRepository->expects($this->once())
-            ->method('create');
-
-        $repository = $this->createRepository(
-            accessCheck: $accessCheck,
-            surveyResponseRepository: $surveyResponseRepository
-        );
-        $updatedFacilityId = $repository->saveUpdate($model);
-        $facility->refresh();
-
-        $this->assertEquals($facilityId, $updatedFacilityId);
-        $this->assertEquals($facility->name, $updatedName);
-    }
 
     public function testSaveUpdateSituation(): void
     {

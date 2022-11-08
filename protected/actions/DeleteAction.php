@@ -2,8 +2,8 @@
 
 namespace prime\actions;
 
+use herams\common\models\Permission;
 use prime\components\NotificationService;
-use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQueryInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\models\project;
 
-use prime\objects\Locale;
+use herams\common\helpers\Locale;
 
 class ProjectLocales
 {

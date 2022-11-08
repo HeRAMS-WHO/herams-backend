@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use herams\common\domain\facility\Facility;
+use herams\common\values\FacilityId;
 use prime\components\View;
 use prime\helpers\CombinedHeramsFacilityRecord;
 use prime\interfaces\HeramsFacilityRecordInterface;
-use prime\models\ar\Facility;
-use prime\values\FacilityId;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use function iter\flatten;
 use function iter\map;

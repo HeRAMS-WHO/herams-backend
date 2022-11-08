@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\controllers\facility;
 
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\values\FacilityId;
 use prime\components\Controller;
-use prime\repositories\FacilityRepository;
-use prime\repositories\ProjectRepository;
-use prime\repositories\SurveyRepository;
-use prime\repositories\WorkspaceRepository;
-use prime\values\FacilityId;
 use yii\base\Action;
 
 class View extends Action

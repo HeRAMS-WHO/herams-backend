@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 use yii\base\Model;
 use yii\validators\EmailValidator;
 use yii\validators\RequiredValidator;

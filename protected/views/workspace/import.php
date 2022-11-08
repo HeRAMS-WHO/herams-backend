@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\models\Project;
 use prime\components\ActiveForm;
-use prime\models\ar\Project;
 use prime\models\forms\workspace\Import;
 use prime\widgets\BetterSelect;
 use prime\widgets\Section;

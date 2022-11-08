@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\interfaces;
 
-use prime\values\IntegerId;
+use herams\common\values\IntegerId;
 use yii\base\Model;
 
 interface RetrieveWriteModelRepositoryInterface

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\interfaces\survey;
 
-use prime\values\SurveyId;
+use herams\common\values\SurveyId;
 
 interface SurveyForSurveyJsInterface
 {

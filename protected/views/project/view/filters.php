@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use herams\common\interfaces\HeramsResponseInterface;
 use prime\helpers\Icon;
-use prime\interfaces\HeramsResponseInterface;
 use prime\models\forms\ResponseFilter as ResponseFilter;
 use yii\helpers\Html;
 use yii\helpers\Json as Json;
@@ -11,7 +11,7 @@ use yii\helpers\Url;
 
 /**
  * @var \yii\web\View $this
- * @var \prime\models\ar\Project $project
+ * @var \herams\common\models\Project $project
  * @var ResponseFilter $filterModel
  * @var array $data
  */

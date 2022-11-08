@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
+use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\exceptions\NoGrantablePermissions;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
 use prime\models\forms\Share as ShareForm;
-use prime\values\ProjectId;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace prime\interfaces\surveyResponse;
 
 use Collecthor\DataInterfaces\RecordInterface;
-use prime\values\ProjectId;
-use prime\values\SurveyId;
-use prime\values\SurveyResponseId;
+use herams\common\values\ProjectId;
+use herams\common\values\SurveyId;
+use herams\common\values\SurveyResponseId;
 
 interface SurveyResponseForSurveyJsInterface extends RecordInterface, \JsonSerializable
 {

@@ -11,7 +11,7 @@ class ToggleButtonRenderer {
   }
 
   set uri (value) {
-    if (value === undefined) {
+    if (value === undefined || value === false) {
       value = null
     }
     this.#uri = value
@@ -39,8 +39,8 @@ class ToggleButtonRenderer {
       this.eGui.style[prop] = value
     }
     this.eGui.innerHTML = `
-        <span class="iconify" data-icon="${this.params.onIcon ?? 'mdi-star'}" style="display: none"></span>
-        <span class="iconify" data-icon="${this.params.offIcon ?? 'mdi-star-outline'}" style="display: none"></span>
+        <span data-endpoint="${this.params.endpoint}" class="iconify" data-icon="${this.params.onIcon ?? 'mdi-star'}" style="display: none"></span>
+        <span data-endpoint="${this.params.endpoint}" class="iconify" data-icon="${this.params.offIcon ?? 'mdi-star-outline'}" style="display: none"></span>
     `.trim()
 
     this.btnClickedHandler = this.btnClickedHandler.bind(this)
@@ -66,40 +66,32 @@ class ToggleButtonRenderer {
 
     // request type depends on state. use delete request if current state is true, use put if it is false.
     if (this.uri === null) {
-      // put
+      // post
       try {
         const paramName = this.params.paramName ?? 'target_id'
-        const postData = this.params.postData
+        const postData = this.params.postData ?? {}
         postData[paramName] = this.params.data[this.params.idField ?? 'id']
-        postData[this.params.paramName] = ''
-        const response = await fetch(url.toString(), {
-          method: 'post',
-        })
 
-        if (response.ok) {
-          this.params.setValue(!this.checked)
-          // this.params.node.data[this.params.column.colId] = !this.checked
-          // this.params.node.setDataValue(this.params.column.colId, !this.checked)
-          this.params.api.applyTransaction({
-                update: [this.params.node.data],
-              },
+        const permissionUri = await Herams.createInCollectionWithCsrf(url.toString(), postData)
+        this.params.setValue(permissionUri)
 
-          )
-        }
+        // this.params.node.data[this.params.column.colId] = !this.checked
+        // this.params.node.setDataValue(this.params.column.colId, !this.checked)
+        this.params.api.applyTransaction({
+          update: [this.params.node.data],
+        },
+
+        )
       } catch (error) {
         console.error(error)
       }
     } else {
       // delete
-      const response = await fetch(this.uri, {
-        method: 'delete',
+      await Herams.deleteWithCsrf(this.uri)
+      this.params.setValue(null)
+      this.params.api.applyTransaction({
+        update: [this.params.node.data],
       })
-      if (response.ok) {
-        this.params.setValue(null)
-        this.params.api.applyTransaction({
-          update: [this.params.node.data],
-        })
-      }
     }
 
     this.eGui.classList.remove(...animation)

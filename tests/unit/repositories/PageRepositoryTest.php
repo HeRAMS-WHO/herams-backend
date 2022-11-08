@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use prime\models\ar\Page;
-use prime\repositories\PageRepository;
-use prime\values\PageId;
-use prime\values\ProjectId;
+use herams\common\domain\page\PageRepository;
+use herams\common\models\Page;
+use herams\common\values\PageId;
+use herams\common\values\ProjectId;
 
 /**
- * @covers \prime\repositories\PageRepository
+ * @covers \herams\common\domain\page\PageRepository
  */
 class PageRepositoryTest extends Unit
 {

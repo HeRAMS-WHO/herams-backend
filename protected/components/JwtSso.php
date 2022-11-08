@@ -4,6 +4,7 @@ namespace prime\components;
 
 use Carbon\Carbon;
 use Closure;
+use herams\common\helpers\Secret;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer;

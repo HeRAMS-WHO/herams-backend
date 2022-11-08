@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\interfaces;
 
+use herams\common\interfaces\HeramsResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 interface WriterInterface

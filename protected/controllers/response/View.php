@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\controllers\response;
 
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\values\SurveyResponseId;
 use prime\components\Controller;
-use prime\repositories\SurveyRepository;
-use prime\repositories\SurveyResponseRepository;
-use prime\values\SurveyResponseId;
 use yii\base\Action;
 
 class View extends Action

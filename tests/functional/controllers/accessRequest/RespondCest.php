@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\accessRequest;
 
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
-use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 
 /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use prime\objects\enums\Language;
+use herams\common\enums\Language;
 
 /**
  * Models a specific localization of a string

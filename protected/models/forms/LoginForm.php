@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\models\forms;
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 use prime\traits\DisableYiiLoad;
 use Yii;
 use yii\base\Model;

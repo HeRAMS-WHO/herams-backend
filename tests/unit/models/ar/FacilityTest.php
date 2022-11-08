@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
-use prime\models\ar\Project;
-use prime\models\ar\Survey;
-use prime\models\ar\SurveyResponse;
-use prime\models\ar\Workspace;
-use prime\values\FacilityId;
+use herams\common\domain\survey\Survey;
+use herams\common\models\Project;
+use herams\common\models\SurveyResponse;
+use herams\common\models\Workspace;
+use herams\common\values\FacilityId;
 
 /**
- * @covers \prime\models\ar\Facility
+ * @covers \herams\common\domain\facility\Facility
  */
 class FacilityTest extends ActiveRecordTest
 {

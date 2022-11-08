@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use prime\models\ar\Permission;
+use herams\common\models\Permission;
 
 /**
  * Class Menu

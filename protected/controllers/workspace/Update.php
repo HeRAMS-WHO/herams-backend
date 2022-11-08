@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\values\WorkspaceId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\helpers\ConfigurationProvider;
-use prime\repositories\SurveyRepository;
-use prime\repositories\WorkspaceRepository;
-use prime\values\WorkspaceId;
 use yii\base\Action;
 use function iter\toArray;
 

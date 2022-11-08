@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace prime\controllers\survey;
 
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
-use prime\models\ar\Survey;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
 use prime\models\forms\survey\CreateForm;
 use yii\base\Action;
 

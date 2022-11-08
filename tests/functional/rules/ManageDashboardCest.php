@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\rules;
 
+use herams\common\domain\user\User;
+use herams\common\models\Page;
+use herams\common\models\Permission;
 use prime\models\ar\Element;
-use prime\models\ar\Page;
-use prime\models\ar\Permission;
-use prime\models\ar\User;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use prime\interfaces\HeramsResponseInterface;
+use herams\common\interfaces\HeramsResponseInterface;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 
 class DataTextColumn extends RawDataColumn

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\interfaces\page;
 
+use herams\common\values\ProjectId;
 use prime\interfaces\BreadcrumbInterface;
-use prime\values\ProjectId;
 
 interface PageForBreadcrumbInterface extends BreadcrumbInterface
 {

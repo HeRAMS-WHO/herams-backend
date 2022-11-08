@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\forms\survey;
 
+use herams\common\values\SurveyId;
 use prime\models\forms\survey\UpdateForm;
 use prime\tests\unit\models\ModelTest;
-use prime\values\SurveyId;
 
 /**
  * @covers \prime\models\forms\survey\UpdateForm

@@ -2,33 +2,48 @@
 
 declare(strict_types=1);
 
-/** @var \prime\components\KubernetesSecretEnvironment $env */
+/**
+ * @var \herams\common\helpers\KubernetesSecretEnvironment $env
+ */
 
 use Carbon\Carbon;
+use herams\common\components\Formatter;
 use kartik\dialog\DialogAsset;
 use kartik\dialog\DialogBootstrapAsset;
-use prime\components\AuditService;
-use prime\components\Formatter;
+use prime\components\ApiRewriteRule;
 use prime\components\JobSubmissionService;
 use prime\components\LanguageSelector;
 use prime\components\MaintenanceMode;
 use prime\components\NotificationService;
+use yii\di\Instance;
 use yii\web\DbSession;
+use yii\web\UrlManager;
+use yii\widgets\PjaxAsset;
 
+$commonDiConfigurator = new \herams\common\config\CommonConfigurator();
+$commonDiConfigurator->configure($env, \Yii::$container);
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [
         MaintenanceMode::class,
         JobSubmissionService::class,
-        'auditService',
         'notificationService',
         'languageSelector',
 
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'user' => [
+            'class' => \yii\web\User::class,
+            'loginUrl' => '/session/create',
+            'identityClass' => \herams\common\domain\user\User::class,
+            'on ' . \yii\web\User::EVENT_AFTER_LOGIN => function (\yii\web\UserEvent $event) {
+                if (! empty($event->identity->language)) {
+                    \Yii::$app->language = $event->identity->language;
+                }
+            },
+        ],
         'jobQueue' => \JCIT\jobqueue\interfaces\JobQueueInterface::class,
-        'auditService' => AuditService::class,
         'formatter' => [
             'class' => Formatter::class,
         ],
@@ -64,7 +79,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         ],
         'view' => \prime\components\View::class,
         'urlManager' => [
-            'class' => \yii\web\UrlManager::class,
+            'class' => UrlManager::class,
             'cache' => false,
             'enableStrictParsing' => true,
             'enablePrettyUrl' => true,
@@ -73,6 +88,12 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
                 [
                     'pattern' => '/api-proxy/<api:[\w-]+>/<sub:.*>',
                     'route' => '/api-proxy/<api>'
+                ],
+                [
+                    'class' => ApiRewriteRule::class,
+                    '__construct()' => [
+                        Instance::ensure('apiUrlManager', UrlManager::class)
+                    ]
                 ],
                 [
                     'pattern' => '<controller>',

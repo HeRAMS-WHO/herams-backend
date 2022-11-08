@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\helpers;
 
 use Codeception\Test\Unit;
-use prime\helpers\ModelHydrator;
+use herams\common\helpers\ModelHydrator;
 use prime\objects\EnumSet;
 use prime\objects\LanguageSet;
 use yii\base\DynamicModel;
@@ -14,7 +14,7 @@ use yii\validators\SafeValidator;
 use yii\web\Request;
 
 /**
- * @covers \prime\helpers\ModelHydrator
+ * @covers \herams\common\helpers\ModelHydrator
  */
 class ModelHydratorTest extends Unit
 {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\user;
 
 use Codeception\Test\Unit;
-use prime\models\ar\User;
+use herams\common\domain\user\User;
+use herams\common\values\UserId;
 use prime\models\user\UserForSelect2;
-use prime\values\UserId;
 
 /**
  * @covers \prime\models\user\UserForSelect2

@@ -2,8 +2,8 @@
 
 namespace prime\models\forms\user;
 
+use herams\common\domain\user\User;
 use kartik\password\StrengthValidator;
-use prime\models\ar\User;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\validators\CompareValidator;

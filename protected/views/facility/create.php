@@ -9,8 +9,8 @@ use prime\widgets\survey\Survey;
 /**
  * @var View $this
  * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
- * @var \prime\values\ProjectId $projectId
- * @var \prime\values\WorkspaceId $workspaceId
+ * @var \herams\common\values\ProjectId $projectId
+ * @var \herams\common\values\WorkspaceId $workspaceId
  */
 
 $this->title = Yii::t('app', 'Create facility');

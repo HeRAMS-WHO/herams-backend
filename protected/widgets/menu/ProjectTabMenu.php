@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use prime\interfaces\project\ProjectForTabMenuInterface;
-use prime\models\ar\Permission;
+use herams\common\interfaces\ProjectForTabMenuInterface;
+use herams\common\models\Permission;
 
 /**
  * Class Menu

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use herams\common\domain\facility\Facility;
 use League\Tactician\CommandBus;
-use prime\models\ar\Facility;
 use yii\db\Migration;
 
 final class m220909_115828_facility_add_latest_data_update extends Migration

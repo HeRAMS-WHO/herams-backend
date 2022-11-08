@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace prime\models\facility;
 
 use Collecthor\DataInterfaces\RecordInterface;
+use herams\common\values\FacilityId;
 use prime\interfaces\CanCurrentUser;
 use prime\interfaces\facility\FacilityForListInterface;
-use prime\values\FacilityId;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters

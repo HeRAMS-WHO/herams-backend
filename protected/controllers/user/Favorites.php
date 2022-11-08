@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use herams\common\domain\user\User;
+use herams\common\models\Workspace;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
 

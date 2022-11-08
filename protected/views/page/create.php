@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\models\Page;
+use herams\common\models\Project;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
 use prime\components\View;
-use prime\models\ar\Page;
-use prime\models\ar\Project;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use function iter\chain;

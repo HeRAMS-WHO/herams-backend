@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\models\search;
 
-use prime\models\ar\Survey;
+use herams\common\domain\survey\Survey;
 use yii\base\Model;
 use yii\validators\FilterValidator;
 use yii\validators\NumberValidator;

@@ -6,8 +6,8 @@ namespace prime\helpers;
 
 use Collecthor\DataInterfaces\RecordInterface;
 use DateTimeInterface;
+use herams\common\values\FacilityId;
 use prime\interfaces\HeramsFacilityRecordInterface;
-use prime\values\FacilityId;
 
 class CombinedHeramsFacilityRecord implements HeramsFacilityRecordInterface
 {

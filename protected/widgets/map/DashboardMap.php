@@ -2,7 +2,7 @@
 
 namespace prime\widgets\map;
 
-use prime\interfaces\HeramsResponseInterface;
+use herams\common\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;

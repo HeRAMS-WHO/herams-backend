@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\interfaces;
 
-use prime\values\ProjectId;
-use prime\values\WorkspaceId;
+use herams\common\values\ProjectId;
+use herams\common\values\WorkspaceId;
 
 interface WorkspaceForTabMenu extends CanCurrentUser
 {

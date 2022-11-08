@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
+use herams\api\validators\EnumValidator;
 use prime\interfaces\Dehydrator;
-use prime\validators\EnumValidator;
 
 abstract class Enum extends \Spatie\Enum\Enum implements Dehydrator
 {

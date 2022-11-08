@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\models\forms\user;
 
 use Carbon\Carbon;
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 use SamIT\abac\AuthManager;
 use SamIT\abac\values\Authorizable;
 use SamIT\Yii2\UrlSigner\UrlSigner;

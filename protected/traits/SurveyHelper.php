@@ -2,7 +2,7 @@
 
 namespace prime\traits;
 
-use prime\interfaces\HeramsResponseInterface;
+use herams\common\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;

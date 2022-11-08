@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\mail;
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 use prime\tests\FunctionalTester;
 
 /**

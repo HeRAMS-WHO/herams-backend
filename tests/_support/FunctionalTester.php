@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace prime\tests;
 
+use herams\common\domain\facility\Facility;
+use herams\common\domain\survey\Survey;
+use herams\common\models\Page;
+use herams\common\models\Project;
+use herams\common\models\SurveyResponse;
+use herams\common\models\Workspace;
 use prime\models\ar\Element;
-use prime\models\ar\Facility;
-use prime\models\ar\Page;
-use prime\models\ar\Project;
-use prime\models\ar\Survey;
-use prime\models\ar\SurveyResponse;
-use prime\models\ar\Workspace;
 use SamIT\abac\AuthManager;
 use yii\db\ActiveRecord;
 use yii\web\Request;

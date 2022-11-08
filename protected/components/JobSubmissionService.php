@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\components;
 
+use herams\common\interfaces\EventDispatcherInterface;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\interfaces\EventDispatcherInterface;
 use prime\interfaces\QueueJobFromModelInterface;
 use yii\base\Event;
 use yii\db\ActiveRecord;

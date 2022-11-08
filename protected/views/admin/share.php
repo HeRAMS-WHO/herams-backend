@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Workspace;
 use prime\components\ActiveForm;
 use prime\components\View;
-use prime\models\ar\Workspace;
 use prime\models\forms\Share;
 use prime\widgets\menu\AdminTabMenu;
 use prime\widgets\Section;

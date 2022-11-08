@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\models\forms\user;
 
+use herams\common\domain\user\User;
 use kartik\password\StrengthValidator;
-use prime\models\ar\User;
 use SamIT\abac\AuthManager;
 use SamIT\abac\values\Authorizable;
 use yii\base\Model;

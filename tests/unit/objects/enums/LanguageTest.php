@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\objects\enums;
 
 use Codeception\Test\Unit;
-use prime\objects\enums\Language;
+use herams\common\enums\Language;
 
 /**
- * @covers \prime\objects\enums\Language
+ * @covers \herams\common\enums\Language
  */
 class LanguageTest extends Unit
 {

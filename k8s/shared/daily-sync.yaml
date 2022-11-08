@@ -23,7 +23,7 @@ spec:
           containers:
             - name: cachewarmup
               image: ghcr.io/herams-who/herams-backend/app:latest
-              imagePullPolicy: IfNotPresent
+              imagePullPolicy: If.NotPresent
               command:
                 - /usr/bin/php8
                 - -d

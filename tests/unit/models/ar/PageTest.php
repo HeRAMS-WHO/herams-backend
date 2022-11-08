@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
-use prime\models\ar\Page;
-use prime\models\ar\Project;
+use herams\common\models\Page;
+use herams\common\models\Project;
 
 /**
- * @covers \prime\models\ar\Page
+ * @covers \herams\common\models\Page
  */
 class PageTest extends ActiveRecordTest
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
-use prime\models\ar\Permission;
 use prime\models\search\User;
 use prime\widgets\menu\TabMenu;
 use prime\widgets\Section;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use yii\base\Action;
 use yii\web\Response;
 

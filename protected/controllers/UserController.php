@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
+use herams\common\domain\user\User;
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\user\AcceptInvitation;
@@ -22,7 +23,6 @@ use prime\controllers\user\RequestAccount;
 use prime\controllers\user\RequestReset;
 use prime\controllers\user\ResetPassword;
 use prime\controllers\user\Roles;
-use prime\models\ar\User;
 use SamIT\Yii2\UrlSigner\HmacFilter;
 use yii\helpers\ArrayHelper;
 

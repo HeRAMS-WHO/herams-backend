@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 
 /**
- * @covers \prime\models\ar\Favorite
+ * @covers \herams\common\domain\favorite\Favorite
  */
 class FavoriteTest extends ActiveRecordTest
 {

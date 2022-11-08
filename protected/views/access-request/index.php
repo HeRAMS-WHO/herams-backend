@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use herams\common\interfaces\RequestableInterface;
 use kartik\grid\ActionColumn;
 use kartik\grid\BooleanColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
-use prime\interfaces\RequestableInterface;
 use prime\models\ar\AccessRequest;
 use prime\models\search\AccessRequest as AccessRequestSearch;
 use prime\widgets\Section;

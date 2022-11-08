@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\controllers\page;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Page;
+use herams\common\models\Permission;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Page;
-use prime\models\ar\Permission;
 use yii\base\Action;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;

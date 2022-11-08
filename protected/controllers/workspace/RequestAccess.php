@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
+use herams\common\values\WorkspaceId;
 use prime\components\Controller;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
 use prime\models\forms\accessRequest\Create as RequestAccessForm;
-use prime\repositories\WorkspaceRepository;
-use prime\values\WorkspaceId;
 use SamIT\abac\AuthManager;
 use yii\base\Action;
 use yii\web\Request;

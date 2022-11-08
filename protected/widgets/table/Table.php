@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets\table;
 
-use prime\interfaces\HeramsResponseInterface;
+use herams\common\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;

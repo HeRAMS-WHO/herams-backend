@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use prime\interfaces\AuditServiceInterface;
-use prime\interfaces\NewAuditEntryInterface;
+use herams\common\interfaces\AuditServiceInterface;
+use herams\common\interfaces\NewAuditEntryInterface;
 
 class AuditServiceProxy implements AuditServiceInterface
 {

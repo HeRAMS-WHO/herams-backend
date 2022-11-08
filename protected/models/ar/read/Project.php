@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace prime\models\ar\read;
 
+use herams\common\interfaces\ProjectForTabMenuInterface;
+use herams\common\models\ActiveRecord;
+use herams\common\traits\ReadOnlyTrait;
+use herams\common\values\ProjectId;
 use prime\behaviors\LocalizableReadBehavior;
-use prime\interfaces\project\ProjectForTabMenuInterface;
-use prime\models\ActiveRecord;
-use prime\traits\ReadOnlyTrait;
-use prime\values\ProjectId;
 
-class Project extends \prime\models\ar\Project implements ProjectForTabMenuInterface
+class Project extends \herams\common\models\Project implements ProjectForTabMenuInterface
 {
     use ReadOnlyTrait;
 

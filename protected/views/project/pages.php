@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
-use kartik\grid\ActionColumn;
-use kartik\grid\GridView;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\helpers\Icon;
-use prime\models\ar\Page;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\web\View;
 

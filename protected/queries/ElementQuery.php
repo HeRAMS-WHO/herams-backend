@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\queries;
 
-use prime\components\ActiveQuery;
+use herams\common\queries\ActiveQuery;
 
 class ElementQuery extends ActiveQuery
 {

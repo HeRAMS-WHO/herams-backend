@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Collecthor\DataInterfaces\VariableInterface;
+use herams\common\models\Permission;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
-use prime\models\ar\Permission;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;

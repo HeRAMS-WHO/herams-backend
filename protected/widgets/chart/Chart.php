@@ -2,14 +2,13 @@
 
 namespace prime\widgets\chart;
 
-use prime\interfaces\HeramsResponseInterface;
+use herams\common\interfaces\HeramsResponseInterface;
 use prime\objects\HeramsSubject;
 use prime\traits\SurveyHelper;
 use prime\widgets\element\Element;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
-
 use function iter\take;
 
 class Chart extends Element

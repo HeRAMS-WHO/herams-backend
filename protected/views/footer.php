@@ -1,7 +1,7 @@
 <?php
 
+use herams\common\models\Project;
 use prime\helpers\Icon;
-use prime\models\ar\Project;
 use yii\helpers\Html;
 
 echo Html::beginTag('div', [

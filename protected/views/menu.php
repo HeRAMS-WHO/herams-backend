@@ -26,7 +26,7 @@ echo Html::a(
         'class' => $controller->action->uniqueId === 'project/index' ? 'active' : null,
     ]
 );
-if (\Yii::$app->user->can(\prime\models\ar\Permission::PERMISSION_ADMIN)) {
+if (\Yii::$app->user->can(\herams\common\models\Permission::PERMISSION_ADMIN)) {
     echo Html::a(
         \Yii::t('app', 'Users'),
         ['/user/index'],

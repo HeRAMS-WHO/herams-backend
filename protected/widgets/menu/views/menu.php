@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use prime\models\ar\Page;
+use herams\common\models\Page;
 use yii\helpers\Html;
 
 /**
- * @var \prime\models\ar\Project $project
+ * @var \herams\common\models\Project $project
  * @var Page $currentPage
  */
 

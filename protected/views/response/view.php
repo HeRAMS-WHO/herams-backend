@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\values\SurveyResponseId;
 use prime\components\View;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
-use prime\values\SurveyResponseId;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
 
@@ -12,7 +12,7 @@ use prime\widgets\survey\Survey;
  * @var SurveyResponseId $id
  * @var SurveyForSurveyJsInterface | null $survey
  * @var View $this
- * @var \prime\values\ProjectId $projectId
+ * @var \herams\common\values\ProjectId $projectId
  */
 assert($this instanceof View);
 

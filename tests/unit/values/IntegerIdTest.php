@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\values;
 
 use Codeception\Test\Unit;
-use prime\values\IntegerId;
+use herams\common\values\IntegerId;
 
 /**
- * @covers \prime\values\IntegerId
+ * @covers \herams\common\values\IntegerId
  */
 class IntegerIdTest extends Unit
 {

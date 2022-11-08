@@ -186,7 +186,7 @@ window.__herams_init_callbacks.unshift(async () => {
 
 
   console.log('waiting for locales')
-  const platformLocales = await window.Herams.fetchWithCsrf('/api/configuration/locales', null, 'GET')
+  const platformLocales = await window.Herams.fetchWithCsrf('/api-proxy/core/configuration/locales', null, 'GET')
   console.log('done')
   Survey.ComponentCollection.Instance.add({
     name: 'localizableprojecttext',
@@ -265,7 +265,7 @@ window.__herams_init_callbacks.unshift(async () => {
       allowClear: false,
       required: true,
       choicesByUrl: {
-        url: '/api/configuration/countries',
+        url: '/api-proxy/core/configuration/countries',
         valueName: 'alpha3',
         titleName: 'name',
       },
@@ -325,7 +325,7 @@ window.__herams_init_callbacks.unshift(async () => {
       allowClear: false,
       required: true,
       choicesByUrl: {
-        url: '/api/surveys',
+        url: '/api-proxy/core/surveys',
         valueName: 'id',
         titleName: 'title',
       },

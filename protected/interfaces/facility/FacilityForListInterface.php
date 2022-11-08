@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\interfaces\facility;
 
+use herams\common\values\FacilityId;
 use prime\interfaces\CanCurrentUser;
-use prime\values\FacilityId;
 
 interface FacilityForListInterface extends CanCurrentUser
 {

@@ -1,6 +1,6 @@
 <?php
 
-/** @var \prime\models\ar\User $user */
+/** @var \herams\common\domain\user\User $user */
 
 /** @var array $verificationRoute */
 

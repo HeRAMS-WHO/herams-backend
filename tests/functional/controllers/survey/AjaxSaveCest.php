@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\survey;
 
-use prime\models\ar\Survey;
+use herams\common\domain\survey\Survey;
 use prime\tests\FunctionalTester;
 use yii\web\Request;
 

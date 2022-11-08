@@ -2,7 +2,7 @@
 
 namespace prime\controllers\project;
 
-use prime\models\ar\Project;
+use herams\common\models\Project;
 use prime\models\forms\ResponseFilter;
 use yii\base\Action;
 use yii\web\Request;

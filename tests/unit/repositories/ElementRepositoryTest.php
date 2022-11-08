@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
-use prime\helpers\ModelHydrator;
+use herams\common\domain\variableSet\HeramsVariableSetRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\values\ElementId;
+use herams\common\values\PageId;
 use prime\models\ar\Element;
 use prime\repositories\ElementRepository;
-use prime\repositories\HeramsVariableSetRepository;
-use prime\values\ElementId;
-use prime\values\PageId;
 
 /**
  * @covers \prime\repositories\ElementRepository

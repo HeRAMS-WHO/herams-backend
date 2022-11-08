@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\user;
 
-use prime\models\ar\User;
-use prime\objects\enums\Language;
+use herams\common\domain\user\User;
+use herams\common\enums\Language;
 use prime\tests\FunctionalTester;
 
 /**

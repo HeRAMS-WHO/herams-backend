@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 
 class UserTabMenu extends TabMenu
 {

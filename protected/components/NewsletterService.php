@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace prime\components;
 
 use DrewM\MailChimp\MailChimp;
-use prime\models\ar\User;
-use prime\repositories\UserRepository;
+use herams\common\domain\user\User;
+use herams\common\domain\user\UserRepository;
+use herams\common\helpers\Secret;
 use yii\base\Component;
 use yii\web\Request;
 

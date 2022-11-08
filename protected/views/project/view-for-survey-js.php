@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Page;
+use herams\common\models\Project;
 use prime\interfaces\DashboardWidgetInterface;
-use prime\models\ar\Page;
-use prime\models\ar\Project;
 use prime\widgets\menu\ProjectPageMenu;
 use yii\helpers\Html;
 use yii\web\View;

@@ -1,6 +1,6 @@
 <?php
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\mail\MessageInterface;

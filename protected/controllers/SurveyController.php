@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
+use herams\common\models\Permission;
 use prime\components\Controller;
 use prime\controllers\survey\AjaxSave;
 use prime\controllers\survey\Create;
 use prime\controllers\survey\Index;
 use prime\controllers\survey\Update;
-use prime\models\ar\Permission;
-use prime\objects\Breadcrumb;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
-use yii\web\ViewAction;
 
 class SurveyController extends Controller
 {
@@ -23,7 +20,6 @@ class SurveyController extends Controller
     public function actions(): array
     {
         return [
-            'ajax-save' => AjaxSave::class,
             'create' => Create::class,
             'index' => Index::class,
             'update' => Update::class,
@@ -38,7 +34,6 @@ class SurveyController extends Controller
                 'verb' => [
                     'class' => VerbFilter::class,
                     'actions' => [
-                        'ajax-save' => ['post'],
                         'create' => ['get'],
                         'index' => ['get'],
                         'update' => ['get'],

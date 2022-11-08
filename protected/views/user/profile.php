@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\domain\user\User;
+use herams\common\enums\Language;
 use prime\components\ActiveForm;
-use prime\models\ar\User;
-use prime\objects\enums\Language;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;

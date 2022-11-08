@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
+use herams\common\models\Permission;
 use prime\interfaces\CanCurrentUser;
-use prime\models\ar\Permission;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\User;

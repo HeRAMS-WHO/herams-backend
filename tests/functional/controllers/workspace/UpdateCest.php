@@ -2,8 +2,8 @@
 
 namespace prime\tests\functional\controllers\workspace;
 
-use prime\models\ar\Permission;
-use prime\models\ar\User;
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
 use prime\tests\FunctionalTester;
 
 /**

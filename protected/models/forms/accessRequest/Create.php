@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\models\forms\accessRequest;
 
+use herams\common\domain\user\User;
+use herams\common\models\Project;
+use herams\common\models\Workspace;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Project;
-use prime\models\ar\User;
-use prime\models\ar\Workspace;
 use SamIT\abac\AuthManager;
 use yii\base\Model;
 use yii\validators\RangeValidator;

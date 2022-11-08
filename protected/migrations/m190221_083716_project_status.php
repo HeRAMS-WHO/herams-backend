@@ -1,6 +1,6 @@
 <?php
 
-use prime\models\ar\Project;
+use herams\common\models\Project;
 use yii\db\Migration;
 
 class m190221_083716_project_status extends Migration

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\components;
 
-use prime\models\ar\User;
+use herams\common\domain\user\User;
 use yii\filters\auth\AuthInterface;
 use yii\web\ForbiddenHttpException;
 use yii\web\IdentityInterface;

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace prime\widgets\surveyJs;
 
+use herams\common\values\SurveyId;
 use prime\assets\SurveyJsCreator2Bundle;
 use prime\components\View;
-use prime\values\SurveyId;
-use prime\widgets\survey\Survey;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
-use yii\web\JsExpression;
 
 final class Creator2 extends Widget
 {

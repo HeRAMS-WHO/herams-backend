@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\helpers;
 
-use prime\models\ar\Configuration;
-use prime\objects\enums\ConfigurationKey;
-use prime\values\SurveyId;
+use herams\common\enums\ConfigurationKey;
+use herams\common\models\Configuration;
+use herams\common\values\SurveyId;
 
 class ConfigurationProvider
 {

@@ -2,7 +2,7 @@
 
 namespace prime\objects;
 
-use prime\interfaces\PageInterface;
+use herams\common\interfaces\PageInterface;
 use prime\models\ar\Element;
 use prime\models\ar\elements\Chart;
 use prime\models\ar\elements\Map;

@@ -2,10 +2,10 @@
 
 namespace prime\controllers\page;
 
+use herams\common\models\Page;
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\components\NotificationService;
-use prime\models\ar\Page;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

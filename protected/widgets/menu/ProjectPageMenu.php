@@ -2,10 +2,10 @@
 
 namespace prime\widgets\menu;
 
+use herams\common\interfaces\PageInterface;
+use herams\common\models\Page;
+use herams\common\models\Project;
 use prime\helpers\Icon;
-use prime\interfaces\PageInterface;
-use prime\models\ar\Page;
-use prime\models\ar\Project;
 use yii\helpers\Html;
 
 /**

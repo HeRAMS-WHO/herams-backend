@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\models\user;
 
+use herams\common\domain\user\User;
+use herams\common\values\UserId;
 use prime\interfaces\user\UserForSelect2Interface;
-use prime\models\ar\User;
-use prime\values\UserId;
 
 class UserForSelect2 implements UserForSelect2Interface
 {

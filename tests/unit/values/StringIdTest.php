@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\values;
 
 use Codeception\Test\Unit;
-use prime\values\StringId;
+use herams\common\values\StringId;
 
 /**
- * @covers \prime\values\StringId
+ * @covers \herams\common\values\StringId
  */
 class StringIdTest extends Unit
 {

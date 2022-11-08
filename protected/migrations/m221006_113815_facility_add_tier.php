@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\domain\facility\Facility;
 use League\Tactician\CommandBus;
 use prime\jobs\UpdateFacilityDataJob;
-use prime\models\ar\Facility;
 use yii\db\Migration;
 
 

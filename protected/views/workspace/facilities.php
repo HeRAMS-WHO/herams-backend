@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Collecthor\DataInterfaces\VariableInterface;
+use herams\common\models\Permission;
 use prime\helpers\Icon;
-use prime\models\ar\Permission;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
 use SamIT\abac\interfaces\Resolver;

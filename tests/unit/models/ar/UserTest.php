@@ -2,11 +2,11 @@
 
 namespace prime\tests\unit\models\ar;
 
-use prime\models\ar\Favorite;
-use prime\models\ar\User;
+use herams\common\domain\favorite\Favorite;
+use herams\common\domain\user\User;
 
 /**
- * @covers \prime\models\ar\User
+ * @covers \herams\common\domain\user\User
  */
 class UserTest extends ActiveRecordTest
 {

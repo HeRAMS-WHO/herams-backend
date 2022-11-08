@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\page;
 
-use prime\models\ar\Page;
+use herams\common\models\Page;
 use prime\tests\FunctionalTester;
 
 /**

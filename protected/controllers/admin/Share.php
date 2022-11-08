@@ -2,12 +2,12 @@
 
 namespace prime\controllers\admin;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\GlobalPermission;
+use herams\common\models\Permission;
 use prime\components\Controller;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
 use prime\models\forms\Share as ShareForm;
-use prime\models\permissions\GlobalPermission;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;

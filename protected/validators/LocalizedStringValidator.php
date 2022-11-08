@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\validators;
 
-use prime\helpers\LocalizedString;
+use herams\common\helpers\LocalizedString;
 use yii\validators\Validator;
 
 final class LocalizedStringValidator extends Validator

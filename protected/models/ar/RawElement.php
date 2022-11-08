@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
-use prime\models\ActiveRecord;
+use herams\common\models\ActiveRecord;
+use herams\common\validators\BackedEnumValidator;
 use prime\objects\enums\ElementType;
-use prime\validators\BackedEnumValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
 

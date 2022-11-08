@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use prime\models\ar\Survey;
+use herams\common\domain\survey\Survey;
 use yii\db\Migration;
 
 class m210922_150000_allow_project_admin_survey_null extends Migration

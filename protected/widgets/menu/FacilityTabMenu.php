@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
+use herams\common\models\Permission;
 use prime\interfaces\FacilityForTabMenu;
-use prime\models\ar\Permission;
 
 class FacilityTabMenu extends TabMenu
 {

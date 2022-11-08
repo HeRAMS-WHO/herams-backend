@@ -1,8 +1,8 @@
 <?php
 
-use prime\models\ar\Permission;
-use prime\models\ar\User;
-use prime\models\ar\Workspace;
+use herams\common\domain\user\User;
+use herams\common\models\Permission;
+use herams\common\models\Workspace;
 use yii\db\Migration;
 
 class m190415_130133_make_owners_admin extends Migration

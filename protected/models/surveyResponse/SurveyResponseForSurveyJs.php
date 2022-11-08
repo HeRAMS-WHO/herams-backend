@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace prime\models\surveyResponse;
 
 use Collecthor\SurveyjsParser\ArrayDataRecord;
+use herams\common\values\ProjectId;
+use herams\common\values\SurveyId;
+use herams\common\values\SurveyResponseId;
 use prime\interfaces\surveyResponse\SurveyResponseForSurveyJsInterface;
-use prime\values\ProjectId;
-use prime\values\SurveyId;
-use prime\values\SurveyResponseId;
 
 /**
  * @codeCoverageIgnore getters only

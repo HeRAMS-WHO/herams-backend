@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
 use prime\components\Controller;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
 use yii\base\Action;
 use yii\web\Request;

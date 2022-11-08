@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace prime\models\ar;
 
 use Carbon\Carbon;
-use prime\attributes\Audits;
-use prime\attributes\TriggersJob;
-use prime\components\ActiveQuery;
+use herams\common\attributes\Audits;
+use herams\common\attributes\TriggersJob;
+use herams\common\domain\user\User;
+use herams\common\models\ActiveRecord;
+use herams\common\models\Permission;
+use herams\common\models\Project;
+use herams\common\models\Workspace;
+use herams\common\queries\ActiveQuery;
 use prime\jobs\accessRequests\CreatedNotificationJob;
-use prime\models\ActiveRecord;
 use prime\queries\AccessRequestQuery;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\behaviors\BlameableBehavior;
@@ -19,7 +23,6 @@ use yii\validators\InlineValidator;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
-
 use function iter\keys;
 
 /**

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace prime\models\forms;
 
 use Carbon\Carbon;
+use herams\common\domain\permission\ProposedGrant;
+use herams\common\domain\user\User;
+use herams\common\models\ActiveRecord;
+use herams\common\models\Permission;
+use herams\common\models\Workspace;
 use kartik\builder\Form;
 use kartik\select2\Select2;
 use prime\components\ActiveForm;
 use prime\exceptions\NoGrantablePermissions;
-use prime\helpers\ProposedGrant;
-use prime\models\ActiveRecord;
-use prime\models\ar\Permission;
-use prime\models\ar\User;
-use prime\models\ar\Workspace;
 use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\PermissionColumn\PermissionColumn;
@@ -21,7 +21,6 @@ use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\base\Model;
-use yii\data\ArrayDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\helpers\Url;
 use yii\mail\MailerInterface;
@@ -268,11 +267,10 @@ class Share extends Model
                         'onIcon' => 'mdi-toggle-switch',
                         'offIcon' => 'mdi-toggle-switch-off',
                         'paramName' => 'source_id',
-                        'endpoint' => \yii\helpers\Url::to([
-                            '/api/permission/create',
-                        ], true),
+                        'endpoint' => Url::to(['/api/permission/create'], true),
                         'postData' => [
-                            'source' => User::class,
+                            // This is hardcoded but should actually go through a resolver.
+                            'source' => 'User',
                             'target' => $target->getAuthName(),
                             'target_id' => $target->getId(),
                             'permission' => $permission,

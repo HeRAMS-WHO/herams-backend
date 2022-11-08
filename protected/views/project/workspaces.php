@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
+use herams\common\models\Project;
 use prime\helpers\Icon;
-use prime\models\ar\Permission;
-use prime\models\ar\Project;
 use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
@@ -15,7 +15,7 @@ use yii\web\View;
  * @var int $closedCount
  * @var View $this
  * @var Project $project
- * @var \prime\values\ProjectId $projectId
+ * @var \herams\common\values\ProjectId $projectId
  * @var array $dataRoute
  */
 
@@ -42,15 +42,6 @@ Section::begin(
                 ],
                 'permission' => Permission::PERMISSION_MANAGE_WORKSPACES,
             ],
-            [
-                'icon' => Icon::download_1(),
-                'label' => \Yii::t('app', 'Import workspaces'),
-                'link' => [
-                    'workspace/import',
-                    'project_id' => $project->id,
-                ],
-                'permission' => Permission::PERMISSION_MANAGE_WORKSPACES,
-            ],
         ],
     ]
 );
@@ -58,25 +49,25 @@ Section::begin(
 echo AgGrid::widget([
     'route' => $dataRoute,
     'columns' => [
-        [
-
-            'headerName' => \Yii::t('app', 'Favorite'),
-            'field' => 'isFavorite',
-            'filter' => new JsExpression('ToggleButtonFilter'),
-            'cellRenderer' => new JsExpression('ToggleButtonRenderer'),
-            'cellRendererParams' => [
-                'endpoint' => \yii\helpers\Url::to([
-                    '/api/user/workspaces',
-                    'id' => \Yii::$app->user->id,
-                ], true),
-                //                'idField' => 'id'
-            ],
-            //            'width'=> 100,
-            //            'suppressSizeToFit' => true,
-            'comparator' => new JsExpression(
-                '(a, b) => a == b ? 0 : a ? 1: -1'
-            ),
-        ],
+//        [
+//
+//            'headerName' => \Yii::t('app', 'Favorite'),
+//            'field' => 'favorite_id',
+//            'filter' => new JsExpression('ToggleButtonFilter'),
+//            'cellRenderer' => new JsExpression('ToggleButtonRenderer'),
+//            'cellRendererParams' => [
+//                'endpoint' => \yii\helpers\Url::to([
+//                    '/api/user/workspaces',
+//                    'id' => \Yii::$app->user->id,
+//                ], true),
+//                //                'idField' => 'id'
+//            ],
+//            //            'width'=> 100,
+//            //            'suppressSizeToFit' => true,
+//            'comparator' => new JsExpression(
+//                '(a, b) => a == b ? 0 : a ? 1: -1'
+//            ),
+//        ],
         [
 
             'headerName' => \Yii::t('app', 'Name'),

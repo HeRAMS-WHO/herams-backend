@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-use prime\models\ar\Permission;
+use herams\common\models\Permission;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\MethodNotAllowedHttpException;
@@ -28,7 +28,7 @@ class Impersonate extends Action
             throw new ForbiddenHttpException();
         }
 
-        $targetUser = \prime\models\ar\User::findOne([
+        $targetUser = \herams\common\domain\user\User::findOne([
             'id' => $id,
         ]);
         if (! isset($targetUser)) {

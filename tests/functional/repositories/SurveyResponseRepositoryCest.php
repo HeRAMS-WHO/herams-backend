@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\repositories;
 
-use prime\helpers\ModelHydrator;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\SurveyResponse;
-use prime\repositories\SurveyResponseRepository;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\SurveyResponse;
+use herams\common\values\FacilityId;
 use prime\tests\FunctionalTester;
-use prime\values\FacilityId;
 
 /**
- * @covers \prime\repositories\SurveyResponseRepository
+ * @covers \herams\common\domain\surveyResponse\SurveyResponseRepository
  */
 class SurveyResponseRepositoryCest
 {

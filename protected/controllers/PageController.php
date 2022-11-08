@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
+use herams\common\domain\page\PageRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\models\Page;
+use herams\common\values\PageId;
+use herams\common\values\ProjectId;
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\page\Create;
 use prime\controllers\page\Update;
-use prime\models\ar\Page;
 use prime\objects\Breadcrumb;
-use prime\repositories\PageRepository;
-use prime\repositories\ProjectRepository;
-use prime\values\PageId;
-use prime\values\ProjectId;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;

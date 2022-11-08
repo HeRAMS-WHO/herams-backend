@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\controllers\accessRequest;
 
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\components\NotificationService;
-use prime\interfaces\AccessCheckInterface;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
 use prime\models\forms\accessRequest\Respond as RespondFormModel;
 use SamIT\abac\AuthManager;
 use yii\base\Action;

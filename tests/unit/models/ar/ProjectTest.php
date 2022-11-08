@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\models\ar;
 
-use prime\models\ar\Page;
-use prime\models\ar\Permission;
-use prime\objects\enums\Language;
+use herams\common\enums\Language;
+use herams\common\enums\ProjectVisibility;
+use herams\common\models\Page;
+use herams\common\models\Permission;
 use prime\objects\enums\ProjectStatus;
-use prime\objects\enums\ProjectVisibility;
 
 /**
- * @covers \prime\models\ar\Project
+ * @covers \herams\common\models\Project
  */
 class ProjectTest extends ActiveRecordTest
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\element;
 
-use prime\models\ar\Permission;
+use herams\common\models\Permission;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 use yii\web\Request;

@@ -119,6 +119,23 @@ class Herams {
     })
   }
 
+  async deleteWithCsrf (uri) {
+    const response = await fetch(uri, {
+      method: 'delete',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'X-CSRF-Token': this.#getCsrfToken(),
+      },
+      redirect: 'error',
+      referrer: 'no-referrer',
+    })
+
+    if (!response.ok) {
+      throw new Error(`Delete failed with code (${response.status}): ${response.statusText}`)
+    }
+  }
   async fetchWithCsrf (uri, body = null, method = 'POST') {
     const response = await fetch(uri, {
       method,
@@ -139,11 +156,61 @@ class Herams {
       const json = await response.json()
       throw new ValidationError(json)
     }
+    if (response.status === 204) {
+      return null
+    }
 
     if (!response.ok) {
-      throw new Error(`Request failed with code (${response.status}): ${response.statusText}`)
+      if (response.headers.get('Content-Type').startsWith('application/json')) {
+        const content = await response.json()
+        throw new Error(`Request failed with code (${response.status}): ${response.statusText}, content: ${content}`)
+      } else {
+        throw new Error(`Request failed with code (${response.status}): ${response.statusText}`)
+      }
     }
     return response.json()
+  }
+
+  /**
+   * Sends a POST request to the collection URI. Returns the Location of the created entity
+   * @param uri
+   * @param body
+   * @returns {Promise<void>}
+   */
+  async createInCollectionWithCsrf(uri, body)
+  {
+    const response = await fetch(uri, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'X-CSRF-Token': this.#getCsrfToken(),
+        Accept: 'application/json;indent=2',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+      redirect: 'error',
+      referrer: 'no-referrer',
+    })
+
+    if (response.status === 422) {
+      const json = await response.json()
+      throw new ValidationError(json)
+    }
+    if (response.status === 204 || response.status === 303) {
+      return response.headers.get('Location')
+    }
+
+    if (!response.ok) {
+      if (response.headers.get('Content-Type').startsWith('application/json')) {
+        const content = await response.json()
+        throw new Error(`Request failed with code (${response.status}): ${response.statusText}, content: ${content}`)
+      } else {
+        throw new Error(`Request failed with code (${response.status}): ${response.statusText}`)
+      }
+    }
+    throw new Error("Expected status code 201 or 303")
   }
 
   static async createElement (uri, plainObject, successMessage) {

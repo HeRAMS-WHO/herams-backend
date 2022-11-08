@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\user;
 
+use herams\common\models\Permission;
 use prime\models\ar\AccessRequest;
-use prime\models\ar\Permission;
 use prime\tests\FunctionalTester;
 
 /**

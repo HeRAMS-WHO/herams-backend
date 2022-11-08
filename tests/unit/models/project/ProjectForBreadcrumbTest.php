@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\project;
 
 use Codeception\Test\Unit;
-use prime\models\ar\Project;
+use herams\common\models\Project;
 use prime\models\project\ProjectForBreadcrumb;
 
 /**

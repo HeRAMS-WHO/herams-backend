@@ -7,7 +7,7 @@ namespace prime\tests\unit\repositories;
 use Codeception\Test\Unit;
 
 /**
- * @covers \prime\repositories\WorkspaceRepository
+ * @covers \herams\common\domain\workspace\WorkspaceRepository
  */
 class WorkspaceRepositoryTest extends Unit
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\widgets\PermissionColumn;
 
+use herams\common\models\Permission;
 use prime\assets\PrettyCheckbox;
-use prime\models\ar\Permission;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;

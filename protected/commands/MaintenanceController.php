@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\commands;
 
+use herams\common\domain\facility\Facility;
+use herams\common\values\FacilityId;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\components\MaintenanceMode;
 use prime\jobs\UpdateFacilityDataJob;
-use prime\models\ar\Facility;
-use prime\values\FacilityId;
 use yii\caching\CacheInterface;
 use yii\console\Controller;
 use yii\helpers\Console;

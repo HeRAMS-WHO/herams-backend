@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\models\workspace;
 
+use herams\common\values\ProjectId;
+use herams\common\values\SurveyId;
+use herams\common\values\WorkspaceId;
 use prime\interfaces\workspace\WorkspaceForNewOrUpdateFacilityInterface;
 use prime\objects\LanguageSet;
-use prime\values\ProjectId;
-use prime\values\SurveyId;
-use prime\values\WorkspaceId;
 
 /**
  * @codeCoverageIgnore Since all functions are simple getters

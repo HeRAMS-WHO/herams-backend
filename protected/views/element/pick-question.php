@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Collecthor\DataInterfaces\ClosedVariableInterface;
 use Collecthor\DataInterfaces\VariableSetInterface;
+use herams\common\models\Page;
 use prime\components\View;
-use prime\models\ar\Page;
 use prime\widgets\Section;
 use yii\helpers\Html;
 
@@ -17,7 +17,7 @@ use yii\helpers\Html;
 
 \prime\assets\IconBundle::register($this);
 // Get some data here.
-$response = \prime\models\ar\SurveyResponse::find()->andWhere([
+$response = \herams\common\models\SurveyResponse::find()->andWhere([
     'survey_id' => 3,
 ])->one();
 

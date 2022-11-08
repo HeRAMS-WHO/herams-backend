@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\forms\facility;
 
 use Codeception\Test\Unit;
+use herams\common\values\WorkspaceId;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\models\forms\facility\CreateForm;
 use prime\objects\LanguageSet;
 use prime\tests\_helpers\AllFunctionsMustHaveReturnTypes;
 use prime\tests\_helpers\AttributeValidationByExample;
 use prime\tests\_helpers\YiiLoadMustBeDisabled;
-use prime\values\WorkspaceId;
 
 /**
  * @covers \prime\models\forms\facility\CreateForm

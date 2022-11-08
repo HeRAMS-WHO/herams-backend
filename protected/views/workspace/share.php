@@ -10,7 +10,7 @@ use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
 
 /**
- * @var \prime\models\ar\Workspace $workspace
+ * @var \herams\common\models\Workspace $workspace
  * @var Share $model
  * @var WorkspaceForTabMenu $tabMenuModel
  * @var View $this

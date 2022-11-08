@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\jobHandlers\users;
 
+use herams\common\domain\user\UserRepository;
 use JCIT\jobqueue\interfaces\JobHandlerInterface;
 use JCIT\jobqueue\interfaces\JobInterface;
 use prime\components\NewsletterService;
 use prime\jobs\users\SyncNewsletterSubscriptionJob;
-use prime\repositories\UserRepository;
 
 class SyncNewsletterSubscriptionHandler implements JobHandlerInterface
 {

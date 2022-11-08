@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use prime\models\ar\Permission;
+use herams\common\models\Permission;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
@@ -61,7 +61,7 @@ SideMenu::begin([
     'footer' => $this->render('//footer'),
 ]);
 
-/** @var \prime\models\ar\Project $project */
+/** @var \herams\common\models\Project $project */
 foreach ($projects->getModels() as $project) {
     echo Html::button($project->getDisplayField(), [
         'data' => [

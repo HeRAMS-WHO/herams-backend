@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/** @var \prime\components\KubernetesSecretEnvironment $env */
+/** @var \herams\common\helpers\KubernetesSecretEnvironment $env */
 
 
 $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [

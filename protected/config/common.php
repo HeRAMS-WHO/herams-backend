@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\components\JwtSso;
-use prime\interfaces\EnvironmentInterface;
-use prime\models\ar\User as ActiveRecordUser;
+use herams\common\domain\user\User as ActiveRecordUser;
+use herams\common\interfaces\EnvironmentInterface;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -17,8 +16,6 @@ use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 use yii\web\User;
-use yii\web\User as UserComponent;
-use yii\web\UserEvent;
 
 assert(isset($env) && $env instanceof EnvironmentInterface);
 
@@ -77,10 +74,10 @@ return [
             $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
             return new AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
         },
-        'authManager' => static fn (AuthManager $abacManager) => new \prime\components\AuthManager($abacManager, ActiveRecordUser::class),
+        'authManager' => static fn (AuthManager $abacManager) => new \herams\common\components\AuthManager($abacManager, ActiveRecordUser::class),
         'check' => static function (User $user) {
             assert($user === \Yii::$app->user);
-            return new \prime\helpers\UserAccessCheck($user);
+            return new \herams\common\services\UserAccessCheck($user);
         },
 
 
@@ -109,16 +106,6 @@ return [
                     'logFile' => '@runtime/logs/error.log',
                 ],
             ],
-        ],
-        'user' => [
-            'class' => UserComponent::class,
-            'loginUrl' => '/session/create',
-            'identityClass' => ActiveRecordUser::class,
-            'on ' . UserComponent::EVENT_AFTER_LOGIN => function (UserEvent $event) {
-                if (! empty($event->identity->language)) {
-                    \Yii::$app->language = $event->identity->language;
-                }
-            },
         ],
         'i18n' => [
             'class' => \yii\i18n\I18N::class,

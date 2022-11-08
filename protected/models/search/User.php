@@ -33,7 +33,7 @@ class User extends Model
 
     public function search(array $params): DataProviderInterface
     {
-        $query = \prime\models\ar\User::find();
+        $query = \herams\common\domain\user\User::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

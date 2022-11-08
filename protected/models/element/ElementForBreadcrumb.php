@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace prime\models\element;
 
+use herams\common\values\PageId;
 use prime\interfaces\element\ElementForBreadcrumbInterface;
 use prime\models\ar\Element;
 use prime\traits\BreadcrumbTrait;
-use prime\values\PageId;
 
 class ElementForBreadcrumb implements ElementForBreadcrumbInterface
 {

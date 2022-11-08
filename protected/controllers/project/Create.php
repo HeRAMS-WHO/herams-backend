@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\helpers\ModelHydrator;
+use herams\common\interfaces\AccessCheckInterface;
+use herams\common\models\Permission;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\helpers\ConfigurationProvider;
-use prime\helpers\ModelHydrator;
-use prime\interfaces\AccessCheckInterface;
-use prime\models\ar\Permission;
-use prime\repositories\ProjectRepository;
-use prime\repositories\SurveyRepository;
 use yii\base\Action;
 use yii\web\Request;
 

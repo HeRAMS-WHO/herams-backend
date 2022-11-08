@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\page;
 
-use prime\models\ar\Page;
-use prime\models\ar\Permission;
+use herams\common\models\Page;
+use herams\common\models\Permission;
 use prime\tests\FunctionalTester;
 
 /**

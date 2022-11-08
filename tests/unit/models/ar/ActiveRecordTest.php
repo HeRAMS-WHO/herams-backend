@@ -9,7 +9,7 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * @covers \prime\models\ActiveRecord
+ * @covers \herams\common\models\ActiveRecord
  */
 abstract class ActiveRecordTest extends ModelTest
 {
@@ -54,7 +54,7 @@ abstract class ActiveRecordTest extends ModelTest
         $this->assertTrue($model->save(false), 'ActiveRecord save failed: ' . print_r($model->attributes, true));
     }
 
-    final protected function getModel(): \prime\models\ActiveRecord
+    final protected function getModel(): \herams\common\models\ActiveRecord
     {
         $class = strtr(get_class($this), [
             __NAMESPACE__ => 'prime\models\ar',
@@ -70,7 +70,7 @@ abstract class ActiveRecordTest extends ModelTest
 
     public function testGetDisplayFieldCascade(): void
     {
-        $model = new class() extends \prime\models\ActiveRecord {
+        $model = new class() extends \herams\common\models\ActiveRecord {
             public function attributes()
             {
                 return ['name', 'email'];

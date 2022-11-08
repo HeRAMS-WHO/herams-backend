@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\controllers;
 
 use Codeception\Test\Unit;
+use herams\common\domain\page\PageRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\values\PageId;
+use herams\common\values\ProjectId;
 use PHPUnit\Framework\MockObject\MockObject;
 use prime\components\View;
 use prime\controllers\page\Create;
@@ -13,10 +17,6 @@ use prime\controllers\PageController;
 use prime\models\pages\PageForBreadcrumb;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\objects\BreadcrumbCollection;
-use prime\repositories\PageRepository;
-use prime\repositories\ProjectRepository;
-use prime\values\PageId;
-use prime\values\ProjectId;
 use yii\web\Request;
 
 /**

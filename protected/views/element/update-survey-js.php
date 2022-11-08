@@ -12,9 +12,9 @@ use yii\helpers\Url;
 
 /**
  * @var \prime\models\ar\elements\Svelte $model
- * @var \prime\values\ProjectId $projectId
+ * @var \herams\common\values\ProjectId $projectId
  * @var View $this
- * @var \prime\values\PageId $pageId
+ * @var \herams\common\values\PageId $pageId
  * @var string $endpointUrl
  */
 

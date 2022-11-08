@@ -2,15 +2,10 @@
 
 declare(strict_types=1);
 
-use kartik\grid\ActionColumn;
-use kartik\grid\GridView;
 use prime\helpers\Icon;
 use prime\models\search\SurveySearch;
-use prime\models\survey\SurveyForList;
-use prime\widgets\IdColumn;
 use prime\widgets\Section;
 use yii\data\DataProviderInterface;
-use yii\helpers\Html;
 use yii\web\View;
 
 /**

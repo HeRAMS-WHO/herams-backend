@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\models\response;
 
-use prime\values\ExternalResponseId;
-use prime\values\ResponseId;
+use herams\common\values\ExternalResponseId;
+use herams\common\values\ResponseId;
 
 class ResponseForSurvey
 {
