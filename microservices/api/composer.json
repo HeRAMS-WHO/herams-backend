@@ -1,0 +1,49 @@
+{
+    "name": "herams/api",
+    "description": "HeRAMS API",
+    "type": "project",
+    "autoload": {
+        "classmap": [
+            "vendor/yiisoft/yii2"
+        ],
+        "psr-4": {
+            "herams\\api\\": ["src/"]
+        }
+    },
+    "authors": [
+        {
+            "name": "Sam Mousa",
+            "email": "sam@mousa.nl"
+        }
+    ],
+    "require": {
+        "lcobucci/jwt": "^4.2",
+        "herams/common": "dev-master",
+        "yiisoft/yii2": "^2.0"
+    },
+    "replace":{
+        "bower-asset/bootstrap": "*",
+        "bower-asset/jquery": "*",
+        "bower-asset/yii2-pjax": "*",
+        "bower-asset/punycode": "*",
+        "bower-asset/inputmask": "*",
+        "cebe/markdown": "*",
+        "ezyang/htmlpurifier": "*",
+        "paragonie/random_compat": "*"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../common"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "captainhook/plugin-composer": false
+        }
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "^2.1"
+    }
+}
