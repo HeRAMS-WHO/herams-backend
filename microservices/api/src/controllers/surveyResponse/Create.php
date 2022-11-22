@@ -8,8 +8,8 @@ use herams\api\models\NewSurveyResponse;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
-use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\jobs\UpdateFacilityDataJob;
+use herams\common\interfaces\CommandHandlerInterface;
+use herams\common\jobs\UpdateFacilityDataJob;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;
@@ -23,7 +23,7 @@ final class Create extends Action
         SurveyResponseRepository $surveyResponseRepository,
         Request $request,
         Response $response,
-        JobQueueInterface $jobQueue,
+        CommandHandlerInterface $commandHandler,
     ) {
         $model = new NewSurveyResponse();
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
@@ -36,11 +36,13 @@ final class Create extends Action
             return $modelValidator->renderValidationErrors($model, $response);
         }
 
+        // Todo: should we move this to an event that is triggered from the repository?
         $updateFacilityJob = new UpdateFacilityDataJob($model->facilityId);
-        $jobQueue->putJob($updateFacilityJob);
 
         $id = $surveyResponseRepository->save($model);
+
         // For now update the facility synchronously.
+        $commandHandler->handle($updateFacilityJob);
 
         $response->setStatusCode(201);
         $response->headers->add('Location', Url::to([

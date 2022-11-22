@@ -21,7 +21,7 @@ class ElementTest extends ModelTest
 
     protected function getModel(): Model
     {
-        return new Element(new Survey(), new \prime\models\ar\Element());
+        return new Element(new Survey(), new \herams\common\domain\element\Element());
     }
 
     public function validSamples(): array

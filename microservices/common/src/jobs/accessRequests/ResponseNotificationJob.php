@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobs\accessRequests;
+namespace herams\common\jobs\accessRequests;
 
 class ResponseNotificationJob extends AccessRequestJob
 {

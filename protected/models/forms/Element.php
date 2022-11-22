@@ -16,13 +16,13 @@ class Element extends Model
     }
 
     /**
-     * @var \prime\models\ar\Element
+     * @var \herams\common\domain\element\Element
      */
     private $element;
 
     public function __construct(
         SurveyInterface $survey,
-        \prime\models\ar\Element $element
+        \herams\common\domain\element\Element $element
     ) {
         parent::__construct();
         $this->survey = $survey;

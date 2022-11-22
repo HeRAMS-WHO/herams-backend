@@ -11,9 +11,10 @@ use prime\widgets\survey\Survey;
 
 /**
  * @var View $this
- * @var UpdateForm $model
  * @var \herams\common\values\ProjectId $projectId
  * @var FacilityForTabMenu $tabMenuModel
+ * @var \prime\models\survey\SurveyForSurveyJs $survey
+ * @var \herams\common\values\FacilityId $facilityId
  */
 
 $this->title = $tabMenuModel->getTitle();
@@ -30,17 +31,23 @@ Section::begin()
     ->withHeader(Yii::t('app', 'Update facility'));
 
 $survey = Survey::begin()
-    ->withConfig($model->getSurvey()->getConfig())
-    ->withData($model->data ?? [])
+    ->withConfig($survey->getConfig())
     ->withExtraData([
-        'facilityId' => $model->getFacilityId(),
-        'surveyId' => $model->getSurvey()->getId()
+        'facilityId' => $facilityId,
+        'surveyId' => $survey->getId()
     ])
     ->withSubmitRoute([
         'update-situation',
-        'id' => $model->getFacilityId(),
+        'id' => $facilityId,
     ])
     ->withProjectId($projectId)
+    ->withSubmitRoute([
+        'api/survey-response/create',
+    ])
+    ->withRedirectRoute([
+        'facility/responses',
+        'id' => $facilityId,
+    ])
 ;
 
 Survey::end();

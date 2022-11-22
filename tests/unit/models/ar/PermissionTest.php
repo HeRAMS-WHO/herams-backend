@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\ar;
 
 use herams\common\domain\user\User;
+use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use herams\common\models\Permission;
 use herams\common\models\Project;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 
 /**
  * @covers \herams\common\models\Permission

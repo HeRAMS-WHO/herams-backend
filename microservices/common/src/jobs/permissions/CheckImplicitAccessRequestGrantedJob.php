@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobs\permissions;
+namespace herams\common\jobs\permissions;
 
 final class CheckImplicitAccessRequestGrantedJob extends PermissionJob
 {

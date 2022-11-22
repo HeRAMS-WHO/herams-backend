@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\helpers;
 
-use prime\models\ar\Element;
+use herams\common\domain\element\Element;
 use SamIT\abac\exceptions\UnresolvableException;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Resolver;

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\ar;
 
 use herams\common\enums\Language;
+use herams\common\enums\ProjectStatus;
 use herams\common\enums\ProjectVisibility;
 use herams\common\models\Page;
 use herams\common\models\Permission;
-use prime\objects\enums\ProjectStatus;
 
 /**
  * @covers \herams\common\models\Project

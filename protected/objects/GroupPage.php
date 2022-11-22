@@ -2,8 +2,8 @@
 
 namespace prime\objects;
 
+use herams\common\domain\element\Element;
 use herams\common\interfaces\PageInterface;
-use prime\models\ar\Element;
 use prime\models\ar\elements\Chart;
 use prime\models\ar\elements\Map;
 use prime\models\ar\elements\Table;

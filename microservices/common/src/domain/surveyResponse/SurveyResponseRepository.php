@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\domain\surveyResponse;
 
+use herams\api\models\NewSurveyResponse;
 use herams\common\domain\facility\Facility;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;

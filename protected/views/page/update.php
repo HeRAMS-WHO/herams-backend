@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use app\components\Form;
+use herams\common\domain\element\Element;
 use herams\common\models\Page;
 use herams\common\models\Permission;
 use kartik\form\ActiveForm;
@@ -10,7 +11,6 @@ use kartik\grid\GridView;
 use kartik\helpers\Html;
 use prime\components\View;
 use prime\helpers\Icon;
-use prime\models\ar\Element;
 use prime\widgets\Section;
 use yii\bootstrap\ButtonGroup;
 use yii\data\ActiveDataProvider;

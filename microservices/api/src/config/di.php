@@ -34,6 +34,7 @@ return function(\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Con
     });
 
     $container->setDefinitions([
+        \herams\common\interfaces\CommandHandlerInterface::class => \herams\common\services\SynchronousCommandHandler::class,
         FacilityRepository::class => FacilityRepository::class,
         \herams\common\domain\permission\PermissionRepository::class => \herams\common\domain\permission\PermissionRepository::class,
         \herams\common\domain\user\UserRepository::class => \herams\common\domain\user\UserRepository::class,

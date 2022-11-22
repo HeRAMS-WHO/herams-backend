@@ -1,8 +1,7 @@
 version: '3.8'
 networks:
-  devproxy:
-    external:
-      name: devproxy
+  devproxy2:
+    external: true
 volumes:
   debugdata:
     driver_opts:
@@ -88,6 +87,9 @@ services:
         source: debugdata
         target: /debugdata
   phpfpm:
+    networks:
+      - devproxy2
+      - default
     environment:
       SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
@@ -133,16 +135,18 @@ services:
     labels:
       com.awesam.proxy.domains: "coverage.herams"
     networks:
-      - devproxy
+      - devproxy2
       - default
     image: nginx
     volumes:
       - ./tests/_output/coverage:/usr/share/nginx/html:ro
   nginx:
     labels:
-      com.awesam.proxy.domains: "herams"
+      - "traefik.enable=true"
+      - "traefik.http.routers.heramsnginx.entrypoints=websecure"
+      - "traefik.http.routers.heramsnginx.rule=Host(`herams.test`)"
     networks:
-      - devproxy
+      - devproxy2
       - default
     image: ghcr.io/herams-who/docker/nginx:latest
     environment:
@@ -153,8 +157,6 @@ services:
       - phpfpm
       - api
       - coverage
-    ports:
-      - "0.0.0.0:12346:80"
     volumes:
       - type: bind
         source: ./protected/config/nginx.conf
@@ -249,10 +251,13 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:
-      - devproxy
+      - devproxy2
       - default
     labels:
-      com.awesam.proxy.domains: "phpmyadmin.herams"
+      traefik.enable: "true"
+      devDomain: "phpmyadmin.herams"
+      traefik.http.routers.phpmyadminherams.entrypoints: "websecure"
+      traefik.http.routers.phpmyadminherams.rule: "Host(`phpmyadmin.herams.test`)"
     depends_on:
       - devdb
     environment:
@@ -264,10 +269,10 @@ services:
   mailcatcher:
     image: schickling/mailcatcher
     networks:
-      - devproxy
+      - devproxy2
       - default
     labels:
-      com.awesam.proxy.domains: "mailcatcher-herams"
-      com.awesam.proxy.port: "1080"
+      traefik.http.routers.heramsphpma.rule: "Host(`mailcatcher.herams.test`)"
+      traefik.http.routers.heramsphpma.tls: "true"
     ports:
       - "127.0.0.1:${MAILCATCHER_PORT-12347}:1080"

@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace prime\jobs;
+namespace herams\common\jobs;
 
 use herams\common\values\FacilityId;
-use JCIT\jobqueue\interfaces\JobInterface;
 
-final class UpdateFacilityDataJob implements JobInterface
+final class UpdateFacilityDataJob implements \JsonSerializable
 {
     public readonly FacilityId $facilityId;
 
@@ -15,12 +14,6 @@ final class UpdateFacilityDataJob implements JobInterface
     {
         $this->facilityId = $facilityId instanceof FacilityId ? $facilityId : new FacilityId($facilityId);
     }
-
-    public static function fromArray(array $config): JobInterface
-    {
-        return new self($config['facilityId']);
-    }
-
     public function jsonSerialize(): mixed
     {
         return [

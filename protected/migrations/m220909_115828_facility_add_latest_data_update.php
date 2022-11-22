@@ -22,7 +22,7 @@ final class m220909_115828_facility_add_latest_data_update extends Migration
         $transaction = $this->db->beginTransaction();
         try {
             foreach (Facility::find()->asArray()->select('id')->column() as $id) {
-                $job = new \prime\jobs\UpdateFacilityDataJob($id);
+                $job = new \herams\common\jobs\UpdateFacilityDataJob($id);
                 $this->commandBus->handle($job);
             }
             $transaction->commit();

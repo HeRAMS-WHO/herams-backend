@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace prime\models\ar\elements;
 
+use herams\common\domain\element\Element;
 use prime\components\View;
 use prime\helpers\ChartHelper;
 use prime\helpers\HeramsVariableSet;
 use prime\interfaces\DashboardWidgetInterface;
 use prime\interfaces\HeramsFacilityRecordInterface;
-use prime\models\ar\Element;
 use prime\objects\enums\ChartType;
 use prime\widgets\DashboardCard;
 use prime\widgets\element\Element as ElementWidget;

@@ -67,18 +67,13 @@ class FacilityRepository
         }
         return new FacilityId((string) $record->id);
     }
-    public function retrieveForUpdate(FacilityId $id): UpdateFacility
+    public function retrieveForUpdate(FacilityId $id): Facility
     {
         $record = Facility::findOne([
             'id' => $id,
         ]);
-
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
-
-        $model = new UpdateFacility($id);
-
-        $this->activeRecordHydrator->hydrateRequestModel($record, $model);
-        return $model;
+        return $record;
     }
 
     /**

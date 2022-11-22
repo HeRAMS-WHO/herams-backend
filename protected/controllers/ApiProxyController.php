@@ -27,6 +27,7 @@ class ApiProxyController extends Controller
     {
         $userId = new UserId($user->getId());
         session_abort();
+        header_remove();
         \Yii::beginProfile('request');
         $upstreamResponse =  $apiProxy->forwardRequestToCore($request, $userId);
         \Yii::endProfile('request');

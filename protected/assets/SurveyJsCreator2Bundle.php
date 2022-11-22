@@ -14,7 +14,7 @@ class SurveyJsCreator2Bundle extends AssetBundle
     ];
 
     public $js = [
-        'survey-creator-knockout.js',
+        'survey-creator-knockout.min.js',
     ];
 
     public $depends = [

@@ -9,8 +9,8 @@ use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\helpers\surveyjs\FacilityTierVariable;
 use herams\common\helpers\surveyjs\SurveyParser;
+use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\values\WorkspaceId;
-use prime\jobs\UpdateFacilityDataJob;
 
 final class UpdateFacilityDataHandler
 {

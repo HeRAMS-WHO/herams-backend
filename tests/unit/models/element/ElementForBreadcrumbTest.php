@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\element;
 
 use Codeception\Test\Unit;
+use herams\common\domain\element\Element;
 use herams\common\values\PageId;
-use prime\models\ar\Element;
 use prime\models\element\ElementForBreadcrumb;
 
 /**

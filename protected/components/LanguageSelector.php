@@ -18,8 +18,7 @@ class LanguageSelector implements BootstrapInterface
     {
         $app->on(\yii\web\Application::EVENT_BEFORE_ACTION, function () use ($app) {
             try {
-                if ($app->request->getQueryParam('_lang')
-                    && null !== $language = Language::tryFrom($app->request->getQueryParam('_lang'))
+                if (null !== $language = Language::tryFrom($app->request->getQueryParam('_lang') ?? '')
                 ) {
                     $app->language = $language->value;
                     return;

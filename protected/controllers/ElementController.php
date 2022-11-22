@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
+use herams\common\domain\element\Element;
 use herams\common\domain\page\PageRepository;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\values\ElementId;
@@ -15,7 +16,6 @@ use prime\controllers\element\CreateForSurveyJs;
 use prime\controllers\element\Preview;
 use prime\controllers\element\PreviewForSurveyJs;
 use prime\controllers\element\Update;
-use prime\models\ar\Element;
 use prime\objects\Breadcrumb;
 use prime\repositories\ElementRepository;
 use yii\filters\VerbFilter;

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace prime\tests\unit\jobs\users;
 
+use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\jobs\users\SyncNewsletterSubscriptionJob;
 use prime\tests\unit\jobs\JobTest;
 
 /**
- * @covers \prime\jobs\users\SyncNewsletterSubscriptionJob
- * @covers \prime\jobs\users\UserJob
+ * @covers \herams\common\jobs\users\SyncNewsletterSubscriptionJob
+ * @covers \herams\common\jobs\users\UserJob
  */
 class SyncNewsletterSubscriptionJobTest extends JobTest
 {

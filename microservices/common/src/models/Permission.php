@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace herams\common\models;
 
-use herams\common\behaviors\AuditableBehavior;
+use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;
 use yii\validators\RequiredValidator;

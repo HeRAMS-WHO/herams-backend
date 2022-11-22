@@ -36,7 +36,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
         'runtimePath' => $env->get('RUNTIME_PATH', '/tmp'),
         'timeZone' => 'UTC',
         'vendorPath' => '@app/../vendor',
-        'sourceLanguage' => 'en-US',
+        'sourceLanguage' => 'en',
         'aliases' => [
             '@tests' => '@app/../tests',
             '@composer' => realpath(__DIR__ . '/../../vendor'),

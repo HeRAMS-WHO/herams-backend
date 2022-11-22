@@ -25,7 +25,7 @@ Section::begin()
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
     ->withProjectId($projectId)
-    ->withData([
+    ->withExtraData([
         'projectId' => $projectId,
     ])
     ->withSubmitRoute([

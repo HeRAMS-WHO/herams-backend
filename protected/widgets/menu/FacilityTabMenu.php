@@ -22,6 +22,16 @@ class FacilityTabMenu extends TabMenu
         $this->tabs = [];
 
         $this->tabs[] = [
+            'permission' => Permission::PERMISSION_READ,
+            'title' => \Yii::t('app', 'Current situation'),
+            'url' => [
+                'facility/view',
+                'id' => $this->facility->getId(),
+
+            ],
+        ];
+
+        $this->tabs[] = [
             'permission' => Permission::PERMISSION_LIST_DATA_RESPONSES,
             'title' => \Yii::t('app', 'Responses ({n})', [
                 'n' => $this->facility->getResponseCount(),

@@ -37,7 +37,7 @@ $survey = Survey::begin()
     ->withDataRoute([
         '/api/facility/view',
         'id' => $id,
-    ], ['adminData'])
+    ], ['admin_data'])
     ->withProjectId($projectId)
     ->withExtraData([
         'facilityId' => $id,

@@ -1,6 +1,6 @@
 <?php
 
-namespace prime\models\ar;
+namespace herams\common\domain\element;
 
 use herams\common\interfaces\HeramsResponseInterface;
 use herams\common\interfaces\PageInterface;
@@ -40,7 +40,7 @@ use yii\validators\SafeValidator;
  * @property-read Page $page
  * @property-read Project $project
  */
-class Element extends ActiveRecord implements Exportable
+class Element extends ActiveRecord
 {
     public const TYPE_BARCHART = 'barchart';
 

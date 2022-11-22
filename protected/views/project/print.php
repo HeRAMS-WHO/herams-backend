@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use herams\common\domain\element\Element;
 use herams\common\models\Page;
 use herams\common\models\Project;
 use prime\components\View;
 use prime\helpers\Icon;
-use prime\models\ar\Element;
 use SamIT\LimeSurvey\Interfaces\AnswerInterface;
 use SamIT\LimeSurvey\Interfaces\GroupInterface as GroupInterface;
 use yii\helpers\Html;

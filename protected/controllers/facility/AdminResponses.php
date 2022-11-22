@@ -16,6 +16,7 @@ use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use yii\helpers\Url;
 use function iter\filter;
+use function iter\toArray;
 
 class AdminResponses extends FrontendAction
 {
@@ -31,7 +32,6 @@ class AdminResponses extends FrontendAction
         FacilityRepository $facilityRepository,
         SurveyRepository $surveyRepository,
         WorkspaceRepository $workspaceRepository,
-        SurveyResponseRepository $surveyResponseRepository,
         ProjectRepository $projectRepository,
         BreadcrumbService $breadcrumbService,
         \prime\components\View $view,
@@ -46,13 +46,15 @@ class AdminResponses extends FrontendAction
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
         $variableSet = $surveyRepository->retrieveSimpleVariableSet($surveyId);
+        $variables = toArray(filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables()));
+        usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
 
         return $this->render(
             'admin-responses',
             [
                 'facility' => $facility,
-                'dataRoute' => Url::to(['/api/facility/admin-responses', 'id' => $facilityId, 'language' => \Yii::$app->language]),
-                'variables' => filter(static fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') === true, $variableSet->getVariables()),
+                'dataRoute' => Url::to(['/api/facility/admin-responses', 'id' => $facilityId]),
+                'variables' => $variables
             ]
         );
     }

@@ -20,7 +20,7 @@ use yii\widgets\Breadcrumbs;
 
 ?>
 <!DOCTYPE html>
-<html>
+<html "data"="true">
 
 <head>
     <?= Html::csrfMetaTags() ?>

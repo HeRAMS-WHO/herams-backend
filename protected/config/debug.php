@@ -7,6 +7,9 @@ if (class_exists(\yii\debug\Module::class)) {
     if (! CONSOLE) {
         $debug['modules']['debug'] = [
             'dataPath' => '/debugdata',
+            'panels' => [
+                'user' => false,
+            ],
             'as ' . \yii\filters\AccessControl::class => [
                 'class' => \yii\filters\AccessControl::class,
                 'rules' => [

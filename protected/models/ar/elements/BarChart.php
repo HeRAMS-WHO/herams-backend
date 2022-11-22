@@ -2,7 +2,7 @@
 
 namespace prime\models\ar\elements;
 
-use prime\models\ar\Element;
+use herams\common\domain\element\Element;
 use prime\widgets\chart\Chart as ChartWidget;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Widget;

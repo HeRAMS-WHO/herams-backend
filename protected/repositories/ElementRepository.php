@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use herams\common\domain\element\Element;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\HeramsVariableSetRepositoryInterface;
 use herams\common\values\ElementId;
 use prime\interfaces\element\ElementForBreadcrumbInterface as ForBreadcrumbInterface;
-use prime\models\ar\Element;
 use prime\models\ar\RawElement;
 use prime\models\element\ElementForBreadcrumb;
 use prime\models\forms\element\SvelteElement;

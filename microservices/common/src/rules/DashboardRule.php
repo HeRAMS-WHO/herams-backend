@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace herams\common\rules;
 
+use herams\common\domain\element\Element;
 use herams\common\domain\user\User;
 use herams\common\models\Page;
 use herams\common\models\Permission;
 use herams\common\models\Project;
-use prime\models\ar\Element;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;

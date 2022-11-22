@@ -50,6 +50,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
         'session' => [
             'class' => DbSession::class,
             'timeout' => 12 * 3600,
+            'useStrictMode' => true,
             'cookieParams' => [
                 'httponly' => 'true',
                 'samesite' => 'strict'

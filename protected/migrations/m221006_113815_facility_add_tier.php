@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use herams\common\domain\facility\Facility;
+use herams\common\jobs\UpdateFacilityDataJob;
 use League\Tactician\CommandBus;
-use prime\jobs\UpdateFacilityDataJob;
 use yii\db\Migration;
 
 

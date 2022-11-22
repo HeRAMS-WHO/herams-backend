@@ -11,12 +11,11 @@ use herams\common\domain\facility\Facility;
 use herams\common\domain\survey\Survey;
 use herams\common\interfaces\HeramsResponseInterface;
 use herams\common\interfaces\RecordInterface;
+use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\queries\ActiveQuery;
 use herams\common\queries\SurveyResponseQuery;
 use herams\common\validators\ExistValidator;
 use herams\common\values\SurveyId;
-use prime\helpers\ArrayHelper;
-use prime\jobs\UpdateFacilityDataJob;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
@@ -48,6 +47,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
                 'updatedAtAttribute' => false,
+                'value' => fn() => Carbon::now()
             ],
         ];
     }
@@ -59,14 +59,12 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
 
     public static function labels(): array
     {
-        return ArrayHelper::merge(
-            parent::labels(),
-            [
-                'data' => \Yii::t('app', 'Data'),
-                'facility_id' => \Yii::t('app', 'Facility'),
-                'survey_id' => \Yii::t('app', 'Survey'),
-            ]
-        );
+        return [
+            ...parent::labels(),
+            'data' => \Yii::t('app', 'Data'),
+            'facility_id' => \Yii::t('app', 'Facility'),
+            'survey_id' => \Yii::t('app', 'Survey'),
+        ];
     }
 
     public function getAccessibility(): string

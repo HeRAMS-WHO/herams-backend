@@ -6,11 +6,11 @@ namespace prime\models\forms\accessRequest;
 
 use Carbon\Carbon;
 use herams\common\domain\permission\ProposedGrant;
+use herams\common\jobs\accessRequests\ResponseNotificationJob;
 use herams\common\models\Permission;
 use herams\common\models\Project;
 use herams\common\models\Workspace;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\jobs\accessRequests\ResponseNotificationJob;
 use prime\models\ar\AccessRequest;
 use SamIT\abac\AuthManager;
 use yii\base\Model;

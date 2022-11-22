@@ -19,9 +19,13 @@ use herams\common\enums\Language;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\EnvironmentInterface;
 use herams\common\interfaces\ModelHydratorInterface;
+use herams\common\jobs\accessRequests\CreatedNotificationJob as AccessRequestCreatedNotificationJob;
+use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob as AccessrequestImplicitlyGrantedJob;
+use herams\common\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNotificationJob;
+use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionCheckImplicitAccessRequestGrantedJob;
+use herams\common\jobs\users\SyncNewsletterSubscriptionJob as UserSyncNewsletterSubscriptionJob;
 use Http\Factory\Guzzle\RequestFactory;
 use JCIT\jobqueue\components\ContainerMapLocator;
-use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\factories\JobFactory;
 use JCIT\jobqueue\interfaces\JobFactoryInterface;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
@@ -45,11 +49,6 @@ use prime\jobHandlers\accessRequests\ResponseNotificationHandler as AccessReques
 use prime\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler as PermissionCheckImplicitAccessRequestGrantedHandler;
 use prime\jobHandlers\UpdateFacilityDataHandler;
 use prime\jobHandlers\users\SyncNewsletterSubscriptionHandler as UserSyncNewsletterSubscriptionHandler;
-use prime\jobs\accessRequests\CreatedNotificationJob as AccessRequestCreatedNotificationJob;
-use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob as AccessrequestImplicitlyGrantedJob;
-use prime\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNotificationJob;
-use prime\jobs\permissions\CheckImplicitAccessRequestGrantedJob as PermissionCheckImplicitAccessRequestGrantedJob;
-use prime\jobs\users\SyncNewsletterSubscriptionJob as UserSyncNewsletterSubscriptionJob;
 use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
 use prime\repositories\UserNotificationRepository;
 use prime\widgets\LocalizableInput;
@@ -165,13 +164,12 @@ return [
             ->setHandlerForCommand(AccessRequestResponseNotificationJob::class, AccessRequestResponseNotificationHandler::class)
             ->setHandlerForCommand(PermissionCheckImplicitAccessRequestGrantedJob::class, PermissionCheckImplicitAccessRequestGrantedHandler::class)
             ->setHandlerForCommand(UserSyncNewsletterSubscriptionJob::class, UserSyncNewsletterSubscriptionHandler::class)
-            ->setHandlerForCommand(\prime\jobs\UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
+            ->setHandlerForCommand(\herams\common\jobs\UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
             ;
     },
     CommandNameExtractor::class => ClassNameExtractor::class,
     HandlerLocator::class => ContainerMapLocator::class,
     JobFactoryInterface::class => JobFactory::class,
-    JobQueueInterface::class => Synchronous::class,
     MethodNameInflector::class => HandleInflector::class,
     MailerInterface::class => static function (Container $container, array $params, array $config): MailerInterface {
         return \Yii::$app->mailer;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\jobHandlers\accessRequests;
 
+use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 

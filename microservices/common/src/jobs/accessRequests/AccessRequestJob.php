@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace prime\jobs\permissions;
+namespace herams\common\jobs\accessRequests;
 
 use JCIT\jobqueue\interfaces\JobInterface;
 
-abstract class PermissionJob implements JobInterface
+abstract class AccessRequestJob implements JobInterface
 {
     public function __construct(
-        private int $permissionsId
+        private int $accessRequestId
     ) {
     }
 
     public static function fromArray(array $config): JobInterface
     {
         $class = static::class;
-        return new $class($config['permissionId']);
+        return new $class($config['accessRequestId']);
     }
 
-    public function getPermissionId(): int
+    public function getAccessRequestId(): int
     {
-        return $this->permissionsId;
+        return $this->accessRequestId;
     }
 
     public function jsonSerialize(): array
     {
         return [
-            'permissionId' => $this->permissionsId,
+            'accessRequestId' => $this->accessRequestId,
         ];
     }
 }

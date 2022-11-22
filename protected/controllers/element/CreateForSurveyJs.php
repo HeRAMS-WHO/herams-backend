@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace prime\controllers\element;
 
+use herams\common\domain\element\Element;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\models\Page;
 use herams\common\models\Permission;
 use herams\common\values\PageId;
 use herams\common\values\ProjectId;
 use prime\components\NotificationService;
-use prime\models\ar\Element;
 use yii\base\Action;
 use yii\web\BadRequestHttpException;
 use yii\web\Request;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\ar;
 
 /**
- * @covers \prime\models\ar\Element
+ * @covers \herams\common\domain\element\Element
  */
 class ElementTest extends ActiveRecordTest
 {

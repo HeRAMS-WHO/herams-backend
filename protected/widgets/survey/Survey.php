@@ -70,12 +70,6 @@ class Survey extends Widget
         return $this;
     }
 
-    public function withData(array $data): self
-    {
-        $this->data = $data;
-        return $this;
-    }
-
     public function withDataRoute(array|string $route, array $dataPath = []): self
     {
         $this->dataRoute = $route;
@@ -118,15 +112,18 @@ class Survey extends Widget
         ]);
         $this->view->registerJs(
             <<<JS
+        // await new Promise((resolve) => setTimeout(resolve, 5000));
             const config = {$config};
             
             const surveyStructure = config.structure
-            if (config.localeEndpoint) {
-                surveyStructure.locales = (await Herams.fetchWithCsrf(config.localeEndpoint, null, 'get')).languages 
-            }
             
-            
-            const survey = new Survey.Model(surveyStructure);
+            // if (config.localeEndpoint) {
+            //     const locales = await Herams.fetchWithCsrf(config.localeEndpoint, null, 'get')
+            //     surveyStructure.locales = locales.languages 
+            // }
+            //
+            //
+            const survey = new SurveyKnockout.Survey(surveyStructure);
             
             survey.mode = config.displayMode ? "display" : "edit";
             
@@ -154,18 +151,19 @@ class Survey extends Widget
                             }
                         }
                     }
+                    return survey.data;
                 }
                 waitForDataPromise = restartWithFreshData();
-                
+               
             } else {
                 waitForDataPromise = new Promise((resolve, reject) => {
                     survey.data = config.data
-                    resolve()    
+                    resolve(config.data)
                 })
-                
+               
             }
-            
-            
+
+
             window.surveys = window.surveys ?? [];
             window.surveys.push(survey);
             survey.surveyShowDataSaving = true;
@@ -185,22 +183,22 @@ class Survey extends Widget
                         } else if (restartWithFreshData) {
                             return restartWithFreshData()
                         }
-                        
+                       
                     } catch(error) {
                         if (Object.getPrototypeOf(error).name === 'ValidationError') {
                             options.showDataSavingError(error.message + ': ' + JSON.stringify(error.errors));    
                         } else {
                             options.showDataSavingError(error.message);
                         }
-                        
-                        
+                       
+                       
                     }                
                 });
             }
-            
+
             if (config.validationUrl) {
                 survey.onServerValidateQuestions.add(async (sender, options) => {
-                    
+                   
                     try {
                         const json = await window.Herams.fetchWithCsrf(config.validationUrl, {
                             ...(config.extraData ?? {}),
@@ -214,7 +212,7 @@ class Survey extends Widget
                                 || typeof options.data[attribute] !== 'undefined'
                                 || surveys[0].currentPage.getQuestionByName(attribute)?.isVisible
                         }
-                        
+                       
                         // If the error is not visible, add it to all questions
                         if (!visibleError) {
                             for (const question of sender.currentPage.questions) {
@@ -223,7 +221,7 @@ class Survey extends Widget
                                 }
                             }
                         }
-                        
+                       
                     } catch (error) {
                         // This is a big error, add it to all questions on the page.
                         for (const question of sender.currentPage.questions) {
@@ -233,15 +231,20 @@ class Survey extends Widget
                     options.complete();
                 });
             }
+
             
-            await waitForDataPromise
-            console.log('rendering survey')
+            const data = await waitForDataPromise
+            
+            console.log('rendering survey',  survey, data)
             survey.render(config.elementId);
+            window.survey = survey;
         JS,
             View::POS_HERAMS_INIT
         );
 
-        return Html::tag('div', 'Loading...', [
+        return Html::tag('div',
+            'Loading...' . Html::tag('pre', json_encode($this->config, JSON_PRETTY_PRINT)),
+        options: [
             'id' => $this->getId(),
         ]);
     }

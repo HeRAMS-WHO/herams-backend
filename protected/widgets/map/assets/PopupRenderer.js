@@ -230,8 +230,3 @@ class PopupRenderer {
     }
 
 }
-
-
-
-
-

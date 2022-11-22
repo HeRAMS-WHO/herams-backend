@@ -14,19 +14,16 @@ use yii\helpers\Url;
 
 final class Creator2 extends Widget
 {
-    public array $clientOptions = [];
+    private array $clientOptions = [
+        'showState' => true,
+        'showTranslationTab' => true,
+    ];
 
-    public array $options = [
+    private array $options = [
         'style' => [
             'height' => '800px',
         ],
     ];
-
-    /**
-     * JavaScript methods that are called after the initialization and get the surveyCreate as an argument
-     *
-     */
-    public array $surveyCreatorCustomizers = [];
 
     public null|SurveyId $surveyId = null;
 
@@ -43,28 +40,57 @@ final class Creator2 extends Widget
 
         $config = Json::encode([
             'creatorOptions' => $this->clientOptions,
-            'createEndpoint' => Url::to(['/api/survey/create']),
-            'updateEndpoint' => Url::to(['/api/survey/update', 'id' => '__id__']),
-            'idPlaceholder' => '__id__',
-            'customizers' => array_values($this->surveyCreatorCustomizers),
+            'createUrl' => Url::to(['/api/survey/create']),
+            'dataUrl' => isset($this->surveyId) ? Url::to(['/api/survey/view', 'id' => $this->surveyId]) : null,
             'elementId' => $htmlOptions['id'],
-            'surveyId' => $this->surveyId
-
+            'surveyId' => $this->surveyId,
+            'updateUrl' => Url::to(['/survey/update', 'id' => 10101010], true)
         ]);
         $this->view->registerJs(
             <<<JS
+            console.profile('creator');
             const config = {$config}
-            if (!config.updateEndpoint.includes(config.idPlaceholder)) {
-                throw `ID placeholder \${config.idPlaceholder} not found in \${config.updateEndpoint}`;
+            
+            // This is the function for updating.
+            const updateSurvey = async (saveNo, callback) => {
+                try {
+                    await Herams.fetchWithCsrf(config.dataUrl, {config: surveyCreator.JSON}, 'PUT');
+                    callback(saveNo, true);
+                } catch (e) {
+                    console.error(e);
+                    callback(saveNo, false);
+                }
+            };
+            // This is the function for creating a new survey.
+            const createSurvey = async (saveNo, callback) => {
+                try {
+                    const surveyUrl = await Herams.createInCollectionWithCsrf(config.createUrl, {config: surveyCreator.JSON})
+                    config.dataUrl = surveyUrl;
+                    // This is just a minor UX improvement; we set the current page url to the update url.
+                    const id = surveyUrl.match(/\d+/)[0]
+                    history.replaceState({}, '', config.updateUrl.replace('10101010', id))
+                    callback(saveNo, true);
+                } catch (e) {
+                    console.error(e);
+                    callback(saveNo, false);
+                }
             }
+            
             const element = document.getElementById(config.elementId);
-            console.log('creating creator', config);
             const surveyCreator = new SurveyCreator.SurveyCreator(config.creatorOptions);
+            surveyCreator.toolbox.allowExpandMultipleCategories = true
             surveyCreator.haveCommercialLicense = false
             window.surveyCreator = surveyCreator;
-            config.customizers.forEach(customizer => customizer(surveyCreator));
+            
+            surveyCreator.saveSurveyFunc = (saveNo, callback) => config.dataUrl ? updateSurvey(saveNo, callback) : createSurvey(saveNo, callback);
+            
+            // Check if we need to load survey JSON
+            if (config.dataUrl) {
+                const data = await window.Herams.fetchWithCsrf(config.dataUrl, null, 'GET');
+                surveyCreator.JSON = data.config;
+            }
             surveyCreator.render(element);
-
+            console.profileEnd();
 
         JS,
             View::POS_HERAMS_INIT

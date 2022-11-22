@@ -23,7 +23,6 @@ class Facilities extends Action
     public function run(
         Request $request,
         BreadcrumbService $breadcrumbService,
-        FacilityRepository $facilityRepository,
         WorkspaceRepository $workspaceRepository,
         ProjectRepository $projectRepository,
         SurveyRepository $surveyRepository,

@@ -26,6 +26,8 @@ use herams\common\interfaces\EventDispatcherInterface;
 use herams\common\interfaces\ModelHydratorInterface;
 use herams\common\models\Permission;
 use herams\common\services\UserAccessCheck;
+use JCIT\jobqueue\components\jobQueues\Synchronous;
+use JCIT\jobqueue\interfaces\JobQueueInterface;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
@@ -85,7 +87,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                 ],
                 [
                     'class' => UrlRule::class,
-                    'pattern' => '<controller>/<id:\d+>',
+                    'pattern' => '<controller:\w+>/<id:\d+>',
                     'route' => '<controller>/view',
                     'verb' => 'get',
                 ],
@@ -93,7 +95,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                     'class' => UrlRule::class,
                     'pattern' => '<controller:\w+>/<id:\d+>',
                     'route' => '<controller>/update',
-                    'verb' => ['post'],
+                    'verb' => ['post', 'put'],
                 ],
                 [
                     'class' => UrlRule::class,
@@ -185,6 +187,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
         $container->set(ProjectRepository::class, ProjectRepository::class);
         $container->set(RuleEngine::class, static fn () => new SimpleEngine(...require __DIR__ . '/rule-config.php'));
         $container->setDefinitions([
+            JobQueueInterface::class => Synchronous::class,
             PermissionRepository::class => PreloadingSourceRepository::class,
             PreloadingSourceRepository::class => fn (Container $container) => new PreloadingSourceRepository($container->get(CachedReadRepository::class)),
             CachedReadRepository::class => function (Container $container) {

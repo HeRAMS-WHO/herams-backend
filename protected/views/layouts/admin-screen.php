@@ -20,7 +20,7 @@ $this->registerAssetBundle(AdminBundle::class);
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?= \Yii::$app->language ?>">
 
 <head>
     <?= Html::csrfMetaTags() ?>

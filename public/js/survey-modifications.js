@@ -1,11 +1,7 @@
-'use strict'
-window.__herams_init_callbacks = window.__herams_init_callbacks ?? []
-window.__herams_init_callbacks.unshift(async () => {
-  if (typeof window.Survey === 'undefined') {
-    throw new Error('SurveyJS not (yet) loaded')
-  }
+'use strict';
 
-  console.log('Applying survey modifications');
+((Survey) =>
+{
   [
     'navigateToUrl',
     'navigateToUrlOnCondition',
@@ -49,38 +45,22 @@ window.__herams_init_callbacks.unshift(async () => {
     'showCompletedPage',
   ].forEach((property) => Survey.Serializer.findProperty('survey', property).visible = false)
 
-  // Survey.Serializer.removeProperty('selectBase', 'choicesByUrl')
-  // [
-  //     "signaturepad",
-  //     "file",
-  //     "multipletext",
-  //     "paneldynamic",
-  //     "matrixdynamic",
-  //     "comment",
-  //     "imagepicker",
-  //     "rating",
-  //     "matrix",
-  //     "image",
-  //     "expression"
-  //
-  // ].forEach(Survey.QuestionFactory.Instance.unregisterElement, Survey.QuestionFactory.Instance);
-
   /**
    * Todo:
    * sendResultOnPageNext --> should be forced to true
    */
   Survey.Serializer.addClass('coloritemvalue', [
-    {
-      name: 'text',
-      visible: false,
-    },
-    {
-      name: 'color',
-      type: 'color',
-    },
-  ],
-  null,
-  'itemvalue')
+        {
+          name: 'text',
+          visible: false,
+        },
+        {
+          name: 'color',
+          type: 'color',
+        },
+      ],
+      null,
+      'itemvalue')
   Survey.Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     default: [
@@ -100,158 +80,6 @@ window.__herams_init_callbacks.unshift(async () => {
     displayName: 'Color Dictionary',
 
   })
-  // Survey.Serializer.addProperty('survey', {
-  //   category: 'general',
-  //   choices: ['projectUpdate', 'workspaceUpdate', 'facilityAdmin','facilityData'],
-  //   isLocalizable: false,
-  //   name: 'surveyType',
-  //   displayName: 'Survey type',
-  //
-  // })
-
-  // New question type for facility type:
-  Survey.CustomWidgetCollection.Instance.add({
-    name: 'facilitytype',
-    title: 'Facility Type',
-    iconName: 'icon-radiogroup',
-    category: 'HeRAMS',
-    isFit (question) {
-      return question.getType() === this.name
-    },
-    isDefaultRender: true,
-
-    widgetIsLoaded () {
-      return true
-    },
-
-    init () {
-      Survey.Serializer.addClass(this.name + 'value', [], null, 'itemvalue')
-      Survey.Serializer.addProperty(this.name + 'value', {
-        name: 'tier',
-        displayName: 'Tier',
-        choices: ['primary', 'secondary', 'tertiary'],
-        default: 'primary',
-      })
-      Survey.Serializer.addClass(this.name, [
-        {
-          name: 'choices',
-          type: this.name + 'value[]',
-
-        },
-        {
-          category: 'Reporting & Dashboarding',
-          name: 'showTierInResponseList',
-          displayName: 'Show the derived tier question in the response list',
-          isRequired: false,
-          type: 'number',
-        },
-        {
-          category: 'Reporting & Dashboarding',
-          name: 'showFacilityInResponseList',
-          displayName: 'Show the derived tier question in the facility list',
-          isRequired: false,
-          type: 'number',
-        },
-        {
-          name: 'readOnly',
-          visible: false,
-        },
-        {
-          name: 'choicesFromQuestion',
-          visible: false,
-        },
-        {
-          name: 'hasOther',
-          visible: false,
-        },
-        {
-          name: 'hasComment',
-          visible: false,
-        },
-        {
-          name: 'separateSpecialChoices',
-          visible: false,
-        },
-        {
-          name: 'hasNone',
-          visible: false,
-        },
-      ], null, 'radiogroup')
-    },
-    afterRender (question, el) {
-
-    },
-
-  }, 'customtype')
-
-
-  console.log('waiting for locales')
-  const platformLocales = await window.Herams.fetchWithCsrf('/api-proxy/core/configuration/locales', null, 'GET')
-  console.log('done')
-  Survey.ComponentCollection.Instance.add({
-    name: 'localizableprojecttext',
-    title: 'Localizable project text',
-    iconName: 'icon-text',
-    category: 'HeRAMS',
-    questionJSON: {
-      type: 'multipletext',
-      items: platformLocales.map(({ label, locale }) => ({ name: locale, title: label })),
-    },
-    onInit () {
-      console.log(this)
-    },
-    onLoaded (question) {
-      if (!question?.survey?.locales || question.survey.locales.length === 0) return
-      question.contentQuestion.items = question.contentQuestion.items.filter((item) => question.survey.locales.includes(item.name))
-    },
-
-  })
-
-  Survey.ComponentCollection.Instance.add({
-    iconName: 'icon-language',
-    name: 'platformlanguagepicker',
-    title: 'Platform language picker',
-    category: 'HeRAMS',
-    questionJSON: {
-      type: 'checkbox',
-      name: 'languages',
-      title: 'Additional languages for this project, English is always enabled',
-      choices: platformLocales.map(({ label, locale }) => ({ value: locale, text: label })),
-    },
-    onInit () {
-      // debugger;
-    },
-  })
-
-  Survey.ComponentCollection.Instance.add({
-    iconName: 'icon-visible',
-    name: 'projectvisibility',
-    title: 'Project visibility picker',
-    category: 'HeRAMS',
-    questionJSON: {
-      type: 'radiogroup',
-      name: 'projectvisibility',
-      title: 'Project visibility',
-      isRequired: true,
-      choices: [
-        {
-          value: 'hidden',
-          text: 'Hidden',
-        },
-        {
-          value: 'public',
-          text: 'Public',
-        },
-        {
-          value: 'private',
-          text: 'Private',
-        },
-      ],
-    },
-    onInit () {
-      // debugger;
-    },
-  })
 
   Survey.ComponentCollection.Instance.add({
     iconName: 'icon-dropdown',
@@ -270,10 +98,14 @@ window.__herams_init_callbacks.unshift(async () => {
         titleName: 'name',
       },
     },
-    onInit () {
+    onInit() {
       // debugger;
     },
   })
+
+
+
+
 
   Survey.ComponentCollection.Instance.add({
     iconName: 'icon-arrow-right',
@@ -289,7 +121,7 @@ window.__herams_init_callbacks.unshift(async () => {
       "max": 180,
       "step": 0.00001
     },
-    onInit () {
+    onInit() {
       // debugger;
     },
   })
@@ -308,7 +140,7 @@ window.__herams_init_callbacks.unshift(async () => {
       "max": 90,
       "step": 0.00001
     },
-    onInit () {
+    onInit() {
       // debugger;
     },
   })
@@ -330,12 +162,11 @@ window.__herams_init_callbacks.unshift(async () => {
         titleName: 'title',
       },
     },
-    onInit () {
+    onInit() {
       // debugger;
     },
   })
-  console.log('Remaining question types', Object.keys(Survey.QuestionFactory.Instance.creatorHash))
-  // Add expression properties to survey
+// Add expression properties to survey
   Survey.Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     name: 'canReceiveSituationUpdate',
@@ -400,4 +231,49 @@ window.__herams_init_callbacks.unshift(async () => {
   Survey.defaultV2Css.saveData.success = 'success'
   Survey.defaultV2Css.saveData.root = 'savedata'
   Survey.StylesManager.applyTheme('defaultV2')
+})(Survey);
+
+
+window.__herams_init_callbacks = window.__herams_init_callbacks ?? []
+window.__herams_init_callbacks.unshift(async () => {
+  if (typeof window.Survey === 'undefined') {
+    throw new Error('SurveyJS not (yet) loaded')
+  }
+
+
+
+  // Survey.Serializer.removeProperty('selectBase', 'choicesByUrl')
+  // [
+  //     "signaturepad",
+  //     "file",
+  //     "multipletext",
+  //     "paneldynamic",
+  //     "matrixdynamic",
+  //     "comment",
+  //     "imagepicker",
+  //     "rating",
+  //     "matrix",
+  //     "image",
+  //     "expression"
+  //
+  // ].forEach(Survey.QuestionFactory.Instance.unregisterElement, Survey.QuestionFactory.Instance);
+
+
+  // Survey.Serializer.addProperty('survey', {
+  //   category: 'general',
+  //   choices: ['projectUpdate', 'workspaceUpdate', 'facilityAdmin','facilityData'],
+  //   isLocalizable: false,
+  //   name: 'surveyType',
+  //   displayName: 'Survey type',
+  //
+  // })
+
+  // New question type for facility type:
+
+
+
+
+
+
+
 })

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use herams\common\domain\element\Element;
 use prime\assets\DashboardBundle;
 use prime\components\View;
-use prime\models\ar\Element;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;

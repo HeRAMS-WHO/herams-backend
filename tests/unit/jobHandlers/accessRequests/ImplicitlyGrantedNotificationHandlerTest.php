@@ -6,8 +6,8 @@ namespace prime\tests\unit\jobHandlers\accessRequests;
 
 use Codeception\Test\Unit;
 use herams\common\domain\user\User;
+use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler;
-use prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
@@ -15,7 +15,7 @@ use yii\mail\MessageInterface;
 
 /**
  * @covers \prime\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler
- * @covers \prime\jobs\accessRequests\ImplicitlyGrantedNotificationJob
+ * @covers \herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob
  */
 class ImplicitlyGrantedNotificationHandlerTest extends Unit
 {

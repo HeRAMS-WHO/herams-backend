@@ -6,6 +6,8 @@ namespace herams\common\domain\survey;
 
 use Collecthor\DataInterfaces\VariableSetInterface;
 use Collecthor\SurveyjsParser\VariableSet;
+use herams\api\models\NewSurvey;
+use herams\api\models\UpdateSurvey;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\interfaces\AccessCheckInterface;
@@ -36,7 +38,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
     ) {
     }
 
-    public function create(CreateForm $model): SurveyId
+    public function create(NewSurvey $model): SurveyId
     {
         $record = new Survey();
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_CREATE);

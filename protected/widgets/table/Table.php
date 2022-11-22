@@ -40,7 +40,7 @@ class Table extends Element
 
     public $title;
 
-    public function __construct(\prime\models\ar\Element $element, $config = [])
+    public function __construct(\herams\common\domain\element\Element $element, $config = [])
     {
         parent::__construct($element, $config);
         $this->columnNames[0] = $this->getTitleFromCode($this->groupCode);

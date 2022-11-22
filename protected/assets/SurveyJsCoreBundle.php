@@ -16,7 +16,7 @@ class SurveyJsCoreBundle extends AssetBundle
     ];
 
     public $js = [
-        'survey.core.min.js',
+        'survey.core.js',
         'survey.i18n.min.js',
     ];
 

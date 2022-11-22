@@ -18,9 +18,14 @@
         "collecthor/data-interfaces": ">= 5.2",
         "collecthor/surveyjs-parser": ">= 5.1",
         "sam-it/yii2-abac": ">= 2.0.1",
-        "league/iso3166": "^3"
+        "league/iso3166": "^3",
+        "yidas/yii2-composer-bower-skip": "^2.0",
+        "nesbot/carbon": "^2.63"
     },
     "config": {
-        "lock": false
+        "lock": false,
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
     }
 }

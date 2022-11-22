@@ -2,7 +2,7 @@
 
 namespace herams\common\interfaces;
 
-use prime\models\ar\Element;
+use herams\common\domain\element\Element;
 
 interface PageInterface
 {

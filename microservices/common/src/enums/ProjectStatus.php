@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\objects\enums;
+namespace herams\common\enums;
 
 enum ProjectStatus:int implements \JsonSerializable
 {

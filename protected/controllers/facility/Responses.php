@@ -13,6 +13,7 @@ use herams\common\values\FacilityId;
 use prime\actions\FrontendAction;
 use prime\components\BreadcrumbService;
 use function iter\filter;
+use function iter\toArray;
 
 class Responses extends FrontendAction
 {
@@ -41,13 +42,16 @@ class Responses extends FrontendAction
 
         ];
 
+        $variables = toArray(filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables()));
+        usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
+
         return $this->controller->render(
             'responses',
             [
                 'facility' => $facility,
                 'updateSituationUrl' => $updateSituationUrl,
                 'facilityId' => $facilityId,
-                'variables' => filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') === true, $variableSet->getVariables()),
+                'variables' => $variables,
             ]
         );
     }

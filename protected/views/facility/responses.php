@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Collecthor\DataInterfaces\VariableInterface;
 use herams\common\models\Permission;
 use prime\components\View;
 use prime\helpers\Icon;
@@ -50,20 +51,6 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         'id' => $facilityId,
     ],
     'columns' => [
-        [
-
-            'headerName' => \Yii::t('app', 'Name'),
-            'field' => 'name',
-            //            'cellRenderer' => new \yii\web\JsExpression(<<<JS
-            //                params => {
-            //                    const a = document.createElement('a');
-            //                    a.textContent = params.value;
-            //                    a.href = '/facility/{id}/responses'.replace('{id}', params.data.id);
-            //                    return a;
-            //                }
-            //            JS),
-            //            'filter' => 'agNumberColumnFilter',
-        ],
         [
 
             'headerName' => \Yii::t('app', 'Id'),

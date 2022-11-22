@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace herams\api\models;
 
+use herams\common\enums\ProjectStatus;
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\LocalizedString;
 use herams\common\models\Project;
@@ -14,7 +15,6 @@ use herams\common\values\Latitude;
 use herams\common\values\Longitude;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
-use prime\objects\enums\ProjectStatus;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 

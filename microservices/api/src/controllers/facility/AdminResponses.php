@@ -22,8 +22,7 @@ final class AdminResponses extends Action
         ProjectRepository $projectRepository,
         SurveyRepository $surveyRepository,
         SurveyResponseRepository $surveyResponseRepository,
-        int $id,
-        string $language = null
+        int $id
     ) {
         $facilityId = new FacilityId($id);
 
@@ -38,14 +37,14 @@ final class AdminResponses extends Action
         $data = [];
         foreach ($surveyResponseRepository->retrieveAdminDataInFacility($facilityId) as $facility) {
             $row = [
-                'id' => $facility->id + random_int(1, 1000),
-                'raw' => $facility->allData()
+                'id' => $facility->id,
+//                'raw' => $facility->allData()
             ];
             /** @var VariableInterface $variable */
             foreach ($variables as $variable) {
                 $row[$variable->getName()] = $variable->getDisplayValue(
                     $facility,
-                    isset($language) ? substr($language, 0, 2) : \Yii::$app->language
+                    substr(\Yii::$app->language, 0, 2)
                 )->getRawValue();
             }
             $data[] = $row;

@@ -11,13 +11,13 @@ class Element extends Widget
 {
     public $options = [];
 
-    protected \prime\models\ar\Element $element;
+    protected \herams\common\domain\element\Element $element;
 
     public int $width = 1;
 
     public int $height = 1;
 
-    public function __construct(\prime\models\ar\Element $element, array $config = [])
+    public function __construct(\herams\common\domain\element\Element $element, array $config = [])
     {
         $this->element = $element;
         foreach ($config as $key => $value) {

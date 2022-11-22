@@ -145,6 +145,7 @@ class Herams {
       headers: {
         'X-CSRF-Token': this.#getCsrfToken(),
         Accept: 'application/json;indent=2',
+        'Accept-Language': document.documentElement.lang ?? 'en',
         'Content-Type': 'application/json',
       },
       body: (body !== null && typeof body === 'object') ? JSON.stringify(body) : body,
@@ -177,7 +178,7 @@ class Herams {
    * @param body
    * @returns {Promise<void>}
    */
-  async createInCollectionWithCsrf(uri, body)
+  async createInCollectionWithCsrf (uri, body)
   {
     const response = await fetch(uri, {
       method: 'POST',
@@ -210,7 +211,7 @@ class Herams {
         throw new Error(`Request failed with code (${response.status}): ${response.statusText}`)
       }
     }
-    throw new Error("Expected status code 201 or 303")
+    throw new Error(`Expected status code 204 or 303, got ${response.status}`)
   }
 
   static async createElement (uri, plainObject, successMessage) {

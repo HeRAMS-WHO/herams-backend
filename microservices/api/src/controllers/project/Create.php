@@ -32,7 +32,7 @@ final class Create extends Action
         }
 
         $id = $projectRepository->create($model);
-        $response->setStatusCode(201);
+        $response->setStatusCode(204);
         $response->headers->add('Location', Url::to([
             '/api/project/view',
             'id' => $id,

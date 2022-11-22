@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use herams\common\values\FacilityId;
+use herams\common\values\ProjectId;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
+use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\models\forms\facility\UpdateForm;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
@@ -15,8 +17,8 @@ use prime\widgets\survey\Survey;
  * @var UpdateForm $model
  * @var FacilityForTabMenu $tabMenuModel
  * @var FacilityId $id
- * @var \herams\common\values\ProjectId $projectId
- * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
+ * @var ProjectId $projectId
+ * @var SurveyForSurveyJsInterface $survey
  */
 
 $this->title = $tabMenuModel->getTitle();
@@ -29,15 +31,13 @@ echo FacilityTabMenu::widget(
 );
 $this->endBlock();
 
-Section::begin()
-    ->withHeader(Yii::t('app', 'Update facility'));
-
+Section::begin();
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
     ->withDataRoute([
         '/api/facility/view',
         'id' => $id,
-    ], ['adminData'])
+    ], ['admin_data'])
     ->withProjectId($projectId)
     ->inDisplayMode()
 

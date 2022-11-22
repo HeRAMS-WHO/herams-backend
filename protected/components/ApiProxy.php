@@ -25,8 +25,9 @@ class ApiProxy
 
     public function forwardRequestToCore(Request $request, UserId $user): ResponseInterface
     {
+        // Get the IP of the LB (currently dev only)
         return $this->forwardRequest(strtr($request->getAbsoluteUrl(), [
-            'https://herams.test' => 'https://172.30.2.1',
+            'https://herams.test' => "https://{$_SERVER['REMOTE_ADDR']}",
             '/api-proxy/core' => '/api'
         ]), $request, $user);
     }
@@ -47,7 +48,6 @@ class ApiProxy
          * 1. Create JTW with short lifetime
          * 2. Add bearer header
          */
-
         $upstreamRequest = $this->requestFactory->createRequest($request->getMethod(), $targetUri)->withBody(Utils::streamFor($request->getRawBody()));
         $headers = $request->getHeaders();
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace prime\jobHandlers\accessRequests;
 
+use herams\common\jobs\accessRequests\ResponseNotificationJob;
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\jobs\accessRequests\ResponseNotificationJob;
 use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 

@@ -7,13 +7,13 @@ namespace prime\tests\unit\jobHandlers\users;
 use Codeception\Test\Unit;
 use herams\common\domain\user\User;
 use herams\common\domain\user\UserRepository;
+use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
 use prime\components\NewsletterService;
 use prime\jobHandlers\users\SyncNewsletterSubscriptionHandler;
-use prime\jobs\users\SyncNewsletterSubscriptionJob;
 
 /**
  * @covers \prime\jobHandlers\users\SyncNewsletterSubscriptionHandler
- * @covers \prime\jobs\users\SyncNewsletterSubscriptionJob
+ * @covers \herams\common\jobs\users\SyncNewsletterSubscriptionJob
  */
 class SyncNewsletterSubscriptionHandlerTest extends Unit
 {

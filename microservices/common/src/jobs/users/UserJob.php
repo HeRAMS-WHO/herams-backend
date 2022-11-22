@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobs\users;
+namespace herams\common\jobs\users;
 
 use JCIT\jobqueue\interfaces\JobInterface;
 

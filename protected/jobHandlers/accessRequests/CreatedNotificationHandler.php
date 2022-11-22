@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace prime\jobHandlers\accessRequests;
 
 use herams\common\domain\user\User;
+use herams\common\jobs\accessRequests\CreatedNotificationJob;
 use JCIT\jobqueue\interfaces\JobInterface;
-use prime\jobs\accessRequests\CreatedNotificationJob;
 use prime\models\ar\AccessRequest;
 use prime\repositories\AccessRequestRepository;
 use yii\helpers\Url;
