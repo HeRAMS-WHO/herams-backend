@@ -23,7 +23,7 @@ class CreateCest
         $I->amOnPage($route);
         $I->seeResponseCodeIs(200);
 
-        $I->fillField('Name', 'Test user');
+        $I->fillField(['id' => 'createform-name'], 'Test user');
         $I->fillField('Password', 'testPassword123!');
         $I->fillField('Confirm password', 'testPassword123!');
 
