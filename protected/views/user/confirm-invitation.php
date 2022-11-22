@@ -26,12 +26,14 @@ echo Form::widget([
     'model' => $model,
     'form' => $form,
     'attributes' => [
+        'name' => [
+            'type' => Form::INPUT_TEXT,
+            'label' => \Yii::t('app', 'Display name'),
+            'hint' => \Yii::t('app', 'This is used for display purposes only')
+        ],
         'email' => [
             'label' => \Yii::t('app', 'Creating a new account for email:'),
             'type' => Form::INPUT_STATIC,
-        ],
-        'name' => [
-            'type' => Form::INPUT_TEXT
         ],
         'password' => [
             'type' => Form::INPUT_PASSWORD,
