@@ -25,8 +25,7 @@ class ApiProxyController extends Controller
         ApiProxy $apiProxy,
         \yii\web\User $user,
         Request $request
-    ): Response
-    {
+    ): Response {
         $userId = new UserId($user->getId());
         session_abort();
         header_remove();

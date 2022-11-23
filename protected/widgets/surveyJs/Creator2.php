@@ -55,7 +55,7 @@ final class Creator2 extends Widget
                     '/survey/update',
                     'id' => 10101010,
                 ],
-                 true
+                true
             ),
         ]);
         $this->view->registerJs(

@@ -2,7 +2,6 @@
 
 use yii\db\Migration;
 
-
 class m221031_130304_favorite_add_id extends Migration
 {
     public function up(): bool

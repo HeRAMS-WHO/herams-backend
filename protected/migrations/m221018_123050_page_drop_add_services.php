@@ -2,7 +2,6 @@
 
 use yii\db\Migration;
 
-
 final class m221018_123050_page_drop_add_services extends Migration
 {
     public function up(): bool
