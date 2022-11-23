@@ -49,25 +49,25 @@ Section::begin(
 echo AgGrid::widget([
     'route' => $dataRoute,
     'columns' => [
-//        [
-//
-//            'headerName' => \Yii::t('app', 'Favorite'),
-//            'field' => 'favorite_id',
-//            'filter' => new JsExpression('ToggleButtonFilter'),
-//            'cellRenderer' => new JsExpression('ToggleButtonRenderer'),
-//            'cellRendererParams' => [
-//                'endpoint' => \yii\helpers\Url::to([
-//                    '/api/user/workspaces',
-//                    'id' => \Yii::$app->user->id,
-//                ], true),
-//                //                'idField' => 'id'
-//            ],
-//            //            'width'=> 100,
-//            //            'suppressSizeToFit' => true,
-//            'comparator' => new JsExpression(
-//                '(a, b) => a == b ? 0 : a ? 1: -1'
-//            ),
-//        ],
+        //        [
+        //
+        //            'headerName' => \Yii::t('app', 'Favorite'),
+        //            'field' => 'favorite_id',
+        //            'filter' => new JsExpression('ToggleButtonFilter'),
+        //            'cellRenderer' => new JsExpression('ToggleButtonRenderer'),
+        //            'cellRendererParams' => [
+        //                'endpoint' => \yii\helpers\Url::to([
+        //                    '/api/user/workspaces',
+        //                    'id' => \Yii::$app->user->id,
+        //                ], true),
+        //                //                'idField' => 'id'
+        //            ],
+        //            //            'width'=> 100,
+        //            //            'suppressSizeToFit' => true,
+        //            'comparator' => new JsExpression(
+        //                '(a, b) => a == b ? 0 : a ? 1: -1'
+        //            ),
+        //        ],
         [
 
             'headerName' => \Yii::t('app', 'Name'),

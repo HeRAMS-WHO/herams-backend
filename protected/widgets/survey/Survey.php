@@ -242,10 +242,12 @@ class Survey extends Widget
             View::POS_HERAMS_INIT
         );
 
-        return Html::tag('div',
+        return Html::tag(
+            'div',
             'Loading...' . Html::tag('pre', json_encode($this->config, JSON_PRETTY_PRINT)),
-        options: [
-            'id' => $this->getId(),
-        ]);
+            options: [
+                'id' => $this->getId(),
+            ]
+        );
     }
 }

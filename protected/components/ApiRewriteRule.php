@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
 
-use yii\web\GroupUrlRule;
 use yii\web\UrlManager;
 use yii\web\UrlRuleInterface;
 
@@ -13,7 +13,6 @@ class ApiRewriteRule implements UrlRuleInterface
     {
     }
 
-
     public function parseRequest($manager, $request): bool
     {
         return false;
@@ -22,7 +21,6 @@ class ApiRewriteRule implements UrlRuleInterface
     public function createUrl($manager, $route, $params)
     {
         if (str_starts_with($route, 'api/')) {
-
 
             // Strip prefix
             $route = substr($route, 4);
@@ -35,10 +33,10 @@ class ApiRewriteRule implements UrlRuleInterface
                 die($apiUrl);
             }
         }
-        if (str_contains($route, 'api') && !str_contains($route, 'api-proxy')){
-            var_dump($route); die();
+        if (str_contains($route, 'api') && ! str_contains($route, 'api-proxy')) {
+            var_dump($route);
+            die();
         }
         return false;
-
     }
 }

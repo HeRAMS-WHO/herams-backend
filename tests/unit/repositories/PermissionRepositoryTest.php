@@ -32,6 +32,4 @@ class PermissionRepositoryTest extends Unit
 
         return $permission;
     }
-
-
 }

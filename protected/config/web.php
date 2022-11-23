@@ -18,7 +18,6 @@ use prime\components\NotificationService;
 use yii\di\Instance;
 use yii\web\DbSession;
 use yii\web\UrlManager;
-use yii\widgets\PjaxAsset;
 
 $commonDiConfigurator = new \herams\common\config\CommonConfigurator();
 $commonDiConfigurator->configure($env, \Yii::$container);
@@ -53,7 +52,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'useStrictMode' => true,
             'cookieParams' => [
                 'httponly' => 'true',
-                'samesite' => 'strict'
+                'samesite' => 'strict',
             ],
             'readCallback' => static function (array $fields): array {
                 return [
@@ -88,13 +87,13 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'rules' => [
                 [
                     'pattern' => '/api-proxy/<api:[\w-]+>/<sub:.*>',
-                    'route' => '/api-proxy/<api>'
+                    'route' => '/api-proxy/<api>',
                 ],
                 [
                     'class' => ApiRewriteRule::class,
                     '__construct()' => [
-                        Instance::ensure('apiUrlManager', UrlManager::class)
-                    ]
+                        Instance::ensure('apiUrlManager', UrlManager::class),
+                    ],
                 ],
                 [
                     'pattern' => '<controller>',
@@ -125,7 +124,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'class' => \yii\web\Request::class,
             'csrfCookie' => [
                 'httpOnly' => true,
-                'sameSite' => \yii\web\Cookie::SAME_SITE_STRICT
+                'sameSite' => \yii\web\Cookie::SAME_SITE_STRICT,
             ],
             'trustedHosts' => [
                 '10.0.0.0/8',

@@ -2,12 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Class m221031_130304_favorite_add_id
- */
+
 class m221031_130304_favorite_add_id extends Migration
 {
-
     public function up(): bool
     {
         $this->dropPrimaryKey('PRIMARY', '{{%favorite}}');
@@ -23,5 +20,4 @@ class m221031_130304_favorite_add_id extends Migration
         $this->addPrimaryKey('PRIMARY', '{{%favorite}}', ['user_id', 'target_class', 'target_id']);
         return false;
     }
-
 }

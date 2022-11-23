@@ -8,7 +8,8 @@ use prime\actions\FrontendAction;
 
 final class Index extends FrontendAction
 {
-    public function run() {
+    public function run()
+    {
         return $this->render(
             'index',
         );

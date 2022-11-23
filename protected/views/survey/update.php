@@ -31,7 +31,7 @@ CSS
 Section::begin()
     ->withHeader($this->title);
 echo Creator2::widget([
-    'surveyId' => $surveyId
+    'surveyId' => $surveyId,
 ]);
 
 Section::end();

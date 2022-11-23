@@ -66,11 +66,11 @@ assert(isset($env) && $env instanceof EnvironmentInterface);
 return [
     PjaxAsset::class => [
         'baseUrl' => '@npm/yii2-pjax',
-        'sourcePath' => null
+        'sourcePath' => null,
     ],
     \prime\helpers\ConfigurationProvider::class => \prime\helpers\ConfigurationProvider::class,
     ModelHydrator::class => ModelHydrator::class,
-    Configuration::class => static function() use ($env): Configuration {
+    Configuration::class => static function () use ($env): Configuration {
         $result = Configuration::forSymmetricSigner(
             new \Lcobucci\JWT\Signer\Hmac\Sha256(),
             \Lcobucci\JWT\Signer\Key\InMemory::plainText('secretsecretsecretsecretsecretsecretsecretsecretsecret' ?? $env->getSecret('app/sso_private_key'))
@@ -95,12 +95,12 @@ return [
     \prime\repositories\ElementRepository::class => \prime\repositories\ElementRepository::class,
     \herams\common\interfaces\HeramsVariableSetRepositoryInterface::class => HeramsVariableSetRepository::class,
     \herams\common\domain\project\ProjectLocalesRetriever::class => ProjectRepository::class,
-    \Psr\Http\Client\ClientInterface::class => static function(Container $container) {
+    \Psr\Http\Client\ClientInterface::class => static function (Container $container) {
         return new Client([
-            'verify' => false
-//            'curl' => [
-//                CURLOPT_SSL_VERIFYPEER
-//            ]
+            'verify' => false,
+            //            'curl' => [
+            //                CURLOPT_SSL_VERIFYPEER
+            //            ]
         ]);
     },
     \Psr\Http\Message\RequestFactoryInterface::class => RequestFactory::class,

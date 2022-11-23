@@ -4,17 +4,11 @@ declare(strict_types=1);
 
 namespace prime\controllers\project;
 
-use herams\common\domain\facility\Facility;
-use herams\common\domain\facility\FacilityRepository;
 use herams\common\domain\project\ProjectRepository;
-use herams\common\domain\survey\SurveyRepository;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\models\Permission;
 use herams\common\values\ProjectId;
 use prime\actions\FrontendAction;
-use prime\helpers\VariableSetAnnotator;
-use yii\base\Action;
-use function iter\map;
 
 final class Export extends FrontendAction
 {
@@ -23,13 +17,15 @@ final class Export extends FrontendAction
         AccessCheckInterface $accessCheck,
         int $id
     ) {
-
         $projectId = new ProjectId($id);
 
         $project = $projectRepository->retrieveForExport($projectId);
         // This is not needed; the repository does the check as well. I'm just not sure where it should happen.
         $accessCheck->requirePermission($project, Permission::PERMISSION_EXPORT);
 
-        return $this->render('export', ['projectId' => $projectId, 'project' => $project]);
+        return $this->render('export', [
+            'projectId' => $projectId,
+            'project' => $project,
+        ]);
     }
 }

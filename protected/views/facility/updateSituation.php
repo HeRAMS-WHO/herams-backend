@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
-use prime\models\forms\facility\UpdateForm;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
@@ -34,7 +33,7 @@ $survey = Survey::begin()
     ->withConfig($survey->getConfig())
     ->withExtraData([
         'facilityId' => $facilityId,
-        'surveyId' => $survey->getId()
+        'surveyId' => $survey->getId(),
     ])
     ->withSubmitRoute([
         'update-situation',

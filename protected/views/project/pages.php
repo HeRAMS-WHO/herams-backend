@@ -105,7 +105,7 @@ echo AgGrid::widget([
             'headerName' => \Yii::t('app', 'Sort'),
             'field' => 'sort',
             'filter' => 'agNumberColumnFilter',
-        ]
+        ],
     ],
 
 ]);

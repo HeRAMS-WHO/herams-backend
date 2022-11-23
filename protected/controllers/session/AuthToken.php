@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\controllers\session;
@@ -20,5 +21,4 @@ class AuthToken extends Action
             ->getToken($configuration->signer(), $configuration->signingKey());
         return $token->toString();
     }
-
 }

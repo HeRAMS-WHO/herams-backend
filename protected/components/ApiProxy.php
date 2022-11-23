@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\components;
@@ -18,17 +19,15 @@ class ApiProxy
         private RequestFactoryInterface $requestFactory,
         private ClientInterface $client,
         private Configuration $configuration
-    )
-    {
+    ) {
     }
-
 
     public function forwardRequestToCore(Request $request, UserId $user): ResponseInterface
     {
         // Get the IP of the LB (currently dev only)
         return $this->forwardRequest(strtr($request->getAbsoluteUrl(), [
             'https://herams.test' => "https://{$_SERVER['REMOTE_ADDR']}",
-            '/api-proxy/core' => '/api'
+            '/api-proxy/core' => '/api',
         ]), $request, $user);
     }
 
@@ -51,15 +50,13 @@ class ApiProxy
         $upstreamRequest = $this->requestFactory->createRequest($request->getMethod(), $targetUri)->withBody(Utils::streamFor($request->getRawBody()));
         $headers = $request->getHeaders();
 
-        foreach([
-            'Content-Type', 'Accept', 'Cache-Control'
-                ] as $forwardHeader) {
-            if ($headers->has($forwardHeader) && !empty($headers->get($forwardHeader))) {
+        foreach ([
+            'Content-Type', 'Accept', 'Cache-Control',
+        ] as $forwardHeader) {
+            if ($headers->has($forwardHeader) && ! empty($headers->get($forwardHeader))) {
                 $upstreamRequest = $upstreamRequest->withHeader($forwardHeader, $headers->get($forwardHeader));
             }
         }
-
-
 
         $upstreamRequest = $upstreamRequest
             ->withHeader('Host', 'herams.test')
@@ -68,6 +65,5 @@ class ApiProxy
         ;
         $response = $this->client->sendRequest($upstreamRequest);
         return $response;
-
     }
 }

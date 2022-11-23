@@ -58,5 +58,4 @@ final class FacilityForTabMenu implements \prime\interfaces\FacilityForTabMenu
     {
         return $this->workspaceId;
     }
-
 }

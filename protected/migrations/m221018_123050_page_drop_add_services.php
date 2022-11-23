@@ -2,9 +2,7 @@
 
 use yii\db\Migration;
 
-/**
- * Class m221018_123050_page_drop_add_services
- */
+
 final class m221018_123050_page_drop_add_services extends Migration
 {
     public function up(): bool
@@ -19,5 +17,4 @@ final class m221018_123050_page_drop_add_services extends Migration
 
         return true;
     }
-
 }

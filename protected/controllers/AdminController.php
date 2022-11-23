@@ -6,7 +6,6 @@ namespace prime\controllers;
 
 use prime\components\Controller;
 use prime\controllers\admin\Dashboard;
-use prime\controllers\admin\Limesurvey;
 use prime\controllers\admin\Share;
 use yii\helpers\ArrayHelper;
 

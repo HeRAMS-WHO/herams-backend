@@ -6,7 +6,6 @@ namespace prime\controllers;
 
 use herams\common\models\Permission;
 use prime\components\Controller;
-use prime\controllers\survey\AjaxSave;
 use prime\controllers\survey\Create;
 use prime\controllers\survey\Index;
 use prime\controllers\survey\Update;
@@ -50,5 +49,4 @@ class SurveyController extends Controller
             ]
         );
     }
-
 }

@@ -31,7 +31,6 @@ class AdminTabMenu extends TabMenu
             'title' => \Yii::t('app', 'Global permissions'),
         ];
 
-
         return parent::renderMenu();
     }
 }

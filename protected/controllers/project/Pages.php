@@ -31,7 +31,10 @@ class Pages extends Action
         $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator()));
         return $this->controller->render('pages', [
             'project' => $model,
-            'dataRoute' => ['/api/project/pages', 'id' => $projectId],
+            'dataRoute' => [
+                '/api/project/pages',
+                'id' => $projectId,
+            ],
             'dataProvider' => new ActiveDataProvider([
                 'query' => $model->getPages(),
             ]),

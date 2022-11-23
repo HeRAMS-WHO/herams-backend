@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\interfaces;
 
 use herams\common\values\FacilityId;
-use herams\common\values\ProjectId;
 use herams\common\values\WorkspaceId;
 
 interface FacilityForTabMenu extends CanCurrentUser
@@ -21,5 +20,4 @@ interface FacilityForTabMenu extends CanCurrentUser
     public function getTitle(): string;
 
     public function getWorkspaceId(): WorkspaceId;
-
 }

@@ -2,13 +2,8 @@
 
 declare(strict_types=1);
 
-use prime\models\forms\survey\CreateForm;
-use prime\models\forms\survey\UpdateForm;
 use prime\widgets\Section;
 use prime\widgets\surveyJs\Creator2 as Creator2;
-use yii\helpers\Json;
-use yii\helpers\Url;
-use yii\web\JsExpression;
 use yii\web\View;
 
 /**

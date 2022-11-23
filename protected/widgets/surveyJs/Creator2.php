@@ -35,16 +35,28 @@ final class Creator2 extends Widget
     public function run(): string
     {
         $this->registerAssetBundles();
-        $htmlOptions = ['id' => $this->getId(), ...$this->options];
+        $htmlOptions = [
+            'id' => $this->getId(),
+            ...$this->options,
+        ];
         $result = Html::tag('div', '', $htmlOptions);
 
         $config = Json::encode([
             'creatorOptions' => $this->clientOptions,
             'createUrl' => Url::to(['/api/survey/create']),
-            'dataUrl' => isset($this->surveyId) ? Url::to(['/api/survey/view', 'id' => $this->surveyId]) : null,
+            'dataUrl' => isset($this->surveyId) ? Url::to([
+                '/api/survey/view',
+                'id' => $this->surveyId,
+            ]) : null,
             'elementId' => $htmlOptions['id'],
             'surveyId' => $this->surveyId,
-            'updateUrl' => Url::to(['/survey/update', 'id' => 10101010], true)
+            'updateUrl' => Url::to(
+                [
+                    '/survey/update',
+                    'id' => 10101010,
+                ],
+                 true
+            ),
         ]);
         $this->view->registerJs(
             <<<JS

@@ -6,7 +6,6 @@ namespace prime\actions;
 
 use prime\components\Controller;
 use prime\components\View;
-use prime\objects\BreadcrumbCollection;
 use yii\base\Action;
 
 /**

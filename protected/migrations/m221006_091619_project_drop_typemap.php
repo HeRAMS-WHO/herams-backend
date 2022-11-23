@@ -2,7 +2,6 @@
 
 use yii\db\Migration;
 
-
 final class m221006_091619_project_drop_typemap extends Migration
 {
     // Use up()/down() to run migration code without a transaction.

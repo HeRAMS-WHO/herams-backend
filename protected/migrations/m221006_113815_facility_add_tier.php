@@ -7,7 +7,6 @@ use herams\common\jobs\UpdateFacilityDataJob;
 use League\Tactician\CommandBus;
 use yii\db\Migration;
 
-
 final class m221006_113815_facility_add_tier extends Migration
 {
     public function __construct(

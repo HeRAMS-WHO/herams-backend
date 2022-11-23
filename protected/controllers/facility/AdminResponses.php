@@ -8,7 +8,6 @@ use Collecthor\DataInterfaces\VariableInterface;
 use herams\common\domain\facility\FacilityRepository;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
-use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\FacilityId;
 use prime\actions\FrontendAction;
@@ -53,8 +52,12 @@ class AdminResponses extends FrontendAction
             'admin-responses',
             [
                 'facility' => $facility,
-                'dataRoute' => Url::to(['/api/facility/admin-responses', 'id' => $facilityId]),
-                'variables' => $variables
+                'dataRoute' => Url::to([
+                    '/api/facility/admin-responses',
+                    'id' => $facilityId,
+                ]),
+                'variables' =>
+$variables,
             ]
         );
     }

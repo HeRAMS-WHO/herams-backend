@@ -137,7 +137,7 @@ class AgGrid extends Widget
 
                 'style' => [
                     'flex-grow' => 1,
-                    'flex-basis' => '100px'
+                    'flex-basis' => '100px',
                 ],
             ]),
             [

@@ -43,7 +43,7 @@ class SessionController extends Controller
         return [
             'create' => Create::class,
             'delete' => Delete::class,
-            'auth-token' => AuthToken::class
+            'auth-token' => AuthToken::class,
         ];
     }
 }
