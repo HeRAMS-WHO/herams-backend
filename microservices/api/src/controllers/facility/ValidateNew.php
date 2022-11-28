@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\api\controllers\facility;
 
-use herams\api\models\NewFacility;
+use herams\common\domain\facility\NewFacility;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use yii\base\Action;

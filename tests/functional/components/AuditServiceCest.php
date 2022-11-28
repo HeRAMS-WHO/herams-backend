@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\components;
 
+use Codeception\Stub;
 use herams\common\components\AuditService;
 use herams\common\enums\AuditEvent;
+use herams\common\helpers\CommandFactory;
+use herams\common\helpers\CurrentUserIdProvider;
 use herams\common\interfaces\AuditServiceInterface;
+use herams\common\interfaces\CommandFactoryInterface;
 use herams\common\interfaces\NewAuditEntryInterface;
 use prime\helpers\EventDispatcher;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Audit;
 use prime\tests\FunctionalTester;
 use yii\db\AfterSaveEvent;
+use yii\db\Connection;
 
 /**
  * @covers \herams\common\components\AuditService
  */
-class AuditServiceCest
+final class AuditServiceCest
 {
     private function createEntry(): NewAuditEntryInterface
     {
@@ -67,8 +72,7 @@ class AuditServiceCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $eventDispatcher = new EventDispatcher();
-        $service = new AuditService($eventDispatcher);
-        $service->bootstrap(\Yii::$app);
+        $service = new AuditService(new CommandFactory(), $eventDispatcher, new CurrentUserIdProvider());
 
         // Class
         $accessRequest = new AccessRequest();
@@ -90,8 +94,7 @@ class AuditServiceCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $eventDispatcher = new EventDispatcher();
-        $service = new AuditService($eventDispatcher);
-        $service->bootstrap(\Yii::$app);
+        $service = new AuditService(new CommandFactory(), $eventDispatcher, new CurrentUserIdProvider());
 
         // Class
         $accessRequest = new AccessRequest();
@@ -113,8 +116,7 @@ class AuditServiceCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $eventDispatcher = new EventDispatcher();
-        $service = new AuditService($eventDispatcher);
-        $service->bootstrap(\Yii::$app);
+        $service = new AuditService(new CommandFactory(), $eventDispatcher, new CurrentUserIdProvider());
 
         // Class
         $accessRequest = new AccessRequest();

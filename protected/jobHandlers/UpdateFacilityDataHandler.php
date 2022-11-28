@@ -39,8 +39,7 @@ final class UpdateFacilityDataHandler
 
         foreach ($variableSet->getVariables() as $variable) {
             if ($variable instanceof FacilityTierVariable) {
-//                var_dump($variable->getValue($adminData));
-//                die();
+
             }
         }
 

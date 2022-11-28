@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace herams\common\domain\facility;
 
 use Collecthor\DataInterfaces\RecordInterface;
+use Collecthor\SurveyjsParser\ArrayDataRecord;
 use Collecthor\SurveyjsParser\ArrayRecord;
+use herams\common\domain\survey\Survey;
 use herams\common\models\ActiveRecord;
 use herams\common\models\Project;
 use herams\common\models\SurveyResponse;
@@ -104,6 +106,16 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
     public function canReceiveSituationUpdate(): bool
     {
         return (bool) $this->can_receive_situation_update;
+    }
+
+    public function getAdminRecord(): RecordInterface
+    {
+        return new ArrayDataRecord($this->admin_data ?? []);
+    }
+
+    public function getDataRecord(): RecordInterface
+    {
+        return new ArrayDataRecord($this->data ?? []);
     }
 
 }

@@ -18,9 +18,9 @@ use yii\di\Container;
     CacheInterface::class,
     ArrayCache::class
 );
-$env = new \prime\components\InsecureSecretEnvironment();
+$env = new \herams\common\helpers\InsecureSecretEnvironment();
 $config = require 'web.php';
-$config['components']['limesurvey'] = \prime\tests\_helpers\LimesurveyStub::class;
+
 
 
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace herams\common\domain\facility;
 
-use herams\api\models\NewFacility;
 use herams\common\domain\facility\FacilityRead as FacilityReadRecord;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\domain\variableSet\HeramsVariableSetRepository;
@@ -25,7 +24,7 @@ use prime\models\forms\facility\UpdateSituationForm;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
-class FacilityRepository
+final class FacilityRepository
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,

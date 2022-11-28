@@ -9,6 +9,7 @@ use herams\common\attributes\Audits;
 use herams\common\enums\AuditEvent;
 use herams\common\helpers\NewAuditEntry;
 use herams\common\interfaces\AuditServiceInterface;
+use herams\common\interfaces\CommandFactoryInterface;
 use herams\common\interfaces\CurrentUserIdProviderInterface;
 use herams\common\interfaces\EventDispatcherInterface;
 use herams\common\interfaces\NewAuditEntryInterface;
@@ -21,7 +22,7 @@ use yii\db\AfterSaveEvent;
 use yii\db\Connection;
 use yii\web\Application;
 
-class AuditService implements BootstrapInterface, AuditServiceInterface
+final class AuditService implements BootstrapInterface, AuditServiceInterface
 {
     public string $table = '{{%audit}}';
 
@@ -29,19 +30,10 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
      * @var list<array{0: NewAuditEntryInterface, 1: UserId}>
      */
     private array $entries = [];
-
-    public bool $enabled = true;
-
-    private array $handlers = [];
-
-    /**
-     * @todo When we figure out component interdependencies this should become a constructor argument
-     */
-    private Connection $db;
-
     public function __construct(
-        private EventDispatcherInterface $eventDispatcher,
-        private CurrentUserIdProviderInterface $userIdProvider
+        private readonly CommandFactoryInterface $commandFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly CurrentUserIdProviderInterface $userIdProvider
     ) {
         $this->eventDispatcher->on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_INSERT, function (AfterSaveEvent $event) {
             $reflectionClass = new \ReflectionClass($event->sender);
@@ -82,20 +74,16 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
 
     public function add(NewAuditEntryInterface $entry): void
     {
-        if ($this->enabled) {
-            $this->entries[] = [
-                $entry,
-                $this->userIdProvider->getUserId(),
-            ];
-        }
+        $this->entries[] = [
+            $entry,
+            $this->userIdProvider->getUserId(),
+        ];
     }
     public function bootstrap($app): void
     {
         if (! $app instanceof Application) {
             throw new NotSupportedException('This service only supports web applications');
         }
-        $this->db = $app->getDb();
-
         $app->on(Application::EVENT_AFTER_REQUEST, fn () => $this->commit());
     }
 
@@ -107,18 +95,23 @@ class AuditService implements BootstrapInterface, AuditServiceInterface
 
         $rows = [];
         $timestamp = Carbon::now();
+        /**
+         * @var NewAuditEntryInterface $entry
+         * @var UserId $userId
+         */
         foreach ($this->entries as [$entry, $userId]) {
             $rows[] = [
                 $entry->getSubjectName(),
                 $entry->getSubjectId(),
                 $entry->getEvent()->value,
                 $timestamp,
-                $userId->getId(),
+                $userId->getValue(),
             ];
         }
 
+
         try {
-            $this->db->createCommand()->batchInsert(
+            $this->commandFactory->createCommand()->batchInsert(
                 $this->table,
                 ['subject_name', 'subject_id', 'event', 'created_at', 'created_by'],
                 $rows

@@ -1,6 +1,8 @@
 <?php
 
 namespace {
+
+    use herams\common\helpers\InsecureSecretEnvironment;
     use yii\web\Application;
 
     define('TEST_ADMIN_ID', 1);
@@ -16,7 +18,7 @@ namespace {
         }
 
         require_once $autoload;
-        $env = new \prime\components\InsecureSecretEnvironment();
+        $env = new InsecureSecretEnvironment();
         \Yii::$container->setDefinitions(require __DIR__ . '/../protected/config/di.php');
 
         $config = require __DIR__ . '/../protected/config/codeception.php';

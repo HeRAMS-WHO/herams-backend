@@ -56,13 +56,6 @@ class Facility extends ActiveRecord
         return new FacilityQuery(static::class);
     }
 
-    public function getAdminSurvey(): ActiveQuery
-    {
-        return $this->hasOne(Survey::class, [
-            'id' => 'admin_survey_id',
-        ])
-            ->via('project');
-    }
 
     public function getAdminSurveyResponses(): ActiveQuery
     {

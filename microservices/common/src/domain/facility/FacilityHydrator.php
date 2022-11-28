@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\domain\facility;
 
-use herams\api\models\NewFacility;
+use herams\common\domain\facility\NewFacility;
 use herams\api\models\UpdateFacility;
 use herams\common\attributes\SupportedType;
 use herams\common\helpers\LocalizedString;

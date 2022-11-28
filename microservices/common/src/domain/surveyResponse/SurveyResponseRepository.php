@@ -192,49 +192,7 @@ class SurveyResponseRepository
         return $query->one();
     }
 
-    public function searchAdminInFacility(FacilityId $facilityId): DataProviderInterface
-    {
-        $facility = Facility::findOne([
-            'id' => $facilityId->getValue(),
-        ]);
-        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
-        $adminSurveyId = $facility->workspace->project->admin_survey_id;
 
-        $query = SurveyResponse::find()->andWhere([
-            'facility_id' => $facilityId,
-            'survey_id' => $adminSurveyId,
-        ]);
-
-        return new HydratedActiveDataProvider(
-            static function (SurveyResponse $response): AdminResponseForListInterface {
-                return new AdminResponseForList($response);
-            },
-            [
-                'sort' => [
-                    'class' => Sort::class,
-                    'defaultOrder' => [
-                        ResponseForList::ID => SORT_DESC,
-                    ],
-                    'attributes' => [
-                        ResponseForList::ID,
-                        ResponseForList::DATE_OF_UPDATE => [
-                            'asc' => [
-                                'created_at' => SORT_ASC,
-                            ],
-                            'desc' => [
-                                'created_at' => SORT_DESC,
-                            ],
-                            'default' => SORT_DESC,
-
-                        ],
-                    ],
-                ],
-                'query' => $query,
-                'pagination'
- => false,
-            ]
-        );
-    }
 
     /**
      * @return SurveyResponse

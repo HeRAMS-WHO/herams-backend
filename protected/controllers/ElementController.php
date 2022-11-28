@@ -41,8 +41,6 @@ class ElementController extends Controller
     {
         return [
             'update' => Update::class,
-            'create' => Create::class,
-            'preview' => Preview::class,
             'create-for-survey-js' => CreateForSurveyJs::class,
             'preview-for-survey-js' => PreviewForSurveyJs::class,
             'delete' => [

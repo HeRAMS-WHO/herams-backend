@@ -15,7 +15,6 @@ class ResponseController extends Controller
     public function actions(): array
     {
         return [
-            'surveyjs' => SurveyJs::class,
             'view' => View::class,
         ];
     }

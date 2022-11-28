@@ -53,12 +53,6 @@ class View extends Action
             throw new ForbiddenHttpException();
         }
 
-        if ($project instanceof \prime\models\ar\surveyjs\Project) {
-            return $this->controller->redirect([
-                'view-for-survey-js',
-                'id' => $project->id,
-            ]);
-        }
         try {
             $survey = $project->getSurvey();
         } catch (SurveyDoesNotExist $e) {

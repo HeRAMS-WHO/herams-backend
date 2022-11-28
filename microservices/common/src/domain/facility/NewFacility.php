@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace herams\api\models;
+namespace herams\common\domain\facility;
 
 use Collecthor\DataInterfaces\RecordInterface;
 use herams\common\attributes\SourcePath;

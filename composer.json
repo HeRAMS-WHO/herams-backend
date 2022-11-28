@@ -34,7 +34,6 @@
         "nesbot/carbon": "^2.0.0",
         "nikic/iter": "^2.0",
         "psr/http-message": "^1.0",
-        "sam-it/ls2-jsonrpc-client": "^1.2.4",
         "sam-it/yii2-urlsigner": "^2.0",
         "yiisoft/yii2": "> 2 < 3",
         "yiisoft/yii2-bootstrap": "> 2",
@@ -99,7 +98,8 @@
         "codeception/lib-innerbrowser": "^1.4",
         "symplify/easy-coding-standard": "^10.2",
         "vimeo/psalm": "^4.23",
-        "herams/common": "dev-master"
+        "herams/common": "dev-master",
+        "captainhook/captainhook": "^5.11"
     },
     "repositories": [
         {
@@ -119,11 +119,11 @@
         }
     ],
     "scripts": {
-        "codeception": "docker-compose run --rm codeception",
-        "cli": "docker-compose run --rm cli",
-        "test" : "docker-compose run --rm codeception run",
+        "codeception": "docker compose run --rm codeception",
+        "cli": "docker compose run --rm cli",
+        "test" : "docker compose run --rm codeception run",
         "stan": "phpstan analyse protected --memory-limit 1024M",
-        "test-with-cc" : "docker-compose run --rm codeception run --fail-fast --coverage-html --coverage-xml"
+        "test-with-cc" : "docker compose run --rm codeception run --fail-fast --coverage-html --coverage-xml"
     },
     "config": {
         "allow-plugins": {

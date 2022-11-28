@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 
 use Carbon\Carbon;
+use herams\common\components\AuditService;
 use herams\common\components\Formatter;
 use kartik\dialog\DialogAsset;
 use kartik\dialog\DialogBootstrapAsset;
@@ -32,6 +33,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     ],
     'defaultRoute' => 'marketplace/herams',
     'components' => [
+        'auditService' => AuditService::class,
         'user' => [
             'class' => \yii\web\User::class,
             'loginUrl' => '/session/create',

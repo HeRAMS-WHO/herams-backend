@@ -11,10 +11,6 @@ use yii\validators\RegularExpressionValidator;
 
 class Element extends Model
 {
-    use SurveyHelper {
-        getAnswers as getQuestionAnswers;
-    }
-
     /**
      * @var \herams\common\domain\element\Element
      */

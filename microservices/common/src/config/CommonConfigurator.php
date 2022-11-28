@@ -11,6 +11,8 @@ use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceHydrator;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\helpers\BaseClassResolver;
+use herams\common\helpers\CommandFactory;
+use herams\common\helpers\CurrentUserIdProvider;
 use herams\common\helpers\EventDispatcherProxy;
 use herams\common\helpers\GlobalPermissionResolver;
 use herams\common\helpers\ModelHydrator;
@@ -20,7 +22,9 @@ use herams\common\helpers\StrategyActiveRecordHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\AuditServiceInterface;
+use herams\common\interfaces\CommandFactoryInterface;
 use herams\common\interfaces\ContainerConfiguratorInterface;
+use herams\common\interfaces\CurrentUserIdProviderInterface;
 use herams\common\interfaces\EnvironmentInterface;
 use herams\common\interfaces\EventDispatcherInterface;
 use herams\common\interfaces\ModelHydratorInterface;
@@ -202,7 +206,9 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                     ActiveRecordRepository::PERMISSION => ActiveRecordRepository::PERMISSION,
                 ]);
             },
-            ]);
+            CurrentUserIdProviderInterface::class => CurrentUserIdProvider::class,
+            CommandFactoryInterface::class => CommandFactory::class
+        ]);
 
         return ;
     }
