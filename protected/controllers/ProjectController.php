@@ -5,7 +5,6 @@ namespace prime\controllers;
 use herams\common\models\Permission;
 use herams\common\models\Project;
 use prime\actions\DeleteAction;
-use prime\actions\ExportAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
 use prime\controllers\project\DeleteWorkspaces;
@@ -26,8 +25,6 @@ use prime\controllers\project\Workspaces;
 use yii\filters\PageCache;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\Request;
-use yii\web\User;
 
 class ProjectController extends Controller
 {
@@ -48,20 +45,6 @@ class ProjectController extends Controller
             'export-surveyjs' => [
                 'class' => Export::class,
             ],
-            'export' => [
-                'class' => ExportAction::class,
-                'subject' => static function (Request $request) {
-                    return Project::findOne([
-                        'id' => $request->getQueryParam('id'),
-                    ]);
-                },
-                'surveyFinder' => function (Project $project) {
-                    return $project->getSurvey();
-                },
-                'checkAccess' => function (Project $project, User $user) {
-                    return $user->can(Permission::PERMISSION_EXPORT, $project);
-                },
-            ],
             'export-dashboard' => ExportDashboard::class,
             'external-dashboard' => ExternalDashboard::class,
             'filter' => Filter::class,
@@ -72,8 +55,7 @@ class ProjectController extends Controller
             'request-access' => RequestAccess::class,
             'share' => Share::class,
             'update' => Update::class,
-            'view' => View::class,
-            'view-for-survey-js' => ViewForSurveyJs::class,
+            'view' => ViewForSurveyJs::class,
             'workspaces' => Workspaces::class,
         ];
     }

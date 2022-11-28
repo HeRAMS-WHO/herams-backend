@@ -18,7 +18,8 @@ use yii\web\Application;
 use yii\web\User;
 
 /**
- * @covers \herams\common\components\AuditService
+ * @covers \herams\common\components\AuditServic
+ * @skip
  */
 class AuditServiceTest extends Unit
 {

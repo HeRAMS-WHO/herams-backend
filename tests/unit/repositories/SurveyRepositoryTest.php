@@ -9,6 +9,7 @@ use herams\common\domain\survey\Survey;
 use herams\common\domain\survey\SurveyForList;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\helpers\ModelHydrator;
+use herams\common\helpers\StrategyActiveRecordHydrator;
 use herams\common\helpers\surveyjs\FacilityTypeQuestionParser;
 use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\interfaces\AccessCheckInterface;
@@ -38,7 +39,7 @@ class SurveyRepositoryTest extends Unit
 
         $facilityTypeQuestionParser = $this->getMockBuilder(FacilityTypeQuestionParser::class)->disableOriginalConstructor()->getMock();
         $surveyParser = new SurveyParser($facilityTypeQuestionParser);
-        return new SurveyRepository($surveyParser, $accessChecker, $modelHydrator);
+        return new SurveyRepository($surveyParser, $accessChecker, new StrategyActiveRecordHydrator(), $modelHydrator);
     }
 
     private function createSurvey(array $config = []): Survey

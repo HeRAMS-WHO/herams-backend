@@ -56,8 +56,10 @@ use yii\helpers\Inflector;
  * @method static string edit(array $options = [])
  * @method static string download(array $options = [])
  * @method static string sync(array$options = [])
+ *
+ * @method static string folder(array$options = [])
  */
-class Icon
+final class Icon
 {
     public static function workspace(array $options = []): string
     {

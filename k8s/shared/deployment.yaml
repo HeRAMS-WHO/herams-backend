@@ -36,9 +36,6 @@ spec:
         - name: app
           secret:
             secretName: app
-        - name: limesurvey
-          secret:
-            secretName: limesurvey
         - name: smtp
           secret:
             secretName: smtp

@@ -38,9 +38,6 @@ spec:
         - name: app
           secret:
             secretName: app
-        - name: limesurvey
-          secret:
-            secretName: limesurvey
         - name: smtp
           secret:
             secretName: smtp
@@ -58,8 +55,6 @@ spec:
           volumeMounts:
             - name: database
               mountPath: "/run/secrets/database"
-            - name: limesurvey
-              mountPath: "/run/secrets/limesurvey"
             - name: smtp
               mountPath: "/run/secrets/smtp"
             - name: mailchimp

@@ -2,7 +2,6 @@
 
 namespace prime\models\forms;
 
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Model;
 use yii\base\UnknownMethodException;
 use yii\validators\RangeValidator;

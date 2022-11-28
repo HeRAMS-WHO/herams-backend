@@ -17,8 +17,8 @@ use yii\web\User;
  * @var View $this
  * @var FacilityForTabMenu $facility
  * @var iterable<VariableInterface> $variables
+ * @var array $dataRoute
  */
-
 $this->title = \Yii::t('app', "Admin responses");
 
 $this->beginBlock('tabs');

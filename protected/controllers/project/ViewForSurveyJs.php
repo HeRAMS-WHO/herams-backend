@@ -47,7 +47,6 @@ class ViewForSurveyJs extends Action
     ) {
         $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
-        /** @var \prime\models\ar\surveyjs\Project|null $project */
         $project = Project::find()
             ->andWhere([
                 'id' => $id,
@@ -113,37 +112,5 @@ class ViewForSurveyJs extends Action
             'page' => $page,
             'variables' => $variableSet,
         ]);
-    }
-
-    private function getTypes(SurveyInterface $survey, Project $project): array
-    {
-        \Yii::beginProfile(__FUNCTION__);
-        $question = $this->findQuestionByCode($survey, $project->getMap()->getType());
-
-        if (! isset($question)) {
-            return [];
-        }
-
-        $answers = $question->getAnswers();
-
-        $map = [];
-        foreach ($answers as $answer) {
-            $map[$answer->getCode()] = trim(preg_split('/:\(/', $answer->getText())[0]);
-        }
-
-        \Yii::endProfile(__FUNCTION__);
-        return $map;
-    }
-
-    private function findQuestionByCode(SurveyInterface $survey, string $text): ?QuestionInterface
-    {
-        foreach ($survey->getGroups() as $group) {
-            foreach ($group->getQuestions() as $question) {
-                if ($question->getTitle() === $text) {
-                    return $question;
-                }
-            }
-        }
-        return null;
     }
 }

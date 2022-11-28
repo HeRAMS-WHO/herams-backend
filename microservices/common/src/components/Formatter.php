@@ -6,7 +6,6 @@ namespace herams\common\components;
 
 use CrEOF\Geo\WKB\Parser;
 use herams\common\interfaces\LabeledEnum;
-use prime\objects\enums\Enum;
 use Ramsey\Uuid\Uuid;
 use yii\helpers\Html;
 
@@ -29,9 +28,6 @@ class Formatter extends \yii\i18n\Formatter
 
     public function asText($value): string
     {
-        if ($value instanceof Enum) {
-            return parent::asText($value->label);
-        }
         if ($value instanceof LabeledEnum) {
             return parent::asText($value->label());
         }

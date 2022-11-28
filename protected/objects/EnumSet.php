@@ -6,7 +6,6 @@ namespace prime\objects;
 
 use BackedEnum;
 use herams\common\validators\BackedEnumValidator;
-use prime\objects\enums\Enum;
 use yii\base\Arrayable;
 use yii\base\NotSupportedException;
 use function iter\map;
@@ -70,7 +69,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
     /*****************************************************************************************/
     public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
-        return toArray(map(fn (Enum|BackedEnum $enum) => $enum->value, $this->values));
+        return toArray(map(fn (BackedEnum $enum) => $enum->value, $this->values));
     }
 
     public function fields()
