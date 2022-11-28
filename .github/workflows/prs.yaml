@@ -3,14 +3,14 @@ on:
   pull_request:
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@3.0.11
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -20,7 +20,7 @@ jobs:
         id: docker-images
         run: |
           echo "::set-output name=dir::$(docker info --format '{{ .DockerRootDir}}')"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v3.0.11
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-docker
