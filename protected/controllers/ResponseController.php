@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\controllers;
 
 use prime\components\Controller;
-use prime\controllers\response\SurveyJs;
 use prime\controllers\response\View;
 
 class ResponseController extends Controller

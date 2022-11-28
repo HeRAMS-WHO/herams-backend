@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\components;
 
-use Codeception\Stub;
 use herams\common\components\AuditService;
 use herams\common\enums\AuditEvent;
 use herams\common\helpers\CommandFactory;
 use herams\common\helpers\CurrentUserIdProvider;
 use herams\common\interfaces\AuditServiceInterface;
-use herams\common\interfaces\CommandFactoryInterface;
 use herams\common\interfaces\NewAuditEntryInterface;
 use prime\helpers\EventDispatcher;
 use prime\models\ar\AccessRequest;
 use prime\models\ar\Audit;
 use prime\tests\FunctionalTester;
 use yii\db\AfterSaveEvent;
-use yii\db\Connection;
 
 /**
  * @covers \herams\common\components\AuditService

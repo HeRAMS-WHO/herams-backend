@@ -8,8 +8,6 @@ use herams\common\models\Permission;
 use herams\common\models\Project;
 use prime\exceptions\SurveyDoesNotExist;
 use prime\models\forms\ResponseFilter;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -85,6 +83,4 @@ class Pdf extends Action
 //        }
 //        return $this->controller->render('print', $params);
     }
-
-
 }
