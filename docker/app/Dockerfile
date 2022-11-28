@@ -1,5 +1,5 @@
 FROM ghcr.io/herams-who/docker/phpfpm:latest
-
+RUN apk add --no-cache dumb-init
 ADD docker/app/php-fpm.conf /
 ADD docker/app/init.sh /sbin/init.sh
 
