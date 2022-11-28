@@ -51,7 +51,7 @@ jobs:
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
       - name: Create comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number: "${{ env.PR_NUMBER }}"
           body: |
