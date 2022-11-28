@@ -62,7 +62,6 @@
             "protected/helpers/functions.php"
         ],
         "psr-4": {
-            "herams\\common\\": ["microservices\\common\\src"],
             "prime\\": [
                 "protected"
             ],
