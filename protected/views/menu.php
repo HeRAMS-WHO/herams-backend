@@ -42,11 +42,4 @@ if (\Yii::$app->user->can(\herams\common\models\Permission::PERMISSION_ADMIN)) {
         ]
     );
 }
-echo Html::a(
-    \Yii::t('app', 'Backend administration'),
-    ['/admin/limesurvey'],
-    [
-        'class' => $controller->action->uniqueId === 'admin/limesurvey' ? 'active' : null,
-    ]
-);
 SideMenu::end();

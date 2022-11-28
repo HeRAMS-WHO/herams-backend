@@ -32,9 +32,6 @@ x-env:
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       YII_ENV: $YII_ENV
-      SECRET_limesurvey/host: ${LS_HOST}
-      SECRET_limesurvey/username: ${LS_USER}
-      SECRET_limesurvey/password: ${LS_PASS}
       SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
       SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
       SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
@@ -98,11 +95,6 @@ services:
       SECRET_app/sso_private_key: ${LS_PRIV_KEY}
       SECRET_app/url_signer_secret: secret
       YII_ENV: $YII_ENV
-      SECRET_limesurvey/host: ${LS_HOST}
-      SECRET_limesurvey/password: ${LS_PASS}
-      SECRET_limesurvey/username: ${LS_USER}
-      SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
-
       SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
       SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
       SECRET_mailchimp/tag: ${MAILCHIMP_TAG}

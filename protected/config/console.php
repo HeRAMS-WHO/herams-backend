@@ -20,18 +20,6 @@ $config = yii\helpers\ArrayHelper::merge(include(__DIR__ . '/common.php'), [
     ],
     'components' => [
         'auditService' => \prime\helpers\AuditServiceProxy::class,
-        // In console mode never read from the LS cache, this forces the data to be refreshed.
-        'limesurveyCache' => function () {
-            $result = new class([
-                'cachePath' => '@runtime/limesurveyCache',
-            ]) extends \yii\caching\FileCache {
-                protected function getValue($key)
-                {
-                    return false;
-                }
-            };
-            return $result;
-        },
     ],
 ]);
 

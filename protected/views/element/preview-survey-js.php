@@ -7,14 +7,12 @@ use herams\common\values\FacilityId;
 use prime\components\View;
 use prime\helpers\CombinedHeramsFacilityRecord;
 use prime\interfaces\HeramsFacilityRecordInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use function iter\flatten;
 use function iter\map;
 
 /**
  * @var \prime\models\forms\element\Chart $element
  * @var View $this
- * @var SurveyInterface $survey
  * @var \prime\helpers\HeramsVariableSet $variableSet
  * @var iterable<Facility> $facilities
  */

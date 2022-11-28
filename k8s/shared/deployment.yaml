@@ -64,8 +64,6 @@ spec:
               mountPath: "/run/config"
             - name: database
               mountPath: "/run/secrets/database"
-            - name: limesurvey
-              mountPath: "/run/secrets/limesurvey"
             - name: mailchimp
               mountPath: "/run/secrets/mailchimp"
             - name: smtp

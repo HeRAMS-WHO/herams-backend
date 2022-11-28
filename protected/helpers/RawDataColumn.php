@@ -6,7 +6,6 @@ namespace prime\helpers;
 
 use herams\common\interfaces\HeramsResponseInterface;
 use prime\interfaces\ColumnDefinition;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use function iter\map;
 use function iter\toArray;
 

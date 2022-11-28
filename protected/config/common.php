@@ -79,12 +79,6 @@ return [
             assert($user === \Yii::$app->user);
             return new \herams\common\services\UserAccessCheck($user);
         },
-
-
-        'limesurveyCache' => [
-            'class' => \yii\caching\FileCache::class,
-            'cachePath' => '@runtime/limesurveyCache',
-        ],
         'cache' => [
             'class' => \yii\caching\CacheInterface::class,
         ],
@@ -164,10 +158,8 @@ return [
             'icons.open' => 'play',
             'icons.remove' => 'trash',
             'icons.request' => 'forward',
-            'icons.limeSurveyUpdate' => 'pencil',
             'icons.requestAccess' => 'info-sign',
         ],
-        'responseSubmissionKey' => $env->getWrappedSecret('limesurvey/response_submission_key'),
 
     ],
 ];

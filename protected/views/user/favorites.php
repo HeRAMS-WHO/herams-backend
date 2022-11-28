@@ -56,7 +56,7 @@ echo GridView::widget([
             'label' => 'Workspace',
             'link' => static function (Workspace $workspace) {
                 return [
-                    'workspace/limesurvey',
+                    'workspace/responses',
                     'id' => $workspace->id,
                 ];
             },

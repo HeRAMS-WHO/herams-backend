@@ -38,11 +38,6 @@ echo TabMenu::widget([
             'url' => ['admin/share'],
             'title' => \Yii::t('app', 'Global permissions'),
         ],
-        [
-            'permission' => Permission::PERMISSION_ADMIN,
-            'url' => ['admin/limesurvey'],
-            'title' => \Yii::t('app', 'Backend administration'),
-        ],
     ],
 ]);
 $this->endBlock();
