@@ -19,8 +19,6 @@ use prime\interfaces\HeramsFacilityRecordInterface;
 use prime\models\ar\read\Project;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\repositories\PreloadingSourceRepository;
-use SamIT\LimeSurvey\Interfaces\QuestionInterface;
-use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

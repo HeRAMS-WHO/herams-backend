@@ -19,7 +19,6 @@ use prime\controllers\project\Pdf;
 use prime\controllers\project\RequestAccess;
 use prime\controllers\project\Share;
 use prime\controllers\project\Update;
-use prime\controllers\project\View;
 use prime\controllers\project\ViewForSurveyJs;
 use prime\controllers\project\Workspaces;
 use yii\filters\PageCache;
