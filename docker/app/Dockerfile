@@ -4,6 +4,7 @@ ADD docker/app/php-fpm.conf /
 ADD docker/app/init.sh /sbin/init.sh
 
 ADD protected /project/protected
+ADD microservices /project/microservices
 ADD public /project/public
 ADD vendor /project/vendor
 ADD node_modules /project/public/node_modules
