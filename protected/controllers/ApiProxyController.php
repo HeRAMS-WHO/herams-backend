@@ -6,12 +6,31 @@ namespace prime\controllers;
 
 use herams\common\values\UserId;
 use prime\components\ApiProxy;
-use prime\components\Controller;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Response;
 
-class ApiProxyController extends Controller
+final class ApiProxyController extends Controller
 {
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
+            ]
+        ];
+    }
     public function beforeAction($action): bool
     {
 //        foreach(\Yii::$app->log->targets as $target){
