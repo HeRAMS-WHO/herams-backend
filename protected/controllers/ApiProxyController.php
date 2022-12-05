@@ -18,17 +18,15 @@ final class ApiProxyController extends Controller
     public function behaviors(): array
     {
         return [
-            [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['@'],
-                        ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
-            ]
+            ],
         ];
     }
     public function beforeAction($action): bool
