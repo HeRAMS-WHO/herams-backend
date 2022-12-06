@@ -43,6 +43,7 @@ use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
 use yii\caching\CacheInterface;
 use yii\caching\FileCache;
+use yii\db\Connection;
 use yii\di\Container;
 use yii\web\UrlRule;
 
@@ -51,6 +52,17 @@ class CommonConfigurator implements ContainerConfiguratorInterface
 
     public function configure(EnvironmentInterface $environment, Container $container): void
     {
+        $container->set(Connection::class, [
+            'charset' => 'utf8mb4',
+            'dsn' => "mysql:host={$environment->get('database/host')};port={$environment->getWithDefault('database/port', "3306")};dbname={$environment->get('database/name')}",
+            'password' => $environment->getWrappedSecret('database/password'),
+            'username' => $environment->getWrappedSecret('database/username'),
+            'enableSchemaCache' => ! YII_DEBUG,
+            'schemaCache' => 'cache',
+            'enableQueryCache' => true,
+            'queryCache' => 'cache',
+            'tablePrefix' => 'prime2_',
+        ]);
         $container->set('apiUrlManager', [
             'class' => \yii\web\UrlManager::class,
             'cache' => false,

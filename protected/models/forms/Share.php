@@ -16,7 +16,6 @@ use prime\components\ActiveForm;
 use prime\exceptions\NoGrantablePermissions;
 use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\FormButtonsWidget;
-use prime\widgets\PermissionColumn\PermissionColumn;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
@@ -221,18 +220,6 @@ class Share extends Model
 
     public function renderTable(string $deleteAction = '/permission/delete')
     {
-        $target = $this->resolver->fromSubject($this->model);
-        $columns = [];
-        foreach ($this->permissionOptions as $permission => $label) {
-            $columns[] = [
-                'class' => PermissionColumn::class,
-                'permission' => $permission,
-                'target' => $target,
-                'label' => $label,
-                'attribute' => "permissions.{$permission}",
-            ];
-        }
-
         $target = $this->resolver->fromSubject($this->model);
         $route = $this->model instanceof Workspace ? '/api/workspace/permissions' : '/api/project/permissions';
         return AgGrid::widget([

@@ -21,7 +21,8 @@ spec:
             name: app-service
             port:
               number: 80
-        pathType: ImplementationSpecific
+        pathType: Prefix
+        path: /
   - host: weblate.herams-staging.org
     http:
       paths:
@@ -30,7 +31,8 @@ spec:
               name: weblate-service
               port:
                 number: 80
-          pathType: ImplementationSpecific
+          pathType: Prefix
+          path: /
   - host: herams-staging.org
     http:
       paths:
@@ -39,4 +41,5 @@ spec:
             name: app-service
             port:
               number: 80
-        pathType: ImplementationSpecific
+        pathType: Prefix
+        path: /

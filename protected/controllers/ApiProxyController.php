@@ -7,14 +7,12 @@ namespace prime\controllers;
 use herams\common\values\UserId;
 use prime\components\ApiProxy;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Response;
 
 final class ApiProxyController extends Controller
 {
-
     public function behaviors(): array
     {
         return [
@@ -29,6 +27,7 @@ final class ApiProxyController extends Controller
             ],
         ];
     }
+
     public function beforeAction($action): bool
     {
 //        foreach(\Yii::$app->log->targets as $target){

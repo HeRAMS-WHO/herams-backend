@@ -33,7 +33,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
         'id' => 'herams-api',
         'name' => 'HeRAMS API',
         'basePath' => realpath(__DIR__ . '/../'),
-        'runtimePath' => $env->get('RUNTIME_PATH', '/tmp'),
+        'runtimePath' => $env->getWithDefault('RUNTIME_PATH', '/tmp'),
         'timeZone' => 'UTC',
         'vendorPath' => '@app/../vendor',
         'sourceLanguage' => 'en',
@@ -87,18 +87,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
 //            'class' => \herams\api\components\DummyAssetManager::class
 //
 //        ],
-            'db' => [
-                'class' => \yii\db\Connection::class,
-                'charset' => 'utf8mb4',
-                'dsn' => $env->getWrappedSecret('database/dsn'),
-                'password' => $env->getWrappedSecret('database/password'),
-                'username' => $env->getWrappedSecret('database/username'),
-                'enableSchemaCache' => ! YII_DEBUG,
-                'schemaCache' => 'cache',
-                'enableQueryCache' => true,
-                'queryCache' => 'cache',
-                'tablePrefix' => 'prime2_',
-            ],
+            'db' => \yii\db\Connection::class,
             'urlSigner' => [
                 'class' => UrlSigner::class,
                 'secret' => $env->getSecret('app/url_signer_secret'),
@@ -164,7 +153,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
                 'class' => Mailer::class,
                 'messageConfig' => [
                     'from' => [
-                        $env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support',
+                        $env->getWithDefault('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support',
                     ],
                 ],
                 'transport' => [

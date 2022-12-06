@@ -24,7 +24,7 @@ return [
     'id' => 'herams',
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
-    'runtimePath' => $env->get('RUNTIME_PATH', '/tmp'),
+    'runtimePath' => $env->getWithDefault('RUNTIME_PATH', '/tmp'),
     'timeZone' => 'UTC',
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en-US',
@@ -41,18 +41,7 @@ return [
         'log',
     ],
     'components' => [
-        'db' => [
-            'class' => \yii\db\Connection::class,
-            'charset' => 'utf8mb4',
-            'dsn' => $env->getWrappedSecret('database/dsn'),
-            'password' => $env->getWrappedSecret('database/password'),
-            'username' => $env->getWrappedSecret('database/username'),
-            'enableSchemaCache' => ! YII_DEBUG,
-            'schemaCache' => 'cache',
-            'enableQueryCache' => true,
-            'queryCache' => 'cache',
-            'tablePrefix' => 'prime2_',
-        ],
+        'db' => \yii\db\Connection::class,
         'urlSigner' => static function () use ($env): UrlSigner {
             // Use a closure to allow lazy secret loading
             return \Yii::createObject([

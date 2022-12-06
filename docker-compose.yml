@@ -28,7 +28,6 @@ x-env:
       - /tmp:rw,noexec,nosuid,uid=${UID-0}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment:
-      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       YII_ENV: $YII_ENV
@@ -37,7 +36,6 @@ x-env:
       SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
       RUNTIME_PATH: /runtime
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
-      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       PRIVATE_KEY_FILE: /project/local/testkey
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
@@ -55,7 +53,8 @@ x-env:
 services:
   api:
     environment:
-      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      database/name: ${DB_NAME}
+      database/host: devdb
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       SECRET_app/cookie_validation_key: secret
@@ -65,8 +64,6 @@ services:
       SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
       SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
       RUNTIME_PATH: /run
-      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
-      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
       SECRET_smtp/encryption: ''
@@ -88,7 +85,8 @@ services:
       - devproxy2
       - default
     environment:
-      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      database/name: ${DB_NAME}
+      database/host: devdb
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       SECRET_app/cookie_validation_key: secret
@@ -100,7 +98,6 @@ services:
       SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
       RUNTIME_PATH: /run
       RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
-      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
       SECRET_smtp/encryption: ''
@@ -228,7 +225,8 @@ services:
     ]
     command: "run"
     environment:
-      SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=${DB_NAME}"
+      database/name: ${DB_NAME}
+      database/host: testdb
       SECRET_database/username: $DB_USER
       SECRET_database/password: $DB_PASS
       YII_ENV: $YII_ENV

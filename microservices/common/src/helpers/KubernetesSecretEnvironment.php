@@ -32,9 +32,9 @@ class KubernetesSecretEnvironment implements EnvironmentInterface
         return [];
     }
 
-    public function get(string $name, $default = null)
+    public function get(string $name): string
     {
-        return $this->data[$name] ?? getenv($name) ?: $default;
+        return $this->data[$name];
     }
 
     public function getSecret(string $name): string
@@ -55,5 +55,13 @@ class KubernetesSecretEnvironment implements EnvironmentInterface
     public function getWrappedSecret($name): Secret
     {
         return new Secret($this, $name);
+    }
+
+    public function getWithDefault(string $name, string $default): string
+    {
+        if (isset($this->data[$name]) && $this->data[$name] !== "") {
+            return $this->data[$name];
+        }
+        return $default;
     }
 }
