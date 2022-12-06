@@ -133,9 +133,9 @@ spec:
           image: ghcr.io/herams-who/herams-backend/app:latest
           imagePullPolicy: Always
           env:
-            - name: database/host
+            - name: database_host
               value: "<?= env('DEPLOYMENT_NAME') ?>-service"
-            - name: database/name
+            - name: database_name
               value: "preview"
           volumeMounts:
             - name: database

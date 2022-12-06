@@ -54,7 +54,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
     {
         $container->set(Connection::class, [
             'charset' => 'utf8mb4',
-            'dsn' => "mysql:host={$environment->get('database/host')};port={$environment->getWithDefault('database/port', "3306")};dbname={$environment->get('database/name')}",
+            'dsn' => "mysql:host={$environment->get('database_host')};port={$environment->getWithDefault('database_port', "3306")};dbname={$environment->get('database_name')}",
             'password' => $environment->getWrappedSecret('database/password'),
             'username' => $environment->getWrappedSecret('database/username'),
             'enableSchemaCache' => ! YII_DEBUG,

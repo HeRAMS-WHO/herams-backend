@@ -53,8 +53,8 @@ x-env:
 services:
   api:
     environment:
-      database/name: ${DB_NAME}
-      database/host: devdb
+      database_name: ${DB_NAME}
+      database_host: devdb
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       SECRET_app/cookie_validation_key: secret
@@ -85,8 +85,8 @@ services:
       - devproxy2
       - default
     environment:
-      database/name: ${DB_NAME}
-      database/host: devdb
+      database_name: ${DB_NAME}
+      database_host: devdb
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       SECRET_app/cookie_validation_key: secret
@@ -225,8 +225,8 @@ services:
     ]
     command: "run"
     environment:
-      database/name: ${DB_NAME}
-      database/host: testdb
+      database_name: ${DB_NAME}
+      database_host: testdb
       SECRET_database/username: $DB_USER
       SECRET_database/password: $DB_PASS
       YII_ENV: $YII_ENV
