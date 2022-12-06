@@ -96,3 +96,37 @@ jobs:
             INCLUDE_DATABASE_SEED=${{ needs.precondition.outputs.hasmigrations }}
           tags: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
+  build-api:
+    name: Build API container
+    needs: [precondition]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Composer cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - run: composer install --ignore-platform-reqs
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3.2.0
+        with:
+          push: true
+          context: .
+          file: docker/api/Dockerfile
+          build-args: |
+            COMMIT_SHA=${{ github.sha }}
+          tags: |
+            ghcr.io/herams-who/herams-backend/api:${{ github.sha }}

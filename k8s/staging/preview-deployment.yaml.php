@@ -15,6 +15,20 @@ spec:
   selector:
     app: "<?= env('DEPLOYMENT_NAME') ?>"
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "<?= env('DEPLOYMENT_NAME') ?>-api"
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: "<?= env('DEPLOYMENT_NAME') ?>-api"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,7 +47,7 @@ spec:
         fsGroup: 65534
       volumes:
         # Create the shared files volume to be used in both pods
-        - name: shared-files
+        - name: shared
           emptyDir: {}
         - name: database
           secret:
@@ -63,11 +77,12 @@ spec:
               mountPath: "/run/secrets/mailchimp"
             - name: app
               mountPath: "/run/secrets/app"
+            - name: shared
+              mountPath: /shared
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
         - name: nginx
           image: ghcr.io/herams-who/docker/nginx:latest
-          command: ["nginx", "-g", "daemon off;", "-c", "/config/nginx.conf"]
           livenessProbe:
             httpGet:
               path: /status
@@ -75,8 +90,8 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: nginx-config-volume
-              mountPath: /config
+            - name: shared
+              mountPath: /shared
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -96,6 +111,8 @@ spec:
         fsGroup: 65534
       volumes:
         # Create the shared files volume to be used in both pods
+        - name: shared
+          emptyDir: { }
         - name: shared-files
           emptyDir: {}
         - name: database-seed
@@ -112,9 +129,6 @@ spec:
         - name: mailchimp
           secret:
             secretName: mailchimp
-        - name: nginx-config-volume
-          configMap:
-            name: nginx-config
       containers:
         - name: api
           image: ghcr.io/herams-who/herams-backend/app:latest
@@ -148,6 +162,8 @@ spec:
               mountPath: "/run/secrets/app"
             - name: shared-files
               mountPath: /var/www/html
+            - name: shared
+              mountPath: /shared
 <?php if (env('NEEDS_DATABASE') == "true") : ?>
             - name: database-seed
               mountPath: /database-seed
@@ -156,7 +172,6 @@ spec:
         # along with the files shared with the PHP-FPM app.
         - name: nginx
           image: ghcr.io/herams-who/docker/nginx:latest
-          command: ["nginx", "-g", "daemon off;", "-c", "/config/nginx.conf"]
           livenessProbe:
             httpGet:
               path: /status
@@ -166,8 +181,8 @@ spec:
           volumeMounts:
             - name: shared-files
               mountPath: /var/www/html
-            - name: nginx-config-volume
-              mountPath: /config
+            - name: shared
+              mountPath: /shared
 <?php if (env('NEEDS_DATABASE') == "true") : ?>
         - name: mysql
           image: mysql
@@ -220,9 +235,17 @@ spec:
     - host: "<?= env('DEPLOYMENT_NAME') ?>.herams-staging.org"
       http:
         paths:
+          - api:
+                service:
+                  name: "<?= env('DEPLOYMENT_NAME') ?>-api"
+                  port:
+                    number: 80
+              path: /api
+              pathType: Prefix
           - backend:
               service:
                 name: "<?= env('DEPLOYMENT_NAME') ?>-service"
                 port:
                   number: 80
-            pathType: ImplementationSpecific
+            path: /
+            pathType: Prefix
