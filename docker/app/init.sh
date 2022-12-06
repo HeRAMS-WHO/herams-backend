@@ -8,7 +8,7 @@ ln -s /var/www/html/assets /project/public/assets
 touch /run/env.json
 chown nobody:nobody /run/env.json
 env
-jq -s 'env+add' > /run/env.json
+jq -n -s 'env' > /run/env.json
 
 # Check if we need to seed a database with SQL files.
 if [ -d "/database-seed" ]; then

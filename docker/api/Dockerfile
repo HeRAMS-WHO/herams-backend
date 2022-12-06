@@ -3,15 +3,10 @@ RUN apk add --no-cache dumb-init jq
 ADD docker/api/php-fpm.conf /
 ADD docker/api/init.sh /sbin/init.sh
 
-ADD microservices /project/microservices
-ADD public /project/public
-ADD vendor /project/vendor
-ADD node_modules /project/public/node_modules
-
-ADD tests/_data/db /database
-ARG INCLUDE_DATABASE_SEED
-RUN sh -c '[ "${INCLUDE_DATABASE_SEED}" == "true" ] || rm -rf /database'
+ADD microservices /project
+RUN mkdir -p /project/public && ln -s /project/api/src/index.php /project/public/index.php
 RUN mkdir -p /run && chown nobody:nobody /run
+RUN mkdir -p /shared && chown nobody:nobody /shared
 ARG COMMIT_SHA
 RUN echo "${COMMIT_SHA}" > /run/commit_sha
 
