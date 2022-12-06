@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "<?= env('DEPLOYMENT_NAME') ?>-service"
+  name: "<?= getenv('DEPLOYMENT_NAME') ?>-service"
 spec:
   type: ClusterIP
   ports:
@@ -13,12 +13,12 @@ spec:
       name: database
       targetPort: 3306
   selector:
-    app: "<?= env('DEPLOYMENT_NAME') ?>"
+    app: "<?= getenv('DEPLOYMENT_NAME') ?>"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: "<?= env('DEPLOYMENT_NAME') ?>-api"
+  name: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
 spec:
   type: ClusterIP
   ports:
@@ -27,21 +27,21 @@ spec:
       port: 80
       targetPort: 80
   selector:
-    app: "<?= env('DEPLOYMENT_NAME') ?>-api"
+    app: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "<?= env('DEPLOYMENT_NAME') ?>-api"
+  name: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "<?= env('DEPLOYMENT_NAME') ?>-api"
+      app: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
   template:
     metadata:
       labels:
-        app: "<?= env('DEPLOYMENT_NAME') ?>-api"
+        app: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
     spec:
       securityContext:
         fsGroup: 65534
@@ -51,7 +51,7 @@ spec:
           emptyDir: {}
         - name: database
           secret:
-            secretName: "<?= env('NEEDS_DATABASE') == "true" ? 'database-preview' : 'database' ?>"
+            secretName: "<?= getenv('NEEDS_DATABASE') == "true" ? 'database-preview' : 'database' ?>"
         - name: app
           secret:
             secretName: app
@@ -96,16 +96,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "<?= env('DEPLOYMENT_NAME') ?>"
+  name: "<?= getenv('DEPLOYMENT_NAME') ?>"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "<?= env('DEPLOYMENT_NAME') ?>"
+      app: "<?= getenv('DEPLOYMENT_NAME') ?>"
   template:
     metadata:
       labels:
-        app: "<?= env('DEPLOYMENT_NAME') ?>"
+        app: "<?= getenv('DEPLOYMENT_NAME') ?>"
     spec:
       securityContext:
         fsGroup: 65534
@@ -119,7 +119,7 @@ spec:
           emptyDir: {}
         - name: database
           secret:
-            secretName: "<?= env('NEEDS_DATABASE') == 'true' ? 'database-preview' : 'database' ?>"
+            secretName: "<?= getenv('NEEDS_DATABASE') == 'true' ? 'database-preview' : 'database' ?>"
         - name: app
           secret:
             secretName: app
@@ -148,7 +148,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: database_host
-              value: "<?= env('DEPLOYMENT_NAME') ?>-service"
+              value: "<?= getenv('DEPLOYMENT_NAME') ?>-service"
             - name: database_name
               value: "preview"
           volumeMounts:
@@ -164,7 +164,7 @@ spec:
               mountPath: /var/www/html
             - name: shared
               mountPath: /shared
-<?php if (env('NEEDS_DATABASE') == "true") : ?>
+<?php if (getenv('NEEDS_DATABASE') == "true") : ?>
             - name: database-seed
               mountPath: /database-seed
 <?php endif; ?>
@@ -183,7 +183,7 @@ spec:
               mountPath: /var/www/html
             - name: shared
               mountPath: /shared
-<?php if (env('NEEDS_DATABASE') == "true") : ?>
+<?php if (getenv('NEEDS_DATABASE') == "true") : ?>
         - name: mysql
           image: mysql
           command:
@@ -197,7 +197,7 @@ spec:
           env:
             # this is here to force recreation of the database on every commit
             - name: COMMIT_SHA
-              value: "<?= env('COMMIT_SHA') ?>"
+              value: "<?= getenv('COMMIT_SHA') ?>"
             - name: MYSQL_DATABASE
               value: preview
             - name: MYSQL_RANDOM_ROOT_PASSWORD
@@ -220,7 +220,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: <?= env('DEPLOYMENT_NAME') ?>-ingress
+  name: <?= getenv('DEPLOYMENT_NAME') ?>-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -232,19 +232,19 @@ spec:
       - herams-staging.org
       secretName: herams-staging.tls
   rules:
-    - host: "<?= env('DEPLOYMENT_NAME') ?>.herams-staging.org"
+    - host: "<?= getenv('DEPLOYMENT_NAME') ?>.herams-staging.org"
       http:
         paths:
           - api:
                 service:
-                  name: "<?= env('DEPLOYMENT_NAME') ?>-api"
+                  name: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
                   port:
                     number: 80
               path: /api
               pathType: Prefix
           - backend:
               service:
-                name: "<?= env('DEPLOYMENT_NAME') ?>-service"
+                name: "<?= getenv('DEPLOYMENT_NAME') ?>-service"
                 port:
                   number: 80
             path: /
