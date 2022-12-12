@@ -46,7 +46,7 @@ spec:
       securityContext:
         fsGroup: 65534
       volumes:
-        # Create the shared files volume to be used in both pods
+        # Create the shared files volume to be used in both containers
         - name: shared
           emptyDir: {}
         - name: database
@@ -68,6 +68,11 @@ spec:
         - name: api
           image: ghcr.io/herams-who/herams-backend/app:latest
           imagePullPolicy: Always
+          env:
+            - name: database_host
+              value: "<?= getenv('DEPLOYMENT_NAME') ?>-service"
+            - name: database_name
+              value: "preview"
           volumeMounts:
             - name: database
               mountPath: "/run/secrets/database"
@@ -110,7 +115,7 @@ spec:
       securityContext:
         fsGroup: 65534
       volumes:
-        # Create the shared files volume to be used in both pods
+        # Create the shared files volume to be used in both containers
         - name: shared
           emptyDir: { }
         - name: shared-files
@@ -130,19 +135,6 @@ spec:
           secret:
             secretName: mailchimp
       containers:
-        - name: api
-          image: ghcr.io/herams-who/herams-backend/app:latest
-          imagePullPolicy: Always
-          volumeMounts:
-            - name: database
-              mountPath: "/run/secrets/database"
-            - name: smtp
-              mountPath: "/run/secrets/smtp"
-            - name: mailchimp
-              mountPath: "/run/secrets/mailchimp"
-            - name: app
-              mountPath: "/run/secrets/app"
-        # Our PHP-FPM application
         - name: app
           image: ghcr.io/herams-who/herams-backend/app:latest
           imagePullPolicy: Always
