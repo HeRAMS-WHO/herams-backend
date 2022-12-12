@@ -66,7 +66,7 @@ spec:
             name: nginx-config
       containers:
         - name: api
-          image: ghcr.io/herams-who/herams-backend/app:latest
+          image: ghcr.io/herams-who/herams-backend/api:latest
           imagePullPolicy: Always
           env:
             - name: database_host
@@ -87,7 +87,7 @@ spec:
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
         - name: nginx
-          image: ghcr.io/herams-who/docker/nginx:latest
+          image: ghcr.io/herams-who/docker/nginx-api:latest
           livenessProbe:
             httpGet:
               path: /health/status
@@ -134,6 +134,10 @@ spec:
         - name: mailchimp
           secret:
             secretName: mailchimp
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config
+
       containers:
         - name: app
           image: ghcr.io/herams-who/herams-backend/app:latest
@@ -164,6 +168,7 @@ spec:
         # along with the files shared with the PHP-FPM app.
         - name: nginx
           image: ghcr.io/herams-who/docker/nginx:latest
+          command: ["nginx", "-g", "daemon off;", "-c", "/config/nginx.conf"]
           livenessProbe:
             httpGet:
               path: /status
@@ -175,6 +180,8 @@ spec:
               mountPath: /var/www/html
             - name: shared
               mountPath: /shared
+            - name: nginx-config-volume
+              mountPath: /config
 <?php if (getenv('NEEDS_DATABASE') == "true") : ?>
         - name: mysql
           image: mysql
