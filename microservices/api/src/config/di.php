@@ -14,6 +14,7 @@ return function(\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Con
 
 
     $container->set(\yii\filters\auth\CompositeAuth::class, [
+        'optional' => ['health/*'],
         'authMethods' => [
             \herams\api\components\JwtAuth::class
         ],

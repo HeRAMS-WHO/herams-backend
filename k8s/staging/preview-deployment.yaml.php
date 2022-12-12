@@ -90,7 +90,7 @@ spec:
           image: ghcr.io/herams-who/docker/nginx:latest
           livenessProbe:
             httpGet:
-              path: /status
+              path: /health/status
               port: 80
           ports:
             - containerPort: 80
@@ -227,13 +227,13 @@ spec:
     - host: "<?= getenv('DEPLOYMENT_NAME') ?>.herams-staging.org"
       http:
         paths:
-          - api:
-                service:
-                  name: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
-                  port:
-                    number: 80
-              path: /api
-              pathType: Prefix
+          - backend:
+              service:
+                name: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
+                port:
+                  number: 80
+            path: /api
+            pathType: Prefix
           - backend:
               service:
                 name: "<?= getenv('DEPLOYMENT_NAME') ?>-service"
