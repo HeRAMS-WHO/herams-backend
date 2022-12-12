@@ -29,6 +29,8 @@ spec:
       volumes:
         # Create the shared files volume to be used in both pods
         - name: shared-files
+          emptyDir: { }
+        - name: web-assets
           emptyDir: {}
         - name: database
           secret:
@@ -70,8 +72,11 @@ spec:
             - name: phpfpm-config-volume
               mountPath: "/php-fpm.conf"
               subPath: "php-fpm.conf"
-            - name: shared-files
+            - name: web-assets
               mountPath: /var/www/html
+            - name: shared-files
+              mountPath: /shared
+
 
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
@@ -85,7 +90,9 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: shared-files
+            - name: web-assets
               mountPath: /var/www/html
+            - name: shared-files
+              mountPath: /shared
             - name: nginx-config-volume
               mountPath: /config
