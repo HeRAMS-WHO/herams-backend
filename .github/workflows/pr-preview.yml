@@ -50,6 +50,7 @@ jobs:
             k8s/staging/preview-deployment.yaml
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
+            ghcr.io/herams-who/herams-backend/api:${{ github.sha }}
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
