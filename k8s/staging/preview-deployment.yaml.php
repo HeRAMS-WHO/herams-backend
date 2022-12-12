@@ -90,7 +90,7 @@ spec:
           image: ghcr.io/herams-who/docker/nginx-api:latest
           livenessProbe:
             httpGet:
-              path: /health/status
+              path: /status
               port: 80
           ports:
             - containerPort: 80
