@@ -14,12 +14,12 @@ class DashboardElementUiBundle extends AssetBundle
      * We don't include the actual JS, it is imported when needed.
      * @var \string[][]
      */
-//    public $js = [
-//        [
-//            'dashboard-element-ui.es.js',
-//            'type' => 'module'
-//        ]
-//    ];
+    //    public $js = [
+    //        [
+    //            'dashboard-element-ui.es.js',
+    //            'type' => 'module'
+    //        ]
+    //    ];
 
     public function getImport(string $alias): string
     {

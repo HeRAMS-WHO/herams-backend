@@ -70,11 +70,11 @@ echo Html::beginTag('div', [
     'class' => 'status',
     'title' => $status,
 ]);
-    echo Icon::recycling() . ' ';
-    echo \Yii::t('app', 'Latest update') . ': ';
-    echo Html::tag('span', $status, [
-        'class' => 'value',
-    ]);
+echo Icon::recycling() . ' ';
+echo \Yii::t('app', 'Latest update') . ': ';
+echo Html::tag('span', $status, [
+    'class' => 'value',
+]);
 echo Html::endTag('div');
 
 echo Html::a(Icon::chevronLeft(), '#', [

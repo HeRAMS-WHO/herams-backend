@@ -14,7 +14,7 @@ use herams\common\interfaces\LabeledEnum;
  * @method static self fullyDamaged()
  * @method static self notRelevant()
  */
-enum FacilityCondition:string implements LabeledEnum
+enum FacilityCondition: string implements LabeledEnum
 {
     case Unknown = 'unknown';
     case NotDamaged = 'A1';

@@ -15,8 +15,9 @@ class MigrationHelper
 {
     use SchemaBuilderTrait;
 
-    public function __construct(private Migration $migration)
-    {
+    public function __construct(
+        private Migration $migration
+    ) {
     }
 
     public function changeColumnFromDatetimeToInt(string $table, string $column): void

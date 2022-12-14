@@ -34,7 +34,7 @@ $this->endBlock();
 
 Section::begin()
     ->withSubject($workspaceId)
-    ;
+;
 
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())

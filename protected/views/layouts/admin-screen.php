@@ -30,7 +30,7 @@ $this->registerAssetBundle(AdminBundle::class);
 
     <?php
     $this->head();
-    ?>
+?>
 </head>
 
 

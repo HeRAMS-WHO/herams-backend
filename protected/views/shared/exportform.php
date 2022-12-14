@@ -9,7 +9,6 @@ use yii\helpers\Html;
 
 /**
  * @var \prime\models\forms\Export $model
- * @var
  */
 $form = ActiveForm::begin([
     'id' => 'export',

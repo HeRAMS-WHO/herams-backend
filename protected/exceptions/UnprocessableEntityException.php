@@ -9,8 +9,9 @@ use yii\web\UnprocessableEntityHttpException;
 
 class UnprocessableEntityException extends UnprocessableEntityHttpException
 {
-    public function __construct(private readonly Model $model)
-    {
+    public function __construct(
+        private readonly Model $model
+    ) {
         parent::__construct();
     }
 

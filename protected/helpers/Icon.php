@@ -86,7 +86,6 @@ final class Icon
     private static $registeredIcons = [];
 
     /**
-     * @param $name
      * @return string
      * @todo Load symbol definitions in head instead of just before use.
      */

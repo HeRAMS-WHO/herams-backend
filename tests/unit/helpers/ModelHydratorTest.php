@@ -209,8 +209,9 @@ class ModelHydratorTest extends Unit
             'integerProperty' => 'abc',
         ]);
         $type = new class(null) {
-            public function __construct(public int|null $integerProperty)
-            {
+            public function __construct(
+                public int|null $integerProperty
+            ) {
             }
         };
         $this->expectException(\Exception::class);
@@ -223,8 +224,9 @@ class ModelHydratorTest extends Unit
             'floatProperty' => 'abc',
         ]);
         $type = new class(null) {
-            public function __construct(public float|null $floatProperty)
-            {
+            public function __construct(
+                public float|null $floatProperty
+            ) {
             }
         };
         $this->expectException(\Exception::class);

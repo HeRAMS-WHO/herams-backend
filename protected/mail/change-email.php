@@ -16,5 +16,5 @@ if (empty($message->getSubject())) {
 }
 
 ?>
-Please click <?=Html::a('here', $url) ?> to confirm your new email address.
+Please click <?= Html::a('here', $url) ?> to confirm your new email address.
 

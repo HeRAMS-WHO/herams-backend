@@ -9,8 +9,9 @@ use yii\web\UrlRuleInterface;
 
 class ApiRewriteRule implements UrlRuleInterface
 {
-    public function __construct(private UrlManager $apiUrlManager)
-    {
+    public function __construct(
+        private UrlManager $apiUrlManager
+    ) {
     }
 
     public function parseRequest($manager, $request): bool
@@ -21,7 +22,6 @@ class ApiRewriteRule implements UrlRuleInterface
     public function createUrl($manager, $route, $params)
     {
         if (str_starts_with($route, 'api/')) {
-
             // Strip prefix
             $route = substr($route, 4);
 

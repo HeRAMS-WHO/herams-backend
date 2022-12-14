@@ -46,5 +46,5 @@ $this->params['subMenu']['items'] = [];
             ],
         ],
     ]);
-    ?>
+?>
 </div>

@@ -67,7 +67,7 @@ class PageTest extends ActiveRecordTest
 
     public function testImportInvalid()
     {
-//        $this->tester
-//            ->ski
+        //        $this->tester
+        //            ->ski
     }
 }

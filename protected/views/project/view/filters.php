@@ -30,31 +30,31 @@ echo Html::beginForm([
 <div class="count">
     <?php
     echo Icon::healthFacility();
-    echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
-    echo Html::tag('em', count($data));
-    ?>
+echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
+echo Html::tag('em', count($data));
+?>
 </div>
 <div class="count">
     <?php
-    echo Icon::contributors();
-    echo Html::tag('span', \Yii::t('app', 'Contributors'));
-    echo Html::tag('em', $project->contributorCount);
-    ?>
+echo Icon::contributors();
+echo Html::tag('span', \Yii::t('app', 'Contributors'));
+echo Html::tag('em', $project->contributorCount);
+?>
 </div>
 <div class="count">
     <?php
-    echo Icon::recycling();
-    echo Html::tag('span', \Yii::t('app', 'Latest update'));
-    /** @var HeramsResponseInterface $heramsResponse */
-    $lastUpdate = null;
-    foreach ($data as $heramsResponse) {
-        $date = $heramsResponse->getDate();
-        if (! isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
-            $lastUpdate = $date;
-        }
+echo Icon::recycling();
+echo Html::tag('span', \Yii::t('app', 'Latest update'));
+/** @var HeramsResponseInterface $heramsResponse */
+$lastUpdate = null;
+foreach ($data as $heramsResponse) {
+    $date = $heramsResponse->getDate();
+    if (! isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
+        $lastUpdate = $date;
     }
-    echo Html::tag('em', $lastUpdate ? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
-    ?>
+}
+echo Html::tag('em', $lastUpdate ? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
+?>
 </div>
 <?php
 $filterCount = ! empty($filterModel->date) ? 1 : 0;
@@ -101,20 +101,20 @@ JS
         <div class="input-container">
             <?php
                 echo Icon::search();
-                echo Html::textInput('search', null, [
-                    'id' => 'search-filter',
-                    'placeholder' => \Yii::t('app', 'Search'),
-                ]);
-                ?>
+echo Html::textInput('search', null, [
+    'id' => 'search-filter',
+    'placeholder' => \Yii::t('app', 'Search'),
+]);
+?>
         </div>
         <ul class="hint">
             <?php
-                echo Html::tag('li', \Yii::t('app', 'You may search for multiple terms, only results that contain all terms are shown'));
-                echo Html::tag('li', \Yii::t('app', 'Search also uses the group name, for example try typing "Trauma"'));
-                echo Html::tag('li', \Yii::t('app', 'After closing this screen you must click {{apply}} to see the changes', [
-                    'apply' => Html::tag('em', \Yii::t('app', 'Apply filters')),
-                ]));
-                ?>
+echo Html::tag('li', \Yii::t('app', 'You may search for multiple terms, only results that contain all terms are shown'));
+echo Html::tag('li', \Yii::t('app', 'Search also uses the group name, for example try typing "Trauma"'));
+echo Html::tag('li', \Yii::t('app', 'After closing this screen you must click {{apply}} to see the changes', [
+    'apply' => Html::tag('em', \Yii::t('app', 'Apply filters')),
+]));
+?>
         </ul>
     </div>
     <?php
@@ -123,14 +123,14 @@ JS
         'project' => $project,
     ]);
 
-    ?>
+?>
 
 
 
     <?php
 
-    $this->registerJs(
-        <<<JS
+$this->registerJs(
+    <<<JS
     document.getElementById('search-filter').addEventListener('input', function(e) {
         // Add debounce.
         clearTimeout(window.searchTimer);
@@ -155,10 +155,10 @@ JS
         }, 300);
     });
 JS
-    );
+);
 
 
-    ?>
+?>
 
 </div>
 <div class="buttons" style="display: none;">

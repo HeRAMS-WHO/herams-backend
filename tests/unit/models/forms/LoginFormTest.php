@@ -52,12 +52,12 @@ class LoginFormTest extends Unit
 
     public function validSamples(): iterable
     {
-//        yield [
-//            [
-//                'login' => 'cool stuff',
-//                'password' => 'test',
-//            ]
-//        ];
+        //        yield [
+        //            [
+        //                'login' => 'cool stuff',
+        //                'password' => 'test',
+        //            ]
+        //        ];
         return [];
     }
 

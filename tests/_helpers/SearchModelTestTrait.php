@@ -8,11 +8,11 @@ use yii\base\Model;
 
 trait SearchModelTestTrait
 {
-//    use AllAttributesMustHaveLabels;
+    //    use AllAttributesMustHaveLabels;
     use AllFunctionsMustHaveReturnTypes;
     use AttributeValidationByExample;
 
-//    use YiiLoadMustBeDisabled;
+    //    use YiiLoadMustBeDisabled;
 
     abstract private function getModel(): Model;
 }

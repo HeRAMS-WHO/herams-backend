@@ -50,8 +50,9 @@ final class SvelteElement extends RequestModel
     #[JsonField('config')]
     public mixed $type = ChartType::Bar;
 
-    public function __construct(private HeramsVariableSetRepositoryInterface $variableSetRepository)
-    {
+    public function __construct(
+        private HeramsVariableSetRepositoryInterface $variableSetRepository
+    ) {
         parent::__construct();
     }
 

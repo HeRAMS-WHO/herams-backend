@@ -11,8 +11,9 @@ use herams\common\values\ResponseId;
  */
 class FacilityForResponseCopy implements \prime\interfaces\FacilityForResponseCopy
 {
-    public function __construct(private ResponseId $lastResponseId)
-    {
+    public function __construct(
+        private ResponseId $lastResponseId
+    ) {
     }
 
     public function getLastResponseId(): ResponseId

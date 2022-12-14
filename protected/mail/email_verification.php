@@ -11,11 +11,11 @@ use yii\helpers\Url;
 
 <p>
     Someone requested an account for you at herams.org.<br>
-    To continue with registration click <?=\yii\helpers\Html::a('here', Url::to($verificationRoute, true)) ?>.
+    To continue with registration click <?= \yii\helpers\Html::a('here', Url::to($verificationRoute, true)) ?>.
 </p>
 
 <div class="cta">
-    <?=\yii\helpers\Html::a('Create account', Url::to($verificationRoute, true)); ?>
+    <?= \yii\helpers\Html::a('Create account', Url::to($verificationRoute, true)); ?>
 </div>
 
 If the links don't work please copy this into your browser:<br><br>

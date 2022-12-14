@@ -165,7 +165,7 @@ return [
             ->setHandlerForCommand(PermissionCheckImplicitAccessRequestGrantedJob::class, PermissionCheckImplicitAccessRequestGrantedHandler::class)
             ->setHandlerForCommand(UserSyncNewsletterSubscriptionJob::class, UserSyncNewsletterSubscriptionHandler::class)
             ->setHandlerForCommand(\herams\common\jobs\UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
-            ;
+        ;
     },
     CommandNameExtractor::class => ClassNameExtractor::class,
     HandlerLocator::class => ContainerMapLocator::class,

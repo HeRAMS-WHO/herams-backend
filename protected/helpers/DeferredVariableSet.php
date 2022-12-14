@@ -11,8 +11,9 @@ class DeferredVariableSet implements VariableSetInterface
 {
     private VariableSetInterface $variableSet;
 
-    public function __construct(private \Closure $creator)
-    {
+    public function __construct(
+        private \Closure $creator
+    ) {
     }
 
     private function getVariableSet(): VariableSetInterface

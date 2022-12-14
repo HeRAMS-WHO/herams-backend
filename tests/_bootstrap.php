@@ -1,7 +1,6 @@
 <?php
 
 namespace {
-
     use herams\common\helpers\InsecureSecretEnvironment;
     use yii\web\Application;
 
@@ -30,5 +29,4 @@ namespace {
             mkdir($base . '/_output');
         }
     });
-
 }

@@ -11,8 +11,9 @@ class ProjectLocales
     /**
      * @param list<Locale> $locales
      */
-    public function __construct(private array $locales = [])
-    {
+    public function __construct(
+        private array $locales = []
+    ) {
     }
 
     /**

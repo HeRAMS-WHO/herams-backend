@@ -30,9 +30,9 @@ final class ApiProxyController extends Controller
 
     public function beforeAction($action): bool
     {
-//        foreach(\Yii::$app->log->targets as $target){
-//            $target->setEnabled(false);
-//        }
+        //        foreach(\Yii::$app->log->targets as $target){
+        //            $target->setEnabled(false);
+        //        }
         return parent::beforeAction($action);
     }
 

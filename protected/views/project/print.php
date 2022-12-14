@@ -100,30 +100,30 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
                         <div class="count">
                             <?php
                             echo Icon::healthFacility();
-                            echo Html::tag('em', count($data));
-                            echo \Yii::t('app', 'Health Facilities');
-                            ?>
+echo Html::tag('em', count($data));
+echo \Yii::t('app', 'Health Facilities');
+?>
                         </div>
                         <div class="count">
                             <?php
-                            echo Icon::contributors();
-                            echo Html::tag('em', $project->contributorCount);
-                            echo \Yii::t('app', 'Contributors');
-                            ?>
+echo Icon::contributors();
+echo Html::tag('em', $project->contributorCount);
+echo \Yii::t('app', 'Contributors');
+?>
                         </div>
                         <div class="count">
                             <?php
-                            echo Icon::recycling() . \Yii::t('app', 'Latest update');
-                            /** @var HeramsResponseInterface $heramsResponse */
-                            $lastUpdate = null;
-                            foreach ($data as $heramsResponse) {
-                                $date = $heramsResponse->getDate();
-                                if (! isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
-                                    $lastUpdate = $date;
-                                }
-                            }
-                            echo Html::tag('em', $lastUpdate ? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
-                            ?>
+echo Icon::recycling() . \Yii::t('app', 'Latest update');
+/** @var HeramsResponseInterface $heramsResponse */
+$lastUpdate = null;
+foreach ($data as $heramsResponse) {
+    $date = $heramsResponse->getDate();
+    if (! isset($lastUpdate) || (isset($date) && $date->greaterThan($lastUpdate))) {
+        $lastUpdate = $date;
+    }
+}
+echo Html::tag('em', $lastUpdate ? $lastUpdate->diffForHumans() : \Yii::t('app', 'N/A'));
+?>
                         </div>
                     </div>
                 </div>
@@ -134,62 +134,62 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
         <?php
         $maxBlocks = 8;
 
-        foreach ($pages as $key => $subpage) {
-            $blockCount = 0;
-            echo isset($filtersContent) ? $filtersContent : '';
+foreach ($pages as $key => $subpage) {
+    $blockCount = 0;
+    echo isset($filtersContent) ? $filtersContent : '';
+    echo Html::beginTag('tr');
+    echo Html::beginTag('td');
+    echo Html::beginTag('div', [
+        'class' => 'content',
+    ]);
+
+    echo "<h2 class='page-title'>{$subpage->title}</h2>";
+
+    $elements = $subpage->getChildElements();
+    /** @var Element $element */
+    foreach ($elements as $element) {
+        if ($blockCount + $element->width * $element->height > $maxBlocks) {
+            echo Html::endTag('div');
+            echo Html::endTag('td');
+            echo Html::endTag('tr');
             echo Html::beginTag('tr');
             echo Html::beginTag('td');
             echo Html::beginTag('div', [
                 'class' => 'content',
             ]);
-
-            echo "<h2 class='page-title'>{$subpage->title}</h2>";
-
-            $elements = $subpage->getChildElements();
-            /** @var Element $element */
-            foreach ($elements as $element) {
-                if ($blockCount + $element->width * $element->height > $maxBlocks) {
-                    echo Html::endTag('div');
-                    echo Html::endTag('td');
-                    echo Html::endTag('tr');
-                    echo Html::beginTag('tr');
-                    echo Html::beginTag('td');
-                    echo Html::beginTag('div', [
-                        'class' => 'content',
-                    ]);
-                    $blockCount = 0;
-                }
-
-                Yii::beginProfile('Render element ' . $element->id);
-                echo "<!-- Begin element {$element->id} -->";
-                $level = ob_get_level();
-                ob_start();
-                try {
-                    echo $element->getWidget($survey, $data, $subpage)->run();
-                    echo ob_get_clean();
-                } catch (Throwable $t) {
-                    while (ob_get_level() > $level) {
-                        ob_end_clean();
-                    }
-                }
-                echo "<!-- End element {$element->id} -->";
-                Yii::endProfile('Render element ' . $element->id);
-
-                $blockCount += $element->width * $element->height;
-                unset($element);
-            }
-
-            echo Html::endTag('div');
-            echo Html::endTag('td');
-            echo Html::endTag('tr');
-            if ($key !== array_key_last($pages)) {
-                echo "<tr class='page-break'></tr>";
-            }
-            unset($elements);
-            unset($subpage);
+            $blockCount = 0;
         }
-        unset($pages);
-        unset($filtersContent);
-        ?>
+
+        Yii::beginProfile('Render element ' . $element->id);
+        echo "<!-- Begin element {$element->id} -->";
+        $level = ob_get_level();
+        ob_start();
+        try {
+            echo $element->getWidget($survey, $data, $subpage)->run();
+            echo ob_get_clean();
+        } catch (Throwable $t) {
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
+        }
+        echo "<!-- End element {$element->id} -->";
+        Yii::endProfile('Render element ' . $element->id);
+
+        $blockCount += $element->width * $element->height;
+        unset($element);
+    }
+
+    echo Html::endTag('div');
+    echo Html::endTag('td');
+    echo Html::endTag('tr');
+    if ($key !== array_key_last($pages)) {
+        echo "<tr class='page-break'></tr>";
+    }
+    unset($elements);
+    unset($subpage);
+}
+unset($pages);
+unset($filtersContent);
+?>
     </tbody>
 </table>

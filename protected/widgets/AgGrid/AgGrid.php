@@ -19,7 +19,7 @@ class AgGrid extends Widget
     {
         parent::init();
         $this->view->registerAssetBundle(AgGridBundle::class);
-//        $this->view->registerAssetBundle(AgGridPremiumBundle::class);
+        //        $this->view->registerAssetBundle(AgGridPremiumBundle::class);
     }
 
     public function run()

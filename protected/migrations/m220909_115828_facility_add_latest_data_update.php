@@ -36,7 +36,7 @@ final class m220909_115828_facility_add_latest_data_update extends Migration
 
     public function down(): bool
     {
-//        $this->dropColumn('{{%facility}}', 'latest_date');
+        //        $this->dropColumn('{{%facility}}', 'latest_date');
         return true;
     }
 }

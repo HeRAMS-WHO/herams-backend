@@ -28,7 +28,6 @@ class Project extends Model
 
     public function search($params, \yii\web\User $user): FilteredActiveDataProvider
     {
-        /** @var $query */
         $query = ProjectRead::find()
             ->withFields('contributorCount', 'workspaceCount', 'responseCount', 'pageCount', 'facilityCount');
         $dataProvider = new FilteredActiveDataProvider([

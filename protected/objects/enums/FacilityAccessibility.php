@@ -12,7 +12,7 @@ use herams\common\interfaces\LabeledEnum;
  * @method static self partial()
  * @method static self none()
  */
-enum FacilityAccessibility:string implements LabeledEnum
+enum FacilityAccessibility: string implements LabeledEnum
 {
     case Unknown = 'unknown';
     case Full = 'full';

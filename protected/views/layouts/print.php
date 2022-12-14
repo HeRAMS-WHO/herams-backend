@@ -5,14 +5,14 @@ declare(strict_types=1);
 use prime\assets\PdfBundle;
 use yii\helpers\Html;
 
-    /**
-     * @var \prime\components\View $this
-     * @var string $content
-     */
-    $this->beginPage();
+/**
+ * @var \prime\components\View $this
+ * @var string $content
+ */
+$this->beginPage();
 
-    $this->registerAssetBundle(PdfBundle::class);
-    $this->registerAssetBundle(\yii\web\YiiAsset::class);
+$this->registerAssetBundle(PdfBundle::class);
+$this->registerAssetBundle(\yii\web\YiiAsset::class);
 
 ?>
 <html>
@@ -23,7 +23,7 @@ use yii\helpers\Html;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.2/flatpickr.min.css" integrity="sha256-TV6wP5ef/UY4bNFdA1h2i8ASc9HHcnl8ufwk94/HP4M=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.2/flatpickr.min.js" integrity="sha256-44TeE1bzEP4BfpL6Wb05CVgLDKN6OzOAI79XNMPR4Bs=" crossorigin="anonymous"></script>
-    <title><?=Html::encode(app()->name . ' - ' . $this->title); ?></title>
+    <title><?= Html::encode(app()->name . ' - ' . $this->title); ?></title>
     <link rel="icon" type="image/png" href="/img/herams_icon.png" />
 
 <?php
@@ -35,7 +35,7 @@ use yii\helpers\Html;
 <?php
 echo Html::beginTag('body', $this->params['body'] ?? []);
 $this->beginBody();
-    echo $content;
+echo $content;
 $this->endBody();
 ?>
 </body>

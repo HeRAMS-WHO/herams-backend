@@ -5,8 +5,6 @@
  */
 
 namespace {
-
-
     function app()
     {
         return \Yii::$app;
@@ -22,8 +20,6 @@ namespace {
 }
 
 namespace yii\web {
-
-
     function http_build_query(array $params)
     {
         $realParams = [];

@@ -95,7 +95,7 @@
         "yiisoft/yii2-debug": "> 2",
         "phpstan/phpstan": "> 1",
         "codeception/lib-innerbrowser": "^1.4",
-        "symplify/easy-coding-standard": "^10.2",
+        "symplify/easy-coding-standard": "^11",
         "vimeo/psalm": "^4.23",
         "herams/common": "dev-master",
         "captainhook/captainhook": "^5.11"

@@ -28,9 +28,9 @@ $this->registerCssFile("https://fonts.googleapis.com/css?family=Source+Sans+Pro"
     <?php
 
     $this->beginBody();
-    echo $content;
-    $this->endBody();
-    ?>
+echo $content;
+$this->endBody();
+?>
     </body>
 
     </html>

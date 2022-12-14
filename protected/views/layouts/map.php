@@ -15,7 +15,7 @@ $this->beginPage();
 $this->registerAssetBundle(MapLayoutBundle::class);
 ?>
     <!doctype HTML>
-    <html lang="<?=\Yii::$app->language; ?>">
+    <html lang="<?= \Yii::$app->language; ?>">
 
     <head>
         <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -32,10 +32,10 @@ $this->registerAssetBundle(MapLayoutBundle::class);
     <?php
 
     $this->beginBody();
-    echo Map::widget();
-    echo $content;
-    $this->endBody();
-    ?>
+echo Map::widget();
+echo $content;
+$this->endBody();
+?>
     </body>
 
     </html>

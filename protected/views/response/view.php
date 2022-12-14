@@ -22,7 +22,7 @@ $this->endBlock();
 $this->title = \Yii::t('app', 'View response');
 Section::begin()
     ->withSubject($id)
-    ;
+;
 
 
 Survey::begin()

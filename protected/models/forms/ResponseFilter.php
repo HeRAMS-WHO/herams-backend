@@ -91,8 +91,8 @@ class ResponseFilter extends Model
             DateValidator::class,
             'format' => 'php:Y-m-d',
         ];
-//        $rules[] = [['locations'], RangeValidator::class, 'range' => array_values($this->nestedLocationOptions()), 'allowArray' => true];
-//        $rules[] = [['types'], RangeValidator::class, 'range' => array_values($this->typeOptions()), 'allowArray' => true];
+        //        $rules[] = [['locations'], RangeValidator::class, 'range' => array_values($this->nestedLocationOptions()), 'allowArray' => true];
+        //        $rules[] = [['types'], RangeValidator::class, 'range' => array_values($this->typeOptions()), 'allowArray' => true];
         foreach ($this->advancedFilterMap as $code => $question) {
             $rules[] = [
                 ["adv_{$question->getTitle()}"],
