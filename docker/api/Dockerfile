@@ -12,4 +12,5 @@ RUN echo "${COMMIT_SHA}" > /run/commit_sha
 
 #Mount a tmpfs here
 VOLUME /run
+RUN ["php-fpm", "-t", "/php-fpm.conf"]
 ENTRYPOINT ["/usr/bin/dumb-init", "-c", "-r", "15:3", "--", "/sbin/init.sh"]
