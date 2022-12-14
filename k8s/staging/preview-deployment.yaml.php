@@ -47,6 +47,8 @@ spec:
         fsGroup: 65534
       volumes:
         # Create the shared files volume to be used in both containers
+        - name: debugdata
+          emptyDir: { }
         - name: shared
           emptyDir: {}
         - name: database
@@ -84,6 +86,8 @@ spec:
               mountPath: "/run/secrets/app"
             - name: shared
               mountPath: /shared
+            - name: debugdata
+              mountPath: /debugdata
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
         - name: nginx
