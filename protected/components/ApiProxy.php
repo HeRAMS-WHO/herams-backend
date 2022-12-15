@@ -26,7 +26,6 @@ class ApiProxy
     {
         // Get the IP of the LB (currently dev only)
         return $this->forwardRequest(strtr($request->getAbsoluteUrl(), [
-            'https://herams.test' => "https://{$_SERVER['REMOTE_ADDR']}",
             '/api-proxy/core' => '/api',
         ]), $request, $user);
     }
@@ -59,7 +58,6 @@ class ApiProxy
         }
 
         $upstreamRequest = $upstreamRequest
-            ->withHeader('Host', 'herams.test')
             ->withHeader('Accept', 'application/json')
             ->withHeader('Authorization', "Bearer $token")
         ;
