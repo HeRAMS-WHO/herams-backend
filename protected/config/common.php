@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use herams\common\domain\user\User as ActiveRecordUser;
 use herams\common\interfaces\EnvironmentInterface;
-use herams\common\services\UserAccessCheck;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -16,7 +15,6 @@ use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
-use yii\web\User;
 
 assert(isset($env) && $env instanceof EnvironmentInterface);
 
