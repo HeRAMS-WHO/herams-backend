@@ -77,7 +77,13 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             \Yii::t('app.pagetitle', 'Maternal and newborn health', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Sexual violence', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Non-communicable diseases', null, $sourceLanguage),
-            \Yii::t('app.pagetitle', 'Mental health', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Hand hygiene', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Communications', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Cleaning equipment', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Heating', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Transportation', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Connectivity', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Support', null, $sourceLanguage),
         ];
     }
     public function getProject()
