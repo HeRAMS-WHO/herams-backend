@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobHandlers\permissions;
+namespace herams\common\jobHandlers\permissions;
 
 use herams\common\domain\permission\PermissionRepository;
 use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobHandlers;
+namespace herams\common\jobHandlers;
 
 use herams\common\domain\facility\FacilityRepository;
 use herams\common\domain\survey\SurveyRepository;

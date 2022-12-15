@@ -6,15 +6,15 @@ namespace prime\tests\unit\jobHandlers\accessRequests;
 
 use Codeception\Test\Unit;
 use herams\common\domain\user\User;
+use herams\common\jobHandlers\jobHandlers\accessRequests\ResponseNotificationHandler;
 use herams\common\jobs\accessRequests\ResponseNotificationJob;
-use prime\jobHandlers\accessRequests\ResponseNotificationHandler;
 use prime\models\ar\AccessRequest;
 use prime\repositories\AccessRequestRepository;
 use yii\mail\MailerInterface;
 use yii\mail\MessageInterface;
 
 /**
- * @covers \prime\jobHandlers\accessRequests\ResponseNotificationHandler
+ * @covers \herams\common\jobHandlers\jobHandlers\accessRequests\ResponseNotificationHandler
  * @covers \herams\common\jobs\accessRequests\ResponseNotificationJob
  */
 class ResponseNotificationHandlerTest extends Unit

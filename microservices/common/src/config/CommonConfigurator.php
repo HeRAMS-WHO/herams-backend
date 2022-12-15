@@ -17,7 +17,6 @@ use herams\common\helpers\EventDispatcherProxy;
 use herams\common\helpers\GlobalPermissionResolver;
 use herams\common\helpers\LoggingMiddleware;
 use herams\common\helpers\ModelHydrator;
-use herams\common\helpers\ReadWriteModelResolver;
 use herams\common\helpers\SingleTableInheritanceResolver;
 use herams\common\helpers\StrategyActiveRecordHydrator;
 use herams\common\interfaces\AccessCheckInterface;
@@ -30,7 +29,18 @@ use herams\common\interfaces\EnvironmentInterface;
 use herams\common\interfaces\EventDispatcherInterface;
 use herams\common\interfaces\ModelHydratorInterface;
 use herams\common\interfaces\SurveyRepositoryInterface;
+use herams\common\jobHandlers\accessRequests\CreatedNotificationHandler;
+use herams\common\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler;
+use herams\common\jobHandlers\accessRequests\ResponseNotificationHandler;
+use herams\common\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler;
+use herams\common\jobHandlers\UpdateFacilityDataHandler;
+use herams\common\jobHandlers\users\SyncNewsletterSubscriptionHandler;
+use herams\common\jobs\accessRequests\CreatedNotificationJob;
+use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
+use herams\common\jobs\accessRequests\ResponseNotificationJob;
+use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use herams\common\jobs\UpdateFacilityDataJob;
+use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
 use herams\common\models\Permission;
 use herams\common\services\UserAccessCheck;
 use JCIT\jobqueue\components\ContainerMapLocator;
@@ -43,7 +53,6 @@ use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
 use League\Tactician\Handler\Locator\HandlerLocator;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
-use prime\jobHandlers\UpdateFacilityDataHandler;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
@@ -248,11 +257,11 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             SurveyRepositoryInterface::class => SurveyRepository::class,
             ContainerMapLocator::class => function (Container $container) {
                 return (new ContainerMapLocator($container))
-//                    ->setHandlerForCommand(AccessRequestCreatedNotificationJob::class, AccessRequestCreatedNotificationHandler::class)
-//                    ->setHandlerForCommand(AccessrequestImplicitlyGrantedJob::class, AccessRequestImplicitlyGrantedHandler::class)
-//                    ->setHandlerForCommand(AccessRequestResponseNotificationJob::class, AccessRequestResponseNotificationHandler::class)
-//                    ->setHandlerForCommand(PermissionCheckImplicitAccessRequestGrantedJob::class, PermissionCheckImplicitAccessRequestGrantedHandler::class)
-//                    ->setHandlerForCommand(UserSyncNewsletterSubscriptionJob::class, UserSyncNewsletterSubscriptionHandler::class)
+                    ->setHandlerForCommand(CreatedNotificationJob::class, CreatedNotificationHandler::class)
+                    ->setHandlerForCommand(ImplicitlyGrantedNotificationJob::class, ImplicitlyGrantedNotificationHandler::class)
+                    ->setHandlerForCommand(ResponseNotificationJob::class, ResponseNotificationHandler::class)
+                    ->setHandlerForCommand(CheckImplicitAccessRequestGrantedJob::class, CheckImplicitAccessRequestGrantedHandler::class)
+                    ->setHandlerForCommand(SyncNewsletterSubscriptionJob::class, SyncNewsletterSubscriptionHandler::class)
                     ->setHandlerForCommand(UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
                     ;
             },

@@ -8,12 +8,12 @@ use Codeception\Test\Unit;
 use herams\common\domain\element\Element;
 use herams\common\domain\permission\PermissionRepository;
 use herams\common\domain\user\User;
+use herams\common\jobHandlers\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler;
 use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use herams\common\models\Permission;
 use herams\common\models\Project;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
-use prime\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler;
 use prime\models\ar\AccessRequest;
 use prime\queries\AccessRequestQuery;
 use prime\repositories\AccessRequestRepository;
@@ -22,7 +22,7 @@ use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\values\Authorizable;
 
 /**
- * @covers \prime\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler
+ * @covers \herams\common\jobHandlers\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler
  */
 class CheckImplicitAccessRequestGrantedHandlerTest extends Unit
 {

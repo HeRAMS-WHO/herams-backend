@@ -6,9 +6,9 @@ namespace prime\tests\unit\jobHandlers\accessRequests;
 
 use Codeception\Test\Unit;
 use herams\common\domain\user\User;
+use herams\common\jobHandlers\jobHandlers\accessRequests\CreatedNotificationHandler;
 use herams\common\jobs\accessRequests\CreatedNotificationJob;
 use herams\common\models\Project;
-use prime\jobHandlers\accessRequests\CreatedNotificationHandler;
 use prime\models\ar\AccessRequest;
 use prime\repositories\AccessRequestRepository;
 use yii\helpers\Url;
@@ -16,7 +16,7 @@ use yii\mail\MailerInterface;
 use yii\mail\MessageInterface;
 
 /**
- * @covers \prime\jobHandlers\accessRequests\CreatedNotificationHandler
+ * @covers \herams\common\jobHandlers\jobHandlers\accessRequests\CreatedNotificationHandler
  * @covers \herams\common\jobs\accessRequests\CreatedNotificationJob
  * @covers \herams\common\jobs\accessRequests\AccessRequestJob
  */

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobHandlers\accessRequests;
+namespace herams\common\jobHandlers\accessRequests;
 
 use herams\common\domain\user\User;
 use herams\common\jobs\accessRequests\CreatedNotificationJob;

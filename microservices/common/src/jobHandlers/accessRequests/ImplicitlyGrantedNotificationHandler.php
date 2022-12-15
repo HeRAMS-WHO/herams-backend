@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobHandlers\accessRequests;
+namespace herams\common\jobHandlers\accessRequests;
 
 use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use JCIT\jobqueue\interfaces\JobInterface;

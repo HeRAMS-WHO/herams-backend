@@ -30,7 +30,6 @@ coverage:
       - protected/*.php
     exclude:
       - protected/config/*
-      - protected/migrations/*
       - protected/commands/*
       - vendor/*
       - tests/*

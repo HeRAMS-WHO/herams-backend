@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\jobHandlers\users;
+namespace herams\common\jobHandlers\users;
 
 use herams\common\domain\user\UserRepository;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;

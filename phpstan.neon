@@ -14,6 +14,6 @@ parameters:
       - protected/config/web.php
     checkMaybeUndefinedVariables: true
     reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        - message: '#^Method .*::(down|up|safeUp|safeDown)\(\) should return bool but return statement is missing\.$#'
-          path: 'protected/migrations/*'
+
+includes:
+    - microservices/common/phpstan.neon

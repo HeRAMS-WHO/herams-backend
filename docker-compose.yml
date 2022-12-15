@@ -21,7 +21,6 @@ x-env:
     volumes:
       - .:/project:rw
       - ./tests:/project/tests:rw
-      - ./protected/migrations:/project/protected/migrations:rw
       - ./protected/messages:/project/protected/messages:rw
     tmpfs:
       - /runtime:rw,noexec,nosuid,uid=${UID-0}
