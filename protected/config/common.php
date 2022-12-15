@@ -123,29 +123,5 @@ return [
                 ],
             ]);
         },
-
-    ],
-    'params' => [
-        'defaultSettings' => [
-            'icons.globalMonitor' => 'globe',
-            'icons.projects' => 'tasks',
-            'icons.reports' => 'file',
-            'icons.preview' => 'file',
-            'icons.userLists' => 'bullhorn',
-            'icons.user' => 'user',
-            'icons.configuration' => 'wrench',
-            'icons.logIn' => 'log-in',
-            'icons.logOut' => 'log-out',
-            'icons.search' => 'search',
-            'icons.read' => 'eye-open',
-            'icons.update' => 'cog',
-            'icons.share' => 'share',
-            'icons.close' => 'stop',
-            'icons.open' => 'play',
-            'icons.remove' => 'trash',
-            'icons.request' => 'forward',
-            'icons.requestAccess' => 'info-sign',
-        ],
-
     ],
 ];

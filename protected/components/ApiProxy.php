@@ -26,6 +26,7 @@ class ApiProxy
     {
         // Get the IP of the LB (currently dev only)
         return $this->forwardRequest(strtr($request->getAbsoluteUrl(), [
+            'herams.test' => 'traefik',
             '/api-proxy/core' => '/api',
         ]), $request, $user);
     }
@@ -50,7 +51,7 @@ class ApiProxy
         $headers = $request->getHeaders();
 
         foreach ([
-            'Content-Type', 'Accept', 'Cache-Control',
+            'Content-Type', 'Accept', 'Cache-Control', 'Host'
         ] as $forwardHeader) {
             if ($headers->has($forwardHeader) && ! empty($headers->get($forwardHeader))) {
                 $upstreamRequest = $upstreamRequest->withHeader($forwardHeader, $headers->get($forwardHeader));

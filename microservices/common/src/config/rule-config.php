@@ -64,7 +64,6 @@ return [
     new CreateFacilityRule(),
     new RespondToAccessRequestRule(),
     new CreateFacilityCascadeWorkspaceRule(),
-    new \herams\common\rules\CreateFacilityRule(),
     new FacilityCascadeWorkspaceRule(),
     new FacilityListResponsesRule(),
 ];
