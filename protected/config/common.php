@@ -108,7 +108,7 @@ return [
                 'class' => Mailer::class,
                 'messageConfig' => [
                     'from' => [
-                        $env->get('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support',
+                        $env->getWithDefault('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support',
                     ],
                 ],
                 'transport' => [
