@@ -27,7 +27,9 @@ x-env:
       - /runtime:rw,noexec,nosuid,uid=${UID-0}
       - /tmp:rw,noexec,nosuid,uid=${UID-0}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
-    environment:
+    environment: &base-env
+      database_name: ${DB_NAME}
+      database_host: testdb
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       YII_ENV: $YII_ENV
@@ -189,21 +191,20 @@ services:
       - devdb
       - mailcatcher
       - phpmyadmin
-    entrypoint: ["/project/protected/yiic"]
+    entrypoint: ["/project/microservices/console/yiic"]
     init: true
     command: ""
   testcli:
     <<: *base
     depends_on:
       - testdb
-    entrypoint: ["/project/protected/yiic"]
+    entrypoint: ["/project/microservices/console/yiic"]
     init: true
     command: ""
     environment:
-      SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=${DB_NAME}"
-      SECRET_database/username: $DB_USER
-      SECRET_database/password: $DB_PASS
-      YII_ENV: $YII_ENV
+      <<: *base-env
+      database_name: ${DB_NAME}
+      database_host: testdb
       RUNTIME_PATH: /runtime
   composer:
     << : *base

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use herams\common\domain\user\User as ActiveRecordUser;
 use herams\common\interfaces\EnvironmentInterface;
+use herams\common\services\UserAccessCheck;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
@@ -64,10 +65,6 @@ return [
             return new AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
         },
         'authManager' => static fn (AuthManager $abacManager) => new \herams\common\components\AuthManager($abacManager, ActiveRecordUser::class),
-        'check' => static function (User $user) {
-            assert($user === \Yii::$app->user);
-            return new \herams\common\services\UserAccessCheck($user);
-        },
         'cache' => [
             'class' => \yii\caching\CacheInterface::class,
         ],

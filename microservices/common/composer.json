@@ -22,7 +22,8 @@
         "yidas/yii2-composer-bower-skip": "^2.0",
         "nesbot/carbon": "^2.63",
 	    "psr/event-dispatcher": "^1",
-        "league/event": "^3"
+        "league/event": "^3",
+        "league/tactician": "^1.1"
     },
     "config": {
         "lock": false,

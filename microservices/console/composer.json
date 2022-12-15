@@ -1,0 +1,45 @@
+{
+    "name": "herams/console",
+    "description": "HeRAMS Console",
+    "type": "project",
+    "autoload": {
+        "classmap": [
+            "vendor/yiisoft/yii2"
+        ],
+        "psr-4": {
+            "herams\\console\\": ["src/"]
+        }
+    },
+    "authors": [
+        {
+            "name": "Sam Mousa",
+            "email": "sam@mousa.nl"
+        }
+    ],
+    "require": {
+        "yidas/yii2-composer-bower-skip": "^2.0",
+        "lcobucci/jwt": "^4.2",
+        "herams/common": "dev-master",
+        "yiisoft/yii2": "2.0.46"
+    },
+    "replace":{
+        "cebe/markdown": "*",
+        "ezyang/htmlpurifier": "*",
+        "paragonie/random_compat": "*"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../common"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "captainhook/plugin-composer": false
+        }
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "~2.1"
+    }
+}

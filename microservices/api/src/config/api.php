@@ -107,10 +107,6 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
                 return new AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
             },
             'authManager' => static fn (AuthManager $abacManager) => new \herams\common\components\AuthManager($abacManager, \herams\common\domain\user\User::class),
-            'check' => static function (User $user) {
-                assert($user === \Yii::$app->user);
-                return new \herams\common\services\UserAccessCheck($user);
-            },
             'cache' => [
                 'class' => \yii\caching\CacheInterface::class,
             ],

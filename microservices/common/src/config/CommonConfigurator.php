@@ -15,6 +15,7 @@ use herams\common\helpers\CommandFactory;
 use herams\common\helpers\CurrentUserIdProvider;
 use herams\common\helpers\EventDispatcherProxy;
 use herams\common\helpers\GlobalPermissionResolver;
+use herams\common\helpers\LoggingMiddleware;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ReadWriteModelResolver;
 use herams\common\helpers\SingleTableInheritanceResolver;
@@ -28,10 +29,21 @@ use herams\common\interfaces\CurrentUserIdProviderInterface;
 use herams\common\interfaces\EnvironmentInterface;
 use herams\common\interfaces\EventDispatcherInterface;
 use herams\common\interfaces\ModelHydratorInterface;
+use herams\common\interfaces\SurveyRepositoryInterface;
+use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\models\Permission;
 use herams\common\services\UserAccessCheck;
+use JCIT\jobqueue\components\ContainerMapLocator;
 use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
+use League\Tactician\CommandBus;
+use League\Tactician\Handler\CommandHandlerMiddleware;
+use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
+use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
+use League\Tactician\Handler\Locator\HandlerLocator;
+use League\Tactician\Handler\MethodNameInflector\HandleInflector;
+use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
+use prime\jobHandlers\UpdateFacilityDataHandler;
 use SamIT\abac\engines\SimpleEngine;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
@@ -219,7 +231,31 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                 ]);
             },
             CurrentUserIdProviderInterface::class => CurrentUserIdProvider::class,
-            CommandFactoryInterface::class => CommandFactory::class
+            CommandFactoryInterface::class => CommandFactory::class,
+            CommandBus::class => function (Container $container) {
+                return new CommandBus([
+                    new LoggingMiddleware(),
+                    new CommandHandlerMiddleware(
+                        $container->get(CommandNameExtractor::class),
+                        $container->get(HandlerLocator::class),
+                        $container->get(MethodNameInflector::class)
+                    ),
+                ]);
+            },
+            CommandNameExtractor::class => ClassNameExtractor::class,
+            HandlerLocator::class => ContainerMapLocator::class,
+            MethodNameInflector::class => HandleInflector::class,
+            SurveyRepositoryInterface::class => SurveyRepository::class,
+            ContainerMapLocator::class => function (Container $container) {
+                return (new ContainerMapLocator($container))
+//                    ->setHandlerForCommand(AccessRequestCreatedNotificationJob::class, AccessRequestCreatedNotificationHandler::class)
+//                    ->setHandlerForCommand(AccessrequestImplicitlyGrantedJob::class, AccessRequestImplicitlyGrantedHandler::class)
+//                    ->setHandlerForCommand(AccessRequestResponseNotificationJob::class, AccessRequestResponseNotificationHandler::class)
+//                    ->setHandlerForCommand(PermissionCheckImplicitAccessRequestGrantedJob::class, PermissionCheckImplicitAccessRequestGrantedHandler::class)
+//                    ->setHandlerForCommand(UserSyncNewsletterSubscriptionJob::class, UserSyncNewsletterSubscriptionHandler::class)
+                    ->setHandlerForCommand(UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
+                    ;
+            },
         ]);
 
         return ;

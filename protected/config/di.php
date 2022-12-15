@@ -34,13 +34,6 @@ use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use kartik\switchinput\SwitchInput;
 use Lcobucci\JWT\Configuration;
-use League\Tactician\CommandBus;
-use League\Tactician\Handler\CommandHandlerMiddleware;
-use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
-use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
-use League\Tactician\Handler\Locator\HandlerLocator;
-use League\Tactician\Handler\MethodNameInflector\HandleInflector;
-use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use prime\assets\JqueryBundle;
 use prime\components\NewsletterService;
 use prime\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
@@ -91,7 +84,7 @@ return [
     \prime\components\ApiProxy::class => \prime\components\ApiProxy::class,
     \yii\web\Session::class => fn () => \Yii::$app->session,
     IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
-    \herams\common\interfaces\SurveyRepositoryInterface::class => SurveyRepository::class,
+
     \prime\repositories\ElementRepository::class => \prime\repositories\ElementRepository::class,
     \herams\common\interfaces\HeramsVariableSetRepositoryInterface::class => HeramsVariableSetRepository::class,
     \herams\common\domain\project\ProjectLocalesRetriever::class => ProjectRepository::class,
@@ -147,16 +140,7 @@ return [
         $result = new UserNotificationRepository(\Yii::$app->abacManager, $container->get(AccessRequestARRepository::class));
         return $result;
     },
-    CommandBus::class => function (Container $container) {
-        return new CommandBus([
-            new \prime\helpers\LoggingMiddleware(),
-            new CommandHandlerMiddleware(
-                $container->get(CommandNameExtractor::class),
-                $container->get(HandlerLocator::class),
-                $container->get(MethodNameInflector::class)
-            ),
-        ]);
-    },
+
     ContainerMapLocator::class => function (Container $container) {
         return (new ContainerMapLocator($container))
             ->setHandlerForCommand(AccessRequestCreatedNotificationJob::class, AccessRequestCreatedNotificationHandler::class)
@@ -167,10 +151,8 @@ return [
             ->setHandlerForCommand(\herams\common\jobs\UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
         ;
     },
-    CommandNameExtractor::class => ClassNameExtractor::class,
-    HandlerLocator::class => ContainerMapLocator::class,
+
     JobFactoryInterface::class => JobFactory::class,
-    MethodNameInflector::class => HandleInflector::class,
     MailerInterface::class => static function (Container $container, array $params, array $config): MailerInterface {
         return \Yii::$app->mailer;
     },
