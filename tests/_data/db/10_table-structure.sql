@@ -115,6 +115,7 @@ CREATE TABLE `prime2_facility` (
   `deleted_at` datetime DEFAULT NULL,
   `deactivated_at` datetime DEFAULT NULL,
   `latest_date` date DEFAULT NULL,
+  `tier` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `workspace_id` (`workspace_id`),
   CONSTRAINT `workspace_id` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`)
@@ -132,7 +133,9 @@ CREATE TABLE `prime2_favorite` (
   `user_id` int NOT NULL,
   `target_class` varchar(255) NOT NULL,
   `target_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`target_class`,`target_id`)
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique` (`user_id`,`target_class`,`target_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,7 +166,6 @@ CREATE TABLE `prime2_page` (
   `project_id` int NOT NULL,
   `parent_id` int DEFAULT NULL,
   `sort` int NOT NULL,
-  `add_services` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `page_project` (`project_id`),
   KEY `page_page` (`parent_id`),

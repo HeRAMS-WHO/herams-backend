@@ -149,4 +149,7 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220704_091630
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220909_115828_facility_add_latest_data_update', 1665049994);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m220914_112823_facility_drop_names', 1665049994);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m221006_091619_project_drop_typemap', 1665049994);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m221006_113815_facility_add_tier', 1671100707);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m221018_123050_page_drop_add_services', 1671100707);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m221031_130304_favorite_add_id', 1671100707);
 SET FOREIGN_KEY_CHECKS=1;
