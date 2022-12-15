@@ -216,7 +216,7 @@ metadata:
   name: <?= getenv('DEPLOYMENT_NAME') ?>-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx
   tls:
@@ -233,12 +233,12 @@ spec:
                 name: "<?= getenv('DEPLOYMENT_NAME') ?>-api"
                 port:
                   number: 80
-            path: /api/(/|$)(.*)
+            path: /api/(.*)
             pathType: Prefix
           - backend:
               service:
                 name: "<?= getenv('DEPLOYMENT_NAME') ?>-service"
                 port:
                   number: 80
-            path: /
+            path: /(.*)
             pathType: Prefix
