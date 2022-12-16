@@ -36,7 +36,7 @@
         "psr/http-message": "^1.0",
         "sam-it/ls2-jsonrpc-client": "^1.2.4",
         "sam-it/abac": ">= 3.1",
-        "sam-it/yii2-abac": ">= 1.0.2",
+        "sam-it/yii2-abac": "^1",
         "sam-it/yii2-urlsigner": "^2.0",
         "sam-it/yii2-virtual-fields": "^2.0",
         "yiisoft/yii2": "> 2 < 3",

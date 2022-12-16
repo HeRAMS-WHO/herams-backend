@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7284c89b7866be0fb4fae6276ce92265",
+    "content-hash": "11bebc86234f84ae0ca5b69c8e68b6f4",
     "packages": [
         {
             "name": "brick/math",
@@ -2347,34 +2347,41 @@
         },
         {
             "name": "sam-it/abac",
-            "version": "v4.1.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/abac.git",
-                "reference": "2e42f2df118c59a36a688975c7deab90ce85f164"
+                "reference": "e1ba15d63ce40d3af51d3cf9f0726bfad715e490"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/abac/zipball/2e42f2df118c59a36a688975c7deab90ce85f164",
-                "reference": "2e42f2df118c59a36a688975c7deab90ce85f164",
+                "url": "https://api.github.com/repos/SAM-IT/abac/zipball/e1ba15d63ce40d3af51d3cf9f0726bfad715e490",
+                "reference": "e1ba15d63ce40d3af51d3cf9f0726bfad715e490",
                 "shasum": ""
             },
             "require": {
                 "nikic/iter": "^2",
-                "php": ">= 8.1"
+                "php": "> 7.3"
             },
             "require-dev": {
-                "captainhook/plugin-composer": "^5.3",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.6",
-                "phpstan/phpstan-phpunit": "^1.1",
-                "phpstan/phpstan-strict-rules": "^1.2",
-                "phpunit/phpunit": ">= 9",
-                "ramsey/conventional-commits": "^1.3",
-                "symplify/easy-coding-standard": "^10.2",
-                "vimeo/psalm": "^4.22"
+                "brainmaestro/composer-git-hooks": "^2.8",
+                "phpunit/phpunit": "> 8",
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
+            "extra": {
+                "hooks": {
+                    "pre-commit": [
+                        "echo committing as $(git config user.name) &&",
+                        "composer lint-fix  &&",
+                        "composer lint &&",
+                        "composer test"
+                    ],
+                    "commit-msg": [
+                        "npx commitlint -e"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "SamIT\\abac\\": [
@@ -2395,9 +2402,9 @@
             "description": "Attribute based access control",
             "support": {
                 "issues": "https://github.com/SAM-IT/abac/issues",
-                "source": "https://github.com/SAM-IT/abac/tree/v4.1.1"
+                "source": "https://github.com/SAM-IT/abac/tree/v3.1.0"
             },
-            "time": "2022-11-02T16:09:53+00:00"
+            "time": "2020-11-01T11:29:50+00:00"
         },
         {
             "name": "sam-it/ls-interfaces",
@@ -2487,36 +2494,44 @@
         },
         {
             "name": "sam-it/yii2-abac",
-            "version": "v2.0.1",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAM-IT/yii2-abac.git",
-                "reference": "c1ac86a7b625e0c9e121598596c6e3b6767accde"
+                "reference": "83ea27f8c6d35e21e434e5cfe50cc134f598c5c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/yii2-abac/zipball/c1ac86a7b625e0c9e121598596c6e3b6767accde",
-                "reference": "c1ac86a7b625e0c9e121598596c6e3b6767accde",
+                "url": "https://api.github.com/repos/SAM-IT/yii2-abac/zipball/83ea27f8c6d35e21e434e5cfe50cc134f598c5c4",
+                "reference": "83ea27f8c6d35e21e434e5cfe50cc134f598c5c4",
                 "shasum": ""
             },
             "require": {
-                "php": "> 8.1",
-                "sam-it/abac": ">= 4",
-                "yiisoft/yii2": "^2.0"
+                "php": "> 7.3",
+                "sam-it/abac": ">= 3, < 4"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "^2.8",
                 "codeception/codeception": "> 3.1",
                 "codeception/module-asserts": "^1.3",
                 "codeception/module-yii2": "^1.1",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.6",
-                "phpstan/phpstan-phpunit": "^1.1",
-                "phpstan/phpstan-strict-rules": "^1.2",
-                "ramsey/conventional-commits": "^1.3",
-                "symplify/easy-coding-standard": "^10.2",
-                "vimeo/psalm": "^4.22"
+                "squizlabs/php_codesniffer": "^3.5",
+                "yiisoft/yii2": "^2.0"
             },
             "type": "library",
+            "extra": {
+                "hooks": {
+                    "pre-commit": [
+                        "echo committing as $(git config user.name) &&",
+                        "composer lint-fix  &&",
+                        "composer lint &&",
+                        "composer test"
+                    ],
+                    "commit-msg": [
+                        "npx commitlint -e"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "SamIT\\Yii2\\abac\\": [
@@ -2536,9 +2551,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SAM-IT/yii2-abac/issues",
-                "source": "https://github.com/SAM-IT/yii2-abac/tree/v2.0.1"
+                "source": "https://github.com/SAM-IT/yii2-abac/tree/v1.0.4"
             },
-            "time": "2022-05-10T13:31:14+00:00"
+            "time": "2020-10-05T09:27:09+00:00"
         },
         {
             "name": "sam-it/yii2-urlsigner",
