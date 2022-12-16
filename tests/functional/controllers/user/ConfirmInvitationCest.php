@@ -49,7 +49,7 @@ class ConfirmInvitationCest
         $I->seeResponseCodeIs(200);
         $password = 'Testpassword1';
 
-        $I->fillField('Name', 'Test name');
+        $I->fillField(['id' => 'confirminvitationform-name'], 'Test name');
         $I->fillField('Password', $password);
         $I->fillField('Confirm password', $password);
         $I->click('Create account');

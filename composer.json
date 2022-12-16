@@ -103,15 +103,8 @@
     },
     "repositories": [
         {
-            "type": "package",
-            "package": {
-                "name": "herams/i18n",
-                "version": "dev-master",
-                "dist": {
-                    "url": "https://github.com/HeRAMS-WHO/herams-i18n/archive/master.zip",
-                    "type": "zip"
-                }
-            }
+            "type": "vcs",
+            "url": "https://github.com/HeRAMS-WHO/herams-i18n"
         }
     ],
     "scripts": {
