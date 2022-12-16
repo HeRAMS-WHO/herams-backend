@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd25637f072914154beec1d728dc08a5",
+    "content-hash": "7284c89b7866be0fb4fae6276ce92265",
     "packages": [
         {
             "name": "brick/math",
@@ -628,11 +628,34 @@
         {
             "name": "herams/i18n",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
+                "reference": "cff364d2ca79791a37a2abfcae0e2ffd99f4fb40"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/HeRAMS-WHO/herams-i18n/archive/master.zip"
+                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/cff364d2ca79791a37a2abfcae0e2ffd99f4fb40",
+                "reference": "cff364d2ca79791a37a2abfcae0e2ffd99f4fb40",
+                "shasum": ""
             },
-            "type": "library"
+            "default-branch": true,
+            "type": "library",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Localizations for HeRAMS",
+            "support": {
+                "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master",
+                "issues": "https://github.com/HeRAMS-WHO/herams-i18n/issues"
+            },
+            "time": "2022-12-15T16:09:20+00:00"
         },
         {
             "name": "jc-it/yii2-job-queue",
