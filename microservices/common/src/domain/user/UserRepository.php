@@ -28,7 +28,7 @@ final class UserRepository
             ->all();
     }
 
-    public function retrieveOrThrow(int $id): ?User
+    public function retrieveOrThrow(int $id): User
     {
         $result = $this->retrieve($id);
 

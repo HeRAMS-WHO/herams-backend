@@ -31,6 +31,9 @@ final class NewProject extends RequestModel
         $this->visibility = ProjectVisibility::Public;
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function attributeLabels(): array
     {
         return Project::labels();

@@ -51,35 +51,52 @@ class DatabaseController extends Controller
             throw new \Exception("This command only works in the test environment");
         }
 
-        $this->connectWithTimeout($db, 30);
-        // Step 1. Run module migrations
-        $this->runMigrateCommand('up', '--migrationPath=@vendor/dektrium/yii2-user/migrations');
-        $this->runMigrateCommand('up', '--migrationPath=@yii/rbac/migrations');
-
-        // Step 2. Run app migrations.
+        $db = \Yii::$app->db;
+        // Step 1. Run the migrations.
+        $return = 0;
         if ($redo > 0) {
-            $this->runMigrateCommand('redo ' . $redo);
+            passthru($_SERVER['PHP_SELF'] . ' migrate/redo --silentExitOnException=0 --interactive=0 --color=1 ' . $redo, $return);
         }
 
-        $this->runMigrateCommand('up');
+        if ($return !== 0) {
+            $this->stderr("Redo failed... stopping.\n", Console::FG_RED);
+            return;
+        }
+
+        passthru($_SERVER['PHP_SELF'] . ' migrate/up --silentExitOnException=0 --interactive=0 --color=1', $return);
+        if ($return !== 0) {
+            $this->stderr("Migrations failed... stopping.\n", Console::FG_RED);
+            return;
+        }
 
         // Get table names.
         $tables = $db->schema->getTableNames('', true);
-
-        // Step 2. Dump mysql file.
-        $dump = new Mysqldump($db->dsn, $db->username, $db->password, [
-            'add-drop-table' => true,
-            'no-data' => true,
-            'skip-dump-date' => true,
-        ]);
-        $dump->start(\Yii::getAlias('@tests/_data/db/10_table-structure.sql'));
+        sort($tables);
+        $output = fopen(\Yii::getAlias('@tests/_data/db/10_table-structure.sql'), 'w');
+        fwrite($output, "SET FOREIGN_KEY_CHECKS=0;\n");
+        foreach ($tables as $table) {
+            try {
+                $command = $db->createCommand("SHOW CREATE TABLE `{$table}`;");
+                $result = $command->queryOne()["Create Table"];
+                $result = \preg_replace('/( AUTO_INCREMENT=\d+)/', "", $result);
+                fwrite($output, $result);
+                fwrite($output, ";\n\n");
+            } catch (Exception $e) {
+                $this->stderr("Skipped table {$table}");
+            }
+        }
+        fwrite($output, "SET FOREIGN_KEY_CHECKS=1;\n");
+        fclose($output);
 
         // Step 3. Export all table data
         /** @var TableSchema $schema */
         foreach ($db->schema->tableSchemas as $schema) {
+            if (in_array($schema->name, ['session'])) {
+                continue;
+            }
             $columns = array_flip($schema->columnNames);
             $ddl = $db->createCommand('SHOW CREATE TABLE ' . $db->quoteTableName($schema->name))->queryOne();
-            if (! isset($ddl['Create Table'])) {
+            if (!isset($ddl['Create Table'])) {
                 continue;
             }
             foreach (explode("\n", $ddl['Create Table']) as $line) {
@@ -91,6 +108,7 @@ class DatabaseController extends Controller
             $q = new Query();
             $q->select($columns);
             $q->from($schema->name);
+
             if (($count = $q->count()) > 0) {
                 $file = fopen(\Yii::getAlias("@tests/_data/db/50_{$schema->name}.sql"), 'w');
                 fwrite($file, "SET FOREIGN_KEY_CHECKS=0;\n");
@@ -120,6 +138,5 @@ class DatabaseController extends Controller
         }
 
         $this->stdout("\nDone.\n", Console::FG_GREEN);
-        return;
     }
 }

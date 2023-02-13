@@ -14,7 +14,7 @@ class HealthController extends Controller
     }
 
 
-    public function actionStatus()
+    public function actionStatus(): string
     {
         return 'OK';
     }

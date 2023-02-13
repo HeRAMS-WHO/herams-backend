@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace herams\common\domain\project;
+namespace herams\api\domain\project;
 
 use herams\api\models\NewProject;
 use herams\api\models\UpdateProject;
 use herams\common\attributes\SupportedType;
-use herams\common\enums\Language;
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\LocalizedString;
 use herams\common\interfaces\ActiveRecordHydratorInterface;

@@ -14,7 +14,7 @@ final class View extends Action
         UserRepository $userRepository,
         User $user,
         int $id = null
-    ) {
-        return $userRepository->retrieve($user->id);
+    ): \herams\common\domain\user\User {
+        return $userRepository->retrieveOrThrow($id ?? $user->id);
     }
 }

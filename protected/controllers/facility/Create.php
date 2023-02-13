@@ -15,17 +15,8 @@ use prime\components\Controller;
 use yii\base\Action;
 use function iter\toArray;
 
-class Create extends Action
+final class Create extends Action
 {
-    public function __construct(
-        $id,
-        $controller,
-        private WorkspaceRepository $workspaceRepository,
-        $config = []
-    ) {
-        parent::__construct($id, $controller, $config);
-    }
-
     public function run(
         AccessCheckInterface $accessCheck,
         SurveyRepository $surveyRepository,

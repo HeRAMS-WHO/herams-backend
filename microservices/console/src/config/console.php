@@ -20,6 +20,8 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
         'basePath' => realpath(__DIR__ . '/../'),
         'aliases' => [
             '@herams/console' => '@app',
+            '@root' => '@app/../../../',
+            '@tests' => '@root/tests',
 
         ],
         'controllerNamespace' => 'herams\\console\\controllers',

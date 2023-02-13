@@ -133,7 +133,6 @@ class CommonConfigurator implements ContainerConfiguratorInterface
         $container->set(ActiveRecordHydratorInterface::class, static function (): ActiveRecordHydratorInterface {
             $result = new StrategyActiveRecordHydrator();
             $result->registerAttributeStrategy(new WorkspaceHydrator());
-            $result->registerAttributeStrategy(new ProjectHydrator());
             $result->registerAttributeStrategy(new FacilityHydrator());
             $result->registerAttributeStrategy(new ModelHydrator());
             return $result;

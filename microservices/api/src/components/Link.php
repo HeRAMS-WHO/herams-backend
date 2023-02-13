@@ -28,7 +28,7 @@ class Link extends \yii\web\Link implements \JsonSerializable, Arrayable
 
     public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
-        if ($fields !== [] || $fields !== []) {
+        if ($fields !== [] || $expand !== []) {
             throw new NotSupportedException();
         }
 

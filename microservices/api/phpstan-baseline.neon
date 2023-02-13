@@ -1,0 +1,426 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method yii\\\\console\\\\Response\\|yii\\\\web\\\\Response\\:\\:setStatusCode\\(\\)\\.$#"
+			count: 1
+			path: src/actions/DeleteAction.php
+
+		-
+			message: "#^Method herams\\\\api\\\\actions\\\\DeleteAction\\:\\:findModel\\(\\) should return yii\\\\db\\\\ActiveRecordInterface but returns array\\|yii\\\\db\\\\ActiveRecord\\.$#"
+			count: 1
+			path: src/actions/DeleteAction.php
+
+		-
+			message: "#^Method herams\\\\api\\\\actions\\\\DeleteAction\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/actions/DeleteAction.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of method herams\\\\api\\\\actions\\\\DeleteAction\\:\\:findModel\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: src/actions/DeleteAction.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\base\\\\Controller\\:\\:asJson\\(\\)\\.$#"
+			count: 1
+			path: src/actions/UserPermissions.php
+
+		-
+			message: "#^Method herams\\\\api\\\\actions\\\\UserPermissions\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/actions/UserPermissions.php
+
+		-
+			message: "#^Method herams\\\\api\\\\components\\\\InterfaceBasedResponseFormatter\\:\\:format\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/components/InterfaceBasedResponseFormatter.php
+
+		-
+			message: "#^Parameter \\#1 \\$haystack of function str_starts_with expects string, array\\|string\\|null given\\.$#"
+			count: 1
+			path: src/components/JwtAuth.php
+
+		-
+			message: "#^Parameter \\#1 \\$identity of method yii\\\\web\\\\User\\:\\:login\\(\\) expects yii\\\\web\\\\IdentityInterface, yii\\\\web\\\\IdentityInterface\\|null given\\.$#"
+			count: 1
+			path: src/components/JwtAuth.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function substr expects string, array\\|string\\|null given\\.$#"
+			count: 1
+			path: src/components/JwtAuth.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
+			count: 1
+			path: src/components/Link.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 2
+			path: src/config/api.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: src/config/api.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: src/config/di.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\SurveyController\\:\\:actionCreate\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/SurveyController.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\SurveyController\\:\\:actionIndex\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/SurveyController.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\SurveyController\\:\\:actionUpdate\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/SurveyController.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\SurveyController\\:\\:actionView\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/SurveyController.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of method herams\\\\common\\\\helpers\\\\ModelHydrator\\:\\:hydrateFromJsonDictionary\\(\\) expects array, array\\|object given\\.$#"
+			count: 2
+			path: src/controllers/SurveyController.php
+
+		-
+			message: "#^Access to property \\$errors on an unknown class prime\\\\models\\\\forms\\\\element\\\\SvelteElement\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Call to method create\\(\\) on an unknown class prime\\\\repositories\\\\ElementRepository\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Call to method load\\(\\) on an unknown class prime\\\\models\\\\forms\\\\element\\\\SvelteElement\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Call to method validate\\(\\) on an unknown class prime\\\\models\\\\forms\\\\element\\\\SvelteElement\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Instantiated class prime\\\\models\\\\forms\\\\element\\\\SvelteElement not found\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\element\\\\Create\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Parameter \\#2 \\$value of method yii\\\\web\\\\HeaderCollection\\:\\:add\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Parameter \\$elementRepository of method herams\\\\api\\\\controllers\\\\element\\\\Create\\:\\:run\\(\\) has invalid type prime\\\\repositories\\\\ElementRepository\\.$#"
+			count: 1
+			path: src/controllers/element/Create.php
+
+		-
+			message: "#^Call to method retrieveForUpdate\\(\\) on an unknown class prime\\\\repositories\\\\ElementRepository\\.$#"
+			count: 1
+			path: src/controllers/element/Update.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\element\\\\Update\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/element/Update.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of method herams\\\\common\\\\helpers\\\\ModelHydrator\\:\\:hydrateFromRequestArray\\(\\) expects array, array\\|object given\\.$#"
+			count: 1
+			path: src/controllers/element/Update.php
+
+		-
+			message: "#^Parameter \\$elementRepository of method herams\\\\api\\\\controllers\\\\element\\\\Update\\:\\:run\\(\\) has invalid type prime\\\\repositories\\\\ElementRepository\\.$#"
+			count: 1
+			path: src/controllers/element/Update.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\facility\\\\AdminResponses\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/facility/AdminResponses.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of method herams\\\\common\\\\domain\\\\workspace\\\\WorkspaceRepository\\:\\:getProjectId\\(\\) expects herams\\\\common\\\\values\\\\WorkspaceId, herams\\\\common\\\\values\\\\WorkspaceId\\|null given\\.$#"
+			count: 1
+			path: src/controllers/facility/Create.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of method herams\\\\common\\\\helpers\\\\ModelHydrator\\:\\:hydrateFromJsonDictionary\\(\\) expects array, array\\|object given\\.$#"
+			count: 2
+			path: src/controllers/facility/Create.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\facility\\\\DataResponses\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/facility/DataResponses.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of method herams\\\\common\\\\helpers\\\\ModelHydrator\\:\\:hydrateFromJsonDictionary\\(\\) expects array, array\\|object given\\.$#"
+			count: 1
+			path: src/controllers/facility/ValidateNew.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\facility\\\\View\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/facility/View.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\permission\\\\Create\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/permission/Create.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\permission\\\\Delete\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/permission/Delete.php
+
+		-
+			message: "#^Cannot access offset 'data' on array\\|object\\.$#"
+			count: 1
+			path: src/controllers/project/Create.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\project\\\\Create\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/project/Create.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\base\\\\Controller\\:\\:asJson\\(\\)\\.$#"
+			count: 1
+			path: src/controllers/project/Index.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\project\\\\Index\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/project/Index.php
+
+		-
+			message: "#^Access to an undefined property herams\\\\common\\\\domain\\\\facility\\\\FacilityRead\\:\\:\\$admin_data\\.$#"
+			count: 1
+			path: src/controllers/project/LatestData.php
+
+		-
+			message: "#^Access to an undefined property herams\\\\common\\\\domain\\\\facility\\\\FacilityRead\\:\\:\\$data\\.$#"
+			count: 1
+			path: src/controllers/project/LatestData.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\project\\\\Locales\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/project/Locales.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\base\\\\Controller\\:\\:asJson\\(\\)\\.$#"
+			count: 1
+			path: src/controllers/project/Pages.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\project\\\\Pages\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/project/Pages.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\base\\\\Controller\\:\\:asJson\\(\\)\\.$#"
+			count: 1
+			path: src/controllers/project/Summary.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\project\\\\Summary\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/project/Summary.php
+
+		-
+			message: "#^Parameter \\#2 \\$params of method yii\\\\web\\\\User\\:\\:can\\(\\) expects array, herams\\\\api\\\\models\\\\ProjectSummary given\\.$#"
+			count: 1
+			path: src/controllers/project/Summary.php
+
+		-
+			message: "#^Cannot access offset 'data' on array\\|object\\.$#"
+			count: 1
+			path: src/controllers/project/Update.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\project\\\\Update\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/project/Update.php
+
+		-
+			message: "#^Cannot access offset 'data' on array\\|object\\.$#"
+			count: 1
+			path: src/controllers/project/Validate.php
+
+		-
+			message: "#^Call to method getVariables\\(\\) on an unknown class prime\\\\helpers\\\\HeramsVariableSet\\.$#"
+			count: 1
+			path: src/controllers/project/Variables.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: src/controllers/project/Variables.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\base\\\\Controller\\:\\:asJson\\(\\)\\.$#"
+			count: 1
+			path: src/controllers/project/Workspaces.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\project\\\\Workspaces\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/project/Workspaces.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\surveyResponse\\\\Create\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/surveyResponse/Create.php
+
+		-
+			message: "#^Parameter \\#1 \\$facilityId of class herams\\\\common\\\\jobs\\\\UpdateFacilityDataJob constructor expects herams\\\\common\\\\values\\\\FacilityId\\|int\\|string, herams\\\\common\\\\values\\\\FacilityId\\|null given\\.$#"
+			count: 1
+			path: src/controllers/surveyResponse/Create.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of method herams\\\\common\\\\helpers\\\\ModelHydrator\\:\\:hydrateFromJsonDictionary\\(\\) expects array, array\\|object given\\.$#"
+			count: 1
+			path: src/controllers/surveyResponse/Create.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\surveyResponse\\\\View\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/surveyResponse/View.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\user\\\\Index\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/user/Index.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of method herams\\\\common\\\\domain\\\\user\\\\UserRepository\\:\\:retrieveOrThrow\\(\\) expects int, int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/controllers/user/View.php
+
+		-
+			message: "#^Cannot access property \\$id on herams\\\\common\\\\domain\\\\user\\\\User\\|null\\.$#"
+			count: 2
+			path: src/controllers/user/Workspaces.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\user\\\\Workspaces\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/user/Workspaces.php
+
+		-
+			message: "#^Parameter \\#2 \\$params of method yii\\\\web\\\\User\\:\\:can\\(\\) expects array, herams\\\\common\\\\domain\\\\user\\\\User\\|null given\\.$#"
+			count: 1
+			path: src/controllers/user/Workspaces.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/controllers/user/Workspaces.php
+
+		-
+			message: "#^Cannot access offset 'data' on array\\|object\\.$#"
+			count: 1
+			path: src/controllers/workspace/Create.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\workspace\\\\Create\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/workspace/Create.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\workspace\\\\Facilities\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/workspace/Facilities.php
+
+		-
+			message: "#^Cannot access offset 'data' on array\\|object\\.$#"
+			count: 2
+			path: src/controllers/workspace/Update.php
+
+		-
+			message: "#^Method herams\\\\api\\\\controllers\\\\workspace\\\\Update\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/controllers/workspace/Update.php
+
+		-
+			message: "#^Cannot access offset 'data' on array\\|object\\.$#"
+			count: 1
+			path: src/controllers/workspace/Validate.php
+
+		-
+			message: "#^Access to an undefined property herams\\\\common\\\\models\\\\Project\\:\\:\\$admin_survey_id\\.$#"
+			count: 2
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Access to an undefined property herams\\\\common\\\\models\\\\Project\\:\\:\\$data_survey_id\\.$#"
+			count: 2
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Cannot access property \\$value on herams\\\\common\\\\enums\\\\ProjectVisibility\\|null\\.$#"
+			count: 1
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Cannot call method asDictionary\\(\\) on herams\\\\common\\\\helpers\\\\LocalizedString\\|null\\.$#"
+			count: 1
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Cannot call method getValue\\(\\) on herams\\\\common\\\\values\\\\SurveyId\\|null\\.$#"
+			count: 2
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Property herams\\\\common\\\\models\\\\Project\\:\\:\\$country \\(string\\) does not accept string\\|null\\.$#"
+			count: 1
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Property herams\\\\common\\\\models\\\\Project\\:\\:\\$latitude \\(float\\) does not accept float\\|null\\.$#"
+			count: 1
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Property herams\\\\common\\\\models\\\\Project\\:\\:\\$longitude \\(float\\) does not accept float\\|null\\.$#"
+			count: 1
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Property herams\\\\common\\\\models\\\\Project\\:\\:\\$manage_implies_create_hf \\(bool\\) does not accept int\\.$#"
+			count: 1
+			path: src/domain/project/ProjectHydrator.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:run\\(\\)\\.$#"
+			count: 1
+			path: src/index.php
+
+		-
+			message: "#^Property yii\\\\web\\\\Link\\:\\:\\$href \\(string\\) does not accept array\\<int\\|string, int\\|string\\>\\.$#"
+			count: 2
+			path: src/models/ProjectSummary.php

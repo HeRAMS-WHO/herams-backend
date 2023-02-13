@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use herams\api\domain\project\ProjectHydrator;
 use herams\common\components\AuditService;
 use herams\common\components\Formatter;
 use herams\common\config\CommonConfigurator;
+use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\EnvironmentInterface;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Environment;
@@ -19,11 +21,19 @@ use yii\i18n\GettextMessageSource;
 use yii\i18n\I18N;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
-use yii\web\User;
 
 return function(EnvironmentInterface $env, \yii\di\Container $container) : void {
     $commonDiConfigurator = new CommonConfigurator();
     $commonDiConfigurator->configure($env, $container);
+
+    $hydratorDefinition = $container->getDefinitions()[ActiveRecordHydratorInterface::class];
+    $container->set(ActiveRecordHydratorInterface::class, static function() use($hydratorDefinition) {
+        $result = $hydratorDefinition();
+        $result->registerAttributeStrategy(new ProjectHydrator());
+        return $result;
+    });
+
+
 
 
     $diConfigurator = require __DIR__ . '/di.php';
@@ -90,13 +100,6 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
 //
 //        ],
             'db' => \yii\db\Connection::class,
-            'urlSigner' => [
-                'class' => UrlSigner::class,
-                'secret' => $env->getSecret('app/url_signer_secret'),
-                'hmacParam' => 'h',
-                'paramsParam' => 'p',
-                'expirationParam' => 'e',
-            ],
             'preloadingSourceRepository' => PreloadingSourceRepository::class,
             'abacManager' => static function (
                 Resolver $resolver, // Taken from container
@@ -146,26 +149,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
                         },
                     ],
                 ],
-            ],
-            'mailer' => [
-                'class' => Mailer::class,
-                'messageConfig' => [
-                    'from' => [
-                        $env->getWithDefault('MAIL_FROM', 'support@herams.org') => 'HeRAMS Support',
-                    ],
-                ],
-                'transport' => [
-                    'class' => Swift_SmtpTransport::class,
-                    'username' => $env->getWrappedSecret('smtp/username'),
-                    'password' => $env->getWrappedSecret('smtp/password'),
-                    'constructArgs' => [
-                        $env->getWrappedSecret('smtp/host'),
-                        $env->getSecret('smtp/port'),
-                        $env->getWrappedSecret('smtp/encryption'),
-                    ],
-                ],
-            ],
-
+            ]
         ],
         'controllerNamespace' => 'herams\\api\\controllers',
 

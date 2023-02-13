@@ -7,6 +7,9 @@ namespace herams\common\models;
 use yii\base\Model;
 use yii\base\NotSupportedException;
 
+/**
+ * @method array<string,string> attributeLabels
+ */
 abstract class RequestModel extends Model
 {
     public function __construct()
