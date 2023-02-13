@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace prime\helpers;
+namespace herams\console\helpers;
 
 use herams\common\interfaces\AccessCheckInterface;
 
 /**
- * Job handlers run unrestricted
+ * Access check that always allows an action, used in console
  */
-class JobAccessCheck implements AccessCheckInterface
+final class DisabledAccessCheck implements AccessCheckInterface
 {
     public function __construct()
     {

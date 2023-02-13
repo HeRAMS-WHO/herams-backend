@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace herams\common\domain\facility;
 
-use Collecthor\DataInterfaces\RecordInterface;
-use Collecthor\SurveyjsParser\ArrayRecord;
 use herams\common\domain\survey\Survey;
 use herams\common\models\ActiveRecord;
 use herams\common\models\Project;
@@ -35,6 +33,7 @@ use yii\validators\StringValidator;
  * @property string $name
  * @property bool $use_in_dashboarding
  * @property bool $use_in_list
+ * @properyt int $tier
  * @property int $workspace_id
  *
  * Virtual fields

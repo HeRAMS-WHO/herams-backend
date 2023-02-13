@@ -25,13 +25,6 @@ class ProjectTabMenu extends TabMenu
     protected function renderMenu(): string
     {
         $projectId = $this->project->getId();
-        //        $this->tabs[] = [
-        //            'url' => [
-        //                'project/favorite-workspaces',
-        //                'id' => $projectId,
-        //            ],
-        //            'title' => \Yii::t('app', 'Favorite Workspaces')
-        //        ];
         $this->tabs[] = [
             'url' => [
                 'project/workspaces',

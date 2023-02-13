@@ -22,7 +22,6 @@ use herams\common\values\Latitude;
 use herams\common\values\Longitude;
 use herams\common\values\StringId;
 use prime\objects\enums\Enum;
-use prime\objects\EnumSet;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use UnitEnum;
@@ -76,15 +75,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
             $value = (int) $value;
         }
         return $class::from($value);
-    }
-
-    /**
-     * @param class-string $class
-     */
-    private function castEnumSet(string|null|array $value, string $class): EnumSet
-    {
-        // This will still crash on non-empty strings, that is intended. If a string is passed it has to be empty
-        return $class::from(! empty($value) ? $value : []);
     }
 
     private function castFloat(string|int|float $value): float
@@ -157,7 +147,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                 $name === Longitude::class => new Longitude((float) $value),
                 $name === RecordInterface::class => isset($value) ? new NormalizedArrayDataRecord($value) : null,
                 is_subclass_of($name, BackedEnum::class) => $this->castBackedEnum($value, $name, $source),
-                is_subclass_of($name, EnumSet::class) => $this->castEnumSet($value, $name),
                 is_subclass_of($name, Enum::class) => $this->castEnum($value, $name),
                 is_subclass_of($name, IntegerId::class) => $this->castIntegerId($value, $name, $property->allowsNull()),
                 is_subclass_of($name, StringId::class) => $this->castStringId($value, $name),

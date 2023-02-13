@@ -7,6 +7,7 @@ namespace herams\common\helpers\surveyjs;
 use Collecthor\SurveyjsParser\ElementParserInterface;
 use Collecthor\SurveyjsParser\ParserHelpers;
 use Collecthor\SurveyjsParser\SurveyConfiguration;
+use herams\common\helpers\ConfigurationProvider;
 
 class LocalizableTextQuestionParser implements ElementParserInterface
 {
@@ -18,7 +19,7 @@ class LocalizableTextQuestionParser implements ElementParserInterface
         $dataPath = [...$dataPrefix, $this->extractValueName($questionConfig)];
 
         $name = implode('.', [...$dataPrefix, $questionConfig['name']]);
-        $titles = $this->extractTitles($questionConfig, $surveyConfiguration);
+        $titles = $this->extractTitles($questionConfig);
 
         yield new LocalizableTextVariable($name, $titles, $dataPath, $questionConfig);
     }

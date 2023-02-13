@@ -21,7 +21,7 @@ use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
 use yii\web\User;
 
-return function(EnvironmentInterface $env, \yii\di\Container $container) : array {
+return function(EnvironmentInterface $env, \yii\di\Container $container) : void {
     $commonDiConfigurator = new CommonConfigurator();
     $commonDiConfigurator->configure($env, $container);
 
@@ -37,6 +37,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
         'timeZone' => 'UTC',
         'vendorPath' => '@app/../vendor',
         'sourceLanguage' => 'en',
+        'language' => 'en',
         'aliases' => [
             '@tests' => '@app/../tests',
             '@composer' => realpath(__DIR__ . '/../../vendor'),
@@ -81,6 +82,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
                         'class' => \yii\web\JsonResponseFormatter::class,
                         'prettyPrint' => true,
                     ],
+                    'surveyjs' => \herams\api\components\InterfaceBasedResponseFormatter::class
                 ],
             ],
 //        'assetManager' => [
@@ -175,6 +177,4 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : array
     }
 
     $container->set(\yii\web\Application::class, $config);
-    return $config;
-
 };

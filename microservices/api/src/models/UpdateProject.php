@@ -15,6 +15,7 @@ use herams\common\values\Latitude;
 use herams\common\values\Longitude;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
+use yii\validators\BooleanValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
 
@@ -40,6 +41,8 @@ final class UpdateProject extends RequestModel
 
     public array $languages = [];
 
+    public string $primaryLanguage = '';
+
     public function __construct(public readonly ProjectId $id)
     {
         parent::__construct();
@@ -53,10 +56,11 @@ final class UpdateProject extends RequestModel
     public function rules(): array
     {
         return [
-            [['title', 'country', 'visibility', 'adminSurveyId', 'dataSurveyId'], RequiredValidator::class],
+            [['title', 'country', 'visibility', 'adminSurveyId', 'dataSurveyId', 'primaryLanguage', 'languages'], RequiredValidator::class],
             [['country'], CountryValidator::class],
             [['languages'], SafeValidator::class],
-            [['latitude', 'longitude', 'manageImpliesCreateHf'], SafeValidator::class],
+            [['latitude', 'longitude'], SafeValidator::class],
+            [['manageImpliesCreateHf'], BooleanValidator::class],
             [['visibility'],
                 BackedEnumValidator::class,
                 'example' => ProjectVisibility::Public,

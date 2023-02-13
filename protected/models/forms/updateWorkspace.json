@@ -1,0 +1,16 @@
+{
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "name": "title",
+          "type": "localizableprojecttext",
+          "title": "Workspace title",
+          "isRequired": true
+        }
+      ]
+    }
+  ],
+  "title": "Create Workspace"
+}

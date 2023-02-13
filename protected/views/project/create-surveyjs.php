@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\widgets\Section;
-use prime\widgets\survey\Survey;
+use prime\widgets\survey\SurveyFormWidget;
 
 /**
- * @var \prime\modules\Api\models\NewProject $model
- * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
+ * @var \prime\interfaces\SurveyFormInterface $form
  * @var View $this
  */
 assert($this instanceof View);
@@ -21,17 +20,10 @@ $this->endBlock();
 Section::begin()
 ;
 
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
-    ->withSubmitRoute([
-        '/api/project/create',
-    ])
-    ->withServerValidationRoute(['/api/project/validate'])
-    ->withRedirectRoute([
-        'project/index',
-    ])
+$survey = SurveyFormWidget::begin()
+    ->withForm($form)
 ;
 
-Survey::end();
+SurveyFormWidget::end();
 
 Section::end();

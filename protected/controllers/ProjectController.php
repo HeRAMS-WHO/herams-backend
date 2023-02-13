@@ -2,8 +2,15 @@
 
 namespace prime\controllers;
 
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\models\Permission;
 use herams\common\models\Project;
+use herams\common\values\ProjectId;
+use herams\common\values\WorkspaceId;
 use prime\actions\DeleteAction;
 use prime\components\Controller;
 use prime\controllers\project\Create;
@@ -57,6 +64,45 @@ class ProjectController extends Controller
             'view' => ViewForSurveyJs::class,
             'workspaces' => Workspaces::class,
         ];
+    }
+
+    public function actionExport(
+        ProjectRepository $projectRepository,
+        SurveyRepository $surveyRepository,
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyResponseRepository $surveyResponseRepository,
+        int $id,
+        bool $answersAsText = true
+    ) {
+        $projectId = new ProjectId($id);
+
+        $locales = $projectRepository->retrieveProjectLocales($projectId);
+        $adminSurveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+        $dataSurveyId = $projectRepository->retrieveDataSurveyId($projectId);
+
+        $variableSet = $surveyRepository->retrieveVariableSet($adminSurveyId, $dataSurveyId);
+        $helper = new \herams\common\helpers\FlattenResponseHelper($variableSet, projectLocales: $locales, answersAsText: $answersAsText);
+
+        /**
+         * Configuration that we must support (#6)
+         * - Locale, already supported by the helper
+         * - Headers: text and / or codes
+         * - Encoding answers as labels or codes
+         * - Date for the report
+         */
+        $records = (function () use ($workspaceRepository, $facilityRepository, $projectId) {
+            foreach ($workspaceRepository->retrieveForProject($projectId) as $workspace) {
+                yield from $facilityRepository->retrieveForWorkspace(new WorkspaceId($workspace->id));
+            }
+        })();
+
+        $result = '<pre>';
+        foreach ($helper->flattenAll($records) as $flat) {
+            $result .= json_encode($flat, JSON_PRETTY_PRINT);
+            $result .= "\n";
+        }
+        return $this->renderContent($result . '</pre>');
     }
 
     public function behaviors(): array

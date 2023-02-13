@@ -24,6 +24,6 @@ class LanguageTest extends Unit
             'fr-FR' => 'French (France)',
             'en' => 'English',
             'fr' => 'French',
-        ], Language::toLocalizedArrayWithoutSourceLanguage(Language::enUS));
+        ], Language::toLocalizedArrayWithoutSourceLanguage(\Yii::$app->sourceLanguage));
     }
 }

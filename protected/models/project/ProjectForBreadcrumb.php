@@ -15,7 +15,7 @@ class ProjectForBreadcrumb implements ProjectForBreadcrumbInterface
     public function __construct(
         Project $model
     ) {
-        $this->label = $model->title;
+        $this->label = $model->getTitle();
         $this->url = [
             '/project/view',
             'id' => $model->id,

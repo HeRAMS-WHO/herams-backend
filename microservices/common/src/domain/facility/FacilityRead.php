@@ -57,7 +57,7 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
 
     public function allData(): array
     {
-        return $this->data;
+        return $this->data ?? [];
     }
 
     protected static function virtualFields()

@@ -15,6 +15,8 @@ use yii\web\Request;
 
 class ApiProxy
 {
+    private string $prefix = '/api-proxy/core';
+
     public function __construct(
         private RequestFactoryInterface $requestFactory,
         private ClientInterface $client,
@@ -26,8 +28,10 @@ class ApiProxy
     {
         // Get the IP of the LB (currently dev only)
         return $this->forwardRequest(strtr($request->getAbsoluteUrl(), [
+            // This is for DNS resolution in dev
             'herams.test' => 'traefik',
-            '/api-proxy/core' => '/api',
+            // This is for rewriting the URL
+            $this->prefix => '/api',
         ]), $request, $user);
     }
 
@@ -38,7 +42,7 @@ class ApiProxy
             ->issuedAt(Carbon::now()->toDateTimeImmutable())
             ->canOnlyBeUsedAfter(Carbon::now()->toDateTimeImmutable())
 
-            ->expiresAt(Carbon::now()->addMinute()->toDateTimeImmutable())
+            ->expiresAt(Carbon::now()->addHour()->toDateTimeImmutable())
             ->permittedFor('https://api.herams.org')
             ->withClaim('userId', $user)
             ->getToken($this->configuration->signer(), $this->configuration->signingKey())
@@ -59,8 +63,9 @@ class ApiProxy
         }
 
         $upstreamRequest = $upstreamRequest
-            ->withHeader('Accept', 'application/json')
+//            ->withHeader('Accept', 'application/json')
             ->withHeader('Authorization', "Bearer $token")
+
         ;
         $response = $this->client->sendRequest($upstreamRequest);
         return $response;

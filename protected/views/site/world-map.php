@@ -6,6 +6,7 @@ use herams\common\models\Permission;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 /**
@@ -28,7 +29,7 @@ $this->params['body'] = [
 ];
 // Order projects by status.
 $collections = [];
-foreach ($projects->getModels() as $project) {
+foreach ([] as $project) {
     if (! isset($collections[$project->status])) {
         $collections[$project->status] = [
             "type" => "FeatureCollection",
@@ -56,19 +57,11 @@ foreach ($projects->getModels() as $project) {
 
     ];
 }
-SideMenu::begin([
+$menu = SideMenu::begin([
     'collapsible' => true,
     'footer' => $this->render('//footer'),
 ]);
 
-/** @var \herams\common\models\Project $project */
-foreach ($projects->getModels() as $project) {
-    echo Html::button($project->getDisplayField(), [
-        'data' => [
-            'id' => $project->id,
-        ],
-    ]);
-}
 if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
     echo Html::a('New project', ['project/create'], [
         'style' => [
@@ -77,10 +70,34 @@ if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
     ]);
 }
 SideMenu::end();
+$config = Json::encode([
+    'projectsUri' => Url::to(['/api/projects']),
+    'sideParent' => $menu->getId(),
+]);
 $this->registerJs(<<<JS
+    (async () => {
+        const config = $config;
+        // Get projects.
+        const response = await fetch(config.projectsUri)
+        const projects = await response.json()
+        console.log(projects);
+        // Render the list on the left.
+        const parent = document.getElementById(config.sideParent).querySelector('nav')
+        parent.prepend(...projects.map((project) => {
+            const button = document.createElement('button')
+            button.dataset.id = project.id
+            button.type = 'button'
+            button.textContent = project.name;
+            return button
+        }))
+        
+        
+    })()
+        
+    
     window.addEventListener('click', function(e) {
         if (e.target.matches('.menu button[data-id]:not(.active)')) {
-            let event = new Event('externalPopup');
+            const event = new Event('externalPopup');
             event.id = e.target.getAttribute('data-id');
             window.dispatchEvent(event);
         }
@@ -108,5 +125,4 @@ echo Map::widget([
     'options' => [
         'class' => 'content',
     ],
-    'data' => $collections,
 ]);

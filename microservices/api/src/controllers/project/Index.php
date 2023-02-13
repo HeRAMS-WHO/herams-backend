@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\api\controllers\project;
 
-use herams\common\models\Project;
+use herams\api\models\ProjectSummary;
 use yii\base\Action;
 
 class Index extends Action
@@ -13,12 +13,15 @@ class Index extends Action
     )
     {
         $data = [];
-        foreach (Project::find()
+        /**
+         * @var ProjectSummary $project
+         */
+        foreach (ProjectSummary::find()
             ->orderBy([
                 'id' => 'asc',
             ])
             ->andWhere([
-                'visibility' => Project::VISIBILITY_PUBLIC,
+                'visibility' => ProjectSummary::VISIBILITY_PUBLIC,
             ])
             ->withFields(
                 'latestDate',

@@ -12,7 +12,7 @@ use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;
 
-class Create extends Action
+final class Create extends Action
 {
     public function run(
         ModelHydrator $modelHydrator,

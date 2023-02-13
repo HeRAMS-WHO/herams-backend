@@ -10,6 +10,7 @@ use yii\helpers\Html;
 
 <div class="stats">
     <?php
+
     $projects = Project::find()->withFields('contributorPermissionCount', 'facilityCount', 'latestDate', 'workspaceCount')->all();
 $stats = [];
 $stats[] = [
@@ -44,7 +45,16 @@ foreach ($stats as $stat) {
     echo Html::endTag('div');
 }
 
+
+
+?>
+</div>
+<?php
+// TODO: Implement latest status when localized titles for projects work properly
+return;
 if (! empty($projects)) {
+    $latestStatus = '';
+
     $latest = array_pop($projects);
     foreach ($projects as $project) {
         if ($project->latestDate > $latest->latestDate) {
@@ -55,7 +65,6 @@ if (! empty($projects)) {
 } else {
     $latestStatus = \Yii::t('app', "No data loaded");
 }
-
-?>
-</div>
-<div class="status"><?= Icon::recycling() . ' ' . \Yii::t('app', 'Latest update') ?>: <span class="value"><?= $latestStatus ?></span></div>
+echo Html::tag('div', Icon::recycling() . ' ' . \Yii::t('app', 'Latest update') . Html::tag('span', $latestStatus), [
+    'class' => 'status',
+]);

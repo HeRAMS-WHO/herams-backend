@@ -18,12 +18,6 @@ use herams\common\enums\Language;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\EnvironmentInterface;
 use herams\common\interfaces\ModelHydratorInterface;
-use herams\common\jobHandlers\jobHandlers\accessRequests\CreatedNotificationHandler as AccessRequestCreatedNotificationHandler;
-use herams\common\jobHandlers\jobHandlers\accessRequests\ImplicitlyGrantedNotificationHandler as AccessRequestImplicitlyGrantedHandler;
-use herams\common\jobHandlers\jobHandlers\accessRequests\ResponseNotificationHandler as AccessRequestResponseNotificationHandler;
-use herams\common\jobHandlers\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler as PermissionCheckImplicitAccessRequestGrantedHandler;
-use herams\common\jobHandlers\jobHandlers\UpdateFacilityDataHandler;
-use herams\common\jobHandlers\jobHandlers\users\SyncNewsletterSubscriptionHandler as UserSyncNewsletterSubscriptionHandler;
 use herams\common\jobs\accessRequests\CreatedNotificationJob as AccessRequestCreatedNotificationJob;
 use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob as AccessrequestImplicitlyGrantedJob;
 use herams\common\jobs\accessRequests\ResponseNotificationJob as AccessRequestResponseNotificationJob;
@@ -56,11 +50,11 @@ use yii\widgets\PjaxAsset;
 assert(isset($env) && $env instanceof EnvironmentInterface);
 
 return [
+    \prime\repositories\FormRepository::class => \prime\repositories\FormRepository::class,
     PjaxAsset::class => [
         'baseUrl' => '@npm/yii2-pjax',
         'sourcePath' => null,
     ],
-    \prime\helpers\ConfigurationProvider::class => \prime\helpers\ConfigurationProvider::class,
     ModelHydrator::class => ModelHydrator::class,
     Configuration::class => static function () use ($env): Configuration {
         $result = Configuration::forSymmetricSigner(

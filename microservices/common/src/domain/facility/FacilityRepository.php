@@ -20,8 +20,6 @@ use herams\common\values\WorkspaceId;
 use prime\helpers\CanCurrentUserWrapper;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
-use prime\models\forms\facility\UpdateSituationForm;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 final class FacilityRepository
@@ -64,7 +62,7 @@ final class FacilityRepository
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
-        return new FacilityId((string) $record->id);
+        return new FacilityId((int) $record->id);
     }
     public function retrieveForUpdate(FacilityId $id): Facility
     {
@@ -75,61 +73,12 @@ final class FacilityRepository
         return $record;
     }
 
-    /**
-     * @throws NotFoundHttpException
-     */
-    public function retrieveForUpdateSituation(FacilityId $facilityId): UpdateSituationForm
-    {
-        /** @var null|FacilityRead $record */
-        $record = Facility::find()->andWhere([
-            'id' => $facilityId,
-        ])->one();
-        if (! $record->canReceiveSituationUpdate()) {
-            throw new ForbiddenHttpException('Situation cannot be updated.');
-        }
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
-
-        $workspaceId = new WorkspaceId($record->workspace_id);
-        $workspace = $this->workspaceRepository->retrieveForNewFacility($workspaceId);
-
-        $form = new UpdateSituationForm(
-            $facilityId,
-            $workspace->getLanguages(),
-            $this->surveyRepository->retrieveDataSurveyForWorkspaceForSurveyJs($workspaceId)
-        );
-        $surveyResponse = $this->surveyResponseRepository->retrieveDataSurveyResponseForFacilitySituationUpdate($facilityId);
-        $form->data = $surveyResponse ? $surveyResponse->getData() : [];
-        return $form;
-    }
 
     public function retrieveActiveRecord(FacilityId $id): Facility|null
     {
         return Facility::findOne([
             'id' => $id,
         ]);
-    }
-
-    public function saveUpdateSituation(UpdateSituationForm $model): FacilityId
-    {
-        $record = Facility::findOne([
-            'id' => $model->getFacilityId(),
-        ]);
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_SURVEY_DATA);
-
-        $transaction = Facility::getDb()->beginTransaction();
-
-        $this->hydrateFacilityFromDataResponseData($model->getSurvey(), $record, $model->data);
-        if (! $record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
-        }
-
-        $createSurveyResponse = $this->surveyResponseRepository->createFormModel($model->getSurvey()->getId(), $model->getFacilityId());
-        $createSurveyResponse->data = $model->data;
-        $this->surveyResponseRepository->create($createSurveyResponse);
-
-        $transaction->commit();
-
-        return new FacilityId((string) $record->id);
     }
 
     /**

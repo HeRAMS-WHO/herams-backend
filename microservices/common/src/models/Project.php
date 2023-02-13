@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\models;
 
+use herams\api\components\Link;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\survey\Survey;
 use herams\common\domain\user\User;
@@ -11,17 +12,16 @@ use herams\common\enums\ProjectStatus;
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\Locale;
 use herams\common\interfaces\ProjectForTabMenuInterface;
-use herams\common\interfaces\RequestableInterface;
 use herams\common\queries\ActiveQuery as ActiveQuery;
 use herams\common\queries\FacilityQuery;
 use herams\common\queries\WorkspaceQuery;
+use herams\common\traits\LocalizedReadTrait;
 use herams\common\validators\BackedEnumValidator;
 use herams\common\validators\ExistValidator;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
 use League\ISO3166\ISO3166;
 use prime\objects\HeramsCodeMap;
-use prime\objects\LanguageSet;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
@@ -32,9 +32,6 @@ use yii\validators\DefaultValueValidator;
 use yii\validators\InlineValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
-use yii\validators\RequiredValidator;
-use yii\validators\UniqueValidator;
-use yii\web\Link;
 use yii\web\Linkable;
 
 /**
@@ -53,9 +50,9 @@ use yii\web\Linkable;
  * @property boolean $manage_implies_create_hf
  * @property array $overrides
  * @property int $status
- * @property string $title
  * @property string|null $updated_at
  * @property string $visibility
+ * @property string $primary_language
  *
  * Virtual fields
  * @property-read int $contributorCount
@@ -68,14 +65,14 @@ use yii\web\Linkable;
  * Relations
  * @property-read Page[] $mainPages
  * @property-read Page[] $pages
- * @property-read SurveyInterface $survey
  * @property-read Workspace[] $workspaces
  * @property-read Survey $adminSurvey
  *
  * @mixin VirtualFieldBehavior
  */
-class Project extends ActiveRecord implements Linkable, RequestableInterface, ProjectForTabMenuInterface
+class Project extends ActiveRecord implements ProjectForTabMenuInterface
 {
+    use LocalizedReadTrait;
     public static function authName(): string
     {
         return 'Project';
@@ -110,6 +107,10 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         return $this->hasOne(Survey::class, ['data_survey_id' => 'id']);
     }
 
+    final public function getTitle(): string
+    {
+        return $this->getLocalizedAttribute('title', \Yii::$app->language, $this->primary_language, 'en') ?? "#{$this->id}";
+    }
     public function getAdminSurveyId(): SurveyId
     {
         return new SurveyId($this->admin_survey_id);
@@ -157,34 +158,9 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         return $result;
     }
 
-    public function fields(): array
-    {
-        $fields = parent::fields();
-        $fields['name'] = 'title';
-
-        /** @var VirtualFieldBehavior $virtualFields */
-        $virtualFields = $this->getBehavior('virtualFields');
-        foreach ($virtualFields->virtualFields as $key => $definition) {
-            $fields[$key] = $key;
-        }
-        foreach (['overrides', 'title', 'contributorPermissionCount'] as $hidden) {
-            unset($fields[$hidden]);
-        }
-        return $fields;
-    }
-
     public static function find(): ActiveQuery
     {
-        return new ActiveQuery(get_called_class());
-    }
-
-    public function getLanguageSet(): LanguageSet
-    {
-        if (empty($this->languages)) {
-            return LanguageSet::fullSet();
-        } else {
-            return LanguageSet::from($this->languages);
-        }
+        return new ActiveQuery(static::class);
     }
 
     /**
@@ -204,24 +180,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         ])->all();
     }
 
-    public function getLinks(): array
-    {
-        $result = [];
-        $result[Link::REL_SELF] = Url::to([
-            'project/view',
-            'id' => $this->id,
-        ]);
-        $result['summary'] = Url::to([
-            'project/summary',
-            'id' => $this->id,
-        ]);
 
-        $result['workspaces'] = Url::to(                [
-            '/project/workspaces',
-            'id' => $this->id,
-        ]);
-        return $result;
-    }
 
     public function getMainPages(): ActiveQuery
     {
@@ -325,8 +284,6 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
     public function rules(): array
     {
         return [
-            [['title'], RequiredValidator::class],
-            [['title'], UniqueValidator::class],
             [['base_survey_eid'],
                 NumberValidator::class,
                 'integerOnly' => true,
@@ -396,7 +353,7 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         ];
     }
 
-    private static function virtualFields(): array
+    protected static function virtualFields(): array
     {
         return [
             'latestDate' => [
@@ -550,22 +507,12 @@ class Project extends ActiveRecord implements Linkable, RequestableInterface, Pr
         ];
     }
 
-    public function getTitle(): string
-    {
-        return $this->getAttribute('title');
-    }
-
     public function getRoute(): array
     {
         return [
             'project/update',
             'id' => $this->id,
         ];
-    }
-
-    public function getProjectTitle(): string
-    {
-        return $this->getTitle();
     }
 
     public static function tableName()

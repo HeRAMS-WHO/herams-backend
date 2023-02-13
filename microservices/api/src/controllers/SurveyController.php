@@ -9,6 +9,7 @@ use herams\api\models\UpdateSurvey;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
+use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\values\SurveyId;
 use yii\helpers\Url;
 use yii\web\Request;
@@ -31,10 +32,11 @@ class SurveyController extends Controller
         Request $request,
         ModelValidator $modelValidator,
         SurveyRepository $surveyRepository,
+        SurveyParser $surveyParser,
         Response $response,
         int $id
     ) {
-        $model = new UpdateSurvey(new SurveyId($id));
+        $model = new UpdateSurvey(new SurveyId($id), $surveyParser);
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
 
         if (!$modelValidator->validateModel($model)) {

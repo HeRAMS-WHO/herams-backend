@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\helpers;
+namespace herams\common\helpers;
 
 use herams\common\enums\ConfigurationKey;
 use herams\common\models\Configuration;
@@ -10,6 +10,18 @@ use herams\common\values\SurveyId;
 
 class ConfigurationProvider
 {
+    /**
+     * @return Locale
+     */
+    public function getPlatformLocales(): array
+    {
+        $data = Configuration::find()->andWhere([
+            'key' => ConfigurationKey::Locales->value,
+        ])->one();
+
+        return Locale::fromValues($data?->value ?? ["en"]);
+    }
+
     public function getUpdateWorkspaceSurveyId(): SurveyId
     {
         $data = Configuration::find()->andWhere([
@@ -41,4 +53,7 @@ class ConfigurationProvider
         ])->one();
         return new SurveyId($data->value);
     }
+
+
+
 }

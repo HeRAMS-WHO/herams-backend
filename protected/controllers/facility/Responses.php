@@ -23,7 +23,7 @@ class Responses extends FrontendAction
         ProjectRepository $projectRepository,
         SurveyRepository $surveyRepository,
         BreadcrumbService $breadcrumbService,
-        string $id
+        int $id
     ) {
         $facilityId = new FacilityId($id);
         $facility = $facilityRepository->retrieveForTabMenu($facilityId);

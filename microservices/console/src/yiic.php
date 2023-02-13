@@ -20,6 +20,8 @@ if (! file_exists('/run/secrets')) {
     $env = new KubernetesSecretEnvironment('/run/secrets', __DIR__ . '/config/env.json', '/run/config/config.json', '/run/env.json');
 }
 
-$config = require __DIR__ . '/config/console.php';
-\Yii::$container->set(\yii\console\Application::class, $config);
+$containerConfigurator = require __DIR__ . '/config/console.php';
+
+$containerConfigurator($env, \Yii::$container);
+
 \Yii::$container->get(\yii\console\Application::class)->run();

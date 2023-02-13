@@ -30,6 +30,7 @@ class LanguageSelector implements BootstrapInterface
             } catch (\BadMethodCallException) {
                 // Unknown language; use autodetection.
             }
+
             $app->language = $this->getPreferredLanguage($app->request);
         });
     }

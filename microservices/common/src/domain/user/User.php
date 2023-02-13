@@ -86,7 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
             [
                 'language',
                 BackedEnumValidator::class,
-                'example' => Language::enUS,
+                'example' => Language::en,
             ],
             [['newsletter_subscription'],
                 DefaultValueValidator::class,

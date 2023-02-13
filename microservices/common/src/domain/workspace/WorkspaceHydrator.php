@@ -28,10 +28,9 @@ class WorkspaceHydrator implements ActiveRecordHydratorInterface
     {
         $i18n = $target->i18n;
 
-        $i18n['title'] = $source->title->asArrayWithoutDefaultLanguage();
+        $i18n['title'] = $source->title->asDictionary();
 
         $target->i18n = $i18n;
-        $target->title = $source->title->getDefault();
         if ($source instanceof NewWorkspace) {
             $target->project_id = $source->projectId->getValue();
         }
@@ -43,10 +42,6 @@ class WorkspaceHydrator implements ActiveRecordHydratorInterface
      */
     public function hydrateRequestModel(ActiveRecord $source, RequestModel $target): void
     {
-        $titleValues = [
-            Language::default()->value => $source->title,
-            ...$source->i18n['title'] ?? [],
-        ];
-        $target->title = new LocalizedString($titleValues);
+        $target->title = new LocalizedString($source->i18n['title']);
     }
 }

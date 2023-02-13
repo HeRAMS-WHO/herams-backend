@@ -46,8 +46,12 @@ echo $this->render('//user-menu', [
     'class' => ['admin'],
 ]);
 
+$breadCrumbs = $this->getBreadcrumbCollection();
+if (isset($this->title)) {
+    $breadCrumbs->add(new Breadcrumb($this->title));
+}
 Breadcrumbs::begin()
-    ->forCollection($this->getBreadcrumbCollection()->add(new Breadcrumb($this->title)))
+    ->forCollection($breadCrumbs)
     ->end();
 echo Html::tag('span', $this->params['subject'] ?? $this->title, [
     'class' => 'page-title',

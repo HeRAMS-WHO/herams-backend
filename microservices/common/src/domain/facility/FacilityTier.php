@@ -7,12 +7,12 @@ namespace herams\common\domain\facility;
 use Collecthor\DataInterfaces\ValueInterface;
 use herams\common\interfaces\LabeledEnum;
 
-enum FacilityTier: string implements LabeledEnum, ValueInterface
+enum FacilityTier: int implements LabeledEnum, ValueInterface
 {
-    case Primary = "primary";
-    case Secondary = "secondary";
-    case Tertiary = "tertiary";
-    case Unknown = "unknown";
+    case Primary = 1;
+    case Secondary = 2;
+    case Tertiary = 3;
+    case Unknown = 0;
 
     public function label(string $locale = null): string
     {

@@ -19,8 +19,15 @@
       Survey.Serializer.addProperty(this.name + 'value', {
         name: 'tier',
         displayName: 'Tier',
-        choices: ['primary', 'secondary', 'tertiary'],
-        default: 'primary',
+        // choices: ['primary', 'secondary', 'tertiary'],
+        // default: 'primary',
+        type: 'number',
+        choices: [
+          {value: 1, text: "Primary"},
+          {value: 2, text: "Secondary"},
+          {value: 3, text: "Tertiary"}
+        ],
+        default: 1,
       })
       Survey.Serializer.addClass(this.name, [
         {

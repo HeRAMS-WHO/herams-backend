@@ -9,11 +9,13 @@ use herams\common\helpers\Locale;
 class ProjectLocales
 {
     /**
-     * @param list<Locale> $locales
+     * @var list<Locale>
      */
-    public function __construct(
-        private array $locales = []
-    ) {
+    private readonly array $locales;
+
+    public function __construct(Locale ...$locales)
+    {
+        $this->locales = array_values($locales);
     }
 
     /**

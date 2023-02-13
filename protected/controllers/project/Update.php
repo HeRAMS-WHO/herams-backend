@@ -6,10 +6,11 @@ namespace prime\controllers\project;
 
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
+use herams\common\helpers\ConfigurationProvider;
 use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
-use prime\helpers\ConfigurationProvider;
+use prime\repositories\FormRepository;
 use yii\base\Action;
 use function iter\toArray;
 
@@ -19,6 +20,7 @@ class Update extends Action
         ProjectRepository $projectRepository,
         ConfigurationProvider $configurationProvider,
         BreadcrumbService $breadcrumbService,
+        FormRepository $formRepository,
         SurveyRepository $surveyRepository,
         int $id
     ) {
@@ -29,12 +31,11 @@ class Update extends Action
             ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())
         );
 
-        $survey = $surveyRepository->retrieveForSurveyJs($configurationProvider->getUpdateProjectSurveyId());
         $project = $projectRepository->retrieveForRead($projectId);
         return $this->controller->render('update', [
             'project' => $project,
+            'form' => $formRepository->getUpdateProjectForm($projectId),
             'projectId' => $projectId,
-            'survey' => $survey,
         ]);
     }
 }

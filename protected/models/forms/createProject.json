@@ -1,0 +1,58 @@
+{
+  "title": "Create project",
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "localizableprojecttext",
+          "name": "title",
+          "title": "Project name",
+          "isRequired": true
+        },
+        {
+          "type": "checkbox",
+          "name": "languages",
+          "title": "Project languages",
+          "description": "These will be available for workspace & facility data",
+          "isRequired": true,
+          "choicesByUrl": {
+            "url": "/api-proxy/core/configuration/locales",
+            "valueName": "locale",
+            "titleName": "label"
+          }
+        },
+        {
+          "type": "radiogroup",
+          "name": "primaryLanguage",
+          "title": "Primary language for this project",
+          "description": "Primary language for the project",
+          "isRequired": true,
+          "choicesFromQuestion": "languages",
+          "choicesFromQuestionMode": "selected"
+        },
+        {
+          "type": "surveypicker",
+          "name": "adminSurveyId",
+          "title": "Admin survey",
+          "description": "Survey to use for facility settings",
+          "isRequired": true
+        },
+        {
+          "type": "surveypicker",
+          "name": "dataSurveyId",
+          "title": "Data survey",
+          "description": "Survey to use for facility data",
+          "isRequired": true,
+          "validators": [
+            {
+              "type": "expression",
+              "text": "Data and admin survey should not be the same",
+              "expression": "{adminSurveyId} <> {dataSurveyId}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

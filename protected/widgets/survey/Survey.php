@@ -117,12 +117,10 @@ class Survey extends Widget
             
             const surveyStructure = config.structure
             
-            // if (config.localeEndpoint) {
-            //     const locales = await Herams.fetchWithCsrf(config.localeEndpoint, null, 'get')
-            //     surveyStructure.locales = locales.languages 
-            // }
-            //
-            //
+            if (config.localeEndpoint) {
+                const locales = await Herams.fetchWithCsrf(config.localeEndpoint, null, 'get')
+                surveyStructure.locales = locales.languages 
+            }
             const survey = new SurveyKnockout.Survey(surveyStructure);
             
             survey.mode = config.displayMode ? "display" : "edit";

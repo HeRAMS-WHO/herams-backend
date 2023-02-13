@@ -8,22 +8,10 @@ use herams\common\interfaces\ProjectForTabMenuInterface;
 use herams\common\models\ActiveRecord;
 use herams\common\traits\ReadOnlyTrait;
 use herams\common\values\ProjectId;
-use prime\behaviors\LocalizableReadBehavior;
 
 class Project extends \herams\common\models\Project implements ProjectForTabMenuInterface
 {
     use ReadOnlyTrait;
-
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'localizable' => [
-                'class' => LocalizableReadBehavior::class,
-                'locale' => \Yii::$app->language,
-                'attributes' => ['title'],
-            ],
-        ]);
-    }
 
     public static function instantiate($row): static
     {

@@ -1,0 +1,71 @@
+{
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "name": "title",
+          "type": "localizableprojecttext",
+          "title": "Project name",
+          "isRequired": true
+        },
+        {
+          "name": "visibility",
+          "type": "projectvisibility",
+          "title": "Project visibility",
+          "isRequired": true
+        },
+        {
+          "name": "country",
+          "type": "countrypicker",
+          "title": "Country",
+          "isRequired": true
+        },
+        {
+          "type": "checkbox",
+          "name": "languages",
+          "title": "Project languages",
+          "description": "These will be available for workspace & facility data",
+          "isRequired": true,
+          "choicesByUrl": {
+            "url": "/api-proxy/core/configuration/locales",
+            "valueName": "locale",
+            "titleName": "label"
+          }
+        },
+        {
+          "type": "radiogroup",
+          "name": "primaryLanguage",
+          "title": "Primary language for this project",
+          "description": "Primary language for the project",
+          "isRequired": true,
+          "choicesFromQuestion": "languages",
+          "choicesFromQuestionMode": "selected"
+        },
+        {
+          "name": "adminSurveyId",
+          "type": "surveypicker",
+          "title": "Admin survey",
+          "isRequired": true,
+          "description": "Survey to use for facility settings"
+        },
+        {
+          "name": "dataSurveyId",
+          "type": "surveypicker",
+          "title": "Data survey",
+          "isRequired": true,
+          "validators": [
+            {
+              "text": "Data and admin survey should not be the same",
+              "type": "expression",
+              "expression": "{adminSurveyId} <> {dataSurveyId}"
+            }
+          ],
+          "description": "Survey to use for facility data"
+        }
+      ]
+    }
+  ],
+  "title": "Update project",
+  "pagePrevText": "Previous"
+}

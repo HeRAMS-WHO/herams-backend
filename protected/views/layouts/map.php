@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use prime\assets\MapLayoutBundle;
-use prime\widgets\map\Map;
+use prime\widgets\map\BackgroundMap;
 
 /**
  * @var \prime\components\View $this
@@ -32,7 +32,7 @@ $this->registerAssetBundle(MapLayoutBundle::class);
     <?php
 
     $this->beginBody();
-echo Map::widget();
+echo BackgroundMap::widget();
 echo $content;
 $this->endBody();
 ?>

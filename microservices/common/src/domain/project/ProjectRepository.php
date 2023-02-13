@@ -6,6 +6,7 @@ namespace herams\common\domain\project;
 
 use herams\api\models\NewProject;
 use herams\api\models\UpdateProject;
+use herams\common\helpers\Locale;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
@@ -142,8 +143,6 @@ class ProjectRepository implements ProjectLocalesRetriever
         }
 
         $this->accessCheck->requirePermission($project, Permission::PERMISSION_READ);
-
-        var_dump($project->languages);
-        die();
+        return new ProjectLocales(...Locale::fromValues($project->languages ?? []));
     }
 }

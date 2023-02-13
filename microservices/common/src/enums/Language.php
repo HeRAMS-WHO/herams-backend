@@ -7,7 +7,7 @@ namespace herams\common\enums;
 enum Language: string
 {
     case en = 'en';
-    case enUS = 'en-US';
+//    case enUS = 'en-US';
     case arAR = 'ar-AR';
     case ar = 'ar';
     case fr = 'fr';
@@ -36,7 +36,7 @@ enum Language: string
     {
         $result = [];
         foreach (self::cases() as $language) {
-            if ($language !== Language::enUS) {
+            if ($language !== \Yii::$app->sourceLanguage) {
                 $result[$language->value] = $language->label($displayLocale);
             }
         }

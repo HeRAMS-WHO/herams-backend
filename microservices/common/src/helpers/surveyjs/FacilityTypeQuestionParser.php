@@ -27,6 +27,7 @@ class FacilityTypeQuestionParser implements ElementParserInterface
         array $dataPrefix = []
     ): iterable {
         $tierMap = [];
+
         foreach ($questionConfig['choices'] as $choice) {
             $tierMap[$choice['value']] = FacilityTier::from($choice['tier'] ?? FacilityTier::Primary->value);
         }

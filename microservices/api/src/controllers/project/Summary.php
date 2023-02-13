@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace herams\api\controllers\project;
 
+use herams\api\models\ProjectSummary;
 use herams\common\models\Permission;
-use herams\common\models\Project;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -17,8 +17,8 @@ final class Summary extends Action
         User $user,
         int $id
     ) {
-        /** @var null|Project $project */
-        $project = Project::find()->with('mainPages')->where([
+        /** @var null|ProjectSummary $project */
+        $project = ProjectSummary::find()->with('mainPages')->where([
             'id' => $id,
         ])->one();
         if (! isset($project)) {
@@ -33,8 +33,6 @@ final class Summary extends Action
             'secondaryTierCount',
             'tertiaryTierCount',
             'unknownTierCount',
-            //            'functionalityCounts',
-            //            'subjectAvailabilityCounts',
             'statusText',
         ]));
     }

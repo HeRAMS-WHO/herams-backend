@@ -8,7 +8,7 @@ use prime\helpers\Icon;
 use prime\widgets\ButtonGroup;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
-use prime\widgets\survey\Survey;
+use prime\widgets\survey\SurveyFormWidget;
 use yii\helpers\Html;
 
 /**
@@ -31,25 +31,11 @@ Section::begin()
     ->withSubject($project)
     ->withHeader(Yii::t('app', 'Project settings'));
 
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
-    ->withDataRoute([
-        '/api/project/view',
-        'id' => $projectId,
-    ])
-    ->withExtraData([
-        'id' => $projectId,
-    ])
-    ->withSubmitRoute([
-        '/api/project/update',
-        'id' => $projectId,
-    ])
-    ->withServerValidationRoute([
-        '/api/project/validate',
-        'id' => $projectId,
-    ]);
+$survey = SurveyFormWidget::begin()
+    ->withForm($form);
 
-Survey::end();
+
+SurveyFormWidget::end();
 
 Section::end();
 

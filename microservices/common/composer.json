@@ -16,14 +16,15 @@
     "require": {
         "sam-it/yii2-virtual-fields": "^4.1",
         "collecthor/data-interfaces": ">= 5.2",
-        "collecthor/surveyjs-parser": ">= 5.1",
+        "collecthor/surveyjs-parser": ">= 5.20",
         "sam-it/yii2-abac": ">= 2.0.1",
         "league/iso3166": "^3",
         "yidas/yii2-composer-bower-skip": "^2.0",
         "nesbot/carbon": "^2.63",
 	    "psr/event-dispatcher": "^1",
         "league/event": "^3",
-        "league/tactician": "^1.1"
+        "league/tactician": "^1.1",
+        "league/tactician-container": "^3.0"
     },
     "config": {
         "lock": false,

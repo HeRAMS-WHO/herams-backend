@@ -5,6 +5,7 @@ declare(strict_types=1);
 use prime\assets\DashboardBundle;
 use prime\components\View;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\YiiAsset;
 use yii\widgets\Breadcrumbs;
 
@@ -23,6 +24,11 @@ $this->registerAssetBundle(YiiAsset::class);
 <html "data"="true">
 
 <head>
+    <?= \yii\helpers\Html::tag('meta', '', [
+        'content' => rtrim(Url::to(['/api'], true), '/'),
+        'name' => 'api',
+    ]) ?>
+
     <?= Html::csrfMetaTags() ?>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />

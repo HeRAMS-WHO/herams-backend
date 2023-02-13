@@ -8,6 +8,7 @@ use herams\common\domain\facility\Facility;
 use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\values\FacilityId;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
+use League\Tactician\CommandBus;
 use prime\components\MaintenanceMode;
 use yii\caching\CacheInterface;
 use yii\console\Controller;
@@ -50,11 +51,12 @@ class MaintenanceController extends Controller
         $this->printStatus($cache);
     }
 
-    public function actionUpdateAllFacilities(JobQueueInterface $jobQueue): void
+    public function actionUpdateAllFacilities(
+        CommandBus $commandBus): void
     {
         /** @var Facility $facility */
         foreach (Facility::find()->each() as $facility) {
-            $jobQueue->putJob(new UpdateFacilityDataJob(new FacilityId((string) $facility->id)));
+            $commandBus->handle(new UpdateFacilityDataJob(FacilityId::fromFacility($facility)));
             echo '.';
         }
     }

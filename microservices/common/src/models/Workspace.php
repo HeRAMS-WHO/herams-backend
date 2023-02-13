@@ -12,6 +12,7 @@ use herams\common\interfaces\RequestableInterface;
 use herams\common\queries\ActiveQuery as ActiveQuery;
 use herams\common\queries\FacilityQuery;
 use herams\common\queries\WorkspaceQuery;
+use herams\common\traits\LocalizedReadTrait;
 use herams\common\values\ProjectId;
 use herams\common\values\UserId;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
@@ -45,6 +46,7 @@ use function iter\map;
  */
 class Workspace extends ActiveRecord implements RequestableInterface, ConditionallyDeletable
 {
+    use LocalizedReadTrait;
     public function behaviors(): array
     {
         return [
@@ -64,7 +66,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                                     'id' => $permissionQuery->select('source_id'),
                                 ])->select(new Expression("GROUP_CONCAT(name SEPARATOR ', ')"));
                             })(),
-                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): array {
+                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): string {
                                 return \iter\join(', ', map(fn (User $user) => $user->name, $workspace->getLeads()));
                             },
                         ],
@@ -265,9 +267,9 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
         return '{{%workspace}}';
     }
 
-    public function getTitle(): string
+    final public function getTitle(): string
     {
-        return $this->getAttribute('title') ?? '';
+        return $this->getLocalizedAttribute('title', \Yii::$app->language, 'en') ?? "#{$this->id}";
     }
 
     public function getRoute(): array

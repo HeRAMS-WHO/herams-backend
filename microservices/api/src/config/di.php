@@ -11,7 +11,7 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 
 return function(\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Container $container) {
-
+    $container->set(\yii\rest\Serializer::class, \herams\api\components\Serializer::class);
 
     $container->set(\yii\filters\auth\CompositeAuth::class, [
         'optional' => ['health/*'],

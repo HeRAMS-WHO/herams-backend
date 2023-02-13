@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace prime\tests\unit\helpers;
 
 use Codeception\Test\Unit;
+use herams\common\enums\EnumSet;
 use herams\common\helpers\ModelHydrator;
-use prime\objects\EnumSet;
-use prime\objects\LanguageSet;
 use yii\base\DynamicModel;
 use yii\helpers\Inflector;
 use yii\validators\SafeValidator;
@@ -63,13 +62,12 @@ class ModelHydratorTest extends Unit
         parent::_before();
         $this->modelHydrator = new ModelHydrator();
 
-        $this->targetType = new class(1, 1, LanguageSet::from([]), 1) {
+        $this->targetType = new class(1, 1, 1) {
             public int|null $integerOrNullProperty = 5;
 
             public function __construct(
                 public int|null $unknownProperty,
                 public int $integerProperty,
-                public LanguageSet $languageSet,
                 int|null $integerOrNullProperty
             ) {
                 $this->integerOrNullProperty = $integerOrNullProperty;

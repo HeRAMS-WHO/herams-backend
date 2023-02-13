@@ -17,12 +17,9 @@ use prime\components\Controller;
 use prime\helpers\CombinedHeramsFacilityRecord;
 use prime\interfaces\HeramsFacilityRecordInterface;
 use prime\models\ar\read\Project;
-use SamIT\abac\interfaces\Resolver;
-use SamIT\abac\repositories\PreloadingSourceRepository;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\Request;
 use yii\web\User;
 use function iter\flatten;
 use function iter\map;
@@ -31,19 +28,15 @@ use function iter\toArray;
 class ViewForSurveyJs extends Action
 {
     public function run(
-        Resolver $abacResolver,
-        PreloadingSourceRepository $preloadingSourceRepository,
         BreadcrumbService $breadcrumbService,
         FacilityRepository $facilityRepository,
         HeramsVariableSetRepositoryInterface $heramsVariableSetRepository,
-        Request $request,
         User $user,
         int $id,
         int $page_id = null,
         int $parent_id = null,
         string $filter = null
     ) {
-        $preloadingSourceRepository->preloadSource($abacResolver->fromSubject($user->identity));
         $this->controller->layout = Controller::LAYOUT_CSS3_GRID;
         $project = Project::find()
             ->andWhere([

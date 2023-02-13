@@ -29,11 +29,6 @@ class LocalizedString implements \JsonSerializable, \Stringable
                 $this->valueMap->offsetSet(Locale::from($key), trim($localizedValue));
             }
         }
-        if (! isset($this->valueMap[Locale::default()])) {
-            throw new \InvalidArgumentException(\Yii::t('app', "A value for the default language, {language}, is required", [
-                'language' => Locale::default()->label,
-            ]));
-        }
     }
 
     public function getDefault(): string
@@ -64,7 +59,7 @@ class LocalizedString implements \JsonSerializable, \Stringable
     /**
      * @return array<string, string>
      */
-    public function asArray(): array
+    public function asDictionary(): array
     {
         $result = [];
         /**
@@ -79,7 +74,7 @@ class LocalizedString implements \JsonSerializable, \Stringable
 
     public function jsonSerialize(): mixed
     {
-        return $this->asArray();
+        return $this->asDictionary();
     }
 
     public function __toString()

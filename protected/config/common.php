@@ -5,13 +5,6 @@ declare(strict_types=1);
 use herams\common\domain\user\User as ActiveRecordUser;
 use herams\common\interfaces\EnvironmentInterface;
 use SamIT\abac\AuthManager;
-use SamIT\abac\interfaces\Environment;
-use SamIT\abac\interfaces\PermissionRepository;
-use SamIT\abac\interfaces\Resolver;
-use SamIT\abac\interfaces\RuleEngine;
-use SamIT\abac\repositories\PreloadingSourceRepository;
-use SamIT\abac\values\Authorizable;
-use SamIT\Yii2\abac\AccessChecker;
 use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\i18n\MissingTranslationEvent;
 use yii\swiftmailer\Mailer;
@@ -26,7 +19,7 @@ return [
     'runtimePath' => $env->getWithDefault('RUNTIME_PATH', '/tmp'),
     'timeZone' => 'UTC',
     'vendorPath' => '@app/../vendor',
-    'sourceLanguage' => 'en-US',
+    'sourceLanguage' => 'en',
     'aliases' => [
         '@prime' => '@app',
         '@views' => '@app/views',
@@ -51,17 +44,7 @@ return [
                 'expirationParam' => 'e',
             ]);
         },
-        'preloadingSourceRepository' => PreloadingSourceRepository::class,
-        'abacManager' => static function (
-            Resolver $resolver, // Taken from container
-            RuleEngine $engine, // Taken from container
-            PermissionRepository $preloadingSourceRepository  // Taken from app
-        ) {
-            $environment = new class() extends ArrayObject implements Environment {
-            };
-            $environment['globalAuthorizable'] = new Authorizable(AccessChecker::GLOBAL, AccessChecker::BUILTIN);
-            return new AuthManager($engine, $preloadingSourceRepository, $resolver, $environment);
-        },
+        'abacManager' => AuthManager::class,
         'authManager' => static fn (AuthManager $abacManager) => new \herams\common\components\AuthManager($abacManager, ActiveRecordUser::class),
         'cache' => [
             'class' => \yii\caching\CacheInterface::class,

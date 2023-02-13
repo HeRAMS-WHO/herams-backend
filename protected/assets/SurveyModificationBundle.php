@@ -20,7 +20,6 @@ class SurveyModificationBundle extends AssetBundle
         '/js/surveyjs/FacilityTypeQuestion.js',
         '/js/surveyjs/ProjectVisibilityQuestion.js',
         '/js/surveyjs/LocalizableProjectTextQuestion.js',
-        '/js/surveyjs/PlatformLanguagePickerQuestion.js',
         '/js/survey-modifications.js',
     ];
 

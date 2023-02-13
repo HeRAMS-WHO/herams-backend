@@ -11,6 +11,9 @@ use ResourceBundle;
  */
 final class Locale
 {
+    /**
+     * @var array<string, self>
+     */
     private static array $objects;
 
     public readonly string $label;
@@ -50,13 +53,16 @@ final class Locale
 
     /**
      * @param list<string> $locales
+     * @return list<self>
      */
-    public static function fromValues(array $locales): iterable
+    public static function fromValues(array $locales): array
     {
         self::init();
+        $result = [];
         foreach ($locales as $locale) {
-            yield self::$objects[$locale];
+            $result[] = self::$objects[$locale];
         }
+        return $result;
     }
 
     public static function from(string $value): self

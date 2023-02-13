@@ -122,8 +122,6 @@ services:
         source: debugdata
         target: /debugdata
   coverage:
-    labels:
-      com.awesam.proxy.domains: "coverage.herams"
     networks:
       - devproxy2
       - default
@@ -132,9 +130,8 @@ services:
       - ./tests/_output/coverage:/usr/share/nginx/html:ro
   nginx:
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.heramsnginx.entrypoints=websecure"
-      - "traefik.http.routers.heramsnginx.rule=Host(`herams.test`)"
+      traefik.enable: "true"
+      devDomain: herams
     networks:
       - devproxy2
       - default
@@ -193,6 +190,23 @@ services:
     entrypoint: ["/project/microservices/console/yiic"]
     init: true
     command: ""
+    environment:
+      database_name: ${DB_NAME}
+      database_host: devdb
+      SECRET_database/username: ${DB_USER}
+      SECRET_database/password: ${DB_PASS}
+#      SECRET_app/cookie_validation_key: secret
+#      SECRET_app/sso_private_key: ${LS_PRIV_KEY}
+#      SECRET_app/url_signer_secret: secret
+#      YII_ENV: $YII_ENV
+#      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
+#      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
+#      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
+#      RUNTIME_PATH: /run
+#      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+#      SECRET_smtp/host: mailcatcher
+#      SECRET_smtp/port: 1025
+#      SECRET_smtp/encryption: ''
   testcli:
     <<: *base
     depends_on:

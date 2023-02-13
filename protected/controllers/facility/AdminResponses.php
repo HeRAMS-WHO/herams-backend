@@ -34,7 +34,7 @@ class AdminResponses extends FrontendAction
         ProjectRepository $projectRepository,
         BreadcrumbService $breadcrumbService,
         \prime\components\View $view,
-        string $id
+        int $id
     ) {
         $facilityId = new FacilityId($id);
         $facility = $facilityRepository->retrieveForTabMenu($facilityId);

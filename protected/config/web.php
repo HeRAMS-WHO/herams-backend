@@ -11,12 +11,10 @@ use herams\common\components\AuditService;
 use herams\common\components\Formatter;
 use kartik\dialog\DialogAsset;
 use kartik\dialog\DialogBootstrapAsset;
-use prime\components\ApiRewriteRule;
 use prime\components\JobSubmissionService;
 use prime\components\LanguageSelector;
 use prime\components\MaintenanceMode;
 use prime\components\NotificationService;
-use yii\di\Instance;
 use yii\web\DbSession;
 use yii\web\UrlManager;
 
@@ -80,48 +78,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'class' => NotificationService::class,
         ],
         'view' => \prime\components\View::class,
-        'urlManager' => [
-            'class' => UrlManager::class,
-            'cache' => false,
-            'enableStrictParsing' => true,
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                [
-                    'pattern' => '/api-proxy/<api:[\w-]+>/<sub:.*>',
-                    'route' => '/api-proxy/<api>',
-                ],
-                [
-                    'class' => ApiRewriteRule::class,
-                    '__construct()' => [
-                        Instance::ensure('apiUrlManager', UrlManager::class),
-                    ],
-                ],
-                [
-                    'pattern' => '<controller>',
-                    'route' => '<controller>',
-                ],
-                [
-                    'pattern' => '<controller>/<id:\d+>',
-                    'route' => '<controller>/view',
-                ],
-                [
-                    'pattern' => '<controller>/<id:[\w-]+>/<action:[\w-]+>',
-                    'route' => '<controller>/<action>',
-                ],
-                [
-                    'pattern' => '<controller>/<action:[\w-]+>',
-                    'route' => '<controller>/<action>',
-                ],
-                // For testing.
-                [
-                    'pattern' => '/',
-                    'route' => 'site/world-map',
-                ],
-
-
-            ],
-        ],
+        'urlManager' => \yii\di\Instance::ensure('frontendUrlManager', UrlManager::class),
         'request' => [
             'class' => \yii\web\Request::class,
             'csrfCookie' => [

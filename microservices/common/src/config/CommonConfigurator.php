@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace herams\common\config;
 
+use ArrayObject;
+use herams\common\components\LazyUrlFactory;
+use herams\common\components\RewriteRule;
 use herams\common\components\AuditService;
 use herams\common\domain\facility\FacilityHydrator;
 use herams\common\domain\project\ProjectHydrator;
@@ -12,6 +15,7 @@ use herams\common\domain\workspace\WorkspaceHydrator;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\helpers\BaseClassResolver;
 use herams\common\helpers\CommandFactory;
+use herams\common\helpers\ConfigurationProvider;
 use herams\common\helpers\CurrentUserIdProvider;
 use herams\common\helpers\EventDispatcherProxy;
 use herams\common\helpers\GlobalPermissionResolver;
@@ -19,11 +23,13 @@ use herams\common\helpers\LoggingMiddleware;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\SingleTableInheritanceResolver;
 use herams\common\helpers\StrategyActiveRecordHydrator;
+use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\AuditServiceInterface;
 use herams\common\interfaces\CommandFactoryInterface;
 use herams\common\interfaces\ContainerConfiguratorInterface;
+use herams\common\interfaces\CreateUrlInterface;
 use herams\common\interfaces\CurrentUserIdProviderInterface;
 use herams\common\interfaces\EnvironmentInterface;
 use herams\common\interfaces\EventDispatcherInterface;
@@ -43,17 +49,21 @@ use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
 use herams\common\models\Permission;
 use herams\common\services\UserAccessCheck;
-use JCIT\jobqueue\components\ContainerMapLocator;
+use Http\Factory\Guzzle\UriFactory;
 use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use League\Tactician\CommandBus;
+use League\Tactician\Container\ContainerLocator;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
 use League\Tactician\Handler\Locator\HandlerLocator;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use SamIT\abac\engines\SimpleEngine;
+use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\PermissionRepository;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\interfaces\RuleEngine;
@@ -66,13 +76,17 @@ use yii\caching\CacheInterface;
 use yii\caching\FileCache;
 use yii\db\Connection;
 use yii\di\Container;
-use yii\web\UrlRule;
+use yii\di\Instance;
+use yii\web\UrlManager;
 
 class CommonConfigurator implements ContainerConfiguratorInterface
 {
 
     public function configure(EnvironmentInterface $environment, Container $container): void
     {
+        $container->set(Environment::class, new class() extends ArrayObject implements Environment {
+        });
+        $container->set(ConfigurationProvider::class);
         $container->set(Connection::class, [
             'charset' => 'utf8mb4',
             'dsn' => "mysql:host={$environment->get('database_host')};port={$environment->getWithDefault('database_port', "3306")};dbname={$environment->get('database_name')}",
@@ -84,119 +98,37 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             'queryCache' => 'cache',
             'tablePrefix' => 'prime2_',
         ]);
+        $container->set(RewriteRule::class, static function(Container $container) {
+            $frontend = new LazyUrlFactory(Instance::of('frontendUrlManager'), $container, null);
+
+
+            $api = new LazyUrlFactory(Instance::of('apiUrlManager'), $container, '/api-proxy/core');
+            return new RewriteRule($api, $frontend);
+        });
         $container->set('apiUrlManager', [
             'class' => \yii\web\UrlManager::class,
             'cache' => false,
             'enableStrictParsing' => true,
             'enablePrettyUrl' => true,
-            'baseUrl' => '/api-proxy/core',
             'showScriptName' => false,
-            'rules' => [
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:[\w-]+>',
-                    'route' => '<controller>/create',
-                    'verb' => 'POST',
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => 'permission/grant',
-                    'route' => 'permission/grant',
-                    'verb' => ['put', 'delete'],
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<id:\d+>/validate',
-                    'route' => '<controller>/validate',
-                    'verb' => ['post'],
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/validate',
-                    'route' => '<controller>/validate',
-                    'verb' => ['post'],
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<id:\d+>/<action:\w+>/<target_id:\d+>',
-                    'route' => '<controller>/<action>',
-                    'verb' => ['put', 'delete'],
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<id:\d+>',
-                    'route' => '<controller>/view',
-                    'verb' => 'get',
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<id:\d+>',
-                    'route' => '<controller>/update',
-                    'verb' => ['post', 'put'],
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<id:\d+>',
-                    'route' => '<controller>/delete',
-                    'verb' => ['delete'],
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<id:\d+>/<action:[\w-]+>',
-                    'route' => '<controller>/<action>',
-                    'verb' => ['get', 'post'],
-                ],
-
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>s',
-                    'verb' => 'get',
-                    'route' => '<controller>/index',
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => 'user/<id:\d+>/workspaces',
-                    'route' => 'user/workspaces',
-                    'verb' => ['delete', 'put'],
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => '<controller:\w+>/<action:[\w-]+>',
-                    'verb' => 'get',
-                    'route' => '<controller>/<action>',
-                ],
-
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => 'response',
-                    'route' => 'response/update',
-                    'verb' => 'post',
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => 'configuration/<action:\w+>',
-                    'route' => 'configuration/<action>',
-                    'verb' => 'get',
-                ],
-                [
-                    'class' => UrlRule::class,
-                    'pattern' => 'response',
-                    'route' => 'response/delete',
-                    'verb' => 'delete',
-                ],
-                [
-                    'pattern' => '<p:.*>',
-                    'route' => '',
-                ],
-            ],
+            'rules' => require __DIR__ . '/routes-api.php'
+        ]);
+        $container->set('frontendUrlManager', [
+            'class' => UrlManager::class,
+            'cache' => false,
+            'enableStrictParsing' => true,
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => require __DIR__ . '/routes-frontend.php'
         ]);
 
         $container->set(EventDispatcherInterface::class, EventDispatcherProxy::class);
         $container->set(CacheInterface::class, FileCache::class);
         $container->set(AuditServiceInterface::class, AuditService::class);
         $container->set(WorkspaceRepository::class, WorkspaceRepository::class);
-        $container->set(AccessCheckInterface::class, UserAccessCheck::class);
+        $container->set(AccessCheckInterface::class, static fn() => new UserAccessCheck(\Yii::$app->user));
         $container->set(SurveyRepository::class, SurveyRepository::class);
+        $container->set(SurveyParser::class, SurveyParser::class);
 
         $container->set(ActiveRecordHydratorInterface::class, static function (): ActiveRecordHydratorInterface {
             $result = new StrategyActiveRecordHydrator();
@@ -217,13 +149,12 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             );
         });
 
-        // This defines a service that depends on an application component.
-        $container->set(UserAccessCheck::class, static fn() => new UserAccessCheck(\Yii::$app->user));
 
         $container->set(ModelHydratorInterface::class, ModelHydrator::class);
         $container->set(ProjectRepository::class, ProjectRepository::class);
         $container->set(RuleEngine::class, static fn () => new SimpleEngine(...require __DIR__ . '/rule-config.php'));
         $container->setDefinitions([
+            UriFactoryInterface::class => UriFactory::class,
             JobQueueInterface::class => Synchronous::class,
             PermissionRepository::class => PreloadingSourceRepository::class,
             PreloadingSourceRepository::class => fn (Container $container) => new PreloadingSourceRepository($container->get(CachedReadRepository::class)),
@@ -252,19 +183,35 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                 ]);
             },
             CommandNameExtractor::class => ClassNameExtractor::class,
-            HandlerLocator::class => ContainerMapLocator::class,
+            HandlerLocator::class => ContainerLocator::class,
+            ContainerInterface::class => fn(Container $container) => new class($container) implements ContainerInterface {
+                public function __construct(private readonly Container $container)
+                {
+                }
+
+                /**
+                 * Not fully compliant since we don't throw proper exception types. For now this is OK
+                 */
+                public function get(string $id): mixed
+                {
+                    return $this->container->get($id);
+                }
+
+                public function has(string $id): bool
+                {
+                    return $this->container->has($id) || $this->container->hasSingleton($id);
+                }
+            },
+            ContainerLocator::class => fn(Container $container) => new ContainerLocator($container->get(ContainerInterface::class), [
+                CreatedNotificationJob::class => CreatedNotificationHandler::class,
+                ImplicitlyGrantedNotificationJob::class => ImplicitlyGrantedNotificationHandler::class,
+                ResponseNotificationJob::class => ResponseNotificationHandler::class,
+                CheckImplicitAccessRequestGrantedJob::class => CheckImplicitAccessRequestGrantedHandler::class,
+                SyncNewsletterSubscriptionJob::class => SyncNewsletterSubscriptionHandler::class,
+                UpdateFacilityDataJob::class => UpdateFacilityDataHandler::class
+            ]),
             MethodNameInflector::class => HandleInflector::class,
             SurveyRepositoryInterface::class => SurveyRepository::class,
-            ContainerMapLocator::class => function (Container $container) {
-                return (new ContainerMapLocator($container))
-                    ->setHandlerForCommand(CreatedNotificationJob::class, CreatedNotificationHandler::class)
-                    ->setHandlerForCommand(ImplicitlyGrantedNotificationJob::class, ImplicitlyGrantedNotificationHandler::class)
-                    ->setHandlerForCommand(ResponseNotificationJob::class, ResponseNotificationHandler::class)
-                    ->setHandlerForCommand(CheckImplicitAccessRequestGrantedJob::class, CheckImplicitAccessRequestGrantedHandler::class)
-                    ->setHandlerForCommand(SyncNewsletterSubscriptionJob::class, SyncNewsletterSubscriptionHandler::class)
-                    ->setHandlerForCommand(UpdateFacilityDataJob::class, UpdateFacilityDataHandler::class)
-                    ;
-            },
         ]);
 
         return ;

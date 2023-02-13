@@ -19,8 +19,9 @@ class JwtAuth extends AuthMethod
 
     public function authenticate($user, $request, $response)
     {
-        if (preg_match('/^Bearer (.*)$/', $request->getHeaders()->get('Authorization', ''), $matches)) {
-            $token = $this->configuration->parser()->parse($matches[1]);
+        if (str_starts_with($request->getHeaders()->get('Authorization', ''), 'Bearer')) {
+            $bearer = trim(substr($request->getHeaders()->get('Authorization', ''), 6));
+            $token = $this->configuration->parser()->parse($bearer);
             assert($token instanceof UnencryptedToken);
 
 

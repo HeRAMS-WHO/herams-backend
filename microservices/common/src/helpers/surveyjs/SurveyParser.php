@@ -14,11 +14,13 @@ final class SurveyParser extends BaseParser
 
     private const TYPE_FACILITY_NAME = 'facilityName';
 
-    public function __construct(FacilityTypeQuestionParser $facilityTypeQuestionParser)
-    {
+    public function __construct(
+        FacilityTypeQuestionParser $facilityTypeQuestionParser,
+        LocalizableTextQuestionParser $localizableTextQuestionParser
+    ) {
         parent::__construct();
         $this->setParser(self::TYPE_FACILITY_TYPE, $facilityTypeQuestionParser);
-        $this->setParser('localizableprojecttext', new LocalizableTextQuestionParser());
+        $this->setParser('localizableprojecttext', $localizableTextQuestionParser);
 
 //        $this->setParser(self::TYPE_FACILITY_NAME, $facilityTypeQuestionParser);
     }

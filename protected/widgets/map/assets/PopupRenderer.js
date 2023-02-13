@@ -95,14 +95,31 @@ class PopupRenderer {
         let grid = document.createElement('div');
         content.appendChild(grid);
 
-        grid.appendChild(PopupRenderer.createStat(this.translations["health-facilities"], this.data.facilityCount));
-        grid.appendChild(PopupRenderer.createStat(this.translations["contributors"], this.data.contributorCount));
+        grid.appendChild(this.constructor.createStat(this.translations["health-facilities"], this.data.facilityCount));
+        grid.appendChild(this.constructor.createStat(this.translations["contributors"], this.data.contributorCount));
         grid.append(document.createElement('hr'));
 
         let charts = [];
-        charts.push(PopupRenderer.buildChart(this.translations["type"], "\u{e90b}", this.data.typeCounts, [{"key":"Tertiary",label:this.translations["tertiary"]},{"key":"Secondary","label":this.translations["secondary"]},{"key":"Primary","label":this.translations["primary"]},{"key":"Other","label":this.translations["other"]}], ['blue', 'white']));
-        charts.push(PopupRenderer.buildChart(this.translations["functionality"], "\u{e90a}", this.data.functionalityCounts, [{"key":this.translations["full"],"label":this.translations["fully-functional"]},{"key":this.translations["partial"],"label":this.translations["partially-functional"]},{"key":this.translations["none"],"label":this.translations["not-functional"]}], ['green', 'orange', 'red']));
-        charts.push(PopupRenderer.buildChart(this.translations["service-availability"], "\u{e901}", this.data.subjectAvailabilityCounts, [{"key":this.translations["full"],"label":this.translations["fully-available"]},{"key":this.translations["partial"],"label":this.translations["partially-available"]},{"key":this.translations["none"],"label":this.translations["not-available"]}], ['green', 'orange', 'red']));
+        charts.push(this.constructor.buildChart(this.translations["type"], "\u{e90b}", {
+                primary: this.data.tierPrimaryCount,
+                secondary: this.data.tierSecondaryCount,
+                tertiary: this.data.tierTertiaryCount,
+                unknown: this.data.tierUnknownCount
+            }, [
+            {"key":"tertiary",label:this.translations["tertiary"]},
+            {"key":"secondary","label":this.translations["secondary"]},
+            {"key":"primary","label":this.translations["primary"]},
+            {"key":"unknown","label":this.translations["unknown"]}],
+            ['blue', 'white'])
+        );
+        // charts.push(this.constructor.buildChart(this.translations["functionality"], "\u{e90a}", {
+        //
+        // }, [
+        //     {"key":this.translations["full"],"label":this.translations["fully-functional"]},
+        //     {"key":this.translations["partial"],"label":this.translations["partially-functional"]},
+        //     {"key":this.translations["none"],"label":this.translations["not-functional"]}
+        // ], ['green', 'orange', 'red']));
+        // charts.push(this.constructor.buildChart(this.translations["service-availability"], "\u{e901}", this.data.subjectAvailabilityCounts, [{"key":this.translations["full"],"label":this.translations["fully-available"]},{"key":this.translations["partial"],"label":this.translations["partially-available"]},{"key":this.translations["none"],"label":this.translations["not-available"]}], ['green', 'orange', 'red']));
         charts = charts.filter(function (el) {
             return el.innerHTML !== "";
         });
@@ -212,7 +229,7 @@ class PopupRenderer {
                 }
             }
 
-            let config = PopupRenderer.getChartConfig(Object.keys(labels), chroma.scale(colors).colors(Object.values(labels).length), Object.values(labels), icon, title);
+            let config = this.getChartConfig(Object.keys(labels), chroma.scale(colors).colors(Object.values(labels).length), Object.values(labels), icon, title);
 
             let canvas = document.createElement('canvas');
 

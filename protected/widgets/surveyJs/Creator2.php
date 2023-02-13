@@ -49,7 +49,6 @@ final class Creator2 extends Widget
                 'id' => $this->surveyId,
             ]) : null,
             'elementId' => $htmlOptions['id'],
-            'surveyId' => $this->surveyId,
             'updateUrl' => Url::to(
                 [
                     '/survey/update',
@@ -66,7 +65,8 @@ final class Creator2 extends Widget
             // This is the function for updating.
             const updateSurvey = async (saveNo, callback) => {
                 try {
-                    await Herams.fetchWithCsrf(config.dataUrl, {config: surveyCreator.JSON}, 'PUT');
+                    const response = await Herams.fetchWithCsrf(config.dataUrl, {config: surveyCreator.JSON}, 'PUT');
+                    console.warn('response', response);
                     callback(saveNo, true);
                 } catch (e) {
                     console.error(e);
@@ -75,6 +75,7 @@ final class Creator2 extends Widget
             };
             // This is the function for creating a new survey.
             const createSurvey = async (saveNo, callback) => {
+                
                 try {
                     const surveyUrl = await Herams.createInCollectionWithCsrf(config.createUrl, {config: surveyCreator.JSON})
                     config.dataUrl = surveyUrl;
