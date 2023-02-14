@@ -16,11 +16,9 @@ use SamIT\abac\interfaces\RuleEngine;
 use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\values\Authorizable;
 use SamIT\Yii2\abac\AccessChecker;
-use SamIT\Yii2\UrlSigner\UrlSigner;
 use yii\i18n\GettextMessageSource;
 use yii\i18n\I18N;
 use yii\i18n\MissingTranslationEvent;
-use yii\swiftmailer\Mailer;
 
 return function(EnvironmentInterface $env, \yii\di\Container $container) : void {
     $commonDiConfigurator = new CommonConfigurator();
@@ -29,7 +27,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
     $hydratorDefinition = $container->getDefinitions()[ActiveRecordHydratorInterface::class];
     $container->set(ActiveRecordHydratorInterface::class, static function() use($hydratorDefinition) {
         $result = $hydratorDefinition();
-        $result->registerAttributeStrategy(new ProjectHydrator());
+        $result->registerAttributeStrategy(new ProjectHydrator(), true);
         return $result;
     });
 

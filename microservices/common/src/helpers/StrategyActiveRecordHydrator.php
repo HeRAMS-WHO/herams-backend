@@ -11,14 +11,14 @@ use herams\common\models\ActiveRecord;
 use herams\common\models\RequestModel;
 use yii\base\Model;
 
-class StrategyActiveRecordHydrator implements ActiveRecordHydratorInterface
+final class StrategyActiveRecordHydrator implements ActiveRecordHydratorInterface
 {
     /**
      * @var list<array{0: ValidateTypeInterface, 1: ActiveRecordHydratorInterface}>
      */
     private array $strategies = [];
 
-    public function registerAttributeStrategy(ActiveRecordHydratorInterface $hydrator): void
+    public function registerAttributeStrategy(ActiveRecordHydratorInterface $hydrator, bool $prepend = false): void
     {
         $reflection = new \ReflectionClass($hydrator);
         $attributes = $reflection->getAttributes(SupportedType::class);
@@ -29,8 +29,11 @@ class StrategyActiveRecordHydrator implements ActiveRecordHydratorInterface
         foreach ($attributes as $attribute) {
             /** @var SupportedType $source */
             $source = $attribute->newInstance();
-
-            $this->strategies[] = [$source, $hydrator];
+            if ($prepend) {
+                $this->strategies = [[$source, $hydrator], ...$this->strategies];
+            } else {
+                $this->strategies[] = [$source, $hydrator];
+            }
         }
     }
 
