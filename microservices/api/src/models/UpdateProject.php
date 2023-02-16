@@ -64,7 +64,7 @@ final class UpdateProject extends RequestModel
             [['visibility'],
                 BackedEnumValidator::class,
                 'example' => ProjectVisibility::Public,
-            ],
+            ]
         ];
     }
 }

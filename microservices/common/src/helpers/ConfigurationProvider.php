@@ -19,7 +19,7 @@ class ConfigurationProvider
             'key' => ConfigurationKey::Locales->value,
         ])->one();
 
-        return Locale::fromValues($data?->value ?? ["en"]);
+        return Locale::fromValues($data?->value ?? ["en", "fr", "ar", "es", "ru", "zh"]);
     }
 
     public function getUpdateWorkspaceSurveyId(): SurveyId
