@@ -14,8 +14,6 @@ final class Locales extends Action
         ProjectLocalesRetriever $projectRepository,
         int $id
     ) {
-        $locales = $projectRepository->retrieveProjectLocales(new ProjectId($id));
-        var_dump($locales);
-        die();
+        return $projectRepository->retrieveProjectLocales(new ProjectId($id));
     }
 }

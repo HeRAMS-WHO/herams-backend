@@ -41,6 +41,7 @@
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1",
-        "phpstan/phpstan": "^1.9"
+        "phpstan/phpstan": "^1.9",
+        "symplify/easy-coding-standard": "^11"
     }
 }
