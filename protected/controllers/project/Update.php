@@ -18,10 +18,8 @@ class Update extends Action
 {
     public function run(
         ProjectRepository $projectRepository,
-        ConfigurationProvider $configurationProvider,
         BreadcrumbService $breadcrumbService,
         FormRepository $formRepository,
-        SurveyRepository $surveyRepository,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;

@@ -43,11 +43,6 @@ final class NewProject extends RequestModel
     {
         return [
             [['title', 'dataSurveyId', 'adminSurveyId'], RequiredValidator::class],
-            [['title'],
-                UniqueValidator::class,
-                'targetClass' => Project::class,
-                'targetAttribute' => 'title',
-            ],
             [['dataSurveyId', 'adminSurveyId'],
                 ExistValidator::class,
                 'targetAttribute' => 'id',

@@ -13,7 +13,7 @@ use yii\helpers\Html;
 
 /**
  * @var \prime\models\ar\read\Project $project
- * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
+ * @var \prime\interfaces\SurveyFormInterface $form
  * @var \herams\common\values\ProjectId $projectId
  * @var View $this
  */
