@@ -13,6 +13,7 @@ use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\FacilityId;
 use yii\base\Action;
 use function iter\filter;
+use function PHPStan\dumpType;
 
 final class AdminResponses extends Action
 {
@@ -31,6 +32,9 @@ final class AdminResponses extends Action
 
         $variableSet = $surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveAdminSurveyId($projectId));
 
+        /**
+         * @var list<VariableInterface>
+         */
         $variables = [...filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables())];
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
 
@@ -38,9 +42,8 @@ final class AdminResponses extends Action
         foreach ($surveyResponseRepository->retrieveAdminDataInFacility($facilityId) as $facility) {
             $row = [
                 'id' => $facility->id,
-//                'raw' => $facility->allData()
+                //                'raw' => $facility->allData()
             ];
-            /** @var VariableInterface $variable */
             foreach ($variables as $variable) {
                 $row[$variable->getName()] = $variable->getDisplayValue(
                     $facility,

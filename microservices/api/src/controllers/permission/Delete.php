@@ -30,7 +30,7 @@ class Delete extends Action
         User $user,
         int $id
     ) {
-        if (!$request->isDelete) {
+        if (! $request->isDelete) {
             throw new MethodNotAllowedHttpException();
         }
         $permission = $permissionRepository->retrieve($id);
@@ -46,7 +46,6 @@ class Delete extends Action
         $abacManager->revoke($sourceObject, $targetObject, $permission->permission);
         $response->headers->add('x-status-text', \Yii::t('app', 'Permission revoked'));
         $response->setStatusCode(204, \Yii::t('app', 'Permission revoked'));
-
 
         return $response;
     }

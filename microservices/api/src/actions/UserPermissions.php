@@ -20,7 +20,6 @@ final class UserPermissions extends Action
         PermissionRepository $permissionRepository,
         int $id
     ) {
-
         $permissions = $permissionRepository->retrieveForTarget(new Authorizable((string) $id, $this->target));
 
         $users = User::find()
@@ -41,11 +40,14 @@ final class UserPermissions extends Action
                     'permissions' => [],
                 ];
             }
-            $data[$permission->source_id]['permissions'][$permission->permission] = $urlManager->createAbsoluteUrl(['permission/delete', 'id' => $permission->id])
+            $data[$permission->source_id]['permissions'][$permission->permission] = $urlManager->createAbsoluteUrl([
+                'permission/delete',
+                'id' => $permission->id,
+            ])
             ;
         }
         return $this->controller->asJson(array_values($data));
 
-//
+        //
     }
 }

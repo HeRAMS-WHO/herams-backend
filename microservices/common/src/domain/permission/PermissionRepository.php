@@ -9,6 +9,7 @@ use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\models\Permission;
 use herams\common\values\PermissionId;
+use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;
 use yii\base\InvalidArgumentException;
 
@@ -47,14 +48,16 @@ class PermissionRepository
         ])->all();
     }
 
-    public function retrieveId(Authorizable $source, Authorizable $target, string $permission): PermissionId
+    public function retrieveId(Grant $grant): PermissionId
     {
+        $target = $grant->getTarget();
+        $source = $grant->getSource();
         $permission = Permission::find()->andWhere([
             'target' => $target->getAuthName(),
             'target_id' => $target->getId(),
             'source' => $source->getAuthName(),
             'source_id' => $source->getId(),
-            'permission' => $permission
+            'permission' => $grant->getPermission()
         ])->select('id')->one();
         return new PermissionId($permission->id);
 

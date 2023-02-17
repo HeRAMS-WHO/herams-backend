@@ -13,7 +13,7 @@ final class PermissionController extends Controller
     {
         return [
             'create' => Create::class,
-            'delete' => Delete::class
+            'delete' => Delete::class,
         ];
     }
 }

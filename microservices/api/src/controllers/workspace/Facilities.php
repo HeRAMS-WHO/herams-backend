@@ -26,7 +26,7 @@ final class Facilities extends Action
 
         $adminVariables = new \SplObjectStorage();
         $variables = [...$surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveDataSurveyId($projectId))->getVariables()];
-        foreach($surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveAdminSurveyId($projectId))->getVariables() as $variable) {
+        foreach ($surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveAdminSurveyId($projectId))->getVariables() as $variable) {
             $adminVariables->attach($variable);
             $variables[] = $variable;
         }

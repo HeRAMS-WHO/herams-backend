@@ -18,11 +18,9 @@ class ConfigurationController extends Controller
 
     public function actionLocales(
         ConfigurationProvider $configurationProvider,
-        Response $response): array|string
-    {
+        Response $response
+    ): array|string {
         $response->headers->add('Cache-Control', 'max-age=10,public');
         return $configurationProvider->getPlatformLocales();
-
-
     }
 }

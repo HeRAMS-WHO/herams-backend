@@ -6,7 +6,6 @@ namespace herams\api\controllers\project;
 
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\ProjectId;
-use prime\components\Controller;
 use yii\base\Action;
 
 class Workspaces extends Action

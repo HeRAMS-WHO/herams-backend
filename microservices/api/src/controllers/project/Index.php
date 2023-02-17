@@ -10,8 +10,7 @@ use yii\base\Action;
 class Index extends Action
 {
     public function run(
-    )
-    {
+    ) {
         $data = [];
         /**
          * @var ProjectSummary $project

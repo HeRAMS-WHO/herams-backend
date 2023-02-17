@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\api\components;
@@ -6,16 +7,17 @@ namespace herams\api\components;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\UnencryptedToken;
 use yii\filters\auth\AuthMethod;
+use yii\web\BadRequestHttpException;
 use yii\web\IdentityInterface;
 use yii\web\UnauthorizedHttpException;
 
 class JwtAuth extends AuthMethod
 {
-    public function __construct(private Configuration $configuration)
-    {
+    public function __construct(
+        private Configuration $configuration
+    ) {
         parent::__construct([]);
     }
-
 
     public function authenticate($user, $request, $response)
     {
@@ -24,15 +26,14 @@ class JwtAuth extends AuthMethod
             $token = $this->configuration->parser()->parse($bearer);
             assert($token instanceof UnencryptedToken);
 
-
-
-            if (!$this->configuration->validator()->validate($token, ...$this->configuration->validationConstraints())) {
+            if (! $this->configuration->validator()->validate($token, ...$this->configuration->validationConstraints())) {
                 throw new UnauthorizedHttpException();
             }
 
-
             $userId = $token->claims()->get('userId');
-
+            if (!is_int($userId)) {
+                throw new BadRequestHttpException('userId claim must be integer');
+            }
 
             /** @var class-string<IdentityInterface> $identityClass */
             $identityClass = $user->identityClass;
@@ -47,6 +48,4 @@ class JwtAuth extends AuthMethod
 
         return null;
     }
-
-
 }

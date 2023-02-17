@@ -43,8 +43,9 @@ final class UpdateProject extends RequestModel
 
     public string $primaryLanguage = '';
 
-    public function __construct(public readonly ProjectId $id)
-    {
+    public function __construct(
+        public readonly ProjectId $id
+    ) {
         parent::__construct();
     }
 
@@ -64,7 +65,7 @@ final class UpdateProject extends RequestModel
             [['visibility'],
                 BackedEnumValidator::class,
                 'example' => ProjectVisibility::Public,
-            ]
+            ],
         ];
     }
 }

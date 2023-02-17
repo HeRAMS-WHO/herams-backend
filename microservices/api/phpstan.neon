@@ -1,6 +1,6 @@
 
 parameters:
-    level: 8
+    level: 9
 #    bootstrapFiles:
 #      - 'tests/constants.php'
     paths:
@@ -8,10 +8,6 @@ parameters:
       - tests
     dynamicConstantNames:
       - CONSOLE
-#    excludePaths:
-#      - protected/config/common.php
-#      - protected/config/console.php
-#      - protected/config/web.php
     checkMaybeUndefinedVariables: true
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false

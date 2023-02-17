@@ -13,7 +13,6 @@ use herams\common\validators\BackedEnumValidator;
 use herams\common\validators\ExistValidator;
 use herams\common\values\SurveyId;
 use yii\validators\RequiredValidator;
-use yii\validators\UniqueValidator;
 
 final class NewProject extends RequestModel
 {

@@ -29,12 +29,12 @@ final class DataResponses extends Action
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
         $projectId = $workspaceRepository->getProjectId($workspaceId);
 
-
-
         $variableSet = $surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveDataSurveyId($projectId));
 
-        $variables = [...filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables())];
-        usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
+        $variables = [
+            ...filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables()),
+        ];
+        usort($variables, fn (VariableInterface $a, VariableInterface $b): int => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
 
         $data = [];
         foreach ($surveyResponseRepository->retrieveDataInFacility($facilityId) as $facility) {

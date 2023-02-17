@@ -20,19 +20,16 @@ use yii\i18n\GettextMessageSource;
 use yii\i18n\I18N;
 use yii\i18n\MissingTranslationEvent;
 
-return function(EnvironmentInterface $env, \yii\di\Container $container) : void {
+return function (EnvironmentInterface $env, \yii\di\Container $container): void {
     $commonDiConfigurator = new CommonConfigurator();
     $commonDiConfigurator->configure($env, $container);
 
     $hydratorDefinition = $container->getDefinitions()[ActiveRecordHydratorInterface::class];
-    $container->set(ActiveRecordHydratorInterface::class, static function() use($hydratorDefinition) {
+    $container->set(ActiveRecordHydratorInterface::class, static function () use ($hydratorDefinition) {
         $result = $hydratorDefinition();
         $result->registerAttributeStrategy(new ProjectHydrator(), true);
         return $result;
     });
-
-
-
 
     $diConfigurator = require __DIR__ . '/di.php';
     $diConfigurator($env, $container);
@@ -69,7 +66,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
 
             ],
             'request' => [
-                'class' => \yii\web\Request::class,
+                'class' => \herams\api\components\Request::class,
                 'enableCsrfValidation' => false,
                 'enableCsrfCookie' => false,
                 'trustedHosts' => [
@@ -90,13 +87,12 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
                         'class' => \yii\web\JsonResponseFormatter::class,
                         'prettyPrint' => true,
                     ],
-                    'surveyjs' => \herams\api\components\InterfaceBasedResponseFormatter::class
                 ],
             ],
-//        'assetManager' => [
-//            'class' => \herams\api\components\DummyAssetManager::class
-//
-//        ],
+            //        'assetManager' => [
+            //            'class' => \herams\api\components\DummyAssetManager::class
+            //
+            //        ],
             'db' => \yii\db\Connection::class,
             'preloadingSourceRepository' => PreloadingSourceRepository::class,
             'abacManager' => static function (
@@ -147,7 +143,7 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
                         },
                     ],
                 ],
-            ]
+            ],
         ],
         'controllerNamespace' => 'herams\\api\\controllers',
 

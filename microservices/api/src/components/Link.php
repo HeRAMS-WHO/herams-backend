@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\api\components;
@@ -9,8 +10,6 @@ use yii\helpers\Url;
 
 class Link extends \yii\web\Link implements \JsonSerializable, Arrayable
 {
-
-
     public function jsonSerialize(): array
     {
         return $this->toArray();

@@ -14,8 +14,10 @@ final class UpdateSurvey extends RequestModel
 {
     public null|array $config = null;
 
-    public function __construct(public readonly SurveyId $id, private readonly SurveyParser $surveyParser)
-    {
+    public function __construct(
+        public readonly SurveyId $id,
+        private readonly SurveyParser $surveyParser
+    ) {
         parent::__construct();
     }
 
@@ -23,7 +25,7 @@ final class UpdateSurvey extends RequestModel
     {
         return [
             [['config'], RequiredValidator::class],
-//            [['config'], RequiredVariableValidator::class, 'surveyParser' => $this->surveyParser, 'requiredVariables' => ['name']]
+            [['config'], RequiredVariableValidator::class, 'surveyParser' => $this->surveyParser]
 
         ];
     }

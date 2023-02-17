@@ -36,7 +36,7 @@ class ProjectHydrator implements ActiveRecordHydratorInterface
 
         $target->i18n = $i18n;
         if ($source instanceof UpdateProject) {
-//            $target->status = $source->status->value;
+            //            $target->status = $source->status->value;
             $target->visibility = $source->visibility->value;
             $target->country = $source->country;
             $target->primary_language = $source->primaryLanguage;
@@ -60,7 +60,7 @@ class ProjectHydrator implements ActiveRecordHydratorInterface
 
         $target->title = new LocalizedString($source->i18n['title'] ?? []);
 
-//        $target->status = ProjectStatus::from($source->status);
+        //        $target->status = ProjectStatus::from($source->status);
         $target->visibility = ProjectVisibility::from($source->visibility);
         $target->country = $source->country;
         $target->manageImpliesCreateHf = (bool) $source->manage_implies_create_hf;

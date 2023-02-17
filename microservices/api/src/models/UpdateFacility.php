@@ -15,8 +15,9 @@ final class UpdateFacility extends ResponseModel
 
     public RecordInterface|null $adminData = null;
 
-    public function __construct(public readonly FacilityId $facilityId)
-    {
+    public function __construct(
+        public readonly FacilityId $facilityId
+    ) {
         parent::__construct();
     }
 }

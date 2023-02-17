@@ -24,7 +24,7 @@ class SurveyController extends Controller
 
     public function actionView(SurveyRepository $surveyRepository, int $id)
     {
-       return $surveyRepository->retrieveForUpdate(new SurveyId($id));
+        return $surveyRepository->retrieveForUpdate(new SurveyId($id));
     }
 
     public function actionUpdate(
@@ -39,7 +39,7 @@ class SurveyController extends Controller
         $model = new UpdateSurvey(new SurveyId($id), $surveyParser);
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
 
-        if (!$modelValidator->validateModel($model)) {
+        if (! $modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
 
@@ -58,10 +58,9 @@ class SurveyController extends Controller
         $model = new NewSurvey();
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
 
-        if (!$modelValidator->validateModel($model)) {
+        if (! $modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
-
 
         $id = $surveyRepository->create($model);
         $response->setStatusCode(204);

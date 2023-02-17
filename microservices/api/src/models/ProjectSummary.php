@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\api\models;
@@ -14,7 +15,7 @@ final class ProjectSummary extends Project implements Linkable
     public function fields(): array
     {
         $fields = parent::fields();
-        $fields['name'] = fn(self $project) => $project->getTitle();
+        $fields['name'] = fn (self $project) => $project->getTitle();
         /** @var VirtualFieldBehavior $virtualFields */
         $virtualFields = $this->getBehavior('virtualFields');
         foreach ($virtualFields->virtualFields as $key => $definition) {
@@ -29,7 +30,7 @@ final class ProjectSummary extends Project implements Linkable
     protected static function virtualFields(): array
     {
         return [
-            ...parent::virtualFields()
+            ...parent::virtualFields(),
         ];
     }
 
@@ -50,7 +51,6 @@ final class ProjectSummary extends Project implements Linkable
         $summaryLink->type = 'application/json';
         $summaryLink->title = \Yii::t('app', 'Project summary');
 
-
         $result['summary'] = $summaryLink;
 
         $workspacesLink = new Link();
@@ -62,14 +62,7 @@ final class ProjectSummary extends Project implements Linkable
         $workspacesLink->type = 'text/html';
         $workspacesLink->title = \Yii::t('app', 'Workspaces');
 
-
         $result['workspaces'] = $workspacesLink;
         return $result;
     }
-
-
-
-
-
-
 }

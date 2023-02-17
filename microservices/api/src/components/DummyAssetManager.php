@@ -1,11 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\api\components;
 
-use yii\web\AssetManager;
-
 class DummyAssetManager
 {
-
 }

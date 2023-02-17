@@ -18,8 +18,9 @@ final class UpdateWorkspace extends RequestModel
      */
     public array|null $data = null;
 
-    public function __construct(public readonly WorkspaceId $id)
-    {
+    public function __construct(
+        public readonly WorkspaceId $id
+    ) {
         parent::__construct();
     }
 

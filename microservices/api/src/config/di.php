@@ -10,17 +10,17 @@ use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 
-return function(\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Container $container) {
+return function (\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Container $container) {
     $container->set(\yii\rest\Serializer::class, \herams\api\components\Serializer::class);
 
     $container->set(\yii\filters\auth\CompositeAuth::class, [
         'optional' => ['health/*'],
         'authMethods' => [
-            \herams\api\components\JwtAuth::class
+            \herams\api\components\JwtAuth::class,
         ],
     ]);
 
-    $container->set(\Lcobucci\JWT\Configuration::class, static function() use ($env): Configuration {
+    $container->set(\Lcobucci\JWT\Configuration::class, static function () use ($env): Configuration {
         $result = Configuration::forSymmetricSigner(
             new \Lcobucci\JWT\Signer\Hmac\Sha256(),
             \Lcobucci\JWT\Signer\Key\InMemory::plainText('secretsecretsecretsecretsecretsecretsecretsecretsecret' ?? $env->getSecret('app/sso_private_key'))
@@ -44,7 +44,6 @@ return function(\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Con
         \herams\common\helpers\ModelHydrator::class => \herams\common\helpers\ModelHydrator::class,
         \herams\common\interfaces\SurveyRepositoryInterface::class => \herams\common\domain\survey\SurveyRepository::class,
         \herams\common\domain\surveyResponse\SurveyResponseRepository::class => \herams\common\domain\surveyResponse\SurveyResponseRepository::class,
-        \herams\common\interfaces\CurrentUserIdProviderInterface::class => \herams\common\helpers\CurrentUserIdProvider::class
+        \herams\common\interfaces\CurrentUserIdProviderInterface::class => \herams\common\helpers\CurrentUserIdProvider::class,
     ]);
-
 };

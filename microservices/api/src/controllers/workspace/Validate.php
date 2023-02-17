@@ -29,6 +29,5 @@ final class Validate extends Action
         }
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams['data']);
         return $modelValidator->validateAndRenderForValidationEndpoint($model, $response);
-
     }
 }

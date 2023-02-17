@@ -10,4 +10,6 @@ use yii\base\Model;
 interface ModelHydratorInterface
 {
     public function hydrateFromActiveRecord(ActiveRecord $source, Model $target): void;
+
+    public function hydrateFromJsonDictionary(Model $model, array $data): void;
 }

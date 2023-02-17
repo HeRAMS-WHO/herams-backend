@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\api\models;
@@ -10,5 +11,4 @@ namespace herams\api\models;
  */
 class Form
 {
-
 }
