@@ -255,9 +255,9 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
      * Supports a source that uses id casing with a target that uses camelcase.
      * @template T of object
      * @param class-string<T> $class
-     * @return T|null
+     * @return T
      */
-    public function hydrateConstructor(Model $source, string $class): object|null
+    public function hydrateConstructor(Model $source, string $class): object
     {
         $reflectionClass = new \ReflectionClass($class);
         $args = [];

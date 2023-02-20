@@ -6,6 +6,7 @@ namespace herams\api\controllers;
 
 use herams\api\models\NewSurvey;
 use herams\api\models\UpdateSurvey;
+use herams\common\domain\survey\SurveyForList;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
@@ -14,12 +15,17 @@ use herams\common\values\SurveyId;
 use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\Response;
+use function PHPStan\dumpType;
 
 class SurveyController extends Controller
 {
+    /**
+     * @param SurveyRepository $surveyRepository
+     * @return list<SurveyForList>
+     */
     public function actionIndex(SurveyRepository $surveyRepository)
     {
-        return $surveyRepository->retrieveAll();
+        return [...$surveyRepository->retrieveAll()];
     }
 
     public function actionView(SurveyRepository $surveyRepository, int $id)

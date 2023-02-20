@@ -104,8 +104,12 @@ final class SurveyRepository implements SurveyRepositoryInterface
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
         return $record;    }
 
+    /**
+     * @return \Generator<int, SurveyForList>
+     */
     public function retrieveAll(): iterable
     {
+        /** @var Survey $survey */
         foreach (Survey::find()->all() as $survey) {
             if ($this->accessCheck->checkPermission($survey, Permission::PERMISSION_READ)) {
                 yield $this->hydrator->hydrateConstructor($survey, SurveyForList::class);
