@@ -18,7 +18,6 @@ use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
 use prime\interfaces\project\ProjectForBreadcrumbInterface;
 use prime\models\ar\read\Project as ProjectRead;
-use prime\models\forms\project\Create;
 use prime\models\project\ProjectForBreadcrumb;
 use prime\models\project\ProjectForExternalDashboard;
 use prime\models\project\ProjectLocales;
@@ -34,7 +33,7 @@ class ProjectRepository implements ProjectLocalesRetriever
     ) {
     }
 
-    public function create(NewProject|Create $model): ProjectId
+    public function create(NewProject $model): ProjectId
     {
         $record = new Project();
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
