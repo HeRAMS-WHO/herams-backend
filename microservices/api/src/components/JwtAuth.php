@@ -31,7 +31,7 @@ class JwtAuth extends AuthMethod
             }
 
             $userId = $token->claims()->get('userId');
-            if (!is_int($userId)) {
+            if (! is_int($userId)) {
                 throw new BadRequestHttpException('userId claim must be integer');
             }
 

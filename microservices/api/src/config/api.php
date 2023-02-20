@@ -66,7 +66,7 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
 
             ],
             'request' => [
-                'class' => \herams\api\components\Request::class,
+                'class' => \yii\web\Request::class,
                 'enableCsrfValidation' => false,
                 'enableCsrfCookie' => false,
                 'trustedHosts' => [

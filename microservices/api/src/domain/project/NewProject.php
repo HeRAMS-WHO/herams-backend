@@ -24,6 +24,10 @@ final class NewProject extends RequestModel
 
     public null|ProjectVisibility $visibility = null;
 
+    public array $languages = [];
+
+    public string $primaryLanguage = '';
+
     public function __construct()
     {
         parent::__construct();

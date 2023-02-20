@@ -451,7 +451,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                 },
             ],
             'contributorCount' => [
-                VirtualFieldBehavior::GREEDY => (function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
+                VirtualFieldBehavior::GREEDY =>static  function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
                     $result = new Query();
                     $permissionCount = self::getDb()->queryBuilder->buildExpression($contributorPermissionCountGreedy, $result->params);
                     $workspaceCount = self::getDb()->queryBuilder->buildExpression($workspaceCountGreedy, $result->params);
@@ -461,7 +461,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                     ]);
                     $result->select(new Expression("coalesce(cast(json_unquote(json_extract([[overrides]], :ccpath)) as unsigned), greatest($permissionCount, $workspaceCount))"));
                     return $result;
-                })(),
+                },
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);

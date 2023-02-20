@@ -1,12 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\api\domain\permission;
 
-use herams\common\attributes\Field;
 use herams\common\models\RequestModel;
-use herams\common\values\FacilityId;
-use herams\common\values\SurveyId;
 use SamIT\abac\interfaces\Authorizable;
 use SamIT\abac\interfaces\Grant;
 use yii\validators\RequiredValidator;
@@ -26,10 +24,9 @@ class NewPermission extends RequestModel implements Grant
     public function rules(): array
     {
         return [
-            [['source_id', 'source_name', 'target_id', 'target_name', 'permission'], RequiredValidator::class]
+            [['source_id', 'source_name', 'target_id', 'target_name', 'permission'], RequiredValidator::class],
         ];
     }
-
 
     public function getSource(): Authorizable
     {
@@ -39,7 +36,6 @@ class NewPermission extends RequestModel implements Grant
     public function getTarget(): Authorizable
     {
         return new \SamIT\abac\values\Authorizable($this->target_id, $this->target_name);
-
     }
 
     public function getPermission(): string

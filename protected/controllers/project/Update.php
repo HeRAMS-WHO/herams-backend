@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace prime\controllers\project;
 
 use herams\common\domain\project\ProjectRepository;
-use herams\common\domain\survey\SurveyRepository;
-use herams\common\helpers\ConfigurationProvider;
 use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;

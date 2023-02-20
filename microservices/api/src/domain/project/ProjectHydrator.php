@@ -39,12 +39,14 @@ class ProjectHydrator implements ActiveRecordHydratorInterface
             //            $target->status = $source->status->value;
             $target->visibility = $source->visibility->value;
             $target->country = $source->country;
-            $target->primary_language = $source->primaryLanguage;
+
             $target->manage_implies_create_hf = $source->manageImpliesCreateHf ? 1 : 0;
             $target->latitude = $source->latitude?->value;
             $target->longitude = $source->longitude?->value;
-            $target->languages = $source->languages;
         }
+
+        $target->languages = $source->languages;
+        $target->primary_language = $source->primaryLanguage;
         $target->admin_survey_id = $source->adminSurveyId->getValue();
 
         $target->data_survey_id = $source->dataSurveyId->getValue();

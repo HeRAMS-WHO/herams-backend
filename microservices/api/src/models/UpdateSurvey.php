@@ -25,7 +25,9 @@ final class UpdateSurvey extends RequestModel
     {
         return [
             [['config'], RequiredValidator::class],
-            [['config'], RequiredVariableValidator::class, 'surveyParser' => $this->surveyParser]
+            [['config'],
+                RequiredVariableValidator::class,
+                'surveyParser' => $this->surveyParser],
 
         ];
     }

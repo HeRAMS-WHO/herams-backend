@@ -13,7 +13,6 @@ use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\FacilityId;
 use yii\base\Action;
 use function iter\filter;
-use function PHPStan\dumpType;
 
 final class AdminResponses extends Action
 {
@@ -35,7 +34,9 @@ final class AdminResponses extends Action
         /**
          * @var list<VariableInterface>
          */
-        $variables = [...filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables())];
+        $variables = [
+            ...filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables()),
+        ];
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
 
         $data = [];
