@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace herams\api\controllers\project;
 
-use herams\api\models\NewProject;
-use herams\api\models\UpdateProject;
+use herams\api\domain\project\NewProject;
+use herams\api\domain\project\UpdateProject;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\values\ProjectId;

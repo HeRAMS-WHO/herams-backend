@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace herams\api\domain\project;
 
-use herams\api\models\NewProject;
-use herams\api\models\UpdateProject;
 use herams\common\attributes\SupportedType;
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\LocalizedString;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\models\ActiveRecord;
+use herams\api\domain\project\NewProject;
+use herams\api\domain\project\UpdateProject;
 use herams\common\models\Project;
 use herams\common\models\RequestModel;
 use herams\common\values\Latitude;

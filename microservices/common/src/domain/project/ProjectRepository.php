@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace herams\common\domain\project;
 
-use herams\api\models\NewProject;
-use herams\api\models\UpdateProject;
+use herams\api\domain\project\NewProject;
+use herams\api\domain\project\UpdateProject;
 use herams\common\helpers\Locale;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
@@ -17,7 +17,6 @@ use herams\common\values\IntegerId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
 use prime\interfaces\project\ProjectForBreadcrumbInterface;
-use prime\interfaces\RetrieveReadModelRepositoryInterface;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\forms\project\Create;
 use prime\models\project\ProjectForBreadcrumb;

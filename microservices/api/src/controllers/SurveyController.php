@@ -15,12 +15,10 @@ use herams\common\values\SurveyId;
 use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\Response;
-use function PHPStan\dumpType;
 
 class SurveyController extends Controller
 {
     /**
-     * @param SurveyRepository $surveyRepository
      * @return list<SurveyForList>
      */
     public function actionIndex(SurveyRepository $surveyRepository)

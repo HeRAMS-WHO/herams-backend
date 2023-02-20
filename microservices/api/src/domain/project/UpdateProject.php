@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace herams\api\models;
+namespace herams\api\domain\project;
 
 use herams\common\enums\ProjectStatus;
 use herams\common\enums\ProjectVisibility;

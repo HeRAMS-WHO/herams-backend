@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\api\controllers\project;
 
-use herams\api\models\NewProject;
+use herams\api\domain\project\NewProject;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
