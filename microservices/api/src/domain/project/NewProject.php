@@ -11,12 +11,17 @@ use herams\common\helpers\LocalizedString;
 use herams\common\models\Project;
 use herams\common\models\RequestModel;
 use herams\common\validators\BackedEnumValidator;
+use herams\common\validators\CountryValidator;
 use herams\common\validators\ExistValidator;
+use herams\common\values\Latitude;
+use herams\common\values\Longitude;
 use herams\common\values\SurveyId;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
+use yii\validators\SafeValidator;
+use yii\validators\UrlValidator;
 
-final class NewProject extends RequestModel
+class NewProject extends RequestModel
 {
     public null|LocalizedString $title = null;
 
@@ -26,7 +31,15 @@ final class NewProject extends RequestModel
 
     public null|ProjectVisibility $visibility = null;
 
+    public null|Latitude $latitude = null;
+
+    public null|Longitude $longitude = null;
+
     public array $languages = [];
+
+    public string $country = '';
+
+    public string $dashboardUrl = '';
 
     public string $primaryLanguage = '';
 
@@ -47,13 +60,14 @@ final class NewProject extends RequestModel
     public function rules(): array
     {
         return [
-            [['title', 'dataSurveyId', 'adminSurveyId'], RequiredValidator::class],
+            [['title', 'country', 'visibility', 'adminSurveyId', 'dataSurveyId', 'primaryLanguage', 'languages'], RequiredValidator::class],
             [['languages'], RangeValidator::class, 'range' => Locale::keys(), 'allowArray' => true],
             [['primaryLanguage'], function() {
                 if (!in_array($this->primaryLanguage, $this->languages)) {
                     $this->addError('primaryLanguage', \Yii::t('app', 'The primary language must be selected in the list of active languages'));
                 }
             }],
+            [['latitude', 'longitude'], SafeValidator::class],
             [['dataSurveyId', 'adminSurveyId'],
                 ExistValidator::class,
                 'targetAttribute' => 'id',
@@ -63,6 +77,8 @@ final class NewProject extends RequestModel
                 BackedEnumValidator::class,
                 'example' => ProjectVisibility::Public,
             ],
+            [['country'], CountryValidator::class],
+            [['dashboardUrl'], UrlValidator::class, 'validSchemes' => ['https']]
         ];
     }
 }

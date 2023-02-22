@@ -39,7 +39,7 @@ class FormRepository
             submitRoute: $this->createUri('/api/project/create'),
             redirectRoute: $this->createUri('project/index'),
             serverValidationRoute: $this->createUri('/api/project/validate'),
-            configuration: $this->loadDefinition('createProject'),
+            configuration: $this->loadDefinition('createUpdateProject'),
         );
     }
 
@@ -49,7 +49,7 @@ class FormRepository
             submitRoute: $this->createUri('/api/project/update', id: $id),
             dataRoute: $this->createUri('/api/project/view', id: $id),
             serverValidationRoute: $this->createUri('/api/project/validate', id: $id),
-            configuration: $this->loadDefinition('updateProject'),
+            configuration: $this->loadDefinition('createUpdateProject'),
             extraData: [
                 'id' => $id,
             ]

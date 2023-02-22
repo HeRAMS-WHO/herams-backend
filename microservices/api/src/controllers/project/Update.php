@@ -20,7 +20,7 @@ final class Update extends Action
         ProjectRepository $projectRepository,
         Response $response,
         int $id
-    ) {
+    ): array|Response {
         $model = new UpdateProject(new ProjectId($id));
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams['data']);
         if (! $model->validate()) {
@@ -29,7 +29,7 @@ final class Update extends Action
         }
         $projectRepository->save($model);
 
-        $response->setStatusCode(200);
+        $response->setStatusCode(204);
         return $response;
     }
 }

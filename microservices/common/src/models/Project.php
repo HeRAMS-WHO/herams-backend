@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace herams\common\models;
 
-use herams\api\components\Link;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\survey\Survey;
 use herams\common\domain\user\User;
-use herams\common\enums\ProjectStatus;
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\Locale;
 use herams\common\interfaces\ProjectForTabMenuInterface;
@@ -17,6 +15,7 @@ use herams\common\queries\FacilityQuery;
 use herams\common\queries\WorkspaceQuery;
 use herams\common\traits\LocalizedReadTrait;
 use herams\common\validators\BackedEnumValidator;
+use herams\common\validators\CountryValidator;
 use herams\common\validators\ExistValidator;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
@@ -26,13 +25,10 @@ use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
 use yii\db\Query;
-use yii\helpers\Url;
 use yii\validators\BooleanValidator;
-use yii\validators\DefaultValueValidator;
-use yii\validators\InlineValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RangeValidator;
-use yii\web\Linkable;
+use yii\validators\RequiredValidator;
 
 /**
  * Class Project
@@ -47,12 +43,12 @@ use yii\web\Linkable;
  * @property list<string> $languages
  * @property float $latitude
  * @property float $longitude
- * @property boolean $manage_implies_create_hf
- * @property array $overrides
- * @property int $status
  * @property string|null $updated_at
  * @property string $visibility
+ * @property string|null $dashboard_url
  * @property string $primary_language
+ * @property int $admin_survey_id
+ * @property int $data_survey_id
  *
  * Virtual fields
  * @property-read int $contributorCount
@@ -82,14 +78,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
     public const VISIBILITY_PRIVATE = 'private';
 
     public const VISIBILITY_HIDDEN = 'hidden';
-
-    public const STATUS_ONGOING = 0;
-
-    public const STATUS_BASELINE = 1;
-
-    public const STATUS_TARGET = 2;
-
-    public const STATUS_EMERGENCY_SPECIFIC = 3;
 
     public function attributeHints(): array
     {
@@ -121,12 +109,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
         return new SurveyId($this->data_survey_id);
     }
 
-    public function beforeSave($insert): bool
-    {
-        $this->overrides = array_filter($this->overrides);
-        return parent::beforeSave($insert);
-    }
-
     public function behaviors(): array
     {
         return [
@@ -153,8 +135,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
         $result['functionalityCounts'] = 'functionalityCounts';
         $result['typeCounts'] = 'typeCounts';
         $result['coordinatorName'] = static fn (self $project) => implode(', ', $project->getLeads());
-        $result['statusText'] = 'statusText';
-
         return $result;
     }
 
@@ -194,11 +174,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
         return new HeramsCodeMap();
     }
 
-    public function getOverride(string $name): mixed
-    {
-        return $this->overrides[$name] ?? null;
-    }
-
     public function getPages(): ActiveQuery
     {
         return $this->hasMany(Page::class, [
@@ -225,11 +200,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             ]);
     }
 
-    public function getStatusText(): string
-    {
-        return ProjectStatus::from($this->status)->label();
-    }
-
     public function getWorkspaces(): WorkspaceQuery
     {
         return $this->hasMany(Workspace::class, [
@@ -244,14 +214,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
         ])->via('workspaces');
     }
 
-    public function init(): void
-    {
-        parent::init();
-
-        $this->overrides = [];
-        $this->status = self::STATUS_ONGOING;
-    }
-
     public function isHidden(): bool
     {
         return $this->visibility === self::VISIBILITY_HIDDEN;
@@ -261,7 +223,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
     {
         return array_merge(parent::labels(), [
             'admin_survey_id' => \Yii::t('app', 'Admin survey'),
-            'base_survey_eid' => \Yii::t('app', 'Survey'),
             'country' => \Yii::t('app', 'Country'),
             'data_survey_id' => \Yii::t('app', 'Data survey'),
             'hidden' => \Yii::t('app', 'Hidden'),
@@ -269,86 +230,53 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             'languages' => \Yii::t('app', 'Active languages'),
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
-            'manage_implies_create_hf' => \Yii::t('app', 'Manage data implies creating facilities'),
-            'overrides' => \Yii::t('app', 'Overrides'),
-            'status' => \Yii::t('app', 'Status'),
             'visibility' => \Yii::t('app', 'Visibility'),
         ]);
-    }
-
-    public function manageWorkspacesImpliesCreatingFacilities(): bool
-    {
-        return (bool) $this->manage_implies_create_hf;
     }
 
     public function rules(): array
     {
         return [
-            [['base_survey_eid'],
-                NumberValidator::class,
-                'integerOnly' => true,
+            [
+                [
+                    'country',
+                    'hidden',
+                    'latitude',
+                    'longitude',
+                    'languages',
+                    'i18n',
+                    'visibility',
+                    'admin_survey_id',
+                    'data_survey_id',
+                ],
+                RequiredValidator::class
             ],
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'],
                 NumberValidator::class,
                 'integerOnly' => false,
             ],
+            [['country'], CountryValidator::class],
             [['languages'],
                 RangeValidator::class,
                 'range' => Locale::keys(),
                 'allowArray' => true,
             ],
-            [['overrides', 'i18n'], function ($attribute) {
+            [['i18n'], function ($attribute) {
                 if (! is_array($this->$attribute)) {
                     $this->addError($attribute, \Yii::t('app', '{attribute} must be an array.', [
                         'attribute' => $this->getAttributeLabel($attribute),
                     ]));
                 }
             }],
-            //            [['status'],
-            //                EnumValidator::class,
-            //                'enumClass' => ProjectStatus::class,
-            //            ],
             [['visibility'],
                 BackedEnumValidator::class,
                 'example' => ProjectVisibility::Public,
             ],
-            [['country'], function () {
-                $data = new ISO3166();
-                try {
-                    $data->alpha3($this->country);
-                } catch (\Throwable $t) {
-                    $this->addError('country', $t->getMessage());
-                }
-            }],
-            [['country'],
-                DefaultValueValidator::class,
-                'value' => null,
-            ],
-            [['manage_implies_create_hf'], BooleanValidator::class],
             [['admin_survey_id', 'data_survey_id'],
                 ExistValidator::class,
                 'targetClass' => Survey::class,
                 'targetAttribute' => 'id',
-            ],
-            [['data_survey_id', 'admin_survey_id', 'base_survey_eid'],
-                function (string $attribute, null|array $params, InlineValidator $validator) {
-                    if (empty($this->base_survey_eid) && (empty($this->admin_survey_id) || empty($this->data_survey_id))) {
-                        $this->addError(
-                            $attribute,
-                            \Yii::t(
-                                'app',
-                                'Either {baseSurveyEid} or {adminSurveyId} and {dataSurveyId} must be set.',
-                                [
-                                    'baseSurveyEid' => $this->getAttributeLabel('base_survey_eid'),
-                                    'adminSurveyId' => $this->getAttributeLabel('admin_survey_id'),
-                                    'dataSurveyId' => $this->getAttributeLabel('data_survey_id'),
-                                ]
-                            )
-                        );
-                    }
-                },
-                'skipOnEmpty' => false,
             ],
         ];
     }
@@ -464,7 +392,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                 },
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    return $model->getOverride('contributorCount') ?? max($model->contributorPermissionCount, $model->workspaceCount);
+                    return max($model->contributorPermissionCount, $model->workspaceCount);
                 },
             ],
             'tierPrimaryCount' => [

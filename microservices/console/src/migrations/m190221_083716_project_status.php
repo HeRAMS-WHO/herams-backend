@@ -10,7 +10,7 @@ class m190221_083716_project_status extends Migration
 {
     public function safeUp()
     {
-        $this->addColumn('{{%project}}', 'status', $this->integer()->defaultValue(Project::STATUS_ONGOING)->notNull());
+        $this->addColumn('{{%project}}', 'status', $this->integer()->defaultValue(0)->notNull());
     }
 
     public function safeDown()

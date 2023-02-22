@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\tests\unit\models\ar;
 
 use herams\common\enums\Language;
-use herams\common\enums\ProjectStatus;
 use herams\common\enums\ProjectVisibility;
 use herams\common\models\Page;
 use herams\common\models\Permission;
@@ -28,7 +27,6 @@ class ProjectTest extends ActiveRecordTest
                     'country' => 'NLD',
                     'latitude' => 4,
                     'longitude' => 5,
-                    'status' => ProjectStatus::Target->value,
                     'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
                     'overrides' => [
@@ -50,7 +48,6 @@ class ProjectTest extends ActiveRecordTest
                     'country' => 'NLD',
                     'latitude' => 4,
                     'longitude' => 5,
-                    'status' => ProjectStatus::Target->value,
                     'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
                     'overrides' => [
@@ -93,7 +90,6 @@ class ProjectTest extends ActiveRecordTest
                     'country' => 'NLD',
                     'latitude' => 4,
                     'longitude' => 5,
-                    'status' => ProjectStatus::Target->value,
                     'visibility' => ProjectVisibility::Public->value,
                     'typemap' => [],
                     'overrides' => [

@@ -35,26 +35,23 @@ class ProjectHydrator implements ActiveRecordHydratorInterface
         $i18n['title'] = $source->title->asDictionary();
 
         $target->i18n = $i18n;
-        if ($source instanceof UpdateProject) {
-            //            $target->status = $source->status->value;
-            $target->visibility = $source->visibility->value;
-            $target->country = $source->country;
+        $target->visibility = $source->visibility->value;
+        $target->country = $source->country;
 
-            $target->manage_implies_create_hf = $source->manageImpliesCreateHf ? 1 : 0;
-            $target->latitude = $source->latitude?->value;
-            $target->longitude = $source->longitude?->value;
-        }
+        $target->latitude = $source->latitude?->value;
+        $target->longitude = $source->longitude?->value;
 
         $target->languages = $source->languages;
         $target->primary_language = $source->primaryLanguage;
         $target->admin_survey_id = $source->adminSurveyId->getValue();
-
         $target->data_survey_id = $source->dataSurveyId->getValue();
+        $target->dashboard_url = $source->dashboardUrl === '' ? null : $source->dashboardUrl;
+        \Yii::error($target->attributes);
     }
 
     /**
      * @param Project $source
-     * @param UpdateProject $target
+     * @param UpdateProject|NewProject $target
      */
     public function hydrateRequestModel(ActiveRecord $source, RequestModel $target): void
     {
@@ -62,16 +59,14 @@ class ProjectHydrator implements ActiveRecordHydratorInterface
 
         $target->title = new LocalizedString($source->i18n['title'] ?? []);
 
-        //        $target->status = ProjectStatus::from($source->status);
         $target->visibility = ProjectVisibility::from($source->visibility);
         $target->country = $source->country;
-        $target->manageImpliesCreateHf = (bool) $source->manage_implies_create_hf;
         $target->primaryLanguage = $source->primary_language;
         $target->adminSurveyId = new SurveyId($source->admin_survey_id);
         $target->dataSurveyId = new SurveyId($source->data_survey_id);
         $target->latitude = isset($source->latitude) ? new Latitude($source->latitude) : null;
         $target->longitude = isset($source->longitude) ? new Longitude($source->longitude) : null;
-        $target->manageImpliesCreateHf = (bool) $source->manage_implies_create_hf;
+        $target->dashboardUrl = $source->dashboard_url ?? '';
 
         $target->languages = $source->languages ?? [];
     }

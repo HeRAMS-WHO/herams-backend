@@ -21,7 +21,7 @@ final class ProjectSummary extends Project implements Linkable
         foreach ($virtualFields->virtualFields as $key => $definition) {
             $fields[$key] = $key;
         }
-        foreach (['overrides', 'contributorPermissionCount'] as $hidden) {
+        foreach (['contributorPermissionCount'] as $hidden) {
             unset($fields[$hidden]);
         }
         return $fields;

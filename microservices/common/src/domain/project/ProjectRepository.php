@@ -98,13 +98,13 @@ class ProjectRepository implements ProjectLocalesRetriever
         $record = ProjectRead::findOne([
             'id' => $id,
         ]);
-        if (! isset($record) || null === $dashboard = $record->getOverride('dashboard')) {
+        if (! isset($record) || null === $dashboard = $record->dashboard_url) {
             throw new NotFoundHttpException();
         };
 
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
 
-        return new ProjectForExternalDashboard($record->title, $dashboard);
+        return new ProjectForExternalDashboard($record->getTitle(), $dashboard);
     }
 
     public function retrieveAdminSurveyId(ProjectId $projectId): SurveyId

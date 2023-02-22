@@ -47,9 +47,6 @@ class FacilityListResponsesRule implements Rule
         if (! ($target instanceof Facility && in_array($permission, $this->getPermissions()))) {
             return false;
         }
-
-        return $accessChecker->check($source, $target->workspace, Permission::PERMISSION_SURVEY_DATA)
-            && $target->workspace->project->manageWorkspacesImpliesCreatingFacilities()
-        ;
+        return $accessChecker->check($source, $target->workspace, Permission::PERMISSION_SURVEY_DATA);
     }
 }

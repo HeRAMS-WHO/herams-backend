@@ -10,17 +10,20 @@ use yii\web\Response;
 
 class ConfigurationController extends Controller
 {
-    public function actionCountries(Response $response): array
+    public function actionCountries(
+        ConfigurationProvider $configurationProvider,
+        Response $response): array
     {
         $response->headers->add('Cache-Control', 'max-age=604800,public');
-        return (new ISO3166())->all();
+        return $configurationProvider->getPlatformCountries();
+
     }
 
     public function actionLocales(
         ConfigurationProvider $configurationProvider,
         Response $response
     ): array|string {
-        $response->headers->add('Cache-Control', 'max-age=10,public');
+        $response->headers->add('Cache-Control', 'max-age=604800,public');
         return $configurationProvider->getPlatformLocales();
     }
 }

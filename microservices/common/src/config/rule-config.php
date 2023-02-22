@@ -61,9 +61,6 @@ return [
     new PublicProjectRule(),
     new ProjectImpliesWorkspace(),
     new ManageWorkspaceRule(),
-    new CreateFacilityRule(),
     new RespondToAccessRequestRule(),
-    new CreateFacilityCascadeWorkspaceRule(),
-    new FacilityCascadeWorkspaceRule(),
     new FacilityListResponsesRule(),
 ];

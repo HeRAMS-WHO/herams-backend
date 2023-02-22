@@ -42,24 +42,6 @@ class SurveyFormWidget extends Widget
         ]);
         $this->view->registerJs(
             <<<JS
-            // Wait for a value to be non-null
-            // const waitNonNull = (callback, timeout) => new Promise((resolve, reject) => {
-            //     const test = setInterval(() => {
-            //         const value = callback() 
-            //         if (value !== null) {
-            //             clearInterval(test);
-            //             resolve(value)
-            //         } 
-            //     })
-            //     setTimeout(() => {
-            //         clearInterval(test);
-            //         reject('Timeout');
-            //     }, timeout ?? 10000);
-            //    
-            // })
-            //
-            // const waitForCustomQuestionType = (name) => waitNonNull(() => Survey.ComponentCollection.Instance.getCustomQuestionByName(name));
-            
             
             const config = {$config};
             
@@ -69,7 +51,7 @@ class SurveyFormWidget extends Widget
                 const locales = await Herams.fetchWithCsrf(config.localeEndpoint, null, 'get')
                 surveyStructure.locales = locales.languages 
             }
-            const survey = new SurveyKnockout.Survey(surveyStructure);
+            const survey = new Survey.Model(surveyStructure);
             
             let restartWithFreshData
             let waitForDataPromise
@@ -77,7 +59,7 @@ class SurveyFormWidget extends Widget
                 restartWithFreshData = async () => {
                     console.log("Clearing survey");
                     survey.clear()
-                    let data = await window.Herams.fetchWithCsrf(config.dataUrl, null, 'GET');
+                    const data = await window.Herams.fetchWithCsrf(config.dataUrl, null, 'GET');
                     try {
                     survey.data = data
                     } catch (error) {
@@ -95,12 +77,6 @@ class SurveyFormWidget extends Widget
                     return survey.data;
                 }
                 waitForDataPromise = restartWithFreshData();
-               
-            } else {
-                waitForDataPromise = new Promise((resolve, reject) => {
-                    survey.data = config.data
-                    resolve(config.data)
-                })
                
             }
 
@@ -179,20 +155,23 @@ class SurveyFormWidget extends Widget
             }
 
             
-            const data = await waitForDataPromise
-            
-            console.log('rendering survey',  survey, data)
-            survey.render(config.elementId);
+            // const data = await waitForDataPromise
+            //
+            // console.log('rendering survey',  survey, data)
+            ko.applyBindings({
+                model: survey
+            })
             window.survey = survey;
         JS,
             View::POS_HERAMS_INIT
         );
 
         return Html::tag(
-            'div',
+            'survey',
             'Loading...' . Html::tag('pre', json_encode($this->surveyForm->getConfiguration(), JSON_PRETTY_PRINT)),
             options: [
                 'id' => $this->getId(),
+                'params' => "survey: model",
             ]
         );
     }

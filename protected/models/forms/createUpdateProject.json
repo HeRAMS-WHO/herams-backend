@@ -20,7 +20,8 @@
             "url": "/api-proxy/core/configuration/locales",
             "valueName": "locale",
             "titleName": "label"
-          }
+          },
+          "defaultValue": ["en"]
         },
         {
           "type": "radiogroup",
@@ -29,7 +30,8 @@
           "description": "Primary language for the project",
           "isRequired": true,
           "choicesFromQuestion": "languages",
-          "choicesFromQuestionMode": "selected"
+          "choicesFromQuestionMode": "selected",
+          "defaultValue": "en"
         },
         {
           "type": "surveypicker",
@@ -51,6 +53,38 @@
               "expression": "{adminSurveyId} <> {dataSurveyId}"
             }
           ]
+        },
+        {
+          "name": "country",
+          "type": "countrypicker",
+          "title": "Country",
+          "isRequired": true
+        },
+        {
+          "type": "longitude",
+          "name": "longitude",
+          "title": "Longitude",
+          "isRequired": true
+        },
+        {
+          "type": "latitude",
+          "name": "latitude",
+          "title": "Latitude",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "dashboardUrl",
+          "title": "External dashboard URL",
+          "description": "Leave empty to use built-in dashboarding",
+          "validators": [
+            {
+              "type": "regex",
+              "text": "URL must start with https://",
+              "regex": "^https://"
+            }
+          ],
+          "inputType": "url"
         }
       ]
     }
