@@ -37,6 +37,7 @@ class ApiProxy
 
     private function forwardRequest(string $targetUri, Request $request, UserId $user): ResponseInterface
     {
+        \Yii::beginProfile($targetUri, 'ApiProxy::forwardRequest');
         $token = $this->configuration->builder()
             ->issuedBy('https://app.herams.org')
             ->issuedAt(Carbon::now()->toDateTimeImmutable())
@@ -68,6 +69,7 @@ class ApiProxy
 
         ;
         $response = $this->client->sendRequest($upstreamRequest);
+        \Yii::endProfile($targetUri, 'ApiProxy::forwardRequest');
         return $response;
     }
 }
