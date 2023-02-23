@@ -10,6 +10,7 @@ INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('herams\\consol
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('herams\\console\\migrations\\M230222145446ProjectDropOverrides', 1677160876);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('herams\\console\\migrations\\M230222152715ProjectCountryNotNull', 1677160876);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('herams\\console\\migrations\\M230222152953ProjectDropBaseSurveyEid', 1677161002);
+INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('herams\\console\\migrations\\M230223141639ProjectDropHidden', 1677161843);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m000000_000000_base', 1542208794);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m140209_132017_init', 1542208885);
 INSERT INTO `prime2_migration` (`version`, `apply_time`) VALUES ('m140403_174025_create_account_table', 1542208886);

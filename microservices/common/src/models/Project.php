@@ -225,7 +225,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             'admin_survey_id' => \Yii::t('app', 'Admin survey'),
             'country' => \Yii::t('app', 'Country'),
             'data_survey_id' => \Yii::t('app', 'Data survey'),
-            'hidden' => \Yii::t('app', 'Hidden'),
             'i18n' => \Yii::t('app', 'Translated attributes'),
             'languages' => \Yii::t('app', 'Active languages'),
             'latitude' => \Yii::t('app', 'Latitude'),
@@ -240,7 +239,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             [
                 [
                     'country',
-                    'hidden',
                     'latitude',
                     'longitude',
                     'languages',
@@ -251,7 +249,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                 ],
                 RequiredValidator::class
             ],
-            [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'],
                 NumberValidator::class,
                 'integerOnly' => false,
