@@ -97,7 +97,6 @@
         valueName: 'alpha3',
         titleName: 'name',
       },
-      defaultValue: 'XXX'
     },
     onInit() {
       // debugger;

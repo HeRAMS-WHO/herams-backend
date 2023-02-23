@@ -58,7 +58,8 @@
           "name": "country",
           "type": "countrypicker",
           "title": "Country",
-          "isRequired": true
+          "isRequired": true,
+          "defaultValue": "XXX"
         },
         {
           "type": "longitude",

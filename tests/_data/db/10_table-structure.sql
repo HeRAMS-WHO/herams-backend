@@ -107,48 +107,22 @@ CREATE TABLE `prime2_permission` (
 
 CREATE TABLE `prime2_project` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `base_survey_eid` int DEFAULT NULL,
   `hidden` tinyint(1) DEFAULT '0',
   `latitude` float DEFAULT NULL,
   `longitude` float DEFAULT NULL,
-  `status` int NOT NULL,
-  `overrides` json NOT NULL,
   `visibility` varchar(10) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'public',
   `country` char(3) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
-  `manage_implies_create_hf` tinyint(1) NOT NULL DEFAULT '1',
   `i18n` json DEFAULT NULL,
   `languages` json DEFAULT NULL,
   `admin_survey_id` int DEFAULT NULL,
   `data_survey_id` int DEFAULT NULL,
   `primary_language` varchar(10) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'en',
+  `dashboard_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `survey` (`base_survey_eid`),
   KEY `project_admin_survey` (`admin_survey_id`),
   KEY `project_data_survey` (`data_survey_id`),
   CONSTRAINT `project_admin_survey` FOREIGN KEY (`admin_survey_id`) REFERENCES `prime2_survey` (`id`),
   CONSTRAINT `project_data_survey` FOREIGN KEY (`data_survey_id`) REFERENCES `prime2_survey` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `prime2_response_for_limesurvey` (
-  `id` int DEFAULT NULL,
-  `survey_id` int DEFAULT NULL,
-  `workspace_id` int NOT NULL,
-  `data` json DEFAULT NULL,
-  `date` date NOT NULL,
-  `hf_id` varchar(20) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `last_updated` datetime DEFAULT CURRENT_TIMESTAMP,
-  `facility_id` int DEFAULT NULL,
-  `auto_increment_id` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`auto_increment_id`),
-  KEY `date` (`date`,`hf_id`),
-  KEY `date_2` (`hf_id`,`date`) USING BTREE,
-  KEY `workspace` (`workspace_id`),
-  KEY `project` (`survey_id`),
-  KEY `facility_response` (`facility_id`),
-  KEY `oldprimary` (`id`,`survey_id`),
-  CONSTRAINT `facility_response` FOREIGN KEY (`facility_id`) REFERENCES `prime2_facility` (`id`),
-  CONSTRAINT `project` FOREIGN KEY (`survey_id`) REFERENCES `prime2_project` (`base_survey_eid`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `workspace` FOREIGN KEY (`workspace_id`) REFERENCES `prime2_workspace` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `prime2_response_master` (
