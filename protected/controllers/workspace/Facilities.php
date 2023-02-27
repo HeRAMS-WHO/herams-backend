@@ -32,15 +32,12 @@ class Facilities extends Action
         $workspaceId = new WorkspaceId($id);
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $variableSet = $surveyRepository->retrieveVariableSet($projectRepository->retrieveAdminSurveyId($projectId), $projectRepository->retrieveDataSurveyId($projectId));
-        $facilitySearch = new FacilitySearch();
-        $facilitySearch->load($request->queryParams);
 
         $variables = toArray(filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInFacilityList') !== null, $variableSet->getVariables()));
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInFacilityList') <=> $b->getRawConfigurationValue('showInFacilityList'));
 
         $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForWorkspace($workspaceId)->getIterator()));
         return $this->controller->render('facilities', [
-            'facilitySearch' => $facilitySearch,
             'variables' => $variables,
         ]);
     }

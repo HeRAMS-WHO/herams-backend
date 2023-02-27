@@ -11,7 +11,6 @@ use SamIT\abac\interfaces\Resolver;
 use yii\web\View;
 
 /**
- * @var \prime\models\search\FacilitySearch $facilitySearch
  * @var int $closedCount
  * @var View $this
  * @var \prime\interfaces\WorkspaceForTabMenu $tabMenuModel
