@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace herams\common\domain\workspace;
 
-use herams\api\models\NewWorkspace;
-use herams\api\models\UpdateWorkspace;
+use herams\api\domain\workspace\NewWorkspace;
+use herams\api\domain\workspace\UpdateWorkspace;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\ModelHydratorInterface;

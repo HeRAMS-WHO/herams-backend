@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace herams\api\models;
+namespace herams\api\domain\workspace;
 
 use herams\common\helpers\LocalizedString;
 use herams\common\models\RequestModel;

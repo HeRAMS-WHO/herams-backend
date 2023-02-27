@@ -70,14 +70,14 @@ class FormRepository
         );
     }
 
-    public function getUpdateWorkspaceForm(WorkspaceId $id): SurveyFormInterface
+    public function getUpdateWorkspaceForm(WorkspaceId $id, ProjectId $projectId = null): SurveyFormInterface
     {
         return new SurveyForm(
             submitRoute: $this->createUri('/api/workspace/update', id: $id),
             dataRoute: $this->createUri('/api/workspace/view', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate', id: $id),
             configuration: $this->loadDefinition('createUpdateWorkspace'),
-            //            localeEndpoint: $this->createUri('/api/project/view', id: $id),
+            localeEndpoint: isset($projectId) ? $this->createUri('/api/project/view', id: $projectId) : null,
             extraData: [
                 'id' => $id,
             ]

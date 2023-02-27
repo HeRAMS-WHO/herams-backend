@@ -6,6 +6,7 @@ use herams\api\domain\project\ProjectHydrator;
 use herams\common\components\AuditService;
 use herams\common\components\Formatter;
 use herams\common\config\CommonConfigurator;
+use herams\api\domain\workspace\WorkspaceHydrator;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\EnvironmentInterface;
 use SamIT\abac\AuthManager;
@@ -28,6 +29,7 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
     $container->set(ActiveRecordHydratorInterface::class, static function () use ($hydratorDefinition) {
         $result = $hydratorDefinition();
         $result->registerAttributeStrategy(new ProjectHydrator(), true);
+        $result->registerAttributeStrategy(new WorkspaceHydrator(), true);
         return $result;
     });
 

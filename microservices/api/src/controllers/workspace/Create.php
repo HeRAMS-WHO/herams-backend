@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\api\controllers\workspace;
 
-use herams\api\models\NewWorkspace;
+use herams\api\domain\workspace\NewWorkspace;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace herams\common\domain\workspace;
+namespace herams\api\domain\workspace;
 
-use herams\api\models\NewWorkspace;
-use herams\api\models\UpdateWorkspace;
+use herams\api\domain\workspace\NewWorkspace;
+use herams\api\domain\workspace\UpdateWorkspace;
 use herams\common\attributes\SupportedType;
 use herams\common\enums\Language;
 use herams\common\helpers\LocalizedString;

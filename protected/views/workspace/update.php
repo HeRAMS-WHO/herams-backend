@@ -6,18 +6,17 @@ use herams\common\models\Permission;
 use herams\common\values\WorkspaceId;
 use prime\components\View;
 use prime\helpers\Icon;
-use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use prime\interfaces\WorkspaceForTabMenu;
 use prime\widgets\ButtonGroup;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
-use prime\widgets\survey\Survey;
+use prime\widgets\survey\SurveyFormWidget;
 use yii\bootstrap\Html;
 
 /**
  * @var WorkspaceId $workspaceId
  * @var WorkspaceForTabMenu $tabMenuModel
- * @var SurveyForSurveyJsInterface $survey
+ * @var \prime\interfaces\SurveyFormInterface $form
  * @var View $this
  * @var null|object $model
  */
@@ -35,28 +34,11 @@ $this->endBlock();
 Section::begin()
     ->withSubject($workspaceId)
 ;
-
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
-    ->withProjectId($tabMenuModel->projectId())
-    ->withDataRoute([
-        '/api/workspace/view',
-        'id' => $workspaceId,
-    ])
-    ->withExtraData([
-        'id' => $workspaceId,
-    ])
-    ->withSubmitRoute([
-        '/api/workspace/update',
-        'id' => $workspaceId,
-    ])
-    ->withServerValidationRoute([
-        '/api/workspace/validate',
-        'id' => $workspaceId,
-    ])
+$survey = SurveyFormWidget::begin()
+    ->withForm($form)
+    ->end()
 ;
 
-Survey::end();
 
 Section::end();
 

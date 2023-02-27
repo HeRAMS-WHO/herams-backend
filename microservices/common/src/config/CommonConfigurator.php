@@ -11,7 +11,7 @@ use herams\common\domain\facility\FacilityHydrator;
 use herams\common\domain\project\ProjectHydrator;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
-use herams\common\domain\workspace\WorkspaceHydrator;
+use herams\api\domain\workspace\WorkspaceHydrator;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\helpers\BaseClassResolver;
 use herams\common\helpers\CommandFactory;
@@ -132,7 +132,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
 
         $container->set(ActiveRecordHydratorInterface::class, static function (): ActiveRecordHydratorInterface {
             $result = new StrategyActiveRecordHydrator();
-            $result->registerAttributeStrategy(new WorkspaceHydrator());
+
             $result->registerAttributeStrategy(new FacilityHydrator());
             $result->registerAttributeStrategy(new ModelHydrator());
             return $result;

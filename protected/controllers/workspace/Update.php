@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\workspace;
 
+use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\WorkspaceId;
 use prime\components\Controller;
 use prime\repositories\FormRepository;
@@ -13,12 +14,15 @@ class Update extends Action
 {
     public function run(
         FormRepository $formRepository,
+        WorkspaceRepository $workspaceRepository,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
-        return $this->controller->render('create', [
-            'form' => $formRepository->getUpdateWorkspaceForm(new WorkspaceId($id)),
+        $workspaceId = new WorkspaceId($id);
+        return $this->controller->render('update', [
+            'form' => $formRepository->getUpdateWorkspaceForm($workspaceId, $workspaceRepository->getProjectId($workspaceId)),
+            'workspaceId' => $workspaceId,
         ]);
     }
 }
