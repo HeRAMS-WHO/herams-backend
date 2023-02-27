@@ -19,14 +19,10 @@ final class UpdateSituation extends FrontendAction
 {
     public function run(
         FacilityRepository $facilityRepository,
-        ModelHydrator $modelHydrator,
-        NotificationService $notificationService,
         WorkspaceRepository $workspaceRepository,
         SurveyRepository $surveyRepository,
         ProjectRepository $projectRepository,
-        Request $request,
-        Response $response,
-        string $id
+        int $id
     ) {
         $facilityId = new FacilityId($id);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
