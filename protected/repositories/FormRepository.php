@@ -62,7 +62,7 @@ class FormRepository
             submitRoute: $this->createUri('/api/workspace/create', id: $id),
             redirectRoute: $this->createUri('/project/workspaces', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate'),
-            configuration: $this->loadDefinition('createWorkspace'),
+            configuration: $this->loadDefinition('createUpdateWorkspace'),
             localeEndpoint: $this->createUri('/api/project/view', id: $id),
             extraData: [
                 'projectId' => $id,
@@ -76,7 +76,7 @@ class FormRepository
             submitRoute: $this->createUri('/api/workspace/update', id: $id),
             dataRoute: $this->createUri('/api/workspace/view', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate', id: $id),
-            configuration: $this->loadDefinition('updateWorkspace'),
+            configuration: $this->loadDefinition('createUpdateWorkspace'),
             //            localeEndpoint: $this->createUri('/api/project/view', id: $id),
             extraData: [
                 'id' => $id,
