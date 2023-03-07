@@ -73,11 +73,16 @@ services:
       - devdb
       - mailcatcher
       - phpmyadmin
-    image: ghcr.io/herams-who/docker/php:latest
+    image: ghcr.io/herams-who/docker/php-api:latest
     volumes:
+      - shared:/shared
       - type: bind
-        source: ./
+        source: ./microservices/api
         target: /project
+        read_only: true
+      - type: bind
+        source: ./microservices/common
+        target: /common
         read_only: true
       - type: volume
         source: debugdata
@@ -130,6 +135,19 @@ services:
     image: nginx
     volumes:
       - ./tests/_output/coverage:/usr/share/nginx/html:ro
+  nginx-api:
+    labels:
+      traefik.enable: "true"
+      devDomain: api.herams
+    networks:
+      - devproxy2
+      - default
+    image: ghcr.io/herams-who/docker/nginx-api:latest
+    depends_on:
+      - api
+      - coverage
+    volumes:
+      - shared:/shared
   nginx:
     labels:
       traefik.enable: "true"

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\api\controllers;
 
-class HealthController extends Controller
+final class HealthController extends Controller
 {
     public function behaviors(): array
     {

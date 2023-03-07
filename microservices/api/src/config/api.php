@@ -91,10 +91,6 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
                     ],
                 ],
             ],
-            //        'assetManager' => [
-            //            'class' => \herams\api\components\DummyAssetManager::class
-            //
-            //        ],
             'db' => \yii\db\Connection::class,
             'preloadingSourceRepository' => PreloadingSourceRepository::class,
             'abacManager' => static function (
@@ -148,8 +144,7 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
             ],
         ],
         'controllerNamespace' => 'herams\\api\\controllers',
-
-        'defaultRoute' => 'marketplace/herams',
+        'defaultRoute' => 'health/status',
     ];
 
     if (YII_DEBUG) {

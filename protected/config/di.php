@@ -34,6 +34,7 @@ use kartik\grid\GridView;
 use kartik\switchinput\SwitchInput;
 use Lcobucci\JWT\Configuration;
 use prime\assets\JqueryBundle;
+use prime\components\ApiProxy;
 use prime\components\NewsletterService;
 use prime\repositories\AccessRequestRepository as AccessRequestARRepository;
 use prime\repositories\UserNotificationRepository;
@@ -74,7 +75,8 @@ return [
     AuditableBehavior::class => static function () {
         return new AuditableBehavior(\Yii::$app->auditService);
     },
-    \prime\components\ApiProxy::class => \prime\components\ApiProxy::class,
+    ApiProxy::class => ApiProxy::class,
+    \prime\objects\ApiConfiguration::class => static fn() => new \prime\objects\ApiConfiguration($env->getWithDefault('API_HOST', 'api.herams.test')),
     \yii\web\Session::class => fn () => \Yii::$app->session,
     IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
 

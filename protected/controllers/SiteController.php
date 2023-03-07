@@ -23,8 +23,7 @@ class SiteController extends Controller
                 'layout' => Controller::LAYOUT_MAP_POPOVER_ERROR,
                 'view' => 'error',
             ],
-            'world-map' => WorldMap::class,
-            'lime-survey' => LimeSurvey::class,
+            'world-map' => WorldMap::class
         ];
     }
 
@@ -41,10 +40,5 @@ class SiteController extends Controller
             'roles' => ['@'],
         ];
         return $behaviors;
-    }
-
-    protected function getDefaultEntityAction(): string|null
-    {
-        return null;
     }
 }
