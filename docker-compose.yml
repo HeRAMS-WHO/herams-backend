@@ -3,6 +3,7 @@ networks:
   devproxy2:
     external: true
 volumes:
+  shared:
   debugdata:
     driver_opts:
       type: tmpfs
@@ -108,6 +109,7 @@ services:
       - phpmyadmin
     image: ghcr.io/herams-who/docker/php:latest
     volumes:
+      - shared:/shared
       - type: bind
         source: ./
         target: /project
@@ -145,6 +147,7 @@ services:
       - api
       - coverage
     volumes:
+      - shared:/shared
       - type: bind
         source: ./protected/config/nginx.conf
         target: /etc/nginx/nginx.conf
