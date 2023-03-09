@@ -1,7 +1,7 @@
 name: Deploy to staging
 on:
   push:
-    branches: [ master ]
+    branches: [ v1 ]
 jobs:
   test:
     name: Run tests
