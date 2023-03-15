@@ -93,7 +93,7 @@
       allowClear: false,
       required: true,
       choicesByUrl: {
-        url: '/api-proxy/core/configuration/countries',
+        url: `/api-proxy/core/configuration/countries?_lang=${document.documentElement.lang}`,
         valueName: 'alpha3',
         titleName: 'name',
       },
@@ -103,9 +103,25 @@
     },
   })
 
-
-
-
+  Survey.ComponentCollection.Instance.add({
+    name: 'languages',
+    title: 'Languages',
+    category: 'HeRAMS',
+    questionJSON: {
+      type: 'checkbox',
+      name: 'languages',
+      title: 'Pick a Language',
+      choicesByUrl: {
+        url: `/api-proxy/core/configuration/locales?_lang=${document.documentElement.lang}`,
+        valueName: 'locale',
+        titleName: 'label'
+      },
+      defaultValue: ["en"]
+    },
+    onInit() {
+      // debugger;
+    },
+  })
 
   Survey.ComponentCollection.Instance.add({
     iconName: 'icon-arrow-right',
@@ -157,7 +173,7 @@
       allowClear: false,
       required: true,
       choicesByUrl: {
-        url: '/api-proxy/core/surveys',
+        url: `/api-proxy/core/surveys?_lang=${document.documentElement.lang}`,
         valueName: 'id',
         titleName: 'title',
       },

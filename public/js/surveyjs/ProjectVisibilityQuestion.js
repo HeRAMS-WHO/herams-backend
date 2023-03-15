@@ -12,7 +12,7 @@
     allowClear: false,
     required: true,
     choicesByUrl: {
-      url: '/api-proxy/core/configuration/visibilities'
+      url: `/api-proxy/core/configuration/visibilities?_lang=${document.documentElement.lang}`
     }
   },
   onInit () {

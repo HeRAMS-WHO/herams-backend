@@ -11,16 +11,11 @@
           "isRequired": true
         },
         {
-          "type": "checkbox",
+          "type": "languages",
           "name": "languages",
           "title": "Project languages",
           "description": "These will be available for workspace & facility data",
           "isRequired": true,
-          "choicesByUrl": {
-            "url": "/api-proxy/core/configuration/locales",
-            "valueName": "locale",
-            "titleName": "label"
-          },
           "defaultValue": ["en"]
         },
         {
