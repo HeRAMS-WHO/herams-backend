@@ -54,6 +54,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
+      - uses: actions/setup-node@v3
+        name: 'Load NPM cache'
+        with:
+          cache: 'npm'
+      - run: npm ci --ignore-scripts --legacy-peer-deps
+        name: 'Install frontend dependencies'
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
