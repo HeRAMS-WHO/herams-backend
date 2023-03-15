@@ -9,7 +9,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: ramsey/composer-install@v2
-        working-directory: microservices/api
+        with:
+          working-directory: microservices/api
       - uses: docker/login-action@v2.1.0
         with:
           registry: ghcr.io
