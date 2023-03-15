@@ -16,24 +16,26 @@ abstract class Controller extends \yii\rest\Controller
 {
     public $enableCsrfValidation = false;
 
-    public function __construct($id, $module, private readonly ConfigurationProvider $configurationProvider, $config = [])
-    {
+    public function __construct(
+        $id,
+        $module,
+        private readonly ConfigurationProvider $configurationProvider,
+        $config = []
+    ) {
         parent::__construct($id, $module, $config);
     }
 
-
     public function behaviors(): array
     {
-        $locales = toArray(map(fn(Locale $locale) => $locale->locale, $this->configurationProvider->getPlatformLocales()));
-
+        $locales = toArray(map(fn (Locale $locale) => $locale->locale, $this->configurationProvider->getPlatformLocales()));
         return [
             ...parent::behaviors(),
             'contentNegotiator' => [
                 'class' => ContentNegotiator::class,
+                'languages' => $locales,
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
-                'languages' => $locales,
             ],
             'access' => [
                 'class' => AccessControl::class,

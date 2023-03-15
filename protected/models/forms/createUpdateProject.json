@@ -11,12 +11,26 @@
           "isRequired": true
         },
         {
-          "type": "languages",
+          "type": "currentlanguage",
+          "name": "lang",
+          "visible": false,
+          "isRequired": true,
+          "readOnly": true
+        },
+        {
+          "type": "checkbox",
           "name": "languages",
           "title": "Project languages",
           "description": "These will be available for workspace & facility data",
+          "defaultValue": [
+            "en"
+          ],
           "isRequired": true,
-          "defaultValue": ["en"]
+          "choicesByUrl": {
+            "url": "/api-proxy/core/configuration/locales?_lang={lang}",
+            "valueName": "locale",
+            "titleName": "label"
+          }
         },
         {
           "type": "radiogroup",
