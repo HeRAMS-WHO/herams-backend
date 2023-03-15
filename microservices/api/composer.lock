@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "48b5a37aebf83ff8925e95d9b381a07a",
+    "content-hash": "32e71bc4b1a445414f015dbe26959bbf",
     "packages": [
         {
             "name": "collecthor/data-interfaces",
@@ -109,7 +109,7 @@
         },
         {
             "name": "herams/common",
-            "version": "dev-master",
+            "version": "dev-HF82-Review_form_for_project_create_update",
             "dist": {
                 "type": "path",
                 "url": "../common",
@@ -147,6 +147,15 @@
                 "symlink": true,
                 "relative": true
             }
+        },
+        {
+            "name": "herams/i18n",
+            "version": "dev-master",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/HeRAMS-WHO/herams-i18n/archive/master.zip"
+            },
+            "type": "library"
         },
         {
             "name": "lcobucci/clock",
@@ -5159,11 +5168,12 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "herams/common": 20
+        "herams/common": 20,
+        "herams/i18n": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

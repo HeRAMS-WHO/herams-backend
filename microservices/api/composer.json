@@ -19,8 +19,9 @@
     "require": {
         "yidas/yii2-composer-bower-skip": "^2.0",
         "lcobucci/jwt": "^4.2",
-        "herams/common": "dev-master",
-        "yiisoft/yii2": "2.0.46"
+        "herams/common": "*@dev",
+        "yiisoft/yii2": "2.0.46",
+        "herams/i18n": "dev-master"
     },
     "replace":{
         "cebe/markdown": "*",
@@ -33,6 +34,17 @@
             "url": "../common",
             "options": {
                 "symlink": true
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "herams/i18n",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/HeRAMS-WHO/herams-i18n/archive/master.zip",
+                    "type": "zip"
+                }
             }
         }
     ],
