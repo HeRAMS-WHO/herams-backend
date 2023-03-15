@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace herams\common\enums;
 
+/**
+ * @deprecated use Locale
+ */
 enum Language: string
 {
     case en = 'en';

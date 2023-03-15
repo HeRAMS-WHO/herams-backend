@@ -61,9 +61,12 @@ class NewProject extends RequestModel
     {
         return [
             [['title', 'country', 'visibility', 'adminSurveyId', 'dataSurveyId', 'primaryLanguage', 'languages'], RequiredValidator::class],
-            [['languages'], RangeValidator::class, 'range' => Locale::keys(), 'allowArray' => true],
-            [['primaryLanguage'], function() {
-                if (!in_array($this->primaryLanguage, $this->languages)) {
+            [['languages'],
+                RangeValidator::class,
+                'range' => Locale::keys(),
+                'allowArray' => true],
+            [['primaryLanguage'], function () {
+                if (! in_array($this->primaryLanguage, $this->languages)) {
                     $this->addError('primaryLanguage', \Yii::t('app', 'The primary language must be selected in the list of active languages'));
                 }
             }],
@@ -78,7 +81,9 @@ class NewProject extends RequestModel
                 'example' => ProjectVisibility::Public,
             ],
             [['country'], CountryValidator::class],
-            [['dashboardUrl'], UrlValidator::class, 'validSchemes' => ['https']]
+            [['dashboardUrl'],
+                UrlValidator::class,
+                'validSchemes' => ['https']],
         ];
     }
 }
