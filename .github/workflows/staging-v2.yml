@@ -99,7 +99,7 @@ jobs:
           k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
       - name: get_manifests
         run: echo manifests=$(ls k8s/shared/*.yaml k8s/staging-v2/*.yaml | tr "\n" ",") >> $GITHUB_ENV
-      - uses: azure/setup-kubectl@v4
+      - uses: azure/setup-kubectl@v3
       - uses: Azure/k8s-deploy@v4
         with:
           namespace: 'staging-v2'
