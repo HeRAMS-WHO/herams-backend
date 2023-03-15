@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use herams\api\domain\project\ProjectHydrator;
+use herams\api\domain\workspace\WorkspaceHydrator;
 use herams\common\components\AuditService;
 use herams\common\components\Formatter;
 use herams\common\config\CommonConfigurator;
-use herams\api\domain\workspace\WorkspaceHydrator;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\EnvironmentInterface;
 use SamIT\abac\AuthManager;
