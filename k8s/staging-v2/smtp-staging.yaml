@@ -1,0 +1,12 @@
+apiVersion: v1
+metadata:
+  name: smtp
+data:
+  encryption: dGxzCg==
+  host: c210cC5zZW5kZ3JpZC5uZXQ=
+  password: U0cuQ1lpS2tsT0VUaENTOWRLUFlZU2RxQS5DTEpSY1FWOThMRTFrSE5mQ0ZIMzNqVUltUDMtUm1kX3B4ZEVCYnhTZ1dZCg==
+  port: NTg3
+  username: YXBpa2V5
+kind: Secret
+type: Opaque
+
