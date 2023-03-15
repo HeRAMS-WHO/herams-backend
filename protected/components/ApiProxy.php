@@ -27,7 +27,7 @@ final class ApiProxy
     ) {
     }
 
-    public function forwardRequestToCore(Request $request, UserId $user): ResponseInterface
+    public function forwardRequestToCore(Request $request, UserId $user, string $language): ResponseInterface
     {
         $originalUri = $this->uriFactory->createUri($request->getAbsoluteUrl());
         $target = $this->uriFactory->createUri($request->getAbsoluteUrl())
@@ -35,10 +35,10 @@ final class ApiProxy
             ->withHost($this->apiConfiguration->host)
 
         ;
-        return $this->forwardRequest($target, $request, $user);
+        return $this->forwardRequest($target, $request, $user, $language);
     }
 
-    private function forwardRequest(UriInterface $target, Request $request, UserId $user): ResponseInterface
+    private function forwardRequest(UriInterface $target, Request $request, UserId $user, string $language): ResponseInterface
     {
         \Yii::beginProfile($target->__toString(), 'ApiProxy::forwardRequest');
         $token = $this->configuration->builder()
@@ -68,8 +68,7 @@ final class ApiProxy
 
         $upstreamRequest = $upstreamRequest
             ->withHeader('Authorization', "Bearer $token")
-
-        ;
+            ->withHeader('Accept-language', $language);
         $response = $this->client->sendRequest($upstreamRequest);
         \Yii::endProfile($target->__toString(), 'ApiProxy::forwardRequest');
         return $response;

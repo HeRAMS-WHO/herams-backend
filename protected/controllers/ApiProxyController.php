@@ -47,7 +47,7 @@ final class ApiProxyController extends Controller
         session_abort();
         header_remove();
         \Yii::beginProfile('request');
-        $upstreamResponse = $apiProxy->forwardRequestToCore($request, $userId);
+        $upstreamResponse = $apiProxy->forwardRequestToCore($request, $userId, \Yii::$app->language);
         \Yii::endProfile('request');
         $response->data = $upstreamResponse->getBody()->getContents();
         $response->format = Response::FORMAT_RAW;
