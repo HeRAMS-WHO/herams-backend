@@ -31,7 +31,9 @@ final class ApiProxy
     {
         $originalUri = $this->uriFactory->createUri($request->getAbsoluteUrl());
         $target = $this->uriFactory->createUri($request->getAbsoluteUrl())
-            ->withPath(strtr($originalUri->getPath(), ['/api-proxy/core/' => '/']))
+            ->withPath(strtr($originalUri->getPath(), [
+                '/api-proxy/core/' => '/',
+            ]))
             ->withHost($this->apiConfiguration->host)
 
         ;
@@ -59,7 +61,7 @@ final class ApiProxy
         $headers = $request->getHeaders();
 
         foreach ([
-            'Content-Type', 'Accept', 'Cache-Control'
+            'Content-Type', 'Accept', 'Cache-Control',
         ] as $forwardHeader) {
             if ($headers->has($forwardHeader) && ! empty($headers->get($forwardHeader))) {
                 $upstreamRequest = $upstreamRequest->withHeader($forwardHeader, $headers->get($forwardHeader));
