@@ -3,14 +3,14 @@
   "apiVersion": "bitnami.com/v1alpha1",
   "metadata": {
     "name": "smtp",
-    "namespace": "staging",
+    "namespace": "staging-v2",
     "creationTimestamp": null
   },
   "spec": {
     "template": {
       "metadata": {
         "name": "smtp",
-        "namespace": "staging",
+        "namespace": "staging-v2",
         "creationTimestamp": null
       },
       "type": "Opaque"
