@@ -94,7 +94,7 @@
         "codeception/lib-innerbrowser": "^1.4",
         "symplify/easy-coding-standard": "^11",
         "vimeo/psalm": "^4.23",
-        "herams/common": "dev-master",
+        "herams/common": "*@dev",
         "captainhook/captainhook": "^5.11"
     },
     "repositories": [

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\controllers;
 
 use prime\components\Controller;
-use prime\controllers\site\LimeSurvey;
 use prime\controllers\site\Maintenance;
 use prime\controllers\site\Status;
 use prime\controllers\site\WorldMap;
@@ -23,7 +22,7 @@ class SiteController extends Controller
                 'layout' => Controller::LAYOUT_MAP_POPOVER_ERROR,
                 'view' => 'error',
             ],
-            'world-map' => WorldMap::class
+            'world-map' => WorldMap::class,
         ];
     }
 

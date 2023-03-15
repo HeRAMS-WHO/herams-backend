@@ -11,7 +11,6 @@ use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\WorkspaceId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
-use prime\models\search\FacilitySearch;
 use yii\base\Action;
 use yii\web\Request;
 use function iter\filter;

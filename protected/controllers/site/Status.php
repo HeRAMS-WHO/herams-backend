@@ -21,8 +21,8 @@ class Status extends Action
             'github' => $hash ? "https://github.com/HeRAMS-WHO/herams-backend/commit/$hash" : null,
             'api' => [
                 'host' => $apiConfiguration->host,
-                'ip' => gethostbyname($apiConfiguration->host)
-            ]
+                'ip' => gethostbyname($apiConfiguration->host),
+            ],
         ]);
     }
 }

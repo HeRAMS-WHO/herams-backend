@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace herams\api\domain\workspace;
 
-use herams\api\domain\workspace\NewWorkspace;
-use herams\api\domain\workspace\UpdateWorkspace;
 use herams\common\attributes\SupportedType;
-use herams\common\enums\Language;
 use herams\common\helpers\LocalizedString;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\models\ActiveRecord;
