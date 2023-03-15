@@ -81,6 +81,7 @@ jobs:
   deploy:
     needs:
       - build
+      - build-api
     runs-on: ubuntu-latest
     name: Deploy
     steps:
@@ -91,6 +92,8 @@ jobs:
           find k8s/shared k8s/staging-v2 -type f >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - run: echo "$MANIFESTS"
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
       - name: Authenticate to kubernetes
         uses: azure/k8s-set-context@v3
         with:
@@ -99,12 +102,11 @@ jobs:
           k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
       - name: get_manifests
         run: echo manifests=$(ls k8s/shared/*.yaml k8s/staging-v2/*.yaml | tr "\n" ",") >> $GITHUB_ENV
-      - uses: azure/setup-kubectl@v3
-      - uses: Azure/k8s-deploy@v4
+      - name: Deploy to kubernetes
+        uses: azure/k8s-deploy@v4
         with:
           namespace: 'staging-v2'
           manifests: ${{ env.manifests }}
           images: |
             ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
             ghcr.io/herams-who/herams-backend/api:${{ github.sha }}
-          kubectl-version: 'latest'
