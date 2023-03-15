@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace herams\common\helpers;
 
+use herams\common\interfaces\LocalizableInterface;
 use ResourceBundle;
 
 /**
  * We implement the flyweight pattern, each locale only has 1 object instance.
  */
-final class Locale
+final class Locale implements LocalizableInterface
 {
     /**
      * @var array<string, self>
@@ -79,5 +80,13 @@ final class Locale
     {
         self::init();
         return self::$objects['en'];
+    }
+
+    public function toLocalizedArray(Locale $locale): array
+    {
+        return [
+            'label'=> locale_get_display_name($this->locale, $locale->locale),
+            'locale'=> $this->locale
+        ];
     }
 }

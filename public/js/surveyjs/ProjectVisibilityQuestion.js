@@ -6,26 +6,16 @@
   title: 'Project visibility picker',
   category: 'HeRAMS',
   questionJSON: {
-    type: 'radiogroup',
+    type: 'dropdown',
     name: 'projectvisibility',
     title: 'Project visibility',
-    isRequired: true,
-    choices: [
-      {
-        value: 'hidden',
-        text: 'Hidden',
-      },
-      {
-        value: 'public',
-        text: 'Public',
-      },
-      {
-        value: 'private',
-        text: 'Private',
-      },
-    ],
+    allowClear: false,
+    required: true,
+    choicesByUrl: {
+      url: '/api-proxy/core/configuration/visibilities'
+    }
   },
   onInit () {
     // debugger;
-  },
+  }
 }))(Survey)

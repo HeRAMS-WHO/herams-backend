@@ -21,11 +21,10 @@ enum ProjectVisibility: string implements \JsonSerializable
 
     public static function toArray(): array
     {
-        $result = [];
-        foreach (self::cases() as $projectStatus) {
-            $result[$projectStatus->value] = $projectStatus->label();
-        }
-        return $result;
+        return array_map(fn($case) => [
+            'label' => $case->label(),
+            'value' => $case->value
+        ], self::cases());
     }
 
     public function jsonSerialize(): mixed
