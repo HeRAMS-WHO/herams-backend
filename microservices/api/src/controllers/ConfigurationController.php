@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace herams\api\controllers;
 
-use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\ConfigurationProvider;
 use yii\web\Response;
 
