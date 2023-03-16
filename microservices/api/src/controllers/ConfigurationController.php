@@ -28,8 +28,8 @@ final class ConfigurationController extends Controller
 
     public function actionVisibilities(
         ConfigurationProvider $configurationProvider,
-        Response $response): array
-    {
+        Response $response
+    ): array {
         $response->headers->add('Cache-Control', 'max-age=604800,public');
         return $configurationProvider->getPlatformVisibilities();
     }
