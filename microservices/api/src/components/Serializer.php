@@ -10,7 +10,6 @@ use herams\common\interfaces\LocalizableInterface;
 class Serializer extends \yii\rest\Serializer
 {
     /**
-     * @param $data
      * @return array|array[]|mixed|null
      */
     public function serialize($data)
@@ -25,5 +24,4 @@ class Serializer extends \yii\rest\Serializer
     {
         return $data->toLocalizedArray(Locale::from(\Yii::$app->language));
     }
-
 }
