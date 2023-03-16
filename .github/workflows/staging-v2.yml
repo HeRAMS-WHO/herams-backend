@@ -82,7 +82,7 @@ jobs:
         with:
           method: service-account
           k8s-url: ${{ secrets.KUBERNETES_URL }}
-          k8s-secret: ${{ secrets.STAGING_K8S_SECRET }}
+          k8s-secret: ${{ secrets.K8S_STAGING_V2 }}
       - name: get_manifests
         run: echo manifests=$(ls k8s/shared/*.yaml k8s/staging-v2/*.yaml | tr "\n" ",") >> $GITHUB_ENV
       - name: Deploy to kubernetes
