@@ -9,10 +9,7 @@ use herams\common\interfaces\LocalizableInterface;
 
 class Serializer extends \yii\rest\Serializer
 {
-    /**
-     * @return array|array[]|mixed|null
-     */
-    public function serialize($data)
+    public function serialize($data): mixed
     {
         if ($data instanceof LocalizableInterface) {
             return $this->serializeLocalizable($data);
