@@ -82,19 +82,32 @@
   })
 
   Survey.ComponentCollection.Instance.add({
-    name: 'currentlanguage',
-    title: 'Current Language',
-    category: 'HeRAMS',
-    visible: false,
-    questionJSON: {
-      name: 'currentLanguage',
-      type: 'text',
-      defaultValue: `${document.documentElement.lang}`,
+    iconName: 'icon-language',
+    name: 'platformlanguagepicker',
+    title: 'Platform language picker',
+    elementsJSON: [
+      {
+        name: 'languages',
+        type: 'checkbox',
+        title: 'Languages for this project',
+        choicesByUrl: {
+          url: `/api-proxy/core/configuration/locales?_lang=${document.documentElement.lang}`,
+          valueName: 'locale',
+          titleName: 'label'
+        }
+      },
+      {
+        name: 'defaultlanguage',
+        type: 'dropdown',
+        title: 'Primary language for this project',
+        choicesFromQuestion: 'languages',
+        choicesFromQuestionMode: 'selected'
+      }
+    ],
+    onInit () {
     },
-    onInit() {
-      // debugger;
-    },
-  })
+
+  });
 
   Survey.ComponentCollection.Instance.add({
     iconName: 'icon-dropdown',

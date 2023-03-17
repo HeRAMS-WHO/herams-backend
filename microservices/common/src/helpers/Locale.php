@@ -85,7 +85,7 @@ final class Locale implements LocalizableInterface
     public function toLocalizedArray(Locale $locale): array
     {
         return [
-            'label'=> locale_get_display_name($this->locale, $locale->locale),
+            'label'=> ucfirst(locale_get_display_name($this->locale, $locale->locale)),
             'locale'=> $this->locale
         ];
     }
