@@ -24,7 +24,9 @@
 	    "psr/event-dispatcher": "^1",
         "league/event": "^3",
         "league/tactician": "^1.1",
-        "league/tactician-container": "^3.0"
+        "league/tactician-container": "^3.0",
+        "lcobucci/jwt": "^5.0",
+        "lcobucci/clock": "^3.0"
     },
     "config": {
         "lock": false,

@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace herams\common\config;
 
 use ArrayObject;
+use DateTimeZone;
+use herams\common\components\AuditService;
 use herams\common\components\LazyUrlFactory;
 use herams\common\components\RewriteRule;
-use herams\common\components\AuditService;
 use herams\common\domain\facility\FacilityHydrator;
 use herams\common\domain\project\ProjectHydrator;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
-use herams\api\domain\workspace\WorkspaceHydrator;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\helpers\BaseClassResolver;
 use herams\common\helpers\CommandFactory;
@@ -29,7 +29,6 @@ use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\AuditServiceInterface;
 use herams\common\interfaces\CommandFactoryInterface;
 use herams\common\interfaces\ContainerConfiguratorInterface;
-use herams\common\interfaces\CreateUrlInterface;
 use herams\common\interfaces\CurrentUserIdProviderInterface;
 use herams\common\interfaces\EnvironmentInterface;
 use herams\common\interfaces\EventDispatcherInterface;
@@ -52,6 +51,14 @@ use herams\common\services\UserAccessCheck;
 use Http\Factory\Guzzle\UriFactory;
 use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
+use Lcobucci\Clock\SystemClock;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use League\Tactician\CommandBus;
 use League\Tactician\Container\ContainerLocator;
 use League\Tactician\Handler\CommandHandlerMiddleware;
@@ -84,12 +91,26 @@ class CommonConfigurator implements ContainerConfiguratorInterface
 
     public function configure(EnvironmentInterface $environment, Container $container): void
     {
+        $container->set(\Lcobucci\JWT\Configuration::class, static function () use ($environment): Configuration {
+            $key = InMemory::plainText($environment->getSecret('app/jwt_secret_key'));
+            $result = Configuration::forSymmetricSigner(
+                new Sha256(),
+                $key
+            );
+            $result->setValidationConstraints(
+                new SignedWith($result->signer(), $result->signingKey()),
+                new IssuedBy('https://app.herams.org'),
+                new PermittedFor('https://api.herams.org'),
+                new StrictValidAt(SystemClock::fromUTC())
+            );
+            return $result;
+        });
         $container->set(Environment::class, new class() extends ArrayObject implements Environment {
         });
         $container->set(ConfigurationProvider::class);
         $container->set(Connection::class, [
             'charset' => 'utf8mb4',
-            'dsn' => "mysql:host={$environment->get('database_host')};port={$environment->getWithDefault('database_port', "3306")};dbname={$environment->get('database_name')}",
+            'dsn' => $environment->getSecret('database/dsn'),
             'password' => $environment->getWrappedSecret('database/password'),
             'username' => $environment->getWrappedSecret('database/username'),
             'enableSchemaCache' => ! YII_DEBUG,

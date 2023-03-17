@@ -28,8 +28,7 @@ x-env:
       - /tmp:rw,noexec,nosuid,uid=${UID-0}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment: &base-env
-      database_name: ${DB_NAME}
-      database_host: testdb
+      SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       YII_ENV: $YII_ENV
@@ -55,12 +54,12 @@ x-env:
 services:
   api:
     environment:
-      database_name: ${DB_NAME}
-      database_host: devdb
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       SECRET_app/cookie_validation_key: secret
       SECRET_app/url_signer_secret: secret
+      SECRET_app/jwt_secret_key: secretsecretsecretsecretsecretsecret
       YII_ENV: $YII_ENV
       SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
       SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
@@ -92,13 +91,12 @@ services:
       - devproxy2
       - default
     environment:
-      database_name: ${DB_NAME}
-      database_host: devdb
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       SECRET_app/cookie_validation_key: secret
-      SECRET_app/sso_private_key: ${LS_PRIV_KEY}
       SECRET_app/url_signer_secret: secret
+      SECRET_app/jwt_secret_key: secretsecretsecretsecretsecretsecret
       YII_ENV: $YII_ENV
       SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
       SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
@@ -212,22 +210,9 @@ services:
     init: true
     command: ""
     environment:
-      database_name: ${DB_NAME}
-      database_host: devdb
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
-#      SECRET_app/cookie_validation_key: secret
-#      SECRET_app/sso_private_key: ${LS_PRIV_KEY}
-#      SECRET_app/url_signer_secret: secret
-#      YII_ENV: $YII_ENV
-#      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
-#      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
-#      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
-#      RUNTIME_PATH: /run
-#      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
-#      SECRET_smtp/host: mailcatcher
-#      SECRET_smtp/port: 1025
-#      SECRET_smtp/encryption: ''
   testcli:
     <<: *base
     depends_on:
@@ -237,8 +222,6 @@ services:
     command: ""
     environment:
       <<: *base-env
-      database_name: ${DB_NAME}
-      database_host: testdb
       RUNTIME_PATH: /runtime
   composer:
     << : *base
@@ -260,8 +243,7 @@ services:
     ]
     command: "run"
     environment:
-      database_name: ${DB_NAME}
-      database_host: testdb
+      SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: $DB_USER
       SECRET_database/password: $DB_PASS
       YII_ENV: $YII_ENV

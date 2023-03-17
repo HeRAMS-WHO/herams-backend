@@ -18,7 +18,6 @@
     ],
     "require": {
         "yidas/yii2-composer-bower-skip": "^2.0",
-        "lcobucci/jwt": "^4.2",
         "herams/common": "*@dev",
         "yiisoft/yii2": "2.0.46"
     },

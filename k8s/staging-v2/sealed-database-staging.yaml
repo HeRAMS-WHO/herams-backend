@@ -1,17 +1,55 @@
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  creationTimestamp: null
-  name: database
-  namespace: staging-v2
-spec:
-  encryptedData:
-    dsn: AgCpEV+aeKOu5xoR2zmUThW0PHbt2e4Hk3gTsuYmi3NJN2Tp54A3At65OZ9zgJUpRiXmtJlo4wwL7el10+f+yoXOWpdxFSzujJFNMVPa4+NXnPg2uO24iRz+tANibOrDfNzC2hnhA6SEmPjjoh7ifG6Q4gGZ/OB5+k8tTwFzbMBaDr5bZ1LpmTnhsyA9sM/8H8+7AH7FeDZhO5G+E/EiKm/syIxERPoxmlgucaNxBbvz4e26+9vBFRdfZ09AO2ZxK4BmM6V0n24UM2lBPEm/iNSPpMex9XretQ3qWMpeH6739LrtCtKRv2sodKXUNZca2VubzIhyaE6neMgB4cQuVexWOd9wE9gCXd89qLoBbKpQcqomCz4ipZ05Dl/AZIXZq/dqa3E5WLUazg7wBPzJhWqsrrhM46BXzumlVER6DsqJeGOQFhAVF5YRNlyIKHZRNA6eQxb7bnogQtqPqR52KVEiWQPiS9xV1ajraa4BnaeeuAy/fEzXv1jHAjlKEGuMSBPWataAFpzUiEtcVU0QD419nczYP/6KGesj1T1Zq3gBAZlzpoleehXvg4k3wIGxvIX0RTl41/Oj6BT/BhMQgqvgCXgXfxC49gl1ODa/snDACp840kR2v2KhlJUR5sL3py4FKg4K26PwHAkPYiJi0kIBLbwljE+b7zNiSySRGqR0s/THfxqlLdVzc4fXgxmdyQ0PD7s3QjKTt6VrqI2D5SAZRVwyW0slRp5FaGV79e3GMqq9K0+P1BKQYHM0/KdxHLVFHTs07QXlFjkAENMRD03SA+KrXl60YKcQj7mEPQ+Z88c3/vMpLe2DRPWevlaJA0i3Ew4=
-    password: AgCdzM4eQz8A4Pv6TuV8Dhj43z6s+7ivv7/xBZZY1KZO6eihq8XEnmD9biGBy7ObN9oZmPF+h5Z3XPpnPE68TCK8tcG8oZOHvtbeZpifZkZE9EHEBXEPK0DwshXldCwtG1MKMMW+pVm4V/nYj6l20EdSMXVNpLdd8etPO7/MnCxLddHrtn/zANpLZRnAAMpxgsUryyxiUhIhD+RjCpw7qkc5KfmrVn1PFMk+Lcr5tsOi85Y/6v23p+RafnJYH1/8yK5XeKVmnxoS91BKvI4gjUcx8lwdXnyVfmvBo36U18DDhY4h+1NhRo1gKhUz8Svj5+6fQGYDdSfM6ukjeAP9jsHBWpmAEgrfO19xyKmwMj/36XbwfjIGx7TlccgFcP3Q9KZbeCpXspltIoX+hd1lyG3iGvV9Wwu7vdlswTBNFTembcD2e1Q9f6fB4szWqlBNeiuuOYfFLbUZ6kJ62+KgzFBzXjCfHZXg39Pw3AN8wWtz/iZH5K83EzQhqPQkcm5DDL/ETaJEDIoJmHa77mqSxDbXdQr6mkjPHj/UyTZmiZuuD8yZ/10YP+Cw/PItPu4kOYSuX+MWDAkOJ7HJrSJuXLr8DaEdBMotTJg/vmeOPF+3biqEtc8wumSXmUG4XU4bRIJ9XXr4sOqg6HnKqxz9Jdmth59D7ZiOudF1zyHucy7ZaCq5qPfPp+WPXz1oE2hWGRqJrcLPWsV9EnZiAA1dQak=
-    username: AgAPEBV5KHQ3vUaJVFi1GXfW216B77+z9Sj1ycnVgIxUtI08/RRrtMKm71wNKGTMvq+An2mn3dZdDhafmv3qWDDDLexYcY7YRIGDRLWg28ltInwHzjiamgcXyOaMl/7J6vQva3PF6VmOTg7THGTkS2SxGflzQLUehmQx5KayqUZeVtfv+vkZ6hk6ae3w7pYFB4SJn9VlVUY4O9hkeRq9WmX/Uw9822l2nNQ5dX8rAaL9116LG8jdlAABMttnYPWkI7l2LMeVvzY+ENX/+Muv/MDpIHhdDtrGhxsfeFl/GNFKzCaSDqIw43u4S8k3th0f78LdRdI6RS5t2VL+viDUbyygstENajDmvV8WHmCBTTtaplL1d8SL9aNuOEEmCfBeiGwJIVChW48q9ZjKNsQ8MkhAp5kXXYKk9sT8v5O9T55oz+HrOeQM/Fgll4+ZaahsWR5oxmLM6BGqS5f4PSutlGU+EA/BQLvLt8rMtYFgAnW0Vp+6ykq/rdZ1qHx2CA25o0fRrNlkByMtbRECRuX1bcuDHAGUwzjpHGcCa9wfraMyhNMbCdwMnwe7W9siW5Jq8jeG7bda7jAvl4ewfgD6sMLhY5IQyilLTimUH+rPJz7Kqi662Lr89ZpQPXdWm029EzZ1ArKFsg3jZxhIwcG8eIlBhmnvc1sX3Brsg6gNjrYuCqkMV4XcSlqZLg/2C2qZ+Iqjy2vTbjiQ
-  template:
-    metadata:
-      creationTimestamp: null
-      name: database
-      namespace: staging
-    type: Opaque
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "database",
+    "namespace": "staging-v2",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "database",
+        "namespace": "staging-v2",
+        "creationTimestamp": null,
+        "managedFields": [
+          {
+            "manager": "Go-http-client",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2022-07-08T13:27:37Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:data": {
+                ".": {},
+                "f:dsn": {},
+                "f:password": {},
+                "f:username": {}
+              },
+              "f:metadata": {
+                "f:ownerReferences": {
+                  ".": {},
+                  "k:{\"uid\":\"f05d5384-7f14-4f6c-825a-826c346653e9\"}": {
+                    ".": {},
+                    "f:apiVersion": {},
+                    "f:controller": {},
+                    "f:kind": {},
+                    "f:name": {},
+                    "f:uid": {}
+                  }
+                }
+              },
+              "f:type": {}
+            }
+          }
+        ]
+      },
+      "type": "Opaque"
+    },
+    "encryptedData": {
+      "dsn": "AgA1hMNEwc/rJegrFgd8UNCzUB59G15D3OGRT4PbOhyY0/ry3nDCJto3AA8gdDN5wJdH5bQUvEuImN+b2H7lq2WBnLXh9BNokh025+TUB92uCAUps4U5ULlJwdxgw6ElxNgvN+v8mVjIKUGzGq+UIiph8H/1LbeI4EHyFVaxyHe38ttB+wQS+TR6Og9+xXFClTq6U2IVog9B7GMOAAyNsJbyz3wv9zPTpziMCViqVS/ETyxr8tqk6Kw+27F0qncuL6M4SNHuTzR8RK5+KFkZ2tsII4m0IiwNFtk8w4M84Herz9LJoQPcTlyX1qkdjVkJmiPL+AYu4/OgEFKUhOwO0p7Mq9U1xWDRKPDyZHzbHSrmb00tSZxxPWterxD+WUylQaGRX8zd+uPJY1JkXwqLzxyytVRdznmjSLFrMjNCPmgVswTvEGGQQ1986YCW347KqyGwftrV0DKyglcI6Wc4qX9FGXd0pjCA7FSRv9VRlskjJZgRAW4hxubc+g0zIKE2LZIjcO3CJb+xM9+unBHdBoJ+LtAPj/VTkyeNrl4tZ8I2RYJenh8LG6HSsguxBHWQnoKa+woZ20MqvX85MRmYpvcWE6IHHLSu2xSkSU6Ali1tsWC7YAoHP+G2YJukpduOO3snvpHe6YLpCdKW2T+Z/lCV/y7k2H+QmgwjlY9NFN2kXuQRWleXG1G3FZ1ivJ7PCtl1qc4Q5ZcwfjeFn7h8wjjeW/ot8OwuXaxJRmgD29SgikPIUn8PGetOOZZ4O2cRSJr9R08imA4ZHeQ1KEA1u/r1o61gHlvWtv8tr4OBKRfe0jHDeDZRpPL7sca+eit4ZqTpn7KD2Q==",
+      "password": "AgB7oDNATQIhXh4GMtvStp+HEbpJkHkJSMNZlYEk661UZixlE9PwoRCY3VxDIS/mGtthyyNv28ajO2kMgI5n45nF7V21qKGBzxni+1wCT7m0TBeCmYSW4b5BKFmH+NgNXux1ql2wlK7cfrqD4OUslagkBtpZdxxWZR7G+lIzm1CrQKxEhpdBr5dvl2bFV6SRcnmzFxolS9U8DMdPYXtWlq3w14e+2zSqX8gwE2M6cHPF/PHIggi2THfpiBBBYfSjbYzF3YcVt4C6cobKjqijxn37cAyHEnuxl7qS+S3HENOyTWc1FmKCyOphDRjqYek8mqrOQpJAvAVrwg3R3Qt4BTXkk7620GFDAI0Bk+jxYxUXR6UPHspxJ0Q5+8g2zb1WUHl0psWVwMQWcm1JVUZevlWHBiulj4fKwrLqS9BpCj4RPEYFlGwY7vR/5wNQdNNwp+ouSLZRQPuy0aWXuBAv7Ky8k6Y/zIYZ298lDgQIi/4m3aLGCgjv48XyaJBC9eYvutLUi/bta2pVCAqGOA9+/5zzAD9Y36/p3FrNKcEznopDwqM228L53peILNqcNbo8REKdYyiwHqtSCN8c0E/ILNtH8Tl1SzW7slCA+pSbtQFM7Q3UfwPUPxAbDNYVFHXpb2LHPn/bopVkiwTvJfjG3CyJ3k4Bh3ai3WgOBOOhBKpFTNuDV7VO/MWIUDI/hiYDHXZbQxDcLnqiULk/x787Ch//ZkEyPs5AghI=",
+      "username": "AgBTIdvSbpCVM8i2d2yrpv9Ku09ABCr2XDNlEBYRmPggVlu0Nu/LFltsidkNvQg0GzHtstx/ph/xhEmqD9p+qEe2235s/3ZBOVyyTJHGTJTUodjIHWPn1gD5Vq30zXw0FzDhjYCzuuoZvg05BPA/2NGTNhySVbGAAx/2XFgUrWhfsGinEdvuOlV/FsLbf+xLepiczogJ1MjgRMLe+MgTg52h29NZBgI3dtaqySQSQ8+jH70UxsiO+XxQEHKI6pYh4B9U5v1Sck+MxXC2qgCs+GG7xOqb0lNHD2+V3ksMoQ7IJ2yrtpj2w7HpyJqRPZ5dtXML/zEV2KrlughSIuxsZV3xQ6RYCMABAif/YTGWI29/HHOlvfRFMcPrV8fWEoS2W30SRUKyqlKHxgcgGd/DRrTYiM2T4fsJT8+/Dp7x8I4EdnXkZRf4JmhGk9kxXiG/+MO2T8zKr6NFpvB8Cd0Wm1orCMPwnqYrOPMdMChIyyia33BXsYh4q8CHgOwQ86Ub1a3w81WOfz/C3j8z/dRkY2jtT+R5aOfe/ky74qmgziXsXg5kzgsptXg5urQpH0EksrnrWE/ekkoUV9A04E6jmZwyxjUUHzb8A5FzKhCijpyS4HmgMzNUmJkU342VahzmV/12MnVt/qh7jPv85vBPFpfE3nrHpQkE7KCp19LATrBLRjqlTiyxJJZbNEsjmRzqwbze+D5KTGaGVso="
+    }
+  }
+}

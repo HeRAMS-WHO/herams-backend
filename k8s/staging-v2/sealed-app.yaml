@@ -1,16 +1,53 @@
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  creationTimestamp: null
-  name: app
-  namespace: staging-v2
-spec:
-  encryptedData:
-    cookie_validation_key: AgBT/e/lyIu9kRlfxa/kx5PVST5PvIG6ffvQa539WL7LJU8p+YRIyizjFcoec57qikI4z4p/psS40RN8DEK9eRuPAreETK7m9np4c3cHy1wETH5Kg7U81YcmA8rIRKSSJR2MXzuI1dUqN15V0m3kiZAY9WiEYRQ5fYXGxD1TDO1wKYnefS/MlKwD4kao8LT6jaIsLAq5TFgDeKt/gGxSOfGbBO6gfKYpIezkigKm8wAt9ky0htoq0FJObnQv7Pyow9bDrDQCRzAUs4120Q109ovdh+WGT5Q3cvHkkBecc3bE6V2wOCRJBrka6QNNslOa3ukI1kLhj0/+vb9mM8U4uPuqm8GuRMBmrzxC6B+VC7zdF1nzh3qaXScEW6d0OzJpnH5vjlRYoJ1H8XAyycjP306kHZ18q4hLy4bZo1kZTdKa872gaks9jcQzlgBcKDWSZuEodDeFqJZqNF6bfIdzrdW1pjGY4IQkQDypC15Lc4CIXjTYqx79i3QEB5WcuviMVhilZp8+GQaBe/4ZWdREHiIKogUJ7Q0FSV+TFpsY2ely+dDNLN0qk7bSWYafKFbHASRK9KLVp1TXmcNKqyltOWue0FMTnFjP0QL017XmerKvggWLYe5zSdMwX3AJhFCIKD+4hXs9M3IboPcRYIEDh92CrS4x63TpUYVmuZwMg0Uu88cR1wVa9pWu1GP2mh/W1Hree9r/jrdeqMg1AwYQ0CMQoUFlQbvC8Z5DupiMH/AgaoGIUvaw9wX/wHo4xBL+YriWyRODSxqtYegkn9B47Yg+xqF/MjOjCkKi6TgFxZyw1UF0DNvfdoZdhUTGBOVo5sHXwVyOW3aO0ROEeNKNWSjRii5ye72K6CLecZ7lv7T1Mg==
-    url_signer_secret: AgAXI5/UGuBdfOUEOsajZPhnqzLUHdmlssHrdg2W/8yKu1+OQ+VRnUsZpr3geAcPMuPONivQwMkjjbA46YsEg0gq322RQASiwl0/22+UInFEEr0x2bMuL7onsTE7k+31FwbbBCh4HYuVL/HY7eHUPDVW/6hZl8BFm1IAEOF1M7v3Zyg3FT1SZurBkJBDve8ZvgtB5GyeyW9KfFGiVCWFBA/yY2JCS7Fbbrd/iRLOuRkO6+d8mjfgcSFspBQmChTwnIp1CDOFOho3qLYPgghaUrxRrlbG3uqy7RmDI7LOwOKpK7xD48QTgwXxb+gnwxP9qQZNke5rRzeTxhQvFJgrDutV7Yhz+HYSTWb4EvkprKN8pw4EwbRiBTxHqY3XMcU/Tz1YxCED+HGcgFZp6AQz5HeGxWcqFD9p0iCXqOYAFnmKSOnJiuodiRfNz6MKTjk1ctA1F7eyX2RnQ3Xb8ZpiLc6hGj7g2Aldkkrfq+N5NOsm751hlxyMyk6n5ZXlmdlN/sG70PsptOx1jNvi2GNaFdf5iW3m3hxP6j+rPXuqbQt0Z/SraEy1zEaLvPk9FGj7sZn+OlmwfcMzT0SLntbEK4GbIqVTUrvfLw+LXhuMFnJCqju+B9aV/PAjwx3/+79tCr7MZCQIJ2VeFh7GMukYtVbPg2SlE50WLV5C0lgaMcKgvvaSPSHB6/ARJonxN9cavnTZ2z0GPQyDAXh+VMcW8m6vWs5S8bUnm1d1oaTZuhoX6p9XcrcLHqtvhox5Ik4al6s1qn4d9k7k+szznW/bz7BVDjCoPRATm7WpEAJOal+KX/9idmnPtg/3xk7SQSvO9e4YDw1u1HJlpmvai5TWlQabW774CT4SiUtEJY9mK+f2Dw==
-  template:
-    metadata:
-      creationTimestamp: null
-      name: app
-      namespace: staging
-    type: staging-v2
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "app",
+    "namespace": "staging-v2",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "app",
+        "namespace": "staging-v2",
+        "creationTimestamp": null,
+        "managedFields": [
+          {
+            "manager": "Go-http-client",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2022-07-08T13:27:41Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:data": {
+                ".": {},
+                "f:cookie_validation_key": {},
+                "f:url_signer_secret": {}
+              },
+              "f:metadata": {
+                "f:ownerReferences": {
+                  ".": {},
+                  "k:{\"uid\":\"f8e79565-dfa8-4f79-ab24-29ea4a3351a8\"}": {
+                    ".": {},
+                    "f:apiVersion": {},
+                    "f:controller": {},
+                    "f:kind": {},
+                    "f:name": {},
+                    "f:uid": {}
+                  }
+                }
+              },
+              "f:type": {}
+            }
+          }
+        ]
+      },
+      "type": "Opaque"
+    },
+    "encryptedData": {
+      "cookie_validation_key": "AgB43/1U5WyrtkRaeW6KG6RdjmHM6Su99VgCHUiM5rY5Zyld6y3djxnmPKT96yg9//bL8djTFfAT/SOLFVFbwCigENoIdG1SJFrwKrpRak4r7pyxRCT5JjLnsvMCFyd4fPH+mnFrFb5o2wlzUsBaX8zLtJKuO3eA9DNZ/9g+ik2ANC1jhi6KEYXQQRPADcnnDQrfrA54rYvTypcbtNZvvDNikxehwUFN3DWRKaZjTglomOg3xkAuw7Ws30YSBMOt4JVElxAYJ9Qo54F5OICZCe7t2d+P0+Qrr+y3cmq6OWSe03I0jI4t/4M/zcWQ9M947Rkny5mJygPDDb2/kxVThVcrCpyeCF+7nqa4IyAZy+ST/gSG07tNKgrsr8vM/NvZo5RaxXIZ0nAq/CzktVL2PXQX3htFkPBxmGGD9luTpQ45j6JZ1NiY01aP7k7T5HvDDKuhBVsWfRyWT+KKiDaEHyQiJb6+Had26/0e/t63Y42tMxWeDyPcL5/pfCjjZef8E/LLmIrJk8jetEK7Tlwo0qfZZ9GMDH5Y3UyPG4HSEkGWBs5QgcLegvecII+7MIu4x+XVEtdEp/+eCufUVww1ikLnOGRSvwG1GyhYla4LGuwhljWUyoWJrPSFAXjf/AqHFwINROnlk9Ye25BqEuHZ/kkhQoGn8GOPrOWxGeEkce1W4zDKvbVB85rbg0yttmqUdnD/VyMcVkVSt16p2IZgq8W5a9B8zOXRvycILWPkOzKmsosVbxbO4LJBz5f9wNItoGCPOSCyrKgI7JiLLukl3yJY6Vyd7pit1qCzMeDRqkSfTQ7u3dv3nm05deOwL3WQ3tJni6GMmwMS9Dbj2JyyTG3WYO01E0Bzg+7LdDnr2GLxgg==",
+      "url_signer_secret": "AgAvK1FBPe1pp0O3Mp+HLd96ZXwZsGEdUw1uIOwniWWOhXvswfVmbqSYp0LC5CL14LMKgoPmN+7gfVi2Dz4IR3F8AE/VoaY4CHsN3G19fnP5wNY13PmJ7Jhr2WFuh9aTsp1swTFu75CtdRld1nTLxurEcGbOaV6HtBdboNXXdVCtdhJHSazxrY2Lvaod/RgtzELM7t0ehDgt/GILgxMIejsKOIcknQD6TjNHxaCi9q4TdiGXIinOV27VfAmdmRqaRoklLyixyWsr6AXg5Um/me7d3UH424lP44+4o7YXtX4ydE4tNDb9623TjP3yn7hUZP+ImKTlKuStlpUC/1BG+GDPRrDWBlEX8XfbhwgIAX0Hf7wx/CJfzk7p15yhMOBj0p2AxqBfYupxCR23AAYUg8Mn6M1gkkZkE/s2yAvvzGzMK1bv9f+Aq7f6AoRnv34TQWIFHpM/x6//w/uTGiD0+CVm3V7O9VwF2i/yHvZrkTXHCu9+3nNMecUU/Sg57meemJAB6Hi0GTQKTeBJncHuchWoxFJk7yZyXxJF8HDVovbRg9gXukHj5v4Sd88XwtpVzqfr9X2Ym18ATQW5I6UN9SQX5+/mp4JT1U+OYLRWaEAipeCgBZso/DnEuDDzBSAXmVH22ggStqZ5zlUm+J6kqf6aLGXtpHiaAbuEQLYodu3BPtXzg/FpYCCiyeu9QoECY+fefB2yQ3Q/uQz5+jvJ6uQ2v79h6CV7BsmS+L4F1Fe0xHOD5p1PxlX3Me2oWSzggTGFbQM/dPmSnaQzevwdbENrlgRawxR/+Hk3hTmhNnu4ryUbzATocA1ijJ0V2zaXwTgueW12I0kW7KdMKr0YoL+oYi1zSLt6jVqi/xe4RV357Q=="
+    }
+  }
+}

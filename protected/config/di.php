@@ -33,6 +33,8 @@ use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use kartik\switchinput\SwitchInput;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use prime\assets\JqueryBundle;
 use prime\components\ApiProxy;
 use prime\components\NewsletterService;
@@ -57,14 +59,6 @@ return [
         'sourcePath' => null,
     ],
     ModelHydrator::class => ModelHydrator::class,
-    Configuration::class => static function () use ($env): Configuration {
-        $result = Configuration::forSymmetricSigner(
-            new \Lcobucci\JWT\Signer\Hmac\Sha256(),
-            \Lcobucci\JWT\Signer\Key\InMemory::plainText('secretsecretsecretsecretsecretsecretsecretsecretsecret' ?? $env->getSecret('app/sso_private_key'))
-        );
-        $result->setValidationConstraints(new \Lcobucci\JWT\Validation\Constraint\SignedWith($result->signer(), $result->signingKey()));
-        return $result;
-    },
     \prime\components\BreadcrumbService::class => \prime\components\BreadcrumbService::class,
 
     ModelHydratorInterface::class => ModelHydrator::class,

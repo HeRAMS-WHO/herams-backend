@@ -1,0 +1,40 @@
+apiVersion: v1
+data:
+  cookie_validation_key: MlJtN2pWd3pXVVU5NGhFeHZuUGJtU1dScFh1ZzdEQjR1NGVWcXJLQmhNZTJrTGRQZjlid1FoR2ViU0FxQ3hCREhmOEFwSzhtWDZZb1BkWVlYaDlEcmRBeVVWQjNwTTN4RHBYVlRLdldOSHBWZ0FrV2k3U3VqQko1MzdNbzJZa3o=
+  url_signer_secret: ckI5NENHUENvNTdiWlF2eDZoUkpzVEI2cjNNYUs2QVRjNnB5Z1lnb2JSRHRpM3dOYXR6VzdOZkg3dVJWbVFOTm5INko4UGlSdzlXN0d0REVWRDhIWGhRU0hURE5uTHhWcW9Wbno1YVEyZlVDdllTS1laYzZzZm95eUNqRFU1UUg=
+kind: Secret
+metadata:
+  creationTimestamp: "2022-07-08T13:27:41Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:cookie_validation_key: {}
+        f:url_signer_secret: {}
+      f:metadata:
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"f8e79565-dfa8-4f79-ab24-29ea4a3351a8"}:
+            .: {}
+            f:apiVersion: {}
+            f:controller: {}
+            f:kind: {}
+            f:name: {}
+            f:uid: {}
+      f:type: {}
+    manager: Go-http-client
+    operation: Update
+    time: "2022-07-08T13:27:41Z"
+  name: app
+  namespace: staging-v2
+  ownerReferences:
+  - apiVersion: bitnami.com/v1alpha1
+    controller: true
+    kind: SealedSecret
+    name: app
+    uid: f8e79565-dfa8-4f79-ab24-29ea4a3351a8
+  resourceVersion: "116089879"
+  uid: e1186bf5-d454-4155-910d-3b07f1bbef5b
+type: Opaque

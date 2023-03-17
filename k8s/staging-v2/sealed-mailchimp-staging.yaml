@@ -1,18 +1,55 @@
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  creationTimestamp: null
-  name: mailchimp
-  namespace: staging-v2
-spec:
-  encryptedData:
-    api_key: AgAGHiazxc4BopnUIpy3Cn90BkBdtjIFtu8Ogq0WGpGA245WeR8f2xLwtyLyUqkMTr4P27ilyqMfFpbPVKMuB/8shz594R2rgruhN34FUrnFh/g2BorFiWPitP68H9jF/wmaProi+iYILAMHSwKHpVkULD9hrtBs9hRm2uqV+wns06bfG/wxEVtQIXLOttyHaGX/egjEfKnX9Url+DdCVQw7spnanCTeHSgTp+9ZuJxYWHQIpr3ZO1t4tVWNbiB98OmauLmS/bk8vWL6TdcGI4teP3s/BPU7FWq6EorB2jsVX0JefX5MTLmVUBeVcMwLz+xcX/n94OlOwS5wq0SMvKhHFJVGu2Hssw00AMtxKnNuZWILVAvupJpIovq37wfnK532iXWZwVq9dYBeMaZwBh/vzlcHLaC+lN48RAzGfTMuiirNj6GlenfeEuijmD6lXFSesQxBNGmzWllhIwJbILBCzDEvKuga6k1wNUiEAyb1ah7+bAK34dJRLQlq0jnDwbbjwE3C9OHcE2sOajai2JNL1WPxQkgDcs0QQQAXhwlllSE+y3/YhJD5gexOygPwDGzv4drL1nYWLrIW8lZV11pZ07nub3dmxCki2rcoNTZqW6SEjBXefYlkgoJifEFvgXu7KPOro1jsxQxn+7xUlwIK1SlpCUqggHicQsqh018+Bgui7xngUZc+uq/K/Wj1+XqOgVmMJLODOf5PDQ71YfS6hhACk5WNm03bsYBSnjtK6ZXj8AU=
-    list_id: AgDT40tuaZHZA3i1v6dH+Go5j2T1YUjX/RuxtiWFjpwtgwcgv8DQbYC7yaq8Vp2B+UyzZFbb6RcjC+g4VDmXwTPXAZcHDZdot5R0LYB2yUxZoRJxqSJ02YWtSHRrMexKewO8RmXH/Ydd6FvMaQ00NE3fQZM8kX+E9Rr1NXEw3brT2pFG7MP8dBUkhXgTgI9elynjLLfnTAA2hLFCfy6cphVfKe2L0ra0/0tW3klI7mmU+5aDgQ4xPu+dezNGVFdqcniP1pjB5j02zJ5fjaE271iexk6Xt18aV6l3Mv28Gm0PQsPRmtVOCBKmwDAZ3nAoyZQjhM++pAdMPOcqu6gJBP3abX6JMQPe141ttbJtiL6ZDRpWzjd8d0DfObP+JqG4z8/m2qmAwQOVwwIw74TDPkxRp69Zj2gmvGP1El2jkTAB+uJMQpi71nta98c7fNpXfaqmf/SUSAR2wDJHiRcoL2RW1HeNh2hHINNvVrb9ivJs7eJN4GjyIzSPKJg2Z9SXkY6CTNazpY3HT4ZSHAn/qQVB43pGUE1ZYjzhyDHNHBT1jrMvDksev4GtLErcUsvhkK4tF1YxrvgUSplIw/zpdfmkR6pX6cgxF+yoSfSOkMOx6753CNk0YZ95rGqdAh/ZPX8QjMsLl+wqUVA8HVys5xu/3T3Sm0Hj8YCQcu3rVw0mtRx6V6Jg5hUIU9tXH5/b4gxbg6+Ym7iJLJtg
-    tag: AgA2BVL1I040kwuqzvVx09ZJYCe2ioHrRl0Sj9p9vXUZJJ2zi29g1t2Ba84Rz0483y1bUQDjUvMMt+yxh4hTDF2c8teHlWn//zbcVu/Jv+y+bJgiFHSGsCmrI4YfIiar2KrmlGoiBkCJzsVCkj9Uv2niPdCbd1xtYP3rsZv2Id3jCyJVkGLVpqnffulM3riTm8wOsn8LGbERMZAVGVzRqyNFXUEiVc+dQOqsZ2gXaVCiH3CCQwjqjv5y7/Xtzrrm7uxCGT5dkad99IekjHikiHweDB3WZz4B4lqcsh4tRdNCNNLSsChqkCcbxpZ9Lsh1Lp/Wc8qubZ3QbtfNR/VdNJzhVxc04onBYBGd9FC2qsfp/5ShcUAAIvC9MH4Ljb1fdcD4XUwXepbrFONuhGdleO3Cghap8GSQPb1VZjh+7jX8ONlJgRUACZfgELCNk2dQ9JFjZ3mjAyIW5m0gQDQAAKM9Gohrc5jGQ5fQW03Y79gU4CKwDmdFQj+qsyufv39Ua2/SoB0LhJ+pSPmeHR3ztbmvUmCBdsPyJNMXruTrHsEb/C9pR0JViQpqpK7pUVa9+d5jNrMGbue7IbYss5Uu53k4TkADWOoOMXLZEOP0bQ7dMrTfu/Q3NzgaADswU6VTJMIux9wiNkJUiE4RvU2UEk28YOPUCCQ6B2zF02gKHCRbgH9dqVVmCkBHtLnRlaNXcMFzmqa2AXPQoP8F
-  template:
-    data: null
-    metadata:
-      creationTimestamp: null
-      name: mailchimp
-      namespace: staging-v2
-    type: Opaque
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "mailchimp",
+    "namespace": "staging-v2",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "mailchimp",
+        "namespace": "staging-v2",
+        "creationTimestamp": null,
+        "managedFields": [
+          {
+            "manager": "Go-http-client",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2022-07-08T13:27:42Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:data": {
+                ".": {},
+                "f:api_key": {},
+                "f:list_id": {},
+                "f:tag": {}
+              },
+              "f:metadata": {
+                "f:ownerReferences": {
+                  ".": {},
+                  "k:{\"uid\":\"18826fff-0725-4223-a5dd-733e6b3b9cce\"}": {
+                    ".": {},
+                    "f:apiVersion": {},
+                    "f:controller": {},
+                    "f:kind": {},
+                    "f:name": {},
+                    "f:uid": {}
+                  }
+                }
+              },
+              "f:type": {}
+            }
+          }
+        ]
+      },
+      "type": "Opaque"
+    },
+    "encryptedData": {
+      "api_key": "AgDENNVU4bzUlWh5/kE92B06SJgfNUvyqUmj05L3LCGNGudmiKUMFnSlb8C3pR+WU97NO8acMqySIxCRpGY1bIuEobsflsiWKrUIEdt/9sEUyYTyH2bRa2UNxryAltOHAzR/AEFhbQbrFMEj+rgKyljDRkL4td4DgSodsaehtX50mKr0IOQUYpNgqe2O3UzWaLfWkyzISn4hajV+r8dBELFlmwbiPRZltqGl1Jz1sD6UuypiNSn7uNHeAvRrMnWboHppdTrY38AN3MWOnJVHPQVkCJ/oHGfZxuMavmrUC7cyOm4a4w0zeE69/GtV84aeyG6bTrqyHwnf2IaZmwpr7Elon5TTr94yIIbhYucusY5ua7j9MRM10AumF5p2mpcKWjf7/DSSMzgzMUZx16536PWI4GMZFXj96BTjCfplVS9l4haLKxHDM4+eh48cQY4pdvrbSnhQYn4DxsynMnNBCcLyKz3XuW6S3DTE4Y7/dEEsBqq5i48gMLI9t3g0x2xMvF6ccRyOA5TqCrJG4MFJ3DOlTxGbNHni9gDmnbTXi++T97qs0z3sLCXYog/3mUsPbEITFnU1utV28/pbIeVeckw1IYqKDDKqg6f7QHw0VyQv/HCXwTpXXuOjqwag/x4DWM6LjSpIZT9VINwzkIJ0xBfiEPMeSVlTb/SDS/1UfNhvS6HdP5zOOiTMpx4s07N/6dg5YcPeGWPjNRUGvvYpg8lrpaI5BjNkGJql2S477HKXYQxSu38=",
+      "list_id": "AgBb07PURfgVtVUJiQrsdytVs25gDDVxhvgAGxhX1lr4Weesv1oxGwY37tzs4Jfthex0PWgPy4c6fLuJJa74HMmBf5qM0e1e6rDgVvCas09+aFrEWG+6nFgS7BZfbWhkBpcmD8MTcPFuyRGi5zXqQGMMaEg1yPWW1LMkRN90B+wCwBHnDIO5MJPcJtWDYZyadv0Zkdn1rPhfb4Gz67kFxQRvro1Cf085yYOaImkOek5o+MTOOpaKo55cDgRP+QwiHV7QehgXj9eWl5osFwa0WKhOHhMPT3R61I+7IEnTXJoc/6Yes7QzI+gIt6PPyMKd+KelALPhEpICa5Cw8mdj7kqOAWqO/6HJru5Y3Soit3flGMlvYO2WBFrKPrfHiiYsQW2ZRRDvs7jbC6ep74M+PwkZtFs04CKitG+NZMVFUqSSQCKJ3JEam9tnPD8qL1JScbcKYprkcN8TNFd5vAlj/v+8ITCCdhsiF9Iu+dd0vSRvgBP4yQMdLG93iUmGBQm8KRDBlpGHbbrDTuR6hfjNNS6VT5rclcQvKD7LiKr7P4fUt6ptf75S9nXZcpedmId7hqrpzr4O0UwH8jb5JYGJv69gN9Yq5ej9+0fHQumOwEJIKD1p1eOHqgYWvJFAnJxynjs/jukTxo7sfKiFgRReTQ1eOiUbZWuK3cRZaqtJuSPsDocIh6//MZWguclnsyXMekQSsAkYl1aLbWCd",
+      "tag": "AgBRrvxKMbt1wTfQ1Buq045QTCpaH+hf7S22xsVPwQ7jQXHOgWuyzy7UtJYJ63OptvajCOFpg/Sza5MEwYu+vWe+Awsyks0JslznRwbYOKXealssqoUdxGcSFZTUV0C9qiEFfJJhxlYdGlQagHZ23txds+5uHw9VzIGbxTNZaTmSmtPlBI5MxAFnVbISOpOXzp20vMPg18y5ALrAHHjnf3WuHHQIZ6os2ZMqq0Zk7h03S/NmkRvZisqwSYTS8WI+fpAu40StCyiQY8RCcdIhH56BzCDAbTqMkfFfXLSd97erf0TNuhTu3vpgKZqyAjOLfTMAS49QbK3+6PLF+t/FOxT56XIOQWga5RPAR1DGtCwqB1ccKqudlg/zWMWUFseZe7Zo4putC0U643sjyfxmgU4+KBCbLrjPCsH1BUITuveUxa1oinn025WXejTVVUPbXae6Wkcleb6tSgMEAsYf0T+UZzRvxh0SUja80Yl84CHcsSPgyNBRg8C4MBHMX2KlkUR48H2r1UdhI+gVDUuDFg8zx/D57nzXfqHxt+cBM1vUPMjmyo84Oi0t6UIOKeIh3P7JvRBI55ETm9lixUR8sd1l6HKkd+8T/z/XG1fv1353Kf7aqIUQIgLcR6bdVV2YGM1/gB5QbRh49JcBOjJa0ThkFTgDXTucYRdHhf9niE1b9VrwDrnKYVk4OP4lRHSIX8jGHvaAADg9S5Ll"
+    }
+  }
+}

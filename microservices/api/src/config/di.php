@@ -20,20 +20,6 @@ return function (\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Co
         ],
     ]);
 
-    $container->set(\Lcobucci\JWT\Configuration::class, static function () use ($env): Configuration {
-        $result = Configuration::forSymmetricSigner(
-            new \Lcobucci\JWT\Signer\Hmac\Sha256(),
-            \Lcobucci\JWT\Signer\Key\InMemory::plainText('secretsecretsecretsecretsecretsecretsecretsecretsecret' ?? $env->getSecret('app/sso_private_key'))
-        );
-        $result->setValidationConstraints(
-            new SignedWith($result->signer(), $result->signingKey()),
-            new IssuedBy('https://app.herams.org'),
-            new PermittedFor('https://api.herams.org'),
-            new StrictValidAt(new SystemClock(new DateTimeZone('utc')))
-        );
-        return $result;
-    });
-
     $container->setDefinitions([
         \herams\common\interfaces\CommandHandlerInterface::class => \herams\common\services\SynchronousCommandHandler::class,
         FacilityRepository::class => FacilityRepository::class,
