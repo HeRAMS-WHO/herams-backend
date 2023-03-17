@@ -94,14 +94,16 @@
           url: `/api-proxy/core/configuration/locales?_lang=${document.documentElement.lang}`,
           valueName: 'locale',
           titleName: 'label'
-        }
+        },
+        defaultValue: ['en']
       },
       {
         name: 'defaultlanguage',
         type: 'dropdown',
         title: 'Primary language for this project',
         choicesFromQuestion: 'languages',
-        choicesFromQuestionMode: 'selected'
+        choicesFromQuestionMode: 'selected',
+        defaultValue: 'en'
       }
     ],
     onInit () {
