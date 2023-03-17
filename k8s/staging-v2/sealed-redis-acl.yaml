@@ -3,7 +3,7 @@ kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: redis-acl
-  namespace: staging
+  namespace: staging-v2
 spec:
   encryptedData:
     password: AgCeOiaa4j51+UvA9QMfG5RByIA5kb1Fp1y4UCM0r43vBijgsGDxJIznXhLDYHb447eNHCO1N50rUYeX6UAvsWckvxx1ujnIHUwIkrQ7EMjEoGNR62ie+3zzs6mLSUNZt+wKPlJqr7/rA1dfwelFDgkGM+eJTP0tNzwHf/9ragSIf2EQfFS41ZmBO7RZ20kIcj2j7f7jtFcIpdd13Ke4oLIx1bGPANtkUr6vCwwJQ2JX1a8GuVjsk9WEwspX/sHc7j5gHKrVYf7IFugnboIG2FrVu4ujAXmwPES5W/8HdrXnE1aI0sqJ06d5q6ad9Su0jSJeusV/NV1lwDb1VKcfNRnfPt0vg9ANmRx2T38a0pSYyTd7ye4sMrQfYDZHgf53l/9mWuCvTf5Q8aMsdH9X6mgSiZOhEY6y36gI4vj8/+Tdg4AlQrqm2G6bgUs7qTzxGoJHRFTT/yvmQLk/qju2eKcGlWiLQOH+dPAnPv7WBz+95J9Px2UGR6nqeJ/CIhhxH3/sPRggzlPmEO1GI6EGFi276Xpk1v2LUL67FDGznj5xPEr/cp1tfVa6jo8EqQd0Dgr+DHkYlLpN8rVdUKuv3Xm6SoXkurwFChQQFwDyikVMsCQiZCEWmmsd8bsKwGtw0IUEfuuAHPGiVytlHd2YNEEl1R22oA1B0a6B/WG5BLVGGg2PnYdh0c3ERX3VglwH9VeUh+TVIBj3vNIA9ZIGL4V19n43
@@ -14,4 +14,3 @@ spec:
       name: redis-acl
       namespace: staging
     type: Opaque
-

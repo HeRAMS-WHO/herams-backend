@@ -3,7 +3,7 @@ kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: database
-  namespace: staging
+  namespace: staging-v2
 spec:
   encryptedData:
     dsn: AgCpEV+aeKOu5xoR2zmUThW0PHbt2e4Hk3gTsuYmi3NJN2Tp54A3At65OZ9zgJUpRiXmtJlo4wwL7el10+f+yoXOWpdxFSzujJFNMVPa4+NXnPg2uO24iRz+tANibOrDfNzC2hnhA6SEmPjjoh7ifG6Q4gGZ/OB5+k8tTwFzbMBaDr5bZ1LpmTnhsyA9sM/8H8+7AH7FeDZhO5G+E/EiKm/syIxERPoxmlgucaNxBbvz4e26+9vBFRdfZ09AO2ZxK4BmM6V0n24UM2lBPEm/iNSPpMex9XretQ3qWMpeH6739LrtCtKRv2sodKXUNZca2VubzIhyaE6neMgB4cQuVexWOd9wE9gCXd89qLoBbKpQcqomCz4ipZ05Dl/AZIXZq/dqa3E5WLUazg7wBPzJhWqsrrhM46BXzumlVER6DsqJeGOQFhAVF5YRNlyIKHZRNA6eQxb7bnogQtqPqR52KVEiWQPiS9xV1ajraa4BnaeeuAy/fEzXv1jHAjlKEGuMSBPWataAFpzUiEtcVU0QD419nczYP/6KGesj1T1Zq3gBAZlzpoleehXvg4k3wIGxvIX0RTl41/Oj6BT/BhMQgqvgCXgXfxC49gl1ODa/snDACp840kR2v2KhlJUR5sL3py4FKg4K26PwHAkPYiJi0kIBLbwljE+b7zNiSySRGqR0s/THfxqlLdVzc4fXgxmdyQ0PD7s3QjKTt6VrqI2D5SAZRVwyW0slRp5FaGV79e3GMqq9K0+P1BKQYHM0/KdxHLVFHTs07QXlFjkAENMRD03SA+KrXl60YKcQj7mEPQ+Z88c3/vMpLe2DRPWevlaJA0i3Ew4=
@@ -15,4 +15,3 @@ spec:
       name: database
       namespace: staging
     type: Opaque
-

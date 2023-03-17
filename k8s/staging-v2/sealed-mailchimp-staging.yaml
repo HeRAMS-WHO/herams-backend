@@ -3,7 +3,7 @@ kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: mailchimp
-  namespace: staging
+  namespace: staging-v2
 spec:
   encryptedData:
     api_key: AgAGHiazxc4BopnUIpy3Cn90BkBdtjIFtu8Ogq0WGpGA245WeR8f2xLwtyLyUqkMTr4P27ilyqMfFpbPVKMuB/8shz594R2rgruhN34FUrnFh/g2BorFiWPitP68H9jF/wmaProi+iYILAMHSwKHpVkULD9hrtBs9hRm2uqV+wns06bfG/wxEVtQIXLOttyHaGX/egjEfKnX9Url+DdCVQw7spnanCTeHSgTp+9ZuJxYWHQIpr3ZO1t4tVWNbiB98OmauLmS/bk8vWL6TdcGI4teP3s/BPU7FWq6EorB2jsVX0JefX5MTLmVUBeVcMwLz+xcX/n94OlOwS5wq0SMvKhHFJVGu2Hssw00AMtxKnNuZWILVAvupJpIovq37wfnK532iXWZwVq9dYBeMaZwBh/vzlcHLaC+lN48RAzGfTMuiirNj6GlenfeEuijmD6lXFSesQxBNGmzWllhIwJbILBCzDEvKuga6k1wNUiEAyb1ah7+bAK34dJRLQlq0jnDwbbjwE3C9OHcE2sOajai2JNL1WPxQkgDcs0QQQAXhwlllSE+y3/YhJD5gexOygPwDGzv4drL1nYWLrIW8lZV11pZ07nub3dmxCki2rcoNTZqW6SEjBXefYlkgoJifEFvgXu7KPOro1jsxQxn+7xUlwIK1SlpCUqggHicQsqh018+Bgui7xngUZc+uq/K/Wj1+XqOgVmMJLODOf5PDQ71YfS6hhACk5WNm03bsYBSnjtK6ZXj8AU=
@@ -14,6 +14,5 @@ spec:
     metadata:
       creationTimestamp: null
       name: mailchimp
-      namespace: staging
+      namespace: staging-v2
     type: Opaque
-

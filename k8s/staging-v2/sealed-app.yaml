@@ -3,7 +3,7 @@ kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: app
-  namespace: staging
+  namespace: staging-v2
 spec:
   encryptedData:
     cookie_validation_key: AgBT/e/lyIu9kRlfxa/kx5PVST5PvIG6ffvQa539WL7LJU8p+YRIyizjFcoec57qikI4z4p/psS40RN8DEK9eRuPAreETK7m9np4c3cHy1wETH5Kg7U81YcmA8rIRKSSJR2MXzuI1dUqN15V0m3kiZAY9WiEYRQ5fYXGxD1TDO1wKYnefS/MlKwD4kao8LT6jaIsLAq5TFgDeKt/gGxSOfGbBO6gfKYpIezkigKm8wAt9ky0htoq0FJObnQv7Pyow9bDrDQCRzAUs4120Q109ovdh+WGT5Q3cvHkkBecc3bE6V2wOCRJBrka6QNNslOa3ukI1kLhj0/+vb9mM8U4uPuqm8GuRMBmrzxC6B+VC7zdF1nzh3qaXScEW6d0OzJpnH5vjlRYoJ1H8XAyycjP306kHZ18q4hLy4bZo1kZTdKa872gaks9jcQzlgBcKDWSZuEodDeFqJZqNF6bfIdzrdW1pjGY4IQkQDypC15Lc4CIXjTYqx79i3QEB5WcuviMVhilZp8+GQaBe/4ZWdREHiIKogUJ7Q0FSV+TFpsY2ely+dDNLN0qk7bSWYafKFbHASRK9KLVp1TXmcNKqyltOWue0FMTnFjP0QL017XmerKvggWLYe5zSdMwX3AJhFCIKD+4hXs9M3IboPcRYIEDh92CrS4x63TpUYVmuZwMg0Uu88cR1wVa9pWu1GP2mh/W1Hree9r/jrdeqMg1AwYQ0CMQoUFlQbvC8Z5DupiMH/AgaoGIUvaw9wX/wHo4xBL+YriWyRODSxqtYegkn9B47Yg+xqF/MjOjCkKi6TgFxZyw1UF0DNvfdoZdhUTGBOVo5sHXwVyOW3aO0ROEeNKNWSjRii5ye72K6CLecZ7lv7T1Mg==
@@ -13,5 +13,4 @@ spec:
       creationTimestamp: null
       name: app
       namespace: staging
-    type: Opaque
-
+    type: staging-v2
