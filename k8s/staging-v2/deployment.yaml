@@ -143,11 +143,6 @@ spec:
         - name: api
           image: ghcr.io/herams-who/herams-backend/api:latest
           imagePullPolicy: Always
-          env:
-            - name: database_host
-              value: "staging2-service"
-            - name: database_name
-              value: "preview"
           volumeMounts:
             - name: database
               mountPath: "/run/secrets/database"
