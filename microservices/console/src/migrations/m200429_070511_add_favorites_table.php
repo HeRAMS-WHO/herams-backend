@@ -9,18 +9,11 @@ class m200429_070511_add_favorites_table extends Migration
 {
     public function safeUp()
     {
-        if ($this->db->getTableSchema('{{%favorite}}') === null) {
-            $this->createTable('{{%favorite}}', [
-                'user_id' => $this->integer()->notNull(),
-                'target_class' => $this->string()->notNull(),
-                'target_id' => $this->integer()->notNull(),
-            ]);
-        }
-
-        $this->addPrimaryKey('favorite_primary', '{{%favorite}}', [
-            'user_id',
-            'target_class',
-            'target_id',
+        $this->createTable('{{%favorite}}', [
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
+            'target_class' => $this->string()->notNull(),
+            'target_id' => $this->integer()->notNull(),
         ]);
     }
 

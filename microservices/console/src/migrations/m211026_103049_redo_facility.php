@@ -11,9 +11,8 @@ class m211026_103049_redo_facility extends Migration
     public function safeUp(): bool
     {
         $this->dropColumn('{{%facility}}', 'uuid');
-        $this->addColumn('{{%facility}}', 'data', $this->json()->after('code'));
+        $this->addColumn('{{%facility}}', 'data', $this->json());
         $this->addColumn('{{%facility}}', 'admin_data', $this->json()->after('data'));
-        $this->dropColumn('{{%facility}}', 'coordinates');
         $this->addColumn('{{%facility}}', 'latitude', $this->decimal(10, 8)->after('admin_data'));
         $this->addColumn('{{%facility}}', 'longitude', $this->decimal(11, 8)->after('latitude'));
 
