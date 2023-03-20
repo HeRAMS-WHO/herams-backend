@@ -9,16 +9,15 @@
       type: 'multipletext',
     },
     onInit () {
-      console.log(this)
     },
     async onLoaded (question) {
-      const response = await fetch('/api-proxy/core/configuration/locales')
-      const platformLocales = await response.json()
-      const surveyLocales = question.survey?.locales ?? []
+      const response = await fetch(`/api-proxy/core/configuration/locales?_lang=${document.documentElement.lang}`);
+      const platformLocales = await response.json();
+      const surveyLocales = question.survey?.locales ?? [];
       for (const { locale, label } of platformLocales) {
         if (surveyLocales.includes(locale) || surveyLocales.length === 0) {
-          const item = question.contentQuestion.addItem(locale, label)
-          item.isRequired = surveyLocales.length === 0 && locale === 'en'
+          const item = question.contentQuestion.addItem(locale, label);
+          item.isRequired = surveyLocales.length === 0 && locale === 'en';
         }
       }
     },

@@ -151,6 +151,15 @@
             }
         },
         {
+            "name": "herams/i18n",
+            "version": "dev-master",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/HeRAMS-WHO/herams-i18n/archive/master.zip"
+            },
+            "type": "library"
+        },
+        {
             "name": "lcobucci/clock",
             "version": "3.0.0",
             "source": {
@@ -5092,11 +5101,12 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "herams/common": 20
+        "herams/common": 20,
+        "herams/i18n": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

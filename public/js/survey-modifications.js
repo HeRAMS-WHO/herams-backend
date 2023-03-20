@@ -82,6 +82,36 @@
   })
 
   Survey.ComponentCollection.Instance.add({
+    iconName: 'icon-language',
+    name: 'platformlanguagepicker',
+    title: 'Platform language picker',
+    elementsJSON: [
+      {
+        name: 'languages',
+        type: 'checkbox',
+        title: 'Languages for this project',
+        choicesByUrl: {
+          url: `/api-proxy/core/configuration/locales?_lang=${document.documentElement.lang}`,
+          valueName: 'locale',
+          titleName: 'label'
+        },
+        defaultValue: ['en']
+      },
+      {
+        name: 'defaultlanguage',
+        type: 'dropdown',
+        title: 'Primary language for this project',
+        choicesFromQuestion: 'languages',
+        choicesFromQuestionMode: 'selected',
+        defaultValue: 'en'
+      }
+    ],
+    onInit () {
+    },
+
+  });
+
+  Survey.ComponentCollection.Instance.add({
     iconName: 'icon-dropdown',
     name: 'countrypicker',
     title: 'Country picker',
@@ -93,7 +123,7 @@
       allowClear: false,
       required: true,
       choicesByUrl: {
-        url: '/api-proxy/core/configuration/countries',
+        url: `/api-proxy/core/configuration/countries?_lang=${document.documentElement.lang}`,
         valueName: 'alpha3',
         titleName: 'name',
       },
@@ -102,9 +132,6 @@
       // debugger;
     },
   })
-
-
-
 
 
   Survey.ComponentCollection.Instance.add({
@@ -157,7 +184,7 @@
       allowClear: false,
       required: true,
       choicesByUrl: {
-        url: '/api-proxy/core/surveys',
+        url: `/api-proxy/core/surveys?_lang=${document.documentElement.lang}`,
         valueName: 'id',
         titleName: 'title',
       },

@@ -18,17 +18,18 @@ use herams\common\models\Workspace;
 class WorkspaceHydrator implements ActiveRecordHydratorInterface
 {
     /**
-     * @param NewWorkspace $source
+     * @param NewWorkspace|UpdateWorkspace $source
      * @param Workspace $target
      */
     public function hydrateActiveRecord(RequestModel $source, ActiveRecord $target): void
     {
         $i18n = $target->i18n;
-
-        $i18n['title'] = $source->title->asDictionary();
+        if (isset($source->title)) {
+            $i18n['title'] = $source->title->asDictionary();
+        }
 
         $target->i18n = $i18n;
-        if ($source instanceof NewWorkspace) {
+        if (isset($source->projectId)) {
             $target->project_id = $source->projectId->getValue();
         }
     }

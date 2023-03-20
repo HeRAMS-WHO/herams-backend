@@ -19,7 +19,7 @@ abstract class Controller extends \yii\rest\Controller
     public function __construct(
         $id,
         $module,
-        private ConfigurationProvider $configurationProvider,
+        private readonly ConfigurationProvider $configurationProvider,
         $config = []
     ) {
         parent::__construct($id, $module, $config);

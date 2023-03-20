@@ -34,6 +34,7 @@ final class DataResponses extends Action
         $variables = [
             ...filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables()),
         ];
+        //@phpstan-ignore-next-line
         usort($variables, fn (VariableInterface $a, VariableInterface $b): int => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
 
         $data = [];

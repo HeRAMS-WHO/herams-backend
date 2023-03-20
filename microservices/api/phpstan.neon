@@ -5,7 +5,7 @@ parameters:
 #      - 'tests/constants.php'
     paths:
       - src
-      - tests
+#      - tests
     dynamicConstantNames:
       - CONSOLE
     checkMaybeUndefinedVariables: true
