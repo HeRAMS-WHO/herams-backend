@@ -1,5 +1,11 @@
 name: preview_environment
-on: [ pull_request ]
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches: v2
 jobs:
   precondition:
     name: "Check for migrations"
@@ -56,7 +62,7 @@ jobs:
         with:
           issue-number: "${{ env.PR_NUMBER }}"
           body: |
-            Preview environment created at: https://${{ env.RELEASE_VERSION }}.herams-staging.org
+            Preview environment created at: https://${{ env.RELEASE_VERSION }}.v2.herams-staging.org
           reactions: '+1'
   build:
     name: Build containers

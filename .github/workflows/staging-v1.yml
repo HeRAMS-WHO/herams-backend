@@ -1,7 +1,7 @@
-name: Deploy to staging
+name: Deploy to v1.herams-staging.org
 on:
   push:
-    branches: [ master ]
+    branches: [ v1 ]
 jobs:
   test:
     name: Run tests
