@@ -28,6 +28,7 @@ jobs:
             COMMIT_SHA=${{ github.sha }}
           tags: |
             ghcr.io/herams-who/herams-backend/api:${{ github.sha }}
+            ghcr.io/herams-who/herams-backend/api:latest
   build:
     name: Build container
     runs-on: ubuntu-latest
@@ -60,7 +61,8 @@ jobs:
           build-args: |
             COMMIT_SHA=${{ github.sha }}
           tags: |
-            ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
+            ghcr.io/herams-who/herams-backend/app-v2:${{ github.sha }}
+            ghcr.io/herams-who/herams-backend/app-v2:latest
   deploy:
     needs:
       - build
@@ -91,5 +93,5 @@ jobs:
           namespace: 'staging-v2'
           manifests: ${{ env.manifests }}
           images: |
-            ghcr.io/herams-who/herams-backend/app:${{ github.sha }}
+            ghcr.io/herams-who/herams-backend/app-v2:${{ github.sha }}
             ghcr.io/herams-who/herams-backend/api:${{ github.sha }}
