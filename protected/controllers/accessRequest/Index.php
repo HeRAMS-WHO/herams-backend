@@ -26,7 +26,7 @@ class Index extends Action
 
         $closedAccessRequestsSearchModel = new AccessRequestSearch(
             AccessRequest::find()
-                ->andWhere(['>', 'created_at', strtotime('-90 days', 90)])
+                ->andWhere(['>', 'created_at', strtotime('-90 days')])
                 ->withResponse(),
             $user->identity,
             static fn(AccessRequest $model) => $user->can(Permission::PERMISSION_RESPOND, $model),
