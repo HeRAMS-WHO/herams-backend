@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace prime\helpers;
+namespace herams\console\helpers;
 
 use yii\base\NotSupportedException;
 use yii\db\ColumnSchemaBuilder;

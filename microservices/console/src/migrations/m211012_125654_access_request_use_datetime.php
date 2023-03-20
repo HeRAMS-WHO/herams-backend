@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\console\migrations;
 
-use prime\helpers\MigrationHelper;
+use herams\console\helpers\MigrationHelper;
 use yii\db\Migration;
 
 class m211012_125654_access_request_use_datetime extends Migration
