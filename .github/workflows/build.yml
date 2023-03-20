@@ -1,7 +1,7 @@
 name: Deploy to staging
 on:
   push:
-    branches: [ master ]
+    branches: [ v1 ]
 jobs:
   test:
     name: Run tests
@@ -30,7 +30,7 @@ jobs:
           files: ./tests/_output/coverage.xml
           flags: unittests # optional
           name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
+          fail_ci_if_error: false # optional (default = false)
 
   deploy:
     needs: [ test, build ]

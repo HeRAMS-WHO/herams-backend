@@ -1,7 +1,7 @@
 name: Check code style
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ v1 ]
 jobs:
   style:
     runs-on: ubuntu-latest
@@ -17,5 +17,5 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - run: composer global require "squizlabs/php_codesniffer=dev-master"
+      - run: composer global require "squizlabs/php_codesniffer=dev-v1"
       - run: ~/.composer/vendor/bin/phpcs

@@ -1,7 +1,7 @@
 name: Push messages to i18n repo
 on:
   push:
-    branches: [ master ]
+    branches: [ v1 ]
 jobs:
   build:
     runs-on: ubuntu-latest
