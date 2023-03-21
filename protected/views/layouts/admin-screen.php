@@ -48,7 +48,9 @@ echo $this->render('//user-menu', [
 
 $breadCrumbs = $this->getBreadcrumbCollection();
 if (isset($this->title)) {
-    $breadCrumbs->add(new Breadcrumb($this->title));
+    //$breadCrumbs->add(new Breadcrumb($this->title));
+    $breadCrumbs_title = Html::a($this->title, '', []);
+    $breadCrumbs->add(new Breadcrumb($breadCrumbs_title));
 }
 Breadcrumbs::begin()
     ->forCollection($breadCrumbs)

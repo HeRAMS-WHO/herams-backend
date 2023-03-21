@@ -23,9 +23,9 @@ if (isset($this->blocks['tabs'])) {
 echo Html::beginTag('div', [
     'class' => 'content',
 ]);
-echo Html::tag('h1', $this->title, [
+/*echo Html::tag('h1', $this->title, [
     //    'class' => 'page-title',
-]);
+]);*/
 
 echo $content;
 
