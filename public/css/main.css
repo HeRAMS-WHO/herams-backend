@@ -271,8 +271,8 @@ body {
 }
 
 a, a:visited {
-    color: var(--link-color);
-    text-decoration: none;
+    color: var(--primary-button-background-color);
+    text-decoration: underline;
 }
 
 a:hover {
