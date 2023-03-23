@@ -41,6 +41,7 @@ echo AgGrid::widget([
                     const a = document.createElement('a');
                     a.textContent = params.value;
                     a.href = '/project/{id}/workspaces'.replace('{id}', params.data.id);
+                    a.setAttribute('class','agGridAnkur');
                     return a;
                     
                 }

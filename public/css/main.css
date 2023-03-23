@@ -271,8 +271,8 @@ body {
 }
 
 a, a:visited {
-    color: var(--primary-button-background-color);
-    text-decoration: underline;
+    color: var(--link-color);
+    text-decoration: none;
 }
 
 a:hover {
@@ -892,4 +892,8 @@ input[type="text"] {
         position: relative;
         padding: var(--gutter-size);
     }
+}
+.agGridAnkur{
+    text-decoration: underline !important;
+    color: var(--primary-button-background-color) !important;
 }
