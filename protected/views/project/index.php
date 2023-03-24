@@ -30,7 +30,7 @@ echo AgGrid::widget([
     'route' => ['api/project/index'],
     'columns' => [
         [
-            'headerName' => \Yii::t('app', 'Name'),
+            'headerName' => \Yii::t('app', 'Project Name'),
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 params => {
                     if (params.data == null) {
@@ -41,18 +41,13 @@ echo AgGrid::widget([
                     const a = document.createElement('a');
                     a.textContent = params.value;
                     a.href = '/project/{id}/workspaces'.replace('{id}', params.data.id);
+                    a.setAttribute('class','agGridAnkur');
                     return a;
                     
                 }
             JS),
             'field' => 'name',
             //            'filter' => 'agNumberColumnFilter',
-        ],
-        [
-
-            'headerName' => \Yii::t('app', 'Id'),
-            'field' => 'id',
-            'filter' => 'agNumberColumnFilter',
         ],
         [
 
