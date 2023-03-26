@@ -67,7 +67,7 @@ return [
         return new AuditableBehavior(\Yii::$app->auditService);
     },
     ApiProxy::class => ApiProxy::class,
-    \prime\objects\ApiConfiguration::class => static fn () => new \prime\objects\ApiConfiguration($env->getWithDefault('API_HOST', 'api.herams.test')),
+    \prime\objects\ApiConfiguration::class => static fn () => new \prime\objects\ApiConfiguration($env->getWithDefault('API_HOST', 'v2-api.herams-staging.org')),
     \yii\web\Session::class => fn () => \Yii::$app->session,
     IdentityFinderInterface::class => new IdentityInterfaceIdentityFinder(User::class),
 
